@@ -1,0 +1,280 @@
+
+/* Spell Wizard Layout CSS 
+ * Contains specific layout rules to complement the main spell-wizard.css file
+ */
+
+/* Main Layout Container */
+.spell-wizard-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 700px;
+    margin: 0 auto;
+    min-height: 300px;
+    max-height: 600px;
+    padding: 0.5rem;
+  }
+  
+  /* Two-column layout for wizard content and preview */
+  .wizard-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 0.5rem;
+  }
+  
+  .wizard-main {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .wizard-main::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--primary-light), transparent);
+    box-shadow: 0 0 10px var(--primary-glow);
+  }
+  
+  .wizard-preview {
+    position: sticky;
+    top: var(--spacing-6);
+    height: fit-content;
+  }
+  
+  /* Steps Grid Layout */
+  .steps-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Multi-column layouts for specific sections */
+  .thematic-categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .flavor-text-examples ul {
+    columns: 1;
+  }
+  
+  /* Grid layouts for specific components */
+  .source-selection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .class-options, 
+  .monster-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .spell-type-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .category-options, 
+  .subtype-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .range-type-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .targeting-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .aoe-shapes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .cast-time-options, 
+  .cooldown-categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .damage-types-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .scaling-types {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Flexbox layouts */
+  .adjective-tags,
+  .effect-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .recommended-adjectives {
+    margin-bottom: 0.5rem;
+  }
+  
+  .step-navigation {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .damage-inputs, 
+  .healing-inputs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .duration-inputs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Progress Steps Layout */
+  .progress-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0;
+    position: relative;
+    padding: 0 0.5rem;
+  }
+  
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    width: 80px;
+  }
+  
+  /* Tabs Layout */
+  .effects-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+    padding-bottom: 1px;
+  }
+  
+  .triggers-sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  /* Component Specific Layouts */
+  .cost-scaling-options {
+    margin-bottom: 0.5rem;
+  }
+  
+  .scaling-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .resource-costs-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  /* Form Element Layouts */
+  .range-distance {
+    margin-bottom: 0.5rem;
+  }
+  
+  .range-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .aoe-size {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Specific adjustments for dice calculator */
+  .dice-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .dice-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  /* Specific adjustments for effect selector */
+  .effects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .spell-wizard-container {
+      max-width: 100%;
+    }
+  }
+  
+  /* Make content scrollable if needed */
+  .wizard-step-content {
+    overflow-y: auto;
+    max-height: calc(100vh - 160px);
+    padding-right: 5px;
+  }

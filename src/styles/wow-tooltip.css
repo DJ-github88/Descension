@@ -1,0 +1,156 @@
+.wow-tooltip-editor {
+    position: fixed;
+    background: #000000;
+    border: 2px solid #4a4a4a;
+    border-radius: 8px;
+    padding: 16px;
+    width: 320px;
+    color: #fff;
+    font-family: 'Friz Quadrata', 'Arial', sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
+
+.tooltip-header {
+    margin-bottom: 16px;
+}
+
+.tooltip-header input[type="text"] {
+    width: 100%;
+    padding: 6px 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: inherit;
+    font-size: 18px;
+    font-weight: bold;
+    outline: none;
+    margin-top: 4px;
+}
+
+.tooltip-header input[type="text"]:focus {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-header select {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tooltip-header select:focus {
+    border-color: #6a6a6a;
+}
+
+/* Item Quality Colors */
+.poor { color: #9d9d9d; }
+.common { color: #ffffff; }
+.uncommon { color: #1eff00; }
+.rare { color: #0070dd; }
+.epic { color: #a335ee; }
+.legendary { color: #ff8000; }
+
+.tooltip-stats {
+    border-top: 1px solid #4a4a4a;
+    border-bottom: 1px solid #4a4a4a;
+    padding: 16px 0;
+    margin-bottom: 16px;
+}
+
+.stat-group {
+    display: grid;
+    gap: 12px;
+}
+
+.stat-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.stat-name {
+    color: #ffd100;
+    font-size: 15px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.stat-group input[type="number"] {
+    width: 70px;
+    padding: 4px 8px;
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: #fff;
+    text-align: right;
+    font-size: 14px;
+}
+
+.stat-group input[type="number"]:focus {
+    border-color: #6a6a6a;
+    outline: none;
+}
+
+.tooltip-description {
+    margin-bottom: 16px;
+}
+
+.tooltip-description textarea {
+    width: 100%;
+    padding: 8px;
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: #fff;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.tooltip-description textarea:focus {
+    border-color: #6a6a6a;
+    outline: none;
+}
+
+.tooltip-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.tooltip-footer button {
+    padding: 6px 16px;
+    background: rgba(40, 40, 40, 0.9);
+    border: 1px solid #4a4a4a;
+    border-radius: 4px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tooltip-footer button:hover {
+    background: rgba(60, 60, 60, 0.9);
+    border-color: #6a6a6a;
+}
+
+.tooltip-footer button[type="submit"] {
+    background: rgba(0, 100, 0, 0.8);
+    border-color: #1eff00;
+    padding: 6px 24px;
+}
+
+.tooltip-footer button[type="submit"]:hover {
+    background: rgba(0, 120, 0, 0.8);
+    box-shadow: 0 0 10px rgba(30, 255, 0, 0.3);
+}

@@ -1,0 +1,155 @@
+.spell-preview {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  max-width: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.spell-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--spell-color, var(--primary-color));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.spell-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.spell-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background-color: var(--card-bg);
+}
+
+.spell-title {
+  flex: 1;
+}
+
+.spell-title h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.spell-source {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-1);
+}
+
+.spell-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  font-size: 0.875rem;
+}
+
+.spell-cost, .spell-range, .spell-cooldown {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--card-bg);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+.mana-cost {
+  color: #0070dd;
+}
+
+.ap-cost {
+  color: #ffd700;
+}
+
+.spell-description {
+  margin-bottom: var(--spacing-4);
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.spell-damage {
+  margin-bottom: var(--spacing-3);
+}
+
+.damage-type {
+  font-weight: 500;
+}
+
+.spell-damage-value, .spell-healing {
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-2);
+  background-color: var(--card-bg);
+  border-radius: var(--radius-sm);
+}
+
+.spell-healing {
+  color: #1eff00;
+}
+
+.spell-effects {
+  margin-bottom: var(--spacing-4);
+}
+
+.buffs, .debuffs {
+  margin-bottom: var(--spacing-3);
+}
+
+.buffs strong {
+  color: #1eff00;
+}
+
+.debuffs strong {
+  color: #ff4444;
+}
+
+.spell-effects ul,
+.aura-effects ul,
+.on-hit-effects ul {
+  list-style: none;
+  padding-left: var(--spacing-4);
+  margin: var(--spacing-2) 0;
+}
+
+.spell-effects li,
+.aura-effects li,
+.on-hit-effects li {
+  position: relative;
+  margin-bottom: var(--spacing-1);
+}
+
+.spell-effects li::before,
+.aura-effects li::before,
+.on-hit-effects li::before {
+  content: '•';
+  position: absolute;
+  left: -1rem;
+  color: var(--primary-color);
+}
+
+.spell-flavor {
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-3);
+  background-color: var(--card-bg);
+  border-radius: var(--radius-sm);
+  font-style: italic;
+  color: var(--text-secondary);
+  border-left: 2px solid var(--spell-color, var(--primary-color));
+}
