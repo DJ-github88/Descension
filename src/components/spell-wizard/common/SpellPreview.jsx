@@ -1,289 +1,235 @@
-import React, { useState, useCallback, useRef } from 'react';
-import SpellTooltip from './SpellTooltip';
-import '../styles/spell-preview.css';
-
-// Utility functions for formatting
-const formatDamage = (damageData) => {
-  if (!damageData || (!damageData.dice && !damageData.flat)) return "—";
-  let result = "";
-  if (damageData.dice) result += damageData.dice;
-  if (damageData.flat && damageData.dice) result += ` + ${damageData.flat}`;
-  else if (damageData.flat) result += damageData.flat;
-  return result;
-};
-
-const getQualityColor = (quality) => {
-  const colors = {
-    poor: '#9d9d9d',
-    common: '#ffffff',
-    uncommon: '#1eff00',
-    rare: '#0070dd',
-    epic: '#a335ee',
-    legendary: '#ff8000',
-    artifact: '#e6cc80'
-  };
-  return colors[quality?.toLowerCase()] || colors.common;
-};
-
-const getDamageTypeColor = (type) => {
-  const colors = {
-    acid: '#32CD32',
-    bludgeoning: '#8B4513',
-    cold: '#87CEEB',
-    fire: '#FF4500',
-    force: '#ff66ff',
-    lightning: '#FFD700',
-    necrotic: '#4B0082',
-    piercing: '#C0C0C0',
-    poison: '#008000',
-    psychic: '#FF69B4',
-    radiant: '#FFFACD',
-    slashing: '#A52A2A',
-    thunder: '#0066ff'
-  };
-  return colors[type?.toLowerCase()] || '#ffffff';
-};
+import React, { useState, useRef } from 'react';
 
 const SpellPreview = ({ spellData }) => {
-  const [tooltip, setTooltip] = useState(null);
-  const tooltipTimeoutRef = useRef(null);
+  const [tooltip, setTooltip] = useState({ visible: false, content: '', position: { x: 0, y: 0 }, title: '' });
   const previewRef = useRef(null);
-
-  const handleMouseEnter = useCallback((e, title, description, icon) => {
-    if (tooltipTimeoutRef.current) {
-      clearTimeout(tooltipTimeoutRef.current);
-    }
-    
-    const rect = e.currentTarget.getBoundingClientRect();
-    const previewRect = previewRef.current?.getBoundingClientRect();
-    
-    if (!previewRect) return;
-    
-    // Position tooltip to the right of the preview component
-    const x = previewRect.right + window.scrollX;
-    const y = rect.top + window.scrollY + (rect.height / 2);
+  
+  // Show tooltip with specific content
+  const showTooltip = (e, title, content) => {
+    const rect = previewRef.current.getBoundingClientRect();
+    const position = {
+      x: rect.right + 10,
+      y: e.clientY
+    };
     
     setTooltip({
+      visible: true,
       title,
-      description,
-      icon,
-      position: { x, y }
+      content,
+      position
     });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (tooltipTimeoutRef.current) {
-      clearTimeout(tooltipTimeoutRef.current);
-    }
-    tooltipTimeoutRef.current = setTimeout(() => {
-      setTooltip(null);
-    }, 50);
-  }, []);
-
-  if (!spellData) return null;
-
-  const {
-    name = 'Unnamed Spell',
-    description = '',
-    source,
-    category,
-    primaryDamage,
-    damageTypes = [],
-    healing,
-    range,
-    rangeType,
-    manaCost,
-    apCost,
-    cooldownRounds,
-    cooldownType,
-    buffs = [],
-    debuffs = [],
-    durationRounds,
-    auraEffects = [],
-    onHitTriggers = [],
-    color,
-    icon,
-    flavorText
-  } = spellData;
-
-  const getSpellQuality = () => {
-    if (auraEffects.length > 0 || onHitTriggers.length > 0) return 'epic';
-    if (damageTypes.length > 1 || buffs.length > 1 || debuffs.length > 1) return 'rare';
-    if (primaryDamage?.dice || healing?.dice) return 'uncommon';
-    return 'common';
   };
-
-  const quality = getSpellQuality();
-  const qualityColor = getQualityColor(quality);
-
+  
+  // Hide tooltip
+  const hideTooltip = () => {
+    setTooltip(prev => ({ ...prev, visible: false }));
+  };
+  
+  // Format damage types for display
+  const formatDamageTypes = () => {
+    if (!spellData.damageTypes || spellData.damageTypes.length === 0) return "None";
+    
+    return spellData.damageTypes.join(', ');
+  };
+  
+  // Get class name
+  const getClassName = () => {
+    if (!spellData.class) return '';
+    
+    const classMap = {
+      'pyrofiend': 'Pyrofiend',
+      'gambler': 'Gambler',
+      'fateweaver': 'Fate Weaver',
+      'stormbringer': 'Stormbringer'
+    };
+    
+    return classMap[spellData.class] || spellData.class;
+  };
+  
+  // Get spell type name
+  const getSpellTypeName = () => {
+    if (!spellData.spellType) return '';
+    
+    const typeMap = {
+      'active': 'Active Ability',
+      'passive': 'Passive Ability',
+      'aura': 'Aura',
+      'ultimate': 'Ultimate Ability'
+    };
+    
+    return typeMap[spellData.spellType] || spellData.spellType;
+  };
+  
+  // Get category name
+  const getCategoryName = () => {
+    if (!spellData.category) return '';
+    
+    const categoryMap = {
+      'damage': 'Damage',
+      'healing': 'Healing',
+      'buff': 'Buff',
+      'debuff': 'Debuff',
+      'utility': 'Utility'
+    };
+    
+    return categoryMap[spellData.category] || spellData.category;
+  };
+  
+  // Get range display
+  const getRangeDisplay = () => {
+    if (!spellData.rangeType) return '';
+    
+    switch (spellData.rangeType) {
+      case 'self':
+        return 'Self';
+      case 'touch':
+        return 'Touch';
+      case 'melee':
+        return 'Melee (5 ft)';
+      case 'ranged':
+        return `${spellData.range || 30} ft`;
+      default:
+        return spellData.rangeType;
+    }
+  };
+  
   return (
-    <>
-      <div ref={previewRef} className="spell-preview" style={{ '--spell-color': color || '#ffffff' }}>
-        <div className="spell-header" style={{ color: qualityColor }}>
-          {icon && <img src={icon} alt="" className="spell-icon" />}
+    <div className="spell-preview-container">
+      <div className="spell-preview" ref={previewRef}>
+        <div className="spell-header">
+          {spellData.icon ? (
+            <img src={spellData.icon} alt="" className="spell-icon" />
+          ) : (
+            <div className="spell-icon-placeholder"></div>
+          )}
+          
           <div className="spell-title">
-            <h3>{name}</h3>
-            {source && <div className="spell-source">{source}</div>}
+            <h3>{spellData.name || 'Unnamed Spell'}</h3>
+            <div className="spell-source">
+              {spellData.source === 'class' && getClassName()}
+              {spellData.source === 'monster' && spellData.monsterType}
+              {spellData.spellType && ` · ${getSpellTypeName()}`}
+            </div>
           </div>
         </div>
-
-        <div className="spell-stats">
-          {(manaCost || apCost) && (
+        
+        <div className="spell-body">
+          {spellData.description ? (
+            <div className="spell-description">{spellData.description}</div>
+          ) : (
+            <div className="spell-description placeholder">No description provided yet</div>
+          )}
+          
+          <div className="spell-stats">
+            {spellData.category && (
+              <div 
+                className="spell-stat spell-category"
+                onMouseEnter={(e) => showTooltip(e, 'Spell Category', `${getCategoryName()} spells primarily ${
+                  spellData.category === 'damage' ? 'deal damage to targets' :
+                  spellData.category === 'healing' ? 'restore health to allies' :
+                  spellData.category === 'buff' ? 'enhance allies\' abilities' :
+                  spellData.category === 'debuff' ? 'weaken enemies\' abilities' :
+                  spellData.category === 'utility' ? 'provide practical benefits outside combat' :
+                  'have various effects'
+                }.`)}
+                onMouseLeave={hideTooltip}
+              >
+                {getCategoryName()}
+              </div>
+            )}
+            
+            {spellData.rangeType && (
+              <div 
+                className="spell-stat spell-range"
+                onMouseEnter={(e) => showTooltip(e, 'Spell Range', `This spell can be cast at a range of ${getRangeDisplay()}.`)}
+                onMouseLeave={hideTooltip}
+              >
+                {getRangeDisplay()}
+              </div>
+            )}
+            
+            {spellData.targetingMode && (
+              <div 
+                className="spell-stat spell-targeting"
+                onMouseEnter={(e) => showTooltip(e, 'Targeting Mode', `This spell ${
+                  spellData.targetingMode === 'single' ? 'affects a single target' : 
+                  'affects multiple targets in an area'
+                }.`)}
+                onMouseLeave={hideTooltip}
+              >
+                {spellData.targetingMode === 'single' ? 'Single Target' : 'Area of Effect'}
+              </div>
+            )}
+          </div>
+          
+          {spellData.category === 'damage' && (
             <div 
-              className="spell-cost"
-              onMouseEnter={(e) => handleMouseEnter(e, 'Resource Cost', 'The resources required to cast this spell.')}
-              onMouseLeave={handleMouseLeave}
+              className="spell-damage-types"
+              onMouseEnter={(e) => showTooltip(e, 'Damage Types', `This spell deals ${formatDamageTypes()} damage.`)}
+              onMouseLeave={hideTooltip}
             >
-              {manaCost && <span className="mana-cost">{manaCost} Mana</span>}
-              {apCost && <span className="ap-cost">{apCost} AP</span>}
+              <span className="label">Damage Types: </span>
+              {spellData.damageTypes && spellData.damageTypes.map((type, index) => (
+                <span 
+                  key={type} 
+                  className="damage-type"
+                  style={{ 
+                    color: 
+                      type === 'fire' ? '#ff4500' :
+                      type === 'frost' ? '#00bfff' :
+                      type === 'arcane' ? '#9932cc' :
+                      type === 'nature' ? '#32cd32' :
+                      type === 'shadow' ? '#800080' :
+                      type === 'holy' ? '#ffd700' :
+                      type === 'physical' ? '#c0c0c0' : 
+                      '#ffffff'
+                  }}
+                >
+                  {type}
+                  {index < spellData.damageTypes.length - 1 && ', '}
+                </span>
+              ))}
+              {(!spellData.damageTypes || spellData.damageTypes.length === 0) && (
+                <span className="none-text">None</span>
+              )}
             </div>
           )}
           
-          {range && (
+          {spellData.primaryDamage && (spellData.primaryDamage.dice || spellData.primaryDamage.flat > 0) && (
             <div 
-              className="spell-range"
-              onMouseEnter={(e) => handleMouseEnter(e, 'Range', `This spell can be cast at targets up to ${range} ${rangeType} away.`)}
-              onMouseLeave={handleMouseLeave}
+              className="spell-damage-value"
+              onMouseEnter={(e) => showTooltip(e, 'Damage', `This spell deals ${spellData.primaryDamage.dice || ''} ${
+                spellData.primaryDamage.dice && spellData.primaryDamage.flat > 0 ? '+ ' : ''
+              }${spellData.primaryDamage.flat > 0 ? spellData.primaryDamage.flat : ''} damage.`)}
+              onMouseLeave={hideTooltip}
             >
-              {range} {rangeType}
+              <span className="label">Damage: </span>
+              {spellData.primaryDamage.dice}{' '}
+              {spellData.primaryDamage.dice && spellData.primaryDamage.flat > 0 && '+ '}
+              {spellData.primaryDamage.flat > 0 && spellData.primaryDamage.flat}
             </div>
           )}
-
-          {cooldownRounds && (
-            <div 
-              className="spell-cooldown"
-              onMouseEnter={(e) => handleMouseEnter(e, 'Cooldown', `This spell can be cast again after ${cooldownRounds} ${cooldownType || 'rounds'}.`)}
-              onMouseLeave={handleMouseLeave}
-            >
-              {cooldownRounds} {cooldownType || 'rounds'}
-            </div>
+          
+          {/* Add more stats as needed */}
+          
+          {spellData.flavorText && (
+            <div className="spell-flavor">"{spellData.flavorText}"</div>
           )}
         </div>
-
-        {description && (
-          <div 
-            className="spell-description"
-            onMouseEnter={(e) => handleMouseEnter(e, 'Description', description)}
-            onMouseLeave={handleMouseLeave}
-          >
-            {description}
-          </div>
-        )}
-
-        {damageTypes.length > 0 && (
-          <div 
-            className="spell-damage"
-            onMouseEnter={(e) => handleMouseEnter(e, 'Damage Types', `This spell deals ${damageTypes.join(' and ')} damage.`)}
-            onMouseLeave={handleMouseLeave}
-          >
-            {damageTypes.map((type, i) => (
-              <span 
-                key={i} 
-                className="damage-type"
-                style={{ color: getDamageTypeColor(type) }}
-              >
-                {type}
-                {i < damageTypes.length - 1 ? ', ' : ''}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {primaryDamage && (
-          <div 
-            className="spell-damage-value"
-            onMouseEnter={(e) => handleMouseEnter(e, 'Damage', `Deals ${formatDamage(primaryDamage)} damage.`)}
-            onMouseLeave={handleMouseLeave}
-          >
-            Damage: {formatDamage(primaryDamage)}
-          </div>
-        )}
-
-        {healing && (
-          <div 
-            className="spell-healing"
-            onMouseEnter={(e) => handleMouseEnter(e, 'Healing', `Restores ${formatDamage(healing)} health.`)}
-            onMouseLeave={handleMouseLeave}
-          >
-            Healing: {formatDamage(healing)}
-          </div>
-        )}
-
-        {(buffs.length > 0 || debuffs.length > 0) && (
-          <div className="spell-effects">
-            {buffs.length > 0 && (
-              <div 
-                className="buffs"
-                onMouseEnter={(e) => handleMouseEnter(e, 'Beneficial Effects', 'Positive effects applied by this spell.')}
-                onMouseLeave={handleMouseLeave}
-              >
-                <strong>Buffs:</strong>
-                <ul>
-                  {buffs.map((buff, i) => (
-                    <li key={i}>{buff}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {debuffs.length > 0 && (
-              <div 
-                className="debuffs"
-                onMouseEnter={(e) => handleMouseEnter(e, 'Negative Effects', 'Negative effects applied by this spell.')}
-                onMouseLeave={handleMouseLeave}
-              >
-                <strong>Debuffs:</strong>
-                <ul>
-                  {debuffs.map((debuff, i) => (
-                    <li key={i}>{debuff}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-
-        {auraEffects.length > 0 && (
-          <div 
-            className="aura-effects"
-            onMouseEnter={(e) => handleMouseEnter(e, 'Aura Effects', 'Persistent effects that affect an area around the target.')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <strong>Aura Effects:</strong>
-            <ul>
-              {auraEffects.map((effect, i) => (
-                <li key={i}>{effect}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {onHitTriggers.length > 0 && (
-          <div 
-            className="on-hit-effects"
-            onMouseEnter={(e) => handleMouseEnter(e, 'On-Hit Effects', 'Additional effects that trigger when the spell hits.')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <strong>On Hit:</strong>
-            <ul>
-              {onHitTriggers.map((trigger, i) => (
-                <li key={i}>{trigger}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {flavorText && (
-          <div 
-            className="spell-flavor"
-            onMouseEnter={(e) => handleMouseEnter(e, 'Flavor Text', 'Thematic description that adds character to the spell.')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <em>{flavorText}</em>
-          </div>
-        )}
       </div>
-      {tooltip && <SpellTooltip {...tooltip} />}
-    </>
+      
+      {/* Tooltip */}
+      <div 
+        className={`spell-tooltip ${tooltip.visible ? 'visible' : ''}`}
+        style={{
+          top: tooltip.position.y,
+          left: tooltip.position.x
+        }}
+      >
+        {tooltip.title && <div className="tooltip-title">{tooltip.title}</div>}
+        {tooltip.content && <div className="tooltip-content">{tooltip.content}</div>}
+      </div>
+    </div>
   );
 };
 

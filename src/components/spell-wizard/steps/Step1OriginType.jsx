@@ -4,32 +4,42 @@ import { IconSelector } from '../common';
 import '../styles/spell-wizard.css'; 
 import '../styles/spell-wizard-layout.css'; 
 
-// Class options for player character spells (from original Step1OriginType)
+// Class options for player character spells
 const CLASS_OPTIONS = [
   { id: 'pyrofiend', name: 'Pyrofiend', resource: 'Inferno Levels' },
   { id: 'gambler', name: 'Gambler', resource: 'Fortune Points' },
-  // Other class options...
+  { id: 'fateweaver', name: 'Fate Weaver', resource: 'Destiny Charges' },
+  { id: 'berserker', name: 'Berserker', resource: 'Rage' },
+  { id: 'shadowdancer', name: 'Shadowdancer', resource: 'Shadow Energy' },
+  { id: 'elementalist', name: 'Elementalist', resource: 'Elemental Harmony' }
+  // Add other class options if needed
 ];
 
-// Monster/creature types (from original Step1OriginType)
+// Monster/creature types
 const MONSTER_TYPES = [
-  'Aberration',
-  'Beast',
-  // Other monster types...
+  'Aberration', 'Beast', 'Celestial', 'Construct', 'Dragon',
+  'Elemental', 'Fey', 'Fiend', 'Giant', 'Humanoid',
+  'Monstrosity', 'Ooze', 'Plant', 'Undead'
 ];
 
-// Spell types (from original Step1OriginType)
+// Spell types
 const SPELL_TYPES = [
   { id: 'active', name: 'Active Ability', description: 'An ability that must be activated and typically has a cost and cooldown.' },
   { id: 'passive', name: 'Passive Ability', description: 'An ability that is always active and provides a constant benefit.' },
-  // Other spell types...
+  { id: 'aura', name: 'Aura', description: 'A persistent effect that radiates from the caster or target.' },
+  { id: 'ultimate', name: 'Ultimate Ability', description: 'A powerful ability with a significant impact but a long cooldown.' },
+  { id: 'reaction', name: 'Reaction', description: 'An ability that triggers in response to certain conditions.' },
+  { id: 'ritual', name: 'Ritual', description: 'A complex ability that requires preparation and time to cast.' }
 ];
 
-// Thematic adjectives for spell flavor (from original Step3CoreMechanic)
+// Thematic adjectives for spell flavor - we'll keep these for compatibility
+// even though you mentioned disliking flavor text and tags
 const THEMATIC_ADJECTIVES = [
   { category: 'fire', adjectives: ['blazing', 'scorching', 'searing', 'incandescent', 'incinerating', 'fiery', 'smoldering'] },
   { category: 'frost', adjectives: ['frigid', 'chilling', 'freezing', 'glacial', 'icy', 'wintry', 'arctic'] },
-  // Other thematic elements...
+  { category: 'arcane', adjectives: ['mystical', 'arcane', 'enigmatic', 'magical', 'enchanted', 'ethereal', 'eldritch'] },
+  { category: 'nature', adjectives: ['primal', 'wild', 'natural', 'verdant', 'flourishing', 'organic', 'thriving'] },
+  { category: 'shadow', adjectives: ['dark', 'shadowy', 'gloomy', 'dusky', 'obscured', 'tenebrous', 'dim'] }
 ];
 
 const Step1OriginType = () => {
@@ -67,7 +77,7 @@ const Step1OriginType = () => {
     
   }, [
     source, selectedClass, selectedMonsterType, selectedSpellType, 
-    spellName
+    spellName, setStepValidation
   ]);
   
   // Update spell data separately from validation to avoid unnecessary updates
@@ -174,45 +184,6 @@ const Step1OriginType = () => {
     });
   };
   
-  // Get recommended adjectives based on class/monster type
-  const getRecommendedAdjectives = () => {
-    let recommended = [];
-    
-    // Add class-specific recommendations
-    if (source === 'class' && selectedClass) {
-      switch (selectedClass) {
-        case 'pyrofiend':
-          recommended = ['blazing', 'scorching', 'fiery'];
-          break;
-        case 'gambler':
-          recommended = ['chaotic', 'unpredictable', 'fortunate'];
-          break;
-        // Add more class-specific recommendations
-        default:
-          recommended = [];
-      }
-    }
-    
-    // Add monster-specific recommendations
-    if (source === 'monster' && selectedMonsterType) {
-      switch (selectedMonsterType) {
-        case 'Elemental':
-          recommended = ['primal', 'elemental', 'natural'];
-          break;
-        case 'Undead':
-          recommended = ['dark', 'shadowy', 'gloomy'];
-          break;
-        // Add more monster-specific recommendations
-        default:
-          recommended = [];
-      }
-    }
-    
-    return recommended;
-  };
-  
-  const recommendedAdjectives = getRecommendedAdjectives();
-  
   return (
     <div className="origin-identity-step">
       {/* Origin Selection Section */}
@@ -222,15 +193,14 @@ const Step1OriginType = () => {
           Begin crafting your spell by selecting its origin.
         </p>
         
-        <div className="source-selection">
+        <div className="origin-options">
           <div 
-            className={`source-option ${source === 'class' ? 'selected' : ''}`}
+            className={`origin-option ${source === 'class' ? 'selected' : ''}`}
             onClick={() => handleSourceChange('class')}
             data-id="class"
-            title="Create a spell for a specific player class"
           >
             <div className="option-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                 <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
               </svg>
             </div>
@@ -241,13 +211,12 @@ const Step1OriginType = () => {
           </div>
           
           <div 
-            className={`source-option ${source === 'monster' ? 'selected' : ''}`}
+            className={`origin-option ${source === 'monster' ? 'selected' : ''}`}
             onClick={() => handleSourceChange('monster')}
             data-id="monster"
-            title="Design an ability for a specific creature type"
           >
             <div className="option-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                 <path d="M13 2.05v2.02c1.46.18 2.79.76 3.9 1.62l1.42-1.43a9.85 9.85 0 0 0-5.32-2.21zm-2 0a9.85 9.85 0 0 0-5.32 2.21l1.42 1.43a7.9 7.9 0 0 1 3.9-1.62V2.05zM4.05 7a9.85 9.85 0 0 0-2.21 5.32h2.02c.18-1.46.76-2.79 1.62-3.9L4.05 7zm0 10l1.43-1.42a7.9 7.9 0 0 1-1.62-3.9H2.05A9.85 9.85 0 0 0 4.05 17zM17 19.95l-1.42-1.43a7.9 7.9 0 0 1-3.9 1.62v2.02a9.85 9.85 0 0 0 5.32-2.21zM7 19.95a9.85 9.85 0 0 0 5.32 2.21v-2.02a7.9 7.9 0 0 1-3.9-1.62L7 19.95zm12.95-7c-.18 1.46-.76 2.79-1.62 3.9l1.43 1.42a9.85 9.85 0 0 0 2.21-5.32h-2.02zM19.95 7l-1.43 1.42a7.9 7.9 0 0 1 1.62 3.9h2.02A9.85 9.85 0 0 0 19.95 7z"/>
               </svg>
             </div>
@@ -363,80 +332,7 @@ const Step1OriginType = () => {
         </div>
       )}
       
-      {/* Thematic Elements - Show after basics are filled out */}
-      {spellName && (
-        <div className="section">
-          <h4 className="section-title">Thematic Elements</h4>
-          <p className="section-description">
-            Select up to 3 thematic adjectives to give your spell flavor and personality.
-          </p>
-          
-          {recommendedAdjectives.length > 0 && (
-            <div className="recommended-adjectives">
-              <h5>Recommended Themes</h5>
-              <div className="adjective-tags">
-                {recommendedAdjectives.map((adjective) => (
-                  <div 
-                    key={adjective}
-                    className={`adjective-tag ${selectedThemes.includes(adjective) ? 'selected' : ''}`}
-                    onClick={() => toggleThematicAdjective(adjective)}
-                  >
-                    {adjective}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          <div className="thematic-categories">
-            {THEMATIC_ADJECTIVES.map((category) => (
-              <div key={category.category} className="thematic-category">
-                <h5>{category.category.charAt(0).toUpperCase() + category.category.slice(1)}</h5>
-                <div className="adjective-tags">
-                  {category.adjectives.map((adjective) => (
-                    <div 
-                      key={adjective}
-                      className={`adjective-tag ${selectedThemes.includes(adjective) ? 'selected' : ''}`}
-                      onClick={() => toggleThematicAdjective(adjective)}
-                    >
-                      {adjective}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {/* Flavor Text */}
-      {spellName && (
-        <div className="section">
-          <h4 className="section-title">Flavor Text</h4>
-          <p className="section-description">
-            Add descriptive text to give your spell narrative depth and character.
-          </p>
-          
-          <textarea
-            className="flavor-text-input"
-            value={flavorText}
-            onChange={(e) => setFlavorText(e.target.value)}
-            placeholder="Enter flavor text for your spell..."
-            rows={4}
-          />
-          
-          <div className="flavor-text-examples">
-            <h5>Examples:</h5>
-            <ul>
-              <li>"The air shimmers as arcane energy coalesces into deadly projectiles."</li>
-              <li>"Drawing upon ancient pacts, the caster sacrifices vitality to unleash forbidden power."</li>
-              <li>"Whispers of winter wind gather around the target, freezing them to the core."</li>
-            </ul>
-          </div>
-        </div>
-      )}
-      
-      {/* Icon */}
+      {/* Icon Selection - Show after name and description */}
       {spellName && (
         <div className="section">
           <h4 className="section-title">Icon</h4>
@@ -465,6 +361,298 @@ const Step1OriginType = () => {
           )}
         </div>
       )}
+      
+      <style jsx>{`
+        /* Improved styling for Step 1 */
+        .origin-identity-step {
+          font-family: 'Segoe UI', 'Open Sans', sans-serif;
+          color: #e6e9f0;
+        }
+        
+        .section {
+          background-color: #272b40;
+          border-radius: 8px;
+          padding: 16px;
+          margin-bottom: 16px;
+          border: 1px solid #394263;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+          color: #40c4ff;
+          font-size: 18px;
+          margin-bottom: 8px;
+          font-weight: 600;
+          position: relative;
+          padding-bottom: 8px;
+        }
+        
+        .section-title::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 40px;
+          height: 2px;
+          background: linear-gradient(to right, #00a8ff, #40c4ff);
+          box-shadow: 0 0 8px rgba(0, 168, 255, 0.5);
+        }
+        
+        .section-description {
+          color: #a0a7c1;
+          margin-bottom: 16px;
+          font-size: 14px;
+        }
+        
+        /* Origin options styling */
+        .origin-options {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-bottom: 8px;
+        }
+        
+        @media (min-width: 640px) {
+          .origin-options {
+            flex-direction: row;
+          }
+        }
+        
+        .origin-option {
+          background-color: #2d334d;
+          border: 1px solid #394263;
+          border-radius: 6px;
+          padding: 12px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          flex: 1;
+        }
+        
+        .origin-option:hover {
+          background-color: #323b4d;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .origin-option.selected {
+          border-color: #00a8ff;
+          background-color: rgba(0, 168, 255, 0.1);
+          box-shadow: 0 0 10px rgba(0, 168, 255, 0.3);
+        }
+        
+        .option-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          background-color: #323b4d;
+          border-radius: 20px;
+          color: #40c4ff;
+        }
+        
+        .option-content {
+          flex: 1;
+        }
+        
+        .option-label {
+          font-weight: 600;
+          margin-bottom: 4px;
+          color: #e6e9f0;
+        }
+        
+        .option-description {
+          font-size: 12px;
+          color: #a0a7c1;
+        }
+        
+        /* Class options styling */
+        .class-options {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 10px;
+        }
+        
+        .class-option {
+          background-color: #2d334d;
+          border: 1px solid #394263;
+          border-radius: 6px;
+          padding: 10px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .class-option:hover {
+          background-color: #323b4d;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .class-option.selected {
+          border-color: #00a8ff;
+          background-color: rgba(0, 168, 255, 0.1);
+          box-shadow: 0 0 10px rgba(0, 168, 255, 0.3);
+        }
+        
+        .class-name {
+          font-weight: 600;
+          margin-bottom: 4px;
+          color: #e6e9f0;
+        }
+        
+        .class-resource {
+          font-size: 12px;
+          color: #a0a7c1;
+        }
+        
+        /* Monster options styling */
+        .monster-options {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 10px;
+        }
+        
+        .monster-option {
+          background-color: #2d334d;
+          border: 1px solid #394263;
+          border-radius: 6px;
+          padding: 8px 10px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-align: center;
+        }
+        
+        .monster-option:hover {
+          background-color: #323b4d;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .monster-option.selected {
+          border-color: #00a8ff;
+          background-color: rgba(0, 168, 255, 0.1);
+          box-shadow: 0 0 10px rgba(0, 168, 255, 0.3);
+        }
+        
+        .monster-type {
+          font-weight: 500;
+          color: #e6e9f0;
+          font-size: 14px;
+        }
+        
+        /* Spell type options styling */
+        .spell-type-options {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        
+        @media (min-width: 640px) {
+          .spell-type-options {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        
+        .spell-type-option {
+          background-color: #2d334d;
+          border: 1px solid #394263;
+          border-radius: 6px;
+          padding: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .spell-type-option:hover {
+          background-color: #323b4d;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .spell-type-option.selected {
+          border-color: #00a8ff;
+          background-color: rgba(0, 168, 255, 0.1);
+          box-shadow: 0 0 10px rgba(0, 168, 255, 0.3);
+        }
+        
+        .spell-type-name {
+          font-weight: 600;
+          margin-bottom: 4px;
+          color: #e6e9f0;
+        }
+        
+        .spell-type-description {
+          font-size: 12px;
+          color: #a0a7c1;
+        }
+        
+        /* Name and description styling */
+        .name-input, .description-input {
+          margin-bottom: 16px;
+        }
+        
+        .name-input label, .description-input label {
+          display: block;
+          margin-bottom: 6px;
+          color: #a0a7c1;
+          font-weight: 500;
+        }
+        
+        .spell-name-input, .spell-description-input {
+          width: 100%;
+          padding: 10px;
+          background-color: #202334;
+          border: 1px solid #394263;
+          border-radius: 4px;
+          color: #e6e9f0;
+          transition: all 0.2s ease;
+        }
+        
+        .spell-name-input:focus, .spell-description-input:focus {
+          border-color: #00a8ff;
+          outline: none;
+          box-shadow: 0 0 8px rgba(0, 168, 255, 0.3);
+        }
+        
+        .spell-description-input {
+          resize: vertical;
+          min-height: 80px;
+        }
+        
+        /* Validation message styling */
+        .validation-message {
+          background-color: rgba(255, 83, 112, 0.1);
+          border-left: 4px solid #ff5370;
+          padding: 12px;
+          margin-top: 16px;
+          border-radius: 4px;
+          color: #ff5370;
+          font-size: 14px;
+        }
+        
+        /* Animation classes */
+        .pulse-effect {
+          animation: pulse 1s ease-in-out;
+        }
+        
+        .glow-effect {
+          animation: glow 2s infinite;
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+          0% { box-shadow: 0 0 5px rgba(0, 168, 255, 0.3); }
+          50% { box-shadow: 0 0 15px rgba(0, 168, 255, 0.5); }
+          100% { box-shadow: 0 0 5px rgba(0, 168, 255, 0.3); }
+        }
+      `}</style>
     </div>
   );
 };

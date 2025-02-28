@@ -13,11 +13,11 @@ import {
 
 // Scaling types (from original Step6RangeArea)
 const SCALING_TYPES = [
-  { id: 'level', name: 'Caster Level', description: 'Spell power increases with caster level' },
-  { id: 'attribute', name: 'Attribute', description: 'Spell power increases with a specific attribute' },
-  { id: 'resource', name: 'Resource Spending', description: 'Spell power increases with additional resource spending' },
+  { id: 'level', name: 'Character Level', description: 'Spell power increases with character level' },
+  { id: 'attribute', name: 'Ability Score', description: 'Spell power increases with a specific ability score' },
+  { id: 'resource', name: 'Action Point Cost', description: 'Spell power increases with additional action point spending' },
   { id: 'charge', name: 'Charge Time', description: 'Spell power increases the longer it is charged' },
-  { id: 'combo', name: 'Combo Points', description: 'Spell power increases with combo points or similar mechanics' }
+  { id: 'combo', name: 'Advantage', description: 'Spell power increases when cast with advantage or in special conditions' }
 ];
 
 // Attribute options for scaling (from original Step6RangeArea)

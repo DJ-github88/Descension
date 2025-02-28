@@ -10,14 +10,16 @@
   box-shadow: 0 2px 12px rgba(37, 150, 255, 0.25);
   z-index: 9999;
   white-space: normal;
-  transform: translate(8px, -50%);
+  transform: translate(15px, -50%);
+  left: 100%;
+  top: 50%;
   animation: tooltipFadeIn 0.15s ease-out;
 }
 
 .spell-tooltip::before {
   content: '';
   position: absolute;
-  left: -6px;
+  right: 100%;
   top: 50%;
   transform: translateY(-50%);
   border-style: solid;
@@ -61,10 +63,10 @@
 @keyframes tooltipFadeIn {
   from {
     opacity: 0;
-    transform: translate(0, -50%);
+    transform: translate(5px, -50%);
   }
   to {
     opacity: 1;
-    transform: translate(8px, -50%);
+    transform: translate(15px, -50%);
   }
 }

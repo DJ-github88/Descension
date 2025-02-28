@@ -6,12 +6,12 @@ import { getClassResources, getMonsterResources } from '../../../data/classResou
 
 // Cooldown categories with descriptions (from original Step7ResourceCost)
 const COOLDOWN_CATEGORIES = [
-  { id: 'instant', name: 'Instant', description: 'Can be used repeatedly with no cooldown', examples: ['Basic attacks', 'Minor cantrips'] },
-  { id: 'short', name: 'Short Cooldown', description: 'Brief cooldown, usable multiple times per encounter', examples: ['Core rotational abilities', 'Mobility skills'] },
-  { id: 'medium', name: 'Medium Cooldown', description: 'Moderate cooldown, usable a few times per encounter', examples: ['Powerful abilities', 'Defensive cooldowns'] },
-  { id: 'long', name: 'Long Cooldown', description: 'Long cooldown, usable once per encounter or less', examples: ['Ultimate abilities', 'Game-changing effects'] },
-  { id: 'encounter', name: 'Once Per Encounter', description: 'Can only be used once per combat encounter', examples: ['Powerful finishers', 'Emergency abilities'] },
-  { id: 'daily', name: 'Daily/Rest', description: 'Can only be used once per day or after a rest', examples: ['Extremely powerful spells', 'Ritual magic'] }
+  { id: 'instant', name: 'No Recovery', description: 'Can be used repeatedly with no recovery time', examples: ['Cantrips', 'Basic attacks'] },
+  { id: 'short', name: 'Short Recovery', description: 'Recovers after 1d4 rounds', examples: ['Basic spells', 'Combat maneuvers'] },
+  { id: 'medium', name: 'Moderate Recovery', description: 'Recovers after 1d6 rounds', examples: ['Powerful spells', 'Defensive abilities'] },
+  { id: 'long', name: 'Long Recovery', description: 'Recovers only after a short rest', examples: ['Major spells', 'Class features'] },
+  { id: 'encounter', name: 'Once Per Encounter', description: 'Can only be used once per combat encounter', examples: ['Specialized abilities', 'Emergency features'] },
+  { id: 'daily', name: 'Long Rest Required', description: 'Can only be used once per long rest', examples: ['High-level spells', 'Powerful artifacts'] }
 ];
 
 // Cost scaling modifiers (from original Step7ResourceCost)
@@ -25,12 +25,12 @@ const COST_SCALING_OPTIONS = [
 
 // Cast time options (from original Step7ResourceCost)
 const CAST_TIME_OPTIONS = [
-  { id: 'instant', name: 'Instant', description: 'Activates immediately with no cast time' },
-  { id: 'short', name: 'Short Cast (0.5-1s)', description: 'Brief cast time, can be interrupted but relatively quick' },
-  { id: 'medium', name: 'Medium Cast (1.5-2.5s)', description: 'Standard cast time, vulnerable to interrupts' },
-  { id: 'long', name: 'Long Cast (3s+)', description: 'Extended cast time for powerful effects, very vulnerable' },
-  { id: 'channeled', name: 'Channeled', description: 'Continues casting as long as the button is held down' },
-  { id: 'charged', name: 'Charged', description: 'Held to charge up, release to cast with strength based on charge time' }
+  { id: 'instant', name: 'Free Action', description: 'Can be used without consuming your action' },
+  { id: 'reaction', name: 'Reaction', description: 'Setups a reaction' },
+  { id: 'medium', name: 'Action', description: 'Uses your standard action to cast' },
+  { id: 'long', name: 'Full Round', description: 'Takes your entire turn to cast' },
+  { id: 'channeled', name: 'Concentration', description: 'Requires concentration to maintain effect' },
+  { id: 'charged', name: 'Ritual', description: 'Takes extra time but can be cast without expending a spell slot' }
 ];
 
 const Step3ResourceSystem = () => {

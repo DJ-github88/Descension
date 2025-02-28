@@ -1,125 +1,161 @@
 import React, { useState, useEffect } from 'react';
-import useSpellWizardStore from '../../../store/spellWizardStore';
-import '../styles/spell-wizard.css';
 
-// Spell categories with descriptions (from original Step2CategoryRole)
-const SPELL_CATEGORIES = [
-  { 
-    id: 'damage', 
-    name: 'Damage', 
-    description: 'Spells that primarily deal damage to targets.',
-    subtypes: [
-      { id: 'direct', name: 'Direct Damage', description: 'Immediate damage to the target' },
-      { id: 'burst', name: 'Burst Damage', description: 'High damage with longer cooldown' },
-      { id: 'aoe', name: 'Area of Effect Damage', description: 'Damage to multiple targets in an area' },
-      { id: 'dot', name: 'Damage Over Time', description: 'Damage that occurs periodically over a duration' }
-    ]
-  },
-  { 
-    id: 'healing', 
-    name: 'Healing', 
-    description: 'Spells that restore health to allies.',
-    subtypes: [
-      { id: 'direct', name: 'Direct Healing', description: 'Immediate healing to the target' },
-      { id: 'aoe', name: 'Area Healing', description: 'Healing to multiple allies in an area' },
-      { id: 'hot', name: 'Healing Over Time', description: 'Healing that occurs periodically over a duration' },
-      { id: 'reactive', name: 'Reactive Healing', description: 'Healing that triggers in response to damage or conditions' }
-    ]
-  },
-  // Other spell categories...
-];
-
-// Targeting modes (from original Step2CategoryRole)
-const TARGETING_MODES = [
-  { id: 'single', name: 'Single Target', description: 'Affects one target at a time' },
-  { id: 'aoe', name: 'Area of Effect', description: 'Affects multiple targets in an area' }
-];
-
-// AOE shapes (from original Step2CategoryRole and Step6RangeArea)
-const AOE_SHAPES = [
-  { id: 'circle', name: 'Circle', description: 'Affects all targets within a circular radius', icon: '⭕' },
-  { id: 'cone', name: 'Cone', description: 'Affects targets in a cone-shaped area', icon: '📐' },
-  { id: 'line', name: 'Line', description: 'Affects targets in a straight line', icon: '📏' },
-  { id: 'custom', name: 'Custom Zone', description: 'Define a custom shape or pattern', icon: '✨' }
-];
-
-// Range types with descriptions (from original Step6RangeArea)
-const RANGE_TYPES = [
-  { id: 'melee', name: 'Melee', description: 'Target must be within melee range (5 ft)', icon: '⚔️' },
-  { id: 'ranged', name: 'Ranged', description: 'Target can be at a specified distance', icon: '🏹' },
-  { id: 'touch', name: 'Touch', description: 'Caster must touch the target', icon: '👋' },
-  { id: 'self', name: 'Self', description: 'Spell affects only the caster', icon: '🧙' },
-  { id: 'global', name: 'Global', description: 'Spell affects the entire area with no range limit', icon: '🌎' }
-];
-
-const Step2PrimaryFunction = () => {
-  const { spellData, updateSpellData, setStepValidation } = useSpellWizardStore();
-  
-  // Local state
-  const [selectedCategory, setSelectedCategory] = useState(spellData.category || '');
-  const [selectedSubtype, setSelectedSubtype] = useState(spellData.subtype || '');
+const Step2PrimaryFunction = ({ spellData, updateSpellData, setStepValidation }) => {
+  // Local state for form inputs
+  const [category, setCategory] = useState(spellData.category || '');
+  const [subtype, setSubtype] = useState(spellData.subtype || '');
   const [targetingMode, setTargetingMode] = useState(spellData.targetingMode || 'single');
   const [aoeShape, setAoeShape] = useState(spellData.aoeShape || 'circle');
   const [aoeSize, setAoeSize] = useState(spellData.aoeSize || 10);
   const [rangeType, setRangeType] = useState(spellData.rangeType || 'ranged');
   const [rangeDistance, setRangeDistance] = useState(spellData.range || 30);
-  const [durationRounds, setDurationRounds] = useState(spellData.durationRounds || 0);
-  const [durationRealTime, setDurationRealTime] = useState(spellData.durationRealTime || 0);
-  const [durationUnit, setDurationUnit] = useState(spellData.durationUnit || 'seconds');
+  const [damageTypes, setDamageTypes] = useState(spellData.damageTypes || []);
   
-  // Validation
+  // Tooltip state
+  const [tooltip, setTooltip] = useState({ visible: false, content: '', position: { x: 0, y: 0 }, title: '' });
+  
+  // Local state for tracking validation
   const [isValid, setIsValid] = useState(false);
+  
+  // Sample data
+  const SPELL_CATEGORIES = [
+    { id: 'damage', name: 'Damage', description: 'Spells that primarily deal damage to targets.' },
+    { id: 'healing', name: 'Healing', description: 'Spells that restore health to allies.' },
+    { id: 'buff', name: 'Buff', description: 'Spells that enhance allies\' abilities or stats.' },
+    { id: 'debuff', name: 'Debuff', description: 'Spells that weaken enemies\' abilities or stats.' },
+    { id: 'utility', name: 'Utility', description: 'Spells with practical uses outside of direct combat.' }
+  ];
+  
+  const DAMAGE_TYPES = [
+    { id: 'fire', name: 'Fire', color: '#ff4500', icon: '🔥', description: 'Fire damage burns targets and can ignite flammable objects.' },
+    { id: 'frost', name: 'Frost', color: '#00bfff', icon: '❄️', description: 'Frost damage can slow or freeze targets.' },
+    { id: 'arcane', name: 'Arcane', color: '#9932cc', icon: '✨', description: 'Arcane damage is pure magical energy that bypasses many resistances.' },
+    { id: 'nature', name: 'Nature', color: '#32cd32', icon: '🌿', description: 'Nature damage includes acid, poison, and life energy manipulation.' },
+    { id: 'shadow', name: 'Shadow', color: '#800080', icon: '🌑', description: 'Shadow damage corrupts and drains life force from targets.' },
+    { id: 'holy', name: 'Holy', color: '#ffd700', icon: '✨', description: 'Holy damage is especially effective against undead and fiends.' },
+    { id: 'physical', name: 'Physical', color: '#c0c0c0', icon: '⚔️', description: 'Physical damage comes from direct force and impacts.' }
+  ];
+  
+  const AOE_SHAPES = [
+    { id: 'circle', name: 'Circle', description: 'Affects all targets within a radius around a point.' },
+    { id: 'cone', name: 'Cone', description: 'Affects targets in a cone-shaped area extending from the caster.' },
+    { id: 'line', name: 'Line', description: 'Affects targets in a straight line from the caster.' },
+    { id: 'square', name: 'Square', description: 'Affects targets in a square area centered on a point.' }
+  ];
+  
+  const RANGE_TYPES = [
+    { id: 'self', name: 'Self', description: 'Affects only the caster.' },
+    { id: 'touch', name: 'Touch', description: 'Caster must touch the target to apply the effect.' },
+    { id: 'melee', name: 'Melee', description: 'Affects targets within melee range (5 feet).' },
+    { id: 'ranged', name: 'Ranged', description: 'Can target creatures at a distance specified in feet.' }
+  ];
+  
+  // Category-specific subtypes
+  const SUBTYPES = {
+    damage: [
+      { id: 'direct', name: 'Direct Damage', description: 'Deals immediate damage upon impact.' },
+      { id: 'dot', name: 'Damage Over Time', description: 'Deals damage gradually over several rounds.' },
+      { id: 'aoe', name: 'Area Damage', description: 'Damages multiple targets in an area.' },
+      { id: 'burst', name: 'Burst Damage', description: 'High damage with longer cooldown or resource cost.' }
+    ],
+    healing: [
+      { id: 'direct', name: 'Direct Healing', description: 'Immediately restores health to the target.' },
+      { id: 'hot', name: 'Healing Over Time', description: 'Gradually restores health over several rounds.' },
+      { id: 'aoe', name: 'Area Healing', description: 'Heals multiple allies in an area.' },
+      { id: 'reactive', name: 'Reactive Healing', description: 'Healing that triggers in response to damage.' }
+    ],
+    buff: [
+      { id: 'stat', name: 'Stat Boost', description: 'Increases one or more stats of the target.' },
+      { id: 'protection', name: 'Protection', description: 'Reduces or prevents damage taken.' },
+      { id: 'mobility', name: 'Mobility', description: 'Enhances movement speed or options.' },
+      { id: 'resource', name: 'Resource Generation', description: 'Grants resources or enhances regeneration.' }
+    ],
+    debuff: [
+      { id: 'impair', name: 'Impairment', description: 'Reduces target\'s stats or effectiveness.' },
+      { id: 'control', name: 'Control', description: 'Restricts target\'s movement or actions.' },
+      { id: 'vulnerability', name: 'Vulnerability', description: 'Makes target take increased damage.' },
+      { id: 'resource', name: 'Resource Drain', description: 'Depletes or prevents regeneration of resources.' }
+    ],
+    utility: [
+      { id: 'movement', name: 'Movement', description: 'Provides special movement options.' },
+      { id: 'detection', name: 'Detection', description: 'Reveals hidden objects, creatures, or information.' },
+      { id: 'creation', name: 'Creation', description: 'Creates objects or effects that can be interacted with.' },
+      { id: 'manipulation', name: 'Manipulation', description: 'Manipulates the environment or objects.' }
+    ]
+  };
   
   // Update validation status
   useEffect(() => {
-    // Check if all required fields are filled
     const valid = 
-      selectedCategory &&
-      selectedSubtype &&
-      targetingMode &&
-      (targetingMode !== 'aoe' || (aoeShape && aoeSize > 0)) &&
+      category && 
+      subtype &&
+      (targetingMode === 'single' || (targetingMode === 'aoe' && aoeShape && aoeSize > 0)) &&
       rangeType &&
-      (rangeType !== 'ranged' || rangeDistance > 0);
+      (rangeType !== 'ranged' || (rangeType === 'ranged' && rangeDistance > 0)) &&
+      (category !== 'damage' || (category === 'damage' && damageTypes.length > 0));
     
     setIsValid(valid);
-    setStepValidation(1, valid);
-    
-    // Update spell data
+    setStepValidation(valid);
+  }, [
+    category, subtype, targetingMode, aoeShape, aoeSize,
+    rangeType, rangeDistance, damageTypes, setStepValidation
+  ]);
+  
+  // Update spell data when form inputs change
+  useEffect(() => {
     updateSpellData({
-      category: selectedCategory,
-      subtype: selectedSubtype,
+      category,
+      subtype,
       targetingMode,
       aoeShape: targetingMode === 'aoe' ? aoeShape : '',
       aoeSize: targetingMode === 'aoe' ? aoeSize : 0,
       rangeType,
-      range: rangeDistance,
-      durationRounds,
-      durationRealTime,
-      durationUnit,
-      
-      // Set these flags based on subtype
-      isDot: selectedCategory === 'damage' && selectedSubtype === 'dot',
-      healing: {
-        ...spellData.healing,
-        isHoT: selectedCategory === 'healing' && selectedSubtype === 'hot'
-      }
+      range: rangeType === 'ranged' ? rangeDistance : 
+             rangeType === 'melee' ? 5 : 0,
+      damageTypes
     });
   }, [
-    selectedCategory, selectedSubtype, targetingMode, 
-    aoeShape, aoeSize, rangeType, rangeDistance,
-    durationRounds, durationRealTime, durationUnit,
-    spellData.healing, updateSpellData, setStepValidation
+    category, subtype, targetingMode, aoeShape, aoeSize,
+    rangeType, rangeDistance, damageTypes, updateSpellData
   ]);
+  
+  // Show tooltip
+  const showTooltip = (e, title, content) => {
+    setTooltip({
+      visible: true,
+      title,
+      content,
+      position: {
+        x: e.currentTarget.getBoundingClientRect().right + 10,
+        y: e.clientY
+      }
+    });
+  };
+  
+  // Hide tooltip
+  const hideTooltip = () => {
+    setTooltip(prev => ({ ...prev, visible: false }));
+  };
   
   // Handle category selection
   const handleCategorySelect = (categoryId) => {
-    setSelectedCategory(categoryId);
-    setSelectedSubtype(''); // Reset subtype when category changes
+    setCategory(categoryId);
+    setSubtype(''); // Reset subtype when category changes
+    
+    // Reset damage types if changing from damage category
+    if (categoryId !== 'damage') {
+      setDamageTypes([]);
+    }
+    
+    // Set appropriate targeting mode for certain subtypes
+    if (categoryId === 'buff' || categoryId === 'utility') {
+      setTargetingMode('single');
+    }
   };
   
   // Handle subtype selection
   const handleSubtypeSelect = (subtypeId) => {
-    setSelectedSubtype(subtypeId);
+    setSubtype(subtypeId);
     
     // Automatically set targeting mode for AoE subtypes
     if (subtypeId === 'aoe') {
@@ -127,68 +163,24 @@ const Step2PrimaryFunction = () => {
     }
   };
   
-  // Handle targeting mode selection
-  const handleTargetingModeSelect = (modeId) => {
-    setTargetingMode(modeId);
+  // Toggle damage type selection
+  const toggleDamageType = (typeId) => {
+    setDamageTypes(prev => {
+      if (prev.includes(typeId)) {
+        return prev.filter(id => id !== typeId);
+      } else {
+        return [...prev, typeId];
+      }
+    });
   };
   
-  // Handle AOE shape selection
-  const handleAOEShapeSelect = (shapeId) => {
-    setAoeShape(shapeId);
-  };
-  
-  // Handle AOE size change
-  const handleAoeSizeChange = (e) => {
-    const value = e.target.value === '' ? 0 : Number(e.target.value);
-    if (!isNaN(value) && value > 0) {
-      setAoeSize(value);
-    }
-  };
-  
-  // Handle range type selection
-  const handleRangeTypeSelect = (type) => {
-    setRangeType(type);
-    
-    // Set default ranges based on type
-    if (type === 'melee') {
-      setRangeDistance(5);
-    } else if (type === 'touch' || type === 'self') {
-      setRangeDistance(0);
-    } else if (type === 'global') {
-      setRangeDistance(0);
-    } else if (rangeDistance === 0) {
-      setRangeDistance(30); // Default ranged distance
-    }
-  };
-  
-  // Handle range distance input
-  const handleRangeDistanceChange = (e) => {
-    const value = e.target.value === '' ? 0 : Number(e.target.value);
-    if (!isNaN(value) && value >= 0) {
-      setRangeDistance(value);
-    }
-  };
-  
-  // Handle duration changes
-  const handleDurationRoundsChange = (e) => {
-    const value = parseInt(e.target.value);
-    setDurationRounds(isNaN(value) ? 0 : value);
-  };
-  
-  // Handle real-time duration changes
-  const handleRealTimeChange = (e) => {
-    const value = parseInt(e.target.value);
-    setDurationRealTime(isNaN(value) ? 0 : value);
-  };
-  
-  // Handle duration unit changes
-  const handleDurationUnitChange = (e) => {
-    setDurationUnit(e.target.value);
+  // Get available subtypes based on selected category
+  const getAvailableSubtypes = () => {
+    return SUBTYPES[category] || [];
   };
   
   return (
     <div className="primary-function-step">
-      {/* Primary Function Section */}
       <div className="section">
         <h4 className="section-title">Primary Function</h4>
         <p className="section-description">
@@ -196,36 +188,77 @@ const Step2PrimaryFunction = () => {
         </p>
         
         <div className="category-options">
-          {SPELL_CATEGORIES.map((category) => (
+          {SPELL_CATEGORIES.map((categoryItem) => (
             <div 
-              key={category.id}
-              className={`category-option ${selectedCategory === category.id ? 'selected' : ''}`}
-              onClick={() => handleCategorySelect(category.id)}
+              key={categoryItem.id}
+              className={`category-option ${category === categoryItem.id ? 'selected' : ''}`}
+              onClick={() => handleCategorySelect(categoryItem.id)}
+              onMouseEnter={(e) => showTooltip(e, categoryItem.name, categoryItem.description)}
+              onMouseLeave={hideTooltip}
             >
-              <div className="category-name">{category.name}</div>
-              <div className="category-description">{category.description}</div>
+              <div className="category-name">{categoryItem.name}</div>
+              <div className="category-description">{categoryItem.description}</div>
             </div>
           ))}
         </div>
       </div>
       
-      {/* Specific Type Section - show after category is selected */}
-      {selectedCategory && (
+      {/* Subtypes - show if category is selected */}
+      {category && (
         <div className="section">
-          <h4 className="section-title">Specific Type</h4>
+          <h5 className="subsection-title">Specific Type</h5>
           <p className="section-description">
-            Select the specific type of {SPELL_CATEGORIES.find(c => c.id === selectedCategory)?.name.toLowerCase()} spell.
+            Select the specific type of {category} spell to refine its function.
           </p>
           
           <div className="subtype-options">
-            {SPELL_CATEGORIES.find(c => c.id === selectedCategory)?.subtypes.map((subtype) => (
+            {getAvailableSubtypes().map((subtypeItem) => (
               <div 
-                key={subtype.id}
-                className={`subtype-option ${selectedSubtype === subtype.id ? 'selected' : ''}`}
-                onClick={() => handleSubtypeSelect(subtype.id)}
+                key={subtypeItem.id}
+                className={`subtype-option ${subtype === subtypeItem.id ? 'selected' : ''}`}
+                onClick={() => handleSubtypeSelect(subtypeItem.id)}
+                onMouseEnter={(e) => showTooltip(e, subtypeItem.name, subtypeItem.description)}
+                onMouseLeave={hideTooltip}
               >
-                <div className="subtype-name">{subtype.name}</div>
-                <div className="subtype-description">{subtype.description}</div>
+                <div className="subtype-name">{subtypeItem.name}</div>
+                <div className="subtype-description">{subtypeItem.description}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Damage Types - show if damage category is selected */}
+      {category === 'damage' && (
+        <div className="section">
+          <h5 className="subsection-title">Damage Types</h5>
+          <p className="section-description">
+            Select one or more damage types for your spell.
+          </p>
+          
+          <div className="damage-types-grid">
+            {DAMAGE_TYPES.map((damageType) => (
+              <div 
+                key={damageType.id}
+                className={`damage-type-option ${damageTypes.includes(damageType.id) ? 'selected' : ''}`}
+                onClick={() => toggleDamageType(damageType.id)}
+                onMouseEnter={(e) => showTooltip(e, damageType.name, damageType.description)}
+                onMouseLeave={hideTooltip}
+                style={{
+                  '--type-color': damageType.color,
+                  '--type-color-rgb': damageType.id === 'fire' ? '255, 69, 0' :
+                                     damageType.id === 'frost' ? '0, 191, 255' :
+                                     damageType.id === 'arcane' ? '153, 50, 204' :
+                                     damageType.id === 'nature' ? '50, 205, 50' :
+                                     damageType.id === 'shadow' ? '128, 0, 128' :
+                                     damageType.id === 'holy' ? '255, 215, 0' :
+                                     '192, 192, 192'
+                }}
+              >
+                <div className="damage-type-icon">{damageType.icon}</div>
+                <div className="damage-type-name" style={{ color: damageType.color }}>
+                  {damageType.name}
+                </div>
               </div>
             ))}
           </div>
@@ -233,204 +266,174 @@ const Step2PrimaryFunction = () => {
       )}
       
       {/* Range & Targeting Section - show after subtype is selected */}
-      {selectedSubtype && (
+      {subtype && (
         <div className="section">
-          <h4 className="section-title">Range & Targeting</h4>
+          <h5 className="subsection-title">Range & Targeting</h5>
           <p className="section-description">
             Define how your spell targets its recipients and its effective range.
           </p>
           
-          {/* Range Type Selection */}
-          <div className="range-types">
-            <h5>Range Type</h5>
-            <div className="range-type-options">
-              {RANGE_TYPES.map(type => (
-                <div 
-                  key={type.id}
-                  className={`range-type-option ${rangeType === type.id ? 'selected' : ''}`}
-                  onClick={() => handleRangeTypeSelect(type.id)}
-                >
-                  <div className="range-type-icon">{type.icon}</div>
-                  <div className="range-type-info">
-                    <div className="range-type-name">{type.name}</div>
-                    <div className="range-type-description">{type.description}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Range Distance - only for ranged spells */}
-          {rangeType === 'ranged' && (
-            <div className="range-distance">
-              <label>Range Distance (feet):</label>
-              <input
-                type="number"
-                min="0"
-                value={rangeDistance}
-                onChange={handleRangeDistanceChange}
-                className="range-input"
-              />
-              <div className="range-examples">
-                <span className="example">Short: 15-30 ft</span>
-                <span className="example">Medium: 60-90 ft</span>
-                <span className="example">Long: 120+ ft</span>
-              </div>
-            </div>
-          )}
-          
-          {/* Targeting Mode Selection - not for self spells */}
-          {rangeType !== 'self' && (
-            <div className="targeting-section">
-              <h5>Targeting Mode</h5>
+          <div className="form-row">
+            <div className="form-group">
+              <label 
+                onMouseEnter={(e) => showTooltip(e, 'Targeting Mode', 'Determines whether your spell affects a single target or multiple targets in an area.')}
+                onMouseLeave={hideTooltip}
+              >
+                Targeting Mode:
+              </label>
               <div className="targeting-options">
-                {TARGETING_MODES.map((mode) => (
-                  <div 
-                    key={mode.id}
-                    className={`targeting-option ${targetingMode === mode.id ? 'selected' : ''}`}
-                    onClick={() => handleTargetingModeSelect(mode.id)}
-                  >
-                    <div className="targeting-name">{mode.name}</div>
-                    <div className="targeting-description">{mode.description}</div>
-                  </div>
-                ))}
+                <label className="radio-option">
+                  <input 
+                    type="radio" 
+                    checked={targetingMode === 'single'}
+                    onChange={() => setTargetingMode('single')}
+                  />
+                  <span>Single Target</span>
+                </label>
+                <label className="radio-option">
+                  <input 
+                    type="radio" 
+                    checked={targetingMode === 'aoe'}
+                    onChange={() => setTargetingMode('aoe')}
+                  />
+                  <span>Area of Effect</span>
+                </label>
               </div>
-            </div>
-          )}
-          
-          {/* AOE Options - only if targeting mode is AOE */}
-          {targetingMode === 'aoe' && (
-            <div className="aoe-options">
-              <h5>Area of Effect Shape</h5>
-              <div className="aoe-shapes">
-                {AOE_SHAPES.map(shape => (
-                  <div 
-                    key={shape.id}
-                    className={`aoe-shape-option ${aoeShape === shape.id ? 'selected' : ''}`}
-                    onClick={() => handleAOEShapeSelect(shape.id)}
-                  >
-                    <div className="aoe-shape-icon">{shape.icon}</div>
-                    <div className="aoe-shape-info">
-                      <div className="aoe-shape-name">{shape.name}</div>
-                      <div className="aoe-shape-description">{shape.description}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="aoe-size">
-                <label>Area Size (feet):</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={aoeSize}
-                  onChange={handleAoeSizeChange}
-                  className="aoe-input"
-                />
-                <div className="aoe-size-description">
-                  {aoeShape === 'circle' && (
-                    <span>Radius of the circular area</span>
-                  )}
-                  {aoeShape === 'cone' && (
-                    <span>Length of the cone from caster</span>
-                  )}
-                  {aoeShape === 'line' && (
-                    <span>Length of the line</span>
-                  )}
-                  {aoeShape === 'custom' && (
-                    <span>Approximate diameter of the affected area</span>
-                  )}
-                </div>
-              </div>
-              
-              {/* AOE visual preview */}
-              <div className="aoe-preview">
-                <div className="preview-label">Visual Preview:</div>
-                <div className="preview-container">
-                  <div className={`preview-${aoeShape}`} style={
-                    aoeShape === 'circle' ? { width: `${Math.min(100, aoeSize * 2)}px`, height: `${Math.min(100, aoeSize * 2)}px` } :
-                    aoeShape === 'cone' ? { width: `${Math.min(100, aoeSize)}px`, height: `${Math.min(100, aoeSize)}px` } :
-                    aoeShape === 'line' ? { width: `${Math.min(150, aoeSize * 2)}px`, height: '10px' } :
-                    { width: '80px', height: '80px' }
-                  }>
-                    <div className="caster-point"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-      
-      {/* Duration Section - show after targeting is set */}
-      {rangeType && (
-        <div className="section">
-          <h4 className="section-title">Duration</h4>
-          <p className="section-description">
-            Define how long the spell's effects last, both in combat rounds and real-time.
-          </p>
-          
-          <div className="duration-inputs">
-            <div className="duration-input-group">
-              <label>Combat Rounds:</label>
-              <input 
-                type="number" 
-                value={durationRounds} 
-                onChange={handleDurationRoundsChange}
-                min="0"
-                className="duration-input"
-              />
-              <span className="duration-hint">
-                (0 = Instantaneous)
-              </span>
             </div>
             
-            <div className="duration-input-group">
-              <label>Real Time:</label>
-              <div className="real-time-input">
-                <input 
-                  type="number" 
-                  value={durationRealTime} 
-                  onChange={handleRealTimeChange}
-                  min="0"
-                  className="duration-input"
-                />
-                <select 
-                  value={durationUnit} 
-                  onChange={handleDurationUnitChange}
-                  className="duration-unit"
-                >
-                  <option value="seconds">Seconds</option>
-                  <option value="minutes">Minutes</option>
-                  <option value="hours">Hours</option>
-                </select>
-              </div>
-              <span className="duration-hint">
-                (0 = Instantaneous)
-              </span>
+            <div className="form-group">
+              <label 
+                onMouseEnter={(e) => showTooltip(e, 'Range Type', 'Defines how far away the spell can be cast.')}
+                onMouseLeave={hideTooltip}
+              >
+                Range Type:
+              </label>
+              <select 
+                value={rangeType}
+                onChange={(e) => setRangeType(e.target.value)}
+                className="range-type-select"
+              >
+                {RANGE_TYPES.map(type => (
+                  <option key={type.id} value={type.id}>{type.name}</option>
+                ))}
+              </select>
             </div>
+            
+            {/* Range Distance - only show for ranged spells */}
+            {rangeType === 'ranged' && (
+              <div className="form-group">
+                <label 
+                  onMouseEnter={(e) => showTooltip(e, 'Range Distance', 'The maximum distance in feet at which this spell can be cast.')}
+                  onMouseLeave={hideTooltip}
+                >
+                  Range (feet):
+                </label>
+                <input 
+                  type="number"
+                  min="1"
+                  value={rangeDistance}
+                  onChange={(e) => setRangeDistance(Math.max(1, parseInt(e.target.value) || 0))}
+                  className="range-input"
+                />
+                <div className="range-examples">
+                  <span className="example">Short: 15-30 ft</span>
+                  <span className="example">Medium: 60-90 ft</span>
+                  <span className="example">Long: 120+ ft</span>
+                </div>
+              </div>
+            )}
           </div>
+          
+          {/* AOE Shape Selection - only if targeting mode is AOE */}
+          {targetingMode === 'aoe' && (
+            <div className="aoe-settings">
+              <div className="form-row">
+                <div className="form-group">
+                  <label 
+                    onMouseEnter={(e) => showTooltip(e, 'AoE Shape', 'The shape of the area affected by your spell.')}
+                    onMouseLeave={hideTooltip}
+                  >
+                    Area Shape:
+                  </label>
+                  <select 
+                    value={aoeShape}
+                    onChange={(e) => setAoeShape(e.target.value)}
+                    className="aoe-shape-select"
+                  >
+                    {AOE_SHAPES.map(shape => (
+                      <option key={shape.id} value={shape.id}>{shape.name}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="form-group">
+                  <label 
+                    onMouseEnter={(e) => showTooltip(e, 'AoE Size', 'The size of the area affected by your spell, in feet.')}
+                    onMouseLeave={hideTooltip}
+                  >
+                    Area Size (feet):
+                  </label>
+                  <input 
+                    type="number"
+                    min="1"
+                    value={aoeSize}
+                    onChange={(e) => setAoeSize(Math.max(1, parseInt(e.target.value) || 0))}
+                    className="aoe-input"
+                  />
+                </div>
+              </div>
+              
+              {/* AOE Preview */}
+              <div className="aoe-preview">
+                <div className="preview-label">Area Preview:</div>
+                <div className="preview-container">
+                  <div 
+                    className={`preview-${aoeShape}`} 
+                    style={{
+                      width: aoeShape === 'circle' ? `${Math.min(150, aoeSize * 2)}px` : 
+                             aoeShape === 'square' ? `${Math.min(150, aoeSize * 2)}px` :
+                             aoeShape === 'line' ? `${Math.min(150, aoeSize * 2)}px` : '0',
+                      height: aoeShape === 'circle' ? `${Math.min(150, aoeSize * 2)}px` : 
+                              aoeShape === 'square' ? `${Math.min(150, aoeSize * 2)}px` :
+                              aoeShape === 'line' ? '10px' : '0',
+                      borderRadius: aoeShape === 'circle' ? '50%' : aoeShape === 'square' ? '0' : '0'
+                    }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
       
       {/* Validation message */}
-      {!isValid && (
+      {!isValid && category && (
         <div className="validation-message">
-          {!selectedCategory ? (
-            <p>Please select a spell category.</p>
-          ) : !selectedSubtype ? (
-            <p>Please select a specific spell type.</p>
-          ) : !rangeType ? (
-            <p>Please select a range type.</p>
+          {!subtype ? (
+            <p>Please select a specific type for your {category} spell.</p>
+          ) : category === 'damage' && damageTypes.length === 0 ? (
+            <p>Please select at least one damage type.</p>
+          ) : targetingMode === 'aoe' && (!aoeShape || aoeSize <= 0) ? (
+            <p>Please select a shape and size for your area of effect.</p>
           ) : rangeType === 'ranged' && (!rangeDistance || rangeDistance <= 0) ? (
             <p>Please specify a valid range for your spell.</p>
-          ) : targetingMode === 'aoe' && (!aoeShape || aoeSize <= 0) ? (
-            <p>Please configure the area of effect properties.</p>
           ) : (
             <p>Please complete all required fields to proceed.</p>
           )}
         </div>
       )}
+      
+      {/* Tooltip */}
+      <div 
+        className={`spell-tooltip ${tooltip.visible ? 'visible' : ''}`}
+        style={{
+          top: tooltip.position.y,
+          left: tooltip.position.x
+        }}
+      >
+        {tooltip.title && <div className="tooltip-title">{tooltip.title}</div>}
+        {tooltip.content && <div className="tooltip-content">{tooltip.content}</div>}
+      </div>
     </div>
   );
 };

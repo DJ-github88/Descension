@@ -202,13 +202,17 @@ const DiceCalculator = ({
           <div className={`example ${rollAnimation ? 'pulse-effect' : ''}`}>
             Example Roll: <strong>{rollAnimation ? 'Rolling...' : preview.example}</strong>
             <button 
-              className="roll-again-btn" 
-              onClick={rollNewExample}
-              title="Roll Again"
-              disabled={rollAnimation}
-            >
-              🎲
-            </button>
+  className="roll-again-btn" 
+  onClick={rollNewExample}
+  title="Roll Again"
+  disabled={rollAnimation}
+>
+  <img 
+    src="https://wow.zamimg.com/images/wow/icons/small/inv_misc_dice_01.jpg"
+    alt="Roll"
+    className="dice-icon"
+  />
+</button>
           </div>
         </div>
       )}
