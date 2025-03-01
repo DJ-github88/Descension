@@ -96,23 +96,6 @@ const SpellPreview = ({ spellData }) => {
   return (
     <div className="spell-preview-container">
       <div className="spell-preview" ref={previewRef}>
-        <div className="spell-header">
-          {spellData.icon ? (
-            <img src={spellData.icon} alt="" className="spell-icon" />
-          ) : (
-            <div className="spell-icon-placeholder"></div>
-          )}
-          
-          <div className="spell-title">
-            <h3>{spellData.name || 'Unnamed Spell'}</h3>
-            <div className="spell-source">
-              {spellData.source === 'class' && getClassName()}
-              {spellData.source === 'monster' && spellData.monsterType}
-              {spellData.spellType && ` · ${getSpellTypeName()}`}
-            </div>
-          </div>
-        </div>
-        
         <div className="spell-body">
           {spellData.description ? (
             <div className="spell-description">{spellData.description}</div>
@@ -209,8 +192,6 @@ const SpellPreview = ({ spellData }) => {
               {spellData.primaryDamage.flat > 0 && spellData.primaryDamage.flat}
             </div>
           )}
-          
-          {/* Add more stats as needed */}
           
           {spellData.flavorText && (
             <div className="spell-flavor">"{spellData.flavorText}"</div>

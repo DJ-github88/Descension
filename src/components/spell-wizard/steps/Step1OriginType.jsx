@@ -57,7 +57,36 @@ const Step1OriginType = () => {
   
   // Local state for tracking validation
   const [isValid, setIsValid] = useState(false);
+  const getClassName = (classId) => {
+    if (!classId) return '';
+    
+    const classMap = {
+      'pyrofiend': 'Pyrofiend',
+      'gambler': 'Gambler',
+      'fateweaver': 'Fate Weaver',
+      'stormbringer': 'Stormbringer',
+      'berserker': 'Berserker',
+      'shadowdancer': 'Shadowdancer',
+      'elementalist': 'Elementalist'
+    };
+    
+    return classMap[classId] || classId;
+  };
   
+  const getSpellTypeName = (typeId) => {
+    if (!typeId) return '';
+    
+    const typeMap = {
+      'active': 'Active Ability',
+      'passive': 'Passive Ability',
+      'aura': 'Aura',
+      'ultimate': 'Ultimate Ability',
+      'reaction': 'Reaction',
+      'ritual': 'Ritual'
+    };
+    
+    return typeMap[typeId] || typeId;
+  };
   // Update validation status
   useEffect(() => {
     const valid = 
@@ -373,13 +402,35 @@ const Step1OriginType = () => {
       
       {/* Side Preview Panel */}
       <div className="wizard-side-panel">
-        <div className="spell-preview-container">
-          <h3 className="preview-title">
-            <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_magicalsentry.jpg" alt="" />
-            Spell Preview
-          </h3>
-          <SpellPreview spellData={spellData} />
-        </div>
+      <div className="spell-preview-container">
+  <div className="spell-header">
+    {spellData.icon ? (
+      <img 
+        src={`https://wow.zamimg.com/images/wow/icons/medium/${spellData.icon}.jpg`} 
+        alt=""
+        className="spell-icon"
+        onError={(e) => {
+          e.target.src = 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg';
+        }}
+      />
+    ) : (
+      <img 
+        src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg" 
+        alt=""
+        className="spell-icon"
+      />
+    )}
+    <div className="spell-header-info">
+      <h3 className="spell-name">{spellData.name || 'Unnamed Spell'}</h3>
+      <div className="spell-subtitle">
+        {spellData.source === 'class' && spellData.class && getClassName(spellData.class)}
+        {spellData.source === 'monster' && spellData.monsterType}
+        {spellData.spellType && ` · ${getSpellTypeName(spellData.spellType)}`}
+      </div>
+    </div>
+  </div>
+  <SpellPreview spellData={spellData} />
+</div>
         
         <div className="wizard-help-panel">
           <h4>
