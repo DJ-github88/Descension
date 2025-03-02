@@ -1,11 +1,416 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useSpellWizardStore from '../../../store/spellWizardStore';
-import { EffectSelector, AuraBuilder, TriggerBuilder, StepNavigation } from '../common';
+import { StepNavigation } from '../common';
 import '../styles/spell-wizard.css';
-import { getAllStatusEffects, getStatusEffectsByType } from '../../../data/statusEffects';
-import { formatProcChance } from '../../../utils/diceUtils';
 
-// Advanced spell behaviors (from original Step9Advanced)
+// Constants for status effects categorized by game system
+const STATUS_EFFECTS = {
+  // D&D 5e Core Conditions
+  DND: {
+    blinded: {
+      id: 'blinded',
+      name: 'Blinded',
+      description: 'Target can\'t see and automatically fails ability checks that require sight',
+      icon: 'ability_racial_darkvision',
+      color: '#8B4513',
+      severity: 'major',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    charmed: {
+      id: 'charmed',
+      name: 'Charmed',
+      description: 'Target can\'t attack the charmer and the charmer has advantage on social interactions',
+      icon: 'spell_shadow_charm',
+      color: '#FF69B4',
+      severity: 'major',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    frightened: {
+      id: 'frightened',
+      name: 'Frightened',
+      description: 'Target has disadvantage on ability checks and attack rolls while source of fear is visible',
+      icon: 'spell_shadow_possession',
+      color: '#800080',
+      severity: 'major',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    paralyzed: {
+      id: 'paralyzed',
+      name: 'Paralyzed',
+      description: 'Target is incapacitated, can\'t move or speak, and fails Strength and Dexterity saving throws',
+      icon: 'spell_nature_slowingtotem',
+      color: '#4682B4',
+      severity: 'extreme',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    poisoned: {
+      id: 'poisoned',
+      name: 'Poisoned',
+      description: 'Target has disadvantage on attack rolls and ability checks',
+      icon: 'ability_rogue_deadlypoison',
+      color: '#32CD32',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    stunned: {
+      id: 'stunned',
+      name: 'Stunned',
+      description: 'Target is incapacitated, can\'t move, and fails Strength and Dexterity saving throws',
+      icon: 'ability_monk_cracklingjadelightning',
+      color: '#FFD700',
+      severity: 'extreme',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    unconscious: {
+      id: 'unconscious',
+      name: 'Unconscious',
+      description: 'Target is incapacitated, unaware of surroundings, and drops everything',
+      icon: 'spell_shadow_painspike',
+      color: '#2F4F4F',
+      severity: 'extreme',
+      type: 'debuff',
+      game: 'dnd'
+    },
+  },
+  
+  // Pathfinder 2e Specific Conditions
+  PATHFINDER: {
+    clumsy: {
+      id: 'clumsy',
+      name: 'Clumsy',
+      description: 'Target takes a status penalty to Dexterity-based checks and DCs',
+      icon: 'ability_rogue_trip',
+      color: '#CD853F',
+      severity: 'minor',
+      type: 'debuff',
+      game: 'pathfinder'
+    },
+    confused: {
+      id: 'confused',
+      name: 'Confused',
+      description: 'Target behaves randomly each turn, potentially attacking allies',
+      icon: 'spell_shadow_unholyfrenzy',
+      color: '#9370DB',
+      severity: 'major',
+      type: 'debuff',
+      game: 'pathfinder'
+    },
+    doomed: {
+      id: 'doomed',
+      name: 'Doomed',
+      description: 'Target\'s dying value when reduced to 0 HP increases by the doomed value',
+      icon: 'spell_shadow_soulleech_3',
+      color: '#8B0000',
+      severity: 'major',
+      type: 'debuff',
+      game: 'pathfinder'
+    },
+    enfeebled: {
+      id: 'enfeebled',
+      name: 'Enfeebled',
+      description: 'Target takes a status penalty to Strength-based checks and DCs',
+      icon: 'spell_shadow_curseofweakness',
+      color: '#A0522D',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'pathfinder'
+    },
+    slowed: {
+      id: 'slowed',
+      name: 'Slowed',
+      description: 'Target loses actions each turn based on the slowed value',
+      icon: 'spell_frost_arcticwinds',
+      color: '#1E90FF',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'pathfinder'
+    },
+    quickened: {
+      id: 'quickened',
+      name: 'Quickened',
+      description: 'Target gains one additional action each turn that can only be used for specific activities',
+      icon: 'spell_nature_haste',
+      color: '#FFD700',
+      severity: 'major',
+      type: 'buff',
+      game: 'pathfinder'
+    },
+    sickened: {
+      id: 'sickened',
+      name: 'Sickened',
+      description: 'Target takes a penalty to all checks and DCs and cannot willingly ingest anything',
+      icon: 'ability_creature_disease_01',
+      color: '#ADFF2F',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'pathfinder'
+    },
+  },
+  
+  // WoW MMO Style Effects
+  WOW: {
+    bleeding: {
+      id: 'bleeding',
+      name: 'Bleeding',
+      description: 'Target takes physical damage over time that cannot be resisted',
+      icon: 'ability_warrior_bloodfrenzy',
+      color: '#B22222',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'wow'
+    },
+    curse: {
+      id: 'curse',
+      name: 'Curse',
+      description: 'Target suffers a magical affliction that requires special removal',
+      icon: 'spell_shadow_curseofsargeras',
+      color: '#800080',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'wow'
+    },
+    silence: {
+      id: 'silence',
+      name: 'Silence',
+      description: 'Target cannot cast spells for the duration',
+      icon: 'spell_shadow_impphaseshift',
+      color: '#483D8B',
+      severity: 'major',
+      type: 'debuff',
+      game: 'wow'
+    },
+    root: {
+      id: 'root',
+      name: 'Root',
+      description: 'Target cannot move but can still take other actions',
+      icon: 'spell_nature_stranglevines',
+      color: '#006400',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'wow'
+    },
+    haste: {
+      id: 'haste',
+      name: 'Haste',
+      description: 'Target\'s attack and casting speed is increased',
+      icon: 'spell_nature_bloodlust',
+      color: '#FFD700',
+      severity: 'major',
+      type: 'buff',
+      game: 'wow'
+    },
+    fortitude: {
+      id: 'fortitude',
+      name: 'Fortitude',
+      description: 'Target\'s maximum health is increased',
+      icon: 'spell_holy_devotionaura',
+      color: '#CD5C5C',
+      severity: 'moderate',
+      type: 'buff',
+      game: 'wow'
+    },
+    shield: {
+      id: 'shield',
+      name: 'Arcane Shield',
+      description: 'Target absorbs a certain amount of damage before being affected',
+      icon: 'spell_holy_powerwordshield',
+      color: '#4169E1',
+      severity: 'major',
+      type: 'buff',
+      game: 'wow'
+    },
+  },
+  
+  // Common Buffs Across Games
+  BUFFS: {
+    regeneration: {
+      id: 'regeneration',
+      name: 'Regeneration',
+      description: 'Target regains health over time',
+      icon: 'spell_nature_rejuvenation',
+      color: '#32CD32',
+      severity: 'moderate',
+      type: 'buff',
+      game: 'common'
+    },
+    strength: {
+      id: 'strength',
+      name: 'Strength',
+      description: 'Target\'s physical damage and carrying capacity are increased',
+      icon: 'spell_nature_strength',
+      color: '#B22222',
+      severity: 'moderate',
+      type: 'buff',
+      game: 'common'
+    },
+    resistance: {
+      id: 'resistance',
+      name: 'Elemental Resistance',
+      description: 'Target has resistance to a certain elemental damage type',
+      icon: 'spell_fire_sealoffire',
+      color: '#DAA520',
+      severity: 'moderate',
+      type: 'buff',
+      game: 'common'
+    },
+    invisibility: {
+      id: 'invisibility',
+      name: 'Invisibility',
+      description: 'Target cannot be seen by normal sight',
+      icon: 'ability_vanish',
+      color: '#87CEEB',
+      severity: 'major',
+      type: 'buff',
+      game: 'common'
+    },
+    swiftness: {
+      id: 'swiftness',
+      name: 'Swiftness',
+      description: 'Target\'s movement speed is increased',
+      icon: 'ability_rogue_sprint',
+      color: '#1E90FF',
+      severity: 'moderate',
+      type: 'buff',
+      game: 'common'
+    },
+  },
+  
+  // Movement and Control Effects
+  MOVEMENT: {
+    prone: {
+      id: 'prone',
+      name: 'Prone',
+      description: 'Target is lying on the ground and has disadvantages in combat',
+      icon: 'ability_monk_paralysis',
+      color: '#8B4513',
+      severity: 'minor',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    restrained: {
+      id: 'restrained',
+      name: 'Restrained',
+      description: 'Target\'s speed is 0, attack rolls against it have advantage, and it has disadvantage on attacks',
+      icon: 'ability_druid_balanceofjustice',
+      color: '#2F4F4F',
+      severity: 'major',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    grappled: {
+      id: 'grappled',
+      name: 'Grappled',
+      description: 'Target\'s speed is 0 and it cannot benefit from bonuses to speed',
+      icon: 'ability_warrior_bullrush',
+      color: '#A52A2A',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'dnd'
+    },
+    levitate: {
+      id: 'levitate',
+      name: 'Levitate',
+      description: 'Target floats in the air and is immune to ground effects',
+      icon: 'spell_nature_levitate',
+      color: '#9370DB',
+      severity: 'moderate',
+      type: 'buff',
+      game: 'common'
+    },
+    flying: {
+      id: 'flying',
+      name: 'Flying',
+      description: 'Target has a flying speed and can move in three dimensions',
+      icon: 'ability_druid_flightform',
+      color: '#87CEEB',
+      severity: 'major',
+      type: 'buff',
+      game: 'common'
+    },
+    pushed: {
+      id: 'pushed',
+      name: 'Pushed',
+      description: 'Target is moved away from the source in a straight line',
+      icon: 'ability_monk_cracklingjadelightning',
+      color: '#4682B4',
+      severity: 'minor',
+      type: 'debuff',
+      game: 'common'
+    },
+    pulled: {
+      id: 'pulled',
+      name: 'Pulled',
+      description: 'Target is moved toward the source in a straight line',
+      icon: 'ability_warrior_charge',
+      color: '#8B4513',
+      severity: 'minor',
+      type: 'debuff',
+      game: 'common'
+    },
+  },
+  
+  // Elemental Damage Over Time Effects
+  DAMAGE_OVER_TIME: {
+    burning: {
+      id: 'burning',
+      name: 'Burning',
+      description: 'Target takes fire damage over time',
+      icon: 'spell_fire_immolation',
+      color: '#FF4500',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'common'
+    },
+    frost: {
+      id: 'frost',
+      name: 'Frost',
+      description: 'Target takes cold damage over time and is slowed',
+      icon: 'spell_frost_chillingblast',
+      color: '#00BFFF',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'common'
+    },
+    shock: {
+      id: 'shock',
+      name: 'Shock',
+      description: 'Target takes lightning damage over time and has reduced casting speed',
+      icon: 'spell_nature_lightningshield',
+      color: '#FFD700',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'common'
+    },
+    acid: {
+      id: 'acid',
+      name: 'Acid',
+      description: 'Target takes acid damage over time that reduces armor',
+      icon: 'spell_nature_acid_01',
+      color: '#32CD32',
+      severity: 'moderate',
+      type: 'debuff',
+      game: 'common'
+    },
+    necrotic: {
+      id: 'necrotic',
+      name: 'Necrotic',
+      description: 'Target takes necrotic damage over time and has reduced healing',
+      icon: 'spell_deathknight_necroticplague',
+      color: '#800080',
+      severity: 'major',
+      type: 'debuff',
+      game: 'common'
+    },
+  }
+};
+
+// Advanced behaviors for spells
 const ADVANCED_BEHAVIORS = [
   { 
     id: 'interact_environment', 
@@ -63,6 +468,37 @@ const ADVANCED_BEHAVIORS = [
   }
 ];
 
+// Helper functions for status effects
+const getAllStatusEffects = () => {
+  let allEffects = {};
+  Object.values(STATUS_EFFECTS).forEach(category => {
+    allEffects = { ...allEffects, ...category };
+  });
+  return allEffects;
+};
+
+const getStatusEffectsByType = (type) => {
+  const allEffects = getAllStatusEffects();
+  return Object.values(allEffects).filter(effect => effect.type === type);
+};
+
+const getStatusEffectsByCategory = (category) => {
+  return Object.values(STATUS_EFFECTS[category] || {});
+};
+
+// Format trigger chance for display
+const formatProcChance = (chance) => {
+  if (chance >= 100) return "Always triggers";
+  if (chance <= 0) return "Never triggers";
+  
+  if (chance === 50) return "Triggers 50% of the time (1 in 2 chance)";
+  if (chance === 25) return "Triggers 25% of the time (1 in 4 chance)";
+  if (chance === 20) return "Triggers 20% of the time (1 in 5 chance)";
+  if (chance === 10) return "Triggers 10% of the time (1 in 10 chance)";
+  
+  return `Triggers ${chance}% of the time`;
+};
+
 const Step5SecondaryEffects = () => {
   const { 
     spellData, 
@@ -75,6 +511,8 @@ const Step5SecondaryEffects = () => {
   // Local state for effect selections
   const [selectedBuffs, setSelectedBuffs] = useState(spellData.buffs || []);
   const [selectedDebuffs, setSelectedDebuffs] = useState(spellData.debuffs || []);
+  const [selectedMovementEffects, setSelectedMovementEffects] = useState(spellData.movementEffects || []);
+  const [selectedDamageOverTime, setSelectedDamageOverTime] = useState(spellData.damageOverTime || []);
   const [onHitTriggers, setOnHitTriggers] = useState(spellData.onHitTriggers || []);
   const [onDamageTriggers, setOnDamageTriggers] = useState(spellData.onDamageTriggers || []);
   const [auraEffects, setAuraEffects] = useState(spellData.auraEffects || []);
@@ -82,11 +520,19 @@ const Step5SecondaryEffects = () => {
   
   // UI State
   const [activeEffectTab, setActiveEffectTab] = useState('buffs');
+  const [activeCategory, setActiveCategory] = useState('BUFFS');
   const [showTriggerModal, setShowTriggerModal] = useState(false);
   const [showAuraModal, setShowAuraModal] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState({ title: '', description: '', examples: [] });
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [currentEditingTrigger, setCurrentEditingTrigger] = useState(null);
   const [currentEditingAura, setCurrentEditingAura] = useState(null);
   const [triggerType, setTriggerType] = useState('onHit');
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  // Refs
+  const tooltipRef = useRef(null);
   
   // Form state for trigger/aura editor
   const [triggerEffect, setTriggerEffect] = useState('');
@@ -114,6 +560,8 @@ const Step5SecondaryEffects = () => {
     updateSpellData({
       buffs: selectedBuffs,
       debuffs: selectedDebuffs,
+      movementEffects: selectedMovementEffects,
+      damageOverTime: selectedDamageOverTime,
       onHitTriggers: onHitTriggers,
       onDamageTriggers: onDamageTriggers,
       auraEffects: auraEffects,
@@ -121,13 +569,30 @@ const Step5SecondaryEffects = () => {
     });
   }, [
     selectedBuffs, 
-    selectedDebuffs, 
+    selectedDebuffs,
+    selectedMovementEffects,
+    selectedDamageOverTime,
     onHitTriggers, 
     onDamageTriggers, 
     auraEffects,
     selectedAdvancedBehaviors,
     updateSpellData
   ]);
+  
+  // Handle tooltip display
+  const handleMouseEnter = (e, title, description, examples = []) => {
+    const rect = e.target.getBoundingClientRect();
+    setTooltipContent({ title, description, examples });
+    setTooltipPosition({
+      x: rect.right + 15,
+      y: rect.top + (rect.height / 2)
+    });
+    setShowTooltip(true);
+  };
+  
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+  };
   
   // Reset trigger modal when opened
   useEffect(() => {
@@ -185,6 +650,28 @@ const Step5SecondaryEffects = () => {
         return prev.filter(id => id !== debuffId);
       } else {
         return [...prev, debuffId];
+      }
+    });
+  };
+  
+  // Toggle movement effect selection
+  const toggleMovementEffect = (effectId) => {
+    setSelectedMovementEffects(prev => {
+      if (prev.includes(effectId)) {
+        return prev.filter(id => id !== effectId);
+      } else {
+        return [...prev, effectId];
+      }
+    });
+  };
+  
+  // Toggle damage over time effect selection
+  const toggleDamageOverTime = (effectId) => {
+    setSelectedDamageOverTime(prev => {
+      if (prev.includes(effectId)) {
+        return prev.filter(id => id !== effectId);
+      } else {
+        return [...prev, effectId];
       }
     });
   };
@@ -327,6 +814,18 @@ const Step5SecondaryEffects = () => {
     }
   };
   
+  // Filter effects by search term
+  const filterEffectsBySearchTerm = (effects) => {
+    if (!searchTerm) return effects;
+    
+    const term = searchTerm.toLowerCase();
+    return effects.filter(effect => 
+      effect.name.toLowerCase().includes(term) || 
+      effect.description.toLowerCase().includes(term) ||
+      (effect.game && effect.game.toLowerCase().includes(term))
+    );
+  };
+  
   // Show suggested effects based on spell category and damage types
   const getSuggestedEffects = (effectType) => {
     const suggestions = [];
@@ -335,11 +834,11 @@ const Step5SecondaryEffects = () => {
     if (spellData.category) {
       if (effectType === 'buff') {
         if (spellData.category === 'buff' || spellData.category === 'healing') {
-          suggestions.push('regeneration', 'haste', 'protection', 'cleanse');
+          suggestions.push('regeneration', 'haste', 'shield', 'fortitude');
         }
       } else if (effectType === 'debuff') {
         if (spellData.category === 'debuff' || spellData.category === 'damage') {
-          suggestions.push('slow', 'poison', 'weak', 'vulnerable');
+          suggestions.push('slowed', 'weakness', 'vulnerable', 'sickened');
         }
       }
     }
@@ -350,14 +849,20 @@ const Step5SecondaryEffects = () => {
         if (spellData.damageTypes.includes('fire')) {
           suggestions.push('burning');
         }
-        if (spellData.damageTypes.includes('frost')) {
-          suggestions.push('slow', 'freeze');
+        if (spellData.damageTypes.includes('frost') || spellData.damageTypes.includes('cold')) {
+          suggestions.push('frost', 'slowed');
         }
         if (spellData.damageTypes.includes('poison')) {
-          suggestions.push('poison');
+          suggestions.push('poisoned');
         }
-        if (spellData.damageTypes.includes('shadow')) {
-          suggestions.push('fear', 'sleep');
+        if (spellData.damageTypes.includes('shadow') || spellData.damageTypes.includes('necrotic')) {
+          suggestions.push('necrotic', 'frightened');
+        }
+        if (spellData.damageTypes.includes('lightning') || spellData.damageTypes.includes('thunder')) {
+          suggestions.push('shock', 'stunned');
+        }
+        if (spellData.damageTypes.includes('acid')) {
+          suggestions.push('acid');
         }
       }
     }
@@ -369,61 +874,149 @@ const Step5SecondaryEffects = () => {
   const suggestedBuffs = getSuggestedEffects('buff');
   const suggestedDebuffs = getSuggestedEffects('debuff');
   
+  // Render categories for current active tab
+  const renderCategoryTabs = () => {
+    let categories = [];
+    
+    if (activeEffectTab === 'buffs') {
+      categories = [
+        { id: 'BUFFS', name: 'Common Buffs' },
+        { id: 'WOW', name: 'WoW-style' },
+        { id: 'PATHFINDER', name: 'Pathfinder' }
+      ];
+    } else if (activeEffectTab === 'debuffs') {
+      categories = [
+        { id: 'DND', name: 'D&D 5e' },
+        { id: 'PATHFINDER', name: 'Pathfinder' },
+        { id: 'WOW', name: 'WoW-style' }
+      ];
+    } else if (activeEffectTab === 'movement') {
+      categories = [
+        { id: 'MOVEMENT', name: 'Movement Effects' }
+      ];
+    } else if (activeEffectTab === 'dot') {
+      categories = [
+        { id: 'DAMAGE_OVER_TIME', name: 'Damage Over Time' }
+      ];
+    }
+    
+    return (
+      <div className="category-tabs">
+        {categories.map(category => (
+          <button
+            key={category.id}
+            className={`category-tab ${activeCategory === category.id ? 'active' : ''}`}
+            onClick={() => setActiveCategory(category.id)}
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
+    );
+  };
+  
   return (
     <div className="secondary-effects-step">
       <div className="section">
         <h4 className="section-title">Secondary Effects</h4>
         <p className="section-description">
-          Add buffs, debuffs, on-hit triggers, or aura effects to your spell.
+          Add buffs, debuffs, movement effects, damage over time, triggers, or aura effects to your spell.
         </p>
         
         <div className="effects-tabs">
           <button 
             className={`effect-tab ${activeEffectTab === 'buffs' ? 'active' : ''}`}
-            onClick={() => setActiveEffectTab('buffs')}
+            onClick={() => {
+              setActiveEffectTab('buffs');
+              setActiveCategory('BUFFS');
+              setSearchTerm('');
+            }}
           >
             Buffs
           </button>
           <button 
             className={`effect-tab ${activeEffectTab === 'debuffs' ? 'active' : ''}`}
-            onClick={() => setActiveEffectTab('debuffs')}
+            onClick={() => {
+              setActiveEffectTab('debuffs');
+              setActiveCategory('DND');
+              setSearchTerm('');
+            }}
           >
             Debuffs
           </button>
           <button 
+            className={`effect-tab ${activeEffectTab === 'movement' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveEffectTab('movement');
+              setActiveCategory('MOVEMENT');
+              setSearchTerm('');
+            }}
+          >
+            Movement
+          </button>
+          <button 
+            className={`effect-tab ${activeEffectTab === 'dot' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveEffectTab('dot');
+              setActiveCategory('DAMAGE_OVER_TIME');
+              setSearchTerm('');
+            }}
+          >
+            DoT
+          </button>
+          <button 
             className={`effect-tab ${activeEffectTab === 'triggers' ? 'active' : ''}`}
-            onClick={() => setActiveEffectTab('triggers')}
+            onClick={() => {
+              setActiveEffectTab('triggers');
+              setSearchTerm('');
+            }}
           >
             Triggers
           </button>
           <button 
             className={`effect-tab ${activeEffectTab === 'auras' ? 'active' : ''}`}
-            onClick={() => setActiveEffectTab('auras')}
+            onClick={() => {
+              setActiveEffectTab('auras');
+              setSearchTerm('');
+            }}
           >
             Auras
           </button>
           <button 
             className={`effect-tab ${activeEffectTab === 'advanced' ? 'active' : ''}`}
-            onClick={() => setActiveEffectTab('advanced')}
+            onClick={() => {
+              setActiveEffectTab('advanced');
+              setSearchTerm('');
+            }}
           >
             Advanced
           </button>
         </div>
         
         <div className="effects-content">
+          {/* Search Bar (displayed for Buffs, Debuffs, Movement, DoT tabs) */}
+          {['buffs', 'debuffs', 'movement', 'dot'].includes(activeEffectTab) && (
+            <div className="search-container">
+              <input 
+                type="text"
+                className="effect-search"
+                placeholder={`Search ${activeEffectTab}...`}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {renderCategoryTabs()}
+            </div>
+          )}
+          
           {/* Buffs Tab */}
           {activeEffectTab === 'buffs' && (
             <div className="buffs-tab">
-              <p className="tab-description">
-                Select beneficial effects that this spell applies to targets.
-              </p>
-              
               {suggestedBuffs.length > 0 && (
                 <div className="suggested-effects">
                   <h5>Suggested Buffs:</h5>
                   <div className="effect-tags">
                     {suggestedBuffs.map(buffId => {
-                      const buff = allEffects.find(e => e.id === buffId);
+                      const buff = allEffects[buffId];
                       if (!buff) return null;
                       
                       return (
@@ -432,6 +1025,8 @@ const Step5SecondaryEffects = () => {
                           className={`effect-tag ${selectedBuffs.includes(buffId) ? 'selected' : ''}`}
                           onClick={() => toggleBuff(buffId)}
                           style={{ backgroundColor: buff.color + '40' }}
+                          onMouseEnter={(e) => handleMouseEnter(e, buff.name, buff.description)}
+                          onMouseLeave={handleMouseLeave}
                         >
                           {buff.name}
                         </div>
@@ -442,25 +1037,47 @@ const Step5SecondaryEffects = () => {
               )}
               
               <div className="effects-grid">
-                {buffEffects.map(buff => (
-                  <div 
-                    key={buff.id}
-                    className={`effect-option ${selectedBuffs.includes(buff.id) ? 'selected' : ''}`}
-                    onClick={() => toggleBuff(buff.id)}
-                    style={{ 
-                      '--effect-color': buff.color,
-                      borderColor: selectedBuffs.includes(buff.id) ? buff.color : 'transparent'
-                    }}
-                  >
-                    <div className="effect-icon">
-                      {buff.icon && <img src={buff.icon} alt={buff.name} />}
+                {filterEffectsBySearchTerm(getStatusEffectsByCategory(activeCategory)).map(buff => {
+                  if (buff.type !== 'buff') return null;
+                  
+                  return (
+                    <div 
+                      key={buff.id}
+                      className={`effect-option ${selectedBuffs.includes(buff.id) ? 'selected' : ''}`}
+                      onClick={() => toggleBuff(buff.id)}
+                      style={{ 
+                        '--effect-color': buff.color,
+                        borderColor: selectedBuffs.includes(buff.id) ? buff.color : 'transparent'
+                      }}
+                      onMouseEnter={(e) => handleMouseEnter(e, buff.name, buff.description)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="effect-icon">
+                        <img 
+                          src={`https://wow.zamimg.com/images/wow/icons/large/${buff.icon || 'inv_misc_questionmark'}.jpg`}
+                          alt={buff.name}
+                          onError={(e) => {
+                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                          }}
+                        />
+                      </div>
+                      <div className="effect-info">
+                        <div className="effect-name" style={{ color: buff.color }}>{buff.name}</div>
+                        <div className="effect-description">{buff.description}</div>
+                        {buff.game && buff.game !== 'common' && (
+                          <div className="effect-source">
+                            {buff.game === 'dnd' ? 'D&D 5e' : 
+                             buff.game === 'pathfinder' ? 'Pathfinder' : 
+                             buff.game === 'wow' ? 'WoW-style' : buff.game}
+                          </div>
+                        )}
+                      </div>
+                      <div className="effect-severity" data-severity={buff.severity || 'moderate'}>
+                        {buff.severity}
+                      </div>
                     </div>
-                    <div className="effect-info">
-                      <div className="effect-name" style={{ color: buff.color }}>{buff.name}</div>
-                      <div className="effect-description">{buff.description}</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               
               {selectedBuffs.length === 0 && (
@@ -474,11 +1091,19 @@ const Step5SecondaryEffects = () => {
                   <h5>Selected Buffs:</h5>
                   <div className="selected-list">
                     {selectedBuffs.map(buffId => {
-                      const buff = allEffects.find(e => e.id === buffId);
+                      const buff = allEffects[buffId];
                       if (!buff) return null;
                       
                       return (
                         <div key={buffId} className="selected-item">
+                          <img 
+                            src={`https://wow.zamimg.com/images/wow/icons/small/${buff.icon || 'inv_misc_questionmark'}.jpg`}
+                            alt={buff.name}
+                            className="effect-icon-small"
+                            onError={(e) => {
+                              e.target.src = 'https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg';
+                            }}
+                          />
                           <span style={{ color: buff.color }}>{buff.name}</span>
                           <button 
                             className="remove-btn"
@@ -501,16 +1126,12 @@ const Step5SecondaryEffects = () => {
           {/* Debuffs Tab */}
           {activeEffectTab === 'debuffs' && (
             <div className="debuffs-tab">
-              <p className="tab-description">
-                Select negative effects that this spell applies to targets.
-              </p>
-              
               {suggestedDebuffs.length > 0 && (
                 <div className="suggested-effects">
                   <h5>Suggested Debuffs:</h5>
                   <div className="effect-tags">
                     {suggestedDebuffs.map(debuffId => {
-                      const debuff = allEffects.find(e => e.id === debuffId);
+                      const debuff = allEffects[debuffId];
                       if (!debuff) return null;
                       
                       return (
@@ -519,6 +1140,8 @@ const Step5SecondaryEffects = () => {
                           className={`effect-tag ${selectedDebuffs.includes(debuffId) ? 'selected' : ''}`}
                           onClick={() => toggleDebuff(debuffId)}
                           style={{ backgroundColor: debuff.color + '40' }}
+                          onMouseEnter={(e) => handleMouseEnter(e, debuff.name, debuff.description)}
+                          onMouseLeave={handleMouseLeave}
                         >
                           {debuff.name}
                         </div>
@@ -529,25 +1152,47 @@ const Step5SecondaryEffects = () => {
               )}
               
               <div className="effects-grid">
-                {debuffEffects.map(debuff => (
-                  <div 
-                    key={debuff.id}
-                    className={`effect-option ${selectedDebuffs.includes(debuff.id) ? 'selected' : ''}`}
-                    onClick={() => toggleDebuff(debuff.id)}
-                    style={{ 
-                      '--effect-color': debuff.color,
-                      borderColor: selectedDebuffs.includes(debuff.id) ? debuff.color : 'transparent'
-                    }}
-                  >
-                    <div className="effect-icon">
-                      {debuff.icon && <img src={debuff.icon} alt={debuff.name} />}
+                {filterEffectsBySearchTerm(getStatusEffectsByCategory(activeCategory)).map(debuff => {
+                  if (debuff.type !== 'debuff') return null;
+                  
+                  return (
+                    <div 
+                      key={debuff.id}
+                      className={`effect-option ${selectedDebuffs.includes(debuff.id) ? 'selected' : ''}`}
+                      onClick={() => toggleDebuff(debuff.id)}
+                      style={{ 
+                        '--effect-color': debuff.color,
+                        borderColor: selectedDebuffs.includes(debuff.id) ? debuff.color : 'transparent'
+                      }}
+                      onMouseEnter={(e) => handleMouseEnter(e, debuff.name, debuff.description)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="effect-icon">
+                        <img 
+                          src={`https://wow.zamimg.com/images/wow/icons/large/${debuff.icon || 'inv_misc_questionmark'}.jpg`}
+                          alt={debuff.name}
+                          onError={(e) => {
+                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                          }}
+                        />
+                      </div>
+                      <div className="effect-info">
+                        <div className="effect-name" style={{ color: debuff.color }}>{debuff.name}</div>
+                        <div className="effect-description">{debuff.description}</div>
+                        {debuff.game && debuff.game !== 'common' && (
+                          <div className="effect-source">
+                            {debuff.game === 'dnd' ? 'D&D 5e' : 
+                             debuff.game === 'pathfinder' ? 'Pathfinder' : 
+                             debuff.game === 'wow' ? 'WoW-style' : debuff.game}
+                          </div>
+                        )}
+                      </div>
+                      <div className="effect-severity" data-severity={debuff.severity || 'moderate'}>
+                        {debuff.severity}
+                      </div>
                     </div>
-                    <div className="effect-info">
-                      <div className="effect-name" style={{ color: debuff.color }}>{debuff.name}</div>
-                      <div className="effect-description">{debuff.description}</div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               
               {selectedDebuffs.length === 0 && (
@@ -561,17 +1206,198 @@ const Step5SecondaryEffects = () => {
                   <h5>Selected Debuffs:</h5>
                   <div className="selected-list">
                     {selectedDebuffs.map(debuffId => {
-                      const debuff = allEffects.find(e => e.id === debuffId);
+                      const debuff = allEffects[debuffId];
                       if (!debuff) return null;
                       
                       return (
                         <div key={debuffId} className="selected-item">
+                          <img 
+                            src={`https://wow.zamimg.com/images/wow/icons/small/${debuff.icon || 'inv_misc_questionmark'}.jpg`}
+                            alt={debuff.name}
+                            className="effect-icon-small"
+                            onError={(e) => {
+                              e.target.src = 'https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg';
+                            }}
+                          />
                           <span style={{ color: debuff.color }}>{debuff.name}</span>
                           <button 
                             className="remove-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleDebuff(debuffId);
+                            }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Movement Effects Tab */}
+          {activeEffectTab === 'movement' && (
+            <div className="movement-tab">
+              <p className="tab-description">
+                Select movement effects that this spell applies to targets.
+              </p>
+              
+              <div className="effects-grid">
+                {filterEffectsBySearchTerm(getStatusEffectsByCategory('MOVEMENT')).map(effect => (
+                  <div 
+                    key={effect.id}
+                    className={`effect-option ${selectedMovementEffects.includes(effect.id) ? 'selected' : ''}`}
+                    onClick={() => toggleMovementEffect(effect.id)}
+                    style={{ 
+                      '--effect-color': effect.color,
+                      borderColor: selectedMovementEffects.includes(effect.id) ? effect.color : 'transparent'
+                    }}
+                    onMouseEnter={(e) => handleMouseEnter(e, effect.name, effect.description)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div className="effect-icon">
+                      <img 
+                        src={`https://wow.zamimg.com/images/wow/icons/large/${effect.icon || 'inv_misc_questionmark'}.jpg`}
+                        alt={effect.name}
+                        onError={(e) => {
+                          e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                        }}
+                      />
+                    </div>
+                    <div className="effect-info">
+                      <div className="effect-name" style={{ color: effect.color }}>{effect.name}</div>
+                      <div className="effect-description">{effect.description}</div>
+                      {effect.game && effect.game !== 'common' && (
+                        <div className="effect-source">
+                          {effect.game === 'dnd' ? 'D&D 5e' : 
+                           effect.game === 'pathfinder' ? 'Pathfinder' : 
+                           effect.game === 'wow' ? 'WoW-style' : effect.game}
+                        </div>
+                      )}
+                    </div>
+                    <div className="effect-severity" data-severity={effect.severity || 'moderate'}>
+                      {effect.severity}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {selectedMovementEffects.length === 0 && (
+                <div className="empty-selection-message">
+                  No movement effects selected. Click on effects above to add them to your spell.
+                </div>
+              )}
+              
+              {selectedMovementEffects.length > 0 && (
+                <div className="selected-effects">
+                  <h5>Selected Movement Effects:</h5>
+                  <div className="selected-list">
+                    {selectedMovementEffects.map(effectId => {
+                      const effect = allEffects[effectId];
+                      if (!effect) return null;
+                      
+                      return (
+                        <div key={effectId} className="selected-item">
+                          <img 
+                            src={`https://wow.zamimg.com/images/wow/icons/small/${effect.icon || 'inv_misc_questionmark'}.jpg`}
+                            alt={effect.name}
+                            className="effect-icon-small"
+                            onError={(e) => {
+                              e.target.src = 'https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg';
+                            }}
+                          />
+                          <span style={{ color: effect.color }}>{effect.name}</span>
+                          <button 
+                            className="remove-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleMovementEffect(effectId);
+                            }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Damage Over Time Tab */}
+          {activeEffectTab === 'dot' && (
+            <div className="dot-tab">
+              <p className="tab-description">
+                Select damage over time effects that this spell applies to targets.
+              </p>
+              
+              <div className="effects-grid">
+                {filterEffectsBySearchTerm(getStatusEffectsByCategory('DAMAGE_OVER_TIME')).map(effect => (
+                  <div 
+                    key={effect.id}
+                    className={`effect-option ${selectedDamageOverTime.includes(effect.id) ? 'selected' : ''}`}
+                    onClick={() => toggleDamageOverTime(effect.id)}
+                    style={{ 
+                      '--effect-color': effect.color,
+                      borderColor: selectedDamageOverTime.includes(effect.id) ? effect.color : 'transparent'
+                    }}
+                    onMouseEnter={(e) => handleMouseEnter(e, effect.name, effect.description)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div className="effect-icon">
+                      <img 
+                        src={`https://wow.zamimg.com/images/wow/icons/large/${effect.icon || 'inv_misc_questionmark'}.jpg`}
+                        alt={effect.name}
+                        onError={(e) => {
+                          e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                        }}
+                      />
+                    </div>
+                    <div className="effect-info">
+                      <div className="effect-name" style={{ color: effect.color }}>{effect.name}</div>
+                      <div className="effect-description">{effect.description}</div>
+                    </div>
+                    <div className="effect-severity" data-severity={effect.severity || 'moderate'}>
+                      {effect.severity}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {selectedDamageOverTime.length === 0 && (
+                <div className="empty-selection-message">
+                  No damage over time effects selected. Click on effects above to add them to your spell.
+                </div>
+              )}
+              
+              {selectedDamageOverTime.length > 0 && (
+                <div className="selected-effects">
+                  <h5>Selected Damage Over Time Effects:</h5>
+                  <div className="selected-list">
+                    {selectedDamageOverTime.map(effectId => {
+                      const effect = allEffects[effectId];
+                      if (!effect) return null;
+                      
+                      return (
+                        <div key={effectId} className="selected-item">
+                          <img 
+                            src={`https://wow.zamimg.com/images/wow/icons/small/${effect.icon || 'inv_misc_questionmark'}.jpg`}
+                            alt={effect.name}
+                            className="effect-icon-small"
+                            onError={(e) => {
+                              e.target.src = 'https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg';
+                            }}
+                          />
+                          <span style={{ color: effect.color }}>{effect.name}</span>
+                          <button 
+                            className="remove-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleDamageOverTime(effectId);
                             }}
                           >
                             ×
@@ -780,6 +1606,8 @@ const Step5SecondaryEffects = () => {
                     key={behavior.id}
                     className={`behavior-option ${selectedAdvancedBehaviors.includes(behavior.id) ? 'selected' : ''}`}
                     onClick={() => toggleAdvancedBehavior(behavior.id)}
+                    onMouseEnter={(e) => handleMouseEnter(e, behavior.name, behavior.description, behavior.examples)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     <div className="behavior-name">{behavior.name}</div>
                     <div className="behavior-description">{behavior.description}</div>
@@ -800,7 +1628,7 @@ const Step5SecondaryEffects = () => {
         <div className="modal-overlay" onClick={() => setShowTriggerModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-            <h3>{currentEditingTrigger ? 'Edit Trigger' : 'Add Trigger'}</h3>
+              <h3>{currentEditingTrigger ? 'Edit Trigger' : 'Add Trigger'}</h3>
               <button className="close-modal-btn" onClick={() => setShowTriggerModal(false)}>×</button>
             </div>
             
@@ -960,6 +1788,29 @@ const Step5SecondaryEffects = () => {
         </div>
       )}
       
+      {/* Tooltip */}
+      {showTooltip && (
+        <div 
+          className="spell-tooltip"
+          ref={tooltipRef}
+          style={{
+            top: tooltipPosition.y,
+            left: tooltipPosition.x
+          }}
+        >
+          <div className="tooltip-header">
+            <div className="tooltip-title">{tooltipContent.title}</div>
+          </div>
+          <div className="tooltip-description">{tooltipContent.description}</div>
+          {tooltipContent.examples && tooltipContent.examples.length > 0 && (
+            <div className="tooltip-examples">
+              <span className="examples-label">Examples: </span>
+              {tooltipContent.examples.join(', ')}
+            </div>
+          )}
+        </div>
+      )}
+      
       {/* Advanced Behavior Details Panel */}
       {selectedAdvancedBehaviors.length > 0 && (
         <div className="section">
@@ -994,6 +1845,116 @@ const Step5SecondaryEffects = () => {
         </div>
       )}
       
+      {/* Effect Summary */}
+      {(selectedBuffs.length > 0 || selectedDebuffs.length > 0 || 
+        selectedMovementEffects.length > 0 || selectedDamageOverTime.length > 0 || 
+        onHitTriggers.length > 0 || onDamageTriggers.length > 0 || 
+        auraEffects.length > 0) && (
+        <div className="section">
+          <h4 className="section-title">Secondary Effects Summary</h4>
+          <div className="effects-summary">
+            {selectedBuffs.length > 0 && (
+              <div className="summary-category">
+                <h5>Buffs:</h5>
+                <div className="summary-tags">
+                  {selectedBuffs.map(buffId => {
+                    const buff = allEffects[buffId];
+                    if (!buff) return null;
+                    return (
+                      <span key={buffId} className="summary-tag" style={{ borderColor: buff.color }}>
+                        {buff.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            
+            {selectedDebuffs.length > 0 && (
+              <div className="summary-category">
+                <h5>Debuffs:</h5>
+                <div className="summary-tags">
+                  {selectedDebuffs.map(debuffId => {
+                    const debuff = allEffects[debuffId];
+                    if (!debuff) return null;
+                    return (
+                      <span key={debuffId} className="summary-tag" style={{ borderColor: debuff.color }}>
+                        {debuff.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            
+            {selectedMovementEffects.length > 0 && (
+              <div className="summary-category">
+                <h5>Movement Effects:</h5>
+                <div className="summary-tags">
+                  {selectedMovementEffects.map(effectId => {
+                    const effect = allEffects[effectId];
+                    if (!effect) return null;
+                    return (
+                      <span key={effectId} className="summary-tag" style={{ borderColor: effect.color }}>
+                        {effect.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            
+            {selectedDamageOverTime.length > 0 && (
+              <div className="summary-category">
+                <h5>Damage Over Time:</h5>
+                <div className="summary-tags">
+                  {selectedDamageOverTime.map(effectId => {
+                    const effect = allEffects[effectId];
+                    if (!effect) return null;
+                    return (
+                      <span key={effectId} className="summary-tag" style={{ borderColor: effect.color }}>
+                        {effect.name}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            
+            {(onHitTriggers.length > 0 || onDamageTriggers.length > 0) && (
+              <div className="summary-category">
+                <h5>Triggers:</h5>
+                <div className="summary-triggers">
+                  {onHitTriggers.map(trigger => (
+                    <span key={trigger.id} className="summary-trigger">
+                      On Hit: {trigger.effect} ({trigger.chance}%)
+                    </span>
+                  ))}
+                  {onDamageTriggers.map(trigger => (
+                    <span key={trigger.id} className="summary-trigger">
+                      On Damage: {trigger.effect} ({trigger.chance}%)
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {auraEffects.length > 0 && (
+              <div className="summary-category">
+                <h5>Auras:</h5>
+                <div className="summary-auras">
+                  {auraEffects.map(aura => (
+                    <span key={aura.id} className="summary-aura">
+                      {aura.name} ({aura.range}ft): {aura.effect}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      
       {/* Suggestions Based on Spell Type */}
       <div className="section effect-suggestions">
         <h4 className="section-title">Effect Recommendations</h4>
@@ -1014,7 +1975,7 @@ const Step5SecondaryEffects = () => {
                   <strong>AoE Damage:</strong> Consider "Terrain Modification" to leave damaging areas
                 </li>
                 <li>
-                  <strong>DoT Spells:</strong> Pair with "Conditional Effects" to deal extra damage to low health targets
+                  <strong>Single Target:</strong> Pair with "Conditional Effects" to deal extra damage to low health targets
                 </li>
               </ul>
             </div>
@@ -1029,10 +1990,28 @@ const Step5SecondaryEffects = () => {
                   <strong>Direct Healing:</strong> Add a short protective buff to increase effectiveness
                 </li>
                 <li>
-                  <strong>HoT Spells:</strong> Consider adding "Aura" effects to heal nearby allies
+                  <strong>Over Time:</strong> Consider adding "Aura" effects to heal nearby allies
                 </li>
                 <li>
                   <strong>Reactive Healing:</strong> Use "On-Damage Triggers" to provide automatic responses
+                </li>
+              </ul>
+            </div>
+          )}
+          
+          {/* Control Spell Recommendations */}
+          {spellData.category === 'debuff' && (
+            <div className="recommendation-card">
+              <h5>For Control Spells:</h5>
+              <ul>
+                <li>
+                  <strong>Movement Impairment:</strong> Combine "Slowed" with "Terrain Modification"
+                </li>
+                <li>
+                  <strong>Crowd Control:</strong> Use "Conditional Effects" to extend duration on key targets
+                </li>
+                <li>
+                  <strong>Debilitating Effects:</strong> Add "Combo Potential" to enhance other party members' abilities
                 </li>
               </ul>
             </div>
@@ -1047,10 +2026,28 @@ const Step5SecondaryEffects = () => {
                   <strong>Movement Spells:</strong> Add "Environmental Interaction" for more tactical options
                 </li>
                 <li>
-                  <strong>Control Spells:</strong> Consider "Dynamic Scaling" based on target stats
+                  <strong>Protection Spells:</strong> Consider "Dynamic Scaling" based on target stats
                 </li>
                 <li>
                   <strong>Transformation Spells:</strong> Use "Terrain Modification" to create passage ways
+                </li>
+              </ul>
+            </div>
+          )}
+          
+          {/* Buff Spell Recommendations */}
+          {spellData.category === 'buff' && (
+            <div className="recommendation-card">
+              <h5>For Buff Spells:</h5>
+              <ul>
+                <li>
+                  <strong>Stat Buffs:</strong> Add "Aura Effects" to extend benefits to allies
+                </li>
+                <li>
+                  <strong>Protection Buffs:</strong> Use "On-Damage Triggers" for reactive defenses
+                </li>
+                <li>
+                  <strong>Empowerment:</strong> Consider "Resource Interaction" to generate resources over time
                 </li>
               </ul>
             </div>
@@ -1061,13 +2058,13 @@ const Step5SecondaryEffects = () => {
             <h5>General Tips:</h5>
             <ul>
               <li>
-                <strong>Class Synergy:</strong> Choose effects that complement your class abilities
+                <strong>Game System Mixing:</strong> Combine effects from different systems for unique spells
               </li>
               <li>
-                <strong>Resource Management:</strong> Consider "Resource Interaction" for efficient spell usage
+                <strong>Thematic Consistency:</strong> Choose effects that match your spell's theme
               </li>
               <li>
-                <strong>Versatility:</strong> Mix defensive and offensive effects for adaptability
+                <strong>Complexity Balance:</strong> Limit to 2-3 major effects for clarity
               </li>
             </ul>
           </div>

@@ -1,41 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import useSpellWizardStore from '../../store/spellWizardStore';
-import { SpellPreview } from './common';
+
 import Step1OriginType from './steps/Step1OriginType';
-import Step2PrimaryFunction from './steps/Step2PrimaryFunction';
-import Step3ResourceSystem from './steps/Step3ResourceSystem';
-import Step4DamageHealing from './steps/Step4DamageHealing';
-import Step5SecondaryEffects from './steps/Step5SecondaryEffects';
-import Step6VisualAudio from './steps/Step6VisualAudio';
-import Step7FinalDetails from './steps/Step7FinalDetails';
-import Step8Preview from './steps/Step8Preview';
+import Step2CastingMechanics from './steps/Step2CastingMechanics';
+import Step3TargetingRange from './steps/Step3TargetingRange';
+import Step4EffectSystem from './steps/Step4EffectSystem';
+import Step5SecondaryEffects from './steps/Step5SecondaryEffects';  
+import Step6AdvancedMechanics from './steps/Step6AdvancedMechanics';
+import Step7VisualsAudio from './steps/Step7VisualsAudio';
+import Step8ReviewFinalize from './steps/Step8ReviewFinalize';
 import './styles/spell-wizard.css';
 import './styles/spell-wizard-layout.css';
 
 const SpellWizard = () => {
   // State for tracking the current step
   const [currentStep, setCurrentStep] = useState(0);
+  const [furthestStep, setFurthestStep] = useState(0);
   
-  // Get spellData from the store
-  const { spellData, isStepValid } = useSpellWizardStore();
+  // Get spellData and validation from the store
+  const { spellData, isStepValid, setStepValidation, canAccessStep } = useSpellWizardStore();
   
   // Navigation functions
   const nextStep = () => {
-    setCurrentStep(prev => Math.min(prev + 1, 7));
+    if (isStepValid(currentStep)) {
+      const nextStepIndex = Math.min(currentStep + 1, steps.length - 1);
+      setCurrentStep(nextStepIndex);
+      setFurthestStep(Math.max(furthestStep, nextStepIndex));
+    }
   };
   
   const prevStep = () => {
     setCurrentStep(prev => Math.max(prev - 1, 0));
   };
+
+  const goToStep = (index) => {
+    // Check if we can access this step
+    if (canAccessStep(index)) {
+      const targetStep = Math.min(Math.max(0, index), steps.length - 1);
+      setCurrentStep(targetStep);
+      if (targetStep > furthestStep) {
+        setFurthestStep(targetStep);
+      }
+    }
+  };
   
   // Labels for the progress steps
   const steps = [
     'Origin & Identity',
-    'Primary Function',
-    'Resources',
-    'Damage & Healing',
+    'Casting Mechanics',
+    'Targeting & Range',
+    'Effect System',
     'Secondary Effects',
-    'Visual & Audio',
+    'Advanced Mechanics',
+    'Visuals & Audio',
     'Final Details',
     'Preview'
   ];
@@ -44,36 +61,45 @@ const SpellWizard = () => {
   const getStepIcon = (stepIndex) => {
     const icons = [
       'inv_ability_hellcallerwarlock_wither', // Origin & Identity
-      'spell_arcane_prismaticcloak',        // Primary Function
-      'inv_elemental_mote_mana',            // Resources
-      'spell_fire_flameshock',              // Damage & Healing
+      'spell_arcane_prismaticcloak',        // Casting Mechanics
+      'ability_hunter_aimedshot',           // Targeting & Range
+      'spell_fire_flameshock',              // Effect System
       'spell_arcane_portaldarnassus',       // Secondary Effects
-      'inv_enchant_essencemagiclarge',      // Visual & Audio
-      'inv_inscription_minorglyph01',       // Final Details
-      'inv_misc_book_09'                    // Preview
+      'inv_enchant_essencemagiclarge',      // Advanced Mechanics
+      'inv_inscription_minorglyph01',       // Visuals & Audio
+      'inv_misc_book_09',                   // Final Details
+      'achievement_dungeon_icecrown_frostmourne' // Preview
     ];
     return icons[stepIndex] || 'inv_misc_questionmark';
   };
   
-  // Render the current step
+  // Render the current step with navigation props
   const renderStep = () => {
+    const commonProps = {
+      nextStep,
+      prevStep,
+      goToStep,
+      currentStep,
+      totalSteps: steps.length
+    };
+
     switch (currentStep) {
       case 0:
-        return <Step1OriginType />;
+        return <Step1OriginType {...commonProps} />;
       case 1:
-        return <Step2PrimaryFunction />;
+        return <Step2CastingMechanics {...commonProps} />;
       case 2:
-        return <Step3ResourceSystem />;
+        return <Step3TargetingRange {...commonProps} />;
       case 3:
-        return <Step4DamageHealing />;
+        return <Step4EffectSystem {...commonProps} />;
       case 4:
-        return <Step5SecondaryEffects />;
+        return <Step5SecondaryEffects {...commonProps} />;
       case 5:
-        return <Step6VisualAudio />;
+        return <Step6AdvancedMechanics {...commonProps} />;
       case 6:
-        return <Step7FinalDetails />;
+        return <Step7VisualsAudio {...commonProps} />;
       case 7:
-        return <Step8Preview />;
+        return <Step8ReviewFinalize {...commonProps} />;
       default:
         return <div>Unknown step</div>;
     }
@@ -83,30 +109,30 @@ const SpellWizard = () => {
     <div className="spell-wizard">
       {/* Progress Steps */}
       <div className="wizard-progress">
-        {steps.map((step, index) => (
-          <div 
-            key={index} 
-            className={`progress-step ${index === currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''}`}
-            onClick={() => index < currentStep && setCurrentStep(index)}
-          >
-            <div className="step-circle">
-              {index < currentStep ? (
+        {steps.map((step, index) => {
+          const isAccessible = canAccessStep(index);
+          
+          return (
+            <div 
+              key={index} 
+              className={`progress-step ${index === currentStep ? 'active' : ''} 
+                         ${isAccessible ? 'available' : ''} 
+                         ${index < currentStep ? 'completed' : ''}`}
+              onClick={() => isAccessible && goToStep(index)}
+              style={{ cursor: isAccessible ? 'pointer' : 'not-allowed' }}
+            >
+              <div className="step-circle" title={step}>
                 <img 
-                  src="https://wow.zamimg.com/images/wow/icons/small/achievement_guildperk_everybodysfriend.jpg" 
-                  alt="✓"
-                  className="step-check-icon"
-                />
-              ) : (
-                <img 
-                  src={`https://wow.zamimg.com/images/wow/icons/small/${getStepIcon(index)}.jpg`} 
-                  alt={index + 1}
+                  src={`https://wow.zamimg.com/images/wow/icons/small/${getStepIcon(index)}.jpg`}
+                  alt={step}
                   className="step-icon"
+                  style={{ opacity: isAccessible ? 1 : 0.5 }}
                 />
-              )}
+              </div>
+              <div className="step-label">{step}</div>
             </div>
-            <div className="step-label">{step}</div>
-          </div>
-        ))}
+          );
+        })}
         <div 
           className="progress-bar" 
           style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
@@ -142,7 +168,7 @@ const SpellWizard = () => {
         <button 
           className="nav-button next-button"
           onClick={nextStep}
-          disabled={!isStepValid[currentStep]}
+          disabled={!isStepValid(currentStep)}
         >
           {currentStep === steps.length - 1 ? (
             <>
