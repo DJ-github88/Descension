@@ -1,0 +1,339 @@
+/* ===== spell-wizard-animations.css ===== */
+/*
+This file contains all animations, transitions,
+and interactive effects used throughout the wizard.
+*/
+
+/* Element Animations */
+.glow-effect {
+  animation: glow 2s infinite;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px var(--primary-glow); }
+  50% { box-shadow: 0 0 15px var(--primary-glow); }
+  100% { box-shadow: 0 0 5px var(--primary-glow); }
+}
+
+.pulse-effect {
+  animation: pulse 0.8s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.float-effect {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 3s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Roll Animation */
+.rolling {
+  animation: rolling 0.5s ease-in-out;
+}
+
+@keyframes rolling {
+  0% { transform: rotateZ(0deg); }
+  25% { transform: rotateZ(90deg); }
+  50% { transform: rotateZ(180deg); }
+  75% { transform: rotateZ(270deg); }
+  100% { transform: rotateZ(360deg); }
+}
+
+/* Hover Effects */
+.spell-type-option:hover,
+.class-option:hover,
+.monster-option:hover,
+.source-option:hover,
+.targeting-option:hover,
+.aoe-shape-option:hover,
+.damage-type-option:hover,
+.scaling-type-option:hover,
+.behavior-option:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Selection Effects */
+.selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, var(--primary-glow) 0%, transparent 70%);
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Loading Animation */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(0, 168, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--primary-light);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Button Animations */
+.next-button:not(:disabled):hover::after {
+  animation: buttonGlow 1.5s infinite;
+}
+
+@keyframes buttonGlow {
+  0% { box-shadow: 0 0 5px var(--primary-glow); }
+  50% { box-shadow: 0 0 15px var(--primary-glow), 0 0 30px var(--primary-glow); }
+  100% { box-shadow: 0 0 5px var(--primary-glow); }
+}
+
+/* Progress Bar Animation */
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+.step-circle.active {
+  animation: stepPulse 2s infinite;
+}
+
+@keyframes stepPulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 168, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 168, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 168, 255, 0); }
+}
+
+/* Spell Preview Animation */
+.spell-preview {
+  transition: all 0.3s ease-in-out;
+}
+
+.spell-preview:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), 0 0 20px var(--primary-glow);
+}
+
+.spell-name {
+  position: relative;
+  display: inline-block;
+}
+
+.spell-name::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--primary-light), transparent);
+  animation: glowLine 2s infinite;
+}
+
+@keyframes glowLine {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+/* Form Focus Animation */
+input:focus, 
+textarea:focus, 
+select:focus {
+  animation: focusPulse 1.5s infinite;
+}
+
+@keyframes focusPulse {
+  0% { box-shadow: 0 0 0 1px var(--primary-color), 0 0 5px var(--primary-glow); }
+  50% { box-shadow: 0 0 0 1px var(--primary-color), 0 0 10px var(--primary-glow); }
+  100% { box-shadow: 0 0 0 1px var(--primary-color), 0 0 5px var(--primary-glow); }
+}
+
+/* Transition Effects */
+.tab-content {
+  animation: fadeContent 0.3s ease-out;
+}
+
+@keyframes fadeContent {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Option Selection Animation */
+.option-card.selected,
+.source-option.selected,
+.class-option.selected,
+.monster-option.selected,
+.spell-type-option.selected,
+.category-option.selected,
+.subtype-option.selected,
+.range-type-option.selected,
+.targeting-option.selected,
+.aoe-shape-option.selected,
+.scaling-option.selected,
+.cast-time-option.selected,
+.cooldown-category.selected,
+.damage-type-option.selected,
+.scaling-type-option.selected,
+.behavior-option.selected {
+  animation: selectPulse 0.5s ease-out;
+}
+
+@keyframes selectPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* Slider Thumb Animation */
+input[type="range"]::-webkit-slider-thumb:hover {
+  animation: thumbGlow 2s infinite;
+}
+
+@keyframes thumbGlow {
+  0% { box-shadow: 0 0 5px var(--primary-glow); }
+  50% { box-shadow: 0 0 10px var(--primary-glow); }
+  100% { box-shadow: 0 0 5px var(--primary-glow); }
+}
+
+/* Modal Animation */
+.modal-content {
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tooltip Animation */
+.tooltip .tooltip-text {
+  animation: tooltipFade 0.2s ease-out;
+}
+
+@keyframes tooltipFade {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Validation Animation */
+.validation-message {
+  animation: validationShake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes validationShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Range Slider Animation */
+.range-slider::-webkit-slider-thumb,
+.size-slider::-webkit-slider-thumb,
+.cast-time-slider::-webkit-slider-thumb,
+.channel-time-slider::-webkit-slider-thumb,
+.cooldown-slider::-webkit-slider-thumb {
+  transition: transform 0.2s ease;
+}
+
+.range-slider::-webkit-slider-thumb:hover,
+.size-slider::-webkit-slider-thumb:hover,
+.cast-time-slider::-webkit-slider-thumb:hover,
+.channel-time-slider::-webkit-slider-thumb:hover,
+.cooldown-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Cast Bar Animation */
+.cast-progress,
+.channel-progress,
+.charge-progress {
+  transition: width 0.1s linear;
+  animation: progressGlow 2s infinite;
+}
+
+@keyframes progressGlow {
+  0% { box-shadow: 0 0 3px var(--primary-glow); }
+  50% { box-shadow: 0 0 8px var(--primary-glow); }
+  100% { box-shadow: 0 0 3px var(--primary-glow); }
+}
+
+/* AOE Shape Animation */
+.aoe-indicator {
+  animation: aoeAppear 0.5s ease-out;
+}
+
+@keyframes aoeAppear {
+  from { opacity: 0; transform: scale(0.8) translateY(50%); }
+  to { opacity: 1; transform: scale(1) translateY(50%); }
+}
+
+/* Checklist Animation */
+.checkbox-container:active .checkmark,
+.radio-container:active .radiodot {
+  transform: scale(0.9);
+  transition: transform 0.2s ease;
+}
+
+/* Page Animation */
+.section {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

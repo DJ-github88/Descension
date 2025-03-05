@@ -1,0 +1,163 @@
+.skill-achievements-container {
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 4px 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 0;
+    border-top: 1px solid #333;
+}
+
+.no-achievements {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+.achievements-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+}
+
+.achievement-item {
+    padding: 12px;
+    border: 2px solid;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.achievement-item.completed {
+    box-shadow: 0 0 10px rgba(254, 215, 0, 0.3);
+}
+
+.achievement-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.achievement-icon-container {
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.achievement-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    border: 1px solid #4a4a4a;
+}
+
+.achievement-complete-overlay {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    border: 2px solid #2E7D32;
+}
+
+.achievement-title {
+    flex-grow: 1;
+}
+
+.achievement-title h4 {
+    margin: 0;
+    color: #ffd100;
+    font-size: 1em;
+}
+
+.achievement-points {
+    font-size: 0.8em;
+    color: #8b8b8b;
+}
+
+.achievement-description {
+    margin: 0;
+    font-size: 0.9em;
+    color: #c0c0c0;
+    padding-left: 48px;
+}
+
+.achievement-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.achievement-checkbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: #2b2b2b;
+    border: 2px solid #4a4a4a;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.achievement-checkbox:hover .checkmark {
+    border-color: #ffd100;
+}
+
+.achievement-checkbox input:checked ~ .checkmark {
+    background-color: #ffd100;
+    border-color: #ffd100;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.achievement-checkbox input:checked ~ .checkmark:after {
+    display: block;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #000;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Scrollbar Styles */
+.skill-achievements-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.skill-achievements-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.skill-achievements-container::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 3px;
+}
+
+.skill-achievements-container::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+}

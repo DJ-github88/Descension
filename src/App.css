@@ -1,0 +1,1147 @@
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #282c34;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #282c34;
+  position: relative;
+  text-align: center;
+  min-height: 100vh;
+  background-color: #282c34;
+}
+
+.App-header {
+  padding: 20px;
+  border-bottom: 1px solid #4a4e57;
+}
+
+.App-main {
+  padding: 20px;
+}
+
+/* Navigation */
+.game-menu {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.nav-button, .hud-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: #282c34;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover, .hud-button:hover {
+  background-color: #4fa8c7;
+}
+
+/* Navigation Styles */
+.navigation {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: rgba(10, 10, 10, 0.95);
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    user-select: none;
+    cursor: move;
+    transform: translate(0, 0);
+    touch-action: none;
+    backdrop-filter: blur(4px);
+}
+
+.main-nav-button {
+    background-color: rgba(26, 26, 26, 0.9);
+    color: #d4d4d4;
+    border: 1px solid #333;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    position: relative;
+    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.main-nav-button:hover {
+    background-color: #2a2a2a;
+    border-color: #444;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.main-nav-button:active {
+    background-color: #222;
+    transform: translateY(0px);
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.nav-icon {
+    width: 24px;
+    height: 24px;
+    stroke: #d4d4d4;
+    opacity: 0.9;
+}
+
+.main-nav-button.active {
+    background-color: #2d2d2d;
+    border-color: #444;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.main-nav-button.active .nav-icon {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.hotkey {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #d4d4d4;
+    padding: 0px 2px;
+    font-size: 9px;
+    font-family: monospace;
+    letter-spacing: 0px;
+    border-radius: 2px;
+    opacity: 0.8;
+    min-width: 12px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.main-nav-button:hover .hotkey {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Creature Library Styles */
+.creature-library {
+  padding: 20px;
+  color: white;
+}
+
+.creature-types {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-creature-button {
+  padding: 8px 16px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.add-creature-button:hover {
+  background: #357abd;
+}
+
+.creature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.creature-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.creature-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.creature-card.selected {
+  background: rgba(74, 144, 226, 0.2);
+  border: 1px solid #4a90e2;
+}
+
+.creature-card h3 {
+  margin: 0 0 10px 0;
+  color: #4a90e2;
+}
+
+.creature-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.creature-attributes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.creature-abilities {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.creature-abilities h4 {
+  margin: 0 0 10px 0;
+}
+
+.ability-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.add-ability-button {
+  padding: 6px 12px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+}
+
+.add-ability-button:hover {
+  background: #388e3c;
+}
+
+/* Creature Library */
+.creature-library {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.creature-types {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.creature-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.creature-card {
+  background-color: #3a3f4a;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.creature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.creature-card.selected {
+  border: 2px solid #61dafb;
+}
+
+.creature-card h3 {
+  margin: 0 0 15px 0;
+  color: #61dafb;
+}
+
+.creature-card h4 {
+  color: #61dafb;
+  margin: 15px 0 10px 0;
+}
+
+/* Creature Stats */
+.creature-stats,
+.creature-attributes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 10px 0;
+  background-color: #2c313c;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.creature-resistances {
+  background-color: #2c313c;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.creature-resistances > div {
+  display: inline-block;
+  margin: 5px 10px;
+  padding: 2px 8px;
+  background-color: #3a3f4a;
+  border-radius: 3px;
+}
+
+/* Abilities */
+.creature-abilities {
+  background-color: #2c313c;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.ability-item {
+  background-color: #3a3f4a;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.ability-item strong {
+  color: #61dafb;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Buttons */
+.add-creature-button,
+.add-ability-button {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-creature-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.add-creature-button:hover {
+  background-color: #388e3c;
+}
+
+.add-ability-button {
+  background-color: #ff9800;
+  color: white;
+  margin: 5px 0;
+}
+
+.add-ability-button:hover {
+  background-color: #f57c00;
+}
+
+/* HUD */
+.hud {
+  background-color: #3a3f4a;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+/* Combat Tracker */
+.combat-tracker {
+  background-color: #3a3f4a;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.combat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.turn-order {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.creature-turn-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #2c313c;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.creature-turn-item:hover {
+  transform: translateX(5px);
+}
+
+.creature-turn-item.active {
+  background-color: #3d4451;
+  border-left: 4px solid #61dafb;
+}
+
+.creature-turn-item.selected {
+  border: 2px solid #61dafb;
+}
+
+.creature-turn-item.targeted {
+  border: 2px solid #ff4444;
+}
+
+.creature-initiative {
+  width: 40px;
+  height: 40px;
+  background-color: #61dafb;
+  color: #282c34;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.creature-info {
+  flex: 1;
+}
+
+.creature-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.creature-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9em;
+  color: #b8b8b8;
+}
+
+.active-marker {
+  position: absolute;
+  right: 15px;
+  font-size: 1.5em;
+  color: #61dafb;
+}
+
+.current-turn {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #2c313c;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Combat Buttons */
+.start-combat-button,
+.end-combat-button,
+.next-turn-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-combat-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.start-combat-button:hover {
+  background-color: #388e3c;
+}
+
+.end-combat-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.end-combat-button:hover {
+  background-color: #d32f2f;
+}
+
+.next-turn-button {
+  background-color: #ff9800;
+  color: white;
+  margin-top: 10px;
+}
+
+.next-turn-button:hover {
+  background-color: #f57c00;
+}
+
+/* Creature Controls */
+.creature-controls {
+  background-color: #3a3f4a;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.creature-status {
+  margin-bottom: 20px;
+}
+
+.status-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.health-bar,
+.mana-bar,
+.ap-bar {
+  height: 25px;
+  background-color: #2c313c;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.bar-fill.health {
+  background-color: #4caf50;
+}
+
+.bar-fill.mana {
+  background-color: #2196f3;
+}
+
+.bar-fill.ap {
+  background-color: #ff9800;
+}
+
+.bar-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Ability List */
+.ability-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.ability-button {
+  background-color: #2c313c;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.ability-button:hover:not(.disabled) {
+  background-color: #3d4451;
+  transform: translateY(-2px);
+}
+
+.ability-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ability-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #61dafb;
+}
+
+.ability-cost {
+  font-size: 0.9em;
+  color: #ff9800;
+}
+
+.ability-damage {
+  font-size: 0.9em;
+  color: #f44336;
+}
+
+.ability-healing {
+  font-size: 0.9em;
+  color: #4caf50;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.damage-button,
+.heal-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.damage-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.damage-button:hover {
+  background-color: #d32f2f;
+}
+
+.heal-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.heal-button:hover {
+  background-color: #388e3c;
+}
+
+/* Grid Styles */
+.grid-tile {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+/* Token Styles */
+.token {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.token.player {
+  background-color: #4a90e2;
+  z-index: 2;
+}
+
+.token.monster {
+  background-color: #e25555;
+  z-index: 1;
+}
+
+/* HUD Styles */
+.hud {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+  min-width: 200px;
+}
+
+.stat-bar {
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.stat-bar-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  height: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.stat-bar-fill.health {
+  background: #e25555;
+}
+
+.stat-bar-fill.mana {
+  background: #4a90e2;
+}
+
+.stat-bar-fill.ap {
+  background: #f5a623;
+}
+
+.stat-bar-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Combat Tracker Styles */
+.combat-tracker {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.turn-order {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.creature-turn-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.creature-turn-item.active {
+  background: rgba(74, 144, 226, 0.2);
+  border-left: 4px solid #4a90e2;
+}
+
+.creature-turn-item.selected {
+  border: 2px solid #4a90e2;
+}
+
+.creature-turn-item.targeted {
+  border: 2px solid #e25555;
+}
+
+/* Button Styles */
+.button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.button-primary {
+  background: #4a90e2;
+  color: white;
+}
+
+.button-danger {
+  background: #e25555;
+  color: white;
+}
+
+.button-warning {
+  background: #f5a623;
+  color: white;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Input styles */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+  text-align: center;
+  width: 50px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #4a4a4a;
+  color: #fff;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+/* Remove spinners for Webkit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Focus styles */
+input[type="number"]:focus {
+  outline: none;
+  border-color: #666;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Remove default number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Damage Type Grid Styles */
+.wizard-step .damage-properties-section .damage-type-section .damage-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 8px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-top: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.2);
+}
+
+/* Larger grid for item wizard */
+.item-wizard .damage-type-grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  padding: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Medium grid for character sheet */
+.character-sheet .damage-type-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: none;
+}
+
+/* Scrollbar styles */
+.damage-type-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.damage-type-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.damage-type-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.damage-type-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.damage-type-button {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+.damage-type-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--type-color);
+  opacity: 0.1;
+  transition: opacity 0.2s ease;
+  border-radius: 6px;
+  box-shadow: inset 0 0 15px var(--type-color);
+}
+
+.damage-type-button:hover::before {
+  opacity: 0.15;
+  box-shadow: inset 0 0 20px var(--type-color);
+}
+
+.damage-type-button.selected {
+  border-color: var(--type-color);
+}
+
+.damage-type-button.selected::before {
+  opacity: 0.2;
+  box-shadow: inset 0 0 25px var(--type-color);
+}
+
+.damage-type-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition: all 0.2s ease;
+}
+
+.damage-type-button .damage-type-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 6px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.damage-type-button:hover .damage-type-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px var(--type-color));
+}
+
+.damage-type-button.selected .damage-type-icon {
+  filter: drop-shadow(0 0 12px var(--type-color));
+}
+
+.damage-type-tooltip {
+  position: absolute;
+  display: none;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--type-color);
+  width: max-content;
+  max-width: 200px;
+  z-index: 99999;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+  box-shadow: 0 0 15px rgba(var(--type-color-rgb), 0.3);
+  left: 50%;
+  bottom: 100%;
+  transform: translate3d(-50%, 0, 999px);
+  margin-bottom: 5px;
+}
+
+.damage-type-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--type-color) transparent transparent transparent;
+}
+
+.damage-type-button:hover .damage-type-tooltip {
+  display: flex;
+}
+
+.damage-type-name {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--type-color);
+  text-shadow: 0 0 10px var(--type-color);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.damage-type-description {
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.item-name {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.item-name.quality-common {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.item-name.quality-uncommon {
+  color: #1eff00;
+  text-shadow: 0 0 8px rgba(30, 255, 0, 0.3);
+}
+
+.item-name.quality-rare {
+  color: #0070dd;
+  text-shadow: 0 0 8px rgba(0, 112, 221, 0.3);
+}
+
+.item-name.quality-epic {
+  color: #a335ee;
+  text-shadow: 0 0 8px rgba(163, 53, 238, 0.3);
+}
+
+.item-name.quality-legendary {
+  color: #ff8000;
+  text-shadow: 0 0 8px rgba(255, 128, 0, 0.3);
+}
+
+.item-name.quality-artifact {
+  color: #e6cc80;
+  text-shadow: 0 0 8px rgba(230, 204, 128, 0.3);
+}
+
+/* Spellbook Window Styles */
+.spellbook-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1a1c2a;
+  color: #e6e9f0;
+}
+
+.spellbook-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid #394263;
+  background: #272b40;
+}
+
+.spellbook-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #394263;
+  border-radius: 6px;
+  background: #2d334d;
+  color: #a0a7c1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.spellbook-tab svg {
+  width: 20px;
+  height: 20px;
+}
+
+.spellbook-tab.active {
+  background: #00a8ff;
+  color: #ffffff;
+  border-color: #40c4ff;
+}
+
+.spellbook-tab:hover:not(.active) {
+  background: #272b40;
+  border-color: #00a8ff;
+  color: #e6e9f0;
+}
+
+.spellbook-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #7986a8;
+}
+
+.empty-state h2 {
+  margin-bottom: 16px;
+  color: #40c4ff;
+}

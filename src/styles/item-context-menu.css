@@ -1,0 +1,137 @@
+.item-context-menu {
+    position: fixed;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    min-width: 200px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    color: #fff;
+}
+
+.context-menu-section {
+    padding: 4px 0;
+    border-bottom: 1px solid #333;
+}
+
+.context-menu-section:last-child {
+    border-bottom: none;
+}
+
+.context-menu-header {
+    padding: 4px 12px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.context-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.context-menu-item i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+.context-menu-items {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.primary-action {
+    color: #4a9eff;
+}
+
+.delete-item {
+    color: #ff4a4a;
+}
+
+.has-submenu {
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    min-width: 150px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.submenu > div {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: #fff;
+}
+
+.submenu > div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.lock-options {
+    z-index: 1001;
+}
+
+.context-menu-divider {
+    height: 1px;
+    background-color: #333;
+    margin: 4px 0;
+}
+
+.category-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    border: 1px solid #4a4a4a;
+}
+
+.context-menu-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+.context-menu-items::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.context-menu-items::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 4px;
+    background: #333;
+    border-radius: 4px;
+}
+
+.context-menu-items::-webkit-scrollbar-thumb:hover {
+    background: #4a4a4a;
+    background: #444;
+}
+
+.edit-item.primary-action {
+    background-color: #2c3e50;
+    color: #fff;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.edit-item.primary-action:hover {
+    background-color: #34495e;
+}
