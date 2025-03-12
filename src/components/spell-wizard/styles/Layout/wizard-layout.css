@@ -4,7 +4,7 @@
  */
 
  .spell-wizard {
-    max-width: 1280px;
+    max-width: 1080px;
     margin: 0 auto;
     background: var(--gradient-panel);
     border-radius: var(--radius-lg);
@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;
     height: calc(100vh - 60px);
+    max-height: 800px;
     min-height: 700px;
     position: relative;
     border: 1px solid var(--neutral-700);
@@ -75,9 +76,35 @@
     width: 340px;
     background: linear-gradient(135deg, var(--neutral-800), var(--neutral-900));
     border-left: 1px solid var(--border-color);
-    overflow: auto; 
-    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     padding: 24px;
+    position: relative;
+  }
+
+  .wizard-side-panel .preview-title {
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+
+  .wizard-side-panel .spell-card {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(61, 184, 255, 0.3) transparent;
+  }
+
+  .wizard-side-panel .spell-card::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .wizard-side-panel .spell-card::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .wizard-side-panel .spell-card::-webkit-scrollbar-thumb {
+    background: rgba(61, 184, 255, 0.3);
+    border-radius: 4px;
   }
   
   .wizard-side-panel::before {
@@ -88,19 +115,6 @@
     left: 0;
     width: 1px;
     background: linear-gradient(to bottom, transparent, var(--primary-700), transparent);
-  }
-  
-  .wizard-side-panel::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  .wizard-side-panel::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .wizard-side-panel::-webkit-scrollbar-thumb {
-    background-color: rgba(97, 206, 255, 0.2);
-    border-radius: var(--radius-full);
   }
   
   /* Step Navigation */
@@ -331,7 +345,7 @@
   .wizard-help-panel h4 {
     margin-top: 0;
     margin-bottom: 14px;
-    color: var(--primary-300);
+    color: var(--text-primary);
     font-size: 16px;
     display: flex;
     align-items: center;
@@ -415,3 +429,21 @@
     line-height: 1.5;
     color: var(--text-primary);
   }
+
+  /* Add line decoration to section titles */
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--primary-700), transparent);
+  }
+
+  .section-title {
+    position: relative;
+    margin-bottom: 14px;
+    padding-bottom: 4px;
+  }
+

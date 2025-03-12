@@ -14,7 +14,6 @@ const initialState = {
   collections: DEFAULT_COLLECTIONS,
   selectedSpell: null,
   selectedCollection: null,
-  activeTab: 'spellbook',
   filters: {
     searchText: '',
     categories: [],
@@ -27,9 +26,6 @@ const useSpellbookStore = create(
   persist(
     (set, get) => ({
       ...initialState,
-
-      // Tab management
-      setActiveTab: (tab) => set({ activeTab: tab }),
 
       // Spell management
       addSpell: (spellData) => {
@@ -115,6 +111,7 @@ const useSpellbookStore = create(
     }),
     {
       name: 'spellbook-storage',
+      version: 1,
       getStorage: () => localStorage
     }
   )

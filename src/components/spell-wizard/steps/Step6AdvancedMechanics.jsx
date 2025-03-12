@@ -1,291 +1,441 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import useSpellWizardStore from '../../../store/spellWizardStore';
-import { StepNavigation } from '../common';
-import '../styles/spell-wizard.css';
+import '../styles/Pages/ComboPowerMechanics.css';
+import {SpellPreview } from '../common';
 
-// Attribute definitions with descriptions and examples
-const ATTRIBUTES = [
+// Define the substeps
+const SUBSTEPS = [
+  { id: 'enable', name: 'Enable' },
+  { id: 'role', name: 'Role' },
+  { id: 'maxPoints', name: 'Points' },
+  { id: 'generator', name: 'Generator' },
+  { id: 'finisher', name: 'Finisher' },
+  { id: 'visual', name: 'Visual' },
+  { id: 'summary', name: 'Summary' }
+];
+
+// Combo point generation options - updated for TTRPG round-based system
+const COMBO_GENERATION = [
   {
-    id: 'strength',
-    name: 'Strength',
-    abbr: 'STR',
-    description: 'Physical power and raw force.',
-    examples: ['Melee damage', 'Carrying capacity', 'Breaking objects'],
-    iconClass: 'strength-icon',
-    color: '#e74c3c'
+    id: 'basic_attack',
+    name: 'Basic Attack',
+    description: 'Generate combo points with basic attacks',
+    details: 'Each basic attack generates 1 combo point. Critical hits generate an additional combo point.',
+    icon: 'ability_rogue_slicedice',
+    color: '#ff5722',
+    colorRgb: '255, 87, 34',
+    examples: ['Quick Strike', 'Jab', 'Sinister Strike']
   },
   {
-    id: 'dexterity',
-    name: 'Dexterity',
-    abbr: 'DEX',
-    description: 'Agility, reflexes, and finesse.',
-    examples: ['Ranged attacks', 'Evasion', 'Fine manipulation'],
-    iconClass: 'dexterity-icon',
-    color: '#2ecc71'
+    id: 'dot_tick',
+    name: 'DoT Effects',
+    description: 'Generate combo points from damage over time effects',
+    details: 'Each round your damage-over-time effect deals damage, you have a chance to generate a combo point.',
+    icon: 'ability_rogue_rupture',
+    color: '#9c27b0',
+    colorRgb: '156, 39, 176',
+    examples: ['Rupture', 'Garrote', 'Rend']
   },
   {
-    id: 'constitution',
-    name: 'Constitution',
-    abbr: 'CON',
-    description: 'Health, stamina, and vital force.',
-    examples: ['Health points', 'Poison resistance', 'Physical endurance'],
-    iconClass: 'constitution-icon',
-    color: '#e67e22'
+    id: 'special_ability',
+    name: 'Special Abilities',
+    description: 'Specific abilities that generate combo points',
+    details: 'Certain special abilities are designed to quickly generate multiple combo points at once.',
+    icon: 'ability_rogue_eviscerate',
+    color: '#f44336',
+    colorRgb: '244, 67, 54',
+    examples: ['Mutilate', 'Backstab', 'Shadowstrike']
   },
   {
-    id: 'intelligence',
-    name: 'Intelligence',
-    abbr: 'INT',
-    description: 'Mental acuity, information recall, and analytical skill.',
-    examples: ['Arcane spells', 'Knowledge checks', 'Puzzle solving'],
-    iconClass: 'intelligence-icon',
-    color: '#3498db'
+    id: 'defensive',
+    name: 'Defensive Actions',
+    description: 'Generate points when using defensive abilities',
+    details: 'Taking defensive actions such as dodging, parrying, or using certain defensive abilities generate combo points.',
+    icon: 'ability_warrior_defensivestance',
+    color: '#2196f3',
+    colorRgb: '33, 150, 243',
+    examples: ['Riposte', 'Evasion', 'Parry']
   },
   {
-    id: 'wisdom',
-    name: 'Wisdom',
-    abbr: 'WIS',
-    description: 'Awareness, intuition, and perception.',
-    examples: ['Divine spells', 'Insight', 'Perception checks'],
-    iconClass: 'wisdom-icon',
-    color: '#9b59b6'
+    id: 'resource_spend',
+    name: 'Resource Spending',
+    description: 'Gain combo points when spending other resources',
+    details: 'Spending primary resources like mana or energy has a chance to generate combo points.',
+    icon: 'spell_arcane_arcane03',
+    color: '#4caf50',
+    colorRgb: '76, 175, 80',
+    examples: ['Energized Attack', 'Mana Tap', 'Soul Harvest']
   },
   {
-    id: 'charisma',
-    name: 'Charisma',
-    abbr: 'CHA',
-    description: 'Force of personality and influence over others.',
-    examples: ['Persuasion', 'Intimidation', 'Leadership'],
-    iconClass: 'charisma-icon',
-    color: '#f39c12'
+    id: 'positional',
+    name: 'Positional Requirements',
+    description: 'Generate points when attacking from specific positions',
+    details: 'Attacking from advantageous positions (behind, flanking) generates additional combo points.',
+    icon: 'achievement_femalegoblinhead',
+    color: '#ff9800',
+    colorRgb: '255, 152, 0',
+    examples: ['Backstab', 'Ambush', 'Flank Attack']
   }
 ];
 
-// Special interactions with conditions
-const CONDITION_INTERACTIONS = [
+// Finisher effects that consume combo points
+const FINISHER_EFFECTS = [
   {
-    id: 'burning',
-    name: 'Burning',
-    description: 'Enhanced against burning targets.',
-    effects: ['Increased damage', 'Extended duration', 'Additional effects'],
-    iconClass: 'burn-icon',
-    color: '#e74c3c'
+    id: 'damage_finisher',
+    name: 'Damage Finisher',
+    description: 'Deal increasing damage based on combo points',
+    details: 'Consumes all combo points to deal damage that scales with the number of points spent.',
+    icon: 'ability_rogue_eviscerate',
+    color: '#e91e63',
+    colorRgb: '233, 30, 99',
+    scaling: 'Damage increases by 50% per combo point',
+    examples: ['Eviscerate', 'Envenom', 'Kill Shot']
   },
   {
-    id: 'frozen',
-    name: 'Frozen',
-    description: 'Special interaction with frozen targets.',
-    effects: ['Shatter effect', 'Bonus critical chance', 'Movement impairment'],
-    iconClass: 'freeze-icon',
-    color: '#3498db'
+    id: 'dot_finisher',
+    name: 'DoT Finisher',
+    description: 'Apply a powerful DoT effect scaled by combo points',
+    details: 'Applies a damage-over-time effect with duration and potency based on combo points spent.',
+    icon: 'spell_shadow_rupture',
+    color: '#9c27b0',
+    colorRgb: '156, 39, 176',
+    scaling: 'Duration increases by 2 rounds per combo point',
+    examples: ['Rupture', 'Deadly Poison', 'Rend']
   },
   {
-    id: 'stunned',
-    name: 'Stunned',
-    description: 'Additional effects on stunned targets.',
-    effects: ['Guaranteed critical', 'Extended stun duration', 'Bonus damage'],
-    iconClass: 'stun-icon',
-    color: '#f39c12'
+    id: 'aoe_finisher',
+    name: 'AoE Finisher',
+    description: 'Deal area damage scaled by combo points',
+    details: 'Unleashes an area-of-effect attack with damage and radius scaling with combo points.',
+    icon: 'spell_shadow_shadowfury',
+    color: '#673ab7',
+    colorRgb: '103, 58, 183',
+    scaling: 'Radius increases by 2 yards and damage by 30% per combo point',
+    examples: ['Fan of Knives', 'Death from Above', 'Blade Flurry']
   },
   {
-    id: 'poisoned',
-    name: 'Poisoned',
-    description: 'Enhanced against poisoned targets.',
-    effects: ['Amplify poison effect', 'Spread poison', 'Convert poison damage'],
-    iconClass: 'poison-icon',
-    color: '#2ecc71'
+    id: 'heal_finisher',
+    name: 'Healing Finisher',
+    description: 'Heal yourself based on combo points',
+    details: 'Converts combo points into healing, either as direct healing or a HoT effect.',
+    icon: 'ability_rogue_recuperate',
+    color: '#4caf50',
+    colorRgb: '76, 175, 80',
+    scaling: 'Healing increases by 25% per combo point',
+    examples: ['Recuperate', 'Second Wind', 'Victory Rush']
   },
   {
-    id: 'weakened',
-    name: 'Weakened',
-    description: 'Additional effects on weakened targets.',
-    effects: ['Bonus damage', 'Apply additional effect', 'Extend weakened duration'],
-    iconClass: 'weaken-icon',
-    color: '#9b59b6'
+    id: 'buff_finisher',
+    name: 'Buff Finisher',
+    description: 'Apply a buff scaled by combo points',
+    details: 'Applies a powerful self-buff with duration and potency scaled by combo points.',
+    icon: 'ability_rogue_sliceanddice',
+    color: '#2196f3',
+    colorRgb: '33, 150, 243',
+    scaling: 'Duration increases by 2 rounds and effect potency by 10% per combo point',
+    examples: ['Slice and Dice', 'Adrenaline Rush', 'Enrage']
+  },
+  {
+    id: 'debuff_finisher',
+    name: 'Debuff Finisher',
+    description: 'Apply a debuff scaled by combo points',
+    details: 'Applies a debuff to the target with effect and duration based on combo points.',
+    icon: 'ability_warrior_bloodbath',
+    color: '#ff5722',
+    colorRgb: '255, 87, 34',
+    scaling: 'Duration increases by 1 round and effect potency by 15% per combo point',
+    examples: ['Kidney Shot', 'Deep Wound', 'Expose Armor']
+  },
+  {
+    id: 'resource_finisher',
+    name: 'Resource Generator',
+    description: 'Convert combo points to another resource',
+    details: 'Consumes combo points to regenerate another resource like mana, energy, or health.',
+    icon: 'spell_arcane_arcane04',
+    color: '#00bcd4',
+    colorRgb: '0, 188, 212',
+    scaling: 'Resource gain increases by 20% per combo point',
+    examples: ['Preparation', 'Adrenaline Rush', 'Second Wind']
   }
 ];
 
-// Environmental interactions
-const ENVIRONMENTAL_INTERACTIONS = [
+// Special conditions for combo point generation
+const COMBO_CONDITIONS = [
   {
-    id: 'water',
-    name: 'Water',
-    description: 'Unique effects when cast in or targeting water.',
-    effects: ['Steam generation', 'Damage amplification', 'Area expansion'],
-    iconClass: 'water-icon',
-    color: '#3498db'
+    id: 'critical_strike',
+    name: 'Critical Strike',
+    description: 'Generate additional combo points on critical hits',
+    icon: 'ability_rogue_unfairadvantage',
+    value: 1
   },
   {
-    id: 'lava',
-    name: 'Lava/Fire',
-    description: 'Special interactions with lava or fire sources.',
-    effects: ['Fire damage boost', 'Explosive reaction', 'Area denial'],
-    iconClass: 'fire-icon',
-    color: '#e74c3c'
+    id: 'streak',
+    name: 'Attack Streak',
+    description: 'Consecutive attacks have increasing chance to generate extra combo points',
+    icon: 'ability_fixated_state_red',
+    value: 10
   },
   {
-    id: 'darkness',
-    name: 'Darkness',
-    description: 'Different effects in dark environments.',
-    effects: ['Stealth bonus', 'Shadow damage', 'Fear effect'],
-    iconClass: 'darkness-icon', 
-    color: '#34495e'
+    id: 'proc_chance',
+    name: 'Proc Chance',
+    description: 'Chance to generate additional combo points on any hit',
+    icon: 'spell_holy_borrowedtime',
+    value: 15
   },
   {
-    id: 'consecrated',
-    name: 'Consecrated Ground',
-    description: 'Enhanced on holy or blessed ground.',
-    effects: ['Healing boost', 'Holy damage', 'Undead repulsion'],
-    iconClass: 'holy-icon',
-    color: '#f1c40f'
+    id: 'resource_threshold',
+    name: 'Resource Threshold',
+    description: 'Generate extra combo points when above resource threshold',
+    icon: 'spell_arcane_arcane03',
+    value: 70
   },
   {
-    id: 'desecrated',
-    name: 'Desecrated Ground',
-    description: 'Enhanced on corrupted or unholy ground.',
-    effects: ['Necrotic damage', 'Summoning boost', 'Fear effect'],
-    iconClass: 'unholy-icon',
-    color: '#8e44ad'
+    id: 'positional_bonus',
+    name: 'Positional Bonus',
+    description: 'Generate more combo points when attacking from behind or flank',
+    icon: 'inv_spark_shard_orange',
+    value: 1
+  },
+  {
+    id: 'low_health',
+    name: 'Target Low Health',
+    description: 'Generate additional combo points when target is below health threshold',
+    icon: 'ability_warrior_bloodfrenzy',
+    value: 25
   }
 ];
 
-// Conditional triggers
-const CONDITIONAL_TRIGGERS = [
+// Combo points display themes
+const COMBO_VISUALS = [
   {
-    id: 'lowHealth',
-    name: 'Low Health',
-    description: 'Effect triggers when caster or target is below certain health threshold.',
-    threshold: 'Below 30% health',
-    iconClass: 'health-icon',
-    color: '#e74c3c'
+    id: 'rogue',
+    name: 'Rogue Style',
+    description: 'Classic combo point indicators shown above your character',
+    theme: 'var(--damage-physical)',
+    activeColor: '#f44336',
+    emptyColor: '#424242',
+    glowColor: 'rgba(244, 67, 54, 0.5)',
+    shape: 'circle'
   },
   {
-    id: 'highResource',
-    name: 'High Resource',
-    description: 'Effect triggers when caster has abundant resources.',
-    threshold: 'Above 70% mana/energy',
-    iconClass: 'mana-icon',
-    color: '#3498db'
+    id: 'druid',
+    name: 'Druid Style',
+    description: 'Paw-like indicators shown as energy symbols',
+    theme: 'var(--damage-nature)',
+    activeColor: '#4caf50',
+    emptyColor: '#2e4835',
+    glowColor: 'rgba(76, 175, 80, 0.5)',
+    shape: 'paw'
   },
   {
-    id: 'criticalHit',
-    name: 'Critical Hit',
-    description: 'Effect triggers on critical hits.',
-    threshold: 'On any critical hit',
-    iconClass: 'critical-icon',
-    color: '#f39c12'
+    id: 'mage',
+    name: 'Arcane Style',
+    description: 'Magical runes that glow with accumulated power',
+    theme: 'var(--damage-arcane)',
+    activeColor: '#9c27b0',
+    emptyColor: '#47246f',
+    glowColor: 'rgba(156, 39, 176, 0.5)',
+    shape: 'rune'
   },
   {
-    id: 'killEffect',
-    name: 'Kill Effect',
-    description: 'Effect triggers when target is killed by this spell.',
-    threshold: 'On kill',
-    iconClass: 'kill-icon',
-    color: '#8e44ad'
+    id: 'monk',
+    name: 'Chi Style',
+    description: 'Flowing energy points displayed as chi orbs',
+    theme: 'var(--primary-500)',
+    activeColor: '#00bcd4',
+    emptyColor: '#0e5e6a',
+    glowColor: 'rgba(0, 188, 212, 0.5)',
+    shape: 'orb'
   },
   {
-    id: 'counterSpell',
-    name: 'Counter Spell',
-    description: 'Effect triggers when countering another spell.',
-    threshold: 'When interrupting a cast',
-    iconClass: 'counter-icon',
-    color: '#2ecc71'
+    id: 'paladin',
+    name: 'Holy Power',
+    description: 'Divine energy symbols shown as holy indicators',
+    theme: 'var(--damage-holy)',
+    activeColor: '#ffeb3b',
+    emptyColor: '#635f35',
+    glowColor: 'rgba(255, 235, 59, 0.5)',
+    shape: 'diamond'
+  },
+  {
+    id: 'warlock',
+    name: 'Soul Shards',
+    description: 'Dark energy fragments shown as soul indicators',
+    theme: 'var(--damage-shadow)',
+    activeColor: '#673ab7',
+    emptyColor: '#312258',
+    glowColor: 'rgba(103, 58, 183, 0.5)',
+    shape: 'shard'
   }
 ];
 
-// Combo potentials with other abilities
-const COMBO_POTENTIALS = [
+// Animation styles for combo abilities
+const COMBO_ANIMATIONS = [
   {
-    id: 'elementalResonance',
-    name: 'Elemental Resonance',
-    description: 'Combines with elemental spells for enhanced effects.',
-    examples: ['Fire + Ice = Steam explosion', 'Lightning + Water = Chain lightning'],
-    iconClass: 'element-icon',
-    color: '#3498db'
+    id: 'fade_in',
+    name: 'Fade In',
+    description: 'Points fade in with a smooth transition',
+    timing: '0.3s ease-in'
   },
   {
-    id: 'targetPriming',
-    name: 'Target Priming',
-    description: 'Prepares target for follow-up abilities with increased effectiveness.',
-    examples: ['Mark target for bonus damage', 'Apply vulnerability debuff'],
-    iconClass: 'prime-icon',
-    color: '#e74c3c'
+    id: 'scale_up',
+    name: 'Scale Up',
+    description: 'Points grow in size when activated',
+    timing: '0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
   },
   {
-    id: 'spellweaving',
-    name: 'Spellweaving',
-    description: 'Enchants allies\' spells with additional effects.',
-    examples: ['Add damage type to allies\' attacks', 'Share spell properties'],
-    iconClass: 'weave-icon',
-    color: '#9b59b6'
+    id: 'pulse',
+    name: 'Pulse',
+    description: 'Points pulse with energy when activated',
+    timing: '0.5s ease-in-out'
   },
   {
-    id: 'chainReaction',
-    name: 'Chain Reaction',
-    description: 'Spell effect can be triggered multiple times by specific actions.',
-    examples: ['Explosion chains to new targets', 'Cascade effect'],
-    iconClass: 'chain-icon',
-    color: '#f39c12'
+    id: 'flip',
+    name: 'Flip',
+    description: 'Points flip in 3D space when activated',
+    timing: '0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955)'
   },
   {
-    id: 'convergence',
-    name: 'Convergence',
-    description: 'Multiple casters can combine this spell for amplified effect.',
-    examples: ['Increased area of effect', 'Higher damage when cast together'],
-    iconClass: 'converge-icon',
-    color: '#2ecc71'
+    id: 'glow',
+    name: 'Glow',
+    description: 'Points glow with increasing intensity',
+    timing: '0.3s ease'
+  },
+  {
+    id: 'bounce',
+    name: 'Bounce',
+    description: 'Points bounce up when activated',
+    timing: '0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
   }
 ];
 
-// Scaling formulas
-const SCALING_FORMULAS = [
+// Build-up mechanics that lead to enhanced finishers
+const BUILDUP_MECHANICS = [
   {
-    id: 'linear',
-    name: 'Linear Scaling',
-    description: 'Effect increases directly with attribute value.',
-    formula: 'Base + (Attribute × Multiplier)',
-    example: '10 + (INT × 0.5) damage'
+    id: 'momentum',
+    name: 'Momentum',
+    description: 'Consecutive uses increase in power',
+    details: 'Using the same generator repeatedly builds momentum, increasing the power of your finisher.',
+    icon: 'ability_rogue_quickrecovery',
+    color: '#2196f3',
+    colorRgb: '33, 150, 243',
+    scaling: 'Each consecutive use adds 8% to finisher effectiveness'
   },
   {
-    id: 'diminishing',
-    name: 'Diminishing Returns',
-    description: 'Effect increases with attribute, but at a decreasing rate.',
-    formula: 'Base + (Attribute ÷ (Attribute + Constant) × Max)',
-    example: '5 + (STR ÷ (STR + 100) × 50) damage'
+    id: 'vulnerability',
+    name: 'Vulnerability',
+    description: 'Attacks create vulnerability for finishers',
+    details: 'Your generator abilities create a vulnerability state that enhances the next finisher.',
+    icon: 'ability_warrior_trauma',
+    color: '#f44336',
+    colorRgb: '244, 67, 54',
+    scaling: 'Vulnerability increases finisher damage by 5% per stack'
   },
   {
-    id: 'threshold',
-    name: 'Threshold Scaling',
-    description: 'Effect gets bonuses at specific attribute thresholds.',
-    formula: 'Base + Bonus per threshold reached',
-    example: '+5 damage for every 10 DEX'
+    id: 'execution',
+    name: 'Execution Window',
+    description: 'Finishers more powerful at certain health thresholds',
+    details: 'Your finishers deal significantly more damage to targets below a health threshold.',
+    icon: 'ability_warrior_bloodbath',
+    color: '#e91e63',
+    colorRgb: '233, 30, 99',
+    scaling: 'Damage increases by 20% against targets below 25% health'
   },
   {
-    id: 'exponential',
-    name: 'Exponential Scaling',
-    description: 'Effect increases exponentially with attribute.',
-    formula: 'Base + (Attribute² × Multiplier)',
-    example: '5 + (INT² × 0.01) damage'
+    id: 'crescendo',
+    name: 'Crescendo',
+    description: 'Time-sensitive build-up requiring proper pacing',
+    details: 'Maintaining a steady rhythm of attacks builds a crescendo that empowers your finisher, but delay too long and it resets.',
+    icon: 'spell_holy_divineillumination',
+    color: '#ffc107',
+    colorRgb: '255, 193, 7',
+    scaling: 'Power increases by 5% every round up to 30%, then decays'
   },
   {
-    id: 'hybrid',
-    name: 'Hybrid Scaling',
-    description: 'Effect scales with multiple attributes.',
-    formula: 'Base + (Primary × PrimaryMultiplier) + (Secondary × SecondaryMultiplier)',
-    example: '5 + (STR × 0.5) + (CON × 0.2) damage'
+    id: 'tactical_prep',
+    name: 'Tactical Preparation',
+    description: 'Special abilities that enhance the next finisher',
+    details: 'Use specific preparation abilities before your finisher to enhance its effects.',
+    icon: 'ability_rogue_masterofsubtlety',
+    color: '#9c27b0',
+    colorRgb: '156, 39, 176',
+    scaling: 'Prepared finishers deal 25% more damage or have 40% longer duration'
   }
 ];
 
-// Multiplier options for attribute scaling
-const MULTIPLIER_OPTIONS = [
-  { value: 0.1, label: '0.1 (Minor)' },
-  { value: 0.25, label: '0.25 (Low)' },
-  { value: 0.5, label: '0.5 (Medium)' },
-  { value: 0.75, label: '0.75 (High)' },
-  { value: 1, label: '1.0 (Full)' },
-  { value: 1.5, label: '1.5 (Enhanced)' },
-  { value: 2, label: '2.0 (Powerful)' }
+// Maximum combo points settings
+const MAX_COMBO_OPTIONS = [
+  { id: 3, name: '3 Points', description: 'Classic 3-point system, quicker rotations' },
+  { id: 4, name: '4 Points', description: 'Balanced system with moderate build-up' },
+  { id: 5, name: '5 Points', description: 'Standard 5-point system, strategic build-up' },
+  { id: 6, name: '6 Points', description: 'Extended system with longer build-up phases' },
+  { id: 8, name: '8 Points', description: 'Advanced system with powerful finishers' }
 ];
+
+// Reusable UI Components
+const SectionHeader = ({ icon, title, description }) => (
+  <>
+    <h4 className="section-title">
+      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${icon}.jpg`} alt="" className="section-icon" />
+      {title}
+    </h4>
+    {description && <p className="section-description">{description}</p>}
+  </>
+);
+
+const ComboPoint = ({ active, shapeClass, animStyle, activeColor, emptyColor, glowColor, animTiming, size = 'normal' }) => {
+  const sizeClass = size === 'small' ? 'combo-point-preview' : 
+                   size === 'live' ? 'combo-point-live' : 'combo-point';
+  
+  return (
+    <div 
+      className={`${sizeClass} ${shapeClass} ${animStyle} ${active ? 'active' : ''}`}
+      style={{
+        '--active-color': activeColor,
+        '--empty-color': emptyColor,
+        '--glow-color': glowColor,
+        '--animation-timing': animTiming,
+        backgroundColor: active ? activeColor : emptyColor
+      }}
+    />
+  );
+};
+
+const ComboPointsDisplay = ({ count, max, shapeClass, animStyle, activeColor, emptyColor, glowColor, animTiming, size }) => (
+  <div className="combo-points-visual">
+    {Array.from({ length: max }).map((_, index) => (
+      <ComboPoint 
+        key={index}
+        active={index < count}
+        shapeClass={shapeClass}
+        animStyle={animStyle}
+        activeColor={activeColor}
+        emptyColor={emptyColor}
+        glowColor={glowColor}
+        animTiming={animTiming}
+        size={size}
+      />
+    ))}
+  </div>
+);
+
+const AnimationPreview = ({ animationType, activeColor, glowColor, animTiming }) => (
+  <div className={`animation-preview combo-animation-preview-${animationType}`}>
+    <div 
+      className="demo-combo-point"
+      style={{ 
+        '--animation-timing': animTiming,
+        '--primary-color': activeColor,
+        '--primary-glow': glowColor,
+        animationName: `demo-${animationType}`,
+        animationDuration: '1.5s',
+        animationIterationCount: 'infinite',
+        animationDirection: 'alternate',
+        animationTimingFunction: animTiming.split(' ')[1] || 'ease'
+      }}
+    />
+  </div>
+);
 
 const Step6AdvancedMechanics = () => {
   const { 
@@ -297,811 +447,1158 @@ const Step6AdvancedMechanics = () => {
   } = useSpellWizardStore();
   
   // Local state
-  const [selectedAttributes, setSelectedAttributes] = useState(spellData.attributeScaling || []);
-  const [primaryAttribute, setPrimaryAttribute] = useState(spellData.scalingAttribute || '');
-  const [scalingFormula, setScalingFormula] = useState(spellData.scalingFormula || 'linear');
-  const [customFormula, setCustomFormula] = useState(spellData.customFormula || '');
-  const [multiplier, setMultiplier] = useState(spellData.multiplier || 0.5);
-  const [secondaryAttribute, setSecondaryAttribute] = useState(spellData.secondaryAttribute || '');
-  const [secondaryMultiplier, setSecondaryMultiplier] = useState(spellData.secondaryMultiplier || 0.25);
+  const [isComboSystem, setIsComboSystem] = React.useState(spellData.isComboSystem || false);
+  const [maxComboPoints, setMaxComboPoints] = React.useState(spellData.maxComboPoints || 5);
+  const [comboGenerator, setComboGenerator] = React.useState(spellData.comboGenerator || []);
+  const [comboFinisher, setComboFinisher] = React.useState(spellData.comboFinisher || '');
+  const [comboConditions, setComboConditions] = React.useState(spellData.comboConditions || []);
+  const [comboVisualStyle, setComboVisualStyle] = React.useState(spellData.comboVisualStyle || 'rogue');
+  const [comboAnimation, setComboAnimation] = React.useState(spellData.comboAnimation || 'scale_up');
+  const [buildupMechanic, setBuildupMechanic] = React.useState(spellData.buildupMechanic || '');
+  const [comboRole, setComboRole] = React.useState(spellData.comboRole || '');
+  const [currentSubstep, setCurrentSubstep] = React.useState('enable');
   
-  const [specialInteractions, setSpecialInteractions] = useState(spellData.specialInteractions || []);
-  const [environmentalInteractions, setEnvironmentalInteractions] = useState(spellData.environmentalInteractions || []);
-  const [conditionalEffects, setConditionalEffects] = useState(spellData.conditionalEffects || []);
-  const [comboEffects, setComboEffects] = useState(spellData.comboEffects || []);
+  // Demo combo points state
+  const [demoComboPoints, setDemoComboPoints] = React.useState(0);
+  const [comboPreviewActive, setComboPreviewActive] = React.useState(false);
+  const [useFinisher, setUseFinisher] = React.useState(false);
+  const [autoDemo, setAutoDemo] = React.useState(false);
   
-  const [customConditionalEffect, setCustomConditionalEffect] = useState('');
-  const [customComboEffect, setCustomComboEffect] = useState('');
-  const [customSpecialInteraction, setCustomSpecialInteraction] = useState('');
-
-  // Validation logic (optional for this step)
-  useEffect(() => {
-    // This step is always valid as these are optional advanced mechanics
-    setStepValidation(5, true);
-  }, [setStepValidation]);
+  // Refs for animation
+  const comboContainerRef = React.useRef(null);
+  const finisherRef = React.useRef(null);
+  const demoInterval = React.useRef(null);
   
-  // Update spell data with current values
-  useEffect(() => {
+  // Initialize from spell data
+  React.useEffect(() => {
+    if (spellData.isComboSystem !== undefined) {
+      setIsComboSystem(spellData.isComboSystem);
+    }
+    
+    if (spellData.maxComboPoints) {
+      setMaxComboPoints(spellData.maxComboPoints);
+    }
+    
+    if (spellData.comboGenerator) {
+      setComboGenerator(spellData.comboGenerator);
+    }
+    
+    if (spellData.comboFinisher) {
+      setComboFinisher(spellData.comboFinisher);
+    }
+    
+    if (spellData.comboConditions) {
+      setComboConditions(spellData.comboConditions);
+    }
+    
+    if (spellData.comboVisualStyle) {
+      setComboVisualStyle(spellData.comboVisualStyle);
+    }
+    
+    if (spellData.comboAnimation) {
+      setComboAnimation(spellData.comboAnimation);
+    }
+    
+    if (spellData.buildupMechanic) {
+      setBuildupMechanic(spellData.buildupMechanic);
+    }
+    
+    if (spellData.comboRole) {
+      setComboRole(spellData.comboRole);
+    }
+  }, [spellData]);
+  
+  // Handle auto demo if active
+  React.useEffect(() => {
+    if (autoDemo) {
+      demoInterval.current = setInterval(() => {
+        setDemoComboPoints(prev => {
+          if (prev < maxComboPoints) {
+            return prev + 1;
+          } else {
+            // Flash finisher and reset
+            setUseFinisher(true);
+            
+            setTimeout(() => {
+              setUseFinisher(false);
+              setDemoComboPoints(0);
+            }, 800);
+            return prev;
+          }
+        });
+      }, 1200);
+    } else {
+      if (demoInterval.current) {
+        clearInterval(demoInterval.current);
+      }
+    }
+    
+    return () => {
+      if (demoInterval.current) {
+        clearInterval(demoInterval.current);
+      }
+    };
+  }, [autoDemo, maxComboPoints]);
+  
+  // Update spell data when form changes
+  React.useEffect(() => {
     updateSpellData({
-      attributeScaling: selectedAttributes,
-      scalingAttribute: primaryAttribute,
-      scalingFormula,
-      customFormula,
-      multiplier,
-      secondaryAttribute,
-      secondaryMultiplier,
-      specialInteractions,
-      environmentalInteractions,
-      conditionalEffects,
-      comboEffects
+      isComboSystem,
+      maxComboPoints,
+      comboGenerator,
+      comboFinisher,
+      comboConditions,
+      comboVisualStyle,
+      comboAnimation,
+      buildupMechanic,
+      comboRole
     });
+    
+    // Valid if combo system is enabled and required fields are filled
+    const isValid = !isComboSystem || (
+      comboRole && ((comboRole === 'generator' && comboGenerator.length > 0) || 
+                    (comboRole === 'finisher' && comboFinisher) || 
+                    (comboRole === 'hybrid' && comboGenerator.length > 0 && comboFinisher))
+    );
+    
+    setStepValidation(5, isValid);
   }, [
-    selectedAttributes,
-    primaryAttribute,
-    scalingFormula,
-    customFormula,
-    multiplier,
-    secondaryAttribute,
-    secondaryMultiplier,
-    specialInteractions,
-    environmentalInteractions,
-    conditionalEffects,
-    comboEffects,
-    updateSpellData
+    isComboSystem,
+    maxComboPoints,
+    comboGenerator,
+    comboFinisher,
+    comboConditions,
+    comboVisualStyle,
+    comboAnimation,
+    buildupMechanic,
+    comboRole,
+    updateSpellData,
+    setStepValidation
   ]);
   
-  // Handle attribute selection
-  const toggleAttribute = (attributeId) => {
-    setSelectedAttributes(prev => {
-      if (prev.includes(attributeId)) {
-        return prev.filter(id => id !== attributeId);
+  // Toggle combo system
+  const toggleComboSystem = () => {
+    setIsComboSystem(!isComboSystem);
+    if (!isComboSystem) {
+      setCurrentSubstep('role');
+    }
+  };
+  
+  // Handle combo generator selection
+  const toggleComboGenerator = (generatorId) => {
+    setComboGenerator(prev => {
+      if (prev.includes(generatorId)) {
+        return prev.filter(id => id !== generatorId);
       } else {
-        return [...prev, attributeId];
-      }
-    });
-    
-    // If primary attribute not set, set it to the first selected attribute
-    if (!primaryAttribute && !selectedAttributes.includes(attributeId)) {
-      setPrimaryAttribute(attributeId);
-    }
-    
-    // If the primary attribute is deselected, reset it
-    if (primaryAttribute === attributeId && selectedAttributes.includes(attributeId)) {
-      setPrimaryAttribute('');
-    }
-  };
-  
-  // Handle primary attribute selection
-  const handlePrimaryAttributeChange = (e) => {
-    const attributeId = e.target.value;
-    
-    // Ensure the attribute is in the selected attributes list
-    if (attributeId && !selectedAttributes.includes(attributeId)) {
-      setSelectedAttributes(prev => [...prev, attributeId]);
-    }
-    
-    setPrimaryAttribute(attributeId);
-  };
-  
-  // Handle secondary attribute selection
-  const handleSecondaryAttributeChange = (e) => {
-    const attributeId = e.target.value;
-    
-    // Ensure the attribute is in the selected attributes list
-    if (attributeId && !selectedAttributes.includes(attributeId)) {
-      setSelectedAttributes(prev => [...prev, attributeId]);
-    }
-    
-    setSecondaryAttribute(attributeId);
-  };
-  
-  // Toggle condition interactions
-  const toggleConditionInteraction = (conditionId) => {
-    setSpecialInteractions(prev => {
-      if (prev.includes(conditionId)) {
-        return prev.filter(id => id !== conditionId);
-      } else {
-        return [...prev, conditionId];
+        return [...prev, generatorId];
       }
     });
   };
   
-  // Toggle environmental interactions
-  const toggleEnvironmentalInteraction = (environmentId) => {
-    setEnvironmentalInteractions(prev => {
-      if (prev.includes(environmentId)) {
-        return prev.filter(id => id !== environmentId);
+  // Handle combo condition selection
+  const toggleComboCondition = (conditionId) => {
+    setComboConditions(prev => {
+      if (prev.find(c => c.id === conditionId)) {
+        return prev.filter(c => c.id !== conditionId);
       } else {
-        return [...prev, environmentId];
+        const condition = COMBO_CONDITIONS.find(c => c.id === conditionId);
+        return [...prev, { id: conditionId, value: condition.value }];
       }
     });
   };
   
-  // Toggle conditional effects
-  const toggleConditionalEffect = (effectId) => {
-    setConditionalEffects(prev => {
-      if (prev.some(effect => effect.id === effectId)) {
-        return prev.filter(effect => effect.id !== effectId);
-      } else {
-        return [...prev, { id: effectId, description: '' }];
-      }
-    });
-  };
-  
-  // Update conditional effect description
-  const updateConditionalEffectDescription = (effectId, description) => {
-    setConditionalEffects(prev => {
-      return prev.map(effect => {
-        if (effect.id === effectId) {
-          return { ...effect, description };
+  // Update condition value
+  const updateConditionValue = (conditionId, value) => {
+    setComboConditions(prev => {
+      return prev.map(c => {
+        if (c.id === conditionId) {
+          return { ...c, value };
         }
-        return effect;
+        return c;
       });
     });
   };
   
-  // Toggle combo effects
-  const toggleComboEffect = (comboId) => {
-    setComboEffects(prev => {
-      if (prev.some(combo => combo.id === comboId)) {
-        return prev.filter(combo => combo.id !== comboId);
-      } else {
-        return [...prev, { id: comboId, description: '' }];
-      }
-    });
-  };
-  
-  // Update combo effect description
-  const updateComboEffectDescription = (comboId, description) => {
-    setComboEffects(prev => {
-      return prev.map(combo => {
-        if (combo.id === comboId) {
-          return { ...combo, description };
-        }
-        return combo;
-      });
-    });
-  };
-  
-  // Add custom conditional effect
-  const addCustomConditionalEffect = () => {
-    if (customConditionalEffect.trim()) {
-      const newId = `custom-condition-${Date.now()}`;
-      setConditionalEffects(prev => [...prev, { 
-        id: newId, 
-        description: customConditionalEffect.trim(),
-        isCustom: true
-      }]);
-      setCustomConditionalEffect('');
+  // Demo functions for combo points
+  const incrementComboPoint = () => {
+    if (demoComboPoints < maxComboPoints) {
+      setDemoComboPoints(prev => Math.min(prev + 1, maxComboPoints));
     }
   };
   
-  // Add custom combo effect
-  const addCustomComboEffect = () => {
-    if (customComboEffect.trim()) {
-      const newId = `custom-combo-${Date.now()}`;
-      setComboEffects(prev => [...prev, { 
-        id: newId, 
-        description: customComboEffect.trim(),
-        isCustom: true
-      }]);
-      setCustomComboEffect('');
-    }
-  };
-  
-  // Add custom special interaction
-  const addCustomSpecialInteraction = () => {
-    if (customSpecialInteraction.trim()) {
-      const newId = `custom-interaction-${Date.now()}`;
-      setSpecialInteractions(prev => [...prev, newId]);
-      // Note: This approach would require additional state to store custom interaction details
-      setCustomSpecialInteraction('');
-    }
-  };
-  
-  // Generate formula preview
-  const getFormulaPreview = () => {
-    const attribute = ATTRIBUTES.find(attr => attr.id === primaryAttribute);
-    const secondAttr = ATTRIBUTES.find(attr => attr.id === secondaryAttribute);
-    
-    switch (scalingFormula) {
-      case 'linear':
-        return `Base + (${attribute ? attribute.abbr : 'Attribute'} × ${multiplier})`;
-      case 'diminishing':
-        return `Base + (${attribute ? attribute.abbr : 'Attribute'} ÷ (${attribute ? attribute.abbr : 'Attribute'} + 100) × Max)`;
-      case 'threshold':
-        return `Base + Bonus per ${Math.round(1/multiplier)} ${attribute ? attribute.abbr : 'Attribute'} points`;
-      case 'exponential':
-        return `Base + (${attribute ? attribute.abbr : 'Attribute'}² × ${multiplier})`;
-      case 'hybrid':
-        return `Base + (${attribute ? attribute.abbr : 'Primary'} × ${multiplier}) + (${secondAttr ? secondAttr.abbr : 'Secondary'} × ${secondaryMultiplier})`;
-      case 'custom':
-        return customFormula || 'Custom formula';
-      default:
-        return 'Select a formula type';
-    }
-  };
-  
-  // Check if the spell is damage or healing based
-  const isOffensiveSpell = spellData.effectType === 'damage';
-  const isHealingSpell = spellData.effectType === 'healing';
-  
-  // Helper to find attribute by id
-  const getAttributeById = (id) => ATTRIBUTES.find(attr => attr.id === id);
-  
-  return (
-    <div className="advanced-mechanics-step">
-      <div className="section">
-        <h4 className="section-title">Attribute Scaling</h4>
-        <p className="section-description">
-          Define how your spell's effectiveness scales with character attributes.
-          {isOffensiveSpell && " This can affect damage output, critical chance, or other offensive parameters."}
-          {isHealingSpell && " This can affect healing amount, duration, or other restoration parameters."}
-        </p>
-        
-        <div className="attribute-grid">
-          {ATTRIBUTES.map(attribute => (
-            <div 
-              key={attribute.id}
-              className={`attribute-card ${selectedAttributes.includes(attribute.id) ? 'selected' : ''} ${primaryAttribute === attribute.id ? 'primary' : ''}`}
-              onClick={() => toggleAttribute(attribute.id)}
-              style={{
-                borderColor: selectedAttributes.includes(attribute.id) ? attribute.color : 'transparent'
-              }}
-            >
-              <div className="attribute-header">
-                <div className="attribute-badge" style={{ backgroundColor: attribute.color }}>
-                  {attribute.abbr}
-                </div>
-                <h5 className="attribute-name">{attribute.name}</h5>
-                {primaryAttribute === attribute.id && (
-                  <span className="primary-badge">Primary</span>
-                )}
-              </div>
-              <p className="attribute-description">{attribute.description}</p>
-              <div className="attribute-examples">
-                <span className="examples-label">Examples: </span>
-                {attribute.examples.join(', ')}
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        {selectedAttributes.length > 0 && (
-          <div className="scaling-configuration">
-            <div className="primary-attribute-selector">
-              <label>Primary Scaling Attribute:</label>
-              <select 
-                value={primaryAttribute} 
-                onChange={handlePrimaryAttributeChange}
-                className="attribute-select"
-              >
-                <option value="">Select Primary Attribute</option>
-                {selectedAttributes.map(attrId => {
-                  const attr = getAttributeById(attrId);
-                  return (
-                    <option key={attrId} value={attrId}>
-                      {attr ? attr.name : attrId}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            
-            {primaryAttribute && (
-              <>
-                <div className="formula-selector">
-                  <label>Scaling Formula Type:</label>
-                  <select 
-                    value={scalingFormula} 
-                    onChange={(e) => setScalingFormula(e.target.value)}
-                    className="formula-select"
-                  >
-                    {SCALING_FORMULAS.map(formula => (
-                      <option key={formula.id} value={formula.id}>
-                        {formula.name}
-                      </option>
-                    ))}
-                    <option value="custom">Custom Formula</option>
-                  </select>
-                </div>
-                
-                {scalingFormula !== 'custom' && scalingFormula !== 'hybrid' && (
-                  <div className="multiplier-selector">
-                    <label>Scaling Multiplier:</label>
-                    <select 
-                      value={multiplier} 
-                      onChange={(e) => setMultiplier(parseFloat(e.target.value))}
-                      className="multiplier-select"
-                    >
-                      {MULTIPLIER_OPTIONS.map(option => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                
-                {scalingFormula === 'hybrid' && (
-                  <>
-                    <div className="multiplier-selector">
-                      <label>Primary Multiplier:</label>
-                      <select 
-                        value={multiplier} 
-                        onChange={(e) => setMultiplier(parseFloat(e.target.value))}
-                        className="multiplier-select"
-                      >
-                        {MULTIPLIER_OPTIONS.map(option => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    
-                    <div className="secondary-attribute-selector">
-                      <label>Secondary Scaling Attribute:</label>
-                      <select 
-                        value={secondaryAttribute} 
-                        onChange={handleSecondaryAttributeChange}
-                        className="attribute-select"
-                      >
-                        <option value="">Select Secondary Attribute</option>
-                        {selectedAttributes
-                          .filter(attrId => attrId !== primaryAttribute)
-                          .map(attrId => {
-                            const attr = getAttributeById(attrId);
-                            return (
-                              <option key={attrId} value={attrId}>
-                                {attr ? attr.name : attrId}
-                              </option>
-                            );
-                          })
-                        }
-                      </select>
-                    </div>
-                    
-                    {secondaryAttribute && (
-                      <div className="multiplier-selector">
-                        <label>Secondary Multiplier:</label>
-                        <select 
-                          value={secondaryMultiplier} 
-                          onChange={(e) => setSecondaryMultiplier(parseFloat(e.target.value))}
-                          className="multiplier-select"
-                        >
-                          {MULTIPLIER_OPTIONS.map(option => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-                  </>
-                )}
-                
-                {scalingFormula === 'custom' && (
-                  <div className="custom-formula-input">
-                    <label>Custom Formula:</label>
-                    <input 
-                      type="text" 
-                      value={customFormula} 
-                      onChange={(e) => setCustomFormula(e.target.value)}
-                      placeholder="e.g., Base + (INT * 0.5) + (WIS * 0.3)"
-                      className="custom-formula-field"
-                    />
-                    <p className="formula-hint">
-                      Use attribute abbreviations (STR, DEX, CON, INT, WIS, CHA) in your formula.
-                    </p>
-                  </div>
-                )}
-                
-                <div className="formula-preview">
-                  <h5 className="formula-preview-title">Scaling Formula Preview</h5>
-                  <div className="formula-display">
-                    {getFormulaPreview()}
-                  </div>
-                  <p className="formula-description">
-                    {SCALING_FORMULAS.find(f => f.id === scalingFormula)?.description || 'Custom formula scaling'}
-                  </p>
-                  <div className="formula-example">
-                    <span className="example-label">Example: </span>
-                    {SCALING_FORMULAS.find(f => f.id === scalingFormula)?.example || customFormula}
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+  const spendComboPoints = () => {
+    if (demoComboPoints > 0) {
+      setUseFinisher(true);
       
-      <div className="section">
-        <h4 className="section-title">Special Interactions</h4>
-        <p className="section-description">
-          Define how your spell interacts with specific status conditions or environments.
-          This adds tactical depth and situational advantages to your spell.
-        </p>
+      // Apply finisher animation
+      if (finisherRef.current) {
+        finisherRef.current.classList.add('active-finisher');
         
-        <div className="interactions-container">
-          <div className="subsection">
-            <h5 className="subsection-title">Condition Interactions</h5>
-            <div className="condition-grid">
-              {CONDITION_INTERACTIONS.map(condition => (
-                <div 
-                  key={condition.id}
-                  className={`condition-card ${specialInteractions.includes(condition.id) ? 'selected' : ''}`}
-                  onClick={() => toggleConditionInteraction(condition.id)}
-                  style={{
-                    borderColor: specialInteractions.includes(condition.id) ? condition.color : 'transparent'
-                  }}
-                >
-                  <div className="condition-header" style={{ color: condition.color }}>
-                    {condition.name}
-                  </div>
-                  <p className="condition-description">{condition.description}</p>
-                  <ul className="condition-effects">
-                    {condition.effects.map((effect, index) => (
-                      <li key={index}>{effect}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            
-            <div className="custom-interaction">
-              <input 
-                type="text" 
-                value={customSpecialInteraction} 
-                onChange={(e) => setCustomSpecialInteraction(e.target.value)}
-                placeholder="Add custom condition interaction..."
-                className="custom-interaction-input"
-              />
+        setTimeout(() => {
+          finisherRef.current.classList.remove('active-finisher');
+          setDemoComboPoints(0);
+          setUseFinisher(false);
+        }, 1000);
+      }
+    }
+  };
+  
+  // Start combo preview
+  const startComboPreview = () => {
+    setComboPreviewActive(true);
+    setDemoComboPoints(0);
+    setAutoDemo(true);
+  };
+  
+  // Stop combo preview
+  const stopComboPreview = () => {
+    setComboPreviewActive(false);
+    setDemoComboPoints(0);
+    setAutoDemo(false);
+  };
+  
+  // Get visual styling for combo points
+  const getComboVisualStyle = () => {
+    const style = COMBO_VISUALS.find(v => v.id === comboVisualStyle) || COMBO_VISUALS[0];
+    const animation = COMBO_ANIMATIONS.find(a => a.id === comboAnimation) || COMBO_ANIMATIONS[1];
+    
+    return {
+      activeColor: style.activeColor,
+      emptyColor: style.emptyColor,
+      glowColor: style.glowColor,
+      shapeClass: `combo-shape-${style.shape}`,
+      animStyle: `combo-animation-${animation.id}`,
+      animTiming: animation.timing
+    };
+  };
+  
+  // Get finisher details
+  const getFinisherDetails = () => {
+    return FINISHER_EFFECTS.find(f => f.id === comboFinisher);
+  };
+  
+  // Get buildup details
+  const getBuildupDetails = () => {
+    return BUILDUP_MECHANICS.find(b => b.id === buildupMechanic);
+  };
+  
+  // Format condition value display
+  const formatConditionValue = (condition) => {
+    const isCritOrPositional = condition.id === 'critical_strike' || condition.id === 'positional_bonus';
+    return `${condition.value}${isCritOrPositional ? ' points' : '%'}`;
+  };
+  
+  // Navigation between substeps
+  const goToNextSubstep = () => {
+    const currentIndex = SUBSTEPS.findIndex(step => step.id === currentSubstep);
+    
+    // Skip substeps based on role
+    if (currentSubstep === 'role' && comboRole === 'finisher') {
+      setCurrentSubstep('finisher');
+    } else if (currentSubstep === 'generator' && comboRole === 'generator') {
+      setCurrentSubstep('visual');
+    } else if (currentIndex < SUBSTEPS.length - 1) {
+      setCurrentSubstep(SUBSTEPS[currentIndex + 1].id);
+    }
+  };
+  
+  const goToPrevSubstep = () => {
+    const currentIndex = SUBSTEPS.findIndex(step => step.id === currentSubstep);
+    
+    // Skip substeps based on role
+    if (currentSubstep === 'visual' && comboRole === 'generator') {
+      setCurrentSubstep('generator');
+    } else if (currentSubstep === 'finisher' && comboRole === 'finisher') {
+      setCurrentSubstep('role');
+    } else if (currentIndex > 0) {
+      setCurrentSubstep(SUBSTEPS[currentIndex - 1].id);
+    }
+  };
+  
+  const goToSubstep = (substep) => {
+    setCurrentSubstep(substep);
+  };
+  
+  // Check if we can proceed to next substep
+  const canProceedToNext = () => {
+    if (currentSubstep === 'enable' && !isComboSystem) {
+      return true; // Can skip all other steps if combo system is disabled
+    }
+    
+    if (currentSubstep === 'role') {
+      return !!comboRole;
+    }
+    
+    if (currentSubstep === 'generator') {
+      return comboGenerator.length > 0;
+    }
+    
+    if (currentSubstep === 'finisher') {
+      return !!comboFinisher;
+    }
+    
+    return true; // All other substeps can proceed
+  };
+  
+  // Spell type helpers
+  const getSpellTypeName = (typeId) => {
+    const typeMap = {
+      'active': 'Active Ability',
+      'passive': 'Passive Ability',
+      'aura': 'Aura',
+      'ultimate': 'Ultimate Ability',
+      'reaction': 'Reaction',
+      'ritual': 'Ritual'
+    };
+    
+    return typeMap[typeId] || typeId;
+  };
+  
+  // Render ComboPointsPreview component
+  const renderComboPointsPreview = (subtitle, showControls = false) => {
+    const visualStyle = getComboVisualStyle();
+    
+    return (
+      <div className="combo-points-preview">
+        {subtitle && <h5 className="subsection-title">{subtitle}</h5>}
+        
+        <div className="combo-preview-container">
+          {showControls && (
+            <div className="combo-controls">
               <button 
-                onClick={addCustomSpecialInteraction}
-                disabled={!customSpecialInteraction.trim()}
-                className="custom-interaction-btn"
+                className="combo-button generator"
+                onClick={incrementComboPoint}
+                disabled={demoComboPoints >= maxComboPoints || useFinisher || autoDemo}
               >
-                Add
+                Generate Point
+              </button>
+              
+              <div 
+                className="combo-points-container"
+                ref={comboContainerRef}
+              >
+                <ComboPointsDisplay 
+                  count={demoComboPoints}
+                  max={maxComboPoints}
+                  {...visualStyle}
+                />
+              </div>
+              
+              <button 
+                className="combo-button finisher"
+                onClick={spendComboPoints}
+                disabled={demoComboPoints === 0 || useFinisher || autoDemo}
+                ref={finisherRef}
+              >
+                Use Finisher ({demoComboPoints})
               </button>
             </div>
-          </div>
+          )}
           
-          <div className="subsection">
-            <h5 className="subsection-title">Environmental Interactions</h5>
-            <div className="environment-grid">
-              {ENVIRONMENTAL_INTERACTIONS.map(environment => (
+          {!showControls && (
+            <div className="live-combo-display">
+              <ComboPointsDisplay 
+                count={demoComboPoints}
+                max={maxComboPoints}
+                {...visualStyle}
+                size="live"
+              />
+              
+              <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                {!autoDemo ? (
+                  <button 
+                    className="start-demo-button"
+                    onClick={startComboPreview}
+                  >
+                    Start Auto Demo
+                  </button>
+                ) : (
+                  <button 
+                    className="stop-demo-button"
+                    onClick={stopComboPreview}
+                  >
+                    Stop Demo
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          
+          {comboFinisher && (
+            <div className="finisher-effectiveness" style={{ marginTop: '16px' }}>
+              <h6>Finisher Effectiveness</h6>
+              <div className="effectiveness-bar">
                 <div 
-                  key={environment.id}
-                  className={`environment-card ${environmentalInteractions.includes(environment.id) ? 'selected' : ''}`}
-                  onClick={() => toggleEnvironmentalInteraction(environment.id)}
-                  style={{
-                    borderColor: environmentalInteractions.includes(environment.id) ? environment.color : 'transparent'
-                  }}
-                >
-                  <div className="environment-header" style={{ color: environment.color }}>
-                    {environment.name}
+                  className="effectiveness-fill"
+                  style={{ width: `${(demoComboPoints / maxComboPoints) * 100}%` }}
+                />
+              </div>
+              <div className="effectiveness-labels">
+                <span>Weak</span>
+                <span>Medium</span>
+                <span>Strong</span>
+                <span>Powerful</span>
+                <span>Maximum</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+  
+  // Render the current substep content
+  const renderSubstepContent = () => {
+    const visualStyle = getComboVisualStyle();
+    
+    switch (currentSubstep) {
+      case 'enable':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="ability_rogue_slicedice" 
+                title="Combo Point System"
+                description="Combo point systems allow abilities to generate points that accumulate and are spent on powerful finisher abilities, creating tactical combat rotations."
+              />
+              
+              <div className="combo-system-toggle">
+                <label className="toggle-container">
+                  <input
+                    type="checkbox"
+                    checked={isComboSystem}
+                    onChange={toggleComboSystem}
+                  />
+                  <span className="toggle-switch"></span>
+                  <span className="toggle-label">Enable Combo Point System</span>
+                </label>
+                <p className="toggle-description">
+                  Enabling this system will convert your spell into either a combo point generator or a finisher ability that uses round-based mechanics for tabletop RPGs.
+                </p>
+              </div>
+              
+              {isComboSystem && (
+                <div className="combo-points-preview">
+                  <h5 className="subsection-title">Combo Points Preview</h5>
+                  
+                  <div className="combo-preview-container">
+                    <AnimationPreview 
+                      animationType={comboAnimation}
+                      activeColor={visualStyle.activeColor}
+                      glowColor={visualStyle.glowColor}
+                      animTiming={visualStyle.animTiming}
+                    />
                   </div>
-                  <p className="environment-description">{environment.description}</p>
-                  <ul className="environment-effects">
-                    {environment.effects.map((effect, index) => (
-                      <li key={index}>{effect}</li>
-                    ))}
-                  </ul>
                 </div>
-              ))}
+              )}
             </div>
           </div>
-        </div>
-      </div>
-      
-      <div className="section">
-        <h4 className="section-title">Conditional Effects</h4>
-        <p className="section-description">
-          Define effects that only activate under specific conditions or triggers.
-          These add depth and situational power to your spell.
-        </p>
+        );
         
-        <div className="conditional-effects-grid">
-          {CONDITIONAL_TRIGGERS.map(trigger => {
-            const isSelected = conditionalEffects.some(effect => effect.id === trigger.id);
-            const selectedEffect = conditionalEffects.find(effect => effect.id === trigger.id);
-            
-            return (
-              <div 
-                key={trigger.id}
-                className={`conditional-card ${isSelected ? 'selected' : ''}`}
-                style={{
-                  borderColor: isSelected ? trigger.color : 'transparent'
-                }}
-              >
-                <div className="conditional-header">
-                  <div className="checkbox-container">
-                    <input 
-                      type="checkbox" 
-                      id={`trigger-${trigger.id}`}
-                      checked={isSelected}
-                      onChange={() => toggleConditionalEffect(trigger.id)}
-                    />
-                    <label 
-                      htmlFor={`trigger-${trigger.id}`}
-                      className="conditional-name"
-                      style={{ color: trigger.color }}
-                    >
-                      {trigger.name}
-                    </label>
+      case 'role':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="ability_rogue_slicedice" 
+                title="Spell's Role in Combo System"
+                description="Choose whether this spell will generate combo points, spend them as a finisher, or both."
+              />
+              
+              <div className="spell-type-options">
+                <div 
+                  className={`spell-type-option ${comboRole === 'generator' ? 'selected' : ''}`}
+                  onClick={() => setComboRole('generator')}
+                >
+                  <div className="spell-type-icon">
+                    <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_rogue_sinistercalling.jpg" alt="Generator" />
+                  </div>
+                  <div className="spell-type-info">
+                    <div className="spell-type-name">Generator</div>
+                    <div className="spell-type-description">This spell generates combo points for finishers</div>
                   </div>
                 </div>
-                <p className="conditional-description">{trigger.description}</p>
-                <div className="conditional-threshold">
-                  <span className="threshold-label">Trigger: </span>
-                  {trigger.threshold}
+                
+                <div 
+                  className={`spell-type-option ${comboRole === 'finisher' ? 'selected' : ''}`}
+                  onClick={() => setComboRole('finisher')}
+                >
+                  <div className="spell-type-icon">
+                    <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_rogue_eviscerate.jpg" alt="Finisher" />
+                  </div>
+                  <div className="spell-type-info">
+                    <div className="spell-type-name">Finisher</div>
+                    <div className="spell-type-description">This spell consumes combo points for enhanced effects</div>
+                  </div>
                 </div>
                 
-                {isSelected && (
-                  <div className="conditional-effect-input">
-                    <label>Effect Description:</label>
-                    <textarea 
-                      value={selectedEffect?.description || ''}
-                      onChange={(e) => updateConditionalEffectDescription(trigger.id, e.target.value)}
-                      placeholder={`Describe the effect when ${trigger.name.toLowerCase()} is triggered...`}
-                      rows={2}
-                      className="effect-description-input"
-                    />
+                <div 
+                  className={`spell-type-option ${comboRole === 'hybrid' ? 'selected' : ''}`}
+                  onClick={() => setComboRole('hybrid')}
+                >
+                  <div className="spell-type-icon">
+                    <img src="https://wow.zamimg.com/images/wow/icons/medium/ability_rogue_shadowdance.jpg" alt="Hybrid" />
+                  </div>
+                  <div className="spell-type-info">
+                    <div className="spell-type-name">Hybrid</div>
+                    <div className="spell-type-description">This spell both generates and spends combo points</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+        
+      case 'maxPoints':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="ability_rogue_slicedice" 
+                title="Maximum Combo Points"
+                description="Select the maximum number of combo points your system can accumulate. More points allow for greater buildup and more powerful finishers."
+              />
+              
+              <div className="combo-max-options">
+                {MAX_COMBO_OPTIONS.map(option => (
+                  <div
+                    key={option.id}
+                    className={`combo-max-option ${maxComboPoints === option.id ? 'selected' : ''}`}
+                    onClick={() => setMaxComboPoints(option.id)}
+                  >
+                    <div className="combo-max-value">{option.id}</div>
+                    <div className="combo-max-name">{option.name}</div>
+                    <div className="combo-max-description">{option.description}</div>
+                  </div>
+                ))}
+              </div>
+              
+              {renderComboPointsPreview("Points Preview", true)}
+            </div>
+          </div>
+        );
+        
+      case 'generator':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="ability_rogue_sinistercalling" 
+                title="Combo Point Generation"
+                description="Select how your spell will generate combo points. You can choose multiple generation methods."
+              />
+              
+              <div className="combo-generator-grid">
+                {COMBO_GENERATION.map(generator => (
+                  <div
+                    key={generator.id}
+                    className={`combo-generator-card ${comboGenerator.includes(generator.id) ? 'selected' : ''}`}
+                    onClick={() => toggleComboGenerator(generator.id)}
+                    style={{ 
+                      '--card-accent-color': generator.color, 
+                      '--card-accent-color-rgb': generator.colorRgb 
+                    }}
+                  >
+                    <div className="combo-generator-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${generator.icon}.jpg`} alt={generator.name} />
+                    </div>
+                    <div className="combo-generator-content">
+                      <h6 className="combo-generator-name">{generator.name}</h6>
+                      <p className="combo-generator-description">{generator.description}</p>
+                      
+                      {comboGenerator.includes(generator.id) && (
+                        <div className="combo-generator-details">
+                          <p>{generator.details}</p>
+                          <div className="combo-examples">
+                            Examples: {generator.examples.join(', ')}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {comboGenerator.includes(generator.id) && (
+                      <div className="selected-indicator">
+                        <span>Selected</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              <div style={{ marginTop: '24px' }}>
+                <h5 className="subsection-title">Special Conditions (Optional)</h5>
+                <p className="section-description">
+                  Add special conditions that modify how your spell generates combo points.
+                </p>
+                
+                <div className="combo-generator-grid">
+                  {COMBO_CONDITIONS.map(condition => {
+                    const isSelected = comboConditions.some(c => c.id === condition.id);
+                    const selectedCondition = comboConditions.find(c => c.id === condition.id);
+                    
+                    return (
+                      <div
+                        key={condition.id}
+                        className={`combo-condition-card ${isSelected ? 'selected' : ''}`}
+                        onClick={() => toggleComboCondition(condition.id)}
+                      >
+                        <div className="combo-condition-icon">
+                          <img src={`https://wow.zamimg.com/images/wow/icons/medium/${condition.icon}.jpg`} alt={condition.name} />
+                        </div>
+                        <div className="combo-condition-content">
+                          <h6 className="combo-condition-name">{condition.name}</h6>
+                          <p className="combo-condition-description">{condition.description}</p>
+                          
+                          {isSelected && (
+                            <div className="combo-condition-value">
+                              <label>Value:</label>
+                              <input 
+                                type="number" 
+                                min="1"
+                                max="100"
+                                value={selectedCondition.value}
+                                onClick={(e) => e.stopPropagation()}
+                                onChange={(e) => updateConditionValue(
+                                  condition.id, 
+                                  Math.max(1, Math.min(100, parseInt(e.target.value) || 1))
+                                )}
+                              />
+                              <span className="unit">
+                                {condition.id === 'critical_strike' || condition.id === 'positional_bonus' ? 
+                                  'points' : '%'}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {isSelected && (
+                          <div className="selected-indicator">
+                            <span>Selected</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+        
+      case 'finisher':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="ability_rogue_eviscerate" 
+                title="Combo Point Finisher"
+                description="Select the effect that will consume your accumulated combo points. The power of the finisher scales with the number of points spent."
+              />
+              
+              <div className="combo-generator-grid">
+                {FINISHER_EFFECTS.map(finisher => (
+                  <div
+                    key={finisher.id}
+                    className={`combo-finisher-card ${comboFinisher === finisher.id ? 'selected' : ''}`}
+                    onClick={() => setComboFinisher(finisher.id)}
+                    style={{ 
+                      '--card-accent-color': finisher.color, 
+                      '--card-accent-color-rgb': finisher.colorRgb 
+                    }}
+                  >
+                    <div className="combo-finisher-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${finisher.icon}.jpg`} alt={finisher.name} />
+                    </div>
+                    <div className="combo-finisher-content">
+                      <h6 className="combo-finisher-name">{finisher.name}</h6>
+                      <p className="combo-finisher-description">{finisher.description}</p>
+                      
+                      {comboFinisher === finisher.id && (
+                        <div className="combo-finisher-details">
+                          <p>{finisher.details}</p>
+                          <div className="combo-scaling">
+                            <span className="scaling-label">Scaling:</span> {finisher.scaling}
+                          </div>
+                          <div className="combo-examples">
+                            Examples: {finisher.examples.join(', ')}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {comboFinisher === finisher.id && (
+                      <div className="selected-indicator">
+                        <span>Selected</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              
+              <div style={{ marginTop: '24px' }}>
+                <h5 className="subsection-title">Build-up Mechanics (Optional)</h5>
+                <p className="section-description">
+                  Add an additional tactical layer that enhances your finisher's effectiveness through careful build-up.
+                </p>
+                
+                <div className="combo-generator-grid">
+                  {BUILDUP_MECHANICS.map(mechanic => (
+                    <div
+                      key={mechanic.id}
+                      className={`buildup-mechanic-card ${buildupMechanic === mechanic.id ? 'selected' : ''}`}
+                      onClick={() => setBuildupMechanic(mechanic.id)}
+                      style={{ 
+                        '--card-accent-color': mechanic.color, 
+                        '--card-accent-color-rgb': mechanic.colorRgb 
+                      }}
+                    >
+                      <div className="buildup-mechanic-icon">
+                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${mechanic.icon}.jpg`} alt={mechanic.name} />
+                      </div>
+                      <div className="buildup-mechanic-content">
+                        <h6 className="buildup-mechanic-name">{mechanic.name}</h6>
+                        <p className="buildup-mechanic-description">{mechanic.description}</p>
+                        
+                        {buildupMechanic === mechanic.id && (
+                          <div className="buildup-mechanic-details">
+                            <p>{mechanic.details}</p>
+                            <div className="combo-scaling">
+                              <span className="scaling-label">Scaling:</span> {mechanic.scaling}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {buildupMechanic === mechanic.id && (
+                        <div className="selected-indicator">
+                          <span>Selected</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                {comboFinisher && (
+                  <div className="finisher-effectiveness" style={{ marginTop: '24px' }}>
+                    <h6>Finisher Effectiveness</h6>
+                    <div className="effectiveness-bar">
+                      <div 
+                        className="effectiveness-fill"
+                        style={{ width: `${(demoComboPoints / maxComboPoints) * 100}%` }}
+                      />
+                    </div>
+                    <div className="effectiveness-labels">
+                      <span>Weak</span>
+                      <span>Medium</span>
+                      <span>Strong</span>
+                      <span>Powerful</span>
+                      <span>Maximum</span>
+                    </div>
+                    
+                    <div className="finisher-formula">
+                      <span className="formula-label">Effect:</span>
+                      <span className="formula-value">
+                        Base Effect + ({demoComboPoints} × Combo Point Multiplier)
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>
-            );
-          })}
-        </div>
-        
-        <div className="custom-conditional">
-          <input 
-            type="text" 
-            value={customConditionalEffect} 
-            onChange={(e) => setCustomConditionalEffect(e.target.value)}
-            placeholder="Add custom conditional effect..."
-            className="custom-conditional-input"
-          />
-          <button 
-            onClick={addCustomConditionalEffect}
-            disabled={!customConditionalEffect.trim()}
-            className="custom-conditional-btn"
-          >
-            Add
-          </button>
-        </div>
-        
-        {conditionalEffects.filter(effect => effect.isCustom).length > 0 && (
-          <div className="custom-conditionals-list">
-            <h5 className="custom-conditionals-title">Custom Conditional Effects</h5>
-            <ul>
-              {conditionalEffects
-                .filter(effect => effect.isCustom)
-                .map(effect => (
-                  <li key={effect.id} className="custom-conditional-item">
-                    {effect.description}
-                    <button 
-                      onClick={() => setConditionalEffects(prev => prev.filter(e => e.id !== effect.id))}
-                      className="remove-conditional-btn"
-                    >
-                      ×
-                    </button>
-                  </li>
-                ))
-              }
-            </ul>
+            </div>
           </div>
-        )}
-      </div>
-      
-      <div className="section">
-        <h4 className="section-title">Combo Potential</h4>
-        <p className="section-description">
-          Define how your spell can combine with other abilities for enhanced effects.
-          This encourages strategic coordination and creates synergies with other abilities.
-        </p>
+        );
         
-        <div className="combo-effects-grid">
-          {COMBO_POTENTIALS.map(combo => {
-            const isSelected = comboEffects.some(effect => effect.id === combo.id);
-            const selectedCombo = comboEffects.find(effect => effect.id === combo.id);
-            
-            return (
-              <div 
-                key={combo.id}
-                className={`combo-card ${isSelected ? 'selected' : ''}`}
-                style={{
-                  borderColor: isSelected ? combo.color : 'transparent'
-                }}
-              >
-                <div className="combo-header">
-                  <div className="checkbox-container">
-                    <input 
-                      type="checkbox" 
-                      id={`combo-${combo.id}`}
-                      checked={isSelected}
-                      onChange={() => toggleComboEffect(combo.id)}
-                    />
-                    <label 
-                      htmlFor={`combo-${combo.id}`}
-                      className="combo-name"
-                      style={{ color: combo.color }}
+      case 'visual':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="inv_misc_gem_pearl_06" 
+                title="Visual Style"
+                description="Choose how your combo points will be displayed visually to the player."
+              />
+              
+              <div className="combo-visual-grid">
+                {COMBO_VISUALS.map(visual => (
+                  <div
+                    key={visual.id}
+                    className={`combo-visual-card ${comboVisualStyle === visual.id ? 'selected' : ''}`}
+                    onClick={() => setComboVisualStyle(visual.id)}
+                  >
+                    <div className="visual-preview"
+                      style={{ 
+                        '--active-color': visual.activeColor, 
+                        '--empty-color': visual.emptyColor,
+                        '--glow-color': visual.glowColor
+                      }}
                     >
-                      {combo.name}
-                    </label>
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <ComboPoint 
+                          key={index}
+                          active={index < 3}
+                          shapeClass={`combo-shape-${visual.shape}`}
+                          activeColor={visual.activeColor}
+                          emptyColor={visual.emptyColor}
+                          glowColor={visual.glowColor}
+                          size="small"
+                        />
+                      ))}
+                    </div>
+                    <div className="combo-visual-content">
+                      <h6 className="combo-visual-name">{visual.name}</h6>
+                      <p className="combo-visual-description">{visual.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div style={{ marginTop: '24px' }}>
+                <h5 className="subsection-title">Animation Style</h5>
+                <p className="section-description">
+                  Choose how your combo points animate when gained or spent.
+                </p>
+                
+                <div className="combo-animation-grid">
+                  {COMBO_ANIMATIONS.map(animation => (
+                    <div
+                      key={animation.id}
+                      className={`combo-animation-card ${comboAnimation === animation.id ? 'selected' : ''}`}
+                      onClick={() => setComboAnimation(animation.id)}
+                    >
+                      <AnimationPreview 
+                        animationType={animation.id}
+                        activeColor={visualStyle.activeColor}
+                        glowColor={visualStyle.glowColor}
+                        animTiming={animation.timing}
+                      />
+                      <div className="combo-animation-content">
+                        <h6 className="combo-animation-name">{animation.name}</h6>
+                        <p className="combo-animation-description">{animation.description}</p>
+                        <div className="animation-timing">Timing: {animation.timing}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {renderComboPointsPreview("Live Demo")}
+              </div>
+            </div>
+          </div>
+        );
+        
+      case 'summary':
+        return (
+          <div className="substep">
+            <div className="section">
+              <SectionHeader 
+                icon="ability_rogue_slicedice" 
+                title="Combo System Summary"
+                description="Review your combo point system configuration."
+              />
+              
+              <div className="combo-system-summary">                
+                <div className="summary-content">
+                  <div className="summary-row">
+                    <span className="summary-label">System Type:</span>
+                    <span className="summary-value">Combo Point System with {maxComboPoints} maximum points</span>
+                  </div>
+                  
+                  <div className="summary-row">
+                    <span className="summary-label">Spell's Role:</span>
+                    <span className="summary-value">
+                      {comboRole === 'generator' ? 'Combo Point Generator' : 
+                       comboRole === 'finisher' ? 'Combo Point Finisher' : 
+                       comboRole === 'hybrid' ? 'Hybrid (Generator & Finisher)' : 'Not specified'}
+                    </span>
+                  </div>
+                  
+                  {(comboRole === 'generator' || comboRole === 'hybrid') && comboGenerator.length > 0 && (
+                    <div className="summary-row">
+                      <span className="summary-label">Generation Method:</span>
+                      <span className="summary-value">
+                        {comboGenerator.map(id => COMBO_GENERATION.find(g => g.id === id)?.name).join(', ')}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {comboConditions.length > 0 && (
+                    <div className="summary-row">
+                      <span className="summary-label">Special Conditions:</span>
+                      <span className="summary-value">
+                        {comboConditions.map(condition => {
+                          const conditionData = COMBO_CONDITIONS.find(c => c.id === condition.id);
+                          return `${conditionData?.name} (${formatConditionValue(condition)})`;
+                        }).join(', ')}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {(comboRole === 'finisher' || comboRole === 'hybrid') && comboFinisher && (
+                    <div className="summary-row">
+                      <span className="summary-label">Finisher Type:</span>
+                      <span className="summary-value">
+                        {FINISHER_EFFECTS.find(f => f.id === comboFinisher)?.name}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {buildupMechanic && (
+                    <div className="summary-row">
+                      <span className="summary-label">Build-up Mechanic:</span>
+                      <span className="summary-value">
+                        {BUILDUP_MECHANICS.find(b => b.id === buildupMechanic)?.name}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="summary-row">
+                    <span className="summary-label">Visual Style:</span>
+                    <span className="summary-value">
+                      {COMBO_VISUALS.find(v => v.id === comboVisualStyle)?.name} with {COMBO_ANIMATIONS.find(a => a.id === comboAnimation)?.name} animation
+                    </span>
+                  </div>
+                  
+                  <div className="summary-row">
+                    <span className="summary-label">Round-Based:</span>
+                    <span className="summary-value">
+                      This system uses TTRPG round-based mechanics instead of real-time seconds
+                    </span>
                   </div>
                 </div>
-                <p className="combo-description">{combo.description}</p>
-                <div className="combo-examples">
-                  <span className="examples-label">Examples: </span>
+              </div>
+              
+              {renderComboPointsPreview("Final Preview", true)}
+            </div>
+          </div>
+        );
+        
+      default:
+        return null;
+    }
+  };
+  
+  // Render side panel preview 
+  const renderSidePanel = () => {
+    const visualStyle = getComboVisualStyle();
+    
+    return (
+      <div className="wizard-side-panel">
+        <div className="spell-preview-container">
+
+          
+          {isComboSystem ? (
+            <div className="combo-preview-panel">
+              <h5>Combo System Preview</h5>
+              
+              {(comboRole === 'generator' || comboRole === 'hybrid') && comboGenerator.length > 0 && (
+                <div className="combo-generation-methods">
+                  <h6>Generation Methods:</h6>
                   <ul>
-                    {combo.examples.map((example, index) => (
-                      <li key={index}>{example}</li>
-                    ))}
+                    {comboGenerator.map(id => {
+                      const generator = COMBO_GENERATION.find(g => g.id === id);
+                      return (
+                        <li key={id}>
+                          <strong>{generator?.name}:</strong> {generator?.description}
+                        </li>
+                      );
+                    })}
                   </ul>
+                  
+                  {comboConditions.length > 0 && (
+                    <div className="combo-conditions-preview">
+                      <h6>Special Conditions:</h6>
+                      <ul>
+                        {comboConditions.map(condition => {
+                          const conditionData = COMBO_CONDITIONS.find(c => c.id === condition.id);
+                          return (
+                            <li key={condition.id}>
+                              <strong>{conditionData?.name}:</strong> {conditionData?.description} ({formatConditionValue(condition)})
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
                 </div>
-                
-                {isSelected && (
-                  <div className="combo-effect-input">
-                    <label>Combo Description:</label>
-                    <textarea 
-                      value={selectedCombo?.description || ''}
-                      onChange={(e) => updateComboEffectDescription(combo.id, e.target.value)}
-                      placeholder={`Describe how your spell works with ${combo.name.toLowerCase()}...`}
-                      rows={2}
-                      className="combo-description-input"
-                    />
+              )}
+              
+              {(comboRole === 'finisher' || comboRole === 'hybrid') && comboFinisher && (
+                <div className="finisher-details-preview">
+                  <h6>Finisher Type: {getFinisherDetails()?.name}</h6>
+                  <p>{getFinisherDetails()?.details}</p>
+                  <div className="finisher-scaling-preview">
+                    <strong>Scaling:</strong> {getFinisherDetails()?.scaling}
                   </div>
-                )}
+                  
+                  {buildupMechanic && (
+                    <div className="buildup-preview">
+                      <h6>Build-up Mechanic: {getBuildupDetails()?.name}</h6>
+                      <p>{getBuildupDetails()?.details}</p>
+                      <div className="buildup-scaling-preview">
+                        <strong>Scaling:</strong> {getBuildupDetails()?.scaling}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              <div className="live-combo-display">
+                <ComboPointsDisplay 
+                  count={demoComboPoints}
+                  max={maxComboPoints}
+                  {...visualStyle}
+                  size="live"
+                />
+                
+                <div className="round-based-note" style={{ 
+                  textAlign: 'center', 
+                  marginTop: '10px', 
+                  fontSize: '13px', 
+                  color: 'var(--text-secondary)', 
+                  fontStyle: 'italic' 
+                }}>
+                  Combo points can last multiple combat rounds
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="no-combo-message">
+              <p>Combo Point System is disabled. Enable it to configure advanced combo mechanics for your spell.</p>
+            </div>
+          )}
+          
+          <div className="spell-description">
+            {spellData.description || 'No description provided.'}
+          </div>
+          
+          {spellData.flavorText && (
+            <div className="spell-flavor">
+              {spellData.flavorText}
+            </div>
+          )}
+        </div>
+        
+        <div className="wizard-side-panel">
+        <h4 className="preview-title"></h4>
+        <SpellPreview spellData={spellData} />
+      </div>
+      </div>
+    );
+  };
+  
+  // Render step navigation
+  const renderStepNavigation = () => {
+    // Skip certain substeps based on role
+    const filteredSubsteps = SUBSTEPS.filter(step => {
+      if (!isComboSystem && step.id !== 'enable') return false;
+      if (step.id === 'generator' && comboRole === 'finisher') return false;
+      if (step.id === 'finisher' && comboRole === 'generator') return false;
+      return true;
+    });
+    
+    const currentIndex = filteredSubsteps.findIndex(s => s.id === currentSubstep);
+    
+    return (
+      <div className="substep-navigation">
+        <button 
+          className="nav-button prev-button"
+          onClick={currentSubstep === 'enable' ? prevStep : goToPrevSubstep}
+        >
+          <img 
+            src="https://wow.zamimg.com/images/wow/icons/small/spell_holy_borrowedtime.jpg" 
+            alt="Previous"
+            className="nav-icon"
+          />
+          {currentSubstep === 'enable' ? 'Previous Step' : 'Back'}
+        </button>
+        
+        <button 
+          className="nav-button next-button"
+          onClick={currentSubstep === 'summary' ? nextStep : goToNextSubstep}
+          disabled={!canProceedToNext()}
+        >
+          {currentSubstep === 'summary' ? 'Next Step' : 'Continue'}
+          <img 
+            src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_pathfinding.jpg" 
+            alt="Next"
+            className="nav-icon"
+          />
+        </button>
+      </div>
+    );
+  };
+  
+  // Render substep progress indicators
+  const renderSubstepProgress = () => {
+    return (
+      <div className="substep-progress">
+        <div className="substep-indicators">
+          {SUBSTEPS.map((step, index) => {
+            // Skip based on role
+            if ((step.id === 'generator' && comboRole === 'finisher') ||
+                (step.id === 'finisher' && comboRole === 'generator')) {
+              return null;
+            }
+            
+            // Skip all substeps after "enable" if combo system is disabled
+            if (!isComboSystem && step.id !== 'enable') {
+              return null;
+            }
+            
+            const currentIndex = SUBSTEPS.findIndex(s => s.id === currentSubstep);
+            const isActive = step.id === currentSubstep;
+            const isCompleted = SUBSTEPS.findIndex(s => s.id === step.id) < currentIndex;
+            
+            return (
+              <div
+                key={step.id}
+                className={`substep-indicator ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`}
+                onClick={() => isCompleted || isActive ? goToSubstep(step.id) : null}
+              >
+                {!isCompleted ? index + 1 : ''}
               </div>
             );
           })}
         </div>
-        
-        <div className="custom-combo">
-          <input 
-            type="text" 
-            value={customComboEffect} 
-            onChange={(e) => setCustomComboEffect(e.target.value)}
-            placeholder="Add custom combo effect..."
-            className="custom-combo-input"
-          />
-          <button 
-            onClick={addCustomComboEffect}
-            disabled={!customComboEffect.trim()}
-            className="custom-combo-btn"
-          >
-            Add
-          </button>
+        <div className="substep-labels">
+          {SUBSTEPS.map((step) => {
+            // Skip based on role
+            if ((step.id === 'generator' && comboRole === 'finisher') ||
+                (step.id === 'finisher' && comboRole === 'generator')) {
+              return null;
+            }
+            
+            // Skip all substeps after "enable" if combo system is disabled
+            if (!isComboSystem && step.id !== 'enable') {
+              return null;
+            }
+            
+            const isActive = step.id === currentSubstep;
+            
+            return (
+              <div
+                key={step.id}
+                className={`substep-label ${isActive ? 'active' : ''}`}
+              >
+                {step.name}
+              </div>
+            );
+          })}
         </div>
-        
-        {comboEffects.filter(combo => combo.isCustom).length > 0 && (
-          <div className="custom-combos-list">
-            <h5 className="custom-combos-title">Custom Combo Effects</h5>
-            <ul>
-              {comboEffects
-                .filter(combo => combo.isCustom)
-                .map(combo => (
-                  <li key={combo.id} className="custom-combo-item">
-                    {combo.description}
-                    <button 
-                      onClick={() => setComboEffects(prev => prev.filter(c => c.id !== combo.id))}
-                      className="remove-combo-btn"
-                    >
-                      ×
-                    </button>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        )}
       </div>
-      
-      <div className="advanced-mechanics-summary">
-        <h4 className="summary-title">Advanced Mechanics Summary</h4>
-        
-        {(selectedAttributes.length === 0 && 
-          specialInteractions.length === 0 && 
-          environmentalInteractions.length === 0 && 
-          conditionalEffects.length === 0 && 
-          comboEffects.length === 0) ? (
-          <p className="no-mechanics-message">
-            No advanced mechanics have been added to this spell. These are optional and can add depth to your spell's design.
-          </p>
-        ) : (
-          <div className="mechanics-summary-grid">
-            {selectedAttributes.length > 0 && (
-              <div className="summary-section">
-                <h5 className="summary-section-title">Attribute Scaling</h5>
-                <p className="summary-detail">
-                  Primary: {getAttributeById(primaryAttribute)?.name || 'None'}
-                </p>
-                {secondaryAttribute && (
-                  <p className="summary-detail">
-                    Secondary: {getAttributeById(secondaryAttribute)?.name || 'None'}
-                  </p>
-                )}
-                <p className="summary-detail">
-                  Formula: {getFormulaPreview()}
-                </p>
-              </div>
-            )}
-            
-            {(specialInteractions.length > 0 || environmentalInteractions.length > 0) && (
-              <div className="summary-section">
-                <h5 className="summary-section-title">Special Interactions</h5>
-                {specialInteractions.length > 0 && (
-                  <div className="summary-tags">
-                    {specialInteractions.map(id => {
-                      const condition = CONDITION_INTERACTIONS.find(c => c.id === id);
-                      return condition ? (
-                        <span key={id} className="summary-tag" style={{ borderColor: condition.color }}>
-                          {condition.name}
-                        </span>
-                      ) : null;
-                    })}
-                  </div>
-                )}
-                
-                {environmentalInteractions.length > 0 && (
-                  <div className="summary-tags">
-                    {environmentalInteractions.map(id => {
-                      const env = ENVIRONMENTAL_INTERACTIONS.find(e => e.id === id);
-                      return env ? (
-                        <span key={id} className="summary-tag" style={{ borderColor: env.color }}>
-                          {env.name}
-                        </span>
-                      ) : null;
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
-            
-            {conditionalEffects.length > 0 && (
-              <div className="summary-section">
-                <h5 className="summary-section-title">Conditional Effects</h5>
-                <div className="summary-tags">
-                  {conditionalEffects.map(effect => {
-                    const trigger = CONDITIONAL_TRIGGERS.find(t => t.id === effect.id);
-                    return (
-                      <span key={effect.id} className="summary-tag" style={{ borderColor: trigger?.color || '#3498db' }}>
-                        {trigger?.name || effect.description.substring(0, 20) + '...'}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            
-            {comboEffects.length > 0 && (
-              <div className="summary-section">
-                <h5 className="summary-section-title">Combo Potential</h5>
-                <div className="summary-tags">
-                  {comboEffects.map(combo => {
-                    const comboType = COMBO_POTENTIALS.find(c => c.id === combo.id);
-                    return (
-                      <span key={combo.id} className="summary-tag" style={{ borderColor: comboType?.color || '#2ecc71' }}>
-                        {comboType?.name || combo.description.substring(0, 20) + '...'}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+    );
+  };
+  
+  return (
+    <div className="wizard-layout">
+      <div className="wizard-main-content">
+        <div className="advanced-mechanics-step">
+          {renderSubstepProgress()}
+          {renderSubstepContent()}
+          {renderStepNavigation()}
+        </div>
       </div>
-      
-      <StepNavigation 
-        currentStep={5} 
-        totalSteps={8} 
-        onNext={nextStep} 
-        onPrev={prevStep} 
-        isNextEnabled={true}
-      />
+      {renderSidePanel()}
     </div>
   );
 };

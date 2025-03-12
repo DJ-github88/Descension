@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useSpellWizardStore from '../../../store/spellWizardStore';
 import { SpellPreview } from '../common';
-import '../styles/spell-wizard.css';
+import '../styles/Pages/wizard-steps.css';
+import '../styles/Layout/wizard-layout.css';
+import '../styles/Components/preview-card.css';
+import '../styles/Pages/targeting-range.css';
 
 // Targeting modes with comprehensive descriptions
 const TARGETING_MODES = [
@@ -18,7 +21,7 @@ const TARGETING_MODES = [
     name: 'Multiple Targets', 
     description: 'Affects a specific number of targets',
     longDescription: 'Select a limited number of targets within range to be affected by the spell.',
-    icon: 'spell_arcane_chainmissile',
+    icon: 'spell_nature_lightningoverload',
     examples: ['Eldritch Blast', 'Healing Spirit', 'Magic Stone']
   },
   { 
@@ -101,9 +104,7 @@ const AOE_SHAPES = [
   { id: 'cone', name: 'Cone', description: 'A cone extending from the caster', icon: 'spell_fire_flamebolt' },
   { id: 'line', name: 'Line', description: 'A straight line from the caster', icon: 'spell_nature_lightning' },
   { id: 'square', name: 'Square', description: 'A square area centered on a point', icon: 'spell_frost_glacier' },
-  { id: 'cube', name: 'Cube', description: 'A three-dimensional cube', icon: 'spell_frost_stun' },
-  { id: 'sphere', name: 'Sphere', description: 'A three-dimensional sphere', icon: 'spell_nature_earthbind' },
-  { id: 'cylinder', name: 'Cylinder', description: 'A cylindrical area', icon: 'spell_holy_innerfire' }
+
 ];
 
 // Attack resolution methods
@@ -240,7 +241,7 @@ const Step3TargetingRange = () => {
     
     setIsValid(valid);
     setValidationMessage(message);
-    setStepValidation(2, valid);
+    setStepValidation(1, valid);
     
     // Update spell data with current values
     updateSpellData({
@@ -255,8 +256,8 @@ const Step3TargetingRange = () => {
       attackResolution,
       saveAttribute: attackResolution === 'savingThrow' ? saveAttribute : '',
       saveResult: attackResolution === 'savingThrow' ? saveResult : '',
-      saveDC: attackResolution === 'savingThrow' ? saveDC : '',
-      dcValue: attackResolution === 'savingThrow' ? dcValue : 0,
+      saveDC,
+      dcValue,
       requiresAttackRoll: attackResolution === 'attackRoll',
       targetingProperties
     });
@@ -732,39 +733,6 @@ const Step3TargetingRange = () => {
                 ))}
               </div>
             </div>
-            
-            <div className="save-dc-selection">
-              <label>Save DC:</label>
-              <div className="dc-options">
-                <label className={`dc-option ${saveDC === 'standard' ? 'selected' : ''}`}>
-                  <input
-                    type="radio"
-                    name="saveDC"
-                    checked={saveDC === 'standard'}
-                    onChange={() => setSaveDC('standard')}
-                  />
-                  <span>Standard (Uses your spell save DC)</span>
-                </label>
-                <label className={`dc-option ${saveDC === 'custom' ? 'selected' : ''}`}>
-                  <input
-                    type="radio"
-                    name="saveDC"
-                    checked={saveDC === 'custom'}
-                    onChange={() => setSaveDC('custom')}
-                  />
-                  <span>Custom:</span>
-                  {saveDC === 'custom' && (
-                    <input
-                      type="number"
-                      min="1"
-                      value={dcValue}
-                      onChange={(e) => setDcValue(Math.max(1, parseInt(e.target.value) || 0))}
-                      className="dc-value-input"
-                    />
-                  )}
-                </label>
-              </div>
-            </div>
           </div>
         )}
       </div>
@@ -786,18 +754,18 @@ const Step3TargetingRange = () => {
         <div className="targeting-properties">
           {TARGETING_PROPERTIES.map(property => (
             <div className="property-option" key={property.id}>
-              <label className="checkbox-container">
-                <input
-                  type="checkbox"
-                  checked={targetingProperties[property.id]}
-                  onChange={() => toggleTargetingProperty(property.id)}
-                />
-                <span className="checkmark"></span>
-                <div className="property-info">
-                  <span className="property-name">{property.name}</span>
-                  <span className="property-description">{property.description}</span>
-                </div>
-              </label>
+<label className="checkbox-container">
+  <input
+    type="checkbox"
+    checked={targetingProperties[property.id]}
+    onChange={() => toggleTargetingProperty(property.id)}
+  />
+  <span className="checkmark"></span>
+  <div className="property-info">
+    <span className="property-name">{property.name}</span>
+    <span className="property-description">{property.description}</span>
+  </div>
+</label>
             </div>
           ))}
         </div>
@@ -805,36 +773,115 @@ const Step3TargetingRange = () => {
     );
   };
   
-  // Render interactive targeting preview
+  // Calculate scale factor - 30px per grid square, each grid square is 10ft
+  const gridScaleFactor = 3; // 3px = 1ft
+  
+  // Calculate the proper height for the range indicator based on grid scale
+  const rangeHeight = rangeDistance * gridScaleFactor;
+  
+  // Calculate the proper size for AOE shapes based on grid scale
+  const aoeSizePixels = aoeSize * gridScaleFactor;
+  
+
+
   const renderTargetingPreview = () => {
     return (
       <div className="targeting-preview-panel">
-        <h6 className="preview-title">Targeting Preview</h6>
+        <h6 className="preview-title"></h6>
         <div className="preview-canvas" ref={previewRef}>
+          <div className="grid-scale-indicator">1 square = 10 ft</div>
+          
           {/* Caster point */}
           <div className="caster-point" style={{ left: '50%' }}></div>
-          
+  
           {/* Range indicator */}
           {rangeType === 'ranged' && (
             <div 
               className="range-indicator" 
               style={{ 
-                height: `${Math.min(150, rangeDistance * 1.5)}px`,
+                height: `${rangeHeight}px`,
                 '--range-color': '#40c4ff'
               }}
             ></div>
           )}
           
-          {/* AOE indicator */}
-          {targetingMode === 'aoe' && (
-            <div 
-              className={`preview-shape preview-${aoeShape}`} 
-              style={{
-                '--size': `${Math.min(150, aoeSize * 3)}px`,
-                '--color': '#40c4ff',
-                bottom: rangeType === 'ranged' ? `${Math.min(150, rangeDistance * 1.5)}px` : '20px'
-              }}
-            ></div>
+          {/* AOE shapes tied directly to range position */}
+          {targetingMode === 'aoe' && rangeType === 'ranged' && (
+            <>
+              {/* Circle shape */}
+              {aoeShape === 'circle' && (
+      <div 
+        style={{
+          position: 'absolute',
+          width: `${aoeSizePixels}px`,
+          height: `${aoeSizePixels}px`,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(61, 184, 255, 0.15), rgba(61, 184, 255, 0.05))',
+          border: '2px solid rgba(61, 184, 255, 0.3)',
+          boxShadow: '0 0 20px rgba(61, 184, 255, 0.2)',
+          // Fixed positioning at range endpoint
+          bottom: `${30 + rangeHeight}px`, // 30px is caster position from bottom
+          left: '50%',
+          transform: 'translate(-50%, 50%)', // Center on the endpoint
+          zIndex: 2
+        }}
+      ></div>
+    )}
+    
+    {/* Cone shape - apex at range endpoint, pointing upward */}
+    {aoeShape === 'cone' && (
+      <div 
+        style={{
+          position: 'absolute',
+          width: '0',
+          height: '0',
+          borderLeft: `${aoeSizePixels / 2}px solid transparent`,
+          borderRight: `${aoeSizePixels / 2}px solid transparent`,
+          borderTop: `${aoeSizePixels}px solid rgba(61, 184, 255, 0.15)`,
+          // Fixed positioning at range endpoint
+          bottom: `${30 + rangeHeight}px`, // 30px is caster position from bottom
+          left: '50%',
+          transform: 'translate(-50%, 0)', // Align apex with endpoint
+          zIndex: 2
+        }}
+      ></div>
+    )}
+    
+    {/* Line shape - starts at range endpoint, extends horizontally */}
+    {aoeShape === 'line' && (
+  <div style={{
+    position: 'absolute',
+    width: `${aoeSizePixels}px`,
+    height: '10px',
+    backgroundColor: 'rgba(61, 184, 255, 0.3)',
+    boxShadow: '0 0 10px rgba(61, 184, 255, 0.2)',
+    // Position centered at the range endpoint (both horizontally and vertically)
+    top: `calc(100% - 30px - ${rangeHeight}px)`,
+    left: '50%',
+    transform: 'translate(-50%, -50%)', // Center BOTH horizontally and vertically
+    zIndex: 2
+  }}></div>
+)}
+    
+    {/* Square shape - centered on range endpoint */}
+    {aoeShape === 'square' && (
+      <div 
+        style={{
+          position: 'absolute',
+          width: `${aoeSizePixels}px`,
+          height: `${aoeSizePixels}px`,
+          background: 'rgba(61, 184, 255, 0.15)',
+          border: '2px solid rgba(61, 184, 255, 0.3)',
+          boxShadow: '0 0 20px rgba(61, 184, 255, 0.2)',
+          // Fixed positioning at range endpoint 
+          bottom: `${30 + rangeHeight}px`, // 30px is caster position from bottom
+          left: '50%',
+          transform: 'translate(-50%, 50%)', // Center on the endpoint
+          zIndex: 2
+        }}
+      ></div>
+              )}
+            </>
           )}
         </div>
         
@@ -855,10 +902,10 @@ const Step3TargetingRange = () => {
           
           <div className="preview-info-row">
             <span className="info-label">Range:</span>
-            <span className="info-value">{
-              rangeType === 'ranged' ? `${rangeDistance} ft` :
-              RANGE_TYPES.find(r => r.id === rangeType)?.name
-            }</span>
+            <span className="info-value">
+              {RANGE_TYPES.find(r => r.id === rangeType)?.name}
+              {rangeType === 'ranged' && ` (${rangeDistance} ft)`}
+            </span>
           </div>
           
           {targetingMode === 'aoe' && (
@@ -872,9 +919,9 @@ const Step3TargetingRange = () => {
           
           <div className="preview-info-row">
             <span className="info-label">Resolution:</span>
-            <span className="info-value">{
-              ATTACK_RESOLUTIONS.find(r => r.id === attackResolution)?.name
-            }</span>
+            <span className="info-value">
+              {ATTACK_RESOLUTIONS.find(r => r.id === attackResolution)?.name}
+            </span>
           </div>
           
           {attackResolution === 'savingThrow' && (
@@ -988,35 +1035,8 @@ const Step3TargetingRange = () => {
       
       {/* Right sidebar with spell preview and interactive targeting preview */}
       <div className="wizard-side-panel">
-        <div className="spell-preview-container">
-          <h4 className="preview-title">
-            <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_scroll_11.jpg" alt="" />
-            Spell Preview
-          </h4>
-          <SpellPreview spellData={spellData} />
-        </div>
-        
-        {renderTargetingPreview()}
-        
-        <div className="wizard-help-panel">
-          <h4>
-            <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_05.jpg" alt="" />
-            Step 3: Targeting &amp; Range
-          </h4>
-          <p>In this step, you'll define how your spell targets and interacts with creatures and objects:</p>
-          <ul>
-            <li>Choose a targeting mode to determine who or what can be affected</li>
-            <li>Select the types of targets your spell can affect</li>
-            <li>Set the range at which your spell can be cast</li>
-            <li>For area effects, define the shape and size of the affected area</li>
-            <li>Determine how the spell resolves against targets</li>
-            <li>Set additional targeting properties for your spell</li>
-          </ul>
-          <div className="help-tip">
-            <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_gem_pearl_06.jpg" alt="Tip" />
-            <p>Balance your spell's power by considering its range and targeting constraints. A powerful spell should have appropriate limitations.</p>
-          </div>
-        </div>
+        <h4 className="preview-title"></h4>
+        <SpellPreview spellData={spellData} />
       </div>
     </div>
   );

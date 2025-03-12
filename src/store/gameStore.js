@@ -11,7 +11,6 @@ const createInitialHero = () => {
 const initialState = {
     creatures: [],
     tokens: [],
-    activeScreen: 'game',
     inCombat: false,
     currentTurn: null,
     turnOrder: [],
@@ -182,14 +181,6 @@ const useGameStore = create((set, get) => ({
             currentTurn: null
         });
     },
-
-    // Set active screen
-    setActiveScreen: (screen) => {
-        set(state => {
-            if (state.activeScreen === screen) return state;
-            return { activeScreen: screen };
-        });
-    }
 }));
 
 const initializeStore = () => {

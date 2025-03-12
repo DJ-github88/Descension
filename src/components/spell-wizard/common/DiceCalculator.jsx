@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/spell-wizard.css'; // Updated CSS import
-import '../styles/spell-wizard-layout.css'; // Layout CSS import
+import '../styles/Components/inputs.css';
+import '../styles/Layout/wizard-layout.css';
 
 // Utility functions for dice calculations
 const parseDiceString = (notation) => {
@@ -171,28 +171,7 @@ const DiceCalculator = ({
         {error && <div className="error-message">{error}</div>}
       </div>
 
-      {showQuickSelect && (
-        <div className="quick-select">
-          <h4>Quick Select</h4>
-          <div className="dice-grid">
-            {COMMON_DICE.map(die => (
-              <div key={die} className="dice-column">
-                <div className="die-label">{die}</div>
-                {COMMON_COUNTS.map(count => (
-                  <button
-                    key={`${count}${die}`}
-                    className="dice-button"
-                    onClick={() => handleQuickSelect(count, die.substring(1))}
-                    data-dice={`${count}d${die.substring(1)}`}
-                  >
-                    {count}
-                  </button>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+
 
       {showPreview && preview && (
         <div className="preview-section">

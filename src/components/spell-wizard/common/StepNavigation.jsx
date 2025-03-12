@@ -1,6 +1,6 @@
 import React, { useCallback, memo } from 'react';
-import '../styles/spell-wizard.css';
-import '../styles/spell-wizard-layout.css';
+import '../styles/Components/buttons.css';
+import '../styles/Layout/wizard-layout.css';
 
 /**
  * Navigation component for the spell wizard steps

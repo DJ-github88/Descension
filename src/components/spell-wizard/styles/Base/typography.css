@@ -1,0 +1,74 @@
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    color: var(--text-bright);
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: var(--spacing-3);
+  }
+  
+  h1 { 
+    font-size: 2.25rem; 
+    color: var(--primary-light);
+  }
+  
+  h2 { 
+    font-size: 1.875rem;
+    background: linear-gradient(to right, var(--primary-light), var(--text-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.125rem; }
+  h6 { font-size: 1rem; }
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .section-title {
+    color: var(--primary-light);
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(64, 196, 255, 0.2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-light), transparent);
+  }
+  
+  .section-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .section-description {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .subsection-title {
+    font-size: 16px;
+    color: var(--text-bright);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }

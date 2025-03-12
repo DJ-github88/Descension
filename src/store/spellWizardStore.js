@@ -8,13 +8,12 @@ let updateTimeout = null;
 // Updated workflow structure
 const WIZARD_STEPS = [
   'Basic Information',       // Step 1: Name, description, flavor text, tags, icon
-  'Casting Mechanics',       // Step 2: Resources, action economy, cooldowns, casting requirements
-  'Targeting and Range',     // Step 3: Target selection, range, AoE shapes, attack rolls, saves
-  'Effect System',           // Step 4: Primary effects, damage/healing, dice, damage types
-  'Secondary Effects',       // Step 5: Status conditions, movement, buffs/debuffs, procs
-  'Advanced Mechanics',      // Step 6: Attribute scaling, special interactions, conditionals
-  'Visuals and Audio',       // Step 7: Appearance, sounds, animations, themes, colors
-  'Review and Finalize',     // Step 8: Preview, export, validation summary, save
+  'Targeting and Range',     // Step 2: Target selection, range, AoE shapes, attack rolls, saves
+  'Effect System',           // Step 3: Primary effects, damage/healing, dice, damage types
+  'Secondary Effects',       // Step 4: Status conditions, movement, buffs/debuffs, procs
+  'Advanced Mechanics',      // Step 5: Attribute scaling, special interactions, conditionals
+  'Visuals and Audio',       // Step 6: Appearance, sounds, animations, themes, colors
+  'Review and Finalize',     // Step 7: Preview, export, validation summary, save
 ];
 
 // Validation rules for each step
@@ -23,30 +22,27 @@ const stepValidationRules = {
     return spellData.name && spellData.name.trim() !== '';
   },
   1: (spellData) => {
-    return spellData.actionType && Object.keys(spellData.resourceCosts || {}).length > 0;
-  },
-  2: (spellData) => {
     return spellData.targetingMode && spellData.rangeType && spellData.range >= 0;
   },
-  3: (spellData) => {
+  2: (spellData) => {
     return spellData.effectType && (
       spellData.effectType !== 'damage' || 
       (spellData.primaryDamage && spellData.primaryDamage.diceCount > 0)
     );
   },
-  4: (spellData) => {
+  3: (spellData) => {
     // Secondary effects are optional
     return true;
   },
-  5: (spellData) => {
+  4: (spellData) => {
     // Advanced mechanics are optional
     return true;
   },
-  6: (spellData) => {
+  5: (spellData) => {
     // Visual and audio settings are optional
     return true;
   },
-  7: (spellData) => {
+  6: (spellData) => {
     // Review step is always valid
     return true;
   }
@@ -62,20 +58,7 @@ const initialSpellData = {
   icon: '',                  // Spell icon
   complexity: 'intermediate',// Spell complexity
 
-  // Step 2: Casting Mechanics
-  actionType: 'action',      // Action, Reaction, Free Action, Channeled
-  reactionTrigger: '',       // What triggers a reaction spell
-  resourceCosts: {},         // Resource costs by ID
-  cooldownCategory: 'rounds',// None, Rounds, Encounter, Short Rest, Long Rest
-  cooldownValue: 0,          // Cooldown value (for rounds category)
-  channelMaxRounds: 0,       // For channeled spells
-  castingComponents: [],     // Verbal, Somatic, Material
-  requiresConcentration: false, // Concentration requirement
-  materialComponents: '',    // Material component description
-  materialCost: '',          // Cost of material components
-  materialConsumed: false,   // Whether materials are consumed
-  
-  // Step 3: Targeting and Range
+  // Step 2: Targeting and Range
   targetingMode: 'single',   // Single, Multiple, AoE, Self
   targetTypes: ['enemy'],    // Enemy, Ally, Object, Location
   rangeType: '',             // Melee, Ranged, Self, Touch
@@ -86,7 +69,7 @@ const initialSpellData = {
   saveType: '',              // Saving throw type (DEX, WIS, etc.)
   saveDC: 0,                 // Save DC
   
-  // Step 4: Effect System
+  // Step 3: Effect System
   effectType: 'damage',      // Damage, Healing, Utility
   damageTypes: [],           // Damage types
   primaryDamage: {           // Primary damage
@@ -106,7 +89,7 @@ const initialSpellData = {
     flat: 0,
   },
   
-  // Step 5: Secondary Effects
+  // Step 4: Secondary Effects
   statusEffects: [],         // Applied status conditions
   movementEffects: [],       // Movement-related effects
   buffs: [],                 // Applied buffs
@@ -114,7 +97,7 @@ const initialSpellData = {
   auraEffects: [],           // Aura effects
   procEffects: [],           // Proc/trigger effects
   
-  // Step 6: Advanced Mechanics
+  // Step 5: Advanced Mechanics
   attributeScaling: [],      // Attribute scaling (STR, DEX, etc.)
   scalingAttribute: '',      // Primary attribute for scaling
   scalingFormula: '',        // Scaling formula
@@ -122,7 +105,7 @@ const initialSpellData = {
   comboEffects: [],          // Combo potential with other abilities
   conditionalEffects: [],    // Effects that apply conditionally
   
-  // Step 7: Visuals and Audio
+  // Step 6: Visuals and Audio
   visualTheme: '',           // Visual theme
   visualEffect: '',          // Visual effect type
   soundCategory: '',         // Sound category
@@ -137,7 +120,7 @@ const initialSpellData = {
   soundDescription: '',      // Sound description
   animationDescription: '',  // Animation description
   
-  // Step 8: Review and Finalize (metadata)
+  // Step 7: Review and Finalize (metadata)
   exportFormat: 'json',      // Default export format
   customNotes: '',           // User notes
   
@@ -177,6 +160,7 @@ const useSpellWizardStore = create(
 
       // Navigation and validation
       setStepValidation: (step, isValid) => {
+        // Store validation state but don't block progression
         const currentValidation = get().stepValidation;
         if (currentValidation[step] !== isValid) {
           set(state => ({
@@ -189,26 +173,14 @@ const useSpellWizardStore = create(
       },
 
       isStepValid: (step) => {
-        const { stepValidation, spellData } = get();
-        
-        // If we already have a cached validation result, use it
-        if (stepValidation[step] !== undefined) {
-          return stepValidation[step];
-        }
+        // Always return true to allow progression
+        return true;
+      },
 
-        // Otherwise, validate using the rules
-        const validationRule = stepValidationRules[step];
-        const isValid = validationRule ? validationRule(spellData) : true;
-
-        // Cache the result
-        set(state => ({
-          stepValidation: {
-            ...state.stepValidation,
-            [step]: isValid
-          }
-        }));
-
-        return isValid;
+      // Check if a step can be accessed
+      canAccessStep: (stepIndex) => {
+        // Allow access to any step
+        return true;
       },
 
       // Update spell data with batched updates
@@ -259,24 +231,6 @@ const useSpellWizardStore = create(
       getCurrentStepName: () => {
         const { currentStep } = get();
         return WIZARD_STEPS[currentStep] || 'Unknown Step';
-      },
-
-      // Check if a step can be accessed
-      canAccessStep: (stepIndex) => {
-        const { spellData, currentStep } = get();
-        
-        // Can always go backwards
-        if (stepIndex <= currentStep) return true;
-
-        // Check if all previous steps are valid
-        for (let i = 0; i < stepIndex; i++) {
-          const validationRule = stepValidationRules[i];
-          if (validationRule && !validationRule(spellData)) {
-            return false;
-          }
-        }
-
-        return true;
       }
     }),
     {

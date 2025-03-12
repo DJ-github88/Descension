@@ -3241,12 +3241,7 @@ h4 {
 /* Step Icon */
 .step-icon {
     width: 26px;
-    height: 26px;
-    border-radius: 3px;
-    border: 1px solid rgba(37, 150, 255, 0.3);
-    transition: all 0.2s ease;
-    object-fit: cover;
-    filter: brightness(0.9) saturate(0.9);
+
 }
 
 .wow-progress-segment:hover .step-icon {

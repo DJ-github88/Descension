@@ -9,18 +9,34 @@ import Step5SecondaryEffects from './steps/Step5SecondaryEffects';
 import Step6AdvancedMechanics from './steps/Step6AdvancedMechanics';
 import Step7VisualsAudio from './steps/Step7VisualsAudio';
 import Step8ReviewFinalize from './steps/Step8ReviewFinalize';
-import './styles/spell-wizard.css';
-import './styles/spell-wizard-layout.css';
+
+// Base styles
+import './styles/Base/variables.css';
+import './styles/Base/base.css';
+import './styles/Base/typography.css';
+
+// Component styles
+import './styles/Components/buttons.css';
+import './styles/Components/inputs.css';
+import './styles/Components/modals.css';
+import './styles/Components/preview-card.css';
+import './styles/Components/tooltip.css';
+
+// Layout styles
+import './styles/Layout/grid.css';
+import './styles/Layout/wizard-layout.css';
+import './styles/Layout/responsive.css';
+
+// Page-specific styles
+import './styles/Pages/wizard-steps.css';
+import './styles/Pages/animations.css';
 
 const SpellWizard = () => {
-  // State for tracking the current step
   const [currentStep, setCurrentStep] = useState(0);
   const [furthestStep, setFurthestStep] = useState(0);
   
-  // Get spellData and validation from the store
   const { spellData, isStepValid, setStepValidation, canAccessStep } = useSpellWizardStore();
   
-  // Navigation functions
   const nextStep = () => {
     if (isStepValid(currentStep)) {
       const nextStepIndex = Math.min(currentStep + 1, steps.length - 1);
@@ -34,7 +50,6 @@ const SpellWizard = () => {
   };
 
   const goToStep = (index) => {
-    // Check if we can access this step
     if (canAccessStep(index)) {
       const targetStep = Math.min(Math.max(0, index), steps.length - 1);
       setCurrentStep(targetStep);
@@ -44,7 +59,6 @@ const SpellWizard = () => {
     }
   };
   
-  // Labels for the progress steps
   const steps = [
     'Origin & Identity',
     'Casting Mechanics',
@@ -53,27 +67,23 @@ const SpellWizard = () => {
     'Secondary Effects',
     'Advanced Mechanics',
     'Visuals & Audio',
-    'Final Details',
-    'Preview'
+    'Final Details'
   ];
 
-  // Helper to get icon for each step
   const getStepIcon = (stepIndex) => {
     const icons = [
       'inv_ability_hellcallerwarlock_wither', // Origin & Identity
-      'spell_arcane_prismaticcloak',        // Casting Mechanics
+      'inv_enchant_essencemagiclarge',     // Casting Mechanics
       'ability_hunter_aimedshot',           // Targeting & Range
-      'spell_fire_flameshock',              // Effect System
-      'spell_arcane_portaldarnassus',       // Secondary Effects
-      'inv_enchant_essencemagiclarge',      // Advanced Mechanics
-      'inv_inscription_minorglyph01',       // Visuals & Audio
-      'inv_misc_book_09',                   // Final Details
-      'achievement_dungeon_icecrown_frostmourne' // Preview
+      'spell_fire_flameshock',             // Effect System
+      'spell_arcane_portaldarnassus',      // Secondary Effects
+      'inv_enchant_essencemagiclarge',     // Advanced Mechanics
+      'inv_inscription_minorglyph01',      // Visuals & Audio
+      'inv_misc_book_09',                  // Final Details
     ];
     return icons[stepIndex] || 'inv_misc_questionmark';
   };
   
-  // Render the current step with navigation props
   const renderStep = () => {
     const commonProps = {
       nextStep,
@@ -107,7 +117,6 @@ const SpellWizard = () => {
   
   return (
     <div className="spell-wizard">
-      {/* Progress Steps */}
       <div className="wizard-progress">
         {steps.map((step, index) => {
           const isAccessible = canAccessStep(index);
@@ -135,16 +144,18 @@ const SpellWizard = () => {
         })}
         <div 
           className="progress-bar" 
-          style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
-        ></div>
+          style={{ 
+            width: currentStep === 0 
+              ? '0%' 
+              : `calc(${(currentStep / (steps.length - 1)) * 100}% - 21px)`,
+          }}
+        />
       </div>
       
-      {/* Main Content Area */}
       <div className="wizard-content-container">
         {renderStep()}
       </div>
       
-      {/* Navigation */}
       <div className="step-navigation">
         <button 
           className="nav-button prev-button"

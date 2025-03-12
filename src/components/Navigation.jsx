@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useGameStore from '../store/gameStore';
@@ -70,30 +70,26 @@ function CharacterSheetWindow({ isOpen, onClose }) {
 }
 
 export default function Navigation() {
-    const setActiveScreen = useGameStore(state => state.setActiveScreen);
     const [openWindows, setOpenWindows] = useState(new Set());
     const [size, setSize] = useState({ width: 600, height: 70 });
     const [position, setPosition] = useState({ x: window.innerWidth - 620, y: window.innerHeight - 90 });
 
-    const handleButtonClick = useCallback((screen) => {
+    const handleButtonClick = useCallback((windowId) => {
         const newOpenWindows = new Set(openWindows);
-        if (openWindows.has(screen)) {
-            newOpenWindows.delete(screen);
+        if (openWindows.has(windowId)) {
+            newOpenWindows.delete(windowId);
         } else {
-            newOpenWindows.add(screen);
+            newOpenWindows.add(windowId);
         }
         setOpenWindows(newOpenWindows);
-        setActiveScreen(screen);
-    }, [openWindows, setActiveScreen]);
+    }, [openWindows]);
 
     const handleKeyPress = useCallback((e) => {
-        // Don't trigger shortcuts if user is typing in an input or textarea
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
         const key = e.key.toUpperCase();
         const button = buttons.find(b => b.shortcut.toUpperCase() === key);
         
-        // Special handling for spacebar
         if (e.code === 'Space' && !e.target.classList.contains('wow-nav-button')) {
             e.preventDefault();
             const chatButton = buttons.find(b => b.id === 'chat');
@@ -205,16 +201,16 @@ export default function Navigation() {
                         <InventoryWindow />
                     </WowWindow>
                 );
-                case 'spellbook':
-                    return openWindows.has(button.id) && (
-                        <Suspense fallback={<div>Loading...</div>}>
-                            <SpellbookWindow
-                                key={button.id}
-                                isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
-                            />
-                        </Suspense>
-                    );
+            case 'spellbook':
+                return openWindows.has(button.id) && (
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <SpellbookWindow
+                            key={button.id}
+                            isOpen={true}
+                            onClose={() => handleButtonClick(button.id)}
+                        />
+                    </Suspense>
+                );
             case 'itemgen':
                 return openWindows.has(button.id) && (
                     <ItemLibrary
@@ -258,59 +254,57 @@ export default function Navigation() {
     };
 
     return (
-        <>
-            {buttons.map(button => getWindowContent(button))}
-            
-            <Draggable 
-    handle=".wow-nav-grid"
-    position={position}
-    onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
-    // Remove the bounds prop to allow free movement
->
-    <div>
-        <Resizable
-            width={size.width}
-            height={size.height}
-            onResize={handleResize}
-            draggableOpts={{ grid: [10, 10] }}
-            minConstraints={[400, 70]}
-            maxConstraints={[800, 70]}
-            resizeHandles={['e']}
-            handle={<div className="custom-resize-handle" />}
-        >
-            <div className="wow-nav-container" style={{ 
-                width: size.width, 
-                height: size.height,
-            }}>
-                <div className="wow-nav-grid">
-                    {buttons.map(button => (
-                        <button
-                            key={button.id}
-                            onClick={() => handleButtonClick(button.id)}
-                            className={`wow-nav-button ${openWindows.has(button.id) ? 'active' : ''}`}
-                            title={`${button.title} (${button.shortcut})`}
-                        >
-                            <svg 
-                                viewBox="0 0 24 24" 
-                                className="wow-nav-icon"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                {button.svg}
-                            </svg>
-                            <div className="shortcut">
-                                {button.shortcut}
+        <Fragment>
+            <Draggable
+                handle=".wow-nav-grid"
+                position={position}
+                onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
+            >
+                <div>
+                    <Resizable
+                        width={size.width}
+                        height={size.height}
+                        onResize={handleResize}
+                        draggableOpts={{ grid: [10, 10] }}
+                        minConstraints={[400, 70]}
+                        maxConstraints={[800, 70]}
+                        resizeHandles={['e']}
+                        handle={<div className="custom-resize-handle" />}
+                    >
+                        <div className="wow-nav-container" style={{ 
+                            width: size.width, 
+                            height: size.height,
+                        }}>
+                            <div className="wow-nav-grid">
+                                {buttons.map(button => (
+                                    <button
+                                        key={button.id}
+                                        onClick={() => handleButtonClick(button.id)}
+                                        className={`wow-nav-button ${openWindows.has(button.id) ? 'active' : ''}`}
+                                        title={`${button.title} (${button.shortcut})`}
+                                    >
+                                        <svg 
+                                            viewBox="0 0 24 24" 
+                                            className="wow-nav-icon"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            {button.svg}
+                                        </svg>
+                                        <div className="shortcut">
+                                            {button.shortcut}
+                                        </div>
+                                    </button>
+                                ))}
                             </div>
-                        </button>
-                    ))}
+                        </div>
+                    </Resizable>
                 </div>
-            </div>
-        </Resizable>
-    </div>
-</Draggable>
-        </>
+            </Draggable>
+            {buttons.map(button => getWindowContent(button))}
+        </Fragment>
     );
 }

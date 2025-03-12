@@ -1,0 +1,1239 @@
+/* 
+ * Combo Point Mechanics CSS
+ * Enhanced styling and animations for combo point systems
+ */
+
+/****************************************
+ * VARIABLES
+ ****************************************/
+ :root {
+  --combo-radius-sm: 4px;
+  --combo-radius-md: 8px;
+  --combo-radius-lg: 12px;
+  --combo-radius-full: 999px;
+  
+  --combo-transition-fast: 0.2s ease;
+  --combo-transition-normal: 0.3s ease;
+  --combo-transition-bounce: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  --combo-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+  --combo-shadow-md: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --combo-shadow-lg: 0 6px 15px rgba(0, 0, 0, 0.2);
+  
+  --combo-bg-dark: rgba(0, 0, 0, 0.2);
+  --combo-bg-darker: rgba(0, 0, 0, 0.3);
+  --combo-border-color: rgba(78, 84, 117, 0.3);
+  
+  --combo-text-primary: var(--text-bright, #ffffff);
+  --combo-text-secondary: var(--text-secondary, #a0a8c0);
+  --combo-text-tertiary: var(--text-tertiary, #6a7184);
+}
+
+/****************************************
+ * GENERAL LAYOUT & COMPONENTS
+ ****************************************/
+.combo-system-toggle {
+  margin-bottom: 24px;
+  background: linear-gradient(to right, var(--card-accent-color, var(--primary-500)), transparent);
+  opacity: 1;
+  transition: opacity var(--combo-transition-normal);
+  padding: 16px;
+  border-radius: var(--combo-radius-md);
+}
+
+.toggle-description {
+  margin-left: 52px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--combo-text-tertiary);
+  font-style: italic;
+}
+
+/* Section Headers */
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  color: var(--combo-text-primary);
+}
+
+.section-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  border-radius: var(--combo-radius-sm);
+}
+
+.section-description {
+  font-size: 15px;
+  color: var(--combo-text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.subsection-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--combo-text-primary);
+  margin: 24px 0 12px 0;
+}
+
+/* Card Container Grids */
+.combo-generator-grid,
+.combo-max-options,
+.combo-visual-grid,
+.combo-animation-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.combo-generator-grid,
+.combo-visual-grid {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.combo-max-options {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.combo-animation-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+/* Preview Containers */
+.combo-preview-container {
+  background: linear-gradient(145deg, var(--combo-bg-darker), var(--combo-bg-dark));
+  border-radius: var(--combo-radius-md);
+  padding: 20px;
+  margin-top: 16px;
+  border: 1px solid var(--combo-border-color);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.combo-preview-panel {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: var(--combo-radius-md);
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--combo-border-color);
+}
+
+.combo-preview-panel h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-300);
+  margin-top: 0;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(61, 184, 255, 0.2);
+}
+
+.combo-preview-panel h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--combo-text-secondary);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.no-combo-message {
+  background: linear-gradient(to bottom, rgba(31, 34, 51, 0.6), rgba(21, 24, 36, 0.6));
+  padding: 18px;
+  border-radius: var(--combo-radius-md);
+  border: 1px solid var(--combo-border-color);
+  text-align: center;
+  color: var(--combo-text-tertiary);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* System Summary */
+.combo-system-summary {
+  margin-top: 32px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: var(--combo-radius-md);
+  border: 1px solid var(--combo-border-color);
+  padding: 20px;
+}
+
+.summary-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 16px;
+}
+
+.summary-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.summary-label {
+  width: 150px;
+  font-weight: 600;
+  color: var(--combo-text-secondary);
+  flex-shrink: 0;
+}
+
+.summary-value {
+  color: var(--combo-text-primary);
+  flex: 1;
+}
+
+/****************************************
+ * CARDS - SHARED STYLING
+ ****************************************/
+.combo-generator-card,
+.combo-finisher-card,
+.combo-condition-card,
+.combo-visual-card,
+.combo-animation-card,
+.buildup-mechanic-card,
+.combo-max-option {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--neutral-800, #26293e), var(--neutral-900, #1a1d2d));
+  border: 1px solid rgba(78, 84, 117, 0.4);
+  border-radius: var(--combo-radius-md);
+  padding: 16px;
+  cursor: pointer;
+  transition: all var(--combo-transition-normal);
+}
+
+.combo-generator-card,
+.combo-finisher-card,
+.combo-condition-card,
+.buildup-mechanic-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.combo-visual-card,
+.combo-animation-card {
+  padding-top: 64px;
+}
+
+.combo-animation-card {
+  padding-top: 80px;
+}
+
+.combo-max-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Card Hover & Selection Effects */
+.combo-generator-card::before,
+.combo-finisher-card::before,
+.buildup-mechanic-card::before,
+.combo-max-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--card-accent-color, var(--primary-600)), transparent);
+  opacity: 0;
+  transition: opacity var(--combo-transition-normal);
+}
+
+.combo-generator-card:hover,
+.combo-finisher-card:hover,
+.combo-condition-card:hover,
+.combo-visual-card:hover,
+.combo-animation-card:hover,
+.buildup-mechanic-card:hover,
+.combo-max-option:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--combo-shadow-lg), 0 0 15px rgba(var(--card-accent-color-rgb, 61, 184, 255), 0.15);
+  border-color: var(--card-accent-color, var(--primary-600));
+}
+
+.combo-generator-card:hover::before,
+.combo-finisher-card:hover::before,
+.buildup-mechanic-card:hover::before,
+.combo-max-option:hover::before {
+  opacity: 1;
+}
+
+.combo-generator-card.selected,
+.combo-finisher-card.selected,
+.combo-condition-card.selected,
+.combo-visual-card.selected,
+.combo-animation-card.selected,
+.buildup-mechanic-card.selected,
+.combo-max-option.selected {
+  background: linear-gradient(
+    145deg, 
+    rgba(var(--card-accent-color-rgb, 0, 109, 173), 0.2), 
+    rgba(var(--card-accent-color-rgb, 0, 77, 122), 0.2)
+  );
+  border-color: var(--card-accent-color, var(--primary-500));
+  box-shadow: var(--combo-shadow-lg), 0 0 15px rgba(var(--card-accent-color-rgb, 61, 184, 255), 0.2);
+}
+
+.combo-generator-card.selected::before,
+.combo-finisher-card.selected::before,
+.buildup-mechanic-card.selected::before,
+.combo-max-option.selected::before {
+  opacity: 1;
+  background: linear-gradient(to right, var(--card-accent-color, var(--primary-500)), transparent);
+}
+
+.selected-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--card-accent-color, var(--primary-700));
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--combo-radius-full);
+  box-shadow: var(--combo-shadow-sm);
+  animation: indicator-appear 0.3s var(--combo-transition-bounce);
+}
+
+@keyframes indicator-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Card Icons */
+.combo-generator-icon,
+.combo-finisher-icon,
+.combo-condition-icon,
+.buildup-mechanic-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--combo-radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all var(--combo-transition-normal);
+}
+
+.combo-generator-card.selected .combo-generator-icon,
+.combo-finisher-card.selected .combo-finisher-icon,
+.combo-condition-card.selected .combo-condition-icon,
+.buildup-mechanic-card.selected .buildup-mechanic-icon {
+  transform: scale(1.1);
+  border-color: var(--card-accent-color, var(--primary-400));
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3), 0 0 10px rgba(var(--card-accent-color-rgb, 61, 184, 255), 0.3);
+}
+
+.combo-generator-icon img,
+.combo-finisher-icon img,
+.combo-condition-icon img,
+.buildup-mechanic-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all var(--combo-transition-normal);
+}
+
+.combo-generator-card.selected .combo-generator-icon img,
+.combo-finisher-card.selected .combo-finisher-icon img,
+.combo-condition-card.selected .combo-condition-icon img,
+.buildup-mechanic-card.selected .buildup-mechanic-icon img {
+  filter: brightness(1.2);
+}
+
+/* Card Content */
+.combo-generator-content,
+.combo-finisher-content,
+.combo-condition-content,
+.combo-visual-content,
+.combo-animation-content,
+.buildup-mechanic-content {
+  flex: 1;
+}
+
+.combo-visual-content,
+.combo-animation-content {
+  padding-top: 10px;
+}
+
+.combo-generator-name,
+.combo-finisher-name,
+.combo-condition-name,
+.combo-visual-name,
+.combo-animation-name,
+.buildup-mechanic-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--combo-text-primary);
+  margin: 0 0 6px 0;
+  transition: color var(--combo-transition-normal);
+}
+
+.combo-generator-card.selected .combo-generator-name,
+.combo-finisher-card.selected .combo-finisher-name,
+.combo-condition-card.selected .combo-condition-name,
+.combo-visual-card.selected .combo-visual-name,
+.combo-animation-card.selected .combo-animation-name,
+.buildup-mechanic-card.selected .buildup-mechanic-name {
+  color: var(--card-accent-color, var(--primary-300));
+}
+
+.combo-generator-description,
+.combo-finisher-description,
+.combo-condition-description,
+.combo-visual-description,
+.combo-animation-description,
+.buildup-mechanic-description {
+  font-size: 14px;
+  color: var(--combo-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Card Details */
+.combo-generator-details,
+.combo-finisher-details,
+.buildup-mechanic-details {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--combo-bg-dark);
+  border-radius: var(--combo-radius-sm);
+  border-left: 2px solid var(--card-accent-color, var(--primary-600));
+  font-size: 13px;
+  color: var(--combo-text-secondary);
+  line-height: 1.6;
+}
+
+.combo-examples,
+.combo-scaling {
+  margin-top: 8px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--combo-text-tertiary);
+}
+
+.scaling-label {
+  color: var(--combo-text-secondary);
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Max Combo Value */
+.combo-max-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--combo-text-primary);
+  margin-bottom: 8px;
+  transition: color var(--combo-transition-normal);
+  background: linear-gradient(to right, var(--combo-text-primary), var(--combo-text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.combo-max-option.selected .combo-max-value {
+  background: linear-gradient(to right, var(--primary-400), var(--primary-300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.combo-max-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-300);
+  margin-bottom: 8px;
+}
+
+/****************************************
+ * COMBO CONDITION VALUE INPUTS
+ ****************************************/
+.combo-condition-value {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.combo-condition-value label {
+  font-size: 13px;
+  color: var(--combo-text-secondary);
+  margin-bottom: 0;
+}
+
+.combo-condition-value input {
+  width: 60px;
+  padding: 6px 8px;
+  border-radius: var(--combo-radius-sm);
+  background: var(--combo-bg-darker);
+  border: 1px solid rgba(78, 84, 117, 0.5);
+  color: var(--combo-text-primary);
+  font-size: 13px;
+  text-align: center;
+}
+
+.combo-condition-value .unit {
+  font-size: 12px;
+  color: var(--combo-text-tertiary);
+}
+
+/****************************************
+ * VISUAL PREVIEWS
+ ****************************************/
+.visual-preview,
+.animation-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: var(--combo-bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-radius: var(--combo-radius-md) var(--combo-radius-md) 0 0;
+  overflow: hidden;
+}
+
+.animation-preview {
+  height: 76px;
+}
+
+/* Demo combo point for previews */
+.demo-combo-point {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-color, var(--primary-500));
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px var(--primary-glow, var(--primary-400));
+  margin: 0 auto;
+}
+
+/* Animation timing label */
+.animation-timing {
+  font-size: 12px;
+  color: var(--combo-text-tertiary);
+  margin-top: 8px;
+}
+
+/****************************************
+ * CONTROL BUTTONS
+ ****************************************/
+.combo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.combo-button {
+  padding: 12px 20px;
+  border-radius: var(--combo-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--combo-transition-normal);
+  box-shadow: var(--combo-shadow-sm);
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  text-align: center;
+  max-width: 180px;
+  border: none;
+}
+
+.combo-button::after {
+  content: '';
+  position: absolute;
+  top: -150%;
+  left: -50%;
+  width: 200%;
+  height: 300%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  transition: transform 0.4s ease;
+}
+
+.combo-button:hover::after {
+  transform: translateX(100%) rotate(25deg);
+}
+
+.combo-button.generator {
+  background: linear-gradient(to bottom, #2c913b, #1c682a);
+  color: var(--combo-text-primary);
+  border: 1px solid #3ca54c;
+}
+
+.combo-button.generator:hover {
+  background: linear-gradient(to bottom, #35a846, #237c33);
+  transform: translateY(-2px);
+  box-shadow: var(--combo-shadow-md), 0 0 15px rgba(60, 165, 76, 0.3);
+}
+
+.combo-button.generator:active {
+  transform: translateY(1px);
+  box-shadow: var(--combo-shadow-sm);
+}
+
+.combo-button.finisher {
+  background: linear-gradient(to bottom, #b92626, #871c1c);
+  color: var(--combo-text-primary);
+  border: 1px solid #d62c2c;
+}
+
+.combo-button.finisher:hover {
+  background: linear-gradient(to bottom, #d62c2c, #a12121);
+  transform: translateY(-2px);
+  box-shadow: var(--combo-shadow-md), 0 0 15px rgba(214, 44, 44, 0.3);
+}
+
+.combo-button.finisher:active {
+  transform: translateY(1px);
+  box-shadow: var(--combo-shadow-sm);
+}
+
+.combo-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: var(--combo-shadow-sm) !important;
+}
+
+.combo-button:disabled::after {
+  display: none;
+}
+
+/* Active Finisher Animation */
+.active-finisher {
+  animation: finisher-pulse 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes finisher-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(214, 44, 44, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(214, 44, 44, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(214, 44, 44, 0);
+  }
+}
+
+/* Demo control buttons */
+.start-demo-button,
+.stop-demo-button {
+  padding: 8px 16px;
+  border-radius: var(--combo-radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--combo-transition-normal);
+  border: none;
+}
+
+.start-demo-button {
+  background: linear-gradient(to bottom, var(--primary-600), var(--primary-800));
+  color: var(--combo-text-primary);
+  border: 1px solid var(--primary-600);
+}
+
+.start-demo-button:hover {
+  background: linear-gradient(to bottom, var(--primary-500), var(--primary-700));
+  box-shadow: 0 0 10px rgba(61, 184, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.stop-demo-button {
+  background: linear-gradient(to bottom, #b92626, #871c1c);
+  color: var(--combo-text-primary);
+  border: 1px solid #d62c2c;
+}
+
+.stop-demo-button:hover {
+  background: linear-gradient(to bottom, #d62c2c, #a12121);
+  box-shadow: 0 0 10px rgba(214, 44, 44, 0.3);
+  transform: translateY(-1px);
+}
+
+/****************************************
+ * COMBO POINTS CONTAINER
+ ****************************************/
+.combo-points-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--combo-bg-darker);
+  border-radius: var(--combo-radius-md);
+  border: 1px solid var(--combo-border-color);
+  flex: 2;
+  position: relative;
+}
+
+.combo-points-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.live-combo-display {
+  margin-top: 20px;
+  padding: 12px;
+  background: var(--combo-bg-dark);
+  border-radius: var(--combo-radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/****************************************
+ * FINISHER EFFECTIVENESS DISPLAY
+ ****************************************/
+.finisher-effectiveness {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--combo-bg-dark);
+  border-radius: var(--combo-radius-md);
+  border: 1px solid var(--combo-border-color);
+}
+
+.finisher-effectiveness h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--combo-text-primary);
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.effectiveness-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--combo-radius-full);
+  margin-bottom: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.effectiveness-fill {
+  height: 100%;
+  background: linear-gradient(to right, #4caf50, #8bc34a, #cddc39, #ffc107, #ff9800);
+  border-radius: var(--combo-radius-full);
+  width: 0;
+  transition: width 0.5s var(--combo-transition-bounce);
+}
+
+.effectiveness-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--combo-text-tertiary);
+  padding: 0 2px;
+  margin-bottom: 12px;
+}
+
+.finisher-formula {
+  font-size: 13px;
+  color: var(--combo-text-secondary);
+  padding: 10px;
+  background: var(--combo-bg-dark);
+  border-radius: var(--combo-radius-sm);
+  border-left: 2px solid var(--primary-600);
+}
+
+.formula-label {
+  color: var(--combo-text-tertiary);
+  margin-right: 8px;
+}
+
+.formula-value {
+  color: var(--primary-300);
+  font-weight: 500;
+}
+
+/****************************************
+ * COMBO POINT BASE STYLES
+ ****************************************/
+.combo-point,
+.combo-point-live,
+.combo-point-preview {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: var(--empty-color, #424242);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--combo-transition-normal);
+  position: relative;
+}
+
+.combo-point-live {
+  width: 24px;
+  height: 24px;
+}
+
+.combo-point-preview {
+  width: 20px;
+  height: 20px;
+}
+
+.combo-point.active,
+.combo-point-live.active,
+.combo-point-preview.active {
+  background-color: var(--active-color, #f44336);
+  box-shadow: 0 0 10px var(--glow-color, rgba(244, 67, 54, 0.5));
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/****************************************
+ * COMBO POINT SHAPES
+ ****************************************/
+/* Circle shape (default) */
+.combo-shape-circle {
+  border-radius: 50%;
+}
+
+/* Diamond shape (Holy Power style) */
+.combo-shape-diamond {
+  transform: rotate(45deg);
+  border-radius: 4px;
+}
+
+.combo-shape-diamond.active {
+  transform: rotate(45deg);
+  background-color: var(--active-color, #ffeb3b) !important;
+}
+
+.combo-point-preview.combo-shape-diamond {
+  transform: rotate(45deg);
+  border-radius: 3px;
+}
+
+.combo-point-preview.combo-shape-diamond.active {
+  transform: rotate(45deg) scale(1.1);
+  background-color: var(--active-color, #ffeb3b) !important;
+  box-shadow: 0 0 8px var(--glow-color, rgba(255, 235, 59, 0.5));
+}
+
+.combo-point-live.combo-shape-diamond {
+  transform: rotate(45deg);
+  border-radius: 3px;
+}
+
+.combo-point-live.combo-shape-diamond.active {
+  transform: rotate(45deg) scale(1.1);
+  background-color: var(--active-color, #ffeb3b) !important;
+}
+
+/* Paw shape (Druid style) */
+.combo-shape-paw,
+.combo-point-preview.combo-shape-paw,
+.combo-point-live.combo-shape-paw {
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  position: relative;
+}
+
+.combo-shape-paw::before,
+.combo-shape-paw::after,
+.combo-point-preview.combo-shape-paw::before,
+.combo-point-preview.combo-shape-paw::after,
+.combo-point-live.combo-shape-paw::before,
+.combo-point-live.combo-shape-paw::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  top: -4px;
+}
+
+.combo-shape-paw::before,
+.combo-point-live.combo-shape-paw::before {
+  left: -4px;
+}
+
+.combo-shape-paw::after,
+.combo-point-live.combo-shape-paw::after {
+  right: -4px;
+}
+
+.combo-point-preview.combo-shape-paw::before {
+  left: -3px;
+  width: 6px;
+  height: 6px;
+}
+
+.combo-point-preview.combo-shape-paw::after {
+  right: -3px;
+  width: 6px;
+  height: 6px;
+}
+
+/* Rune shape (Arcane style) */
+.combo-shape-rune,
+.combo-point-preview.combo-shape-rune,
+.combo-point-live.combo-shape-rune {
+  border-radius: 4px;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  position: relative;
+  overflow: visible;
+}
+
+.combo-shape-rune::before,
+.combo-point-preview.combo-shape-rune::before,
+.combo-point-live.combo-shape-rune::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.combo-shape-rune.active::before,
+.combo-point-preview.combo-shape-rune.active::before,
+.combo-point-live.combo-shape-rune.active::before {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Orb shape (Chi style) */
+.combo-shape-orb,
+.combo-point-preview.combo-shape-orb,
+.combo-point-live.combo-shape-orb {
+  background-image: radial-gradient(circle, 
+    rgba(255, 255, 255, 0.3) 0%, 
+    rgba(255, 255, 255, 0.1) 40%, 
+    transparent 70%
+  );
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.combo-shape-orb.active,
+.combo-point-preview.combo-shape-orb.active,
+.combo-point-live.combo-shape-orb.active {
+  background-image: radial-gradient(circle, 
+    rgba(255, 255, 255, 0.5) 0%, 
+    var(--active-color, #00bcd4) 60%, 
+    transparent 100%
+  );
+}
+
+/* Shard shape (Warlock style) */
+.combo-shape-shard,
+.combo-point-preview.combo-shape-shard,
+.combo-point-live.combo-shape-shard {
+  clip-path: polygon(50% 0%, 100% 30%, 100% 70%, 50% 100%, 0% 70%, 0% 30%);
+}
+
+/****************************************
+ * COMBO POINT ANIMATIONS
+ ****************************************/
+/* Animation for activating a combo point */
+.combo-point-live.active {
+  animation: point-activate 0.5s var(--combo-transition-bounce);
+}
+
+@keyframes point-activate {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Special case for diamond shape activation */
+.combo-point-live.combo-shape-diamond.active {
+  animation: point-activate-diamond 0.5s var(--combo-transition-bounce);
+}
+
+@keyframes point-activate-diamond {
+  0% {
+    transform: rotate(45deg) scale(0.5);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(45deg) scale(1.3);
+  }
+  100% {
+    transform: rotate(45deg) scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Fade in animation */
+.combo-animation-fade_in,
+.combo-point-live.combo-animation-fade_in {
+  opacity: 0.5;
+  transition: opacity var(--animation-timing, 0.3s ease),
+              background-color var(--animation-timing, 0.3s ease),
+              box-shadow var(--animation-timing, 0.3s ease);
+}
+
+.combo-animation-fade_in.active,
+.combo-point-live.combo-animation-fade_in.active {
+  opacity: 1;
+}
+
+/* Scale up animation */
+.combo-animation-scale_up,
+.combo-point-live.combo-animation-scale_up {
+  transform: scale(0.8);
+  transition: transform var(--animation-timing, 0.3s ease),
+              background-color var(--animation-timing, 0.3s ease),
+              box-shadow var(--animation-timing, 0.3s ease);
+}
+
+.combo-animation-scale_up.active,
+.combo-point-live.combo-animation-scale_up.active {
+  transform: scale(1.1);
+}
+
+/* Special case for diamond shape with scale up */
+.combo-shape-diamond.combo-animation-scale_up {
+  transform: rotate(45deg) scale(0.8);
+}
+
+.combo-shape-diamond.combo-animation-scale_up.active,
+.combo-point-live.combo-shape-diamond.combo-animation-scale_up.active {
+  transform: rotate(45deg) scale(1.2);
+}
+
+/* Pulse animation */
+.combo-animation-pulse.active,
+.combo-point-live.combo-animation-pulse.active {
+  animation: combo-pulse 1.5s infinite !important;
+}
+
+@keyframes combo-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 10px 3px var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+}
+
+/* Special case for diamond shape with pulse */
+.combo-shape-diamond.combo-animation-pulse.active,
+.combo-point-live.combo-shape-diamond.combo-animation-pulse.active {
+  animation: combo-pulse-diamond 1.5s infinite !important;
+}
+
+@keyframes combo-pulse-diamond {
+  0% {
+    transform: rotate(45deg) scale(1);
+    box-shadow: 0 0 0 0 var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+  50% {
+    transform: rotate(45deg) scale(1.08);
+    box-shadow: 0 0 10px 3px var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+    box-shadow: 0 0 0 0 var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+}
+
+/* Flip animation */
+.combo-animation-flip,
+.combo-point-live.combo-animation-flip {
+  transition: transform var(--animation-timing, 0.4s ease),
+              background-color var(--animation-timing, 0.4s ease),
+              box-shadow var(--animation-timing, 0.4s ease);
+  transform: perspective(400px) rotateY(180deg);
+  background-color: transparent !important;
+}
+
+.combo-animation-flip.active,
+.combo-point-live.combo-animation-flip.active {
+  transform: perspective(400px) rotateY(0deg) !important;
+  background-color: var(--active-color) !important;
+}
+
+/* Special case for diamond with flip */
+.combo-shape-diamond.combo-animation-flip,
+.combo-point-live.combo-shape-diamond.combo-animation-flip {
+  transform: perspective(400px) rotateY(180deg) rotate(45deg);
+  background-color: transparent !important;
+}
+
+.combo-shape-diamond.combo-animation-flip.active,
+.combo-point-live.combo-shape-diamond.combo-animation-flip.active {
+  transform: perspective(400px) rotateY(0deg) rotate(45deg) !important;
+  background-color: var(--active-color) !important;
+}
+
+/* Glow animation */
+.combo-animation-glow,
+.combo-point-live.combo-animation-glow {
+  transition: box-shadow var(--animation-timing, 0.3s ease),
+              background-color var(--animation-timing, 0.3s ease);
+}
+
+.combo-animation-glow.active,
+.combo-point-live.combo-animation-glow.active {
+  animation: combo-glow 2s infinite !important;
+}
+
+@keyframes combo-glow {
+  0% {
+    box-shadow: 0 0 5px 0 var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+  50% {
+    box-shadow: 0 0 15px 3px var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+  100% {
+    box-shadow: 0 0 5px 0 var(--glow-color, rgba(244, 67, 54, 0.5));
+  }
+}
+
+/* Bounce animation */
+.combo-animation-bounce,
+.combo-point-live.combo-animation-bounce {
+  transition: transform var(--animation-timing, 0.3s ease),
+              background-color var(--animation-timing, 0.3s ease),
+              box-shadow var(--animation-timing, 0.3s ease);
+}
+
+.combo-animation-bounce.active,
+.combo-point-live.combo-animation-bounce.active {
+  animation: combo-bounce 0.6s infinite alternate !important;
+}
+
+@keyframes combo-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Special case for diamond with bounce */
+.combo-shape-diamond.combo-animation-bounce.active,
+.combo-point-live.combo-shape-diamond.combo-animation-bounce.active {
+  animation: combo-bounce-diamond 0.6s infinite alternate !important;
+}
+
+@keyframes combo-bounce-diamond {
+  0% {
+    transform: rotate(45deg) translateY(0);
+  }
+  100% {
+    transform: rotate(45deg) translateY(-8px);
+  }
+}
+
+/****************************************
+ * ANIMATION DEMO PREVIEWS
+ ****************************************/
+/* Animation Demo Points for Preview */
+.combo-animation-preview-fade_in .demo-combo-point {
+  animation: demo-fade-in 1.5s infinite alternate !important;
+}
+
+.combo-animation-preview-scale_up .demo-combo-point {
+  animation: demo-scale-up 1.5s infinite alternate !important;
+}
+
+.combo-animation-preview-pulse .demo-combo-point {
+  animation: demo-pulse 1.5s infinite !important;
+}
+
+.combo-animation-preview-flip .demo-combo-point {
+  animation: demo-flip 1.5s infinite alternate !important;
+}
+
+.combo-animation-preview-glow .demo-combo-point {
+  animation: demo-glow 1.5s infinite alternate !important;
+}
+
+.combo-animation-preview-bounce .demo-combo-point {
+  animation: demo-bounce 1.5s infinite alternate !important;
+}
+
+/* Demo animation keyframes */
+@keyframes demo-fade-in {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+@keyframes demo-scale-up {
+  0% { transform: scale(0.7); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes demo-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--primary-glow, var(--primary-400));
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px 2px var(--primary-glow, var(--primary-400));
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--primary-glow, var(--primary-400));
+  }
+}
+
+@keyframes demo-flip {
+  0% {
+    transform: perspective(400px) rotateY(180deg);
+    background-color: rgba(61, 184, 255, 0.3);
+  }
+  100% {
+    transform: perspective(400px) rotateY(0deg);
+    background-color: var(--primary-color, var(--primary-500));
+  }
+}
+
+@keyframes demo-glow {
+  0% { box-shadow: 0 0 5px 0 var(--primary-glow, var(--primary-400)); }
+  100% { box-shadow: 0 0 20px 5px var(--primary-glow, var(--primary-400)); }
+}
+
+@keyframes demo-bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}

@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import useSpellWizardStore from '../../../store/spellWizardStore';
-import { SpellPreview, StepNavigation } from '../common';
-import '../styles/spell-wizard.css';
-import '../styles/spell-wizard-layout.css';
+import { SpellPreview } from '../common';
+import SpellTypeSpecificSettings from '../common/SpellTypeSpecificSettings';
+import '../styles/Pages/wizard-steps.css';
+import '../styles/Layout/wizard-layout.css';
+import '../styles/Components/preview-card.css';
 
-// Action economy options
-const ACTION_ECONOMY_OPTIONS = [
-  { id: 'action', name: 'Action', icon: 'spell_holy_greaterheal', description: 'Standard action used on your turn', apCost: 2 },
-  { id: 'reaction', name: 'Reaction', icon: 'ability_warrior_revenge', description: 'Cast in response to triggers, outside your normal turn', apCost: 1 },
-  { id: 'free_action', name: 'Free Action', icon: 'ability_rogue_sprint', description: 'Minor action that can be used alongside your main action', apCost: 0 },
-  { id: 'channeled', name: 'Channeled', icon: 'spell_arcane_mindmastery', description: 'Continuous effect that requires concentration over multiple rounds', apCost: 3 }
-];
-
-// Spell resource types
+// Arcane resources
 const ARCANE_RESOURCES = [
   { id: 'mana', name: 'Mana', icon: 'inv_elemental_mote_mana', color: '#0070dd', description: 'Magical energy that powers spells', regenRate: '5 per round' },
   { id: 'spirit', name: 'Spirit', icon: 'spell_holy_divinespirit', color: '#8a2be2', description: 'Divine or natural magical essence', regenRate: '4 per round' },
@@ -50,8 +44,11 @@ const CASTING_COMPONENTS = [
   { id: 'material', name: 'Material', icon: 'inv_misc_gem_variety_01', description: 'Requires physical components or a focus', counters: 'Disarmed, no components' }
 ];
 
-const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) => {
+const Step2CastingMechanics = () => {
   const { spellData, updateSpellData, setStepValidation } = useSpellWizardStore();
+  
+  // Get the spell type from Step 1
+  const spellType = spellData.spellType || 'active';
   
   // Step progress tracking
   const [currentSubstep, setCurrentSubstep] = useState(1);
@@ -61,38 +58,38 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
   const [resourceCosts, setResourceCosts] = useState(spellData.resourceCosts || {});
   const [editingResource, setEditingResource] = useState(null);
   
-  // Action economy
-  const [actionType, setActionType] = useState(spellData.actionType || 'action');
-  const [channelMaxRounds, setChannelMaxRounds] = useState(spellData.channelMaxRounds || 3);
-  const [reactionTrigger, setReactionTrigger] = useState(spellData.reactionTrigger || '');
-  
   // Cooldown settings
   const [cooldownCategory, setCooldownCategory] = useState(spellData.cooldownCategory || 'rounds');
   const [cooldownValue, setCooldownValue] = useState(spellData.cooldownValue || 2);
   
   // Casting requirements
   const [castingComponents, setCastingComponents] = useState(spellData.castingComponents || []);
-  const [requiresConcentration, setRequiresConcentration] = useState(spellData.requiresConcentration || false);
   const [materialComponents, setMaterialComponents] = useState(spellData.materialComponents || '');
   const [materialCost, setMaterialCost] = useState(spellData.materialCost || '');
   const [materialConsumed, setMaterialConsumed] = useState(spellData.materialConsumed || false);
   
+  // Spell type specific settings
+  const [spellTypeSettings, setSpellTypeSettings] = useState({});
+  
   // Validate the current step
   useEffect(() => {
     const isValid = validateStep();
-    setStepValidation(currentStep, isValid);
-  }, [actionType, resourceCosts, channelMaxRounds, reactionTrigger]);
+    setStepValidation(1, isValid);
+  }, [
+    resourceCosts,
+    spellType,
+    cooldownCategory,
+    cooldownValue,
+    spellTypeSettings
+  ]);
 
   const validateStep = () => {
     // Basic validation rules
-    if (!actionType) return false;
-    
-    // Additional validation based on action type
-    if (actionType === 'channeled' && (!channelMaxRounds || channelMaxRounds < 1)) return false;
-    if (actionType === 'reaction' && !reactionTrigger) return false;
-    
-    // Ensure at least one resource cost is set
     if (Object.keys(resourceCosts).length === 0) return false;
+    
+    // Additional validation based on spell type
+    if (spellType === 'reaction' && (!spellTypeSettings.reactiveTrigger || (spellTypeSettings.reactiveTrigger === 'custom' && !spellTypeSettings.customTriggerDescription))) return false;
+    if (spellType === 'channeled' && (!spellTypeSettings.channelMaxRounds || spellTypeSettings.channelMaxRounds < 1)) return false;
     
     return true;
   };
@@ -101,57 +98,48 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
   const handleNext = () => {
     if (currentSubstep < totalSubsteps) {
       setCurrentSubstep(prev => prev + 1);
-    } else if (validateStep()) {
-      nextStep();
     }
   };
 
   const handlePrev = () => {
     if (currentSubstep > 1) {
       setCurrentSubstep(prev => prev - 1);
-    } else {
-      prevStep();
     }
   };
 
   // Update spell data when form values change
   useEffect(() => {
-    updateSpellData({
-      actionType,
-      channelMaxRounds,
-      reactionTrigger,
+    const updatedSpellData = {
       resourceCosts,
       cooldownCategory,
       cooldownValue,
       castingComponents,
-      requiresConcentration,
       materialComponents,
       materialCost,
-      materialConsumed
-    });
-  }, [actionType, channelMaxRounds, reactionTrigger, resourceCosts, cooldownCategory, cooldownValue, castingComponents, requiresConcentration, materialComponents, materialCost, materialConsumed]);
-
+      materialConsumed,
+      ...spellTypeSettings
+    };
+    
+    updateSpellData(updatedSpellData);
+  }, [
+    resourceCosts,
+    cooldownCategory,
+    cooldownValue,
+    castingComponents,
+    materialComponents,
+    materialCost,
+    materialConsumed,
+    spellTypeSettings,
+    updateSpellData
+  ]);
+  
   // Initialize from existing data if available
   useEffect(() => {
-    // Load resources
+    // Initialize common properties
     if (spellData.resourceCosts) {
       setResourceCosts(spellData.resourceCosts);
     }
     
-    // Load action economy settings
-    if (spellData.actionType) {
-      setActionType(spellData.actionType);
-    }
-    
-    if (spellData.channelMaxRounds) {
-      setChannelMaxRounds(spellData.channelMaxRounds);
-    }
-    
-    if (spellData.reactionTrigger) {
-      setReactionTrigger(spellData.reactionTrigger);
-    }
-    
-    // Load cooldown settings
     if (spellData.cooldownCategory) {
       setCooldownCategory(spellData.cooldownCategory);
     }
@@ -160,13 +148,8 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
       setCooldownValue(spellData.cooldownValue);
     }
     
-    // Load casting requirements
     if (spellData.castingComponents) {
       setCastingComponents(spellData.castingComponents);
-    }
-    
-    if (spellData.requiresConcentration !== undefined) {
-      setRequiresConcentration(spellData.requiresConcentration);
     }
     
     if (spellData.materialComponents) {
@@ -198,9 +181,16 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
         let defaultAmount = 20;
         
         if (resourceId === 'action_points') {
-          // Get action point cost based on selected action type
-          const actionOption = ACTION_ECONOMY_OPTIONS.find(opt => opt.id === actionType);
-          defaultAmount = actionOption ? actionOption.apCost : 2;
+          // Default action point cost based on spell type
+          switch(spellType) {
+            case 'active': defaultAmount = 2; break;
+            case 'passive': defaultAmount = 0; break;
+            case 'channeled': defaultAmount = 3; break;
+            case 'reaction': defaultAmount = 1; break;
+            case 'ultimate': defaultAmount = 4; break;
+            case 'ritual': defaultAmount = 5; break;
+            default: defaultAmount = 2;
+          }
         } else if (resourceId === 'health') {
           defaultAmount = 10; // Health costs should be lower by default
         } else if (['rage', 'focus', 'soul_fragments', 'arcane_charges'].includes(resourceId)) {
@@ -232,17 +222,12 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
     });
   };
   
-  // Action economy change handler - updates AP cost automatically
-  const handleActionTypeChange = (type) => {
-    setActionType(type);
-    
-    // If action points are being used, update their cost
-    if (resourceCosts['action_points']) {
-      const actionOption = ACTION_ECONOMY_OPTIONS.find(opt => opt.id === type);
-      if (actionOption) {
-        updateResourceCost('action_points', actionOption.apCost);
-      }
-    }
+  // Handle spell type specific settings update
+  const handleSpellTypeSettingsUpdate = (updatedSettings) => {
+    setSpellTypeSettings(prev => ({
+      ...prev,
+      ...updatedSettings
+    }));
   };
   
   // Navigation between substeps
@@ -254,29 +239,14 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
     setCurrentSubstep(prev => Math.max(prev - 1, 1));
   };
   
-  // Get class name from ID
-  const getClassName = (classId) => {
-    const classMap = {
-      'pyrofiend': 'Pyrofiend',
-      'gambler': 'Gambler',
-      'fateweaver': 'Fate Weaver',
-      'stormbringer': 'Stormbringer',
-      'berserker': 'Berserker',
-      'shadowdancer': 'Shadowdancer',
-      'elementalist': 'Elementalist'
-    };
-    
-    return classMap[classId] || classId;
-  };
-  
   // Get spell type name
   const getSpellTypeName = (typeId) => {
     const typeMap = {
       'active': 'Active Ability',
       'passive': 'Passive Ability',
-      'aura': 'Aura',
-      'ultimate': 'Ultimate Ability',
+      'channeled': 'Channeled Ability',
       'reaction': 'Reaction',
+      'ultimate': 'Ultimate Ability',
       'ritual': 'Ritual'
     };
     
@@ -300,6 +270,324 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
         return cooldownCategory;
     }
   };
+
+  // Render the current substep content
+  const renderSubstepContent = () => {
+    switch (currentSubstep) {
+      case 1:
+        return (
+          <div className="substep">
+            <SpellTypeSpecificSettings 
+              spellType={spellType}
+              spellData={spellData}
+              onUpdate={handleSpellTypeSettingsUpdate}
+            />
+          </div>
+        );
+        
+      case 2:
+        return (
+          <div className="substep resource-selection">
+            <p className="section-description">
+              Choose which resources this spell will consume when cast. Resource costs affect how frequently a spell can be used and its overall power.
+            </p>
+            
+            <div className="section">
+              <h5 className="subsection-title">Arcane Resources</h5>
+              <div className="resource-grid">
+                {ARCANE_RESOURCES.map(resource => (
+                  <div 
+                    key={resource.id}
+                    className={`resource-option ${resourceCosts[resource.id] ? 'selected' : ''}`}
+                    onClick={() => toggleResource(resource.id, 'arcane')}
+                    style={{ borderColor: resourceCosts[resource.id] ? resource.color : 'transparent' }}
+                  >
+                    <div className="resource-option-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${resource.icon}.jpg`} alt={resource.name} />
+                    </div>
+                    <div className="resource-option-info">
+                      <div className="resource-option-name" style={{ color: resource.color }}>{resource.name}</div>
+                      <div className="resource-option-description">{resource.description}</div>
+                      <div className="resource-option-description">Regen: {resource.regenRate}</div>
+                    </div>
+                    
+                    {resourceCosts[resource.id] && (
+                      <div className="resource-cost-input" onClick={(e) => e.stopPropagation()}>
+                        <input 
+                          type="number" 
+                          min="0" 
+                          value={resourceCosts[resource.id].baseAmount || 0}
+                          onChange={(e) => updateResourceCost(resource.id, e.target.value)}
+                          onFocus={() => setEditingResource(resource.id)}
+                          onBlur={() => setEditingResource(null)}
+                        />
+                        <span>Cost</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="section">
+              <h5 className="subsection-title">Martial Resources</h5>
+              <div className="resource-grid">
+                {MARTIAL_RESOURCES.map(resource => (
+                  <div 
+                    key={resource.id}
+                    className={`resource-option ${resourceCosts[resource.id] ? 'selected' : ''}`}
+                    onClick={() => toggleResource(resource.id, 'martial')}
+                    style={{ borderColor: resourceCosts[resource.id] ? resource.color : 'transparent' }}
+                  >
+                    <div className="resource-option-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${resource.icon}.jpg`} alt={resource.name} />
+                    </div>
+                    <div className="resource-option-info">
+                      <div className="resource-option-name" style={{ color: resource.color }}>{resource.name}</div>
+                      <div className="resource-option-description">{resource.description}</div>
+                      <div className="resource-option-description">Regen: {resource.regenRate}</div>
+                    </div>
+                    
+                    {resourceCosts[resource.id] && (
+                      <div className="resource-cost-input" onClick={(e) => e.stopPropagation()}>
+                        <input 
+                          type="number" 
+                          min="0" 
+                          value={resourceCosts[resource.id].baseAmount || 0}
+                          onChange={(e) => updateResourceCost(resource.id, e.target.value)}
+                          onFocus={() => setEditingResource(resource.id)}
+                          onBlur={() => setEditingResource(null)}
+                        />
+                        <span>Cost</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="section">
+              <h5 className="subsection-title">Class-Specific Resources</h5>
+              <div className="resource-grid">
+                {CLASS_RESOURCES.map(resource => (
+                  <div 
+                    key={resource.id}
+                    className={`resource-option ${resourceCosts[resource.id] ? 'selected' : ''}`}
+                    onClick={() => toggleResource(resource.id, 'class')}
+                    style={{ borderColor: resourceCosts[resource.id] ? resource.color : 'transparent' }}
+                  >
+                    <div className="resource-option-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${resource.icon}.jpg`} alt={resource.name} />
+                    </div>
+                    <div className="resource-option-info">
+                      <div className="resource-option-name" style={{ color: resource.color }}>{resource.name}</div>
+                      <div className="resource-option-description">{resource.description}</div>
+                      <div className="resource-option-description">Regen: {resource.regenRate}</div>
+                    </div>
+                    
+                    {resourceCosts[resource.id] && (
+                      <div className="resource-cost-input" onClick={(e) => e.stopPropagation()}>
+                        <input 
+                          type="number" 
+                          min="0" 
+                          value={resourceCosts[resource.id].baseAmount || 0}
+                          onChange={(e) => updateResourceCost(resource.id, e.target.value)}
+                          onFocus={() => setEditingResource(resource.id)}
+                          onBlur={() => setEditingResource(null)}
+                        />
+                        <span>Cost</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+        
+      case 3:
+        return (
+          <div className="substep cooldown">
+            <p className="section-description">
+              Define how frequently your spell can be cast. Cooldowns balance powerful abilities and establish a rhythm to gameplay.
+            </p>
+            
+            <div className="section">
+              <h5 className="subsection-title">Cooldown Type</h5>
+              <div className="cooldown-options-grid">
+                {COOLDOWN_CATEGORIES.map(category => (
+                  <div 
+                    key={category.id}
+                    className={`cooldown-option ${cooldownCategory === category.id ? 'selected' : ''}`}
+                    onClick={() => setCooldownCategory(category.id)}
+                  >
+                    <div className="cooldown-option-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${category.icon}.jpg`} alt={category.name} />
+                    </div>
+                    <div className="cooldown-option-info">
+                      <div className="cooldown-option-name">{category.name}</div>
+                      <div className="cooldown-option-description">{category.description}</div>
+                      <div className="cooldown-option-description">Examples: {category.examples}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Cooldown Value (only shown for round-based cooldowns) */}
+            {cooldownCategory === 'rounds' && (
+              <div className="section">
+                <h5 className="subsection-title">Cooldown Duration (in rounds)</h5>
+                <div className="cooldown-duration">
+                  <div className="cooldown-input-container">
+                    <input
+                      type="number"
+                      min="1"
+                      max="20"
+                      value={cooldownValue}
+                      onChange={(e) => setCooldownValue(parseInt(e.target.value) || 1)}
+                      className="cooldown-input"
+                    />
+                    <span className="rounds-label">rounds</span>
+                  </div>
+                  <p className="input-description">
+                    How many combat rounds must pass before this ability can be used again. Each round represents approximately 6 seconds of in-game time.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+        
+      case 4:
+        return (
+          <div className="substep components">
+            <p className="section-description">
+              Define what components are required to cast this spell. Components add flavor and tactical considerations to spell casting.
+            </p>
+            
+            <div className="section">
+              <h5 className="subsection-title">Required Components</h5>
+              <div className="resource-grid">
+                {CASTING_COMPONENTS.map(component => (
+                  <div 
+                    key={component.id}
+                    className={`resource-option ${castingComponents.includes(component.id) ? 'selected' : ''}`}
+                    onClick={() => toggleComponent(component.id)}
+                  >
+                    <div className="resource-option-icon">
+                      <img src={`https://wow.zamimg.com/images/wow/icons/medium/${component.icon}.jpg`} alt={component.name} />
+                    </div>
+                    <div className="resource-option-info">
+                      <div className="resource-option-name">{component.name}</div>
+                      <div className="resource-option-description">{component.description}</div>
+                      <div className="resource-option-description">Countered when: {component.counters}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Material components details (only when material is selected) */}
+            {castingComponents.includes('material') && (
+              <div className="section">
+                <h5 className="subsection-title">Material Component Details</h5>
+                <div className="material-components">
+                  <div className="name-input">
+                    <label>Material Description</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., A pinch of iron powder, a piece of amber, etc."
+                      value={materialComponents}
+                      onChange={(e) => setMaterialComponents(e.target.value)}
+                      className="spell-name-input"
+                    />
+                  </div>
+                  
+                  <div className="name-input">
+                    <label>Cost (if any)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., 50 gold, None, etc."
+                      value={materialCost}
+                      onChange={(e) => setMaterialCost(e.target.value)}
+                      className="spell-name-input"
+                    />
+                  </div>
+                  
+                  <div className="checkbox-container">
+                    <label className="custom-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={materialConsumed}
+                        onChange={() => setMaterialConsumed(!materialConsumed)}
+                      />
+                      <span className="checkmark"></span>
+                      <span className="checkbox-label">Material components are consumed when cast</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Casting Mechanics Summary */}
+            <div className="resource-summary">
+              <h5 className="subsection-title">Casting Mechanics Summary</h5>
+              <div className="summary-grid">
+                <div className="summary-row">
+                  <div className="summary-label">Resources:</div>
+                  <div className="summary-value">
+                    {Object.entries(resourceCosts)
+                      .map(([id, data]) => {
+                        const allResources = [...ARCANE_RESOURCES, ...MARTIAL_RESOURCES, ...CLASS_RESOURCES];
+                        const resource = allResources.find(r => r.id === id);
+                        return resource ? `${data.baseAmount} ${resource.name}` : null;
+                      })
+                      .filter(Boolean)
+                      .join(', ')}
+                    {Object.keys(resourceCosts).length === 0 && 'None'}
+                  </div>
+                </div>
+                
+                <div className="summary-row">
+                  <div className="summary-label">Ability Type:</div>
+                  <div className="summary-value">
+                    {getSpellTypeName(spellType)}
+                    {spellType === 'channeled' && spellTypeSettings.channelMaxRounds && ` (${spellTypeSettings.channelMaxRounds} rounds)`}
+                    {spellType === 'reaction' && spellTypeSettings.reactiveTrigger && ` - ${spellTypeSettings.reactiveTrigger}`}
+                  </div>
+                </div>
+                
+                <div className="summary-row">
+                  <div className="summary-label">Cooldown:</div>
+                  <div className="summary-value">{formatCooldownDisplay()}</div>
+                </div>
+                
+                <div className="summary-row">
+                  <div className="summary-label">Components:</div>
+                  <div className="summary-value">
+                    {castingComponents.length > 0 
+                      ? castingComponents.map(id => 
+                          CASTING_COMPONENTS.find(c => c.id === id)?.name
+                        ).join(', ')
+                      : 'None'}
+                    {castingComponents.includes('material') && materialComponents && ` (${materialComponents}${materialCost ? `, ${materialCost}` : ''}${materialConsumed ? ', consumed' : ''})`}
+                  </div>
+                </div>
+                
+                <div className="summary-row">
+                  <div className="summary-label">Concentration:</div>
+                  <div className="summary-value">{spellTypeSettings.requiresConcentration ? 'Required' : 'Not required'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+        
+      default:
+        return null;
+    }
+  };
   
   return (
     <div className="wizard-layout">
@@ -313,6 +601,30 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
             />
             Casting Mechanics
           </h4>
+          
+          {/* Current Spell Type Indicator */}
+          <div className="spell-type-indicator">
+            <h5>
+              <img 
+                src={`https://wow.zamimg.com/images/wow/icons/medium/${
+                  {
+                    'active': 'spell_holy_greaterheal',
+                    'passive': 'spell_holy_devotionaura',
+                    'channeled': 'spell_arcane_mindmastery',
+                    'reaction': 'ability_warrior_revenge',
+                    'ultimate': 'spell_arcane_arcane03',
+                    'ritual': 'spell_shadow_demonicempathy'
+                  }[spellType] || 'inv_misc_questionmark'
+                }.jpg`} 
+                alt="" 
+                className="section-icon-small" 
+              />
+              {getSpellTypeName(spellType)} Configuration
+            </h5>
+            <p className="section-description">
+              Configuring casting mechanics for your {getSpellTypeName(spellType).toLowerCase()}.
+            </p>
+          </div>
           
           {/* Substep Progress Indicator */}
           <div className="substep-progress">
@@ -328,567 +640,51 @@ const Step2CastingMechanics = ({ nextStep, prevStep, goToStep, currentStep }) =>
               ))}
             </div>
             <div className="substep-labels">
-              <div className={`substep-label ${currentSubstep === 1 ? 'active' : ''}`}>Resources</div>
-              <div className={`substep-label ${currentSubstep === 2 ? 'active' : ''}`}>Action Type</div>
+              <div className={`substep-label ${currentSubstep === 1 ? 'active' : ''}`}>Spell Settings</div>
+              <div className={`substep-label ${currentSubstep === 2 ? 'active' : ''}`}>Resources</div>
               <div className={`substep-label ${currentSubstep === 3 ? 'active' : ''}`}>Cooldown</div>
               <div className={`substep-label ${currentSubstep === 4 ? 'active' : ''}`}>Components</div>
             </div>
           </div>
           
-          {/* Step 1: Resource Selection */}
-          {currentSubstep === 1 && (
-            <div className="substep resource-selection">
-              <p className="section-description">
-                Choose which resources this spell will consume when cast. Resource costs affect how frequently a spell can be used and its overall power.
-              </p>
-              
-              <div className="section">
-                <h5 className="subsection-title">Arcane Resources</h5>
-                <div className="resource-grid">
-                  {ARCANE_RESOURCES.map(resource => (
-                    <div 
-                      key={resource.id}
-                      className={`resource-option ${resourceCosts[resource.id] ? 'selected' : ''}`}
-                      onClick={() => toggleResource(resource.id, 'arcane')}
-                      style={{ borderColor: resourceCosts[resource.id] ? resource.color : 'transparent' }}
-                    >
-                      <div className="resource-option-icon">
-                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${resource.icon}.jpg`} alt={resource.name} />
-                      </div>
-                      <div className="resource-option-info">
-                        <div className="resource-option-name" style={{ color: resource.color }}>{resource.name}</div>
-                        <div className="resource-option-description">{resource.description}</div>
-                        <div className="resource-option-description">Regen: {resource.regenRate}</div>
-                      </div>
-                      
-                      {resourceCosts[resource.id] && (
-                        <div className="resource-cost-input" onClick={(e) => e.stopPropagation()}>
-                          <input 
-                            type="number" 
-                            min="0" 
-                            value={resourceCosts[resource.id].baseAmount || 0}
-                            onChange={(e) => updateResourceCost(resource.id, e.target.value)}
-                            onFocus={() => setEditingResource(resource.id)}
-                            onBlur={() => setEditingResource(null)}
-                          />
-                          <span>Cost</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="section">
-                <h5 className="subsection-title">Martial Resources</h5>
-                <div className="resource-grid">
-                  {MARTIAL_RESOURCES.map(resource => (
-                    <div 
-                      key={resource.id}
-                      className={`resource-option ${resourceCosts[resource.id] ? 'selected' : ''}`}
-                      onClick={() => toggleResource(resource.id, 'martial')}
-                      style={{ borderColor: resourceCosts[resource.id] ? resource.color : 'transparent' }}
-                    >
-                      <div className="resource-option-icon">
-                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${resource.icon}.jpg`} alt={resource.name} />
-                      </div>
-                      <div className="resource-option-info">
-                        <div className="resource-option-name" style={{ color: resource.color }}>{resource.name}</div>
-                        <div className="resource-option-description">{resource.description}</div>
-                        <div className="resource-option-description">Regen: {resource.regenRate}</div>
-                      </div>
-                      
-                      {resourceCosts[resource.id] && (
-                        <div className="resource-cost-input" onClick={(e) => e.stopPropagation()}>
-                          <input 
-                            type="number" 
-                            min="0" 
-                            value={resourceCosts[resource.id].baseAmount || 0}
-                            onChange={(e) => updateResourceCost(resource.id, e.target.value)}
-                            onFocus={() => setEditingResource(resource.id)}
-                            onBlur={() => setEditingResource(null)}
-                          />
-                          <span>Cost</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="section">
-                <h5 className="subsection-title">Class-Specific Resources</h5>
-                <div className="resource-grid">
-                  {CLASS_RESOURCES.map(resource => (
-                    <div 
-                      key={resource.id}
-                      className={`resource-option ${resourceCosts[resource.id] ? 'selected' : ''}`}
-                      onClick={() => toggleResource(resource.id, 'class')}
-                      style={{ borderColor: resourceCosts[resource.id] ? resource.color : 'transparent' }}
-                    >
-                      <div className="resource-option-icon">
-                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${resource.icon}.jpg`} alt={resource.name} />
-                      </div>
-                      <div className="resource-option-info">
-                        <div className="resource-option-name" style={{ color: resource.color }}>{resource.name}</div>
-                        <div className="resource-option-description">{resource.description}</div>
-                        <div className="resource-option-description">Regen: {resource.regenRate}</div>
-                      </div>
-                      
-                      {resourceCosts[resource.id] && (
-                        <div className="resource-cost-input" onClick={(e) => e.stopPropagation()}>
-                          <input 
-                            type="number" 
-                            min="0" 
-                            value={resourceCosts[resource.id].baseAmount || 0}
-                            onChange={(e) => updateResourceCost(resource.id, e.target.value)}
-                            onFocus={() => setEditingResource(resource.id)}
-                            onBlur={() => setEditingResource(null)}
-                          />
-                          <span>Cost</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="substep-navigation">
-                <div></div> {/* Empty div for flex spacing */}
-                <button 
-                  className="next-button nav-button"
-                  onClick={goToNextSubstep}
-                  disabled={Object.keys(resourceCosts).length === 0}
-                >
-                  Continue
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_pathfinding.jpg" 
-                    alt="Next"
-                    className="nav-icon"
-                  />
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Current Substep Content */}
+          {renderSubstepContent()}
           
-          {/* Step 2: Action Economy */}
-          {currentSubstep === 2 && (
-            <div className="substep action-economy">
-              <p className="section-description">
-                Choose what type of action this spell requires in combat. The action type determines when the spell can be cast and helps balance its power.
-              </p>
-              
-              <div className="section">
-                <h5 className="subsection-title">Action Type</h5>
-                <div className="cast-options-grid">
-                  {ACTION_ECONOMY_OPTIONS.map(option => (
-                    <div 
-                      key={option.id}
-                      className={`cast-option ${actionType === option.id ? 'selected' : ''}`}
-                      onClick={() => handleActionTypeChange(option.id)}
-                    >
-                      <div className="cast-option-icon">
-                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${option.icon}.jpg`} alt={option.name} />
-                      </div>
-                      <div className="cast-option-info">
-                        <div className="cast-option-name">{option.name}</div>
-                        <div className="cast-option-description">{option.description}</div>
-                        <div className="cast-option-description">AP Cost: {option.apCost}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Channel Duration (only shown for channeled spells) */}
-              {actionType === 'channeled' && (
-                <div className="section">
-                  <h5 className="subsection-title">Channel Duration (in rounds)</h5>
-                  <div className="channel-duration">
-                    <div className="channel-input-container">
-                      <input
-                        type="number"
-                        min="1"
-                        max="10"
-                        value={channelMaxRounds}
-                        onChange={(e) => setChannelMaxRounds(parseInt(e.target.value) || 1)}
-                        className="channel-input"
-                      />
-                      <span className="rounds-label">rounds</span>
-                    </div>
-                    <p className="input-description">
-                      Channeled spells maintain their effect each round until the channel ends or is interrupted. 
-                      Longer channels are more powerful but leave the caster vulnerable.
-                    </p>
-                    
-                    <div className="checkbox-container">
-                      <label className="custom-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={requiresConcentration}
-                          onChange={() => setRequiresConcentration(!requiresConcentration)}
-                        />
-                        <span className="checkmark"></span>
-                        <span className="checkbox-label">Requires Concentration</span>
-                      </label>
-                    </div>
-                    <p className="input-description">
-                      Concentration spells end if the caster casts another concentration spell, takes damage and fails a 
-                      Constitution saving throw, or becomes incapacitated.
-                    </p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Reaction Trigger (only shown for reaction spells) */}
-              {actionType === 'reaction' && (
-                <div className="section">
-                  <h5 className="subsection-title">Reaction Trigger</h5>
-                  <div className="reaction-trigger">
-                    <p className="section-description">
-                      Define what event triggers this reaction. Reactions occur outside your turn in response to specific situations.
-                    </p>
-                    <div className="name-input">
-                      <input
-                        type="text"
-                        placeholder="e.g., When an enemy casts a spell, when you take damage, etc."
-                        value={reactionTrigger}
-                        onChange={(e) => setReactionTrigger(e.target.value)}
-                        className="spell-name-input"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              <div className="substep-navigation">
-                <button 
-                  className="prev-button nav-button"
-                  onClick={handlePrev}
-                >
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/spell_holy_borrowedtime.jpg" 
-                    alt="Previous"
-                    className="nav-icon"
-                  />
-                  Back
-                </button>
-                <button 
-                  className="next-button nav-button"
-                  onClick={goToNextSubstep}
-                >
-                  Continue
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_pathfinding.jpg" 
-                    alt="Next"
-                    className="nav-icon"
-                  />
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Step 3: Cooldown */}
-          {currentSubstep === 3 && (
-            <div className="substep cooldown">
-              <p className="section-description">
-                Define how frequently your spell can be cast. Cooldowns balance powerful abilities and establish a rhythm to gameplay.
-              </p>
-              
-              <div className="section">
-                <h5 className="subsection-title">Cooldown Type</h5>
-                <div className="cooldown-options-grid">
-                  {COOLDOWN_CATEGORIES.map(category => (
-                    <div 
-                      key={category.id}
-                      className={`cooldown-option ${cooldownCategory === category.id ? 'selected' : ''}`}
-                      onClick={() => setCooldownCategory(category.id)}
-                    >
-                      <div className="cooldown-option-icon">
-                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${category.icon}.jpg`} alt={category.name} />
-                      </div>
-                      <div className="cooldown-option-info">
-                        <div className="cooldown-option-name">{category.name}</div>
-                        <div className="cooldown-option-description">{category.description}</div>
-                        <div className="cooldown-option-description">Examples: {category.examples}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Cooldown Value (only shown for round-based cooldowns) */}
-              {cooldownCategory === 'rounds' && (
-                <div className="section">
-                  <h5 className="subsection-title">Cooldown Duration (in rounds)</h5>
-                  <div className="cooldown-duration">
-                    <div className="cooldown-input-container">
-                      <input
-                        type="number"
-                        min="1"
-                        max="20"
-                        value={cooldownValue}
-                        onChange={(e) => setCooldownValue(parseInt(e.target.value) || 1)}
-                        className="cooldown-input"
-                      />
-                      <span className="rounds-label">rounds</span>
-                    </div>
-                    <p className="input-description">
-                      How many combat rounds must pass before this ability can be used again. Each round represents approximately 6 seconds of in-game time.
-                    </p>
-                  </div>
-                </div>
-              )}
-              
-              <div className="substep-navigation">
-                <button 
-                  className="prev-button nav-button"
-                  onClick={handlePrev}
-                >
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/spell_holy_borrowedtime.jpg" 
-                    alt="Previous"
-                    className="nav-icon"
-                  />
-                  Back
-                </button>
-                <button 
-                  className="next-button nav-button"
-                  onClick={goToNextSubstep}
-                >
-                  Continue
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_pathfinding.jpg" 
-                    alt="Next"
-                    className="nav-icon"
-                  />
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {/* Step 4: Casting Components */}
-          {currentSubstep === 4 && (
-            <div className="substep components">
-              <p className="section-description">
-                Define what components are required to cast this spell. Components add flavor and tactical considerations to spell casting.
-              </p>
-              
-              <div className="section">
-                <h5 className="subsection-title">Required Components</h5>
-                <div className="resource-grid">
-                  {CASTING_COMPONENTS.map(component => (
-                    <div 
-                      key={component.id}
-                      className={`resource-option ${castingComponents.includes(component.id) ? 'selected' : ''}`}
-                      onClick={() => toggleComponent(component.id)}
-                    >
-                      <div className="resource-option-icon">
-                        <img src={`https://wow.zamimg.com/images/wow/icons/medium/${component.icon}.jpg`} alt={component.name} />
-                      </div>
-                      <div className="resource-option-info">
-                        <div className="resource-option-name">{component.name}</div>
-                        <div className="resource-option-description">{component.description}</div>
-                        <div className="resource-option-description">Countered when: {component.counters}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Material components details (only when material is selected) */}
-              {castingComponents.includes('material') && (
-                <div className="section">
-                  <h5 className="subsection-title">Material Component Details</h5>
-                  <div className="material-components">
-                    <div className="name-input">
-                      <label>Material Description</label>
-                      <input
-                        type="text"
-                        placeholder="e.g., A pinch of iron powder, a piece of amber, etc."
-                        value={materialComponents}
-                        onChange={(e) => setMaterialComponents(e.target.value)}
-                        className="spell-name-input"
-                      />
-                    </div>
-                    
-                    <div className="name-input">
-                      <label>Cost (if any)</label>
-                      <input
-                        type="text"
-                        placeholder="e.g., 50 gold, None, etc."
-                        value={materialCost}
-                        onChange={(e) => setMaterialCost(e.target.value)}
-                        className="spell-name-input"
-                      />
-                    </div>
-                    
-                    <div className="checkbox-container">
-                      <label className="custom-checkbox">
-                        <input
-                          type="checkbox"
-                          checked={materialConsumed}
-                          onChange={() => setMaterialConsumed(!materialConsumed)}
-                        />
-                        <span className="checkmark"></span>
-                        <span className="checkbox-label">Material components are consumed when cast</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              {/* Concentration setting when not channeled */}
-              {actionType !== 'channeled' && (
-                <div className="section">
-                  <h5 className="subsection-title">Concentration</h5>
-                  <div className="checkbox-container">
-                    <label className="custom-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={requiresConcentration}
-                        onChange={() => setRequiresConcentration(!requiresConcentration)}
-                      />
-                      <span className="checkmark"></span>
-                      <span className="checkbox-label">Requires Concentration</span>
-                    </label>
-                  </div>
-                  <p className="input-description">
-                    Concentration spells remain active for their duration but end early if the caster casts another concentration spell, 
-                    takes damage and fails a Constitution saving throw, or becomes incapacitated.
-                  </p>
-                </div>
-              )}
-              
-              <div className="resource-summary">
-                <h5 className="subsection-title">Casting Mechanics Summary</h5>
-                <div className="summary-grid">
-                  <div className="summary-row">
-                    <div className="summary-label">Resources:</div>
-                    <div className="summary-value">
-                      {Object.entries(resourceCosts)
-                        .map(([id, data]) => {
-                          const allResources = [...ARCANE_RESOURCES, ...MARTIAL_RESOURCES, ...CLASS_RESOURCES];
-                          const resource = allResources.find(r => r.id === id);
-                          return resource ? `${data.baseAmount} ${resource.name}` : null;
-                        })
-                        .filter(Boolean)
-                        .join(', ')}
-                      {Object.keys(resourceCosts).length === 0 && 'None'}
-                    </div>
-                  </div>
-                  
-                  <div className="summary-row">
-                    <div className="summary-label">Action Type:</div>
-                    <div className="summary-value">
-                      {ACTION_ECONOMY_OPTIONS.find(opt => opt.id === actionType)?.name || actionType}
-                      {actionType === 'channeled' && ` (${channelMaxRounds} rounds)`}
-                      {actionType === 'reaction' && reactionTrigger && ` - Trigger: ${reactionTrigger}`}
-                    </div>
-                  </div>
-                  
-                  <div className="summary-row">
-                    <div className="summary-label">Cooldown:</div>
-                    <div className="summary-value">{formatCooldownDisplay()}</div>
-                  </div>
-                  
-                  <div className="summary-row">
-                    <div className="summary-label">Components:</div>
-                    <div className="summary-value">
-                      {castingComponents.length > 0 
-                        ? castingComponents.map(id => 
-                            CASTING_COMPONENTS.find(c => c.id === id)?.name
-                          ).join(', ')
-                        : 'None'}
-                      {castingComponents.includes('material') && materialComponents && ` (${materialComponents}${materialCost ? `, ${materialCost}` : ''}${materialConsumed ? ', consumed' : ''})`}
-                    </div>
-                  </div>
-                  
-                  <div className="summary-row">
-                    <div className="summary-label">Concentration:</div>
-                    <div className="summary-value">{requiresConcentration ? 'Required' : 'Not required'}</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="substep-navigation">
-                <button 
-                  className="prev-button nav-button"
-                  onClick={handlePrev}
-                >
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/spell_holy_borrowedtime.jpg" 
-                    alt="Previous"
-                    className="nav-icon"
-                  />
-                  Back
-                </button>
-                <button 
-                  className="next-button nav-button"
-                  onClick={handleNext}
-                >
-                  Next Step
-                  <img 
-                    src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_pathfinding.jpg" 
-                    alt="Next"
-                    className="nav-icon"
-                  />
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Navigation buttons */}
+          <div className="substep-navigation">
+            <button 
+              className="nav-button prev-button"
+              onClick={currentSubstep === 1 ? null : goToPrevSubstep}
+              disabled={currentSubstep === 1}
+            >
+              <img 
+                src="https://wow.zamimg.com/images/wow/icons/small/spell_holy_borrowedtime.jpg" 
+                alt="Previous"
+                className="nav-icon"
+              />
+              Back
+            </button>
+            
+            <button 
+              className="nav-button next-button"
+              onClick={currentSubstep === totalSubsteps ? null : goToNextSubstep}
+              disabled={currentSubstep === totalSubsteps}
+            >
+              Continue
+              <img 
+                src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_pathfinding.jpg" 
+                alt="Next"
+                className="nav-icon"
+              />
+            </button>
+          </div>
         </div>
       </div>
       
-      {/* Side Panel */}
+      {/* Preview Panel */}
       <div className="wizard-side-panel">
-        <div className="spell-preview-container">
-          <div className="spell-header">
-            {spellData.icon ? (
-              <img 
-                src={`https://wow.zamimg.com/images/wow/icons/medium/${spellData.icon}.jpg`} 
-                alt=""
-                className="spell-icon"
-                onError={(e) => {
-                  e.target.src = 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg';
-                }}
-              />
-            ) : (
-              <img 
-                src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg" 
-                alt=""
-                className="spell-icon"
-              />
-            )}
-            <div className="spell-header-info">
-              <h3 className="spell-name">{spellData.name || 'Unnamed Spell'}</h3>
-              <div className="spell-subtitle">
-                {spellData.source === 'class' && spellData.class && getClassName(spellData.class)}
-                {spellData.source === 'monster' && spellData.monsterType}
-                {spellData.spellType && ` · ${getSpellTypeName(spellData.spellType)}`}
-              </div>
-            </div>
-          </div>
-          <SpellPreview spellData={spellData} />
-        </div>
-        
-        <div className="wizard-help-panel">
-          <h4>
-            <img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_note_05.jpg" alt="" />
-            Step 3: Casting Mechanics
-          </h4>
-          <p>In this step, you'll define how your spell functions within the combat system:</p>
-          <ul>
-            <li>Choose which resources your spell requires to cast</li>
-            <li>Set what type of action is needed to use the spell</li>
-            <li>Define cooldowns to balance powerful abilities</li>
-            <li>Add components that can be countered in specific situations</li>
-          </ul>
-          <div className="help-tip">
-            <img src="https://wow.zamimg.com/images/wow/icons/medium/spell_frost_windwalkon.jpg" alt="Tip" />
-            <p>Consider the action economy carefully - reaction spells are less costly but require specific triggers, while channeled spells are powerful but leave the caster vulnerable.</p>
-          </div>
-        </div>
+        <h4 className="preview-title"></h4>
+        <SpellPreview spellData={spellData} />
       </div>
     </div>
   );

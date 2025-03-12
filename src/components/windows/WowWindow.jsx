@@ -9,24 +9,16 @@ export default function WowWindow({
     children, 
     isOpen, 
     onClose, 
-    defaultPosition,
+    defaultPosition = { x: 100, y: 100 },
     defaultSize = { width: 400, height: 600 },
     customHeader
 }) {
     if (!isOpen) return null;
 
-    const getContentClass = () => {
-        if (title === 'Character Sheet') {
-            return 'window-content character-sheet-content';
-        }
-        return 'window-content';
-    };
-
     return (
         <Draggable
             handle=".window-header"
             defaultPosition={defaultPosition}
-            // Removed the bounds="parent" constraint to allow free movement
         >
             <Resizable
                 defaultSize={defaultSize}
@@ -42,7 +34,7 @@ export default function WowWindow({
                             </>
                         )}
                     </div>
-                    <div className={getContentClass()}>
+                    <div className="window-content">
                         {children}
                     </div>
                 </div>
@@ -50,6 +42,3 @@ export default function WowWindow({
         </Draggable>
     );
 }
-
-
-
