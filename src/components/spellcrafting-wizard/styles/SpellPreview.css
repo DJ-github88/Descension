@@ -1,0 +1,1008 @@
+/* SpellPreview.css - WoW-inspired styling for the spell preview book */
+
+/* =========== Global Variables =========== */
+:root {
+    --spell-primary-color: #0078d7;  /* Light blue instead of WoW's yellow */
+    --spell-secondary-color: #1e3d59;
+    --spell-bg-color: #f8f4e3;
+    --spell-text-color: #333;
+    --spell-border-color: #c7a96c;
+    --spell-highlight-color: #63a3ff;
+    
+    /* Effect type colors */
+    --spell-damage-color: #e74c3c;
+    --spell-healing-color: #27ae60;
+    --spell-buff-color: #3498db;
+    --spell-debuff-color: #9b59b6;
+    --spell-utility-color: #e67e22;
+    
+    /* Book colors */
+    --book-cover-color: #442b2b;
+    --book-spine-color: #331f1f;
+    --book-page-color: #f9f3e0;
+    --book-shadow-color: rgba(0,0,0,0.4);
+    --book-text-color: #41291a;
+    --book-gold-trim: #c7a96c;
+    
+    /* Animation speeds */
+    --transition-fast: 0.2s;
+    --transition-medium: 0.3s;
+    --transition-slow: 0.5s;
+  }
+  
+  /* =========== Common Elements =========== */
+  .spell-preview-container,
+  .spell-preview-book-container {
+    font-family: 'Segoe UI', 'Helvetica', Arial, sans-serif;
+    color: var(--spell-text-color);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  /* =========== Compact Preview (Closed State) =========== */
+  .spell-preview-compact {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to bottom, #2b3252, #1c2142);
+    border: 2px solid var(--book-gold-trim);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--book-shadow-color);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  
+  .spell-preview-compact:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--book-shadow-color);
+  }
+  
+  .spell-preview-compact-icon {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #4e6295, #243a6b);
+    border: 2px solid var(--book-gold-trim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  .spell-preview-compact-info {
+    flex: 1;
+  }
+  
+  .spell-preview-compact-name {
+    color: white;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .spell-preview-compact-type {
+    color: #c7a96c;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+  
+  /* =========== Full Preview Book =========== */
+  .spell-preview-book-container {
+    background-color: var(--spell-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--book-shadow-color);
+    overflow: hidden;
+    perspective: 1200px;
+  }
+  
+  .spell-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #1e3d59, #0078d7);
+    color: white;
+    padding: 16px 24px;
+    border-bottom: 3px solid var(--spell-border-color);
+    position: relative;
+  }
+  
+  .spell-preview-title {
+    flex: 1;
+  }
+  
+  .spell-preview-title h2,
+  .spell-preview-title h3 {
+    margin: 0;
+    font-weight: bold;
+    font-family: 'Cinzel', serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+  
+  .spell-preview-subtitle {
+    font-size: 0.9rem;
+    color: var(--book-gold-trim);
+    margin-top: 4px;
+  }
+  
+  .spell-preview-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+  
+  .spell-preview-close:hover {
+    background-color: rgba(255,0,0,0.3);
+  }
+  
+  /* =========== Book Structure =========== */
+  .spell-preview-book-wrapper {
+    position: relative;
+    padding: 24px;
+    background-color: #e5ded1;
+    overflow: hidden;
+  }
+  
+  .spell-preview-book {
+    position: relative;
+    background-color: var(--book-page-color);
+    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+    border-radius: 0 5px 5px 0;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transition: transform var(--transition-medium);
+    min-height: 500px;
+    overflow: hidden;
+  }
+  
+  .spell-preview-book.animating {
+    animation: bookOpen var(--transition-slow) forwards;
+  }
+  
+  .spell-preview-book.page-turning-next {
+    animation: pageForward var(--transition-medium) forwards;
+  }
+  
+  .spell-preview-book.page-turning-prev {
+    animation: pageBackward var(--transition-medium) forwards;
+  }
+  
+  /* Book spine and decorations */
+  .spell-preview-book-spine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 100%;
+    background-color: var(--book-spine-color);
+    border-right: 2px solid var(--book-gold-trim);
+    z-index: 2;
+  }
+  
+  .spell-preview-book-decoration {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="%23c7a96c" d="M18 0L36 18L18 36L0 18L18 0Z"/><path fill="%23a38756" d="M18 6L30 18L18 30L6 18L18 6Z"/><circle fill="%23c7a96c" cx="18" cy="18" r="5"/></svg>');
+    z-index: 3;
+  }
+  
+  .spell-preview-book-decoration.top-left {
+    top: 20px;
+    left: 20px;
+  }
+  
+  .spell-preview-book-decoration.top-right {
+    top: 20px;
+    right: 20px;
+  }
+  
+  .spell-preview-book-decoration.bottom-left {
+    bottom: 20px;
+    left: 20px;
+  }
+  
+  .spell-preview-book-decoration.bottom-right {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .spell-preview-book-binding {
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    background-color: var(--book-cover-color);
+    z-index: 1;
+  }
+  
+  .spell-preview-book-binding.left {
+    left: -10px;
+    border-radius: 5px 0 0 5px;
+    box-shadow: inset 10px 0 15px rgba(0,0,0,0.3);
+  }
+  
+  .spell-preview-book-binding.right {
+    right: -10px;
+    border-radius: 0 5px 5px 0;
+    box-shadow: inset -10px 0 15px rgba(0,0,0,0.3);
+  }
+  
+  /* =========== Book Content & Pages =========== */
+  .spell-preview-book-content {
+    padding: 30px;
+    position: relative;
+    min-height: 440px;
+    background-image: 
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.05"><rect width="100" height="100" fill="none" stroke="%23000000" stroke-width="0.5"/></svg>'),
+      linear-gradient(135deg, var(--book-page-color), #f2ead9);
+    border-left: 1px solid rgba(0,0,0,0.1);
+  }
+  
+  .spell-preview-page-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--spell-highlight-color);
+    padding-bottom: 10px;
+  }
+  
+  .spell-preview-page-icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--spell-highlight-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    color: white;
+  }
+  
+  .spell-preview-page-title {
+    color: var(--spell-primary-color);
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  
+  .spell-preview-page-content {
+    color: var(--book-text-color);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .spell-preview-page-footer {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+  }
+  
+  /* =========== Navigation =========== */
+  .spell-preview-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 24px;
+    background-color: #e5ded1;
+    border-top: 1px solid var(--spell-border-color);
+  }
+  
+  .spell-preview-nav-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--spell-primary-color);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+  
+  .spell-preview-nav-button:hover:not(:disabled) {
+    background-color: var(--spell-highlight-color);
+    transform: scale(1.1);
+  }
+  
+  .spell-preview-nav-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .spell-preview-tabs {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+  
+  .spell-preview-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    position: relative;
+    min-width: 60px;
+  }
+  
+  .spell-preview-tab:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+  
+  .spell-preview-tab.active {
+    background-color: rgba(0,120,215,0.1);
+  }
+  
+  .spell-preview-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--spell-primary-color);
+    border-radius: 50%;
+  }
+  
+  .spell-preview-tab i {
+    font-size: 1.2rem;
+    color: var(--spell-secondary-color);
+    margin-bottom: 4px;
+  }
+  
+  .spell-preview-tab.active i {
+    color: var(--spell-primary-color);
+  }
+  
+  .spell-preview-tab-label {
+    font-size: 0.7rem;
+    color: var(--spell-text-color);
+    text-align: center;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* =========== Page Content Styles =========== */
+  /* Common elements */
+  .spell-preview-section-title {
+    color: var(--spell-primary-color);
+    font-size: 1.3rem;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+    border-bottom: 1px solid var(--spell-border-color);
+    padding-bottom: 8px;
+  }
+  
+  .spell-preview-info-row {
+    display: flex;
+    margin-bottom: 12px;
+    align-items: baseline;
+  }
+  
+  .spell-preview-label {
+    font-weight: 600;
+    min-width: 120px;
+    color: var(--spell-secondary-color);
+  }
+  
+  .spell-preview-value {
+    flex: 1;
+  }
+  
+  .spell-preview-empty-state {
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.03);
+    border-radius: 6px;
+  }
+  
+  /* Basic info page */
+  .spell-preview-basic-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .spell-preview-description {
+    margin-top: 16px;
+    background-color: rgba(0,0,0,0.03);
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--spell-border-color);
+  }
+  
+  .spell-preview-description h4 {
+    margin-top: 0;
+    color: var(--spell-primary-color);
+  }
+  
+  .spell-preview-type-properties {
+    margin-top: 16px;
+  }
+  
+  .spell-preview-type-properties ul {
+    list-style-type: none;
+    padding-left: 10px;
+  }
+  
+  .spell-preview-type-properties li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  .spell-preview-type-properties li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--spell-primary-color);
+  }
+  
+  /* Effects page */
+  .spell-preview-effects {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .spell-preview-effects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .spell-preview-effect-item {
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 8px;
+    padding: 16px;
+    border-left: 4px solid;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .spell-preview-effect-item[data-effect="damage"] {
+    border-left-color: var(--spell-damage-color);
+  }
+  
+  .spell-preview-effect-item[data-effect="healing"] {
+    border-left-color: var(--spell-healing-color);
+  }
+  
+  .spell-preview-effect-item[data-effect="buff"] {
+    border-left-color: var(--spell-buff-color);
+  }
+  
+  .spell-preview-effect-item[data-effect="debuff"] {
+    border-left-color: var(--spell-debuff-color);
+  }
+  
+  .spell-preview-effect-item[data-effect="utility"] {
+    border-left-color: var(--spell-utility-color);
+  }
+  
+  .spell-preview-effect-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .spell-preview-effect-name {
+    margin: 0 0 0 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .spell-preview-effect-details {
+    padding-left: 28px;
+  }
+  
+  .spell-preview-effect-detail-row {
+    display: flex;
+    margin-bottom: 8px;
+  }
+  
+  .spell-preview-effect-label {
+    font-weight: 600;
+    min-width: 100px;
+    color: var(--spell-secondary-color);
+  }
+  
+  .spell-preview-effect-value {
+    flex: 1;
+  }
+  
+  .spell-preview-damage {
+    color: var(--spell-damage-color);
+    font-weight: 600;
+  }
+  
+  .spell-preview-healing {
+    color: var(--spell-healing-color);
+    font-weight: 600;
+  }
+  
+  .spell-preview-shield {
+    color: var(--spell-buff-color);
+    font-weight: 600;
+  }
+  
+  /* Targeting & Duration page */
+  .spell-preview-targeting-duration {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  
+  .spell-preview-targeting,
+  .spell-preview-duration {
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .spell-preview-targeting h4,
+  .spell-preview-duration h4 {
+    color: var(--spell-primary-color);
+    margin-top: 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 8px;
+  }
+  
+  .spell-preview-targeting-area {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .spell-preview-area-visual {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .spell-preview-area-shape {
+    position: absolute;
+    background-color: rgba(0,120,215,0.2);
+    border: 1px solid rgba(0,120,215,0.7);
+  }
+  
+  .spell-preview-area-circle {
+    border-radius: 50%;
+  }
+  
+  .spell-preview-area-square {
+    border-radius: 4px;
+  }
+  
+  .spell-preview-area-cone {
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    transform: rotate(-90deg);
+  }
+  
+  .spell-preview-area-line {
+    height: 5px !important;
+    transform-origin: left center;
+  }
+  
+  .spell-preview-area-origin {
+    width: 10px;
+    height: 10px;
+    background-color: var(--spell-primary-color);
+    border-radius: 50%;
+    z-index: 2;
+  }
+  
+  .spell-preview-target-restrictions {
+    margin-top: 16px;
+  }
+  
+  .spell-preview-restriction {
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  
+  /* Resources & Cooldown page */
+  .spell-preview-resources-cooldown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  
+  .spell-preview-resources,
+  .spell-preview-cooldown,
+  .spell-preview-mechanics {
+    background-color: rgba(0,0,0,0.02);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .spell-preview-resources h4,
+  .spell-preview-cooldown h4,
+  .spell-preview-mechanics h4 {
+    color: var(--spell-primary-color);
+    margin-top: 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 8px;
+  }
+  
+  .spell-preview-resource-costs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .spell-preview-resource-item {
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.5);
+    padding: 8px 12px;
+  }
+  
+  .spell-preview-resource-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 12px;
+    color: white;
+  }
+  
+  .action-points-icon {
+    background-color: #fca103;
+  }
+  
+  .mana-icon {
+    background-color: #0089fa;
+  }
+  
+  .cooldown-icon {
+    background-color: #8e44ad;
+  }
+  
+  .spell-preview-resource-details {
+    flex: 1;
+  }
+  
+  .spell-preview-resource-label {
+    font-size: 0.8rem;
+    color: #666;
+    display: block;
+  }
+  
+  .spell-preview-resource-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  /* Class mechanics section */
+  .spell-preview-mechanics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .spell-preview-mechanic-item {
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.5);
+    padding: 12px;
+  }
+  
+  .spell-preview-mechanic-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--spell-secondary-color);
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 6px;
+  }
+  
+  .spell-preview-mechanic-row {
+    display: flex;
+    margin-bottom: 8px;
+  }
+  
+  .spell-preview-mechanic-label {
+    font-weight: 600;
+    min-width: 120px;
+    color: var(--spell-secondary-color);
+    font-size: 0.9rem;
+  }
+  
+  .spell-preview-mechanic-value {
+    flex: 1;
+  }
+  
+  /* Full spell description page */
+  .spell-preview-full-description {
+    padding: 16px;
+    background-image: 
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" opacity="0.03"><path d="M0,0 L120,120 M120,0 L0,120" stroke="%23000000" stroke-width="0.5"/></svg>'),
+      linear-gradient(135deg, var(--book-page-color), #f5eed5);
+    border-radius: 8px;
+    border: 1px solid var(--spell-border-color);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .spell-preview-full-description::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to right, var(--spell-primary-color), var(--spell-highlight-color));
+    border-radius: 2.5px;
+  }
+  
+  .spell-preview-spell-name {
+    color: var(--spell-primary-color);
+    font-size: 1.6rem;
+    margin: 10px 0 8px 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+  }
+  
+  .spell-preview-spell-meta {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--spell-secondary-color);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  
+  .spell-preview-spell-resources {
+    background-color: rgba(0,0,0,0.03);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    columns: 2;
+    column-gap: 16px;
+    font-size: 0.9rem;
+  }
+  
+  .spell-preview-spell-description-text {
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  
+  .spell-preview-additional-text {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+  }
+  
+  .spell-preview-damage-text {
+    color: var(--spell-damage-color);
+  }
+  
+  .spell-preview-healing-text {
+    color: var(--spell-healing-color);
+  }
+  
+  .spell-preview-flavor-text {
+    margin-top: 24px;
+    font-style: italic;
+    color: #666;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 12px;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+  }
+  
+  /* =========== Original SpellPreview component specific styles =========== */
+  .spell-preview-book-edge {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background-color: var(--book-cover-color);
+    border-right: 2px solid var(--book-gold-trim);
+    z-index: 5;
+    box-shadow: inset -5px 0 10px rgba(0,0,0,0.3);
+  }
+  
+  .spell-preview-icon {
+    width: 48px;
+    height: 48px;
+    background: radial-gradient(circle, #4e6295, #243a6b);
+    border: 2px solid var(--book-gold-trim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  .spell-preview-page-indicators {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .spell-preview-page-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .spell-preview-page-indicator.active {
+    background-color: var(--spell-primary-color);
+  }
+  
+  /* =========== Animations =========== */
+  @keyframes bookOpen {
+    0% {
+      transform: rotateY(30deg);
+      box-shadow: -5px 5px 15px rgba(0,0,0,0.2);
+    }
+    100% {
+      transform: rotateY(0deg);
+      box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    }
+  }
+  
+  @keyframes pageForward {
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(-15deg);
+    }
+    100% {
+      transform: rotateY(0deg);
+    }
+  }
+  
+  @keyframes pageBackward {
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(15deg);
+    }
+    100% {
+      transform: rotateY(0deg);
+    }
+  }
+  
+  /* =========== Responsive Styles =========== */
+  @media (max-width: 768px) {
+    .spell-preview-book-wrapper {
+      padding: 12px;
+    }
+    
+    .spell-preview-book-content {
+      padding: 20px;
+    }
+    
+    .spell-preview-page-header {
+      margin-bottom: 12px;
+    }
+    
+    .spell-preview-page-title {
+      font-size: 1.2rem;
+    }
+    
+    .spell-preview-navigation {
+      padding: 10px;
+    }
+    
+    .spell-preview-tabs {
+      gap: 4px;
+    }
+    
+    .spell-preview-tab {
+      padding: 6px 4px;
+      min-width: 50px;
+    }
+    
+    .spell-preview-tab-label {
+      font-size: 0.65rem;
+    }
+    
+    .spell-preview-targeting-duration,
+    .spell-preview-resources-cooldown {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .spell-preview-spell-resources {
+      columns: 1;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .spell-preview-header {
+      padding: 12px;
+    }
+    
+    .spell-preview-title h2 {
+      font-size: 1.2rem;
+    }
+    
+    .spell-preview-book {
+      min-height: 400px;
+    }
+    
+    .spell-preview-book-content {
+      padding: 15px;
+    }
+    
+    .spell-preview-section-title {
+      font-size: 1.1rem;
+    }
+    
+    .spell-preview-page-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 0.8rem;
+    }
+    
+    .spell-preview-page-title {
+      font-size: 1rem;
+    }
+    
+    .spell-preview-label {
+      min-width: 90px;
+      font-size: 0.9rem;
+    }
+    
+    .spell-preview-tab {
+      min-width: auto;
+    }
+    
+    .spell-preview-tab i {
+      font-size: 1rem;
+    }
+    
+    .spell-preview-tab-label {
+      display: none;
+    }
+    
+    .spell-preview-spell-name {
+      font-size: 1.3rem;
+    }
+  }
