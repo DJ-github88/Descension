@@ -1,0 +1,263 @@
+/* DiceCalculator.css */
+.dice-calculator {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+.dice-calculator-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dice-calculator-label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+.dice-calculator-input {
+  display: flex;
+  width: 100%;
+}
+
+.dice-calculator-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.dice-calculator-input input:focus {
+  outline: none;
+  border-color: #6200ee;
+  box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.1);
+}
+
+.dice-calculator-input input.invalid {
+  border-color: #d32f2f;
+  background-color: rgba(211, 47, 47, 0.05);
+}
+
+.dice-calculator-error {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.dice-calculator-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dice-calculator-preset {
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dice-calculator-preset:hover {
+  background-color: #e0e0e0;
+  border-color: #bbb;
+}
+
+.dice-calculator-distribution {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.dice-calculator-distribution-title {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.dice-calculator-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.dice-calculator-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dice-calculator-stat-value {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.dice-calculator-stat-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.dice-calculator-graph {
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  margin-top: 10px;
+}
+
+.dice-calculator-bar {
+  flex: 1;
+  background-color: #6200ee;
+  opacity: 0.7;
+  border-radius: 2px 2px 0 0;
+  min-width: 4px;
+  transition: height 0.3s ease;
+}
+
+.dice-calculator-bar:hover {
+  opacity: 1;
+}
+
+.dice-calculator-x-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 10px;
+  color: #666;
+}
+
+.dice-calculator-functions {
+  margin-top: 10px;
+}
+
+.dice-calculator-functions-title {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.dice-calculator-function-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dice-calculator-function {
+  padding: 4px 8px;
+  background-color: #e8eaf6;
+  border: 1px solid #c5cae9;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dice-calculator-function:hover {
+  background-color: #d1d6ef;
+  border-color: #9fa8da;
+}
+
+.dice-calculator-function-description {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #555;
+  font-style: italic;
+}
+
+.dice-calculator-advanced-toggle {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #6200ee;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+}
+
+.dice-calculator-advanced-toggle:hover {
+  text-decoration: underline;
+}
+
+.dice-calculator-advanced-toggle i {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.dice-calculator-advanced-toggle.open i {
+  transform: rotate(180deg);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .dice-calculator-input input {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+  }
+  
+  .dice-calculator-input input:focus {
+    border-color: #bb86fc;
+    box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.1);
+  }
+  
+  .dice-calculator-preset {
+    background-color: #333;
+    border-color: #444;
+    color: #ddd;
+  }
+  
+  .dice-calculator-preset:hover {
+    background-color: #444;
+    border-color: #555;
+  }
+  
+  .dice-calculator-distribution {
+    background-color: #222;
+    border-color: #333;
+  }
+  
+  .dice-calculator-stat-value {
+    color: #ddd;
+  }
+  
+  .dice-calculator-stat-label,
+  .dice-calculator-x-axis {
+    color: #999;
+  }
+  
+  .dice-calculator-bar {
+    background-color: #bb86fc;
+  }
+  
+  .dice-calculator-function {
+    background-color: #333;
+    border-color: #444;
+    color: #ddd;
+  }
+  
+  .dice-calculator-function:hover {
+    background-color: #444;
+    border-color: #555;
+  }
+  
+  .dice-calculator-advanced-toggle {
+    color: #bb86fc;
+  }
+}
