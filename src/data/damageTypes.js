@@ -1,5 +1,6 @@
 /**
  * Damage types with associated colors and descriptions for the spell wizard
+ * Using standard D&D damage types
  */
 
 const DAMAGE_TYPES = {
@@ -81,57 +82,21 @@ const DAMAGE_TYPES = {
       color: '#0066ff', // Blue
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg'
     },
-    
-    // Additional custom damage types can be added here
-    void: {
-      name: 'Void',
-      description: 'Otherworldly energies from beyond reality that corrupt and consume.',
-      color: '#9370DB', // Medium purple
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_priest_void-blast.jpg'
-    },
-    arcane: {
-      name: 'Arcane',
-      description: 'Pure magical energy manipulated directly from the weave of magic.',
-      color: '#BA55D3', // Medium orchid
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg'
-    },
-    shadow: {
-      name: 'Shadow',
-      description: 'Darkness given form, sapping both physical and mental strength.',
-      color: '#483D8B', // Dark slate blue
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowfury.jpg'
-    },
-    holy: {
-      name: 'Holy',
-      description: 'Divine energy that heals allies and harms the undead and fiends.',
-      color: '#FFD700', // Gold
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg'
-    },
-    nature: {
-      name: 'Nature',
-      description: 'Primal energy from the natural world that can heal or harm.',
-      color: '#7CFC00', // Lawn green
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg'
-    },
-    chaos: {
-      name: 'Chaos',
-      description: 'Unpredictable magic that warps reality and defies conventional rules.',
-      color: '#FF1493', // Deep pink
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_felflamebreath.jpg'
-    }
+
+    // End of standard D&D damage types
   };
-  
+
   // Function to get damage type details by ID
   export const getDamageType = (typeId) => {
     return DAMAGE_TYPES[typeId.toLowerCase()] || null;
   };
-  
+
   // Function to get damage type color
   export const getDamageTypeColor = (typeId) => {
     const type = getDamageType(typeId);
     return type ? type.color : '#ffffff';
   };
-  
+
   // Function to get all damage types as an array
   export const getAllDamageTypes = () => {
     return Object.entries(DAMAGE_TYPES).map(([id, data]) => ({
@@ -139,5 +104,5 @@ const DAMAGE_TYPES = {
       ...data
     }));
   };
-  
+
   export default DAMAGE_TYPES;

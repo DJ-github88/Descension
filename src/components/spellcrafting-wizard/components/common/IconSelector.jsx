@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../styles/IconSelector.css';
+import '../../styles/base.css';
+import '../../styles/components.css';
 
 /**
  * IconSelector component for choosing spell icons

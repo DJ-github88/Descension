@@ -1,0 +1,320 @@
+/* DiceCalculator.css */
+
+.dice-calculator {
+  background-color: rgba(35, 35, 50, 0.8);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dice-formula-input {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.dice-formula-input label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  color: #ddd;
+  font-size: 0.9rem;
+  margin-right: 12px;
+}
+
+.dice-formula-input input {
+  background-color: rgba(30, 30, 40, 0.7);
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  padding: 8px 12px;
+  margin-top: 4px;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.dice-formula-input input.invalid {
+  border-color: #ff5555;
+  box-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+}
+
+.preset-button {
+  background-color: #444;
+  color: #ddd;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: fit-content;
+  margin-top: 24px;
+}
+
+.preset-button:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.dice-presets {
+  background-color: rgba(40, 40, 55, 0.9);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #555;
+}
+
+.dice-presets h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #ddd;
+  font-size: 0.95rem;
+}
+
+.preset-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.preset-item {
+  background-color: rgba(50, 50, 70, 0.8);
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.preset-item:hover {
+  background-color: rgba(60, 60, 90, 0.8);
+  transform: translateY(-2px);
+  border-color: #6a6aff;
+}
+
+.preset-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.preset-level {
+  color: #aaa;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.preset-notation {
+  color: #fff;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.preset-description {
+  color: #bbb;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.dice-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  background-color: rgba(40, 40, 60, 0.7);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-label {
+  color: #aaa;
+  font-size: 0.8rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  color: #ddd;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.dice-error {
+  color: #ff5555;
+  text-align: center;
+  font-style: italic;
+}
+
+.dice-scaling {
+  margin-bottom: 16px;
+  background-color: rgba(40, 40, 60, 0.7);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.dice-scaling label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ddd;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.dice-scaling input {
+  background-color: rgba(30, 30, 40, 0.7);
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  padding: 6px 8px;
+  width: 60px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.scaled-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.scaled-label {
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.scaled-value {
+  color: #6a6aff;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.dice-distribution {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #444;
+}
+
+.dice-distribution h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #ddd;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.distribution-chart {
+  height: 120px;
+  position: relative;
+  background-color: rgba(30, 30, 40, 0.6);
+  border-radius: 4px;
+  border: 1px solid #444;
+  padding: 4px;
+  margin-bottom: 6px;
+}
+
+.distribution-bar {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, #4a4aff, #8a8aff);
+  border-radius: 2px 2px 0 0;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.distribution-bar:hover {
+  opacity: 1;
+}
+
+.distribution-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .preset-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .dice-formula-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .dice-formula-input label {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  
+  .preset-button {
+    margin-top: 0;
+  }
+}
+
+/* Remove old styles */
+.dice-calculator-header,
+.dice-calculator-input-group,
+.dice-calculator-builder,
+.dice-calculator-presets,
+.dice-calculator-distribution,
+.dice-builder-basic,
+.dice-builder-complex,
+.dice-builder-row,
+.dice-builder-group,
+.dice-type-buttons,
+.dice-advanced-options,
+.dice-complex-examples,
+.dice-calculator-label,
+.dice-calculator-input,
+.dice-calculator-error,
+.dice-calculator select,
+.dice-function-selector,
+.dice-calculator select option,
+.dice-function-selector option,
+.dice-calculator select option:checked,
+.dice-calculator select option:hover,
+.dice-function-selector option:checked,
+.dice-function-selector option:hover,
+.dice-calculator-modes,
+.dice-mode-toggle,
+.dice-calculator-stats,
+.dice-stat,
+.dice-stat-label,
+.dice-stat-value,
+.function-description,
+.complex-builder,
+.complex-builder-header,
+.complex-builder-title,
+.dice-preset-button,
+.dice-calculator-builder,
+.dice-builder-header,
+.dice-builder-toggle,
+.dice-builder-toggle.active,
+.dice-builder-group label,
+.dice-builder-group input[type="number"],
+.dice-type-button,
+.dice-type-button.active,
+.dice-type-button.custom,
+.dice-advanced-option,
+.dice-keep-input,
+.dice-builder-complex,
+.dice-function-select select,
+.dice-function-description,
+.dice-complex-formula input,
+.dice-complex-help,
+.dice-complex-examples,
+.dice-calculator-distribution,
+.dice-calculator-distribution h4,
+.dice-distribution-chart,
+.dice-distribution-bar,
+.dice-distribution-stats {
+  display: none;
+}

@@ -1,0 +1,152 @@
+/* WoW Classic Button Styles */
+
+.effect-type-tab {
+  background: linear-gradient(to bottom, #3d2d1d, #2a1f15);
+  border: 1px solid #5c4018;
+  color: #d4be91;
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  margin: 0 4px;
+}
+
+.effect-type-tab:hover {
+  background: linear-gradient(to bottom, #4e3a26, #3d2d1d);
+  border-color: #7d5a2a;
+  box-shadow: 0 0 8px rgba(212, 190, 145, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.effect-type-tab:active {
+  background: linear-gradient(to bottom, #2a1f15, #3d2d1d);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  transform: translateY(1px);
+}
+
+.effect-type-tab.active {
+  background: linear-gradient(to bottom, #7d5a2a, #5c4018);
+  border-color: #9d7a3a;
+  color: #f8d16f;
+  box-shadow: 0 0 10px rgba(212, 190, 145, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.effect-type-tab.configured {
+  border-color: #9d7a3a;
+}
+
+.effect-type-tab svg {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Selection cards for effect types */
+.selection-card {
+  background: linear-gradient(to bottom, #2a1f15, #1a150f);
+  border: 1px solid #5c4018;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.selection-card:hover {
+  background: linear-gradient(to bottom, #3d2d1d, #2a1f15);
+  border-color: #7d5a2a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.selection-card.selected {
+  background: linear-gradient(to bottom, #7d5a2a, #5c4018);
+  border-color: #9d7a3a;
+  box-shadow: 0 0 12px rgba(212, 190, 145, 0.4);
+}
+
+.selection-card.highlighted {
+  box-shadow: 0 0 0 2px #f8d16f, 0 0 12px rgba(248, 209, 111, 0.6);
+}
+
+/* Mechanic options */
+.mechanic-option {
+  background: linear-gradient(to bottom, #3d2d1d, #2a1f15);
+  border: 1px solid #5c4018;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mechanic-option:hover {
+  background: linear-gradient(to bottom, #4e3a26, #3d2d1d);
+  border-color: #7d5a2a;
+  transform: translateY(-2px);
+}
+
+.mechanic-option.selected {
+  background: linear-gradient(to bottom, #7d5a2a, #5c4018);
+  border-color: #9d7a3a;
+  box-shadow: 0 0 12px rgba(212, 190, 145, 0.4);
+}
+
+.mechanic-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.mechanic-name {
+  font-weight: 600;
+  color: #d4be91;
+}
+
+/* Wizard navigation buttons */
+.wizard-nav-button {
+  background: linear-gradient(to bottom, #3d2d1d, #2a1f15);
+  border: 1px solid #5c4018;
+  color: #d4be91;
+  border-radius: 3px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.wizard-nav-button:hover {
+  background: linear-gradient(to bottom, #4e3a26, #3d2d1d);
+  border-color: #7d5a2a;
+  box-shadow: 0 0 8px rgba(212, 190, 145, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.wizard-nav-button:active {
+  background: linear-gradient(to bottom, #2a1f15, #3d2d1d);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  transform: translateY(1px);
+}
+
+.wizard-nav-button.primary {
+  background: linear-gradient(to bottom, #7d5a2a, #5c4018);
+  border-color: #9d7a3a;
+  color: #f8d16f;
+}
+
+.wizard-nav-button.primary:hover {
+  background: linear-gradient(to bottom, #9d7a3a, #7d5a2a);
+  box-shadow: 0 0 10px rgba(212, 190, 145, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}

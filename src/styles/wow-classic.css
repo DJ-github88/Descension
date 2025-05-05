@@ -1,0 +1,340 @@
+/* WoW Classic Styling */
+
+/* Spell Card - see SpellLibrary.css for main definition */
+/* Only keeping rarity and school color styles in this file */
+
+.spell-card-gloss {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  height: 50%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.spell-card-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Spell Card Header */
+.spell-card-header {
+  display: flex;
+  padding: 12px;
+}
+
+.spell-icon-wrapper {
+  position: relative;
+  margin-right: 12px;
+}
+
+.spell-icon-border {
+  background: #000;
+  border: 1px solid #666;
+  border-radius: 4px;
+  height: 40px;
+  overflow: hidden;
+  width: 40px;
+}
+
+.spell-icon {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.spell-rank {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #666;
+  border-radius: 50%;
+  bottom: -5px;
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  height: 18px;
+  line-height: 16px;
+  position: absolute;
+  right: -5px;
+  text-align: center;
+  width: 18px;
+}
+
+.spell-info {
+  flex: 1;
+}
+
+.spell-name {
+  color: #FFD100;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.spell-meta {
+  display: flex;
+  font-size: 11px;
+  gap: 10px;
+}
+
+.spell-cast-time, .spell-range {
+  color: #aaa;
+}
+
+/* Spell Card Body */
+.spell-divider {
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+  height: 1px;
+  margin: 0 12px;
+}
+
+.spell-body {
+  padding: 12px;
+}
+
+.spell-description {
+  color: #ccc;
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+}
+
+.spell-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.spell-stat {
+  display: flex;
+  font-size: 11px;
+  justify-content: space-between;
+}
+
+.spell-stat-name {
+  color: #aaa;
+  font-weight: bold;
+}
+
+.spell-stat-value {
+  color: #fff;
+  text-align: right;
+}
+
+.spell-stat-value.damage {
+  color: #FF4D4D;
+}
+
+.spell-stat-value.healing {
+  color: #4DFF4D;
+}
+
+.spell-stat-value.effect {
+  color: #FFCC00;
+}
+
+.spell-stat-value.buff {
+  color: #4D9EFF;
+}
+
+.spell-stat-value.debuff {
+  color: #FF4DFF;
+}
+
+.spell-stat-value.cooldown {
+  color: #FF9933;
+}
+
+.spell-stat-value.school {
+  color: #CC99FF;
+}
+
+.damage-type {
+  color: #FF9933;
+  font-style: italic;
+}
+
+/* Spell Card Footer */
+.spell-footer {
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+}
+
+.spell-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.spell-tag {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+  border-radius: 10px;
+  color: #aaa;
+  font-size: 9px;
+  padding: 1px 6px;
+}
+
+.spell-tag.damage {
+  border-color: #FF4D4D;
+  color: #FF4D4D;
+}
+
+.spell-tag.healing {
+  border-color: #4DFF4D;
+  color: #4DFF4D;
+}
+
+.spell-tag.buff {
+  border-color: #4D9EFF;
+  color: #4D9EFF;
+}
+
+.spell-tag.debuff {
+  border-color: #FF4DFF;
+  color: #FF4DFF;
+}
+
+.spell-tag.control {
+  border-color: #FFCC00;
+  color: #FFCC00;
+}
+
+.spell-tag.utility {
+  border-color: #CC99FF;
+  color: #CC99FF;
+}
+
+.spell-tag.fire {
+  border-color: #FF4D4D;
+  color: #FF4D4D;
+}
+
+.spell-tag.frost, .spell-tag.cold {
+  border-color: #4D9EFF;
+  color: #4D9EFF;
+}
+
+.spell-tag.arcane, .spell-tag.force {
+  border-color: #CC99FF;
+  color: #CC99FF;
+}
+
+.spell-tag.nature, .spell-tag.poison {
+  border-color: #4DFF4D;
+  color: #4DFF4D;
+}
+
+.spell-tag.shadow, .spell-tag.necrotic {
+  border-color: #FF4DFF;
+  color: #FF4DFF;
+}
+
+.spell-tag.holy, .spell-tag.radiant {
+  border-color: #FFCC00;
+  color: #FFCC00;
+}
+
+.spell-tag.lightning, .spell-tag.thunder {
+  border-color: #FF9933;
+  color: #FF9933;
+}
+
+.spell-type-badge {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #666;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  text-transform: uppercase;
+}
+
+.spell-type-badge.action {
+  background-color: #4D9EFF;
+  color: #000;
+}
+
+.spell-type-badge.reaction {
+  background-color: #FF9933;
+  color: #000;
+}
+
+.spell-type-badge.ritual {
+  background-color: #CC99FF;
+  color: #000;
+}
+
+.spell-type-badge.passive {
+  background-color: #4DFF4D;
+  color: #000;
+}
+
+.spell-type-badge.aura {
+  background-color: #FFCC00;
+  color: #000;
+}
+
+.spell-type-badge.channeled {
+  background-color: #FF4DFF;
+  color: #000;
+}
+
+/* Rarity Colors */
+.wow-spell-card.common {
+  border-color: #9d9d9d;
+}
+
+.wow-spell-card.uncommon {
+  border-color: #1eff00;
+}
+
+.wow-spell-card.rare {
+  border-color: #0070dd;
+}
+
+.wow-spell-card.epic {
+  border-color: #a335ee;
+}
+
+.wow-spell-card.legendary {
+  border-color: #ff8000;
+}
+
+/* Spell School Colors */
+.wow-spell-card.spell-fire {
+  border-color: #FF4D4D;
+}
+
+.wow-spell-card.spell-frost {
+  border-color: #4D9EFF;
+}
+
+.wow-spell-card.spell-arcane {
+  border-color: #CC99FF;
+}
+
+.wow-spell-card.spell-nature {
+  border-color: #4DFF4D;
+}
+
+.wow-spell-card.spell-shadow {
+  border-color: #FF4DFF;
+}
+
+.wow-spell-card.spell-holy {
+  border-color: #FFCC00;
+}
+
+.wow-spell-card.spell-lightning {
+  border-color: #FF9933;
+}
+
+.wow-spell-card.spell-physical {
+  border-color: #CCCCCC;
+}

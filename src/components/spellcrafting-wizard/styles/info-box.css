@@ -1,0 +1,22 @@
+/* ====== SPELL WIZARD INFO BOX ====== */
+.spell-wizard-info-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.spell-wizard-info-box p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.spell-wizard-info-box::before {
+  content: '💡';
+  margin-right: 8px;
+  font-style: normal;
+}

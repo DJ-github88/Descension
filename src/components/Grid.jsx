@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import './spell-wizard/styles/Layout/grid.css';
+import '../styles/Grid.css';
 
 export default function Grid() {
     const tileSize = 50; // Set grid tile size

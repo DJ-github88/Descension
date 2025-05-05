@@ -1,0 +1,478 @@
+/* Buff Configuration Styles for Trigger Step */
+.wow-buff-config-container {
+  background-color: rgba(15, 25, 40, 0.7);
+  border: 1px solid #2c4066;
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.wow-buff-config-section {
+  margin-bottom: 16px;
+}
+
+.wow-buff-section-title {
+  color: #ffd100;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.wow-buff-stat-modifiers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wow-buff-stat-modifier {
+  display: flex;
+  align-items: center;
+  background-color: rgba(20, 35, 55, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.wow-buff-stat-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.wow-buff-stat-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.wow-buff-stat-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.wow-buff-stat-name {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.wow-buff-stat-value-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wow-buff-stat-value-input {
+  width: 60px;
+  background-color: rgba(10, 20, 35, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-buff-stat-type-select {
+  background-color: rgba(10, 20, 35, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-buff-duration-container {
+  display: flex;
+  align-items: center;
+}
+
+.wow-buff-duration-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wow-buff-duration-value {
+  width: 60px;
+  background-color: rgba(10, 20, 35, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-buff-duration-unit {
+  background-color: rgba(10, 20, 35, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-buff-no-stats {
+  background-color: rgba(20, 35, 55, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 4px;
+  padding: 12px;
+  color: #8ba1c8;
+  font-style: italic;
+}
+
+/* Debuff Configuration Styles for Trigger Step */
+.wow-debuff-config-container {
+  background-color: rgba(25, 15, 25, 0.7);
+  border: 1px solid #602c66;
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.wow-debuff-config-section {
+  margin-bottom: 16px;
+}
+
+.wow-debuff-section-title {
+  color: #d100ff;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.wow-debuff-stat-penalties {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wow-debuff-stat-penalty {
+  display: flex;
+  align-items: center;
+  background-color: rgba(35, 20, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.wow-debuff-stat-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.wow-debuff-stat-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.wow-debuff-stat-icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.wow-debuff-stat-name {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.wow-debuff-stat-value-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wow-debuff-stat-value-input {
+  width: 60px;
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-debuff-stat-type-select {
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-debuff-duration-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.wow-debuff-duration-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wow-debuff-duration-input label {
+  color: #c8a1c8;
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.wow-debuff-duration-value {
+  width: 60px;
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-debuff-duration-unit {
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-debuff-save-container {
+  display: flex;
+  align-items: center;
+}
+
+.wow-debuff-save-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wow-debuff-save-input label {
+  color: #c8a1c8;
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.wow-debuff-save-label {
+  margin-left: 12px;
+}
+
+.wow-debuff-dc-value {
+  width: 50px;
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.wow-debuff-save-type {
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+  width: 120px;
+}
+
+.wow-debuff-control-container {
+  display: flex;
+  align-items: center;
+}
+
+.wow-debuff-control-type {
+  background-color: rgba(35, 10, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 3px;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.wow-debuff-no-stats {
+  background-color: rgba(35, 20, 35, 0.8);
+  border: 1px solid #602c66;
+  border-radius: 4px;
+  padding: 12px;
+  color: #c8a1c8;
+  font-style: italic;
+}
+
+/* Formula Suggestions */
+.wow-formula-suggestion-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.wow-formula-suggestion {
+  background-color: rgba(20, 35, 55, 0.8);
+  border: 1px solid #2c4066;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.wow-formula-suggestion:hover {
+  background-color: rgba(40, 60, 90, 0.8);
+  border-color: #3a5080;
+}
+
+/* Conditional Formula Example */
+.wow-conditional-formula-example {
+  margin-top: 12px;
+  padding: 8px;
+  background-color: rgba(20, 35, 55, 0.5);
+  border-radius: 4px;
+}
+
+.wow-conditional-formula-tip {
+  color: #8ba1c8;
+  font-size: 13px;
+  margin: 0;
+}
+
+.wow-conditional-formula-tip strong {
+  color: #ffd100;
+}
+
+/* Conditional Buff Preview Styles */
+.conditional-buff-preview {
+  margin-bottom: 12px;
+  padding: 8px;
+  background-color: rgba(20, 35, 55, 0.5);
+  border-radius: 4px;
+}
+
+.conditional-buff-detail {
+  margin-top: 6px;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.conditional-buff-label {
+  color: #ffd100;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.conditional-buff-value {
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.conditional-buff-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.conditional-buff-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(30, 45, 65, 0.5);
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.conditional-buff-stat-name {
+  color: #8ba1c8;
+  font-size: 13px;
+}
+
+.conditional-buff-stat-value {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.conditional-buff-stat-value.positive {
+  color: #1eff00;
+}
+
+.conditional-buff-stat-value.negative {
+  color: #ff4040;
+}
+
+.conditional-buff-stat-value.formula {
+  color: #ffb100;
+}
+
+/* Conditional Debuff Preview Styles */
+.conditional-debuff-preview {
+  margin-bottom: 12px;
+  padding: 8px;
+  background-color: rgba(35, 20, 35, 0.5);
+  border-radius: 4px;
+}
+
+.conditional-debuff-detail {
+  margin-top: 6px;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.conditional-debuff-label {
+  color: #d100ff;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.conditional-debuff-value {
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.conditional-debuff-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.conditional-debuff-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(45, 25, 45, 0.5);
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.conditional-debuff-stat-name {
+  color: #c8a1c8;
+  font-size: 13px;
+}
+
+.conditional-debuff-stat-value {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.conditional-debuff-stat-value.positive {
+  color: #1eff00;
+}
+
+.conditional-debuff-stat-value.negative {
+  color: #ff4040;
+}
+
+.conditional-debuff-stat-value.formula {
+  color: #ffb100;
+}

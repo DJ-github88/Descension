@@ -1,0 +1,433 @@
+/* Spell Components Selector Styles */
+
+/* Component Text Input Styles */
+.component-text-input-container {
+  margin: 8px 0 16px;
+  padding: 0 8px;
+  width: 100%;
+}
+
+.component-text-input {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(30, 40, 60, 0.7);
+  border: 1px solid var(--wizard-border);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 14px;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.component-text-input:focus {
+  outline: none;
+  border-color: #4a8eff;
+  box-shadow: 0 0 0 2px rgba(74, 142, 255, 0.2);
+}
+
+.component-text-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.edit-component-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: auto;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
+}
+
+.edit-component-btn:hover {
+  color: #4a8eff;
+}
+
+.component-option {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.spell-components-selector {
+  background: linear-gradient(135deg,
+    rgba(20, 30, 50, 0.7),
+    rgba(15, 25, 40, 0.7)
+  );
+  border-radius: 8px;
+  border: 1px solid var(--wizard-border);
+  padding: 16px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.spell-components-selector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at top right,
+    rgba(59, 130, 246, 0.1),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.components-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--wizard-text-bright);
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(66, 91, 158, 0.3);
+  padding-bottom: 8px;
+}
+
+.components-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.component-option {
+  display: flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(66, 91, 158, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.component-option:hover {
+  background: rgba(20, 30, 50, 0.5);
+  border-color: rgba(66, 91, 158, 0.5);
+  transform: translateY(-2px);
+}
+
+.component-option.selected {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.component-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 50%;
+  margin-right: 12px;
+  font-size: 18px;
+  color: #e2e8f0;
+  flex-shrink: 0;
+}
+
+.component-option.selected .component-icon {
+  background: rgba(59, 130, 246, 0.4);
+  color: #ffffff;
+}
+
+.component-details {
+  flex: 1;
+}
+
+.component-name {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.component-description {
+  font-size: 14px;
+  color: #a4b1cd;
+}
+
+/* Material Components Section */
+.material-components-section {
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border-left: 2px solid var(--wow-blue-medium);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.material-components-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.material-components-header h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.add-material-button {
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-material-button:hover {
+  background: linear-gradient(to bottom, #4f8df7, #3b75e7);
+  transform: translateY(-1px);
+}
+
+.selected-materials {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.selected-material-item {
+  display: flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(66, 91, 158, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.selected-material-item:hover {
+  background: rgba(30, 58, 138, 0.3);
+  border-color: rgba(96, 165, 250, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.material-item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.material-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.material-item-details {
+  flex: 1;
+}
+
+.material-item-name {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+.material-item-type {
+  font-size: 12px;
+  color: #a4b1cd;
+}
+
+.remove-material-button {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(66, 91, 158, 0.2);
+  border-radius: 50%;
+  color: #a4b1cd;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.remove-material-button:hover {
+  color: #e2e8f0;
+  background: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.5);
+  transform: scale(1.1);
+}
+
+.no-materials-message {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+  color: #a4b1cd;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Item Selector */
+.item-selector {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(66, 91, 158, 0.3);
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.item-search {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a4b1cd;
+}
+
+.item-search-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  color: #e2e8f0;
+  padding: 8px 12px 8px 36px;
+  font-size: 14px;
+}
+
+.item-search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.item-list {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-list-item {
+  display: flex;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(66, 91, 158, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.item-list-item:hover {
+  background: rgba(20, 30, 50, 0.5);
+  border-color: rgba(66, 91, 158, 0.5);
+}
+
+.item-list-item.selected {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+}
+
+.item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-name {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.item-description {
+  font-size: 12px;
+  color: #a4b1cd;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.item-tag {
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #a4b1cd;
+}
+
+/* Components Help Section */
+.components-help {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.components-help h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.components-help p {
+  font-size: 14px;
+  color: #a4b1cd;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.components-help ul {
+  padding-left: 20px;
+}
+
+.components-help li {
+  font-size: 14px;
+  color: #a4b1cd;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.components-help strong {
+  color: #e2e8f0;
+  font-weight: 600;
+}

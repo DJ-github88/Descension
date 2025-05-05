@@ -1,0 +1,246 @@
+/* WoW Classic Tooltip Styles */
+.wow-classic-tooltip {
+  background-color: #000000 !important;
+  border: 1px solid #4e4e4e !important;
+  border-radius: 0 !important;
+  padding: 8px 10px !important;
+  color: #ffffff !important;
+  font-family: 'Friz Quadrata', 'Arial', sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(50, 50, 50, 0.5) !important;
+  min-width: 200px !important;
+  max-width: 300px !important;
+  position: absolute !important;
+  animation: tooltipFadeIn 0.15s ease-out !important;
+  z-index: 999999 !important;
+  pointer-events: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Top and bottom borders with classic WoW style */
+.tooltip-top-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.tooltip-bottom-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+}
+
+/* Tooltip header with icon */
+.wc3-tooltip-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 209, 0, 0.3);
+}
+
+.tooltip-icon-wrapper {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  border: 1px solid #666;
+  border-radius: 2px;
+  overflow: hidden;
+  background-color: #000;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.tooltip-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tooltip title */
+.wc3-tooltip-title {
+  color: #ffd100 !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8) !important;
+  flex: 1;
+}
+
+/* Tooltip content styling */
+.wc3-tooltip-content {
+  color: #ffffff !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+
+/* Section header for tooltip */
+.tooltip-section-header {
+  color: #ffd100 !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  margin: 4px 0 !important;
+}
+
+/* Option styling for status effects */
+.tooltip-option {
+  margin: 3px 0 3px 8px !important;
+  line-height: 1.4 !important;
+  position: relative !important;
+  padding-left: 12px !important;
+}
+
+/* Bullet point for options */
+.tooltip-bullet {
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 4px !important;
+  height: 4px !important;
+  background-color: #ffd100 !important;
+  border-radius: 50% !important;
+}
+
+/* Common text colors used in WoW tooltips */
+.tooltip-white {
+  color: #ffffff !important;
+}
+
+.tooltip-gray {
+  color: #9d9d9d !important;
+}
+
+.tooltip-green {
+  color: #1eff00 !important;
+}
+
+.tooltip-blue {
+  color: #0070dd !important;
+}
+
+.tooltip-purple {
+  color: #a335ee !important;
+}
+
+.tooltip-orange {
+  color: #ff8000 !important;
+}
+
+.tooltip-gold {
+  color: #ffd100 !important;
+}
+
+.tooltip-red {
+  color: #ff4040 !important;
+}
+
+/* Stat lines */
+.tooltip-stat-line {
+  color: #1eff00 !important;
+  margin: 2px 0 !important;
+}
+
+/* Requirement lines */
+.tooltip-requirement {
+  color: #ff4040 !important;
+  margin: 4px 0 !important;
+}
+
+/* Cooldown and cast time */
+.tooltip-cooldown, .tooltip-casttime {
+  color: #9d9d9d !important;
+  margin: 4px 0 !important;
+}
+
+/* Spell description */
+.tooltip-description {
+  color: #ffd100 !important;
+  margin: 6px 0 !important;
+}
+
+/* Spell effects */
+.tooltip-effect {
+  color: #ffffff !important;
+  margin: 4px 0 !important;
+  line-height: 1.4 !important;
+}
+
+/* Tooltip effect with icon */
+.tooltip-effect-with-icon {
+  display: flex !important;
+  align-items: center !important;
+  margin: 4px 0 !important;
+}
+
+/* Small icon in tooltip */
+.tooltip-small-icon {
+  width: 14px !important;
+  height: 14px !important;
+  margin-right: 6px !important;
+  border: 1px solid #666 !important;
+}
+
+/* Bullet points for lists */
+.tooltip-bullet {
+  display: inline-block !important;
+  width: 4px !important;
+  height: 4px !important;
+  background-color: #ffd100 !important;
+  border-radius: 50% !important;
+  margin-right: 6px !important;
+  margin-bottom: 2px !important;
+  vertical-align: middle !important;
+}
+
+/* Divider line */
+.tooltip-divider {
+  height: 1px !important;
+  background: linear-gradient(to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  ) !important;
+  margin: 6px 0 !important;
+}
+
+/* Flavor text (quotes) */
+.tooltip-flavor-text {
+  color: #9d9d9d !important;
+  font-style: italic !important;
+  margin-top: 6px !important;
+  font-size: 11px !important;
+}
+
+/* Spell school colors */
+.school-arcane { color: #d26cd1 !important; }
+.school-fire { color: #ff4040 !important; }
+.school-frost { color: #69ccf0 !important; }
+.school-nature { color: #7cff40 !important; }
+.school-shadow { color: #9482c9 !important; }
+.school-holy { color: #ffff98 !important; }
+
+/* Tooltip arrow (optional) */
+.wow-classic-tooltip::after {
+  display: none !important; /* Remove default arrow */
+}

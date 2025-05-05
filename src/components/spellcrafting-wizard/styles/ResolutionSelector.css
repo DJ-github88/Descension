@@ -1,0 +1,59 @@
+/* ResolutionSelector.css */
+
+.resolution-selector {
+  margin-bottom: 20px;
+}
+
+.resolution-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.resolution-option {
+  display: flex;
+  align-items: center;
+  background-color: rgba(35, 35, 50, 0.8);
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 180px;
+}
+
+.resolution-option:hover {
+  background-color: rgba(45, 45, 60, 0.9);
+  border-color: #555;
+}
+
+.resolution-option.selected {
+  background-color: rgba(44, 62, 80, 0.9);
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.4);
+}
+
+.resolution-icon {
+  font-size: 1.5rem;
+  color: #3498db;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resolution-info {
+  flex: 1;
+}
+
+.resolution-name {
+  color: #ecf0f1;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.resolution-description {
+  color: #bdc3c7;
+  font-size: 0.9rem;
+}

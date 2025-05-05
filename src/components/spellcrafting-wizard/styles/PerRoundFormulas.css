@@ -1,0 +1,215 @@
+/* ========== Per-Round Formula Editor Styles ==========
+ * World of Warcraft Inspired Styling for the Per-Round Formula Editor
+ */
+
+.per-round-effect-container {
+  background: var(--wizard-surface);
+  border: 2px solid var(--wizard-border);
+  border-radius: var(--wizard-border-radius);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: var(--wizard-shadow-sm);
+  transition: all var(--wizard-transition-fast);
+}
+
+.per-round-effect-container:hover {
+  border-color: var(--wizard-primary);
+  box-shadow: var(--wizard-shadow-md);
+}
+
+.per-round-effect-header {
+  background: linear-gradient(to bottom, var(--wizard-surface-light), var(--wizard-surface));
+  padding: 1rem;
+  border-bottom: 1px solid var(--wizard-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.per-round-effect-title {
+  display: flex;
+  align-items: center;
+  font-family: var(--wizard-font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--wizard-text-bright);
+}
+
+.per-round-effect-base {
+  font-size: 0.9rem;
+  color: var(--wizard-text-muted);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--wizard-primary);
+}
+
+.per-round-effect-base code {
+  font-family: monospace;
+  color: var(--wizard-primary-light);
+}
+
+.per-round-formulas {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.per-round-formula-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr 40px;
+  gap: 0.75rem;
+  align-items: center;
+  background: var(--wizard-surface-light);
+  padding: 0.75rem;
+  border-radius: var(--wizard-border-radius);
+  border: 1px solid var(--wizard-border);
+  transition: all var(--wizard-transition-fast);
+}
+
+.per-round-formula-row:hover {
+  border-color: var(--wizard-primary);
+  background: rgba(0, 116, 224, 0.1);
+}
+
+.per-round-formula-round {
+  font-weight: 600;
+  color: var(--wizard-text);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--wizard-primary);
+}
+
+.per-round-formula-input input,
+.per-round-formula-description input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: var(--wizard-surface);
+  border: 1px solid var(--wizard-border);
+  border-radius: 4px;
+  color: var(--wizard-text);
+  font-family: monospace;
+  transition: all var(--wizard-transition-fast);
+}
+
+.per-round-formula-input input {
+  color: var(--wizard-primary-light);
+}
+
+.per-round-formula-input input:focus,
+.per-round-formula-description input:focus {
+  border-color: var(--wizard-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--wizard-primary-glow);
+}
+
+.per-round-formula-input input::placeholder,
+.per-round-formula-description input::placeholder {
+  color: var(--wizard-text-muted);
+  opacity: 0.6;
+}
+
+.remove-round-button {
+  background: none;
+  border: none;
+  color: var(--wizard-text-muted);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all var(--wizard-transition-fast);
+}
+
+.remove-round-button:hover {
+  background: rgba(214, 40, 57, 0.2);
+  color: var(--wizard-error);
+}
+
+.add-round-button {
+  background: var(--wizard-surface);
+  border: 1px dashed var(--wizard-border);
+  border-radius: var(--wizard-border-radius);
+  color: var(--wizard-text);
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all var(--wizard-transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.add-round-button:hover:not(:disabled) {
+  background: var(--wizard-surface-light);
+  border-color: var(--wizard-primary);
+  color: var(--wizard-primary-light);
+}
+
+.add-round-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Specific styling for DoT effects */
+.per-round-effect-container:has(.per-round-effect-title svg[style*="color: #ff4400"]) .per-round-formula-round {
+  border-left-color: #ff4400;
+}
+
+.per-round-effect-container:has(.per-round-effect-title svg[style*="color: #ff4400"]) .per-round-effect-base {
+  border-left-color: #ff4400;
+}
+
+/* Specific styling for HoT effects */
+.per-round-effect-container:has(.per-round-effect-title svg[style*="color: #44ff00"]) .per-round-formula-round {
+  border-left-color: #44ff00;
+}
+
+.per-round-effect-container:has(.per-round-effect-title svg[style*="color: #44ff00"]) .per-round-effect-base {
+  border-left-color: #44ff00;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .per-round-formula-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .per-round-formula-round {
+    text-align: left;
+  }
+  
+  .remove-round-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .per-round-formula-row {
+    position: relative;
+    padding-top: 2rem;
+  }
+}
+
+/* Animation for new rounds */
+@keyframes newRoundAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.per-round-formula-row:last-child {
+  animation: newRoundAppear 0.3s ease-out;
+}

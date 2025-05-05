@@ -1,0 +1,192 @@
+/* Targeting-style buttons for Step 3 Effects */
+
+/* Effect type tabs */
+.effect-type-tab {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  border: 1px solid #1d4ed8;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  margin: 0 4px;
+}
+
+.effect-type-tab:hover {
+  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.effect-type-tab:active {
+  background: linear-gradient(to bottom, #1d4ed8, #2563eb);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.effect-type-tab.active {
+  background: linear-gradient(to bottom, #1d4ed8, #1e40af);
+  border-color: #1e3a8a;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.effect-type-tab.configured {
+  border-color: #10b981;
+}
+
+.effect-type-tab svg {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.config-indicator {
+  margin-left: 6px;
+  color: #10b981;
+}
+
+/* Selection cards for effect types */
+.selection-card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.7));
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 6px;
+  padding: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.selection-card:hover {
+  background: linear-gradient(145deg, rgba(30, 58, 138, 0.7), rgba(30, 41, 59, 0.7));
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.selection-card.selected {
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.75), rgba(29, 78, 216, 0.75));
+  border-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.selection-card.highlighted {
+  box-shadow: 0 0 0 2px #3b82f6, 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+.selection-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #3b82f6, #1d4ed8);
+  transform: scaleX(0);
+  transform-origin: bottom left;
+  transition: transform 0.3s ease;
+}
+
+.selection-card:hover::after {
+  transform: scaleX(1);
+}
+
+.selection-card.selected::after {
+  transform: scaleX(1);
+}
+
+/* Mechanic options */
+.mechanic-option {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.7));
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.mechanic-option:hover {
+  background: linear-gradient(145deg, rgba(30, 58, 138, 0.7), rgba(30, 41, 59, 0.7));
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.mechanic-option.selected {
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.75), rgba(29, 78, 216, 0.75));
+  border-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.mechanic-option::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #3b82f6, #1d4ed8);
+  transform: scaleX(0);
+  transform-origin: bottom left;
+  transition: transform 0.3s ease;
+}
+
+.mechanic-option:hover::after {
+  transform: scaleX(1);
+}
+
+.mechanic-option.selected::after {
+  transform: scaleX(1);
+}
+
+.mechanic-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.mechanic-name {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+/* Wizard navigation buttons */
+.wizard-nav-button {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  border: 1px solid #1d4ed8;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+}
+
+.wizard-nav-button:hover {
+  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.wizard-nav-button:active {
+  background: linear-gradient(to bottom, #1d4ed8, #2563eb);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.wizard-nav-button.primary {
+  background: linear-gradient(to bottom, #2563eb, #1d4ed8);
+  border-color: #1e40af;
+}

@@ -1,6 +1,6 @@
 /**
  * Dice System - Core mechanics for dice notation parsing and manipulation
- * 
+ *
  * This module provides comprehensive utilities for working with dice notation,
  * including parsing, validation, statistical analysis, and special dice mechanics
  * like advantage/disadvantage, exploding dice, and critical dice.
@@ -18,7 +18,7 @@ export const DICE_TYPES = {
     isStandard: (sides) => DICE_TYPES.standard.includes(Number(sides)),
     isValid: (sides) => Number.isInteger(Number(sides)) && Number(sides) >= 2
   };
-  
+
   /**
    * Roll modes for special dice mechanics
    */
@@ -29,11 +29,11 @@ export const DICE_TYPES = {
     EXPLODING: 'exploding',
     CRITICAL: 'critical'
   };
-  
+
   // =====================================================================
   // CORE PARSING FUNCTIONS
   // =====================================================================
-  
+
   /**
    * Parse dice notation into components
    */
@@ -41,28 +41,28 @@ export const DICE_TYPES = {
     if (!notation || typeof notation !== 'string') {
       return null;
     }
-  
+
     // Clean the notation by removing whitespace
     const cleanNotation = notation.replace(/\s+/g, '');
-    
+
     // Handle complex expressions with operators and parentheses
     if (/[\+\-\*\/\(\)]/.test(cleanNotation)) {
       return parseComplexDiceExpression(cleanNotation);
     }
-    
+
     // Basic dice notation pattern: XdY or XdY+Z or XdYkZ (keep highest Z)
     const basicPattern = /^(\d+)d(\d+)(k(\d+))?([+-]\d+)?$/i;
     const matches = cleanNotation.match(basicPattern);
-    
+
     if (!matches) {
       return null;
     }
-    
+
     const count = parseInt(matches[1], 10);
     const sides = parseInt(matches[2], 10);
     const keepHighest = matches[3] ? parseInt(matches[4], 10) : null;
     const modifier = matches[5] ? parseInt(matches[5], 10) : 0;
-    
+
     return {
       count,
       sides,
@@ -72,7 +72,7 @@ export const DICE_TYPES = {
       original: notation
     };
   }
-  
+
   /**
    * Parse complex dice expressions with operators and parentheses
    */
@@ -80,10 +80,10 @@ export const DICE_TYPES = {
     try {
       // Split the expression into tokens
       const tokens = tokenizeDiceExpression(notation);
-      
+
       // Parse the tokens into an abstract syntax tree
       const ast = parseTokensToAST(tokens);
-      
+
       return {
         type: 'complex',
         ast,
@@ -93,7 +93,7 @@ export const DICE_TYPES = {
       return null;
     }
   }
-  
+
   /**
    * Tokenize a dice expression
    */
@@ -101,7 +101,7 @@ export const DICE_TYPES = {
     const tokenRegex = /(\d+d\d+k?\d*)|(\d+)|([+\-*/()])/g;
     const tokens = [];
     let match;
-    
+
     while ((match = tokenRegex.exec(expression)) !== null) {
       if (match[1]) { // Dice notation
         tokens.push({ type: 'dice', value: match[1] });
@@ -111,10 +111,10 @@ export const DICE_TYPES = {
         tokens.push({ type: 'operator', value: match[3] });
       }
     }
-    
+
     return tokens;
   }
-  
+
   /**
    * Parse tokens into an abstract syntax tree (AST)
    */
@@ -122,14 +122,14 @@ export const DICE_TYPES = {
     // Shunting yard algorithm to convert infix to postfix notation
     const outputQueue = [];
     const operatorStack = [];
-    
+
     const precedence = {
       '+': 1,
       '-': 1,
       '*': 2,
       '/': 2
     };
-    
+
     for (const token of tokens) {
       if (token.type === 'dice' || token.type === 'number') {
         outputQueue.push(token);
@@ -154,15 +154,15 @@ export const DICE_TYPES = {
         }
       }
     }
-    
+
     // Pop any remaining operators from the stack to the output queue
     while (operatorStack.length > 0) {
       outputQueue.push(operatorStack.pop());
     }
-    
+
     // Build the AST from the postfix notation
     const astStack = [];
-    
+
     for (const token of outputQueue) {
       if (token.type === 'dice' || token.type === 'number') {
         astStack.push(token);
@@ -177,10 +177,10 @@ export const DICE_TYPES = {
         });
       }
     }
-    
+
     return astStack[0];
   }
-  
+
   /**
    * Validate dice notation
    */
@@ -188,10 +188,10 @@ export const DICE_TYPES = {
     if (!notation || typeof notation !== 'string') {
       return false;
     }
-    
+
     // Clean the notation
     const cleanNotation = notation.replace(/\s+/g, '');
-    
+
     // Handle complex expressions
     if (/[\+\-\*\/\(\)]/.test(cleanNotation)) {
       try {
@@ -202,75 +202,77 @@ export const DICE_TYPES = {
         return false;
       }
     }
-    
+
     // Basic dice patterns
     const basicPattern = /^(\d+)d(\d+)(k(\d+))?([+-]\d+)?$/i;
     const matches = cleanNotation.match(basicPattern);
-    
+
     if (!matches) {
       return false;
     }
-    
+
     const count = parseInt(matches[1], 10);
     const sides = parseInt(matches[2], 10);
     const keepHighest = matches[3] ? parseInt(matches[4], 10) : null;
-    
+
     // Validate dice count and sides
     if (count <= 0 || sides <= 1) {
       return false;
     }
-    
+
     // Validate keep highest if present
     if (keepHighest !== null && (keepHighest <= 0 || keepHighest > count)) {
       return false;
     }
-    
+
     return true;
   }
-  
+
   // =====================================================================
   // STATISTICAL CALCULATION FUNCTIONS
   // =====================================================================
-  
+
   /**
    * Get the minimum possible roll for a dice notation
    */
   export function getMinRoll(notation) {
     const parsed = parseDiceNotation(notation);
-    
+
     if (!parsed) {
       return null;
     }
-    
+
     if (parsed.type === 'complex') {
       return calculateMinForAST(parsed.ast);
     }
-    
+
     const { count, keepHighest, modifier } = parsed;
-    
+
     // If keeping highest N dice, min roll is 1 * number of kept dice
     const effectiveCount = keepHighest !== null ? keepHighest : count;
-    
+
     return effectiveCount + modifier;
   }
-  
+
   /**
    * Calculate minimum value for an AST
    */
   function calculateMinForAST(ast) {
+    if (!ast) return 0;
+
     if (ast.type === 'number') {
       return ast.value;
     }
-    
+
     if (ast.type === 'dice') {
       const parsed = parseDiceNotation(ast.value);
       return parsed ? getMinRoll(ast.value) : 0;
     }
-    
+
     if (ast.type === 'operation') {
       const leftMin = calculateMinForAST(ast.left);
       const rightMin = calculateMinForAST(ast.right);
-      
+
       switch (ast.operator) {
         case '+': return leftMin + rightMin;
         case '-': return leftMin - rightMin;
@@ -279,49 +281,70 @@ export const DICE_TYPES = {
         default: return 0;
       }
     }
-    
+
+    if (ast.type === 'function') {
+      switch (ast.name.toLowerCase()) {
+        case 'floor':
+        case 'ceil':
+        case 'round':
+          return calculateMinForAST(ast.arguments[0]);
+        case 'max':
+          return Math.max(...ast.arguments.map(calculateMinForAST));
+        case 'min':
+          return Math.min(...ast.arguments.map(calculateMinForAST));
+        case 'advantage':
+          return calculateMinForAST(ast.arguments[0]);
+        case 'disadvantage':
+          return calculateMinForAST(ast.arguments[0]);
+        default:
+          return 0;
+      }
+    }
+
     return 0;
   }
-  
+
   /**
    * Get the maximum possible roll for a dice notation
    */
   export function getMaxRoll(notation) {
     const parsed = parseDiceNotation(notation);
-    
+
     if (!parsed) {
       return null;
     }
-    
+
     if (parsed.type === 'complex') {
       return calculateMaxForAST(parsed.ast);
     }
-    
+
     const { count, sides, keepHighest, modifier } = parsed;
-    
+
     // If keeping highest N dice, max roll is sides * number of kept dice
     const effectiveCount = keepHighest !== null ? keepHighest : count;
-    
+
     return effectiveCount * sides + modifier;
   }
-  
+
   /**
    * Calculate maximum value for an AST
    */
   function calculateMaxForAST(ast) {
+    if (!ast) return 0;
+
     if (ast.type === 'number') {
       return ast.value;
     }
-    
+
     if (ast.type === 'dice') {
       const parsed = parseDiceNotation(ast.value);
       return parsed ? getMaxRoll(ast.value) : 0;
     }
-    
+
     if (ast.type === 'operation') {
       const leftMax = calculateMaxForAST(ast.left);
       const rightMax = calculateMaxForAST(ast.right);
-      
+
       switch (ast.operator) {
         case '+': return leftMax + rightMax;
         case '-': return leftMax - rightMax;
@@ -330,64 +353,108 @@ export const DICE_TYPES = {
         default: return 0;
       }
     }
-    
+
+    if (ast.type === 'function') {
+      switch (ast.name.toLowerCase()) {
+        case 'floor':
+        case 'ceil':
+        case 'round':
+          return calculateMaxForAST(ast.arguments[0]);
+        case 'max':
+          return Math.max(...ast.arguments.map(calculateMaxForAST));
+        case 'min':
+          return Math.min(...ast.arguments.map(calculateMaxForAST));
+        case 'advantage':
+          return calculateMaxForAST(ast.arguments[0]);
+        case 'disadvantage':
+          return calculateMaxForAST(ast.arguments[0]);
+        default:
+          return 0;
+      }
+    }
+
     return 0;
   }
-  
+
   /**
    * Get the average roll for a dice notation
    */
   export function getAverageRoll(notation) {
     const parsed = parseDiceNotation(notation);
-    
+
     if (!parsed) {
       return null;
     }
-    
+
     if (parsed.type === 'complex') {
       return calculateAverageForAST(parsed.ast);
     }
-    
+
     const { count, sides, keepHighest, modifier } = parsed;
-    
+
     if (keepHighest !== null) {
       // For keep highest calculations, we need to use probability distributions
       return calculateKeepHighestAverage(count, sides, keepHighest) + modifier;
     }
-    
+
     // For regular dice, average of a dX is (X+1)/2
     return count * (sides + 1) / 2 + modifier;
   }
-  
+
   /**
    * Calculate average value for an AST
    */
   function calculateAverageForAST(ast) {
+    if (!ast) return 0;
+
     if (ast.type === 'number') {
       return ast.value;
     }
-    
+
     if (ast.type === 'dice') {
       const parsed = parseDiceNotation(ast.value);
       return parsed ? getAverageRoll(ast.value) : 0;
     }
-    
+
     if (ast.type === 'operation') {
       const leftAvg = calculateAverageForAST(ast.left);
       const rightAvg = calculateAverageForAST(ast.right);
-      
+
       switch (ast.operator) {
         case '+': return leftAvg + rightAvg;
         case '-': return leftAvg - rightAvg;
         case '*': return leftAvg * rightAvg;
-        case '/': return leftAvg / rightAvg;
+        case '/': return Math.floor(leftAvg / rightAvg);
         default: return 0;
       }
     }
-    
+
+    if (ast.type === 'function') {
+      switch (ast.name.toLowerCase()) {
+        case 'floor':
+        case 'ceil':
+        case 'round':
+          return calculateAverageForAST(ast.arguments[0]);
+        case 'max':
+          return Math.max(...ast.arguments.map(calculateAverageForAST));
+        case 'min':
+          return Math.min(...ast.arguments.map(calculateAverageForAST));
+        case 'advantage':
+          // For advantage, average is slightly higher
+          const baseAvg = calculateAverageForAST(ast.arguments[0]);
+          return Math.floor(baseAvg * 1.3); // Rough approximation
+        case 'disadvantage':
+          // For disadvantage, average is slightly lower
+          const baseAvg2 = calculateAverageForAST(ast.arguments[0]);
+          return Math.floor(baseAvg2 * 0.7); // Rough approximation
+        default:
+          return 0;
+      }
+    }
+
     return 0;
   }
-  
+
   /**
    * Calculate average for keep highest dice
    */
@@ -397,18 +464,18 @@ export const DICE_TYPES = {
     if (keep >= diceCount) {
       return diceCount * (sides + 1) / 2;
     }
-  
+
     // Approximate the expected value of keeping highest k out of n dice
     const singleDieAvg = (sides + 1) / 2;
     const adjustment = (diceCount - keep) * (singleDieAvg - sides * keep / (diceCount + 1)) / diceCount;
-    
+
     return keep * (singleDieAvg + adjustment);
   }
-  
+
   // =====================================================================
   // ROLL FUNCTIONS WITH SPECIAL MECHANICS
   // =====================================================================
-  
+
   /**
    * Simulate a dice roll based on notation
    */
@@ -418,16 +485,20 @@ export const DICE_TYPES = {
       criticalThreshold = null,
       criticalMultiplier = 2,
       explodeLimit = 1000, // Prevent infinite explosions
+      explodingDice = false,
+      explodingDiceType = 'reroll_add',
+      critDiceOnly = false,
+      extraDice = ''
     } = options;
-    
+
     const parsed = parseDiceNotation(notation);
-    
+
     if (!parsed) {
       throw new Error(`Invalid dice notation: ${notation}`);
     }
-    
+
     let result;
-    
+
     switch (mode) {
       case ROLL_MODES.ADVANTAGE:
         result = rollWithAdvantage(parsed);
@@ -439,14 +510,19 @@ export const DICE_TYPES = {
         result = rollExplodingDice(parsed, explodeLimit);
         break;
       case ROLL_MODES.CRITICAL:
-        result = rollCriticalDice(parsed, criticalThreshold, criticalMultiplier);
+        result = rollCriticalDice(parsed, criticalThreshold, criticalMultiplier, {
+          explodingDice,
+          explodingDiceType,
+          critDiceOnly,
+          extraDice
+        });
         break;
       case ROLL_MODES.NORMAL:
       default:
         result = performBasicRoll(parsed);
         break;
     }
-    
+
     return {
       notation,
       mode,
@@ -456,7 +532,7 @@ export const DICE_TYPES = {
       details: result.details || {}
     };
   }
-  
+
   /**
    * Perform a basic dice roll
    */
@@ -464,24 +540,24 @@ export const DICE_TYPES = {
     if (parsed.type === 'complex') {
       return evaluateComplexRoll(parsed.ast);
     }
-    
+
     const { count, sides, keepHighest, modifier } = parsed;
-    
+
     // Roll the dice
     const rolls = [];
     for (let i = 0; i < count; i++) {
       rolls.push(Math.floor(Math.random() * sides) + 1);
     }
-    
+
     // Keep highest if specified
     let usedRolls = [...rolls];
     if (keepHighest !== null) {
       usedRolls = [...rolls].sort((a, b) => b - a).slice(0, keepHighest);
     }
-    
+
     // Sum the rolls and add modifier
     const total = usedRolls.reduce((sum, roll) => sum + roll, 0) + modifier;
-    
+
     return {
       total,
       rolls,
@@ -489,7 +565,7 @@ export const DICE_TYPES = {
       keptHighest: keepHighest !== null
     };
   }
-  
+
   /**
    * Evaluate a complex roll (expression with operators)
    */
@@ -501,7 +577,7 @@ export const DICE_TYPES = {
         details: { type: 'constant', value: ast.value }
       };
     }
-    
+
     if (ast.type === 'dice') {
       const diceRoll = rollDice(ast.value);
       return {
@@ -510,11 +586,11 @@ export const DICE_TYPES = {
         details: { type: 'dice', notation: ast.value, roll: diceRoll }
       };
     }
-    
+
     if (ast.type === 'operation') {
       const left = evaluateComplexRoll(ast.left);
       const right = evaluateComplexRoll(ast.right);
-      
+
       let total;
       switch (ast.operator) {
         case '+': total = left.total + right.total; break;
@@ -523,7 +599,7 @@ export const DICE_TYPES = {
         case '/': total = Math.floor(left.total / right.total); break;
         default: total = 0;
       }
-      
+
       return {
         total,
         rolls: [...left.rolls, ...right.rolls],
@@ -535,19 +611,19 @@ export const DICE_TYPES = {
         }
       };
     }
-    
+
     return { total: 0, rolls: [] };
   }
-  
+
   /**
    * Roll with advantage (roll twice, take higher result)
    */
   function rollWithAdvantage(parsed) {
     const roll1 = performBasicRoll(parsed);
     const roll2 = performBasicRoll(parsed);
-    
+
     const useFirst = roll1.total >= roll2.total;
-    
+
     return {
       total: useFirst ? roll1.total : roll2.total,
       rolls: [roll1.rolls, roll2.rolls],
@@ -559,16 +635,16 @@ export const DICE_TYPES = {
       }
     };
   }
-  
+
   /**
    * Roll with disadvantage (roll twice, take lower result)
    */
   function rollWithDisadvantage(parsed) {
     const roll1 = performBasicRoll(parsed);
     const roll2 = performBasicRoll(parsed);
-    
+
     const useFirst = roll1.total <= roll2.total;
-    
+
     return {
       total: useFirst ? roll1.total : roll2.total,
       rolls: [roll1.rolls, roll2.rolls],
@@ -580,7 +656,7 @@ export const DICE_TYPES = {
       }
     };
   }
-  
+
   /**
    * Roll exploding dice (reroll max values and add)
    */
@@ -589,29 +665,29 @@ export const DICE_TYPES = {
       // For complex expressions, fallback to normal roll
       return evaluateComplexRoll(parsed.ast);
     }
-    
+
     const { count, sides, modifier } = parsed;
     const allRolls = [];
     const explosions = [];
-    
+
     // Initial rolls
     for (let i = 0; i < count; i++) {
       const initialRoll = Math.floor(Math.random() * sides) + 1;
       allRolls.push(initialRoll);
-      
+
       // Handle explosions for each die
       if (initialRoll === sides) {
         let currentRoll = initialRoll;
         let explosionChain = [initialRoll];
         let explosionCount = 0;
-        
+
         while (currentRoll === sides && explosionCount < explodeLimit) {
           currentRoll = Math.floor(Math.random() * sides) + 1;
           explosionChain.push(currentRoll);
           allRolls.push(currentRoll);
           explosionCount++;
         }
-        
+
         explosions.push({
           dieIndex: i,
           chain: explosionChain,
@@ -619,9 +695,9 @@ export const DICE_TYPES = {
         });
       }
     }
-    
+
     const total = allRolls.reduce((sum, roll) => sum + roll, 0) + modifier;
-    
+
     return {
       total,
       rolls: allRolls,
@@ -632,32 +708,62 @@ export const DICE_TYPES = {
       }
     };
   }
-  
+
   /**
    * Roll with critical hit rules
    */
-  function rollCriticalDice(parsed, threshold, multiplier) {
+  function rollCriticalDice(parsed, threshold, multiplier, options = {}) {
+    const {
+      explodingDice = false,
+      explodingDiceType = 'reroll_add',
+      critDiceOnly = false,
+      extraDice = ''
+    } = options;
+
     if (parsed.type === 'complex') {
       // For complex expressions, fallback to normal roll with manual check
       const result = evaluateComplexRoll(parsed.ast);
       const max = getMaxRoll(parsed.original);
-      
+
       const criticalThreshold = threshold !== null ? threshold : max;
       const isCritical = result.total >= criticalThreshold;
-      
+
       if (isCritical) {
+        let criticalTotal = result.total;
+
+        if (critDiceOnly) {
+          // Apply multiplier only to dice portion, not modifiers
+          // This is an approximation for complex expressions
+          const diceTotal = result.rolls.reduce((sum, roll) => sum + roll, 0);
+          const modifierTotal = result.total - diceTotal;
+          criticalTotal = (diceTotal * multiplier) + modifierTotal;
+        } else {
+          // Apply multiplier to entire result
+          criticalTotal = result.total * multiplier;
+        }
+
+        // Add extra dice if specified
+        if (extraDice) {
+          const extraDiceRoll = rollDice(extraDice);
+          criticalTotal += extraDiceRoll.total;
+        }
+
         return {
-          total: result.total * multiplier,
+          total: criticalTotal,
           rolls: result.rolls,
           details: {
             type: 'critical',
             originalRoll: result,
             multiplier,
-            isCritical: true
+            isCritical: true,
+            critDiceOnly,
+            extraDice: extraDice ? extraDice : null,
+            normalTotal: result.total,
+            criticalTotal
           }
         };
       }
-      
+
       return {
         ...result,
         details: {
@@ -667,59 +773,146 @@ export const DICE_TYPES = {
         }
       };
     }
-    
+
     const { count, sides, modifier } = parsed;
-    
+
     // Roll the dice
     const rolls = [];
+    const criticalRolls = [];
+    const explodedRolls = [];
+
     for (let i = 0; i < count; i++) {
-      rolls.push(Math.floor(Math.random() * sides) + 1);
+      const roll = Math.floor(Math.random() * sides) + 1;
+      rolls.push(roll);
+
+      // Check if this roll is a critical
+      const criticalThreshold = threshold !== null ? threshold : sides;
+      if (roll >= criticalThreshold) {
+        criticalRolls.push(i); // Track which dice are critical
+      }
+
+      // Handle exploding dice if enabled
+      if (explodingDice && roll === sides) {
+        if (explodingDiceType === 'reroll_add') {
+          // Traditional exploding dice: reroll and add
+          let currentRoll = roll;
+          let explosionChain = [roll];
+          let explosionCount = 0;
+          const maxExplosions = 10; // Prevent infinite loops
+
+          while (currentRoll === sides && explosionCount < maxExplosions) {
+            currentRoll = Math.floor(Math.random() * sides) + 1;
+            explosionChain.push(currentRoll);
+            explosionCount++;
+          }
+
+          explodedRolls.push({
+            dieIndex: i,
+            originalRoll: roll,
+            explosionChain,
+            total: explosionChain.reduce((sum, r) => sum + r, 0)
+          });
+        }
+        else if (explodingDiceType === 'double_value') {
+          // Double the value of maximum rolls
+          explodedRolls.push({
+            dieIndex: i,
+            originalRoll: roll,
+            explosionChain: [roll, roll],
+            total: roll * 2
+          });
+        }
+        else if (explodingDiceType === 'add_max') {
+          // Add the maximum value again
+          explodedRolls.push({
+            dieIndex: i,
+            originalRoll: roll,
+            explosionChain: [roll, sides],
+            total: roll + sides
+          });
+        }
+      }
     }
-    
-    // Check for critical hit
-    const criticalThreshold = threshold !== null ? threshold : sides;
-    const hasCritical = rolls.some(roll => roll >= criticalThreshold);
-    
-    // Sum the rolls
-    const normalTotal = rolls.reduce((sum, roll) => sum + roll, 0) + modifier;
-    
-    // Apply critical multiplier if applicable
-    const total = hasCritical ? normalTotal * multiplier : normalTotal;
-    
+
+    // Calculate base total from rolls
+    let diceTotal = rolls.reduce((sum, roll) => sum + roll, 0);
+
+    // Add exploded dice values if any
+    if (explodedRolls.length > 0) {
+      // For each exploded die, replace its value with the explosion total
+      for (const explosion of explodedRolls) {
+        // Subtract the original roll value since it's already in diceTotal
+        diceTotal = diceTotal - rolls[explosion.dieIndex] + explosion.total;
+      }
+    }
+
+    // Calculate normal total (dice + modifier)
+    const normalTotal = diceTotal + modifier;
+
+    // Check if any roll was a critical hit
+    const hasCritical = criticalRolls.length > 0;
+
+    // Calculate critical total
+    let criticalTotal = normalTotal;
+
+    if (hasCritical) {
+      if (critDiceOnly) {
+        // Apply multiplier only to dice portion
+        criticalTotal = (diceTotal * multiplier) + modifier;
+      } else {
+        // Apply multiplier to entire result
+        criticalTotal = normalTotal * multiplier;
+      }
+
+      // Add extra dice if specified
+      if (extraDice) {
+        const extraDiceRoll = rollDice(extraDice);
+        criticalTotal += extraDiceRoll.total;
+      }
+    }
+
     return {
-      total,
+      total: hasCritical ? criticalTotal : normalTotal,
       rolls,
       details: {
         type: 'critical',
-        threshold: criticalThreshold,
+        threshold: threshold !== null ? threshold : sides,
         multiplier,
         isCritical: hasCritical,
-        normalTotal
+        criticalRolls,
+        explodedRolls,
+        diceTotal,
+        normalTotal,
+        criticalTotal,
+        critDiceOnly,
+        extraDice: extraDice ? extraDice : null,
+        explodingDice,
+        explodingDiceType
       }
     };
   }
-  
+
   // =====================================================================
   // DICE VISUALIZATION UTILITIES
   // =====================================================================
-  
+
   /**
    * Generate probability distribution for a dice notation
    */
   export function getProbabilityDistribution(notation) {
     const parsed = parseDiceNotation(notation);
-    
+
     if (!parsed) {
       return null;
     }
-    
+
     // For complex expressions, use Monte Carlo simulation
     if (parsed.type === 'complex') {
       return getDistributionViaMonteCarlo(notation);
     }
-    
+
     const { count, sides, keepHighest, modifier } = parsed;
-    
+
     // Simple case: single die
     if (count === 1 && !keepHighest) {
       const distribution = {};
@@ -733,16 +926,16 @@ export const DICE_TYPES = {
         mean: (sides + 1) / 2 + modifier
       };
     }
-    
+
     // Multiple dice without keep highest
     if (!keepHighest) {
       return getDistributionForMultipleDice(count, sides, modifier);
     }
-    
+
     // Keep highest dice - use Monte Carlo for approximation
     return getDistributionForKeepHighest(count, sides, keepHighest, modifier);
   }
-  
+
   /**
    * Get distribution for multiple dice (exact calculation)
    */
@@ -752,7 +945,7 @@ export const DICE_TYPES = {
     for (let i = 1; i <= sides; i++) {
       distribution[i] = 1 / sides;
     }
-    
+
     // Add more dice using convolution
     for (let d = 1; d < count; d++) {
       const newDistribution = {};
@@ -764,7 +957,7 @@ export const DICE_TYPES = {
       }
       distribution = newDistribution;
     }
-    
+
     // Apply modifier
     if (modifier !== 0) {
       const shiftedDistribution = {};
@@ -773,7 +966,7 @@ export const DICE_TYPES = {
       }
       distribution = shiftedDistribution;
     }
-    
+
     // Calculate statistics
     const outcomes = Object.keys(distribution).map(x => parseInt(x));
     const min = Math.min(...outcomes);
@@ -781,7 +974,7 @@ export const DICE_TYPES = {
     const mean = Object.entries(distribution).reduce(
       (sum, [outcome, prob]) => sum + parseInt(outcome) * prob, 0
     );
-    
+
     return {
       distribution,
       min,
@@ -789,38 +982,38 @@ export const DICE_TYPES = {
       mean
     };
   }
-  
+
   /**
    * Get distribution for keep highest dice using Monte Carlo
    */
   function getDistributionForKeepHighest(count, sides, keep, modifier) {
     const trials = 100000;
     const results = {};
-    
+
     for (let i = 0; i < trials; i++) {
       // Roll the dice
       const rolls = [];
       for (let j = 0; j < count; j++) {
         rolls.push(Math.floor(Math.random() * sides) + 1);
       }
-      
+
       // Keep highest N dice
       rolls.sort((a, b) => b - a);
       const keptRolls = rolls.slice(0, keep);
-      
+
       // Sum and apply modifier
       const sum = keptRolls.reduce((total, roll) => total + roll, 0) + modifier;
-      
+
       // Record the result
       results[sum] = (results[sum] || 0) + 1;
     }
-    
+
     // Convert to probabilities
     const distribution = {};
     for (const [outcome, frequency] of Object.entries(results)) {
       distribution[outcome] = frequency / trials;
     }
-    
+
     // Calculate statistics
     const outcomes = Object.keys(distribution).map(x => parseInt(x));
     const min = Math.min(...outcomes);
@@ -828,7 +1021,7 @@ export const DICE_TYPES = {
     const mean = Object.entries(distribution).reduce(
       (sum, [outcome, prob]) => sum + parseInt(outcome) * prob, 0
     );
-    
+
     return {
       distribution,
       min,
@@ -837,27 +1030,27 @@ export const DICE_TYPES = {
       isApproximation: true
     };
   }
-  
+
   /**
    * Get distribution via Monte Carlo simulation (for complex expressions)
    */
   function getDistributionViaMonteCarlo(notation) {
     const trials = 100000;
     const results = {};
-    
+
     for (let i = 0; i < trials; i++) {
       const roll = rollDice(notation);
       const outcome = roll.total;
-      
+
       results[outcome] = (results[outcome] || 0) + 1;
     }
-    
+
     // Convert to probabilities
     const distribution = {};
     for (const [outcome, frequency] of Object.entries(results)) {
       distribution[outcome] = frequency / trials;
     }
-    
+
     // Calculate statistics
     const outcomes = Object.keys(distribution).map(x => parseInt(x));
     const min = Math.min(...outcomes);
@@ -865,7 +1058,7 @@ export const DICE_TYPES = {
     const mean = Object.entries(distribution).reduce(
       (sum, [outcome, prob]) => sum + parseInt(outcome) * prob, 0
     );
-    
+
     return {
       distribution,
       min,
@@ -874,17 +1067,17 @@ export const DICE_TYPES = {
       isApproximation: true
     };
   }
-  
+
   /**
    * Generate data for visualizing dice roll probability
    */
   export function getDiceVisualizationData(notation) {
     const distribution = getProbabilityDistribution(notation);
-    
+
     if (!distribution) {
       return null;
     }
-    
+
     // Transform for visualization
     const data = Object.entries(distribution.distribution).map(([outcome, probability]) => ({
       outcome: parseInt(outcome),
@@ -892,10 +1085,10 @@ export const DICE_TYPES = {
       percentage: probability * 100,
       count: Math.round(probability * 36) // For creating simple ASCII visualizations
     }));
-    
+
     // Sort by outcome
     data.sort((a, b) => a.outcome - b.outcome);
-    
+
     return {
       data,
       statistics: {
@@ -908,74 +1101,74 @@ export const DICE_TYPES = {
       }
     };
   }
-  
+
   /**
    * Calculate the median from a probability distribution
    */
   function calculateMedian(distribution) {
     const outcomes = Object.keys(distribution).map(x => parseInt(x)).sort((a, b) => a - b);
-    
+
     if (outcomes.length === 0) return 0;
-    
+
     // Build a cumulative distribution
     let cumulativeProb = 0;
     for (const outcome of outcomes) {
       cumulativeProb += distribution[outcome];
       if (cumulativeProb >= 0.5) return outcome;
     }
-    
+
     return outcomes[Math.floor(outcomes.length / 2)];
   }
-  
+
   /**
    * Calculate the mode from a probability distribution
    */
   function calculateMode(distribution) {
     let mode = 0;
     let maxProb = 0;
-    
+
     for (const [outcome, prob] of Object.entries(distribution)) {
       if (prob > maxProb) {
         maxProb = prob;
         mode = parseInt(outcome);
       }
     }
-    
+
     return mode;
   }
-  
+
   /**
    * Create a simple ASCII visualization of dice probability
    */
   export function createAsciiDiceChart(notation) {
     const vizData = getDiceVisualizationData(notation);
-    
+
     if (!vizData) {
       return null;
     }
-    
+
     const { data, statistics } = vizData;
-    
+
     // Create the chart
     let chart = `Probability Distribution for ${notation}\n`;
     chart += `Min: ${statistics.min}, Max: ${statistics.max}, Mean: ${statistics.mean.toFixed(2)}\n\n`;
-    
+
     const maxPercentage = Math.max(...data.map(d => d.percentage));
     const scale = 40 / maxPercentage; // Scale to fit in 40 chars width
-    
+
     for (const point of data) {
       const barLength = Math.round(point.percentage * scale);
       const bar = '#'.repeat(barLength);
       chart += `${point.outcome.toString().padStart(3)}: ${'█'.repeat(barLength)} ${point.percentage.toFixed(2)}%\n`;
     }
-    
+
     return chart;
   }
-  
+
   // =====================================================================
   // DICE SUGGESTIONS AND DESCRIPTIONS
   // =====================================================================
-  
+
   /**
    * Get suggested dice notation based on target average
    */
@@ -986,11 +1179,11 @@ export const DICE_TYPES = {
       allowModifiers = true,
       targetVariance = 'medium', // 'low', 'medium', 'high'
     } = options;
-    
+
     // Variance preferences affect dice size and count
     let preferredDiceSizes;
     let preferredDiceCounts;
-    
+
     switch (targetVariance) {
       case 'low':
         preferredDiceSizes = [4, 6, 8];
@@ -1006,20 +1199,20 @@ export const DICE_TYPES = {
         preferredDiceCounts = [2, 3, 4];
         break;
     }
-    
+
     let bestSuggestion = null;
     let bestDifference = Infinity;
-    
+
     // Try different combinations of dice count and sides
     for (const sides of preferStandardDice ? preferredDiceSizes : [4, 6, 8, 10, 12, 20]) {
       for (let count = 1; count <= maxDiceCount; count++) {
         const avgWithoutModifier = count * (sides + 1) / 2;
-        
+
         if (allowModifiers) {
           const neededModifier = Math.round(targetAverage - avgWithoutModifier);
           const avg = avgWithoutModifier + neededModifier;
           const difference = Math.abs(targetAverage - avg);
-          
+
           if (difference < bestDifference) {
             bestDifference = difference;
             bestSuggestion = {
@@ -1032,7 +1225,7 @@ export const DICE_TYPES = {
           }
         } else {
           const difference = Math.abs(targetAverage - avgWithoutModifier);
-          
+
           if (difference < bestDifference) {
             bestDifference = difference;
             bestSuggestion = {
@@ -1046,10 +1239,10 @@ export const DICE_TYPES = {
         }
       }
     }
-    
+
     return bestSuggestion;
   }
-  
+
   /**
    * Get human-readable description of dice notation
    */
@@ -1059,89 +1252,89 @@ export const DICE_TYPES = {
       includeRange = true,
       verboseDescription = false
     } = options;
-    
+
     const parsed = parseDiceNotation(notation);
-    
+
     if (!parsed) {
       return 'Invalid dice notation';
     }
-    
+
     let description = '';
-    
+
     if (parsed.type === 'complex') {
       description = `Complex dice expression: ${notation}`;
     } else {
       const { count, sides, keepHighest, modifier } = parsed;
-      
+
       description = `${count} ${count === 1 ? 'die' : 'dice'} with ${sides} sides`;
-      
+
       if (keepHighest !== null) {
         description += `, keeping the highest ${keepHighest}`;
       }
-      
+
       if (modifier !== 0) {
         description += ` ${modifier > 0 ? 'plus' : 'minus'} ${Math.abs(modifier)}`;
       }
     }
-    
+
     if (includeRange) {
       const min = getMinRoll(notation);
       const max = getMaxRoll(notation);
       description += ` (range: ${min} to ${max})`;
     }
-    
+
     if (includeAverage) {
       const avg = getAverageRoll(notation);
       description += ` (average: ${avg.toFixed(1)})`;
     }
-    
+
     if (verboseDescription && parsed.type !== 'complex') {
       description += getVerboseDiceDescription(parsed);
     }
-    
+
     return description;
   }
-  
+
   /**
    * Get a verbose description for basic dice notation
    */
   function getVerboseDiceDescription(parsed) {
     const { count, sides, keepHighest, modifier } = parsed;
-    
+
     let description = '\n\nThis means rolling ';
-    
+
     if (count === 1) {
       description += `a single ${sides}-sided die`;
     } else {
       description += `${count} ${sides}-sided dice`;
     }
-    
+
     if (keepHighest !== null) {
       description += ` and only counting the highest ${keepHighest} ${keepHighest === 1 ? 'result' : 'results'}`;
     }
-    
+
     if (modifier !== 0) {
       description += ` then ${modifier > 0 ? 'adding' : 'subtracting'} ${Math.abs(modifier)}`;
     }
-    
+
     description += '.';
-    
+
     // Add probability information
     const min = getMinRoll(parsed.original);
     const max = getMaxRoll(parsed.original);
     const avg = getAverageRoll(parsed.original);
-    
+
     description += `\n\nThe minimum possible roll is ${min}.`;
     description += `\nThe maximum possible roll is ${max}.`;
     description += `\nThe average roll is ${avg.toFixed(2)}.`;
-    
+
     return description;
   }
-  
+
   // =====================================================================
   // SPECIAL EFFECT DICE CALCULATIONS
   // =====================================================================
-  
+
   /**
    * Calculate damage for chained effects (like chain lightning)
    */
@@ -1152,10 +1345,10 @@ export const DICE_TYPES = {
       falloffRate = 25, // percentage, fixed amount, or dice reduction
       minimumDamage = null
     } = options;
-    
+
     const results = [];
     let currentNotation = baseNotation;
-    
+
     for (let i = 0; i < targets; i++) {
       const current = {
         target: i + 1,
@@ -1164,16 +1357,16 @@ export const DICE_TYPES = {
         min: getMinRoll(currentNotation),
         max: getMaxRoll(currentNotation)
       };
-      
+
       results.push(current);
-      
+
       // Calculate falloff for next target
       if (i < targets - 1) {
         const parsed = parseDiceNotation(currentNotation);
-        
+
         if (parsed && parsed.type !== 'complex') {
           let { count, sides, modifier } = parsed;
-          
+
           if (falloffType === 'percentage') {
             const reduction = Math.floor(count * (falloffRate / 100));
             count = Math.max(1, count - reduction);
@@ -1183,13 +1376,13 @@ export const DICE_TYPES = {
           } else if (falloffType === 'dice') {
             count = Math.max(1, count - 1);
           }
-          
+
           currentNotation = `${count}d${sides}${modifier !== 0 ? (modifier > 0 ? '+' + modifier : modifier) : ''}`;
         } else {
           // For complex expressions, apply a percentage reduction to the average
           const currentAvg = getAverageRoll(currentNotation);
           const reducedAvg = currentAvg * (1 - falloffRate / 100);
-          
+
           // If we have a minimum damage threshold
           if (minimumDamage !== null && reducedAvg < minimumDamage) {
             const suggestedNotation = getSuggestedDiceNotation(minimumDamage);
@@ -1201,7 +1394,7 @@ export const DICE_TYPES = {
         }
       }
     }
-    
+
     return {
       baseNotation,
       chainedTargets: targets,
@@ -1211,7 +1404,7 @@ export const DICE_TYPES = {
       totalAverage: results.reduce((sum, result) => sum + result.average, 0)
     };
   }
-  
+
   /**
    * Calculate critical hit damage
    */
@@ -1220,32 +1413,64 @@ export const DICE_TYPES = {
       criticalMultiplier = 2,
       criticalDiceOnly = false, // if true, only dice are doubled, not modifiers
       extraDice = '', // additional dice on crits, e.g. '2d6'
-      maxDiceCount = 20
+      maxDiceCount = 20,
+      explodingDice = false,
+      explodingDiceType = 'reroll_add',
+      cardCritResolution = 'draw_add',
+      extraCardDraw = 2,
+      coinCritResolution = 'flip_add',
+      extraCoinFlips = 3
     } = options;
-    
+
     const parsed = parseDiceNotation(baseNotation);
-    
+
     if (!parsed) {
       return null;
     }
-    
+
     let criticalNotation;
     let normalAverage = getAverageRoll(baseNotation);
     let criticalAverage;
-    
+
     if (parsed.type !== 'complex') {
       let { count, sides, modifier } = parsed;
-      
-      if (criticalDiceOnly) {
+
+      // Handle different critical hit mechanics based on options
+      if (explodingDice) {
+        // For exploding dice, we need to estimate the average
+        let explosionBonus = 0;
+
+        if (explodingDiceType === 'reroll_add') {
+          // For traditional exploding dice, add an estimated bonus
+          // The probability of explosion is 1/sides, and the average value of an explosion is (sides+1)/2
+          explosionBonus = count * (1/sides) * ((sides+1)/2) * 1.5; // 1.5 is a rough approximation for chain explosions
+        }
+        else if (explodingDiceType === 'double_value') {
+          // For double value, add the max value for each die with probability 1/sides
+          explosionBonus = count * (1/sides) * sides;
+        }
+        else if (explodingDiceType === 'add_max') {
+          // For add max, add the max value for each die with probability 1/sides
+          explosionBonus = count * (1/sides) * sides;
+        }
+
+        criticalNotation = `${count}d${sides} (exploding: ${explodingDiceType})${modifier !== 0 ? (modifier > 0 ? '+' + modifier : modifier) : ''}`;
+        criticalAverage = normalAverage + explosionBonus;
+      }
+      else if (criticalDiceOnly) {
         // Double only the dice, not the modifier
         const newCount = Math.min(maxDiceCount, Math.floor(count * criticalMultiplier));
         criticalNotation = `${newCount}d${sides}${modifier !== 0 ? (modifier > 0 ? '+' + modifier : modifier) : ''}`;
+
+        // Calculate average: dice portion * multiplier + modifier
+        const diceAverage = count * (sides + 1) / 2;
+        criticalAverage = (diceAverage * criticalMultiplier) + modifier;
       } else {
         // Double everything
         criticalNotation = `${count}d${sides}${modifier !== 0 ? (modifier > 0 ? '+' + modifier : modifier) : ''}`;
         criticalAverage = normalAverage * criticalMultiplier;
       }
-      
+
       // Add extra dice if specified
       if (extraDice) {
         criticalNotation += `+${extraDice}`;
@@ -1262,7 +1487,7 @@ export const DICE_TYPES = {
       // For complex expressions, simply multiply the average
       criticalAverage = normalAverage * criticalMultiplier;
       criticalNotation = `(${baseNotation}) × ${criticalMultiplier}`;
-      
+
       // Add extra dice if specified
       if (extraDice) {
         criticalNotation += ` + ${extraDice}`;
@@ -1270,7 +1495,7 @@ export const DICE_TYPES = {
         criticalAverage += extraAverage;
       }
     }
-    
+
     return {
       baseNotation,
       criticalNotation,
@@ -1280,7 +1505,7 @@ export const DICE_TYPES = {
       percentageIncrease: ((criticalAverage / normalAverage) - 1) * 100
     };
   }
-  
+
   /**
    * Calculate DoT (Damage over Time) or HoT (Healing over Time) effects
    */
@@ -1293,14 +1518,14 @@ export const DICE_TYPES = {
       finalMultiplier = 1, // for frontloaded/backloaded
       dotType = 'damage' // 'damage' or 'healing'
     } = options;
-    
+
     const baseAverage = getAverageRoll(baseNotation);
     const results = [];
     let totalAverage = 0;
-    
+
     for (let i = 0; i < duration; i++) {
       let currentMultiplier;
-      
+
       switch (scalingType) {
         case 'increasing':
           currentMultiplier = tickMultiplier * (1 + i * 0.5);
@@ -1321,20 +1546,20 @@ export const DICE_TYPES = {
           currentMultiplier = tickMultiplier;
           break;
       }
-      
+
       // Ensure multiplier doesn't go below 0
       currentMultiplier = Math.max(0, currentMultiplier);
-      
+
       const tickAverage = baseAverage * currentMultiplier;
       totalAverage += tickAverage;
-      
+
       results.push({
         tick: i + 1,
         multiplier: currentMultiplier,
         average: tickAverage
       });
     }
-    
+
     return {
       baseNotation,
       dotType,
@@ -1345,11 +1570,11 @@ export const DICE_TYPES = {
       averagePerTick: totalAverage / duration
     };
   }
-  
+
   // =====================================================================
   // DICE BUILDER CLASS
   // =====================================================================
-  
+
   /**
    * DiceBuilder class for chaining dice operations
    */
@@ -1361,7 +1586,7 @@ export const DICE_TYPES = {
       this.notation = notation || '';
       this.reset();
     }
-    
+
     /**
      * Reset the builder to initial state
      */
@@ -1372,13 +1597,13 @@ export const DICE_TYPES = {
       this.keepHighest = null;
       return this;
     }
-    
+
     /**
      * Parse existing notation into this builder
      */
     parse(notation) {
       const parsed = parseDiceNotation(notation);
-      
+
       if (parsed && parsed.type !== 'complex') {
         this.count = parsed.count;
         this.sides = parsed.sides;
@@ -1388,10 +1613,10 @@ export const DICE_TYPES = {
       } else {
         this.notation = notation;
       }
-      
+
       return this;
     }
-    
+
     /**
      * Set basic dice (e.g., 3d6)
      */
@@ -1403,7 +1628,7 @@ export const DICE_TYPES = {
       this.notation = `${count}d${sides}`;
       return this;
     }
-    
+
     /**
      * Add dice to the current notation
      */
@@ -1415,7 +1640,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Multiply the current notation by a factor
      */
@@ -1425,7 +1650,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Add a value to the current notation
      */
@@ -1437,7 +1662,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Subtract a value from the current notation
      */
@@ -1449,7 +1674,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Set to keep only the highest N dice
      */
@@ -1460,7 +1685,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Set advantage mode (roll twice, take higher)
      */
@@ -1470,7 +1695,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Set disadvantage mode (roll twice, take lower)
      */
@@ -1480,7 +1705,7 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Set exploding dice mode
      */
@@ -1490,77 +1715,77 @@ export const DICE_TYPES = {
       }
       return this;
     }
-    
+
     /**
      * Get the current dice notation
      */
     getNotation() {
       return this.notation;
     }
-    
+
     /**
      * Get the average roll for the current notation
      */
     getAverage() {
       return getAverageRoll(this.notation);
     }
-    
+
     /**
      * Get the minimum roll for the current notation
      */
     getMinRoll() {
       return getMinRoll(this.notation);
     }
-    
+
     /**
      * Get the maximum roll for the current notation
      */
     getMaxRoll() {
       return getMaxRoll(this.notation);
     }
-    
+
     /**
      * Get a human-readable description of the current notation
      */
     getDescription(options = {}) {
       return getDiceDescription(this.notation, options);
     }
-    
+
     /**
      * Calculate critical damage for the current notation
      */
     getCriticalDamage(options = {}) {
       return calculateCriticalDamage(this.notation, options);
     }
-    
+
     /**
      * Calculate DoT damage for the current notation
      */
     getDotDamage(options = {}) {
       return calculateDotDamage(this.notation, options);
     }
-    
+
     /**
      * Calculate chained damage for the current notation
      */
     getChainedDamage(options = {}) {
       return calculateChainedDamage(this.notation, options);
     }
-    
+
     /**
      * Get probability distribution for the current notation
      */
     getProbabilityDistribution() {
       return getProbabilityDistribution(this.notation);
     }
-    
+
     /**
      * Get visualization data for the current notation
      */
     getVisualizationData() {
       return getDiceVisualizationData(this.notation);
     }
-    
+
     /**
      * Simulate a roll of the current notation
      */
@@ -1568,28 +1793,28 @@ export const DICE_TYPES = {
       return rollDice(this.notation, options);
     }
   }
-  
+
   // =====================================================================
   // EXPORTED HELPER FUNCTIONS
   // =====================================================================
-  
+
   /**
    * Format a dice roll value with options
    */
   export function formatRoll(value, options = {}) {
-    const { 
+    const {
       showSign = false,
       decimals = 0
     } = options;
-    
+
     if (typeof value !== 'number') {
       return 'N/A';
     }
-    
+
     const formatted = value.toFixed(decimals);
     return showSign && value > 0 ? `+${formatted}` : formatted;
   }
-  
+
   /**
    * Get a color for a damage type
    */
@@ -1613,10 +1838,10 @@ export const DICE_TYPES = {
       chaos: '#FF00FF',
       void: '#000000'
     };
-    
+
     return colors[damageType] || '#FFFFFF';
   }
-  
+
   /**
    * Get a difficulty assessment based on an average roll
    */
@@ -1640,15 +1865,15 @@ export const DICE_TYPES = {
         { threshold: 80, label: 'Catastrophic', description: 'Few creatures can survive this' }
       ]
     };
-    
+
     const scaleToUse = scales[scale] || scales.standard;
-    
+
     for (let i = 0; i < scaleToUse.length; i++) {
       if (average < scaleToUse[i].threshold) {
         return scaleToUse[i];
       }
     }
-    
+
     // If above all thresholds
     return {
       threshold: Infinity,
@@ -1656,23 +1881,23 @@ export const DICE_TYPES = {
       description: 'Beyond normal limits'
     };
   }
-  
+
   /**
    * Compare two dice notations statistically
    */
   export function compareDiceNotations(notation1, notation2) {
     const avg1 = getAverageRoll(notation1);
     const avg2 = getAverageRoll(notation2);
-    
+
     const min1 = getMinRoll(notation1);
     const min2 = getMinRoll(notation2);
-    
+
     const max1 = getMaxRoll(notation1);
     const max2 = getMaxRoll(notation2);
-    
+
     const range1 = max1 - min1;
     const range2 = max2 - min2;
-    
+
     return {
       averageDifference: avg2 - avg1,
       averageRatio: avg2 / avg1,
@@ -1688,7 +1913,7 @@ export const DICE_TYPES = {
       hasGreaterRange: range2 > range1
     };
   }
-  
+
   /**
    * Create a dice calculator factory with custom configuration
    */
@@ -1701,76 +1926,76 @@ export const DICE_TYPES = {
       defaultNotation = '1d20',
       formatOptions = {}
     } = config;
-    
+
     return {
       builder: new DiceBuilder(defaultNotation),
-      
+
       parse: (notation) => parseDiceNotation(notation),
-      
+
       validate: (notation) => isValidDiceNotation(notation),
-      
+
       average: (notation) => getAverageRoll(notation),
-      
+
       min: (notation) => getMinRoll(notation),
-      
+
       max: (notation) => getMaxRoll(notation),
-      
+
       roll: (notation, options) => rollDice(notation, options),
-      
+
       format: (notation) => notation,
-      
+
       describe: (notation, options = {}) => getDiceDescription(notation, options),
-      
+
       suggest: (average, options = {}) => getSuggestedDiceNotation(average, options),
-      
+
       criticalDamage: (notation, options = {}) => calculateCriticalDamage(notation, options),
-      
+
       dotDamage: (notation, options = {}) => calculateDotDamage(notation, options),
-      
+
       chainedDamage: (notation, options = {}) => calculateChainedDamage(notation, options),
-      
+
       compare: (notation1, notation2) => compareDiceNotations(notation1, notation2),
-      
+
       validateInput: function(input) {
         // Validate user input for dice calculator
         const { count, sides } = input;
-        
+
         if (!Number.isInteger(count) || count <= 0 || count > maxDiceCount) {
           return {
             valid: false,
             error: `Dice count must be between 1 and ${maxDiceCount}`
           };
         }
-        
+
         if (!Number.isInteger(sides) || sides <= 1 || sides > maxSides) {
           return {
             valid: false,
             error: `Dice sides must be between 2 and ${maxSides}`
           };
         }
-        
+
         if (!allowCustomDice && !DICE_TYPES.isStandard(sides)) {
           return {
             valid: false,
             error: 'Only standard dice (d4, d6, d8, d10, d12, d20, d100) are allowed'
           };
         }
-        
+
         return { valid: true };
       },
-      
+
       getDifficultyAssessment: (average, scale) => getDifficultyAssessment(average, scale),
-      
+
       getProbabilityDistribution: (notation) => getProbabilityDistribution(notation),
-      
+
       getVisualizationData: (notation) => getDiceVisualizationData(notation)
     };
   }
-  
+
   // =====================================================================
   // MATH FUNCTIONS FOR COMPLEX FORMULAS
   // =====================================================================
-  
+
   /**
    * Mathematical functions for dice formulas
    */

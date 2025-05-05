@@ -2,1274 +2,679 @@ import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 import SelectionCard from '../common/SelectionCard';
-import DiceCalculator from '../mechanics/DiceCalculator';
-import { EFFECT_TYPES, getEffectTypeById, calculateEffectActionPointCost } from '../../core/data/effectTypes';
-import { DAMAGE_TYPES, getDamageTypesByCategory } from '../../core/data/damageTypes';
+// StepMechanicsConfig removed - now in its own step
+import {
+  FaFire,
+  FaHeart,
+  FaWandMagic,
+  FaSkull,
+  FaGauge,
+  FaCircleCheck,
+  FaTriangleExclamation,
+  FaCircleQuestion,
+  FaHandSparkles,
+  FaDragon,
+  FaRecycle,
+  FaDice,
+  FaCoins,
+  FaClone,
+  FaWandMagicSparkles,
+  FaDroplet
+} from 'react-icons/fa6';
+import '../../styles/base.css';
+import '../../styles/components.css';
+// StepMechanics.css removed as it's now incorporated into MechanicsConfig.css
 
-const Step3Effects = ({ onNext, onPrevious }) => {
+// Import effect type components
+import DamageEffects from '../../data/effects/DamageEffects';
+import HealingEffects from '../../data/effects/HealingEffects';
+import BuffEffects from '../../data/effects/BuffEffects';
+import DebuffEffects from '../../data/effects/DebuffEffects';
+import UtilityEffects from '../../data/effects/UtilityEffects';
+import ControlEffects from '../../data/effects/ControlEffects';
+import SummoningEffects from '../../data/effects/SummoningEffects';
+import TransformationEffects from '../../data/effects/TransformationEffects';
+import PurificationEffects from '../../data/effects/PurificationEffects';
+import RestorationEffects from '../../data/effects/RestorationEffects';
+
+// Import effect type data
+import {
+  EFFECT_TYPES,
+  getEffectTypeLabel,
+  getEffectTypeIcon,
+  getEffectTypeDescription,
+  getEffectTypeActionPointCost,
+  formatActionPointCost,
+  getEffectTypeById,
+  getEffectTypesByCategory,
+  calculateEffectActionPointCost
+} from '../../core/data/effectTypes';
+
+const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
-  
+
   // Local state for UI management
   const [selectedEffectType, setSelectedEffectType] = useState(null);
   const [effectCompatibilityErrors, setEffectCompatibilityErrors] = useState([]);
-  
+
   // Get the wizard flow and step information
-  const { currentStep, wizardFlow, spellType, effectTypes } = state;
-  const stepIndex = wizardFlow.findIndex(step => step.id === currentStep);
-  const totalSteps = wizardFlow.length;
-  
-  // Effect to initialize selected effect type
+  const { spellType, effectTypes } = state;
+
+  // Helper functions to get default formulas based on spell type
+  const getDefaultDamageFormula = () => {
+    switch (state.spellType) {
+      case 'ACTION':
+        return '2d6 + damage';
+      case 'CHANNELED':
+        return '1d6 + int';
+      case 'PASSIVE':
+        return '1d4 + damage/2';
+      case 'REACTION':
+        return '2d6 + spir';
+      default:
+        return '2d6';
+    }
+  };
+
+  // Initialize effect configurations when effect types change
   useEffect(() => {
     if (effectTypes.length > 0 && !selectedEffectType) {
       setSelectedEffectType(effectTypes[0]);
+
+      // Only initialize configurations if they don't already exist
+      // This ensures we don't overwrite existing configurations when returning to this step
+      const effectType = effectTypes[0];
+
+      // Check if the configuration already exists for this effect type
+      const configExists = (
+        (effectType === 'damage' && state.damageConfig) ||
+        (effectType === 'healing' && state.healingConfig) ||
+        (effectType === 'buff' && state.buffConfig) ||
+        (effectType === 'debuff' && state.debuffConfig) ||
+        (effectType === 'utility' && state.utilityConfig) ||
+        (effectType === 'control' && state.controlConfig) ||
+        (effectType === 'summoning' && state.summoningConfig) ||
+        (effectType === 'transformation' && state.transformationConfig) ||
+        (effectType === 'purification' && state.purificationConfig) ||
+        (effectType === 'restoration' && state.restorationConfig)
+      );
+
+      // Only initialize if the configuration doesn't exist
+      if (!configExists) {
+        console.log(`Initializing configuration for ${effectType}`);
+        initializeConfigurations(effectType);
+      } else {
+        console.log(`Configuration for ${effectType} already exists, not initializing`);
+      }
     }
   }, [effectTypes, selectedEffectType]);
+
+  // Initialize configurations for the selected effect type
+  const initializeConfigurations = (effectType) => {
+    switch (effectType) {
+      case 'damage':
+        dispatch(actionCreators.updateDamageConfig({
+          formula: getDefaultDamageFormula(),
+          damageType: 'direct',
+          elementType: 'fire',
+          canCrit: true,
+          critMultiplier: 2,
+          critDiceOnly: false,
+          dotConfig: {
+            duration: 3,
+            tickFrequency: 'round',
+            scalingType: 'flat',
+            dotFormula: '1d4 + damage/2'
+          }
+        }));
+        break;
+      case 'healing':
+        dispatch(actionCreators.updateHealingConfig({
+          formula: '2d8 + spir',
+          healingType: 'direct',
+          targetType: 'single',
+          shieldType: 'standard',
+          shieldDuration: 3,
+          duration: 3,
+          tickFrequency: 'round',
+          scalingType: 'flat',
+          specialEffects: [],
+          // Explicitly set these properties to false by default
+          hasHotEffect: false,
+          hasShieldEffect: false,
+          // Add default formulas for HoT and shield
+          hotFormula: '1d4 + spir/2',
+          shieldFormula: '2d6 + spir'
+        }));
+        break;
+      case 'buff':
+        dispatch(actionCreators.updateBuffConfig({
+          buffType: 'statEnhancement',
+          duration: 'medium',
+          stacks: 1,
+          maxStacks: 1,
+          dispelDifficulty: 'normal',
+          effects: []
+        }));
+        break;
+      case 'debuff':
+        dispatch(actionCreators.updateDebuffConfig({
+          debuffType: 'statReduction',
+          duration: 3,
+          stacks: 1,
+          maxStacks: 1,
+          saveType: 'constitution',
+          dispelDifficulty: 'normal',
+          effects: []
+        }));
+        break;
+      case 'utility':
+        dispatch(actionCreators.updateUtilityConfig({
+          utilityType: 'movement',
+          subtype: 'teleport',
+          parentType: 'movement',
+          power: 'moderate',
+          duration: 'short',
+          specialEffects: [],
+          description: ''
+        }));
+        break;
+      case 'control':
+        dispatch(actionCreators.updateControlConfig({
+          controlType: 'forcedMovement',
+          strength: 'moderate',
+          duration: 2,
+          saveDC: 14,
+          saveType: 'strength',
+          specialEffects: []
+        }));
+        break;
+      case 'summoning':
+        dispatch(actionCreators.updateSummoningConfig({
+          creatureType: 'elemental',
+          creatureStrength: 'moderate',
+          duration: 3,
+          minions: 1,
+          controlType: 'mental'
+        }));
+        break;
+      case 'transformation':
+        dispatch(actionCreators.updateTransformationConfig({
+          transformationType: 'physical',
+          targetType: 'self',
+          duration: 5,
+          power: 'moderate',
+          specialEffects: []
+        }));
+        break;
+      case 'purification':
+        dispatch(actionCreators.updatePurificationConfig({
+          purificationType: 'dispel',
+          targetType: 'single',
+          power: 'moderate',
+          duration: 'instant',
+          specialEffects: []
+        }));
+        break;
+      case 'restoration':
+        dispatch(actionCreators.updateRestorationConfig({
+          resourceType: 'mana',
+          resolution: 'DICE',
+          formula: '2d6 + INT',
+          isOverTime: false,
+          overTimeFormula: '1d4 + INT/2',
+          overTimeDuration: 3,
+          tickFrequency: 'round',
+          application: 'start',
+          scalingType: 'flat'
+        }));
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Handle configuration changes for an effect type
+  const handleConfigChange = (effectType, config) => {
+    switch (effectType) {
+      case 'damage':
+        dispatch(actionCreators.updateDamageConfig(config));
+        break;
+      case 'healing':
+        dispatch(actionCreators.updateHealingConfig(config));
+        break;
+      case 'buff':
+        dispatch(actionCreators.updateBuffConfig(config));
+        break;
+      case 'debuff':
+        dispatch(actionCreators.updateDebuffConfig(config));
+        break;
+      case 'utility':
+        dispatch(actionCreators.updateUtilityConfig(config));
+        break;
+      case 'control':
+        dispatch(actionCreators.updateControlConfig(config));
+        break;
+      case 'summoning':
+        dispatch(actionCreators.updateSummoningConfig(config));
+        break;
+      case 'transformation':
+        dispatch(actionCreators.updateTransformationConfig(config));
+        break;
+      case 'purification':
+        dispatch(actionCreators.updatePurificationConfig(config));
+        break;
+      case 'restoration':
+        dispatch(actionCreators.updateRestorationConfig(config));
+        break;
+      default:
+        break;
+    }
+  };
 
   // Filter effect types based on spell type compatibility
   const getCompatibleEffectTypes = () => {
     // Define incompatible combinations
     const incompatibleCombinations = {
-      'PASSIVE': ['control', 'summoning'], // Passive spells can't control or summon
-      'REACTION': ['summoning'], // Reactions can't summon (usually)
+      'PASSIVE': ['control', 'transformation'],
+      'REACTION': ['summoning', 'transformation'],
     };
-    
+
     const incompatibleForCurrentType = incompatibleCombinations[spellType] || [];
-    
-    return EFFECT_TYPES.filter(effectType => 
+
+    return getEffectTypesByCategory().filter(effectType =>
       !incompatibleForCurrentType.includes(effectType.id)
     );
   };
-  
+
   // Check if an effect is properly configured
   const isEffectConfigured = (effectType) => {
     switch (effectType) {
       case 'damage':
-        return !!state.damageConfig;
+        return !!state.damageConfig &&
+               !!state.damageConfig.formula &&
+               !!state.damageConfig.primaryElement;
       case 'healing':
-        return !!state.healingConfig;
+        return !!state.healingConfig &&
+               !!state.healingConfig.formula;
       case 'buff':
-        return !!state.buffConfig;
+        return !!state.buffConfig &&
+               !!state.buffConfig.buffType &&
+               ((state.buffConfig.effects && state.buffConfig.effects.length > 0) ||
+                !!state.buffConfig.customDescription);
       case 'debuff':
-        return !!state.debuffConfig;
+        return !!state.debuffConfig &&
+               !!state.debuffConfig.debuffType &&
+               ((state.debuffConfig.effects && state.debuffConfig.effects.length > 0) ||
+                !!state.debuffConfig.customDescription);
       case 'utility':
-        return !!state.utilityConfig;
+        return !!state.utilityConfig &&
+               !!state.utilityConfig.utilityType &&
+               !!state.utilityConfig.subtype;
       case 'control':
-        return !!state.controlConfig;
+        return !!state.controlConfig &&
+               !!state.controlConfig.controlType;
       case 'summoning':
-        return !!state.summoningConfig;
+        return !!state.summoningConfig &&
+               !!state.summoningConfig.creatureType;
       case 'transformation':
-        return !!state.transformationConfig;
+        return !!state.transformationConfig &&
+               !!state.transformationConfig.transformationType;
+      case 'purification':
+        return !!state.purificationConfig &&
+               !!state.purificationConfig.purificationType;
+      case 'restoration':
+        return !!state.restorationConfig &&
+               !!state.restorationConfig.resourceType &&
+               !!state.restorationConfig.formula;
       default:
         return false;
     }
   };
-  
+
   // Check if all selected effects are properly configured
   const areAllEffectsConfigured = () => {
     if (effectTypes.length === 0) return false;
     return effectTypes.every(isEffectConfigured);
   };
-  
+
+  // Check if step is valid (has at least one effect type selected and configured)
+  const isStepValid = () => {
+    if (state.effectTypes.length === 0) return false;
+    return state.effectTypes.every(effectType => isEffectConfigured(effectType));
+  };
+
   // Calculate the total resource cost based on selected effects
   const calculateTotalResourceCost = () => {
-    const baseCost = calculateEffectActionPointCost(state.effectTypes);
-    
-    // Apply modifiers based on spell type
-    let finalCost = baseCost;
-    if (state.spellType === 'CHANNELED') {
-      finalCost = Math.ceil(baseCost * 1.5); // Channeled spells cost more
-    } else if (state.spellType === 'PASSIVE') {
-      finalCost = Math.ceil(baseCost * 2); // Passive spells cost more
-    }
-    
-    return finalCost;
+    // Use imported function with config options
+    const configOptions = {
+      actionPointEfficiency: state.spellType === 'ACTION' ? 0 :
+                           state.spellType === 'REACTION' ? 10 :
+                           state.spellType === 'CHANNELED' ? -50 :
+                           state.spellType === 'PASSIVE' ? -100 : 0
+    };
+
+    const baseCost = calculateEffectActionPointCost(state.effectTypes, configOptions);
+
+    // Apply spell type modifiers
+    let multiplier = 1;
+    if (state.spellType === 'CHANNELED') multiplier = 1.25;
+    if (state.spellType === 'PASSIVE') multiplier = 0.75;
+
+    return Math.ceil(baseCost * multiplier);
   };
-  
+
   // Toggle effect type selection
   const toggleEffectType = (effectType) => {
+    const effectId = `effect_${effectType}`;
+
     if (state.effectTypes.includes(effectType)) {
+      // Remove effect type
       dispatch(actionCreators.removeEffectType(effectType));
+
+      // Clean up resolution state
+      const newEffectResolutions = { ...state.effectResolutions };
+      delete newEffectResolutions[effectId];
+      dispatch(actionCreators.updateEffectResolutions(newEffectResolutions));
+
+      // Update effectsMap to track which effects are enabled
+      const effectsMap = { ...state.effectsMap } || {};
+      effectsMap[effectType] = false;
+      dispatch(actionCreators.updateEffectsMap(effectsMap));
+
       if (selectedEffectType === effectType && state.effectTypes.length > 1) {
         // Find another effect to select
         const remainingEffects = state.effectTypes.filter(e => e !== effectType);
         setSelectedEffectType(remainingEffects[0]);
+      } else if (selectedEffectType === effectType) {
+        setSelectedEffectType(null);
       }
     } else {
+      // Add effect type
       dispatch(actionCreators.addEffectType(effectType));
-      if (!selectedEffectType) {
-        setSelectedEffectType(effectType);
+
+      // Update effectsMap to track which effects are enabled
+      const effectsMap = { ...state.effectsMap } || {};
+      effectsMap[effectType] = true;
+      dispatch(actionCreators.updateEffectsMap(effectsMap));
+
+      setSelectedEffectType(effectType);
+
+      // Check if the configuration already exists for this effect type
+      const configExists = (
+        (effectType === 'damage' && state.damageConfig) ||
+        (effectType === 'healing' && state.healingConfig) ||
+        (effectType === 'buff' && state.buffConfig) ||
+        (effectType === 'debuff' && state.debuffConfig) ||
+        (effectType === 'utility' && state.utilityConfig) ||
+        (effectType === 'control' && state.controlConfig) ||
+        (effectType === 'summoning' && state.summoningConfig) ||
+        (effectType === 'transformation' && state.transformationConfig) ||
+        (effectType === 'purification' && state.purificationConfig) ||
+        (effectType === 'restoration' && state.restorationConfig)
+      );
+
+      // Only initialize if the configuration doesn't exist
+      if (!configExists) {
+        console.log(`Initializing configuration for ${effectType}`);
+        initializeConfigurations(effectType);
+      } else {
+        console.log(`Configuration for ${effectType} already exists, not initializing`);
       }
     }
   };
-  
-  // Handle damage configuration changes
-  const handleDamageConfigChange = (config) => {
-    dispatch(actionCreators.updateDamageConfig(config));
-  };
-  
-  // Handle healing configuration changes
-  const handleHealingConfigChange = (config) => {
-    dispatch(actionCreators.updateHealingConfig(config));
-  };
-  
-  // Handle buff configuration changes
-  const handleBuffConfigChange = (config) => {
-    dispatch(actionCreators.updateBuffConfig(config));
-  };
-  
-  // Handle debuff configuration changes
-  const handleDebuffConfigChange = (config) => {
-    dispatch(actionCreators.updateDebuffConfig(config));
-  };
-  
-  // Handle utility configuration changes
-  const handleUtilityConfigChange = (config) => {
-    dispatch(actionCreators.updateUtilityConfig(config));
-  };
-  
+
   // Validate effect combinations
-  useEffect(() => {
+  const validateEffectCombinations = () => {
     const errors = [];
-    
+
     // Check for incompatible combinations
     if (state.effectTypes.includes('damage') && state.effectTypes.includes('healing')) {
-      // This might be okay for some spell types but not others
       if (state.spellType === 'PASSIVE') {
         errors.push('Passive spells cannot have both damage and healing effects');
       }
     }
-    
-    // Check for level-appropriate number of effects
-    if (state.effectTypes.length > 2) {
-      errors.push(`Spells typically have at most 2 effects`);
+
+    // Check for too many effects
+    if (state.effectTypes.length > 3) {
+      errors.push('Spells typically have at most 3 effects for clarity and balance');
     }
-    
+
     setEffectCompatibilityErrors(errors);
-  }, [state.effectTypes, state.spellType]);
-  
+  };
+
   // Update resource cost when effects change
-  useEffect(() => {
+  const updateResourceCost = () => {
     const cost = calculateTotalResourceCost();
     dispatch(actionCreators.updateResourceCost({ actionPoints: cost }));
-  }, [state.effectTypes, state.spellType]);
-  
+  };
+
   // Generate configuration hints based on spell type
   const getConfigurationHints = () => {
     const hints = [];
-    
+
     switch (state.spellType) {
       case 'ACTION':
         hints.push('Action spells favor direct effects like damage or healing.');
+        hints.push('Consider the action cost of your effects - more powerful effects cost more actions.');
+        hints.push('Direct damage and healing are most effective for action spells.');
         break;
       case 'CHANNELED':
         hints.push('Channeled spells can sustain effects over time, good for control or damage over time.');
+        hints.push('Consider effects that scale with channeling duration.');
+        hints.push('Damage over time and regeneration healing work well with channeled spells.');
         break;
       case 'PASSIVE':
         hints.push('Passive spells provide ongoing benefits or conditional triggers.');
+        hints.push('Consider what will trigger your passive effects and how often they can occur.');
+        hints.push('Buff effects and utility enhancements are ideal for passive spells.');
         break;
       case 'REACTION':
         hints.push('Reaction spells are best with protective or counter effects.');
+        hints.push('Think about what conditions will trigger your reaction spell.');
+        hints.push('Protective shields, counterspells, and retributive damage work well for reactions.');
         break;
       default:
         break;
     }
-    
+
     return hints;
   };
-  
-  // Helper to get default formula based on spell type
-  const getDefaultDamageFormula = () => {
-    switch (state.spellType) {
-      case 'ACTION': return '1d6';
-      case 'CHANNELED': return '2d6';
-      case 'PASSIVE': return '1d8';
-      case 'REACTION': return '1d4';
-      default: return '1d6';
-    }
-  };
 
-  const getDefaultHealingFormula = () => {
-    switch (state.spellType) {
-      case 'ACTION': return '1d8';
-      case 'CHANNELED': return '2d8';
-      case 'PASSIVE': return '1d10';
-      case 'REACTION': return '1d6';
-      default: return '1d8';
-    }
-  };
-
-  const getDefaultBuffFormula = () => {
-    switch (state.spellType) {
-      case 'ACTION': return 'minor';
-      case 'CHANNELED': return 'moderate';
-      case 'PASSIVE': return 'major';
-      case 'REACTION': return 'minor';
-      default: return 'minor';
-    }
-  };
-
-  const getDefaultDebuffFormula = () => {
-    switch (state.spellType) {
-      case 'ACTION': return 'minor';
-      case 'CHANNELED': return 'moderate';
-      case 'PASSIVE': return 'major';
-      case 'REACTION': return 'minor';
-      default: return 'minor';
-    }
-  };
-
-  const getDefaultUtilityFormula = () => {
-    switch (state.spellType) {
-      case 'ACTION': return 'minor';
-      case 'CHANNELED': return 'moderate';
-      case 'PASSIVE': return 'major';
-      case 'REACTION': return 'minor';
-      default: return 'minor';
-    }
-  };
-
-  // Render damage configuration
-  const renderDamageConfig = () => {
-    const damageConfig = state.damageConfig || {
-      formula: getDefaultDamageFormula(),
-      damageTypes: [],
-      specialEffects: [],
-      scaling: { perLevel: false, formula: '' }
-    };
-    
-    const handleDamageFormulaChange = (formula) => {
-      handleDamageConfigChange({
-        ...damageConfig,
-        formula
-      });
-    };
-    
-    const handleDamageTypeChange = (type) => {
-      const damageTypes = damageConfig.damageTypes.includes(type)
-        ? damageConfig.damageTypes.filter(t => t !== type)
-        : [...damageConfig.damageTypes, type];
-      
-      handleDamageConfigChange({
-        ...damageConfig,
-        damageTypes
-      });
-    };
-    
-    const handleSpecialEffectChange = (effect) => {
-      const specialEffects = damageConfig.specialEffects.includes(effect)
-        ? damageConfig.specialEffects.filter(e => e !== effect)
-        : [...damageConfig.specialEffects, effect];
-      
-      handleDamageConfigChange({
-        ...damageConfig,
-        specialEffects
-      });
-    };
-    
-    const handleScalingChange = (e) => {
-      handleDamageConfigChange({
-        ...damageConfig,
-        scaling: {
-          ...damageConfig.scaling,
-          perLevel: e.target.checked
-        }
-      });
-    };
-    
-    const handleScalingFormulaChange = (formula) => {
-      handleDamageConfigChange({
-        ...damageConfig,
-        scaling: {
-          ...damageConfig.scaling,
-          formula
-        }
-      });
-    };
-    
-    // Get damage types by category
-    const damageTypesByCategory = getDamageTypesByCategory();
-    
-    return (
-      <div className="effect-config-section">
-        <h3>Damage Configuration</h3>
-        
-        <div className="effect-config-group">
-          <label className="effect-config-label">Damage Formula</label>
-          <DiceCalculator
-            initialFormula={damageConfig.formula}
-            onChange={handleDamageFormulaChange}
-            showDistribution={true}
-            showPresets={true}
-            allowAdvanced={true}
-            label="Damage Formula"
-          />
-          <div className="effect-config-help">
-            <p>Define the base damage formula for your spell.</p>
-            <p>Examples: <code>2d6</code>, <code>1d8+4</code>, <code>floor(3d6/2)</code></p>
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <label className="effect-config-label">Damage Types</label>
-          <div className="damage-types-grid">
-            {Object.entries(damageTypesByCategory).map(([category, types]) => (
-              <div key={category} className="damage-type-category">
-                <h4>{category}</h4>
-                <div className="damage-type-options">
-                  {types.map(type => (
-                    <div
-                      key={type.id}
-                      className={`damage-type-option ${damageConfig.damageTypes.includes(type.id) ? 'selected' : ''}`}
-                      onClick={() => handleDamageTypeChange(type.id)}
-                      style={{ borderColor: type.color }}
-                    >
-                      <div className="damage-type-icon" style={{ backgroundColor: type.color }}>
-                        <i className={type.icon}></i>
-                      </div>
-                      <div className="damage-type-name">{type.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="effect-config-help">
-            <p>Select one or more damage types for your spell.</p>
-            <p>Multiple damage types will split the damage equally unless specified in the description.</p>
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <label className="effect-config-label">Special Effects</label>
-          <div className="special-effects-options">
-            <div
-              className={`special-effect-option ${damageConfig.specialEffects.includes('critical') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('critical')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-bullseye"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Critical Hit</div>
-                <div className="special-effect-description">Double damage on critical hits</div>
-              </div>
-            </div>
-            
-            <div
-              className={`special-effect-option ${damageConfig.specialEffects.includes('penetration') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('penetration')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-shield-alt"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Armor Penetration</div>
-                <div className="special-effect-description">Ignores a portion of target's resistance</div>
-              </div>
-            </div>
-            
-            <div
-              className={`special-effect-option ${damageConfig.specialEffects.includes('splash') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('splash')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-water"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Splash Damage</div>
-                <div className="special-effect-description">Deals half damage to nearby targets</div>
-              </div>
-            </div>
-            
-            <div
-              className={`special-effect-option ${damageConfig.specialEffects.includes('dot') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('dot')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-hourglass-half"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Damage Over Time</div>
-                <div className="special-effect-description">Continues dealing damage for several turns</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <div className="effect-config-checkbox">
-            <label>
-              <input
-                type="checkbox"
-                checked={damageConfig.scaling.perLevel}
-                onChange={handleScalingChange}
-              />
-              Scales with Spell Type
-            </label>
-          </div>
-          
-          {damageConfig.scaling.perLevel && (
-            <div className="scaling-formula">
-              <label className="effect-config-label">Scaling Formula</label>
-              <DiceCalculator
-                initialFormula={damageConfig.scaling.formula || '+1d6'}
-                onChange={handleScalingFormulaChange}
-                showDistribution={false}
-                showPresets={false}
-                allowAdvanced={true}
-                label="Scaling Formula"
-              />
-              <div className="effect-config-help">
-                <p>Define how the damage scales with spell type.</p>
-                <p>Examples: <code>+1d6</code>, <code>*1.5</code>, <code>+floor(level/2)d4</code></p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-  
-  // Render healing configuration
-  const renderHealingConfig = () => {
-    const healingConfig = state.healingConfig || {
-      formula: getDefaultHealingFormula(),
-      healingType: 'standard',
-      overhealing: false,
-      specialEffects: [],
-      scaling: { perLevel: false, formula: '' }
-    };
-    
-    const handleHealingFormulaChange = (formula) => {
-      handleHealingConfigChange({
-        ...healingConfig,
-        formula
-      });
-    };
-    
-    const handleHealingTypeChange = (e) => {
-      handleHealingConfigChange({
-        ...healingConfig,
-        healingType: e.target.value
-      });
-    };
-    
-    const handleOverhealingChange = (e) => {
-      handleHealingConfigChange({
-        ...healingConfig,
-        overhealing: e.target.checked
-      });
-    };
-    
-    const handleSpecialEffectChange = (effect) => {
-      const specialEffects = healingConfig.specialEffects.includes(effect)
-        ? healingConfig.specialEffects.filter(e => e !== effect)
-        : [...healingConfig.specialEffects, effect];
-      
-      handleHealingConfigChange({
-        ...healingConfig,
-        specialEffects
-      });
-    };
-    
-    const handleScalingChange = (e) => {
-      handleHealingConfigChange({
-        ...healingConfig,
-        scaling: {
-          ...healingConfig.scaling,
-          perLevel: e.target.checked
-        }
-      });
-    };
-    
-    const handleScalingFormulaChange = (formula) => {
-      handleHealingConfigChange({
-        ...healingConfig,
-        scaling: {
-          ...healingConfig.scaling,
-          formula
-        }
-      });
-    };
-    
-    const healingTypes = [
-      { id: 'standard', name: 'Standard Healing', description: 'Restores health points' },
-      { id: 'regeneration', name: 'Regeneration', description: 'Healing over time' },
-      { id: 'lifesteal', name: 'Life Steal', description: 'Convert damage to healing' },
-      { id: 'barrier', name: 'Barrier', description: 'Temporary health points' }
-    ];
-    
-    return (
-      <div className="effect-config-section">
-        <h3>Healing Configuration</h3>
-        
-        <div className="effect-config-group">
-          <label className="effect-config-label">Healing Formula</label>
-          <DiceCalculator
-            initialFormula={healingConfig.formula}
-            onChange={handleHealingFormulaChange}
-            showDistribution={true}
-            showPresets={true}
-            allowAdvanced={true}
-            label="Healing Formula"
-          />
-          <div className="effect-config-help">
-            <p>Define the base healing formula for your spell.</p>
-            <p>Examples: <code>2d8</code>, <code>1d10+4</code>, <code>max(2d6, 8)</code></p>
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <label className="effect-config-label">Healing Type</label>
-          <div className="healing-types-options">
-            {healingTypes.map(type => (
-              <div key={type.id} className="healing-type-option">
-                <label>
-                  <input
-                    type="radio"
-                    name="healingType"
-                    value={type.id}
-                    checked={healingConfig.healingType === type.id}
-                    onChange={handleHealingTypeChange}
-                  />
-                  <span className="healing-type-name">{type.name}</span>
-                  <span className="healing-type-description">{type.description}</span>
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <div className="effect-config-checkbox">
-            <label>
-              <input
-                type="checkbox"
-                checked={healingConfig.overhealing}
-                onChange={handleOverhealingChange}
-              />
-              Allow Overhealing
-            </label>
-            <div className="effect-config-help">
-              <p>If checked, healing can exceed maximum health as temporary health.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <label className="effect-config-label">Special Effects</label>
-          <div className="special-effects-options">
-            <div
-              className={`special-effect-option ${healingConfig.specialEffects.includes('cleanse') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('cleanse')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-wind"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Cleanse</div>
-                <div className="special-effect-description">Removes negative status effects</div>
-              </div>
-            </div>
-            
-            <div
-              className={`special-effect-option ${healingConfig.specialEffects.includes('revive') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('revive')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-heartbeat"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Revive</div>
-                <div className="special-effect-description">Can heal downed targets</div>
-              </div>
-            </div>
-            
-            <div
-              className={`special-effect-option ${healingConfig.specialEffects.includes('burst') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('burst')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-sun"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Healing Burst</div>
-                <div className="special-effect-description">Affects multiple targets</div>
-              </div>
-            </div>
-            
-            <div
-              className={`special-effect-option ${healingConfig.specialEffects.includes('critical') ? 'selected' : ''}`}
-              onClick={() => handleSpecialEffectChange('critical')}
-            >
-              <div className="special-effect-icon">
-                <i className="fas fa-plus-circle"></i>
-              </div>
-              <div className="special-effect-details">
-                <div className="special-effect-name">Critical Healing</div>
-                <div className="special-effect-description">Can critically heal for extra effect</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="effect-config-group">
-          <div className="effect-config-checkbox">
-            <label>
-              <input
-                type="checkbox"
-                checked={healingConfig.scaling.perLevel}
-                onChange={handleScalingChange}
-              />
-              Scales with Spell Type
-            </label>
-          </div>
-          
-          {healingConfig.scaling.perLevel && (
-            <div className="scaling-formula">
-              <label className="effect-config-label">Scaling Formula</label>
-              <DiceCalculator
-                initialFormula={healingConfig.scaling.formula || '+1d8'}
-                onChange={handleScalingFormulaChange}
-                showDistribution={false}
-                showPresets={false}
-                allowAdvanced={true}
-                label="Scaling Formula"
-              />
-              <div className="effect-config-help">
-                <p>Define how the healing scales with spell type.</p>
-                <p>Examples: <code>+1d8</code>, <code>*1.5</code>, <code>+ceil(power/2)d6</code></p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-  
-  // Render buff configuration
-  const renderBuffConfig = () => {
-    const buffConfig = state.buffConfig || {
-      stats: [],
-      magnitude: getDefaultBuffFormula(),
-      duration: 'short',
-      specialEffects: []
-    };
-
-    const handleBuffChange = (field, value) => {
-      handleBuffConfigChange({
-        ...buffConfig,
-        [field]: value
-      });
-    };
-
-    const toggleStat = (stat) => {
-      const stats = buffConfig.stats.includes(stat)
-        ? buffConfig.stats.filter(s => s !== stat)
-        : [...buffConfig.stats, stat];
-      
-      handleBuffChange('stats', stats);
-    };
-
-    const toggleSpecialEffect = (effectId) => {
-      const specialEffects = buffConfig.specialEffects.includes(effectId)
-        ? buffConfig.specialEffects.filter(id => id !== effectId)
-        : [...buffConfig.specialEffects, effectId];
-      
-      handleBuffChange('specialEffects', specialEffects);
-    };
-
-    const stats = [
-      { id: 'strength', name: 'Strength', description: 'Physical power and carrying capacity' },
-      { id: 'dexterity', name: 'Dexterity', description: 'Agility, reflexes, and balance' },
-      { id: 'constitution', name: 'Constitution', description: 'Health, stamina, and vital force' },
-      { id: 'intelligence', name: 'Intelligence', description: 'Mental acuity, information recall, analytical skill' },
-      { id: 'wisdom', name: 'Wisdom', description: 'Awareness, intuition, and insight' },
-      { id: 'charisma', name: 'Charisma', description: 'Force of personality, persuasiveness' },
-      { id: 'speed', name: 'Speed', description: 'Movement speed and initiative' },
-      { id: 'defense', name: 'Defense', description: 'Damage resistance and avoidance' },
-      { id: 'accuracy', name: 'Accuracy', description: 'Attack precision and hit chance' }
-    ];
-
-    const magnitudes = [
-      { id: 'minor', name: 'Minor', description: 'Small bonus (+1 to +2)' },
-      { id: 'moderate', name: 'Moderate', description: 'Medium bonus (+3 to +5)' },
-      { id: 'major', name: 'Major', description: 'Large bonus (+6 to +10)' }
-    ];
-
-    const durations = [
-      { id: 'short', name: 'Short', description: '1-3 rounds' },
-      { id: 'medium', name: 'Medium', description: '4-10 rounds' },
-      { id: 'long', name: 'Long', description: 'More than 10 rounds' }
-    ];
-
-    const specialEffects = [
-      { id: 'stackable', name: 'Stackable', description: 'Can stack with other buffs' },
-      { id: 'conditional', name: 'Conditional', description: 'Enhanced in certain situations' },
-      { id: 'aura', name: 'Aura', description: 'Affects allies in an area around the target' }
-    ];
-
-    return (
-      <div className="effect-config buff-effect-config">
-        <h4>Buff Configuration</h4>
-        
-        <div className="config-section">
-          <h5>Stats to Buff</h5>
-          <p>Select one or more stats to enhance:</p>
-          
-          <div className="stats-grid">
-            {stats.map(stat => (
-              <div 
-                key={stat.id}
-                className={`stat-chip ${buffConfig.stats.includes(stat.id) ? 'selected' : ''}`}
-                onClick={() => toggleStat(stat.id)}
-              >
-                <span className="stat-name">{stat.name}</span>
-                <span className="stat-description">{stat.description}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Buff Magnitude</h5>
-          
-          <div className="magnitude-options">
-            {magnitudes.map(magnitude => (
-              <div 
-                key={magnitude.id}
-                className={`magnitude-option ${buffConfig.magnitude === magnitude.id ? 'selected' : ''}`}
-                onClick={() => handleBuffChange('magnitude', magnitude.id)}
-              >
-                <h6>{magnitude.name}</h6>
-                <p>{magnitude.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Buff Duration</h5>
-          
-          <div className="duration-options">
-            {durations.map(duration => (
-              <div 
-                key={duration.id}
-                className={`duration-option ${buffConfig.duration === duration.id ? 'selected' : ''}`}
-                onClick={() => handleBuffChange('duration', duration.id)}
-              >
-                <h6>{duration.name}</h6>
-                <p>{duration.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Special Effects</h5>
-          
-          <div className="special-effects-grid">
-            {specialEffects.map(effect => (
-              <div 
-                key={effect.id}
-                className={`special-effect-chip ${buffConfig.specialEffects.includes(effect.id) ? 'selected' : ''}`}
-                onClick={() => toggleSpecialEffect(effect.id)}
-              >
-                <span className="special-effect-name">{effect.name}</span>
-                <span className="special-effect-description">{effect.description}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
-  
-  // Render debuff configuration
-  const renderDebuffConfig = () => {
-    const debuffConfig = state.debuffConfig || {
-      stats: [],
-      magnitude: getDefaultDebuffFormula(),
-      savingThrow: 'none',
-      duration: 'short',
-      specialEffects: []
-    };
-
-    const handleDebuffChange = (field, value) => {
-      handleDebuffConfigChange({
-        ...debuffConfig,
-        [field]: value
-      });
-    };
-
-    const toggleStat = (stat) => {
-      const stats = debuffConfig.stats.includes(stat)
-        ? debuffConfig.stats.filter(s => s !== stat)
-        : [...debuffConfig.stats, stat];
-      
-      handleDebuffChange('stats', stats);
-    };
-
-    const toggleSpecialEffect = (effectId) => {
-      const specialEffects = debuffConfig.specialEffects.includes(effectId)
-        ? debuffConfig.specialEffects.filter(id => id !== effectId)
-        : [...debuffConfig.specialEffects, effectId];
-      
-      handleDebuffChange('specialEffects', specialEffects);
-    };
-
-    const stats = [
-      { id: 'strength', name: 'Strength', description: 'Physical power and carrying capacity' },
-      { id: 'dexterity', name: 'Dexterity', description: 'Agility, reflexes, and balance' },
-      { id: 'constitution', name: 'Constitution', description: 'Health, stamina, and vital force' },
-      { id: 'intelligence', name: 'Intelligence', description: 'Mental acuity, information recall, analytical skill' },
-      { id: 'wisdom', name: 'Wisdom', description: 'Awareness, intuition, and insight' },
-      { id: 'charisma', name: 'Charisma', description: 'Force of personality, persuasiveness' },
-      { id: 'speed', name: 'Speed', description: 'Movement speed and initiative' },
-      { id: 'defense', name: 'Defense', description: 'Damage resistance and avoidance' },
-      { id: 'accuracy', name: 'Accuracy', description: 'Attack precision and hit chance' }
-    ];
-
-    const magnitudes = [
-      { id: 'minor', name: 'Minor', description: 'Small penalty (-1 to -2)' },
-      { id: 'moderate', name: 'Moderate', description: 'Medium penalty (-3 to -5)' },
-      { id: 'major', name: 'Major', description: 'Large penalty (-6 to -10)' }
-    ];
-
-    const savingThrows = [
-      { id: 'none', name: 'None', description: 'No saving throw allowed' },
-      { id: 'easy', name: 'Easy', description: 'DC 10 + spell type' },
-      { id: 'moderate', name: 'Moderate', description: 'DC 15 + spell type' },
-      { id: 'difficult', name: 'Difficult', description: 'DC 20 + spell type' }
-    ];
-
-    const durations = [
-      { id: 'short', name: 'Short', description: '1-3 rounds' },
-      { id: 'medium', name: 'Medium', description: '4-10 rounds' },
-      { id: 'long', name: 'Long', description: 'More than 10 rounds' }
-    ];
-
-    const specialEffects = [
-      { id: 'lingering', name: 'Lingering', description: 'Reduced effect continues after save' },
-      { id: 'contagious', name: 'Contagious', description: 'Can spread to nearby targets' },
-      { id: 'cumulative', name: 'Cumulative', description: 'Effects build up with repeated application' }
-    ];
-
-    return (
-      <div className="effect-config debuff-effect-config">
-        <h4>Debuff Configuration</h4>
-        
-        <div className="config-section">
-          <h5>Stats to Debuff</h5>
-          <p>Select one or more stats to reduce:</p>
-          
-          <div className="stats-grid">
-            {stats.map(stat => (
-              <div 
-                key={stat.id}
-                className={`stat-chip ${debuffConfig.stats.includes(stat.id) ? 'selected' : ''}`}
-                onClick={() => toggleStat(stat.id)}
-              >
-                <span className="stat-name">{stat.name}</span>
-                <span className="stat-description">{stat.description}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Debuff Magnitude</h5>
-          
-          <div className="magnitude-options">
-            {magnitudes.map(magnitude => (
-              <div 
-                key={magnitude.id}
-                className={`magnitude-option ${debuffConfig.magnitude === magnitude.id ? 'selected' : ''}`}
-                onClick={() => handleDebuffChange('magnitude', magnitude.id)}
-              >
-                <h6>{magnitude.name}</h6>
-                <p>{magnitude.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Saving Throw</h5>
-          
-          <div className="saving-throw-options">
-            {savingThrows.map(save => (
-              <div 
-                key={save.id}
-                className={`saving-throw-option ${debuffConfig.savingThrow === save.id ? 'selected' : ''}`}
-                onClick={() => handleDebuffChange('savingThrow', save.id)}
-              >
-                <h6>{save.name}</h6>
-                <p>{save.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Debuff Duration</h5>
-          
-          <div className="duration-options">
-            {durations.map(duration => (
-              <div 
-                key={duration.id}
-                className={`duration-option ${debuffConfig.duration === duration.id ? 'selected' : ''}`}
-                onClick={() => handleDebuffChange('duration', duration.id)}
-              >
-                <h6>{duration.name}</h6>
-                <p>{duration.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Special Effects</h5>
-          
-          <div className="special-effects-grid">
-            {specialEffects.map(effect => (
-              <div 
-                key={effect.id}
-                className={`special-effect-chip ${debuffConfig.specialEffects.includes(effect.id) ? 'selected' : ''}`}
-                onClick={() => toggleSpecialEffect(effect.id)}
-              >
-                <span className="special-effect-name">{effect.name}</span>
-                <span className="special-effect-description">{effect.description}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
-  
-  // Render utility configuration
-  const renderUtilityConfig = () => {
-    const utilityConfig = state.utilityConfig || {
-      utilityType: '',
-      power: getDefaultUtilityFormula(),
-      duration: 'short',
-      specialEffects: [],
-      description: ''
-    };
-
-    const handleUtilityChange = (field, value) => {
-      handleUtilityConfigChange({
-        ...utilityConfig,
-        [field]: value
-      });
-    };
-
-    const toggleSpecialEffect = (effectId) => {
-      const specialEffects = utilityConfig.specialEffects.includes(effectId)
-        ? utilityConfig.specialEffects.filter(id => id !== effectId)
-        : [...utilityConfig.specialEffects, effectId];
-      
-      handleUtilityChange('specialEffects', specialEffects);
-    };
-
-    const utilityTypes = [
-      { id: 'light', name: 'Light', description: 'Create or manipulate light' },
-      { id: 'illusion', name: 'Illusion', description: 'Create sensory illusions' },
-      { id: 'movement', name: 'Movement', description: 'Enhance or restrict movement' },
-      { id: 'communication', name: 'Communication', description: 'Aid or block communication' },
-      { id: 'information', name: 'Information', description: 'Gain information or insight' },
-      { id: 'environment', name: 'Environment', description: 'Manipulate or adapt to environment' }
-    ];
-
-    const powers = [
-      { id: 'minor', name: 'Minor', description: 'Small effect with limited scope' },
-      { id: 'moderate', name: 'Moderate', description: 'Medium effect with standard scope' },
-      { id: 'major', name: 'Major', description: 'Strong effect with wide scope' }
-    ];
-
-    const durations = [
-      { id: 'instant', name: 'Instant', description: 'One-time effect' },
-      { id: 'short', name: 'Short', description: '1 minute or less' },
-      { id: 'medium', name: 'Medium', description: '10 minutes to 1 hour' },
-      { id: 'long', name: 'Long', description: 'Hours to days' }
-    ];
-
-    const specialEffects = [
-      { id: 'silent', name: 'Silent', description: 'No sound when used' },
-      { id: 'subtle', name: 'Subtle', description: 'Difficult to notice when cast' },
-      { id: 'versatile', name: 'Versatile', description: 'Can be used in different ways' }
-    ];
-
-    return (
-      <div className="effect-config utility-effect-config">
-        <h4>Utility Configuration</h4>
-        
-        <div className="config-section">
-          <h5>Utility Type</h5>
-          
-          <div className="utility-types-grid">
-            {utilityTypes.map(type => (
-              <div 
-                key={type.id}
-                className={`utility-type-card ${utilityConfig.utilityType === type.id ? 'selected' : ''}`}
-                onClick={() => handleUtilityChange('utilityType', type.id)}
-              >
-                <h6 className="utility-type-name">{type.name}</h6>
-                <p className="utility-type-description">{type.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Power Level</h5>
-          
-          <div className="power-options">
-            {powers.map(power => (
-              <div 
-                key={power.id}
-                className={`power-option ${utilityConfig.power === power.id ? 'selected' : ''}`}
-                onClick={() => handleUtilityChange('power', power.id)}
-              >
-                <h6>{power.name}</h6>
-                <p>{power.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Duration</h5>
-          
-          <div className="duration-options">
-            {durations.map(duration => (
-              <div 
-                key={duration.id}
-                className={`duration-option ${utilityConfig.duration === duration.id ? 'selected' : ''}`}
-                onClick={() => handleUtilityChange('duration', duration.id)}
-              >
-                <h6>{duration.name}</h6>
-                <p>{duration.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Special Effects</h5>
-          
-          <div className="special-effects-grid">
-            {specialEffects.map(effect => (
-              <div 
-                key={effect.id}
-                className={`special-effect-chip ${utilityConfig.specialEffects.includes(effect.id) ? 'selected' : ''}`}
-                onClick={() => toggleSpecialEffect(effect.id)}
-              >
-                <span className="special-effect-name">{effect.name}</span>
-                <span className="special-effect-description">{effect.description}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="config-section">
-          <h5>Custom Description</h5>
-          
-          <textarea
-            value={utilityConfig.description}
-            onChange={(e) => handleUtilityChange('description', e.target.value)}
-            placeholder="Describe the specific utility effect of your spell..."
-            rows={4}
-            className="utility-description"
-          />
-        </div>
-      </div>
-    );
-  };
-  
-  // Render effect configuration based on selected effect type
-  const renderEffectConfig = () => {
-    if (!selectedEffectType) {
-      return (
-        <div className="no-effect-selected">
-          <p>Please select an effect type to configure.</p>
-        </div>
-      );
-    }
-
-    switch (selectedEffectType) {
+  // Get icon for effect type
+  const getEffectIcon = (effectType) => {
+    switch (effectType) {
       case 'damage':
-        return renderDamageConfig();
+        return FaFire;
       case 'healing':
-        return renderHealingConfig();
+        return FaHeart;
       case 'buff':
-        return renderBuffConfig();
+        return FaWandMagic;
       case 'debuff':
-        return renderDebuffConfig();
+        return FaSkull;
       case 'utility':
-        return renderUtilityConfig();
+        return FaGauge;
+      case 'control':
+        return FaHandSparkles;
+      case 'summoning':
+        return FaDragon;
+      case 'transformation':
+        return FaRecycle;
+      case 'purification':
+        return FaWandMagicSparkles;
+      case 'restoration':
+        return FaDroplet;
       default:
-        return (
-          <div className="effect-config-placeholder">
-            <p>Configuration for {selectedEffectType} effects is not yet implemented.</p>
-          </div>
-        );
+        return FaCircleQuestion;
     }
   };
-  
+
+  // Render the configuration panel for the selected effect type
+  const renderEffectTypeConfig = () => {
+    if (!selectedEffectType) {
+      return null;
+    }
+
+    // Use the appropriate effect component based on selected effect type
+    let EffectComponent;
+    switch(selectedEffectType) {
+      case 'healing':
+        EffectComponent = HealingEffects;
+        break;
+      case 'buff':
+        EffectComponent = BuffEffects;
+        break;
+      case 'debuff':
+        EffectComponent = DebuffEffects;
+        break;
+      case 'utility':
+        EffectComponent = UtilityEffects;
+        break;
+      case 'control':
+        EffectComponent = ControlEffects;
+        break;
+      case 'summoning':
+        EffectComponent = SummoningEffects;
+        break;
+      case 'transformation':
+        EffectComponent = TransformationEffects;
+        break;
+      case 'purification':
+        EffectComponent = PurificationEffects;
+        break;
+      case 'restoration':
+        EffectComponent = RestorationEffects;
+        break;
+      default:
+        EffectComponent = null;
+    }
+
+    const effectId = `effect_${selectedEffectType}`;
+
+    return (
+      <div className="effect-config-panel">
+        <h3>{getEffectTypeLabel(selectedEffectType)} Configuration</h3>
+        <p className="effect-description">{getEffectTypeDescription(selectedEffectType)}</p>
+
+        {selectedEffectType === 'damage' ? (
+          <DamageEffects
+            currentEffect={{ id: effectId, type: selectedEffectType }}
+            effectConfig={state.effectConfigs?.[effectId] || {}}
+          />
+        ) : (
+          EffectComponent && (
+            <EffectComponent
+              state={state}
+              dispatch={dispatch}
+              actionCreators={actionCreators}
+              effectId={effectId}
+              effectType={selectedEffectType}
+              config={state.effectConfigurations?.[selectedEffectType] || {}}
+              onConfigChange={(config) => handleConfigChange(selectedEffectType, config)}
+            />
+          )
+        )}
+
+        {/* Step Mechanics Configuration moved to its own step */}
+      </div>
+    );
+  };
+
   // Handle next button click
   const handleNext = () => {
     if (state.effectTypes.length > 0 && areAllEffectsConfigured()) {
       onNext();
     }
   };
-  
-  // Get compatible effect types
-  const compatibleEffectTypes = getCompatibleEffectTypes();
-  const isStepComplete = state.effectTypes.length > 0 && areAllEffectsConfigured();
-  
+
+  // Main component render
   return (
     <WizardStep
-      title="Spell Effects"
-      stepNumber={stepIndex + 1}
+      title="Choose Spell Effects"
+      stepNumber={stepNumber}
       totalSteps={totalSteps}
-      isCompleted={isStepComplete}
-      isActive={true}
+      isCompleted={false}
+      isActive={isActive}
       onNext={handleNext}
       onPrevious={onPrevious}
-      disableNext={!isStepComplete}
+      disableNext={!isStepValid()}
+      showHints={true}
       hints={getConfigurationHints()}
     >
       <div className="spell-effects-container">
-        <div className="effect-selection-section">
-          <h3>Select Effect Types</h3>
-          <p className="effect-selection-description">
-            Choose one or more effects for your spell. The complexity and power of your spell should match its type.
-          </p>
-          
-          {effectCompatibilityErrors.length > 0 && (
-            <div className="effect-compatibility-errors">
-              {effectCompatibilityErrors.map((error, index) => (
-                <div key={index} className="error-message">
-                  <i className="fas fa-exclamation-triangle"></i> {error}
-                </div>
-              ))}
-            </div>
-          )}
-          
-          <div className="effect-types-grid">
-            {compatibleEffectTypes.map(effectType => (
-              <SelectionCard
-                key={effectType.id}
-                title={effectType.name}
-                description={effectType.description}
-                icon={effectType.icon.replace('spell_', '').replace('ability_', '')}
-                iconColor={getEffectIconColor(effectType.category)}
-                selected={state.effectTypes.includes(effectType.id)}
-                onClick={() => toggleEffectType(effectType.id)}
-                additionalInfo={{
-                  Category: effectType.category,
-                  ActionPointCost: effectType.actionPointCost
-                }}
-                showDetails={true}
-                selectionMode="multiple"
-              />
+        {effectCompatibilityErrors.length > 0 && (
+          <div className="compatibility-errors">
+            {effectCompatibilityErrors.map((error, index) => (
+              <div key={index} className="compatibility-error">
+                <FaTriangleExclamation />
+                <span>{error}</span>
+              </div>
             ))}
           </div>
+        )}
+        {/* Effect Type Selection */}
+        <div className="effect-type-grid">
+          {getCompatibleEffectTypes().map((effectType) => (
+            <SelectionCard
+              key={effectType.id}
+              title={effectType.name}
+              description={effectType.description}
+              icon={getEffectIcon(effectType.id)}
+              iconColor={effectType.id === 'damage' ? '#e74c3c' :
+                       effectType.id === 'healing' ? '#2ecc71' :
+                       effectType.id === 'buff' ? '#3498db' :
+                       effectType.id === 'debuff' ? '#9b59b6' :
+                       effectType.id === 'utility' ? '#f39c12' :
+                       effectType.id === 'control' ? '#8e44ad' :
+                       effectType.id === 'summoning' ? '#d35400' :
+                       effectType.id === 'transformation' ? '#16a085' :
+                       effectType.id === 'purification' ? '#9966ff' : '#7f8c8d'}
+              selected={state.effectTypes.includes(effectType.id)}
+              disabled={false}
+              highlighted={selectedEffectType === effectType.id}
+              onClick={() => toggleEffectType(effectType.id)}
+              additionalInfo={{
+                actionCost: formatActionPointCost(effectType.actionPointCost),
+                category: effectType.category,
+                configured: isEffectConfigured(effectType.id)
+              }}
+              showDetails={true}
+              selectionMode="multiple"
+            />
+          ))}
         </div>
-        
-        <div className="effect-configuration-section">
-          <h3>Configure Selected Effects</h3>
-          
-          {state.effectTypes.length === 0 ? (
-            <div className="no-effects-selected">
-              <p>Select at least one effect type to configure.</p>
-            </div>
-          ) : (
-            <div className="effect-tabs">
-              <div className="effect-tabs-header">
-                {state.effectTypes.map(effectType => {
-                  const effect = getEffectTypeById(effectType);
-                  return (
-                    <button
-                      key={effectType}
-                      className={`effect-tab ${selectedEffectType === effectType ? 'active' : ''}`}
-                      onClick={() => setSelectedEffectType(effectType)}
-                    >
-                      <i className={`fas fa-${getEffectIcon(effectType)}`}></i>
-                      {effect ? effect.name : effectType}
-                    </button>
-                  );
-                })}
-              </div>
-              
-              <div className="effect-tabs-content">
-                {renderEffectConfig()}
-              </div>
-            </div>
-          )}
-        </div>
-        
-        <div className="effect-summary-section">
-          <h3>Effect Summary</h3>
-          
-          <div className="effect-resource-cost">
-            <span className="resource-cost-label">Total Resource Cost:</span>
-            <span className="resource-cost-value">{calculateTotalResourceCost()} Action Points</span>
+
+        {/* Effect Configuration */}
+        {selectedEffectType && (
+          <div className="effect-config-container">
+            {renderEffectTypeConfig()}
           </div>
-          
-          <div className="selected-effects-list">
-            {state.effectTypes.map(effectType => {
-              const effect = getEffectTypeById(effectType);
-              const configStatus = isEffectConfigured(effectType) ? 'Configured' : 'Not Configured';
-              
-              return (
-                <div key={effectType} className="selected-effect-item">
-                  <span className="effect-name">{effect ? effect.name : effectType}</span>
-                  <span className={`effect-status ${configStatus === 'Configured' ? 'configured' : 'not-configured'}`}>
-                    {configStatus === 'Configured' ? (
-                      <><i className="fas fa-check-circle"></i> {configStatus}</>
-                    ) : (
-                      <><i className="fas fa-exclamation-circle"></i> {configStatus}</>
-                    )}
-                  </span>
-                </div>
-              );
-            })}
+        )}
+
+        {/* Effect Type Navigation */}
+        {state.effectTypes.length > 0 && (
+          <div className="effect-type-nav">
+            <div className="effect-type-tabs">
+              {state.effectTypes.map((effectType) => (
+                <button
+                  key={effectType}
+                  className={`effect-type-tab ${selectedEffectType === effectType ? 'active' : ''} ${isEffectConfigured(effectType) ? 'configured' : ''}`}
+                  onClick={() => setSelectedEffectType(effectType)}
+                >
+                  {React.createElement(getEffectIcon(effectType))}
+                  <span>{getEffectTypeById(effectType)?.name || effectType}</span>
+                  {isEffectConfigured(effectType) && (
+                    <FaCircleCheck className="config-indicator" />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </WizardStep>
   );
-};
-
-// Helper functions
-const getEffectIconColor = (category) => {
-  switch (category) {
-    case 'offensive': return '#e74c3c'; // Red
-    case 'supportive': return '#2ecc71'; // Green
-    case 'utility': return '#3498db'; // Blue
-    case 'tactical': return '#9b59b6'; // Purple
-    case 'conjuration': return '#f39c12'; // Orange
-    case 'alteration': return '#1abc9c'; // Teal
-    default: return '#34495e'; // Dark Blue
-  }
-};
-
-const getEffectIcon = (effectType) => {
-  switch (effectType) {
-    case 'damage': return 'fire';
-    case 'healing': return 'heart';
-    case 'buff': return 'shield-alt';
-    case 'debuff': return 'skull';
-    case 'utility': return 'magic';
-    case 'control': return 'hand-paper';
-    case 'summoning': return 'ghost';
-    case 'transformation': return 'exchange-alt';
-    default: return 'star';
-  }
 };
 
 export default Step3Effects;

@@ -1,0 +1,74 @@
+.icon-selection-card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 6px;
+  background-color: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.icon-selection-card:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.6);
+}
+
+.icon-selection-card.selected {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.5);
+}
+
+.icon-selection-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.2);
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.icon-selection-card-icon .icon {
+  font-size: 1.5rem;
+  color: #3b82f6;
+}
+
+.icon-selection-card-content {
+  flex: 1;
+}
+
+.icon-selection-card-title {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.icon-selection-card-description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.icon-selection-card-selected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  color: white;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.icon-selection-card-selected span {
+  font-size: 0.85rem;
+  font-weight: bold;
+}

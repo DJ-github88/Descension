@@ -1,0 +1,213 @@
+/* Card Draw Visualizer Styles */
+
+.card-draw-visualizer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.card-draw-visualizer.drawing {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.card-draw-visualizer.critical {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+}
+
+.card-draw-info {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.card-rule {
+  font-size: 0.9rem;
+  color: #a4b1cd;
+}
+
+.card-draw-area {
+  display: flex;
+  justify-content: center;
+  min-height: 150px;
+  margin-bottom: 1rem;
+}
+
+.drawn-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.playing-card {
+  width: 100px;
+  height: 140px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.playing-card.highlight {
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.7);
+  transform: translateY(-5px);
+}
+
+.playing-card.hearts, .playing-card.diamonds {
+  color: #e11d48;
+}
+
+.playing-card.clubs, .playing-card.spades {
+  color: #1e293b;
+}
+
+.card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+}
+
+.card-top-left {
+  top: 5px;
+  left: 5px;
+}
+
+.card-bottom-right {
+  bottom: 5px;
+  right: 5px;
+  transform: rotate(180deg);
+}
+
+.card-rank {
+  font-size: 1.2rem;
+}
+
+.card-suit {
+  font-size: 1rem;
+}
+
+.card-center {
+  font-size: 3rem;
+}
+
+.card-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-back {
+  width: 100px;
+  height: 140px;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-back:before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.card-back:after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path d="M20 0 L40 20 L20 40 L0 20 Z" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+}
+
+.card-draw-controls {
+  margin-top: 1rem;
+}
+
+.draw-button, .reset-button {
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  border: 1px solid #1d4ed8;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+.draw-button:hover:not(:disabled), .reset-button:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.draw-button:active:not(:disabled), .reset-button:active:not(:disabled) {
+  background: linear-gradient(to bottom, #1d4ed8, #2563eb);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.draw-button:disabled, .reset-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  background: linear-gradient(to bottom, #64748b, #475569);
+  border-color: #334155;
+}
+
+.reset-button:hover:not(:disabled) {
+  background: linear-gradient(to bottom, #94a3b8, #64748b);
+}
+
+.reset-button:active:not(:disabled) {
+  background: linear-gradient(to bottom, #334155, #475569);
+}
+
+.draw-status {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.critical .draw-status {
+  color: #f59e0b;
+  text-shadow: 0 0 5px rgba(245, 158, 11, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

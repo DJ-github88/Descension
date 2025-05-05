@@ -1,0 +1,538 @@
+/* Mechanics Config Styles */
+.mechanics-config-container {
+  background-color: rgba(15, 23, 42, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mechanics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(66, 91, 158, 0.4);
+  padding-bottom: 10px;
+}
+
+.mechanics-header h3 {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 1.2rem;
+}
+
+.mechanics-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.mechanics-option {
+  background-color: rgba(30, 41, 59, 0.7);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+}
+
+.mechanics-option:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.6);
+}
+
+.mechanics-option.selected {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.8);
+  box-shadow: 0 0 8px rgba(66, 91, 158, 0.4);
+}
+
+.mechanics-option-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mechanics-option-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.mechanics-option-title {
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.mechanics-option-subtitle {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.mechanics-option-selected {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: #4ade80;
+  font-size: 1.2rem;
+}
+
+.mechanics-option-description {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+
+.mechanics-section {
+  margin-bottom: 20px;
+}
+
+.mechanics-section h4 {
+  margin: 0 0 12px 0;
+  color: #e2e8f0;
+  font-size: 1rem;
+  border-bottom: 1px solid rgba(66, 91, 158, 0.2);
+  padding-bottom: 8px;
+}
+
+.mechanics-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.mechanics-type {
+  background-color: rgba(30, 41, 59, 0.7);
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+  flex: 1;
+  min-width: 120px;
+  max-width: calc(50% - 5px);
+}
+
+.mechanics-type:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.6);
+}
+
+.mechanics-type.selected {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.8);
+  box-shadow: 0 0 8px rgba(66, 91, 158, 0.4);
+}
+
+.mechanics-type-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: #e2e8f0;
+}
+
+.mechanics-type-title {
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.mechanics-type-description {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.mechanics-config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.form-group input,
+.form-group select {
+  background-color: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="number"] {
+  width: 80px;
+}
+
+.input-with-label {
+  display: flex;
+  align-items: center;
+}
+
+.input-label {
+  margin-left: 8px;
+  color: #94a3b8;
+}
+
+.help-text {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+.mechanics-preview {
+  background-color: rgba(15, 23, 42, 0.5);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 20px;
+}
+
+.mechanics-preview h4 {
+  margin: 0 0 10px 0;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.preview-content {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.highlight {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: rgba(15, 23, 42, 0.95);
+  color: #e2e8f0;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.85rem;
+  border: 1px solid rgba(66, 91, 158, 0.6);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Threshold Management Styles */
+.threshold-management,
+.single-threshold-config {
+  background-color: rgba(15, 23, 42, 0.5);
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.threshold-management h4,
+.single-threshold-config h4 {
+  margin: 0 0 10px 0;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.threshold-description {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 15px;
+}
+
+.threshold-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.threshold-item {
+  background-color: rgba(30, 41, 59, 0.7);
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+}
+
+.threshold-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(66, 91, 158, 0.2);
+  padding-bottom: 8px;
+}
+
+.threshold-value-display {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.threshold-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.threshold-control-button {
+  background-color: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.threshold-control-button:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.8);
+}
+
+.threshold-config,
+.threshold-effect-config {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.threshold-config-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.threshold-config-row label {
+  width: 100px;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.threshold-value-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.threshold-slider {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, var(--track-color) 0%, var(--track-color) 50%, rgba(30, 41, 59, 0.5) 50%, rgba(30, 41, 59, 0.5) 100%);
+  border-radius: 3px;
+  outline: none;
+}
+
+.threshold-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--thumb-color);
+  cursor: pointer;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.threshold-number-input {
+  width: 50px;
+  background-color: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.threshold-unit {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.threshold-select, .threshold-text-input {
+  flex: 1;
+  background-color: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.add-threshold-button {
+  background-color: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.add-threshold-button:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(66, 91, 158, 0.8);
+}
+
+.threshold-preview-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+.threshold-preview-list li {
+  background-color: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.threshold-preview-value {
+  font-weight: bold;
+  min-width: 50px;
+  text-align: center;
+}
+
+.threshold-preview-effect {
+  flex: 1;
+}
+
+.formula-modifier {
+  font-style: italic;
+  color: #94a3b8;
+  font-size: 0.85em;
+}
+
+/* Formula preview */
+.formula-preview {
+  background-color: rgba(15, 23, 42, 0.7);
+  border-radius: 6px;
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  padding: 10px 15px;
+  margin-top: 12px;
+  font-family: monospace;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.formula-preview strong {
+  color: #8b5cf6;
+  margin-right: 8px;
+}
+
+/* Original formula display */
+.original-formula-display {
+  background-color: rgba(15, 23, 42, 0.7);
+  border-radius: 6px;
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  padding: 10px 15px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-family: monospace;
+  font-size: 1rem;
+  color: #4a8ef9;
+  font-weight: 500;
+}
+
+.formula-type-indicator {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  background-color: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.formula-type-indicator .highlight {
+  font-weight: bold;
+  color: #4a8ef9;
+  text-transform: capitalize;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mechanics-type {
+    max-width: 100%;
+  }
+
+  .threshold-config-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .threshold-config-row label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .threshold-value-input {
+    width: 100%;
+  }
+}

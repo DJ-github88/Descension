@@ -49,7 +49,7 @@ const STATUS_EFFECTS = {
       icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
       oppositeOf: ['immune']
     },
-    
+
     // Action Control Effects
     silence: {
       name: 'Silence',
@@ -78,7 +78,7 @@ const STATUS_EFFECTS = {
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindsteal.jpg',
       oppositeOf: ['immune']
     },
-    
+
     // Mental Control Effects
     fear: {
       name: 'Fear',
@@ -116,7 +116,7 @@ const STATUS_EFFECTS = {
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg',
       oppositeOf: ['immune', 'wakeful']
     },
-    
+
     // Damage Over Time Effects
     bleed: {
       name: 'Bleed',
@@ -145,7 +145,7 @@ const STATUS_EFFECTS = {
       damageType: 'fire',
       severity: 'moderate',
       color: '#FF4500', // Orange red
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_elemental_primal_fire.jpg',
       oppositeOf: ['immune']
     },
     disease: {
@@ -158,7 +158,7 @@ const STATUS_EFFECTS = {
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_plaguecloud.jpg',
       oppositeOf: ['immune']
     },
-    
+
     // Stat Modifiers
     weakness: {
       name: 'Weakness',
@@ -187,7 +187,7 @@ const STATUS_EFFECTS = {
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg',
       oppositeOf: ['immune', 'blessed']
     },
-    
+
     // Special Combat Effects
     disoriented: {
       name: 'Disoriented',
@@ -216,7 +216,7 @@ const STATUS_EFFECTS = {
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg',
       oppositeOf: ['immune']
     },
-    
+
     // Positive Status Effects (Buffs)
     haste: {
       name: 'Haste',
@@ -273,7 +273,7 @@ const STATUS_EFFECTS = {
       oppositeOf: []
     }
   };
-  
+
   // Group effects by type
   export const EFFECT_TYPES = {
     movement: ['stun', 'slow', 'root', 'knockback', 'pull'],
@@ -283,18 +283,18 @@ const STATUS_EFFECTS = {
     debuff: ['weakness', 'vulnerability', 'curse', 'disoriented', 'marked', 'taunt'],
     buff: ['haste', 'strengthened', 'resistance', 'immune', 'regen', 'shielded']
   };
-  
+
   // Function to get status effect details by ID
   export const getStatusEffect = (effectId) => {
     return STATUS_EFFECTS[effectId.toLowerCase()] || null;
   };
-  
+
   // Function to get status effect color
   export const getStatusEffectColor = (effectId) => {
     const effect = getStatusEffect(effectId);
     return effect ? effect.color : '#ffffff';
   };
-  
+
   // Function to get all status effects as an array
   export const getAllStatusEffects = () => {
     return Object.entries(STATUS_EFFECTS).map(([id, data]) => ({
@@ -302,7 +302,7 @@ const STATUS_EFFECTS = {
       ...data
     }));
   };
-  
+
   // Function to get all status effects by type
   export const getStatusEffectsByType = (type) => {
     const effectIds = EFFECT_TYPES[type] || [];
@@ -311,5 +311,5 @@ const STATUS_EFFECTS = {
       ...STATUS_EFFECTS[id]
     }));
   };
-  
+
   export default STATUS_EFFECTS;

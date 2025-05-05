@@ -3,7 +3,7 @@ import React from 'react';
 const RESISTANCE_INFO = {
     cold: {
         name: 'Cold Resistance',
-        description: 'Reduces damage from frost spells, blizzards, and freezing effects.',
+        description: 'Reduces damage from cold spells, blizzards, and freezing effects.',
         color: '#3CE7FF',
         effects: [
             'Take half damage from cold sources',
@@ -109,7 +109,7 @@ export default function ResistanceTooltip({ type, value }) {
     }
 
     const info = RESISTANCE_INFO[type];
-    
+
     return (
         <div className="resistance-tooltip">
             <div className="tooltip-header" style={{ color: info.color }}>

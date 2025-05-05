@@ -5,9 +5,9 @@ import Navigation from "./components/Navigation";
 import GameProvider from "./components/GameProvider";
 import HUD from "./components/HUD";
 // Import spell wizard styles
-import './components/spell-wizard/styles/Base/variables.css';
-import './components/spell-wizard/styles/Pages/wizard-steps.css';
-import './components/spell-wizard/styles/Pages/animations.css';
+import './components/spellcrafting-wizard/styles/SpellWizard.css';
+// Import WoW Classic tooltip styles
+import './styles/wow-classic-tooltip.css';
 
 function GameScreen() {
     return (
@@ -25,6 +25,7 @@ export default function App() {
             <div className="spell-wizard-container">
                 <GameScreen />
                 <Navigation />
+
             </div>
         </GameProvider>
     );

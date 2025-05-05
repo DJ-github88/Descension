@@ -1,0 +1,419 @@
+/* ========== formulaHelp.css ==========
+ * Styling for the Formula Help Popup
+ */
+
+.formula-help-modal .modal-content {
+  background: linear-gradient(135deg,
+    rgba(20, 30, 50, 0.95),
+    rgba(15, 25, 40, 0.95)
+  );
+  border: 1px solid var(--wizard-border);
+  border-radius: 8px;
+  color: var(--wizard-text);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.formula-help-modal .modal-header {
+  border-bottom: 1px solid var(--wizard-border);
+  padding: 15px 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.formula-help-modal .modal-title {
+  color: var(--wizard-text-bright);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.formula-help-modal .close-button {
+  color: var(--wizard-text-muted);
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+}
+
+.formula-help-modal .close-button:hover {
+  color: var(--wizard-text-bright);
+}
+
+.formula-help-modal .modal-body {
+  padding: 15px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.formula-help-modal {
+  position: fixed;
+  z-index: 1050;
+}
+
+.modal-open .modal {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Simple Formula Help Popup */
+.simple-formula-help {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.simple-formula-help-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.simple-formula-help-content {
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  background: linear-gradient(135deg, rgba(20, 30, 50, 0.95), rgba(15, 25, 40, 0.95));
+  border: 1px solid var(--wizard-border);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  z-index: 1051;
+}
+
+.simple-formula-help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--wizard-border);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.simple-formula-help-close {
+  background: none;
+  border: none;
+  color: var(--wizard-text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simple-formula-help-close:hover {
+  color: var(--wizard-text-bright);
+}
+
+.simple-formula-help-body {
+  padding: 15px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.simple-formula-help-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--wizard-border);
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.simple-formula-help-button {
+  background-color: var(--wizard-primary);
+  border: 1px solid var(--wizard-primary-dark);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.simple-formula-help-button:hover {
+  background-color: var(--wizard-primary-dark);
+}
+
+.formula-help-modal .modal-footer {
+  border-top: 1px solid var(--wizard-border);
+  padding: 15px 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.formula-help-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formula-section {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  border: 1px solid var(--wizard-border);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.formula-section:last-child {
+  margin-bottom: 0;
+}
+
+.formula-section h4 {
+  color: var(--wizard-text-bright);
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.formula-description {
+  color: var(--wizard-text);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Variable List Styling */
+.variable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.variable-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--wizard-primary);
+}
+
+.variable-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.variable-desc {
+  font-size: 12px;
+  color: var(--wizard-text-muted);
+}
+
+/* Example List Styling */
+.example-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.example-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--wizard-secondary);
+}
+
+.example-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.example-formula {
+  font-size: 12px;
+  color: var(--wizard-primary-light);
+}
+
+/* Syntax List Styling */
+.syntax-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.syntax-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid var(--wizard-info);
+}
+
+.syntax-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.syntax-desc {
+  font-size: 12px;
+  color: var(--wizard-text-muted);
+}
+
+code {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--wizard-primary-light);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.formula-table {
+  color: var(--wizard-text);
+  margin-bottom: 0;
+}
+
+.formula-table thead {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.formula-table th {
+  color: var(--wizard-text-bright);
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--wizard-border);
+  padding: 10px;
+}
+
+.formula-table td {
+  font-size: 13px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.formula-table code {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--wizard-primary-light);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.resource-title {
+  display: flex;
+  align-items: center;
+}
+
+.resource-icon {
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.resource-icon.mana {
+  background-color: rgba(41, 128, 185, 0.3);
+  border: 1px solid rgba(41, 128, 185, 0.6);
+  color: #3498db;
+}
+
+.resource-icon.rage {
+  background-color: rgba(192, 57, 43, 0.3);
+  border: 1px solid rgba(192, 57, 43, 0.6);
+  color: #e74c3c;
+}
+
+.resource-icon.energy {
+  background-color: rgba(241, 196, 15, 0.3);
+  border: 1px solid rgba(241, 196, 15, 0.6);
+  color: #f1c40f;
+}
+
+.resource-icon.focus {
+  background-color: rgba(46, 204, 113, 0.3);
+  border: 1px solid rgba(46, 204, 113, 0.6);
+  color: #2ecc71;
+}
+
+.resource-icon.soul_shards {
+  background-color: rgba(142, 68, 173, 0.3);
+  border: 1px solid rgba(142, 68, 173, 0.6);
+  color: #9b59b6;
+}
+
+.resource-icon.holy_power {
+  background-color: rgba(241, 196, 15, 0.3);
+  border: 1px solid rgba(241, 196, 15, 0.6);
+  color: #f1c40f;
+}
+
+.resource-icon.astral_power {
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 1px solid rgba(52, 152, 219, 0.6);
+  color: #3498db;
+}
+
+/* Scrollbar styling */
+.formula-help-modal .modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.formula-help-modal .modal-body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.formula-help-modal .modal-body::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.formula-help-modal .modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Button styling */
+.formula-help-modal .btn-primary {
+  background-color: var(--wizard-primary);
+  border-color: var(--wizard-primary-dark);
+}
+
+.formula-help-modal .btn-primary:hover {
+  background-color: var(--wizard-primary-dark);
+  border-color: var(--wizard-primary-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .formula-table th,
+  .formula-table td {
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+
+  .formula-table code {
+    font-size: 11px;
+  }
+
+  .formula-section {
+    padding: 12px;
+  }
+}

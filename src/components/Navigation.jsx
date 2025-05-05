@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment, useRef } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useGameStore from '../store/gameStore';
@@ -10,6 +10,7 @@ import Skills from './character-sheet/Skills';
 import Lore from './character-sheet/Lore';
 import InventoryWindow from './windows/InventoryWindow';
 import ItemLibrary from './item-generation/ItemLibrary';
+import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
 import '../styles/wow-ui.css';
 import 'react-resizable/css/styles.css';
 
@@ -39,19 +40,19 @@ function CharacterSheetWindow({ isOpen, onClose }) {
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
                 <div className="tab-container">
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'character' ? 'active' : ''}`}
                         onClick={() => setActiveTab('character')}
                     >
                         Character Sheet
                     </button>
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'skills' ? 'active' : ''}`}
                         onClick={() => setActiveTab('skills')}
                     >
                         Skills
                     </button>
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'lore' ? 'active' : ''}`}
                         onClick={() => setActiveTab('lore')}
                     >
@@ -73,6 +74,7 @@ export default function Navigation() {
     const [openWindows, setOpenWindows] = useState(new Set());
     const [size, setSize] = useState({ width: 600, height: 70 });
     const [position, setPosition] = useState({ x: window.innerWidth - 620, y: window.innerHeight - 90 });
+    const nodeRef = useRef(null);
 
     const handleButtonClick = useCallback((windowId) => {
         const newOpenWindows = new Set(openWindows);
@@ -89,7 +91,7 @@ export default function Navigation() {
 
         const key = e.key.toUpperCase();
         const button = buttons.find(b => b.shortcut.toUpperCase() === key);
-        
+
         if (e.code === 'Space' && !e.target.classList.contains('wow-nav-button')) {
             e.preventDefault();
             const chatButton = buttons.find(b => b.id === 'chat');
@@ -204,11 +206,13 @@ export default function Navigation() {
             case 'spellbook':
                 return openWindows.has(button.id) && (
                     <Suspense fallback={<div>Loading...</div>}>
-                        <SpellbookWindow
-                            key={button.id}
-                            isOpen={true}
-                            onClose={() => handleButtonClick(button.id)}
-                        />
+                        <SpellLibraryProvider>
+                            <SpellbookWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </SpellLibraryProvider>
                     </Suspense>
                 );
             case 'itemgen':
@@ -259,8 +263,9 @@ export default function Navigation() {
                 handle=".wow-nav-grid"
                 position={position}
                 onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
+                nodeRef={nodeRef}
             >
-                <div>
+                <div ref={nodeRef}>
                     <Resizable
                         width={size.width}
                         height={size.height}
@@ -271,8 +276,8 @@ export default function Navigation() {
                         resizeHandles={['e']}
                         handle={<div className="custom-resize-handle" />}
                     >
-                        <div className="wow-nav-container" style={{ 
-                            width: size.width, 
+                        <div className="wow-nav-container" style={{
+                            width: size.width,
                             height: size.height,
                         }}>
                             <div className="wow-nav-grid">
@@ -283,8 +288,8 @@ export default function Navigation() {
                                         className={`wow-nav-button ${openWindows.has(button.id) ? 'active' : ''}`}
                                         title={`${button.title} (${button.shortcut})`}
                                     >
-                                        <svg 
-                                            viewBox="0 0 24 24" 
+                                        <svg
+                                            viewBox="0 0 24 24"
                                             className="wow-nav-icon"
                                             fill="none"
                                             stroke="currentColor"

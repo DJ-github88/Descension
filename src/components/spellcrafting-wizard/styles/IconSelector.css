@@ -1,4 +1,4 @@
-/* Icon Selector Styles */
+/* IconSelector.css - Styling for the WoW icon selector modal */
 
 .icon-selector-overlay {
   position: fixed;
@@ -11,278 +11,195 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(3px);
 }
 
 .icon-selector-modal {
-  background: var(--wizard-bg-dark);
-  border: 2px solid var(--wizard-border);
+  background: linear-gradient(to bottom, #1a2334, #0d1219);
+  border: 2px solid #0a3b61;
   border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   width: 90%;
   max-width: 800px;
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-  animation: modalFadeIn 0.3s ease-out;
   overflow: hidden;
+  z-index: 1001;
+  animation: modal-appear 0.3s ease-out;
+}
+
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .icon-selector-header {
+  background: linear-gradient(to bottom, #193151, #0a1626);
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--wizard-border);
-  background: var(--wizard-bg-darker);
+  border-bottom: 1px solid #0a3b61;
 }
 
 .icon-selector-header h3 {
+  color: #e6ca8e;
+  font-size: 20px;
   margin: 0;
-  color: var(--wizard-text-highlight);
-  font-size: 1.2rem;
-  font-weight: 600;
+  text-shadow: 0 0 5px rgba(230, 202, 142, 0.5);
 }
 
 .icon-selector-close-btn {
-  background: none;
+  background: transparent;
   border: none;
-  color: var(--wizard-text);
-  font-size: 1.5rem;
+  color: #7a8ba8;
+  font-size: 24px;
   cursor: pointer;
-  padding: 0 5px;
-  line-height: 1;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: color 0.2s;
 }
 
 .icon-selector-close-btn:hover {
-  color: var(--wizard-text-highlight);
+  color: #b8c5d9;
 }
 
 .icon-selector-filters {
   padding: 15px 20px;
-  border-bottom: 1px solid var(--wizard-border);
-  background: var(--wizard-bg-dark);
+  border-bottom: 1px solid #0a3b61;
+  background-color: rgba(13, 18, 25, 0.5);
 }
 
 .icon-selector-search {
   width: 100%;
   padding: 10px 15px;
-  border: 1px solid var(--wizard-border);
   border-radius: 4px;
-  background: var(--wizard-input-bg);
-  color: var(--wizard-text);
-  font-size: 0.9rem;
+  border: 1px solid #0a3b61;
+  background-color: rgba(10, 15, 25, 0.7);
+  color: #b8c5d9;
   margin-bottom: 15px;
-  transition: border-color 0.2s;
+  font-size: 14px;
 }
 
 .icon-selector-search:focus {
-  border-color: var(--wizard-accent);
   outline: none;
+  border-color: #0074e0;
+  box-shadow: 0 0 5px rgba(0, 116, 224, 0.5);
 }
 
 .icon-selector-categories {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
 }
 
 .icon-selector-category {
-  background: var(--wizard-bg-darker);
-  border: 1px solid var(--wizard-border);
+  background: linear-gradient(to bottom, #142539, #0d1219);
+  border: 1px solid #0a3b61;
   border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  color: var(--wizard-text);
+  padding: 5px 12px;
+  color: #7a8ba8;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .icon-selector-category:hover {
-  background: var(--wizard-bg-hover);
+  background: linear-gradient(to bottom, #1a2c47, #132236);
+  color: #b8c5d9;
 }
 
 .icon-selector-category.active {
-  background: var(--wizard-accent);
-  color: var(--wizard-text-highlight);
-  border-color: var(--wizard-accent);
+  background: linear-gradient(to bottom, #0074e0, #005bb0);
+  border-color: #0074e0;
+  color: white;
+  box-shadow: 0 0 5px rgba(0, 116, 224, 0.5);
 }
 
 .icon-selector-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 15px;
+  gap: 10px;
   padding: 20px;
   overflow-y: auto;
-  max-height: 50vh;
+  max-height: 400px;
+}
+
+.icon-selector-grid::-webkit-scrollbar {
+  width: 10px;
+}
+
+.icon-selector-grid::-webkit-scrollbar-track {
+  background: rgba(13, 18, 25, 0.5);
+}
+
+.icon-selector-grid::-webkit-scrollbar-thumb {
+  background-color: #0a3b61;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 .icon-selector-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
   padding: 10px;
   border-radius: 6px;
+  cursor: pointer;
   transition: all 0.2s;
-  border: 2px solid transparent;
 }
 
 .icon-selector-item:hover {
-  background: var(--wizard-bg-hover);
+  background-color: rgba(26, 35, 52, 0.7);
 }
 
 .icon-selector-item.selected {
-  background: var(--wizard-bg-hover);
-  border-color: var(--wizard-accent);
+  background-color: rgba(0, 116, 224, 0.3);
+  border: 1px solid #0074e0;
+  box-shadow: 0 0 8px rgba(0, 116, 224, 0.5);
 }
 
 .icon-selector-image-container {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 48px;
+  height: 48px;
+  position: relative;
   margin-bottom: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #000;
+  border: 1px solid #0a3b61;
 }
 
 .icon-selector-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  background-color: #000;
-  border: 1px solid #444;
-}
-
-.icon-selector-item:hover .icon-selector-image {
-  transform: scale(1.05);
-  transition: transform 0.2s ease;
-}
-
-.icon-selector-item.selected .icon-selector-image {
-  border: 1px solid var(--wizard-accent);
-  box-shadow: 0 0 8px var(--wizard-accent);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .icon-selector-name {
-  font-size: 0.8rem;
-  color: var(--wizard-text);
+  font-size: 11px;
+  color: #b8c5d9;
   text-align: center;
-  white-space: nowrap;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
+  white-space: nowrap;
 }
 
 .icon-selector-no-results {
   grid-column: 1 / -1;
-  text-align: center;
   padding: 30px;
-  color: var(--wizard-text-muted);
+  text-align: center;
+  color: #7a8ba8;
   font-style: italic;
-}
-
-/* Spell icon styles for the main form */
-.spell-icon-selector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.spell-icon-preview {
-  width: 64px;
-  height: 64px;
-  border: 2px dashed var(--wizard-border);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: var(--wizard-bg-darker);
-  margin-bottom: 8px;
-}
-
-.spell-icon-preview:hover {
-  border-color: var(--wizard-accent);
-  background: var(--wizard-bg-hover);
-}
-
-.spell-icon-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.spell-icon {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-}
-
-.spell-icon-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--wizard-text-muted);
-}
-
-.spell-icon-placeholder i {
-  font-size: 1.5rem;
-  margin-bottom: 5px;
-}
-
-.spell-icon-placeholder span {
-  font-size: 0.7rem;
-}
-
-.spell-icon-label {
-  font-size: 0.8rem;
-  color: var(--wizard-text-muted);
-}
-
-/* Tags styling */
-.spell-wizard-tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 5px;
-}
-
-.spell-wizard-tag {
-  background: var(--wizard-bg-darker);
-  border: 1px solid var(--wizard-border);
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  color: var(--wizard-text);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.spell-wizard-tag:hover {
-  background: var(--wizard-bg-hover);
-}
-
-.spell-wizard-tag.selected {
-  background: var(--wizard-accent);
-  color: var(--wizard-text-highlight);
-  border-color: var(--wizard-accent);
-}
-
-/* Animation */
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

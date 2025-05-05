@@ -1,0 +1,252 @@
+/* Progressive Buff Styling */
+.progressive-buff-config {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(13, 27, 47, 0.7);
+  border: 1px solid #1a4b7c;
+  border-radius: 6px;
+}
+
+.progressive-stages {
+  margin-top: 10px;
+}
+
+.progressive-stages h4 {
+  margin-bottom: 5px;
+  color: #66ccff;
+  font-size: 1rem;
+}
+
+.stage-description {
+  font-size: 0.85rem;
+  color: #a0a0a0;
+  margin-bottom: 10px;
+}
+
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.stage-item {
+  background-color: rgba(26, 54, 95, 0.5);
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(102, 204, 255, 0.3);
+}
+
+.stage-title {
+  font-weight: 500;
+  color: #66ccff;
+}
+
+.stage-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.stage-action {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+}
+
+.stage-action.delete {
+  color: #ff6666;
+}
+
+.stage-action:hover {
+  color: #ffffff;
+}
+
+.stage-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stage-timing, .stage-effect, .stage-type, .stage-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stage-timing label, .stage-effect label, .stage-type label, .stage-stats label {
+  font-size: 0.85rem;
+  color: #e0e0e0;
+}
+
+.stage-timing-inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stage-timing-inputs input {
+  width: 50px;
+  padding: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a4b7c;
+  border-radius: 3px;
+  color: #e0e0e0;
+}
+
+.unit-label {
+  font-size: 0.85rem;
+  color: #a0a0a0;
+}
+
+.stage-effect input {
+  padding: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a4b7c;
+  border-radius: 3px;
+  color: #e0e0e0;
+}
+
+.stage-type select {
+  padding: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a4b7c;
+  border-radius: 3px;
+  color: #e0e0e0;
+}
+
+.no-stages {
+  padding: 10px;
+  text-align: center;
+  color: #a0a0a0;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.add-stage-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: rgba(102, 204, 255, 0.2);
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  color: #66ccff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.add-stage-button:hover {
+  background-color: rgba(102, 204, 255, 0.3);
+}
+
+/* Stage stats styling */
+.stage-stats-selector {
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid #1a4b7c;
+  padding: 5px;
+}
+
+.stage-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stage-stat-item {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: rgba(26, 54, 95, 0.3);
+  transition: all 0.2s ease;
+}
+
+.stage-stat-item.included {
+  background-color: rgba(102, 204, 255, 0.1);
+  border: 1px solid rgba(102, 204, 255, 0.3);
+}
+
+.stage-stat-checkbox {
+  margin-right: 8px;
+}
+
+.stage-stat-checkbox input {
+  cursor: pointer;
+}
+
+.stage-stat-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stage-stat-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stage-stat-name {
+  flex: 1;
+  font-size: 12px;
+  color: #e0e0e0;
+}
+
+.stage-stat-value {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+
+.stage-stat-value input {
+  width: 60px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a4b7c;
+  border-radius: 3px;
+  color: #e0e0e0;
+  padding: 3px 5px;
+  font-size: 12px;
+}
+
+.stage-stat-value select {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a4b7c;
+  border-radius: 3px;
+  color: #e0e0e0;
+  padding: 3px 5px;
+  font-size: 12px;
+}
+
+.no-stats-message {
+  padding: 10px;
+  color: #a0a0a0;
+  font-style: italic;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}

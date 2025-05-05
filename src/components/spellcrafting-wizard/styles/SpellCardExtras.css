@@ -1,0 +1,675 @@
+/* Additional styles for SpellCard component */
+
+/* Tags container */
+.spell-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+/* Effect tag */
+.spell-card-effect-tag {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+  border-radius: 3px;
+  color: #aaa;
+  font-size: 9px;
+  padding: 2px 6px;
+  text-transform: capitalize;
+}
+
+.spell-card-effect-tag.damage {
+  border-color: #FF4500;
+  color: #FF4500;
+}
+
+.spell-card-effect-tag.healing {
+  border-color: #32CD32;
+  color: #32CD32;
+}
+
+.spell-card-effect-tag.buff {
+  border-color: #4169E1;
+  color: #4169E1;
+}
+
+.spell-card-effect-tag.debuff {
+  border-color: #800080;
+  color: #800080;
+}
+
+.spell-card-effect-tag.utility {
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+.spell-card-effect-tag.control {
+  border-color: #87CEEB;
+  color: #87CEEB;
+}
+
+.spell-card-effect-tag.summoning {
+  border-color: #8B4513;
+  color: #8B4513;
+}
+
+.spell-card-effect-tag.transformation {
+  border-color: #FF1493;
+  color: #FF1493;
+}
+
+/* Spell type tag */
+.spell-card-spell-type-tag {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+  border-radius: 3px;
+  color: #aaa;
+  font-size: 9px;
+  padding: 2px 6px;
+  text-transform: uppercase;
+}
+
+/* Spell Components */
+.spell-card-components {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.component-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #1e3a8a;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.spell-card-spell-type-tag.action {
+  border-color: #FF4500;
+  color: #FF4500;
+}
+
+.spell-card-spell-type-tag.reaction {
+  border-color: #4169E1;
+  color: #4169E1;
+}
+
+.spell-card-spell-type-tag.passive {
+  border-color: #32CD32;
+  color: #32CD32;
+}
+
+.spell-card-spell-type-tag.channeled {
+  border-color: #800080;
+  color: #800080;
+}
+
+/* Damage/Healing Value */
+.spell-card-damage-value {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.damage-label {
+  font-weight: bold;
+  color: #aaa;
+}
+
+.damage-amount {
+  color: #ff6b6b;
+}
+
+.spell-card-damage-value.healing .damage-amount {
+  color: #6bff6b;
+}
+
+.damage-amount .formula {
+  font-family: monospace;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 10px;
+}
+
+/* Damage Types */
+.spell-card-damage-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.spell-card-damage-type {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+  border-radius: 3px;
+  color: #aaa;
+  font-size: 9px;
+  padding: 2px 6px;
+  text-transform: capitalize;
+}
+
+/* Damage type colors */
+.spell-card-damage-type.acid {
+  border-color: #32CD32;
+  color: #32CD32;
+}
+
+.spell-card-damage-type.bludgeoning {
+  border-color: #8B4513;
+  color: #8B4513;
+}
+
+.spell-card-damage-type.cold {
+  border-color: #87CEEB;
+  color: #87CEEB;
+}
+
+.spell-card-damage-type.fire {
+  border-color: #FF4500;
+  color: #FF4500;
+}
+
+.spell-card-damage-type.force {
+  border-color: #ff66ff;
+  color: #ff66ff;
+}
+
+.spell-card-damage-type.lightning {
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+.spell-card-damage-type.necrotic {
+  border-color: #800080;
+  color: #800080;
+}
+
+.spell-card-damage-type.piercing {
+  border-color: #A9A9A9;
+  color: #A9A9A9;
+}
+
+.spell-card-damage-type.poison {
+  border-color: #008000;
+  color: #008000;
+}
+
+.spell-card-damage-type.psychic {
+  border-color: #FF1493;
+  color: #FF1493;
+}
+
+.spell-card-damage-type.radiant {
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+.spell-card-damage-type.slashing {
+  border-color: #C0C0C0;
+  color: #C0C0C0;
+}
+
+.spell-card-damage-type.thunder {
+  border-color: #4169E1;
+  color: #4169E1;
+}
+
+/* Resolution Method */
+.spell-card-resolution {
+  display: flex;
+  margin-top: 4px;
+}
+
+.spell-card-resolution-tag {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+  border-radius: 3px;
+  color: #aaa;
+  font-size: 9px;
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.spell-card-resolution-tag.dice {
+  border-color: #4169E1;
+  color: #4169E1;
+}
+
+.spell-card-resolution-tag.cards {
+  border-color: #800080;
+  color: #800080;
+}
+
+.spell-card-resolution-tag.coins {
+  border-color: #FFD700;
+  color: #FFD700;
+}
+
+.dice-icon, .cards-icon, .coins-icon, .bullseye-icon {
+  font-size: 12px;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+.resolution-formula {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  padding: 1px 4px;
+  margin-left: 4px;
+  font-family: monospace;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+/* Critical Hit Mechanics */
+.spell-card-critical {
+  display: flex;
+  margin-top: 4px;
+}
+
+.spell-card-critical-tag {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #FF4500;
+  border-radius: 3px;
+  color: #FF4500;
+  font-size: 9px;
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.spell-card-critical-tag .bullseye-icon {
+  font-size: 12px;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+.crit-detail {
+  background-color: rgba(255, 69, 0, 0.2);
+  border-radius: 2px;
+  padding: 1px 4px;
+  margin-left: 4px;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+/* Rollable Table */
+.spell-card-rollable-table {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.spell-card-rollable-table-tag {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #555;
+  border-radius: 3px;
+  color: #aaa;
+  font-size: 9px;
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.table-icon {
+  font-size: 12px;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+.table-detail {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  padding: 1px 4px;
+  margin-left: 4px;
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.spell-card-rollable-table-entries {
+  margin-top: 6px;
+  padding: 0 6px;
+}
+
+.mini-rollable-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mini-rollable-table th {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #aaa;
+  text-align: left;
+  padding: 3px 6px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mini-rollable-table td {
+  padding: 3px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #ccc;
+}
+
+.mini-rollable-table tr:last-child td {
+  border-bottom: none;
+}
+
+.mini-rollable-table td:first-child {
+  font-weight: 600;
+  color: #89b4fa;
+  width: 30%;
+}
+
+/* Mechanics Section */
+.spell-card-mechanics {
+  margin-top: 8px;
+  padding: 6px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.spell-card-mechanics-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mechanics-icon {
+  font-size: 14px;
+}
+
+.mechanics-title {
+  font-weight: 600;
+  color: #ccc;
+}
+
+.mechanics-details {
+  padding: 4px 0;
+}
+
+/* Chord System */
+.chord-note, .chord-wildcard, .chord-extender {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.chord-function {
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.chord-description, .wildcard-description, .extender-description {
+  color: #aaa;
+}
+
+.wildcard-icon, .extender-icon {
+  font-size: 12px;
+}
+
+.chord-recipe {
+  margin-bottom: 4px;
+}
+
+.recipe-label, .graduated-label, .effects-label {
+  font-weight: 600;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+
+.recipe-sequence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.recipe-item {
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid;
+  font-size: 9px;
+}
+
+.graduated-effects {
+  margin-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 6px;
+}
+
+.graduated-label {
+  font-weight: 600;
+  color: #ccc;
+  margin-bottom: 6px;
+  font-size: 10px;
+}
+
+.graduated-effect {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 9px;
+}
+
+.count {
+  font-weight: 600;
+  color: #89b4fa;
+  white-space: nowrap;
+}
+
+.effect {
+  color: #ccc;
+}
+
+.effect-formula {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.effect-type {
+  font-size: 9px;
+  color: #cba6f7;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.healing-type {
+  font-size: 8px;
+  color: #a6e3a1;
+  margin-bottom: 2px;
+  padding-left: 12px;
+  font-style: italic;
+}
+
+.formula-text {
+  font-family: monospace;
+  color: #f9e2af;
+  font-size: 9px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border-left: 2px solid #f9e2af;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.effect-description {
+  color: #ccc;
+  font-style: italic;
+  font-size: 8px;
+}
+
+/* Toxic System */
+.toxic-applier, .toxic-consumer {
+  margin-bottom: 4px;
+}
+
+.toxic-types {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.toxic-label, .consumption-label, .requirement-label, .formula-label {
+  font-weight: 600;
+  color: #ccc;
+  margin-right: 4px;
+}
+
+.toxic-type {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 9px;
+}
+
+.toxic-icon {
+  font-size: 12px;
+}
+
+.toxic-name {
+  color: #ccc;
+}
+
+.toxic-count {
+  font-weight: 600;
+  color: #89b4fa;
+}
+
+.toxic-duration {
+  color: #aaa;
+  font-size: 9px;
+  margin-top: 4px;
+}
+
+.consumption-rule {
+  margin-bottom: 6px;
+}
+
+.consumption-all {
+  color: #ccc;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 9px;
+}
+
+.toxic-effects {
+  margin-top: 6px;
+}
+
+.toxic-effect {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 2px;
+  font-size: 9px;
+}
+
+/* State Requirements */
+.state-requirement {
+  margin-bottom: 6px;
+}
+
+.requirement-value {
+  color: #ccc;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 9px;
+}
+
+.formula-update {
+  margin-top: 6px;
+}
+
+.original-formula, .updated-formula {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+  font-size: 9px;
+}
+
+.formula-value {
+  color: #ccc;
+  font-family: monospace;
+}
+
+/* Stat Bonuses */
+.spell-card-stat-bonuses {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 6px;
+}
+
+.spell-card-stat-header {
+  font-size: 10px;
+  font-weight: bold;
+  color: #aaa;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 2px;
+}
+
+.spell-card-stat-bonus {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  padding: 2px 0;
+}
+
+.stat-name {
+  color: #ccc;
+}
+
+.stat-value {
+  color: #4CAF50;
+  font-weight: bold;
+}

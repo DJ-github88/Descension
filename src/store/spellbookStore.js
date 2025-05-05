@@ -14,6 +14,7 @@ const initialState = {
   collections: DEFAULT_COLLECTIONS,
   selectedSpell: null,
   selectedCollection: null,
+  activeTab: 'spells', // Default tab
   filters: {
     searchText: '',
     categories: [],
@@ -100,6 +101,9 @@ const useSpellbookStore = create(
       // Selection management
       selectSpell: (id) => set({ selectedSpell: id }),
       selectCollection: (id) => set({ selectedCollection: id }),
+
+      // Tab management
+      setActiveTab: (tab) => set({ activeTab: tab }),
 
       // Filter management
       updateFilters: (updates) => set(state => ({

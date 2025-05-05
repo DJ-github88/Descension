@@ -1,0 +1,149 @@
+/* SpellContextMenu.css - Styling for spell and collection context menus */
+
+.spell-context-menu {
+  position: fixed;
+  background-color: rgba(13, 25, 46, 0.95);
+  border: 1px solid var(--library-border-light, #334155);
+  border-radius: 4px;
+  min-width: 220px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(30, 58, 138, 0.1);
+  z-index: 1000;
+  color: #fff;
+  animation: menuFadeIn 0.2s ease-out;
+  overflow: hidden;
+  font-family: 'Friz Quadrata', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.context-menu-section {
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.context-menu-section:last-child {
+  border-bottom: none;
+}
+
+.context-menu-header {
+  padding: 8px 12px;
+  color: #ffd100;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 209, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(58, 90, 140, 0.2);
+}
+
+.context-menu-item:last-child {
+  border-bottom: none;
+}
+
+.context-menu-item:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.3);
+  color: #00c8ff;
+}
+
+.context-menu-item i {
+  margin-right: 8px;
+  width: 16px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.context-menu-item:hover i {
+  color: #60a5fa;
+}
+
+.context-menu-items {
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.context-menu-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.context-menu-items::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.context-menu-items::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.primary-action {
+  color: #60a5fa;
+  font-weight: 600;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.primary-action:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #00c8ff;
+  box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.4);
+}
+
+.primary-action i {
+  color: #60a5fa;
+}
+
+.primary-action:hover i {
+  color: #00c8ff;
+}
+
+.delete-item {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.delete-item:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ff5252;
+  box-shadow: inset 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.delete-item i {
+  color: #ef4444;
+}
+
+.delete-item:hover i {
+  color: #ff5252;
+}
+
+.context-menu-divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 4px 0;
+}

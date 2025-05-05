@@ -1,0 +1,108 @@
+/* FormulaEditor.css */
+
+.formula-editor {
+  background-color: rgba(35, 35, 50, 0.8);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.formula-input-container {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.formula-input {
+  flex: 1;
+  background-color: rgba(30, 30, 40, 0.7);
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  padding: 8px 12px;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.formula-buttons {
+  display: flex;
+  margin-left: 12px;
+}
+
+.formula-button {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  border: 1px solid #34495e;
+  border-radius: 4px;
+  padding: 6px 12px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.formula-button:hover {
+  background-color: #34495e;
+}
+
+.formula-templates,
+.formula-variables {
+  background-color: rgba(40, 40, 55, 0.9);
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 8px;
+  border: 1px solid #555;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.formula-templates h4,
+.formula-variables h4 {
+  color: #ecf0f1;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  border-bottom: 1px solid #555;
+  padding-bottom: 8px;
+}
+
+.templates-list,
+.variables-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.template-item,
+.variable-item {
+  background-color: rgba(50, 50, 70, 0.7);
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.template-item:hover,
+.variable-item:hover {
+  background-color: rgba(60, 60, 80, 0.9);
+}
+
+.template-name,
+.variable-name {
+  color: #3498db;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.template-formula {
+  color: #2ecc71;
+  font-family: monospace;
+  margin-bottom: 4px;
+}
+
+.template-description,
+.variable-description {
+  color: #bdc3c7;
+  font-size: 0.9rem;
+}

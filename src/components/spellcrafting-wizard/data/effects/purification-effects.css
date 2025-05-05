@@ -1,0 +1,456 @@
+/* Purification Effects Styles */
+
+.purification-effects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  color: #e0e0e0;
+}
+
+.section {
+  background-color: rgba(26, 54, 95, 0.4);
+  border: 1px solid #1a4b7c;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.section h3 {
+  color: #66ccff;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #1a4b7c;
+  padding-bottom: 8px;
+}
+
+.card-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.stat-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.stat-card {
+  background-color: rgba(13, 27, 47, 0.7);
+  border: 1px solid #1a4b7c;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.stat-card:hover {
+  background-color: rgba(26, 54, 95, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card.selected {
+  background-color: rgba(38, 83, 138, 0.7);
+  border-color: #3498db;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.stat-name {
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.stat-indicator {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+.selected-effects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.selected-effect {
+  background-color: rgba(13, 27, 47, 0.7);
+  border: 1px solid #1a4b7c;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.effect-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.effect-icon {
+  flex-shrink: 0;
+  margin-right: 15px;
+}
+
+.effect-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.effect-info {
+  flex-grow: 1;
+}
+
+.effect-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #66ccff;
+  margin-bottom: 5px;
+}
+
+.effect-description {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+.effect-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.remove-effect {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-effect:hover {
+  background-color: rgba(231, 76, 60, 0.4);
+}
+
+.effect-custom-config {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: rgba(26, 54, 95, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.custom-config-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-config-label {
+  width: 140px;
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+.custom-config-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.custom-slider {
+  flex-grow: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1a4b7c;
+  border-radius: 3px;
+  outline: none;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3498db;
+  cursor: pointer;
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #3498db;
+  cursor: pointer;
+}
+
+.custom-value {
+  width: 50px;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #66ccff;
+}
+
+.custom-button {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(52, 152, 219, 0.2);
+  color: #3498db;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.custom-button:hover {
+  background-color: rgba(52, 152, 219, 0.4);
+}
+
+.custom-number-input {
+  width: 60px;
+  height: 30px;
+  background-color: rgba(13, 27, 47, 0.7);
+  color: #e0e0e0;
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.custom-hint {
+  font-size: 0.8rem;
+  color: #b0b0b0;
+  font-style: italic;
+}
+
+.duration-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.duration-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.duration-input input {
+  width: 60px;
+  height: 30px;
+  background-color: rgba(13, 27, 47, 0.7);
+  color: #e0e0e0;
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.duration-input select {
+  height: 30px;
+  background-color: rgba(13, 27, 47, 0.7);
+  color: #e0e0e0;
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 0.9rem;
+}
+
+/* Resolution styles */
+.resurrection-resolution {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: rgba(26, 54, 95, 0.2);
+  border-radius: 6px;
+}
+
+.resolution-options {
+  display: flex;
+  gap: 10px;
+}
+
+.resolution-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: rgba(13, 27, 47, 0.7);
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resolution-option:hover {
+  background-color: rgba(26, 54, 95, 0.7);
+}
+
+.resolution-option.active {
+  background-color: rgba(52, 152, 219, 0.3);
+  border-color: #3498db;
+  color: #66ccff;
+}
+
+.resolution-icon {
+  font-size: 1.1rem;
+}
+
+.formula-input-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.formula-input {
+  flex: 1;
+  height: 30px;
+  background-color: rgba(13, 27, 47, 0.7);
+  color: #e0e0e0;
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 0.9rem;
+  font-family: monospace;
+}
+
+.formula-examples {
+  margin-top: 10px;
+}
+
+.formula-examples h4 {
+  color: #66ccff;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.formula-examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.formula-example {
+  background-color: rgba(13, 27, 47, 0.7);
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.formula-example:hover {
+  background-color: rgba(26, 54, 95, 0.7);
+  border-color: #3498db;
+}
+
+.formula-example-name {
+  color: #66ccff;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.formula-example-formula {
+  color: #e0e0e0;
+  font-family: monospace;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+}
+
+.formula-example-description {
+  color: #b0b0b0;
+  font-size: 0.8rem;
+}
+
+/* Specific effect types styling */
+.specific-effect-types {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgba(26, 54, 95, 0.2);
+  border-radius: 6px;
+}
+
+.specific-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.specific-type-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  background-color: rgba(13, 27, 47, 0.7);
+  border: 1px solid #1a4b7c;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.specific-type-option:hover {
+  background-color: rgba(26, 54, 95, 0.7);
+}
+
+.specific-type-option.selected {
+  background-color: rgba(52, 152, 219, 0.3);
+  border-color: #3498db;
+}
+
+.specific-type-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.specific-type-name {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #e0e0e0;
+}
