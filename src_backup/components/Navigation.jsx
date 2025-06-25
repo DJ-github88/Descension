@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment } fro
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useGameStore from '../store/gameStore';
+import useChatStore from '../store/chatStore';
 import WowWindow from './windows/WowWindow';
 import CreatureWindow from './windows/CreatureWindow';
 import SettingsWindow from './windows/SettingsWindow';
@@ -11,9 +12,11 @@ import Lore from './character-sheet/Lore';
 import InventoryWindow from './windows/InventoryWindow';
 import ItemLibrary from './item-generation/ItemLibrary';
 import '../styles/wow-ui.css';
+import '../styles/navigation-badge.css';
 import 'react-resizable/css/styles.css';
 
 const SpellbookWindow = lazy(() => import('./windows/SpellbookWindow'));
+const ChatWindow = lazy(() => import('./windows/ChatWindow'));
 
 function CharacterSheetWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('character');
@@ -39,19 +42,19 @@ function CharacterSheetWindow({ isOpen, onClose }) {
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
                 <div className="tab-container">
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'character' ? 'active' : ''}`}
                         onClick={() => setActiveTab('character')}
                     >
                         Character Sheet
                     </button>
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'skills' ? 'active' : ''}`}
                         onClick={() => setActiveTab('skills')}
                     >
                         Skills
                     </button>
-                    <button 
+                    <button
                         className={`tab-button ${activeTab === 'lore' ? 'active' : ''}`}
                         onClick={() => setActiveTab('lore')}
                     >
@@ -74,45 +77,10 @@ export default function Navigation() {
     const [size, setSize] = useState({ width: 600, height: 70 });
     const [position, setPosition] = useState({ x: window.innerWidth - 620, y: window.innerHeight - 90 });
 
-    const handleButtonClick = useCallback((windowId) => {
-        const newOpenWindows = new Set(openWindows);
-        if (openWindows.has(windowId)) {
-            newOpenWindows.delete(windowId);
-        } else {
-            newOpenWindows.add(windowId);
-        }
-        setOpenWindows(newOpenWindows);
-    }, [openWindows]);
+    // Get unread counts from chat store
+    const { unreadCounts, setIsOpen, setActiveTab } = useChatStore();
 
-    const handleKeyPress = useCallback((e) => {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-        const key = e.key.toUpperCase();
-        const button = buttons.find(b => b.shortcut.toUpperCase() === key);
-        
-        if (e.code === 'Space' && !e.target.classList.contains('wow-nav-button')) {
-            e.preventDefault();
-            const chatButton = buttons.find(b => b.id === 'chat');
-            if (chatButton) handleButtonClick('chat');
-            return;
-        }
-
-        if (button) {
-            e.preventDefault();
-            handleButtonClick(button.id);
-        }
-    }, [handleButtonClick]);
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyPress);
-        return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [handleKeyPress]);
-
-    const handleResize = (e, { size }) => {
-        e.stopPropagation();
-        setSize(size);
-    };
-
+    // Define buttons array first to avoid temporal dead zone issues
     const buttons = [
         {
             id: 'character',
@@ -145,6 +113,12 @@ export default function Navigation() {
             svg: <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
         },
         {
+            id: 'chat',
+            title: 'Chat Window',
+            shortcut: 'H',
+            svg: <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        },
+        {
             id: 'social',
             title: 'Social',
             shortcut: 'O',
@@ -154,7 +128,6 @@ export default function Navigation() {
             id: 'creatures',
             title: 'Creature Library',
             shortcut: 'L',
-            window: CreatureWindow,
             svg: <>
                 <path d="M7 7h10M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z M12 11c-2.5 0-3.5 1.5-3.5 3s1 3 3.5 3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
                 <path d="M9 17c-2.5 0-3.5-1.5-3.5-3s1-3 3.5-3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
@@ -177,6 +150,62 @@ export default function Navigation() {
             svg: <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
         }
     ];
+
+    const handleButtonClick = useCallback((windowId) => {
+        const newOpenWindows = new Set(openWindows);
+        if (openWindows.has(windowId)) {
+            newOpenWindows.delete(windowId);
+
+            // If closing the chat window, update the chat store
+            if (windowId === 'chat') {
+                setIsOpen(false);
+            }
+        } else {
+            newOpenWindows.add(windowId);
+
+            // If opening the chat window, update the chat store
+            if (windowId === 'chat') {
+                setIsOpen(true);
+            }
+        }
+        setOpenWindows(newOpenWindows);
+    }, [openWindows, setIsOpen]);
+
+    const handleKeyPress = useCallback((e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        const key = e.key.toUpperCase();
+        const button = buttons.find(b => b.shortcut.toUpperCase() === key);
+
+        // Debug logging
+        console.log('Key pressed:', key);
+        console.log('Buttons:', buttons);
+        console.log('Matching button:', button);
+
+        if (e.code === 'Space' && !e.target.classList.contains('wow-nav-button')) {
+            e.preventDefault();
+            const chatButton = buttons.find(b => b.id === 'chat');
+            console.log('Space pressed, chat button:', chatButton);
+            if (chatButton) handleButtonClick('chat');
+            return;
+        }
+
+        if (button) {
+            e.preventDefault();
+            console.log('Button found, clicking:', button.id);
+            handleButtonClick(button.id);
+        }
+    }, [handleButtonClick, buttons]);
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
+    }, [handleKeyPress]);
+
+    const handleResize = (e, { size }) => {
+        e.stopPropagation();
+        setSize(size);
+    };
 
     const getWindowContent = (button) => {
         switch (button.id) {
@@ -211,6 +240,21 @@ export default function Navigation() {
                         />
                     </Suspense>
                 );
+            case 'chat':
+                return openWindows.has(button.id) && (
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <WowWindow
+                            key={button.id}
+                            title={button.title}
+                            isOpen={true}
+                            onClose={() => handleButtonClick(button.id)}
+                            defaultSize={{ width: 500, height: 600 }}
+                            defaultPosition={{ x: 200, y: 150 }}
+                        >
+                            <ChatWindow />
+                        </WowWindow>
+                    </Suspense>
+                );
             case 'itemgen':
                 return openWindows.has(button.id) && (
                     <ItemLibrary
@@ -218,6 +262,19 @@ export default function Navigation() {
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}
                     />
+                );
+            case 'creatures':
+                return openWindows.has(button.id) && (
+                    <WowWindow
+                        key={button.id}
+                        title={button.title}
+                        isOpen={true}
+                        onClose={() => handleButtonClick(button.id)}
+                        defaultSize={{ width: 900, height: 700 }}
+                        defaultPosition={{ x: 100, y: 100 }}
+                    >
+                        <CreatureWindow />
+                    </WowWindow>
                 );
             default:
                 if (button.window) {
@@ -271,34 +328,45 @@ export default function Navigation() {
                         resizeHandles={['e']}
                         handle={<div className="custom-resize-handle" />}
                     >
-                        <div className="wow-nav-container" style={{ 
-                            width: size.width, 
+                        <div className="wow-nav-container" style={{
+                            width: size.width,
                             height: size.height,
                         }}>
                             <div className="wow-nav-grid">
-                                {buttons.map(button => (
-                                    <button
-                                        key={button.id}
-                                        onClick={() => handleButtonClick(button.id)}
-                                        className={`wow-nav-button ${openWindows.has(button.id) ? 'active' : ''}`}
-                                        title={`${button.title} (${button.shortcut})`}
-                                    >
-                                        <svg 
-                                            viewBox="0 0 24 24" 
-                                            className="wow-nav-icon"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
+                                {buttons.map(button => {
+                                    // Calculate total unread count for chat button
+                                    const totalUnread = button.id === 'chat'
+                                        ? Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)
+                                        : 0;
+
+                                    return (
+                                        <button
+                                            key={button.id}
+                                            onClick={() => handleButtonClick(button.id)}
+                                            className={`wow-nav-button ${openWindows.has(button.id) ? 'active' : ''}`}
+                                            title={`${button.title} (${button.shortcut})`}
+                                            data-unread={totalUnread}
                                         >
-                                            {button.svg}
-                                        </svg>
-                                        <div className="shortcut">
-                                            {button.shortcut}
-                                        </div>
-                                    </button>
-                                ))}
+                                            <svg
+                                                viewBox="0 0 24 24"
+                                                className="wow-nav-icon"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                {button.svg}
+                                            </svg>
+                                            <div className="shortcut">
+                                                {button.shortcut}
+                                            </div>
+                                            {button.id === 'chat' && totalUnread > 0 && (
+                                                <div className="unread-badge">{totalUnread > 99 ? '99+' : totalUnread}</div>
+                                            )}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
                     </Resizable>

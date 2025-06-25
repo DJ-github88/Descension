@@ -2,6 +2,7 @@
   "name": "vtt-react",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -23,6 +24,7 @@
   },
   "scripts": {
     "start": "cd vtt-react && npm start",
+    "start-legacy": "cd vtt-react && npm run start-legacy",
     "build": "cd vtt-react && npm run build",
     "test": "cd vtt-react && npm test",
     "eject": "cd vtt-react && npm run eject"
@@ -47,6 +49,7 @@
   },
   "devDependencies": {
     "@nodelib/fs.scandir": "^4.0.1",
+    "@types/jest": "^29.5.14",
     "eslint": "^8.57.1"
   }
 }

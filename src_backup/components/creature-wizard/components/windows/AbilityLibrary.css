@@ -1,0 +1,213 @@
+/* Ability Library Styles */
+.ability-library {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* No abilities message */
+.no-abilities-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.no-abilities-found p {
+  color: #ccc;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.clear-search-btn {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #ccc;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-search-btn:hover {
+  background-color: #3a3a3a;
+  color: #fff;
+}
+
+/* Ability groups */
+.ability-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ability-group {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 15px;
+  border: 1px solid #333;
+}
+
+.ability-group-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ccc;
+  margin: 0 0 15px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+}
+
+/* Ability grid */
+.ability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+/* Ability card */
+.ability-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 120px;
+}
+
+.ability-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-color: #555;
+}
+
+/* Card header with icon */
+.ability-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #333;
+}
+
+.ability-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ability-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ability-icon-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.ability-title {
+  flex: 1;
+  overflow: hidden;
+}
+
+.ability-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ability-type {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Card content */
+.ability-card-content {
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ability-description {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Ability type colors */
+.ability-card[data-type="ACTION"] .ability-icon {
+  border-color: #f44336;
+}
+
+.ability-card[data-type="PASSIVE"] .ability-icon {
+  border-color: #4caf50;
+}
+
+.ability-card[data-type="REACTION"] .ability-icon {
+  border-color: #2196f3;
+}
+
+.ability-card[data-type="CHANNELED"] .ability-icon {
+  border-color: #9c27b0;
+}
+
+.ability-card[data-type="TRAP"] .ability-icon {
+  border-color: #ff9800;
+}
+
+.ability-card[data-type="STATE"] .ability-icon {
+  border-color: #607d8b;
+}
+
+/* Scrollbar styling */
+.ability-library::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ability-library::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.ability-library::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 4px;
+}
+
+.ability-library::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
