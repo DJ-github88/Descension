@@ -1,0 +1,559 @@
+/* Professional VTT Editor Styles - Roll20/Owlbear Rodeo Inspired */
+
+.vtt-editor-toggle:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+}
+
+/* Spellbook-Style Header Tabs for Editor */
+.professional-vtt-editor .spellbook-tab-headers {
+  display: flex;
+  flex: 1;
+  height: 50px;
+  background: linear-gradient(135deg,
+    rgba(139, 115, 85, 0.95) 0%,
+    rgba(122, 59, 46, 0.9) 50%,
+    rgba(90, 30, 18, 0.85) 100%
+  );
+  border-bottom: 3px solid #8b7355;
+  border-radius: 0;
+  box-shadow:
+    inset 0 2px 0 rgba(240, 230, 210, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  padding: 0 4px;
+  gap: 2px;
+  align-items: stretch;
+  margin: 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  overflow: hidden;
+}
+
+.professional-vtt-editor .spellbook-tab {
+  flex: 1;
+  padding: 6px 12px;
+  background: linear-gradient(135deg,
+    #f0e6d2 0%,
+    #e8dcc0 25%,
+    #f5f0e8 50%,
+    #e8dcc0 75%,
+    #f0e6d2 100%);
+  border: 2px solid #8b4513;
+  border-bottom: none;
+  border-radius: 0;
+  color: #3a2817;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.3),
+    1px 0 0 rgba(139, 69, 19, 0.5);
+  height: 48px;
+  gap: 2px;
+}
+
+.professional-vtt-editor .spellbook-tab:first-child {
+  border-top-left-radius: 8px;
+  border-left: 2px solid #8b4513;
+}
+
+.professional-vtt-editor .spellbook-tab:last-child {
+  border-top-right-radius: 8px;
+  border-right: 2px solid #8b4513;
+}
+
+.professional-vtt-editor .spellbook-tab .tab-icon-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid rgba(139, 69, 19, 0.4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2px;
+}
+
+.professional-vtt-editor .spellbook-tab span {
+  font-size: 10px;
+  font-weight: inherit;
+  letter-spacing: 0.6px;
+  line-height: 1;
+}
+
+.professional-vtt-editor .spellbook-tab:hover:not(.active) {
+  background: linear-gradient(135deg,
+    #f8f2e6 0%,
+    #f0e6d2 25%,
+    #f8f2e6 50%,
+    #f0e6d2 75%,
+    #f8f2e6 100%);
+  color: #2a1810;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.4),
+    1px 0 0 rgba(139, 69, 19, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.professional-vtt-editor .spellbook-tab:hover:not(.active) .tab-icon-img {
+  border-color: rgba(139, 69, 19, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.professional-vtt-editor .spellbook-tab.active {
+  background: linear-gradient(135deg,
+    #d4af37 0%,
+    #ffd700 25%,
+    #ffed4e 50%,
+    #ffd700 75%,
+    #d4af37 100%);
+  color: #2a1810;
+  font-weight: 700;
+  border-color: #b8860b;
+  z-index: 2;
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(184, 134, 11, 0.5),
+    2px 0 0 rgba(184, 134, 11, 0.7),
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(212, 175, 55, 0.4);
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.professional-vtt-editor .spellbook-tab.active .tab-icon-img {
+  border-color: #b8860b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.professional-vtt-editor .window-content {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+.vtt-editor-content {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    background: #f0e6d2;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+/* Tool Palette - Left Panel */
+.vtt-tool-palette {
+    width: 280px;
+    background: rgba(240, 230, 210, 0.95);
+    border-right: 2px solid #a08c70;
+    padding: 16px;
+    overflow-y: auto;
+    box-shadow: inset -2px 0 4px rgba(0,0,0,0.1);
+}
+
+.tool-category-header {
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #a08c70;
+    padding-bottom: 12px;
+}
+
+.tool-category-header h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    color: #7a3b2e;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.tool-category-header p {
+    margin: 0;
+    font-size: 11px;
+    color: #5a3a2a;
+    font-style: italic;
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.vtt-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    background: linear-gradient(to bottom, #f4f1e8, #e8e2d5);
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.vtt-tool-btn:hover {
+    background: linear-gradient(to bottom, #f8f5ec, #ece6d9);
+    border-color: #7a3b2e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.vtt-tool-btn.active {
+    background: linear-gradient(to bottom, #d4af37, #b8941f);
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(1px);
+}
+
+.vtt-tool-btn .tool-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.vtt-tool-btn.active .tool-icon {
+    border-color: rgba(240, 230, 210, 0.5);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.vtt-tool-btn .tool-label {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tool Settings - Full Width Panel */
+.vtt-tool-settings {
+    flex: 1;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border-right: 2px solid #a08c70;
+    overflow-y: auto;
+    margin-right: 0;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.vtt-tool-settings h4 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #a08c70;
+    padding-bottom: 8px;
+}
+
+.settings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.setting-group label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #5a3a2a;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.setting-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: #a08c70;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.setting-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #7a3b2e;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.setting-group input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #7a3b2e;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.setting-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #7a3b2e;
+}
+
+.setting-group span {
+    font-size: 11px;
+    color: #7a3b2e;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Layer Panel - Right Side */
+.vtt-layer-panel {
+    width: 250px;
+    background: rgba(240, 230, 210, 0.95);
+    padding: 16px;
+    overflow-y: auto;
+    box-shadow: inset 2px 0 4px rgba(0,0,0,0.1);
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.vtt-layer-panel h4 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #a08c70;
+    padding-bottom: 8px;
+    text-align: center;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.layer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.layer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.4);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.layer-item:hover {
+    background: rgba(255,255,255,0.6);
+    border-color: #a08c70;
+}
+
+.layer-item.active {
+    background: rgba(212, 175, 55, 0.4);
+    border-color: #7a3b2e;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.layer-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #5a3a2a;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    /* Ensure crisp text rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.layer-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.layer-visibility,
+.layer-lock {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.layer-visibility:hover,
+.layer-lock:hover {
+    background: rgba(122, 59, 46, 0.2);
+}
+
+.layer-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #a08c70;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-family: inherit;
+}
+
+.action-btn.primary {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.action-btn.primary:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+}
+
+.action-btn.secondary {
+    background: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+.action-btn.secondary:hover {
+    background: #545b62;
+    border-color: #545b62;
+}
+
+.action-btn.danger {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.action-btn.danger:hover {
+    background: #c82333;
+    border-color: #c82333;
+}
+
+/* Shortcuts Help */
+.vtt-shortcuts-help {
+    padding: 8px 16px;
+    background: rgba(122, 59, 46, 0.1);
+    border-top: 1px solid #a08c70;
+    text-align: center;
+}
+
+.vtt-shortcuts-help small {
+    color: #5a3a2a;
+    font-size: 10px;
+}
+
+/* Drawing Overlay */
+.vtt-drawing-overlay {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .vtt-tool-palette {
+        width: 240px;
+    }
+    
+    .vtt-layer-panel {
+        width: 220px;
+    }
+    
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Performance Optimizations - Fixed text rendering */
+.vtt-editor-content * {
+    /* Remove will-change and backface-visibility that cause blurry text */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Styling */
+.vtt-tool-palette::-webkit-scrollbar,
+.vtt-tool-settings::-webkit-scrollbar,
+.vtt-layer-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.vtt-tool-palette::-webkit-scrollbar-track,
+.vtt-tool-settings::-webkit-scrollbar-track,
+.vtt-layer-panel::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2);
+    border-radius: 4px;
+}
+
+.vtt-tool-palette::-webkit-scrollbar-thumb,
+.vtt-tool-settings::-webkit-scrollbar-thumb,
+.vtt-layer-panel::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 4px;
+}
+
+.vtt-tool-palette::-webkit-scrollbar-thumb:hover,
+.vtt-tool-settings::-webkit-scrollbar-thumb:hover,
+.vtt-layer-panel::-webkit-scrollbar-thumb:hover {
+    background: #7a3b2e;
+}

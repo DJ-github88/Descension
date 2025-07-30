@@ -1,0 +1,64 @@
+.creature-context-menu {
+  position: fixed;
+  z-index: 99999999; /* Extremely high z-index to ensure it's above everything */
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.context-menu-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.context-menu-item:hover {
+  background-color: #4CAF50;
+}
+
+.context-menu-item i {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.context-menu-submenu {
+  position: relative;
+}
+
+.context-menu-submenu .context-menu-item {
+  padding-right: 24px;
+}
+
+.submenu-caret {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+}
+
+.context-submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+  display: none;
+  z-index: 100000000; /* Even higher z-index than the parent menu */
+}
+
+.context-menu-submenu:hover .context-submenu {
+  display: block;
+}

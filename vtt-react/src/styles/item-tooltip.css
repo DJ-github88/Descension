@@ -1,0 +1,961 @@
+/* D&D/Pathfinder Themed Item Tooltip */
+.item-tooltip {
+    background: linear-gradient(145deg, rgba(45, 35, 25, 0.95) 0%, rgba(35, 25, 18, 0.98) 100%);
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    padding: 16px;
+    color: #f8f4e6;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    width: 100%;
+    min-width: 280px;
+    max-width: 300px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(139, 69, 19, 0.3),
+                0 0 0 1px rgba(139, 69, 19, 0.4),
+                0 0 16px rgba(139, 69, 19, 0.2);
+    pointer-events: none;
+    margin: 0;
+    backdrop-filter: blur(4px);
+}
+
+.review-tooltip .item-tooltip,
+.review-step .item-tooltip,
+.review-tooltip-container .item-tooltip {
+    margin: 0;
+    width: 100%;
+}
+
+/* Quality-based borders and effects - maintain WoW style for item quality */
+.item-tooltip[data-quality="poor"] {
+    border-color: #9d9d9d !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(157, 157, 157, 0.6) !important;
+}
+
+.item-tooltip[data-quality="common"] {
+    border-color: #ffffff !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.5) !important;
+}
+
+.item-tooltip[data-quality="uncommon"] {
+    border-color: #1eff00 !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 18px rgba(30, 255, 0, 0.6) !important;
+}
+
+.item-tooltip[data-quality="rare"] {
+    border-color: #0070dd !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 18px rgba(0, 112, 221, 0.6) !important;
+}
+
+.item-tooltip[data-quality="epic"] {
+    border-color: #a335ee !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 18px rgba(163, 53, 238, 0.6) !important;
+}
+
+.item-tooltip[data-quality="legendary"] {
+    border-color: #ff8000 !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 22px rgba(255, 128, 0, 0.7) !important;
+}
+
+.item-tooltip[data-quality="artifact"] {
+    border-color: #e6cc80 !important;
+    border-width: 3px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 25px rgba(230, 204, 128, 0.8) !important;
+}
+
+/* Item Icon Container */
+.item-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.item-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.item-tooltip .item-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.5);
+    padding-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Quality colors matching RARITY_COLORS constant */
+.quality-poor { color: #9d9d9d !important; }
+.quality-common { color: #ffffff !important; }
+.quality-uncommon { color: #1eff00 !important; }
+.quality-rare { color: #0070dd !important; }
+.quality-epic { color: #a335ee !important; }
+.quality-legendary { color: #ff8000 !important; }
+.quality-artifact { color: #e6cc80 !important; }
+
+.item-type, .item-slot {
+    color: #c4a373;
+    font-size: 14px;
+    margin-bottom: 4px;
+    letter-spacing: 0.2px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-armor {
+    color: #a08c70;
+    font-size: 14px;
+    margin: 8px 0;
+    padding: 4px 0;
+    border-top: 1px solid rgba(139, 69, 19, 0.5);
+    border-bottom: 1px solid rgba(139, 69, 19, 0.5);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Stats styling */
+.item-stats {
+    font-size: 14px;
+    margin: 8px 0;
+    color: #32CD32; /* Lime green - good contrast on dark background */
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.base-stat {
+    color: #32CD32; /* Lime green - good contrast on dark background */
+    display: block;
+    margin: 4px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.combat-stat {
+    color: #32CD32; /* Lime green - good contrast on dark background */
+    display: block;
+    margin: 4px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.damage-type {
+    color: #32CD32; /* Lime green - good contrast on dark background */
+    font-weight: 500;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Description styling - Auto-adjusts size based on content */
+.item-description {
+    color: #d4af37;
+    font-size: 14px;
+    font-style: italic;
+    margin: 8px 0 6px 0; /* Reduced margins for tighter spacing */
+    line-height: 1.4;
+    padding: 6px 0; /* Reduced padding for auto-sizing */
+    border-top: 1px solid rgba(139, 69, 19, 0.5);
+    font-family: 'Times New Roman', serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    /* Auto-sizing properties */
+    min-height: auto; /* Allow natural height */
+    max-height: none; /* No height restrictions */
+    overflow: visible; /* Ensure content is visible */
+    word-wrap: break-word; /* Handle long words */
+    hyphens: auto; /* Better text wrapping */
+}
+
+/* Remove extra space when description is empty or very short */
+.item-description:empty {
+    display: none; /* Hide completely when empty */
+}
+
+/* Minimal spacing for short descriptions */
+.item-description:not(:empty) {
+    margin-bottom: 4px; /* Minimal bottom margin when content exists */
+}
+
+/* Miscellaneous item specific styles */
+.item-misc-info {
+    color: #c4a373;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 6px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-reagent-info {
+    color: #5a5a5a;
+    font-size: 14px;
+    margin: 4px 0;
+    line-height: 1.4;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-crafting-info {
+    color: #4a934a; /* Forest green */
+    font-size: 14px;
+    margin: 4px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-trade-info {
+    color: #0070dd; /* Blue */
+    font-size: 14px;
+    margin: 4px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-info {
+    color: #a335ee; /* Purple */
+    font-size: 14px;
+    margin: 4px 0;
+    font-weight: 500;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-location-info {
+    color: #5a5a5a;
+    font-size: 14px;
+    font-style: italic;
+    margin: 4px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-security-info {
+    color: #c9a83f; /* Amber */
+    font-size: 14px;
+    margin: 4px 0;
+    font-weight: 500;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Reagent Item Specific Styles */
+.item-reagent-type {
+    color: #0070dd; /* Blue */
+    font-size: 0.95em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-reagent-magic-type {
+    color: #a335ee; /* Purple */
+    font-size: 0.95em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-reagent-state {
+    color: #4a934a; /* Forest green */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.reagent-details {
+    margin: 4px 0;
+    padding: 4px;
+    border-left: 2px solid #7a3b2e; /* Rustic red */
+    background-color: rgba(213, 203, 176, 0.3);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.reagent-detail-used-for,
+.reagent-detail-quantity,
+.reagent-detail-preservation {
+    color: #7a3b2e; /* Rustic red */
+    font-size: 0.9em;
+    margin: 2px 0;
+    padding-left: 8px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-reagent-description {
+    color: #3a3a3a;
+    font-style: italic;
+    font-size: 0.9em;
+    margin: 4px 0;
+    line-height: 1.2;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Quest Items */
+.item-quest-info {
+    color: #7a3b2e; /* Rustic red */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-quest-chain {
+    color: #4a934a; /* Forest green */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Crafting Materials */
+.item-crafting-type {
+    color: #0070dd; /* Blue */
+    font-size: 0.95em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-crafting-professions {
+    color: #4a934a; /* Forest green */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-crafting-method {
+    color: #7a3b2e; /* Rustic red */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-crafting-location {
+    color: #0070dd; /* Blue */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-crafting-recipes {
+    color: #4a934a; /* Forest green */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Trade Goods */
+.item-trade-category {
+    color: #0070dd; /* Blue */
+    font-size: 0.95em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-trade-origin {
+    color: #4a934a; /* Forest green */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-trade-demand {
+    color: #7a3b2e; /* Rustic red */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-trade-quality {
+    color: #3a3a3a;
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Junk Items */
+.item-junk-type {
+    color: #9d9d9d; /* Grey */
+    font-size: 0.95em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-junk-condition {
+    color: #9d9d9d; /* Grey */
+    font-size: 0.9em;
+    margin: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Junk details */
+.junk-details-grid {
+    margin: 6px 0;
+    padding: 8px 12px;
+    background: rgba(213, 203, 176, 0.3);
+    border-left: 3px solid #7a3b2e; /* Rustic red accent */
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.junk-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    line-height: 1.3;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.junk-detail-label {
+    color: #ffffff; /* White */
+    font-size: 14px;
+    flex: 0 0 auto;
+    margin-right: 16px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.item-junk-detail {
+    color: #ffffff; /* White for junk values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Common header styles */
+.item-misc-header {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+    color: #7a3b2e; /* Rustic red */
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    border-bottom: 1px solid rgba(122, 59, 46, 0.2);
+    padding-bottom: 4px;
+}
+
+/* Detail grids */
+.quest-details-grid,
+.reagent-details-grid,
+.key-details-grid,
+.crafting-details-grid,
+.trade-details-grid {
+    margin: 12px 0;
+    padding: 8px 12px;
+    background: rgba(213, 203, 176, 0.3);
+    border-left: 3px solid #7a3b2e; /* Rustic red accent */
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Detail rows */
+.quest-detail-row,
+.reagent-detail-row,
+.key-detail-row,
+.crafting-detail-row,
+.trade-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    line-height: 1.3;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Labels */
+.quest-detail-label,
+.reagent-detail-label,
+.key-detail-label {
+    color: #ffffff; /* White */
+    font-size: 14px;
+    flex: 0 0 auto;
+    margin-right: 16px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.trade-detail-label {
+    color: #ffffff; /* White */
+    font-size: 14px;
+    flex: 0 0 auto;
+    margin-right: 16px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.crafting-detail-label {
+    color: #ffffff; /* White */
+    font-size: 14px;
+    flex: 0 0 auto;
+    margin-right: 16px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Values */
+.quest-detail-value {
+    color: #ffffff; /* White for quest values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.reagent-detail-value {
+    color: #ffffff; /* White for reagent values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.key-detail-value {
+    color: #ffffff; /* White for key values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.crafting-detail-value {
+    color: #ffffff; /* White for crafting values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.trade-detail-value {
+    color: #ffffff; /* White for trade values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* Magic type specific */
+.magic-type {
+    font-weight: 500;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Special styles */
+.item-requirement {
+    color: #a05a46; /* Lighter rustic red */
+    font-size: 14px;
+    margin: 4px 0;
+    padding: 2px 6px;
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 3px;
+    display: inline-block;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-time-limit {
+    color: #c9a83f; /* Amber */
+    font-size: 14px;
+    margin: 4px 0;
+    padding: 2px 6px;
+    background: rgba(201, 168, 63, 0.1);
+    border-radius: 3px;
+    display: inline-block;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-warning {
+    color: #a05a46; /* Lighter rustic red */
+    font-size: 14px;
+    margin: 4px 0;
+    padding: 4px 8px;
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 3px;
+    display: inline-block;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-magical-properties,
+.item-special-properties {
+    font-style: italic;
+    font-size: 14px;
+    margin: 12px 0;
+    padding: 6px 8px;
+    background: rgba(213, 203, 176, 0.3);
+    border-radius: 4px;
+    line-height: 1.4;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #7a3b2e; /* Rustic red */
+}
+
+/* Merchant Notes - Parchment Note Style */
+.item-merchant-notes {
+    font-style: italic;
+    font-size: 13px;
+    margin: 12px 0;
+    padding: 10px 12px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border: 2px solid #d4af37;
+    border-radius: 6px;
+    line-height: 1.4;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #2d1810; /* Dark brown/black text */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(139, 69, 19, 0.2),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Add a subtle parchment texture effect */
+.item-merchant-notes::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 80% 80%, rgba(139, 69, 19, 0.05) 1px, transparent 1px),
+        radial-gradient(circle at 40% 60%, rgba(139, 69, 19, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px, 25px 25px, 15px 15px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* Special Instructions - Instruction Note Style */
+.item-special-instructions {
+    font-style: italic;
+    font-size: 13px;
+    margin: 12px 0;
+    padding: 10px 12px;
+    background: linear-gradient(145deg, #e8dcc6 0%, #d5cbb0 50%, #c4a373 100%);
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    line-height: 1.4;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #2d1810; /* Dark brown/black text */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(139, 69, 19, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Add a subtle aged paper texture effect */
+.item-special-instructions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 15% 25%, rgba(139, 69, 19, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 85% 75%, rgba(139, 69, 19, 0.06) 1px, transparent 1px),
+        radial-gradient(circle at 45% 55%, rgba(139, 69, 19, 0.04) 1px, transparent 1px);
+    background-size: 18px 18px, 22px 22px, 12px 12px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.item-source-location,
+.item-recipes {
+    font-size: 14px;
+    margin: 10px 0;
+    padding: 2px 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #5a5a5a;
+}
+
+/* Component sections */
+.reagent-details,
+.key-details {
+    margin: 4px 0;
+    padding: 4px 8px;
+    border-left: 2px solid #7a3b2e; /* Rustic red */
+    background-color: rgba(213, 203, 176, 0.3);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-detail,
+.reagent-detail-used-for,
+.reagent-detail-quantity,
+.reagent-detail-preservation {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+    font-size: 0.9em;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-detail label,
+.reagent-detail-used-for label,
+.reagent-detail-quantity label,
+.reagent-detail-preservation label {
+    color: #7a3b2e; /* Rustic red */
+    margin-right: 8px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-detail value,
+.reagent-detail-used-for value,
+.reagent-detail-quantity value,
+.reagent-detail-preservation value {
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-align: right;
+}
+
+.item-key-type {
+    color: #a335ee; /* Purple */
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+
+
+
+
+.item-key-detail {
+    color: #ffffff; /* White for key values */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.item-key-warning {
+    color: #a05a46; /* Lighter rustic red */
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 3px;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-instructions {
+    color: #c9a83f; /* Amber */
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(122, 59, 46, 0.2);
+    line-height: 1.4;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Magic type color coding for reagents */
+.reagent-magic-fire {
+    color: #ff4500 !important; /* Orange-red for fire */
+}
+
+.reagent-magic-nature {
+    color: #4a934a !important; /* Forest green for nature */
+}
+
+.reagent-magic-shadow {
+    color: #8b008b !important; /* Dark magenta for shadow */
+}
+
+.reagent-magic-arcane {
+    color: #0070dd !important; /* Blue for arcane */
+}
+
+.reagent-magic-holy {
+    color: #ffd700 !important; /* Gold for holy */
+}
+
+.reagent-magic-frost {
+    color: #00bfff !important; /* Deep sky blue for frost */
+}
+
+.item-key-unlocks {
+    color: #0070dd; /* Blue */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-location {
+    color: #4a934a; /* Forest green */
+    font-size: 14px;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-key-security {
+    color: #a335ee; /* Purple */
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    text-align: right;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Value display */
+.item-value {
+    color: #ffd100; /* Gold */
+    font-size: 14px;
+    margin-top: 8px;
+    font-weight: 500;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-subtype {
+    color: #aaaaaa;
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-tooltip-wrapper {
+    pointer-events: none;
+}
+
+.item-tooltip hr {
+    border: none;
+    border-top: 1px solid rgba(139, 69, 19, 0.5);
+    margin: 8px 0;
+}
+
+/* Magic type colors */
+.magic-type[data-magic="fire"] { color: #ff4400; }
+.magic-type[data-magic="cold"] { color: #3399ff; }
+.magic-type[data-magic="lightning"] { color: #ffff00; }
+.magic-type[data-magic="acid"] { color: #00ff00; }
+.magic-type[data-magic="force"] { color: #ff66ff; }
+.magic-type[data-magic="necrotic"] { color: #4B0082; }
+.magic-type[data-magic="radiant"] { color: #FFFACD; }
+.magic-type[data-magic="poison"] { color: #008000; }
+.magic-type[data-magic="psychic"] { color: #FF00FF; }
+.magic-type[data-magic="thunder"] { color: #0066ff; }
+
+/* Recipe-specific tooltip styles */
+.recipe-details-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 8px;
+    margin: 8px 0;
+    padding: 6px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 4px;
+}
+
+.recipe-detail-row {
+    display: contents;
+}
+
+.recipe-detail-label {
+    color: #ffd100;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.item-recipe-detail {
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.recipe-description {
+    color: #ffd100 !important;
+    font-style: italic;
+    margin: 6px 0;
+}
+
+.recipe-section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #8b4513 20%, #a0522d 50%, #8b4513 80%, transparent 100%);
+    margin: 8px 0;
+    opacity: 0.6;
+}
+
+.recipe-result-section {
+    margin: 8px 0;
+}
+
+.recipe-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2px 0;
+}
+
+.recipe-result-label {
+    color: #ffd100;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.item-recipe-result {
+    font-weight: bold;
+    font-size: 13px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.item-recipe-effect {
+    color: #00ff00;
+    font-style: italic;
+    font-size: 11px;
+}
+
+.recipe-materials-section {
+    margin: 8px 0;
+}
+
+.recipe-materials-header {
+    color: #ffd100;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.recipe-material-row {
+    margin: 2px 0;
+    padding: 1px 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.recipe-material-name {
+    font-weight: normal;
+    font-size: 12px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.recipe-material-quantity {
+    color: #ffffff;
+    font-size: 12px;
+}

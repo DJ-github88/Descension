@@ -1,0 +1,405 @@
+/* Map Library Window - Pathfinder Parchment Theme */
+.map-library-window {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--pf-gradient-parchment) !important;
+    color: var(--pf-text-primary) !important;
+    font-family: 'Cinzel', serif !important;
+    overflow: hidden;
+}
+
+/* Special styling for create map tab */
+.create-map-tab {
+    background: linear-gradient(135deg, var(--pf-success) 0%, var(--pf-success-light) 100%) !important;
+    border-color: var(--pf-success-light) !important;
+    color: var(--pf-text-on-dark) !important;
+    margin-left: auto !important;
+}
+
+.create-map-tab:hover {
+    background: linear-gradient(135deg, var(--pf-success-light) 0%, #6b9775 100%) !important;
+    border-color: #7ba583 !important;
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Current Map View */
+.current-map-view {
+    flex: 1;
+    padding: 32px;
+    background: var(--pf-gradient-parchment) !important;
+    overflow-y: auto;
+}
+
+.current-map-details {
+    background: var(--pf-gradient-button) !important;
+    border: 3px solid var(--pf-brown-medium) !important;
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    box-shadow:
+        0 6px 16px rgba(139, 69, 19, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5) !important;
+}
+
+.current-map-details h2 {
+    color: var(--pf-text-primary) !important;
+    font-size: 2rem;
+    margin-bottom: 16px;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+.current-map-details p {
+    color: var(--pf-text-secondary) !important;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+/* Pathfinder Map Grid */
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 32px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+    background: var(--pf-gradient-parchment) !important;
+    height: 100%;
+
+    /* Optimize scrolling performance */
+    will-change: scroll-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto !important;
+    contain: layout style paint;
+}
+
+/* Pathfinder Map Cards */
+.map-card {
+    background: var(--pf-gradient-button) !important;
+    border: 3px solid var(--pf-brown-medium) !important;
+    border-radius: 20px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 6px 16px rgba(139, 69, 19, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        0 0 0 1px rgba(139, 69, 19, 0.1) !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+    max-width: 100%;
+}
+
+.map-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 12px 24px rgba(139, 69, 19, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        0 0 20px rgba(212, 175, 55, 0.4),
+        0 0 0 2px var(--pf-gold) !important;
+    border-color: var(--pf-gold) !important;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+}
+
+.map-card.selected {
+    border-color: var(--pf-gold-dark) !important;
+    background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
+    box-shadow:
+        0 6px 12px rgba(139, 69, 19, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        0 0 12px rgba(212, 175, 55, 0.6),
+        0 0 0 1px var(--pf-gold-dark) !important;
+}
+
+.map-card.current {
+    border-color: var(--pf-gold) !important;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+    box-shadow:
+        0 8px 16px rgba(139, 69, 19, 0.25),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        0 0 16px rgba(212, 175, 55, 0.5),
+        0 0 0 1px var(--pf-gold-light) !important;
+    transform: translateY(-2px);
+}
+
+.map-card.current::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--pf-gold), var(--pf-gold-light), var(--pf-gold));
+    z-index: 1;
+    border-radius: 17px 17px 0 0;
+}
+
+/* Pathfinder Map Thumbnail */
+.map-thumbnail {
+    width: 100%;
+    height: 220px;
+    position: relative;
+    background: var(--pf-gradient-parchment) !important;
+    overflow: hidden;
+    border-bottom: 3px solid var(--pf-brown-medium) !important;
+    border-radius: 17px 17px 0 0;
+}
+
+.map-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.map-card:hover .map-thumbnail img {
+    transform: scale(1.05);
+}
+
+.map-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--pf-gradient-button) !important;
+    gap: 8px;
+}
+
+.map-icon {
+    font-size: 3rem;
+    opacity: 0.6;
+    color: var(--pf-brown-medium) !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.map-placeholder-text {
+    color: var(--pf-text-primary) !important;
+    font-size: 0.9rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Enhanced Map Info */
+.map-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    background: linear-gradient(180deg, rgba(248, 244, 230, 0.8) 0%, rgba(237, 228, 211, 0.9) 100%);
+}
+
+.map-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--pf-text-primary) !important;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+    line-height: 1.3;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--pf-gold-dark);
+}
+
+.map-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.map-date {
+    font-size: 0.9rem;
+    color: var(--pf-text-secondary) !important;
+    font-style: italic;
+    text-align: center;
+    padding: 8px 12px;
+    background: rgba(139, 69, 19, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.map-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+.map-stats span {
+    color: var(--pf-text-primary) !important;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, var(--pf-gold-light) 0%, var(--pf-gold) 100%) !important;
+    border-radius: 8px;
+    border: 2px solid var(--pf-gold-dark) !important;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+    box-shadow:
+        0 2px 4px rgba(139, 69, 19, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: all 0.2s ease;
+}
+
+.map-stats span:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 8px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced Map Actions */
+.map-actions {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    gap: 8px;
+    align-items: center;
+    padding: 20px 24px;
+    border-top: 3px solid var(--pf-brown-medium) !important;
+    background: linear-gradient(180deg, rgba(139, 69, 19, 0.05) 0%, rgba(139, 69, 19, 0.1) 100%);
+    min-height: 80px;
+    flex-shrink: 0;
+    border-radius: 0 0 17px 17px;
+}
+
+.current-indicator {
+    background: linear-gradient(135deg, var(--pf-success) 0%, var(--pf-success-light) 100%) !important;
+    color: var(--pf-text-on-dark) !important;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 2px solid var(--pf-success-light) !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wow-button.small {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    min-width: 60px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.wow-button.danger {
+    background: linear-gradient(135deg, #8b2635 0%, #a73d4a 100%);
+    border-color: #c54d5c;
+}
+
+.wow-button.danger:hover {
+    background: linear-gradient(135deg, #a73d4a 0%, #c54d5c 100%);
+}
+
+/* Map Creation Wizard */
+.map-creation-wizard {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.wizard-step {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.wizard-label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #c9aa71;
+    font-weight: bold;
+}
+
+.wow-input {
+    padding: 10px;
+    background: rgba(240, 230, 210, 0.1);
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    color: #f0e6d2;
+    font-size: 1rem;
+}
+
+.wow-input:focus {
+    outline: none;
+    border-color: #89dceb;
+    box-shadow: 0 0 10px rgba(137, 220, 235, 0.3);
+}
+
+.image-preview {
+    margin-top: 10px;
+    padding: 10px;
+    border: 2px dashed #a08c70;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.image-preview img {
+    border-radius: 4px;
+    border: 1px solid #a08c70;
+}
+
+.wizard-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 15px;
+    border-top: 1px solid #a08c70;
+}
+
+.wow-button.primary {
+    background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
+    border-color: #6b9775;
+}
+
+.wow-button.primary:hover {
+    background: linear-gradient(135deg, #5d8a6b 0%, #6b9775 100%);
+}
+
+/* Pathfinder Scrollbar styling */
+.map-grid::-webkit-scrollbar {
+    width: 8px;
+    background: var(--pf-brown-light) !important;
+}
+
+.map-grid::-webkit-scrollbar-track {
+    background: var(--pf-brown-light) !important;
+    border-radius: 4px;
+}
+
+.map-grid::-webkit-scrollbar-thumb {
+    background: var(--pf-brown-medium) !important;
+    border-radius: 4px;
+    border: 1px solid var(--pf-brown-light) !important;
+}
+
+.map-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--pf-brown-dark) !important;
+}

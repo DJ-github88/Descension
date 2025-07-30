@@ -1,0 +1,1038 @@
+/* ========== Step5ClassMechanics.css ==========
+ * Specialized styling for the class mechanics step in the Spell Wizard
+ * Follows the WoW Classic midnight blue theme
+ */
+
+:root {
+  --mechanics-bg-main: #0f172a;
+  --mechanics-bg-card: rgba(15, 28, 50, 0.9);
+  --mechanics-bg-card-hover: rgba(22, 41, 70, 0.9);
+  --mechanics-bg-card-selected: rgba(30, 58, 138, 0.8);
+  --mechanics-border-normal: rgba(66, 91, 158, 0.4);
+  --mechanics-border-highlight: #3b82f6;
+  --mechanics-text-title: #efd09e;
+  --mechanics-text-normal: #e2e8f0;
+  --mechanics-text-muted: #94a3b8;
+  --mechanics-gold: #d4af37;
+  --mechanics-shadow-normal: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --mechanics-shadow-hover: 0 6px 15px rgba(0, 0, 0, 0.4);
+  --mechanics-glow: 0 0 15px rgba(59, 130, 246, 0.4);
+  --mechanics-purple: #9f7aea;
+  --mechanics-red: #fc8181;
+  --mechanics-green: #68d391;
+  
+  /* Card suit colors */
+  --hearts-color: #e05252;
+  --diamonds-color: #e05252;
+  --clubs-color: #2d3748;
+  --spades-color: #2d3748;
+}
+
+/* Main container layout improvements */
+.spell-wizard-mechanics {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+.spell-wizard-section-intro {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(10, 15, 25, 0.8));
+  border-radius: 10px;
+  border: 1px solid var(--mechanics-border-normal);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--mechanics-shadow-normal);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.spell-wizard-section-intro::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--mechanics-gold), transparent);
+  opacity: 0.5;
+}
+
+.spell-wizard-section-intro h3 {
+  font-family: var(--wizard-font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--mechanics-gold);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  letter-spacing: 0.5px;
+}
+
+.spell-wizard-section-intro p {
+  color: var(--mechanics-text-normal);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+/* Mechanics Sections */
+.spell-wizard-mechanic-section {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(10, 15, 25, 0.8));
+  border-radius: 10px;
+  border: 1px solid var(--mechanics-border-normal);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--mechanics-shadow-normal);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.spell-wizard-mechanic-section:hover {
+  box-shadow: var(--mechanics-shadow-hover);
+  border-color: rgba(66, 91, 158, 0.6);
+}
+
+.spell-wizard-mechanic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+}
+
+.mechanic-title {
+  flex: 1;
+}
+
+.mechanic-title h4 {
+  font-family: var(--wizard-font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--mechanics-text-title);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 0.25rem;
+}
+
+.mechanic-description {
+  color: var(--mechanics-text-muted);
+  font-size: 0.9rem;
+}
+
+/* Toggle Switch Styling */
+.spell-wizard-toggle {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.spell-wizard-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.spell-wizard-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  transition: .4s;
+  border-radius: 30px;
+}
+
+.spell-wizard-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 3px;
+  background-color: #e2e8f0;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.spell-wizard-toggle input:checked + .spell-wizard-toggle-slider {
+  background-color: rgba(30, 58, 138, 0.8);
+  border-color: var(--mechanics-border-highlight);
+}
+
+.spell-wizard-toggle input:checked + .spell-wizard-toggle-slider:before {
+  transform: translateX(29px);
+  background-color: var(--mechanics-gold);
+}
+
+.spell-wizard-toggle input:focus + .spell-wizard-toggle-slider {
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+/* Mechanic Config Sections */
+.spell-wizard-mechanic-config {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(66, 91, 158, 0.3);
+  animation: fadeIn 0.3s ease;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+/* Card Selector Styling */
+.card-selector-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.card-theme-selector {
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  border: 1px solid var(--mechanics-border-normal);
+}
+
+.card-theme-selector h4 {
+  color: var(--mechanics-text-title);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.theme-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.theme-option {
+  padding: 0.75rem;
+  background: var(--mechanics-bg-card);
+  border: 1px solid var(--mechanics-border-normal);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+}
+
+.theme-option:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--mechanics-shadow-hover);
+}
+
+.theme-option.selected {
+  background: var(--mechanics-bg-card-selected);
+  border-color: var(--mechanics-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.theme-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(66, 91, 158, 0.3);
+}
+
+.theme-name {
+  font-size: 0.9rem;
+  color: var(--mechanics-text-normal);
+  text-align: center;
+}
+
+.card-config-panel {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  border: 1px solid var(--mechanics-border-normal);
+  overflow: hidden;
+}
+
+.card-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(66, 91, 158, 0.3);
+}
+
+.card-tab {
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  color: var(--mechanics-text-muted);
+  transition: all 0.2s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.card-tab:hover {
+  color: var(--mechanics-text-normal);
+}
+
+.card-tab.active {
+  color: var(--mechanics-text-title);
+}
+
+.card-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--mechanics-gold);
+}
+
+.card-tab-content {
+  padding: 1.25rem;
+  min-height: 400px;
+}
+
+/* Card Deck Styling */
+.deck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.deck-header h4 {
+  color: var(--mechanics-text-title);
+  font-size: 1.1rem;
+}
+
+.toggle-deck-btn {
+  padding: 0.5rem 1rem;
+  background: var(--mechanics-bg-card);
+  border: 1px solid var(--mechanics-border-normal);
+  border-radius: 6px;
+  color: var(--mechanics-text-normal);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-deck-btn:hover {
+  background: var(--mechanics-bg-card-hover);
+  border-color: var(--mechanics-border-highlight);
+}
+
+.card-deck-view {
+  margin: 1rem 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.card-suits-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.suit-tab {
+  padding: 0.5rem 1rem;
+  background: var(--mechanics-bg-card);
+  border: 1px solid var(--mechanics-border-normal);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.suit-tab:hover {
+  background: var(--mechanics-bg-card-hover);
+}
+
+.suit-tab.active {
+  background: var(--mechanics-bg-card-selected);
+  border-color: var(--mechanics-border-highlight);
+}
+
+.suit-symbol {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suit-symbol.hearts, .suit-symbol.diamonds {
+  color: var(--hearts-color);
+}
+
+.suit-symbol.clubs, .suit-symbol.spades {
+  color: var(--spades-color);
+}
+
+.suit-name {
+  font-size: 0.9rem;
+  color: var(--mechanics-text-normal);
+}
+
+.card-rack {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  min-height: 200px;
+}
+
+/* Card Item Styling */
+.card-item {
+  width: 80px;
+  height: 112px; /* Standard playing card ratio 2.5:3.5 */
+  position: relative;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-item.mini-card {
+  width: 60px;
+  height: 84px;
+}
+
+.card-front {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: white;
+  box-shadow: var(--mechanics-shadow-normal);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.6s, box-shadow 0.3s;
+  transform-style: preserve-3d;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-item:hover .card-front {
+  box-shadow: var(--mechanics-shadow-hover);
+  transform: translateY(-5px);
+}
+
+.card-item.selected .card-front {
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  border: 1px solid var(--mechanics-gold);
+  animation: pulseGlow 1.5s infinite alternate;
+}
+
+.card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.card-corner.top-left {
+  top: 5px;
+  left: 5px;
+}
+
+.card-corner.bottom-right {
+  bottom: 5px;
+  right: 5px;
+  transform: rotate(180deg);
+}
+
+.card-corner.hearts, .card-corner.diamonds {
+  color: var(--hearts-color);
+}
+
+.card-corner.clubs, .card-corner.spades {
+  color: var(--spades-color);
+}
+
+.card-rank {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.card-suit {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.card-center {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-center.hearts, .card-center.diamonds {
+  color: var(--hearts-color);
+}
+
+.card-center.clubs, .card-center.spades {
+  color: var(--spades-color);
+}
+
+/* Selected Cards Display */
+.selected-cards-container {
+  margin-top: 1.5rem;
+}
+
+.selected-cards-container h4 {
+  color: var(--mechanics-text-title);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.selected-cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  min-height: 100px;
+  align-items: center;
+}
+
+.no-cards-selected {
+  color: var(--mechanics-text-muted);
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+}
+
+.create-combo-btn {
+  padding: 0.5rem 1rem;
+  background: var(--mechanics-bg-card);
+  border: 1px solid var(--mechanics-border-normal);
+  border-radius: 6px;
+  color: var(--mechanics-text-normal);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.create-combo-btn:hover {
+  background: var(--mechanics-bg-card-hover);
+  border-color: var(--mechanics-border-highlight);
+}
+
+/* Card Combinations Styling */
+.combinations-tab-content h4 {
+  color: var(--mechanics-text-title);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.no-combinations {
+  color: var(--mechanics-text-muted);
+  text-align: center;
+  padding: 2rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+}
+
+.card-combinations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-combo {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  border: 1px solid var(--mechanics-border-normal);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.card-combo:hover {
+  border-color: var(--mechanics-border-highlight);
+}
+
+.combo-cards {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.combo-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.combo-name-input {
+  width: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  color: var(--mechanics-text-normal);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-family: inherit;
+}
+
+.combo-description-input {
+  width: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  color: var(--mechanics-text-normal);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 5px;
+  padding: 0.5rem;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+}
+
+.remove-combo-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--mechanics-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.remove-combo-btn:hover {
+  color: var(--mechanics-red);
+}
+
+/* Settings Tab Styling */
+.settings-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.deck-settings {
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--mechanics-text-normal);
+}
+
+.form-control {
+  width: 100%;
+  background: rgba(17, 24, 39, 0.8);
+  color: var(--mechanics-text-normal);
+  border: 1px solid rgba(66, 91, 158, 0.4);
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-family: inherit;
+}
+
+.draw-count-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.draw-count-option {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mechanics-bg-card);
+  border: 1px solid var(--mechanics-border-normal);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--mechanics-text-normal);
+}
+
+.draw-count-option:hover {
+  background: var(--mechanics-bg-card-hover);
+}
+
+.draw-count-option.selected {
+  background: var(--mechanics-bg-card-selected);
+  border-color: var(--mechanics-gold);
+  color: var(--mechanics-gold);
+}
+
+.card-effect-settings {
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+}
+
+.card-effect-settings h4 {
+  color: var(--mechanics-text-title);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.effect-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.effect-panel {
+  padding: 1rem;
+  background: rgba(17, 24, 39, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(66, 91, 158, 0.3);
+}
+
+.effect-panel h5 {
+  color: var(--mechanics-text-normal);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.suit-effects {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.suit-effect {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+}
+
+.suit-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 24, 39, 0.8);
+  border-radius: 6px;
+  font-size: 1.5rem;
+}
+
+.suit-icon.hearts, .suit-icon.diamonds {
+  color: var(--hearts-color);
+}
+
+.suit-icon.clubs, .suit-icon.spades {
+  color: var(--spades-color);
+}
+
+.effect-details {
+  flex: 1;
+}
+
+.effect-name {
+  color: var(--mechanics-text-normal);
+  font-weight: 500;
+}
+
+.effect-description {
+  color: var(--mechanics-text-muted);
+  font-size: 0.9rem;
+}
+
+.effect-icon {
+  width: 40px;
+}
+
+.effect-icon img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(66, 91, 158, 0.3);
+}
+
+/* Preview Tab Styling */
+.preview-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.preview-tab-content h4 {
+  color: var(--mechanics-text-title);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.preview-draw-simulation {
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(66, 91, 158, 0.3);
+}
+
+.preview-header {
+  margin-bottom: 1rem;
+}
+
+.preview-title {
+  color: var(--mechanics-text-normal);
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.preview-outcomes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.outcome-group {
+  padding: 1rem;
+  background: rgba(17, 24, 39, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(66, 91, 158, 0.2);
+}
+
+.outcome-group h5 {
+  color: var(--mechanics-text-normal);
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.outcome-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.outcome-list li {
+  color: var(--mechanics-text-muted);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(66, 91, 158, 0.1);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.outcome-list li:last-child {
+  border-bottom: none;
+}
+
+.outcome-list li::before {
+  content: '•';
+  color: var(--mechanics-gold);
+}
+
+/* Card Animation */
+@keyframes flipCard {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes drawCard {
+  0% {
+    transform: translateY(50px) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+  }
+  to {
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+  .preview-outcomes {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-rack {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  }
+  
+  .spell-wizard-mechanic-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .spell-wizard-toggle {
+    align-self: flex-end;
+  }
+}
+
+/* New CSS for the updated Step5ClassMechanics component */
+.mechanics-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.step-description {
+  font-size: 1rem;
+  color: #c0c0c0;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.no-mechanics-message {
+  background-color: rgba(40, 40, 60, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed #555;
+  margin: 20px 0;
+}
+
+.no-mechanics-message p {
+  color: #aaa;
+  font-style: italic;
+}
+
+.mechanics-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  min-height: 400px;
+}
+
+.mechanics-list {
+  background-color: rgba(30, 30, 45, 0.7);
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #444;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.mechanics-list h3 {
+  color: #e0e0e0;
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #555;
+  font-size: 1.1rem;
+}
+
+.mechanic-item {
+  padding: 12px;
+  border-radius: 6px;
+  background-color: rgba(40, 40, 60, 0.7);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.mechanic-item:hover {
+  background-color: rgba(50, 50, 80, 0.7);
+  transform: translateX(5px);
+}
+
+.mechanic-item.selected {
+  background-color: rgba(60, 60, 100, 0.8);
+  border-color: #6a6aff;
+  box-shadow: 0 0 10px rgba(106, 106, 255, 0.3);
+}
+
+.mechanic-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mechanic-name {
+  font-weight: bold;
+  color: #e0e0e0;
+}
+
+.resolution-type {
+  font-size: 0.85rem;
+  color: #aaa;
+  background-color: rgba(60, 60, 80, 0.7);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.mechanic-config {
+  background-color: rgba(30, 30, 45, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #444;
+  min-height: 400px;
+}
+
+.mechanic-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+}
+
+.mechanic-config-container {
+  height: 100%;
+}
+
+.mechanic-config-container h3 {
+  margin-top: 0;
+  color: #e0e0e0;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #555;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .mechanics-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  
+  .mechanics-list {
+    max-height: 300px;
+  }
+}

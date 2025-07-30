@@ -1,0 +1,160 @@
+/* Object Tools Styles - Clean Version */
+
+.object-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    overflow-y: auto;
+    font-family: var(--pf-font-body, 'Crimson Text', serif);
+}
+
+.tool-section {
+    background: var(--pf-parchment-light, #f8f4e6);
+    border: 1px solid var(--pf-brown-light, #a08c70);
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tool-section h4 {
+    margin: 0 0 16px 0;
+    color: var(--pf-brown-dark, #5a1e12);
+    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--pf-gold, #d4af37);
+    padding-bottom: 8px;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    background: var(--pf-parchment, #ede4d3);
+    border: 2px solid var(--pf-brown-light, #a08c70);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--pf-font-body, 'Crimson Text', serif);
+    min-width: 80px;
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pf-text-primary, #2d1810);
+}
+
+.action-btn:hover {
+    background: var(--pf-parchment-light, #f8f4e6);
+    border-color: var(--pf-gold, #d4af37);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn.active {
+    background: var(--pf-gold-light, #f4e4a6);
+    border-color: var(--pf-gold, #d4af37);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    transform: translateY(-1px);
+}
+
+.action-btn.primary.active {
+    background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
+    border-color: var(--pf-gold, #d4af37);
+}
+
+.action-btn.danger:hover {
+    border-color: #dc3545;
+    background: #ffeaea;
+}
+
+.action-btn.danger.active {
+    background: #ffebee;
+    border-color: #dc3545;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Object Selection */
+.objects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.object-card {
+    background: var(--pf-parchment, #ede4d3);
+    border: 2px solid var(--pf-brown-light, #a08c70);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.object-card:hover {
+    background: var(--pf-parchment-light, #f8f4e6);
+    border-color: var(--pf-gold, #d4af37);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.object-card.selected {
+    background: var(--pf-gold-light, #f4e4a6);
+    border-color: var(--pf-gold, #d4af37);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+    transform: translateY(-1px);
+}
+
+.object-card-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.object-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    border: 2px solid var(--pf-brown-light, #a08c70);
+    flex-shrink: 0;
+}
+
+.object-card-info {
+    flex: 1;
+}
+
+.object-card-name {
+    margin: 0 0 8px 0;
+    color: var(--pf-brown-dark, #5a1e12);
+    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.object-card-description {
+    margin: 0 0 8px 0;
+    color: var(--pf-text-secondary, #5a1e12);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.gm-only-badge {
+    display: inline-block;
+    background: var(--pf-brown-dark, #5a1e12);
+    color: var(--pf-text-on-dark, #f8f4e6);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}

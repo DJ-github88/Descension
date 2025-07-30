@@ -1,0 +1,410 @@
+/* Portal Configuration Dialog - D&D/Pathfinder Theme */
+.portal-config-dialog {
+    padding: 24px;
+    background: linear-gradient(135deg, #2a1810 0%, #3d2817 100%);
+    color: #f0e6d2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: 600px;
+    overflow-y: auto;
+    /* Ensure dropdowns can extend outside the dialog */
+    overflow-x: visible;
+}
+
+/* Configuration Sections */
+.config-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    background: rgba(240, 230, 210, 0.05);
+    border: 2px solid rgba(160, 140, 112, 0.4);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+}
+
+.config-section:hover {
+    background: rgba(240, 230, 210, 0.08);
+    border-color: rgba(160, 140, 112, 0.6);
+}
+
+.config-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.section-title {
+    color: #c9aa71;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 14px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.config-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #c9aa71;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* Form Controls */
+.wow-input,
+.wow-select,
+.wow-textarea {
+    padding: 12px;
+    background: rgba(240, 230, 210, 0.15);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    color: #f0e6d2;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.wow-input:focus,
+.wow-select:focus,
+.wow-textarea:focus {
+    outline: none;
+    border-color: #c9aa71;
+    background: rgba(240, 230, 210, 0.2);
+    box-shadow: 0 0 12px rgba(201, 170, 113, 0.3);
+    transform: translateY(-1px);
+}
+
+.wow-select {
+    cursor: pointer;
+    /* Ensure dropdown options appear above everything */
+    position: relative;
+    z-index: 10001;
+}
+
+/* Style dropdown options for better visibility */
+.wow-select option {
+    background: rgba(30, 30, 46, 0.95);
+    color: #f0e6d2;
+    padding: 8px 12px;
+    border: none;
+    font-size: 1rem;
+}
+
+.wow-select option:hover,
+.wow-select option:focus {
+    background: rgba(201, 170, 113, 0.3);
+    color: #ffffff;
+}
+
+.wow-textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* Specific styling for destination section to ensure dropdown visibility */
+.portal-destination {
+    position: relative;
+    z-index: 10000;
+    overflow: visible;
+}
+
+.portal-destination .form-row {
+    overflow: visible;
+}
+
+.portal-destination .config-label {
+    overflow: visible;
+}
+
+/* Override window content overflow for dropdowns */
+.wow-window:has(.portal-config-dialog) {
+    overflow: visible !important;
+}
+
+.wow-window:has(.portal-config-dialog) .window-content {
+    overflow: visible !important;
+}
+
+/* Fallback for browsers that don't support :has() */
+.portal-config-dialog-window {
+    overflow: visible !important;
+}
+
+.portal-config-dialog-window .window-content {
+    overflow: visible !important;
+}
+
+/* Ensure dropdown appears above all other elements */
+.portal-config-dialog .wow-select {
+    position: relative;
+    z-index: 99999;
+}
+
+/* Map Selection Buttons */
+.destination-map-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.map-selection-info {
+    padding: 8px 12px;
+    background: rgba(240, 230, 210, 0.1);
+    border: 1px solid rgba(160, 140, 112, 0.3);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.selected-map {
+    color: #89dceb;
+    font-weight: bold;
+}
+
+.no-selection {
+    color: #a08c70;
+    font-style: italic;
+}
+
+.map-buttons-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.map-button {
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #3d2817 0%, #4a3220 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    color: #f0e6d2;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-button:hover {
+    background: linear-gradient(135deg, #4a3220 0%, #5d3e29 100%);
+    border-color: #c9aa71;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.map-button.selected {
+    background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
+    border-color: #6b9775;
+    box-shadow: 0 2px 8px rgba(74, 124, 89, 0.3);
+}
+
+.map-button.selected:hover {
+    background: linear-gradient(135deg, #5d8a6b 0%, #6b9775 100%);
+    box-shadow: 0 4px 16px rgba(74, 124, 89, 0.4);
+}
+
+/* Color Picker */
+.color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-picker {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    cursor: pointer;
+    background: none;
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Checkbox */
+.config-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #c9aa71;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.config-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4a7c59;
+    cursor: pointer;
+}
+
+.checkbox-help {
+    font-size: 0.85rem;
+    color: #a08c70;
+    font-style: italic;
+    margin: 0;
+    margin-top: 4px;
+}
+
+/* Warning Messages */
+.no-maps-warning {
+    color: #f4a261;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin: 5px 0 0 0;
+    padding: 8px;
+    background: rgba(244, 162, 97, 0.1);
+    border: 1px solid rgba(244, 162, 97, 0.3);
+    border-radius: 4px;
+}
+
+/* Portal Preview */
+.portal-preview {
+    background: rgba(240, 230, 210, 0.05);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.portal-preview h4 {
+    color: #c9aa71;
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+}
+
+.preview-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(240, 230, 210, 0.1);
+    border: 1px solid #a08c70;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.preview-icon {
+    font-size: 2rem;
+    line-height: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.preview-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.preview-name {
+    font-weight: bold;
+    color: #c9aa71;
+    font-size: 1rem;
+}
+
+.preview-destination {
+    color: #89dceb;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.preview-description {
+    color: #f0e6d2;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.preview-status {
+    font-size: 0.8rem;
+    color: #a08c70;
+    margin-top: 6px;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 2px solid rgba(160, 140, 112, 0.4);
+}
+
+.wow-button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #3d2817 0%, #4a3220 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    color: #f0e6d2;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    min-width: 100px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.wow-button:hover {
+    background: linear-gradient(135deg, #4a3220 0%, #5d3e29 100%);
+    border-color: #c9aa71;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.wow-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.wow-button.primary {
+    background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
+    border-color: #6b9775;
+    box-shadow: 0 2px 8px rgba(74, 124, 89, 0.3);
+}
+
+.wow-button.primary:hover {
+    background: linear-gradient(135deg, #5d8a6b 0%, #6b9775 100%);
+    box-shadow: 0 6px 20px rgba(74, 124, 89, 0.4);
+}
+
+.wow-button.primary:disabled {
+    background: linear-gradient(135deg, #3a5c49 0%, #4d6f5b 100%);
+    border-color: #5b8565;
+    box-shadow: none;
+}

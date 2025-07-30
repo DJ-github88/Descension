@@ -1,0 +1,422 @@
+/* Unlock Container Modal Overlay */
+.unlock-container-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10003; /* Higher than Lock Settings Modal */
+}
+
+.unlock-container-modal {
+    background: #2b2b2b;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #e1e1e1;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    padding: 20px;
+}
+
+.unlock-container-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.unlock-container-modal .modal-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #e1e1e1;
+}
+
+.unlock-container-modal .close-button {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 1.5em;
+    padding: 0;
+    line-height: 1;
+}
+
+.unlock-container-modal .close-button:hover {
+    color: #e1e1e1;
+}
+
+.unlock-container-modal .form-group {
+    margin-bottom: 20px;
+}
+
+.unlock-container-modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #e1e1e1;
+}
+
+.unlock-container-modal .form-group label i {
+    margin-right: 8px;
+    color: #ffd700;
+}
+
+.unlock-container-modal input {
+    background: #3b3b3b;
+    border: 1px solid #4b4b4b;
+    border-radius: 4px;
+    color: #e1e1e1;
+    font-size: 1em;
+    padding: 8px 12px;
+    width: 100%;
+}
+
+.unlock-container-modal input:focus {
+    border-color: #ffd700;
+    outline: none;
+}
+
+.unlock-container-modal .thievery-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unlock-container-modal .dice-roll {
+    background: #3b3b3b;
+    border: 1px solid #4b4b4b;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #ffd700;
+    font-family: monospace;
+}
+
+.unlock-container-modal .plus {
+    color: #888;
+    font-size: 1.2em;
+}
+
+.unlock-container-modal .error-message {
+    background: rgba(255, 0, 0, 0.1);
+    border-left: 3px solid #ff4444;
+    color: #ff4444;
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.unlock-container-modal .error-message i {
+    margin-right: 8px;
+}
+
+.unlock-container-modal .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.unlock-container-modal .modal-footer button {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unlock-container-modal .cancel-button {
+    background: #3b3b3b;
+    color: #888;
+}
+
+.unlock-container-modal .cancel-button:hover {
+    background: #4b4b4b;
+    color: #e1e1e1;
+}
+
+.unlock-container-modal .unlock-button {
+    background: #ffd700;
+    color: #2b2b2b;
+}
+
+.unlock-container-modal .unlock-button:hover {
+    background: #ffed4a;
+}
+
+.unlock-container-modal .unlock-button:disabled {
+    background: #4b4b4b;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.unlock-container-modal .unlock-button i {
+    font-size: 0.9em;
+}
+
+.unlock-container-modal .flavor-text {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 12px;
+    position: relative;
+}
+
+.unlock-container-modal .flavor-text i {
+    color: #ffd700;
+    font-size: 1.2em;
+    margin-right: 8px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+.unlock-container-modal .flavor-text p {
+    color: #e1e1e1;
+    font-style: italic;
+    margin: 0;
+    padding-left: 28px;
+    line-height: 1.4;
+}
+
+.unlock-container-modal .code-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.unlock-container-modal .code-input-wrapper input[type="password"] {
+    background: #3b3b3b;
+    border: 1px solid #4b4b4b;
+    border-radius: 4px;
+    color: #e1e1e1;
+    font-size: 1.2em;
+    padding: 8px 12px;
+    width: 100%;
+    text-align: center;
+}
+
+.unlock-container-modal .code-input-wrapper input[type="password"]:focus {
+    border-color: #ffd700;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+
+.unlock-container-modal .code-input-wrapper input[type="password"]::placeholder {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.unlock-container-modal .custom-code-input {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px;
+    background: #3b3b3b;
+    border: 1px solid #4b4b4b;
+    border-radius: 4px;
+    cursor: text;
+}
+
+.unlock-container-modal .custom-code-input.focused {
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+
+.unlock-container-modal .custom-code-input .code-digit {
+    width: 32px;
+    height: 40px;
+    background: #2b2b2b;
+    border: 1px solid #4b4b4b;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 1.4em;
+    color: #ffd700;
+    transition: all 0.2s ease;
+}
+
+.unlock-container-modal .custom-code-input .code-digit:empty::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #4b4b4b;
+    border-radius: 50%;
+}
+
+.unlock-container-modal .attempts-remaining {
+    background: #232323;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unlock-container-modal .attempts-remaining i {
+    color: #ffd700;
+}
+
+.unlock-container-modal .attempts-remaining span {
+    color: #e1e1e1;
+    font-size: 0.9em;
+}
+
+.unlock-container-modal .word-display {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.unlock-container-modal .word-part {
+    display: flex;
+    gap: 8px;
+}
+
+.unlock-container-modal .word-space {
+    width: 16px;
+}
+
+.unlock-container-modal .letter-box {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #ffd700;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    text-transform: uppercase;
+}
+
+.unlock-container-modal .letter-status {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.unlock-container-modal .letter-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.unlock-container-modal .letter-button {
+    width: 36px;
+    height: 36px;
+    border: 2px solid #4a4a4a;
+    border-radius: 4px;
+    background: #2b2b2b;
+    color: #e1e1e1;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.unlock-container-modal .letter-button:hover:not(:disabled) {
+    border-color: #ffd700;
+    background: #3b3b3b;
+}
+
+.unlock-container-modal .letter-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.unlock-container-modal .letter-button.guessed {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+    color: #666;
+}
+
+.unlock-container-modal .letter-button.guessed.correct {
+    background: #1a3a1a;
+    border-color: #2a5a2a;
+    color: #4a4;
+}
+
+.unlock-container-modal .letter-count {
+    text-align: center;
+    color: #888;
+    font-size: 0.9em;
+}
+
+.unlock-container-modal .letter-count span {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.unlock-container-modal .hint-text {
+    color: #888;
+    font-size: 0.9em;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.unlock-container-modal .hint-text i {
+    color: #ffd700;
+}
+
+.unlock-container-modal .numeric-input {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.unlock-container-modal .numeric-input input {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border: 2px solid #4a4a4a;
+    border-radius: 4px;
+    background: #2a2a2a;
+    color: #fff;
+    width: 150px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.unlock-container-modal .numeric-input input:focus {
+    outline: none;
+    border-color: #ffaa00;
+    box-shadow: 0 0 5px rgba(255, 170, 0, 0.5);
+}
+
+.unlock-container-modal .numeric-input .submit-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: #ffaa00;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.unlock-container-modal .numeric-input .submit-button:hover {
+    background: #ffc040;
+}
+
+.unlock-container-modal .numeric-input .submit-button:disabled {
+    background: #4a4a4a;
+    cursor: not-allowed;
+}

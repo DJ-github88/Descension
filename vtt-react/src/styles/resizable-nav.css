@@ -1,0 +1,31 @@
+.wow-nav-container.resizable {
+    background: rgb(13, 17, 23);
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    gap: 4px;
+}
+
+.react-resizable {
+    position: relative !important;
+}
+
+.react-resizable-handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    bottom: -4px;
+    right: -4px;
+    cursor: se-resize;
+    z-index: 1001;
+}
+
+/* Override wow-nav-grid styles for resizable container */
+.resizable .wow-nav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}

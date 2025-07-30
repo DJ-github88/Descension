@@ -1,0 +1,339 @@
+/* DiceCalculator.css - Pathfinder Theme */
+
+.dice-calculator {
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-3);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-md);
+  font-family: var(--pf-font-body);
+}
+
+.dice-formula-input {
+  display: flex;
+  margin-bottom: var(--pf-space-4);
+  align-items: center;
+}
+
+.dice-formula-input label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  margin-right: var(--pf-space-3);
+  font-family: var(--pf-font-ui);
+}
+
+.dice-formula-input input {
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  margin-top: var(--pf-space-1);
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-base);
+}
+
+.dice-formula-input input.invalid {
+  border-color: var(--pf-error);
+  box-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
+}
+
+.preset-button {
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-primary);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  height: fit-content;
+  margin-top: var(--pf-space-6);
+  font-family: var(--pf-font-ui);
+}
+
+.preset-button:hover {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.dice-presets {
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  margin-bottom: var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+.dice-presets h4 {
+  margin-top: 0;
+  margin-bottom: var(--pf-space-2);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-heading);
+}
+
+.preset-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--pf-space-2);
+}
+
+.preset-item {
+  background: var(--pf-gradient-button);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.preset-item:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-2px);
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.preset-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--pf-space-1);
+}
+
+.preset-level {
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  text-transform: uppercase;
+  font-family: var(--pf-font-ui);
+}
+
+.preset-notation {
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-mono);
+  font-weight: var(--pf-font-semibold);
+}
+
+.preset-description {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-xs);
+  margin: 0;
+  font-family: var(--pf-font-body);
+}
+
+.dice-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-label {
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  display: block;
+  margin-bottom: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
+}
+
+.stat-value {
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-semibold);
+  font-family: var(--pf-font-mono);
+}
+
+.dice-error {
+  color: var(--pf-error);
+  text-align: center;
+  font-style: italic;
+  font-family: var(--pf-font-body);
+}
+
+.dice-scaling {
+  margin-bottom: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+.dice-scaling label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-ui);
+}
+
+.dice-scaling input {
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  width: 60px;
+  text-align: center;
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-mono);
+}
+
+.scaled-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--pf-space-2);
+}
+
+.scaled-label {
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  font-family: var(--pf-font-ui);
+}
+
+.scaled-value {
+  color: var(--pf-gold);
+  font-family: var(--pf-font-mono);
+  font-weight: var(--pf-font-semibold);
+}
+
+.dice-distribution {
+  margin-top: var(--pf-space-5);
+  padding-top: var(--pf-space-4);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.dice-distribution h4 {
+  margin-top: 0;
+  margin-bottom: var(--pf-space-3);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  text-align: center;
+  font-family: var(--pf-font-heading);
+}
+
+.distribution-chart {
+  height: 120px;
+  position: relative;
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--pf-space-1);
+  margin-bottom: var(--pf-space-1);
+}
+
+.distribution-bar {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, var(--pf-gold-dark), var(--pf-gold));
+  border-radius: var(--pf-border-radius-sm) var(--pf-border-radius-sm) 0 0;
+  opacity: 0.8;
+  transition: opacity var(--pf-transition-normal);
+}
+
+.distribution-bar:hover {
+  opacity: 1;
+}
+
+.distribution-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  font-family: var(--pf-font-ui);
+}
+
+@media (max-width: 768px) {
+  .preset-list {
+    grid-template-columns: 1fr;
+  }
+
+  .dice-formula-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dice-formula-input label {
+    margin-right: 0;
+    margin-bottom: var(--pf-space-2);
+  }
+
+  .preset-button {
+    margin-top: 0;
+  }
+}
+
+/* Remove old styles */
+.dice-calculator-header,
+.dice-calculator-input-group,
+.dice-calculator-builder,
+.dice-calculator-presets,
+.dice-calculator-distribution,
+.dice-builder-basic,
+.dice-builder-complex,
+.dice-builder-row,
+.dice-builder-group,
+.dice-type-buttons,
+.dice-advanced-options,
+.dice-complex-examples,
+.dice-calculator-label,
+.dice-calculator-input,
+.dice-calculator-error,
+.dice-calculator select,
+.dice-function-selector,
+.dice-calculator select option,
+.dice-function-selector option,
+.dice-calculator select option:checked,
+.dice-calculator select option:hover,
+.dice-function-selector option:checked,
+.dice-function-selector option:hover,
+.dice-calculator-modes,
+.dice-mode-toggle,
+.dice-calculator-stats,
+.dice-stat,
+.dice-stat-label,
+.dice-stat-value,
+.function-description,
+.complex-builder,
+.complex-builder-header,
+.complex-builder-title,
+.dice-preset-button,
+.dice-calculator-builder,
+.dice-builder-header,
+.dice-builder-toggle,
+.dice-builder-toggle.active,
+.dice-builder-group label,
+.dice-builder-group input[type="number"],
+.dice-type-button,
+.dice-type-button.active,
+.dice-type-button.custom,
+.dice-advanced-option,
+.dice-keep-input,
+.dice-builder-complex,
+.dice-function-select select,
+.dice-function-description,
+.dice-complex-formula input,
+.dice-complex-help,
+.dice-complex-examples,
+.dice-calculator-distribution,
+.dice-calculator-distribution h4,
+.dice-distribution-chart,
+.dice-distribution-bar,
+.dice-distribution-stats {
+  display: none;
+}

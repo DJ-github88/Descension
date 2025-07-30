@@ -1,0 +1,288 @@
+/* =========== Progressive Effects Styling =========== */
+
+/* ===== COUNT CONFIGURATION STYLING ===== */
+
+.count-config-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(139, 105, 20, 0.05) 100%);
+  border: 2px solid rgba(139, 105, 20, 0.3);
+  border-radius: 6px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.count-config-section label {
+  color: #5a1e12;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-width: 140px;
+  margin: 0;
+}
+
+.count-input {
+  width: 80px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
+  border: 2px solid #8b6914;
+  border-radius: 4px;
+  color: #2d1810;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  transition: all 0.2s ease;
+}
+
+.count-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow:
+    0 0 8px rgba(212, 175, 55, 0.4),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5e8 100%);
+}
+
+.count-input:hover {
+  border-color: #a0522d;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f5e8 100%);
+}
+
+/* Resolution option buttons */
+.resolution-option {
+  position: relative !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.progressive-toggle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.progressive-toggle label {
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+.toggle-button {
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
+  color: var(--pf-text-primary, #2d1810);
+  padding: 6px 12px;
+  border-radius: var(--pf-border-radius, 8px);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  transition: all var(--pf-transition-normal, 0.25s ease);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.toggle-button.active {
+  background: var(--pf-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%));
+  color: var(--pf-text-light, #f8f4e6);
+  border-color: var(--pf-brown-dark, #654321);
+  box-shadow:
+    var(--pf-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
+    0 0 0 1px rgba(139, 69, 19, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  transform: translateY(1px);
+}
+
+.toggle-button:hover {
+  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  border-color: var(--pf-gold, #d4af37);
+  transform: translateY(-1px);
+}
+
+.progressive-stages {
+  margin-top: 12px;
+}
+
+.stage-description {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.no-stages {
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  color: #9ca3af;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stage-item {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  overflow: hidden;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #8b4513 0%, #6d4c41 100%) !important;
+  border-bottom: 1px solid #5d4037 !important;
+  border-radius: 4px;
+}
+
+.stage-title {
+  font-weight: 600;
+  color: #ffffff !important;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.stage-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.stage-action {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.stage-action:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.stage-action.delete:hover {
+  color: #ef4444;
+}
+
+.stage-content {
+  padding: 12px;
+}
+
+.stage-timing {
+  margin-bottom: 12px;
+}
+
+.stage-timing label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.stage-timing-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.stage-timing-inputs input {
+  width: 60px;
+  padding: 6px 8px;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 4px;
+  color: #d1d5db;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.stage-timing-inputs .unit-label {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.stage-formula {
+  margin-bottom: 12px;
+}
+
+.stage-formula label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.stage-formula input {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 4px;
+  color: #d1d5db;
+  font-size: 14px;
+  font-family: 'SF Mono', 'Menlo', monospace;
+}
+
+.stage-description-input {
+  margin-bottom: 12px;
+}
+
+.stage-description-input label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.stage-description-input input {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 4px;
+  color: #d1d5db;
+  font-size: 14px;
+}
+
+.add-stage-button {
+  background: linear-gradient(to bottom, #1f2937, #111827);
+  border: 1px dashed #3b82f6;
+  color: #3b82f6;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.add-stage-button:hover {
+  background: linear-gradient(to bottom, #2563eb, #1e40af);
+  color: #ffffff;
+  border-style: solid;
+}
+
+/* Make the full-width input group take up the entire width */
+.dot-input-group.full-width,
+.hot-input-group.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}

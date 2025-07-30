@@ -1,0 +1,278 @@
+/* ===== PATHFINDER SPELLBOOK - CORE VARIABLES ===== */
+/* Unified color palette, typography, and spacing for the entire spellbook system */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* CRITICAL FIX: Scope variables to spellbook only, not global :root */
+.spellbook-layout,
+.spellbook-window,
+.wow-window .spellbook-layout {
+  /* ===== PATHFINDER COLOR PALETTE ===== */
+  
+  /* Primary Parchment Colors */
+  --pf-parchment-light: #f8f4e6;
+  --pf-parchment: #ede4d3;
+  --pf-parchment-dark: #e8dcc6;
+  --pf-parchment-darker: #d5cbb0;
+  
+  /* Rich Brown/Leather Colors */
+  --pf-brown-darkest: #2d1810;
+  --pf-brown-dark: #5a1e12;
+  --pf-brown-medium: #8B4513;
+  --pf-brown-light: #a08c70;
+  --pf-brown-lighter: #c4a373;
+  
+  /* Text Colors */
+  --pf-text-primary: #2d1810;
+  --pf-text-secondary: #5a1e12;
+  --pf-text-muted: #8B4513;
+  --pf-text-light: #a08c70;
+  --pf-text-on-dark: #f8f4e6;
+  
+  /* Accent Colors */
+  --pf-gold: #d4af37;
+  --pf-gold-light: #f4d03f;
+  --pf-gold-dark: #b8860b;
+  
+  /* Status Colors */
+  --pf-success: #2d5016;
+  --pf-success-light: #4a7c59;
+  --pf-warning: #8b4513;
+  --pf-warning-light: #cd853f;
+  --pf-error: #8b0000;
+  --pf-error-light: #cd5c5c;
+  --pf-info: #2f4f4f;
+  --pf-info-light: #708090;
+  
+  /* Element/Magic School Colors */
+  --pf-fire: #dc143c;
+  --pf-frost: #4682b4;
+  --pf-nature: #228b22;
+  --pf-arcane: #9370db;
+  --pf-holy: #ffd700;
+  --pf-shadow: #2f2f2f;
+  --pf-lightning: #ffff00;
+  --pf-physical: #696969;
+  
+  /* Rarity Colors (Pathfinder-themed) */
+  --pf-common: #8b7355;
+  --pf-uncommon: #2d5016;
+  --pf-rare: #8b4513;
+  --pf-epic: #6a0dad;
+  --pf-legendary: #b8860b;
+  --pf-artifact: #d4af37;
+  
+  /* ===== TYPOGRAPHY ===== */
+  
+  /* Font Families */
+  --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --pf-font-body: 'Crimson Text', 'Georgia', serif;
+  --pf-font-ui: 'Cinzel', 'Times New Roman', serif;
+  
+  /* Font Sizes */
+  --pf-text-2xs: 8px;
+  --pf-text-xs: 10px;
+  --pf-text-sm: 12px;
+  --pf-text-base: 14px;
+  --pf-text-lg: 16px;
+  --pf-text-xl: 18px;
+  --pf-text-2xl: 20px;
+  --pf-text-3xl: 24px;
+  --pf-text-4xl: 28px;
+  
+  /* Font Weights */
+  --pf-font-normal: 400;
+  --pf-font-medium: 500;
+  --pf-font-semibold: 600;
+  --pf-font-bold: 700;
+  
+  /* Line Heights */
+  --pf-leading-tight: 1.25;
+  --pf-leading-normal: 1.5;
+  --pf-leading-relaxed: 1.75;
+  
+  /* ===== SPACING ===== */
+  
+  --pf-space-1: 4px;
+  --pf-space-2: 8px;
+  --pf-space-3: 12px;
+  --pf-space-4: 16px;
+  --pf-space-5: 20px;
+  --pf-space-6: 24px;
+  --pf-space-8: 32px;
+  --pf-space-10: 40px;
+  --pf-space-12: 48px;
+  --pf-space-16: 64px;
+  --pf-space-20: 80px;
+  
+  /* ===== BORDERS & RADIUS ===== */
+  
+  --pf-border-width: 2px;
+  --pf-border-width-thick: 3px;
+  --pf-border-radius: 8px;
+  --pf-border-radius-lg: 12px;
+  --pf-border-radius-xl: 16px;
+  
+  /* ===== SHADOWS ===== */
+  
+  --pf-shadow-sm: 0 2px 4px rgba(45, 24, 16, 0.1);
+  --pf-shadow-md: 0 4px 8px rgba(45, 24, 16, 0.15);
+  --pf-shadow-lg: 0 8px 16px rgba(45, 24, 16, 0.2);
+  --pf-shadow-xl: 0 12px 24px rgba(45, 24, 16, 0.25);
+  
+  /* Pathfinder-specific shadows */
+  --pf-shadow-parchment: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+    0 0 0 1px rgba(139, 69, 19, 0.3),
+    0 0 20px rgba(139, 69, 19, 0.15);
+  
+  --pf-shadow-inset: inset 0 2px 4px rgba(45, 24, 16, 0.1);
+  --pf-shadow-glow: 0 0 12px rgba(212, 175, 55, 0.3);
+  
+  /* ===== TRANSITIONS ===== */
+  
+  --pf-transition-fast: 0.15s ease;
+  --pf-transition-normal: 0.25s ease;
+  --pf-transition-slow: 0.4s ease;
+  
+  /* ===== GRADIENTS ===== */
+  
+  /* Parchment Background Gradients */
+  --pf-gradient-parchment: 
+    linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),
+    radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
+  
+  --pf-gradient-parchment-dark:
+    linear-gradient(145deg, #ede4d3 0%, #e8dcc6 30%, #d5cbb0 70%, #c4a373 100%);
+
+  --pf-gradient-parchment-light:
+    linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%);
+  
+  /* Button Gradients */
+  --pf-gradient-button: 
+    linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  
+  --pf-gradient-button-hover: 
+    linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%);
+  
+  --pf-gradient-button-active: 
+    linear-gradient(145deg, #d5cbb0 0%, #c4a373 50%, #a08c70 100%);
+  
+  /* Header Gradients */
+  --pf-gradient-header:
+    linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
+
+  /* Gold Gradients */
+  --pf-gradient-gold:
+    linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%);
+
+  --pf-gradient-gold-subtle:
+    linear-gradient(145deg,
+      rgba(244, 208, 63, 0.1) 0%,
+      rgba(212, 175, 55, 0.15) 50%,
+      rgba(184, 134, 11, 0.1) 100%);
+  
+  /* ===== Z-INDEX LAYERS ===== */
+  
+  --pf-z-base: 1;
+  --pf-z-dropdown: 1000;
+  --pf-z-sticky: 1020;
+  --pf-z-fixed: 1030;
+  --pf-z-modal-backdrop: 1040;
+  --pf-z-modal: 1050;
+  --pf-z-popover: 1060;
+  --pf-z-tooltip: 1070;
+  --pf-z-toast: 1080;
+  
+  /* ===== COMPONENT SPECIFIC VARIABLES ===== */
+  
+  /* Wizard Layout */
+  --pf-wizard-header-height: 80px;
+  --pf-wizard-footer-height: 60px;
+  --pf-wizard-sidebar-width: 280px;
+  --pf-wizard-step-width: 800px;
+  
+  /* Card Dimensions */
+  --pf-card-width: 280px;
+  --pf-card-height: 380px;
+  --pf-card-padding: var(--pf-space-4);
+  
+  /* Form Elements */
+  --pf-input-height: 40px;
+  --pf-input-padding: var(--pf-space-3) var(--pf-space-4);
+  --pf-button-height: 40px;
+  --pf-button-padding: var(--pf-space-3) var(--pf-space-6);
+  
+  /* ===== BREAKPOINTS ===== */
+  
+  --pf-breakpoint-sm: 640px;
+  --pf-breakpoint-md: 768px;
+  --pf-breakpoint-lg: 1024px;
+  --pf-breakpoint-xl: 1280px;
+  --pf-breakpoint-2xl: 1536px;
+}
+
+/* ===== PATHFINDER TEXTURE PATTERNS ===== */
+
+/* Subtle parchment texture */
+.pf-texture-parchment::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(139, 69, 19, 0.02) 4px,
+      rgba(139, 69, 19, 0.02) 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(139, 69, 19, 0.01) 6px,
+      rgba(139, 69, 19, 0.01) 12px
+    );
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* Leather texture for darker elements */
+.pf-texture-leather::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      30deg,
+      transparent,
+      transparent 2px,
+      rgba(45, 24, 16, 0.05) 2px,
+      rgba(45, 24, 16, 0.05) 4px
+    );
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* ===== BACKUP: Ensure character sheet has its own variables ===== */
+/* Define character sheet specific variables to prevent spellbook interference */
+:root {
+  /* Character sheet specific variables */
+  --character-font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --character-text-color: #5a1e12;
+  --character-bg-gradient: linear-gradient(135deg,
+    rgba(240, 230, 210, 0.95) 0%,
+    rgba(230, 220, 200, 0.9) 50%,
+    rgba(213, 203, 176, 0.85) 100%);
+}

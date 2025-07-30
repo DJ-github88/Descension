@@ -1,0 +1,650 @@
+/* ===== PATHFINDER SPELLBOOK - STEP LAYOUT ===== */
+/* Individual wizard step layouts and navigation */
+
+/* ===== WIZARD VIEW ===== */
+
+.wizard-view {
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ===== WIZARD PROGRESS ===== */
+
+.spellbook-layout .wizard-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: 0 2px 8px rgba(45, 24, 16, 0.1);
+  overflow-x: auto;
+  gap: var(--pf-space-2);
+  position: sticky;
+  top: 0;
+  z-index: var(--pf-z-sticky);
+}
+
+.spellbook-layout .wizard-progress::-webkit-scrollbar {
+  height: 6px;
+}
+
+.spellbook-layout .wizard-progress::-webkit-scrollbar-track {
+  background: var(--pf-parchment-dark);
+}
+
+.spellbook-layout .wizard-progress::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+}
+
+/* ===== WIZARD STEP INDICATORS ===== */
+
+.spellbook-layout .wizard-step-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--pf-space-2);
+  min-width: 60px;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  border-radius: var(--pf-border-radius);
+  position: relative;
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.spellbook-layout .wizard-step-indicator:hover {
+  background: rgba(139, 69, 19, 0.1);
+  transform: translateY(-1px);
+}
+
+.spellbook-layout .wizard-step-indicator.completed {
+  color: var(--pf-success);
+}
+
+.spellbook-layout .wizard-step-indicator.active {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  color: var(--pf-brown-dark);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.spellbook-layout .wizard-step-indicator.current {
+  background: var(--pf-brown-medium);
+  color: var(--pf-text-on-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-dark);
+  box-shadow: var(--pf-shadow-lg);
+}
+
+.spellbook-layout .wizard-step-indicator.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--pf-text-light);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--pf-gradient-button);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 50%;
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  margin-bottom: var(--pf-space-1);
+  transition: all var(--pf-transition-normal);
+}
+
+.spellbook-layout .wizard-step-indicator.completed .step-number {
+  background: var(--pf-success);
+  border-color: var(--pf-success-light);
+  color: var(--pf-text-on-dark);
+}
+
+.spellbook-layout .wizard-step-indicator.active .step-number {
+  background: var(--pf-brown-medium);
+  border-color: var(--pf-brown-dark);
+  color: var(--pf-text-on-dark);
+  box-shadow: var(--pf-shadow-glow);
+}
+
+.spellbook-layout .wizard-step-indicator.current .step-number {
+  background: var(--pf-gold);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow: var(--pf-shadow-glow);
+  animation: pf-pulse 2s infinite;
+}
+
+@keyframes pf-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.step-name {
+  font-family: var(--pf-font-ui);
+  font-size: 10px;
+  font-weight: var(--pf-font-semibold);
+  text-align: center;
+  line-height: var(--pf-leading-tight);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== WIZARD STEP CONTENT ===== */
+
+/* ===== WIZARD STEP WRAPPER ===== */
+
+.spellbook-layout .wizard-step,
+.spellbook-layout .spell-wizard-step {
+  width: 100%;
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.spellbook-layout .wizard-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(139, 69, 19, 0.02) 4px,
+      rgba(139, 69, 19, 0.02) 8px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(139, 69, 19, 0.01) 6px,
+      rgba(139, 69, 19, 0.01) 12px
+    );
+  pointer-events: none;
+  border-radius: var(--pf-border-radius);
+  z-index: 1;
+}
+
+.spellbook-layout .wizard-step > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== STEP HEADER - REMOVED ===== */
+/* Headers removed to maximize content space */
+
+/* ===== STEP BODY ===== */
+
+.step-body {
+  padding: var(--pf-space-4) var(--pf-space-6);
+  background: var(--pf-gradient-parchment);
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  /* Maximize content width while maintaining readability */
+  max-width: none;
+  /* Enhanced scroll responsiveness */
+  scrollbar-width: thin;
+  scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light);
+  scroll-behavior: auto;
+  overscroll-behavior: contain;
+  /* Reduce scroll wheel resistance for more responsive scrolling */
+  scroll-padding: 0;
+}
+
+.step-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.step-body::-webkit-scrollbar-track {
+  background: var(--pf-brown-light);
+  border-radius: 4px;
+}
+
+.step-body::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-medium);
+  border-radius: 4px;
+}
+
+.step-body::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-brown-dark);
+}
+
+/* ===== STEP FOOTER ===== */
+
+.step-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-6);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  position: relative;
+}
+
+.step-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-brown-light) 20%,
+    var(--pf-brown-light) 80%,
+    transparent
+  );
+}
+
+.step-footer-left {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+.step-footer-center {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.step-footer-right {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+/* ===== STEP NAVIGATION ===== */
+
+.step-nav-info {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-muted);
+  font-weight: var(--pf-font-semibold);
+}
+
+/* ===== WIZARD LOADING ===== */
+
+.wizard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-8);
+  color: var(--pf-text-muted);
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-lg);
+  background: var(--pf-gradient-parchment);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .spellbook-layout .wizard-progress {
+    padding: var(--pf-space-3);
+    gap: var(--pf-space-1);
+  }
+
+  .spellbook-layout .wizard-step-indicator {
+    min-width: 50px;
+    padding: var(--pf-space-1);
+  }
+
+  .spellbook-layout .step-number {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .spellbook-layout .step-name {
+    font-size: 9px;
+    max-width: 50px;
+  }
+
+
+
+  .spellbook-layout .wizard-step {
+    margin: var(--pf-space-2);
+  }
+
+  .spellbook-layout .step-header {
+    padding: var(--pf-space-4);
+  }
+
+  .spellbook-layout .step-title {
+    font-size: var(--pf-text-2xl);
+  }
+
+  .spellbook-layout .step-body {
+    padding: var(--pf-space-4);
+  }
+
+  .spellbook-layout .wizard-footer {
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-3);
+    min-height: auto;
+  }
+
+  .spellbook-layout .wizard-footer-left,
+  .spellbook-layout .wizard-footer-center,
+  .spellbook-layout .wizard-footer-right {
+    width: 100%;
+    justify-content: center;
+    min-width: auto;
+  }
+
+  .spellbook-layout .wizard-progress-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .spellbook-layout .wizard-btn {
+    min-width: 60px;
+    padding: var(--pf-space-1) var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .spellbook-layout .wizard-step-indicator {
+    min-width: 40px;
+    padding: var(--pf-space-1);
+  }
+
+  .spellbook-layout .step-number {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .spellbook-layout .step-name {
+    font-size: 8px;
+    max-width: 40px;
+  }
+
+  .spellbook-layout .step-title {
+    font-size: var(--pf-text-xl);
+  }
+
+  .spellbook-layout .step-description {
+    font-size: var(--pf-text-sm);
+  }
+
+  .spellbook-layout .wizard-progress-container {
+    gap: var(--pf-space-1);
+  }
+
+  .spellbook-layout .wizard-btn {
+    min-width: 50px;
+    padding: var(--pf-space-1) var(--pf-space-2);
+    font-size: 10px;
+  }
+}
+
+/* ===== SPELL WIZARD SPECIFIC CLASSES ===== */
+
+.spell-wizard-step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-6);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  position: relative;
+}
+
+.spell-wizard-step-indicators {
+  display: flex;
+  gap: var(--pf-space-2);
+  align-items: center;
+}
+
+.spell-wizard-step-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pf-brown-light);
+  border: 2px solid var(--pf-brown-medium);
+  transition: all var(--pf-transition-normal);
+}
+
+.spell-wizard-step-indicator.active {
+  background: var(--pf-gold);
+  border-color: var(--pf-gold-dark);
+  box-shadow: 0 0 8px rgba(218, 165, 32, 0.5);
+}
+
+.spell-wizard-step-indicator.completed {
+  background: var(--pf-success);
+  border-color: var(--pf-success-light);
+}
+
+.spell-wizard-step-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.spell-wizard-step-progress-bar {
+  width: 200px;
+  height: 8px;
+  background: var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  overflow: hidden;
+  border: 1px solid var(--pf-brown-medium);
+}
+
+.spell-wizard-step-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--pf-gold), var(--pf-gold-dark));
+  transition: width var(--pf-transition-normal);
+  border-radius: var(--pf-border-radius);
+}
+
+.spell-wizard-step-progress-text {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  font-weight: var(--pf-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spell-wizard-step-status {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.spell-wizard-step-complete-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-success);
+  color: var(--pf-text-on-dark);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== STEP HINTS - REMOVED ===== */
+/* Hints converted to tooltips to save space */
+
+/* ===== WIZARD FOOTER ===== */
+
+.wizard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-6);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.1);
+  position: relative;
+  min-height: 80px;
+}
+
+.wizard-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-gold) 20%,
+    var(--pf-gold) 80%,
+    transparent
+  );
+}
+
+.wizard-footer-left,
+.wizard-footer-right {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  min-width: 120px;
+}
+
+.wizard-footer-left {
+  justify-content: flex-start;
+}
+
+.wizard-footer-right {
+  justify-content: flex-end;
+}
+
+.wizard-footer-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wizard-progress-container {
+  display: flex;
+  gap: var(--pf-space-2);
+  align-items: center;
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-inset);
+}
+
+.wizard-btn {
+  padding: var(--pf-space-2) var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+  min-width: 80px;
+}
+
+.wizard-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.wizard-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--pf-gradient-parchment-dark);
+  color: var(--pf-text-muted);
+}
+
+.wizard-btn-primary {
+  background: var(--pf-gradient-gold);
+  color: var(--pf-brown-darkest);
+  border-color: var(--pf-gold-dark);
+}
+
+.wizard-btn-primary:hover:not(:disabled) {
+  background: var(--pf-gold-light);
+  border-color: var(--pf-gold-darkest);
+}
+
+.wizard-btn-secondary {
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-secondary);
+}
+
+.wizard-btn-secondary:hover:not(:disabled) {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+}
+
+.wizard-btn-cancel {
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-muted);
+  border-color: var(--pf-brown-light);
+}
+
+.wizard-btn-cancel:hover:not(:disabled) {
+  background: var(--pf-gradient-parchment-light);
+  color: var(--pf-text-secondary);
+}
+
+/* ===== FINAL OVERRIDES FOR WIZARD PROGRESS ===== */
+
+.spellbook-layout .wizard-progress {
+  padding: 4px 8px !important;
+  min-height: auto !important;
+  max-height: 30px !important;
+}
+
+.wizard-progress-overlay {
+  padding: 2px 8px !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  max-height: 30px !important;
+}
+
+.spell-wizard-progress-bar {
+  height: 18px !important;
+  margin: 2px 8px !important;
+  width: calc(100% - 16px) !important;
+  min-height: 18px !important;
+  max-height: 18px !important;
+}
+
+.spell-step-number {
+  width: 20px !important;
+  height: 20px !important;
+  font-size: 11px !important;
+}

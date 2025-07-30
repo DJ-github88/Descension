@@ -1,0 +1,923 @@
+/* Step3Abilities.css - Pathfinder Style Ability Cards */
+
+/* Import Pathfinder variables if not already available */
+:root {
+  --pf-space-2: 8px;
+  --pf-space-3: 12px;
+  --pf-space-4: 16px;
+  --pf-space-5: 20px;
+  --pf-border-radius: 6px;
+  --pf-border-radius-lg: 8px;
+  --pf-brown-medium: #8b4513;
+  --pf-brown-dark: #654321;
+  --pf-text-primary: #2d1810;
+  --pf-gradient-parchment: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
+  --pf-gradient-header: linear-gradient(to bottom, rgba(139, 69, 19, 0.1), rgba(139, 69, 19, 0.05));
+  --pf-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --pf-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --pf-transition-normal: all 0.2s ease;
+}
+
+.ability-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  gap: var(--pf-space-4, 20px);
+  margin-top: 20px;
+  padding: var(--pf-space-3, 15px);
+}
+
+/* Pathfinder-style ability cards */
+.wow-spell-card.pf-library-spell-card {
+  background: var(--pf-gradient-parchment) !important;
+  border: 1px solid rgba(139, 69, 19, 0.3) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(139, 69, 19, 0.1) !important;
+  transition: var(--pf-transition-normal) !important;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  width: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  color: var(--pf-text-primary) !important;
+}
+
+.wow-spell-card.pf-library-spell-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--pf-shadow-lg) !important;
+  border-color: var(--pf-brown-dark) !important;
+}
+
+/* Pathfinder card header */
+.pf-spell-card-header {
+  background: linear-gradient(135deg, #b8860b 0%, #daa520 50%, #b8860b 100%) !important;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2) !important;
+  padding: var(--pf-space-4) !important;
+  position: relative;
+  z-index: 2;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.pf-spell-header-top {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pf-space-3);
+  position: relative;
+}
+
+.pf-spell-icon-container {
+  flex-shrink: 0;
+}
+
+.pf-spell-icon {
+  width: 48px !important;
+  height: 48px !important;
+  border: 2px solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  object-fit: cover;
+  background: var(--pf-gradient-parchment);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.pf-spell-icon.ability-icon-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-brown-medium);
+  font-size: 24px;
+}
+
+.pf-spell-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-spell-name {
+  font-family: 'Cinzel', serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #2d1810 !important;
+  margin: 0 0 var(--pf-space-2) 0 !important;
+  line-height: 1.2;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.pf-spell-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  font-size: 12px;
+  color: var(--pf-brown-medium);
+}
+
+.pf-spell-type,
+.pf-spell-cast-time,
+.pf-spell-range,
+.pf-spell-level {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  font-weight: 600;
+  color: var(--pf-brown-dark);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pf-spell-actions {
+  flex-shrink: 0;
+}
+
+.pf-remove-ability-button {
+  background: rgba(139, 69, 19, 0.1) !important;
+  border: 1px solid rgba(139, 69, 19, 0.3) !important;
+  color: var(--pf-brown-medium) !important;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--pf-transition-normal);
+  padding: 0;
+}
+
+.pf-remove-ability-button:hover {
+  background: rgba(244, 67, 54, 0.2) !important;
+  border-color: rgba(244, 67, 54, 0.5) !important;
+  color: #f44336 !important;
+}
+
+/* Pathfinder card body */
+.pf-spell-card-body {
+  padding: var(--pf-space-3) !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  position: relative;
+  z-index: 2;
+}
+
+.pf-spell-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-spell-effects {
+  background: rgba(139, 69, 19, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+}
+
+.pf-effects-title {
+  font-weight: 600;
+  color: var(--pf-brown-medium);
+  font-size: 13px;
+  margin-bottom: var(--pf-space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pf-spell-effect {
+  margin-bottom: var(--pf-space-2);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.pf-spell-effect:last-child {
+  margin-bottom: 0;
+}
+
+.pf-effect-label {
+  font-weight: 600;
+  color: var(--pf-brown-medium);
+  margin-right: var(--pf-space-2);
+}
+
+.pf-effect-value {
+  color: var(--pf-text-primary);
+}
+
+.pf-damage-formula {
+  font-weight: 700;
+  color: #d32f2f;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.pf-damage-type {
+  font-weight: 600;
+  color: #8b4513;
+  text-transform: lowercase;
+  font-style: italic;
+  background: rgba(139, 69, 19, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  font-size: 12px;
+}
+
+/* Pathfinder card footer */
+.pf-spell-footer {
+  border-top: 1px solid rgba(139, 69, 19, 0.1);
+  padding-top: var(--pf-space-2);
+  margin-top: auto;
+}
+
+.pf-spell-stats {
+  display: flex;
+  gap: var(--pf-space-4);
+  flex-wrap: wrap;
+}
+
+.pf-spell-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-size: 12px;
+}
+
+.pf-stat-label {
+  font-weight: 600;
+  color: var(--pf-brown-medium);
+}
+
+.pf-stat-value {
+  color: var(--pf-text-primary);
+  font-weight: 500;
+  background: rgba(139, 69, 19, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+/* No abilities message styling */
+.no-abilities-message {
+  text-align: center;
+  padding: var(--pf-space-5);
+  color: var(--pf-brown-medium);
+  grid-column: 1 / -1;
+}
+
+.no-abilities-icon {
+  font-size: 48px;
+  margin-bottom: var(--pf-space-3);
+  opacity: 0.6;
+}
+
+/* Responsive design */
+@media (max-width: 1400px) {
+  .ability-list {
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .ability-list {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .ability-list {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .ability-list {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-2);
+  }
+
+  .pf-spell-header-top {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-spell-meta {
+    justify-content: center;
+  }
+
+  .pf-spell-stats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-spell-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .pf-spell-name {
+    font-size: 14px !important;
+  }
+
+  .pf-spell-card-body {
+    padding: var(--pf-space-2) !important;
+  }
+}
+
+/* Rarity colors */
+.ability-item.wow-spell-card.common {
+  border-color: #9d9d9d;
+}
+
+.ability-item.wow-spell-card.uncommon {
+  border-color: #1eff00;
+}
+
+.ability-item.wow-spell-card.rare {
+  border-color: #0070dd;
+}
+
+.ability-item.wow-spell-card.epic {
+  border-color: #a335ee;
+}
+
+.ability-item.wow-spell-card.legendary {
+  border-color: #ff8000;
+}
+
+/* Spell school colors */
+.ability-item.wow-spell-card.school-physical::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #C0C0C0;
+}
+
+.ability-item.wow-spell-card.school-fire::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #FF4500;
+}
+
+.ability-item.wow-spell-card.school-frost::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #00BFFF;
+}
+
+.ability-item.wow-spell-card.school-arcane::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #9966CC;
+}
+
+.ability-item.wow-spell-card.school-nature::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #7CFC00;
+}
+
+.ability-item.wow-spell-card.school-shadow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #800080;
+}
+
+.ability-item.wow-spell-card.school-holy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #FFD700;
+}
+
+.ability-item.wow-spell-card.school-poison::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #00FF00;
+}
+
+/* Card header */
+.ability-item.wow-spell-card .ability-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  margin-bottom: 0;
+}
+
+/* Icon wrapper */
+.ability-icon-wrapper {
+  position: relative;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.ability-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ability-icon-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ability-rank {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #aaa;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+}
+
+/* Ability info */
+.ability-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.ability-item.wow-spell-card .ability-name {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ability-type-badge {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ability-type-badge[data-type="melee"] {
+  background: linear-gradient(to bottom, #8b0000, #5a0000);
+  color: #ffcccc;
+}
+
+.ability-type-badge[data-type="ranged"] {
+  background: linear-gradient(to bottom, #006400, #004000);
+  color: #ccffcc;
+}
+
+.ability-type-badge[data-type="spell"] {
+  background: linear-gradient(to bottom, #00008b, #000058);
+  color: #ccccff;
+}
+
+.ability-type-badge[data-type="special"] {
+  background: linear-gradient(to bottom, #8b008b, #5a005a);
+  color: #ffccff;
+}
+
+.ability-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+.ability-cast-time, .ability-range, .ability-level {
+  position: relative;
+  padding-left: 14px;
+}
+
+.ability-cast-time::before {
+  content: '⏱️';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 10px;
+}
+
+.ability-range::before {
+  content: '📏';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 10px;
+}
+
+.ability-level::before {
+  content: '⭐';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 10px;
+}
+
+/* Card content */
+.ability-content {
+  padding: 15px;
+}
+
+.ability-description {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  color: #bbb;
+  line-height: 1.5;
+}
+
+/* Effects */
+.ability-effects {
+  margin-bottom: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+}
+
+.ability-effect {
+  margin-bottom: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.effect-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.effect-label {
+  color: #888;
+  margin-right: 5px;
+}
+
+.effect-value {
+  color: #ddd;
+}
+
+.effect-damage .damage-formula {
+  color: #ff6b6b;
+}
+
+.effect-healing .effect-value {
+  color: #6bff6b;
+}
+
+.effect-condition .effect-value {
+  color: #ffcc6b;
+}
+
+/* Footer */
+.ability-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+}
+
+.ability-stat {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.detail-label {
+  color: #aaaaaa;
+  margin-right: 5px;
+}
+
+.detail-value {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Actions */
+.ability-item.wow-spell-card .ability-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.ability-item.wow-spell-card .remove-ability-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #aaa;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.ability-item.wow-spell-card .remove-ability-button:hover {
+  background-color: rgba(244, 67, 54, 0.8);
+  border-color: rgba(244, 67, 54, 0.5);
+  color: #fff;
+}
+
+.ability-form {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #aaaaaa;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: rgba(255, 209, 0, 0.5);
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 209, 0, 0.3);
+}
+
+.damage-input-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dice-count-input,
+.dice-type-input,
+.damage-bonus-input {
+  width: 60px;
+}
+
+.damage-type-input {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancel-button,
+.save-button {
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #dddddd;
+}
+
+.save-button {
+  background: linear-gradient(to bottom, #ffd100, #ffaa00);
+  border: 1px solid #ffaa00;
+  color: #000000;
+  font-weight: bold;
+}
+
+.cancel-button:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.save-button:hover {
+  background: linear-gradient(to bottom, #ffe066, #ffbb33);
+}
+
+.save-button:disabled {
+  background: #666666;
+  border-color: #555555;
+  color: #aaaaaa;
+  cursor: not-allowed;
+}
+
+.no-abilities-message {
+  text-align: center;
+  padding: 40px 30px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: 10px;
+  border: 1px dashed rgba(33, 150, 243, 0.4);
+  color: #bbb;
+  font-size: 16px;
+  margin-top: 20px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.no-abilities-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(33, 150, 243, 0.6), transparent);
+}
+
+.no-abilities-icon {
+  font-size: 48px;
+  color: rgba(33, 150, 243, 0.4);
+  margin-bottom: 20px;
+}
+
+.spell-library-container {
+  padding: 20px;
+}
+
+.spell-search {
+  margin-bottom: 15px;
+}
+
+.spell-search input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.spell-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.spell-card {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.spell-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 209, 0, 0.3);
+}
+
+.spell-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
+}
+
+.spell-card-header h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #ffd100;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.spell-type {
+  font-size: 12px;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  color: #dddddd;
+}
+
+.spell-card-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #dddddd;
+  line-height: 1.4;
+  max-height: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.loading-library {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 18px;
+  color: #2196F3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}

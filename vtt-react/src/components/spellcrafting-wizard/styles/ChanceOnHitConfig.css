@@ -1,0 +1,2288 @@
+/* Chance-on-Hit, Critical Hit, and Saving Throw Configuration Styles - Pathfinder Theme */
+
+.chance-on-hit-config,
+.critical-hit-config,
+.saving-throw-config {
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--pf-space-3);
+  margin-bottom: var(--pf-space-4);
+  font-family: var(--pf-font-body);
+}
+
+/* Pathfinder-styled option */
+.wow-option {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+  transition: all var(--pf-transition-normal);
+}
+
+.wow-option:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-brown-dark);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.wow-checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: var(--pf-space-2);
+}
+
+.wow-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.wow-checkbox-custom {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
+  border: 2px solid #8b6914;
+  border-radius: 4px;
+  margin-right: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.wow-checkbox-custom:hover {
+  background: linear-gradient(135deg, #f0ead6 0%, #e8dcc0 100%);
+  border-color: #8b6914;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(139, 105, 20, 0.2);
+}
+
+.wow-checkbox:checked + .wow-checkbox-custom {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border-color: #8b6914;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.wow-checkbox:checked + .wow-checkbox-custom::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #2c1810;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  animation: checkmark 0.2s ease-in-out;
+}
+
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+.wow-option-text {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-base);
+  text-shadow: var(--pf-text-shadow);
+  font-family: var(--pf-font-ui);
+}
+
+.wow-option-description {
+  margin-left: 34px;
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  line-height: 1.4;
+  font-family: var(--pf-font-body);
+}
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-4);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-3);
+}
+
+/* Toggle Container */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--pf-space-4);
+}
+
+/* Toggle Switch Label */
+.toggle-switch-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle-switch-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  background: var(--pf-gradient-input);
+  border-radius: 24px;
+  margin-right: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-inset);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.toggle-label {
+  display: inline-block;
+  font-size: var(--pf-text-base);
+  color: var(--pf-text-primary);
+  white-space: nowrap;
+  font-family: var(--pf-font-ui);
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 2px;
+  background: linear-gradient(to bottom, var(--pf-parchment-light), var(--pf-parchment));
+  border-radius: 50%;
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.toggle-switch-label input:checked + .toggle-slider {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+}
+
+.toggle-switch-label input:checked + .toggle-slider:before {
+  transform: translateX(25px);
+}
+
+.toggle-text {
+  display: inline-block;
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-base);
+  text-shadow: var(--pf-text-shadow);
+  white-space: nowrap;
+  margin-left: var(--pf-space-2);
+  font-family: var(--pf-font-ui);
+}
+
+.proc-resolution-method {
+  margin-bottom: var(--pf-space-6);
+}
+
+.proc-resolution-method h4 {
+  font-size: var(--pf-text-base);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-3);
+  font-family: var(--pf-font-heading);
+}
+
+.resolution-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pf-space-4);
+}
+
+@media (max-width: 768px) {
+  .resolution-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.config-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+}
+
+@media (max-width: 768px) {
+  .config-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  margin-bottom: var(--pf-space-4);
+}
+
+.form-group label {
+  display: block;
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-ui);
+}
+
+.input-with-label {
+  display: flex;
+  align-items: center;
+}
+
+.input-with-label input {
+  flex: 1;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-body);
+}
+
+.input-label {
+  margin-left: var(--pf-space-2);
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-ui);
+}
+
+.help-text {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  margin-top: var(--pf-space-1);
+  font-family: var(--pf-font-body);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+}
+
+.checkbox-label input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  margin-right: var(--pf-space-3);
+  position: relative;
+  cursor: pointer;
+  box-shadow: var(--pf-shadow-inset);
+  transition: all var(--pf-transition-normal);
+  flex-shrink: 0;
+}
+
+.checkbox-label input[type="checkbox"]:checked {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+}
+
+/* DISABLED - This creates the 90-degree angle checkmark that conflicts */
+.checkbox-label input[type="checkbox"]:checked::after {
+  display: none !important;
+  content: none !important;
+}
+
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+.checkbox-label input[type="checkbox"]:hover {
+  background: var(--pf-gradient-button-hover);
+}
+
+.checkbox-label input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--pf-gold);
+}
+
+.suit-selection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--pf-space-2);
+}
+
+.suit-button {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  font-family: var(--pf-font-ui);
+}
+
+.suit-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.suit-button.selected {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+}
+
+.proc-effects-section {
+  margin-top: var(--pf-space-6);
+}
+
+.proc-effects-section h4 {
+  font-size: var(--pf-text-base);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-heading);
+}
+
+.proc-effects-section p {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-4);
+  font-family: var(--pf-font-body);
+}
+
+.proc-effects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pf-space-4);
+}
+
+@media (max-width: 768px) {
+  .proc-effects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.proc-effect-card {
+  background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
+  border: 2px solid #8b6914;
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.proc-effect-card:hover {
+  background: linear-gradient(135deg, #f0ead6 0%, #e8dcc0 100%);
+  border-color: #8b6914;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.proc-effect-card.selected {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border-color: #8b6914;
+  color: #2c1810;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.effect-icon {
+  font-size: var(--pf-text-xl);
+  color: var(--pf-gold);
+  margin-bottom: var(--pf-space-2);
+  text-align: center;
+}
+
+.effect-name {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-1);
+  text-align: center;
+  font-family: var(--pf-font-ui);
+}
+
+.effect-description {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  text-align: center;
+  font-family: var(--pf-font-body);
+}
+
+/* Dice-based proc configuration */
+.dice-proc-config {
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+/* Card-based proc configuration */
+.card-proc-config {
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+/* Coin-based proc configuration */
+.coin-proc-config {
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+/* Spell selection */
+.proc-spell-section {
+  margin-top: var(--pf-space-6);
+  margin-bottom: var(--pf-space-6);
+}
+
+.proc-spell-section h4 {
+  font-size: var(--pf-text-base);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-heading);
+}
+
+.proc-spell-section p {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-4);
+  font-family: var(--pf-font-body);
+}
+
+.spell-selector {
+  margin-bottom: var(--pf-space-4);
+}
+
+.spell-select {
+  width: 100%;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-3);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-body);
+}
+
+.selected-spell-preview {
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+}
+
+.selected-spell-preview h5 {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-heading);
+}
+
+.spell-card-mini {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+}
+
+.spell-name {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
+}
+
+.spell-type {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-body);
+}
+
+.spell-description {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+}
+
+select {
+  width: 100%;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-body);
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-body);
+}
+
+/* Readonly input styling */
+.readonly-input {
+  background: var(--pf-gradient-parchment-light) !important;
+  color: var(--pf-text-secondary) !important;
+  cursor: not-allowed !important;
+  opacity: 0.8 !important;
+}
+
+/* Selected Effects Summary */
+.selected-effects-summary {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-3);
+}
+
+.selected-effect-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-3);
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-sm);
+}
+
+.selected-effect-item:last-child {
+  margin-bottom: 0;
+}
+
+.selected-effect-item strong {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.selected-effect-item span:not(strong) {
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-secondary);
+  flex: 1;
+}
+
+/* Enhanced checkbox styling */
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 3px;
+  background: var(--pf-gradient-parchment);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--pf-transition-normal);
+}
+
+input[type="checkbox"]:checked {
+  background: var(--pf-gradient-button);
+  border-color: var(--pf-brown-dark);
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--pf-text-light);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+input[type="checkbox"]:hover {
+  border-color: var(--pf-brown-dark);
+  box-shadow: 0 0 0 2px rgba(139, 105, 20, 0.2);
+}
+
+/* ===== UNIFIED SPELL CARD INTEGRATION ===== */
+
+/* Spell card stat styling for chance on hit, critical hit, and saving throw */
+.unified-spell-stat.saving-throw {
+  border-left: 3px solid #4a90e2;
+}
+
+.unified-spell-stat.saving-throw .unified-stat-label {
+  color: #4a90e2;
+  font-weight: var(--pf-font-bold);
+  font-family: var(--pf-font-ui);
+}
+
+.unified-spell-stat.saving-throw .unified-stat-value {
+  color: #2c5282;
+  font-family: var(--pf-font-body);
+  font-weight: var(--pf-font-medium);
+}
+
+.unified-spell-stat.critical-hit {
+  border-left: 3px solid #e53e3e;
+}
+
+.unified-spell-stat.critical-hit .unified-stat-label {
+  color: #e53e3e;
+  font-weight: var(--pf-font-bold);
+  font-family: var(--pf-font-ui);
+}
+
+.unified-spell-stat.critical-hit .unified-stat-value {
+  color: #c53030;
+  font-family: var(--pf-font-body);
+  font-weight: var(--pf-font-medium);
+}
+
+.unified-spell-stat.chance-on-hit {
+  border-left: 3px solid #38a169;
+}
+
+.unified-spell-stat.chance-on-hit .unified-stat-label {
+  color: #38a169;
+  font-weight: var(--pf-font-bold);
+  font-family: var(--pf-font-ui);
+}
+
+.unified-spell-stat.chance-on-hit .unified-stat-value {
+  color: #2f855a;
+  font-family: var(--pf-font-body);
+  font-weight: var(--pf-font-medium);
+}
+
+/* Main damage formula styling */
+.damage-formula-main {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(139, 105, 20, 0.25);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(248, 245, 232, 0.2) 100%);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+/* Individual formula lines for instant + DoT */
+.damage-formula-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.damage-formula-line:last-child {
+  margin-bottom: 0;
+}
+
+/* Main healing formula styling */
+.healing-formula-main {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(46, 125, 50, 0.25);
+  background: linear-gradient(135deg, rgba(232, 245, 233, 0.3) 0%, rgba(200, 230, 201, 0.2) 100%);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+/* Individual formula lines for instant + HoT */
+.healing-formula-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.healing-formula-line:last-child {
+  margin-bottom: 0;
+}
+
+.damage-formula-prefix {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: #5a1e12;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 70px;
+  text-align: right;
+}
+
+.healing-formula-prefix {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: #2e7d32;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 70px;
+  text-align: right;
+}
+
+/* Damage mechanics stats container - improved layout */
+.damage-mechanics-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 0;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(139, 105, 20, 0.08) 0%, rgba(139, 105, 20, 0.04) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(139, 105, 20, 0.2);
+  box-shadow: inset 0 1px 2px rgba(139, 105, 20, 0.1);
+}
+
+/* Inline mechanics stats - no boxes, compact layout */
+.mechanics-stats-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 6px 0;
+}
+
+.mechanics-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.mechanics-stat-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #5a1e12;
+  font-size: 9px;
+}
+
+.mechanics-stat-value {
+  font-family: 'Times New Roman', serif;
+  font-weight: 600;
+  color: #2c1810;
+  font-size: 10px;
+}
+
+/* Color coding for different mechanic types */
+.mechanics-stat.saving-throw .mechanics-stat-label {
+  color: #2c5282;
+}
+
+.mechanics-stat.critical-hit .mechanics-stat-label {
+  color: #c53030;
+}
+
+.mechanics-stat.chance-on-hit .mechanics-stat-label {
+  color: #2f855a;
+}
+
+/* Ensure mechanics stats are properly sized and spaced */
+.mechanics-stats .unified-spell-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin: 0;
+  padding: 8px 10px;
+  background: linear-gradient(135deg, rgba(139, 105, 20, 0.15) 0%, rgba(139, 105, 20, 0.10) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(139, 105, 20, 0.3);
+  font-size: 10px;
+  line-height: 1.2;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  min-height: 45px;
+  justify-content: center;
+}
+
+.damage-mechanics-stats .unified-spell-stat:hover {
+  background: linear-gradient(135deg, rgba(139, 105, 20, 0.22) 0%, rgba(139, 105, 20, 0.15) 100%);
+  border-color: rgba(139, 105, 20, 0.4);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.12),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.damage-mechanics-stats .unified-spell-stat .unified-stat-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 0;
+  color: #5a1e12;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.damage-mechanics-stats .unified-spell-stat .unified-stat-value {
+  font-size: 10px;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 600;
+  color: #2c1810;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Specific styling for different mechanic types */
+.damage-mechanics-stats .unified-spell-stat.saving-throw {
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.15) 0%, rgba(74, 144, 226, 0.08) 100%);
+  border-color: rgba(74, 144, 226, 0.3);
+}
+
+.damage-mechanics-stats .unified-spell-stat.saving-throw .unified-stat-label {
+  color: #2c5282;
+}
+
+.damage-mechanics-stats .unified-spell-stat.critical-hit {
+  background: linear-gradient(135deg, rgba(229, 62, 62, 0.15) 0%, rgba(229, 62, 62, 0.08) 100%);
+  border-color: rgba(229, 62, 62, 0.3);
+}
+
+.damage-mechanics-stats .unified-spell-stat.critical-hit .unified-stat-label {
+  color: #c53030;
+}
+
+.damage-mechanics-stats .unified-spell-stat.chance-on-hit {
+  background: linear-gradient(135deg, rgba(47, 133, 90, 0.15) 0%, rgba(47, 133, 90, 0.08) 100%);
+  border-color: rgba(47, 133, 90, 0.3);
+}
+
+.damage-mechanics-stats .unified-spell-stat.chance-on-hit .unified-stat-label {
+  color: #2f855a;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .damage-mechanics-stats {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .damage-mechanics-stats .unified-spell-stat {
+    min-height: 35px;
+    padding: 4px 6px;
+  }
+
+  .damage-mechanics-stats .unified-spell-stat .unified-stat-label {
+    font-size: 7px;
+  }
+
+  .damage-mechanics-stats .unified-spell-stat .unified-stat-value {
+    font-size: 8px;
+  }
+
+  /* Responsive adjustments for inline mechanics stats */
+  .damage-mechanics-stats-inline {
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .mechanics-stat {
+    font-size: 9px;
+  }
+
+  .mechanics-stat-label {
+    font-size: 8px;
+  }
+
+  .mechanics-stat-value {
+    font-size: 9px;
+  }
+
+  .damage-formula-prefix {
+    font-size: 10px;
+    min-width: 60px;
+  }
+
+  .healing-formula-prefix {
+    font-size: 10px;
+    min-width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .damage-mechanics-stats {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .damage-mechanics-stats .unified-spell-stat {
+    min-height: 30px;
+    padding: 3px 4px;
+  }
+
+  /* Mobile adjustments for inline mechanics stats */
+  .damage-mechanics-stats-inline {
+    gap: 4px;
+  }
+
+  .mechanics-stat {
+    font-size: 8px;
+  }
+
+  .mechanics-stat-label {
+    font-size: 7px;
+  }
+
+  .mechanics-stat-value {
+    font-size: 8px;
+  }
+
+  .damage-formula-prefix {
+    font-size: 9px;
+    min-width: 50px;
+  }
+
+  .healing-formula-prefix {
+    font-size: 9px;
+    min-width: 50px;
+  }
+}
+
+/* ===== CRITICAL HIT CONFIGURATION POPUP STYLING ===== */
+
+/* COMPLETE REDESIGN - Modern, clean layout with proper spacing */
+.mechanics-popup-body .critical-hit-config {
+  background: transparent !important;
+  border: none !important;
+  padding: var(--pf-space-2) !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+}
+
+/* ===== SECTION 1: ENABLE TOGGLES ===== */
+.mechanics-popup-body .config-header {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  box-shadow: var(--pf-shadow-sm);
+  margin-bottom: var(--pf-space-3);
+}
+
+.mechanics-popup-body .config-header h3 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0 0 var(--pf-space-3) 0;
+  font-size: var(--pf-text-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== BULLETPROOF CHECKBOX STYLING ===== */
+.mechanics-popup-body .config-toggle,
+.mechanics-popup-body .crit-only-toggle {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-3);
+  margin-bottom: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+}
+
+.mechanics-popup-body .config-toggle:hover,
+.mechanics-popup-body .crit-only-toggle:hover {
+  background: var(--pf-gradient-parchment);
+  border-color: var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* CRITICAL FIX: Override ALL checkbox styling conflicts - SINGLE CHECKMARK ONLY */
+.mechanics-popup-body .wow-checkbox-label {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--pf-space-3) !important;
+  cursor: pointer !important;
+  font-family: var(--pf-font-ui) !important;
+  font-weight: var(--pf-font-medium) !important;
+  color: var(--pf-text-primary) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.mechanics-popup-body .wow-checkbox {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+
+.mechanics-popup-body .wow-checkbox-custom {
+  width: 20px !important;
+  height: 20px !important;
+  background: var(--pf-gradient-parchment) !important;
+  border: 2px solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  position: relative !important;
+  transition: all var(--pf-transition-normal) !important;
+  flex-shrink: 0 !important;
+  cursor: pointer !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ELIMINATE ALL CONFLICTING PSEUDO-ELEMENTS */
+.mechanics-popup-body .wow-checkbox-custom::before,
+.mechanics-popup-body .wow-checkbox-custom::after {
+  display: none !important;
+  content: none !important;
+}
+
+.mechanics-popup-body .wow-checkbox:checked + .wow-checkbox-custom {
+  background: var(--pf-gradient-button) !important;
+  border-color: var(--pf-brown-dark) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ONLY ONE CHECKMARK - OVERRIDE ALL OTHERS */
+.mechanics-popup-body .wow-checkbox:checked + .wow-checkbox-custom::after {
+  content: "✓" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: var(--pf-text-light) !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+  z-index: 10 !important;
+}
+
+/* DISABLE ALL OTHER CHECKBOX STYLES IN POPUP - COMPREHENSIVE OVERRIDE */
+.mechanics-popup-body input[type="checkbox"]::before,
+.mechanics-popup-body input[type="checkbox"]::after,
+.mechanics-popup-body .checkbox-label input[type="checkbox"]::before,
+.mechanics-popup-body .checkbox-label input[type="checkbox"]::after,
+.mechanics-popup-body .pf-checkbox::before,
+.mechanics-popup-body .pf-checkbox::after,
+.mechanics-popup-body .spell-wizard-checkbox::before,
+.mechanics-popup-body .spell-wizard-checkbox::after,
+.mechanics-popup-body .wow-checkbox::before,
+.mechanics-popup-body .wow-checkbox::after {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* FORCE HIDE ALL NATIVE CHECKBOX STYLING */
+.mechanics-popup-body .wow-checkbox {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* ===== SECTION 2: SPECIAL EFFECT RESOLUTION ===== */
+.mechanics-popup-body .special-effects-section {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-3);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .special-effects-section h4 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0 0 var(--pf-space-3) 0;
+  font-size: var(--pf-text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.mechanics-popup-body .wow-option {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.mechanics-popup-body .wow-option-text {
+  font-size: var(--pf-text-base) !important;
+  color: var(--pf-text-primary) !important;
+  font-weight: var(--pf-font-medium) !important;
+  font-family: var(--pf-font-ui) !important;
+}
+
+.mechanics-popup-body .wow-option-description {
+  font-size: var(--pf-text-sm) !important;
+  color: var(--pf-text-secondary) !important;
+  font-style: italic !important;
+  margin-top: var(--pf-space-2) !important;
+  line-height: 1.4 !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+/* ===== ENHANCED FORM CONTROLS ===== */
+.mechanics-popup-body .form-group {
+  margin-bottom: var(--pf-space-4);
+}
+
+.mechanics-popup-body .form-group label {
+  display: block;
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin-bottom: var(--pf-space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--pf-text-sm);
+}
+
+.mechanics-popup-body .form-group select,
+.mechanics-popup-body .form-group input[type="text"],
+.mechanics-popup-body .form-group input[type="number"] {
+  width: 100%;
+  padding: var(--pf-space-3);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  background: var(--pf-gradient-parchment-light);
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mechanics-popup-body .form-group select:focus,
+.mechanics-popup-body .form-group input[type="text"]:focus,
+.mechanics-popup-body .form-group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--pf-brown-medium);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 3px rgba(139, 69, 19, 0.2);
+  background: var(--pf-gradient-parchment);
+}
+
+/* Control groups with better spacing */
+.mechanics-popup-body .control-group {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+}
+
+.mechanics-popup-body .control-group label {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--pf-text-sm);
+  white-space: nowrap;
+}
+
+/* ===== SECTION 3: CRITICAL MULTIPLIER & DICE ===== */
+.mechanics-popup-body .multiplier-section {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-3);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .multiplier-section h4 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-4) 0;
+  font-size: var(--pf-text-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+}
+
+.mechanics-popup-body .multiplier-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pf-space-6);
+  margin-bottom: var(--pf-space-4);
+  align-items: start;
+}
+
+/* Better layout for control groups */
+.mechanics-popup-body .control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.mechanics-popup-body .control-group label {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  font-size: var(--pf-text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--pf-space-2);
+}
+
+/* Special effect resolution buttons - REDESIGNED */
+.mechanics-popup-body .resolution-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-3);
+}
+
+.mechanics-popup-body .icon-selection-card {
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pf-space-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.mechanics-popup-body .icon-selection-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(139, 69, 19, 0.05) 100%);
+  opacity: 0;
+  transition: opacity var(--pf-transition-normal);
+}
+
+.mechanics-popup-body .icon-selection-card:hover::before {
+  opacity: 1;
+}
+
+.mechanics-popup-body .icon-selection-card:hover {
+  border-color: var(--pf-brown-medium);
+  transform: translateY(-3px);
+  box-shadow: var(--pf-shadow-lg);
+}
+
+.mechanics-popup-body .icon-selection-card.selected {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow: var(--pf-shadow-glow);
+  transform: translateY(-2px);
+}
+
+.mechanics-popup-body .icon-selection-card .icon {
+  font-size: 32px;
+  margin-bottom: var(--pf-space-2);
+  color: var(--pf-brown-medium);
+  transition: color var(--pf-transition-normal);
+}
+
+.mechanics-popup-body .icon-selection-card.selected .icon {
+  color: var(--pf-brown-darkest);
+}
+
+.mechanics-popup-body .icon-selection-card h5 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-sm);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--pf-text-primary);
+}
+
+.mechanics-popup-body .icon-selection-card p {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-xs);
+  margin: 0;
+  opacity: 0.8;
+  line-height: 1.4;
+  color: var(--pf-text-secondary);
+}
+
+.mechanics-popup-body .icon-selection-card.selected h5,
+.mechanics-popup-body .icon-selection-card.selected p {
+  color: var(--pf-brown-darkest);
+}
+
+/* ===== ENHANCED MULTIPLIER & DC CONTROLS ===== */
+.mechanics-popup-body .multiplier-display,
+.mechanics-popup-body .dc-display {
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  font-size: var(--pf-text-xl);
+  min-width: 80px;
+  text-align: center;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  font-family: var(--pf-font-ui);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.mechanics-popup-body .multiplier-button,
+.mechanics-popup-body .dc-button {
+  background: var(--pf-gradient-button);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  color: var(--pf-text-light);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .multiplier-button:hover:not(:disabled),
+.mechanics-popup-body .dc-button:hover:not(:disabled) {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--pf-shadow-md);
+  border-color: var(--pf-brown-dark);
+}
+
+.mechanics-popup-body .multiplier-button:active:not(:disabled),
+.mechanics-popup-body .dc-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .multiplier-button:disabled,
+.mechanics-popup-body .dc-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Control groups with enhanced styling */
+.mechanics-popup-body .crit-multiplier-controls,
+.mechanics-popup-body .dc-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  justify-content: center;
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-3);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== SECTION 4: ADDITIONAL CONFIGURATION ===== */
+.mechanics-popup-body .additional-config-section {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-5);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .additional-config-section h4 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-4) 0;
+  font-size: var(--pf-text-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+}
+
+/* Enhanced text input styling */
+.mechanics-popup-body .text-input-group {
+  margin-bottom: var(--pf-space-4);
+}
+
+.mechanics-popup-body .text-input-group label {
+  display: block;
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--pf-text-sm);
+}
+
+.mechanics-popup-body .text-input-group input,
+.mechanics-popup-body .text-input-group textarea {
+  width: 100%;
+  padding: var(--pf-space-3);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  background: var(--pf-gradient-parchment-light);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  resize: vertical;
+}
+
+.mechanics-popup-body .text-input-group input:focus,
+.mechanics-popup-body .text-input-group textarea:focus {
+  outline: none;
+  border-color: var(--pf-brown-medium);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 3px rgba(139, 69, 19, 0.2);
+  background: var(--pf-gradient-parchment);
+}
+
+/* ===== COMPREHENSIVE YELLOW TEXT FIXES ===== */
+
+/* Override any yellow/gold text colors in mechanics popups */
+.mechanics-popup-body *,
+.mechanics-popup-body *[style*="color: #ffd700"],
+.mechanics-popup-body *[style*="color: #ffcc00"],
+.mechanics-popup-body *[style*="color: #f9e2af"],
+.mechanics-popup-body *[style*="color: #fcd34d"],
+.mechanics-popup-body *[style*="color: #facc15"],
+.mechanics-popup-body *[style*="color: #f59e0b"],
+.mechanics-popup-body *[style*="color: #fbbf24"],
+.mechanics-popup-body *[style*="color: yellow"],
+.mechanics-popup-body *[style*="color: gold"] {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Specific overrides for critical hit configuration elements */
+.mechanics-popup-body .critical-hit-config *,
+.mechanics-popup-body .critical-hit-config label,
+.mechanics-popup-body .critical-hit-config span,
+.mechanics-popup-body .critical-hit-config div,
+.mechanics-popup-body .critical-hit-config p {
+  color: var(--pf-text-primary) !important;
+}
+
+.mechanics-popup-body .critical-hit-config .wow-option-description,
+.mechanics-popup-body .critical-hit-config .config-description,
+.mechanics-popup-body .critical-hit-config .help-text {
+  color: var(--pf-text-secondary) !important;
+}
+
+/* Fix any remaining yellow text in form elements */
+.mechanics-popup-body input,
+.mechanics-popup-body select,
+.mechanics-popup-body textarea,
+.mechanics-popup-body button {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Ensure proper text colors for selected states */
+.mechanics-popup-body .icon-selection-card.selected,
+.mechanics-popup-body .icon-selection-card.selected * {
+  color: var(--pf-text-light) !important;
+}
+
+/* Fix any inline styles that might override */
+.mechanics-popup-body [style*="color"] {
+  color: var(--pf-text-primary) !important;
+}
+
+.mechanics-popup-body .icon-selection-card.selected [style*="color"] {
+  color: var(--pf-text-light) !important;
+}
+
+/* Enhanced section styling */
+.mechanics-popup-body .config-section,
+.mechanics-popup-body .section {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-3);
+}
+
+/* Selected spell panel styling */
+.mechanics-popup-body .selected-spell-panel {
+  margin-top: var(--pf-space-4);
+}
+
+/* Warning panel styling to replace hardcoded styles */
+.mechanics-popup-body .warning-panel {
+  background: rgba(255, 193, 7, 0.1) !important;
+  border-left: 3px solid #ffc107 !important;
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+}
+
+.mechanics-popup-body .warning-text {
+  margin: 0 !important;
+  color: #ffc107 !important;
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+}
+
+/* ===== SIMPLIFIED MECHANICS CONFIG STYLING ===== */
+/* Replace hardcoded styles from SimplifiedMechanicsConfig.jsx */
+
+/* System color classes */
+.system-color-combo { color: #FF5555 !important; }
+.system-color-proc { color: #FFD700 !important; }
+.system-color-state { color: #3498db !important; }
+.system-color-form { color: #8e44ad !important; }
+.system-color-toxic { color: #8B008B !important; }
+.system-color-chord { color: #9370DB !important; }
+
+/* Border color classes */
+.border-color-combo { border-color: #FF5555 !important; }
+.border-color-proc { border-color: #FFD700 !important; }
+.border-color-state { border-color: #3498db !important; }
+.border-color-form { border-color: #8e44ad !important; }
+.border-color-toxic { border-color: #8B008B !important; }
+.border-color-chord { border-color: #9370DB !important; }
+
+/* Toxic type colors */
+.toxic-color-disease { color: #8B8000 !important; border-color: #8B8000 !important; }
+.toxic-color-poison { color: #00FF00 !important; border-color: #00FF00 !important; }
+.toxic-color-curse { color: #800080 !important; border-color: #800080 !important; }
+.toxic-color-venom { color: #008000 !important; border-color: #008000 !important; }
+.toxic-color-blight { color: #A52A2A !important; border-color: #A52A2A !important; }
+
+/* Chord function colors */
+.chord-color-tonic { color: #FF5555 !important; border-color: #FF5555 !important; }
+.chord-color-supertonic { color: #FF9955 !important; border-color: #FF9955 !important; }
+.chord-color-mediant { color: #FFFF55 !important; border-color: #FFFF55 !important; }
+.chord-color-subdominant { color: #55FF55 !important; border-color: #55FF55 !important; }
+.chord-color-dominant { color: #55FFFF !important; border-color: #55FFFF !important; }
+.chord-color-submediant { color: #5555FF !important; border-color: #5555FF !important; }
+.chord-color-leading-tone { color: #FF55FF !important; border-color: #FF55FF !important; }
+
+/* Icon sizing classes */
+.icon-size-small { width: 32px !important; height: 32px !important; border-radius: 4px !important; }
+.icon-size-medium { width: 42px !important; height: 42px !important; border-radius: 4px !important; }
+
+/* Tooltip positioning */
+.mechanics-tooltip {
+  position: fixed !important;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+}
+
+/* Spacing utilities */
+.margin-left-small { margin-left: 8px !important; }
+
+/* ===== SAVING THROW CONFIGURATION STYLING ===== */
+
+/* Formula examples section */
+.mechanics-popup-body .formula-examples-section {
+  margin-top: var(--pf-space-4);
+}
+
+.mechanics-popup-body .formula-examples-section h6 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0 0 var(--pf-space-3) 0;
+  font-size: var(--pf-text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mechanics-popup-body .examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--pf-space-3);
+}
+
+.mechanics-popup-body .example-card {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-align: center;
+  font-family: var(--pf-font-ui);
+}
+
+.mechanics-popup-body .example-card:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.mechanics-popup-body .example-card.active {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow: var(--pf-shadow-glow);
+}
+
+.mechanics-popup-body .example-title {
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-sm);
+  margin-bottom: var(--pf-space-1);
+  font-family: 'Courier New', monospace;
+}
+
+.mechanics-popup-body .example-desc {
+  font-size: var(--pf-text-xs);
+  opacity: 0.8;
+  line-height: 1.3;
+}
+
+.mechanics-popup-body .example-card.active .example-title,
+.mechanics-popup-body .example-card.active .example-desc {
+  color: var(--pf-brown-darkest);
+}
+
+/* Formula input styling */
+.mechanics-popup-body .formula-config-section {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-3);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .formula-config-section h5 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0 0 var(--pf-space-3) 0;
+  font-size: var(--pf-text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+}
+
+.mechanics-popup-body .formula-input {
+  width: 100%;
+  padding: var(--pf-space-3);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment-light);
+  color: var(--pf-text-primary);
+  font-family: 'Courier New', monospace;
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.mechanics-popup-body .formula-input:focus {
+  outline: none;
+  border-color: var(--pf-brown-medium);
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.2);
+}
+
+.mechanics-popup-body .config-section h5,
+.mechanics-popup-body .config-section h6,
+.mechanics-popup-body .section .section-title,
+.mechanics-popup-body .section h3 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0 0 var(--pf-space-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--pf-text-sm);
+  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.unified-spell-stat.chance-on-hit .unified-stat-label {
+  color: var(--pf-purple-medium);
+  font-weight: var(--pf-font-semibold);
+  font-family: var(--pf-font-ui);
+}
+
+.unified-spell-stat.chance-on-hit .unified-stat-value {
+  color: var(--pf-purple-dark);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+/* Enhanced styling for longer text in spell card stats - smaller and more integrated */
+.unified-spell-stat.saving-throw,
+.unified-spell-stat.critical-hit,
+.unified-spell-stat.chance-on-hit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 6px 2px 0;
+  padding: 2px 6px;
+  background: rgba(139, 105, 20, 0.1);
+  border-radius: 3px;
+  border: 1px solid rgba(139, 105, 20, 0.2);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.unified-spell-stat.saving-throw .unified-stat-label,
+.unified-spell-stat.critical-hit .unified-stat-label,
+.unified-spell-stat.chance-on-hit .unified-stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin: 0;
+}
+
+.unified-spell-stat.saving-throw .unified-stat-value,
+.unified-spell-stat.critical-hit .unified-stat-value,
+.unified-spell-stat.chance-on-hit .unified-stat-value {
+  font-family: var(--pf-font-body);
+  font-size: 9px;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ===== CRITICAL HIT CONFIG STYLING ===== */
+
+.critical-hit-config .config-header {
+  margin-bottom: var(--pf-space-4);
+}
+
+.critical-hit-config .config-toggle,
+.critical-hit-config .crit-only-toggle {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-4);
+  transition: all var(--pf-transition-normal);
+}
+
+.critical-hit-config .config-toggle:hover,
+.critical-hit-config .crit-only-toggle:hover {
+  border-color: var(--pf-brown-dark);
+  box-shadow: var(--pf-shadow-subtle);
+}
+
+/* Compact critical hit dice configuration */
+.mechanics-grid-item .dice-crit-config {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  margin-top: var(--pf-space-2);
+}
+
+.mechanics-grid-item .dice-crit-config .config-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .input-with-label {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+}
+
+.mechanics-grid-item .input-with-label input {
+  flex: 1;
+}
+
+.mechanics-grid-item .input-with-label .input-label {
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+}
+
+/* ===== SHARED CHECKBOX STYLING ===== */
+
+.wow-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-medium);
+  color: var(--pf-text-primary);
+  gap: var(--pf-space-3);
+}
+
+/* Compact checkbox styling for mechanics grid */
+.mechanics-grid-item .wow-checkbox-label {
+  font-size: var(--pf-text-xs);
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-1);
+}
+
+.mechanics-grid-item .wow-checkbox {
+  width: 14px;
+  height: 14px;
+}
+
+.mechanics-grid-item .wow-checkbox-custom {
+  width: 14px;
+  height: 14px;
+}
+
+.mechanics-grid-item .wow-option-text {
+  font-size: var(--pf-text-xs);
+  line-height: 1.2;
+}
+
+.wow-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.wow-checkbox-custom {
+  width: 20px;
+  height: 20px;
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 4px;
+  position: relative;
+  transition: all var(--pf-transition-normal);
+  flex-shrink: 0;
+}
+
+.wow-checkbox:checked + .wow-checkbox-custom {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+}
+
+.wow-checkbox:checked + .wow-checkbox-custom::after {
+  content: '✓';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--pf-brown-dark);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.wow-option-text {
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+}
+
+.wow-option-description {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  margin-top: var(--pf-space-2);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ===== MECHANICS GRID LAYOUT ===== */
+
+.mechanics-grid {
+  margin-top: var(--pf-space-6);
+}
+
+.mechanics-grid-title {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-4);
+  text-align: center;
+  border-bottom: 2px solid var(--pf-brown-medium);
+  padding-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pf-space-3);
+  margin-bottom: var(--pf-space-6);
+}
+
+/* Responsive adjustments for mechanics grid */
+@media (max-width: 1200px) {
+  .mechanics-grid-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .mechanics-grid-container {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-2);
+  }
+}
+
+.mechanics-grid-item {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+}
+
+.mechanics-grid-item:hover {
+  border-color: var(--pf-brown-dark);
+  box-shadow: var(--pf-shadow-subtle);
+}
+
+.mechanics-grid-item h4 {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-3) 0;
+  text-align: center;
+  border-bottom: 1px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+}
+
+/* Compact the configuration components when in grid */
+.mechanics-grid-item .chance-on-hit-config,
+.mechanics-grid-item .critical-hit-config,
+.mechanics-grid-item .saving-throw-config {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.mechanics-grid-item .config-header {
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .config-toggle,
+.mechanics-grid-item .crit-only-toggle {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+}
+
+/* Compact form elements in mechanics grid */
+.mechanics-grid-item .form-group {
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .form-group label {
+  font-size: var(--pf-text-xs);
+  margin-bottom: var(--pf-space-1);
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-medium);
+}
+
+.mechanics-grid-item .form-group input,
+.mechanics-grid-item .form-group select {
+  padding: var(--pf-space-1);
+  font-size: var(--pf-text-xs);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-sm);
+  background: var(--pf-gradient-parchment);
+}
+
+/* Compact config rows */
+.mechanics-grid-item .config-row {
+  display: flex;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .config-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Make icon selection cards more compact in grid */
+.mechanics-grid-item .resolution-options,
+.mechanics-grid-item .icon-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: var(--pf-space-2);
+}
+
+/* Compact chance on hit configuration */
+.mechanics-grid-item .dice-proc-config,
+.mechanics-grid-item .card-proc-config,
+.mechanics-grid-item .coin-proc-config {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+}
+
+.mechanics-grid-item .proc-threshold-config,
+.mechanics-grid-item .proc-card-config,
+.mechanics-grid-item .proc-coin-config {
+  margin-bottom: var(--pf-space-2);
+}
+
+.mechanics-grid-item .proc-threshold-config label,
+.mechanics-grid-item .proc-card-config label,
+.mechanics-grid-item .proc-coin-config label {
+  font-size: var(--pf-text-xs);
+  margin-bottom: var(--pf-space-1);
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-medium);
+}
+
+.mechanics-grid-item .proc-threshold-input,
+.mechanics-grid-item .proc-card-select,
+.mechanics-grid-item .proc-coin-select {
+  width: 100%;
+  padding: var(--pf-space-1);
+  font-size: var(--pf-text-xs);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-sm);
+  background: var(--pf-gradient-parchment);
+}
+
+/* Compact spell effect selection */
+.mechanics-grid-item .spell-effect-section {
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+}
+
+.mechanics-grid-item .spell-effect-section h5 {
+  font-size: var(--pf-text-xs);
+  margin-bottom: var(--pf-space-1);
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-medium);
+}
+
+/* Fix yellow text and improve readability */
+.mechanics-grid-item .wow-option-description,
+.mechanics-grid-item .config-description,
+.mechanics-grid-item .section-description {
+  color: var(--pf-text-secondary) !important;
+  font-size: var(--pf-text-xs) !important;
+  line-height: 1.3 !important;
+  margin-top: var(--pf-space-1) !important;
+}
+
+/* Improve input styling in mechanics grid */
+.mechanics-grid-item input[type="text"],
+.mechanics-grid-item input[type="number"],
+.mechanics-grid-item select,
+.mechanics-grid-item textarea {
+  background: var(--pf-gradient-parchment) !important;
+  border: 1px solid var(--pf-brown-light) !important;
+  color: var(--pf-text-primary) !important;
+  font-size: var(--pf-text-xs) !important;
+  padding: var(--pf-space-1) !important;
+  border-radius: var(--pf-border-radius-sm) !important;
+}
+
+.mechanics-grid-item input[type="text"]:focus,
+.mechanics-grid-item input[type="number"]:focus,
+.mechanics-grid-item select:focus,
+.mechanics-grid-item textarea:focus {
+  border-color: var(--pf-brown-medium) !important;
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2) !important;
+  outline: none !important;
+}
+
+/* Improve button styling in mechanics grid */
+.mechanics-grid-item button {
+  background: var(--pf-gradient-button) !important;
+  border: 1px solid var(--pf-brown-medium) !important;
+  color: var(--pf-text-primary) !important;
+  font-size: var(--pf-text-xs) !important;
+  padding: var(--pf-space-1) var(--pf-space-2) !important;
+  border-radius: var(--pf-border-radius-sm) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.mechanics-grid-item button:hover {
+  border-color: var(--pf-brown-dark) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.mechanics-grid-item .icon-selection-card {
+  padding: var(--pf-space-2);
+  min-height: 60px;
+}
+
+.mechanics-grid-item .icon-selection-card .icon {
+  font-size: 16px;
+}
+
+.mechanics-grid-item .icon-selection-card h5 {
+  font-size: var(--pf-text-xs);
+  margin: var(--pf-space-1) 0;
+}
+
+.mechanics-grid-item .icon-selection-card p {
+  font-size: var(--pf-text-xs);
+  line-height: 1.2;
+}
+
+/* Hide some descriptions in compact mode */
+.mechanics-grid-item .wow-option-description {
+  display: none;
+}
+
+/* Make form inputs more compact */
+.mechanics-grid-item input[type="number"],
+.mechanics-grid-item input[type="text"],
+.mechanics-grid-item select {
+  padding: var(--pf-space-1);
+  font-size: var(--pf-text-sm);
+}
+
+/* Compact section headers */
+.mechanics-grid-item h4,
+.mechanics-grid-item h5 {
+  font-size: var(--pf-text-sm);
+  margin-bottom: var(--pf-space-2);
+}
+
+/* Responsive design for mechanics grid */
+@media (max-width: 1200px) {
+  .mechanics-grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .mechanics-grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .mechanics-grid-item {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .mechanics-grid {
+    padding: var(--pf-space-3);
+  }
+
+  .mechanics-grid-container {
+    gap: var(--pf-space-3);
+  }
+
+  .mechanics-grid-item {
+    padding: var(--pf-space-2);
+  }
+
+  .mechanics-grid-item .config-row {
+    flex-direction: column;
+    gap: var(--pf-space-1);
+  }
+
+  .mechanics-grid-item .save-config-row {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-1);
+  }
+}

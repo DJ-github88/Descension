@@ -1,0 +1,248 @@
+.spell-selector-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.spell-selector-input-container {
+  display: flex;
+  align-items: center;
+  background-color: var(--wizard-surface-light);
+  border: 1px solid var(--wizard-border);
+  border-radius: var(--wizard-border-radius);
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.spell-selector-input-container:hover {
+  border-color: var(--wizard-primary);
+}
+
+.spell-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--wizard-text);
+  font-size: 1rem;
+  padding: 0.25rem;
+  outline: none;
+}
+
+.dropdown-arrow {
+  color: var(--wizard-text-muted);
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.spell-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: var(--wizard-surface);
+  border: 1px solid var(--wizard-border);
+  border-radius: var(--wizard-border-radius);
+  margin-top: 0.25rem;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Compact version for use in mechanics config */
+.compact-spell-selector .spell-dropdown {
+  max-height: 200px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.compact-spell-selector .spell-item {
+  padding: 0.5rem;
+}
+
+.compact-spell-selector .spell-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+}
+
+.compact-spell-selector .spell-name {
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+
+.compact-spell-selector .spell-description {
+  font-size: 0.75rem;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-spell-selector .selected-spell-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.compact-spell-selector .selected-spell-name {
+  font-size: 0.9rem;
+}
+
+.compact-spell-selector .selected-spell-type {
+  font-size: 0.75rem;
+}
+
+.no-spells-found {
+  padding: 1rem;
+  text-align: center;
+  color: var(--wizard-text-muted);
+}
+
+.spell-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.spell-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--wizard-border);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.spell-item:last-child {
+  border-bottom: none;
+}
+
+.spell-item:hover {
+  background-color: var(--wizard-surface-hover);
+}
+
+.spell-item.selected {
+  background-color: rgba(var(--wizard-primary-rgb), 0.1);
+}
+
+/* Scope spell-icon to spell selector only */
+.spell-selector .spell-icon,
+.spell-dropdown .spell-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.spell-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.spell-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.spell-name {
+  font-weight: 600;
+  color: var(--wizard-text-bright);
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9rem;
+}
+
+.spell-description {
+  font-size: 0.75rem;
+  color: var(--wizard-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.selected-spell {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.selected-spell-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.selected-spell-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.selected-spell-info {
+  flex: 1;
+}
+
+.selected-spell-name {
+  font-weight: 600;
+  color: var(--wizard-text-bright);
+}
+
+.selected-spell-type {
+  font-size: 0.85rem;
+  color: var(--wizard-text-muted);
+}
+
+.selected-spell-actions {
+  display: flex;
+  align-items: center;
+}
+
+.view-details-btn,
+.clear-selection-btn {
+  background: none;
+  border: none;
+  color: var(--wizard-text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+}
+
+.view-details-btn {
+  color: var(--wizard-primary);
+}
+
+.view-details-btn:hover {
+  background-color: rgba(var(--wizard-primary-rgb), 0.1);
+  color: var(--wizard-primary);
+  transform: scale(1.1);
+}
+
+.clear-selection-btn {
+  font-size: 1.2rem;
+}
+
+.clear-selection-btn:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff5555;
+}

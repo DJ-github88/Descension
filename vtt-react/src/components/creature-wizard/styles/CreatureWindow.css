@@ -1,0 +1,105 @@
+/* D&D/Pathfinder Themed Creature Window */
+.creature-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #f0e6d2; /* Parchment background */
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.creature-window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
+  border-bottom: 1px solid #a08c70;
+}
+
+.creature-window-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.creature-window-tab {
+  background: transparent;
+  border: 1px solid rgba(240, 230, 210, 0.3);
+  border-radius: 4px;
+  color: #f0e6d2; /* Parchment color */
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.creature-window-tab:hover {
+  background-color: rgba(240, 230, 210, 0.2);
+  border-color: #f0e6d2;
+}
+
+.creature-window-tab.active {
+  background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
+  color: #f0e6d2;
+  border-color: #f0e6d2;
+  font-weight: bold;
+}
+
+.creature-window-tab i {
+  font-size: 16px;
+}
+
+.back-to-library-button {
+  background-color: transparent;
+  border: 1px solid rgba(240, 230, 210, 0.3);
+  border-radius: 4px;
+  color: #f0e6d2; /* Parchment color */
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.back-to-library-button:hover {
+  background-color: rgba(240, 230, 210, 0.2);
+  color: #f0e6d2;
+  border-color: #f0e6d2;
+}
+
+.back-to-library-button i {
+  font-size: 14px;
+}
+
+.creature-window-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  background-color: #f0e6d2; /* Parchment background */
+}
+
+.loading-wizard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 18px;
+  color: #7a3b2e; /* Rustic red */
+  background-color: #f0e6d2; /* Parchment background */
+  padding: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}

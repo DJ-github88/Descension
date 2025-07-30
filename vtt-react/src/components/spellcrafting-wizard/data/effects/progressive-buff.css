@@ -1,0 +1,215 @@
+/* Progressive DoT/HoT Styling - Pathfinder Theme */
+.progressive-buff-config {
+  margin-top: var(--pf-space-4);
+  padding: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.progressive-buff-config h4 {
+  margin: 0 0 var(--pf-space-2) 0;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-base);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-semibold);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.stage-description {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-3);
+  font-family: var(--pf-font-body);
+  font-style: italic;
+}
+
+.progressive-stages {
+  margin-top: var(--pf-space-4);
+}
+
+.progressive-stages h4 {
+  margin-bottom: var(--pf-space-3);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-base);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-semibold);
+}
+
+.stage-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-3);
+}
+
+.stage-item {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-3);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-gradient-header);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-dark);
+}
+
+.stage-title {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-on-dark);
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-sm);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stage-action.remove-stage {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pf-danger);
+  border: var(--pf-border-width) solid var(--pf-danger-dark);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-on-dark);
+  cursor: pointer;
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+  transition: all var(--pf-transition-normal);
+}
+
+.stage-action.remove-stage:hover {
+  background: var(--pf-danger-dark);
+  transform: scale(1.05);
+}
+
+.stage-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.stage-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.field-label {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-medium);
+  margin-bottom: var(--pf-space-1);
+}
+
+.pf-input {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.pf-input:focus {
+  outline: none;
+  border-color: var(--pf-brown-medium);
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+}
+
+.pf-input::placeholder {
+  color: var(--pf-text-muted);
+  font-style: italic;
+}
+
+.add-stage-btn {
+  margin-top: var(--pf-space-3);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  cursor: pointer;
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-medium);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.add-stage-btn:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* Config option styling for toggle buttons */
+.config-option {
+  margin-bottom: var(--pf-space-4);
+}
+
+.toggle-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-option .pf-button {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  cursor: pointer;
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-medium);
+  transition: all var(--pf-transition-normal);
+  min-width: 180px;
+  justify-content: flex-start;
+}
+
+.toggle-option .pf-button.active {
+  background: var(--pf-gradient-gold);
+  color: var(--pf-brown-darkest);
+  border-color: var(--pf-gold-dark);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.toggle-option .pf-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.toggle-icon {
+  width: 16px;
+  height: 16px;
+  border: var(--pf-border-width) solid currentColor;
+  border-radius: var(--pf-border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+}

@@ -1,0 +1,85 @@
+/* Grid.css - Styling for the grid component */
+
+.grid-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  /* Performance optimizations for container */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
+}
+
+.grid-tile {
+  position: absolute;
+  /* width and height are set dynamically via inline styles */
+  border: 1px solid rgba(77, 155, 230, 0.15);
+  box-sizing: border-box;
+  pointer-events: all;
+  background: transparent; /* Remove any background dots or patterns */
+  /* Performance optimizations */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
+}
+
+.grid-tile.hovered {
+  background-color: rgba(77, 155, 230, 0.2);
+  border: 1px solid rgba(77, 155, 230, 0.4);
+  /* Optimize hover state */
+  transform: translateZ(0) scale(1.02);
+}
+
+/* Removed circular dots/markers from grid tiles for cleaner appearance */
+
+/* Grid overlay for token placement */
+.token-grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA1MCAwIEwgMCAwIDAgNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg3NywgMTU1LCAyMzAsIDAuMTUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiIC8+PC9zdmc+');
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hover highlight for grid cells */
+.grid-cell-highlight {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(77, 155, 230, 0.2);
+  border: 2px solid rgba(77, 155, 230, 0.5);
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Active cell (for token placement) */
+.grid-cell-active {
+  background-color: rgba(77, 155, 230, 0.3);
+  border-color: rgba(77, 155, 230, 0.8);
+  box-shadow: 0 0 10px rgba(77, 155, 230, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-tile {
+    width: 40px;
+    height: 40px;
+  }
+
+  .grid-cell-highlight {
+    width: 40px;
+    height: 40px;
+  }
+}
