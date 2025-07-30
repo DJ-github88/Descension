@@ -22,9 +22,7 @@ const WowWindow = forwardRef(({
     onDrag = null,
     className = ""
 }, ref) => {
-    if (!isOpen) return null;
-
-    // Create refs for components
+    // Create refs for components (hooks must be called before early returns)
     const draggableRef = useRef(null);
     const windowElementRef = useRef(null);
 
@@ -89,6 +87,9 @@ const WowWindow = forwardRef(({
         // when they occur within WoW windows
         e.stopPropagation();
     }, []);
+
+    // Don't render if not open (early return after all hooks)
+    if (!isOpen) return null;
 
     // Use createPortal to render the window at the document body level
     // This ensures it's not constrained by any parent containers

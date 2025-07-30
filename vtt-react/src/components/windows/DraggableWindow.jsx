@@ -29,10 +29,7 @@ const DraggableWindow = forwardRef(({
     zIndex = 1000,
     onDrag = null
 }, ref) => {
-    // Don't render if not open
-    if (!isOpen) return null;
-
-    // Get window scale from store
+    // Get window scale from store (hooks must be called before any early returns)
     const windowScale = useGameStore(state => state.windowScale);
 
     // Create refs for the draggable component
@@ -69,6 +66,70 @@ const DraggableWindow = forwardRef(({
     // Track dragging state to prevent conflicts
     const [isDragging, setIsDragging] = useState(false);
 
+    // Handle drag start
+    const handleDragStart = useCallback((e, data) => {
+        setIsDragging(true);
+        // Increase z-index when dragging starts to bring window to front
+        if (nodeRef.current) {
+            nodeRef.current.style.zIndex = (zIndex + 100).toString();
+            nodeRef.current.classList.add('dragging'); // Disable transition during drag
+        }
+        e.stopPropagation();
+    }, [zIndex]);
+
+    // Handle drag with optimized performance
+    const handleDrag = useCallback((e, data) => {
+        // Update position state and let useEffect handle the transform
+        setPosition({ x: data.x, y: data.y });
+
+        // Call the onDrag callback during dragging for real-time updates
+        if (onDrag && data && typeof data === 'object') {
+            onDrag(data);
+        }
+
+        e.stopPropagation();
+    }, [onDrag]);
+
+    // Handle drag stop
+    const handleDragStop = useCallback((e, data) => {
+        setIsDragging(false);
+        // Update state with final position
+        setPosition({ x: data.x, y: data.y });
+
+        // Reset z-index to normal and re-enable transitions
+        if (nodeRef.current) {
+            nodeRef.current.style.zIndex = zIndex.toString();
+            nodeRef.current.classList.remove('dragging'); // Re-enable transition
+        }
+
+        // Call the onDrag callback if provided with valid data
+        if (onDrag && data && typeof data === 'object') {
+            onDrag(data);
+        }
+
+        e.stopPropagation();
+    }, [onDrag, zIndex]);
+
+    // Expose methods to parent component
+    useImperativeHandle(ref, () => ({
+        getElement: () => windowRef.current,
+        centerWindow: () => {
+            if (windowRef.current) {
+                const windowWidth = windowRef.current.offsetWidth;
+                const windowHeight = windowRef.current.offsetHeight;
+
+                // Calculate center position
+                const left = Math.max(0, Math.floor((window.innerWidth - windowWidth) / 2));
+                const top = Math.max(0, Math.floor((window.innerHeight - windowHeight) / 2));
+
+                // Update position - React will handle the transform
+                setPosition({ x: left, y: top });
+            }
+        },
+        getPosition: () => position,
+        setPosition: (newPosition) => setPosition(newPosition)
+    }), [position]);
+
     // Update position after initial render to ensure proper centering
     useEffect(() => {
         if (centered && windowRef.current) {
@@ -91,25 +152,8 @@ const DraggableWindow = forwardRef(({
         }
     }, [position.x, position.y, windowScale]);
 
-    // Expose methods to parent component
-    useImperativeHandle(ref, () => ({
-        getElement: () => windowRef.current,
-        centerWindow: () => {
-            if (windowRef.current) {
-                const windowWidth = windowRef.current.offsetWidth;
-                const windowHeight = windowRef.current.offsetHeight;
-
-                // Calculate center position
-                const left = Math.max(0, Math.floor((window.innerWidth - windowWidth) / 2));
-                const top = Math.max(0, Math.floor((window.innerHeight - windowHeight) / 2));
-
-                // Update position - React will handle the transform
-                setPosition({ x: left, y: top });
-            }
-        },
-        getPosition: () => position,
-        setPosition: (newPosition) => setPosition(newPosition)
-    }), [position]);
+    // Don't render if not open (early return after all hooks)
+    if (!isOpen) return null;
 
     // Handle drag start
     const handleDragStart = useCallback((e, data) => {
