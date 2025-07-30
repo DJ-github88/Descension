@@ -155,49 +155,7 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
-    // Handle drag start
-    const handleDragStart = useCallback((e, data) => {
-        setIsDragging(true);
-        // Increase z-index when dragging starts to bring window to front
-        if (nodeRef.current) {
-            nodeRef.current.style.zIndex = (zIndex + 100).toString();
-            nodeRef.current.classList.add('dragging'); // Disable transition during drag
-        }
-        e.stopPropagation();
-    }, [zIndex]);
 
-    // Handle drag with optimized performance
-    const handleDrag = useCallback((e, data) => {
-        // Update position state and let useEffect handle the transform
-        setPosition({ x: data.x, y: data.y });
-
-        // Call the onDrag callback during dragging for real-time updates
-        if (onDrag && data && typeof data === 'object') {
-            onDrag(data);
-        }
-
-        e.stopPropagation();
-    }, [onDrag]);
-
-    // Handle drag stop
-    const handleDragStop = useCallback((e, data) => {
-        setIsDragging(false);
-        // Update state with final position
-        setPosition({ x: data.x, y: data.y });
-
-        // Reset z-index to normal and re-enable transitions
-        if (nodeRef.current) {
-            nodeRef.current.style.zIndex = zIndex.toString();
-            nodeRef.current.classList.remove('dragging'); // Re-enable transition
-        }
-
-        // Call the onDrag callback if provided with valid data
-        if (onDrag && data && typeof data === 'object') {
-            onDrag(data);
-        }
-
-        e.stopPropagation();
-    }, [zIndex, onDrag]);
 
     return (
         <Draggable
