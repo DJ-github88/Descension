@@ -117,7 +117,7 @@ const EFFECT_PRESETS = {
   }
 };
 
-const CardSelector = ({ effectType, effectId, onConfigUpdate }) => {
+const CardSelector = ({ effectType = 'damage', effectId = '', onConfigUpdate = null }) => {
   // Get state from context
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
@@ -664,12 +664,6 @@ CardSelector.propTypes = {
   effectType: PropTypes.string,
   effectId: PropTypes.string,
   onConfigUpdate: PropTypes.func
-};
-
-CardSelector.defaultProps = {
-  effectType: 'damage',
-  effectId: '',
-  onConfigUpdate: null
 };
 
 export default CardSelector;

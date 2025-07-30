@@ -11,48 +11,13 @@ import {
   FaArrowRightLong,
   FaCircleXmark
 } from 'react-icons/fa6';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
-import './shared-effect-cards.css';
+import { FaSearch } from 'react-icons/fa';
+import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
+
+// Pathfinder styles imported via main.css
 import './summoning-effects.css';
 
-// Summoning types
-export const SUMMONING_TYPES = {
-  BEAST: {
-    id: 'beast',
-    name: 'Beast',
-    icon: 'inv_misc_monstertail_03',
-    description: 'Summon natural creatures and beasts',
-    effectIcon: FaDragon
-  },
-  SPIRIT: {
-    id: 'spirit',
-    name: 'Spirit',
-    icon: 'spell_shadow_salvationaura',
-    description: 'Summon ethereal beings and spirits',
-    effectIcon: FaGhost
-  },
-  WARRIOR: {
-    id: 'warrior',
-    name: 'Warrior',
-    icon: 'inv_sword_27',
-    description: 'Summon martial combatants',
-    effectIcon: FaHandFist
-  },
-  GUARDIAN: {
-    id: 'guardian',
-    name: 'Guardian',
-    icon: 'inv_shield_04',
-    description: 'Summon protective entities',
-    effectIcon: FaShieldHalved
-  },
-  ARCANE: {
-    id: 'arcane',
-    name: 'Arcane',
-    icon: 'spell_holy_magicalsentry',
-    description: 'Summon magical constructs and elementals',
-    effectIcon: FaWandMagicSparkles
-  }
-};
+
 
 // Duration types
 const DURATION_TYPES = [
@@ -61,50 +26,16 @@ const DURATION_TYPES = [
   { id: 'hours', name: 'Hours', description: 'Real-time hours', icon: 'inv_misc_pocketwatch_03' }
 ];
 
-// Beast summoning options
-const BEAST_SUMMONS = [
-  { id: 'wolf', name: 'Wolf', icon: 'ability_mount_blackdirewolf', description: 'Pack hunters with good tracking abilities' },
-  { id: 'bear', name: 'Bear', icon: 'ability_hunter_pet_bear', description: 'Strong ursine creatures with powerful attacks' },
-  { id: 'eagle', name: 'Eagle', icon: 'inv_misc_bird_01', description: 'Flying scouts with keen eyesight' },
-  { id: 'snake', name: 'Snake', icon: 'classicon_hunter', description: 'Venomous reptiles with stealth abilities' },
-  { id: 'tiger', name: 'Tiger', icon: 'ability_mount_jungletiger', description: 'Ferocious felines with deadly pounce attacks' }
-];
-
-// Spirit summoning options
-const SPIRIT_SUMMONS = [
-  { id: 'ancestor', name: 'Ancestor Spirit', icon: 'ability_priest_spiritoftheredeemer', description: 'Ancient spirits that provide wisdom and guidance' },
-  { id: 'phantom', name: 'Phantom', icon: 'ability_priest_spectralguise', description: 'Semi-corporeal entities that can pass through objects' },
-  { id: 'wisp', name: 'Wisp', icon: 'spell_shadow_teleport', description: 'Small, glowing spirits that can illuminate areas' },
-  { id: 'banshee', name: 'Banshee', icon: 'spell_shadow_possession', description: 'Wailing spirits with terrifying screams' },
-  { id: 'shade', name: 'Shade', icon: 'spell_shadow_summonvoidwalker', description: 'Dark spirits that can drain life essence' }
-];
-
-// Warrior summoning options
-const WARRIOR_SUMMONS = [
-  { id: 'footman', name: 'Ghostly Footman', icon: 'ability_warrior_defensivestance', description: 'Basic soldiers with sword and shield' },
-  { id: 'archer', name: 'Spectral Archer', icon: 'inv_weapon_bow_02', description: 'Ranged attackers with deadly accuracy' },
-  { id: 'knight', name: 'Phantom Knight', icon: 'ability_warrior_charge', description: 'Armored warriors on spectral steeds' },
-  { id: 'berserker', name: 'Spirit Berserker', icon: 'ability_warrior_rampage', description: 'Frenzied warriors with powerful attacks' },
-  { id: 'champion', name: 'Ancient Champion', icon: 'inv_sword_11', description: 'Elite warriors with legendary combat skills' }
-];
-
-// Guardian summoning options
-const GUARDIAN_SUMMONS = [
-  { id: 'shield_guardian', name: 'Shield Guardian', icon: 'inv_shield_06', description: 'Protective constructs that absorb damage' },
-  { id: 'warden', name: 'Arcane Warden', icon: 'spell_holy_powerwordshield', description: 'Magical sentinels that project defensive auras' },
-  { id: 'sentinel', name: 'Stone Sentinel', icon: 'inv_stone_weightstone_05', description: 'Rocky guardians with high physical resistance' },
-  { id: 'protector', name: 'Astral Protector', icon: 'ability_paladin_shieldofvengeance', description: 'Celestial entities that heal allies' },
-  { id: 'bulwark', name: 'Elemental Bulwark', icon: 'inv_elemental_crystal_earth', description: 'Massive elemental walls that block passages' }
-];
-
-// Arcane summoning options
-const ARCANE_SUMMONS = [
-  { id: 'elemental_fire', name: 'Fire Elemental', icon: 'spell_fire_elemental_totem', description: 'Beings of pure flame that burn enemies' },
-  { id: 'elemental_water', name: 'Water Elemental', icon: 'spell_frost_summonwaterelemental', description: 'Aquatic entities that control water and ice' },
-  { id: 'elemental_air', name: 'Air Elemental', icon: 'spell_nature_cyclone', description: 'Wind spirits that can move with great speed' },
-  { id: 'elemental_earth', name: 'Earth Elemental', icon: 'spell_nature_earthelemental_totem', description: 'Stone entities with powerful physical attacks' },
-  { id: 'arcane_construct', name: 'Arcane Construct', icon: 'spell_arcane_blast', description: 'Magical automatons that channel arcane energy' }
-];
+// Individual creature configuration defaults
+const DEFAULT_CREATURE_CONFIG = {
+  quantity: 1,
+  duration: 10,
+  durationUnit: 'minutes',
+  hasDuration: true,
+  concentration: false,
+  controlType: 'verbal',
+  controlRange: 60
+};
 
 // Difficulty levels
 const DIFFICULTY_LEVELS = [
@@ -127,6 +58,7 @@ const CONTROL_RANGES = [
 const CONTROL_TYPES = [
   { id: 'verbal', name: 'Verbal Commands', icon: 'inv_misc_horn_01', description: 'Control through spoken orders' },
   { id: 'mental', name: 'Mental Link', icon: 'spell_arcane_mindmastery', description: 'Direct mental control of summons' },
+  { id: 'empathic', name: 'Empathic Bond', icon: 'spell_holy_spiritualguidence', description: 'Emotional connection with summons' },
   { id: 'autonomous', name: 'Autonomous', icon: 'inv_misc_gem_sapphire_01', description: 'Summons follow preset behaviors' }
 ];
 
@@ -136,10 +68,10 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
   const [tooltipContent, setTooltipContent] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // Initialize with default summoning type from state or 'beast'
-  const [activeSummonType, setActiveSummonType] = useState(
-    state.summonConfig?.summonType || 'beast'
-  );
+  // State for creature selection window
+  const [showCreatureSelection, setShowCreatureSelection] = useState(false);
+
+
 
   // Initialize with selected summon from state or null
   const [selectedSummons, setSelectedSummons] = useState([]);
@@ -147,7 +79,6 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
   // Summoning configuration state - initialized from existing state or defaults
   const [summonConfig, setSummonConfig] = useState(() => {
     const defaultConfig = {
-      summonType: 'beast',
       creatures: [], // Changed to array for multiple selections
       duration: 10,
       durationUnit: 'minutes',
@@ -191,13 +122,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     }
   }, [summonConfig, dispatch, actionCreators, getDefaultFormula]);
 
-  // Effect to update state when summoning type changes
-  useEffect(() => {
-    // If summoning type changed, update in config
-    if (activeSummonType !== summonConfig.summonType) {
-      handleSummonConfigChange('summonType', activeSummonType);
-    }
-  }, [activeSummonType]);
+
 
   // Handle tooltip mouse events
   const handleMouseEnter = (data, e) => {
@@ -215,11 +140,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
           </div>
         )}
 
-        {data.summonType && (
-          <div className="tooltip-effect">
-            <span className="tooltip-gold">Summoning Type:</span> {data.summonType.charAt(0).toUpperCase() + data.summonType.slice(1)}
-          </div>
-        )}
+
 
         {/* Control information if applicable */}
         {data.controlType && (
@@ -245,16 +166,10 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
           </div>
         )}
 
-        {/* Flavor text based on summoning type */}
+        {/* Flavor text for summoning */}
         <div className="tooltip-divider"></div>
         <div className="tooltip-flavor-text">
-          {activeSummonType === 'beast' && "\"Wild creatures answer your call, bound to your will.\""}
-          {activeSummonType === 'undead' && "\"The dead rise to serve at your command.\""}
-          {activeSummonType === 'elemental' && "\"Primal forces of nature manifest at your bidding.\""}
-          {activeSummonType === 'celestial' && "\"Beings of divine light descend to aid your cause.\""}
-          {activeSummonType === 'fiend' && "\"Dark entities emerge from the nether to do your bidding.\""}
-          {activeSummonType === 'fey' && "\"Mystical creatures of the fey realms answer your summons.\""}
-          {activeSummonType === 'construct' && "\"Magical automatons form from raw arcane energy.\""}
+          "Creatures from the library answer your call, bound to your will."
         </div>
       </div>
     );
@@ -302,11 +217,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     });
   };
 
-  // Handle summoning type changes without resetting selected summons
-  const handleSummonTypeChange = (summonTypeId) => {
-    setActiveSummonType(summonTypeId);
-    handleSummonConfigChange('summonType', summonTypeId);
-  };
+
 
   // Add/remove a creature from the selected creatures
   const toggleCreatureSelection = (creature) => {
@@ -323,10 +234,9 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
           creatures: creatures.filter(c => c.id !== creature.id)
         };
       } else {
-        // Add the creature with its summon type
+        // Add the creature
         const newCreature = {
-          ...creature,
-          summonType: activeSummonType
+          ...creature
         };
 
         return {
@@ -358,6 +268,45 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     }));
   };
 
+  // Handle creature selection from the creature library
+  const handleCreatureSelection = (selectedCreatures) => {
+    setSummonConfig(prev => ({
+      ...prev,
+      creatures: selectedCreatures.map(creature => ({
+        ...creature,
+        config: { ...DEFAULT_CREATURE_CONFIG }
+      }))
+    }));
+  };
+
+  // Handle individual creature configuration changes
+  const handleCreatureConfigChange = (creatureId, configKey, value) => {
+    setSummonConfig(prev => ({
+      ...prev,
+      creatures: prev.creatures.map(creature =>
+        creature.id === creatureId
+          ? {
+              ...creature,
+              config: {
+                ...creature.config,
+                [configKey]: value
+              }
+            }
+          : creature
+      )
+    }));
+  };
+
+  // Open creature selection window
+  const openCreatureSelection = () => {
+    setShowCreatureSelection(true);
+  };
+
+  // Close creature selection window
+  const closeCreatureSelection = () => {
+    setShowCreatureSelection(false);
+  };
+
   // Toggle duration on/off
   const toggleDuration = () => {
     const hasDuration = !summonConfig.hasDuration;
@@ -369,17 +318,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     }
   };
 
-  // Get summoning options based on the summoning type
-  const getSummoningOptions = (summonType) => {
-    switch (summonType) {
-      case 'beast': return BEAST_SUMMONS;
-      case 'spirit': return SPIRIT_SUMMONS;
-      case 'warrior': return WARRIOR_SUMMONS;
-      case 'guardian': return GUARDIAN_SUMMONS;
-      case 'arcane': return ARCANE_SUMMONS;
-      default: return [];
-    }
-  };
+
 
   // Get WoW-style icon URL
   const getIconUrl = (iconName) => {
@@ -387,153 +326,177 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
   };
 
-  // Render the summoning type selection
-  const renderSummoningTypeSelection = () => {
-    return (
-      <div className="spell-wizard-card-grid">
-        {Object.values(SUMMONING_TYPES).map((summonType) => (
-          <div
-            key={summonType.id}
-            className={`spell-wizard-card ${activeSummonType === summonType.id ? 'selected' : ''}`}
-            onClick={() => handleSummonTypeChange(summonType.id)}
-            onMouseEnter={(e) => handleMouseEnter({
-              title: summonType.name,
-              content: summonType.description
-            }, e)}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="spell-wizard-card-icon">
-              <img
-                src={getIconUrl(summonType.icon)}
-                alt={summonType.name}
-              />
-            </div>
-            <h4>{summonType.name}</h4>
-            <p>{summonType.description}</p>
-          </div>
-        ))}
-      </div>
-    );
-  };
 
-  // Render selected creatures section
-  const renderSelectedCreatures = () => {
-    // Ensure creatures is an array, even if it's undefined
-    const creatures = summonConfig.creatures || [];
 
-    if (creatures.length === 0) {
-      return (
-        <div className="section-panel">
-          <div className="section-panel-header">
-            <h4>Selected Creatures</h4>
-          </div>
 
-          <div className="section-panel-content">
-            <div className="effect-description">
-              No creatures selected. Choose creatures from the options below.
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="section-panel">
-        <div className="section-panel-header">
-          <h4>Selected Creatures</h4>
-        </div>
-
-        <div className="section-panel-content">
-          <div className="selected-creatures-list">
-            {creatures.map(creature => {
-              // Get the summoning type for this creature
-              const typeId = creature.summonType || activeSummonType;
-              const summonType = SUMMONING_TYPES[typeId.toUpperCase()];
-
-              return (
-                <div key={creature.id} className="quantity-row">
-                  <div className="quantity-icon">
-                    <img src={getIconUrl(creature.icon)} alt={creature.name} />
-                  </div>
-                  <div className="quantity-info">
-                    <h5>{creature.name}</h5>
-                    <p>{summonType?.name || 'Unknown Type'}</p>
-                  </div>
-                  <button
-                    className="effect-numeric-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveCreature(creature.id);
-                    }}
-                  >
-                    <FaCircleXmark />
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          <button
-            className="effect-numeric-button danger"
-            onClick={handleClearAllCreatures}
-            disabled={creatures.length === 0}
-            style={{ marginTop: '16px', width: '100%' }}
-          >
-            Clear All Creatures
-          </button>
-        </div>
-      </div>
-    );
-  };
 
   // Render creature selection
   const renderCreatureSelection = () => {
-    const summonOptions = getSummoningOptions(activeSummonType);
-
-    if (!summonOptions.length) {
-      return (
-        <div className="section-panel">
-          <div className="section-panel-content">
-            <div className="effect-description">
-              No creatures available for this summoning type.
-            </div>
-          </div>
-        </div>
-      );
-    }
+    const selectedCreatures = summonConfig.creatures || [];
 
     return (
-      <div className="section-panel">
-        <div className="section-panel-header">
-          <h4>Available Creatures</h4>
+      <div className="pf-creature-selection-container">
+        <div className="pf-creature-header">
+          <h4>Selected Creatures</h4>
+          <button
+            className="pf-button pf-button-primary"
+            onClick={openCreatureSelection}
+          >
+            <FaSearch /> Select from Creature Library
+          </button>
         </div>
 
-        <div className="section-panel-content">
-          <div className="spell-wizard-card-grid small">
-            {summonOptions.map(creature => (
-              <div
-                key={creature.id}
-                className={`spell-wizard-card ${isCreatureSelected(creature.id) ? 'selected' : ''}`}
-                onClick={() => toggleCreatureSelection(creature)}
-                onMouseEnter={(e) => handleMouseEnter({
-                  title: creature.name,
-                  content: creature.description
-                }, e)}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-              >
-                <div className="spell-wizard-card-icon">
-                  <img
-                    src={getIconUrl(creature.icon)}
-                    alt={creature.name}
-                  />
+        <div className="pf-creature-content">
+          {selectedCreatures.length === 0 ? (
+            <div className="pf-empty-state">
+              No creatures selected. Click "Select from Creature Library" to choose creatures to summon.
+            </div>
+          ) : (
+            <div className="selected-creatures-list">
+              {selectedCreatures.map((creature, index) => (
+                <div key={`${creature.id}-${index}`} className="creature-selection-item">
+                  {/* Improved creature layout with title and image at top */}
+                  <div className="creature-header-section">
+                    <div className="creature-icon">
+                      <img
+                        src={getIconUrl(creature.tokenIcon)}
+                        alt={creature.name}
+                        onError={(e) => {
+                          e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                        }}
+                      />
+                    </div>
+                    <div className="creature-title-section">
+                      <h4 className="creature-name">{creature.name}</h4>
+                      <div className="creature-type-size">{creature.size} {creature.type}</div>
+                      <button
+                        className="remove-creature-btn"
+                        onClick={() => handleRemoveCreature(creature.id)}
+                        title="Remove creature"
+                      >
+                        <FaCircleXmark />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Creature description */}
+                  <div className="creature-description-section">
+                    <p className="creature-description">
+                      {creature.description || 'A mysterious creature with unknown origins and capabilities.'}
+                    </p>
+                  </div>
+
+                  {/* Creature stats in a clean grid */}
+                  <div className="creature-stats-section">
+                    <div className="creature-stats-grid">
+                      <div className="stat-item">
+                        <span className="stat-label">HP</span>
+                        <span className="stat-value">{creature.stats?.maxHp || 'N/A'}</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-label">Mana</span>
+                        <span className="stat-value">{creature.stats?.maxMana || 'N/A'}</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-label">AP</span>
+                        <span className="stat-value">{creature.stats?.maxActionPoints || 'N/A'}</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-label">Armor</span>
+                        <span className="stat-value">{creature.stats?.armor || 'N/A'}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Individual creature configuration */}
+                  <div className="creature-config-section">
+                    <div className="creature-config-header">
+                      <h6>Individual Settings</h6>
+                    </div>
+                    <div className="creature-config-controls">
+                      <div className="creature-config-control">
+                        <label>Quantity</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="10"
+                          value={creature.config?.quantity || DEFAULT_CREATURE_CONFIG.quantity}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'quantity', parseInt(e.target.value) || 1)}
+                        />
+                      </div>
+                      <div className="creature-config-control">
+                        <label>Duration</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="100"
+                          value={creature.config?.duration || DEFAULT_CREATURE_CONFIG.duration}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'duration', parseInt(e.target.value) || 1)}
+                        />
+                      </div>
+                      <div className="creature-config-control">
+                        <label>Duration Unit</label>
+                        <select
+                          value={creature.config?.durationUnit || DEFAULT_CREATURE_CONFIG.durationUnit}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'durationUnit', e.target.value)}
+                        >
+                          <option value="rounds">Rounds</option>
+                          <option value="minutes">Minutes</option>
+                          <option value="hours">Hours</option>
+                        </select>
+                      </div>
+                      <div className="creature-config-control">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={creature.config?.concentration || DEFAULT_CREATURE_CONFIG.concentration}
+                            onChange={(e) => handleCreatureConfigChange(creature.id, 'concentration', e.target.checked)}
+                          />
+                          Requires Concentration
+                        </label>
+                      </div>
+                      <div className="creature-config-control">
+                        <label>Control Type</label>
+                        <select
+                          value={creature.config?.controlType || DEFAULT_CREATURE_CONFIG.controlType}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'controlType', e.target.value)}
+                        >
+                          <option value="verbal">Verbal Commands</option>
+                          <option value="mental">Mental Link</option>
+                          <option value="empathic">Empathic Bond</option>
+                          <option value="autonomous">Autonomous</option>
+                        </select>
+                      </div>
+                      <div className="creature-config-control">
+                        <label>Control Range</label>
+                        <select
+                          value={creature.config?.controlRange !== undefined ? creature.config.controlRange : DEFAULT_CREATURE_CONFIG.controlRange}
+                          onChange={(e) => handleCreatureConfigChange(creature.id, 'controlRange', parseInt(e.target.value))}
+                        >
+                          <option value={30}>30 feet</option>
+                          <option value={60}>60 feet</option>
+                          <option value={120}>120 feet</option>
+                          <option value={300}>300 feet</option>
+                          <option value={0}>Unlimited</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h4>{creature.name}</h4>
-                <p>{creature.description}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+
+              {selectedCreatures.length > 1 && (
+                <div className="creature-actions">
+                  <button
+                    className="spell-wizard-button secondary"
+                    onClick={handleClearAllCreatures}
+                  >
+                    Clear All
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -544,97 +507,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     return null;
   };
 
-  // Render summoning preview
-  const renderSummoningPreview = () => {
-    const creatures = summonConfig.creatures || [];
-
-    if (creatures.length === 0) {
-      return null;
-    }
-
-    return (
-      <div className="effect-config-group">
-        <label className="effect-config-label">Summoning Preview</label>
-
-        <div className="effect-options">
-          {creatures.map(creature => {
-            // Get the summoning type for this creature
-            const typeId = creature.summonType || activeSummonType;
-            const summonType = SUMMONING_TYPES[typeId.toUpperCase()];
-
-            // Generate summoning description
-            const quantityText = summonConfig.quantity > 1 ? `${summonConfig.quantity} ${creature.name}s` : `a ${creature.name}`;
-            const durationText = summonConfig.hasDuration ?
-              `for ${summonConfig.duration} ${summonConfig.durationUnit}` :
-              'permanently';
-            const concentrationText = (summonConfig.hasDuration && summonConfig.concentration) ? ' (requires concentration)' : '';
-            const controlText = CONTROL_TYPES.find(t => t.id === summonConfig.controlType)?.name.toLowerCase() || 'verbal commands';
-            const rangeText = summonConfig.controlRange > 0 ? `within ${summonConfig.controlRange} feet` : 'at any distance';
-
-            // Generate trigger text
-            const triggerText = summonConfig.waitForTrigger ? ` ${getTriggerDescription()}` : '';
-
-            return (
-              <div key={creature.id} className="effect-preview">
-                <div className="effect-preview-header">
-                  <div className="effect-preview-icon">
-                    <img
-                      src={getIconUrl(creature.icon)}
-                      alt={creature.name}
-                    />
-                  </div>
-                  <div className="effect-preview-title">
-                    <h4>{summonType?.name || 'Unknown'}: {creature.name}</h4>
-                    <div className="effect-preview-subtitle">
-                      {summonConfig.quantity > 1 ? `${summonConfig.quantity} creatures` : '1 creature'}
-                      {summonConfig.hasDuration ?
-                        ` • ${summonConfig.duration} ${summonConfig.durationUnit}` :
-                        ' • Permanent'}
-                      {(summonConfig.hasDuration && summonConfig.concentration) ? ' • Concentration' : ''}
-                      {summonConfig.waitForTrigger ? ' • Triggered' : ''}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="effect-preview-description">
-                  You summon {quantityText}{triggerText} {durationText}{concentrationText}.
-                  The creature is controlled via {controlText} {rangeText}.
-                </div>
-
-                <div className="effect-preview-details">
-                  <div className="effect-preview-detail">
-                    <span className="detail-label">Creature Type:</span>
-                    <span className="detail-value">{creature.name}</span>
-                  </div>
-
-                  {summonConfig.waitForTrigger && (
-                    <div className="effect-preview-detail">
-                      <span className="detail-label">Activation:</span>
-                      <span className="detail-value">Waits for trigger condition</span>
-                    </div>
-                  )}
-
-                  <div className="effect-preview-detail">
-                    <span className="detail-label">Control Method:</span>
-                    <span className="detail-value">
-                      {CONTROL_TYPES.find(t => t.id === summonConfig.controlType)?.name || 'Verbal Commands'}
-                    </span>
-                  </div>
-
-                  <div className="effect-preview-detail">
-                    <span className="detail-label">Control Range:</span>
-                    <span className="detail-value">
-                      {summonConfig.controlRange === 0 ? 'Unlimited' : `${summonConfig.controlRange} feet`}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
+  // Preview section removed as per user request
 
   // Simple description for trigger condition
   const getTriggerDescription = () => {
@@ -644,276 +517,12 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
     return 'when triggered';
   };
 
-  // Render duration and activation settings
-  const renderDurationSettings = () => {
-    return (
-      <div className="section">
-        <h3 className="section-title">Duration & Activation</h3>
+  // REMOVED: renderDurationSettings function - duration settings moved to individual creature config
+  // const renderDurationSettings = () => { ... };
 
-        <div className="spell-wizard-card-grid">
-          {/* Trigger toggle card */}
-          <div className="spell-wizard-card">
-            <div className="spell-wizard-card-icon">
-              <img src={getIconUrl('ability_hunter_beasttaming')} alt="Trigger" />
-            </div>
-            <h4>Wait for Trigger</h4>
-            <p>Summon only when trigger conditions are met</p>
 
-            <div className="effect-toggle-switch-container">
-              <div
-                className={`effect-toggle-switch ${summonConfig.waitForTrigger ? 'active' : ''}`}
-                onClick={() => {
-                  // Update the waitForTrigger flag
-                  const newValue = !summonConfig.waitForTrigger;
-                  handleSummonConfigChange('waitForTrigger', newValue);
-
-                  // If turning on waitForTrigger, update the spell's trigger configuration
-                  if (newValue) {
-                    // Create a trigger configuration for the spell's trigger system
-                    const spellTriggerConfig = {
-                      triggerId: 'summon_trigger',
-                      parameters: {},
-                      targetEntity: 'target',
-                      effectType: 'summon'
-                    };
-
-                    // Update the spell's trigger configuration through the context
-                    dispatch(actionCreators.updateTriggerConfig({
-                      ...state.triggerConfig,
-                      summonTrigger: spellTriggerConfig
-                    }));
-
-                    // Update the spell's wizard flow to include the trigger step
-                    setTimeout(() => {
-                      dispatch(actionCreators.updateWizardFlow());
-                    }, 100);
-                  }
-                }}
-              >
-                <div className="effect-toggle-slider"></div>
-              </div>
-            </div>
-
-            {summonConfig.waitForTrigger && (
-              <div className="trigger-info">
-                <small>Configured in the Trigger step</small>
-                <div className="trigger-hint">
-                  <img
-                    src="https://wow.zamimg.com/images/wow/icons/small/ability_hunter_beasttaming.jpg"
-                    alt="Trigger"
-                    className="trigger-hint-icon"
-                  />
-                  <span>The summoning will only occur when the specified trigger conditions are met</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Duration toggle card */}
-          <div className="spell-wizard-card">
-            <div className="spell-wizard-card-icon">
-              <img src={getIconUrl('inv_misc_pocketwatch_01')} alt="Duration" />
-            </div>
-            <h4>Duration</h4>
-            <p>Set how long summoned creatures remain</p>
-
-            <div className="effect-toggle-switch-container">
-              <div
-                className={`effect-toggle-switch ${summonConfig.hasDuration ? 'active' : ''}`}
-                onClick={() => handleSummonConfigChange('hasDuration', !summonConfig.hasDuration)}
-              >
-                <div className="effect-toggle-slider"></div>
-              </div>
-            </div>
-
-            {!summonConfig.hasDuration && (
-              <small>Permanent summon</small>
-            )}
-          </div>
-
-          {/* Concentration toggle card */}
-          {summonConfig.hasDuration && (
-            <div className="spell-wizard-card">
-              <div className="spell-wizard-card-icon">
-                <img src={getIconUrl('spell_holy_mindsooth')} alt="Concentration" />
-              </div>
-              <h4>Concentration</h4>
-              <p>Requires maintaining focus</p>
-
-              <div className="effect-toggle-switch-container">
-                <div
-                  className={`effect-toggle-switch ${summonConfig.concentration ? 'active' : ''}`}
-                  onClick={() => handleSummonConfigChange('concentration', !summonConfig.concentration)}
-                >
-                  <div className="effect-toggle-slider"></div>
-                </div>
-              </div>
-
-              {summonConfig.concentration && (
-                <small>Creatures disappear if concentration breaks</small>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Duration settings panel - only shown when duration is enabled */}
-        {summonConfig.hasDuration && (
-          <div className="section-panel">
-            <div className="section-panel-header">
-              <h4>Duration Settings</h4>
-            </div>
-
-            <div className="section-panel-content">
-              {/* Duration type selection */}
-              <div className="duration-type-selection">
-                <div className="effect-option-tabs">
-                  {DURATION_TYPES.map(type => (
-                    <div
-                      key={type.id}
-                      className={`effect-option-tab ${summonConfig.durationUnit === type.id ? 'selected' : ''}`}
-                      onClick={() => handleSummonConfigChange('durationUnit', type.id)}
-                    >
-                      <div className="effect-option-tab-icon">
-                        <img
-                          src={getIconUrl(type.icon)}
-                          alt={type.name}
-                        />
-                      </div>
-                      <div className="effect-option-tab-name">{type.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Duration value input */}
-              <div className="duration-value-input">
-                <label>Duration Value:</label>
-                <div className="effect-numeric-controls">
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleSummonConfigChange('duration', Math.max(1, summonConfig.duration - 1))}
-                  >
-                    <FaMinus />
-                  </button>
-                  <input
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={summonConfig.duration}
-                    onChange={(e) => {
-                      const duration = Math.max(1, Math.min(100, parseInt(e.target.value) || 1));
-                      handleSummonConfigChange('duration', duration);
-                    }}
-                  />
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleSummonConfigChange('duration', Math.min(100, summonConfig.duration + 1))}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  // Render quantity settings
-  const renderQuantitySettings = () => {
-    return (
-      <div className="section">
-        <h3 className="section-title">Quantity Settings</h3>
-
-        <div className="section-panel">
-          <div className="section-panel-header">
-            <h4>Summoning Numbers</h4>
-          </div>
-
-          <div className="section-panel-content">
-            {/* Quantity control */}
-            <div className="quantity-control">
-              <div className="quantity-row">
-                <div className="quantity-icon">
-                  <img src={getIconUrl('spell_shadow_summoninfernal')} alt="Summon" />
-                </div>
-
-                <div className="quantity-info">
-                  <h5>Number to Summon</h5>
-                  <p>How many creatures appear when cast</p>
-                </div>
-
-                <div className="quantity-controls">
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleSummonConfigChange('quantity', Math.max(1, summonConfig.quantity - 1))}
-                  >
-                    <FaMinus />
-                  </button>
-                  <input
-                    type="number"
-                    min="1"
-                    max={summonConfig.maxQuantity}
-                    value={summonConfig.quantity}
-                    onChange={(e) => {
-                      const quantity = Math.max(1, Math.min(summonConfig.maxQuantity, parseInt(e.target.value) || 1));
-                      handleSummonConfigChange('quantity', quantity);
-                    }}
-                  />
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleSummonConfigChange('quantity', Math.min(summonConfig.maxQuantity, summonConfig.quantity + 1))}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-
-              <div className="quantity-row">
-                <div className="quantity-icon">
-                  <img src={getIconUrl('spell_shadow_demonform')} alt="Maximum" />
-                </div>
-
-                <div className="quantity-info">
-                  <h5>Maximum Possible</h5>
-                  <p>Upper limit based on available magic</p>
-                </div>
-
-                <div className="quantity-controls">
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => {
-                      const maxQuantity = Math.max(summonConfig.quantity, summonConfig.maxQuantity - 1);
-                      handleSummonConfigChange('maxQuantity', maxQuantity);
-                    }}
-                  >
-                    <FaMinus />
-                  </button>
-                  <input
-                    type="number"
-                    min={summonConfig.quantity}
-                    max="10"
-                    value={summonConfig.maxQuantity}
-                    onChange={(e) => {
-                      const maxQuantity = Math.max(summonConfig.quantity, Math.min(10, parseInt(e.target.value) || 1));
-                      handleSummonConfigChange('maxQuantity', maxQuantity);
-                    }}
-                  />
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleSummonConfigChange('maxQuantity', Math.min(10, summonConfig.maxQuantity + 1))}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  // REMOVED: renderQuantitySettings function - quantity settings moved to individual creature config
+  // const renderQuantitySettings = () => { ... };
 
   // Render control settings
   const renderControlSettings = () => {
@@ -964,9 +573,9 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
           <div className="section-panel-content">
             <div className="effect-option-tabs">
               {CONTROL_RANGES.map(range => (
-                <div
+                <button
                   key={range.id}
-                  className={`effect-option-tab ${summonConfig.controlRange === range.id ? 'selected' : ''}`}
+                  className={`pf-button ${summonConfig.controlRange === range.id ? 'selected' : ''}`}
                   onClick={() => handleSummonConfigChange('controlRange', range.id)}
                   onMouseEnter={(e) => handleMouseEnter({
                     title: range.name,
@@ -975,8 +584,8 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <div className="effect-option-tab-name">{range.name}</div>
-                </div>
+                  {range.name}
+                </button>
               ))}
             </div>
 
@@ -992,52 +601,29 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
 
   return (
     <div className="effects-container">
-      <div className="section">
-        <h3 className="section-title">Summoning Type</h3>
-        <p>
-          Choose the type of creatures to summon
-        </p>
-        {/* Summoning Type Selection */}
-        {renderSummoningTypeSelection()}
-      </div>
+
 
       <div className="section">
         <h3 className="section-title">Creatures</h3>
-        {/* Selected Creatures */}
-        {renderSelectedCreatures()}
-
         {/* Creature Selection */}
         {renderCreatureSelection()}
       </div>
 
-      <div className="section">
-        <h3 className="section-title">Activation & Duration</h3>
-        {/* Duration & Activation Settings */}
-        {renderDurationSettings()}
-      </div>
 
-      <div className="section">
-        <h3 className="section-title">Quantity & Control</h3>
-        {/* Quantity Settings */}
-        {renderQuantitySettings()}
 
-        {/* Control Settings */}
-        {renderControlSettings()}
-      </div>
 
-      <div className="section">
-        <h3 className="section-title">Preview</h3>
-        {/* Summoning Preview - only if creatures are selected */}
-        {renderSummoningPreview()}
-      </div>
 
       {/* Tooltip */}
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
+
+      {/* Creature Selection Window */}
+      <CreatureSelectionWindow
+        isOpen={showCreatureSelection}
+        onClose={closeCreatureSelection}
+        onSelect={handleCreatureSelection}
+        selectedCreatures={summonConfig.creatures || []}
+        multiSelect={true}
+        title="Select Creatures to Summon"
+        effectType="summon"
       />
     </div>
   );

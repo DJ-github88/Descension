@@ -1,36 +1,307 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
+import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
-import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
+import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
-import LibraryStyleSpellCard from '../common/LibraryStyleSpellCard';
-import LibraryFilters from './LibraryFilters';
+import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import SpellCardWithProcs from '../common/SpellCardWithProcs';
+
 import SpellContextMenu from './SpellContextMenu';
-// Import CSS files for consistent styling
-import '../../styles/ConsolidatedSpellCard.css';
-import '../../styles/Step10Review.css';
-import '../../styles/LibraryStyleRollableTable.css';
-import '../../styles/buff-config-review.css';
-import '../../styles/trigger-display-review.css';
+import SpellLibraryFormatter from './SpellLibraryFormatter';
 
-const SpellLibrary = ({ onLoadSpell }) => {
-  // State for view options
+// Add compact header styling
+const compactHeaderStyles = `
+  .library-header.compact-header {
+    padding: 8px 16px !important;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%) !important;
+    border: 2px solid #654321 !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+  }
+
+  .library-title.compact-title {
+    font-size: 18px !important;
+    margin: 0 !important;
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    font-family: 'Cinzel', serif !important;
+  }
+
+  .library-controls.compact-controls {
+    gap: 6px !important;
+  }
+
+  .library-controls.compact-controls button {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    min-width: auto !important;
+    height: 32px !important;
+  }
+
+  .library-controls.compact-controls .primary-button,
+  .library-controls.compact-controls .secondary-button {
+    border-radius: 4px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-width: 0 !important;
+    max-width: 120px !important;
+  }
+
+  .view-mode-controls {
+    margin-left: auto !important;
+  }
+
+  .view-mode-button {
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = compactHeaderStyles;
+  if (!document.head.querySelector('style[data-compact-header]')) {
+    styleElement.setAttribute('data-compact-header', 'true');
+    document.head.appendChild(styleElement);
+  }
+}
+
+// Import Pathfinder-themed styles
+import '../../styles/pathfinder/main.css';
+
+const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
+  // State for view options - force compact view and clear any stored preferences
   const [viewMode, setViewMode] = useState(() => {
-    return localStorage.getItem('spellLibraryViewMode') || 'grid';
+    // Clear any existing localStorage preference to force compact view
+    localStorage.removeItem('spellLibraryViewMode');
+    return 'compact';
   });
 
-  const [isFiltersVisible, setIsFiltersVisible] = useState(() => {
-    const savedState = localStorage.getItem('spellLibraryFiltersVisible');
-    return savedState !== null ? JSON.parse(savedState) : true;
-  });
+
 
   // State for context menu
   const [contextMenu, setContextMenu] = useState(null);
+  const [showFormatter, setShowFormatter] = useState(false);
 
   // Get library state and dispatch from context
   const library = useSpellLibrary();
   const dispatch = useSpellLibraryDispatch();
+
+  // Unified mapping function (same as Step10Review and ExternalLivePreview)
+  const mapSpellToUnifiedFormat = (spell) => {
+    // Extract icon from spell
+    const extractSpellIcon = (spellData) => {
+      return spellData.typeConfig?.icon || spellData.icon || 'inv_misc_questionmark';
+    };
+
+    const formatCastTime = (spellData) => {
+      if (!spellData) return 'Instant';
+
+      // Handle different casting time formats
+      if (spellData.actionType === 'channeled') return 'Channeled';
+      if (spellData.spellType === 'reaction') return 'Reaction';
+      if (spellData.spellType === 'ritual') return 'Ritual';
+      if (spellData.spellType === 'passive') return 'Passive';
+
+      const castTime = spellData.castTime ||
+                      spellData.castingTime ||
+                      (spellData.castingConfig && spellData.castingConfig.castTime) ||
+                      (spellData.typeConfig && spellData.typeConfig.castTime) ||
+                      'Instant';
+
+      return castTime;
+    };
+
+    const icon = extractSpellIcon(spell);
+
+    // Determine damage types - SAME LOGIC AS STEP10REVIEW
+    const damageTypes = [];
+
+    // First check if we have a primary type selected in Step 1
+    if (spell.typeConfig?.school) {
+      damageTypes.push(spell.typeConfig.school);
+    }
+
+    // Check for secondary type in Step 1
+    if (spell.typeConfig?.secondaryElement) {
+      damageTypes.push(spell.typeConfig.secondaryElement);
+    }
+
+    // If no types are set in Step 1, check damage config
+    if (damageTypes.length === 0 && spell.damageConfig?.damageType) {
+      // For direct damage
+      if (spell.damageConfig.damageType === 'direct' && spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+      // For DoT damage
+      else if (spell.damageConfig.damageType === 'dot' && spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+      // For combined damage (direct + DoT)
+      else if (spell.damageConfig.hasDotEffect && spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+      // Fallback if elementType is not set
+      else if (spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+    }
+
+    // Create a properly structured spell object for the unified card
+    return {
+      // Basic Information
+      id: spell.id || 'unknown',
+      name: spell.name || 'Unnamed Spell',
+      description: spell.description || '',
+      level: spell.level || 1,
+      icon: icon,
+      spellType: spell.spellType || 'ACTION',
+      effectType: spell.effectTypes && spell.effectTypes.length > 0 ? spell.effectTypes[0] : 'utility',
+      effectTypes: spell.effectTypes || [],
+
+      // Type configuration
+      typeConfig: spell.typeConfig || {},
+
+      // Casting information
+      castTime: formatCastTime(spell),
+      range: spell.targetingConfig?.rangeDistance ? `${spell.targetingConfig.rangeDistance} ft` : spell.range || '30 ft',
+      rangeType: spell.targetingConfig?.rangeType || 'ranged',
+
+      // Targeting information
+      targetingMode: spell.targetingConfig?.targetingType || 'single',
+      targetRestriction: spell.targetingConfig?.targetRestrictions && spell.targetingConfig.targetRestrictions.length > 0 ?
+                         spell.targetingConfig.targetRestrictions[0] :
+                         spell.targetingConfig?.targetRestriction || null,
+      targetRestrictions: spell.targetingConfig?.targetRestrictions && spell.targetingConfig.targetRestrictions.length > 0 ?
+                         spell.targetingConfig.targetRestrictions :
+                         spell.targetingConfig?.targetRestriction ? [spell.targetingConfig.targetRestriction] : [],
+      maxTargets: spell.targetingConfig?.maxTargets || 1,
+      selectionMethod: spell.targetingConfig?.selectionMethod ||
+                      spell.targetingConfig?.targetSelectionMethod || 'manual',
+      targetSelectionMethod: spell.targetingConfig?.targetSelectionMethod ||
+                            spell.targetingConfig?.selectionMethod || 'manual',
+      rangeDistance: spell.targetingConfig?.rangeDistance || 30,
+
+      // AOE information
+      aoeShape: spell.targetingConfig?.aoeShape || 'circle',
+      aoeSize: spell.targetingConfig?.aoeParameters?.radius ||
+               spell.targetingConfig?.aoeParameters?.size ||
+               spell.targetingConfig?.aoeParameters?.length || 20,
+      aoeParameters: spell.targetingConfig?.aoeParameters || {},
+      movementBehavior: spell.targetingConfig?.movementBehavior || 'static',
+      targetingConfig: spell.targetingConfig || {},
+
+      // Damage/Healing information
+      primaryDamage: spell.damageConfig ? {
+        dice: spell.damageConfig.formula ||
+              spell.damageConfig.diceNotation ||
+              spell.effectResolutions?.damage?.config?.formula ||
+              '6d6',
+        flat: spell.damageConfig.flatBonus || 0,
+        type: spell.damageConfig.elementType || spell.typeConfig?.school || 'force'
+      } : null,
+
+      // Damage types - CRITICAL: Use the same logic as Step10Review
+      damageTypes: damageTypes.length > 0 ? damageTypes : (spell.damageTypes || []),
+
+      // Damage config
+      damageConfig: spell.damageConfig || {},
+
+      // Resolution type
+      resolution: spell.damageConfig?.resolution || spell.healingConfig?.resolution || spell.resolution || 'DICE',
+
+      // School from typeConfig
+      school: spell.typeConfig?.school || spell.school || 'Arcane',
+
+      // Element type from typeConfig
+      elementType: spell.typeConfig?.school || spell.damageConfig?.elementType || spell.elementType,
+
+      // Tags
+      tags: spell.tags || [],
+
+      // Resource costs
+      resourceConfig: spell.resourceConfig || null,
+      resourceCost: spell.resourceCost || null,
+      manaCost: spell.resourceConfig?.resourceAmount || spell.manaCost || 25,
+
+      // Rarity
+      rarity: spell.rarity || 'uncommon',
+
+      // CRITICAL: Preserve all effect configurations for proper formatting
+      buffConfig: spell.buffConfig || null,
+      debuffConfig: spell.debuffConfig || null,
+      controlConfig: spell.controlConfig || null,
+      utilityConfig: spell.utilityConfig || null,
+      summonConfig: spell.summonConfig || spell.summoningConfig || null,
+      transformationConfig: spell.transformationConfig || null,
+      purificationConfig: spell.purificationConfig || null,
+      restorationConfig: spell.restorationConfig || null,
+      healingConfig: spell.healingConfig || null,
+
+      // Advanced mechanics
+      mechanicsConfig: spell.mechanicsConfig || null,
+      rollableTable: spell.rollableTable || null,
+      cardConfig: spell.cardConfig || null,
+      coinConfig: spell.coinConfig || null,
+      channelingConfig: spell.channelingConfig || null,
+      reactionConfig: spell.reactionConfig || null,
+      stateConfig: spell.stateConfig || null,
+      zoneConfig: spell.zoneConfig || null,
+      trapConfig: spell.trapConfig || null,
+
+      // Duration and cooldown formatting
+      duration: spell.durationConfig ? formatDuration(spell.durationConfig) : 'Instant',
+      cooldown: spell.cooldownConfig ? formatCooldown(spell.cooldownConfig) : getDefaultCooldown(spell),
+
+      // Metadata
+      dateCreated: spell.dateCreated,
+      lastModified: spell.lastModified,
+      categoryIds: spell.categoryIds || [],
+      visualTheme: spell.visualTheme || 'neutral'
+    };
+
+    // Helper function to format duration
+    function formatDuration(durationConfig) {
+      const { durationType, durationValue } = durationConfig;
+      if (durationType === 'instant') return 'Instant';
+      if (durationType === 'concentration') return `Concentration, up to ${durationValue} rounds`;
+      if (durationType === 'rounds') return `${durationValue} rounds`;
+      if (durationType === 'minutes') return `${durationValue} minutes`;
+      if (durationType === 'hours') return `${durationValue} hours`;
+      if (durationType === 'permanent') return 'Permanent';
+      return 'Instant';
+    }
+
+    // Helper function to format cooldown
+    function formatCooldown(cooldownConfig) {
+      const { cooldownType, cooldownValue } = cooldownConfig;
+      if (cooldownType === 'none') return 'No Cooldown';
+      if (cooldownType === 'rounds') return `${cooldownValue} rounds`;
+      if (cooldownType === 'minutes') return `${cooldownValue} minutes`;
+      if (cooldownType === 'encounter') return 'Once per encounter';
+      if (cooldownType === 'long_rest') return 'Once per long rest';
+      if (cooldownType === 'short_rest') return 'Once per short rest';
+      return 'No Cooldown';
+    }
+
+    // Helper function to get default cooldown based on spell properties
+    function getDefaultCooldown(spell) {
+      if (spell.level >= 6) return '1 minute';
+      if (spell.level >= 4) return '3 rounds';
+      if (spell.spellType === 'REACTION') return 'No Cooldown';
+      if (spell.effectTypes?.includes('healing')) return '2 rounds';
+      return 'No Cooldown';
+    }
+  };
 
   // Apply filters and sorting to get displayed spells
   const filteredSpells = React.useMemo(() => {
@@ -38,27 +309,27 @@ const SpellLibrary = ({ onLoadSpell }) => {
     return sortSpells(filtered, library.sortOrder);
   }, [library.spells, library.filters, library.sortOrder]);
 
-  // Save view preferences to localStorage
+  // Save view preferences to localStorage (but keep compact as default)
   useEffect(() => {
-    localStorage.setItem('spellLibraryViewMode', viewMode);
-    localStorage.setItem('spellLibraryFiltersVisible', JSON.stringify(isFiltersVisible));
-  }, [viewMode, isFiltersVisible]);
+    // Only save non-compact view modes to localStorage
+    if (viewMode !== 'compact') {
+      localStorage.setItem('spellLibraryViewMode', viewMode);
+    } else {
+      localStorage.removeItem('spellLibraryViewMode');
+    }
+  }, [viewMode]);
 
   // Handle spell selection
   const handleSelectSpell = (spellId, isEditing = false) => {
+    // Just select the spell in the library
     dispatch(libraryActionCreators.selectSpell(spellId));
 
-    // If onLoadSpell is provided and we're in edit mode, load the spell for editing
-    if (onLoadSpell && isEditing) {
+    // If we're in edit mode and onLoadSpell is provided, load the spell for editing
+    if (isEditing && onLoadSpell) {
       const selectedSpell = library.spells.find(spell => spell.id === spellId);
       if (selectedSpell) {
-        console.log('Loading spell for editing:', selectedSpell.name);
-
         // Get the original spell data
         const originalSpell = selectedSpell;
-
-        // Log the spell data for debugging
-        console.log('Original spell data:', JSON.stringify(originalSpell, null, 2));
 
         // Call onLoadSpell with the original spell and true for edit mode
         onLoadSpell(originalSpell, true);
@@ -107,11 +378,49 @@ const SpellLibrary = ({ onLoadSpell }) => {
   // Handle right-click on spell card
   const handleSpellContextMenu = (e, spellId) => {
     e.preventDefault();
-    setContextMenu({
-      x: e.clientX,
-      y: e.clientY,
-      spellId
-    });
+    e.stopPropagation();
+
+    // Find the spell object by ID
+    const spellObj = library.spells.find(s => s.id === spellId);
+
+    if (spellObj) {
+      // Calculate position to ensure context menu stays within viewport
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      // Use pageX and pageY for absolute positioning
+      const x = e.pageX;
+      const y = e.pageY;
+
+      // Default menu dimensions
+      const menuWidth = 200;
+      const menuHeight = 150;
+
+      // Calculate position to ensure menu stays within viewport
+      let posX = x;
+      let posY = y;
+
+      // Adjust if menu would go off right edge
+      if (posX + menuWidth > viewportWidth) {
+          posX = Math.max(0, x - menuWidth);
+      }
+
+      // Adjust if menu would go off bottom edge
+      if (posY + menuHeight > viewportHeight) {
+          posY = Math.max(0, y - menuHeight);
+      }
+
+      // Set the context menu state with adjusted position and spell ID
+      setContextMenu({
+        x: posX,
+        y: posY,
+        spellId
+      });
+
+
+    } else {
+      console.error("Could not find spell with ID:", spellId);
+    }
   };
 
   // Handle adding spell to collection
@@ -147,8 +456,6 @@ const SpellLibrary = ({ onLoadSpell }) => {
           e.stopPropagation();
           const spellId = e.target.getAttribute('data-spell-id');
           if (spellId) {
-            console.log('Edit button (pseudo-element) clicked for spell:', spellId);
-
             // Find the spell object by ID
             const spellToEdit = library.spells.find(s => s.id === spellId);
 
@@ -173,7 +480,6 @@ const SpellLibrary = ({ onLoadSpell }) => {
   // Handle new spell creation
   const handleNewSpell = () => {
     // This would typically navigate to the spell wizard or creation form
-    console.log('Creating new spell');
     // Implementation depends on your app's routing
   };
 
@@ -222,98 +528,170 @@ const SpellLibrary = ({ onLoadSpell }) => {
     URL.revokeObjectURL(url);
   };
 
-  // Calculate active filter count
-  const activeFilterCount = Object.values(library.filters).reduce((count, filter) => {
-    if (Array.isArray(filter) && filter.length > 0) return count + 1;
-    if (typeof filter === 'string' && filter.trim() !== '') return count + 1;
-    return count;
-  }, 0);
+  const handleLoadEnhancedSpells = () => {
+    // Clear existing spells
+    dispatch(libraryActionCreators.clearLibrary());
+
+    // Add all enhanced spells
+    LIBRARY_SPELLS.forEach(spell => {
+      dispatch(libraryActionCreators.addSpell(spell));
+    });
+
+    alert(`Successfully loaded ${LIBRARY_SPELLS.length} enhanced spells!\n\nNew spells include:\n• Ethereal Flame Manifestation\n• Crystalline Frost Convergence\n• Fate Weaver's Paradigm\n• Serendipity Cascade\n• And many more original spells!`);
+  };
+
+
 
   // Render empty state when no spells exist
   if (library.spells.length === 0) {
     return (
-      <div className="spell-library-empty">
-        <div className="spell-library-empty-icon">
-          <i className="fas fa-book"></i>
-        </div>
-        <h2>Your Spell Library is Empty</h2>
-        <p>Create your first spell to get started!</p>
+      <div className="spell-library-empty" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '400px',
+        background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
+        border: '3px solid #8B4513',
+        borderRadius: '12px',
+        margin: '20px',
+        padding: '40px',
+        boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.2)'
+      }}>
+        <h2 style={{
+          color: '#8B4513',
+          fontFamily: 'Cinzel, serif',
+          fontSize: '24px',
+          fontWeight: '700',
+          marginBottom: '16px',
+          textShadow: '1px 1px 2px rgba(0,0,0,0.1)'
+        }}>Your Spell Library is Empty</h2>
+        <p style={{
+          color: '#654321',
+          fontFamily: 'Cinzel, serif',
+          fontSize: '16px',
+          marginBottom: '24px',
+          textAlign: 'center'
+        }}>Create your first spell to get started!</p>
         <button
           className="primary-button"
           onClick={handleNewSpell}
+          style={{
+            background: 'linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%)',
+            border: '2px solid #654321',
+            borderRadius: '8px',
+            color: '#F0E6D2',
+            fontFamily: 'Cinzel, serif',
+            fontSize: '14px',
+            fontWeight: '600',
+            padding: '12px 24px',
+            cursor: 'pointer',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseOver={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 6px 12px rgba(0,0,0,0.4)';
+          }}
+          onMouseOut={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+          }}
         >
-          <i className="fas fa-plus"></i> Create New Spell
+          Create New Spell
         </button>
       </div>
     );
   }
 
   return (
-    <div className="spell-library-container">
-      {/* Library toolbar */}
-      <div className="spell-library-toolbar">
-        <div className="spell-library-actions">
-          <button
-            className="primary-button"
-            onClick={handleNewSpell}
-          >
-            <i className="fas fa-plus"></i> New Spell
-          </button>
+    <div className="library-view">
+      {/* Library header - conditionally rendered */}
+      {!hideHeader && (
+        <div className="library-header compact-header">
+          <h3 className="library-title compact-title">Spell Library ({filteredSpells.length})</h3>
 
-          <button
-            className="secondary-button"
-            onClick={handleImport}
-          >
-            <i className="fas fa-file-import"></i> Import
-          </button>
+          <div className="library-controls compact-controls">
+            <button
+              className="primary-button"
+              onClick={handleNewSpell}
+            >
+              <i className="fas fa-plus"></i> New
+            </button>
 
-          <button
-            className="secondary-button"
-            onClick={handleExport}
-          >
-            <i className="fas fa-file-export"></i> Export
-          </button>
+            <button
+              className="secondary-button"
+              onClick={handleImport}
+            >
+              <i className="fas fa-file-import"></i> Import
+            </button>
+
+            <button
+              className="secondary-button"
+              onClick={handleExport}
+            >
+              <i className="fas fa-file-export"></i> Export
+            </button>
+
+            <button
+              className="secondary-button"
+              onClick={() => setShowFormatter(true)}
+              title="Format and validate all spells for UnifiedSpellCard compatibility"
+            >
+              <i className="fas fa-magic"></i> Format
+            </button>
+
+            <button
+              className="primary-button"
+              onClick={handleLoadEnhancedSpells}
+              title="Load the enhanced spell library with 50+ original spells"
+              style={{
+                background: 'linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%)',
+                border: '2px solid #654321',
+                color: 'white',
+                fontWeight: 'bold'
+              }}
+            >
+              <i className="fas fa-magic"></i> Enhanced
+            </button>
+
+
+
+            <div className="view-mode-controls">
+              <button
+                className={`view-mode-button ${viewMode === 'compact' ? 'active' : ''}`}
+                onClick={() => setViewMode('compact')}
+                aria-label="Compact view"
+                title="Compact view with hover tooltips"
+              >
+                <i className="fas fa-th-large"></i>
+              </button>
+
+              <button
+                className={`view-mode-button ${viewMode === 'grid' ? 'active' : ''}`}
+                onClick={() => setViewMode('grid')}
+                aria-label="Grid view"
+                title="Full card grid view"
+              >
+                <i className="fas fa-th"></i>
+              </button>
+
+              <button
+                className={`view-mode-button ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={() => setViewMode('list')}
+                aria-label="List view"
+                title="List view"
+              >
+                <i className="fas fa-list"></i>
+              </button>
+            </div>
+          </div>
         </div>
+      )}
 
-        <div className="spell-library-view-options">
-          <button
-            className="filter-toggle-button"
-            onClick={() => setIsFiltersVisible(!isFiltersVisible)}
-            aria-label={isFiltersVisible ? "Hide filters" : "Show filters"}
-          >
-            <i className="fas fa-filter"></i>
-            {activeFilterCount > 0 && (
-              <span className="filter-badge">{activeFilterCount}</span>
-            )}
-          </button>
-
-          <button
-            className={`view-toggle-button ${viewMode === 'list' ? 'active' : ''}`}
-            onClick={() => setViewMode('list')}
-            aria-label="List view"
-          >
-            <i className="fas fa-list"></i>
-          </button>
-
-          <button
-            className={`view-toggle-button ${viewMode === 'grid' ? 'active' : ''}`}
-            onClick={() => setViewMode('grid')}
-            aria-label="Grid view"
-          >
-            <i className="fas fa-th"></i>
-          </button>
-        </div>
-      </div>
-
-      {/* Filters and content area */}
-      <div className="spell-library-content">
-        {/* Sidebar with filters */}
-        {isFiltersVisible && (
-          <aside className="spell-library-sidebar">
-            <LibraryFilters />
-          </aside>
-        )}
-
+      {/* Main content area */}
+      <div className="library-content">
         {/* Main content area with spell cards */}
         <main className={`spell-library-spells ${viewMode}-view`}>
           {filteredSpells.length === 0 ? (
@@ -334,22 +712,19 @@ const SpellLibrary = ({ onLoadSpell }) => {
 
               <div className="spell-cards-container">
                 {filteredSpells.map(spell => {
-                  // Transform the spell data to match the format expected by LibraryStyleSpellCard
-                  // This is the same transformation used in the review step
-                  const transformedSpell = transformSpellForCard(spell);
+                  // Use the unified mapping function for consistency
+                  const transformedSpell = mapSpellToUnifiedFormat(spell);
 
                   // Get the rollable table data from the spell
                   const rollableTableData = getSpellRollableTable(spell);
 
-                  // Format the effects for display
-                  const formattedEffects = formatAllEffects(transformedSpell);
-
-                  // Add the formatted effects to the transformed spell
-                  if (formattedEffects) {
-                    transformedSpell.damageEffects = formattedEffects.damageEffects;
-                    transformedSpell.healingEffects = formattedEffects.healingEffects;
-                    transformedSpell.buffEffects = formattedEffects.buffEffects;
-                    transformedSpell.debuffEffects = formattedEffects.debuffEffects;
+                  // Library spells are already formatted, so we don't need to call formatAllEffects
+                  // Just ensure the spell has the basic effect properties for display
+                  if (!transformedSpell.damageEffects && transformedSpell.damageConfig) {
+                    transformedSpell.damageEffects = [`${transformedSpell.damageConfig.formula || '1d6'} ${transformedSpell.damageConfig.elementType || 'force'} damage`];
+                  }
+                  if (!transformedSpell.healingEffects && transformedSpell.healingConfig) {
+                    transformedSpell.healingEffects = [`${transformedSpell.healingConfig.formula || '1d8'} healing`];
                   }
 
                   // Ensure range is in the header
@@ -403,7 +778,7 @@ const SpellLibrary = ({ onLoadSpell }) => {
                       elementType: (spell.damageTypes && spell.damageTypes[0]) || 'fire',
                       formula: spell.primaryDamage?.dice || '1d6',
                       criticalConfig: {
-                        enabled: true,
+                        enabled: false,
                         critType: 'dice',
                         critMultiplier: 2,
                         explodingDice: false
@@ -417,279 +792,86 @@ const SpellLibrary = ({ onLoadSpell }) => {
                       healingType: 'direct',
                       formula: spell.healing?.dice || '1d6',
                       criticalConfig: {
-                        enabled: true,
+                        enabled: false,
                         critType: 'dice',
                         critMultiplier: 2
                       }
                     };
                   }
 
-                  console.log('Rendering spell card for:', transformedSpell.name);
+                  // Render compact view or full card view based on viewMode
+                  if (viewMode === 'compact') {
+                    return (
+                      <UnifiedSpellCard
+                        key={spell.id}
+                        spell={transformedSpell}
+                        variant="compact"
+                        rollableTableData={rollableTableData}
+                        onClick={(e) => {
+                          handleSelectSpell(spell.id);
+                        }}
+                        onContextMenu={(e) => {
+                          handleSpellContextMenu(e, spell.id);
+                        }}
+                        isSelected={library.selectedSpell === spell.id}
+                        className="library-compact-item"
+                        showActions={false}
+                        showDescription={false}
+                        showStats={false}
+                        showTags={false}
+                        isDraggable={true}
+                      />
+                    );
+                  }
 
+                  // Full card view (grid/list)
                   return (
                     <div
                       key={spell.id}
                       className={`spell-card-wrapper has-edit-button ${library.selectedSpell === spell.id ? 'selected' : ''}`}
                       onClick={(e) => {
-                        // Check if the click is in the top-right corner (where the edit button is)
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-
-                        if (x >= rect.width - 60 && y <= 40) {
-                          // If clicked on the edit button area, just edit the spell
-                          e.stopPropagation();
-
-                          // Find the spell object by ID
-                          const spellToEdit = library.spells.find(s => s.id === spell.id);
-
-                          if (spellToEdit) {
-                            // Call handleSelectSpell with the spell ID and true for edit mode
-                            handleSelectSpell(spell.id, true);
-
-                            console.log("Edit area clicked for spell:", spell.id);
-                          }
-                        } else {
-                          // Otherwise, handle normal card click - just select the spell
-                          handleSelectSpell(spell.id);
-                        }
+                        // Handle normal card click - just select the spell
+                        handleSelectSpell(spell.id);
                       }}
-                      onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
-                      style={{ position: 'relative', overflow: 'visible' }} /* Ensure relative positioning and visible overflow for edit button */
-                      data-spell-id={spell.id} /* Add data attribute for the edit button to access */
+                      onContextMenu={(e) => {
+                        handleSpellContextMenu(e, spell.id);
+                      }}
+                      style={{
+                        position: 'relative',
+                        overflow: 'visible'
+                      }}
+                      data-spell-id={spell.id}
+                      title="Click to select, right-click for options"
                     >
-                      {/* Edit button positioned BEFORE the card to ensure it's not covered */}
-                      <div
-                        className="edit-button-container"
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          zIndex: 9999999,
-                          pointerEvents: 'all'
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation(); // Prevent triggering the card click
-                        }}
-                      >
+                      {/* Clean edit button */}
+                      <div className="edit-button-container">
                         <button
                           onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering the card click
+                            e.stopPropagation();
                             e.preventDefault();
-
-                            // Find the spell object by ID
-                            const spellToEdit = library.spells.find(s => s.id === spell.id);
-
-                            if (spellToEdit) {
-                              console.log("Edit button clicked for spell:", spell.id);
-
-                              // Directly navigate to the wizard tab
-                              try {
-                                // Try to find the wizard tab button and click it
-                                const wizardTabButton = document.querySelector('button[aria-label="Spell Wizard"]') ||
-                                                       document.querySelector('button:contains("Spell Wizard")') ||
-                                                       Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Spell Wizard'));
-
-                                if (wizardTabButton) {
-                                  wizardTabButton.click();
-                                }
-
-                                // Wait a short time for the tab to switch, then load the spell
-                                setTimeout(() => {
-                                  if (onLoadSpell) {
-                                    // Log the spell data before passing it
-                                    console.log('Passing spell data to onLoadSpell:', spellToEdit);
-
-                                    // Try to directly access the SpellwizardApp component's handleLoadSpell function
-                                    if (window.handleLoadSpell) {
-                                      console.log('Using global handleLoadSpell function');
-                                      window.handleLoadSpell(spellToEdit, true);
-                                    } else {
-                                      console.log('Using onLoadSpell prop');
-                                      onLoadSpell(spellToEdit, true);
-                                    }
-
-                                    // Also try to directly set the name and description in the SpellWizardContext
-                                    try {
-                                      // Dispatch a custom event to set the name and description
-                                      const setNameEvent = new CustomEvent('setSpellName', {
-                                        detail: { name: spellToEdit.name }
-                                      });
-                                      window.dispatchEvent(setNameEvent);
-
-                                      const setDescriptionEvent = new CustomEvent('setSpellDescription', {
-                                        detail: { description: spellToEdit.description }
-                                      });
-                                      window.dispatchEvent(setDescriptionEvent);
-
-                                      // Try the direct update method as well
-                                      const directUpdateNameEvent = new CustomEvent('directUpdateSpellWizard', {
-                                        detail: { field: 'name', value: spellToEdit.name }
-                                      });
-                                      window.dispatchEvent(directUpdateNameEvent);
-
-                                      const directUpdateDescriptionEvent = new CustomEvent('directUpdateSpellWizard', {
-                                        detail: { field: 'description', value: spellToEdit.description }
-                                      });
-                                      window.dispatchEvent(directUpdateDescriptionEvent);
-                                    } catch (error) {
-                                      console.error('Error trying to set name and description:', error);
-                                    }
-                                  }
-                                }, 100);
-                              } catch (error) {
-                                console.error("Error switching to wizard tab:", error);
-                              }
-                            } else {
-                              console.error("Could not find spell with ID:", spell.id);
-                            }
+                            handleSelectSpell(spell.id, true);
                           }}
                           title="Edit Spell"
                           aria-label="Edit Spell"
-                          style={{
-                            backgroundColor: '#f8b700',
-                            color: '#000000',
-                            border: '1px solid #ffffff',
-                            borderRadius: '0 0 0 4px',
-                            padding: '4px 8px',
-                            fontSize: '10px',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            boxShadow: '0 0 5px rgba(0, 0, 0, 0.8)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            opacity: 1,
-                            pointerEvents: 'all'
-                          }}
                         >
-                          <i className="fas fa-edit" style={{ marginRight: '4px' }}></i>
+                          <i className="fas fa-edit"></i>
                           Edit
                         </button>
                       </div>
 
-                      <div
-                        className="review-spell-preview"
-                        style={{ pointerEvents: 'none' }} /* Make the card non-interactive to allow clicks to pass through to the edit button */
-                      >
-                        <LibraryStyleSpellCard
+                      {/* Spell card */}
+                      <div className="review-spell-preview">
+                        <SpellCardWithProcs
                           spell={transformedSpell}
+                          variant="wizard"
                           rollableTableData={rollableTableData}
+                          showActions={false}
+                          showDescription={true}
+                          showStats={true}
+                          showTags={true}
+                          procPosition="right"
+                          showProcs={true}
                         />
-                      </div>
-
-                      {/* Standalone edit button overlay */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          zIndex: 9999,
-                          pointerEvents: 'none', /* Allow clicks to pass through to the card */
-                          transform: 'scale(0.9)', /* Make the button container smaller */
-                          transformOrigin: 'center center' /* Scale from the center */
-                        }}
-                      >
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering the card click
-                            e.preventDefault();
-
-                            // Find the spell object by ID
-                            const spellToEdit = library.spells.find(s => s.id === spell.id);
-
-                            if (spellToEdit) {
-                              console.log("Center edit button clicked for spell:", spell.id);
-
-                              // Directly navigate to the wizard tab
-                              try {
-                                // Try to find the wizard tab button and click it
-                                const wizardTabButton = document.querySelector('button[aria-label="Spell Wizard"]') ||
-                                                       document.querySelector('button:contains("Spell Wizard")') ||
-                                                       Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Spell Wizard'));
-
-                                if (wizardTabButton) {
-                                  wizardTabButton.click();
-                                }
-
-                                // Wait a short time for the tab to switch, then load the spell
-                                setTimeout(() => {
-                                  if (onLoadSpell) {
-                                    // Log the spell data before passing it
-                                    console.log('Passing spell data to onLoadSpell:', spellToEdit);
-
-                                    // Try to directly access the SpellwizardApp component's handleLoadSpell function
-                                    if (window.handleLoadSpell) {
-                                      console.log('Using global handleLoadSpell function');
-                                      window.handleLoadSpell(spellToEdit, true);
-                                    } else {
-                                      console.log('Using onLoadSpell prop');
-                                      onLoadSpell(spellToEdit, true);
-                                    }
-
-                                    // Also try to directly set the name and description in the SpellWizardContext
-                                    try {
-                                      // Dispatch a custom event to set the name and description
-                                      const setNameEvent = new CustomEvent('setSpellName', {
-                                        detail: { name: spellToEdit.name }
-                                      });
-                                      window.dispatchEvent(setNameEvent);
-
-                                      const setDescriptionEvent = new CustomEvent('setSpellDescription', {
-                                        detail: { description: spellToEdit.description }
-                                      });
-                                      window.dispatchEvent(setDescriptionEvent);
-
-                                      // Try the direct update method as well
-                                      const directUpdateNameEvent = new CustomEvent('directUpdateSpellWizard', {
-                                        detail: { field: 'name', value: spellToEdit.name }
-                                      });
-                                      window.dispatchEvent(directUpdateNameEvent);
-
-                                      const directUpdateDescriptionEvent = new CustomEvent('directUpdateSpellWizard', {
-                                        detail: { field: 'description', value: spellToEdit.description }
-                                      });
-                                      window.dispatchEvent(directUpdateDescriptionEvent);
-                                    } catch (error) {
-                                      console.error('Error trying to set name and description:', error);
-                                    }
-                                  }
-                                }, 100);
-                              } catch (error) {
-                                console.error("Error switching to wizard tab:", error);
-                              }
-                            } else {
-                              console.error("Could not find spell with ID:", spell.id);
-                            }
-                          }}
-                          title="Edit Spell"
-                          aria-label="Edit Spell"
-                          style={{
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                            color: '#ffffff',
-                            border: '1px solid #ffffff',
-                            borderRadius: '4px',
-                            padding: '6px 12px',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            boxShadow: '0 0 10px rgba(0, 0, 0, 0.8)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            opacity: 0,
-                            transition: 'opacity 0.2s ease',
-                            pointerEvents: 'auto' /* Make this button clickable */
-                          }}
-                          className="center-edit-button"
-                        >
-                          <i className="fas fa-edit" style={{ marginRight: '4px' }}></i>
-                          Edit Spell
-                        </button>
                       </div>
                     </div>
                   );
@@ -700,100 +882,45 @@ const SpellLibrary = ({ onLoadSpell }) => {
         </main>
       </div>
 
-      {/* Mobile filter toggle button */}
-      <button
-        className="mobile-filter-toggle"
-        onClick={() => setIsFiltersVisible(!isFiltersVisible)}
-        aria-label={isFiltersVisible ? "Hide filters" : "Show filters"}
-      >
-        <i className="fas fa-filter"></i>
-        {activeFilterCount > 0 && (
-          <span className="filter-badge">{activeFilterCount}</span>
-        )}
-      </button>
+
 
       {/* Context Menu */}
-      {contextMenu && ReactDOM.createPortal(
-        <SpellContextMenu
-          x={contextMenu.x}
-          y={contextMenu.y}
-          spell={library.spells.find(s => s.id === contextMenu.spellId)}
-          onClose={() => setContextMenu(null)}
-          collections={library.categories}
-          inCollection={false}
-          onEdit={(spellId) => {
-            // Find the spell object by ID
-            const spellToEdit = library.spells.find(s => s.id === spellId);
+      {contextMenu && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999998, pointerEvents: 'none' }}>
+          {ReactDOM.createPortal(
+            <SpellContextMenu
+              x={contextMenu.x}
+              y={contextMenu.y}
+              spell={library.spells.find(s => s.id === contextMenu.spellId)}
+              onClose={() => {
+                setContextMenu(null);
+              }}
+              collections={library.categories}
+              inCollection={false}
+              onEdit={(spellId) => {
+                // Find the spell object by ID
+                const spellToEdit = library.spells.find(s => s.id === spellId);
 
-            if (spellToEdit) {
-              console.log("Context menu edit button clicked for spell:", spellId);
-
-              // Directly navigate to the wizard tab
-              try {
-                // Try to find the wizard tab button and click it
-                const wizardTabButton = document.querySelector('button[aria-label="Spell Wizard"]') ||
-                                       document.querySelector('button:contains("Spell Wizard")') ||
-                                       Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Spell Wizard'));
-
-                if (wizardTabButton) {
-                  wizardTabButton.click();
+                if (spellToEdit) {
+                  // Call handleSelectSpell with the spell ID and true for edit mode
+                  // This will handle all the navigation and loading logic
+                  handleSelectSpell(spellId, true);
+                } else {
+                  console.error("Could not find spell with ID:", spellId);
                 }
+              }}
+              onDuplicate={handleDuplicateSpell}
+              onDelete={(spellId) => handleDeleteSpell(spellId, library.spells.find(s => s.id === spellId)?.name)}
+              onAddToCollection={handleAddToCollection}
+            />,
+            document.body
+          )}
+        </div>
+      )}
 
-                // Wait a short time for the tab to switch, then load the spell
-                setTimeout(() => {
-                  if (onLoadSpell) {
-                    // Log the spell data before passing it
-                    console.log('Passing spell data to onLoadSpell:', spellToEdit);
-
-                    // Try to directly access the SpellwizardApp component's handleLoadSpell function
-                    if (window.handleLoadSpell) {
-                      console.log('Using global handleLoadSpell function');
-                      window.handleLoadSpell(spellToEdit, true);
-                    } else {
-                      console.log('Using onLoadSpell prop');
-                      onLoadSpell(spellToEdit, true);
-                    }
-
-                    // Also try to directly set the name and description in the SpellWizardContext
-                    try {
-                      // Dispatch a custom event to set the name and description
-                      const setNameEvent = new CustomEvent('setSpellName', {
-                        detail: { name: spellToEdit.name }
-                      });
-                      window.dispatchEvent(setNameEvent);
-
-                      const setDescriptionEvent = new CustomEvent('setSpellDescription', {
-                        detail: { description: spellToEdit.description }
-                      });
-                      window.dispatchEvent(setDescriptionEvent);
-
-                      // Try the direct update method as well
-                      const directUpdateNameEvent = new CustomEvent('directUpdateSpellWizard', {
-                        detail: { field: 'name', value: spellToEdit.name }
-                      });
-                      window.dispatchEvent(directUpdateNameEvent);
-
-                      const directUpdateDescriptionEvent = new CustomEvent('directUpdateSpellWizard', {
-                        detail: { field: 'description', value: spellToEdit.description }
-                      });
-                      window.dispatchEvent(directUpdateDescriptionEvent);
-                    } catch (error) {
-                      console.error('Error trying to set name and description:', error);
-                    }
-                  }
-                }, 100);
-              } catch (error) {
-                console.error("Error switching to wizard tab:", error);
-              }
-            } else {
-              console.error("Could not find spell with ID:", spellId);
-            }
-          }}
-          onDuplicate={handleDuplicateSpell}
-          onDelete={(spellId) => handleDeleteSpell(spellId, library.spells.find(s => s.id === spellId)?.name)}
-          onAddToCollection={handleAddToCollection}
-        />,
-        document.body
+      {/* Spell Library Formatter */}
+      {showFormatter && (
+        <SpellLibraryFormatter onClose={() => setShowFormatter(false)} />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
-import '../../../spellcrafting-wizard/styles/SpellWizard.css'; // Using the main CSS file for now
+// Pathfinder styles imported via main.css // Using the main CSS file for now
 
 const LibraryFilters = () => {
   const library = useSpellLibrary();
@@ -346,7 +346,7 @@ const LibraryFilters = () => {
 
         {!collapsedSections.effects && (
           <div className="filter-section-content">
-            {['damage', 'healing', 'buff', 'debuff', 'utility', 'control', 'summoning', 'transformation'].map(effect => (
+            {['damage', 'healing', 'buff', 'debuff', 'utility', 'control', 'summoning', 'transformation', 'purification', 'restoration'].map(effect => (
               <label key={effect} className="filter-checkbox">
                 <input
                   type="checkbox"

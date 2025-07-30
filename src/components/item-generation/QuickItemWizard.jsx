@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ITEM_TYPES, QUALITY_TYPES, EQUIPMENT_SLOTS } from './itemConstants';
-
-const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
+import { getEnv } from '../../config/env';
 
 const callOpenAI = async (prompt, temperature = 0.7) => {
-    if (!OPENAI_API_KEY) {
+    const apiKey = getEnv('REACT_APP_OPENAI_API_KEY');
+    if (!apiKey) {
         console.error('OpenAI API key not found');
         throw new Error('OpenAI API key not configured');
     }
@@ -14,7 +14,7 @@ const callOpenAI = async (prompt, temperature = 0.7) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
                 model: "gpt-3.5-turbo",
@@ -76,6 +76,90 @@ const QUALITY_MULTIPLIERS = {
     artifact: 4
 };
 
+// Base value multipliers for item quality
+const QUALITY_VALUE_MULTIPLIERS = {
+    poor: 0.1,     // 0-10 copper
+    common: 0.5,    // 5-50 copper
+    uncommon: 2,    // 20-200 copper or 2-20 silver
+    rare: 10,       // 1-10 silver
+    epic: 50,       // 5-50 silver or 0.5-5 gold
+    legendary: 200, // 2-20 gold
+    artifact: 1000  // 10-100 gold
+};
+
+// Calculate item value based on quality and stats
+const calculateItemValue = (quality, stats) => {
+    // Base value based on quality
+    const baseValue = Math.floor(getRandomInt(10, 100) * QUALITY_VALUE_MULTIPLIERS[quality]);
+
+    // Count total stats
+    let statCount = 0;
+    let statSum = 0;
+
+    // Count base stats
+    if (stats.baseStats) {
+        Object.values(stats.baseStats).forEach(stat => {
+            if (typeof stat === 'object' && stat.value) {
+                statCount++;
+                statSum += stat.value;
+            } else if (typeof stat === 'number') {
+                statCount++;
+                statSum += stat;
+            }
+        });
+    }
+
+    // Count combat stats
+    if (stats.combatStats) {
+        Object.entries(stats.combatStats).forEach(([key, stat]) => {
+            if (key === 'resistances') {
+                if (stat) {
+                    // Count resistances
+                    Object.values(stat).forEach(resistance => {
+                        statCount++;
+                        if (resistance.immune) {
+                            statSum += 10; // Immune is worth more
+                        } else if (resistance.resistant) {
+                            statSum += 5;  // Resistant is worth more
+                        } else if (resistance.value) {
+                            statSum += resistance.value;
+                        }
+                    });
+                }
+            } else if (typeof stat === 'object' && stat.value) {
+                statCount++;
+                statSum += stat.value;
+            } else if (typeof stat === 'number') {
+                statCount++;
+                statSum += stat;
+            }
+        });
+    }
+
+    // Add value for weapon stats
+    if (stats.weaponStats && stats.weaponStats.baseDamage) {
+        const damage = stats.weaponStats.baseDamage;
+        statCount += 2;
+        statSum += (damage.diceCount * ((damage.diceType || 6) / 2)) + (damage.bonusDamage || 0);
+    }
+
+    // Calculate final value
+    let finalValue = baseValue + (statSum * statCount);
+
+    // Convert to gold/silver/copper
+    const gold = Math.floor(finalValue / 100);
+    finalValue -= gold * 100;
+    const silver = Math.floor(finalValue / 10);
+    finalValue -= silver * 10;
+    const copper = Math.floor(finalValue);
+
+    return {
+        gold,
+        silver,
+        copper: copper || (gold === 0 && silver === 0 ? 1 : 0) // Ensure at least 1 copper if no other value
+    };
+};
+
 const DAMAGE_COLORS = {
     slashing: '#ff4400',
     piercing: '#ff8800',
@@ -112,29 +196,58 @@ const generateItemName = (type) => {
     return `${prefix} ${baseName} ${suffix}`;
 };
 
-const generateBaseStats = (quality) => {
-    // Base stat ranges by quality
+const generateBaseStats = (quality, powerScale = 1) => {
+    // Base stat ranges by quality - reduced values for more balanced items
     const statRanges = {
-        poor: { min: 1, max: 2 },
-        common: { min: 1, max: 3 },
-        uncommon: { min: 2, max: 4 },
-        rare: { min: 3, max: 5 },
-        epic: { min: 4, max: 6 },
-        legendary: { min: 5, max: 8 }
+        poor: { min: 0, max: 1 },
+        common: { min: 0, max: 2 },
+        uncommon: { min: 1, max: 3 },
+        rare: { min: 1, max: 4 },
+        epic: { min: 2, max: 5 },
+        legendary: { min: 3, max: 6 },
+        artifact: { min: 4, max: 7 }
     };
 
-    const range = statRanges[quality];
+    // Adjust ranges based on power scale
+    const adjustedRange = {
+        min: Math.floor(statRanges[quality].min * powerScale),
+        max: Math.floor(statRanges[quality].max * powerScale)
+    };
+
     const stats = {};
 
-    // Generate 1-3 random stats
-    const numStats = Math.floor(Math.random() * 3) + 1;
-    const possibleStats = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
-    
+    // Determine number of stats based on power scale and quality
+    // Lower power scale = fewer stats
+    const maxStats = Math.max(1, Math.floor(3 * powerScale));
+    const qualityFactor = ['poor', 'common'].includes(quality) ? 0.5 :
+                         ['uncommon', 'rare'].includes(quality) ? 0.7 : 1;
+
+    const numStats = Math.floor(Math.random() * (maxStats * qualityFactor)) + 1;
+
+    // Sometimes generate items with no stats for common/poor quality
+    if ((quality === 'poor' || quality === 'common') && Math.random() < 0.3) {
+        return stats;
+    }
+
+    const possibleStats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'];
+
     for (let i = 0; i < numStats; i++) {
         if (possibleStats.length === 0) break;
         const statIndex = Math.floor(Math.random() * possibleStats.length);
         const stat = possibleStats.splice(statIndex, 1)[0];
-        stats[stat] = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+
+        // Format stats as objects with value and isPercentage properties
+        // to match the ItemWizard format
+        // Sometimes generate +0 stats for lower qualities
+        const statValue = (quality === 'poor' || quality === 'common') && Math.random() < 0.2 ?
+            0 : Math.floor(Math.random() * (adjustedRange.max - adjustedRange.min + 1)) + adjustedRange.min;
+
+        if (statValue > 0) {
+            stats[stat] = {
+                value: statValue,
+                isPercentage: false
+            };
+        }
     }
 
     return stats;
@@ -145,38 +258,26 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
     const baseCombatRanges = {
         poor: {
             damage: { min: 1, max: 2 },
-            critChance: { min: 1, max: 2 },
-            critDamage: { min: 5, max: 10 },
             armorClass: { min: 1, max: 2 }
         },
         common: {
             damage: { min: 1, max: 3 },
-            critChance: { min: 2, max: 3 },
-            critDamage: { min: 10, max: 15 },
             armorClass: { min: 2, max: 3 }
         },
         uncommon: {
             damage: { min: 2, max: 4 },
-            critChance: { min: 2, max: 4 },
-            critDamage: { min: 15, max: 20 },
             armorClass: { min: 3, max: 4 }
         },
         rare: {
             damage: { min: 3, max: 5 },
-            critChance: { min: 3, max: 5 },
-            critDamage: { min: 20, max: 30 },
             armorClass: { min: 4, max: 5 }
         },
         epic: {
             damage: { min: 4, max: 6 },
-            critChance: { min: 4, max: 6 },
-            critDamage: { min: 25, max: 40 },
             armorClass: { min: 5, max: 6 }
         },
         legendary: {
             damage: { min: 5, max: 8 },
-            critChance: { min: 5, max: 8 },
-            critDamage: { min: 35, max: 50 },
             armorClass: { min: 6, max: 8 }
         }
     };
@@ -185,38 +286,26 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
     const combatRanges = {
         poor: {
             damage: adjustRangeByPowerScale(baseCombatRanges.poor.damage, powerScale),
-            critChance: adjustRangeByPowerScale(baseCombatRanges.poor.critChance, powerScale),
-            critDamage: adjustRangeByPowerScale(baseCombatRanges.poor.critDamage, powerScale),
             armorClass: adjustRangeByPowerScale(baseCombatRanges.poor.armorClass, powerScale)
         },
         common: {
             damage: adjustRangeByPowerScale(baseCombatRanges.common.damage, powerScale),
-            critChance: adjustRangeByPowerScale(baseCombatRanges.common.critChance, powerScale),
-            critDamage: adjustRangeByPowerScale(baseCombatRanges.common.critDamage, powerScale),
             armorClass: adjustRangeByPowerScale(baseCombatRanges.common.armorClass, powerScale)
         },
         uncommon: {
             damage: adjustRangeByPowerScale(baseCombatRanges.uncommon.damage, powerScale),
-            critChance: adjustRangeByPowerScale(baseCombatRanges.uncommon.critChance, powerScale),
-            critDamage: adjustRangeByPowerScale(baseCombatRanges.uncommon.critDamage, powerScale),
             armorClass: adjustRangeByPowerScale(baseCombatRanges.uncommon.armorClass, powerScale)
         },
         rare: {
             damage: adjustRangeByPowerScale(baseCombatRanges.rare.damage, powerScale),
-            critChance: adjustRangeByPowerScale(baseCombatRanges.rare.critChance, powerScale),
-            critDamage: adjustRangeByPowerScale(baseCombatRanges.rare.critDamage, powerScale),
             armorClass: adjustRangeByPowerScale(baseCombatRanges.rare.armorClass, powerScale)
         },
         epic: {
             damage: adjustRangeByPowerScale(baseCombatRanges.epic.damage, powerScale),
-            critChance: adjustRangeByPowerScale(baseCombatRanges.epic.critChance, powerScale),
-            critDamage: adjustRangeByPowerScale(baseCombatRanges.epic.critDamage, powerScale),
             armorClass: adjustRangeByPowerScale(baseCombatRanges.epic.armorClass, powerScale)
         },
         legendary: {
             damage: adjustRangeByPowerScale(baseCombatRanges.legendary.damage, powerScale),
-            critChance: adjustRangeByPowerScale(baseCombatRanges.legendary.critChance, powerScale),
-            critDamage: adjustRangeByPowerScale(baseCombatRanges.legendary.critDamage, powerScale),
             armorClass: adjustRangeByPowerScale(baseCombatRanges.legendary.armorClass, powerScale)
         }
     };
@@ -236,43 +325,117 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
         maxAP: () => Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min
     };
 
-    // Add 1-2 random common stats
-    const numCommonStats = Math.floor(Math.random() * 2) + 1;
-    const selectedCommonStats = shuffle(Object.keys(commonStats)).slice(0, numCommonStats);
-    selectedCommonStats.forEach(stat => {
-        stats[stat] = commonStats[stat]();
-    });
+    // Determine number of common stats based on power scale and quality
+    // Lower power scale = fewer stats
+    const maxCommonStats = Math.max(1, Math.floor(2 * powerScale));
+    const qualityFactor = ['poor', 'common'].includes(quality) ? 0.5 :
+                         ['uncommon', 'rare'].includes(quality) ? 0.7 : 1;
+
+    // Sometimes generate items with no common stats for common/poor quality
+    if ((quality === 'poor' || quality === 'common') && Math.random() < 0.4) {
+        // Skip adding common stats
+    } else {
+        const numCommonStats = Math.floor(Math.random() * (maxCommonStats * qualityFactor)) + 1;
+        const selectedCommonStats = shuffle(Object.keys(commonStats)).slice(0, numCommonStats);
+        selectedCommonStats.forEach(stat => {
+            const statValue = commonStats[stat]();
+            if (statValue > 0) {
+                stats[stat] = {
+                    value: statValue,
+                    isPercentage: false
+                };
+            }
+        });
+    }
 
     switch (type) {
         case 'weapon':
-            stats.critChance = Math.floor(Math.random() * (range.critChance.max - range.critChance.min + 1)) + range.critChance.min;
-            stats.critDamage = Math.floor(Math.random() * (range.critDamage.max - range.critDamage.min + 1)) + range.critDamage.min;
-            
-            // Add weapon-specific damage type
-            const extraDamageType = getRandomElement(['piercingDamage', 'bludgeoningDamage', 'slashingDamage']);
-            stats[extraDamageType] = Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min;
+            // Add weapon-specific damage type for uncommon and above
+            if (quality !== 'poor' && (quality !== 'common' || Math.random() < 0.5)) {
+                const extraDamageType = getRandomElement(['piercingDamage', 'bludgeoningDamage', 'slashingDamage']);
+                stats[extraDamageType] = {
+                    value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min,
+                    isPercentage: false
+                };
+            }
             break;
 
         case 'armor':
-            stats.armorClass = Math.floor(Math.random() * (range.armorClass.max - range.armorClass.min + 1)) + range.armorClass.min;
-            stats.maxHealth = Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min;
-            
-            // Add random resistance
-            const resistanceType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder']);
-            stats[`${resistanceType}Resistance`] = Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min;
+            // Always add armor class
+            stats.armorClass = {
+                value: Math.floor(Math.random() * (range.armorClass.max - range.armorClass.min + 1)) + range.armorClass.min,
+                isPercentage: false
+            };
+
+            // Add health bonus for uncommon and above
+            if (quality !== 'poor' && (quality !== 'common' || Math.random() < 0.5)) {
+                stats.maxHealth = {
+                    value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min,
+                    isPercentage: false
+                };
+            }
+
+            // Add resistance for rare and above, or with a small chance for lower qualities
+            if (['rare', 'epic', 'legendary', 'artifact'].includes(quality) || Math.random() < 0.3) {
+                // Add random resistance
+                const resistanceType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder']);
+
+                // Initialize resistances object if it doesn't exist
+                if (!stats.resistances) {
+                    stats.resistances = {};
+                }
+
+                // Add the resistance to the resistances object
+                // Randomly choose between value-based resistance, resistant, or immune (for legendary+)
+                const resistanceRoll = Math.random();
+
+                if (quality === 'legendary' && resistanceRoll < 0.1) {
+                    // 10% chance for legendary items to be immune
+                    stats.resistances[resistanceType] = {
+                        immune: true
+                    };
+                } else if (resistanceRoll < 0.3) {
+                    // 30% chance to be resistant
+                    stats.resistances[resistanceType] = {
+                        resistant: true,
+                        value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min
+                    };
+                } else {
+                    // 70% chance for value-based resistance
+                    stats.resistances[resistanceType] = {
+                        value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min,
+                        isPercentage: false
+                    };
+                }
+            }
             break;
 
         case 'accessory':
-            // Accessories get an extra common stat
-            const extraStat = shuffle(Object.keys(commonStats))[0];
-            stats[extraStat] = commonStats[extraStat]();
+            // Accessories get an extra common stat for uncommon and above
+            if (quality !== 'poor' && (quality !== 'common' || Math.random() < 0.5)) {
+                const extraStat = shuffle(Object.keys(commonStats))[0];
+                const statValue = commonStats[extraStat]();
+                if (statValue > 0) {
+                    stats[extraStat] = {
+                        value: statValue,
+                        isPercentage: false
+                    };
+                }
+            }
             break;
 
         case 'consumable':
+            // Always add either health or mana restore
             if (Math.random() < 0.5) {
-                stats.healthRestore = Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min;
+                stats.healthRestore = {
+                    value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min,
+                    isPercentage: false
+                };
             } else {
-                stats.manaRestore = Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min;
+                stats.manaRestore = {
+                    value: Math.floor(Math.random() * (range.damage.max - range.damage.min + 1)) + range.damage.min,
+                    isPercentage: false
+                };
             }
             break;
     }
@@ -287,14 +450,53 @@ const adjustRangeByPowerScale = (range, powerScale) => {
     };
 };
 
-const generateWeaponStats = (quality) => {
-    const multiplier = QUALITY_MULTIPLIERS[quality];
+const generateWeaponStats = (quality, powerScale = 1) => {
+    const multiplier = QUALITY_MULTIPLIERS[quality] * powerScale;
     const diceTypes = [4, 6, 8, 10, 12];
-    const diceCount = Math.max(1, Math.floor(getRandomInt(1, 2) * multiplier));
-    const diceType = diceTypes[Math.floor(Math.random() * diceTypes.length)];
-    const bonusDamage = Math.floor(getRandomInt(1, 4) * multiplier);
+
+    // Adjust dice count based on quality and power scale
+    let diceCount = 1;
+    if (quality === 'poor') {
+        diceCount = 1;
+    } else if (quality === 'common') {
+        diceCount = Math.random() < 0.7 ? 1 : 2;
+    } else {
+        diceCount = Math.max(1, Math.floor(getRandomInt(1, 2) * multiplier));
+    }
+
+    // Select dice type based on quality
+    let diceTypeIndex;
+    if (quality === 'poor') {
+        diceTypeIndex = 0; // d4
+    } else if (quality === 'common') {
+        diceTypeIndex = Math.floor(Math.random() * 2); // d4 or d6
+    } else if (quality === 'uncommon') {
+        diceTypeIndex = Math.floor(Math.random() * 3); // d4, d6, or d8
+    } else if (quality === 'rare') {
+        diceTypeIndex = 1 + Math.floor(Math.random() * 3); // d6, d8, or d10
+    } else {
+        diceTypeIndex = 2 + Math.floor(Math.random() * 3); // d8, d10, or d12
+    }
+
+    const diceType = diceTypes[Math.min(diceTypeIndex, diceTypes.length - 1)];
+
+    // Bonus damage is more likely on higher quality items
+    let bonusDamage = 0;
+    if (quality === 'poor') {
+        bonusDamage = 0;
+    } else if (quality === 'common') {
+        bonusDamage = Math.random() < 0.3 ? 1 : 0;
+    } else {
+        bonusDamage = Math.floor(getRandomInt(0, 3) * multiplier);
+    }
+
     const damageType = getRandomElement(['slashing', 'piercing', 'bludgeoning']);
-    const bonusDamageType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder']);
+
+    // Only add bonus damage type for uncommon and above
+    let bonusDamageType = null;
+    if (quality !== 'poor' && quality !== 'common' && bonusDamage > 0) {
+        bonusDamageType = getRandomElement(['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder']);
+    }
 
     return {
         baseDamage: {
@@ -324,7 +526,7 @@ const generateConsumableStats = () => {
         { value: 30, type: 'MINUTES', display: '30 minutes' },
         { value: 60, type: 'MINUTES', display: '1 hour' }
     ];
-    
+
     return {
         duration: getRandomElement(durations)
     };
@@ -415,14 +617,14 @@ const generateAIDescription = async (itemData) => {
     try {
         // Extract key stats and features
         const damageInfo = itemData.weaponStats?.baseDamage;
-        const damageStr = damageInfo ? 
+        const damageStr = damageInfo ?
             `${damageInfo.diceCount}${damageInfo.diceType} ${damageInfo.damageType} damage + ${damageInfo.bonusDamage} ${damageInfo.bonusDamageType}` : '';
-        
+
         const keyStats = Object.entries(itemData.baseStats)
             .filter(([_, stat]) => stat.value !== 0)
             .map(([name, stat]) => `${name}: ${stat.value}${stat.isPercentage ? '%' : ''}`);
 
-        const isHumorous = itemData.userPrompt?.toLowerCase().includes('funny') || 
+        const isHumorous = itemData.userPrompt?.toLowerCase().includes('funny') ||
                           itemData.userPrompt?.toLowerCase().includes('hilarious');
 
         const prompt = `Create a ${isHumorous ? 'humorous' : 'serious'} description for this fantasy weapon:
@@ -441,7 +643,7 @@ ${isHumorous ? `HUMOR REQUIREMENTS:
 - Reference its size in a funny way
 - Keep it light and playful while describing its capabilities
 
-Example: "This surprisingly sharp letter opener was allegedly used by a particularly aggressive mail clerk to 'process' complaints a bit too literally. While small enough to hide in a stack of paperwork, it packs enough punch to make sure your point gets across... repeatedly."` 
+Example: "This surprisingly sharp letter opener was allegedly used by a particularly aggressive mail clerk to 'process' complaints a bit too literally. While small enough to hide in a stack of paperwork, it packs enough punch to make sure your point gets across... repeatedly."`
 : `DESCRIPTION REQUIREMENTS:
 - Describe its physical appearance and magical properties
 - Include a brief but intriguing origin
@@ -464,28 +666,41 @@ Write a unique description in 2-3 sentences. Be creative and memorable, but stay
 
 const generateAIStats = async (type, quality, userPrompt) => {
     const requestedStats = {};
-    
+
     try {
         // Process the user prompt for specific stat requests
         const words = userPrompt.toLowerCase().split(' ');
-        for (const stat of ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma']) {
+        for (const stat of ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma']) {
             const modifier = getStatModifierFromPrompt(words, stat);
             if (modifier !== 1) {
                 const baseValue = Math.floor(3 * QUALITY_MULTIPLIERS[quality]);
-                requestedStats[stat] = Math.max(1, Math.floor(baseValue * modifier));
+                requestedStats[stat] = {
+                    value: Math.max(1, Math.floor(baseValue * modifier)),
+                    isPercentage: false
+                };
             }
         }
 
+        // Generate base stats and combat stats with proper formatting
+        const baseStats = generateBaseStats(quality);
+        const combatStats = generateCombatStats(type, quality);
+
+        // Merge requested stats with base stats
+        const mergedBaseStats = { ...baseStats };
+        Object.entries(requestedStats).forEach(([stat, value]) => {
+            if (['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'].includes(stat)) {
+                mergedBaseStats[stat] = value;
+            }
+        });
+
         return {
-            ...generateBaseStats(quality),
-            ...requestedStats,
-            ...generateCombatStats(type, quality)
+            ...mergedBaseStats,
+            ...combatStats
         };
     } catch (error) {
         console.error('Error generating AI stats:', error);
         return {
             ...generateBaseStats(quality),
-            ...requestedStats,
             ...generateCombatStats(type, quality)
         };
     }
@@ -495,9 +710,9 @@ const getStatModifierFromPrompt = (words, stat) => {
     const statKeywords = {
         strength: ['strength', 'str', 'powerful'],
         constitution: ['constitution', 'con', 'sturdy', 'tough'],
-        dexterity: ['dexterity', 'dex', 'agile'],
+        agility: ['agility', 'dexterity', 'dex', 'agile'],
         intelligence: ['intelligence', 'int', 'smart'],
-        wisdom: ['wisdom', 'wis'],
+        spirit: ['spirit', 'wisdom', 'wis'],
         charisma: ['charisma', 'cha']
     };
 
@@ -621,7 +836,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                             const weaponSlot = 'TWO_HANDED';
                         }
                     }
-                    
+
                     // Parse weapon type from prompt
                     const weaponTypes = ['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'SPEAR'];
                     for (const wType of weaponTypes) {
@@ -867,7 +1082,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             if (userPrompt) {
                 const lowerPrompt = userPrompt.toLowerCase();
                 if (lowerPrompt.includes('agility')) {
-                    stats.baseStats.agility = Math.max(stats.baseStats.agility || 0, 
+                    stats.baseStats.agility = Math.max(stats.baseStats.agility || 0,
                         Math.floor(3 * QUALITY_MULTIPLIERS[quality]));
                 }
                 // Add other stat preferences here
@@ -884,31 +1099,168 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
         } else {
             // Use regular generation
             stats = {
-                baseStats: generateBaseStats(quality),
+                baseStats: generateBaseStats(quality, powerScale),
                 combatStats: generateCombatStats(type, quality, powerScale),
-                weaponStats: type === 'weapon' ? generateWeaponStats(quality) : null
+                weaponStats: type === 'weapon' ? generateWeaponStats(quality, powerScale) : null
             };
             description = generateDescription(type, quality, name);
         }
 
+        // Format the item to match the ItemWizard format
+        const iconId = ITEM_TYPES[type]?.icon || 'inv_misc_questionmark';
+
+        // Generate appropriate dimensions based on item type
+        const getItemDimensions = (itemType, itemSubtype) => {
+            // Default dimensions
+            let width = 1;
+            let height = 1;
+
+            // Adjust dimensions based on item type
+            switch (itemType) {
+                case 'weapon':
+                    if (subtype === 'GREATSWORD' || subtype === 'GREATAXE' ||
+                        subtype === 'MAUL' || subtype === 'POLEARM') {
+                        // Two-handed weapons are longer and wider
+                        width = 2;
+                        height = 4;
+                    } else if (subtype === 'STAFF') {
+                        // Staves are long but thin
+                        width = 1;
+                        height = 4;
+                    } else if (subtype === 'SWORD' || subtype === 'AXE' || subtype === 'MACE') {
+                        // One-handed weapons are medium length
+                        width = 1;
+                        height = 2;
+                    } else if (subtype === 'DAGGER') {
+                        // Daggers are small
+                        width = 1;
+                        height = 1;
+                    } else if (subtype === 'BOW' || subtype === 'CROSSBOW') {
+                        // Bows are wider
+                        width = 2;
+                        height = 3;
+                    }
+                    break;
+                case 'armor':
+                    if (subtype === 'PLATE') {
+                        // Plate armor takes more space
+                        width = 2;
+                        height = 2;
+                    } else if (subtype === 'MAIL') {
+                        // Mail armor is slightly smaller
+                        width = 2;
+                        height = 2;
+                    } else if (subtype === 'LEATHER') {
+                        // Leather armor is more compact
+                        width = 1;
+                        height = 2;
+                    } else if (subtype === 'CLOTH') {
+                        // Cloth armor is the most compact
+                        width = 1;
+                        height = 1;
+                    }
+                    break;
+                case 'container':
+                    // Containers are larger
+                    width = 2;
+                    height = 2;
+                    break;
+                case 'consumable':
+                    // Consumables are small
+                    width = 1;
+                    height = 1;
+                    break;
+                case 'miscellaneous':
+                    // Misc items vary
+                    if (itemSubtype === 'QUEST' || itemSubtype === 'KEY') {
+                        width = 1;
+                        height = 1;
+                    } else if (itemSubtype === 'CRAFTING' || itemSubtype === 'TRADE_GOODS') {
+                        width = 2;
+                        height = 1;
+                    }
+                    break;
+                default:
+                    width = 1;
+                    height = 1;
+            }
+
+            return { width, height };
+        };
+
+        // Get dimensions for this item
+        const dimensions = getItemDimensions(type, subtype);
+
         return {
-            id: initialData?.id || Date.now().toString(),
-            type,
-            quality,
-            subtype,
-            slots,
-            name,
-            description,
-            icon: ITEM_TYPES[type]?.icon || 'inv_misc_questionmark',
-            ...stats,
-            utilityStats: type === 'consumable' ? generateConsumableStats() : null
+            id: initialData?.id || crypto.randomUUID(),
+            name: name || 'Unnamed Item',
+            quality: quality || 'common',
+            description: description || '',
+            type: type,
+            subtype: subtype,
+
+            // For weapons
+            ...(type === 'weapon' && {
+                weaponSlot: stats.weaponSlot || 'ONE_HANDED',
+                hand: stats.hand || 'MAIN_HAND',
+                weaponStats: stats.weaponStats
+            }),
+
+            // Armor class directly at top level for display
+            armorClass: stats.combatStats?.armorClass?.value || 0,
+
+            // Slots (important for display)
+            slots: type === 'weapon' ?
+                  [stats.weaponSlot || 'mainHand'] :
+                  slots || [],
+
+            // Base stats - ensure proper structure with values and isPercentage
+            baseStats: Object.entries(stats.baseStats || {}).reduce((acc, [key, value]) => {
+                acc[key] = typeof value === 'object' ? value : {
+                    value: value,
+                    isPercentage: false
+                };
+                return acc;
+            }, {}),
+
+            // Combat stats - ensure proper structure
+            combatStats: Object.entries(stats.combatStats || {}).reduce((acc, [key, value]) => {
+                if (key === 'resistances') {
+                    acc[key] = value;
+                } else {
+                    acc[key] = typeof value === 'object' ? value : {
+                        value: value,
+                        isPercentage: false
+                    };
+                }
+                return acc;
+            }, {}),
+
+            // Utility stats - ensure proper structure
+            utilityStats: type === 'consumable' ? generateConsumableStats() : {},
+
+            // Calculate item value based on quality and stats
+            value: calculateItemValue(quality, {
+                baseStats: stats.baseStats || {},
+                combatStats: stats.combatStats || {},
+                weaponStats: stats.weaponStats
+            }),
+
+            // Appearance
+            iconId: iconId,
+            imageUrl: `https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg`,
+
+            // Item dimensions for inventory grid
+            width: dimensions.width,
+            height: dimensions.height,
+            rotation: 0 // Default rotation
         };
     };
 
     return (
         <div className="quick-item-wizard">
             <h2>{initialData ? 'Edit Item' : 'Create New Item'}</h2>
-            
+
             <div className="form-group">
                 <label>Item Type</label>
                 <select value={type} onChange={(e) => setType(e.target.value)}>
@@ -921,8 +1273,8 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             {type === 'miscellaneous' && (
                 <div className="form-group">
                     <label>Item Subtype</label>
-                    <select 
-                        value={subtype} 
+                    <select
+                        value={subtype}
                         onChange={(e) => setSubtype(e.target.value)}
                     >
                         <option value="">Select a subtype...</option>
@@ -967,7 +1319,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                     />
                     <label htmlFor="useAI">Use AI Generation</label>
                 </div>
-                
+
                 {useAI && (
                     <div className="ai-prompt">
                         <textarea
@@ -981,8 +1333,8 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             </div>
 
             <div className="button-group">
-                <button 
-                    className="primary-button" 
+                <button
+                    className="primary-button"
                     onClick={handleGenerate}
                     disabled={isGenerating}
                 >

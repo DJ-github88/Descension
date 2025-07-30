@@ -1,0 +1,833 @@
+/* Class Resource Bar Styles */
+.class-resource-wrapper {
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.class-resource-wrapper.clickable {
+    cursor: pointer;
+}
+
+.class-resource-wrapper.clickable:hover {
+    opacity: 0.9;
+}
+
+/* Base Resource Bar */
+.class-resource-bar {
+    position: relative;
+    height: 16px;
+    border-radius: 8px;
+    overflow: visible; /* Allow content to be visible */
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(160, 140, 112, 0.6);
+    margin-bottom: 2px; /* Add spacing between resource bars */
+}
+
+.class-resource-bar.small {
+    height: 12px;
+}
+
+.class-resource-bar.large {
+    height: 20px;
+}
+
+/* Progress Bar (Default) */
+.progress-bar .bar-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.progress-bar .bar-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Orbs Display (Pyrofiend) */
+.orbs-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+}
+
+.orbs-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.orb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.orb.active {
+    animation: pulse 2s infinite;
+}
+
+.orb.inactive {
+    opacity: 0.4;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Musical Staff (Minstrel) */
+.musical-staff {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.staff-container {
+    position: relative;
+    height: 24px;
+    margin-bottom: 2px;
+}
+
+.staff-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.staff-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.staff-line:nth-child(1) { top: 20%; }
+.staff-line:nth-child(2) { top: 35%; }
+.staff-line:nth-child(3) { top: 50%; }
+.staff-line:nth-child(4) { top: 65%; }
+.staff-line:nth-child(5) { top: 80%; }
+
+.notes-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.note {
+    position: absolute;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.note.active {
+    animation: noteGlow 1.5s infinite;
+}
+
+@keyframes noteGlow {
+    0%, 100% { text-shadow: 0 0 4px currentColor; }
+    50% { text-shadow: 0 0 8px currentColor; }
+}
+
+/* Gauge Display (Chronarch) */
+.gauge-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 2px;
+}
+
+.gauge-container {
+    position: relative;
+    height: 16px;
+    margin-bottom: 2px;
+}
+
+.gauge-background {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(160, 140, 112, 0.6);
+}
+
+.gauge-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 6px;
+}
+
+.threshold-marker {
+    position: absolute;
+    top: -2px;
+    width: 2px;
+    height: 16px;
+    border-radius: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.gauge-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+}
+
+/* Vortex Display (Chaos Weaver) */
+.vortex-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.vortex-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.chaos-vortex {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(128, 0, 128, 0.8), rgba(255, 0, 255, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 3s linear infinite;
+}
+
+.vortex-center {
+    font-size: 12px;
+}
+
+.entropy-counter {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 8px;
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.dice-display {
+    display: flex;
+    gap: 2px;
+}
+
+.chaos-die {
+    font-size: 8px;
+    opacity: 0.7;
+    animation: float 2s ease-in-out infinite;
+}
+
+.chaos-die:nth-child(odd) {
+    animation-delay: 0.5s;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+
+/* Card Deck Display (Fate Weaver) */
+.card-deck {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.deck-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.deck-stack {
+    position: relative;
+    width: 20px;
+    height: 16px;
+    background: rgba(47, 79, 79, 0.8);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deck-icon {
+    font-size: 10px;
+}
+
+.deck-count {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 7px;
+    padding: 1px 2px;
+    border-radius: 2px;
+}
+
+.hand-display {
+    display: flex;
+    gap: 1px;
+}
+
+.card-in-hand {
+    font-size: 8px;
+    opacity: 0.9;
+}
+
+/* Casino Display (Gambler) */
+.casino-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.casino-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 2px;
+}
+
+.luck-meter, .risk-meter {
+    position: relative;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.luck-meter .meter-fill, .risk-meter .meter-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 3px;
+}
+
+.luck-meter .meter-label, .risk-meter .meter-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.casino-icon {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+}
+
+/* Stigmata Display (Martyr) */
+.stigmata-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.stigmata-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.holy-symbol {
+    font-size: 14px;
+    color: #FFD700;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
+}
+
+.pain-charges {
+    display: flex;
+    gap: 2px;
+}
+
+.pain-charge {
+    font-size: 10px;
+    animation: holyGlow 2s infinite;
+}
+
+@keyframes holyGlow {
+    0%, 100% { text-shadow: 0 0 2px currentColor; }
+    50% { text-shadow: 0 0 6px currentColor; }
+}
+
+/* Resource Labels */
+.resource-label {
+    font-size: 8px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    line-height: 1;
+}
+
+/* Tooltip Styles */
+.class-resource-tooltip {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.95), rgba(230, 220, 200, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 8px;
+    max-width: 250px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #5a1e12;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.tooltip-icon {
+    font-size: 14px;
+}
+
+.tooltip-title {
+    color: #7a3b2e;
+}
+
+.tooltip-description {
+    font-size: 10px;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.tooltip-stage-info {
+    margin-bottom: 6px;
+}
+
+.stage-name {
+    font-weight: bold;
+    color: #7a3b2e;
+    font-size: 11px;
+    margin-bottom: 2px;
+}
+
+.stage-bonuses, .stage-drawbacks {
+    font-size: 9px;
+    margin-bottom: 2px;
+}
+
+.stage-bonuses ul, .stage-drawbacks ul {
+    margin: 2px 0;
+    padding-left: 12px;
+}
+
+.stage-bonuses li {
+    color: #2d5a2d;
+}
+
+.stage-drawbacks li {
+    color: #8b2635;
+}
+
+.tooltip-thresholds {
+    font-size: 9px;
+}
+
+.threshold-info {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1px;
+}
+
+.threshold-info.achieved {
+    color: #2d5a2d;
+    font-weight: bold;
+}
+
+.threshold-info.pending {
+    color: #666;
+}
+
+.threshold-value {
+    font-weight: bold;
+    min-width: 20px;
+}
+
+/* Size Variations */
+.class-resource-bar.small .resource-label {
+    font-size: 7px;
+}
+
+.class-resource-bar.large .resource-label {
+    font-size: 9px;
+}
+
+.class-resource-bar.small .orb {
+    width: 10px;
+    height: 10px;
+    font-size: 7px;
+}
+
+.class-resource-bar.large .orb {
+    width: 14px;
+    height: 14px;
+    font-size: 9px;
+}
+
+/* Corrupted Halo Display (False Prophet) */
+.corrupted-halo {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.halo-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.corrupted-symbol {
+    font-size: 14px;
+    animation: corruptPulse 3s infinite;
+}
+
+.heresy-points {
+    display: flex;
+    gap: 2px;
+}
+
+.heresy-point {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: darkGlow 2s infinite;
+}
+
+@keyframes corruptPulse {
+    0%, 100% { transform: scale(1); filter: hue-rotate(0deg); }
+    50% { transform: scale(1.1); filter: hue-rotate(180deg); }
+}
+
+@keyframes darkGlow {
+    0%, 100% { box-shadow: 0 0 2px currentColor; }
+    50% { box-shadow: 0 0 6px currentColor; }
+}
+
+/* Medallion Display (Exorcist) */
+.medallion-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.medallion-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.holy-medallion {
+    font-size: 14px;
+    color: #FFD700;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+    animation: divineGlow 2.5s infinite;
+}
+
+.spirit-gems {
+    display: flex;
+    gap: 2px;
+}
+
+.spirit-gem {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.spirit-gem.charged {
+    animation: gemPulse 1.5s infinite;
+}
+
+@keyframes divineGlow {
+    0%, 100% { text-shadow: 0 0 6px rgba(255, 215, 0, 0.8); }
+    50% { text-shadow: 0 0 12px rgba(255, 215, 0, 1); }
+}
+
+@keyframes gemPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Vials Display (Plaguebringer, Toxicologist) */
+.vials-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.vials-container {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+}
+
+.vial {
+    width: 10px;
+    height: 14px;
+    border-radius: 2px 2px 4px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6px;
+    transition: all 0.3s ease;
+}
+
+.vial.filled {
+    animation: bubbleEffect 2s infinite;
+}
+
+@keyframes bubbleEffect {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.05); }
+    75% { transform: scale(0.95); }
+}
+
+/* Phylactery Display (Lichborne) */
+.phylactery-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.phylactery-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.phylactery-core {
+    font-size: 16px;
+    color: #9370DB;
+    text-shadow: 0 0 8px rgba(147, 112, 219, 0.8);
+    animation: necroticPulse 3s infinite;
+}
+
+.soul-wisps {
+    display: flex;
+    gap: 3px;
+}
+
+.soul-wisp {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: wispFloat 2s ease-in-out infinite;
+}
+
+@keyframes necroticPulse {
+    0%, 100% { text-shadow: 0 0 8px rgba(147, 112, 219, 0.8); }
+    50% { text-shadow: 0 0 16px rgba(147, 112, 219, 1); }
+}
+
+@keyframes wispFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-3px) scale(1.1); opacity: 1; }
+}
+
+/* Scythe Display (Deathcaller) */
+.scythe-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+.scythe-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.death-scythe {
+    font-size: 16px;
+    color: #8A2BE2;
+    text-shadow: 0 0 8px rgba(138, 43, 226, 0.8);
+    animation: scytheGlow 2.5s infinite;
+}
+
+.soul-orbs {
+    display: flex;
+    gap: 2px;
+}
+
+.soul-orb {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: soulPulse 1.8s infinite;
+}
+
+@keyframes scytheGlow {
+    0%, 100% { text-shadow: 0 0 8px rgba(138, 43, 226, 0.8); }
+    50% { text-shadow: 0 0 16px rgba(138, 43, 226, 1); }
+}
+
+@keyframes soulPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+/* Additional Resource Types */
+.shield-display, .runic-circle, .cannon-chamber, .voodoo-mask, .shapeshifter, .totem,
+.rage-meter, .fortress-shield, .gravity-meter, .bandolier, .witch-hunter, .elegant-blade,
+.moon-dial, .crosshair, .barrier-generator {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 4px;
+}
+
+/* Generic container styles for complex displays */
+.resource-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.resource-icon {
+    font-size: 14px;
+    text-shadow: 0 0 6px currentColor;
+}
+
+.resource-elements {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.resource-element {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.resource-element.active {
+    animation: elementPulse 1.5s infinite;
+}
+
+@keyframes elementPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .class-resource-bar {
+        height: 14px;
+    }
+
+    .orb {
+        width: 10px;
+        height: 10px;
+        font-size: 7px;
+    }
+
+    .resource-label {
+        font-size: 7px;
+    }
+
+    .class-resource-tooltip {
+        max-width: 200px;
+        font-size: 9px;
+    }
+}

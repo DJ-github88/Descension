@@ -1,0 +1,318 @@
+/* Wall Tools Styles - Professional VTT */
+
+.wall-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.tool-section {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid #a08c70;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.tool-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #a08c70;
+    padding-bottom: 6px;
+}
+
+/* Tool Grid */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.wall-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    background: linear-gradient(to bottom, #f4f1e8, #e8e2d5);
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 60px;
+}
+
+.wall-tool-btn:hover {
+    background: linear-gradient(to bottom, #f8f5ec, #ece6d9);
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.wall-tool-btn.active {
+    background: linear-gradient(to bottom, #d4af37, #b8941f);
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.wall-tool-btn .tool-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.wall-tool-btn .tool-name {
+    font-size: 9px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+/* Mode Controls */
+.mode-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mode-btn {
+    padding: 8px 12px;
+    background: #f4f1e8;
+    border: 2px solid #a08c70;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.mode-btn:hover {
+    background: #e8e2d5;
+    border-color: #7a3b2e;
+}
+
+.mode-btn.active {
+    background: #d4af37;
+    border-color: #7a3b2e;
+    color: #f0e6d2;
+}
+
+/* Wall Categories */
+.wall-category {
+    margin-bottom: 16px;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 6px;
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 4px;
+}
+
+.category-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.category-name {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7a3b2e;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.wall-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.wall-tile {
+    position: relative;
+    min-height: 50px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    background: #f4f1e8;
+    border: 2px solid #a08c70;
+}
+
+.wall-tile:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    border-color: #7a3b2e;
+}
+
+.wall-tile.active {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 2px #d4af37, 0 2px 4px rgba(0,0,0,0.3);
+    transform: translateY(-1px);
+}
+
+.wall-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    position: relative;
+    border-radius: 2px;
+}
+
+.wall-name {
+    font-size: 9px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    text-align: center;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    margin-bottom: 4px;
+}
+
+.wall-properties {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.property-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.movement-block,
+.vision-block,
+.interactive {
+    font-size: 10px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 1px 3px;
+    border-radius: 2px;
+}
+
+.movement-block {
+    background: rgba(255,0,0,0.8);
+}
+
+.vision-block {
+    background: rgba(0,0,255,0.8);
+}
+
+.interactive {
+    background: rgba(0,128,0,0.8);
+}
+
+/* Wall Info */
+.wall-info {
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.wall-details {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.wall-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    border: 2px solid #a08c70;
+    flex-shrink: 0;
+}
+
+.wall-stats {
+    flex: 1;
+}
+
+.wall-stats .wall-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #7a3b2e;
+    margin-bottom: 2px;
+    text-shadow: none;
+}
+
+.wall-stats .wall-description {
+    font-size: 10px;
+    color: #5a3a2a;
+    margin-bottom: 4px;
+    font-style: italic;
+}
+
+.wall-properties .property {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.property-label {
+    font-size: 9px;
+    font-weight: bold;
+    color: #7a3b2e;
+}
+
+.property-value {
+    font-size: 9px;
+    color: #5a3a2a;
+}
+
+
+
+/* Scrollbar Styling */
+.wall-tools::-webkit-scrollbar {
+    width: 6px;
+}
+
+.wall-tools::-webkit-scrollbar-track {
+    background: rgba(160, 140, 112, 0.2);
+    border-radius: 3px;
+}
+
+.wall-tools::-webkit-scrollbar-thumb {
+    background: #a08c70;
+    border-radius: 3px;
+}
+
+.wall-tools::-webkit-scrollbar-thumb:hover {
+    background: #7a3b2e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .tool-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wall-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wall-tile {
+        min-height: 40px;
+    }
+}

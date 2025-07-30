@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faTrash, faInfoCircle, faFire, faHeart, faWandMagic, faSkull, faHandSparkles, faDragon } from '@fortawesome/free-solid-svg-icons';
 import { useSpellWizardState } from '../../context/spellWizardContext';
-import '../../styles/ToxicSystem.css';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
+// Pathfinder styles imported via main.css
+
 
 /**
  * Component for configuring toxic consumption effects
@@ -525,8 +526,6 @@ const ToxicSystemEffects = ({
                 />
                 <div className="formula-help">
                   <span>Base formula: {getDefaultFormula(effects['default']?.effectType || effectType)}</span>
-                  <p>Use <code>[toxic_count]</code> to reference the number of toxic effects consumed.</p>
-                  <p>Example: <code>2d6 + INT + [toxic_count] * 2</code> will add 2 damage per toxic effect consumed.</p>
                 </div>
               </div>
             )}
@@ -571,10 +570,7 @@ const ToxicSystemEffects = ({
                     />
                   </div>
                 </div>
-                <div className="formula-help">
-                  <p>Use <code>[toxic_count]</code> to reference the number of toxic effects consumed.</p>
-                  <p>Example: <code>+[toxic_count] to all stats</code> will add 1 to all stats per toxic effect consumed.</p>
-                </div>
+
               </div>
             )}
 
@@ -618,10 +614,7 @@ const ToxicSystemEffects = ({
                     />
                   </div>
                 </div>
-                <div className="formula-help">
-                  <p>Use <code>[toxic_count]</code> to reference the number of toxic effects consumed.</p>
-                  <p>Example: <code>-[toxic_count] to all stats</code> will subtract 1 from all stats per toxic effect consumed.</p>
-                </div>
+
               </div>
             )}
 
@@ -665,10 +658,7 @@ const ToxicSystemEffects = ({
                     />
                   </div>
                 </div>
-                <div className="formula-help">
-                  <p>Use <code>[toxic_count]</code> to reference the number of toxic effects consumed.</p>
-                  <p>Example: <code>+[toxic_count]</code> will add 1 to the save DC per toxic effect consumed.</p>
-                </div>
+
               </div>
             )}
 
@@ -729,10 +719,7 @@ const ToxicSystemEffects = ({
                     />
                   </div>
                 </div>
-                <div className="formula-help">
-                  <p>Use <code>[toxic_count]</code> to reference the number of toxic effects consumed.</p>
-                  <p>Example: <code>Math.floor([toxic_count] / 3)</code> will add 1 additional creature for every 3 toxic effects consumed.</p>
-                </div>
+
               </div>
             )}
 
@@ -752,14 +739,53 @@ const ToxicSystemEffects = ({
         </div>
       </div>
 
-      {/* Tooltip for toxic types */}
-      <Wc3Tooltip
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon || null}
-        position={mousePos}
-        content={tooltipContent?.content}
-        isVisible={showTooltip}
-      />
+      {/* Tooltip Rendering */}
+      {showTooltip && tooltipContent && (() => {
+        const tooltipRoot = document.getElementById('tooltip-root') || document.body;
+        return ReactDOM.createPortal(
+          <div
+            className="wc3-tooltip"
+            style={{
+              position: 'fixed',
+              left: mousePos.x,
+              top: mousePos.y,
+              zIndex: 99999,
+              pointerEvents: 'none',
+              transform: 'translate(10px, -100%)'
+            }}
+          >
+            <div className="tooltip-top-border"></div>
+            <div className="wc3-tooltip-content">
+              {tooltipContent.icon && (
+                <div className="wc3-tooltip-header">
+                  <img
+                    src={tooltipContent.icon}
+                    alt={tooltipContent.title}
+                    className="tooltip-icon"
+                    style={{ width: '32px', height: '32px', marginRight: '8px' }}
+                  />
+                  <span className="wc3-tooltip-title">{tooltipContent.title}</span>
+                </div>
+              )}
+              {!tooltipContent.icon && tooltipContent.title && (
+                <div className="wc3-tooltip-header">
+                  <span className="wc3-tooltip-title">{tooltipContent.title}</span>
+                </div>
+              )}
+              <div className="wc3-tooltip-body">
+                {typeof tooltipContent.content === 'string' ? (
+                  <div className="tooltip-description">{tooltipContent.content}</div>
+                ) : (
+                  tooltipContent.content
+                )}
+              </div>
+            </div>
+            <div className="tooltip-bottom-border"></div>
+          </div>,
+          tooltipRoot
+        );
+      })()}
+
     </div>
   );
 };

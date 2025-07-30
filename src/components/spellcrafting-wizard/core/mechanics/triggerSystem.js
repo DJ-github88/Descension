@@ -1679,11 +1679,11 @@ export const TRIGGER_EXAMPLES = {
   ]),
   
   /**
-   * Trigger on critical hit to apply a bonus effect
+   * Trigger on special result to apply a bonus effect
    */
-  CRITICAL_HIT_PROC: buildTriggerFromTemplate('critical_hit', [
-    { name: 'criticalType', value: 'dealt' },
-    { name: 'attackType', value: 'any' },
+  SPECIAL_RESULT_PROC: buildTriggerFromTemplate('special_result', [
+    { name: 'resultType', value: 'exceptional' },
+    { name: 'actionType', value: 'any' },
     { name: 'targetType', value: 'any' }
   ]),
   

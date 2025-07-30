@@ -8,7 +8,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
   const dispatch = useSpellWizardDispatch();
 
   // Log the state when the component renders
-  console.log('Step1BasicInfo - Current state:', state);
+  // console.log('Step1BasicInfo - Current state:', state);
 
   // Local state for form validation
   const [nameError, setNameError] = useState('');
@@ -17,7 +17,6 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
 
   // Import icons for damage types
   const [selectedElementCategory, setSelectedElementCategory] = useState('elemental');
-  const [tooltip, setTooltip] = useState({ show: false, text: '', x: 0, y: 0 });
 
   // Define element categories with WoW icons
   const elementCategories = {
@@ -48,29 +47,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     ]
   };
 
-  // Handle mouse events for tooltips
-  const handleMouseEnter = (element, e) => {
-    setTooltip({
-      show: true,
-      text: element.description,
-      x: e.clientX,
-      y: e.clientY
-    });
-  };
 
-  const handleMouseLeave = () => {
-    setTooltip({ ...tooltip, show: false });
-  };
-
-  const handleMouseMove = (e) => {
-    if (tooltip.show) {
-      setTooltip({
-        ...tooltip,
-        x: e.clientX,
-        y: e.clientY
-      });
-    }
-  };
 
   // Available tags for spells
   const availableTags = [
@@ -206,8 +183,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
       disableNext={!isStepValid()}
       hints={hints}
     >
-      <div className="spell-wizard-basic-info">
-        <div className="spell-wizard-form">
+      <div className="spell-wizard-form">
           <div className="spell-wizard-form-group">
             <label htmlFor="spellName" className="spell-wizard-label">
               Spell Name <span className="required">*</span>
@@ -271,9 +247,6 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                       key={element.id}
                       className={`element-button ${state.typeConfig.school === element.id ? 'primary' : ''} ${state.typeConfig.secondaryElement === element.id ? 'secondary' : ''}`}
                       onClick={() => handleElementSelection(element.id)}
-                      onMouseEnter={(e) => handleMouseEnter(element, e)}
-                      onMouseLeave={handleMouseLeave}
-                      onMouseMove={handleMouseMove}
                     >
                       <div className="element-icon-wrapper">
                         <img
@@ -364,7 +337,6 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
             </small>
           </div>
         </div>
-      </div>
 
       {showIconSelector && (
         <IconSelector

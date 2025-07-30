@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/base.css';
-import '../../styles/components.css';
+// Pathfinder styles imported via main.css
 
 /**
  * SelectionCard component for option selection in the spell wizard
  */
 const SelectionCard = ({
   title,
-  description,
-  selected,
-  disabled,
-  highlighted,
+  description = '',
+  selected = false,
+  disabled = false,
+  highlighted = false,
   onClick,
   effectType
 }) => {
@@ -60,13 +59,6 @@ SelectionCard.propTypes = {
   highlighted: PropTypes.bool,
   onClick: PropTypes.func,
   effectType: PropTypes.string
-};
-
-SelectionCard.defaultProps = {
-  description: '',
-  selected: false,
-  disabled: false,
-  highlighted: false
 };
 
 export default SelectionCard;

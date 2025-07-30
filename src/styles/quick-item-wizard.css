@@ -39,7 +39,7 @@
     font-size: 0.9em;
 }
 
-.quick-item-wizard .item-type-select {
+.quick-item-wizard select {
     width: 100%;
     padding: 8px;
     border: 1px solid rgb(49, 50, 68);
@@ -50,11 +50,11 @@
     transition: all 0.2s ease;
 }
 
-.quick-item-wizard .item-type-select:hover {
+.quick-item-wizard select:hover {
     border-color: rgb(74, 158, 255);
 }
 
-.quick-item-wizard .item-type-select:focus {
+.quick-item-wizard select:focus {
     outline: none;
     border-color: rgb(74, 158, 255);
     box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
@@ -66,7 +66,7 @@
     margin-top: 16px;
 }
 
-.quick-item-wizard .generate-button {
+.quick-item-wizard .primary-button {
     flex: 2;
     padding: 8px;
     background: linear-gradient(to bottom right, #4a9eff, #3a8eef);
@@ -82,16 +82,23 @@
     gap: 6px;
 }
 
-.quick-item-wizard .generate-button:hover {
+.quick-item-wizard .primary-button:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.quick-item-wizard .generate-button i {
+.quick-item-wizard .primary-button:disabled {
+    background: linear-gradient(to bottom right, #4a9eff80, #3a8eef80);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.quick-item-wizard .primary-button i {
     font-size: 0.9em;
 }
 
-.quick-item-wizard .cancel-button {
+.quick-item-wizard .secondary-button {
     flex: 1;
     padding: 8px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -102,7 +109,7 @@
     transition: background-color 0.2s;
 }
 
-.quick-item-wizard .cancel-button:hover {
+.quick-item-wizard .secondary-button:hover {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -251,4 +258,39 @@
     color: #ffd100;
     font-size: 14px;
     font-weight: 500;
+}
+
+/* Container Options */
+.quick-item-wizard .container-options {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-item-wizard .container-options h3 {
+    margin: 0 0 12px 0;
+    font-size: 1em;
+    color: #4a9eff;
+    border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+    padding-bottom: 8px;
+}
+
+.quick-item-wizard .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.quick-item-wizard .checkbox-wrapper input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.quick-item-wizard .checkbox-wrapper label {
+    margin-bottom: 0;
+    cursor: pointer;
 }

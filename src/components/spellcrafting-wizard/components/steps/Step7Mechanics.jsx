@@ -20,9 +20,7 @@ import {
   FaWandMagicSparkles,
   FaDroplet
 } from 'react-icons/fa6';
-import '../../styles/base.css';
-import '../../styles/components.css';
-import '../../styles/SimplifiedMechanicsConfig.css';
+// Pathfinder styles imported via main.css
 
 const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }) => {
   const state = useSpellWizardState();

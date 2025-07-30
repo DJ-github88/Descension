@@ -1,0 +1,292 @@
+/* CollectionMaps.css - Styling for collection maps */
+
+/* Hide all edit buttons in collection maps */
+.collection-view-overlay .edit-button-container,
+.collection-view-overlay button[aria-label="Edit spell"],
+.collection-view-overlay button[aria-label="Edit Spell"],
+.collection-view-overlay .edit-btn,
+.collection-view-overlay .spell-card-action-btn.edit-btn,
+.collection-view-overlay .spell-card-wrapper::after,
+.collection-view-overlay .spell-card-wrapper::before {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  content: none !important;
+}
+
+/* Ensure resource costs are displayed correctly */
+.collection-view-overlay .wow-spell-card .resource-cost {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Style for mana cost */
+.collection-view-overlay .wow-spell-card .resource-cost.mana {
+  color: #3b82f6;
+}
+
+/* Style for health cost */
+.collection-view-overlay .wow-spell-card .resource-cost.health {
+  color: #ef4444;
+}
+
+/* Style for action points cost */
+.collection-view-overlay .wow-spell-card .resource-cost.ap {
+  color: #f59e0b;
+}
+
+/* Style for rage cost */
+.collection-view-overlay .wow-spell-card .resource-cost.rage {
+  color: #ef4444;
+}
+
+/* Style for energy cost */
+.collection-view-overlay .wow-spell-card .resource-cost.energy {
+  color: #eab308;
+}
+
+/* Style for focus cost */
+.collection-view-overlay .wow-spell-card .resource-cost.focus {
+  color: #22c55e;
+}
+
+/* Style for custom resource cost */
+.collection-view-overlay .wow-spell-card .resource-cost.custom {
+  color: #8b5cf6;
+}
+
+/* Style for no cost */
+.collection-view-overlay .wow-spell-card .resource-cost.no-cost {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Enhanced resource cost styling for collection maps */
+.collection-view-overlay .wow-spell-card .resource-cost-display,
+.collection-view-overlay .wow-spell-card div[style*="backgroundColor: rgba(0, 0, 0, 0.3)"],
+.collection-view-overlay .wow-spell-card div[style*="backgroundColor: rgba(59, 130, 246, 0.15)"],
+.collection-view-overlay .wow-spell-card div[style*="backgroundColor: rgba(220, 38, 38, 0.15)"],
+.collection-view-overlay .wow-spell-card div[style*="backgroundColor: rgba(234, 179, 8, 0.15)"],
+.collection-view-overlay .wow-spell-card div[style*="backgroundColor: rgba(139, 92, 246, 0.15)"],
+.collection-view-overlay .wow-spell-card div[style*="backgroundColor: rgba(20, 184, 166, 0.15)"] {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+/* Resource cost styling for collection maps */
+
+/* Mana cost styling - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card div[style*="color: #3b82f6"],
+.collection-view-overlay .wow-spell-card .mana-cost span {
+  color: #5a1e12 !important;
+}
+
+/* Health cost styling */
+.collection-view-overlay .wow-spell-card div[style*="color: #ef4444"],
+.collection-view-overlay .wow-spell-card div[style*="color: #dc2626"],
+.collection-view-overlay .wow-spell-card .health-cost span {
+  color: #ef4444 !important;
+}
+
+/* Action points styling - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card div[style*="color: #8b5cf6"],
+.collection-view-overlay .wow-spell-card .action-points-cost span {
+  color: #5a1e12 !important;
+}
+
+/* Rage styling */
+.collection-view-overlay .wow-spell-card div[style*="color: #dc2626"],
+.collection-view-overlay .wow-spell-card .rage-cost span {
+  color: #dc2626 !important;
+}
+
+/* Energy styling */
+.collection-view-overlay .wow-spell-card div[style*="color: #eab308"],
+.collection-view-overlay .wow-spell-card .energy-cost span {
+  color: #eab308 !important;
+}
+
+/* Focus styling */
+.collection-view-overlay .wow-spell-card div[style*="color: #22c55e"],
+.collection-view-overlay .wow-spell-card .focus-cost span {
+  color: #22c55e !important;
+}
+
+/* Fortune Points styling */
+.collection-view-overlay .wow-spell-card .fortune-cost span {
+  color: #eab308 !important;
+}
+
+/* Soul Shards styling - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card .soul-shards-cost span {
+  color: #5a1e12 !important;
+}
+
+/* Elemental Harmony styling - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card .elemental-harmony-cost span {
+  color: #5a1e12 !important;
+}
+
+/* Temporal Energy styling - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card .temporal-energy-cost span {
+  color: #5a1e12 !important;
+}
+
+/* No cost styling */
+.collection-view-overlay .wow-spell-card div[style*="color: #94a3b8"] {
+  color: #94a3b8 !important;
+  font-style: italic !important;
+}
+
+/* Special styling for coin-based spells */
+.collection-view-overlay .wow-spell-card .coin-formula,
+.collection-view-overlay .wow-spell-card span.coin-formula,
+.collection-view-overlay .wow-spell-card div.coin-formula,
+.collection-view-overlay .wow-spell-card [class*="effect-list"] span:has(span.coin-formula),
+.collection-view-overlay .wow-spell-card [class*="effect-list"] div:has(span.coin-formula),
+.collection-view-overlay .wow-spell-card div:has(i.fa-coins),
+.collection-view-overlay .wow-spell-card span:has(i.fa-coins),
+.collection-view-overlay .wow-spell-card div:has(svg[data-icon="coins"]),
+.collection-view-overlay .wow-spell-card span:has(svg[data-icon="coins"]) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background-color: rgba(255, 215, 0, 0.1) !important;
+  border: 1px solid rgba(255, 215, 0, 0.3) !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px 0 !important;
+  position: relative !important;
+  color: #eab308 !important;
+  font-weight: bold !important;
+}
+
+/* Add coin icon before coin-based formulas */
+.collection-view-overlay .wow-spell-card .coin-formula::before,
+.collection-view-overlay .wow-spell-card span.coin-formula::before,
+.collection-view-overlay .wow-spell-card div.coin-formula::before,
+.collection-view-overlay .wow-spell-card [class*="effect-list"] span:has(span.coin-formula)::before,
+.collection-view-overlay .wow-spell-card [class*="effect-list"] div:has(span.coin-formula)::before {
+  content: "";
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+/* Ensure coin icons are visible */
+.collection-view-overlay .wow-spell-card i.fa-coins,
+.collection-view-overlay .wow-spell-card svg[data-icon="coins"] {
+  color: #eab308 !important;
+  margin-right: 4px !important;
+}
+
+/* Special styling for card-based spells */
+.collection-view-overlay .wow-spell-card .card-formula,
+.collection-view-overlay .wow-spell-card span.card-formula,
+.collection-view-overlay .wow-spell-card div.card-formula,
+.collection-view-overlay .wow-spell-card [class*="effect-list"] span:has(span.card-formula),
+.collection-view-overlay .wow-spell-card [class*="effect-list"] div:has(span.card-formula) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(147, 51, 234, 0.1);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 2px 0;
+  position: relative;
+}
+
+/* Add card icon before card-based formulas */
+.collection-view-overlay .wow-spell-card .card-formula::before,
+.collection-view-overlay .wow-spell-card span.card-formula::before,
+.collection-view-overlay .wow-spell-card div.card-formula::before,
+.collection-view-overlay .wow-spell-card [class*="effect-list"] span:has(span.card-formula)::before,
+.collection-view-overlay .wow-spell-card [class*="effect-list"] div:has(span.card-formula)::before {
+  content: "🃏";
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+/* Special styling for Fortune Frost spell - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card[data-spell-name*="fortune frost"] .spell-name,
+.collection-view-overlay .wow-spell-card[data-spell-id="fortune_frost"] .spell-name {
+  color: #5a1e12 !important;
+  text-shadow: 0 0 5px rgba(90, 30, 18, 0.5) !important;
+}
+
+/* Ensure Fortune Frost has proper coin mechanics display */
+.collection-view-overlay .wow-spell-card[data-spell-name*="fortune frost"] .wow-spell-card-content div,
+.collection-view-overlay .wow-spell-card[data-spell-id="fortune_frost"] .wow-spell-card-content div {
+  position: relative;
+}
+
+.collection-view-overlay .wow-spell-card[data-spell-name*="fortune frost"] .wow-spell-card-content div:has(span:contains("Flip")),
+.collection-view-overlay .wow-spell-card[data-spell-id="fortune_frost"] .wow-spell-card-content div:has(span:contains("Flip")) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background-color: rgba(255, 215, 0, 0.1) !important;
+  border: 1px solid rgba(255, 215, 0, 0.3) !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px 0 !important;
+  position: relative !important;
+  color: #eab308 !important;
+  font-weight: bold !important;
+}
+
+/* Special styling for Arcane Gambit spell */
+.collection-view-overlay .wow-spell-card[data-spell-name*="arcane gambit"] .spell-name,
+.collection-view-overlay .wow-spell-card[data-spell-id="arcane_gambit"] .spell-name,
+.collection-view-overlay .wow-spell-card[data-spell-id="wqcsbdql"] .spell-name {
+  color: #9333ea !important;
+  text-shadow: 0 0 5px rgba(147, 51, 234, 0.5) !important;
+}
+
+/* Ensure control effects display properly - changed to brown theme for readability */
+.collection-view-overlay .wow-spell-card .control-effect,
+.collection-view-overlay .wow-spell-card .control-effects,
+.collection-view-overlay .wow-spell-card .wow-spell-card-control-effect,
+.collection-view-overlay .wow-spell-card .wow-spell-card-control-effects,
+.collection-view-overlay .wow-spell-card div:has(span:contains("Slow")),
+.collection-view-overlay .wow-spell-card div:has(span:contains("Immobilize")),
+.collection-view-overlay .wow-spell-card div:has(span:contains("Restrain")),
+.collection-view-overlay .wow-spell-card div:has(span:contains("Chill")),
+.collection-view-overlay .wow-spell-card div:has(span:contains("Stun")) {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  background-color: rgba(90, 30, 18, 0.1) !important;
+  border: 1px solid rgba(90, 30, 18, 0.3) !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  margin: 2px 0 !important;
+  position: relative !important;
+}
+
+/* Style for control effect icons - changed to dark brown for readability */
+.collection-view-overlay .wow-spell-card .control-effect-icon,
+.collection-view-overlay .wow-spell-card i.fa-snowflake,
+.collection-view-overlay .wow-spell-card i.fa-hand-paper,
+.collection-view-overlay .wow-spell-card i.fa-ban,
+.collection-view-overlay .wow-spell-card svg[data-icon="snowflake"],
+.collection-view-overlay .wow-spell-card svg[data-icon="hand-paper"],
+.collection-view-overlay .wow-spell-card svg[data-icon="ban"] {
+  color: #5a1e12 !important;
+  margin-right: 4px !important;
+}

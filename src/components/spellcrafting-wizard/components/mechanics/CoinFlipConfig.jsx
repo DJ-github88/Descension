@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import '../../styles/CoinFlipConfig.css';
 
@@ -99,17 +99,19 @@ const CoinFlipConfig = ({ effectType, effectId, onConfigUpdate }) => {
     loadTemplate(config.template);
   }, [effectType]);
   
-  // Update parent component when config changes
+  // Update parent component when config changes - use useCallback to prevent infinite loops
+  const stableOnConfigUpdate = useCallback(onConfigUpdate, []);
+
   useEffect(() => {
-    if (onConfigUpdate) {
-      onConfigUpdate(config);
+    if (stableOnConfigUpdate) {
+      stableOnConfigUpdate(config);
     }
-    
+
     // Update the context directly
     dispatch(actionCreators.updateEffectResolutionConfig(effectId, {
       ...config
     }));
-  }, [config, onConfigUpdate, dispatch, effectId]);
+  }, [config, stableOnConfigUpdate, dispatch, effectId]);
   
   // Load a template
   const loadTemplate = (templateName) => {

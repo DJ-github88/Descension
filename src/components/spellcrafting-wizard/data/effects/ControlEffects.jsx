@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {
   FaPersonWalkingArrowRight,
   FaGrip,
@@ -9,8 +10,11 @@ import {
   FaPlus,
   FaCircleXmark
 } from 'react-icons/fa6';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
-import './shared-effect-cards.css';
+
+// Import stat data
+import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
+
+// Pathfinder styles imported via main.css
 
 // Control types with their icons and descriptions
 export const CONTROL_TYPES = {
@@ -193,11 +197,11 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
   const [activeRestrictionSubtype, setActiveRestrictionSubtype] = useState(null);
   const [showRestrictionSubtypes, setShowRestrictionSubtypes] = useState(false);
 
-  // Tooltip state
-  const [tooltipContent, setTooltipContent] = useState(null);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [effectPreview, setEffectPreview] = useState(null);
+
+  // Configuration popup state
+  const [configPopupOpen, setConfigPopupOpen] = useState(false);
+  const [selectedEffectForPopupConfig, setSelectedEffectForPopupConfig] = useState(null);
 
   // Get control configuration from state or use defaults
   const [controlConfig, setControlConfig] = useState({
@@ -209,6 +213,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
     savingThrowType: 'strength',
     difficultyClass: 15,
     concentration: false,
+    instant: false, // New instant effect option
     distance: 10, // for forced movement
     // other configs as needed
   });
@@ -371,6 +376,11 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
         onChange(updated);
       }
 
+      // Also update the global state if dispatch is available
+      if (dispatch && actionCreators.updateControlConfig) {
+        dispatch(actionCreators.updateControlConfig(updated));
+      }
+
       return updated;
     });
   };
@@ -406,6 +416,36 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
   const toggleSavingThrow = () => {
     const newValue = controlConfig.savingThrow === null ? 'strength' : null;
     handleControlConfigChange('savingThrow', newValue);
+  };
+
+  // Function to handle saving throw type changes while maintaining enabled state
+  const handleSavingThrowTypeChange = (newType) => {
+    console.log('Changing saving throw type to:', newType);
+    console.log('Current savingThrow state:', controlConfig.savingThrow);
+
+    // Update both properties in a single call to ensure consistency
+    setControlConfig(prev => {
+      const updated = {
+        ...prev,
+        savingThrowType: newType,
+        // Always enable saving throws when changing type (auto-enable)
+        savingThrow: newType
+      };
+
+      console.log('Updated control config:', updated);
+
+      // Update parent component
+      if (onChange) {
+        onChange(updated);
+      }
+
+      // Update global state
+      if (dispatch && actionCreators.updateControlConfig) {
+        dispatch(actionCreators.updateControlConfig(updated));
+      }
+
+      return updated;
+    });
   };
 
   // Function to remove a specific effect
@@ -499,7 +539,31 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
               savingThrowType: getSavingThrowTypeForEffect(activeControlType, effectId),
               difficultyClass: 15,
               strength: 'moderate',
-              instant: isInstantEffect(activeControlType, effectId)
+              customName: effectData.name,
+              customDescription: effectData.description,
+              instant: isInstantEffect(activeControlType, effectId),
+              statModifiers: [], // Add stat modifiers array
+              // Add default configurations for specific control types
+              ...(activeControlType === 'forced_movement' && {
+                distance: 10,
+                movementType: 'push',
+                movementFlavor: 'force'
+              }),
+              ...(activeControlType === 'restraint' && {
+                restraintType: 'physical'
+              }),
+              ...(activeControlType === 'mental_control' && {
+                controlLevel: 'suggestion',
+                mentalApproach: 'subtle'
+              }),
+              ...(activeControlType === 'battlefield_control' && {
+                areaSize: 10,
+                areaShape: 'circle'
+              }),
+              ...(activeControlType === 'incapacitation' && {
+                durationType: 'temporary',
+                recoveryMethod: 'automatic'
+              })
             }
           };
 
@@ -670,6 +734,17 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
         });
       }
 
+      // Also update the popup selected effect if it's the one being modified
+      if (selectedEffectForPopupConfig && selectedEffectForPopupConfig.id === effectId) {
+        setSelectedEffectForPopupConfig({
+          ...selectedEffectForPopupConfig,
+          config: {
+            ...selectedEffectForPopupConfig.config,
+            [configKey]: configValue
+          }
+        });
+      }
+
       // Update the parent component's state directly
       if (onChange) {
         onChange(updatedConfig);
@@ -688,6 +763,149 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
     return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+  };
+
+  // Get stat modifiers by category
+  const getStatModifiersByCategory = (category) => {
+    if (!BUFF_DEBUFF_STAT_MODIFIERS) {
+      return [];
+    }
+    return BUFF_DEBUFF_STAT_MODIFIERS.filter(stat => stat.category === category);
+  };
+
+  // Stat modifier management functions for effects
+  const addStatModifierToEffect = (effectId, stat) => {
+    setControlConfig(prev => {
+      const updatedEffects = prev.effects.map(effect => {
+        if (effect.id === effectId) {
+          const existingModifiers = [...(effect.config?.statModifiers || [])];
+
+          // Check if this stat is already added
+          if (!existingModifiers.some(mod => mod.id === stat.id)) {
+            existingModifiers.push({
+              ...stat,
+              magnitude: 2,
+              magnitudeType: 'flat'
+            });
+
+            return {
+              ...effect,
+              config: {
+                ...effect.config,
+                statModifiers: existingModifiers
+              }
+            };
+          }
+        }
+        return effect;
+      });
+
+      const updatedConfig = { ...prev, effects: updatedEffects };
+
+      // Update parent state
+      if (onChange) onChange(updatedConfig);
+      if (dispatch && actionCreators.updateControlConfig) {
+        dispatch(actionCreators.updateControlConfig(updatedConfig));
+      }
+
+      return updatedConfig;
+    });
+  };
+
+  const removeStatModifierFromEffect = (effectId, statId) => {
+    setControlConfig(prev => {
+      const updatedEffects = prev.effects.map(effect => {
+        if (effect.id === effectId) {
+          const updatedModifiers = (effect.config?.statModifiers || []).filter(mod => mod.id !== statId);
+          return {
+            ...effect,
+            config: {
+              ...effect.config,
+              statModifiers: updatedModifiers
+            }
+          };
+        }
+        return effect;
+      });
+
+      const updatedConfig = { ...prev, effects: updatedEffects };
+
+      // Update parent state
+      if (onChange) onChange(updatedConfig);
+      if (dispatch && actionCreators.updateControlConfig) {
+        dispatch(actionCreators.updateControlConfig(updatedConfig));
+      }
+
+      return updatedConfig;
+    });
+  };
+
+  const updateStatModifierValue = (effectId, statId, magnitude) => {
+    setControlConfig(prev => {
+      const updatedEffects = prev.effects.map(effect => {
+        if (effect.id === effectId) {
+          const updatedModifiers = (effect.config?.statModifiers || []).map(mod => {
+            if (mod.id === statId) {
+              return { ...mod, magnitude };
+            }
+            return mod;
+          });
+
+          return {
+            ...effect,
+            config: {
+              ...effect.config,
+              statModifiers: updatedModifiers
+            }
+          };
+        }
+        return effect;
+      });
+
+      const updatedConfig = { ...prev, effects: updatedEffects };
+
+      // Update parent state
+      if (onChange) onChange(updatedConfig);
+      if (dispatch && actionCreators.updateControlConfig) {
+        dispatch(actionCreators.updateControlConfig(updatedConfig));
+      }
+
+      return updatedConfig;
+    });
+  };
+
+  const updateStatModifierType = (effectId, statId, magnitudeType) => {
+    setControlConfig(prev => {
+      const updatedEffects = prev.effects.map(effect => {
+        if (effect.id === effectId) {
+          const updatedModifiers = (effect.config?.statModifiers || []).map(mod => {
+            if (mod.id === statId) {
+              return { ...mod, magnitudeType };
+            }
+            return mod;
+          });
+
+          return {
+            ...effect,
+            config: {
+              ...effect.config,
+              statModifiers: updatedModifiers
+            }
+          };
+        }
+        return effect;
+      });
+
+      const updatedConfig = { ...prev, effects: updatedEffects };
+
+      // Update parent state
+      if (onChange) onChange(updatedConfig);
+      if (dispatch && actionCreators.updateControlConfig) {
+        dispatch(actionCreators.updateControlConfig(updatedConfig));
+      }
+
+      return updatedConfig;
+    });
   };
 
   // Format control type for display
@@ -736,65 +954,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
     }
   };
 
-  // Show tooltip on hover
-  const handleMouseEnter = (data, e) => {
-    // Create WoW Classic style tooltip content
-    const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {data.description}
-        </div>
 
-        {/* Additional information based on data type */}
-        {data.controlType && (
-          <div className="tooltip-effect">
-            <span className="tooltip-gold">Control Type:</span> {formatControlType(data.controlType)}
-          </div>
-        )}
-
-        {/* Duration information if applicable */}
-        {data.config && !data.config.instant && (
-          <div className="tooltip-casttime">
-            <span className="tooltip-gold">Duration:</span> {data.config.duration || 2} {data.config.durationUnit || 'rounds'}
-          </div>
-        )}
-
-        {/* Saving throw information if applicable */}
-        {data.config && data.config.savingThrow && (
-          <div className="tooltip-requirement">
-            <span className="tooltip-gold">Save:</span> {formatSavingThrow(data.config.savingThrowType)} DC {data.config.difficultyClass || 15}
-          </div>
-        )}
-
-        {/* Flavor text based on control type */}
-        <div className="tooltip-divider"></div>
-        <div className="tooltip-flavor-text">
-          {getControlFlavorText(data.controlType)}
-        </div>
-      </div>
-    );
-
-    // Store the tooltip data including title and icon
-    setTooltipContent({
-      content: tooltipContent,
-      title: data.name,
-      icon: data.icon
-    });
-    setShowTooltip(true);
-    // Update position using client coordinates for fixed positioning
-    setMousePos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
-
-  // Track mouse position during hover
-  const handleMouseMove = (e) => {
-    if (showTooltip) {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    }
-  };
 
   // Set effect preview
   const showEffectPreview = (effect) => {
@@ -806,34 +966,34 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
     setEffectPreview(null);
   };
 
-  // Render the control type selection
+  // Render the control type selection - simplified without hover tooltips
   const renderControlTypeSelection = () => {
     return (
-      <div className="section">
-        <h3>Control Type</h3>
-
-        <div className="stat-cards-grid">
-          {Object.values(CONTROL_TYPES).map((controlType) => (
-            <div
-              key={controlType.id}
-              className={`stat-card ${activeControlType === controlType.id ? 'selected' : ''}`}
-              onClick={() => handleControlTypeChange(controlType.id)}
-              onMouseEnter={(e) => handleMouseEnter(controlType, e)}
-              onMouseLeave={handleMouseLeave}
-              onMouseMove={handleMouseMove}
-            >
+      <div className="control-effects-grid">
+        {Object.values(CONTROL_TYPES).map((controlType) => (
+          <div
+            key={controlType.id}
+            className={`control-effect-card ${activeControlType === controlType.id ? 'selected' : ''}`}
+            onClick={() => handleControlTypeChange(controlType.id)}
+          >
+            <div className="control-effect-header">
               <img
                 src={getIconUrl(controlType.icon)}
                 alt={controlType.name}
-                className="stat-icon"
+                className="control-effect-icon"
               />
-              <div className="stat-name">{controlType.name}</div>
-              {activeControlType === controlType.id && (
-                <div className="stat-indicator">✓</div>
-              )}
+              <div className="control-effect-info">
+                <h6>{controlType.name}</h6>
+                <p>{controlType.description}</p>
+              </div>
             </div>
-          ))}
-        </div>
+            {activeControlType === controlType.id && (
+              <div className="control-effect-selected">
+                <span className="control-effect-checkmark">✓</span>
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     );
   };
@@ -858,24 +1018,28 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
           {`${CONTROL_TYPES[activeControlType.toUpperCase()]?.name || 'Effect'} Type`}
         </h3>
 
-        <div className="stat-cards-grid">
+        <div className="control-effects-grid">
           {effectTypes.map(type => (
             <div
               key={type.id}
-              className={`stat-card ${isEffectSelected(type.id) ? 'selected' : ''}`}
+              className={`control-effect-card ${isEffectSelected(type.id) ? 'selected' : ''}`}
               onClick={() => handleEffectToggle(type.id)}
-              onMouseEnter={(e) => handleMouseEnter({...type, controlType: activeControlType}, e)}
-              onMouseLeave={handleMouseLeave}
-              onMouseMove={handleMouseMove}
             >
-              <img
-                src={getIconUrl(type.icon)}
-                alt={type.name}
-                className="stat-icon"
-              />
-              <div className="stat-name">{type.name}</div>
+              <div className="control-effect-header">
+                <img
+                  src={getIconUrl(type.icon)}
+                  alt={type.name}
+                  className="control-effect-icon"
+                />
+                <div className="control-effect-info">
+                  <h6>{type.name}</h6>
+                  <p>{type.description}</p>
+                </div>
+              </div>
               {isEffectSelected(type.id) && (
-                <div className="stat-indicator">✓</div>
+                <div className="control-effect-selected">
+                  <span className="control-effect-checkmark">✓</span>
+                </div>
               )}
             </div>
           ))}
@@ -901,9 +1065,6 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 key={type.id}
                 className={`stat-card ${activeRestrictionCategory === type.id ? 'selected' : ''}`}
                 onClick={() => setActiveRestrictionCategory(type.id)}
-                onMouseEnter={(e) => handleMouseEnter({...type, controlType: 'restriction'}, e)}
-                onMouseLeave={handleMouseLeave}
-                onMouseMove={handleMouseMove}
               >
                 <img
                   src={getIconUrl(type.icon)}
@@ -945,9 +1106,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 key={type.id}
                 className={`stat-card ${activeRestrictionType === type.id ? 'selected' : ''}`}
                 onClick={() => setActiveRestrictionType(type.id)}
-                onMouseEnter={(e) => handleMouseEnter({...type, controlType: 'restriction'}, e)}
-                onMouseLeave={handleMouseLeave}
-                onMouseMove={handleMouseMove}
+
               >
                 <img
                   src={getIconUrl(type.icon)}
@@ -991,9 +1150,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 key={subtype.id}
                 className={`stat-card ${isEffectSelected(subtype.id) ? 'selected' : ''}`}
                 onClick={() => handleEffectToggle(subtype.id, subtype)}
-                onMouseEnter={(e) => handleMouseEnter({...subtype, controlType: 'restriction'}, e)}
-                onMouseLeave={handleMouseLeave}
-                onMouseMove={handleMouseMove}
+
               >
                 <img
                   src={getIconUrl(subtype.icon)}
@@ -1035,15 +1192,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 icon: 'spell_holy_sealofsacrifice',
                 description: 'Restrict healing effects specifically.'
               })}
-              onMouseEnter={(e) => handleMouseEnter({
-                id: 'healing_effect',
-                name: 'Healing',
-                icon: 'spell_holy_sealofsacrifice',
-                description: 'Restrict healing effects specifically.',
-                controlType: 'restriction'
-              }, e)}
-              onMouseLeave={handleMouseLeave}
-              onMouseMove={handleMouseMove}
+
             >
               <img
                 src={getIconUrl('spell_holy_sealofsacrifice')}
@@ -1082,120 +1231,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
     return 'Unknown Type';
   };
 
-  // Render the selected effects list
-  const renderSelectedEffects = () => {
-    if (controlConfig.effects.length === 0) {
-      return null;
-    }
 
-    // Group effects by type for better organization
-    const damageRestrictions = controlConfig.effects.filter(effect =>
-      effect.id.includes('_damage') || effect.id === 'healing_effect'
-    );
-
-    const otherEffects = controlConfig.effects.filter(effect =>
-      !effect.id.includes('_damage') && effect.id !== 'healing_effect'
-    );
-
-    return (
-      <div className="selected-stats">
-        <h4 className="section-header">Selected Effects ({controlConfig.effects.length})</h4>
-
-        {/* Display damage restrictions in a special way if there are multiple */}
-        {damageRestrictions.length > 0 && (
-          <div className="selected-effect">
-            <div className="effect-header">
-              <div className="effect-icon">
-                <img src={getIconUrl('spell_shadow_impphaseshift')} alt="Damage Restrictions" />
-              </div>
-              <div className="effect-info">
-                <div className="effect-name">Damage Type Restrictions</div>
-                <div className="effect-description">
-                  {CONTROL_TYPES['RESTRICTION'].name}
-                  {` (${controlConfig.effects[0]?.config?.duration || 2} ${controlConfig.effects[0]?.config?.durationUnit || 'rounds'})`}
-                </div>
-              </div>
-            </div>
-            <div className="effect-custom-config">
-              <div className="damage-restrictions-grid">
-                {damageRestrictions.map(effect => (
-                  <div className="damage-restriction-tag" key={effect.id}>
-                    <img
-                      src={getIconUrl(effect.icon)}
-                      alt={effect.name}
-                      className="damage-restriction-icon"
-                    />
-                    <span>{effect.name}</span>
-                    <button
-                      className="remove-tag"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveEffect(effect.id);
-                      }}
-                      title="Remove effect"
-                    >
-                      <img
-                        src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg"
-                        alt="Remove"
-                      />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Display other effects normally */}
-        <div className="selected-effects-list">
-          {otherEffects.map(effect => (
-            <div className="selected-effect" key={effect.id}>
-              <div className="effect-header">
-                <div className="effect-icon">
-                  <img src={getIconUrl(effect.icon)} alt={effect.name} />
-                </div>
-                <div className="effect-info">
-                  <div className="effect-name">{effect.name}</div>
-                  <div className="effect-description">
-                    {CONTROL_TYPES[effect.controlType.toUpperCase()].name}
-                    {effect.config?.instant ? ' (Instant)' : ` (${effect.config?.duration || 2} ${effect.config?.durationUnit || 'rounds'})`}
-                  </div>
-                </div>
-                <div className="effect-actions">
-                  <button
-                    className="wow-remove-trigger"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveEffect(effect.id);
-                    }}
-                    title="Remove effect"
-                  >
-                    <img
-                      src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg"
-                      alt="Remove"
-                      className="wow-remove-icon"
-                    />
-                  </button>
-                </div>
-              </div>
-              <div className="effect-custom-config">
-                {/* Add configuration options here */}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="effect-footer">
-          <button
-            onClick={handleClearAllEffects}
-            className="effect-clear-button"
-          >
-            Clear All
-          </button>
-        </div>
-      </div>
-    );
-  };
 
 
   // Ensure default values are set for control config properties
@@ -1309,6 +1345,23 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
             </div>
           </>
         )}
+
+        <div className="effect-toggle">
+          <div className="effect-toggle-label">
+            Instant Effect
+            <button
+              className={`effect-toggle-switch ${controlConfig.instant ? 'active' : ''}`}
+              onClick={() => handleControlConfigChange('instant', !controlConfig.instant)}
+            >
+              <span className="effect-toggle-slider"></span>
+            </button>
+          </div>
+          {controlConfig.instant && (
+            <p className="effect-toggle-description">
+              Effect happens immediately, ignoring duration
+            </p>
+          )}
+        </div>
       </div>
     );
   };
@@ -1339,7 +1392,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 {SAVING_THROW_TYPES.map(type => (
                   <button
                     key={type.id}
-                    className={`effect-option-tab ${controlConfig.savingThrow === type.id ? 'selected' : ''}`}
+                    className={`pf-button ${controlConfig.savingThrow === type.id ? 'selected' : ''}`}
                     onClick={() => handleControlConfigChange('savingThrow', type.id)}
                   >
                     <span className="effect-option-tab-icon">
@@ -1386,199 +1439,474 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
 
   // Render the main component
   return (
-    <div className="effects-container">
+    <div className="control-effects-container">
+      {/* Control Configuration Section */}
       <div className="section">
-        <h3>Control Effects</h3>
-        <p>
-          Manipulate battlefield positioning and enemy actions
-        </p>
+        <h3>Control Configuration</h3>
+        <p>Manipulate battlefield positioning and enemy actions</p>
 
-        {/* Control Type Selection */}
-        {renderControlTypeSelection()}
-
-        {/* Effect Type Selection */}
-        {renderEffectTypeSelection()}
-
-        {/* Selected Effects List */}
-        {renderSelectedEffects()}
-      </div>
-
-      {/* Configuration sections */}
-      <div className="section">
-        <h3>Effect Configuration</h3>
-
-        {selectedEffectForConfig ? (
-          <div className="selected-effect-config">
-            <div className="selected-effect-header">
-              <div className="selected-effect-icon">
-                <img
-                  src={getIconUrl(selectedEffectForConfig.icon)}
-                  alt={selectedEffectForConfig.name}
-                />
-              </div>
-              <div className="selected-effect-info">
-                <h4 className="selected-effect-name">{selectedEffectForConfig.name}</h4>
-                <div className="selected-effect-type">
-                  {CONTROL_TYPES[selectedEffectForConfig.controlType.toUpperCase()].name}
-                </div>
-              </div>
-            </div>
-
-            <div className="selected-effect-description">
-              {selectedEffectForConfig.description}
-            </div>
-
-            {/* Duration toggle */}
-            <div className="effect-toggle">
-              <div className="effect-toggle-label">
-                Instant Effect
-                <button
-                  className={`effect-toggle-switch ${selectedEffectForConfig.config?.instant ? 'active' : ''}`}
-                  onClick={() => updateEffectConfig(selectedEffectForConfig.id, 'instant', !selectedEffectForConfig.config?.instant)}
-                >
-                  <span className="effect-toggle-slider"></span>
-                </button>
-              </div>
-              {selectedEffectForConfig.config?.instant ? (
-                <p className="effect-toggle-description">
-                  Effect happens immediately with no duration
-                </p>
-              ) : (
-                <div className="effect-duration-config">
-                  <div className="effect-input-group">
-                    <label>Duration</label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      value={selectedEffectForConfig.config?.duration || 2}
-                      onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'duration', parseInt(e.target.value))}
-                    />
-                  </div>
-                  <div className="effect-input-group">
-                    <label>Unit</label>
-                    <select
-                      value={selectedEffectForConfig.config?.durationUnit || 'rounds'}
-                      onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'durationUnit', e.target.value)}
-                    >
-                      <option value="rounds">Rounds</option>
-                      <option value="minutes">Minutes</option>
-                      <option value="hours">Hours</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Saving throw settings */}
-            <div className="effect-toggle">
-              <div className="effect-toggle-label">
-                Requires Saving Throw
-                <button
-                  className={`effect-toggle-switch ${selectedEffectForConfig.config?.savingThrow ? 'active' : ''}`}
-                  onClick={() => updateEffectConfig(selectedEffectForConfig.id, 'savingThrow', !selectedEffectForConfig.config?.savingThrow)}
-                >
-                  <span className="effect-toggle-slider"></span>
-                </button>
-              </div>
-              {selectedEffectForConfig.config?.savingThrow && (
-                <div className="effect-save-config">
-                  <div className="effect-input-group">
-                    <label>Save Type</label>
-                    <select
-                      value={selectedEffectForConfig.config?.savingThrowType || 'strength'}
-                      onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'savingThrowType', e.target.value)}
-                    >
-                      <option value="strength">Strength</option>
-                      <option value="dexterity">Dexterity</option>
-                      <option value="constitution">Constitution</option>
-                      <option value="intelligence">Intelligence</option>
-                      <option value="wisdom">Wisdom</option>
-                      <option value="charisma">Charisma</option>
-                    </select>
-                  </div>
-                  <div className="effect-input-group">
-                    <label>DC</label>
-                    <input
-                      type="number"
-                      min="10"
-                      max="30"
-                      value={selectedEffectForConfig.config?.difficultyClass || 15}
-                      onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'difficultyClass', parseInt(e.target.value))}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Effect strength */}
-            <div className="effect-input-group">
-              <label>Effect Strength</label>
+        {/* Control Configuration Grid */}
+        <div className="control-config-grid">
+          <div className="config-group">
+            <label>Duration</label>
+            <div className="duration-config">
+              <input
+                type="number"
+                min="1"
+                max="100"
+                value={controlConfig.instant ? 0 : (controlConfig.duration || 2)}
+                onChange={(e) => {
+                  if (controlConfig.instant) return; // Don't allow changes when instant
+                  const value = e.target.value;
+                  if (value === '' || value === '0') {
+                    handleControlConfigChange('duration', 1);
+                  } else {
+                    const duration = Math.max(1, Math.min(100, parseInt(value) || 1));
+                    handleControlConfigChange('duration', duration);
+                  }
+                }}
+                className={`duration-value ${controlConfig.instant ? 'disabled' : ''}`}
+                disabled={controlConfig.instant}
+                placeholder={controlConfig.instant ? "Instant" : ""}
+              />
               <select
-                value={selectedEffectForConfig.config?.strength || 'moderate'}
-                onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'strength', e.target.value)}
+                value={controlConfig.instant ? 'instant' : (controlConfig.durationUnit || 'rounds')}
+                onChange={(e) => {
+                  if (controlConfig.instant) return; // Don't allow changes when instant
+                  handleControlConfigChange('durationUnit', e.target.value);
+                }}
+                className={`duration-unit ${controlConfig.instant ? 'disabled' : ''}`}
+                disabled={controlConfig.instant}
               >
-                <option value="minor">Minor</option>
-                <option value="moderate">Moderate</option>
-                <option value="major">Major</option>
+                {controlConfig.instant && <option value="instant">Instant</option>}
+                <option value="rounds">Rounds</option>
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days">Days</option>
               </select>
             </div>
-
-            {/* Forced Movement specific settings */}
-            {selectedEffectForConfig.controlType === 'forced_movement' && (
-              <div className="effect-input-group">
-                <label>Distance (feet)</label>
-                <input
-                  type="number"
-                  min="5"
-                  max="60"
-                  step="5"
-                  value={selectedEffectForConfig.config?.distance || 10}
-                  onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'distance', parseInt(e.target.value))}
-                />
-              </div>
-            )}
           </div>
-        ) : (
-          <div className="no-effect-selected">
-            <p>Select an effect from the list above to configure it</p>
-          </div>
-        )}
-      </div>
 
-      {/* Effect Preview (if needed) */}
-      {effectPreview && (
-        <div className="section">
-          <h3>Effect Preview</h3>
-          <div className="selected-effect">
-            <div className="effect-header">
-              <div className="effect-icon">
-                <img src={getIconUrl(effectPreview.icon)} alt={effectPreview.name} />
-              </div>
-              <div className="effect-info">
-                <div className="effect-name">{effectPreview.name}</div>
-                <div className="effect-description">
-                  {CONTROL_TYPES[effectPreview.controlType.toUpperCase()].name}
-                </div>
-              </div>
+          <div className="config-group">
+            <label>Concentration</label>
+            <div className="concentration-toggle">
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.concentration === true ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('concentration', true)}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.concentration === false ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('concentration', false)}
+              >
+                No
+              </button>
             </div>
-            <div className="effect-custom-config">
-              <div className="custom-config-row">
-                <div className="effect-description">{effectPreview.description}</div>
-              </div>
+          </div>
+
+          <div className="config-group">
+            <label>Difficulty Class (DC)</label>
+            <div className="dc-config">
+              <input
+                type="number"
+                min="1"
+                max="50"
+                value={controlConfig.difficultyClass}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || value === '0') {
+                    handleControlConfigChange('difficultyClass', 1);
+                  } else {
+                    const dc = Math.max(1, Math.min(50, parseInt(value) || 1));
+                    handleControlConfigChange('difficultyClass', dc);
+                  }
+                }}
+                className="dc-input"
+              />
+              <span className="dc-label">DC</span>
+            </div>
+          </div>
+
+          <div className="config-group">
+            <label>Saving Throw</label>
+            <select
+              value={controlConfig.savingThrowType || 'strength'}
+              onChange={(e) => handleSavingThrowTypeChange(e.target.value)}
+              className="save-select"
+            >
+              <option value="strength">Strength</option>
+              <option value="agility">Agility</option>
+              <option value="constitution">Constitution</option>
+              <option value="intelligence">Intelligence</option>
+              <option value="spirit">Spirit</option>
+              <option value="charisma">Charisma</option>
+            </select>
+          </div>
+
+          <div className="config-group">
+            <label>Instant Effect</label>
+            <div className="instant-toggle">
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.instant === true ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('instant', true)}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.instant === false ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('instant', false)}
+              >
+                No
+              </button>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Available Effects Section */}
+      <div className="section">
+        <h4>Available Effects</h4>
+
+        {/* Control Category Selection */}
+        <div className="control-category-buttons">
+          {Object.values(CONTROL_TYPES).map(type => (
+            <button
+              key={type.id}
+              className={`control-category-btn ${activeControlType === type.id ? 'selected' : ''}`}
+              onClick={() => handleControlTypeChange(type.id)}
+            >
+              <img
+                src={getIconUrl(type.icon)}
+                alt={type.name}
+                className="control-category-btn-icon"
+              />
+              <span>{type.name}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Selected Effects Section - Moved up here */}
+        {controlConfig.effects && controlConfig.effects.length > 0 && (
+          <div className="selected-stats">
+            <h4>Selected Effects ({controlConfig.effects.length})</h4>
+            <div className="selected-effects-grid">
+              {controlConfig.effects.map(effect => (
+                <div className="selected-effect-card" key={effect.id}>
+                  <div className="effect-card-header">
+                    <img src={getIconUrl(effect.icon)} alt={effect.config?.customName || effect.name} className="effect-card-icon" />
+                    <div className="effect-card-title">{effect.config?.customName || effect.name}</div>
+                    <button
+                      className="effect-configure-btn"
+                      onClick={() => {
+                        setSelectedEffectForPopupConfig(effect);
+                        setConfigPopupOpen(true);
+                      }}
+                      title="Configure effect"
+                    >
+                      <i className="fas fa-cog"></i>
+                    </button>
+                    <button
+                      className="effect-remove-btn"
+                      onClick={() => handleRemoveEffect(effect.id)}
+                      title="Remove effect"
+                    >
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <div className="effect-card-description">
+                    {effect.config?.customDescription || effect.description}
+                  </div>
+                  <div className="effect-card-potency">
+                    {(() => {
+                      const details = [];
+
+                      // Add type-specific configuration details
+                      if (effect.controlType === 'forced_movement') {
+                        if (effect.config?.distance) {
+                          details.push(`${effect.config.distance} ft`);
+                        }
+                        if (effect.config?.movementType && effect.config.movementType !== 'push') {
+                          details.push(effect.config.movementType);
+                        }
+                        if (effect.config?.movementFlavor && effect.config.movementFlavor !== 'force') {
+                          details.push(effect.config.movementFlavor);
+                        }
+                      } else if (effect.controlType === 'restraint') {
+                        if (effect.config?.restraintType && effect.config.restraintType !== 'physical') {
+                          details.push(effect.config.restraintType);
+                        }
+                        // Note: DC is handled by main control configuration
+                      } else if (effect.controlType === 'mental_control') {
+                        if (effect.config?.controlLevel) {
+                          details.push(effect.config.controlLevel);
+                        }
+                        if (effect.config?.mentalApproach && effect.config.mentalApproach !== 'subtle') {
+                          details.push(effect.config.mentalApproach);
+                        }
+                      } else if (effect.controlType === 'battlefield_control') {
+                        if (effect.config?.areaSize) {
+                          details.push(`${effect.config.areaSize} ft`);
+                        }
+                        if (effect.config?.areaShape && effect.config.areaShape !== 'circle') {
+                          details.push(effect.config.areaShape);
+                        }
+                      } else if (effect.controlType === 'incapacitation') {
+                        if (effect.config?.durationType && effect.config.durationType !== 'temporary') {
+                          details.push(effect.config.durationType);
+                        }
+                        if (effect.config?.recoveryMethod && effect.config.recoveryMethod !== 'automatic') {
+                          details.push(effect.config.recoveryMethod);
+                        }
+                      }
+
+                      // Add duration info
+                      if (!effect.config?.instant) {
+                        details.push(`${effect.config?.duration || 2} ${effect.config?.durationUnit || 'rounds'}`);
+                      } else {
+                        details.push('Instant');
+                      }
+
+                      return details.length > 0 ? details.join(' • ') : 'Default configuration';
+                    })()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Effect Type Selection */}
+        {renderEffectTypeSelection()}
+      </div>
+
+      {/* Enhanced Effect Configuration Popup - Rendered outside spellbook window */}
+      {configPopupOpen && selectedEffectForPopupConfig && ReactDOM.createPortal(
+        <div className="effect-config-popup-overlay" onClick={() => setConfigPopupOpen(false)}>
+          <div className="effect-config-popup enhanced-control-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="effect-config-header">
+              <img
+                src={getIconUrl(selectedEffectForPopupConfig.icon)}
+                alt={selectedEffectForPopupConfig.name}
+                className="effect-config-icon"
+              />
+              <h3>Configure Control Effect</h3>
+              <button
+                className="effect-config-close"
+                onClick={() => setConfigPopupOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="effect-config-content">
+              {/* Basic Configuration Section */}
+              <div className="config-section">
+                <h4>Basic Configuration</h4>
+                <div className="effect-config-field">
+                  <label>Effect Name</label>
+                  <input
+                    type="text"
+                    value={selectedEffectForPopupConfig.config?.customName || selectedEffectForPopupConfig.name}
+                    onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'customName', e.target.value)}
+                    placeholder="Custom effect name"
+                  />
+                </div>
+
+                <div className="effect-config-field">
+                  <label>Effect Description</label>
+                  <textarea
+                    value={selectedEffectForPopupConfig.config?.customDescription || selectedEffectForPopupConfig.description}
+                    onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'customDescription', e.target.value)}
+                    placeholder="Custom effect description"
+                    rows="3"
+                  />
+                </div>
+              </div>
+
+              {/* Context-specific Configuration Section */}
+              <div className="config-section">
+                <h4>Effect-Specific Settings</h4>
+
+                {selectedEffectForPopupConfig.controlType === 'forced_movement' && (
+                  <>
+                    <div className="config-row">
+                      <div className="effect-config-field">
+                        <label>Distance (feet)</label>
+                        <input
+                          type="number"
+                          min="5"
+                          max="60"
+                          step="5"
+                          value={selectedEffectForPopupConfig.config?.distance || 10}
+                          onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'distance', parseInt(e.target.value) || 10)}
+                          placeholder="Distance in feet"
+                        />
+                      </div>
+
+                      <div className="effect-config-field">
+                        <label>Movement Type</label>
+                        <select
+                          value={selectedEffectForPopupConfig.config?.movementType || 'push'}
+                          onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'movementType', e.target.value)}
+                        >
+                          <option value="push">Push Away</option>
+                          <option value="pull">Pull Toward</option>
+                          <option value="slide">Slide (Any Direction)</option>
+                          <option value="teleport">Forced Teleport</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="effect-config-field">
+                      <label>Movement Flavor</label>
+                      <select
+                        value={selectedEffectForPopupConfig.config?.movementFlavor || 'force'}
+                        onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'movementFlavor', e.target.value)}
+                      >
+                        <option value="force">Magical Force</option>
+                        <option value="wind">Gust of Wind</option>
+                        <option value="gravity">Gravitational Pull</option>
+                        <option value="telekinetic">Telekinetic Grip</option>
+                        <option value="spectral">Spectral Hands</option>
+                      </select>
+                    </div>
+                  </>
+                )}
+
+                {selectedEffectForPopupConfig.controlType === 'incapacitation' && (
+                  <div className="config-row">
+                    <div className="effect-config-field">
+                      <label>Duration Type</label>
+                      <select
+                        value={selectedEffectForPopupConfig.config?.durationType || 'temporary'}
+                        onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'durationType', e.target.value)}
+                      >
+                        <option value="instant">Instantaneous</option>
+                        <option value="temporary">Temporary</option>
+                        <option value="concentration">Concentration</option>
+                        <option value="permanent">Until Dispelled</option>
+                      </select>
+                    </div>
+
+                    <div className="effect-config-field">
+                      <label>Recovery Method</label>
+                      <select
+                        value={selectedEffectForPopupConfig.config?.recoveryMethod || 'automatic'}
+                        onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'recoveryMethod', e.target.value)}
+                      >
+                        <option value="automatic">Automatic (Time)</option>
+                        <option value="save_each_turn">Save Each Turn</option>
+                        <option value="damage_breaks">Damage Breaks</option>
+                        <option value="action_required">Action Required</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {selectedEffectForPopupConfig.controlType === 'battlefield_control' && (
+                  <div className="config-row">
+                    <div className="effect-config-field">
+                      <label>Area Size (feet)</label>
+                      <input
+                        type="number"
+                        min="5"
+                        max="30"
+                        step="5"
+                        value={selectedEffectForPopupConfig.config?.areaSize || 10}
+                        onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'areaSize', parseInt(e.target.value) || 10)}
+                        placeholder="Area size in feet"
+                      />
+                    </div>
+
+                    <div className="effect-config-field">
+                      <label>Area Shape</label>
+                      <select
+                        value={selectedEffectForPopupConfig.config?.areaShape || 'circle'}
+                        onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'areaShape', e.target.value)}
+                      >
+                        <option value="circle">Circle</option>
+                        <option value="square">Square</option>
+                        <option value="line">Line</option>
+                        <option value="cone">Cone</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {selectedEffectForPopupConfig.controlType === 'mental_control' && (
+                  <>
+                    <div className="config-row">
+                      <div className="effect-config-field">
+                        <label>Control Level</label>
+                        <select
+                          value={selectedEffectForPopupConfig.config?.controlLevel || 'suggestion'}
+                          onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'controlLevel', e.target.value)}
+                        >
+                          <option value="suggestion">Suggestion</option>
+                          <option value="compulsion">Compulsion</option>
+                          <option value="domination">Domination</option>
+                          <option value="possession">Possession</option>
+                        </select>
+                      </div>
+
+                      <div className="effect-config-field">
+                        <label>Mental Approach</label>
+                        <select
+                          value={selectedEffectForPopupConfig.config?.mentalApproach || 'subtle'}
+                          onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'mentalApproach', e.target.value)}
+                        >
+                          <option value="subtle">Subtle Influence</option>
+                          <option value="overwhelming">Overwhelming Presence</option>
+                          <option value="seductive">Seductive Whispers</option>
+                          <option value="terrifying">Terrifying Command</option>
+                        </select>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {selectedEffectForPopupConfig.controlType === 'restraint' && (
+                  <div className="effect-config-field">
+                    <label>Restraint Type</label>
+                    <select
+                      value={selectedEffectForPopupConfig.config?.restraintType || 'physical'}
+                      onChange={(e) => updateEffectConfig(selectedEffectForPopupConfig.id, 'restraintType', e.target.value)}
+                    >
+                      <option value="physical">Physical Bonds</option>
+                      <option value="magical">Magical Restraint</option>
+                      <option value="environmental">Environmental</option>
+                      <option value="paralysis">Paralysis</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="effect-config-footer">
+              <button
+                className="effect-config-cancel"
+                onClick={() => setConfigPopupOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="effect-config-save"
+                onClick={() => setConfigPopupOpen(false)}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
       )}
 
-      {/* Tooltip component */}
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
+
     </div>
   );
 };

@@ -1,138 +1,268 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
+import useInventoryStore from '../../store/inventoryStore';
+import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import StatTooltip from '../tooltips/StatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import ItemTooltip from '../item-generation/ItemTooltip';
+import UnequipContextMenu from '../equipment/UnequipContextMenu';
+import ClassResourceBar from '../hud/ClassResourceBar';
+import { createInventoryItem, isOffHandDisabled } from '../../utils/equipmentUtils';
+import { calculateDerivedStats } from '../../utils/characterUtils';
+import { getClassResourceConfig, getResourceDisplayText } from '../../data/classResources';
+import { getRaceList, getSubraceList } from '../../data/raceData';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
+import '../../styles/racial-traits.css';
 
-const DAMAGE_TYPES = {
-    fire: { 
-        name: 'Fire', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg',
-        color: '#ff4400'
-    },
-    cold: { 
-        name: 'Cold', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg',
-        color: '#3399ff'
-    },
-    lightning: { 
-        name: 'Lightning', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg',
-        color: '#ffff00'
-    },
-    acid: { 
-        name: 'Acid', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_02.jpg',
-        color: '#00ff00'
-    },
-    force: { 
-        name: 'Force', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg',
-        color: '#ff66ff'
-    },
-    necrotic: { 
-        name: 'Necrotic', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg',
-        color: '#660066'
-    },
-    radiant: { 
-        name: 'Radiant', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg',
-        color: '#ffff99'
-    },
-    poison: { 
-        name: 'Poison', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg',
-        color: '#00ff00'
-    },
-    psychic: { 
-        name: 'Psychic', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg',
-        color: '#ff00ff'
-    },
-    thunder: { 
-        name: 'Thunder', 
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg',
-        color: '#0066ff'
-    }
-};
 
-const STAT_ICONS = {
-    // Base Stats
-    strength: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_strengthofarms.jpg',
-    agility: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_quickrecovery.jpg',
-    intelligence: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-    wisdom: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_innerfire.jpg',
-    charisma: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-    constitution: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_wordfortitude.jpg',
-    spirit: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essenceeternallarge.jpg',
-    'spell power': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-    // Combat Stats
-    'armor class': 'https://wow.zamimg.com/images/wow/icons/large/inv_shield_04.jpg',
-    'initiative': 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-    'hit points': 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg',
-    'attack bonus': 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg',
-    'damage bonus': 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_weaponmastery.jpg',
-    'hit chance': 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_snipershot.jpg',
-    'crit chance': 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg',
-    'piercing damage': 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-    'bludgeoning damage': 'https://wow.zamimg.com/images/wow/icons/large/inv_mace_02.jpg',
-    'slashing damage': 'https://wow.zamimg.com/images/wow/icons/large/inv_axe_01.jpg',
-    // Defensive Stats
-    'max health': 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg',
-    'max mana': 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_72.jpg',
-    'health regeneration': 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg',
-    'mana regeneration': 'https://wow.zamimg.com/images/wow/icons/large/spell_magic_managain.jpg',
-    'healing received': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofsacrifice.jpg',
-    'healing power': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-    'resistances': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg',
-    'immunities': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineprotection.jpg',
-    // Utility
-    'movement speed': 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-    'swim speed': 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_aquaticform.jpg',
-    'carrying capacity': 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_08.jpg',
-    'vision range': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg'
-};
 
-const ResourceBar = ({ current, max, className, label }) => {
+const ResourceBar = ({ current, max, className, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const [showControls, setShowControls] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [controlsPosition, setControlsPosition] = useState({ x: 0, y: 0 });
     const percentage = (current / max) * 100;
+
+    const handleMouseEnter = (e) => {
+        setIsHovered(true);
+        setTooltipPosition({
+            x: e.clientX + 15,
+            y: e.clientY - 10
+        });
+    };
+
+    const handleMouseMove = (e) => {
+        setTooltipPosition({
+            x: e.clientX + 15,
+            y: e.clientY - 10
+        });
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+
+    const handleBarClick = (e) => {
+        if (!showControls) {
+            // Calculate position for the controls popup
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = rect.left;
+            const y = rect.bottom + 8; // Position below the bar with some spacing
+
+            // Ensure the popup stays within viewport
+            const popupWidth = 200; // Approximate width of controls
+            const popupHeight = 100; // Approximate height of controls
+
+            const adjustedX = Math.min(x, window.innerWidth - popupWidth - 20);
+            const adjustedY = Math.min(y, window.innerHeight - popupHeight - 20);
+
+            setControlsPosition({ x: adjustedX, y: adjustedY });
+        }
+        setShowControls(!showControls);
+    };
+
+    const handleAdjustment = (amount) => {
+        const newValue = Math.max(0, Math.min(max, current + amount));
+        onUpdate(resourceType, newValue, max);
+    };
+
+    const handleInputSubmit = () => {
+        const value = parseInt(inputValue);
+        if (!isNaN(value)) {
+            const newValue = Math.max(0, Math.min(max, value));
+            onUpdate(resourceType, newValue, max);
+        }
+        setInputValue('');
+        setShowControls(false);
+    };
+
+    const handleInputKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleInputSubmit();
+        } else if (e.key === 'Escape') {
+            setInputValue('');
+            setShowControls(false);
+        }
+    };
+
+    const getTooltipContent = () => {
+        switch(resourceType) {
+            case 'health':
+                return {
+                    title: 'Health Points',
+                    description: 'Your life force. When reduced to 0, you fall unconscious and must make death saving throws. Click to adjust.'
+                };
+            case 'mana':
+                return {
+                    title: 'Mana Points',
+                    description: 'Your magical energy used to cast spells and activate magical abilities. Click to adjust.'
+                };
+            case 'actionPoints':
+                return {
+                    title: 'Action Points',
+                    description: 'Points used to perform actions in combat. Refreshes at the start of your turn. Click to adjust.'
+                };
+            default:
+                return null;
+        }
+    };
+
+    const tooltipContent = getTooltipContent();
+
     return (
-        <div className="resource-container">
-            <span className="resource-label">{label}</span>
-            <div className="resource-wrapper">
-                <div className="resource-numbers">
-                    {current} / {max}
-                </div>
-                <div className={`resource-bar ${className}`}>
-                    <div className="resource-fill" style={{ width: `${percentage}%` }} />
+        <div className="resource-bar-container">
+            <div className="resource-bar-header">
+                <span className="resource-bar-label">{label}</span>
+                <span className="resource-bar-values">{current} / {max}</span>
+            </div>
+
+            <div
+                className="resource-bar-wrapper"
+                onMouseEnter={handleMouseEnter}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleBarClick}
+            >
+                <div className={`resource-bar-track ${className}`}>
+                    <div className="resource-bar-fill" style={{ width: `${percentage}%` }} />
                 </div>
             </div>
+
+            {showControls && ReactDOM.createPortal(
+                <div
+                    className="resource-controls"
+                    style={{
+                        left: controlsPosition.x,
+                        top: controlsPosition.y,
+                        pointerEvents: 'auto'
+                    }}
+                >
+                        <div className="resource-controls-header">
+                            <span className="resource-controls-title">Adjust {label}</span>
+                            <button
+                                className="resource-controls-close"
+                                onClick={() => setShowControls(false)}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="resource-adjustment-buttons">
+                            <button onClick={() => handleAdjustment(-10)} className="adjust-btn">-10</button>
+                            <button onClick={() => handleAdjustment(-5)} className="adjust-btn">-5</button>
+                            <button onClick={() => handleAdjustment(-1)} className="adjust-btn">-1</button>
+                            <button onClick={() => handleAdjustment(1)} className="adjust-btn">+1</button>
+                            <button onClick={() => handleAdjustment(5)} className="adjust-btn">+5</button>
+                            <button onClick={() => handleAdjustment(10)} className="adjust-btn">+10</button>
+                        </div>
+                        <div className="resource-input-section">
+                            <input
+                                type="number"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={handleInputKeyPress}
+                                placeholder={`Set to...`}
+                                className="resource-input"
+                                min="0"
+                                max={max}
+                            />
+                            <button onClick={handleInputSubmit} className="set-btn">Set</button>
+                        </div>
+                    </div>,
+                document.body
+            )}
+
+            {isHovered && tooltipContent && (
+                <TooltipPortal>
+                    <div
+                        className="equipment-slot-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: tooltipPosition.x,
+                            top: tooltipPosition.y,
+                            transform: 'translate(10px, -50%)',
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        <div className="equipment-slot-name">
+                            {tooltipContent.title}
+                        </div>
+                        <div className="equipment-slot-description">
+                            {tooltipContent.description}
+                        </div>
+                    </div>
+                </TooltipPortal>
+            )}
         </div>
     );
 };
 
 export default function CharacterPanel() {
-    const { 
-        equipment, 
-        stats, 
-        health, 
-        mana, 
-        actionPoints, 
+    // Use inspection context if available, otherwise use regular character store
+    const inspectionData = useInspectionCharacter();
+    const characterStore = useCharacterStore();
+
+    // Choose data source based on whether we're in inspection mode
+    const dataSource = inspectionData || characterStore;
+
+    const {
+        equipment,
+        stats,
+        equipmentBonuses,
+        derivedStats,
+        health,
+        mana,
+        actionPoints,
+        classResource,
         name,
         race,
+        subrace,
+        racialTraits = [],
+        racialLanguages = [],
+        racialSpeed,
+        class: characterClass,
+        level,
         alignment,
         exhaustionLevel,
         updateEquipment,
+        updateCharacterInfo,
+        updateResource,
+        unequipItem,
         immunities = [] // Default to empty array if not provided
-    } = useCharacterStore();
+    } = dataSource;
+
+    // State for navigation
+    const [activeSection, setActiveSection] = useState('character');
+
+    // Define sections for navigation
+    const sections = {
+        character: {
+            title: 'Character Info',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
+        },
+        equipment: {
+            title: 'Equipment',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate06.jpg'
+        },
+        resources: {
+            title: 'Resources',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg'
+        }
+    };
+
+    // Inventory store for adding unequipped items back to inventory
+    const { addItem } = useInventoryStore(state => ({
+        addItem: state.addItem
+    }));
+
     const [hoveredSlot, setHoveredSlot] = useState(null);
-    const [selectedStatGroup, setSelectedStatGroup] = useState('base');
-    const [hoveredStat, setHoveredStat] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [tooltipDelay, setTooltipDelay] = useState(null);
+    const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
 
     useEffect(() => {
         return () => {
@@ -142,21 +272,6 @@ export default function CharacterPanel() {
         };
     }, [tooltipDelay]);
 
-    const handleStatHover = (e, label, isSubStat = false) => {
-        e.stopPropagation();
-        if (tooltipDelay) {
-            clearTimeout(tooltipDelay);
-        }
-        
-        // Set initial position
-        updateTooltipPosition(e);
-        
-        const delay = setTimeout(() => {
-            setHoveredStat(label);
-        }, 100);
-        setTooltipDelay(delay);
-    };
-
     const updateTooltipPosition = (e) => {
         // Position tooltip near cursor but with a small offset
         setTooltipPosition({
@@ -165,16 +280,428 @@ export default function CharacterPanel() {
         });
     };
 
-    const handleStatLeave = (e) => {
-        e.stopPropagation();
-        if (tooltipDelay) {
-            clearTimeout(tooltipDelay);
+    // Render character info section
+    const renderCharacterInfo = () => (
+        <div className="character-info-content">
+            <div className="character-identity-section">
+                <div className="character-name-section">
+                    <label className="character-field-label">Character Name</label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => updateCharacterInfo('name', e.target.value)}
+                        className="character-field-input"
+                        placeholder="Enter character name"
+                    />
+                </div>
+
+                <div className="character-details-grid">
+                    <div className="character-field">
+                        <label className="character-field-label">Race</label>
+                        <select
+                            value={race}
+                            onChange={(e) => updateCharacterInfo('race', e.target.value)}
+                            className="character-field-input"
+                        >
+                            <option value="">Select a race</option>
+                            {getRaceList().map(raceOption => (
+                                <option key={raceOption.id} value={raceOption.id}>
+                                    {raceOption.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="character-field">
+                        <label className="character-field-label">Subrace</label>
+                        <select
+                            value={subrace}
+                            onChange={(e) => updateCharacterInfo('subrace', e.target.value)}
+                            className="character-field-input"
+                            disabled={!race}
+                        >
+                            <option value="">Select a subrace</option>
+                            {race && getSubraceList(race).map(subraceOption => (
+                                <option key={subraceOption.id} value={subraceOption.id}>
+                                    {subraceOption.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="character-field">
+                        <label className="character-field-label">Class</label>
+                        <select
+                            value={characterClass}
+                            onChange={(e) => updateCharacterInfo('class', e.target.value)}
+                            className="character-field-input"
+                        >
+                            <option value="">Select a class</option>
+                            <option value="Pyrofiend">Pyrofiend</option>
+                            <option value="Minstrel">Minstrel</option>
+                            <option value="Chronarch">Chronarch</option>
+                            <option value="Chaos Weaver">Chaos Weaver</option>
+                            <option value="Fate Weaver">Fate Weaver</option>
+                            <option value="Gambler">Gambler</option>
+                            <option value="Martyr">Martyr</option>
+                            <option value="False Prophet">False Prophet</option>
+                            <option value="Exorcist">Exorcist</option>
+                            <option value="Plaguebringer">Plaguebringer</option>
+                            <option value="Lichborne">Lichborne</option>
+                            <option value="Deathcaller">Deathcaller</option>
+                            <option value="Spellguard">Spellguard</option>
+                            <option value="Inscriptor">Inscriptor</option>
+                            <option value="Arcanoneer">Arcanoneer</option>
+                            <option value="Witch Doctor">Witch Doctor</option>
+                            <option value="Formbender">Formbender</option>
+                            <option value="Primalist">Primalist</option>
+                            <option value="Berserker">Berserker</option>
+                            <option value="Dreadnaught">Dreadnaught</option>
+                            <option value="Titan">Titan</option>
+                            <option value="Toxicologist">Toxicologist</option>
+                            <option value="Covenbane">Covenbane</option>
+                            <option value="Bladedancer">Bladedancer</option>
+                            <option value="Lunarch">Lunarch</option>
+                            <option value="Huntress">Huntress</option>
+                            <option value="Warden">Warden</option>
+                        </select>
+                    </div>
+
+                    <div className="character-field">
+                        <label className="character-field-label">Level</label>
+                        <input
+                            type="number"
+                            min="1"
+                            max="20"
+                            value={level}
+                            onChange={(e) => updateCharacterInfo('level', parseInt(e.target.value) || 1)}
+                            className="character-field-input"
+                        />
+                    </div>
+
+                    <div className="character-field">
+                        <label className="character-field-label">Alignment</label>
+                        <select
+                            value={alignment}
+                            onChange={(e) => updateCharacterInfo('alignment', e.target.value)}
+                            className="character-field-select"
+                        >
+                            <option value="Lawful Good">Lawful Good</option>
+                            <option value="Neutral Good">Neutral Good</option>
+                            <option value="Chaotic Good">Chaotic Good</option>
+                            <option value="Lawful Neutral">Lawful Neutral</option>
+                            <option value="True Neutral">True Neutral</option>
+                            <option value="Chaotic Neutral">Chaotic Neutral</option>
+                            <option value="Lawful Evil">Lawful Evil</option>
+                            <option value="Neutral Evil">Neutral Evil</option>
+                            <option value="Chaotic Evil">Chaotic Evil</option>
+                        </select>
+                    </div>
+
+                    <div className="character-field">
+                        <label className="character-field-label">Exhaustion Level</label>
+                        <select
+                            value={exhaustionLevel}
+                            onChange={(e) => updateCharacterInfo('exhaustionLevel', parseInt(e.target.value))}
+                            className="character-field-select"
+                        >
+                            <option value={0}>None</option>
+                            <option value={1}>Level 1</option>
+                            <option value={2}>Level 2</option>
+                            <option value={3}>Level 3</option>
+                            <option value={4}>Level 4</option>
+                            <option value={5}>Level 5</option>
+                            <option value={6}>Level 6</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Racial Traits Section */}
+                {racialTraits.length > 0 && (
+                    <div className="racial-traits-section">
+                        <h3 className="racial-traits-title">Racial Traits</h3>
+                        <div className="racial-traits-grid">
+                            {racialTraits.map((trait, index) => (
+                                <div key={index} className="racial-trait-card">
+                                    <div className="racial-trait-header">
+                                        <h4 className="racial-trait-name">{trait.name}</h4>
+                                        <span className="racial-trait-type" data-type={trait.type}>{trait.type}</span>
+                                    </div>
+                                    <p className="racial-trait-description">{trait.description}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Additional Racial Information */}
+                        <div className="racial-info-grid">
+                            {racialLanguages.length > 0 && (
+                                <div className="racial-info-item">
+                                    <label className="racial-info-label">Languages:</label>
+                                    <span className="racial-info-value">{racialLanguages.join(', ')}</span>
+                                </div>
+                            )}
+                            {racialSpeed && (
+                                <div className="racial-info-item">
+                                    <label className="racial-info-label">Speed:</label>
+                                    <span className="racial-info-value">{racialSpeed} feet</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+
+    // Render equipment section
+    const renderEquipment = () => (
+        <div className="equipment-content">
+            <div className="equipment-layout">
+                {/* Left Equipment Column */}
+                <div className="left-equipment">
+                    {Object.entries(slots).filter(([slotName]) =>
+                        ['head', 'neck', 'shoulders', 'back', 'chest', 'shirt', 'tabard', 'wrists'].includes(slotName)
+                    ).map(([slotName, config]) => renderSlot(slotName, config))}
+                </div>
+
+                {/* Character Portrait Section with Weapons Below */}
+                <div className="character-center-section">
+                    <div className="character-image-container">
+                        <img
+                            src="https://wow.zamimg.com/uploads/screenshots/normal/1046017-human-priest.jpg"
+                            alt="Character Portrait"
+                            className="character-portrait"
+                        />
+                    </div>
+
+                    {/* Weapon Slots Below Character */}
+                    <div className="weapon-slots">
+                        <div className="weapon-slots-row">
+                            {Object.entries(weaponSlots).map(([slotName, config]) => {
+                                const item = equipment[slotName];
+                                const isEmpty = !item;
+                                const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
+
+                                // Weapon slot descriptions
+                                const slotDescriptions = {
+                                    mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
+                                    offHand: isDisabled ?
+                                        "Off-hand is disabled while wielding a two-handed weapon." :
+                                        "Secondary weapons, shields, or magical focuses held in your off-hand.",
+                                    ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
+                                };
+
+                                return (
+                                    <div
+                                        key={slotName}
+                                        className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                        onMouseEnter={(e) => {
+                                            setHoveredSlot(slotName);
+                                            updateTooltipPosition(e);
+                                        }}
+                                        onMouseMove={updateTooltipPosition}
+                                        onMouseLeave={() => setHoveredSlot(null)}
+                                        onContextMenu={(e) => {
+                                            if (item && !isDisabled) {
+                                                handleUnequipContextMenu(e, item, slotName);
+                                            }
+                                        }}
+                                    >
+                                        <img
+                                            src={item ? (item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')) : config.icon}
+                                            alt={slotName}
+                                            style={{ opacity: isDisabled ? 0.3 : 1 }}
+                                            onError={(e) => {
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                            }}
+                                        />
+
+                                        {/* Red cross overlay for disabled off-hand */}
+                                        {isDisabled && (
+                                            <div className="disabled-overlay">
+                                                <div className="red-cross">
+                                                    <div className="cross-line cross-line-1"></div>
+                                                    <div className="cross-line cross-line-2"></div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
+                                        {hoveredSlot === slotName && (isEmpty || isDisabled) && (
+                                            <TooltipPortal>
+                                                <div
+                                                    className="equipment-slot-tooltip"
+                                                    style={{
+                                                        position: 'fixed',
+                                                        left: tooltipPosition.x,
+                                                        top: tooltipPosition.y,
+                                                        transform: 'translate(10px, -50%)',
+                                                        pointerEvents: 'none',
+                                                        zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                                                    }}
+                                                >
+                                                    <div className="equipment-slot-name">{config.info}</div>
+                                                    <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${config.info} equipment`}</div>
+                                                </div>
+                                            </TooltipPortal>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Equipment Column */}
+                <div className="right-equipment">
+                    {Object.entries(slots).filter(([slotName]) =>
+                        ['hands', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
+                    ).map(([slotName, config]) => renderSlot(slotName, config))}
+                </div>
+            </div>
+        </div>
+    );
+
+    // Render resources section
+    const renderResources = () => {
+        // Get class resource configuration
+        const classResourceConfig = characterClass ? getClassResourceConfig(characterClass) : null;
+
+        return (
+            <div className="resources-content">
+                <div className="resource-bars-section">
+                    <ResourceBar
+                        current={health.current}
+                        max={health.max}
+                        className="health"
+                        label="Health"
+                        resourceType="health"
+                        onUpdate={updateResource}
+                        tooltipPosition={tooltipPosition}
+                        setTooltipPosition={setTooltipPosition}
+                    />
+                    <ResourceBar
+                        current={mana.current}
+                        max={mana.max}
+                        className="mana"
+                        label="Mana"
+                        resourceType="mana"
+                        onUpdate={updateResource}
+                        tooltipPosition={tooltipPosition}
+                        setTooltipPosition={setTooltipPosition}
+                    />
+                    <ResourceBar
+                        current={actionPoints.current}
+                        max={actionPoints.max}
+                        className="action-points"
+                        label="Action Points"
+                        resourceType="actionPoints"
+                        onUpdate={updateResource}
+                        tooltipPosition={tooltipPosition}
+                        setTooltipPosition={setTooltipPosition}
+                    />
+
+                    {/* Class Resource - Show if character has a class and class resource */}
+                    {characterClass && classResource && classResourceConfig && (
+                        <div className="class-resource-section">
+                            <h4 className="resource-section-title">{classResourceConfig.name}</h4>
+                            <div className="class-resource-display">
+                                <ClassResourceBar
+                                    characterClass={characterClass}
+                                    classResource={classResource}
+                                    size="large"
+                                />
+                            </div>
+                            <div className="class-resource-details">
+                                <div className="resource-description">
+                                    {classResourceConfig.description}
+                                </div>
+                                <div className="resource-mechanics">
+                                    <div className="resource-stat">
+                                        <span className="stat-label">Current:</span>
+                                        <span className="stat-value">{classResource.current}</span>
+                                    </div>
+                                    <div className="resource-stat">
+                                        <span className="stat-label">Maximum:</span>
+                                        <span className="stat-value">{classResource.max}</span>
+                                    </div>
+                                    {classResource.stacks && classResource.stacks.length > 0 && (
+                                        <div className="resource-stat">
+                                            <span className="stat-label">Stacks:</span>
+                                            <span className="stat-value">{classResource.stacks.length}</span>
+                                        </div>
+                                    )}
+                                    {classResource.risk !== undefined && classResource.risk > 0 && (
+                                        <div className="resource-stat">
+                                            <span className="stat-label">Risk:</span>
+                                            <span className="stat-value">{classResource.risk}</span>
+                                        </div>
+                                    )}
+                                    {classResource.volatility !== undefined && classResource.volatility > 0 && (
+                                        <div className="resource-stat">
+                                            <span className="stat-label">Volatility:</span>
+                                            <span className="stat-value">{classResource.volatility}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    // Render content based on active section
+    const renderSectionContent = () => {
+        switch (activeSection) {
+            case 'character':
+                return renderCharacterInfo();
+            case 'equipment':
+                return renderEquipment();
+            case 'resources':
+                return renderResources();
+            default:
+                return renderCharacterInfo();
         }
-        setHoveredStat(null);
+    };
+
+    // Handle unequip context menu
+    const handleUnequipContextMenu = (e, item, slotName) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Calculate position to ensure menu stays within viewport
+        const x = Math.min(e.clientX, window.innerWidth - 250);
+        const y = Math.min(e.clientY, window.innerHeight - 150);
+
+        setUnequipContextMenu({
+            visible: true,
+            x,
+            y,
+            item,
+            slotName
+        });
+    };
+
+    // Handle unequipping an item
+    const handleUnequipItem = (slotName) => {
+        try {
+            // Unequip the item from the character
+            const unequippedItem = unequipItem(slotName);
+
+            if (unequippedItem) {
+                // Add the item back to inventory
+                addItem(unequippedItem);
+                console.log(`Unequipped ${unequippedItem.name} from ${slotName}`);
+            }
+        } catch (error) {
+            console.error('Error unequipping item:', error);
+        }
     };
 
     const slots = {
-        head: { 
+        head: {
             position: { top: 0, left: -50 },
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_helmet_01.jpg',
             info: 'Head'
@@ -214,7 +741,7 @@ export default function CharacterPanel() {
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_bracer_02.jpg',
             info: 'Wrists'
         },
-        hands: { 
+        hands: {
             position: { top: 0, right: -50 },
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_01.jpg',
             info: 'Hands'
@@ -271,595 +798,212 @@ export default function CharacterPanel() {
         }
     };
 
-    const statGroups = {
-        base: {
-            title: 'Base Stats',
-            stats: [
-                { 
-                    label: 'Strength', 
-                    value: typeof stats.strength === 'object' ? stats.strength.value : stats.strength || 0,
-                    modifier: Math.floor(((typeof stats.strength === 'object' ? stats.strength.value : stats.strength || 0) - 10) / 2),
-                    tooltip: true 
-                },
-                { 
-                    label: 'Agility', 
-                    value: typeof stats.agility === 'object' ? stats.agility.value : stats.agility || 0,
-                    modifier: Math.floor(((typeof stats.agility === 'object' ? stats.agility.value : stats.agility || 0) - 10) / 2),
-                    tooltip: true 
-                },
-                { 
-                    label: 'Constitution', 
-                    value: typeof stats.constitution === 'object' ? stats.constitution.value : stats.constitution || 0,
-                    modifier: Math.floor(((typeof stats.constitution === 'object' ? stats.constitution.value : stats.constitution || 0) - 10) / 2),
-                    tooltip: true 
-                },
-                { 
-                    label: 'Intelligence', 
-                    value: typeof stats.intelligence === 'object' ? stats.intelligence.value : stats.intelligence || 0,
-                    modifier: Math.floor(((typeof stats.intelligence === 'object' ? stats.intelligence.value : stats.intelligence || 0) - 10) / 2),
-                    tooltip: true 
-                },
-                { 
-                    label: 'Spirit', 
-                    value: typeof stats.spirit === 'object' ? stats.spirit.value : stats.spirit || 0,
-                    modifier: Math.floor(((typeof stats.spirit === 'object' ? stats.spirit.value : stats.spirit || 0) - 10) / 2),
-                    tooltip: true 
-                },
-                { 
-                    label: 'Charisma', 
-                    value: typeof stats.charisma === 'object' ? stats.charisma.value : stats.charisma || 0,
-                    modifier: Math.floor(((typeof stats.charisma === 'object' ? stats.charisma.value : stats.charisma || 0) - 10) / 2),
-                    tooltip: true 
+    // Calculate total stats (base + equipment bonuses)
+    const getTotalStats = () => {
+        const totalStats = { ...stats };
+
+        if (equipmentBonuses) {
+            // Add equipment bonuses to base stats
+            const statMapping = {
+                str: 'strength',
+                con: 'constitution',
+                agi: 'agility',
+                int: 'intelligence',
+                spir: 'spirit',
+                cha: 'charisma'
+            };
+
+            Object.entries(statMapping).forEach(([bonusKey, statKey]) => {
+                if (equipmentBonuses[bonusKey]) {
+                    totalStats[statKey] = Math.round((totalStats[statKey] || 0) + equipmentBonuses[bonusKey]);
                 }
-            ]
-        },
-        offensive: {
-            title: 'Offensive Stats',
-            stats: [
-                { label: 'Piercing Damage', value: typeof stats.piercingDamage === 'object' ? stats.piercingDamage.value : stats.piercingDamage || 0, tooltip: true },
-                { label: 'Bludgeoning Damage', value: typeof stats.bludgeoningDamage === 'object' ? stats.bludgeoningDamage.value : stats.bludgeoningDamage || 0, tooltip: true },
-                { label: 'Slashing Damage', value: typeof stats.slashingDamage === 'object' ? stats.slashingDamage.value : stats.slashingDamage || 0, tooltip: true },
-                { label: 'Hit Chance', value: typeof stats.hitChance === 'object' ? stats.hitChance.value : stats.hitChance || 0, tooltip: true },
-                { label: 'Crit Chance', value: typeof stats.critChance === 'object' ? stats.critChance.value : stats.critChance || 0, tooltip: true },
-            ]
-        },
-        spellDamage: { // Add this new group
-            title: 'Spell Damage',
-            stats: [] // We'll handle this with custom rendering like resistances
-        },
-        defensive: {
-            title: 'Defensive Stats',
-            stats: [
-                { label: 'Armor Class', value: typeof stats.armorClass === 'object' ? stats.armorClass.value : stats.armorClass || 0, tooltip: true },
-                { label: 'Max Health', value: typeof stats.maxHealth === 'object' ? stats.maxHealth.value : stats.maxHealth || 0, tooltip: true },
-                { label: 'Max Mana', value: typeof stats.maxMana === 'object' ? stats.maxMana.value : stats.maxMana || 0, tooltip: true },
-                { label: 'Health Regeneration', value: typeof stats.healthRegen === 'object' ? stats.healthRegen.value : stats.healthRegen || 0, tooltip: true },
-                { label: 'Mana Regeneration', value: typeof stats.manaRegen === 'object' ? stats.manaRegen.value : stats.manaRegen || 0, tooltip: true },
-                { label: 'Healing Received', value: typeof stats.healingReceived === 'object' ? stats.healingReceived.value : stats.healingReceived || 0, tooltip: true },
-                { label: 'Healing Power', value: typeof stats.healingPower === 'object' ? stats.healingPower.value : stats.healingPower || 0, tooltip: true }
-            ]
-        },
-        resistances: {
-            title: 'Resistances',
-            stats: [] // We'll handle this with custom rendering
-        },
-        immunities: {
-            title: 'Immunities',
-            stats: [] // We'll handle this with custom rendering
-        },
-        utility: {
-            title: 'Utility Stats',
-            stats: [
-                { 
-                    label: 'Movement Speed', 
-                    value: typeof stats.movementSpeed === 'object' ? stats.movementSpeed.value : stats.movementSpeed || 30, 
-                    tooltip: true 
-                },
-                { 
-                    label: 'Vision Range', 
-                    value: typeof stats.visionRange === 'object' ? stats.visionRange.value : stats.visionRange || 60, 
-                    tooltip: true 
-                },
-                { 
-                    label: 'Swim Speed', 
-                    value: typeof stats.swimSpeed === 'object' ? stats.swimSpeed.value : stats.swimSpeed || 10, 
-                    tooltip: true 
-                },
-                { 
-                    label: 'Carrying Capacity', 
-                    value: typeof stats.carryingCapacity === 'object' ? stats.carryingCapacity.value : stats.carryingCapacity || '5x5',
-                    tooltip: true
-                },
-                { label: 'Initiative', value: stats.initiative || 0, tooltip: true }
-            ]
+            });
+
+            // Calculate fresh derived stats with current equipment bonuses
+            const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses);
+
+            // Add derived stats (all rounded)
+            totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || health.max);
+            totalStats.maxMana = Math.round(freshDerivedStats.maxMana || mana.max);
+            totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
+            totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
+            totalStats.armor = Math.round(freshDerivedStats.armor || 0);
+            totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed || 30);
+            totalStats.carryingCapacity = Math.round(freshDerivedStats.carryingCapacity || 0);
+            totalStats.damage = Math.round(freshDerivedStats.damage || 0);
+            totalStats.spellDamage = Math.round(freshDerivedStats.spellDamage || 0);
+            totalStats.healingPower = Math.round(freshDerivedStats.healingPower || 0);
+            totalStats.rangedDamage = Math.round(freshDerivedStats.rangedDamage || 0);
+
+            // Add resistances from equipment
+            if (equipmentBonuses.resistances) {
+                Object.entries(equipmentBonuses.resistances).forEach(([resistanceType, value]) => {
+                    const resistanceKey = `${resistanceType}Resistance`;
+                    totalStats[resistanceKey] = Math.round((totalStats[resistanceKey] || 0) + value);
+                });
+            }
+
+            // Add spell damage types from equipment
+            if (equipmentBonuses.spellDamageTypes) {
+                Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
+                    const spellPowerKey = `${spellType}SpellPower`;
+                    totalStats[spellPowerKey] = Math.round((totalStats[spellPowerKey] || 0) + value);
+                });
+            }
+
+            // Add immunities from equipment
+            if (equipmentBonuses.immunities && equipmentBonuses.immunities.length > 0) {
+                totalStats.immunities = [...(totalStats.immunities || []), ...equipmentBonuses.immunities];
+                // Remove duplicates
+                totalStats.immunities = [...new Set(totalStats.immunities)];
+            }
         }
+
+        return totalStats;
     };
 
-    const formatStatValue = (stat, value) => {
-        if (typeof value !== 'number') return value;
-        
-        if (stat === 'Movement Speed') return `${value} ft`;
-        if (stat === 'Swim Speed') return `${value} ft`;
-        if (stat === 'Vision Range') return `${value} ft`;
-        if (stat.includes('Resistance')) return `${value}%`;
-        if (stat === 'Crit Chance') return `${value}%`;
-        if (stat === 'Hit Chance') return `${value}%`;
-        
-        return value;
-    };
+    const totalStats = getTotalStats();
 
-    const isBaseStat = (stat) => {
-        return ['strength', 'agility', 'intelligence', 'spirit', 'charisma', 'constitution'].includes(stat.toLowerCase());
-    };
 
-    const renderStatBlock = () => {
-        const currentGroup = statGroups[selectedStatGroup];
 
-        // Special case for resistances section
-        if (selectedStatGroup === 'resistances') {
-            return (
-                <div className="character-stats">
-                    <div className="stat-group-selector">
-                        <select 
-                            value={selectedStatGroup} 
-                            onChange={(e) => setSelectedStatGroup(e.target.value)}
-                            className="stat-group-dropdown"
-                        >
-                            {Object.entries(statGroups).map(([key, group]) => (
-                                <option key={key} value={key}>{group.title}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="stats-content">
-                        <div className="resistance-grid">
-                            {Object.entries(DAMAGE_TYPES).map(([type, data]) => (
-                                <div 
-                                    key={type} 
-                                    className="resistance-item" 
-                                    onMouseEnter={(e) => handleStatHover(e, `${data.name} Resistance`, true)}
-                                    onMouseMove={updateTooltipPosition}
-                                    onMouseLeave={handleStatLeave}
-                                >
-                                    <img 
-                                        src={data.icon} 
-                                        alt={data.name} 
-                                        className="resistance-icon" 
-                                        style={{ borderColor: data.color }}
-                                    />
-                                    <div className="resistance-value" style={{ color: data.color }}>
-                                        {stats[`${type.toLowerCase()}Resistance`] || 0}%
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        
-                        {/* Keep tooltip logic for resistances */}
-                        {hoveredStat && hoveredStat.endsWith('Resistance') && (
-                            <TooltipPortal>
-                                <div 
-                                    className="tooltip"
-                                    style={{ 
-                                        position: 'fixed',
-                                        left: tooltipPosition.x,
-                                        top: tooltipPosition.y,
-                                        transform: 'translate(0, -50%)',
-                                        pointerEvents: 'none',
-                                        zIndex: 9999
-                                    }}
-                                >
-                                    <ResistanceTooltip 
-                                        type={hoveredStat.split(' ')[0].toLowerCase()} 
-                                        value={stats[`${hoveredStat.split(' ')[0].toLowerCase()}Resistance`] || 0} 
-                                    />
-                                </div>
-                            </TooltipPortal>
-                        )}
-                    </div>
-                </div>
-            );
-        }
-// Update the spellDamage case in the renderStatBlock function in Equipment.jsx
-// to use your existing tooltip system
 
-// Special case for spell damage section
-if (selectedStatGroup === 'spellDamage') {
-    return (
-        <div className="character-stats">
-            <div className="stat-group-selector">
-                <select 
-                    value={selectedStatGroup} 
-                    onChange={(e) => setSelectedStatGroup(e.target.value)}
-                    className="stat-group-dropdown"
-                >
-                    {Object.entries(statGroups).map(([key, group]) => (
-                        <option key={key} value={key}>{group.title}</option>
-                    ))}
-                </select>
-            </div>
-            <div className="stats-content">
-                <div className="spell-damage-grid">
-                    {Object.entries(DAMAGE_TYPES).map(([type, data]) => (
-                        <div 
-                            key={type} 
-                            className="spell-damage-item" 
-                            onMouseEnter={(e) => handleStatHover(e, `${data.name} Damage`, true)}
-                            onMouseMove={updateTooltipPosition}
-                            onMouseLeave={handleStatLeave}
-                        >
-                            <img 
-                                src={data.icon} 
-                                alt={data.name} 
-                                className="spell-damage-icon" 
-                                style={{ borderColor: data.color }}
-                            />
-                            <div className="spell-damage-value" style={{ color: data.color }}>
-                                {stats[`${type.toLowerCase()}SpellPower`] || 0}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                
-                {/* Use existing tooltip system */}
-                {hoveredStat && hoveredStat.endsWith('Damage') && (
-                    <TooltipPortal>
-                        <div 
-                            className="tooltip"
-                            style={{ 
-                                position: 'fixed',
-                                left: tooltipPosition.x,
-                                top: tooltipPosition.y,
-                                transform: 'translate(0, -50%)',
-                                pointerEvents: 'none',
-                                zIndex: 9999
-                            }}
-                        >
-                            <GeneralStatTooltip stat={hoveredStat} />
-                        </div>
-                    </TooltipPortal>
-                )}
-            </div>
-        </div>
-    );
-}
-        // Special case for immunities section
-        if (selectedStatGroup === 'immunities') {
-            return (
-                <div className="character-stats">
-                    <div className="stat-group-selector">
-                        <select 
-                            value={selectedStatGroup} 
-                            onChange={(e) => setSelectedStatGroup(e.target.value)}
-                            className="stat-group-dropdown"
-                        >
-                            {Object.entries(statGroups).map(([key, group]) => (
-                                <option key={key} value={key}>{group.title}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="stats-content">
-                        {immunities && immunities.length > 0 ? (
-                            <div className="immunities-grid">
-                                {immunities.map((immunity, index) => {
-                                    const damageType = DAMAGE_TYPES[immunity.toLowerCase()];
-                                    return damageType ? (
-                                        <div 
-                                            key={index} 
-                                            className="immunity-item" 
-                                            onMouseEnter={(e) => handleStatHover(e, `${damageType.name} Immunity`, true)}
-                                            onMouseMove={updateTooltipPosition}
-                                            onMouseLeave={handleStatLeave}
-                                        >
-                                            <img 
-                                                src={damageType.icon} 
-                                                alt={damageType.name} 
-                                                className="resistance-icon immunity-icon" 
-                                                style={{ borderColor: damageType.color }}
-                                            />
-                                            <div className="immunity-label" style={{ color: damageType.color }}>
-                                                {damageType.name}
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div key={index} className="immunity-item">
-                                            <div className="immunity-label">
-                                                {immunity}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        ) : (
-                            <div className="no-immunities">No immunities</div>
-                        )}
-                        
-                        {/* Tooltip logic for immunities if needed */}
-                        {hoveredStat && hoveredStat.endsWith('Immunity') && (
-                            <TooltipPortal>
-                                <div 
-                                    className="tooltip"
-                                    style={{ 
-                                        position: 'fixed',
-                                        left: tooltipPosition.x,
-                                        top: tooltipPosition.y,
-                                        transform: 'translate(0, -50%)',
-                                        pointerEvents: 'none',
-                                        zIndex: 9999
-                                    }}
-                                >
-                                    <div className="tooltip-header" style={{ color: '#ffd100' }}>
-                                        {hoveredStat}
-                                    </div>
-                                    <div className="tooltip-effects">
-                                        <div className="tooltip-effect">
-                                            Complete immunity to {hoveredStat.split(' ')[0]} damage
-                                        </div>
-                                        <div className="tooltip-effect">
-                                            Immune to {hoveredStat.split(' ')[0]}-based status effects
-                                        </div>
-                                    </div>
-                                </div>
-                            </TooltipPortal>
-                        )}
-                    </div>
-                </div>
-            );
-        }
-        
-        // Regular stat groups
-        return (
-            <div className="character-stats">
-                <div className="stat-group-selector">
-                    <select 
-                        value={selectedStatGroup} 
-                        onChange={(e) => setSelectedStatGroup(e.target.value)}
-                        className="stat-group-dropdown"
-                    >
-                        {Object.entries(statGroups).map(([key, group]) => (
-                            <option key={key} value={key}>{group.title}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="stats-content">
-                    {currentGroup.stats.map((stat, index) => (
-                        <div key={index} className="stat-row">
-                            <div className="stat-label-container">
-                                {STAT_ICONS[stat.label.toLowerCase()] && (
-                                    <img 
-                                        src={STAT_ICONS[stat.label.toLowerCase()]} 
-                                        alt={stat.label}
-                                        className="stat-icon"
-                                    />
-                                )}
-                                <span className="stat-label">{stat.label}:</span>
-                            </div>
-                            <span className="stat-value">
-                                {formatStatValue(stat.label, stat.value)}
-                                {typeof stat.modifier === 'number' && (
-                                    <span className="stat-modifier">
-                                        ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
-                                    </span>
-                                )}
-                            </span>
-                            {stat.tooltip && (
-                                <div 
-                                    className="tooltip-trigger"
-                                    onMouseEnter={(e) => handleStatHover(e, stat.label)}
-                                    onMouseMove={updateTooltipPosition}
-                                    onMouseLeave={handleStatLeave}
-                                />
-                            )}
-                            {stat.subStats && (
-                                <div className="sub-stats-row">
-                                    <div className="sub-stats-grid">
-                                        {stat.subStats.map((subStat, i) => (
-                                            <div 
-                                                key={i} 
-                                                className="sub-stat-item" 
-                                                style={{ borderColor: subStat.color }}
-                                                onMouseEnter={(e) => {
-                                                    const tooltipType = stat.label === 'Resistances' ? 'Resistance' : 'Damage';
-                                                    const label = `${subStat.label} ${tooltipType}`;
-                                                    handleStatHover(e, label, true);
-                                                }}
-                                                onMouseMove={updateTooltipPosition}
-                                                onMouseLeave={handleStatLeave}
-                                            >
-                                                <img src={subStat.icon} alt={subStat.label} className="sub-stat-icon" />
-                                                {subStat.showValue && (
-                                                    <div className="sub-stat-value" style={{ backgroundColor: 'rgba(0,0,0,0.7)', color: subStat.color, border: `1px solid ${subStat.color}` }}>
-                                                        {stat.label === 'Resistances' ? 
-                                                            (stats[`${subStat.label.toLowerCase()}Resistance`] || 0) : 
-                                                            (stats[`${subStat.label.toLowerCase()}SpellPower`] || 0)
-                                                        }
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            {hoveredStat && (hoveredStat.endsWith('Damage') || hoveredStat.endsWith('Resistance')) && (
-                                <TooltipPortal>
-                                    <div 
-                                        className="tooltip"
-                                        style={{ 
-                                            position: 'fixed',
-                                            left: tooltipPosition.x,
-                                            top: tooltipPosition.y,
-                                            transform: 'translate(0, -50%)',
-                                            pointerEvents: 'none',
-                                            zIndex: 9999
-                                        }}
-                                    >
-                                        {hoveredStat.endsWith('Resistance') ? (
-                                            <ResistanceTooltip 
-                                                type={hoveredStat.split(' ')[0].toLowerCase()} 
-                                                value={stats[`${hoveredStat.split(' ')[0].toLowerCase()}Resistance`] || 0} 
-                                            />
-                                        ) : (
-                                            <GeneralStatTooltip stat={hoveredStat} />
-                                        )}
-                                    </div>
-                                </TooltipPortal>
-                            )}
-                            {hoveredStat === stat.label && (
-                                <TooltipPortal>
-                                    <div 
-                                        className="tooltip"
-                                        style={{ 
-                                            position: 'fixed',
-                                            left: tooltipPosition.x,
-                                            top: tooltipPosition.y,
-                                            transform: 'translate(0, 0)',
-                                            pointerEvents: 'none'
-                                        }}
-                                    >
-                                        {stat.label.toLowerCase().includes('resistance') ? (
-                                            <ResistanceTooltip type={stat.label.toLowerCase().replace(' resistance', '')} value={stat.value} />
-                                        ) : isBaseStat(stat.label.toLowerCase()) ? (
-                                            <StatTooltip stat={stat.label.toLowerCase()} value={stat.value} />
-                                        ) : (
-                                            <GeneralStatTooltip stat={stat.label} />
-                                        )}
-                                    </div>
-                                </TooltipPortal>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    };
 
     const renderSlot = (slotName, slotConfig) => {
         const item = equipment[slotName];
         const isEmpty = !item;
-        
+
+        // Equipment slot descriptions
+        const slotDescriptions = {
+            head: "Protects your head from blows and the elements. Helmets often enhance perception, intelligence, or provide magical protection.",
+            neck: "Amulets and necklaces that grant magical properties, protection, or enhance your natural abilities.",
+            shoulders: "Pauldrons and spaulders that provide additional protection and can enhance strength or intimidation.",
+            back: "Cloaks and capes that offer protection from the elements and can grant stealth or movement bonuses.",
+            chest: "Your primary armor piece, offering the most protection and often enhancing your core attributes.",
+            shirt: "Primarily decorative, but some magical shirts can provide comfort in harsh environments.",
+            tabard: "Displays your allegiance or achievements. Some magical tabards grant special abilities.",
+            wrists: "Bracers that protect your forearms and can enhance spellcasting or physical abilities.",
+            hands: "Gauntlets and gloves that protect your hands and can enhance dexterity or attack power.",
+            waist: "Belts and girdles that can hold items and sometimes enhance strength or constitution.",
+            legs: "Greaves and leggings that protect your lower body and can enhance mobility or endurance.",
+            feet: "Boots that protect your feet and can enhance speed, stealth, or provide stability.",
+            ring1: "Magical rings that can enhance attributes, grant special abilities, or provide protection.",
+            ring2: "A second magical ring. Wearing too many powerful rings can be dangerous.",
+            trinket1: "Magical devices with unique effects that can be activated in times of need.",
+            trinket2: "A second magical trinket. Choose wisely to complement your abilities.",
+            mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
+            offHand: "Secondary weapons, shields, or magical focuses held in your off-hand.",
+            ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
+        };
+
         return (
             <div
                 key={slotName}
                 className={`gear-slot ${isEmpty ? 'empty' : ''}`}
-                style={slotConfig.position}
-                onMouseEnter={() => setHoveredSlot(slotName)}
+                onMouseEnter={(e) => {
+                    setHoveredSlot(slotName);
+                    updateTooltipPosition(e);
+                }}
+                onMouseMove={updateTooltipPosition}
                 onMouseLeave={() => setHoveredSlot(null)}
+                onContextMenu={(e) => {
+                    if (item) {
+                        handleUnequipContextMenu(e, item, slotName);
+                    }
+                }}
             >
-                <img 
-                    src={item ? item.icon : slotConfig.icon} 
+                <img
+                    src={item ? (item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')) : slotConfig.icon}
                     alt={slotName}
-                    title={isEmpty ? slotConfig.info : ''}
+                    onError={(e) => {
+                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                    }}
                 />
                 {hoveredSlot === slotName && item && renderTooltip(item)}
+                {hoveredSlot === slotName && isEmpty && (
+                    <TooltipPortal>
+                        <div
+                            className="equipment-slot-tooltip"
+                            style={{
+                                position: 'fixed',
+                                left: tooltipPosition.x,
+                                top: tooltipPosition.y,
+                                transform: 'translate(10px, -50%)',
+                                pointerEvents: 'none',
+                                zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                            }}
+                        >
+                            <div className="equipment-slot-name">{slotConfig.info}</div>
+                            <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${slotConfig.info} equipment`}</div>
+                        </div>
+                    </TooltipPortal>
+                )}
             </div>
         );
     };
 
     const renderTooltip = (item) => {
         if (!item) return null;
-        
+
         return (
-            <div className="item-tooltip">
-                <div className="item-name" style={{ color: '#fff' }}>
-                    {item.name}
+            <TooltipPortal>
+                <div
+                    style={{
+                        position: 'fixed',
+                        left: tooltipPosition.x,
+                        top: tooltipPosition.y,
+                        transform: 'translate(10px, -50%)',
+                        pointerEvents: 'none',
+                        zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                    }}
+                >
+                    <ItemTooltip item={item} />
                 </div>
-                <div className="item-type">
-                    {item.type} {item.subtype ? `• ${item.subtype}` : ''}
-                </div>
-                {(item.stats || item.resistances) && (
-                    <div className="item-stats">
-                        {item.stats && Object.entries(item.stats).map(([stat, value]) => (
-                            <div key={stat} style={{ color: value > 0 ? '#1eff00' : '#ff1e1e' }}>
-                                {value > 0 ? '+' : ''}{value} {stat}
-                            </div>
-                        ))}
-                        {item.resistances && Object.entries(item.resistances).map(([type, value]) => (
-                            <div key={type} style={{ color: '#fff' }}>
-                                +{value} {type.charAt(0).toUpperCase() + type.slice(1)} Resistance
-                            </div>
-                        ))}
-                    </div>
-                )}
-                {item.description && (
-                    <div className="item-description">
-                        "{item.description}"
-                    </div>
-                )}
-            </div>
+            </TooltipPortal>
         );
     };
 
     return (
-        <div className="equipment-panel">
-            <div className="character-header">
-                <div className="character-info">
-                    <div className="character-name">{name}</div>
-                    <div className="character-race">{race}</div>
-                </div>
-                
-                <div className="resource-bars">
-                    <ResourceBar
-                        current={health.current}
-                        max={health.max}
-                        className="health"
-                        label="HP"
+        <div className="character-container">
+            <div className="character-navigation">
+                {Object.entries(sections).map(([key, section]) => (
+                    <button
+                        key={key}
+                        className={`character-nav-button ${activeSection === key ? 'active' : ''}`}
+                        onClick={() => setActiveSection(key)}
+                    >
+                        <img src={section.icon} alt="" className="character-nav-icon" />
+                        <span className="character-nav-text">{section.title}</span>
+                    </button>
+                ))}
+            </div>
+
+            <div className="character-content-area">
+                <div className="character-section-header">
+                    <img
+                        src={sections[activeSection].icon}
+                        alt=""
+                        className="character-section-icon"
                     />
-                    <ResourceBar
-                        current={mana.current}
-                        max={mana.max}
-                        className="mana"
-                        label="MP"
-                    />
-                    <ResourceBar
-                        current={actionPoints.current}
-                        max={actionPoints.max}
-                        className="action-points"
-                        label="AP"
-                    />
+                    <h2 className="character-section-title">{sections[activeSection].title}</h2>
                 </div>
 
-                <div className="character-status">
-                    <div className="alignment">
-                        <span className="status-label">Alignment:</span>
-                        <span className="status-value">{alignment}</span>
-                    </div>
-                    <div className="exhaustion">
-                        <span className="status-label">Exhaustion:</span>
-                        <span className="status-value">Level {exhaustionLevel}</span>
-                    </div>
+                <div className="character-fields">
+                    {renderSectionContent()}
                 </div>
             </div>
-            <div className="character-model">
-                <div className="character-image-container">
-                    <img 
-                        src="https://wow.zamimg.com/uploads/screenshots/normal/1046017-human-priest.jpg" 
-                        alt="Character Portrait" 
-                        className="character-portrait"
-                    />
-                    {Object.entries(slots).map(([slotName, config]) => renderSlot(slotName, config))}
-                </div>
-                {renderStatBlock()}
-            </div>
-            <div className="weapon-slots">
-                {Object.entries(weaponSlots).map(([slotName, config]) => {
-                    const item = equipment[slotName];
-                    const isEmpty = !item;
-                    
-                    return (
-                        <div
-                            key={slotName}
-                            className={`weapon-slot ${isEmpty ? 'empty' : ''}`}
-                            onMouseEnter={() => setHoveredSlot(slotName)}
-                            onMouseLeave={() => setHoveredSlot(null)}
-                        >
-                            <img 
-                                src={item ? item.icon : config.icon} 
-                                alt={slotName}
-                                title={isEmpty ? config.info : ''}
-                            />
-                            {hoveredSlot === slotName && item && renderTooltip(item)}
-                        </div>
-                    );
-                })}
-            </div>
+
+            {/* Unequip Context Menu - Render at document level for proper positioning */}
+            {unequipContextMenu.visible && ReactDOM.createPortal(
+                <UnequipContextMenu
+                    x={unequipContextMenu.x}
+                    y={unequipContextMenu.y}
+                    item={unequipContextMenu.item}
+                    slotName={unequipContextMenu.slotName}
+                    onClose={() => setUnequipContextMenu({ visible: false })}
+                    onUnequip={handleUnequipItem}
+                />,
+                document.body
+            )}
         </div>
     );
 }

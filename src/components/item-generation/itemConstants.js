@@ -24,10 +24,15 @@ export const ITEM_TYPES = {
         icon: 'inv_misc_bag_08',
         description: 'Bags, pouches, and other storage items'
     },
-    quest: {
-        name: 'Quest Item',
+    miscellaneous: {
+        name: 'Miscellaneous',
         icon: 'inv_misc_questionmark',
-        description: 'Special items related to quests and story'
+        description: 'Quest items, reagents, crafting materials, and other special items'
+    },
+    currency: {
+        name: 'Currency',
+        icon: 'inv_misc_coin_01',
+        description: 'Gold, silver, and copper coins for trade'
     }
 };
 
@@ -69,65 +74,146 @@ export const QUALITY_TYPES = {
     }
 };
 
+export const CURRENCY_TYPES = {
+    HANDFUL_OF_COINS: {
+        name: 'Handful of Coins',
+        icon: 'inv_misc_coin_05',
+        description: 'A few coins found in a pocket',
+        value: 5,
+        type: 'copper',
+        displayType: 'currency',
+        valueDisplay: {
+            copper: 5
+        }
+    },
+    SMALL_POUCH: {
+        name: 'Small Pouch of Coins',
+        icon: 'inv_misc_coin_06',
+        description: 'A small pouch containing a modest sum',
+        value: 25,
+        type: 'copper',
+        displayType: 'currency',
+        valueDisplay: {
+            silver: 2,
+            copper: 5
+        }
+    },
+    MODEST_SUM: {
+        name: 'Modest Sum',
+        icon: 'inv_misc_coin_03',
+        description: 'A modest amount that could buy a meal at an inn',
+        value: 5,
+        type: 'silver',
+        displayType: 'currency',
+        valueDisplay: {
+            silver: 5
+        }
+    },
+    MERCHANT_PURSE: {
+        name: 'Merchant\'s Purse',
+        icon: 'inv_misc_coin_04',
+        description: 'A well-filled purse with a day\'s earnings',
+        value: 15,
+        type: 'silver',
+        displayType: 'currency',
+        valueDisplay: {
+            silver: 15
+        }
+    },
+    ADVENTURER_EARNINGS: {
+        name: 'Adventurer\'s Earnings',
+        icon: 'inv_misc_coin_01',
+        description: 'The spoils from a successful adventure',
+        value: 2,
+        type: 'gold',
+        displayType: 'currency',
+        valueDisplay: {
+            gold: 2
+        }
+    },
+    NOBLE_PAYMENT: {
+        name: 'Noble\'s Payment',
+        icon: 'inv_misc_coin_02',
+        description: 'A generous payment worthy of a noble\'s service',
+        value: 5,
+        type: 'gold',
+        displayType: 'currency',
+        valueDisplay: {
+            gold: 5
+        }
+    },
+    ROYAL_BOUNTY: {
+        name: 'Royal Bounty',
+        icon: 'inv_box_01',
+        description: 'A substantial reward fit for a king\'s champion',
+        value: 10,
+        type: 'gold',
+        displayType: 'currency',
+        valueDisplay: {
+            gold: 10
+        }
+    }
+};
+
 export const EQUIPMENT_SLOTS = {
-    head: { 
-        icon: 'inv_helmet_01', 
+    head: {
+        icon: 'inv_helmet_01',
         info: 'Head'
     },
-    neck: { 
-        icon: 'inv_jewelry_necklace_01', 
+    neck: {
+        icon: 'inv_jewelry_necklace_01',
         info: 'Neck'
     },
-    shoulder: { 
-        icon: 'inv_shoulder_01', 
+    shoulder: {
+        icon: 'inv_shoulder_01',
         info: 'Shoulders'
     },
-    back: { 
-        icon: 'inv_misc_cape_01', 
+    back: {
+        icon: 'inv_misc_cape_01',
         info: 'Back'
     },
-    chest: { 
-        icon: 'inv_chest_cloth_01', 
+    chest: {
+        icon: 'inv_chest_cloth_01',
         info: 'Chest'
     },
-    wrist: { 
-        icon: 'inv_bracer_01', 
+    wrist: {
+        icon: 'inv_bracer_01',
         info: 'Wrists'
     },
-    hands: { 
-        icon: 'inv_gauntlets_01', 
+    hands: {
+        icon: 'inv_gauntlets_01',
         info: 'Hands'
     },
-    waist: { 
-        icon: 'inv_belt_01', 
+    waist: {
+        icon: 'inv_belt_01',
         info: 'Waist'
     },
-    legs: { 
-        icon: 'inv_pants_01', 
+    legs: {
+        icon: 'inv_pants_01',
         info: 'Legs'
     },
-    feet: { 
-        icon: 'inv_boots_01', 
+    feet: {
+        icon: 'inv_boots_01',
         info: 'Feet'
     },
-    finger: { 
-        icon: 'inv_jewelry_ring_01', 
+    finger: {
+        icon: 'inv_jewelry_ring_01',
         info: 'Finger'
     },
-    trinket: { 
-        icon: 'inv_jewelry_talisman_01', 
+    trinket: {
+        icon: 'inv_jewelry_talisman_01',
         info: 'Trinket'
     },
-    mainHand: { 
-        icon: 'inv_sword_01', 
+    mainHand: {
+        icon: 'inv_sword_01',
         info: 'Main Hand'
     },
-    offHand: { 
-        icon: 'inv_shield_01', 
+    offHand: {
+        icon: 'inv_shield_01',
         info: 'Off Hand'
     },
-    twoHand: { 
-        icon: 'inv_sword_2h_01', 
+    twoHand: {
+        icon: 'inv_sword_2h_01',
         info: 'Two Hand'
     }
 };

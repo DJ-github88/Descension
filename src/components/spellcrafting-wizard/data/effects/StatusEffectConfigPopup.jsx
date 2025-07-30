@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './status-effect-popup.css';
+import '../../styles/saving-throw-config.css';
+// Pathfinder styles imported via main.css
 
 const StatusEffectConfigPopup = ({
   isOpen,
@@ -11,6 +12,7 @@ const StatusEffectConfigPopup = ({
 }) => {
   // Local state to ensure the component doesn't flicker
   const [initialized, setInitialized] = useState(false);
+  const [activeTab, setActiveTab] = useState('basic');
 
   // Update effect configuration function
   const updateEffectConfig = (field, value) => {
@@ -29,37 +31,13 @@ const StatusEffectConfigPopup = ({
     }
   };
 
-  // Initialize duration fields if not set
+  // Initialize component
   useEffect(() => {
     if (isOpen && !initialized) {
-      // Find the specific status effect in the statusEffects array
-      const statusEffectData = selectedEffect.statusEffects?.find(se => se.id === effect.id) || {};
-
-      if (!statusEffectData.durationType) {
-        // If untilDispelled is true, set to permanent
-        if (statusEffectData.untilDispelled) {
-          updateEffectConfig('durationType', 'permanent');
-          updateEffectConfig('canBeDispelled', true);
-        }
-        // If untilNextRest is true, set to rest
-        else if (statusEffectData.untilNextRest) {
-          updateEffectConfig('durationType', 'rest');
-          updateEffectConfig('restType', 'short');
-        }
-        // Otherwise default to turns
-        else {
-          updateEffectConfig('durationType', 'turns');
-          // Use the legacy duration field if available
-          if (statusEffectData.duration) {
-            updateEffectConfig('durationValue', statusEffectData.duration);
-          } else {
-            updateEffectConfig('durationValue', 3);
-          }
-        }
-      }
       setInitialized(true);
     }
-  }, [isOpen, initialized, selectedEffect, effect, updateEffectConfig]);
+  }, [isOpen, initialized]);
+
 
   // If not open, don't render anything
   if (!isOpen) return null;
@@ -67,65 +45,118 @@ const StatusEffectConfigPopup = ({
   // Find the specific status effect in the statusEffects array
   const statusEffectData = selectedEffect.statusEffects?.find(se => se.id === effect.id) || {};
 
-    // Get icon URL
-    const getIconUrl = (iconName) => {
-      if (!iconName) return '';
-      return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
-    };
-
-    // Render different configuration sections based on effect type
-    const renderEffectSpecificConfig = () => {
-    if (effect.id === 'lifelink') {
-      return renderLifelinkConfig();
-    } else if (effect.id === 'flight') {
-      return renderFlightConfig();
-    } else if (effect.id === 'shielded') {
-      return renderShieldConfig();
-    } else if (effect.id === 'regeneration' || effect.id === 'regen') {
-      return renderRegenerationConfig();
-    } else if (effect.id === 'haste') {
-      return renderHasteConfig();
-    } else if (effect.id === 'stunned' || effect.id === 'stun') {
-      return renderStunConfig();
-    } else if (effect.id === 'luck') {
-      return renderLuckConfig();
-    } else if (effect.id === 'charmed' || effect.id === 'charm') {
-      return renderCharmConfig();
-    } else if (effect.id === 'burning') {
-      return renderBurningConfig();
-    } else if (effect.id === 'frightened' || effect.id === 'fear') {
-      return renderFearConfig();
-    } else if (effect.id === 'poisoned' || effect.id === 'poison') {
-      return renderPoisonConfig();
-    } else if (effect.id === 'blinded' || effect.id === 'blind') {
-      return renderBlindConfig();
-    } else if (effect.id === 'paralyzed' || effect.id === 'paralyze') {
-      return renderParalyzeConfig();
-    } else if (effect.id === 'damage_shield' || effect.id === 'damageshield') {
-      return renderDamageShieldConfig();
-    } else if (effect.id === 'combat_advantage' || effect.id === 'advantage' || effect.id === 'advantage_attack' || effect.id === 'attackers_disadvantage' || effect.id === 'attackers_advantage_buff') {
-      return (
-        <>
-          {renderCombatAdvantageConfig()}
-          {renderCombatAdvantageConfig2()}
-        </>
-      );
-    } else if (effect.id === 'disadvantage_attack' || effect.id === 'attackers_advantage') {
-      return renderCombatDisadvantageConfig();
-    } else if (effect.id === 'disadvantage_save') {
-      return renderSaveDisadvantageConfig();
-    } else if (effect.id === 'skill_mastery' || effect.id === 'skillmastery') {
-      return renderSkillMasteryConfig();
-    } else {
-      // Default configuration for all other effects
-      return renderDefaultConfig();
-    }
+  // Get icon URL
+  const getIconUrl = (iconName) => {
+    if (!iconName) return '';
+    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
   };
 
+  // Render the main popup content
+  return (
+    <div className="status-effect-config-overlay" onClick={handleBackdropClick}>
+      <div className="status-effect-config-popup pathfinder-window">
+        <div className="pathfinder-header">
+          <div className="header-content">
+            <img src={getIconUrl(effect.icon)} alt={effect.name} className="effect-icon" />
+            <h3>{effect.name} Configuration</h3>
+          </div>
+          <button className="close-button" onClick={onClose}>×</button>
+        </div>
 
+        <div className="popup-tabs">
+          <button
+            className={`tab-button ${activeTab === 'basic' ? 'active' : ''}`}
+            onClick={() => setActiveTab('basic')}
+          >
+            Configuration
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'advanced' ? 'active' : ''}`}
+            onClick={() => setActiveTab('advanced')}
+          >
+            Advanced
+          </button>
+        </div>
+
+        <div className="popup-content">
+          {activeTab === 'basic' && renderBasicConfig()}
+          {activeTab === 'advanced' && renderAdvancedConfig()}
+        </div>
+
+        <div className="popup-footer">
+          <button className="pathfinder-button secondary" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Render basic configuration
+  function renderBasicConfig() {
+    return (
+      <div className="config-section">
+        <h4>Effect Properties</h4>
+        <div className="config-grid">
+          <div className="config-option">
+            <label>Effect Name</label>
+            <input
+              type="text"
+              value={statusEffectData?.name || effect.name}
+              onChange={(e) => updateEffectConfig('name', e.target.value)}
+              className="pathfinder-input"
+            />
+          </div>
+
+          <div className="config-option">
+            <label>Description</label>
+            <textarea
+              value={statusEffectData?.description || effect.description}
+              onChange={(e) => updateEffectConfig('description', e.target.value)}
+              className="pathfinder-textarea"
+              rows="3"
+            />
+          </div>
+
+          <div className="config-option">
+            <label>Magnitude</label>
+            <input
+              type="number"
+              value={statusEffectData?.magnitude || 1}
+              onChange={(e) => updateEffectConfig('magnitude', parseInt(e.target.value))}
+              className="pathfinder-input"
+              min="1"
+              max="100"
+            />
+          </div>
+
+          <div className="config-option">
+            <label>Magnitude Type</label>
+            <select
+              value={statusEffectData?.magnitudeType || 'flat'}
+              onChange={(e) => updateEffectConfig('magnitudeType', e.target.value)}
+              className="pathfinder-select"
+            >
+              <option value="flat">Flat Bonus</option>
+              <option value="percentage">Percentage</option>
+              <option value="dice">Dice Roll</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
+
+  // Render advanced configuration
+  function renderAdvancedConfig() {
+    // This will render effect-specific configurations
+    return renderEffectSpecificConfig();
+  }
 
   // Render flight configuration
-  const renderFlightConfig = () => {
+  function renderFlightConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -270,10 +301,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render shield configuration
-  const renderShieldConfig = () => {
+  function renderShieldConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -418,10 +449,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render lifelink specific configuration
-  const renderLifelinkConfig = () => {
+  function renderLifelinkConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -816,10 +847,10 @@ const StatusEffectConfigPopup = ({
 
       </>
     );
-  };
+  }
 
   // Render haste configuration
-  const renderHasteConfig = () => {
+  function renderHasteConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -978,10 +1009,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render paralyze configuration
-  const renderParalyzeConfig = () => {
+  function renderParalyzeConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -1144,6 +1175,22 @@ const StatusEffectConfigPopup = ({
               <option value="constitution">Constitution</option>
               <option value="strength">Strength</option>
               <option value="wisdom">Wisdom</option>
+              <option value="agility">Agility</option>
+              <option value="intelligence">Intelligence</option>
+              <option value="charisma">Charisma</option>
+            </select>
+          </div>
+
+          <div className="effect-config-option">
+            <label>Save Outcome</label>
+            <select
+              value={statusEffectData?.saveOutcome || 'negates'}
+              onChange={(e) => updateEffectConfig('saveOutcome', e.target.value)}
+            >
+              <option value="negates">Negates Effect</option>
+              <option value="halves_duration">Halves Duration</option>
+              <option value="ends_early">Ends at End of Turn</option>
+              <option value="reduces_level">Reduces Effect Level</option>
             </select>
           </div>
 
@@ -1178,7 +1225,7 @@ const StatusEffectConfigPopup = ({
   };
 
   // Render poison configuration
-  const renderPoisonConfig = () => {
+  function renderPoisonConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -1388,10 +1435,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render blind configuration
-  const renderBlindConfig = () => {
+  function renderBlindConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -1524,6 +1571,50 @@ const StatusEffectConfigPopup = ({
         </div>
 
         <div className="effect-config-section">
+          <h4>Save Options</h4>
+          <div className="effect-config-option">
+            <label>Save Type</label>
+            <select
+              value={statusEffectData?.saveType || 'constitution'}
+              onChange={(e) => updateEffectConfig('saveType', e.target.value)}
+            >
+              <option value="constitution">Constitution</option>
+              <option value="wisdom">Wisdom</option>
+              <option value="charisma">Charisma</option>
+              <option value="strength">Strength</option>
+              <option value="agility">Agility</option>
+              <option value="intelligence">Intelligence</option>
+            </select>
+          </div>
+
+          <div className="effect-config-option">
+            <label>Save Outcome</label>
+            <select
+              value={statusEffectData?.saveOutcome || 'negates'}
+              onChange={(e) => updateEffectConfig('saveOutcome', e.target.value)}
+            >
+              <option value="negates">Negates Effect</option>
+              <option value="halves_duration">Halves Duration</option>
+              <option value="ends_early">Ends at End of Turn</option>
+              <option value="reduces_level">Reduces Blindness Level</option>
+            </select>
+          </div>
+
+          <div className="effect-config-option">
+            <label>Save Frequency</label>
+            <select
+              value={statusEffectData?.saveFrequency || 'end_of_turn'}
+              onChange={(e) => updateEffectConfig('saveFrequency', e.target.value)}
+            >
+              <option value="initial">Initial Only</option>
+              <option value="end_of_turn">End of Each Turn</option>
+              <option value="when_damaged">When Taking Damage</option>
+              <option value="ally_help">When Ally Helps</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="effect-config-section">
           <h4>Cure Options</h4>
           <div className="toggle-options">
             <div className="toggle-option">
@@ -1566,10 +1657,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render fear configuration
-  const renderFearConfig = () => {
+  function renderFearConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -1698,6 +1789,22 @@ const StatusEffectConfigPopup = ({
               <option value="wisdom">Wisdom</option>
               <option value="charisma">Charisma</option>
               <option value="intelligence">Intelligence</option>
+              <option value="constitution">Constitution</option>
+              <option value="strength">Strength</option>
+              <option value="agility">Agility</option>
+            </select>
+          </div>
+
+          <div className="effect-config-option">
+            <label>Save Outcome</label>
+            <select
+              value={statusEffectData?.saveOutcome || 'negates'}
+              onChange={(e) => updateEffectConfig('saveOutcome', e.target.value)}
+            >
+              <option value="negates">Negates Effect</option>
+              <option value="halves_duration">Halves Duration</option>
+              <option value="ends_early">Ends at End of Turn</option>
+              <option value="reduces_level">Reduces Fear Level</option>
             </select>
           </div>
 
@@ -1716,10 +1823,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render burning configuration
-  const renderBurningConfig = () => {
+  function renderBurningConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -1903,10 +2010,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render charm configuration
-  const renderCharmConfig = () => {
+  function renderCharmConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2023,6 +2130,22 @@ const StatusEffectConfigPopup = ({
               <option value="wisdom">Wisdom</option>
               <option value="charisma">Charisma</option>
               <option value="intelligence">Intelligence</option>
+              <option value="constitution">Constitution</option>
+              <option value="strength">Strength</option>
+              <option value="agility">Agility</option>
+            </select>
+          </div>
+
+          <div className="effect-config-option">
+            <label>Save Outcome</label>
+            <select
+              value={statusEffectData?.saveOutcome || 'negates'}
+              onChange={(e) => updateEffectConfig('saveOutcome', e.target.value)}
+            >
+              <option value="negates">Negates Effect</option>
+              <option value="halves_duration">Halves Duration</option>
+              <option value="ends_early">Ends at End of Turn</option>
+              <option value="partial_immunity">Partial Immunity</option>
             </select>
           </div>
 
@@ -2041,10 +2164,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render luck configuration
-  const renderLuckConfig = () => {
+  function renderLuckConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2250,10 +2373,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render stun configuration
-  const renderStunConfig = () => {
+  function renderStunConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2412,13 +2535,39 @@ const StatusEffectConfigPopup = ({
               <option value="charisma">Charisma</option>
             </select>
           </div>
+
+          <div className="effect-config-option">
+            <label>Save Outcome</label>
+            <select
+              value={statusEffectData?.saveOutcome || 'negates'}
+              onChange={(e) => updateEffectConfig('saveOutcome', e.target.value)}
+            >
+              <option value="negates">Negates Effect</option>
+              <option value="halves_duration">Halves Duration</option>
+              <option value="ends_early">Ends at End of Turn</option>
+              <option value="reduces_level">Reduces Stun Level</option>
+            </select>
+          </div>
+
+          <div className="effect-config-option">
+            <label>Save Frequency</label>
+            <select
+              value={statusEffectData?.saveFrequency || 'end_of_turn'}
+              onChange={(e) => updateEffectConfig('saveFrequency', e.target.value)}
+            >
+              <option value="initial">Initial Only</option>
+              <option value="end_of_turn">End of Each Turn</option>
+              <option value="when_damaged">When Taking Damage</option>
+              <option value="ally_help">When Ally Helps</option>
+            </select>
+          </div>
         </div>
       </>
     );
-  };
+  }
 
   // Render regeneration configuration
-  const renderRegenerationConfig = () => {
+  function renderRegenerationConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2565,10 +2714,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render damage shield configuration
-  const renderDamageShieldConfig = () => {
+  function renderDamageShieldConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2776,10 +2925,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render combat advantage configuration
-  const renderCombatAdvantageConfig = () => {
+  function renderCombatAdvantageConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2844,10 +2993,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render save disadvantage configuration
-  const renderSaveDisadvantageConfig = () => {
+  function renderSaveDisadvantageConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -2951,10 +3100,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render combat disadvantage configuration
-  const renderCombatDisadvantageConfig = () => {
+  function renderCombatDisadvantageConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -3069,10 +3218,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render combat advantage configuration (continued)
-  const renderCombatAdvantageConfig2 = () => {
+  function renderCombatAdvantageConfig2() {
     return (
       <>
         <div className="effect-config-section">
@@ -3483,10 +3632,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Render skill mastery configuration
-  const renderSkillMasteryConfig = () => {
+  function renderSkillMasteryConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -3818,10 +3967,10 @@ const StatusEffectConfigPopup = ({
         </div>
       </>
     );
-  };
+  }
 
   // Default configuration for status effects without specific configurations
-  const renderDefaultConfig = () => {
+  function renderDefaultConfig() {
     return (
       <>
         <div className="effect-config-section">
@@ -3868,18 +4017,33 @@ const StatusEffectConfigPopup = ({
           </div>
 
           {statusEffectData?.saveType && statusEffectData.saveType !== 'none' && (
-            <div className="effect-config-option">
-              <label>Save Frequency</label>
-              <select
-                value={statusEffectData?.saveFrequency || 'end_of_turn'}
-                onChange={(e) => updateEffectConfig('saveFrequency', e.target.value)}
-              >
-                <option value="initial">Initial Only</option>
-                <option value="end_of_turn">End of Each Turn</option>
-                <option value="when_damaged">When Damaged</option>
-                <option value="special_trigger">Special Trigger</option>
-              </select>
-            </div>
+            <>
+              <div className="effect-config-option">
+                <label>Save Outcome</label>
+                <select
+                  value={statusEffectData?.saveOutcome || 'negates'}
+                  onChange={(e) => updateEffectConfig('saveOutcome', e.target.value)}
+                >
+                  <option value="negates">Negates Effect</option>
+                  <option value="halves_duration">Halves Duration</option>
+                  <option value="ends_early">Ends at End of Turn</option>
+                  <option value="reduces_level">Reduces Effect Level</option>
+                </select>
+              </div>
+
+              <div className="effect-config-option">
+                <label>Save Frequency</label>
+                <select
+                  value={statusEffectData?.saveFrequency || 'end_of_turn'}
+                  onChange={(e) => updateEffectConfig('saveFrequency', e.target.value)}
+                >
+                  <option value="initial">Initial Only</option>
+                  <option value="end_of_turn">End of Each Turn</option>
+                  <option value="when_damaged">When Damaged</option>
+                  <option value="special_trigger">Special Trigger</option>
+                </select>
+              </div>
+            </>
           )}
         </div>
 
@@ -4042,37 +4206,56 @@ const StatusEffectConfigPopup = ({
         )}
       </>
     );
-  };
+  }
 
-  return (
-    <div className="effect-config-backdrop" onClick={handleBackdropClick}>
-      <div className="effect-config-content">
-        <div className="effect-config-header">
-          <div className="effect-config-title">
-            <img
-              src={getIconUrl(effect.icon)}
-              alt={effect.name}
-              className="effect-config-icon"
-            />
-            <h2>{effect.name} Configuration</h2>
-          </div>
-          <button className="effect-config-close" onClick={onClose}>×</button>
-        </div>
-
-        <div className="effect-config-body">
-          <div className="effect-config-description">
-            {effect.description}
-          </div>
-
-          {renderEffectSpecificConfig()}
-        </div>
-
-        <div className="effect-config-footer">
-          <button className="effect-config-save" onClick={onClose}>Save Changes</button>
-        </div>
-      </div>
-    </div>
-  );
+  // Render different configuration sections based on effect type
+  function renderEffectSpecificConfig() {
+    if (effect.id === 'lifelink') {
+      return renderLifelinkConfig();
+    } else if (effect.id === 'flight') {
+      return renderFlightConfig();
+    } else if (effect.id === 'shielded') {
+      return renderShieldConfig();
+    } else if (effect.id === 'regeneration' || effect.id === 'regen') {
+      return renderRegenerationConfig();
+    } else if (effect.id === 'haste') {
+      return renderHasteConfig();
+    } else if (effect.id === 'stunned' || effect.id === 'stun') {
+      return renderStunConfig();
+    } else if (effect.id === 'luck') {
+      return renderLuckConfig();
+    } else if (effect.id === 'charmed' || effect.id === 'charm') {
+      return renderCharmConfig();
+    } else if (effect.id === 'burning') {
+      return renderBurningConfig();
+    } else if (effect.id === 'frightened' || effect.id === 'fear') {
+      return renderFearConfig();
+    } else if (effect.id === 'poisoned' || effect.id === 'poison') {
+      return renderPoisonConfig();
+    } else if (effect.id === 'blinded' || effect.id === 'blind') {
+      return renderBlindConfig();
+    } else if (effect.id === 'paralyzed' || effect.id === 'paralyze') {
+      return renderParalyzeConfig();
+    } else if (effect.id === 'damage_shield' || effect.id === 'damageshield') {
+      return renderDamageShieldConfig();
+    } else if (effect.id === 'combat_advantage' || effect.id === 'advantage' || effect.id === 'advantage_attack' || effect.id === 'attackers_disadvantage' || effect.id === 'attackers_advantage_buff') {
+      return (
+        <>
+          {renderCombatAdvantageConfig()}
+          {renderCombatAdvantageConfig2()}
+        </>
+      );
+    } else if (effect.id === 'disadvantage_attack' || effect.id === 'attackers_advantage') {
+      return renderCombatDisadvantageConfig();
+    } else if (effect.id === 'disadvantage_save') {
+      return renderSaveDisadvantageConfig();
+    } else if (effect.id === 'skill_mastery' || effect.id === 'skillmastery') {
+      return renderSkillMasteryConfig();
+    } else {
+      // Default configuration for all other effects
+      return renderDefaultConfig();
+    }
+  }
 };
 
 export default StatusEffectConfigPopup;

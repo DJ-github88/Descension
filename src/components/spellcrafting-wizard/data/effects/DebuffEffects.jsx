@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import StatusEffectConfigPopup from './StatusEffectConfigPopup';
+import ReactDOM from 'react-dom';
+import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import DiceFormulaExamples from '../../components/tooltips/DiceFormulaExamples';
-// Remove CSS imports to avoid circular dependencies
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
+import './DebuffEffects.css'; // Import dedicated debuff styling
+
 import DebuffTriggerConfig from '../../components/effects/DebuffTriggerConfig';
 import SpellSelector from '../../components/common/SpellSelector';
 import './progressive-buff.css'; // Reuse the same CSS for progressive debuffs
-import '../../styles/debuff-save-config.css'; // Import the saving throw configuration styles
+// Pathfinder styles imported via main.css
+import '../../styles/buff-config-options.css'; // Import the shared configuration styles
 
 // Import debuff types and status effects
 import {
@@ -18,6 +20,7 @@ import {
 } from '../../core/data/debuffTypes';
 
 import { NEGATIVE_STATUS_EFFECTS, COMBAT_DISADVANTAGES } from '../../core/data/statusEffects';
+import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
 
 // Debuff types with WoW icons
 const DEBUFF_TYPES = {
@@ -131,9 +134,9 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
 
   // Default debuff configuration
   const defaultConfig = {
-    duration: 3, // Legacy field
-    durationValue: 3,
-    durationType: 'turns',
+    duration: 1, // Legacy field
+    durationValue: 1,
+    durationType: 'rounds',
     durationUnit: 'rounds',
     restType: 'short',
     canBeDispelled: true,
@@ -148,18 +151,20 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     progressiveStages: [],
     // Saving throw configuration
     difficultyClass: 15,
-    savingThrow: 'constitution'
+    savingThrow: 'constitution',
+    saveOutcome: 'negates'
   };
 
   useEffect(() => {
     // Initialize default debuff configuration if not already set
     if (!debuffConfig) {
       setDebuffConfig(defaultConfig);
+      return; // Don't sync to global state yet, wait for next render
     }
 
-    // Always sync with global state
+    // Only sync with global state if debuffConfig is valid
     dispatch(actionCreators.updateDebuffConfig(debuffConfig));
-  }, [debuffConfig]);
+  }, [debuffConfig, dispatch]);
 
   // Initialize duration fields if not set
   useEffect(() => {
@@ -183,10 +188,18 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
 
   // Update debuff configuration state (global settings)
   const updateDebuffConfig = (key, value) => {
-    setDebuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...debuffConfig,
       [key]: value
-    }));
+    };
+    setDebuffConfig(newConfig);
+
+    // Immediately trigger formatting update when save-related fields change
+    if (key === 'savingThrow' || key === 'difficultyClass' || key === 'saveOutcome') {
+      console.log('Triggering immediate save formatting update for:', key, value);
+      // Force a re-render of the spell card by updating the global state
+      dispatch(actionCreators.updateDebuffConfig(newConfig));
+    }
     // If updating the global magnitude or magnitudeType, don't apply to existing modifiers
     // Each stat now has its own magnitude and type
   };
@@ -227,6 +240,16 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     }));
   };
 
+  // Update entire stat penalty object
+  const updateStatPenalty = (statId, newStat) => {
+    setDebuffConfig(prev => ({
+      ...prev,
+      statPenalties: prev.statPenalties?.map(stat =>
+        stat.id === statId ? newStat : stat
+      ) || []
+    }));
+  };
+
   // Update an existing stat penalty's magnitude type
   const updateStatPenaltyType = (statId, magnitudeType) => {
     const updatedPenalties = debuffConfig.statPenalties.map(pen => {
@@ -254,6 +277,70 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       ...prev,
       statPenalties: newStatPenalties
     }));
+  };
+
+  // Get resistance scaling options (same as BuffEffects but for debuffs - reducing resistances)
+  const getResistanceScalingOptions = (resistanceType) => {
+    if (resistanceType === 'absorption') {
+      // Absorption reduction uses flat numbers
+      return [
+        { value: -50, label: '-50 points', description: 'Reduces absorption by 50 points' },
+        { value: -25, label: '-25 points', description: 'Reduces absorption by 25 points' },
+        { value: -20, label: '-20 points', description: 'Reduces absorption by 20 points' },
+        { value: -15, label: '-15 points', description: 'Reduces absorption by 15 points' },
+        { value: -10, label: '-10 points', description: 'Reduces absorption by 10 points' },
+        { value: -5, label: '-5 points', description: 'Reduces absorption by 5 points' },
+        { value: 'formula', label: 'Formula', description: 'Use dice formula (e.g., -2d6-3)' }
+      ];
+    } else {
+      // Standard resistance reduction uses percentage-based options
+      return [
+        // Resistance reduction (negative percentages make them more vulnerable)
+        { value: -200, label: 'Extreme Vulnerability', description: 'Makes target take 300% damage (-200%)', multiplier: 3.0, color: '#f44336' },
+        { value: -150, label: 'Major Vulnerability', description: 'Makes target take 250% damage (-150%)', multiplier: 2.5, color: '#ff5722' },
+        { value: -125, label: 'High Vulnerability', description: 'Makes target take 225% damage (-125%)', multiplier: 2.25, color: '#ff9800' },
+        { value: -100, label: 'Double Vulnerability', description: 'Makes target take 200% damage (-100%)', multiplier: 2.0, color: '#ffc107' },
+        { value: -75, label: 'Significant Vulnerability', description: 'Makes target take 175% damage (-75%)', multiplier: 1.75, color: '#ffeb3b' },
+        { value: -50, label: 'Moderate Vulnerability', description: 'Makes target take 150% damage (-50%)', multiplier: 1.5, color: '#cddc39' },
+        { value: -25, label: 'Minor Vulnerability', description: 'Makes target take 125% damage (-25%)', multiplier: 1.25, color: '#8bc34a' },
+
+        // Neutral (no change)
+        { value: 0, label: 'No Change', description: 'No effect on resistance (0%)', multiplier: 1.0, color: '#9e9e9e' },
+
+        // Resistance reduction (positive percentages reduce their existing resistances)
+        { value: 25, label: 'Slight Reduction', description: 'Reduces resistance by 25%', multiplier: 0.75, color: '#4caf50' },
+        { value: 50, label: 'Moderate Reduction', description: 'Reduces resistance by 50%', multiplier: 0.5, color: '#2196f3' },
+        { value: 75, label: 'Major Reduction', description: 'Reduces resistance by 75%', multiplier: 0.25, color: '#3f51b5' },
+        { value: 100, label: 'Complete Nullification', description: 'Removes all resistance (100%)', multiplier: 0.0, color: '#9c27b0' }
+      ];
+    }
+  };
+
+  // Get CSS class name for resistance level
+  const getResistanceLevelClass = (value) => {
+    if (value === null || value === undefined || value === 'none') return 'none';
+
+    // Handle string values (resistance level names)
+    if (typeof value === 'string') {
+      return value.toLowerCase().replace(/\s+/g, '-');
+    }
+
+    // Handle numeric values
+    switch (value) {
+      case -200: return 'extreme-vulnerability';
+      case -150: return 'major-vulnerability';
+      case -125: return 'high-vulnerability';
+      case -100: return 'double-vulnerability';
+      case -75: return 'significant-vulnerability';
+      case -50: return 'moderate-vulnerability';
+      case -25: return 'minor-vulnerability';
+      case 0: return 'no-change';
+      case 25: return 'slight-reduction';
+      case 50: return 'moderate-reduction';
+      case 75: return 'major-reduction';
+      case 100: return 'complete-nullification';
+      default: return 'none';
+    }
   };
 
   // Function to render the dynamic stat indicator badge
@@ -290,7 +377,30 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     const exists = statusEffects.some(e => e.id === effect.id);
 
     if (!exists) {
-      // Only include essential properties, not default magnitude or type
+      // Get default save type for this effect
+      const getDefaultSaveType = (effectId) => {
+        const defaultSaves = {
+          'charmed': 'wisdom',
+          'frightened': 'wisdom',
+          'fear': 'wisdom',
+
+          'blinded': 'constitution',
+          'blind': 'constitution',
+          'paralyzed': 'constitution',
+          'poisoned': 'constitution',
+          'restrained': 'strength',
+          'silenced': 'constitution',
+
+          'weakened': 'constitution',
+          'confused': 'wisdom',
+          'diseased': 'constitution',
+          'bleeding': 'constitution',
+          'cursed': 'wisdom'
+        };
+        return defaultSaves[effectId] || 'constitution';
+      };
+
+      // Include essential properties with default save values
       const newStatusEffect = {
         id: effect.id,
         name: effect.name,
@@ -298,7 +408,10 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         icon: effect.icon || null,
         description: effect.description || '',
         hasAdvancedConfig: effect.hasAdvancedConfig || false,
-        options: effect.options || []
+        options: effect.options || [],
+        saveDC: 15,
+        saveType: getDefaultSaveType(effect.id),
+        saveOutcome: 'negates'
       };
 
       setDebuffConfig(prev => ({
@@ -363,153 +476,141 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     const isSelected = debuffConfig.statusEffects?.some(e => e.id === effect.id);
     const selectedEffect = isSelected ? debuffConfig.statusEffects.find(e => e.id === effect.id) : null;
 
-    // Create WoW Classic style tooltip content
+    // Create Pathfinder style tooltip content
     const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {effect.description}
+      <div className="pathfinder-tooltip">
+        <div className="pathfinder-tooltip-header">
+          <img
+            src={getIconUrl(effect.icon)}
+            alt={effect.name}
+            className="pathfinder-tooltip-icon"
+          />
+          <span className="pathfinder-tooltip-title">{effect.name}</span>
         </div>
-        {effect.category === 'primary' && (
-          <div className="tooltip-effect">
-            <span className="tooltip-red">Reduces</span> your target's {effect.name.toLowerCase()} attribute.
+
+        <div className="pathfinder-tooltip-body">
+          <div className="pathfinder-tooltip-description">
+            {effect.description}
           </div>
-        )}
-        {effect.category === 'secondary' && (
-          <div className="tooltip-effect">
-            <span className="tooltip-red">Weakens</span> your target's {effect.name.toLowerCase()} stat.
-          </div>
-        )}
-        {effect.category === 'resistance' && (
-          <div className="tooltip-effect">
-            <span className="tooltip-red">Decreases</span> protection against {effect.name.toLowerCase()} damage.
-          </div>
-        )}
-        {effect.category === 'damage' && (
-          <div className="tooltip-effect">
-            <span className="tooltip-red">Reduces</span> the damage dealt with {effect.name.toLowerCase()} spells.
-          </div>
-        )}
-        {effect.category === 'utility' && (
-          <div className="tooltip-effect">
-            <span className="tooltip-red">Hinders</span> abilities related to {effect.name.toLowerCase()}.
-          </div>
-        )}
 
-        {/* Show configured options if this effect is selected */}
-        {isSelected && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-section-header">Current Configuration:</div>
-
-            {/* Show selected option */}
-            {selectedEffect.option && effect.options && (
-              <div className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">Option:</span> {
-                  effect.options.find(o => o.id === selectedEffect.option)?.name || 'None'
-                }
-              </div>
-            )}
-
-            {/* Show level if applicable */}
-            {selectedEffect.level && (
-              <div className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">Level:</span> {selectedEffect.level}
-              </div>
-            )}
-
-            {/* Show lifelink specific configuration */}
-            {effect.id === 'lifelink' && (
-              <>
-                {selectedEffect.direction && (
-                  <div className="tooltip-option">
-                    <span className="tooltip-bullet"></span>
-                    <span className="tooltip-gold">Direction:</span> {
-                      selectedEffect.direction === 'caster_to_target' ? 'Caster to Target' :
-                      selectedEffect.direction === 'target_to_caster' ? 'Target to Caster' :
-                      'Bidirectional'
-                    }
-                  </div>
-                )}
-
-                {selectedEffect.sourceResource && selectedEffect.targetResource && (
-                  <div className="tooltip-option">
-                    <span className="tooltip-bullet"></span>
-                    <span className="tooltip-gold">Resources:</span> {
-                      `${selectedEffect.sourceResource} → ${selectedEffect.targetResource}`
-                    }
-                  </div>
-                )}
-
-                {selectedEffect.calculationType && (
-                  <div className="tooltip-option">
-                    <span className="tooltip-bullet"></span>
-                    <span className="tooltip-gold">Calculation:</span> {
-                      selectedEffect.calculationType === 'percentage' ? `${selectedEffect.conversionRate || 25}%` :
-                      selectedEffect.calculationType === 'fixed' ? `Fixed (${selectedEffect.fixedAmount || 5})` :
-                      selectedEffect.calculationType === 'dice' ? `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'}` :
-                      `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'} per ${selectedEffect.perAmount || 5}`
-                    }
-                  </div>
-                )}
-              </>
-            )}
-          </>
-        )}
-
-        {/* Status effect available options (only show if not selected) */}
-        {!isSelected && effect.options && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-section-header">Effect Variations:</div>
-            {effect.options.map((option, index) => (
-              <div key={index} className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-red">{option.name}:</span> {option.description}
-              </div>
-            ))}
-          </>
-        )}
-
-        {/* Duration and save information for status effects */}
-        {effect.category && ['combat', 'mental', 'physical', 'sensory', 'magical'].includes(effect.category) && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-casttime">
-              <span className="tooltip-gold">Duration:</span> Varies based on spell power
+          {effect.category === 'primary' && (
+            <div className="pathfinder-tooltip-effect">
+              Reduces your target's {effect.name.toLowerCase()} attribute.
             </div>
-            <div className="tooltip-casttime">
-              <span className="tooltip-gold">Type:</span> {effect.category.charAt(0).toUpperCase() + effect.category.slice(1)} Affliction
+          )}
+          {effect.category === 'secondary' && (
+            <div className="pathfinder-tooltip-effect">
+              Weakens your target's {effect.name.toLowerCase()} stat.
             </div>
-            <div className="tooltip-requirement">
-              <span className="tooltip-gold">Save:</span> Target may resist with appropriate saving throw
+          )}
+          {effect.category === 'resistance' && (
+            <div className="pathfinder-tooltip-effect">
+              Decreases protection against {effect.name.toLowerCase()} damage.
             </div>
-          </>
-        )}
-        <div className="tooltip-divider"></div>
-        <div className="tooltip-flavor-text">
-          {effect.category === 'primary' && "\"Their strength fades like a dying flame.\""}
-          {effect.category === 'secondary' && "\"Their capabilities diminish before your eyes.\""}
-          {effect.category === 'resistance' && "\"Their defenses crumble against harmful forces.\""}
-          {effect.category === 'damage' && "\"Their magical potency wanes under your influence.\""}
-          {effect.category === 'utility' && "\"Their adaptability to the world falters.\""}
-          {effect.category === 'combat' && "\"Their combat effectiveness deteriorates rapidly.\""}
-          {effect.category === 'mental' && "\"Their mind clouds with confusion and doubt.\""}
-          {effect.category === 'physical' && "\"Their body weakens under your malevolent spell.\""}
-          {effect.category === 'sensory' && "\"Their perception of the world becomes distorted.\""}
-          {effect.category === 'magical' && "\"Their connection to arcane forces is severed.\""}
-          {effect.category === 'vampiric' && "\"Their life force is bound to yours through dark magic.\""}
+          )}
+          {effect.category === 'spell_damage' && (
+            <div className="pathfinder-tooltip-effect">
+              Reduces the damage dealt with {effect.name.toLowerCase()} spells.
+            </div>
+          )}
+          {effect.category === 'utility' && (
+            <div className="pathfinder-tooltip-effect">
+              Hinders abilities related to {effect.name.toLowerCase()}.
+            </div>
+          )}
+
+          {/* Show configured options if this effect is selected */}
+          {isSelected && (
+            <div className="pathfinder-tooltip-section">
+              <div className="pathfinder-tooltip-section-header">Current Configuration</div>
+
+              {selectedEffect.option && effect.options && (
+                <div className="pathfinder-tooltip-option">
+                  <span className="pathfinder-tooltip-label">Option:</span> {
+                    effect.options.find(o => o.id === selectedEffect.option)?.name || 'None'
+                  }
+                </div>
+              )}
+
+              {selectedEffect.level && (
+                <div className="pathfinder-tooltip-option">
+                  <span className="pathfinder-tooltip-label">Level:</span> {selectedEffect.level}
+                </div>
+              )}
+
+              {/* Show lifelink specific configuration */}
+              {effect.id === 'lifelink' && (
+                <>
+                  {selectedEffect.direction && (
+                    <div className="pathfinder-tooltip-option">
+                      <span className="pathfinder-tooltip-label">Direction:</span> {
+                        selectedEffect.direction === 'caster_to_target' ? 'Caster to Target' :
+                        selectedEffect.direction === 'target_to_caster' ? 'Target to Caster' :
+                        'Bidirectional'
+                      }
+                    </div>
+                  )}
+
+                  {selectedEffect.sourceResource && selectedEffect.targetResource && (
+                    <div className="pathfinder-tooltip-option">
+                      <span className="pathfinder-tooltip-label">Resources:</span> {
+                        `${selectedEffect.sourceResource} → ${selectedEffect.targetResource}`
+                      }
+                    </div>
+                  )}
+
+                  {selectedEffect.calculationType && (
+                    <div className="pathfinder-tooltip-option">
+                      <span className="pathfinder-tooltip-label">Calculation:</span> {
+                        selectedEffect.calculationType === 'percentage' ? `${selectedEffect.conversionRate || 25}%` :
+                        selectedEffect.calculationType === 'fixed' ? `Fixed (${selectedEffect.fixedAmount || 5})` :
+                        selectedEffect.calculationType === 'dice' ? `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'}` :
+                        `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'} per ${selectedEffect.perAmount || 5}`
+                      }
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Status effect available options (only show if not selected) */}
+          {!isSelected && effect.options && (
+            <div className="pathfinder-tooltip-section">
+              <div className="pathfinder-tooltip-section-header">Effect Variations</div>
+              {effect.options.slice(0, 3).map((option, index) => (
+                <div key={index} className="pathfinder-tooltip-option">
+                  <span className="pathfinder-tooltip-label">{option.name}:</span> {option.description}
+                </div>
+              ))}
+              {effect.options.length > 3 && (
+                <div className="pathfinder-tooltip-more">
+                  ...and {effect.options.length - 3} more variations
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Duration and save information for status effects */}
+          {effect.category && ['combat', 'mental', 'physical', 'sensory', 'magical'].includes(effect.category) && (
+            <div className="pathfinder-tooltip-section">
+              <div className="pathfinder-tooltip-meta">
+                <span className="pathfinder-tooltip-label">Duration:</span> Varies based on spell power
+              </div>
+              <div className="pathfinder-tooltip-meta">
+                <span className="pathfinder-tooltip-label">Type:</span> {effect.category.charAt(0).toUpperCase() + effect.category.slice(1)} Affliction
+              </div>
+              <div className="pathfinder-tooltip-meta">
+                <span className="pathfinder-tooltip-label">Save:</span> Target may resist with appropriate saving throw
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
 
-    // Store the tooltip data including title and icon
-    setTooltipContent({
-      content: tooltipContent,
-      title: effect.name,
-      icon: effect.icon
-    });
+    // Store the tooltip data
+    setTooltipContent(tooltipContent);
     setShowTooltip(true);
     // Update position using client coordinates for fixed positioning
     setMousePos({ x: e.clientX, y: e.clientY });
@@ -517,6 +618,62 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
 
   const handleMouseLeave = () => {
     setShowTooltip(false);
+  };
+
+  // Handle save type tooltip events
+  const handleSaveTypeTooltipEnter = (saveType, event) => {
+    const tooltipContent = (
+      <div className="pathfinder-tooltip compact-tooltip">
+        <div className="pathfinder-tooltip-header">
+          <img
+            src={getIconUrl(saveType.icon)}
+            alt={saveType.name}
+            className="pathfinder-tooltip-icon"
+          />
+          <span className="pathfinder-tooltip-title">{saveType.name.toUpperCase()}</span>
+        </div>
+        <div className="pathfinder-tooltip-section">
+          <div className="pathfinder-tooltip-description">
+            {saveType.description}
+          </div>
+          <div className="pathfinder-tooltip-meta">
+            <span className="pathfinder-tooltip-label">Type:</span> Saving Throw
+          </div>
+        </div>
+      </div>
+    );
+
+    setTooltipContent({
+      content: tooltipContent,
+      title: saveType.name,
+      icon: getIconUrl(saveType.icon)
+    });
+    setShowTooltip(true);
+
+    // Calculate better positioning to keep tooltip in viewport
+    const targetElement = event.target.closest('.pf-stat-button') || event.target.closest('.effect-option-tab') || event.target;
+    if (!targetElement) return; // Safety check
+    const rect = targetElement.getBoundingClientRect();
+    const tooltipWidth = 280; // Estimated tooltip width
+    const tooltipHeight = 120; // Estimated tooltip height
+
+    let x = rect.left + (rect.width / 2) - (tooltipWidth / 2); // Center horizontally
+    let y = rect.top - tooltipHeight - 10; // Position above the button
+
+    // Keep tooltip within viewport bounds
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Adjust horizontal position if going off screen
+    if (x < 10) x = 10;
+    if (x + tooltipWidth > viewportWidth - 10) x = viewportWidth - tooltipWidth - 10;
+
+    // If tooltip would go above viewport, show it below instead
+    if (y < 10) {
+      y = rect.bottom + 10;
+    }
+
+    setMousePos({ x, y });
   };
 
   // Track mouse position during hover
@@ -527,357 +684,116 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     }
   };
 
+  // Helper function to convert buff descriptions to debuff descriptions
+  const convertToDebuffDescription = (buffDescription, statName) => {
+    // Simple conversion logic - replace "increases" with "reduces", etc.
+    return buffDescription
+      .replace(/increases?/gi, 'reduces')
+      .replace(/improves?/gi, 'impairs')
+      .replace(/enhances?/gi, 'diminishes')
+      .replace(/boosts?/gi, 'reduces')
+      .replace(/grants?/gi, 'removes');
+  };
+
   // Get stat modifiers by category
   const getStatModifiersByCategory = (category) => {
-    // Define stat modifiers with proper icon paths and categories
-    const PRIMARY_STAT_MODIFIERS = [
-      { id: 'all_primary_stats', name: 'All Primary Stats', icon: 'spell_holy_blessingofstrength', description: 'Reduces all primary attributes', category: 'primary' },
-      { id: 'strength', name: 'Strength', icon: 'spell_nature_strength', description: 'Reduces physical power and force', category: 'primary' },
-      { id: 'agility', name: 'Agility', icon: 'ability_rogue_quickrecovery', description: 'Reduces reflexes, balance, and coordination', category: 'primary' },
-      { id: 'constitution', name: 'Constitution', icon: 'spell_holy_devotionaura', description: 'Reduces endurance and physical fortitude', category: 'primary' },
-      { id: 'intelligence', name: 'Intelligence', icon: 'spell_arcane_arcane02', description: 'Reduces mental acuity and knowledge', category: 'primary' },
-      { id: 'spirit', name: 'Spirit', icon: 'spell_holy_holyguidance', description: 'Reduces mental fortitude and willpower', category: 'primary' },
-      { id: 'charisma', name: 'Charisma', icon: 'spell_holy_powerinfusion', description: 'Reduces force of personality', category: 'primary' }
-    ];
+    // Get base stats from the BUFF_DEBUFF_STAT_MODIFIERS and modify descriptions for debuffs
+    const baseStats = BUFF_DEBUFF_STAT_MODIFIERS.filter(stat => stat.category === category);
 
-    const SECONDARY_STAT_MODIFIERS = [
-      { id: 'armor_class', name: 'Armor Class', icon: 'inv_shield_04', description: 'Reduces defensive protection against attacks', category: 'secondary' },
-      { id: 'initiative', name: 'Initiative', icon: 'ability_hunter_mastermarksman', description: 'Reduces combat reaction speed', category: 'secondary' },
-      { id: 'max_health', name: 'Maximum Health', icon: 'inv_alchemy_elixir_04', description: 'Reduces maximum health', category: 'secondary' },
-      { id: 'max_mana', name: 'Maximum Mana', icon: 'inv_alchemy_elixir_02', description: 'Reduces maximum mana', category: 'secondary' },
-      { id: 'health_regen', name: 'Health Regeneration', icon: 'inv_potion_131', description: 'Reduces health regeneration rate', category: 'secondary' },
-      { id: 'mana_regen', name: 'Mana Regeneration', icon: 'inv_potion_81', description: 'Reduces mana regeneration rate', category: 'secondary' },
-      { id: 'action_points', name: 'Action Points', icon: 'spell_nature_timestop', description: 'Reduces available action points', category: 'secondary' },
-      { id: 'healing_received', name: 'Healing Received', icon: 'spell_holy_healingaura', description: 'Reduces effectiveness of healing received', category: 'secondary' }
-    ];
+    // Add special "All" options for certain categories
+    const specialOptions = [];
 
-    const COMBAT_STAT_MODIFIERS = [
-      { id: 'attack_bonus', name: 'Attack Bonus', icon: 'inv_sword_04', description: 'Reduces accuracy with attacks', category: 'combat' },
-      { id: 'damage_bonus', name: 'Damage Bonus', icon: 'ability_warrior_decisivestrike', description: 'Reduces damage dealt with attacks', category: 'combat' },
-      { id: 'critical_hit_chance', name: 'Critical Hit Chance', icon: 'ability_rogue_coldblood', description: 'Reduces likelihood of scoring critical hits', category: 'combat' },
-      { id: 'critical_hit_damage', name: 'Critical Hit Damage', icon: 'ability_backstab', description: 'Reduces damage dealt by critical hits', category: 'combat' },
-      { id: 'spell_penetration', name: 'Spell Penetration', icon: 'spell_arcane_blast', description: 'Reduces ability to penetrate spell resistance', category: 'combat' },
-      { id: 'armor_class', name: 'Armor Class', icon: 'inv_shield_04', description: 'Reduces defense against physical attacks', category: 'combat' },
-      { id: 'lifesteal', name: 'Lifesteal', icon: 'spell_shadow_lifedrain02', description: 'Reduces percentage of damage dealt converted to healing', category: 'combat' },
-      { id: 'damage_reflection', name: 'Damage Reflection', icon: 'spell_fire_fireball02', description: 'Reduces percentage of damage reflected back to attacker', category: 'combat' }
-    ];
+    if (category === 'primary') {
+      specialOptions.push({
+        id: 'all_primary_stats',
+        name: 'All Primary Stats',
+        icon: 'spell_holy_blessingofstrength',
+        description: 'Reduces all primary attributes',
+        category: 'primary'
+      });
+    } else if (category === 'resistance') {
+      // Add resistance modifiers with debuff scaling system
+      const RESISTANCE_MODIFIERS = [
+        { id: 'all_resistances', name: 'All Resistances', icon: 'spell_shadow_shadowwordpain', description: 'Reduces resistance to all damage types', category: 'resistance', resistanceType: 'general' },
+        { id: 'physical_resistance', name: 'Physical Resistance', icon: 'inv_shield_05', description: 'Reduces resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'fire_resistance', name: 'Fire Resistance', icon: 'spell_fire_firearmor', description: 'Reduces resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'cold_resistance', name: 'Cold Resistance', icon: 'spell_frost_frostarmor', description: 'Reduces resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'spell_nature_lightningshield', description: 'Reduces resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'spell_shadow_antishadow', description: 'Reduces resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'spell_holy_blessingofprotection', description: 'Reduces resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'poison_resistance', name: 'Poison Resistance', icon: 'ability_creature_poison_02', description: 'Reduces resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'spell_shadow_mindsteal', description: 'Reduces resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'force_resistance', name: 'Force Resistance', icon: 'spell_arcane_blast', description: 'Reduces resistance to force damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'acid_resistance', name: 'Acid Resistance', icon: 'spell_nature_acid_01', description: 'Reduces resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
+        { id: 'sonic_resistance', name: 'Sonic Resistance', icon: 'spell_holy_silence', description: 'Reduces resistance to sonic damage', category: 'resistance', resistanceType: 'standard' },
 
-    const DAMAGE_TYPE_MODIFIERS = [
-      { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'spell_fire_flamebolt', description: 'Reduces damage for all spell types', category: 'damage' },
-      { id: 'physical_damage', name: 'Physical Damage', icon: 'inv_axe_02', description: 'Reduces physical damage output', category: 'damage' },
-      { id: 'fire_damage', name: 'Fire Damage', icon: 'spell_fire_fire', description: 'Reduces fire damage output', category: 'damage' },
-      { id: 'cold_damage', name: 'Cold Damage', icon: 'spell_frost_frostbolt', description: 'Reduces cold damage output', category: 'damage' },
-      { id: 'lightning_damage', name: 'Lightning Damage', icon: 'spell_nature_lightning', description: 'Reduces lightning damage output', category: 'damage' },
-      { id: 'acid_damage', name: 'Acid Damage', icon: 'spell_nature_acid_01', description: 'Reduces acid damage output', category: 'damage' },
-      { id: 'necrotic_damage', name: 'Necrotic Damage', icon: 'spell_shadow_shadowbolt', description: 'Reduces necrotic damage output', category: 'damage' },
-      { id: 'radiant_damage', name: 'Radiant Damage', icon: 'spell_holy_holybolt', description: 'Reduces radiant damage output', category: 'damage' },
-      { id: 'force_damage', name: 'Force Damage', icon: 'spell_arcane_blast', description: 'Reduces force damage output', category: 'damage' },
-      { id: 'poison_damage', name: 'Poison Damage', icon: 'ability_creature_poison_02', description: 'Reduces poison damage output', category: 'damage' },
-      { id: 'psychic_damage', name: 'Psychic Damage', icon: 'spell_shadow_mindtwisting', description: 'Reduces psychic damage output', category: 'damage' },
-      { id: 'thunder_damage', name: 'Thunder Damage', icon: 'spell_nature_thunderclap', description: 'Reduces thunder damage output', category: 'damage' },
-      { id: 'slashing_damage', name: 'Slashing Damage', icon: 'inv_sword_04', description: 'Reduces slashing damage output', category: 'damage' },
-      { id: 'piercing_damage', name: 'Piercing Damage', icon: 'inv_spear_06', description: 'Reduces piercing damage output', category: 'damage' },
-      { id: 'bludgeoning_damage', name: 'Bludgeoning Damage', icon: 'inv_mace_02', description: 'Reduces bludgeoning damage output', category: 'damage' }
-    ];
+        // Absorption reduction types - use flat numbers for all damage types
+        { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'spell_shadow_antimagicshell', description: 'Reduces absorption of all damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'physical_absorption', name: 'Physical Absorption', icon: 'inv_shield_05', description: 'Reduces absorption of physical damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'fire_absorption', name: 'Fire Absorption', icon: 'spell_fire_firearmor', description: 'Reduces absorption of fire damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'cold_absorption', name: 'Cold Absorption', icon: 'spell_frost_frostarmor', description: 'Reduces absorption of cold damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'spell_nature_lightningshield', description: 'Reduces absorption of lightning damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'spell_shadow_antishadow', description: 'Reduces absorption of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'spell_holy_blessingofprotection', description: 'Reduces absorption of radiant damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'poison_absorption', name: 'Poison Absorption', icon: 'ability_creature_poison_02', description: 'Reduces absorption of poison damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'spell_shadow_mindsteal', description: 'Reduces absorption of psychic damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'force_absorption', name: 'Force Absorption', icon: 'spell_arcane_blast', description: 'Reduces absorption of force damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'acid_absorption', name: 'Acid Absorption', icon: 'spell_nature_acid_01', description: 'Reduces absorption of acid damage', category: 'resistance', resistanceType: 'absorption' },
+        { id: 'sonic_absorption', name: 'Sonic Absorption', icon: 'spell_holy_silence', description: 'Reduces absorption of sonic damage', category: 'resistance', resistanceType: 'absorption' }
+      ];
 
-    // Define resistance modifiers specifically for the resistance tab
-    const RESISTANCE_MODIFIERS = [
-      { id: 'all_resistances', name: 'All Resistances', icon: 'spell_holy_divineshield', description: 'Reduces resistance to all damage types', category: 'resistance' },
-      { id: 'physical_resistance', name: 'Physical Resistance', icon: 'inv_shield_05', description: 'Reduces resistance to physical damage', category: 'resistance' },
-      { id: 'fire_resistance', name: 'Fire Resistance', icon: 'spell_fire_firearmor', description: 'Reduces resistance to fire damage', category: 'resistance' },
-      { id: 'cold_resistance', name: 'Cold Resistance', icon: 'spell_frost_frostarmor', description: 'Reduces resistance to cold damage', category: 'resistance' },
-      { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'spell_nature_lightningshield', description: 'Reduces resistance to lightning damage', category: 'resistance' },
-      { id: 'acid_resistance', name: 'Acid Resistance', icon: 'spell_nature_acid_01', description: 'Reduces resistance to acid damage', category: 'resistance' },
-      { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'spell_shadow_antishadow', description: 'Reduces resistance to necrotic damage', category: 'resistance' },
-      { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'spell_holy_blessingofprotection', description: 'Reduces resistance to radiant damage', category: 'resistance' },
-      { id: 'poison_resistance', name: 'Poison Resistance', icon: 'ability_creature_poison_02', description: 'Reduces resistance to poison damage', category: 'resistance' },
-      { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'spell_shadow_mindtwisting', description: 'Reduces resistance to psychic damage', category: 'resistance' },
-      { id: 'thunder_resistance', name: 'Thunder Resistance', icon: 'spell_nature_thunderclap', description: 'Reduces resistance to thunder damage', category: 'resistance' },
-      { id: 'force_resistance', name: 'Force Resistance', icon: 'spell_arcane_blast', description: 'Reduces resistance to force damage', category: 'resistance' },
-      { id: 'slashing_resistance', name: 'Slashing Resistance', icon: 'inv_sword_04', description: 'Reduces resistance to slashing damage', category: 'resistance' },
-      { id: 'piercing_resistance', name: 'Piercing Resistance', icon: 'inv_spear_06', description: 'Reduces resistance to piercing damage', category: 'resistance' },
-      { id: 'bludgeoning_resistance', name: 'Bludgeoning Resistance', icon: 'inv_mace_02', description: 'Reduces resistance to bludgeoning damage', category: 'resistance' },
-      { id: 'damage_immunity', name: 'Damage Immunity', icon: 'spell_holy_divineprotection', description: 'Removes immunity to all damage types', category: 'resistance' },
-      { id: 'magic_immunity', name: 'Magic Immunity', icon: 'spell_arcane_prismaticcloak', description: 'Removes immunity to magical effects', category: 'resistance' },
-      { id: 'damage_reduction', name: 'Damage Reduction', icon: 'spell_holy_devotionaura', description: 'Reduces damage reduction percentage', category: 'resistance' }
-    ];
-
-    const UTILITY_STAT_MODIFIERS = [
-      { id: 'movement_speed', name: 'Movement Speed', icon: 'ability_rogue_sprint', description: 'Reduces movement speed', category: 'utility' },
-      { id: 'carrying_capacity', name: 'Carrying Capacity', icon: 'inv_misc_bag_08', description: 'Reduces maximum weight you can carry', category: 'utility' },
-      { id: 'swim_speed', name: 'Swim Speed', icon: 'ability_druid_aquaticform', description: 'Reduces swimming speed', category: 'utility' },
-      { id: 'flight_speed', name: 'Flight Speed', icon: 'ability_monk_flyingdragonkick', description: 'Reduces flying speed', category: 'utility' },
-      { id: 'mana_cost_reduction', name: 'Mana Cost', icon: 'spell_arcane_arcane01', description: 'Increases mana cost of abilities', category: 'utility' },
-      { id: 'vision_range', name: 'Vision Range', icon: 'ability_hunter_eagleeye', description: 'Reduces distance at which you can see clearly', category: 'utility' }
-    ];
-
-    switch (category) {
-      case 'primary':
-        return PRIMARY_STAT_MODIFIERS;
-      case 'secondary':
-        return SECONDARY_STAT_MODIFIERS;
-      case 'combat':
-        return COMBAT_STAT_MODIFIERS;
-      case 'damage':
-        return DAMAGE_TYPE_MODIFIERS;
-      case 'resistance':
-        return RESISTANCE_MODIFIERS;
-      case 'utility':
-        return UTILITY_STAT_MODIFIERS;
-      default:
-        return PRIMARY_STAT_MODIFIERS;
+      return RESISTANCE_MODIFIERS;
     }
+
+    // Convert buff descriptions to debuff descriptions
+    const debuffStats = baseStats.map(stat => ({
+      ...stat,
+      description: convertToDebuffDescription(stat.description, stat.name)
+    }));
+
+    // Add some debuff-specific stats that aren't in the base list
+    const additionalStats = [];
+
+    if (category === 'secondary') {
+      additionalStats.push(
+        { id: 'healing_received', name: 'Healing Received', icon: 'spell_holy_healingaura', description: 'Reduces effectiveness of healing received', category: 'secondary' }
+      );
+    } else if (category === 'combat') {
+      additionalStats.push(
+        { id: 'attack_bonus', name: 'Attack Bonus', icon: 'inv_sword_04', description: 'Reduces accuracy with attacks', category: 'combat' },
+        { id: 'damage_bonus', name: 'Damage Bonus', icon: 'ability_warrior_decisivestrike', description: 'Reduces damage dealt with attacks', category: 'combat' },
+        { id: 'spell_penetration', name: 'Spell Penetration', icon: 'spell_arcane_blast', description: 'Reduces ability to penetrate spell resistance', category: 'combat' }
+      );
+    } else if (category === 'damage') {
+      // Add damage type modifiers for debuffs (reducing damage output)
+      additionalStats.push(
+        { id: 'all_spell_damage', name: 'All Spell Damage', icon: 'spell_shadow_curseofweakness', description: 'Reduces damage dealt with all spells', category: 'damage' },
+        { id: 'fire_spell_power', name: 'Fire Spell Power', icon: 'spell_fire_fire', description: 'Reduces damage dealt with fire spells', category: 'damage' },
+        { id: 'cold_spell_power', name: 'Cold Spell Power', icon: 'spell_frost_frostbolt02', description: 'Reduces damage dealt with cold spells', category: 'damage' },
+        { id: 'lightning_spell_power', name: 'Lightning Spell Power', icon: 'spell_nature_lightning', description: 'Reduces damage dealt with lightning spells', category: 'damage' },
+        { id: 'necrotic_spell_power', name: 'Necrotic Spell Power', icon: 'spell_shadow_shadowbolt', description: 'Reduces damage dealt with necrotic spells', category: 'damage' },
+        { id: 'radiant_spell_power', name: 'Radiant Spell Power', icon: 'spell_holy_holysmite', description: 'Reduces damage dealt with radiant spells', category: 'damage' },
+        { id: 'poison_spell_power', name: 'Poison Spell Power', icon: 'spell_nature_corrosivebreath', description: 'Reduces damage dealt with poison spells', category: 'damage' },
+        { id: 'psychic_spell_power', name: 'Psychic Spell Power', icon: 'spell_shadow_mindsteal', description: 'Reduces damage dealt with psychic spells', category: 'damage' },
+        { id: 'force_spell_power', name: 'Force Spell Power', icon: 'spell_arcane_blast', description: 'Reduces damage dealt with force spells', category: 'damage' },
+        { id: 'acid_spell_power', name: 'Acid Spell Power', icon: 'spell_nature_acid_01', description: 'Reduces damage dealt with acid spells', category: 'damage' },
+        { id: 'sonic_spell_power', name: 'Sonic Spell Power', icon: 'spell_holy_silence', description: 'Reduces damage dealt with sonic spells', category: 'damage' },
+        { id: 'weapon_damage', name: 'Weapon Damage', icon: 'inv_sword_04', description: 'Reduces damage dealt with weapons', category: 'damage' },
+        { id: 'ranged_damage', name: 'Ranged Damage', icon: 'ability_hunter_aimedshot', description: 'Reduces damage dealt with ranged weapons', category: 'damage' }
+      );
+    }
+
+    return [...specialOptions, ...debuffStats, ...additionalStats];
   };
 
   // Get status effects by category
   const getStatusEffectsByCategory = (category) => {
-    // Define status effects with proper icon paths and categories
-    const STATUS_EFFECTS = [
-      // Add combat disadvantages
-      ...COMBAT_DISADVANTAGES.map(disadvantage => ({
-        ...disadvantage,
-        category: 'combat'
-      })),
-      {
-        id: 'blinded',
-        name: 'Blinded',
-        description: 'Cannot see, automatically fails sight-based checks, disadvantage on attacks',
-        icon: 'spell_shadow_eyeofthedarkmoon',
-        category: 'sensory',
-        options: [
-          { id: 'partial', name: 'Partially Blinded', description: 'Vision severely obscured, disadvantage on perception', icon: 'spell_shadow_eyeofthedarkmoon' },
-          { id: 'complete', name: 'Completely Blinded', description: 'Cannot see at all, automatically fail sight-based checks', icon: 'spell_shadow_misdirection' },
-          { id: 'flash', name: 'Flash Blinded', description: 'Temporary blindness that fades over time', icon: 'spell_fire_fireball' }
-        ]
-      },
-      {
-        id: 'charmed',
-        name: 'Charmed',
-        description: 'Regards the charmer as a friendly acquaintance, cannot attack them',
-        icon: 'spell_shadow_mindsteal',
-        category: 'mental',
-        options: [
-          { id: 'friendly', name: 'Friendly Charm', description: 'Regards target as friend, still has free will', icon: 'spell_nature_eyeofthestorm' },
-          { id: 'dominated', name: 'Domination', description: 'Must obey charmer\'s commands', icon: 'spell_shadow_mindsteal' },
-          { id: 'infatuated', name: 'Infatuation', description: 'Will protect charmer at all costs', icon: 'spell_holy_prayerofspirit' }
-        ]
-      },
-      {
-        id: 'frightened',
-        name: 'Frightened',
-        description: 'Disadvantage on ability checks and attacks while source of fear is in sight',
-        icon: 'spell_shadow_possession',
-        category: 'mental',
-        options: [
-          { id: 'shaken', name: 'Shaken', description: 'Disadvantage on ability checks while fear source is visible', icon: 'spell_shadow_possession' },
-          { id: 'terrified', name: 'Terrified', description: 'Cannot willingly move closer to the source of fear', icon: 'ability_warrior_warcry' },
-          { id: 'panicked', name: 'Panicked', description: 'Must use actions to flee from source of fear', icon: 'spell_shadow_deathscream' }
-        ]
-      },
-      {
-        id: 'paralyzed',
-        name: 'Paralyzed',
-        description: 'Incapacitated, cannot move or speak, auto-fails STR and AGI saves',
-        icon: 'spell_nature_stranglevines',
-        category: 'physical',
-        options: [
-          { id: 'partial', name: 'Partially Paralyzed', description: 'Speed reduced to 0, disadvantage on AGI saves', icon: 'ability_rogue_sprint' },
-          { id: 'complete', name: 'Completely Paralyzed', description: 'Cannot move or take actions at all', icon: 'spell_nature_stranglevines' },
-          { id: 'magical', name: 'Magical Paralysis', description: 'Cannot move but can still cast non-somatic spells', icon: 'spell_arcane_mindmastery' }
-        ]
-      },
-      {
-        id: 'poisoned',
-        name: 'Poisoned',
-        description: 'Disadvantage on attack rolls and ability checks',
-        icon: 'ability_rogue_poisonousanimosity',
-        category: 'physical',
-        options: [
-          { id: 'weakening', name: 'Weakening Poison', description: 'Disadvantage on STR and CON checks and saves', icon: 'ability_rogue_poisonousanimosity' },
-          { id: 'debilitating', name: 'Debilitating Poison', description: 'Takes damage over time', icon: 'spell_nature_corrosivebreath' },
-          { id: 'paralyzing', name: 'Paralyzing Poison', description: 'May cause paralysis on failed save', icon: 'ability_poisonsting' }
-        ]
-      },
-      {
-        id: 'stunned',
-        name: 'Stunned',
-        description: 'Incapacitated, cannot move, auto-fails STR and AGI saves',
-        icon: 'spell_frost_stun',
-        category: 'physical',
-        options: [
-          { id: 'dazed', name: 'Dazed', description: 'Disadvantage on attacks and ability checks', icon: 'spell_nature_polymorph' },
-          { id: 'unconscious', name: 'Unconscious', description: 'Falls prone, unable to act, attacks have advantage', icon: 'spell_nature_sleep' },
-          { id: 'electric', name: 'Electric Stun', description: 'Muscles spasm, may conduct to nearby creatures', icon: 'spell_nature_lightning' }
-        ]
-      },
-      {
-        id: 'restrained',
-        name: 'Restrained',
-        description: 'Speed becomes 0, disadvantage on attacks, advantage on attacks against them',
-        icon: 'ability_warrior_throwdown',
-        category: 'physical',
-        options: [
-          { id: 'ensnared', name: 'Ensnared', description: 'Caught in vines, webs, or similar restraints', icon: 'spell_nature_earthbindtotem' },
-          { id: 'grappled', name: 'Grappled', description: 'Held by a creature, can attempt to break free', icon: 'ability_warrior_throwdown' },
-          { id: 'bound', name: 'Bound', description: 'Tied up with rope or chains, very difficult to escape', icon: 'inv_misc_rope_01' }
-        ]
-      },
-      {
-        id: 'silenced',
-        name: 'Silenced',
-        description: 'Cannot speak or cast spells with verbal components',
-        icon: 'spell_holy_silence',
-        category: 'magical',
-        options: [
-          { id: 'magical', name: 'Magical Silence', description: 'No sound can be created within an area', icon: 'spell_holy_silence' },
-          { id: 'muted', name: 'Muted', description: 'Individual cannot speak but other sounds function normally', icon: 'spell_holy_sealofsacrifice' },
-          { id: 'temporal', name: 'Temporal Stutter', description: 'Speech and verbal casting unreliable, may fail', icon: 'spell_arcane_portalironforge' }
-        ]
-      },
-      {
-        id: 'slowed',
-        name: 'Slowed',
-        description: 'Movement speed and action points reduced',
-        icon: 'spell_frost_frostshock',
-        category: 'physical',
-        options: [
-          { id: 'hindered', name: 'Hindered Movement', description: 'Movement speed reduced by half', icon: 'ability_rogue_trip' },
-          { id: 'lethargic', name: 'Lethargy', description: 'Action points reduced each round', icon: 'spell_frost_frostshock' },
-          { id: 'temporal', name: 'Temporal Slowness', description: 'Actions take longer to perform', icon: 'spell_frost_freezingbreath' }
-        ]
-      },
-      {
-        id: 'burning',
-        name: 'Burning',
-        description: 'Taking continuous fire damage and may spread to nearby flammable objects',
-        icon: 'spell_fire_soulburn',
-        category: 'elemental',
-        options: [
-          { id: 'mild', name: 'Mild Burn', description: 'Low damage over time', icon: 'spell_fire_fire' },
-          { id: 'intense', name: 'Intense Burn', description: 'Moderate damage with additional effects', icon: 'spell_fire_soulburn' },
-          { id: 'magical', name: 'Magical Fire', description: 'Cannot be extinguished by normal means', icon: 'spell_fire_lavaspawn' }
-        ]
-      },
-      {
-        id: 'frozen',
-        name: 'Frozen',
-        description: 'Movement slowed or stopped and taking cold damage',
-        icon: 'spell_frost_glacier',
-        category: 'elemental',
-        options: [
-          { id: 'chilled', name: 'Chilled', description: 'Slowed movement and reduced dexterity', icon: 'spell_frost_frostbolt' },
-          { id: 'frostbitten', name: 'Frostbitten', description: 'Painful cold damage with lasting effects', icon: 'spell_frost_frostbolt02' },
-          { id: 'frozen', name: 'Frozen Solid', description: 'Completely immobilized in ice', icon: 'spell_frost_glacier' }
-        ]
-      },
-      // Additional status effects
-      {
-        id: 'weakened',
-        name: 'Weakened',
-        description: 'Physical might is reduced, limiting damage output',
-        icon: 'spell_shadow_curseofweakness',
-        category: 'physical',
-        options: [
-          { id: 'fatigued', name: 'Fatigued', description: 'Reduced physical damage and encumbrance', icon: 'spell_shadow_curseofweakness' },
-          { id: 'exhausted', name: 'Exhausted', description: 'Severe reduction to physical capabilities', icon: 'ability_creature_poison_03' },
-          { id: 'drained', name: 'Drained', description: 'Life force sapped, may collapse from exhaustion', icon: 'spell_shadow_lifedrain02' }
-        ]
-      },
-      {
-        id: 'confused',
-        name: 'Confused',
-        description: 'Mental faculties impaired, may act unpredictably',
-        icon: 'spell_shadow_mindtwisting',
-        category: 'mental',
-        options: [
-          { id: 'disoriented', name: 'Disoriented', description: 'Difficulty focusing and reduced accuracy', icon: 'spell_shadow_mindtwisting' },
-          { id: 'befuddled', name: 'Befuddled', description: 'Acts randomly, may attack allies', icon: 'spell_nature_polymorph' },
-          { id: 'insane', name: 'Insane', description: 'Completely lost control of mental faculties', icon: 'ability_creature_cursed_04' }
-        ]
-      },
-      {
-        id: 'diseased',
-        name: 'Diseased',
-        description: 'Suffering from a disease that weakens over time',
-        icon: 'ability_creature_disease_02',
-        category: 'physical',
-        options: [
-          { id: 'infected', name: 'Infected', description: 'Early stages, minor symptoms', icon: 'spell_holy_harmundeadaura' },
-          { id: 'contagious', name: 'Contagious', description: 'Can spread to nearby creatures', icon: 'spell_shadow_plaguecloud' },
-          { id: 'terminal', name: 'Terminal', description: 'Advanced disease, severe deterioration', icon: 'ability_creature_disease_05' }
-        ]
-      },
-      {
-        id: 'bleeding',
-        name: 'Bleeding',
-        description: 'Losing blood, taking damage over time',
-        icon: 'spell_shadow_lifedrain',
-        category: 'physical',
-        options: [
-          { id: 'minor', name: 'Minor Wound', description: 'Small cut, slow blood loss', icon: 'ability_backstab' },
-          { id: 'severe', name: 'Severe Wound', description: 'Heavy bleeding, significant damage', icon: 'spell_shadow_lifedrain' },
-          { id: 'hemorrhaging', name: 'Hemorrhaging', description: 'Critical blood loss, may cause death', icon: 'spell_deathknight_bloodboil' }
-        ]
-      },
-      {
-        id: 'slept',
-        name: 'Slept',
-        description: 'Magically put to sleep, helpless but can be awakened',
-        icon: 'spell_nature_sleep',
-        category: 'magical',
-        options: [
-          { id: 'drowsy', name: 'Drowsy', description: 'Fighting sleep, slower reactions', icon: 'spell_nature_sleep' },
-          { id: 'asleep', name: 'Asleep', description: 'Sound asleep but wakes up if they take damage', icon: 'spell_nature_sleep' },
-          { id: 'comatose', name: 'Comatose', description: 'Deep magical sleep, difficult to wake', icon: 'spell_shadow_demonicempathy' }
-        ]
-      },
-      {
-        id: 'cursed',
-        name: 'Cursed',
-        description: 'Afflicted by a magical curse causing misfortune',
-        icon: 'spell_shadow_antishadow',
-        category: 'magical',
-        options: [
-          { id: 'jinxed', name: 'Jinxed', description: 'Minor bad luck, occasional failures', icon: 'spell_shadow_curseofsargeras' },
-          { id: 'hexed', name: 'Hexed', description: 'Significant misfortune and penalties', icon: 'spell_shadow_antishadow' },
-          { id: 'doomed', name: 'Doomed', description: 'Severe curse, may lead to death', icon: 'spell_shadow_unholystrength' }
-        ]
-      },
-      {
-        id: 'dazed',
-        name: 'Dazed',
-        description: 'Disoriented and struggling to focus properly',
-        icon: 'spell_nature_polymorph',
-        category: 'physical',
-        options: [
-          { id: 'lightheaded', name: 'Lightheaded', description: 'Slight disorientation, minor penalties', icon: 'spell_nature_sleep' },
-          { id: 'disoriented', name: 'Disoriented', description: 'Difficulty focusing, significant penalties', icon: 'spell_nature_polymorph' },
-          { id: 'concussed', name: 'Concussed', description: 'Severe trauma, major impairment', icon: 'ability_golemthunderclap' }
-        ]
-      },
-      {
-        id: 'lifelink',
-        name: 'Lifelink',
-        description: 'Create a sympathetic bond that transfers resources between entities',
-        icon: 'spell_shadow_lifedrain02',
-        category: 'vampiric',
-        hasAdvancedConfig: true,
-        options: [
-          { id: 'hp_to_hp', name: 'Health Link', description: 'Transfer health between entities', icon: 'spell_shadow_lifedrain' },
-          { id: 'mana_to_mana', name: 'Mana Link', description: 'Transfer mana between entities', icon: 'spell_shadow_manaburn' },
-          { id: 'hp_to_mana', name: 'Life to Mana', description: 'Convert health to mana', icon: 'spell_shadow_soulleech_2' },
-          { id: 'mana_to_hp', name: 'Mana to Life', description: 'Convert mana to health', icon: 'spell_holy_divineillumination' },
-          { id: 'damage_to_healing', name: 'Damage to Healing', description: 'Convert damage dealt to healing', icon: 'spell_shadow_lifedrain02' },
-          { id: 'healing_to_damage', name: 'Healing to Damage', description: 'Convert healing done to bonus damage', icon: 'spell_shadow_bloodboil' }
-        ]
-      }
-    ];
-
+    // Use the proper NEGATIVE_STATUS_EFFECTS data
     if (category === 'all') {
-      return STATUS_EFFECTS;
+      return NEGATIVE_STATUS_EFFECTS;
     }
 
-    return STATUS_EFFECTS.filter(effect => effect.category === category);
+    return NEGATIVE_STATUS_EFFECTS.filter(effect => effect.category === category);
   };
 
   // Helper function to get icon URL
@@ -1169,36 +1085,45 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
   };
 
   return (
-    <div className="spell-effects-container">
-      <h3>Debuff Configuration</h3>
+    <div className="pf-effects-container">
+      <div className="pf-section-header">
+        <h3 className="pf-section-title">Debuff Configuration</h3>
+        <p className="pf-section-subtitle">Apply negative effects to enemies</p>
+      </div>
 
-      <div className="buff-config-section">
-        <div className="effect-config-section">
-          <h4>Duration</h4>
+      <div className="pf-config-section">
+        <div className="duration-config-section">
+          <h4 className="pf-config-title">Duration</h4>
 
-          <div className="effect-config-option">
+          <div className="pf-config-option">
             <label>Duration Type</label>
-            <div className="effect-options">
+            <div className="pf-button-group">
               <button
-                className={`effect-option-button ${debuffConfig.durationType === 'turns' ? 'active' : ''}`}
+                className={`pf-button ${debuffConfig.durationType === 'turns' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateDebuffConfig('durationType', 'turns')}
               >
-                <span>Turns/Rounds</span>
+                <span>Turns</span>
               </button>
               <button
-                className={`effect-option-button ${debuffConfig.durationType === 'time' ? 'active' : ''}`}
+                className={`pf-button ${debuffConfig.durationType === 'rounds' ? 'pf-button-selected' : ''}`}
+                onClick={() => updateDebuffConfig('durationType', 'rounds')}
+              >
+                <span>Rounds</span>
+              </button>
+              <button
+                className={`pf-button ${debuffConfig.durationType === 'time' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateDebuffConfig('durationType', 'time')}
               >
                 <span>Time-Based</span>
               </button>
               <button
-                className={`effect-option-button ${debuffConfig.durationType === 'rest' ? 'active' : ''}`}
+                className={`pf-button ${debuffConfig.durationType === 'rest' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateDebuffConfig('durationType', 'rest')}
               >
                 <span>Rest-Based</span>
               </button>
               <button
-                className={`effect-option-button ${debuffConfig.durationType === 'permanent' ? 'active' : ''}`}
+                className={`pf-button ${debuffConfig.durationType === 'permanent' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateDebuffConfig('durationType', 'permanent')}
               >
                 <span>Permanent</span>
@@ -1206,25 +1131,28 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
             </div>
           </div>
 
-          {debuffConfig.durationType === 'turns' && (
-            <div className="effect-config-option">
-              <label>Number of Turns/Rounds</label>
+          {(debuffConfig.durationType === 'turns' || debuffConfig.durationType === 'rounds') && (
+            <div className="pf-config-option">
+              <label>Number of {debuffConfig.durationType === 'turns' ? 'Turns' : 'Rounds'}</label>
               <input
                 type="number"
                 min="1"
                 max="100"
-                value={debuffConfig.durationValue || 3}
+                value={debuffConfig.durationValue || 1}
+                placeholder="1"
                 onChange={(e) => {
                   updateDebuffConfig('durationValue', parseInt(e.target.value));
                   // Also update legacy duration field for backward compatibility
                   updateDebuffConfig('duration', parseInt(e.target.value));
                 }}
+                className="pf-input"
               />
             </div>
           )}
 
           {debuffConfig.durationType === 'time' && (
-            <div className="effect-config-option">
+            <div className="pf-config-option">
+              <label>Duration</label>
               <div className="duration-time-input">
                 <input
                   type="number"
@@ -1251,17 +1179,17 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           )}
 
           {debuffConfig.durationType === 'rest' && (
-            <div className="effect-config-option">
+            <div className="pf-config-option">
               <label>Rest Type</label>
-              <div className="effect-options">
+              <div className="pf-button-group">
                 <button
-                  className={`effect-option-button ${debuffConfig.restType === 'short' ? 'active' : ''}`}
+                  className={`pf-button ${debuffConfig.restType === 'short' ? 'pf-button-selected' : ''}`}
                   onClick={() => updateDebuffConfig('restType', 'short')}
                 >
                   <span>Until Short Rest</span>
                 </button>
                 <button
-                  className={`effect-option-button ${debuffConfig.restType === 'long' ? 'active' : ''}`}
+                  className={`pf-button ${debuffConfig.restType === 'long' ? 'pf-button-selected' : ''}`}
                   onClick={() => updateDebuffConfig('restType', 'long')}
                 >
                   <span>Until Long Rest</span>
@@ -1271,37 +1199,33 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           )}
 
           {debuffConfig.durationType === 'permanent' && (
-            <div className="effect-config-option">
-              <div className="toggle-options">
-                <div className="toggle-option">
-                  <button
-                    className={`toggle-button ${debuffConfig.canBeDispelled ? 'active' : ''}`}
-                    onClick={() => updateDebuffConfig('canBeDispelled', !debuffConfig.canBeDispelled)}
-                  >
-                    <div className="toggle-icon">
-                      {debuffConfig.canBeDispelled ? '✓' : ''}
-                    </div>
-                    <span>Can Be Dispelled</span>
-                  </button>
-                </div>
+            <div className="pf-config-option">
+              <div className="pf-toggle-group">
+                <button
+                  className={`pf-toggle-button ${debuffConfig.canBeDispelled ? 'pf-toggle-active' : ''}`}
+                  onClick={() => updateDebuffConfig('canBeDispelled', !debuffConfig.canBeDispelled)}
+                >
+                  <div className="pf-toggle-icon">
+                    {debuffConfig.canBeDispelled ? '✓' : ''}
+                  </div>
+                  <span>Can Be Dispelled</span>
+                </button>
               </div>
             </div>
           )}
 
           {(debuffConfig.durationType === 'turns' || debuffConfig.durationType === 'time') && (
-            <div className="effect-config-option">
-              <div className="toggle-options">
-                <div className="toggle-option">
-                  <button
-                    className={`toggle-button ${debuffConfig.concentrationRequired ? 'active' : ''}`}
-                    onClick={() => updateDebuffConfig('concentrationRequired', !debuffConfig.concentrationRequired)}
-                  >
-                    <div className="toggle-icon">
-                      {debuffConfig.concentrationRequired ? '✓' : ''}
-                    </div>
-                    <span>Requires Concentration</span>
-                  </button>
-                </div>
+            <div className="pf-config-option">
+              <div className="pf-toggle-group">
+                <button
+                  className={`pf-toggle-button ${debuffConfig.concentrationRequired ? 'pf-toggle-active' : ''}`}
+                  onClick={() => updateDebuffConfig('concentrationRequired', !debuffConfig.concentrationRequired)}
+                >
+                  <div className="pf-toggle-icon">
+                    {debuffConfig.concentrationRequired ? '✓' : ''}
+                  </div>
+                  <span>Requires Concentration</span>
+                </button>
               </div>
             </div>
           )}
@@ -1343,10 +1267,10 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         </div>
 
         {/* Saving Throw Configuration */}
-        <div className="config-section">
-          <h4 className="section-header">Saving Throw</h4>
+        <div className="pf-config-section">
+          <h4 className="pf-section-header">Saving Throw</h4>
 
-          <div className="config-option">
+          <div className="pf-config-option">
             <label>Difficulty Class (DC)</label>
             <input
               type="number"
@@ -1357,25 +1281,58 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
             />
           </div>
 
-          <div className="config-option">
+          <div className="pf-config-option">
             <label>Save Type</label>
-            <div className="effect-options tabs">
+            <div className="pf-stat-grid">
               {SAVE_TYPES.map(type => (
                 <button
                   key={type.id}
-                  className={`effect-option-tab ${debuffConfig.savingThrow === type.id ? 'selected' : ''}`}
+                  className={`pf-stat-button ${debuffConfig.savingThrow === type.id ? 'pf-stat-selected' : ''}`}
                   onClick={() => updateDebuffConfig('savingThrow', type.id)}
                   title={type.description}
+                  onMouseEnter={(e) => handleSaveTypeTooltipEnter(type, e)}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={handleMouseMove}
                 >
-                  <span className="effect-option-tab-icon">
+                  <div className="pf-stat-icon">
                     <img
                       src={getIconUrl(type.icon)}
                       alt={type.name}
                     />
-                  </span>
-                  {type.name}
+                  </div>
+                  <span className="pf-stat-name">{type.name}</span>
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div className="pf-config-option">
+            <label>Save Outcome</label>
+            <div className="pf-button-group">
+              <button
+                className={`pf-button ${debuffConfig.saveOutcome === 'negates' ? 'pf-button-selected' : ''}`}
+                onClick={() => updateDebuffConfig('saveOutcome', 'negates')}
+              >
+                Negates
+              </button>
+              <button
+                className={`pf-button ${debuffConfig.saveOutcome === 'halves_duration' ? 'pf-button-selected' : ''}`}
+                onClick={() => updateDebuffConfig('saveOutcome', 'halves_duration')}
+              >
+                Halves Duration
+              </button>
+              <button
+                className={`pf-button ${debuffConfig.saveOutcome === 'halves_effects' ? 'pf-button-selected' : ''}`}
+                onClick={() => updateDebuffConfig('saveOutcome', 'halves_effects')}
+              >
+                Halves Effects
+              </button>
+              <button
+                className={`pf-button ${debuffConfig.saveOutcome === 'reduces_level' ? 'pf-button-selected' : ''}`}
+                onClick={() => updateDebuffConfig('saveOutcome', 'reduces_level')}
+              >
+                Reduces Level
+              </button>
             </div>
           </div>
         </div>
@@ -1450,7 +1407,6 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                             <SpellSelector
                               selectedSpellId={stage.spellEffect || null}
                               onSpellSelect={(spellId, spellData) => {
-                                console.log('DebuffEffects - Received spell data:', spellId, spellData);
                                 const updatedStages = [...debuffConfig.progressiveStages];
                                 updatedStages[index] = {
                                   ...updatedStages[index],
@@ -1669,87 +1625,118 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       </button>
 
       {debuffConfig.statPenalties && debuffConfig.statPenalties.length > 0 && (
-        <div className="selected-stats">
-          <h4>Selected Stat Penalties</h4>
-          <div className="selected-stats-list">
+        <div className="pf-config-group">
+          <h4 className="pf-config-title">Selected Stat Penalties</h4>
+          <div className="pf-selected-stats-list">
             {debuffConfig.statPenalties.map(stat => (
-              <div className="selected-stat" key={stat.id}>
-                <div className="stat-icon">
+              <div className="pf-selected-stat" key={stat.id}>
+                <div className="pf-stat-icon">
                   <img src={getIconUrl(stat.icon)} alt={stat.name} />
                 </div>
-                <div className="stat-info">
-                  <div className="stat-name">{stat.name}</div>
-                  <div className="stat-description">{stat.description}</div>
+                <div className="pf-stat-info">
+                  <div className="pf-stat-name">{stat.name}</div>
+                  <div className="pf-stat-description">{stat.description}</div>
                 </div>
-                <div className="stat-value-controls">
-                  <input
-                    type="text"
-                    className={`stat-value-input ${typeof stat.magnitude === 'string' ? 'formula' : (stat.magnitude >= 0 ? 'positive' : 'negative')}`}
-                    // Use defaultValue instead of value to allow clearing the field
-                    defaultValue={typeof stat.magnitude === 'string' ? stat.magnitude : (stat.magnitudeType === 'percentage' ?
-                      `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}%` :
-                      `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}`)}
-                    onBlur={(e) => {
-                      let value = e.target.value;
-
-                      // Handle empty field
-                      if (value === '') {
-                        updateStatPenaltyValue(stat.id, 0);
-                        return;
-                      }
-
-                      // Remove the % sign and + sign for processing
-                      if (stat.magnitudeType === 'percentage') {
-                        value = value.replace(/%/g, '');
-                      }
-                      value = value.replace(/^\+/, '');
-
-                      // Check if it's a valid number
-                      const isNumber = !isNaN(parseFloat(value)) && isFinite(value);
-
-                      // Check if it's a dice formula
-                      // Handle 'd6' format (without a number prefix)
-                      const diceRegex = /^-?d\d+|^-?\d+d\d+|^-?\d+d\d+k\d+|^-?\d+d\d+k\d+l/;
-                      const isDiceFormula = diceRegex.test(value);
-
-                      if (isNumber) {
-                        updateStatPenaltyValue(stat.id, parseFloat(value));
-                      } else if (isDiceFormula) {
-                        // If it starts with 'd', add '1' prefix
-                        if (value.startsWith('d')) {
-                          value = '1' + value;
-                        } else if (value.startsWith('-d')) {
-                          value = '-1' + value.substring(1);
+                <div className="pf-stat-controls">
+                  {/* Special handling for resistance stats */}
+                  {stat.category === 'resistance' ? (
+                    <select
+                      className={`pf-resistance-select ${getResistanceLevelClass(stat.resistanceLevel || stat.magnitude)}`}
+                      value={stat.resistanceLevel || stat.magnitude || 'none'}
+                      onChange={(e) => {
+                        const selectedOption = getResistanceScalingOptions(stat.resistanceType).find(opt => opt.value.toString() === e.target.value);
+                        if (selectedOption) {
+                          updateStatPenaltyValue(stat.id, selectedOption.value);
+                          // Store the resistance level for styling
+                          updateStatPenalty(stat.id, {
+                            ...stat,
+                            resistanceLevel: selectedOption.label.toLowerCase().replace(/\s+/g, '-'),
+                            magnitude: selectedOption.value,
+                            magnitudeType: stat.resistanceType === 'absorption' ? 'flat' : 'percentage'
+                          });
                         }
-                        updateStatPenaltyValue(stat.id, value);
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      // Handle Enter key
-                      if (e.key === 'Enter') {
-                        e.target.blur(); // Trigger the onBlur event
-                      }
-                    }}
-                    placeholder="Enter value or formula"
-                    title="Examples: -5, 2d6, d20, -d4, -1d8+2"
-                  />
-                </div>
-                <div className="stat-type-toggle">
-                  <button
-                    className={stat.magnitudeType === 'flat' ? 'active' : ''}
-                    onClick={() => updateStatPenaltyType(stat.id, 'flat')}
-                  >
-                    Flat
-                  </button>
-                  <button
-                    className={stat.magnitudeType === 'percentage' ? 'active' : ''}
-                    onClick={() => updateStatPenaltyType(stat.id, 'percentage')}
-                  >
-                    %
-                  </button>
+                      }}
+                    >
+                      <option value="none">Select Resistance Level</option>
+                      {getResistanceScalingOptions(stat.resistanceType).map(option => (
+                        <option
+                          key={option.value}
+                          value={option.value}
+                          style={{ color: option.color }}
+                        >
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        className={`pf-stat-input ${typeof stat.magnitude === 'string' ? 'formula' : (stat.magnitude >= 0 ? 'positive' : 'negative')}`}
+                        defaultValue={typeof stat.magnitude === 'string' ? stat.magnitude : (stat.magnitudeType === 'percentage' ?
+                          `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}%` :
+                          `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}`)}
+                        onBlur={(e) => {
+                          let value = e.target.value;
+
+                          // Handle empty field
+                          if (value === '') {
+                            updateStatPenaltyValue(stat.id, 0);
+                            return;
+                          }
+
+                          // Remove the % sign and + sign for processing
+                          if (stat.magnitudeType === 'percentage') {
+                            value = value.replace(/%/g, '');
+                          }
+                          value = value.replace(/^\+/, '');
+
+                          // Check if it's a valid number
+                          const isNumber = !isNaN(parseFloat(value)) && isFinite(value);
+
+                          // Check if it's a dice formula
+                          const diceRegex = /^-?d\d+|^-?\d+d\d+|^-?\d+d\d+k\d+|^-?\d+d\d+k\d+l/;
+                          const isDiceFormula = diceRegex.test(value);
+
+                          if (isNumber) {
+                            updateStatPenaltyValue(stat.id, parseFloat(value));
+                          } else if (isDiceFormula) {
+                            // If it starts with 'd', add '1' prefix
+                            if (value.startsWith('d')) {
+                              value = '1' + value;
+                            } else if (value.startsWith('-d')) {
+                              value = '-1' + value.substring(1);
+                            }
+                            updateStatPenaltyValue(stat.id, value);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.target.blur();
+                          }
+                        }}
+                        placeholder="Enter value or formula"
+                        title="Examples: -5, 2d6, d20, -d4, -1d8+2"
+                      />
+                      <div className="pf-stat-type-toggle">
+                        <button
+                          className={`pf-toggle-btn ${stat.magnitudeType === 'flat' ? 'pf-toggle-active' : ''}`}
+                          onClick={() => updateStatPenaltyType(stat.id, 'flat')}
+                        >
+                          Flat
+                        </button>
+                        <button
+                          className={`pf-toggle-btn ${stat.magnitudeType === 'percentage' ? 'pf-toggle-active' : ''}`}
+                          onClick={() => updateStatPenaltyType(stat.id, 'percentage')}
+                        >
+                          %
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <button
-                  className="remove-stat"
+                  className="pf-remove-btn"
                   onClick={() => removeStatPenalty(stat.id)}
                 >
                   ×
@@ -1760,49 +1747,49 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         </div>
       )}
 
-      <div className="stat-selector-section">
-        <h4>Choose Stats to Penalize:</h4>
+      <div className="pf-config-group">
+        <h4 className="pf-config-title">Choose Stats to Penalize</h4>
 
-        <div className="stat-category-tabs">
+        <div className="pf-tab-group">
           <button
-            className={selectedStatCategory === 'primary' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'primary' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('primary')}
           >
             Primary Stats
           </button>
           <button
-            className={selectedStatCategory === 'secondary' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'secondary' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('secondary')}
           >
             Secondary Stats
           </button>
           <button
-            className={selectedStatCategory === 'combat' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'combat' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('combat')}
           >
             Combat Stats
           </button>
           <button
-            className={selectedStatCategory === 'damage' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'damage' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('damage')}
           >
             Damage Types
           </button>
           <button
-            className={selectedStatCategory === 'resistance' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'resistance' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('resistance')}
           >
             Resistances
           </button>
           <button
-            className={selectedStatCategory === 'utility' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'utility' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('utility')}
           >
             Utility
           </button>
         </div>
 
-        <div className="stat-cards-grid">
+        <div className="pf-stat-grid">
           {getStatModifiersByCategory(selectedStatCategory).map(stat => {
             const isSelected = debuffConfig.statPenalties?.some(penalty => penalty.id === stat.id);
             const selectedStat = isSelected ? debuffConfig.statPenalties.find(penalty => penalty.id === stat.id) : null;
@@ -1810,7 +1797,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
             return (
               <div
                 key={stat.id}
-                className={`stat-card ${isSelected ? 'selected' : ''}`}
+                className={`pf-stat-card ${isSelected ? 'pf-stat-selected' : ''}`}
                 onClick={() => {
                   if (isSelected) {
                     removeStatPenalty(stat.id);
@@ -1825,9 +1812,9 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                 <img
                   src={getIconUrl(stat.icon)}
                   alt={stat.name}
-                  className="stat-icon"
+                  className="pf-stat-card-icon"
                 />
-                <div className="stat-name">{stat.name}</div>
+                <div className="pf-stat-card-name">{stat.name}</div>
                 {renderStatIndicator(stat)}
               </div>
             );
@@ -1835,73 +1822,73 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         </div>
       </div>
 
-      <div className="status-effects-section">
-        <h4>Status Effects</h4>
+      <div className="pf-config-group">
+        <h4 className="pf-config-title">Status Effects</h4>
 
-        <div className="status-category-tabs">
+        <div className="pf-tab-group">
           <button
-            className={selectedStatusCategory === 'all' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'all' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('all')}
           >
             All Effects
           </button>
           <button
-            className={selectedStatusCategory === 'combat' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'combat' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('combat')}
           >
             Combat
           </button>
           <button
-            className={selectedStatusCategory === 'skills' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'skills' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('skills')}
           >
             Skills
           </button>
           <button
-            className={selectedStatusCategory === 'control' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'control' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('control')}
           >
             Control
           </button>
           <button
-            className={selectedStatusCategory === 'damage' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'damage' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('damage')}
           >
             Damage
           </button>
           <button
-            className={selectedStatusCategory === 'disruption' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'disruption' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('disruption')}
           >
             Disruption
           </button>
           <button
-            className={selectedStatusCategory === 'ailment' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'ailment' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('ailment')}
           >
             Ailment
           </button>
           <button
-            className={selectedStatusCategory === 'curse' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'curse' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('curse')}
           >
             Curse
           </button>
           <button
-            className={selectedStatusCategory === 'debilitation' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'debilitation' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('debilitation')}
           >
             Debilitation
           </button>
           <button
-            className={selectedStatusCategory === 'vampiric' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'vampiric' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('vampiric')}
           >
             Lifelink
           </button>
         </div>
 
-        <div className="status-effects-grid">
+        <div className="pf-status-grid">
           {getStatusEffectsByCategory(selectedStatusCategory).map(effect => {
             const isSelected = debuffConfig.statusEffects?.some(e => e.id === effect.id);
             const selectedEffect = isSelected ? debuffConfig.statusEffects.find(e => e.id === effect.id) : null;
@@ -1909,7 +1896,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
             return (
               <div
                 key={effect.id}
-                className={`status-effect-card ${isSelected ? 'selected' : ''}`}
+                className={`pf-status-card ${isSelected ? 'pf-status-selected' : ''}`}
                 onClick={() => {
                   if (isSelected) {
                     // If already selected, open the configuration popup
@@ -1934,15 +1921,15 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                 onMouseLeave={handleMouseLeave}
                 onMouseMove={handleMouseMove}
               >
-                <div className="status-effect-icon">
+                <div className="pf-status-icon">
                   <img src={getIconUrl(effect.icon)} alt={effect.name} />
                 </div>
-                <div className="status-effect-name">{effect.name}</div>
-                <div className="status-effect-description">{effect.description}</div>
+                <div className="pf-status-name">{effect.name}</div>
+                <div className="pf-status-description">{effect.description}</div>
 
                 {isSelected && (
                   <button
-                    className="status-effect-remove"
+                    className="pf-status-remove"
                     onClick={(e) => {
                       e.stopPropagation();
                       removeStatusEffect(effect.id);
@@ -1962,16 +1949,9 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         </div>
       </div>
 
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
 
       {/* Status Effect Configuration Popup */}
-      <StatusEffectConfigPopup
+      <CleanStatusEffectConfigPopup
         isOpen={configPopupOpen}
         onClose={() => setConfigPopupOpen(false)}
         effect={selectedStatusEffect}
@@ -1979,6 +1959,25 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         updateConfig={updateDebuffConfig}
         configType="debuff"
       />
+
+      {/* Tooltip Rendering */}
+      {showTooltip && tooltipContent && (() => {
+        const tooltipRoot = document.getElementById('tooltip-root') || document.body;
+        return ReactDOM.createPortal(
+          <div
+            style={{
+              position: 'fixed',
+              left: mousePos.x,
+              top: mousePos.y,
+              zIndex: 99999,
+              pointerEvents: 'none'
+            }}
+          >
+            {tooltipContent.content}
+          </div>,
+          tooltipRoot
+        );
+      })()}
     </div>
   );
 };

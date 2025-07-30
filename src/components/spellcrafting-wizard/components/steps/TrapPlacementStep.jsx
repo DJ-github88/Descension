@@ -342,6 +342,46 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
 
           <div className="spell-wizard-form-row">
             <div className="spell-wizard-form-group spell-wizard-form-group-half">
+              <label htmlFor="detectionDC" className="spell-wizard-label">
+                Detection DC
+              </label>
+              <input
+                id="detectionDC"
+                name="detectionDC"
+                type="number"
+                min="5"
+                max="30"
+                className="spell-wizard-input"
+                value={trapConfig.detectionDC}
+                onChange={handleConfigChange}
+              />
+              <small className="spell-wizard-help-text">
+                Difficulty class to detect the trap
+              </small>
+            </div>
+
+            <div className="spell-wizard-form-group spell-wizard-form-group-half">
+              <label htmlFor="disarmDC" className="spell-wizard-label">
+                Disarm DC
+              </label>
+              <input
+                id="disarmDC"
+                name="disarmDC"
+                type="number"
+                min="5"
+                max="30"
+                className="spell-wizard-input"
+                value={trapConfig.disarmDC}
+                onChange={handleConfigChange}
+              />
+              <small className="spell-wizard-help-text">
+                Difficulty class to disarm the trap
+              </small>
+            </div>
+          </div>
+
+          <div className="spell-wizard-form-row">
+            <div className="spell-wizard-form-group spell-wizard-form-group-half">
               <label htmlFor="visibility" className="spell-wizard-label">
                 Visibility
               </label>

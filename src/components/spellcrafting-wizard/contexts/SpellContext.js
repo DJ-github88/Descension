@@ -63,7 +63,7 @@ export const SpellProvider = ({ spellData, children }) => {
     // Resource Configuration
     resourceConfig: {
       resourceType: 'Mana',
-      resourceAmount: 25,
+      resourceAmount: 0,
       costScaling: true,
       scalingAmount: 5,
       scalingFactor: 'level',
@@ -202,7 +202,7 @@ export const SpellProvider = ({ spellData, children }) => {
       // Resource Configuration
       resourceConfig: {
         resourceType: 'Mana',
-        resourceAmount: 25,
+        resourceAmount: 0,
         costScaling: true,
         scalingAmount: 5,
         scalingFactor: 'level',

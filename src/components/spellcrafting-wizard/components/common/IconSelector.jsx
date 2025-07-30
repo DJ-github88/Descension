@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+// Pathfinder styles imported via main.css
 import '../../styles/IconSelector.css';
-import '../../styles/base.css';
-import '../../styles/components.css';
 
 /**
  * IconSelector component for choosing spell icons
@@ -196,14 +196,15 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
     };
   }, [onClose]);
 
-  return (
+  // Render the modal as a portal to document.body to avoid container constraints
+  return ReactDOM.createPortal(
     <div className="icon-selector-overlay">
       <div className="icon-selector-modal" ref={modalRef}>
         <div className="icon-selector-header">
           <h3>Select a Spell Icon</h3>
           <button className="icon-selector-close-btn" onClick={onClose}>×</button>
         </div>
-        
+
         <div className="icon-selector-filters">
           <input
             type="text"
@@ -212,7 +213,7 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          
+
           <div className="icon-selector-categories">
             {categories.map(category => (
               <button
@@ -225,7 +226,7 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
             ))}
           </div>
         </div>
-        
+
         <div className="icon-selector-grid">
           {filteredIcons.map(icon => (
             <div
@@ -234,16 +235,16 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
               onClick={() => onSelect(icon.id)}
             >
               <div className="icon-selector-image-container">
-                <img 
-                  src={`https://wow.zamimg.com/images/wow/icons/large/${icon.id}.jpg`} 
-                  alt={icon.name} 
-                  className="icon-selector-image" 
+                <img
+                  src={`https://wow.zamimg.com/images/wow/icons/large/${icon.id}.jpg`}
+                  alt={icon.name}
+                  className="icon-selector-image"
                 />
               </div>
               <div className="icon-selector-name">{icon.name}</div>
             </div>
           ))}
-          
+
           {filteredIcons.length === 0 && (
             <div className="icon-selector-no-results">
               No icons found matching your criteria
@@ -251,7 +252,8 @@ const IconSelector = ({ onSelect, onClose, currentIcon }) => {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

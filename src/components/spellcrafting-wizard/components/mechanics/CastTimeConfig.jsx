@@ -1,38 +1,14 @@
 // components/mechanics/CastTimeConfig.jsx
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
-  FormControl,
-  FormLabel,
-  Select,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Stack,
-  Heading,
-  Text,
-  Divider,
-  HStack,
-  Checkbox,
-  Switch,
-  RadioGroup,
-  Radio,
-  Tooltip,
-  Badge,
-  Alert,
-  AlertIcon,
-  AlertDescription,
-  Progress,
-  useColorModeValue
-} from '@chakra-ui/react';
-
-import { InfoIcon } from '@chakra-ui/icons';
+  PfSelect,
+  PfNumberInput,
+  PfSwitch,
+  PfSlider,
+  PfRadioGroup,
+  PfFormControl
+} from '../common/PathfinderFormElements';
+import PathfinderTooltip from '../tooltips/PathfinderTooltip';
 import { CAST_TIME_MECHANICS, describeCastTimeMechanics } from '../../core/mechanics/castTimeSystem';
 
 /**
@@ -51,9 +27,6 @@ const CastTimeConfig = ({
   onChange,
   spellLevel = 1
 }) => {
-  // Theme colors
-  const bgColor = useColorModeValue('gray.50', 'gray.700');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
   
   // Initialize state with provided config or defaults
   const [config, setConfig] = useState({
@@ -150,139 +123,106 @@ const CastTimeConfig = ({
   const mechanicsDescription = describeCastTimeMechanics(config);
 
   return (
-    <Box 
-      p={4} 
-      borderWidth="1px" 
-      borderRadius="lg" 
-      bg={bgColor} 
-      borderColor={borderColor}
-    >
-      <Heading size="md" mb={4}>Cast Time Configuration</Heading>
-      
+    <div className="pf-cast-time-config">
+      <h3 className="pf-section-title">Cast Time Configuration</h3>
+
       {/* Cast Time Type */}
-      <FormControl mb={4}>
-        <FormLabel display="flex" alignItems="center">
-          Cast Time Type
-          <Tooltip label="How the spell casting time is measured">
-            <InfoIcon ml={2} boxSize={4} color="blue.500" />
-          </Tooltip>
-        </FormLabel>
-        <Select 
-          value={config.castTimeType} 
+      <PfFormControl
+        label="Cast Time Type"
+        helpText="How the spell casting time is measured"
+      >
+        <PfSelect
+          value={config.castTimeType}
           onChange={(e) => handleChange('castTimeType', e.target.value)}
-        >
-          {Object.entries(CAST_TIME_MECHANICS.CAST_TIME_TYPES).map(([key, value]) => (
-            <option key={value.id} value={value.id}>
-              {value.name} - {value.description}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-      
+          options={Object.entries(CAST_TIME_MECHANICS.CAST_TIME_TYPES).map(([key, value]) => ({
+            value: value.id,
+            label: `${value.name} - ${value.description}`
+          }))}
+        />
+      </PfFormControl>
+
       {/* Cast Time Duration */}
       {config.castTimeType === 'X_TURNS' && (
-        <FormControl mb={4}>
-          <FormLabel display="flex" alignItems="center">
-            Cast Time (Turns)
-            <Tooltip label="Number of turns required to cast the spell">
-              <InfoIcon ml={2} boxSize={4} color="blue.500" />
-            </Tooltip>
-          </FormLabel>
-          <HStack>
-            <NumberInput 
-              value={config.castTime} 
-              min={1} 
-              max={10}
-              onChange={(_, val) => handleChange('castTime', val)}
-              width="100px"
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-            
-            <Slider
-              ml={2}
-              flex="1"
+        <PfFormControl
+          label="Cast Time (Turns)"
+          helpText="Number of turns required to cast the spell"
+        >
+          <div className="pf-cast-time-controls">
+            <PfNumberInput
               value={config.castTime}
+              onChange={(val) => handleChange('castTime', val)}
               min={1}
               max={10}
+            />
+
+            <PfSlider
+              value={config.castTime}
               onChange={(val) => handleChange('castTime', val)}
-            >
-              <SliderTrack>
-                <SliderFilledTrack />
-              </SliderTrack>
-              <SliderThumb />
-            </Slider>
-          </HStack>
-          
-          <Badge 
-            mt={2} 
-            colorScheme={config.castTime > 3 ? "orange" : "blue"}
-          >
+              min={1}
+              max={10}
+              className="pf-cast-time-slider"
+            />
+          </div>
+
+          <div className={`pf-cast-time-badge ${config.castTime > 3 ? 'long-cast' : 'normal-cast'}`}>
             {config.castTime > 3 ? "Long Cast" : "Normal Cast"}
-          </Badge>
-        </FormControl>
+          </div>
+        </PfFormControl>
       )}
-      
-      <Divider my={4} />
-      
+
+      <div className="pf-divider"></div>
+
       {/* Interruption Configuration */}
-      <FormControl mb={4} display="flex" alignItems="center">
-        <FormLabel mb="0">
-          Can be interrupted
-        </FormLabel>
-        <Tooltip label="If disabled, the spell cannot be interrupted by any means">
-          <Switch 
-            isChecked={config.interruptible} 
-            onChange={(e) => handleChange('interruptible', e.target.checked)}
-            colorScheme="blue"
-          />
-        </Tooltip>
-      </FormControl>
-      
+      <div className="pf-switch-row">
+        <PfSwitch
+          checked={config.interruptible}
+          onChange={(e) => handleChange('interruptible', e.target.checked)}
+          label="Can be interrupted"
+        />
+        <div className="pf-help-text">
+          If disabled, the spell cannot be interrupted by any means
+        </div>
+      </div>
+
       {config.interruptible && (
-        <Box ml={6} mb={4}>
-          <FormControl mb={3}>
-            <FormLabel fontSize="sm">Interruption Vulnerability</FormLabel>
-            <RadioGroup 
+        <div className="pf-nested-section">
+          <PfFormControl label="Interruption Vulnerability">
+            <PfRadioGroup
               value={config.interruptVulnerability || 'standard'}
               onChange={(val) => handleChange('interruptVulnerability', val)}
-            >
-              <Stack>
-                <Radio value="low">
-                  <Text fontWeight="medium">Low</Text>
-                  <Text fontSize="xs" color="gray.500">+5 to concentration checks</Text>
-                </Radio>
-                <Radio value="standard">
-                  <Text fontWeight="medium">Standard</Text>
-                  <Text fontSize="xs" color="gray.500">Normal interruption chance</Text>
-                </Radio>
-                <Radio value="high">
-                  <Text fontWeight="medium">High</Text>
-                  <Text fontSize="xs" color="gray.500">-5 to concentration checks</Text>
-                </Radio>
-              </Stack>
-            </RadioGroup>
-          </FormControl>
-          
-          <FormControl mb={3}>
-            <FormLabel fontSize="sm" display="flex" alignItems="center">
-              Interrupted by Movement
-              <Tooltip label="If enabled, any movement breaks casting">
-                <InfoIcon ml={1} boxSize={3} color="blue.500" />
-              </Tooltip>
-            </FormLabel>
-            <Switch 
-              isChecked={config.interruptedByMovement} 
-              onChange={(e) => handleChange('interruptedByMovement', e.target.checked)}
-              size="sm"
-              colorScheme="blue"
+              name="interruptVulnerability"
+              options={[
+                {
+                  value: 'low',
+                  label: 'Low',
+                  description: '+5 to concentration checks'
+                },
+                {
+                  value: 'standard',
+                  label: 'Standard',
+                  description: 'Normal interruption chance'
+                },
+                {
+                  value: 'high',
+                  label: 'High',
+                  description: '-5 to concentration checks'
+                }
+              ]}
             />
-          </FormControl>
-        </Box>
+          </PfFormControl>
+
+          <div className="pf-switch-row">
+            <PfSwitch
+              checked={config.interruptedByMovement}
+              onChange={(e) => handleChange('interruptedByMovement', e.target.checked)}
+              label="Interrupted by Movement"
+              size="sm"
+            />
+            <div className="pf-help-text">
+              If enabled, any movement breaks casting
+            </div>
+          </div>
+        </div>
       )}
       
       <Divider my={4} />

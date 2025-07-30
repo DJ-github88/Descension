@@ -4,9 +4,11 @@ import EnhancedEffectPreview from '../common/EnhancedEffectPreview';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 import '../../styles/triggers.css';
+import '../../styles/pathfinder/steps/triggers.css';
 import '../../styles/buff-config.css';
 import '../../styles/conditional-effects.css';
 import '../../styles/effect-preview.css';
+import '../../styles/trigger-role.css';
 // Import trigger-related utilities
 import { getTriggerIconUrl } from '../../core/data/triggerIcons';
 import { getIconUrl } from '../../utils/iconUtils';
@@ -144,6 +146,15 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   // Whether we're editing global triggers or effect-specific triggers
   // Simplified to just 'global' or 'effect' - conditional is now part of effect config
   const [editingMode, setEditingMode] = useState('global'); // 'global' or 'effect'
+
+  // Trigger role configuration
+  const [triggerRole, setTriggerRole] = useState(state.triggerConfig?.triggerRole?.mode || 'CONDITIONAL');
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [activationDelay, setActivationDelay] = useState(state.triggerConfig?.triggerRole?.activationDelay || 0);
+  const [requiresLOS, setRequiresLOS] = useState(state.triggerConfig?.triggerRole?.requiresLOS !== false);
+  const [maxRange, setMaxRange] = useState(state.triggerConfig?.triggerRole?.maxRange || null);
+  const [cooldownAfterTrigger, setCooldownAfterTrigger] = useState(state.triggerConfig?.triggerRole?.cooldownAfterTrigger || 0);
+  const [resourceModifier, setResourceModifier] = useState(state.triggerConfig?.triggerRole?.resourceModifier || 1.0);
 
   // Conditional effect configuration
   const [conditionalEffects, setConditionalEffects] = useState(() => {
@@ -397,22 +408,29 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
   // Effect to update context when configuration changes
   useEffect(() => {
-    if (triggerConfig && triggerConfig.compoundTriggers) {
-      dispatch({
-        type: ACTION_TYPES.UPDATE_TRIGGER_CONFIG,
-        payload: {
-          global: triggerConfig,
-          effectTriggers: effectTriggers
-        }
-      });
-    }
-  }, [triggerConfig, dispatch]);
+    dispatch({
+      type: ACTION_TYPES.UPDATE_TRIGGER_CONFIG,
+      payload: {
+        global: triggerConfig,
+        effectTriggers: effectTriggers
+      }
+    });
+  }, [triggerConfig, effectTriggers, dispatch]);
 
-  // Separate effect for effect-specific triggers to avoid circular updates
+  // Effect to update trigger role in context
   useEffect(() => {
-    // This effect will handle updating the context with effect-specific triggers
-    // We don't need to do anything here since we're updating the context directly in the handler functions
-  }, [effectTriggers]);
+    dispatch({
+      type: ACTION_TYPES.UPDATE_TRIGGER_ROLE,
+      payload: {
+        mode: triggerRole,
+        activationDelay,
+        requiresLOS,
+        maxRange,
+        cooldownAfterTrigger,
+        resourceModifier
+      }
+    });
+  }, [triggerRole, activationDelay, requiresLOS, maxRange, cooldownAfterTrigger, resourceModifier, dispatch]);
 
   // Effect to update context when conditional effects change
   useEffect(() => {
@@ -1376,7 +1394,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         </div>
 
         {errors.length > 0 && (
-          <div className="effect-config-group mb-md">
+          <div className="pf-config-group mb-md">
             <h4 className="text-danger">Please fix the following issues:</h4>
             <ul className="mb-md">
               {errors.map((error, index) => (
@@ -1387,51 +1405,248 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         )}
 
         {/* Trigger Mode Selection - MOVED TO TOP */}
-        <div className="effect-config-group mb-md">
-          <h4 className="effect-config-label">Trigger Mode</h4>
+        <div className="pf-config-group mb-md">
+          <h4 className="pf-config-label">Trigger Mode</h4>
           <p className="mb-sm">Choose whether to configure global triggers for the entire spell or effect-specific triggers.</p>
 
-          <div className="wow-trigger-mode-selector">
+          <div className="pf-trigger-mode-selector">
             <button
-              className={`wow-trigger-mode-button ${editingMode === 'global' ? 'active' : ''}`}
+              className={`pf-trigger-mode-button ${editingMode === 'global' ? 'active' : ''}`}
               onClick={() => setEditingMode('global')}
             >
-              <div className="wow-trigger-mode-icon">
+              <div className="pf-trigger-mode-icon">
                 <img
                   src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_portalshattrath.jpg"
                   alt="Global"
-                  className="wow-trigger-mode-img"
+                  className="pf-trigger-mode-img"
                 />
               </div>
-              <div className="wow-trigger-mode-text">
-                <div className="wow-trigger-mode-title">Global Triggers</div>
-                <div className="wow-trigger-mode-description">Apply to the entire spell</div>
+              <div className="pf-trigger-mode-text">
+                <div className="pf-trigger-mode-title">Global Triggers</div>
+                <div className="pf-trigger-mode-description">Apply to the entire spell</div>
               </div>
             </button>
             <button
-              className={`wow-trigger-mode-button ${editingMode === 'effect' ? 'active' : ''}`}
+              className={`pf-trigger-mode-button ${editingMode === 'effect' ? 'active' : ''}`}
               onClick={() => setEditingMode('effect')}
               disabled={state.effectTypes.length === 0}
             >
-              <div className="wow-trigger-mode-icon">
+              <div className="pf-trigger-mode-icon">
                 <img
                   src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_portaldarnassus.jpg"
                   alt="Effect-Specific"
-                  className="wow-trigger-mode-img"
+                  className="pf-trigger-mode-img"
                 />
               </div>
-              <div className="wow-trigger-mode-text">
-                <div className="wow-trigger-mode-title">Effect-Specific Triggers</div>
-                <div className="wow-trigger-mode-description">Configure triggers and conditional effects</div>
+              <div className="pf-trigger-mode-text">
+                <div className="pf-trigger-mode-title">Effect-Specific Triggers</div>
+                <div className="pf-trigger-mode-description">Configure triggers and conditional effects</div>
               </div>
             </button>
           </div>
         </div>
 
+        {/* Trigger Role Section */}
+        <div className="pf-config-group mb-md">
+          <h4 className="pf-config-label">Trigger Behavior</h4>
+          <p className="mb-sm">Define how triggers will affect your spell.</p>
+
+          <div className="wow-trigger-role-container">
+            {/* Main Role Selection */}
+            <div className="wow-trigger-role-options">
+              <div
+                className={`wow-trigger-role-option ${triggerRole === 'CONDITIONAL' ? 'active' : ''}`}
+                onClick={() => setTriggerRole('CONDITIONAL')}
+              >
+                <div className="wow-trigger-role-icon">
+                  <img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineillumination.jpg" alt="Conditional" />
+                </div>
+                <div className="wow-trigger-role-content">
+                  <div className="wow-trigger-role-title">Conditional Effects</div>
+                  <div className="wow-trigger-role-description">
+                    Triggers modify spell effects, but you must manually cast the spell
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className={`wow-trigger-role-option ${triggerRole === 'AUTO_CAST' ? 'active' : ''}`}
+                onClick={() => setTriggerRole('AUTO_CAST')}
+              >
+                <div className="wow-trigger-role-icon">
+                  <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg" alt="Auto-Cast" />
+                </div>
+                <div className="wow-trigger-role-content">
+                  <div className="wow-trigger-role-title">Auto-Cast</div>
+                  <div className="wow-trigger-role-description">
+                    Spell automatically casts when trigger conditions are met
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className={`wow-trigger-role-option ${triggerRole === 'BOTH' ? 'active' : ''}`}
+                onClick={() => setTriggerRole('BOTH')}
+              >
+                <div className="wow-trigger-role-icon">
+                  <img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane04.jpg" alt="Both" />
+                </div>
+                <div className="wow-trigger-role-content">
+                  <div className="wow-trigger-role-title">Both</div>
+                  <div className="wow-trigger-role-description">
+                    Spell auto-casts AND has conditional effects based on triggers
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Role Description */}
+            <div className="wow-trigger-role-description-box">
+              {triggerRole === 'CONDITIONAL' && (
+                <div className="wow-trigger-role-info">
+                  <p><strong>Conditional Effects Mode:</strong> In this mode, triggers only modify how your spell works, but you still need to manually cast it.</p>
+                  <div className="wow-trigger-example">
+                    <span className="wow-example-label">Example:</span> A fireball that deals more damage to targets below 30% health, but you decide when to cast it.
+                  </div>
+                </div>
+              )}
+
+              {triggerRole === 'AUTO_CAST' && (
+                <div className="wow-trigger-role-info">
+                  <p><strong>Auto-Cast Mode:</strong> In this mode, your spell will automatically cast when trigger conditions are met, without requiring manual activation.</p>
+                  <div className="wow-trigger-example">
+                    <span className="wow-example-label">Example:</span> A healing spell that automatically activates when an ally's health falls below 30%.
+                  </div>
+                </div>
+              )}
+
+              {triggerRole === 'BOTH' && (
+                <div className="wow-trigger-role-info">
+                  <p><strong>Combined Mode:</strong> In this mode, your spell will both auto-cast when triggered AND have effects that change based on conditions.</p>
+                  <div className="wow-trigger-example">
+                    <span className="wow-example-label">Example:</span> A healing spell that auto-casts when allies are below 30% health, and provides a stronger heal the lower their health is.
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Advanced Options Toggle - Only show for AUTO_CAST or BOTH */}
+            {(triggerRole === 'AUTO_CAST' || triggerRole === 'BOTH') && (
+              <div className="pf-advanced-options-toggle">
+                <button
+                  className="pf-advanced-toggle-button"
+                  onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+                >
+                  {showAdvancedOptions ? 'Hide Advanced Options' : 'Show Advanced Options'}
+                  <span className={`pf-toggle-arrow ${showAdvancedOptions ? 'open' : ''}`}>▼</span>
+                </button>
+              </div>
+            )}
+
+            {/* Advanced Options Panel */}
+            {showAdvancedOptions && (triggerRole === 'AUTO_CAST' || triggerRole === 'BOTH') && (
+              <div className="pf-advanced-options-panel">
+                <h5 className="pf-advanced-options-title">Advanced Trigger Options</h5>
+
+                {/* Activation Delay */}
+                <div className="pf-advanced-option">
+                  <label className="pf-option-label">Activation Delay (seconds):</label>
+                  <div className="pf-option-control">
+                    <input
+                      type="number"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                      value={activationDelay}
+                      onChange={(e) => setActivationDelay(parseFloat(e.target.value) || 0)}
+                      className="pf-number-input"
+                    />
+                    <div className="pf-option-hint">Delay before spell activates after trigger conditions are met</div>
+                  </div>
+                </div>
+
+                {/* Line of Sight Requirement */}
+                <div className="pf-advanced-option">
+                  <label className="pf-option-label">Requires Line of Sight:</label>
+                  <div className="pf-option-control">
+                    <div className="pf-toggle-wrapper">
+                      <button
+                        className={`pf-toggle-button ${requiresLOS ? 'active' : ''}`}
+                        onClick={() => setRequiresLOS(!requiresLOS)}
+                      >
+                        <div className="pf-toggle-slider"></div>
+                      </button>
+                      <span className="pf-toggle-value">
+                        {requiresLOS ? 'Yes' : 'No'}
+                      </span>
+                    </div>
+                    <div className="pf-option-hint">Whether target must be in line of sight for auto-cast</div>
+                  </div>
+                </div>
+
+                {/* Max Range Override */}
+                <div className="pf-advanced-option">
+                  <label className="pf-option-label">Max Range Override (feet):</label>
+                  <div className="pf-option-control">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={maxRange === null ? '' : maxRange}
+                      onChange={(e) => {
+                        const val = e.target.value.trim() === '' ? null : (parseInt(e.target.value) || 0);
+                        setMaxRange(val);
+                      }}
+                      className="pf-number-input"
+                      placeholder="Use spell range"
+                    />
+                    <div className="pf-option-hint">Maximum range for auto-cast (leave empty to use spell's range)</div>
+                  </div>
+                </div>
+
+                {/* Additional Cooldown */}
+                <div className="pf-advanced-option">
+                  <label className="pf-option-label">Additional Cooldown (seconds):</label>
+                  <div className="pf-option-control">
+                    <input
+                      type="number"
+                      min="0"
+                      max="60"
+                      step="1"
+                      value={cooldownAfterTrigger}
+                      onChange={(e) => setCooldownAfterTrigger(parseInt(e.target.value) || 0)}
+                      className="pf-number-input"
+                    />
+                    <div className="pf-option-hint">Extra cooldown applied when spell is auto-cast</div>
+                  </div>
+                </div>
+
+                {/* Resource Cost Modifier */}
+                <div className="pf-advanced-option">
+                  <label className="pf-option-label">Resource Cost Modifier:</label>
+                  <div className="pf-option-control">
+                    <input
+                      type="number"
+                      min="0"
+                      max="2"
+                      step="0.1"
+                      value={resourceModifier}
+                      onChange={(e) => setResourceModifier(parseFloat(e.target.value) || 1.0)}
+                      className="pf-number-input"
+                    />
+                    <div className="pf-option-hint">Multiplier for resource costs when auto-cast (1.0 = normal cost)</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Effect Selection (only shown in effect-specific mode) */}
         {editingMode === 'effect' && (
-          <div className="effect-config-group mb-md">
-            <h4 className="effect-config-label">Select Effect</h4>
+          <div className="pf-config-group mb-md">
+            <h4 className="pf-config-label">Select Effect</h4>
             <p className="mb-sm">Choose which effect to configure triggers and conditional behavior for.</p>
 
             <div className="wow-effect-selector">
@@ -1542,7 +1757,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
         {/* Effect-Specific Configuration - Combined Triggers and Conditional Effects */}
         {editingMode === 'effect' && selectedEffect && (
-          <div className="effect-config-group mb-md">
+          <div className="pf-config-group mb-md">
             <div className="wow-effect-config-tabs">
               <button
                 className="wow-effect-config-tab active"
@@ -1769,7 +1984,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               {state.summonConfig.creatures.map((creature, index) => (
                                 <div key={index} className="wow-creature-item">
                                   <img
-                                    src={`https://wow.zamimg.com/images/wow/icons/small/${creature.icon}.jpg`}
+                                    src={`https://wow.zamimg.com/images/wow/icons/small/${creature.tokenIcon}.jpg`}
                                     alt={creature.name}
                                     className="wow-creature-icon"
                                     onError={(e) => {
@@ -1864,22 +2079,31 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 </p>
 
                 {/* Logic Type Selection */}
-                <div className="wow-logic-type-selector">
-                  <label className="wow-logic-type-label">Trigger Logic:</label>
-                  <div className="wow-logic-type-buttons">
-                    <button
-                      className={`wow-logic-type-button ${effectTriggers[selectedEffect]?.logicType === 'AND' ? 'active' : ''}`}
-                      onClick={() => setLogicType('AND')}
-                    >
-                      AND (All conditions must be met)
-                    </button>
-                    <button
-                      className={`wow-logic-type-button ${effectTriggers[selectedEffect]?.logicType === 'OR' ? 'active' : ''}`}
-                      onClick={() => setLogicType('OR')}
-                    >
-                      OR (Any condition can trigger)
-                    </button>
-                  </div>
+                <div className="pf-logic-selector">
+                  <button
+                    className={`pf-logic-button ${effectTriggers[selectedEffect]?.logicType === 'AND' ? 'active' : ''}`}
+                    onClick={() => setLogicType('AND')}
+                  >
+                    <div className="pf-logic-icon">
+                      <i className="fas fa-link"></i>
+                    </div>
+                    <div className="pf-logic-text">
+                      <div className="pf-logic-title">ALL CONDITIONS</div>
+                      <div className="pf-logic-description">Every trigger must be met</div>
+                    </div>
+                  </button>
+                  <button
+                    className={`pf-logic-button ${effectTriggers[selectedEffect]?.logicType === 'OR' ? 'active' : ''}`}
+                    onClick={() => setLogicType('OR')}
+                  >
+                    <div className="pf-logic-icon">
+                      <i className="fas fa-random"></i>
+                    </div>
+                    <div className="pf-logic-text">
+                      <div className="pf-logic-title">ANY CONDITION</div>
+                      <div className="pf-logic-description">One trigger can activate</div>
+                    </div>
+                  </button>
                 </div>
 
                 {/* Add Trigger Button */}
@@ -2176,41 +2400,33 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
         {/* Logic Type Selection - Only shown in global mode */}
         {editingMode === 'global' && (
-          <div className="effect-config-group mb-md">
-            <h4 className="effect-config-label">Trigger Logic</h4>
+          <div className="pf-config-group mb-md pf-logic-group">
+            <h4 className="pf-config-label">Trigger Logic</h4>
             <p className="mb-sm">How should multiple triggers be combined?</p>
 
-            <div className="wow-logic-selector">
+            <div className="pf-logic-selector">
               <button
-                className={`wow-logic-button ${triggerConfig && triggerConfig.logicType === 'AND' ? 'active' : ''}`}
+                className={`pf-logic-button ${triggerConfig && triggerConfig.logicType === 'AND' ? 'active' : ''}`}
                 onClick={() => setLogicType('AND')}
               >
-                <div className="wow-logic-icon">
-                  <img
-                    src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg"
-                    alt="AND"
-                    className="wow-logic-img"
-                  />
+                <div className="pf-logic-icon">
+                  <i className="fas fa-link"></i>
                 </div>
-                <div className="wow-logic-text">
-                  <div className="wow-logic-title">AND Logic</div>
-                  <div className="wow-logic-description">All conditions must be met</div>
+                <div className="pf-logic-text">
+                  <div className="pf-logic-title">ALL CONDITIONS</div>
+                  <div className="pf-logic-description">Every trigger must be met</div>
                 </div>
               </button>
               <button
-                className={`wow-logic-button ${triggerConfig && triggerConfig.logicType === 'OR' ? 'active' : ''}`}
+                className={`pf-logic-button ${triggerConfig && triggerConfig.logicType === 'OR' ? 'active' : ''}`}
                 onClick={() => setLogicType('OR')}
               >
-                <div className="wow-logic-icon">
-                  <img
-                    src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_portaldalaran.jpg"
-                    alt="OR"
-                    className="wow-logic-img"
-                  />
+                <div className="pf-logic-icon">
+                  <i className="fas fa-random"></i>
                 </div>
-                <div className="wow-logic-text">
-                  <div className="wow-logic-title">OR Logic</div>
-                  <div className="wow-logic-description">Any condition can trigger</div>
+                <div className="pf-logic-text">
+                  <div className="pf-logic-title">ANY CONDITION</div>
+                  <div className="pf-logic-description">Any single trigger can activate</div>
                 </div>
               </button>
             </div>
@@ -2219,8 +2435,8 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
         {/* Trigger Category Selection - Only shown in global mode */}
         {editingMode === 'global' && (
-          <div className="effect-config-group mb-md">
-            <h4 className="effect-config-label">Add Trigger Conditions</h4>
+          <div className="pf-config-group mb-md">
+            <h4 className="pf-config-label">Add Trigger Conditions</h4>
             <p className="mb-sm">Select a category, then choose triggers to add to your spell.</p>
 
             <div className="wow-trigger-categories">
@@ -2272,53 +2488,49 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         )}
 
         {/* Selected Triggers */}
-        <div className="effect-config-group mb-md">
-          <h4 className="effect-config-label">
+        <div className="pf-config-group mb-md">
+          <h4 className="pf-config-label">
             {editingMode === 'global' ? 'Selected Global Trigger Conditions' : `Selected Trigger Conditions for ${selectedEffect}`}
           </h4>
 
           {editingMode === 'global' && triggerConfig && triggerConfig.compoundTriggers && triggerConfig.compoundTriggers.length === 0 ? (
-            <div className="effect-empty-abilities">
+            <div className="pf-empty-abilities">
               No trigger conditions selected. Please add triggers from the categories above.
             </div>
           ) : editingMode === 'effect' && (!selectedEffect || !effectTriggers[selectedEffect] || !effectTriggers[selectedEffect].compoundTriggers || effectTriggers[selectedEffect].compoundTriggers.length === 0) ? (
-            <div className="effect-empty-abilities">
+            <div className="pf-empty-abilities">
               No trigger conditions selected for this effect. Please add triggers from the categories above.
             </div>
           ) : (
-            <div className="wow-selected-triggers">
+            <div className="pf-selected-triggers">
               {editingMode === 'global' && triggerConfig && triggerConfig.compoundTriggers ? triggerConfig.compoundTriggers.map((trigger, index) => (
-                <div key={index} className="wow-selected-trigger">
-                  <div className="wow-selected-trigger-header">
-                    <div className="wow-selected-trigger-icon">
+                <div key={index} className="pf-selected-trigger">
+                  <div className="pf-selected-trigger-header">
+                    <div className="pf-selected-trigger-icon">
                       <img
                         src={getTriggerIconUrl(trigger.id)}
                         alt={trigger.name}
-                        className="wow-selected-trigger-img"
+                        className="pf-selected-trigger-img"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
                         }}
                       />
                     </div>
-                    <div className="wow-selected-trigger-info">
-                      <div className="wow-selected-trigger-name">{trigger.name}</div>
-                      <div className="wow-selected-trigger-description">
+                    <div className="pf-selected-trigger-info">
+                      <div className="pf-selected-trigger-name">{trigger.name}</div>
+                      <div className="pf-selected-trigger-description">
                         {getTriggersByCategory(trigger.category).find(t => t.id === trigger.id)?.description}
                       </div>
                     </div>
-                    <button className="wow-remove-trigger" onClick={() => removeTrigger(index)} title="Remove trigger">
-                      <img
-                        src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg"
-                        alt="Remove"
-                        className="wow-remove-icon"
-                      />
+                    <button className="pf-remove-trigger" onClick={() => removeTrigger(index)} title="Remove trigger">
+                      <i className="fas fa-times"></i>
                     </button>
                   </div>
 
                   {/* Parameter controls for this trigger */}
                   {Object.keys(trigger.parameters).length > 0 && (
-                    <div className="wow-trigger-parameters">
+                    <div className="pf-trigger-parameters">
                       {Object.keys(trigger.parameters).map(paramName => {
                         const paramValue = trigger.parameters[paramName];
                         // Skip empty parameters or 'type' with no options
@@ -2332,16 +2544,16 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         }
 
                         return (
-                          <div key={paramName} className="wow-trigger-parameter">
+                          <div key={paramName} className="pf-trigger-parameter">
                             {/* Hide label for resource threshold slider */}
                             {!(trigger.id === 'resource_threshold' && paramName === 'threshold_value') && (
-                              <div className="wow-parameter-label">
+                              <div className="pf-parameter-label">
                                 {paramName === 'threshold_value'
                                   ? `${trigger.parameters.threshold_type === 'percentage' ? 'Percentage' : 'Value'}:`
                                   : paramName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
                               </div>
                             )}
-                            <div className="wow-parameter-control">
+                            <div className="pf-parameter-control">
                               {/* Special case for resource threshold */}
                               {trigger.id === 'resource_threshold' && paramName === 'threshold_value' ? (
                                 <ResourceThresholdSlider
@@ -2353,27 +2565,27 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                   onThresholdTypeChange={(type) => updateTriggerParameter(index, 'threshold_type', type)}
                                 />
                               ) : typeof paramValue === 'boolean' ? (
-                                <div className="wow-toggle-wrapper">
+                                <div className="pf-toggle-wrapper">
                                   <button
-                                    className={`wow-toggle-button ${paramValue ? 'active' : ''}`}
+                                    className={`pf-toggle-button ${paramValue ? 'active' : ''}`}
                                     onClick={() => updateTriggerParameter(index, paramName, !paramValue)}
                                   >
-                                    <div className="wow-toggle-slider"></div>
+                                    <div className="pf-toggle-slider"></div>
                                   </button>
-                                  <span className="wow-toggle-value">{paramValue ? 'Yes' : 'No'}</span>
+                                  <span className="pf-toggle-value">{paramValue ? 'Yes' : 'No'}</span>
                                 </div>
                               ) : typeof paramValue === 'number' ? (
-                                <div className="wow-number-input-wrapper">
+                                <div className="pf-number-input-wrapper">
                                   <input
                                     type="number"
                                     value={paramValue}
                                     onChange={(e) => updateTriggerParameter(index, paramName, parseInt(e.target.value) || 0)}
-                                    className="wow-number-input"
+                                    className="pf-number-input"
                                   />
-                                  {paramName === 'percentage' && <span className="wow-input-suffix">%</span>}
-                                  {paramName === 'distance' && <span className="wow-input-suffix">ft</span>}
-                                  {paramName === 'amount' && <span className="wow-input-suffix">pts</span>}
-                                  {paramName === 'health_threshold' && <span className="wow-input-suffix">%</span>}
+                                  {paramName === 'percentage' && <span className="pf-input-suffix">%</span>}
+                                  {paramName === 'distance' && <span className="pf-input-suffix">ft</span>}
+                                  {paramName === 'amount' && <span className="pf-input-suffix">pts</span>}
+                                  {paramName === 'health_threshold' && <span className="pf-input-suffix">%</span>}
                                   {paramName === 'threshold_value' && (
                                     <span className="wow-input-suffix">
                                       {trigger.parameters.threshold_type === 'percentage' ? '%' : 'pts'}
@@ -2381,11 +2593,11 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                   )}
                                 </div>
                               ) : (
-                                <div className="wow-select-wrapper">
+                                <div className="pf-select-wrapper">
                                   <select
                                     value={paramValue}
                                     onChange={(e) => updateTriggerParameter(index, paramName, e.target.value)}
-                                    className="wow-select"
+                                    className="pf-select"
                                   >
                                     {paramName === 'comparison' ? (
                                       <>
@@ -2525,39 +2737,706 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       })}
                     </div>
                   )}
+
+                  {/* Formatted Summary */}
+                  <div className="pf-trigger-summary">
+                    <strong>Summary:</strong> {(() => {
+                      // Build a proper sentence based on trigger type and parameters
+                      let summary = '';
+
+                      // Handle different trigger types with proper grammar
+                      if (trigger.id === 'damage_taken') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const amount = trigger.parameters.amount || '';
+                        const damageType = trigger.parameters.damage_type || 'any';
+
+                        const whoMap = {
+                          'self': 'I take',
+                          'target': 'my target takes',
+                          'ally': 'an ally takes',
+                          'enemy': 'an enemy takes',
+                          'any': 'anyone takes'
+                        };
+
+                        summary = `When ${whoMap[perspective] || 'I take'}`;
+                        if (amount) summary += ` ${amount} pts`;
+                        if (damageType && damageType !== 'any') summary += ` ${damageType}`;
+                        summary += ' damage';
+
+                      } else if (trigger.id === 'resource_threshold') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const resourceType = trigger.parameters.resource_type || 'health';
+                        const comparison = trigger.parameters.comparison || 'less_than';
+                        const thresholdValue = trigger.parameters.threshold_value || 50;
+                        const thresholdType = trigger.parameters.threshold_type || 'percentage';
+
+                        const whoMap = {
+                          'self': 'my',
+                          'target': 'target\'s',
+                          'ally': 'ally\'s',
+                          'enemy': 'enemy\'s',
+                          'any': 'anyone\'s'
+                        };
+
+                        const compMap = {
+                          'less_than': 'falls below',
+                          'greater_than': 'rises above',
+                          'equal': 'equals'
+                        };
+
+                        const resourceName = RESOURCE_TYPES.find(r => r.id === resourceType)?.name || resourceType;
+                        const suffix = thresholdType === 'percentage' ? '%' : ' pts';
+
+                        summary = `When ${whoMap[perspective] || 'my'} ${resourceName.toLowerCase()} ${compMap[comparison] || 'falls below'} ${thresholdValue}${suffix}`;
+
+                      } else if (trigger.id === 'terrain_type') {
+                        const terrainType = trigger.parameters.terrain_type || 'forest';
+                        summary = `When entering ${terrainType} terrain`;
+
+                      } else if (trigger.id === 'combat_start') {
+                        summary = 'When combat begins';
+
+                      } else if (trigger.id === 'combat_end') {
+                        summary = 'When combat ends';
+
+                      } else if (trigger.id === 'critical_hit_taken') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I receive',
+                          'target': 'my target receives',
+                          'ally': 'an ally receives',
+                          'enemy': 'an enemy receives',
+                          'any': 'anyone receives'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I receive'} a critical hit`;
+
+                      } else if (trigger.id === 'critical_hit_dealt') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I land',
+                          'target': 'my target lands',
+                          'ally': 'an ally lands',
+                          'enemy': 'an enemy lands',
+                          'any': 'anyone lands'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I land'} a critical hit`;
+
+                      } else if (trigger.id === 'distance_moved') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const distance = trigger.parameters.distance || 30;
+                        const whoMap = {
+                          'self': 'I move',
+                          'target': 'my target moves',
+                          'ally': 'an ally moves',
+                          'enemy': 'an enemy moves',
+                          'any': 'anyone moves'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I move'} ${distance} ft`;
+
+                      } else if (trigger.id === 'spell_cast') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const spellLevel = trigger.parameters.spell_level;
+                        const whoMap = {
+                          'self': 'I cast',
+                          'target': 'my target casts',
+                          'ally': 'an ally casts',
+                          'enemy': 'an enemy casts',
+                          'any': 'anyone casts'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I cast'}`;
+                        if (spellLevel) summary += ` a level ${spellLevel}`;
+                        summary += ' spell';
+
+                      } else if (trigger.id === 'turn_start') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'my turn starts',
+                          'target': 'target\'s turn starts',
+                          'ally': 'ally\'s turn starts',
+                          'enemy': 'enemy\'s turn starts',
+                          'any': 'anyone\'s turn starts'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my turn starts'}`;
+
+                      } else if (trigger.id === 'turn_end') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'my turn ends',
+                          'target': 'target\'s turn ends',
+                          'ally': 'ally\'s turn ends',
+                          'enemy': 'enemy\'s turn ends',
+                          'any': 'anyone\'s turn ends'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my turn ends'}`;
+
+                      } else if (trigger.id === 'miss') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'When an enemy\'s attack misses me',
+                          'target': 'When my target\'s attack misses',
+                          'ally': 'When an ally\'s attack misses',
+                          'enemy': 'When an enemy\'s attack misses',
+                          'any': 'When anyone\'s attack misses'
+                        };
+                        summary = whoMap[perspective] || 'When an enemy\'s attack misses me';
+
+                      } else if (trigger.id === 'dodge') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'When I dodge an attack',
+                          'target': 'When my target dodges an attack',
+                          'ally': 'When an ally dodges an attack',
+                          'enemy': 'When an enemy dodges an attack',
+                          'any': 'When anyone dodges an attack'
+                        };
+                        summary = whoMap[perspective] || 'When I dodge an attack';
+
+                      } else if (trigger.id === 'parry') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'When I parry an attack',
+                          'target': 'When my target parries an attack',
+                          'ally': 'When an ally parries an attack',
+                          'enemy': 'When an enemy parries an attack',
+                          'any': 'When anyone parries an attack'
+                        };
+                        summary = whoMap[perspective] || 'When I parry an attack';
+
+                      } else if (trigger.id === 'block') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'When I block an attack',
+                          'target': 'When my target blocks an attack',
+                          'ally': 'When an ally blocks an attack',
+                          'enemy': 'When an enemy blocks an attack',
+                          'any': 'When anyone blocks an attack'
+                        };
+                        summary = whoMap[perspective] || 'When I block an attack';
+
+                      } else if (trigger.id === 'leave_area') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const areaType = trigger.parameters.area_type || 'area';
+                        const whoMap = {
+                          'self': 'I leave',
+                          'target': 'my target leaves',
+                          'ally': 'an ally leaves',
+                          'enemy': 'an enemy leaves',
+                          'any': 'anyone leaves'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I leave'} ${areaType}`;
+
+                      } else if (trigger.id === 'enter_area') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const areaType = trigger.parameters.area_type || 'area';
+                        const whoMap = {
+                          'self': 'I enter',
+                          'target': 'my target enters',
+                          'ally': 'an ally enters',
+                          'enemy': 'an enemy enters',
+                          'any': 'anyone enters'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I enter'} ${areaType}`;
+
+                      } else if (trigger.id === 'proximity') {
+                        const distance = trigger.parameters.distance || 30;
+                        const entityType = trigger.parameters.entity_type || 'any';
+                        const entityMap = {
+                          'any': 'anyone',
+                          'ally': 'an ally',
+                          'enemy': 'an enemy',
+                          'self': 'I'
+                        };
+                        summary = `When ${entityMap[entityType] || 'anyone'} comes within ${distance} ft`;
+
+                      } else if (trigger.id === 'movement_start') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I start moving',
+                          'target': 'my target starts moving',
+                          'ally': 'an ally starts moving',
+                          'enemy': 'an enemy starts moving',
+                          'any': 'anyone starts moving'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I start moving'}`;
+
+                      } else if (trigger.id === 'movement_end') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I stop moving',
+                          'target': 'my target stops moving',
+                          'ally': 'an ally stops moving',
+                          'enemy': 'an enemy stops moving',
+                          'any': 'anyone stops moving'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I stop moving'}`;
+
+                      } else if (trigger.id === 'health_threshold') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const percentage = trigger.parameters.percentage || 50;
+                        const comparison = trigger.parameters.comparison || 'below';
+                        const whoMap = {
+                          'self': 'my health',
+                          'target': 'target\'s health',
+                          'ally': 'ally\'s health',
+                          'enemy': 'enemy\'s health',
+                          'any': 'anyone\'s health'
+                        };
+                        const compMap = {
+                          'below': 'falls below',
+                          'above': 'rises above',
+                          'equals': 'equals'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my health'} ${compMap[comparison] || 'falls below'} ${percentage}%`;
+
+                      } else if (trigger.id === 'effect_applied') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'effect';
+                        const whoMap = {
+                          'self': 'I gain',
+                          'target': 'my target gains',
+                          'ally': 'an ally gains',
+                          'enemy': 'an enemy gains',
+                          'any': 'anyone gains'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I gain'} ${effectType}`;
+
+                      } else if (trigger.id === 'effect_removed') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'effect';
+                        const whoMap = {
+                          'self': 'I lose',
+                          'target': 'my target loses',
+                          'ally': 'an ally loses',
+                          'enemy': 'an enemy loses',
+                          'any': 'anyone loses'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I lose'} ${effectType}`;
+
+                      } else if (trigger.id === 'spell_reflect') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'my spell is reflected',
+                          'target': 'target\'s spell is reflected',
+                          'ally': 'ally\'s spell is reflected',
+                          'enemy': 'enemy\'s spell is reflected',
+                          'any': 'anyone\'s spell is reflected'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my spell is reflected'}`;
+
+                      } else if (trigger.id === 'spell_interrupt') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'my spell is interrupted',
+                          'target': 'target\'s spell is interrupted',
+                          'ally': 'ally\'s spell is interrupted',
+                          'enemy': 'enemy\'s spell is interrupted',
+                          'any': 'anyone\'s spell is interrupted'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my spell is interrupted'}`;
+
+                      } else if (trigger.id === 'spell_resist') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'my spell is resisted',
+                          'target': 'target resists my spell',
+                          'ally': 'ally\'s spell is resisted',
+                          'enemy': 'enemy\'s spell is resisted',
+                          'any': 'anyone\'s spell is resisted'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my spell is resisted'}`;
+
+                      } else if (trigger.id === 'first_strike') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I make the first attack',
+                          'target': 'my target makes the first attack',
+                          'ally': 'an ally makes the first attack',
+                          'enemy': 'an enemy makes the first attack',
+                          'any': 'anyone makes the first attack'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I make the first attack'}`;
+
+                      } else if (trigger.id === 'last_stand') {
+                        summary = 'When I am the last ally standing';
+
+                      } else if (trigger.id === 'forced_movement') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I am forcibly moved',
+                          'target': 'my target is forcibly moved',
+                          'ally': 'an ally is forcibly moved',
+                          'enemy': 'an enemy is forcibly moved',
+                          'any': 'anyone is forcibly moved'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I am forcibly moved'}`;
+
+                      } else if (trigger.id === 'high_ground') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I reach high ground',
+                          'target': 'my target reaches high ground',
+                          'ally': 'an ally reaches high ground',
+                          'enemy': 'an enemy reaches high ground',
+                          'any': 'anyone reaches high ground'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I reach high ground'}`;
+
+                      } else if (trigger.id === 'falling') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I am falling',
+                          'target': 'my target is falling',
+                          'ally': 'an ally is falling',
+                          'enemy': 'an enemy is falling',
+                          'any': 'anyone is falling'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I am falling'}`;
+
+                      } else if (trigger.id === 'health_change') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const amount = trigger.parameters.amount || 10;
+                        const isPercent = trigger.parameters.is_percent || false;
+                        const whoMap = {
+                          'self': 'my health changes by',
+                          'target': 'target\'s health changes by',
+                          'ally': 'ally\'s health changes by',
+                          'enemy': 'enemy\'s health changes by',
+                          'any': 'anyone\'s health changes by'
+                        };
+                        const suffix = isPercent ? '%' : ' points';
+                        summary = `When ${whoMap[perspective] || 'my health changes by'} ${amount}${suffix}`;
+
+                      } else if (trigger.id === 'ally_health') {
+                        const percentage = trigger.parameters.percentage || 50;
+                        const comparison = trigger.parameters.comparison || 'below';
+                        const compMap = {
+                          'below': 'falls below',
+                          'above': 'rises above',
+                          'equals': 'equals'
+                        };
+                        summary = `When an ally's health ${compMap[comparison] || 'falls below'} ${percentage}%`;
+
+                      } else if (trigger.id === 'on_death') {
+                        const targetType = trigger.parameters.target_type || 'any';
+                        const targetMap = {
+                          'self': 'I die',
+                          'ally': 'an ally dies',
+                          'enemy': 'an enemy dies',
+                          'any': 'anyone dies'
+                        };
+                        summary = `When ${targetMap[targetType] || 'anyone dies'}`;
+
+                      } else if (trigger.id === 'on_revival') {
+                        const targetType = trigger.parameters.target_type || 'any';
+                        const targetMap = {
+                          'self': 'I am revived',
+                          'ally': 'an ally is revived',
+                          'enemy': 'an enemy is revived',
+                          'any': 'anyone is revived'
+                        };
+                        summary = `When ${targetMap[targetType] || 'anyone is revived'}`;
+
+                      } else if (trigger.id === 'near_death') {
+                        const threshold = trigger.parameters.health_threshold || 10;
+                        const targetType = trigger.parameters.target_type || 'self';
+                        const targetMap = {
+                          'self': 'I am',
+                          'ally': 'an ally is',
+                          'enemy': 'an enemy is',
+                          'any': 'anyone is'
+                        };
+                        summary = `When ${targetMap[targetType] || 'I am'} near death (${threshold}% health)`;
+
+                      } else if (trigger.id === 'death_save_success') {
+                        const targetType = trigger.parameters.target_type || 'self';
+                        const targetMap = {
+                          'self': 'I succeed',
+                          'ally': 'an ally succeeds',
+                          'enemy': 'an enemy succeeds',
+                          'any': 'anyone succeeds'
+                        };
+                        summary = `When ${targetMap[targetType] || 'I succeed'} on a death saving throw`;
+
+                      } else if (trigger.id === 'death_save_failure') {
+                        const targetType = trigger.parameters.target_type || 'self';
+                        const targetMap = {
+                          'self': 'I fail',
+                          'ally': 'an ally fails',
+                          'enemy': 'an enemy fails',
+                          'any': 'anyone fails'
+                        };
+                        summary = `When ${targetMap[targetType] || 'I fail'} a death saving throw`;
+
+                      } else if (trigger.id === 'full_health') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I reach full health',
+                          'target': 'my target reaches full health',
+                          'ally': 'an ally reaches full health',
+                          'enemy': 'an enemy reaches full health',
+                          'any': 'anyone reaches full health'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I reach full health'}`;
+
+                      } else if (trigger.id === 'overhealing') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I would be overhealed',
+                          'target': 'my target would be overhealed',
+                          'ally': 'an ally would be overhealed',
+                          'enemy': 'an enemy would be overhealed',
+                          'any': 'anyone would be overhealed'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I would be overhealed'}`;
+
+                      } else if (trigger.id === 'effect_duration') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'effect';
+                        const duration = trigger.parameters.duration || 5;
+                        const whoMap = {
+                          'self': 'my',
+                          'target': 'target\'s',
+                          'ally': 'ally\'s',
+                          'enemy': 'enemy\'s',
+                          'any': 'anyone\'s'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my'} ${effectType} has ${duration} seconds remaining`;
+
+                      } else if (trigger.id === 'effect_stack') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'effect';
+                        const stackCount = trigger.parameters.stack_count || 3;
+                        const whoMap = {
+                          'self': 'my',
+                          'target': 'target\'s',
+                          'ally': 'ally\'s',
+                          'enemy': 'enemy\'s',
+                          'any': 'anyone\'s'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my'} ${effectType} reaches ${stackCount} stacks`;
+
+                      } else if (trigger.id === 'dispel') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'effect';
+                        const whoMap = {
+                          'self': 'my',
+                          'target': 'target\'s',
+                          'ally': 'ally\'s',
+                          'enemy': 'enemy\'s',
+                          'any': 'anyone\'s'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my'} ${effectType} is dispelled`;
+
+                      } else if (trigger.id === 'cleanse') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'debuff';
+                        const whoMap = {
+                          'self': 'my',
+                          'target': 'target\'s',
+                          'ally': 'ally\'s',
+                          'enemy': 'enemy\'s',
+                          'any': 'anyone\'s'
+                        };
+                        summary = `When ${whoMap[perspective] || 'my'} ${effectType} is cleansed`;
+
+                      } else if (trigger.id === 'immunity') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const effectType = trigger.parameters.effect_type || 'effect';
+                        const whoMap = {
+                          'self': 'I become immune to',
+                          'target': 'my target becomes immune to',
+                          'ally': 'an ally becomes immune to',
+                          'enemy': 'an enemy becomes immune to',
+                          'any': 'anyone becomes immune to'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I become immune to'} ${effectType}`;
+
+                      } else if (trigger.id === 'weather_change') {
+                        const weatherType = trigger.parameters.weather_type || 'rain';
+                        summary = `When weather changes to ${weatherType}`;
+
+                      } else if (trigger.id === 'day_night') {
+                        const isDay = trigger.parameters.is_day !== false;
+                        summary = `When it becomes ${isDay ? 'day' : 'night'}`;
+
+                      } else if (trigger.id === 'object_interaction') {
+                        const objectType = trigger.parameters.object_type || 'object';
+                        summary = `When interacting with ${objectType}`;
+
+                      } else if (trigger.id === 'environmental_damage') {
+                        const damageType = trigger.parameters.damage_type || 'environmental';
+                        summary = `When taking ${damageType} damage from environment`;
+
+                      } else if (trigger.id === 'underwater') {
+                        summary = 'When underwater';
+
+                      } else if (trigger.id === 'in_darkness') {
+                        summary = 'When in darkness or dim light';
+
+                      } else if (trigger.id === 'in_bright_light') {
+                        summary = 'When in bright light';
+
+                      } else if (trigger.id === 'round_start') {
+                        summary = 'When a combat round starts';
+
+                      } else if (trigger.id === 'round_end') {
+                        summary = 'When a combat round ends';
+
+                      } else if (trigger.id === 'timer') {
+                        const seconds = trigger.parameters.seconds || trigger.parameters.time || 10;
+                        summary = `After ${seconds} seconds`;
+
+                      } else if (trigger.id === 'cooldown_ready') {
+                        const abilityId = trigger.parameters.ability_id || 'ability';
+                        summary = `When ${abilityId} cooldown is ready`;
+
+                      } else if (trigger.id === 'duration_threshold') {
+                        const duration = trigger.parameters.duration || 5;
+                        const comparison = trigger.parameters.comparison || 'below';
+                        const compMap = {
+                          'below': 'falls below',
+                          'above': 'rises above',
+                          'equals': 'equals'
+                        };
+                        summary = `When spell duration ${compMap[comparison] || 'falls below'} ${duration} seconds`;
+
+                      } else if (trigger.id === 'stepped_on') {
+                        const creatureType = trigger.parameters.creature_type || 'any';
+                        const creatureMap = {
+                          'any': 'any creature',
+                          'enemy': 'an enemy',
+                          'ally': 'an ally',
+                          'player': 'a player',
+                          'npc': 'an NPC'
+                        };
+                        summary = `When ${creatureMap[creatureType] || 'any creature'} steps on the trap`;
+
+                      } else if (trigger.id === 'interaction') {
+                        const interactionType = trigger.parameters.interaction_type || 'touch';
+                        const interactionMap = {
+                          'touch': 'touches',
+                          'examine': 'examines',
+                          'manipulate': 'manipulates',
+                          'attack': 'attacks'
+                        };
+                        summary = `When someone ${interactionMap[interactionType] || 'touches'} the trap`;
+
+                      } else if (trigger.id === 'line_of_sight') {
+                        const creatureType = trigger.parameters.creature_type || 'any';
+                        const creatureMap = {
+                          'any': 'any creature',
+                          'enemy': 'an enemy',
+                          'ally': 'an ally',
+                          'player': 'a player',
+                          'npc': 'an NPC'
+                        };
+                        summary = `When ${creatureMap[creatureType] || 'any creature'} enters line of sight`;
+
+                      } else if (trigger.id === 'detection_attempt') {
+                        summary = 'When someone attempts to detect the trap';
+
+                      } else if (trigger.id === 'disarm_attempt') {
+                        summary = 'When someone attempts to disarm the trap';
+
+                      } else if (trigger.id === 'weight_pressure') {
+                        const threshold = trigger.parameters.weight_threshold || 100;
+                        summary = `When ${threshold} lbs of weight is applied`;
+
+                      } else if (trigger.id === 'magical_trigger') {
+                        const magicType = trigger.parameters.magic_type || 'any';
+                        const magicMap = {
+                          'arcane': 'arcane magic',
+                          'divine': 'divine magic',
+                          'nature': 'nature magic',
+                          'any': 'any magic'
+                        };
+                        summary = `When ${magicMap[magicType] || 'any magic'} is detected`;
+
+                      } else if (trigger.id === 'trap_chain') {
+                        summary = 'When another trap is triggered';
+
+                      } else if (trigger.id === 'trap_damage') {
+                        const threshold = trigger.parameters.damage_threshold || 10;
+                        summary = `When the trap deals ${threshold}+ damage`;
+
+                      } else if (trigger.id === 'damage_dealt') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const amount = trigger.parameters.amount || '';
+                        const damageType = trigger.parameters.damage_type || 'any';
+
+                        const whoMap = {
+                          'self': 'I deal',
+                          'target': 'my target deals',
+                          'ally': 'an ally deals',
+                          'enemy': 'an enemy deals',
+                          'any': 'anyone deals'
+                        };
+
+                        summary = `When ${whoMap[perspective] || 'I deal'}`;
+                        if (amount) summary += ` ${amount} pts of`;
+                        if (damageType && damageType !== 'any') summary += ` ${damageType}`;
+                        summary += ' damage';
+
+                      } else if (trigger.id === 'critical_hit') {
+                        const perspective = trigger.parameters.perspective || 'self';
+                        const whoMap = {
+                          'self': 'I land',
+                          'target': 'my target lands',
+                          'ally': 'an ally lands',
+                          'enemy': 'an enemy lands',
+                          'any': 'anyone lands'
+                        };
+                        summary = `When ${whoMap[perspective] || 'I land'} a critical hit`;
+
+                      } else {
+                        // Fallback for other trigger types
+                        const perspective = trigger.parameters.perspective;
+                        if (perspective) {
+                          const perspectiveMap = {
+                            'self': 'When I',
+                            'target': 'When my target',
+                            'ally': 'When an ally',
+                            'enemy': 'When an enemy',
+                            'any': 'When anyone'
+                          };
+                          summary = `${perspectiveMap[perspective] || 'When'} ${trigger.name.toLowerCase()}`;
+                        } else {
+                          summary = `When ${trigger.name.toLowerCase()}`;
+                        }
+                      }
+
+                      return summary;
+                    })()}
+                  </div>
                 </div>
               )) : editingMode === 'effect' && selectedEffect && effectTriggers[selectedEffect] && effectTriggers[selectedEffect].compoundTriggers ? effectTriggers[selectedEffect].compoundTriggers.map((trigger, index) => (
-                <div key={index} className="wow-selected-trigger">
-                  <div className="wow-selected-trigger-header">
-                    <div className="wow-selected-trigger-icon">
+                <div key={index} className="pf-selected-trigger">
+                  <div className="pf-selected-trigger-header">
+                    <div className="pf-selected-trigger-icon">
                       <img
                         src={getTriggerIconUrl(trigger.id)}
                         alt={trigger.name}
-                        className="wow-selected-trigger-img"
+                        className="pf-selected-trigger-img"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
                         }}
                       />
                     </div>
-                    <div className="wow-selected-trigger-info">
-                      <div className="wow-selected-trigger-name">{trigger.name}</div>
-                      <div className="wow-selected-trigger-description">
+                    <div className="pf-selected-trigger-info">
+                      <div className="pf-selected-trigger-name">{trigger.name}</div>
+                      <div className="pf-selected-trigger-description">
                         {getTriggersByCategory(trigger.category).find(t => t.id === trigger.id)?.description}
                       </div>
                     </div>
-                    <button className="wow-remove-trigger" onClick={() => removeTrigger(index)} title="Remove trigger">
-                      <img
-                        src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg"
-                        alt="Remove"
-                        className="wow-remove-icon"
-                      />
+                    <button className="pf-remove-trigger" onClick={() => removeTrigger(index)} title="Remove trigger">
+                      <i className="fas fa-times"></i>
                     </button>
                   </div>
 
                   {/* Parameter controls for this trigger */}
                   {Object.keys(trigger.parameters).length > 0 && (
-                    <div className="wow-trigger-parameters">
+                    <div className="pf-trigger-parameters">
                       {Object.keys(trigger.parameters).map(paramName => {
                         const paramValue = trigger.parameters[paramName];
                         // Skip empty parameters or 'type' with no options
@@ -2571,16 +3450,16 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         }
 
                         return (
-                          <div key={paramName} className="wow-trigger-parameter">
+                          <div key={paramName} className="pf-trigger-parameter">
                             {/* Hide label for resource threshold slider */}
                             {!(trigger.id === 'resource_threshold' && paramName === 'threshold_value') && (
-                              <div className="wow-parameter-label">
+                              <div className="pf-parameter-label">
                                 {paramName === 'threshold_value'
                                   ? `${trigger.parameters.threshold_type === 'percentage' ? 'Percentage' : 'Value'}:`
                                   : paramName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
                               </div>
                             )}
-                            <div className="wow-parameter-control">
+                            <div className="pf-parameter-control">
                               {/* Special case for resource threshold */}
                               {trigger.id === 'resource_threshold' && paramName === 'threshold_value' ? (
                                 <ResourceThresholdSlider
@@ -2592,27 +3471,27 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                                   onThresholdTypeChange={(type) => updateTriggerParameter(index, 'threshold_type', type)}
                                 />
                               ) : typeof paramValue === 'boolean' ? (
-                                <div className="wow-toggle-wrapper">
+                                <div className="pf-toggle-wrapper">
                                   <button
-                                    className={`wow-toggle-button ${paramValue ? 'active' : ''}`}
+                                    className={`pf-toggle-button ${paramValue ? 'active' : ''}`}
                                     onClick={() => updateTriggerParameter(index, paramName, !paramValue)}
                                   >
-                                    <div className="wow-toggle-slider"></div>
+                                    <div className="pf-toggle-slider"></div>
                                   </button>
-                                  <span className="wow-toggle-value">{paramValue ? 'Yes' : 'No'}</span>
+                                  <span className="pf-toggle-value">{paramValue ? 'Yes' : 'No'}</span>
                                 </div>
                               ) : typeof paramValue === 'number' ? (
-                                <div className="wow-number-input-wrapper">
+                                <div className="pf-number-input-wrapper">
                                   <input
                                     type="number"
                                     value={paramValue}
                                     onChange={(e) => updateTriggerParameter(index, paramName, parseInt(e.target.value) || 0)}
-                                    className="wow-number-input"
+                                    className="pf-number-input"
                                   />
-                                  {paramName === 'percentage' && <span className="wow-input-suffix">%</span>}
-                                  {paramName === 'distance' && <span className="wow-input-suffix">ft</span>}
-                                  {paramName === 'amount' && <span className="wow-input-suffix">pts</span>}
-                                  {paramName === 'health_threshold' && <span className="wow-input-suffix">%</span>}
+                                  {paramName === 'percentage' && <span className="pf-input-suffix">%</span>}
+                                  {paramName === 'distance' && <span className="pf-input-suffix">ft</span>}
+                                  {paramName === 'amount' && <span className="pf-input-suffix">pts</span>}
+                                  {paramName === 'health_threshold' && <span className="pf-input-suffix">%</span>}
                                   {paramName === 'threshold_value' && (
                                     <span className="wow-input-suffix">
                                       {trigger.parameters.threshold_type === 'percentage' ? '%' : 'pts'}
@@ -4715,47 +5594,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           )}
         </div>
 
-        {/* Preview */}
-        {(editingMode === 'global' && triggerConfig && triggerConfig.compoundTriggers && triggerConfig.compoundTriggers.length > 0) && (
-          <div className="effect-preview">
-            <div className="effect-preview-header">
-              <div className="effect-preview-title">
-                <h4>Global Trigger Preview</h4>
-              </div>
-            </div>
-            <div className="effect-preview-description">
-              This spell will trigger when {triggerConfig.logicType === 'AND' ? 'all' : 'any'} of the following conditions are met:
-              <ul className="mt-sm">
-                {triggerConfig.compoundTriggers.map((trigger, index) => (
-                  <li key={index}>
-                    {trigger.name}
-                    {Object.entries(trigger.parameters).map(([key, value], i) => (
-                      <span key={i}>
-                        {i === 0 ? ' - ' : ', '}
-                        {key === 'comparison' ? '' : key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
-                        {typeof value === 'boolean'
-                          ? value ? ' Yes' : ' No'
-                          : key === 'comparison'
-                            ? value === 'less_than'
-                              ? ' is less than'
-                              : value === 'greater_than'
-                                ? ' is greater than'
-                                : ' equals'
-                          : key === 'resource_type'
-                            ? ` ${RESOURCE_TYPES.find(r => r.id === value)?.name || value}`
-                          : key === 'threshold_value' && trigger.parameters.threshold_type
-                            ? ` ${value}${trigger.parameters.threshold_type === 'percentage' ? '%' : ' points'}`
-                          : typeof value === 'number' && key === 'percentage'
-                            ? ` ${value}%`
-                            : ` ${value}`}
-                      </span>
-                    ))}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
+
 
         {/* Effect-specific Trigger Preview removed as it's redundant with Effect Configuration Preview */}
 
@@ -4775,7 +5614,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         )}
 
         {/* Examples */}
-        <div className="effect-config-group mt-lg">
+        <div className="pf-config-group mt-lg">
           <h3 className="section-header">Common Trigger Examples</h3>
           <div className="card-selection-grid">
             <div className="icon-selection-card">

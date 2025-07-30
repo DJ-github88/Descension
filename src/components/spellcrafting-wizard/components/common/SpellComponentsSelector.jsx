@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandSparkles, faComment, faFlask, faSearch, faTimes, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { ITEM_LIBRARY } from '../../../../data/itemLibraryData';
+import { faHandSparkles, faComment, faFlask, faSearch, faTimes, faEdit, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { createPortal } from 'react-dom';
+import useItemStore from '../../../../store/itemStore';
+import ItemSelectionModal from '../../../quest-log/ItemSelectionModal';
 import '../../styles/SpellComponents.css';
 
 const SpellComponentsSelector = ({ components, materialComponents, onChange, verbalText, somaticText }) => {
-  const [showItemSelector, setShowItemSelector] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [showItemLibrary, setShowItemLibrary] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
   // State for custom component text
@@ -16,34 +16,31 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
   const [showVerbalInput, setShowVerbalInput] = useState(false);
   const [showSomaticInput, setShowSomaticInput] = useState(false);
 
+  // Get items from the actual item store
+  const { items } = useItemStore();
+
   // Initialize selected items from materialComponents
   useEffect(() => {
     if (materialComponents) {
-      const items = materialComponents.split(',')
+      const itemIds = materialComponents.split(',')
         .map(id => id.trim())
-        .filter(id => id)
-        .map(id => ITEM_LIBRARY.find(item => item.id === id))
+        .filter(id => id);
+
+      const foundItems = itemIds
+        .map(id => items.find(item => item.id === id))
         .filter(item => item);
 
-      setSelectedItems(items);
+      setSelectedItems(foundItems);
     } else {
       setSelectedItems([]);
     }
-  }, [materialComponents]);
+  }, [materialComponents, items]);
 
-  // Filter items based on search query
+  // Initialize custom text from props
   useEffect(() => {
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      const filtered = ITEM_LIBRARY.filter(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.tags.some(tag => tag.toLowerCase().includes(query))
-      );
-      setFilteredItems(filtered);
-    } else {
-      setFilteredItems(ITEM_LIBRARY);
-    }
-  }, [searchQuery]);
+    setCustomVerbalText(verbalText || '');
+    setCustomSomaticText(somaticText || '');
+  }, [verbalText, somaticText]);
 
   // Handle component toggle
   const handleComponentToggle = (component) => {
@@ -59,7 +56,7 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
     });
   };
 
-  // Handle item selection
+  // Handle item selection from library
   const handleItemSelect = (item) => {
     const isSelected = selectedItems.some(i => i.id === item.id);
 
@@ -74,7 +71,12 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
 
     // Update material components string
     const newMaterialComponents = newSelectedItems.map(i => i.id).join(',');
-    onChange({ components, materialComponents: newMaterialComponents });
+    onChange({
+      components,
+      materialComponents: newMaterialComponents,
+      verbalText: customVerbalText,
+      somaticText: customSomaticText
+    });
   };
 
   // Handle removing an item
@@ -118,8 +120,6 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
 
   return (
     <div className="spell-components-selector">
-      <h4 className="components-header">Spell Components</h4>
-
       <div className="components-options">
         <div
           className={`component-option ${components.includes('verbal') ? 'selected' : ''}`}
@@ -176,7 +176,7 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
                 e.stopPropagation();
                 setShowSomaticInput(!showSomaticInput);
               }}
-              title="Edit somatic component"
+              // Removed title to prevent browser tooltip conflict
             >
               <FontAwesomeIcon icon={faEdit} />
             </button>
@@ -215,9 +215,10 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
             <h5>Material Components</h5>
             <button
               className="add-material-button"
-              onClick={() => setShowItemSelector(!showItemSelector)}
+              onClick={() => setShowItemLibrary(true)}
             >
-              {showItemSelector ? 'Hide Items' : 'Add Items'}
+              <FontAwesomeIcon icon={faBookOpen} />
+              Open Item Library
             </button>
           </div>
 
@@ -250,71 +251,24 @@ const SpellComponentsSelector = ({ components, materialComponents, onChange, ver
             </div>
           ) : (
             <div className="no-materials-message">
-              No material components selected. Click "Add Items" to select materials.
+              No material components selected. Click "Open Item Library" to select materials.
             </div>
           )}
 
-          {showItemSelector && (
-            <div className="item-selector">
-              <div className="item-search">
-                <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="Search items..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="item-search-input"
-                />
-              </div>
-
-              <div className="item-list">
-                {filteredItems.map(item => (
-                  <div
-                    key={item.id}
-                    className={`item-list-item ${selectedItems.some(i => i.id === item.id) ? 'selected' : ''}`}
-                    onClick={() => handleItemSelect(item)}
-                  >
-                    <div className="item-icon">
-                      <img
-                        src={`https://wow.zamimg.com/images/wow/icons/large/${item.icon}.jpg`}
-                        alt={item.name}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-                        }}
-                      />
-                    </div>
-                    <div className="item-details">
-                      <div className="item-name">{item.name}</div>
-                      <div className="item-description">{item.description}</div>
-                      <div className="item-tags">
-                        {item.tags.map(tag => (
-                          <span key={tag} className="item-tag">{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Item Library Modal */}
+          <ItemSelectionModal
+            isOpen={showItemLibrary}
+            onClose={() => setShowItemLibrary(false)}
+            onSelectItem={handleItemSelect}
+          />
         </div>
       )}
 
-      <div className="components-help">
-        <h5>About Spell Components</h5>
-        <p>
-          Spell components are the physical requirements needed to cast a spell.
-          They can be bypassed with certain class features or magic items.
-        </p>
-        <ul>
-          <li><strong>Verbal (V):</strong> The caster must be able to speak to cast the spell. Silenced casters cannot use verbal components.</li>
-          <li><strong>Somatic (S):</strong> The caster must have at least one hand free to perform gestures. Bound or restrained casters may not be able to use somatic components.</li>
-          <li><strong>Material (M):</strong> The spell requires specific physical materials that are consumed when the spell is cast. A component pouch or spellcasting focus can substitute for materials that don't have a specific cost.</li>
-        </ul>
-      </div>
+
     </div>
   );
 };
+
+
 
 export default SpellComponentsSelector;

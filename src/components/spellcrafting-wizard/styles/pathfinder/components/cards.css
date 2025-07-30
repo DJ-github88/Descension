@@ -1,0 +1,3796 @@
+/* ===== PATHFINDER SPELLBOOK - SPELL CARDS ===== */
+/* All spell card variants with Pathfinder theming */
+
+/* ===== ENHANCED BASE SPELL CARD ===== */
+
+.pf-spell-card,
+.wow-spell-card {
+  background: var(--pf-gradient-parchment);
+  border: none;
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow:
+    var(--pf-shadow-parchment),
+    0 2px 8px rgba(45, 24, 16, 0.15);
+  overflow: hidden;
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  position: relative;
+  width: 100% !important;
+  max-width: 580px !important;
+  min-width: 520px !important;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--pf-font-body);
+  margin: 0 auto;
+}
+
+/* Enhanced hover effects */
+.pf-spell-card:hover .pf-action-type-badge,
+.pf-spell-card:hover .pf-targeting-badge,
+.pf-spell-card:hover .pf-propagation-badge,
+.pf-spell-card:hover .pf-range-badge,
+.pf-spell-card:hover .pf-damage-type-badge,
+.pf-spell-card:hover .pf-resource-cost,
+.wow-spell-card:hover .pf-action-type-badge,
+.wow-spell-card:hover .pf-targeting-badge,
+.wow-spell-card:hover .pf-propagation-badge,
+.wow-spell-card:hover .pf-range-badge,
+.wow-spell-card:hover .pf-damage-type-badge,
+.wow-spell-card:hover .pf-resource-cost {
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .pf-spell-card,
+  .wow-spell-card {
+    min-width: 300px !important;
+    max-width: 100% !important;
+  }
+
+  .pf-spell-header-details,
+  .wow-spell-card-details {
+    gap: var(--pf-space-1);
+  }
+
+  .pf-action-type-badge,
+  .pf-targeting-badge,
+  .pf-propagation-badge,
+  .pf-range-badge,
+  .pf-damage-type-badge,
+  .pf-resource-cost {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+}
+
+.pf-spell-card::before,
+.wow-spell-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(139, 69, 19, 0.015) 6px,
+      rgba(139, 69, 19, 0.015) 12px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(139, 69, 19, 0.01) 8px,
+      rgba(139, 69, 19, 0.01) 16px
+    );
+  pointer-events: none;
+  border-radius: var(--pf-border-radius-lg);
+  z-index: 1;
+}
+
+.pf-spell-card > *,
+.wow-spell-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.spell-card-gloss {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spell-card-content {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.pf-spell-card:hover,
+.wow-spell-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    var(--pf-shadow-xl),
+    0 8px 24px rgba(45, 24, 16, 0.2),
+    0 0 0 1px rgba(212, 175, 55, 0.1);
+  border-color: var(--pf-brown-dark);
+}
+
+.pf-spell-card.selected,
+.wow-spell-card.selected {
+  border-color: var(--pf-gold);
+  box-shadow:
+    var(--pf-shadow-xl),
+    0 8px 24px rgba(45, 24, 16, 0.2),
+    0 0 20px rgba(212, 175, 55, 0.4),
+    0 0 0 2px rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ===== RARITY VARIANTS ===== */
+
+.pf-spell-card.common {
+  border-color: var(--pf-common);
+}
+
+.pf-spell-card.uncommon {
+  border-color: var(--pf-uncommon);
+}
+
+.pf-spell-card.rare {
+  border-color: var(--pf-rare);
+}
+
+.pf-spell-card.epic {
+  border-color: var(--pf-epic);
+}
+
+.pf-spell-card.legendary {
+  border-color: var(--pf-legendary);
+  box-shadow: 
+    var(--pf-shadow-parchment),
+    0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.pf-spell-card.artifact {
+  border-color: var(--pf-artifact);
+  box-shadow: 
+    var(--pf-shadow-parchment),
+    0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+/* ===== ENHANCED CARD HEADER ===== */
+
+/* Enhanced Card Header - More specific selectors to prevent global interference */
+.unified-spell-card .pf-spell-card-header,
+.unified-spell-card .wow-spell-card-header,
+.unified-spell-card .spell-card-header,
+.pf-spell-card .pf-spell-card-header,
+.pf-spell-card .wow-spell-card-header,
+.pf-spell-card .spell-card-header,
+.wow-spell-card .pf-spell-card-header,
+.wow-spell-card .wow-spell-card-header,
+.wow-spell-card .spell-card-header {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  position: relative !important;
+  gap: var(--pf-space-2, 8px) !important;
+  width: 100% !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 3px rgba(45, 24, 16, 0.2) !important;
+}
+
+/* Header Top Row - Icon, Name, and Resource Cost */
+.pf-spell-header-main,
+.wow-spell-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  width: 100%;
+}
+
+/* Header Bottom Row - Action Type, Targeting, Range, Damage Types */
+.pf-spell-header-details,
+.wow-spell-card-details {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: var(--pf-space-1);
+}
+
+.pf-spell-header-top {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  margin-bottom: 0;
+  flex: 1;
+  width: 100%;
+}
+
+.pf-spell-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* Removed the ::after pseudo-element that was creating backdrop shadows */
+
+/* Ensure buff/debuff text in headers has good contrast */
+.unified-spell-card-header .buff-label,
+.unified-spell-card-header .debuff-label,
+.spell-card-header .buff-label,
+.spell-card-header .debuff-label {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+  font-weight: 700 !important;
+}
+
+.unified-spell-card-header .buff-duration,
+.unified-spell-card-header .debuff-duration,
+.spell-card-header .buff-duration,
+.spell-card-header .debuff-duration {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+  color: #ffffff !important;
+}
+
+/* ===== ENHANCED SPELL HEADER LAYOUT ===== */
+
+.pf-spell-header-top,
+.wow-spell-card-title {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--pf-space-4);
+}
+
+/* ===== ENHANCED SPELL ICON ===== */
+
+.pf-spell-icon-container,
+.wow-spell-card-icon,
+.spell-icon-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Scope spell-icon to spell cards only, not action bar */
+.pf-spell-icon,
+.wow-spell-card-icon img,
+.pf-spell-card .spell-icon,
+.wow-spell-card .spell-icon,
+.spellbook-layout .spell-icon {
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  overflow: hidden;
+  box-shadow:
+    var(--pf-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  object-fit: cover;
+  background: var(--pf-gradient-parchment);
+  transition: all var(--pf-transition-normal);
+}
+
+.pf-spell-card:hover .pf-spell-icon,
+.wow-spell-card:hover .wow-spell-card-icon img,
+.spell-card-wrapper:hover .spell-icon {
+  border-color: var(--pf-gold);
+  box-shadow:
+    var(--pf-shadow-lg),
+    0 0 12px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.pf-spell-type-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 8px;
+  font-weight: bold;
+  box-shadow: var(--pf-shadow-sm);
+  border: 1px solid;
+  z-index: 10;
+}
+
+.pf-spell-type-badge.trap {
+  background-color: var(--pf-red-dark);
+  border-color: var(--pf-red);
+  color: var(--pf-red-light);
+}
+
+.pf-spell-type-badge.action {
+  background-color: var(--pf-brown-dark);
+  border-color: var(--pf-brown-medium);
+  color: var(--pf-parchment-light);
+}
+
+/* ===== ENHANCED SPELL INFO ===== */
+
+.pf-spell-info,
+.wow-spell-card-name,
+.spell-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pf-spell-name,
+.wow-spell-card-name h3,
+.spell-name {
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-bold);
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pf-spell-meta,
+.wow-spell-card-meta,
+.spell-meta {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-medium);
+  margin-top: var(--pf-space-1);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pf-spell-meta-basic {
+  display: flex;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.pf-spell-meta-tag {
+  color: var(--pf-text-primary);
+  background: var(--pf-gradient-button);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-size: var(--pf-text-xs);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  font-weight: var(--pf-font-semibold);
+  box-shadow: var(--pf-shadow-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.pf-spell-meta-tag:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.pf-spell-meta-targeting {
+  display: flex;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap;
+  align-items: center;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-medium);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pf-spell-meta-targeting .pf-spell-meta-tag {
+  background: rgba(139, 69, 19, 0.4);
+  border-color: var(--pf-brown-medium);
+}
+
+/* ===== ACTION TYPE BADGES ===== */
+
+.pf-action-type-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  white-space: nowrap;
+  flex-direction: row;
+  flex-shrink: 0; /* Don't shrink action type badge */
+}
+
+.pf-action-type-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  width: auto;
+}
+
+.pf-action-type-name {
+  display: inline-block;
+}
+
+.pf-type-details {
+  display: none; /* Hide bullet points from action type badge */
+}
+
+.pf-type-detail {
+  font-size: 9px;
+  font-weight: var(--pf-font-normal);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.pf-action-type-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* Action Type Colors */
+.pf-action-type-badge.action {
+  background: transparent;
+  border-color: transparent;
+  color: #fca5a5;
+}
+
+.pf-action-type-badge.action .pf-action-type-icon::before {
+  content: "";
+}
+
+.pf-action-type-badge.instant {
+  background: transparent;
+  border-color: transparent;
+  color: #fde047;
+}
+
+.pf-action-type-badge.instant .pf-action-type-icon::before {
+  content: "";
+}
+
+.pf-action-type-badge.channeled {
+  background: transparent;
+  border-color: transparent;
+  color: #d8b4fe;
+}
+
+.pf-action-type-badge.channeled .pf-action-type-icon::before {
+  content: "";
+}
+
+.pf-action-type-badge.passive {
+  background: transparent;
+  border-color: transparent;
+  color: #86efac;
+}
+
+.pf-action-type-badge.passive .pf-action-type-icon::before {
+  content: "";
+}
+
+.pf-action-type-badge.reaction {
+  background: transparent;
+  border-color: transparent;
+  color: #93c5fd;
+}
+
+.pf-action-type-badge.reaction .pf-action-type-icon::before {
+  content: "";
+}
+
+/* ===== TARGETING BADGES ===== */
+
+.pf-targeting-badge {
+  display: flex;
+  align-items: center;
+  gap: 0; /* Remove gap since we removed the icon */
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  border: 1px solid rgba(139, 69, 19, 0.6);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.2), rgba(139, 69, 19, 0.1));
+  color: #d2b48c;
+  box-shadow: var(--pf-shadow-sm);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  min-width: fit-content;
+  max-width: 250px;
+  flex-shrink: 1;
+}
+
+.pf-targeting-badge span {
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.pf-targeting-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.pf-targeting-badge.single .pf-targeting-icon::before {
+  content: "";
+}
+
+.pf-targeting-badge.area .pf-targeting-icon::before {
+  content: "";
+}
+
+.pf-targeting-badge.multi .pf-targeting-icon::before {
+  content: "";
+}
+
+.pf-targeting-badge.self .pf-targeting-icon::before {
+  content: "";
+}
+
+/* ===== PROPAGATION BADGES ===== */
+
+.pf-propagation-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  border: 1px solid rgba(212, 175, 55, 0.6);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+  color: #f4d03f;
+  box-shadow: var(--pf-shadow-sm);
+  white-space: nowrap;
+  flex-shrink: 1;
+  transition: all var(--pf-transition-fast);
+  max-width: 250px;
+}
+
+.pf-propagation-badge span {
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.pf-propagation-badge:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.2));
+  border-color: rgba(212, 175, 55, 0.8);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.pf-propagation-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.pf-propagation-badge .pf-propagation-icon::before {
+  content: "";
+  color: #f4d03f;
+}
+
+/* ===== RANGE BADGES ===== */
+
+.pf-range-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  border: none;
+  background: transparent;
+  color: #d1d5db;
+  box-shadow: none;
+  white-space: nowrap;
+  flex-shrink: 0; /* Don't shrink range badge */
+}
+
+.pf-range-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.pf-range-badge .pf-range-icon::before {
+  content: "";
+}
+
+.pf-spell-meta span,
+.wow-spell-card-meta span,
+.spell-meta span {
+  white-space: nowrap;
+  font-weight: var(--pf-font-semibold);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: rgba(139, 69, 19, 0.8);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid rgba(139, 69, 19, 0.6);
+  font-size: var(--pf-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #f5f5dc;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.spell-cast-time,
+.spell-header-range {
+  color: var(--pf-parchment);
+  font-weight: var(--pf-font-medium);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* ===== ENHANCED DAMAGE TYPES ===== */
+
+.pf-damage-types {
+  display: flex;
+  gap: var(--pf-space-1);
+  flex-wrap: wrap; /* Allow damage types to wrap */
+  align-items: center;
+  flex-shrink: 1; /* Allow shrinking if needed */
+  max-width: 100%; /* Prevent overflow */
+}
+
+.pf-damage-type-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  text-transform: capitalize;
+  white-space: nowrap;
+  flex-shrink: 0; /* Don't shrink damage type badges */
+  transition: all var(--pf-transition-fast);
+}
+
+.pf-damage-type-icon {
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.pf-damage-type-text {
+  display: flex;
+  align-items: center;
+  font-weight: var(--pf-font-semibold);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== DAMAGE TYPE COLORS ===== */
+
+/* Fire */
+.pf-damage-type-badge.fire {
+  background: transparent;
+  border-color: transparent;
+  color: #fca5a5;
+}
+
+.pf-damage-type-badge.fire .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Ice/Cold */
+.pf-damage-type-badge.ice,
+.pf-damage-type-badge.cold,
+.pf-damage-type-badge.frost {
+  background: transparent;
+  border-color: transparent;
+  color: #93c5fd;
+}
+
+.pf-damage-type-badge.ice .pf-damage-type-icon::before,
+.pf-damage-type-badge.cold .pf-damage-type-icon::before,
+.pf-damage-type-badge.frost .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Lightning/Thunder */
+.pf-damage-type-badge.lightning,
+.pf-damage-type-badge.thunder,
+.pf-damage-type-badge.electric {
+  background: transparent;
+  border-color: transparent;
+  color: #fde047;
+}
+
+.pf-damage-type-badge.lightning .pf-damage-type-icon::before,
+.pf-damage-type-badge.thunder .pf-damage-type-icon::before,
+.pf-damage-type-badge.electric .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Poison */
+.pf-damage-type-badge.poison {
+  background: transparent;
+  border-color: transparent;
+  color: #86efac;
+}
+
+.pf-damage-type-badge.poison .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Acid */
+.pf-damage-type-badge.acid {
+  background: transparent;
+  border-color: transparent;
+  color: #4ade80;
+}
+
+.pf-damage-type-badge.acid .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Necrotic */
+.pf-damage-type-badge.necrotic,
+.pf-damage-type-badge.shadow {
+  background: transparent;
+  border-color: transparent;
+  color: #c4b5fd;
+}
+
+.pf-damage-type-badge.necrotic .pf-damage-type-icon::before,
+.pf-damage-type-badge.shadow .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Radiant/Holy */
+.pf-damage-type-badge.radiant,
+.pf-damage-type-badge.holy {
+  background: transparent;
+  border-color: transparent;
+  color: #fde68a;
+}
+
+.pf-damage-type-badge.radiant .pf-damage-type-icon::before,
+.pf-damage-type-badge.holy .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Arcane/Force */
+.pf-damage-type-badge.arcane,
+.pf-damage-type-badge.force {
+  background: transparent;
+  border-color: transparent;
+  color: #d8b4fe;
+}
+
+.pf-damage-type-badge.arcane .pf-damage-type-icon::before,
+.pf-damage-type-badge.force .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Physical */
+.pf-damage-type-badge.physical,
+.pf-damage-type-badge.slashing,
+.pf-damage-type-badge.piercing,
+.pf-damage-type-badge.bludgeoning {
+  background: transparent;
+  border-color: transparent;
+  color: #d1d5db;
+}
+
+.pf-damage-type-badge.physical .pf-damage-type-icon::before,
+.pf-damage-type-badge.slashing .pf-damage-type-icon::before,
+.pf-damage-type-badge.piercing .pf-damage-type-icon::before,
+.pf-damage-type-badge.bludgeoning .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Nature */
+.pf-damage-type-badge.nature {
+  background: transparent;
+  border-color: transparent;
+  color: #22c55e;
+}
+
+.pf-damage-type-badge.nature .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Void */
+.pf-damage-type-badge.void {
+  background: transparent;
+  border-color: transparent;
+  color: #6b21a8;
+}
+
+.pf-damage-type-badge.void .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Psychic */
+.pf-damage-type-badge.psychic {
+  background: transparent;
+  border-color: transparent;
+  color: #ec4899;
+}
+
+.pf-damage-type-badge.psychic .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* More types indicator */
+.pf-damage-type-badge.more-types {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: var(--pf-text-secondary) !important;
+  font-style: italic;
+}
+
+.pf-damage-type-badge.more-types:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* ===== TRIGGER BADGES ===== */
+
+.pf-trigger-badge {
+  display: flex;
+  align-items: center;
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  gap: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
+  transition: all var(--pf-transition-normal);
+  margin-left: var(--pf-space-2);
+}
+
+.pf-trigger-badge:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.pf-trigger-icon {
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, var(--pf-gold-light) 0%, var(--pf-gold-medium) 100%);
+  border-radius: 50%;
+  border: 1px solid var(--pf-gold-dark);
+  flex-shrink: 0;
+}
+
+.pf-trigger-text {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--pf-font-ui);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+/* ===== COMPACT TRIGGERS DISPLAY ===== */
+
+.global-triggers-compact {
+  background: rgba(218, 165, 32, 0.1);
+  border: 1px solid var(--pf-gold-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  margin-bottom: var(--pf-space-3);
+}
+
+.trigger-compact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-1);
+}
+
+.trigger-compact-modes {
+  display: flex;
+  gap: var(--pf-space-2);
+  align-items: center;
+}
+
+.trigger-compact-label {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-gold-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: var(--pf-font-ui);
+}
+
+.trigger-compact-mode {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  font-family: var(--pf-font-ui);
+  background: rgba(218, 165, 32, 0.2);
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+}
+
+.trigger-compact-logic {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-gold-dark);
+  font-family: var(--pf-font-ui);
+  background: rgba(218, 165, 32, 0.3);
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  border: 1px solid var(--pf-gold-medium);
+}
+
+.trigger-compact-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+  align-items: center;
+}
+
+.trigger-compact-condition {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-weight: var(--pf-font-medium);
+}
+
+.trigger-logic {
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-medium);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  margin: 0;
+}
+
+/* ===== ENHANCED RESOURCE SYSTEM ===== */
+
+.pf-spell-resources {
+  display: flex;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.pf-resource-cost {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: 2px var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  border: none;
+  box-shadow: none;
+  transition: all var(--pf-transition-normal);
+  background: transparent;
+  white-space: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.pf-resource-cost:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Resource icon styling - remove backgrounds and make white */
+.pf-resource-cost .pf-resource-icon {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  font-size: 12px;
+}
+
+/* Resource amount styling - make white */
+.pf-resource-cost .pf-resource-amount {
+  color: #ffffff !important;
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+}
+
+/* Resource name styling - make white */
+.pf-resource-cost .pf-resource-name {
+  color: #ffffff !important;
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-medium);
+  opacity: 0.9;
+}
+
+.pf-resource-icon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.pf-resource-amount {
+  font-weight: var(--pf-font-bold);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== RESOURCE TYPE STYLING ===== */
+
+/* Action Points */
+.pf-resource-cost.action-points {
+  background: transparent;
+  border-color: transparent;
+  color: var(--pf-gold);
+}
+
+.pf-resource-cost.action-points .pf-resource-icon::before {
+  content: "";
+}
+
+/* Mana */
+.pf-resource-cost.mana {
+  background: transparent;
+  border-color: transparent;
+  color: var(--pf-arcane);
+}
+
+.pf-resource-cost.mana .pf-resource-icon::before {
+  content: "";
+}
+
+/* Rage */
+.pf-resource-cost.rage {
+  background: transparent;
+  border-color: transparent;
+  color: var(--pf-fire);
+}
+
+.pf-resource-cost.rage .pf-resource-icon::before {
+  content: "";
+}
+
+/* Energy */
+.pf-resource-cost.energy {
+  background: transparent;
+  border-color: transparent;
+  color: var(--pf-gold);
+}
+
+.pf-resource-cost.energy .pf-resource-icon::before {
+  content: "";
+}
+
+/* Health */
+.pf-resource-cost.health {
+  background: transparent;
+  border-color: transparent;
+  color: var(--pf-fire);
+}
+
+.pf-resource-cost.health .pf-resource-icon::before {
+  content: "";
+}
+
+/* Fortune */
+.pf-resource-cost.fortune {
+  background: transparent;
+  border-color: transparent;
+  color: #fbbf24;
+}
+
+.pf-resource-cost.fortune .pf-resource-icon::before {
+  content: "";
+}
+
+/* Soul Shards */
+.pf-resource-cost.soul-shards {
+  background: transparent;
+  border-color: transparent;
+  color: #a78bfa;
+}
+
+.pf-resource-cost.soul-shards .pf-resource-icon::before {
+  content: "";
+}
+
+/* Focus */
+.pf-resource-cost.focus {
+  background: transparent;
+  border-color: transparent;
+  color: #34d399;
+}
+
+.pf-resource-cost.focus .pf-resource-icon::before {
+  content: "";
+}
+
+/* Stamina */
+.pf-resource-cost.stamina {
+  background: transparent;
+  border-color: transparent;
+  color: #fbbf24;
+}
+
+.pf-resource-cost.stamina .pf-resource-icon::before {
+  content: "";
+}
+
+.pf-spell-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pf-spell-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ===== SPELL INFO ===== */
+
+.pf-spell-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pf-spell-type {
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== HEADER RESOURCE COST ===== */
+
+.pf-spell-cost {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.pf-mana-cost,
+.pf-spell-cost .pf-resource-cost {
+  /* Resource costs in header use the enhanced styling from above */
+  display: flex;
+  align-items: center;
+}
+
+/* ===== CARD TAGS ===== */
+
+.pf-spell-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: rgba(139, 69, 19, 0.05);
+  border-bottom: 1px solid var(--pf-brown-light);
+}
+
+.pf-spell-tag {
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  font-weight: var(--pf-font-semibold);
+}
+
+/* Element-specific tag colors */
+.pf-spell-tag.fire { border-color: var(--pf-fire); color: var(--pf-fire); }
+.pf-spell-tag.frost { border-color: var(--pf-frost); color: var(--pf-frost); }
+.pf-spell-tag.nature { border-color: var(--pf-nature); color: var(--pf-nature); }
+.pf-spell-tag.arcane { border-color: var(--pf-arcane); color: var(--pf-arcane); }
+.pf-spell-tag.holy { border-color: var(--pf-holy); color: var(--pf-holy); }
+.pf-spell-tag.shadow { border-color: var(--pf-shadow); color: var(--pf-shadow); }
+
+/* ===== ENHANCED CARD BODY ===== */
+
+.pf-spell-card-body,
+.wow-spell-card-body,
+.spell-body {
+  flex: 1;
+  padding: var(--pf-space-3);
+  display: flex;
+  flex-direction: column;
+  background: var(--pf-gradient-parchment);
+  gap: var(--pf-space-1); /* Reduced gap for tighter spacing */
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+/* Enhanced scroll bar styling for spell cards */
+.pf-spell-card-body::-webkit-scrollbar,
+.wow-spell-card-body::-webkit-scrollbar,
+.spell-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pf-spell-card-body::-webkit-scrollbar-track,
+.wow-spell-card-body::-webkit-scrollbar-track,
+.spell-body::-webkit-scrollbar-track {
+  background: rgba(139, 69, 19, 0.1);
+  border-radius: var(--pf-border-radius);
+}
+
+.pf-spell-card-body::-webkit-scrollbar-thumb,
+.wow-spell-card-body::-webkit-scrollbar-thumb,
+.spell-body::-webkit-scrollbar-thumb {
+  background: var(--pf-gradient-button);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-medium);
+}
+
+.pf-spell-card-body::-webkit-scrollbar-thumb:hover,
+.wow-spell-card-body::-webkit-scrollbar-thumb:hover,
+.spell-body::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-gradient-button-hover);
+}
+
+.pf-spell-description,
+.wow-spell-card-description,
+.spell-description {
+  font-family: 'Times New Roman', serif;
+  font-size: 14px;
+  color: #9d9d9d;
+  line-height: 1.4;
+  margin: 10px 0;
+  padding: 8px 0;
+  font-style: italic;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== SPELL EFFECTS SECTIONS ===== */
+
+.spell-effects-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.spell-effects-section h4 {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-brown-dark);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-1);
+}
+
+.spell-effect-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  font-size: var(--pf-text-sm);
+}
+
+.spell-effect-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.spell-effect-text {
+  flex: 1;
+  font-weight: var(--pf-font-medium);
+  color: var(--pf-text-primary);
+}
+
+/* ===== SPELL STATS ===== */
+
+.pf-spell-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+  padding-top: var(--pf-space-3);
+}
+
+.pf-spell-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+}
+
+.pf-spell-stat-label {
+  color: var(--pf-text-muted);
+  font-weight: var(--pf-font-semibold);
+}
+
+.pf-spell-stat-value {
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-semibold);
+}
+
+/* Damage/Healing specific styling */
+.pf-spell-stat-value.damage {
+  color: var(--pf-fire);
+}
+
+.pf-spell-stat-value.healing {
+  color: var(--pf-nature);
+}
+
+.pf-spell-stat-value.buff {
+  color: var(--pf-holy);
+}
+
+.pf-spell-stat-value.debuff {
+  color: var(--pf-shadow);
+}
+
+/* ===== CARD FOOTER ===== */
+
+.pf-spell-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+}
+
+.pf-spell-range {
+  font-weight: var(--pf-font-semibold);
+}
+
+.pf-spell-duration {
+  font-weight: var(--pf-font-semibold);
+}
+
+/* ===== COMPACT CARD VARIANT ===== */
+
+.pf-spell-card.compact {
+  width: 240px;
+  min-height: 320px;
+}
+
+.pf-spell-card.compact .pf-spell-card-header {
+  padding: var(--pf-space-3);
+}
+
+.pf-spell-card.compact .pf-spell-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.pf-spell-card.compact .pf-spell-name {
+  font-size: var(--pf-text-base);
+}
+
+.pf-spell-card.compact .pf-spell-card-body {
+  padding: var(--pf-space-3);
+}
+
+/* ===== LARGE CARD VARIANT ===== */
+
+.pf-spell-card.large {
+  width: 320px;
+  min-height: 420px;
+}
+
+.pf-spell-card.large .pf-spell-card-header {
+  padding: var(--pf-space-5);
+}
+
+.pf-spell-card.large .pf-spell-icon {
+  width: 56px;
+  height: 56px;
+}
+
+.pf-spell-card.large .pf-spell-name {
+  font-size: var(--pf-text-xl);
+}
+
+.pf-spell-card.large .pf-spell-card-body {
+  padding: var(--pf-space-5);
+}
+
+/* ===== LIBRARY STYLE CARD ===== */
+
+.pf-library-spell-card {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  position: relative;
+}
+
+.pf-library-spell-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(139, 69, 19, 0.01) 4px,
+      rgba(139, 69, 19, 0.01) 8px
+    );
+  pointer-events: none;
+  border-radius: var(--pf-border-radius);
+  z-index: 1;
+}
+
+.pf-library-spell-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.pf-library-spell-card:hover {
+  border-color: var(--pf-brown-dark);
+  box-shadow: var(--pf-shadow-md);
+  transform: translateY(-1px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .pf-spell-card {
+    width: 100%;
+    min-height: auto;
+  }
+  
+  .pf-spell-card.compact,
+  .pf-spell-card.large {
+    width: 100%;
+  }
+  
+  .pf-spell-card-header {
+    padding: var(--pf-space-3);
+  }
+  
+  .pf-spell-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .pf-spell-name {
+    font-size: var(--pf-text-base);
+  }
+  
+  .pf-spell-card-body {
+    padding: var(--pf-space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-spell-card-header {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--pf-space-2);
+  }
+  
+  .pf-spell-icon {
+    margin-right: 0;
+    margin-bottom: var(--pf-space-2);
+  }
+  
+  .pf-spell-meta {
+    justify-content: center;
+  }
+}
+
+/* ===== UNIFIED SPELL CARD STYLING ===== */
+
+.unified-spell-card {
+  background: var(--pf-gradient-parchment);
+  border: none;
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow:
+    var(--pf-shadow-parchment),
+    0 2px 8px rgba(45, 24, 16, 0.15);
+  overflow: hidden;
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--pf-font-body);
+  margin: 0 auto;
+}
+
+/* ===== ROLLABLE TABLE INTEGRATION ===== */
+
+.unified-spell-rollable-table {
+  margin: var(--pf-space-3) var(--pf-space-4);
+  border-top: var(--pf-border-width) solid var(--pf-brown-light);
+  padding-top: var(--pf-space-3);
+}
+
+.unified-spell-rollable-table .spell-card-rollable-table {
+  margin: 0;
+}
+
+/* Adjust rollable table styling for spell cards */
+.unified-spell-rollable-table .rollable-table-summary.compact {
+  background: var(--pf-gradient-parchment);
+  border-color: var(--pf-brown-light);
+  font-size: var(--pf-text-xs);
+}
+
+.unified-spell-rollable-table .rollable-table-summary.detailed {
+  background: var(--pf-gradient-parchment);
+  border-color: var(--pf-brown-medium);
+}
+
+/* Inline rollable table display for compact cards */
+.rollable-table-inline-display {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  font-size: var(--pf-text-xs);
+  line-height: 1.3;
+}
+
+.rollable-table-inline-label {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  white-space: nowrap;
+}
+
+.rollable-table-inline-text {
+  color: var(--pf-text-secondary);
+  font-family: var(--pf-font-body);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Variant-specific sizing */
+.unified-spell-card.spellbook {
+  max-width: 580px;
+  min-width: 520px;
+  min-height: 320px;
+  /* Allow content to stretch vertically as needed */
+}
+
+.unified-spell-card.library,
+.unified-spell-card.collection,
+.unified-spell-card.wizard {
+  max-width: 520px;
+  min-width: 450px;
+  min-height: 280px;
+  /* Remove max-height to allow content to stretch */
+}
+
+.unified-spell-card.compact {
+  max-width: 200px;
+  min-width: 150px;
+  min-height: 80px;
+  padding: var(--pf-space-2);
+}
+
+.unified-spell-card.preview {
+  width: 100%;
+  max-width: 480px;
+  min-width: 450px;
+  min-height: 320px;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+}
+
+/* Card Header - Highly specific to prevent interference */
+.unified-spell-card .unified-spell-card-header {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  position: relative !important;
+  gap: var(--pf-space-2, 8px) !important;
+  width: 100% !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 3px rgba(45, 24, 16, 0.2) !important;
+}
+
+/* Override any global interference from creature windows or other components */
+.spellbook-layout .unified-spell-card .unified-spell-card-header,
+.creature-window .unified-spell-card .unified-spell-card-header,
+.spellbook-tab-headers ~ * .unified-spell-card .unified-spell-card-header,
+body .unified-spell-card .unified-spell-card-header {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+  position: relative !important;
+  gap: var(--pf-space-2, 8px) !important;
+  width: 100% !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 1px 3px rgba(45, 24, 16, 0.2) !important;
+  color: var(--pf-text-primary, #2d1810) !important;
+}
+
+/* Protect spell card headers from spellbook tab styling interference */
+.spellbook-tab-headers + * .unified-spell-card-header,
+.spellbook-tab + * .unified-spell-card-header,
+.creature-window-header + * .unified-spell-card-header {
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  color: var(--pf-text-primary, #2d1810) !important;
+}
+
+/* Ensure spell card headers maintain their styling regardless of parent context */
+[class*="spellbook"] .unified-spell-card-header,
+[class*="creature"] .unified-spell-card-header,
+[class*="tab"] .unified-spell-card-header {
+  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  color: var(--pf-text-primary, #2d1810) !important;
+  border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
+}
+
+/* Compact header for smaller variants */
+.unified-spell-card.compact .unified-spell-card-header,
+.unified-spell-card.preview .unified-spell-card-header {
+  padding: var(--pf-space-2);
+  gap: var(--pf-space-1);
+}
+
+/* Header Main Row */
+.unified-spell-header-main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pf-space-3);
+  width: 100%;
+  position: relative;
+}
+
+/* Right side container for damage types and resource costs */
+.unified-spell-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--pf-space-1);
+  margin-left: auto;
+  flex-shrink: 0;
+  max-width: 320px; /* Allow more space for the combined box */
+}
+
+/* Combined damage types and spell components box */
+.pf-damage-spell-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align to left side of the box */
+  gap: var(--pf-space-1);
+  max-width: 280px;
+  min-width: 200px;
+}
+
+/* Damage types in header - spread out more to left and right */
+.pf-damage-types-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-3); /* Increased gap to spread them out more */
+  justify-content: flex-start; /* Start from left side of the box */
+  align-items: center;
+  width: 100%; /* Take full width of the box */
+}
+
+/* Spell components in header - positioned beneath leftmost damage type as vertical list */
+.unified-spell-components-header {
+  display: flex;
+  flex-direction: column; /* Stack components vertically like bullets */
+  align-items: flex-start; /* Align to left edge beneath Cold damage type */
+  gap: 2px; /* Small gap between each component line */
+  max-width: 120px; /* Constrain width to stay beneath leftmost damage type */
+  margin-left: 0; /* Start at the left edge of the box */
+}
+
+/* Style spell components in header to match the design */
+.unified-spell-components-header .pf-spell-components {
+  display: flex;
+  flex-direction: column; /* Stack each component vertically */
+  align-items: flex-start; /* Align to left like bullet points */
+  gap: 2px; /* Small gap between each component */
+  width: 100%;
+}
+
+/* Individual component row - icon and text side by side */
+.unified-spell-components-header .pf-component-row {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Small gap between icon and text */
+  width: 100%;
+}
+
+.unified-spell-components-header .pf-component {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; /* Small icon size */
+  height: 16px; /* Small icon size */
+  background: none;
+  border: none;
+  border-radius: 0;
+  font-size: 0; /* Hide any text content like V, S, M */
+  box-shadow: none;
+  cursor: help;
+  transition: all var(--pf-transition-normal);
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0; /* Don't shrink the icon */
+}
+
+/* Ensure FontAwesome icons are visible and properly styled */
+.unified-spell-components-header .pf-component svg {
+  font-size: 14px !important; /* Size for the FontAwesome icon */
+  color: #ffffff !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.unified-spell-components-header .pf-component:hover {
+  transform: scale(1.1);
+  box-shadow: none;
+}
+
+/* Component custom text in header - appears next to each icon */
+.unified-spell-components-header .component-custom-text {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px; /* Constrain to stay in designated area */
+  flex: 1; /* Take remaining space in the row */
+}
+
+.unified-spell-components-header .component-custom-text strong {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+/* Icon Container */
+.unified-spell-icon-container {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.unified-spell-card.compact .unified-spell-icon-container,
+.unified-spell-card.preview .unified-spell-icon-container {
+  width: 32px;
+  height: 32px;
+}
+
+.unified-spell-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--pf-border-radius);
+  border: 2px solid var(--pf-brown-medium);
+  object-fit: cover;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* Spell Type Badge (for spellbook variant) */
+.spell-type-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-secondary);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+  font-family: var(--pf-font-ui);
+  letter-spacing: 0.5px;
+}
+
+/* Spell Info */
+.unified-spell-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.unified-spell-name {
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-bold);
+  margin: 0 0 var(--pf-space-1) 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  line-height: 1.1;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  -webkit-font-smoothing: antialiased;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unified-spell-card.compact .unified-spell-name,
+.unified-spell-card.preview .unified-spell-name {
+  font-size: var(--pf-text-sm);
+}
+
+.unified-spell-meta {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-medium);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.unified-spell-card.compact .unified-spell-meta {
+  gap: var(--pf-space-1);
+  font-size: 10px;
+}
+
+/* Wizard variant meta - resource costs and spell components on same line */
+.unified-spell-wizard-meta {
+  display: flex;
+  flex-direction: row;
+  gap: var(--pf-space-2);
+  align-items: center;
+  justify-content: space-between; /* Spread resource costs and components apart */
+  margin-top: 0;
+  margin-bottom: var(--pf-space-1);
+  flex-wrap: nowrap;
+  min-height: 20px;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Resource costs display for wizard variant - compact */
+.unified-spell-resource-costs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.unified-spell-resource-costs .pf-spell-resources {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: nowrap;
+}
+
+.unified-spell-resource-costs {
+  margin-top: 0;
+}
+
+.unified-spell-resource-costs .pf-resource-cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  min-width: auto;
+  justify-content: flex-start;
+  line-height: 1;
+  margin-right: var(--pf-space-2);
+}
+
+.unified-spell-resource-costs .pf-resource-icon {
+  font-size: 12px;
+  margin-right: 2px;
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-amount {
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1;
+  margin-right: 2px;
+}
+
+/* Formula resources styling */
+.unified-spell-resource-costs .pf-resource-cost.formula .pf-resource-amount {
+  font-style: italic;
+  color: var(--pf-text-secondary);
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+}
+
+/* Material Components Text */
+.unified-spell-material-text {
+  margin-top: var(--pf-space-1);
+  width: 100%;
+  max-width: 85%;
+}
+
+.unified-spell-material-text .pf-spell-material-components {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.unified-spell-material-text .material-label {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+}
+
+.unified-spell-material-text .material-list {
+  color: var(--pf-text-muted);
+}
+
+/* Resource type specific colors - override to white */
+.unified-spell-resource-costs .pf-resource-cost.actionpoints,
+.unified-spell-resource-costs .pf-resource-cost.action-points,
+.unified-spell-resource-costs .pf-resource-cost.action_points {
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-cost.mana {
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-cost.rage {
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-cost.energy {
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-cost.focus {
+  color: #ffffff !important;
+}
+
+/* Ensure resource names are also white and same shade as numbers */
+.unified-spell-resource-costs .pf-resource-name {
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+}
+
+/* ===== IMPROVED SPELL CARD LAYOUT ===== */
+
+/* Auto-sizing description for spell cards */
+.unified-spell-card .item-description {
+  margin: 6px 0 4px 0; /* Minimal margins for auto-sizing */
+  padding: 6px 8px; /* Reduced padding */
+  font-family: 'Times New Roman', serif;
+  font-size: var(--pf-text-sm);
+  line-height: 1.4;
+  color: var(--pf-text-primary);
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  width: auto; /* Allow natural width */
+  max-width: 100%;
+  min-height: auto; /* Allow natural height */
+  max-height: none; /* No height restrictions */
+  overflow: visible; /* Ensure content is visible */
+  word-wrap: break-word; /* Handle long words */
+  hyphens: auto; /* Better text wrapping */
+}
+
+/* Hide description completely when empty */
+.unified-spell-card .item-description:empty {
+  display: none;
+}
+
+/* Minimal spacing for non-empty descriptions */
+.unified-spell-card .item-description:not(:empty) {
+  margin-bottom: 4px;
+}
+
+/* Triggers section - position at top with minimal spacing */
+.triggers-section {
+  order: -1; /* Move to top */
+  margin: 0 0 var(--pf-space-2) 0;
+  padding: 0;
+}
+
+/* Compact triggers display */
+.pf-spell-triggers {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+}
+
+/* Reduce spacing between spell card sections for tighter layout */
+.unified-spell-card .pf-spell-card-body > * {
+  margin-bottom: var(--pf-space-1);
+}
+
+.unified-spell-card .pf-spell-card-body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Minimal gap between description and effects */
+.unified-spell-card .item-description + .pf-spell-stats {
+  margin-top: 2px; /* Very small gap */
+}
+
+.unified-spell-card .pf-spell-stats {
+  margin-top: 0;
+}
+
+/* Ensure description doesn't create excessive space when short */
+.unified-spell-card .item-description + * {
+  margin-top: 2px; /* Consistent minimal spacing after description */
+}
+
+/* Compact triggers styling */
+.global-triggers-compact {
+  order: -1; /* Move to top */
+  margin: 0 0 var(--pf-space-2) 0 !important;
+  padding: 0;
+}
+
+.trigger-compact-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--pf-space-1);
+}
+
+.trigger-compact-label {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trigger-compact-modes {
+  display: flex;
+  gap: var(--pf-space-1);
+  font-size: var(--pf-text-xs);
+}
+
+.trigger-compact-mode,
+.trigger-compact-logic {
+  background: var(--pf-brown-medium);
+  color: var(--pf-text-light);
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: var(--pf-font-medium);
+}
+
+.trigger-compact-conditions {
+  font-size: var(--pf-text-xs);
+  line-height: 1.3;
+  color: var(--pf-text-secondary);
+}
+
+.trigger-compact-conditions span {
+  display: block;
+  margin-bottom: 1px;
+}
+
+/* Spell title separator line for wizard variant */
+.unified-spell-title-separator {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--pf-brown-medium) 20%, var(--pf-brown-medium) 80%, transparent 100%);
+  margin: 2px 0 0 0;
+  opacity: 0.6;
+}
+
+/* Spell components display for wizard variant */
+.unified-spell-components {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  justify-content: flex-end; /* Align to the right side */
+  margin-left: auto; /* Push to the right */
+  max-width: 200px; /* Allow more space for components */
+}
+
+.unified-spell-components .pf-spell-components {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: nowrap;
+}
+
+.unified-spell-components .pf-component {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  text-shadow: none;
+  box-shadow: none;
+  cursor: help;
+  transition: all var(--pf-transition-normal);
+}
+
+.unified-spell-components .pf-component:hover {
+  transform: scale(1.1);
+  box-shadow: none;
+}
+
+/* Component icons container */
+.unified-spell-components .component-icons {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Custom component text styling */
+.unified-spell-components .component-custom-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 0px;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: right; /* Align text to the right */
+  max-width: 180px; /* Reasonable max width */
+}
+
+.unified-spell-components .component-custom-text {
+  color: #ffffff;
+  text-shadow: none;
+  font-style: normal;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.unified-spell-components .component-custom-text strong {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+/* Ensure wizard variant resource costs and components are visible */
+.unified-spell-card.wizard .unified-spell-wizard-meta {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Remove header border for wizard variant to eliminate unwanted line */
+.unified-spell-card.wizard .unified-spell-card-header,
+.unified-spell-card.wizard .spell-card-header {
+  border-bottom: none !important;
+}
+
+.unified-spell-card.wizard .unified-spell-resource-costs,
+.unified-spell-card.wizard .unified-spell-components {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Add a subtle separator between resource costs and components */
+.unified-spell-card.wizard .unified-spell-resource-costs + .unified-spell-components {
+  margin-left: var(--pf-space-2);
+  border: none;
+  padding-left: 0;
+}
+
+/* Resource Cost */
+.unified-spell-cost {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Header Details Row */
+.unified-spell-header-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  width: 100%;
+  margin-top: var(--pf-space-1);
+  transition: all var(--pf-transition-normal);
+}
+
+/* Main badges row - action type, range, targeting */
+.unified-spell-badges-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex-wrap: wrap; /* Allow wrapping if needed */
+  width: 100%;
+  min-height: 28px;
+}
+
+/* Responsive badge wrapping */
+@media (max-width: 768px) {
+  .unified-spell-badges-row {
+    gap: var(--pf-space-1);
+  }
+
+  .unified-spell-header-right {
+    max-width: 240px; /* Allow space for the combined box */
+  }
+
+  .pf-damage-spell-box {
+    max-width: 220px;
+    min-width: 160px;
+  }
+
+  .unified-spell-components-header {
+    max-width: 100px; /* Constrain to stay beneath leftmost damage type */
+  }
+
+  .pf-damage-types-header {
+    max-width: 180px; /* Maintain spread even on smaller screens */
+    gap: var(--pf-space-2); /* Reduce gap slightly on smaller screens */
+  }
+}
+
+/* Very small screens - even more compact */
+@media (max-width: 480px) {
+  .unified-spell-badges-row {
+    gap: 2px;
+  }
+
+  .pf-action-type-badge,
+  .pf-range-badge,
+  .pf-targeting-badge,
+  .pf-propagation-badge {
+    font-size: 9px;
+    padding: 1px 3px;
+  }
+
+  .unified-spell-header-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-space-2);
+  }
+
+  .unified-spell-header-right {
+    align-self: flex-end;
+    max-width: 180px; /* Allow reasonable space even on small screens */
+  }
+
+  .pf-damage-spell-box {
+    max-width: 160px;
+    min-width: 120px;
+  }
+
+  .unified-spell-components-header {
+    max-width: 90px; /* Even more constrained on small screens */
+  }
+
+  .pf-damage-types-header {
+    max-width: 150px; /* Maintain reasonable spread on very small screens */
+    gap: var(--pf-space-1); /* Minimal gap on very small screens */
+  }
+}
+
+/* Badge priority system - essential badges get higher order priority */
+.pf-action-type-badge {
+  order: 1;
+  flex-shrink: 0; /* Never shrink action type */
+  transition: all var(--pf-transition-fast);
+}
+
+.pf-range-badge {
+  order: 2;
+  flex-shrink: 0; /* Never shrink range */
+  transition: all var(--pf-transition-fast);
+}
+
+.pf-targeting-badge {
+  order: 3;
+  flex-shrink: 1; /* Allow shrinking to prevent overflow */
+  transition: all var(--pf-transition-fast);
+  min-width: fit-content;
+}
+
+.pf-propagation-badge {
+  order: 4;
+  flex-shrink: 1; /* Can shrink if needed */
+  transition: all var(--pf-transition-fast);
+}
+
+/* Dynamic font sizing for long badge text */
+.pf-targeting-badge span:has-text-length-over-20,
+.pf-propagation-badge span:has-text-length-over-20 {
+  font-size: 10px;
+}
+
+/* Container-based responsive sizing */
+@container (max-width: 300px) {
+  .pf-targeting-badge,
+  .pf-propagation-badge {
+    font-size: 10px;
+    padding: 1px 4px;
+    gap: 2px;
+  }
+}
+
+/* Fallback for browsers without container queries */
+@media (max-width: 600px) {
+  .unified-spell-badges-row .pf-targeting-badge,
+  .unified-spell-badges-row .pf-propagation-badge {
+    font-size: 10px;
+    padding: 1px 4px;
+    gap: 2px;
+    max-width: 150px;
+  }
+}
+
+/* Bullet points row - appears below the badges */
+.unified-spell-bullets-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-left: var(--pf-space-1);
+  margin-top: 2px;
+}
+
+.unified-spell-bullet {
+  font-size: 9px;
+  font-weight: var(--pf-font-normal);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Enhanced Buff/Debuff Effects Container */
+.unified-spell-stat.buff-debuff-effects {
+  justify-content: stretch;
+  text-align: left;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  border: none;
+  margin: var(--pf-space-2) 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+  width: 100%;
+}
+
+/* Legacy container styling for backward compatibility */
+.buff-debuff-effects {
+  margin-top: var(--pf-space-2);
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.debuff-effects-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+}
+
+/* ===== ENHANCED BUFF EFFECTS STYLING ===== */
+/* Note: Buff effects now use unified CSS from unified-effects.css */
+/* Old buff CSS commented out to avoid conflicts */
+
+/*
+
+/* Buff Formula Container - Clean theme without background */
+.buff-formula-container {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  position: relative;
+  margin-bottom: var(--pf-space-2);
+}
+
+.buff-formula-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+
+.buff-effects-section:not(:last-child) {
+  margin-bottom: var(--pf-space-2);
+}
+
+/* Buff Formula Lines - Simplified, less boxy */
+.buff-formula-line {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-1);
+  position: relative;
+  z-index: 1;
+}
+
+.buff-formula-line:last-child {
+  margin-bottom: 0;
+}
+
+/* Stat Modifiers Display */
+.buff-stat-modifiers {
+  display: block;
+  line-height: 1.4;
+}
+
+.buff-stat-modifier {
+  display: inline;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;                 /* Slightly larger for better readability */
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);  /* Stronger shadow for better contrast */
+  margin-right: var(--pf-space-2);
+}
+
+.buff-stat-value {
+  font-weight: 700;
+}
+
+/* Buff placeholder text styling */
+.buff-formula-value {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  flex: 1;
+  position: relative;
+  font-family: 'Cinzel', serif;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Custom absorption formula input styling */
+.pf-custom-absorption-input {
+  margin-top: 8px;
+  padding: 8px;
+  background: rgba(139, 69, 19, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 4px;
+}
+
+.pf-custom-absorption-input .pf-stat-input {
+  width: 100%;
+  margin-bottom: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(139, 69, 19, 0.4);
+  color: #2c1810;
+  font-family: 'Cinzel', serif;
+}
+
+.pf-formula-help {
+  font-size: 11px;
+  color: rgba(139, 69, 19, 0.8);
+  font-style: italic;
+  font-family: 'Cinzel', serif;
+}
+
+/* Absorption shield styling */
+.buff-stat-value.absorption-formula {
+  color: #4fc3f7;  /* Light blue for dice-based absorption */
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.buff-stat-value.absorption-flat {
+  color: #29b6f6;  /* Slightly darker blue for flat absorption */
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Damage type-specific absorption colors - white text with colored outlines for maximum readability */
+.buff-stat-value.absorption-fire {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #991b1b,
+    1px -1px 0 #991b1b,
+    -1px 1px 0 #991b1b,
+    1px 1px 0 #991b1b,
+    0 0 3px rgba(153, 27, 27, 0.8);
+}
+
+.buff-stat-value.absorption-cold,
+.buff-stat-value.absorption-frost,
+.buff-stat-value.absorption-ice {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #1e3a8a,
+    1px -1px 0 #1e3a8a,
+    -1px 1px 0 #1e3a8a,
+    1px 1px 0 #1e3a8a,
+    0 0 3px rgba(30, 58, 138, 0.8);
+}
+
+.buff-stat-value.absorption-lightning {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #a16207,
+    1px -1px 0 #a16207,
+    -1px 1px 0 #a16207,
+    1px 1px 0 #a16207,
+    0 0 3px rgba(161, 98, 7, 0.8);
+}
+
+.buff-stat-value.absorption-thunder {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #1e40af,
+    1px -1px 0 #1e40af,
+    -1px 1px 0 #1e40af,
+    1px 1px 0 #1e40af,
+    0 0 3px rgba(30, 64, 175, 0.8);
+}
+
+.buff-stat-value.absorption-arcane {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #6b21a8,
+    1px -1px 0 #6b21a8,
+    -1px 1px 0 #6b21a8,
+    1px 1px 0 #6b21a8,
+    0 0 3px rgba(107, 33, 168, 0.8);
+}
+
+.buff-stat-value.absorption-nature {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #166534,
+    1px -1px 0 #166534,
+    -1px 1px 0 #166534,
+    1px 1px 0 #166534,
+    0 0 3px rgba(22, 101, 52, 0.8);
+}
+
+.buff-stat-value.absorption-shadow {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #4c1d95,
+    1px -1px 0 #4c1d95,
+    -1px 1px 0 #4c1d95,
+    1px 1px 0 #4c1d95,
+    0 0 3px rgba(76, 29, 149, 0.8);
+}
+
+.buff-stat-value.absorption-holy,
+.buff-stat-value.absorption-radiant {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #b45309,
+    1px -1px 0 #b45309,
+    -1px 1px 0 #b45309,
+    1px 1px 0 #b45309,
+    0 0 3px rgba(180, 83, 9, 0.8);
+}
+
+.buff-stat-value.absorption-poison {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #065f46,
+    1px -1px 0 #065f46,
+    -1px 1px 0 #065f46,
+    1px 1px 0 #065f46,
+    0 0 3px rgba(6, 95, 70, 0.8);
+}
+
+.buff-stat-value.absorption-acid {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #4d7c0f,
+    1px -1px 0 #4d7c0f,
+    -1px 1px 0 #4d7c0f,
+    1px 1px 0 #4d7c0f,
+    0 0 3px rgba(77, 124, 15, 0.8);
+}
+
+.buff-stat-value.absorption-necrotic {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #581c87,
+    1px -1px 0 #581c87,
+    -1px 1px 0 #581c87,
+    1px 1px 0 #581c87,
+    0 0 3px rgba(88, 28, 135, 0.8);
+}
+
+.buff-stat-value.absorption-psychic {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #7c2d12,
+    1px -1px 0 #7c2d12,
+    -1px 1px 0 #7c2d12,
+    1px 1px 0 #7c2d12,
+    0 0 3px rgba(124, 45, 18, 0.8);
+}
+
+.buff-stat-value.absorption-force {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #9f1239,
+    1px -1px 0 #9f1239,
+    -1px 1px 0 #9f1239,
+    1px 1px 0 #9f1239,
+    0 0 3px rgba(159, 18, 57, 0.8);
+}
+
+.buff-stat-value.absorption-physical,
+.buff-stat-value.absorption-bludgeoning,
+.buff-stat-value.absorption-piercing,
+.buff-stat-value.absorption-slashing {
+  color: #ffffff !important;
+  text-shadow:
+    -1px -1px 0 #374151,
+    1px -1px 0 #374151,
+    -1px 1px 0 #374151,
+    1px 1px 0 #374151,
+    0 0 3px rgba(55, 65, 81, 0.8);
+}
+
+.buff-stat-name {
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Improved text styling for different value types - all use white text for better readability */
+.buff-stat-modifier.positive {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(74, 222, 128, 0.8);  /* Green glow for positive */
+}
+
+.buff-stat-modifier.negative {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(248, 113, 113, 0.8);  /* Red glow for negative */
+}
+
+.buff-stat-modifier.formula {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(167, 139, 250, 0.8);  /* Purple glow for formulas */
+}
+
+/* Resistance level colors - all use white text with appropriate glows */
+.buff-stat-modifier.immune,
+.buff-stat-modifier.resistant,
+.buff-stat-modifier.guarded,
+.buff-stat-modifier.slight_reduction,
+.buff-stat-modifier.nullified,
+.buff-stat-modifier.susceptible,
+.buff-stat-modifier.exposed,
+.buff-stat-modifier.vulnerable,
+.buff-stat-modifier.vampiric,
+.buff-stat-modifier.absorbing,
+.buff-stat-modifier.draining,
+.buff-stat-modifier.siphoning {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(52, 211, 153, 0.8);  /* Emerald glow for resistances */
+}
+
+/* Clean stat text styling for unified layout */
+.buff-stat-text,
+.debuff-stat-text {
+  font-family: 'Times New Roman', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pf-text-primary);
+}
+
+/* Unified spell stat styling for buff and debuff effects */
+.unified-spell-stat.buff-effects,
+.unified-spell-stat.debuff-effects {
+  display: block !important;
+  justify-content: unset !important;
+  align-items: unset !important;
+  width: 100% !important;
+}
+
+.buff-effects,
+.debuff-effects {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  margin-bottom: var(--pf-space-3);
+  width: 100%;
+  display: block;
+}
+
+.buff-effects-section,
+.debuff-effects-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.buff-header,
+.debuff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--pf-brown-light);
+}
+
+.buff-label,
+.debuff-label {
+  font-weight: var(--pf-font-weight-bold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.buff-type,
+.debuff-type {
+  font-size: var(--pf-font-size-xs);
+  color: var(--pf-text-secondary);
+  font-style: italic;
+}
+
+.buff-effect-item,
+.debuff-effect-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+}
+
+.buff-effect,
+.debuff-effect {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+}
+
+.buff-effect-name,
+.debuff-effect-name {
+  font-weight: var(--pf-font-weight-bold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-font-size-sm);
+}
+
+.buff-effect-description,
+.debuff-effect-description {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-font-size-xs);
+}
+
+.buff-effect-details,
+.debuff-effect-details {
+  padding-left: var(--pf-space-2);
+}
+
+.buff-effect-mechanics,
+.debuff-effect-mechanics {
+  font-family: 'Times New Roman', serif;
+  font-size: var(--pf-font-size-sm);
+  color: var(--pf-text-primary);
+  line-height: 1.4;
+}
+
+
+
+
+
+
+
+/* Status Effects Display */
+.buff-status-effects {
+  display: block;
+  line-height: 1.4;
+}
+
+.buff-status-effect {
+  display: inline;
+  font-size: 13px;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);  /* Reduced shadow for better readability */
+  margin-right: var(--pf-space-2);
+}
+
+.buff-effect-name {
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.buff-effect-config {
+  font-weight: 500;
+  opacity: 0.9;
+  color: #99ff99;
+  font-size: 10px;
+  margin-left: 2px;
+  font-style: normal;
+  text-transform: none;
+}
+
+.buff-effect-level {
+  font-weight: 500;
+  opacity: 0.85;
+  font-style: italic;
+  color: #66cc66;
+  font-size: 10px;
+  margin-left: 2px;
+}
+
+.buff-effect-save {
+  font-weight: 500;
+  opacity: 0.8;
+  font-style: italic;
+  color: #88ff88;
+  font-size: 9px;
+  margin-left: 2px;
+}
+
+/* Duration Display */
+.buff-duration-value {
+  color: #1976d2;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px var(--pf-space-2);
+  background: linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(21, 101, 192, 0.08) 100%);
+  border: 1px solid rgba(25, 118, 210, 0.3);
+  border-radius: var(--pf-border-radius-sm);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Properties Display */
+.buff-properties-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+  padding-top: var(--pf-space-2);
+  border-top: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.buff-property {
+  font-size: 12px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);  /* Strong black shadow for better readability */
+  font-weight: 600;  /* Slightly bolder for better readability */
+  font-family: 'Cinzel', serif;  /* Consistent font */
+}
+
+/* Legacy buff effect styling for backward compatibility */
+.buff-effect {
+  color: var(--pf-success);
+  font-weight: var(--pf-font-medium);
+  font-size: var(--pf-text-sm);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== ENHANCED DEBUFF EFFECTS STYLING ===== */
+
+.debuff-effects-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-3);    /* More space from previous elements */
+  margin-bottom: var(--pf-space-2);
+  width: 100%;
+  min-width: 300px;
+}
+
+/* Debuff Header with Label and Duration */
+.debuff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-2);
+  padding: 0 var(--pf-space-2);
+}
+
+.debuff-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #8b2635;  /* Dark red-brown - fits the parchment theme */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.3);  /* Light highlight + subtle dark shadow for parchment effect */
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.debuff-duration {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  opacity: 1;
+}
+
+/* Debuff Properties */
+.debuff-properties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+  margin-top: var(--pf-space-2);
+  padding-top: var(--pf-space-2);
+  border-top: 1px solid rgba(139, 0, 0, 0.3);
+}
+
+.debuff-property {
+  font-size: 12px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);  /* Stronger black shadow for better readability */
+  font-weight: 600;  /* Slightly bolder for better readability */
+  font-family: 'Cinzel', serif;     /* Consistent font */
+}
+
+.debuff-formula-container {
+  background: linear-gradient(135deg,
+    rgba(139, 0, 0, 0.12) 0%,        /* Dark red - even more transparent for better readability */
+    rgba(100, 0, 0, 0.15) 50%,       /* Darker red */
+    rgba(80, 0, 0, 0.18) 100%);      /* Darkest red - more transparent */
+  border: 2px solid rgba(139, 0, 0, 0.3);  /* Even softer red border */
+  border-radius: 8px;
+  padding: var(--pf-space-3);
+  box-shadow: none;                 /* Removed shadow completely */
+  position: relative;
+  margin-bottom: var(--pf-space-2);
+}
+
+.debuff-formula-line {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  margin-bottom: var(--pf-space-1);
+  position: relative;
+}
+
+.debuff-formula-line:last-child {
+  margin-bottom: 0;
+}
+
+.debuff-formula-prefix {
+  font-weight: var(--pf-font-bold);
+  color: #ff6b6b;
+  font-size: var(--pf-text-sm);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);  /* Improved shadow for better readability */
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.debuff-formula-value {
+  color: #ffffff;
+  font-weight: 600;                 /* Slightly bolder for better readability */
+  font-size: 14px;                  /* Consistent with buff text size */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);  /* Strong black shadow for better contrast */
+  flex: 1;
+  position: relative;
+  font-family: 'Cinzel', serif;     /* Consistent font with buff section */
+}
+
+
+
+
+
+
+
+.debuff-status-effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+  align-items: center;
+}
+
+.debuff-status-effect {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(139, 0, 0, 0.1) 100%);
+  border: 1px solid rgba(139, 0, 0, 0.4);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  color: #ffffff;  /* Changed to white for better readability */
+  text-shadow: 0 1px 2px rgba(255, 107, 107, 0.6);  /* Red glow for debuff theme */
+}
+
+.debuff-effect-name {
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.debuff-effect-config {
+  font-weight: 500;
+  opacity: 0.9;
+  color: #ff9999;
+  font-size: 10px;
+  margin-left: 2px;
+  font-style: normal;
+  text-transform: none;
+}
+
+.debuff-effect-level {
+  font-weight: 500;
+  opacity: 0.85;
+  font-style: italic;
+  color: #cc4444;
+  font-size: 10px;
+  margin-left: 2px;
+}
+
+.debuff-effect-save {
+  font-weight: 500;
+  opacity: 0.8;
+  font-style: italic;
+  color: #ff8888;
+  font-size: 9px;
+  margin-left: 2px;
+}
+
+.debuff-effect {
+  color: var(--pf-danger);
+  font-weight: var(--pf-font-medium);
+  font-size: var(--pf-text-sm);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+*/
+
+/* ===== ENHANCED UTILITY EFFECTS STYLING ===== */
+/* Note: Utility effects now use unified CSS from unified-effects.css */
+/* Old utility CSS commented out to avoid conflicts */
+
+/*
+
+.utility-effects-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-3);
+  margin-bottom: var(--pf-space-2);
+  width: 100%;
+  min-width: 300px;
+}
+
+/* Utility Header with Label and Duration */
+.utility-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-2);
+  padding: 0 var(--pf-space-2);
+}
+
+.utility-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.utility-label {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #4e7cff;  /* Blue theme for utility */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.utility-duration {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  opacity: 1;
+}
+
+.utility-save-info {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.utility-save-type {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  padding: 2px 6px;
+  background: rgba(78, 124, 255, 0.2);
+  border-radius: var(--pf-border-radius-sm);
+  border: 1px solid rgba(78, 124, 255, 0.3);
+}
+
+.utility-dc {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  padding: 2px 6px;
+  background: rgba(78, 124, 255, 0.15);
+  border-radius: var(--pf-border-radius-sm);
+  border: 1px solid rgba(78, 124, 255, 0.25);
+}
+
+/* Utility Effects Content */
+.utility-effects-content {
+  background: linear-gradient(135deg,
+    rgba(78, 124, 255, 0.08) 0%,
+    rgba(66, 165, 245, 0.10) 50%,
+    rgba(33, 150, 243, 0.12) 100%);
+  border: 2px solid rgba(78, 124, 255, 0.25);
+  border-radius: 8px;
+  padding: var(--pf-space-3);
+  position: relative;
+  margin-bottom: var(--pf-space-2);
+}
+
+.utility-effects-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.utility-effect-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+}
+
+.utility-effect-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+.utility-effect-description {
+  font-weight: 500;
+  font-size: 12px;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+/* Utility Effect Potency Styling */
+.utility-effect-item.minor .utility-effect-name {
+  color: #bbdefb;
+}
+
+.utility-effect-item.moderate .utility-effect-name {
+  color: #90caf9;
+}
+
+.utility-effect-item.major .utility-effect-name {
+  color: #64b5f6;
+}
+
+.utility-effect-item.supreme .utility-effect-name {
+  color: #42a5f5;
+  text-shadow: 0 1px 3px rgba(66, 165, 245, 0.8);
+}
+
+/* Utility Placeholder */
+.utility-placeholder {
+  text-align: center;
+  padding: var(--pf-space-3);
+  opacity: 0.7;
+}
+
+.utility-placeholder-text {
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-size: 12px;
+}
+
+/* Tags (at bottom of card) - OLD DEFINITION - REMOVED TO AVOID CONFLICTS */
+/* This styling is now handled by the unified-spell-tags-footer section */
+
+.unified-spell-tag.selected {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* Card Body */
+.unified-spell-card-body {
+  padding: var(--pf-space-3);
+  background: var(--pf-parchment);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.unified-spell-card.compact .unified-spell-card-body,
+.unified-spell-card.preview .unified-spell-card-body {
+  padding: var(--pf-space-2);
+}
+
+.unified-spell-description {
+  color: #9d9d9d;
+  font-size: var(--pf-text-sm);
+  line-height: 1.4;
+  margin-bottom: var(--pf-space-2);
+  padding-bottom: var(--pf-space-2);
+  font-style: italic;
+}
+
+.unified-spell-card.compact .unified-spell-description {
+  font-size: var(--pf-text-xs);
+  margin-bottom: var(--pf-space-1);
+  padding-bottom: var(--pf-space-1);
+}
+
+/* Stats */
+.unified-spell-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  flex: 1;
+}
+
+.unified-spell-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--pf-text-sm);
+  padding: var(--pf-space-1) 0;
+}
+
+.unified-stat-label {
+  color: var(--pf-text-secondary);
+  font-weight: var(--pf-font-medium);
+}
+
+.unified-stat-value {
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-semibold);
+}
+
+.unified-stat-value.damage {
+  color: var(--pf-fire);
+}
+
+.unified-stat-value.healing {
+  color: #2e7d32;
+}
+
+.unified-stat-value.type-config {
+  color: var(--pf-info);
+  font-style: italic;
+}
+
+/* Enhanced damage formula styling - removed outer box styling */
+.unified-spell-stat.damage-formula {
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  border: none;
+  margin: var(--pf-space-2) 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+/* Enhanced healing formula styling - removed outer box styling */
+.unified-spell-stat.healing-formula {
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  border: none;
+  margin: var(--pf-space-2) 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.unified-stat-value.damage.conversational {
+  color: var(--pf-brown-dark);
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: var(--pf-font-semibold);
+  font-style: italic;
+  line-height: 1.4;
+  text-align: center;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+  opacity: 0.95;
+  padding: var(--pf-space-1) 0;
+}
+
+/* Card Actions */
+.unified-spell-card-actions {
+  display: flex;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-2);
+  background: rgba(139, 69, 19, 0.1);
+  border-top: 1px solid var(--pf-brown-light);
+}
+
+.spell-action-button {
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-secondary);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.spell-action-button:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.spell-action-button.delete-button:hover {
+  background: linear-gradient(to bottom, #dc2626, #b91c1c);
+  color: white;
+}
+
+.pf-spell-card.simplified .pf-spell-cost.small {
+  font-size: var(--pf-text-xs);
+  padding: var(--pf-space-1);
+}
+
+/* Library variant */
+.pf-spell-card.library {
+  border: 2px solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-lg);
+}
+
+.pf-spell-card.library .pf-spell-card-extras {
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: 1px solid var(--pf-brown-light);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+}
+
+/* Preview variant */
+.pf-spell-card.preview {
+  min-height: auto;
+  padding: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+}
+
+.pf-spell-card.preview .pf-spell-preview-content {
+  text-align: center;
+}
+
+.pf-spell-card.preview .pf-spell-name {
+  color: var(--pf-text-primary);
+  text-shadow: none;
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-spell-card.preview .pf-spell-summary {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  line-height: var(--pf-leading-normal);
+  margin: 0;
+}
+
+/* ===== SPELL CARD ACTIONS ===== */
+
+.pf-spell-card-actions {
+  display: flex;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: 1px solid var(--pf-brown-light);
+  justify-content: flex-end;
+}
+
+.pf-spell-card-actions .pf-button {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  font-size: var(--pf-text-xs);
+}
+
+.pf-spell-card-actions .pf-button.secondary {
+  background: var(--pf-gradient-button);
+  border-color: var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+}
+
+.pf-spell-card-actions .pf-button.danger {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  border-color: #dc2626;
+  color: var(--pf-parchment);
+}
+
+.pf-spell-card-actions .pf-button.danger:hover {
+  background: linear-gradient(135deg, #b91c1c, #991b1b);
+  border-color: #b91c1c;
+}
+
+/* ===== SPELL COST STYLING ===== */
+
+.pf-spell-cost {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+}
+
+.pf-mana-cost {
+  background: rgba(139, 69, 19, 0.1);
+  color: var(--pf-arcane);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+}
+
+/* ===== SPELL ICON CONTAINER ===== */
+
+.pf-spell-icon-container {
+  position: relative;
+  margin-right: var(--pf-space-3);
+  flex-shrink: 0;
+}
+
+/* ===== SPELL RESOURCES ===== */
+
+.pf-spell-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  margin-top: var(--pf-space-2);
+  align-items: center;
+}
+
+/* Duplicate resource cost styles removed - using the main styles above */
+
+.pf-spell-icon-container .pf-spell-icon {
+  border-radius: var(--pf-border-radius);
+  border: 2px solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+  object-fit: cover;
+}
+
+/* ===== SPELL CARD FOOTER ENHANCEMENTS ===== */
+
+.pf-spell-card-footer,
+.wow-spell-card-footer,
+.spell-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-3) var(--pf-space-5);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  min-height: 50px;
+}
+
+.spell-range-duration {
+  display: flex;
+  gap: var(--pf-space-4);
+  align-items: center;
+}
+
+/* ===== UNIFIED SPELL CARD TAGS AND COOLDOWN FOOTER ===== */
+
+.unified-spell-tags-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+  font-family: var(--pf-font-body);
+  min-height: 28px;
+  margin-top: auto; /* Push to bottom of card */
+}
+
+.unified-spell-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  align-items: center;
+}
+
+.unified-spell-tag {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  /* Remove all box styling - just plain text */
+}
+
+.unified-spell-cooldown {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  font-size: var(--pf-text-sm);
+  white-space: nowrap;
+}
+
+.cooldown-label {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-muted);
+}
+
+.cooldown-value {
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-orange);
+}
+
+.spell-range,
+.spell-duration {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+}
+
+.spell-range i,
+.spell-duration i {
+  color: var(--pf-brown-medium);
+  width: 14px;
+}
+
+/* ===== SPELL STATS IMPROVEMENTS ===== */
+
+.spell-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-3);
+  padding-top: var(--pf-space-3);
+  border-top: 1px solid var(--pf-brown-light);
+}
+
+.spell-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-2);
+  background: rgba(139, 69, 19, 0.05);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.spell-stat-label {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spell-stat-value {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+}
+
+.spell-stat-value.damage {
+  color: var(--pf-fire);
+}
+
+.spell-stat-value.healing {
+  color: var(--pf-nature);
+}
+
+.spell-stat-value.buff {
+  color: var(--pf-holy);
+}
+
+.spell-stat-value.debuff {
+  color: var(--pf-shadow);
+}
+
+/* ===== RESOURCE COST ENHANCEMENTS ===== */
+
+.spell-resources-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.resource-cost-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+}
+
+.resource-cost-item i {
+  width: 12px;
+  height: 12px;
+  color: var(--pf-brown-medium);
+}
+
+/* ===== SPELL TYPE BADGE ===== */
+
+.spell-type-badge {
+  position: absolute;
+  top: var(--pf-space-2);
+  left: var(--pf-space-2);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 10;
+}
+
+.spell-type-badge.action {
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+  color: var(--pf-parchment);
+  border-color: #654321;
+}
+
+.spell-type-badge.trap {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: var(--pf-parchment);
+  border-color: #991b1b;
+}

@@ -11,8 +11,10 @@ import {
   FaArrowRightLong,
   FaCircleXmark
 } from 'react-icons/fa6';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
-import './shared-effect-cards.css';
+import { FaSearch } from 'react-icons/fa';
+import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
+
+// Pathfinder styles imported via main.css
 import './summoning-effects.css';
 
 // Transformation types
@@ -68,58 +70,15 @@ const TARGET_TYPES = [
   { id: 'unwilling', name: 'Unwilling Creature', icon: 'spell_shadow_possession', description: 'Force transformation on an unwilling target (requires saving throw)' }
 ];
 
-// Beast form options
-const BEAST_FORMS = [
-  { id: 'wolf', name: 'Wolf Form', icon: 'ability_mount_blackdirewolf', cr: 1, description: 'Gain enhanced speed and tracking abilities' },
-  { id: 'bear', name: 'Bear Form', icon: 'ability_hunter_pet_bear', cr: 2, description: 'Gain exceptional strength and durability' },
-  { id: 'eagle', name: 'Eagle Form', icon: 'inv_misc_bird_01', cr: 1, description: 'Transform into a flying creature with keen eyesight' },
-  { id: 'spider', name: 'Spider Form', icon: 'ability_hunter_pet_spider', cr: 1, description: 'Gain wall climbing and web abilities' },
-  { id: 'tiger', name: 'Tiger Form', icon: 'ability_druid_catform', cr: 2, description: 'Enhanced stealth and powerful attacks' }
-];
 
-// Disguise form options
-const DISGUISE_FORMS = [
-  { id: 'specific_person', name: 'Specific Person', icon: 'spell_shadow_charm', cr: 1, description: 'Transform to look exactly like a specific individual' },
-  { id: 'generic_type', name: 'Generic Type', icon: 'inv_helmet_44', cr: 1, description: 'Transform to look like a generic member of a race or group' },
-  { id: 'aged', name: 'Aged Form', icon: 'inv_misc_head_elf_01', cr: 1, description: 'Change apparent age (younger or older)' },
-  { id: 'gender_swap', name: 'Gender Swap', icon: 'achievement_character_gnome_female', cr: 1, description: 'Transform to appear as a different gender' },
-  { id: 'monstrous_humanoid', name: 'Monstrous Humanoid', icon: 'inv_misc_head_orc_01', cr: 2, description: 'Transform into a humanoid with monstrous features' }
-];
-
-// Water form options
-const WATER_FORMS = [
-  { id: 'water_breathing', name: 'Water Breathing', icon: 'spell_shadow_demonbreath', cr: 1, description: 'Transform lungs to breathe underwater' },
-  { id: 'fish_form', name: 'Fish Form', icon: 'inv_misc_fish_06', cr: 1, description: 'Transform into an aquatic creature' },
-  { id: 'water_elemental', name: 'Water Elemental', icon: 'spell_frost_summonwaterelemental', cr: 3, description: 'Transform into a being of living water' },
-  { id: 'liquid_form', name: 'Liquid Form', icon: 'spell_nature_acid_01', cr: 2, description: 'Transform into semi-liquid state that can flow through small openings' },
-  { id: 'ice_form', name: 'Ice Form', icon: 'spell_frost_glacier', cr: 2, description: 'Transform into a crystalline ice being' }
-];
-
-// Air form options
-const AIR_FORMS = [
-  { id: 'mist_form', name: 'Mist Form', icon: 'spell_nature_faeriefire', cr: 2, description: 'Transform into misty, semi-corporeal state' },
-  { id: 'wind_form', name: 'Wind Form', icon: 'spell_nature_cyclone', cr: 3, description: 'Transform into a swirling vortex of air' },
-  { id: 'flying_form', name: 'Flying Form', icon: 'spell_shadow_demonform', cr: 2, description: 'Grow wings and gain flight ability' },
-  { id: 'levitation', name: 'Levitation Form', icon: 'spell_nature_astralrecal', cr: 1, description: 'Body becomes lighter than air, allowing floating' },
-  { id: 'storm_form', name: 'Storm Form', icon: 'spell_fire_bluefire', cr: 3, description: 'Transform into a being of lightning and thunder' }
-];
-
-// Earth form options
-const EARTH_FORMS = [
-  { id: 'stone_form', name: 'Stone Form', icon: 'spell_nature_stoneskintotem', cr: 2, description: 'Skin transforms to stone, greatly increasing defense' },
-  { id: 'earth_elemental', name: 'Earth Elemental', icon: 'spell_nature_earthelemental_totem', cr: 3, description: 'Transform into a being of living earth' },
-  { id: 'crystaline_form', name: 'Crystalline Form', icon: 'inv_elemental_crystal_earth', cr: 2, description: 'Transform into a semi-transparent crystal being' },
-  { id: 'metal_form', name: 'Metallic Form', icon: 'inv_sword_26', cr: 3, description: 'Skin transforms into metal, granting exceptional protection' },
-  { id: 'burrowing_form', name: 'Burrowing Form', icon: 'inv_misc_head_kobold_01', cr: 2, description: 'Gain ability to tunnel through earth and stone' }
-];
 
 // Saving throw types
 const SAVING_THROW_TYPES = [
-  { id: 'str', name: 'Strength', icon: 'spell_nature_strength' },
-  { id: 'dex', name: 'Dexterity', icon: 'ability_rogue_quickrecovery' },
   { id: 'con', name: 'Constitution', icon: 'spell_holy_blessingofstamina' },
+  { id: 'str', name: 'Strength', icon: 'spell_nature_strength' },
+  { id: 'agi', name: 'Agility', icon: 'ability_rogue_quickrecovery' },
   { id: 'int', name: 'Intelligence', icon: 'spell_holy_magicalsentry' },
-  { id: 'wis', name: 'Wisdom', icon: 'spell_holy_elunesblessing' },
+  { id: 'spirit', name: 'Spirit', icon: 'spell_holy_elunesblessing' },
   { id: 'cha', name: 'Charisma', icon: 'spell_holy_powerwordshield' }
 ];
 
@@ -158,6 +117,9 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
   const [tooltipContent, setTooltipContent] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+  // State for creature selection window
+  const [showCreatureSelection, setShowCreatureSelection] = useState(false);
+
   // Transform configuration state - initialized from existing state or defaults
   const transformConfig = state.transformConfig || {
     transformType: 'beast_form',
@@ -169,7 +131,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     maintainEquipment: false,
     difficultyClass: 15,
     difficultyCr: 'moderate',
-    saveType: 'wis',
+    saveType: 'spirit',
     grantedAbilities: [],
     formula: getDefaultFormula ? getDefaultFormula() : '1d6'
   };
@@ -213,17 +175,7 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     dispatch(actionCreators.updateTransformConfig(newConfig));
   };
 
-  // Get transformation forms based on the type
-  const getTransformForms = (transformType) => {
-    switch (transformType) {
-      case 'beast_form': return BEAST_FORMS;
-      case 'disguise': return DISGUISE_FORMS;
-      case 'water_form': return WATER_FORMS;
-      case 'air_form': return AIR_FORMS;
-      case 'earth_form': return EARTH_FORMS;
-      default: return [];
-    }
-  };
+
 
   // Get WoW-style icon URL
   const getIconUrl = (iconName) => {
@@ -353,322 +305,184 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     handleTransformConfigChange('grantedAbilities', newAbilities);
   };
 
-  // Render the transformation type selection
-  const renderTransformTypeSelection = () => {
-    return (
-      <div className="spell-wizard-card-grid">
-        {Object.values(TRANSFORMATION_TYPES).map((transformType) => (
-          <div
-            key={transformType.id}
-            className={`spell-wizard-card ${activeTransformType === transformType.id ? 'selected' : ''}`}
-            onClick={() => setActiveTransformType(transformType.id)}
-            onMouseEnter={(e) => handleMouseEnter({...transformType, transformType: transformType.id}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
-          >
-            <div className="spell-wizard-card-icon">
-              <img
-                src={getIconUrl(transformType.icon)}
-                alt={transformType.name}
-              />
-            </div>
-            <h4>{transformType.name}</h4>
-            <p>{transformType.description}</p>
-          </div>
-        ))}
-      </div>
-    );
+  // Handle creature selection from the creature library
+  const handleCreatureSelection = (selectedCreatures) => {
+    if (selectedCreatures.length > 0) {
+      const creature = selectedCreatures[0]; // Single selection for transformation
+      setSelectedForm(creature);
+      handleTransformConfigChange('formId', creature.id);
+      handleTransformConfigChange('selectedCreature', creature);
+    }
   };
 
-  // Render target type selection
-  const renderTargetTypeSelection = () => {
-    return (
-      <div className="section">
-        <h3 className="section-title">Target Type</h3>
-
-        <div className="spell-wizard-card-grid">
-          {TARGET_TYPES.map(type => (
-            <div
-              key={type.id}
-              className={`spell-wizard-card ${transformConfig.targetType === type.id ? 'selected' : ''}`}
-              onClick={() => handleTransformConfigChange('targetType', type.id)}
-              onMouseEnter={(e) => handleMouseEnter(type, e)}
-              onMouseLeave={handleMouseLeave}
-              onMouseMove={handleMouseMove}
-            >
-              <div className="spell-wizard-card-icon">
-                <img
-                  src={getIconUrl(type.icon)}
-                  alt={type.name}
-                />
-              </div>
-              <h4>{type.name}</h4>
-              <p>{type.description}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Show saving throw settings if targeting unwilling creatures */}
-        {transformConfig.targetType === 'unwilling' && (
-          <div className="section-panel">
-            <div className="section-panel-header">
-              <h4>Saving Throw Settings</h4>
-            </div>
-
-            <div className="section-panel-content">
-              {/* Difficulty Class */}
-              <div className="quantity-row">
-                <div className="quantity-icon">
-                  <img src={getIconUrl('spell_holy_sealofprotection')} alt="DC" />
-                </div>
-
-                <div className="quantity-info">
-                  <h5>Difficulty Class (DC)</h5>
-                  <p>How hard it is to resist the transformation</p>
-                </div>
-
-                <div className="quantity-controls">
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleTransformConfigChange('difficultyClass', Math.max(5, transformConfig.difficultyClass - 1))}
-                  >
-                    <FaMinus />
-                  </button>
-                  <input
-                    type="number"
-                    min="5"
-                    max="30"
-                    value={transformConfig.difficultyClass}
-                    onChange={(e) => {
-                      const dc = Math.max(5, Math.min(30, parseInt(e.target.value) || 15));
-                      handleTransformConfigChange('difficultyClass', dc);
-                    }}
-                  />
-                  <button
-                    className="effect-numeric-button"
-                    onClick={() => handleTransformConfigChange('difficultyClass', Math.min(30, transformConfig.difficultyClass + 1))}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-
-              {/* Saving Throw Type */}
-              <div className="duration-type-selection">
-                <label>Saving Throw Type:</label>
-                <div className="effect-option-tabs">
-                  {SAVING_THROW_TYPES.map(ability => (
-                    <div
-                      key={ability.id}
-                      className={`effect-option-tab ${transformConfig.saveType === ability.id ? 'selected' : ''}`}
-                      onClick={() => handleTransformConfigChange('saveType', ability.id)}
-                      onMouseEnter={(e) => handleMouseEnter(ability, e)}
-                      onMouseLeave={handleMouseLeave}
-                      onMouseMove={handleMouseMove}
-                    >
-                      <div className="effect-option-tab-icon">
-                        <img src={getIconUrl(ability.icon)} alt={ability.name} />
-                      </div>
-                      <div className="effect-option-tab-name">{ability.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Difficulty Level */}
-              <div className="duration-type-selection">
-                <label>Suggested Difficulty:</label>
-                <div className="effect-option-tabs">
-                  {DIFFICULTY_LEVELS.map(level => (
-                    <div
-                      key={level.id}
-                      className={`effect-option-tab ${transformConfig.difficultyCr === level.id ? 'selected' : ''}`}
-                      onClick={() => handleTransformConfigChange('difficultyCr', level.id)}
-                      onMouseEnter={(e) => handleMouseEnter(level, e)}
-                      onMouseLeave={handleMouseLeave}
-                      onMouseMove={handleMouseMove}
-                    >
-                      <div className="effect-option-tab-name">{level.name}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  // Open creature selection window
+  const openCreatureSelection = () => {
+    setShowCreatureSelection(true);
   };
 
-  // Render duration and concentration settings
-  const renderDurationSettings = () => {
-    return (
-      <div className="section">
-        <h3 className="section-title">Duration & Equipment</h3>
-
-        <div className="spell-wizard-card-grid">
-          {/* Duration toggle card */}
-          <div className="spell-wizard-card">
-            <div className="spell-wizard-card-icon">
-              <img src={getIconUrl('inv_misc_pocketwatch_01')} alt="Duration" />
-            </div>
-            <h4>Duration</h4>
-            <p>Set how long the transformation lasts</p>
-          </div>
-
-          {/* Concentration toggle card */}
-          <div className="spell-wizard-card">
-            <div className="spell-wizard-card-icon">
-              <img src={getIconUrl('spell_holy_mindsooth')} alt="Concentration" />
-            </div>
-            <h4>Concentration</h4>
-            <p>Requires maintaining focus</p>
-
-            <div className="effect-toggle-switch-container">
-              <div
-                className={`effect-toggle-switch ${transformConfig.concentration ? 'active' : ''}`}
-                onClick={() => handleTransformConfigChange('concentration', !transformConfig.concentration)}
-              >
-                <div className="effect-toggle-slider"></div>
-              </div>
-            </div>
-
-            {transformConfig.concentration && (
-              <small>Transformation ends if concentration breaks</small>
-            )}
-          </div>
-
-          {/* Equipment toggle card */}
-          <div className="spell-wizard-card">
-            <div className="spell-wizard-card-icon">
-              <img src={getIconUrl('inv_chest_cloth_17')} alt="Equipment" />
-            </div>
-            <h4>Equipment</h4>
-            <p>How equipment is handled during transformation</p>
-
-            <div className="effect-toggle-switch-container">
-              <div
-                className={`effect-toggle-switch ${transformConfig.maintainEquipment ? 'active' : ''}`}
-                onClick={() => handleTransformConfigChange('maintainEquipment', !transformConfig.maintainEquipment)}
-              >
-                <div className="effect-toggle-slider"></div>
-              </div>
-            </div>
-
-            {transformConfig.maintainEquipment ? (
-              <small>Equipment transforms with target</small>
-            ) : (
-              <small>Equipment falls to the ground</small>
-            )}
-          </div>
-        </div>
-
-        {/* Duration settings panel */}
-        <div className="section-panel">
-          <div className="section-panel-header">
-            <h4>Duration Settings</h4>
-          </div>
-
-          <div className="section-panel-content">
-            {/* Duration type selection */}
-            <div className="duration-type-selection">
-              <div className="effect-option-tabs">
-                {DURATION_TYPES.map(type => (
-                  <div
-                    key={type.id}
-                    className={`effect-option-tab ${transformConfig.durationUnit === type.id ? 'selected' : ''}`}
-                    onClick={() => handleTransformConfigChange('durationUnit', type.id)}
-                  >
-                    <div className="effect-option-tab-icon">
-                      <img
-                        src={getIconUrl(type.icon)}
-                        alt={type.name}
-                      />
-                    </div>
-                    <div className="effect-option-tab-name">{type.name}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Duration value input */}
-            <div className="duration-value-input">
-              <label>Duration Value:</label>
-              <div className="effect-numeric-controls">
-                <button
-                  className="effect-numeric-button"
-                  onClick={() => handleTransformConfigChange('duration', Math.max(1, transformConfig.duration - 1))}
-                >
-                  <FaMinus />
-                </button>
-                <input
-                  type="number"
-                  min="1"
-                  max="100"
-                  value={transformConfig.duration}
-                  onChange={(e) => {
-                    const duration = Math.max(1, Math.min(100, parseInt(e.target.value) || 1));
-                    handleTransformConfigChange('duration', duration);
-                  }}
-                />
-                <button
-                  className="effect-numeric-button"
-                  onClick={() => handleTransformConfigChange('duration', Math.min(100, transformConfig.duration + 1))}
-                >
-                  <FaPlus />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  // Close creature selection window
+  const closeCreatureSelection = () => {
+    setShowCreatureSelection(false);
   };
+
+  // Transformation type selection removed - simplified to just creature selection
+
+  // Target type selection removed - moved to creature config section
+
+  // Duration and equipment settings removed as per user request
 
   // Render form selection
   const renderFormSelection = () => {
-    const transformForms = getTransformForms(activeTransformType);
-
-    if (!transformForms.length) {
-      return (
-        <div className="section">
-          <h3 className="section-title">Form Selection</h3>
-          <div className="section-panel">
-            <div className="section-panel-content">
-              <div className="effect-description">
-                No forms available for this transformation type.
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    const selectedCreature = transformConfig.selectedCreature;
 
     return (
       <div className="section">
-        <h3 className="section-title">Form Selection</h3>
+        <h3 className="section-title">Creatures</h3>
 
-        <div className="spell-wizard-card-grid">
-          {transformForms.map(form => (
-            <div
-              key={form.id}
-              className={`spell-wizard-card ${transformConfig.formId === form.id ? 'selected' : ''}`}
-              onClick={() => selectForm(form)}
-              onMouseEnter={(e) => handleMouseEnter(form, e)}
-              onMouseLeave={handleMouseLeave}
-              onMouseMove={handleMouseMove}
+        <div className="section-panel">
+          <div className="section-panel-header">
+            <h4>Selected Form</h4>
+            <button
+              className="summoning-select-btn"
+              onClick={openCreatureSelection}
             >
-              <div className="spell-wizard-card-icon">
-                <img
-                  src={getIconUrl(form.icon)}
-                  alt={form.name}
-                />
+              <FaSearch /> Select from Creature Library
+            </button>
+          </div>
+
+          <div className="section-panel-content">
+            {!selectedCreature ? (
+              <div className="pf-empty-state">
+                No transformation target selected. Click "Select from Creature Library" to choose a creature to transform into.
               </div>
-              <h4>{form.name}</h4>
-              <p>{form.description}</p>
-              <small>CR {form.cr}</small>
-            </div>
-          ))}
+            ) : (
+              <div className="creature-selection-item">
+                {/* Header Section - Title and Image */}
+                <div className="creature-header-section">
+                  <div className="creature-icon">
+                    <img
+                      src={getIconUrl(selectedCreature.tokenIcon)}
+                      alt={selectedCreature.name}
+                      onError={(e) => {
+                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                      }}
+                    />
+                  </div>
+                  <div className="creature-title-section">
+                    <h4 className="creature-name">{selectedCreature.name}</h4>
+                    <p className="creature-type-size">{selectedCreature.type} • {selectedCreature.size}</p>
+                  </div>
+                  <button
+                    className="remove-creature-btn"
+                    onClick={() => {
+                      setSelectedForm(null);
+                      handleTransformConfigChange('formId', null);
+                      handleTransformConfigChange('selectedCreature', null);
+                    }}
+                    title="Remove transformation target"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                {/* Description Section */}
+                <div className="creature-description-section">
+                  <p className="creature-description">{selectedCreature.description}</p>
+                </div>
+
+                {/* Stats Section */}
+                <div className="creature-stats-section">
+                  <div className="creature-stats-grid">
+                    <div className="stat-item">
+                      <span className="stat-label">HP</span>
+                      <span className="stat-value">{selectedCreature.stats?.maxHp || 'N/A'}</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">Mana</span>
+                      <span className="stat-value">{selectedCreature.stats?.maxMana || 'N/A'}</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">AP</span>
+                      <span className="stat-value">{selectedCreature.stats?.maxAp || 'N/A'}</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">Armor</span>
+                      <span className="stat-value">{selectedCreature.stats?.armor || 'N/A'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Individual Transformation Settings */}
+                <div className="creature-config-section">
+                  <div className="creature-config-header">
+                    <h6>Transformation Settings</h6>
+                  </div>
+                  <div className="creature-config-controls">
+                    <div className="creature-config-control">
+                      <label>Target Type</label>
+                      <select
+                        value={transformConfig.targetType || 'self'}
+                        onChange={(e) => handleTransformConfigChange('targetType', e.target.value)}
+                      >
+                        <option value="self">Self</option>
+                        <option value="willing">Willing Creature</option>
+                        <option value="unwilling">Unwilling Creature</option>
+                      </select>
+                    </div>
+                    <div className="creature-config-control">
+                      <label>Duration</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        value={transformConfig.duration || 10}
+                        onChange={(e) => handleTransformConfigChange('duration', parseInt(e.target.value) || 10)}
+                      />
+                    </div>
+                    <div className="creature-config-control">
+                      <label>Duration Unit</label>
+                      <select
+                        value={transformConfig.durationUnit || 'minutes'}
+                        onChange={(e) => handleTransformConfigChange('durationUnit', e.target.value)}
+                      >
+                        <option value="rounds">Rounds</option>
+                        <option value="minutes">Minutes</option>
+                        <option value="hours">Hours</option>
+                      </select>
+                    </div>
+                    {transformConfig.targetType === 'unwilling' && (
+                      <>
+                        <div className="creature-config-control">
+                          <label>Saving Throw</label>
+                          <select
+                            value={transformConfig.saveType || 'spirit'}
+                            onChange={(e) => handleTransformConfigChange('saveType', e.target.value)}
+                          >
+                            <option value="con">Constitution</option>
+                            <option value="str">Strength</option>
+                            <option value="agi">Agility</option>
+                            <option value="int">Intelligence</option>
+                            <option value="spirit">Spirit</option>
+                            <option value="cha">Charisma</option>
+                          </select>
+                        </div>
+                        <div className="creature-config-control">
+                          <label>Difficulty Class</label>
+                          <input
+                            type="number"
+                            min="5"
+                            max="30"
+                            value={transformConfig.difficultyClass || 15}
+                            onChange={(e) => handleTransformConfigChange('difficultyClass', parseInt(e.target.value) || 15)}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -739,124 +553,29 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     );
   };
 
-  // Render transformation preview
-  const renderTransformationPreview = () => {
-    if (!transformConfig.formId) {
-      return null;
-    }
-
-    const transformType = TRANSFORMATION_TYPES[activeTransformType.toUpperCase()];
-    const form = getTransformForms(activeTransformType).find(f => f.id === transformConfig.formId);
-
-    if (!transformType || !form) {
-      return null;
-    }
-
-    // Generate transformation description
-    const targetText = transformConfig.targetType === 'self' ? 'yourself' :
-                      transformConfig.targetType === 'willing' ? 'a willing creature' :
-                      'an unwilling creature';
-    const durationText = `for ${transformConfig.duration} ${transformConfig.durationUnit}`;
-    const concentrationText = transformConfig.concentration ? ' (requires concentration)' : '';
-    const equipmentText = transformConfig.maintainEquipment ?
-                        'Equipment and clothing transform with the target.' :
-                        'Equipment and clothing fall to the ground.';
-    const saveText = transformConfig.targetType === 'unwilling' ?
-                    `Target must make a DC ${transformConfig.difficultyClass} ${SAVING_THROW_TYPES.find(s => s.id === transformConfig.saveType)?.name || 'Wisdom'} saving throw to resist.` :
-                    '';
-
-    const transformDescription = `You transform ${targetText} into ${form.name.toLowerCase()} ${durationText}${concentrationText}. ${equipmentText} ${saveText}`;
-
-    return (
-      <div className="section">
-        <h3 className="section-title">Transformation Preview</h3>
-
-        <div className="preview-container">
-          <div className="preview-header">
-            <div className="preview-icon">
-              <img src={getIconUrl(form.icon)} alt={form.name} />
-            </div>
-            <div className="preview-title">
-              <h4>{transformType.name}: {form.name}</h4>
-              <p>
-                {transformConfig.targetType === 'self' ? 'Self' :
-                transformConfig.targetType === 'willing' ? 'Willing Target' :
-                'Unwilling Target'} •
-                {`${transformConfig.duration} ${transformConfig.durationUnit}`}
-                {transformConfig.concentration ? ' • Concentration' : ''}
-              </p>
-            </div>
-          </div>
-
-          <div className="preview-description">
-            {transformDescription}
-          </div>
-
-          <div className="preview-details">
-            {selectedAbilities.length > 0 && (
-              <div className="preview-row">
-                <div className="preview-label">Granted Abilities:</div>
-                <div className="preview-value">
-                  {selectedAbilities.map(ability => ability.name).join(', ')}
-                </div>
-              </div>
-            )}
-
-            <div className="preview-row">
-              <div className="preview-label">Equipment:</div>
-              <div className="preview-value">
-                {transformConfig.maintainEquipment ? 'Transforms with target' : 'Drops to ground'}
-              </div>
-            </div>
-
-            {transformConfig.targetType === 'unwilling' && (
-              <div className="preview-row">
-                <div className="preview-label">Saving Throw:</div>
-                <div className="preview-value">
-                  DC {transformConfig.difficultyClass} {SAVING_THROW_TYPES.find(s => s.id === transformConfig.saveType)?.name || 'Wisdom'}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
+  // Preview section removed as per user request
 
   return (
     <div className="effects-container">
-      <div className="section">
-        <h3 className="section-title">Transformation Type</h3>
-        <p>
-          Transform yourself or others into different forms
-        </p>
-
-        {/* Transformation Type Selection */}
-        {renderTransformTypeSelection()}
-      </div>
-
-      {/* Target Type Selection */}
-      {renderTargetTypeSelection()}
-
       {/* Form Selection */}
       {renderFormSelection()}
 
       {/* Ability Selection - only if a form is selected */}
       {renderAbilitySelection()}
 
-      {/* Duration & Equipment Settings */}
-      {renderDurationSettings()}
 
-      {/* Transformation Preview - only if a form is selected */}
-      {renderTransformationPreview()}
 
       {/* Tooltip */}
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
+
+      {/* Creature Selection Window */}
+      <CreatureSelectionWindow
+        isOpen={showCreatureSelection}
+        onClose={closeCreatureSelection}
+        onSelect={handleCreatureSelection}
+        selectedCreatures={transformConfig.selectedCreature ? [transformConfig.selectedCreature] : []}
+        multiSelect={false}
+        title="Select Transformation Target"
+        effectType="transform"
       />
     </div>
   );

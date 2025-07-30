@@ -1,0 +1,181 @@
+/* Mechanics Popup Styles */
+.mechanics-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999 !important;
+  backdrop-filter: blur(2px);
+}
+
+.mechanics-popup-container {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment), 0 8px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+/* Size variants */
+.mechanics-popup-container.small {
+  max-width: 400px;
+  max-height: 60vh;
+  width: 90%;
+}
+
+.mechanics-popup-container.medium {
+  max-width: 600px;
+  max-height: 80vh;
+  width: 90%;
+}
+
+.mechanics-popup-container.large {
+  max-width: 800px;
+  max-height: 90vh;
+  width: 95%;
+}
+
+.mechanics-popup-header {
+  background: var(--pf-gradient-header);
+  color: var(--pf-text-light);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--pf-space-4) var(--pf-space-5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.mechanics-popup-title {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  color: var(--pf-text-light) !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+  text-stroke: 1px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+}
+
+.mechanics-popup-close {
+  background: none;
+  border: none;
+  color: var(--pf-text-light);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all var(--pf-transition-normal);
+  position: absolute;
+  right: var(--pf-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.mechanics-popup-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.mechanics-popup-body {
+  padding: var(--pf-space-4);
+  max-height: 70vh;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.mechanics-popup-footer {
+  background: rgba(139, 69, 19, 0.1);
+  border-top: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--pf-space-4) var(--pf-space-5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+.mechanics-popup-button {
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4) var(--pf-space-6);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-sm);
+  font-size: var(--pf-text-base);
+  min-width: 120px;
+  min-height: 40px;
+}
+
+.mechanics-popup-button:hover {
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* Scrollbar styling for popup body */
+.mechanics-popup-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mechanics-popup-body::-webkit-scrollbar-track {
+  background: rgba(139, 69, 19, 0.1);
+  border-radius: 4px;
+}
+
+.mechanics-popup-body::-webkit-scrollbar-thumb {
+  background: var(--pf-gradient-button);
+  border-radius: 4px;
+}
+
+.mechanics-popup-body::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-gradient-button-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mechanics-popup-container.small,
+  .mechanics-popup-container.medium,
+  .mechanics-popup-container.large {
+    max-width: 95%;
+    max-height: 95vh;
+    margin: 10px;
+  }
+  
+  .mechanics-popup-header {
+    padding: var(--pf-space-3) var(--pf-space-4);
+  }
+  
+  .mechanics-popup-title {
+    font-size: var(--pf-text-base);
+  }
+  
+  .mechanics-popup-body {
+    padding: var(--pf-space-4);
+  }
+  
+  .mechanics-popup-footer {
+    padding: var(--pf-space-3) var(--pf-space-4);
+  }
+}

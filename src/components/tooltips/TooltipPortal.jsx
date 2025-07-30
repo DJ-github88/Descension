@@ -19,7 +19,7 @@ const TooltipPortal = ({ children }) => {
         element.style.width = '100%';
         element.style.height = '100%';
         element.style.pointerEvents = 'none';
-        element.style.zIndex = '9999';
+        element.style.zIndex = '9999999999'; // Higher than modal z-index to ensure tooltips appear above all windows and modals
         document.body.appendChild(element);
         setPortalRoot(element);
     }, []);

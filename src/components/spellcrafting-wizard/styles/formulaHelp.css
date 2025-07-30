@@ -180,17 +180,19 @@
 }
 
 .formula-section h4 {
-  color: var(--wizard-text-bright);
-  font-size: 16px;
-  font-weight: 600;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
   margin-top: 0;
-  margin-bottom: 12px;
+  margin-bottom: var(--pf-space-3);
+  font-family: var(--pf-font-heading);
 }
 
 .formula-description {
-  color: var(--wizard-text);
-  font-size: 14px;
-  margin-bottom: 16px;
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  margin-bottom: var(--pf-space-4);
+  font-family: var(--pf-font-body);
 }
 
 /* Variable List Styling */
@@ -203,20 +205,24 @@
 .variable-item {
   display: flex;
   flex-direction: column;
-  padding: 8px;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  border-left: 3px solid var(--wizard-primary);
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  border-left: 3px solid var(--pf-gold);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .variable-name {
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-weight: var(--pf-font-semibold);
+  margin-bottom: var(--pf-space-1);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
 }
 
 .variable-desc {
-  font-size: 12px;
-  color: var(--wizard-text-muted);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  font-family: var(--pf-font-body);
 }
 
 /* Example List Styling */
@@ -241,8 +247,14 @@
 }
 
 .example-formula {
-  font-size: 12px;
-  color: var(--wizard-primary-light);
+  background: var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-brown-darkest);
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-xs);
+  padding: var(--pf-space-2);
+  border: 1px solid var(--pf-brown-medium);
+  word-break: break-all;
 }
 
 /* Syntax List Styling */

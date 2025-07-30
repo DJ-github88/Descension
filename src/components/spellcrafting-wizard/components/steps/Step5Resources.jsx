@@ -30,9 +30,6 @@ const Step5Resources = () => {
   const [calculatedResources, setCalculatedResources] = useState(null);
   const [warnings, setWarnings] = useState([]);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [actionPointsSelected, setActionPointsSelected] = useState(
-    state.resourceCost.actionPointsSelected !== undefined ? state.resourceCost.actionPointsSelected : true
-  );
 
   // Initialize spell components from state or with defaults
   const [spellComponents, setSpellComponents] = useState({
@@ -46,6 +43,10 @@ const Step5Resources = () => {
   const [selectedResources, setSelectedResources] = useState(
     state.resourceCost.resourceTypes || [state.resourceCost.primaryResourceType || 'mana']
   );
+
+  // Action points are now treated as a regular resource type
+  const actionPointsSelected = selectedResources.includes('actionPoints') ||
+    (state.resourceCost.actionPoints !== undefined && state.resourceCost.actionPoints > 0);
 
   // Track which resources use formulas
   const [useFormulas, setUseFormulas] = useState(state.resourceCost.useFormulas || {});
@@ -65,6 +66,7 @@ const Step5Resources = () => {
 
   // Resource types available in the system
   const resourceTypes = [
+    { id: 'actionPoints', name: 'Action Points', description: 'Basic action economy', icon: faBolt },
     { id: 'mana', name: 'Mana', description: 'Standard magical energy', icon: faGem },
     { id: 'rage', name: 'Rage', description: 'Built through combat actions', icon: faFire },
     { id: 'energy', name: 'Energy', description: 'Regenerates quickly', icon: faBolt },
@@ -112,7 +114,7 @@ const Step5Resources = () => {
   // Calculate base resources on component mount and when relevant state changes
   useEffect(() => {
     const baseCalculation = {
-      actionPoints: actionPointsSelected ? calculateActionPoints(state) : 0,
+      actionPoints: selectedResources.includes('actionPoints') ? calculateActionPoints(state) : 0,
       mana: calculateManaCost(state),
       classResource: state.resourceCost.primaryResourceType ?
         calculateClassResourceCost(state, state.resourceCost.primaryResourceType) : 0
@@ -124,7 +126,6 @@ const Step5Resources = () => {
     const newWarnings = validateResourceConfiguration(state, baseCalculation);
     setWarnings(newWarnings);
   }, [
-    actionPointsSelected,
     selectedResources,
     state.effectTypes,
     state.spellType,
@@ -142,10 +143,9 @@ const Step5Resources = () => {
       resourceValues: resourceValues,
       resourceFormulas: resourceFormulas,
       useFormulas: useFormulas,
-      actionPoints: actionPointsSelected ? (state.resourceCost.actionPoints || 1) : 0,
-      actionPointsSelected: actionPointsSelected // Add this line to save the actionPointsSelected state
+      actionPoints: selectedResources.includes('actionPoints') ? (resourceValues.actionPoints || 1) : 0
     }));
-  }, [actionPointsSelected, selectedResources, resourceValues, resourceFormulas, useFormulas]);
+  }, [selectedResources, resourceValues, resourceFormulas, useFormulas]);
 
   // Handler for resource type selection
   const handleResourceTypeToggle = (resourceType) => {
@@ -241,25 +241,9 @@ const Step5Resources = () => {
     setShowFormulaHelp(true);
   };
 
-  // Handler for action points toggle
+  // Handler for action points toggle - now uses regular resource toggle
   const handleActionPointsToggle = () => {
-    const newActionPointsSelected = !actionPointsSelected;
-    setActionPointsSelected(newActionPointsSelected);
-
-    // Update the action points in the context
-    if (newActionPointsSelected) {
-      // If turning on, set to default value of 1
-      dispatch(actionCreators.updateResourceCost({
-        actionPoints: 1,
-        actionPointsSelected: true
-      }));
-    } else {
-      // If turning off, set to 0
-      dispatch(actionCreators.updateResourceCost({
-        actionPoints: 0,
-        actionPointsSelected: false
-      }));
-    }
+    handleResourceTypeToggle('actionPoints');
   };
 
   // Handler for resource cost adjustments
@@ -288,12 +272,12 @@ const Step5Resources = () => {
     const warnings = [];
 
     // Check if spell has no resource costs
-    if (!actionPointsSelected && selectedResources.length === 0) {
+    if (selectedResources.length === 0) {
       warnings.push('This spell has no resource costs. It can be cast freely without limitations.');
     }
 
     // Check for potentially unbalanced resource configurations
-    if (actionPointsSelected && resources.actionPoints > 3) {
+    if (selectedResources.includes('actionPoints') && resources.actionPoints > 3) {
       warnings.push('This spell has a high action point cost. Consider if it should be split into multiple abilities.');
     }
 
@@ -361,7 +345,7 @@ const Step5Resources = () => {
         </div>
         <div className="resource-summary-body">
           {/* Show message when no resources are selected */}
-          {!actionPointsSelected && selectedResources.length === 0 && (
+          {selectedResources.length === 0 && (
             <div className="resource-cost-item free-spell">
               <div className="resource-icon action">
                 <FontAwesomeIcon icon={faInfoCircle} />
@@ -370,21 +354,6 @@ const Step5Resources = () => {
                 <div className="resource-cost-label">Free Spell</div>
                 <div className="resource-cost-value">
                   This spell has no resource costs
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Action Points - only show if selected */}
-          {actionPointsSelected && (
-            <div className="resource-cost-item">
-              <div className="resource-icon action">
-                <FontAwesomeIcon icon={faBolt} />
-              </div>
-              <div className="resource-cost-details">
-                <div className="resource-cost-label">Action Points</div>
-                <div className="resource-cost-value">
-                  {state.resourceCost.actionPoints !== undefined ? state.resourceCost.actionPoints : 1}
                 </div>
               </div>
             </div>
@@ -447,19 +416,6 @@ const Step5Resources = () => {
             </div>
             <div className="resource-card-body">
               <div className="resource-type-options">
-                {/* Action Points */}
-                <div
-                  key="actionPoints"
-                  className={`resource-type-option ${actionPointsSelected ? 'selected' : ''}`}
-                  onClick={handleActionPointsToggle}
-                  title="Basic action economy"
-                >
-                  <div className="resource-type-icon">
-                    <FontAwesomeIcon icon={faBolt} />
-                  </div>
-                  <div className="resource-type-name">Action Points</div>
-                </div>
-
                 {resourceTypes.map(resource => (
                   <div
                     key={resource.id}
@@ -475,35 +431,7 @@ const Step5Resources = () => {
                 ))}
               </div>
 
-              {/* Action Points Configuration - only show if selected */}
-              {actionPointsSelected && (
-              <div className="resource-cost-config">
-                <div className="resource-cost-header">
-                  <div className="resource-type-icon small">
-                    <FontAwesomeIcon icon={faBolt} />
-                  </div>
-                  <div className="resource-type-name">Action Points Cost</div>
-                </div>
-                <div className="resource-input-group">
-                  <input
-                    type="number"
-                    min="0"
-                    max="5"
-                    className="resource-input"
-                    value={getCurrentResourceCost('actionPoints')}
-                    onChange={(e) => handleResourceCostChange('actionPoints', e)}
-                  />
-                  <div className="resource-input-hint">
-                    Most spells cost 1-2 action points. Set to 0 for free spells or passive abilities.
-                  </div>
-                  {getCurrentResourceCost('actionPoints') === 0 && state.spellType !== 'passive' && (
-                    <div className="resource-warning-hint">
-                      <FontAwesomeIcon icon={faExclamationTriangle} /> Non-passive spells with 0 AP cost can be cast freely.
-                    </div>
-                  )}
-                </div>
-              </div>
-              )}
+
 
               {/* Resource Cost Configuration */}
               {selectedResources.map(resourceType => {
@@ -592,39 +520,25 @@ const Step5Resources = () => {
           </div>
 
           {/* Spell Components */}
-          <SpellComponentsSelector
-            components={spellComponents.components}
-            materialComponents={spellComponents.materialComponents}
-            verbalText={spellComponents.verbalText}
-            somaticText={spellComponents.somaticText}
-            onChange={handleComponentsChange}
-          />
-        </div>
-      </div>
-
-      {/* Resource Guidelines */}
-      <div className="resource-guidelines">
-        <div className="resource-guidelines-header">
-          <FontAwesomeIcon icon={faInfoCircle} />
-          <h4>Resource Guidelines</h4>
-        </div>
-        <div className="resource-guidelines-body">
-          <div className="resource-guidelines-section">
-            <h5>Balancing Resource Costs</h5>
-            <ul className="resource-guidelines-list">
-              <li><strong>Action Points:</strong> 1-2 for standard spells, 3+ for powerful or complex abilities</li>
-              <li><strong>Mana:</strong> Level × (5-10) for standard effects, more for powerful or AoE abilities</li>
-              <li><strong>Class Resources:</strong> Each resource type has unique considerations:
-                <ul>
-                  <li>Rage: 10-30 for utility effects, 30-60 for offensive abilities</li>
-                  <li>Energy: 30-60 for standard abilities, balanced by quick regeneration</li>
-                  <li>Combo Points: Generated by 'builder' abilities, spent by 'finishers'</li>
-                </ul>
-              </li>
-            </ul>
+          <div className="resource-card">
+            <div className="resource-card-header">
+              <h4>Spell Components</h4>
+              <div className="resource-card-subtitle">Select physical requirements for casting this spell</div>
+            </div>
+            <div className="resource-card-body">
+              <SpellComponentsSelector
+                components={spellComponents.components}
+                materialComponents={spellComponents.materialComponents}
+                verbalText={spellComponents.verbalText}
+                somaticText={spellComponents.somaticText}
+                onChange={handleComponentsChange}
+              />
+            </div>
           </div>
         </div>
       </div>
+
+
     </div>
   );
 };

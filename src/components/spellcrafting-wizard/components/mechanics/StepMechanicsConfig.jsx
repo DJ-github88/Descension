@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import ResourceThresholdSlider from '../common/ResourceThresholdSlider';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
@@ -20,7 +21,8 @@ import {
   faRadiation,
   faSpider,
   faGhost,
-  faBug
+  faBug,
+  faSmog
 } from '@fortawesome/free-solid-svg-icons';
 import { FaDiceD20, FaClone, FaCoins } from 'react-icons/fa';
 
@@ -29,14 +31,12 @@ import SpellSelector from '../common/SpellSelector';
 import IconSelectionCard from '../common/IconSelectionCard';
 import EnhancedGraduatedRecipeEffects from './EnhancedGraduatedRecipeEffects';
 import ToxicSystemEffects from './ToxicSystemEffects';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
 
-// Import styles
+
+// Import Pathfinder styles
 import '../../styles/MechanicThresholds.css';
-import '../../styles/ChordSystem.css';
 import '../../styles/GraduatedRecipeEffects.css';
-import '../../styles/StepMechanicsConfig.css';
-import '../../styles/ToxicSystem.css';
+// Pathfinder styles imported via main.css
 
 // Step mechanics systems - Simplified to only include the most relevant ones
 const STEP_MECHANICS_SYSTEMS = {
@@ -133,24 +133,23 @@ const STEP_MECHANICS_SYSTEMS = {
       { id: 'toxic_consumer', name: 'Toxic Consumer', description: 'Consumes toxins for enhanced effects', icon: faSkullCrossbones }
     ],
     toxicTypes: [
-      { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target', icon: faVirus, color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
-      { id: 'poison', name: 'Poison', description: 'Toxic substances that damage over time', icon: faFlask, color: '#006400', wowIcon: 'ability_creature_poison_06' },
-      { id: 'curse', name: 'Curse', description: 'Magical afflictions that debilitate', icon: faGhost, color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
-      { id: 'venom', name: 'Venom', description: 'Injected toxins with potent effects', icon: faSpider, color: '#006400', wowIcon: 'ability_creature_poison_03' },
-      { id: 'blight', name: 'Blight', description: 'Corrupting influence that spreads', icon: faBiohazard, color: '#8B4513', wowIcon: 'spell_shadow_creepingplague' },
-      { id: 'plague', name: 'Plague', description: 'Highly contagious diseases', icon: faSkullCrossbones, color: '#2F4F4F', wowIcon: 'spell_shadow_plaguecloud' },
-      { id: 'necrotic', name: 'Necrotic', description: 'Rotting affliction that prevents healing', icon: faVirus, color: '#8B008B', wowIcon: 'spell_deathknight_necroticplague' },
-      { id: 'toxic', name: 'Toxic', description: 'Caustic substances that burn and corrode', icon: faFlask, color: '#006400', wowIcon: 'ability_creature_poison_02' },
+      // Core Toxic Types
+      { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target over time', icon: faVirus, color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
+      { id: 'poison', name: 'Poison', description: 'Toxic substances that cause immediate and ongoing damage', icon: faFlask, color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
+      { id: 'curse', name: 'Curse', description: 'Magical afflictions that reduce effectiveness and luck', icon: faGhost, color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
+      { id: 'venom', name: 'Venom', description: 'Injected toxins that cause severe damage and paralysis', icon: faSpider, color: '#228B22', wowIcon: 'ability_creature_poison_03' },
+
+      // Advanced Toxic Types
+      { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', icon: faSkull, color: '#8B0000', wowIcon: 'spell_shadow_creepingplague' },
+      { id: 'acid', name: 'Acid', description: 'Corrosive substance that dissolves armor and flesh', icon: faFlask, color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
+      { id: 'necrosis', name: 'Necrosis', description: 'Death magic that causes tissue decay and weakness', icon: faSkullCrossbones, color: '#2F4F4F', wowIcon: 'spell_shadow_deathcoil' },
+      { id: 'miasma', name: 'Miasma', description: 'Toxic cloud that impairs vision and breathing', icon: faSmog, color: '#696969', wowIcon: 'spell_shadow_plaguecloud' },
+
+      // Exotic Toxic Types
+      { id: 'parasites', name: 'Parasites', description: 'Living organisms that drain health and mana', icon: faBug, color: '#8B4513', wowIcon: 'spell_nature_insectswarm' },
+      { id: 'radiation', name: 'Radiation', description: 'Arcane energy that mutates and weakens over time', icon: faRadiation, color: '#00CED1', wowIcon: 'spell_arcane_arcanetorrent' },
       { id: 'corruption', name: 'Corruption', description: 'Dark energy that corrupts from within', icon: faGhost, color: '#4B0082', wowIcon: 'spell_shadow_abominationexplosion' },
-      { id: 'contagion', name: 'Contagion', description: 'Rapidly spreading infection', icon: faBiohazard, color: '#8B4513', wowIcon: 'spell_shadow_contagion' },
-      { id: 'decay', name: 'Decay', description: 'Gradual deterioration of physical form', icon: faVirus, color: '#8B4513', wowIcon: 'ability_creature_disease_02' },
-      { id: 'pestilence', name: 'Pestilence', description: 'Devastating disease that affects multiple systems', icon: faVirus, color: '#2F4F4F', wowIcon: 'spell_nature_nullifydisease' },
-      { id: 'toxin', name: 'Toxin', description: 'Concentrated poison with immediate effects', icon: faFlask, color: '#006400', wowIcon: 'ability_creature_poison_05' },
-      { id: 'miasma', name: 'Miasma', description: 'Noxious vapors that cause illness', icon: faFlask, color: '#4B0082', wowIcon: 'spell_shadow_rainoffire' },
-      { id: 'rot', name: 'Rot', description: 'Accelerated decomposition of living tissue', icon: faVirus, color: '#8B4513', wowIcon: 'ability_creature_disease_03' },
-      { id: 'infection', name: 'Infection', description: 'Invasive pathogens that multiply rapidly', icon: faVirus, color: '#8B008B', wowIcon: 'inv_misc_herb_plaguebloom' },
-      { id: 'vile', name: 'Vile', description: 'Repulsive substance that causes nausea and weakness', icon: faFlask, color: '#006400', wowIcon: 'spell_shadow_lifedrain02' },
-      { id: 'putrid', name: 'Putrid', description: 'Foul-smelling decay that weakens resolve', icon: faBiohazard, color: '#8B4513', wowIcon: 'ability_creature_cursed_04' }
+      { id: 'contagion', name: 'Contagion', description: 'Rapidly spreading infection that jumps between targets', icon: faBiohazard, color: '#8B4513', wowIcon: 'spell_shadow_contagion' }
     ]
   }
 };
@@ -338,13 +337,15 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
     }
   });
 
-  // Update configuration when it changes
+  // Update configuration when it changes - use useCallback to prevent infinite loops
+  const stableOnConfigUpdate = useCallback(onConfigUpdate, []);
+
   useEffect(() => {
     // Create a function to update both parent and context
     const updateConfiguration = () => {
       // If parent component provided an update callback, use it
-      if (onConfigUpdate) {
-        onConfigUpdate(config);
+      if (stableOnConfigUpdate) {
+        stableOnConfigUpdate(config);
       }
 
       // Always update the context if we have an effectId
@@ -361,7 +362,7 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
 
     // Clean up the timeout if the component unmounts
     return () => clearTimeout(timeoutId);
-  }, [config, onConfigUpdate, dispatch, effectId]);
+  }, [config, stableOnConfigUpdate, dispatch, effectId]);
 
   // Get the selected system - will be enhanced later
 
@@ -562,23 +563,17 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
         </div>
         <div className="tooltip-flavor">
           {toxicType.id === 'disease' && "\"A biological affliction that weakens its victims from within.\""}
-          {toxicType.id === 'poison' && "\"A toxic substance that causes damage over time.\""}
+          {toxicType.id === 'poison' && "\"A toxic substance that causes immediate and ongoing damage.\""}
           {toxicType.id === 'curse' && "\"A magical affliction that brings misfortune and suffering.\""}
           {toxicType.id === 'venom' && "\"A potent toxin delivered directly into the bloodstream.\""}
-          {toxicType.id === 'blight' && "\"A corrupting influence that spreads to nearby targets.\""}
-          {toxicType.id === 'plague' && "\"A highly contagious disease that affects multiple targets.\""}
-          {toxicType.id === 'necrotic' && "\"A rotting affliction that prevents healing and recovery.\""}
-          {toxicType.id === 'toxic' && "\"A caustic substance that burns and corrodes its victims.\""}
+          {toxicType.id === 'blight' && "\"A corrupting force that spreads decay to nearby targets.\""}
+          {toxicType.id === 'acid' && "\"A corrosive substance that dissolves armor and flesh.\""}
+          {toxicType.id === 'necrosis' && "\"Death magic that causes tissue decay and weakness.\""}
+          {toxicType.id === 'miasma' && "\"A toxic cloud that impairs vision and breathing.\""}
+          {toxicType.id === 'parasites' && "\"Living organisms that drain health and mana.\""}
+          {toxicType.id === 'radiation' && "\"Arcane energy that mutates and weakens over time.\""}
           {toxicType.id === 'corruption' && "\"Dark energy that corrupts from within, causing gradual decay.\""}
           {toxicType.id === 'contagion' && "\"A rapidly spreading infection that jumps between targets.\""}
-          {toxicType.id === 'decay' && "\"A gradual deterioration that breaks down physical form over time.\""}
-          {toxicType.id === 'pestilence' && "\"A devastating disease that affects multiple bodily systems at once.\""}
-          {toxicType.id === 'toxin' && "\"A concentrated poison that causes immediate and severe effects.\""}
-          {toxicType.id === 'miasma' && "\"Noxious vapors that cause illness and disorientation.\""}
-          {toxicType.id === 'rot' && "\"Accelerated decomposition that breaks down living tissue.\""}
-          {toxicType.id === 'infection' && "\"Invasive pathogens that multiply rapidly within the host.\""}
-          {toxicType.id === 'vile' && "\"A repulsive substance that causes nausea and weakness.\""}
-          {toxicType.id === 'putrid' && "\"A foul-smelling decay that weakens resolve and constitution.\""}
         </div>
       </div>
     );
@@ -1925,14 +1920,7 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
             <div className="effect-config-group">
               <h4 className="section-header">Chord System Configuration</h4>
 
-              {/* WoW Classic Tooltip */}
-              <Wc3Tooltip
-                content={tooltipContent?.content}
-                title={tooltipContent?.title}
-                icon={tooltipContent?.icon}
-                position={mousePos}
-                isVisible={showTooltip}
-              />
+
 
               {/* Note/Builder Configuration */}
               {config.type === 'note' && (
@@ -2111,7 +2099,6 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
                         <button
                           key={chordFunction.id}
                           className="chord-function-button"
-                          style={{ borderColor: chordFunction.color }}
                           onClick={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
@@ -2396,36 +2383,22 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
                 <>
                   <div className="effect-select-group">
                     <label>Toxic Types</label>
-                    <div className="toxic-type-selector">
+                    <div className="chord-function-grid">
                       {STEP_MECHANICS_SYSTEMS.TOXIC_SYSTEM.toxicTypes.map(toxicType => (
                         <button
                           key={toxicType.id}
-                          className={`toxic-icon-button ${config.toxicOptions.selectedToxicTypes[toxicType.id] ? 'active' : ''}`}
-                          style={{ borderColor: toxicType.color }}
+                          className={`chord-function-button ${config.toxicOptions.selectedToxicTypes[toxicType.id] ? 'active' : ''}`}
                           onClick={(e) => handleToxicTypeSelect(toxicType, e)}
                           onMouseEnter={(e) => handleToxicTooltipEnter(toxicType, e)}
                           onMouseLeave={handleToxicTooltipLeave}
                           onMouseMove={handleToxicTooltipMove}
                         >
-                          {toxicType.wowIcon ? (
-                            <div className="toxic-icon-wrapper">
-                              <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${toxicType.wowIcon}.jpg`}
-                                alt={toxicType.name}
-                                style={{ width: '42px', height: '42px', borderRadius: '4px' }}
-                              />
-                              {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
-                                <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="toxic-icon-wrapper">
-                              <FontAwesomeIcon icon={toxicType.icon} style={{ fontSize: '24px', color: toxicType.color }} />
-                              {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
-                                <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
-                              )}
-                            </div>
-                          )}
+                          <div className="chord-icon-wrapper">
+                            {toxicType.name}
+                            {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
+                              <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
+                            )}
+                          </div>
                         </button>
                       ))}
                     </div>
@@ -2574,36 +2547,22 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
 
                   <div className="effect-config-group">
                     <label>Toxic Types to Consume</label>
-                    <div className="toxic-type-selector">
+                    <div className="chord-function-grid">
                       {STEP_MECHANICS_SYSTEMS.TOXIC_SYSTEM.toxicTypes.map(toxicType => (
                         <button
                           key={toxicType.id}
-                          className={`toxic-icon-button ${config.toxicOptions.selectedToxicTypes[toxicType.id] ? 'active' : ''}`}
-                          style={{ borderColor: toxicType.color }}
+                          className={`chord-function-button ${config.toxicOptions.selectedToxicTypes[toxicType.id] ? 'active' : ''}`}
                           onClick={(e) => handleToxicTypeSelect(toxicType, e)}
                           onMouseEnter={(e) => handleToxicTooltipEnter(toxicType, e)}
                           onMouseLeave={handleToxicTooltipLeave}
                           onMouseMove={handleToxicTooltipMove}
                         >
-                          {toxicType.wowIcon ? (
-                            <div className="toxic-icon-wrapper">
-                              <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${toxicType.wowIcon}.jpg`}
-                                alt={toxicType.name}
-                                style={{ width: '42px', height: '42px', borderRadius: '4px' }}
-                              />
-                              {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
-                                <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="toxic-icon-wrapper">
-                              <FontAwesomeIcon icon={toxicType.icon} style={{ fontSize: '24px', color: toxicType.color }} />
-                              {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
-                                <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
-                              )}
-                            </div>
-                          )}
+                          <div className="chord-icon-wrapper">
+                            {toxicType.name}
+                            {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
+                              <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
+                            )}
+                          </div>
                         </button>
                       ))}
                     </div>
@@ -3370,14 +3329,53 @@ const StepMechanicsConfig = ({ effectId, effectType, currentConfig, onConfigUpda
         </button>
       </div>
 
-      {/* Tooltip for toxic types */}
-      <Wc3Tooltip
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon || null}
-        position={mousePos}
-        content={tooltipContent?.content}
-        isVisible={showTooltip}
-      />
+      {/* Tooltip Rendering */}
+      {showTooltip && tooltipContent && (() => {
+        const tooltipRoot = document.getElementById('tooltip-root') || document.body;
+        return ReactDOM.createPortal(
+          <div
+            className="wc3-tooltip"
+            style={{
+              position: 'fixed',
+              left: mousePos.x,
+              top: mousePos.y,
+              zIndex: 99999,
+              pointerEvents: 'none',
+              transform: 'translate(10px, -100%)'
+            }}
+          >
+            <div className="tooltip-top-border"></div>
+            <div className="wc3-tooltip-content">
+              {tooltipContent.icon && (
+                <div className="wc3-tooltip-header">
+                  <img
+                    src={tooltipContent.icon}
+                    alt={tooltipContent.title}
+                    className="tooltip-icon"
+                    style={{ width: '32px', height: '32px', marginRight: '8px' }}
+                  />
+                  <span className="wc3-tooltip-title">{tooltipContent.title}</span>
+                </div>
+              )}
+              {!tooltipContent.icon && tooltipContent.title && (
+                <div className="wc3-tooltip-header">
+                  <span className="wc3-tooltip-title">{tooltipContent.title}</span>
+                </div>
+              )}
+              <div className="wc3-tooltip-body">
+                {typeof tooltipContent.content === 'string' ? (
+                  <div className="tooltip-description">{tooltipContent.content}</div>
+                ) : (
+                  tooltipContent.content
+                )}
+              </div>
+            </div>
+            <div className="tooltip-bottom-border"></div>
+          </div>,
+          tooltipRoot
+        );
+      })()}
+
     </div>
   );
 };

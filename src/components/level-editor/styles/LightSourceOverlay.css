@@ -1,0 +1,213 @@
+/* Light Source Overlay - Professional VTT Styling */
+.light-source-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 150; /* Above grid but below UI */
+}
+
+.light-source-container {
+    position: relative;
+}
+
+/* Light Illumination Area */
+.light-illumination {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 151;
+}
+
+.light-illumination.flickering {
+    animation: lightFlicker 2s infinite ease-in-out;
+}
+
+@keyframes lightFlicker {
+    0%, 100% { opacity: 1; }
+    25% { opacity: 0.8; }
+    50% { opacity: 0.9; }
+    75% { opacity: 0.85; }
+}
+
+/* Light Source Icon */
+.light-source-icon {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 16px;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+    z-index: 152;
+    pointer-events: none;
+}
+
+.light-source-icon.interactive {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.light-source-icon.interactive:hover {
+    transform: scale(1.1);
+    border-color: #f0e6d2;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
+}
+
+.light-source-icon.disabled {
+    border-color: #666;
+    background: rgba(0, 0, 0, 0.5);
+    color: #999;
+}
+
+.light-source-icon.disabled.interactive:hover {
+    border-color: #888;
+    transform: scale(1.05);
+}
+
+/* Light Source Label */
+.light-source-label {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.8);
+    color: #f0e6d2;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #7a3b2e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 153;
+    opacity: 0.9;
+}
+
+/* Light Type Specific Styling */
+.light-source-icon[title*="Torch"] {
+    border-color: #ff6b35;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+}
+
+.light-source-icon[title*="Lantern"] {
+    border-color: #ffeb3b;
+    box-shadow: 0 2px 8px rgba(255, 235, 59, 0.4);
+}
+
+.light-source-icon[title*="Candle"] {
+    border-color: #fff3e0;
+    box-shadow: 0 2px 8px rgba(255, 243, 224, 0.4);
+}
+
+.light-source-icon[title*="Magical"] {
+    border-color: #9c27b0;
+    box-shadow: 0 2px 8px rgba(156, 39, 176, 0.4);
+    animation: magicalGlow 3s infinite ease-in-out;
+}
+
+@keyframes magicalGlow {
+    0%, 100% { box-shadow: 0 2px 8px rgba(156, 39, 176, 0.4); }
+    50% { box-shadow: 0 2px 12px rgba(156, 39, 176, 0.8); }
+}
+
+.light-source-icon[title*="Campfire"] {
+    border-color: #ff5722;
+    box-shadow: 0 2px 8px rgba(255, 87, 34, 0.4);
+}
+
+.light-source-icon[title*="Sunlight"] {
+    border-color: #fff59d;
+    box-shadow: 0 2px 8px rgba(255, 245, 157, 0.6);
+    animation: sunlightPulse 4s infinite ease-in-out;
+}
+
+@keyframes sunlightPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .light-source-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+    }
+    
+    .light-source-label {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+}
+
+@media (max-width: 768px) {
+    .light-source-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 12px;
+    }
+    
+    .light-source-label {
+        font-size: 8px;
+        padding: 1px 3px;
+    }
+}
+
+/* Accessibility */
+.light-source-icon:focus {
+    outline: 2px solid #d4af37;
+    outline-offset: 2px;
+}
+
+/* Performance Optimizations */
+.light-illumination {
+    will-change: opacity;
+}
+
+.light-source-icon {
+    will-change: transform;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .light-source-icon {
+        border-width: 3px;
+        background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .light-source-label {
+        background: rgba(0, 0, 0, 0.95);
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .light-illumination.flickering,
+    .light-source-icon[title*="Magical"],
+    .light-source-icon[title*="Sunlight"] {
+        animation: none;
+    }
+    
+    .light-source-icon {
+        transition: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .light-source-overlay {
+        display: none;
+    }
+}

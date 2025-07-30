@@ -1,0 +1,1044 @@
+/* ===== PATHFINDER SPELLBOOK - LIBRARY LAYOUT ===== */
+/* Enhanced library and collection layouts with improved Pathfinder theming */
+
+/* ===== LIBRARY VIEW ===== */
+
+.library-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--pf-gradient-parchment);
+  overflow: hidden;
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+/* ===== ENHANCED LIBRARY HEADER ===== */
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-5) var(--pf-space-6);
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  box-shadow:
+    0 4px 12px rgba(45, 24, 16, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.library-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-gold) 15%,
+    var(--pf-gold-light) 50%,
+    var(--pf-gold) 85%,
+    transparent
+  );
+  box-shadow: 0 1px 3px rgba(212, 175, 55, 0.4);
+}
+
+.library-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-3xl);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-on-dark);
+  margin: 0;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.7),
+    0 0 8px rgba(212, 175, 55, 0.3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.library-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-4);
+}
+
+/* ===== ENHANCED LIBRARY FILTERS ===== */
+
+.library-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-5);
+  padding: var(--pf-space-5) var(--pf-space-6);
+  background: var(--pf-gradient-parchment-dark);
+  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  box-shadow:
+    inset 0 3px 6px rgba(45, 24, 16, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.library-filters::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(139, 69, 19, 0.02) 8px,
+      rgba(139, 69, 19, 0.02) 16px
+    );
+  pointer-events: none;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  min-width: 220px;
+  position: relative;
+  z-index: 2;
+}
+
+.filter-label {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--pf-space-1);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.filter-search {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+  z-index: 2;
+}
+
+.filter-search-input {
+  width: 100%;
+  padding: var(--pf-space-4) var(--pf-space-5) var(--pf-space-4) var(--pf-space-12);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-lg);
+  color: var(--pf-text-primary);
+  transition: all var(--pf-transition-normal);
+  box-shadow:
+    inset 0 2px 4px rgba(45, 24, 16, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-search-input:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow:
+    inset 0 2px 4px rgba(45, 24, 16, 0.1),
+    0 0 0 3px rgba(212, 175, 55, 0.2),
+    0 2px 8px rgba(212, 175, 55, 0.1);
+  background: var(--pf-gradient-parchment-light);
+}
+
+.filter-search-input::placeholder {
+  color: var(--pf-text-muted);
+  font-style: italic;
+}
+
+.filter-search-icon {
+  position: absolute;
+  left: var(--pf-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pf-brown-medium);
+  font-size: var(--pf-text-xl);
+  transition: color var(--pf-transition-normal);
+}
+
+.filter-search:focus-within .filter-search-icon {
+  color: var(--pf-gold);
+}
+
+/* ===== ENHANCED LIBRARY CONTENT ===== */
+
+.library-content {
+  flex: 1;
+  overflow: auto;
+  background: var(--pf-gradient-parchment);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.library-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 16px,
+      rgba(139, 69, 19, 0.015) 16px,
+      rgba(139, 69, 19, 0.015) 32px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(139, 69, 19, 0.01) 20px,
+      rgba(139, 69, 19, 0.01) 40px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.library-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== SPELL LIBRARY LAYOUT ===== */
+
+/* Spell Library Header */
+.spell-library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-5);
+  background: var(--pf-gradient-parchment-dark);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.spell-library-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-2xl);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-parchment-light);
+  margin: 0;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.9),
+    1px 1px 2px rgba(0, 0, 0, 0.8),
+    0 0 8px rgba(212, 175, 55, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.spell-library-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+.view-mode-controls {
+  display: flex;
+  gap: var(--pf-space-2);
+}
+
+.view-mode-button {
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--pf-text-base);
+}
+
+.view-mode-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.view-mode-button.active {
+  background: var(--pf-brown-medium);
+  border-color: var(--pf-gold);
+  color: var(--pf-parchment-light);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== VIEW MODE CONTROLS ===== */
+
+.view-mode-controls {
+  display: flex;
+  gap: var(--pf-space-1);
+  align-items: center;
+}
+
+.view-mode-button {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 36px;
+}
+
+.view-mode-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.view-mode-button i {
+  font-size: 14px;
+}
+
+.spell-library-content {
+  display: flex;
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+}
+
+.spell-library-sidebar {
+  width: 300px;
+  min-width: 300px;
+  background: var(--pf-gradient-parchment-dark);
+  border-right: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  overflow-y: auto;
+  box-shadow:
+    2px 0 8px rgba(45, 24, 16, 0.1),
+    inset -1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.spell-library-spells {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pf-space-6);
+  background: var(--pf-gradient-parchment);
+}
+
+
+
+/* ===== ENHANCED SPELL GRID ===== */
+
+.spell-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+  gap: var(--pf-space-6);
+  padding: var(--pf-space-4) 0;
+  margin-top: var(--pf-space-4);
+}
+
+.spell-library-spells.grid-view .spell-cards-container {
+  grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+  gap: var(--pf-space-5);
+}
+
+.spell-library-spells.list-view .spell-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+}
+
+.spell-library-spells.compact-view .spell-cards-container {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--pf-space-3);
+  justify-items: center;
+}
+
+.spell-library-spells.large-view .spell-cards-container {
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: var(--pf-space-8);
+}
+
+/* ===== SPELL COUNT INFO ===== */
+
+.spell-count-info {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  margin-bottom: var(--pf-space-4);
+  text-align: center;
+  font-weight: var(--pf-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* ===== SPELL CARD WRAPPER ENHANCEMENTS ===== */
+
+.spell-card-wrapper {
+  position: relative;
+  transition: all var(--pf-transition-normal);
+  border-radius: var(--pf-border-radius-lg);
+  overflow: visible;
+}
+
+.spell-card-wrapper.selected {
+  transform: scale(1.02);
+}
+
+.spell-card-wrapper.has-edit-button {
+  overflow: visible;
+}
+
+/* ===== CLEAN EDIT BUTTON STYLING ===== */
+
+.edit-button-container {
+  position: absolute;
+  top: var(--pf-space-2);
+  right: var(--pf-space-2);
+  z-index: 100;
+  opacity: 0;
+  transition: opacity var(--pf-transition-normal);
+}
+
+.spell-card-wrapper:hover .edit-button-container {
+  opacity: 1;
+}
+
+.edit-button-container button {
+  background: var(--pf-gradient-gold);
+  color: var(--pf-brown-darkest);
+  border: 2px solid var(--pf-gold-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  box-shadow:
+    var(--pf-shadow-md),
+    0 0 8px rgba(212, 175, 55, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+}
+
+.edit-button-container button:hover {
+  background: var(--pf-gold-light);
+  transform: translateY(-1px);
+  box-shadow:
+    var(--pf-shadow-lg),
+    0 0 12px rgba(212, 175, 55, 0.5);
+}
+
+.edit-button-container button:active {
+  transform: translateY(0);
+}
+
+/* Hide the center edit button overlay - we only want the corner button */
+.spell-card-wrapper .center-edit-button {
+  display: none !important;
+}
+
+/* ===== NO RESULTS STATE ===== */
+
+.spell-library-no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-12);
+  text-align: center;
+  color: var(--pf-text-muted);
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  margin: var(--pf-space-8);
+}
+
+.spell-library-no-results p {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-lg);
+  margin: 0 0 var(--pf-space-4) 0;
+  color: var(--pf-text-secondary);
+}
+
+.spell-library-no-results .secondary-button {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-3) var(--pf-space-6);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spell-library-no-results .secondary-button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* ===== COLLECTION VIEW ===== */
+
+.collection-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--pf-gradient-parchment);
+}
+
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-6);
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  box-shadow: 0 2px 8px rgba(45, 24, 16, 0.2);
+}
+
+.collection-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-2xl);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-on-dark);
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.collection-info {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-parchment);
+  opacity: 0.9;
+}
+
+.collection-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+/* ===== COLLECTION LIST ===== */
+
+.collection-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--pf-space-6);
+  padding: var(--pf-space-6);
+}
+
+.collection-card {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  overflow: hidden;
+  transition: all var(--pf-transition-normal);
+  cursor: pointer;
+  position: relative;
+}
+
+.collection-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(139, 69, 19, 0.02) 4px,
+      rgba(139, 69, 19, 0.02) 8px
+    );
+  pointer-events: none;
+  border-radius: var(--pf-border-radius);
+  z-index: 1;
+}
+
+.collection-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.collection-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pf-shadow-xl);
+  border-color: var(--pf-brown-dark);
+}
+
+.collection-card-header {
+  padding: var(--pf-space-4);
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.collection-card-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-on-dark);
+  margin: 0 0 var(--pf-space-1) 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.collection-card-count {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-parchment);
+  opacity: 0.9;
+}
+
+.collection-card-body {
+  padding: var(--pf-space-4);
+}
+
+.collection-card-description {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  line-height: var(--pf-leading-normal);
+  margin: 0 0 var(--pf-space-3) 0;
+}
+
+.collection-card-spells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+}
+
+.collection-spell-tag {
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  font-weight: var(--pf-font-semibold);
+}
+
+/* ===== EMPTY STATES ===== */
+
+.library-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-12);
+  text-align: center;
+  color: var(--pf-text-muted);
+}
+
+.library-empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--pf-space-4);
+  opacity: 0.5;
+}
+
+.library-empty-title {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-2xl);
+  font-weight: var(--pf-font-bold);
+  margin: 0 0 var(--pf-space-2) 0;
+}
+
+.library-empty-description {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+  line-height: var(--pf-leading-normal);
+  margin: 0 0 var(--pf-space-6) 0;
+  max-width: 400px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .library-header {
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-3);
+  }
+  
+  .library-filters {
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-3);
+  }
+  
+  .filter-group {
+    min-width: auto;
+  }
+  
+  .filter-search {
+    min-width: auto;
+  }
+  
+  .spell-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-3);
+  }
+  
+  .collection-list {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-4);
+  }
+  
+  .library-content {
+    padding: var(--pf-space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .library-title {
+    font-size: var(--pf-text-xl);
+  }
+  
+  .collection-title {
+    font-size: var(--pf-text-xl);
+  }
+  
+  .spell-grid {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-2);
+  }
+  
+  .library-content {
+    padding: var(--pf-space-3);
+  }
+  
+  .library-empty {
+    padding: var(--pf-space-8);
+  }
+  
+  .library-empty-icon {
+    font-size: 48px;
+  }
+  
+  .library-empty-title {
+    font-size: var(--pf-text-xl);
+  }
+}
+
+/* ===== SPELLBOOK FILTERS SIDEBAR ===== */
+
+.spell-library-content {
+  display: flex;
+  height: 100%;
+  gap: 15px;
+}
+
+.spellbook-filters-sidebar {
+  width: 250px;
+  background: var(--pf-gradient-parchment-dark);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 8px;
+  padding: 15px;
+  margin-right: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow:
+    var(--pf-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.spellbook-filters-sidebar h3 {
+  color: #D4AF37;
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-bold);
+  margin: 0 0 10px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.spellbook-filters-sidebar input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 6px;
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.spellbook-filters-sidebar input[type="text"]:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.spellbook-filters-sidebar select {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 6px;
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.spellbook-filters-sidebar select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.spellbook-filters-sidebar button {
+  width: 100%;
+  padding: 10px;
+  background: var(--pf-gradient-button);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 6px;
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spellbook-filters-sidebar button:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* ===== SPELLBOOK TAB HEADERS ===== */
+
+.spellbook-tab-headers {
+  display: flex;
+  background: linear-gradient(135deg,
+    rgba(101, 67, 33, 0.95) 0%,
+    rgba(139, 69, 19, 0.9) 25%,
+    rgba(160, 82, 45, 0.85) 50%,
+    rgba(139, 69, 19, 0.9) 75%,
+    rgba(101, 67, 33, 0.95) 100%);
+  border-bottom: 3px solid #654321;
+  border-radius: 0;
+  box-shadow:
+    inset 0 2px 0 rgba(240, 230, 210, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: visible;
+  gap: 0;
+  padding: 0;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.spellbook-tab-headers::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(139, 69, 19, 0.05) 8px,
+      rgba(139, 69, 19, 0.05) 16px
+    );
+  pointer-events: none;
+}
+
+.spellbook-tab {
+  flex: 1;
+  padding: 8px 16px;
+  background: linear-gradient(135deg,
+    #f0e6d2 0%,
+    #e8dcc0 25%,
+    #f5f0e8 50%,
+    #e8dcc0 75%,
+    #f0e6d2 100%);
+  border: 2px solid #8b4513;
+  border-bottom: none;
+  border-radius: 0;
+  color: #3a2817;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px; /* Add gap between icon and text */
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.3),
+    1px 0 0 rgba(139, 69, 19, 0.5);
+  height: 48px;
+  clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 100%, 0% 100%);
+}
+
+/* Ensure icons in tabs are properly sized and aligned */
+.spellbook-tab svg,
+.spellbook-tab i {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Ensure text in tabs is properly aligned */
+.spellbook-tab span {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.spellbook-tab:hover:not(.active) {
+  background: linear-gradient(135deg,
+    #f8f3e8 0%,
+    #f0e6d2 25%,
+    #faf8f0 50%,
+    #f0e6d2 75%,
+    #f8f3e8 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.4),
+    1px 0 0 rgba(139, 69, 19, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  color: #2a1f15;
+  border-color: #654321;
+}
+
+.spellbook-tab.active {
+  background: linear-gradient(135deg,
+    #faf8f0 0%,
+    #ffffff 25%,
+    #fefcf8 50%,
+    #ffffff 75%,
+    #faf8f0 100%);
+  color: #1a1209;
+  border-color: #8b4513;
+  border-bottom: 3px solid #faf8f0;
+  transform: translateY(0);
+  z-index: 3;
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+    1px 0 0 rgba(139, 69, 19, 0.7),
+    -1px 0 0 rgba(139, 69, 19, 0.7);
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+  margin-bottom: -3px;
+  font-weight: 700;
+}
+
+.spellbook-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #faf8f0;
+  z-index: 4;
+}
+
+/* Add decorative elements to tabs for medieval scroll appearance */
+.spellbook-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at top, rgba(139, 69, 19, 0.1) 0%, transparent 70%),
+    linear-gradient(90deg,
+      rgba(139, 69, 19, 0.2) 0%,
+      transparent 8px,
+      transparent calc(100% - 8px),
+      rgba(139, 69, 19, 0.2) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.spellbook-tab.active::before {
+  background:
+    radial-gradient(ellipse at top, rgba(139, 69, 19, 0.05) 0%, transparent 70%),
+    linear-gradient(90deg,
+      rgba(139, 69, 19, 0.1) 0%,
+      transparent 8px,
+      transparent calc(100% - 8px),
+      rgba(139, 69, 19, 0.1) 100%);
+}
+
+/* First and last tab special styling */
+.spellbook-tab:first-child {
+  clip-path: polygon(0% 0%, calc(100% - 8px) 0%, 100% 100%, 0% 100%);
+  border-left: 2px solid #8b4513;
+}
+
+.spellbook-tab:last-child {
+  clip-path: polygon(8px 0%, 100% 0%, 100% 100%, 0% 100%);
+  border-right: 2px solid #8b4513;
+}
+
+.spellbook-tab:first-child:last-child {
+  clip-path: none;
+  border-left: 2px solid #8b4513;
+  border-right: 2px solid #8b4513;
+}

@@ -1,29 +1,30 @@
 /* ========== Per-Round Formula Editor Styles ==========
- * World of Warcraft Inspired Styling for the Per-Round Formula Editor
+ * Pathfinder Themed Styling for the Per-Round Formula Editor
  */
 
 .per-round-effect-container {
-  background: var(--wizard-surface);
-  border: 2px solid var(--wizard-border);
-  border-radius: var(--wizard-border-radius);
-  margin-bottom: 1.5rem;
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  margin-bottom: var(--pf-space-6);
   overflow: hidden;
-  box-shadow: var(--wizard-shadow-sm);
-  transition: all var(--wizard-transition-fast);
+  box-shadow: var(--pf-shadow-md);
+  transition: all var(--pf-transition-normal);
+  font-family: var(--pf-font-body);
 }
 
 .per-round-effect-container:hover {
-  border-color: var(--wizard-primary);
-  box-shadow: var(--wizard-shadow-md);
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-lg);
 }
 
 .per-round-effect-header {
-  background: linear-gradient(to bottom, var(--wizard-surface-light), var(--wizard-surface));
-  padding: 1rem;
-  border-bottom: 1px solid var(--wizard-border);
+  background: var(--pf-gradient-header);
+  padding: var(--pf-space-4);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--pf-space-2);
 }
 
 .per-round-effect-title {

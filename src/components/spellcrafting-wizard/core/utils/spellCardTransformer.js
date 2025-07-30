@@ -23,6 +23,15 @@ export const transformSpellForCard = (spell) => {
   transformedSpell.spellType = transformedSpell.spellType || 'ACTION';
   transformedSpell.effectType = transformedSpell.effectType || 'utility';
 
+  // Set school from typeConfig if available
+  if (transformedSpell.typeConfig?.school) {
+    transformedSpell.school = transformedSpell.typeConfig.school;
+  }
+
+  // Debug logging
+  console.log('Transformer - typeConfig:', transformedSpell.typeConfig);
+  console.log('Transformer - school set to:', transformedSpell.school);
+
   // Ensure type configuration exists
   transformedSpell.typeConfig = transformedSpell.typeConfig || {};
 
@@ -62,8 +71,9 @@ export const transformSpellForCard = (spell) => {
     };
   }
 
-  // Ensure damage/healing information exists
-  if (!transformedSpell.primaryDamage && (transformedSpell.effectType === 'damage' || transformedSpell.damageTypes?.length > 0)) {
+  // Ensure damage/healing information exists for damage spells
+  if (!transformedSpell.primaryDamage &&
+      (transformedSpell.effectTypes?.includes('damage') || transformedSpell.damageTypes?.length > 0)) {
     // Check if we have a damageConfig with a formula
     if (transformedSpell.damageConfig?.formula) {
       const formula = transformedSpell.damageConfig.formula;
@@ -71,13 +81,17 @@ export const transformSpellForCard = (spell) => {
       const flatMatch = formula.match(/\+\s*(\d+)/);
 
       transformedSpell.primaryDamage = {
-        dice: diceMatch ? diceMatch[1] : transformedSpell.formula || '6d6',
+        dice: diceMatch ? diceMatch[1] : formula,
         flat: flatMatch ? parseInt(flatMatch[1]) : 0
       };
-    } else {
+    } else if (transformedSpell.formula) {
+      // Fallback to formula field, but only for damage spells
+      const diceMatch = transformedSpell.formula.match(/(\d+d\d+)/);
+      const flatMatch = transformedSpell.formula.match(/\+\s*(\d+)/);
+
       transformedSpell.primaryDamage = {
-        dice: transformedSpell.formula || '6d6',
-        flat: 0
+        dice: diceMatch ? diceMatch[1] : transformedSpell.formula,
+        flat: flatMatch ? parseInt(flatMatch[1]) : 0
       };
     }
   }
@@ -131,7 +145,7 @@ export const transformSpellForCard = (spell) => {
   transformedSpell.shieldBreakEffect = transformedSpell.shieldBreakEffect || null;
   transformedSpell.shieldExpireEffect = transformedSpell.shieldExpireEffect || null;
 
-  if (!transformedSpell.healing && transformedSpell.effectType === 'healing') {
+  if (!transformedSpell.healing && transformedSpell.effectTypes?.includes('healing')) {
     // Check if we have a healingConfig with a formula
     if (transformedSpell.healingConfig?.formula) {
       const formula = transformedSpell.healingConfig.formula;
@@ -139,37 +153,68 @@ export const transformSpellForCard = (spell) => {
       const flatMatch = formula.match(/\+\s*(\d+)/);
 
       transformedSpell.healing = {
-        dice: diceMatch ? diceMatch[1] : transformedSpell.formula || '6d8',
+        dice: diceMatch ? diceMatch[1] : formula,
         flat: flatMatch ? parseInt(flatMatch[1]) : 0
       };
-    } else {
+    } else if (transformedSpell.formula) {
+      // Fallback to formula field, but only for healing spells
+      const diceMatch = transformedSpell.formula.match(/(\d+d\d+)/);
+      const flatMatch = transformedSpell.formula.match(/\+\s*(\d+)/);
+
       transformedSpell.healing = {
-        dice: transformedSpell.formula || '6d8',
-        flat: 0
+        dice: diceMatch ? diceMatch[1] : transformedSpell.formula,
+        flat: flatMatch ? parseInt(flatMatch[1]) : 0
       };
     }
   }
 
-  // Ensure damage types exist
+  // Ensure damage types exist - check multiple sources
   transformedSpell.damageTypes = transformedSpell.damageTypes || [];
 
-  // If we have a school in typeConfig but no damageTypes, add it
-  if (transformedSpell.typeConfig?.school && transformedSpell.damageTypes.length === 0) {
-    transformedSpell.damageTypes.push(transformedSpell.typeConfig.school);
+  // Add damage types from damageConfig
+  if (transformedSpell.damageConfig?.elementType) {
+    if (!transformedSpell.damageTypes.includes(transformedSpell.damageConfig.elementType)) {
+      transformedSpell.damageTypes.push(transformedSpell.damageConfig.elementType);
+    }
   }
 
-  // If we have a secondaryElement in typeConfig, add it to damageTypes
+  // Add secondary damage type if it exists
+  if (transformedSpell.damageConfig?.secondaryElementType) {
+    if (!transformedSpell.damageTypes.includes(transformedSpell.damageConfig.secondaryElementType)) {
+      transformedSpell.damageTypes.push(transformedSpell.damageConfig.secondaryElementType);
+    }
+  }
+
+  // Always add school from typeConfig to damageTypes if it exists
+  if (transformedSpell.typeConfig?.school &&
+      !transformedSpell.damageTypes.includes(transformedSpell.typeConfig.school)) {
+    transformedSpell.damageTypes.push(transformedSpell.typeConfig.school);
+    console.log('Added school to damageTypes:', transformedSpell.typeConfig.school);
+  }
+
+  // Always add secondaryElement from typeConfig to damageTypes if it exists
   if (transformedSpell.typeConfig?.secondaryElement &&
       !transformedSpell.damageTypes.includes(transformedSpell.typeConfig.secondaryElement)) {
     transformedSpell.damageTypes.push(transformedSpell.typeConfig.secondaryElement);
+    console.log('Added secondaryElement to damageTypes:', transformedSpell.typeConfig.secondaryElement);
   }
 
-  // Ensure resolution method exists
-  transformedSpell.resolution = transformedSpell.resolution || 'DICE';
-  transformedSpell.formula = transformedSpell.formula || '6d6';
-  transformedSpell.diceConfig = transformedSpell.diceConfig || { formula: transformedSpell.formula || '6d6' };
-  transformedSpell.cardConfig = transformedSpell.cardConfig || { drawCount: 3, formula: 'CARD_VALUE + FACE_CARD_COUNT * 5' };
-  transformedSpell.coinConfig = transformedSpell.coinConfig || { flipCount: 5, formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)' };
+  console.log('Final damageTypes:', transformedSpell.damageTypes);
+
+  // Ensure resolution method exists for spells that need it
+  if (transformedSpell.effectTypes?.includes('damage') ||
+      transformedSpell.effectTypes?.includes('healing') ||
+      transformedSpell.effectTypes?.includes('control') ||
+      transformedSpell.effectTypes?.includes('debuff') ||
+      transformedSpell.effectTypes?.includes('utility') ||
+      transformedSpell.effectTypes?.includes('summoning') ||
+      transformedSpell.effectTypes?.includes('transformation')) {
+    transformedSpell.resolution = transformedSpell.resolution || 'DICE';
+    // Add formula if the spell has damage or healing configs
+    if (transformedSpell.damageConfig?.formula || transformedSpell.healingConfig?.formula) {
+      transformedSpell.formula = transformedSpell.formula || transformedSpell.damageConfig?.formula || transformedSpell.healingConfig?.formula;
+    }
+  }
 
   // Ensure healing-specific configurations for different resolution methods exist
   transformedSpell.healingCardConfig = transformedSpell.healingCardConfig || { drawCount: 3, formula: 'CARD_VALUE + FACE_CARD_COUNT * 3' };
@@ -261,8 +306,7 @@ export const transformSpellForCard = (spell) => {
   // Ensure resource configuration exists
   if (!transformedSpell.resourceCost) {
     transformedSpell.resourceCost = {
-      mana: 25,
-      actionPoints: 1,
+      actionPoints: 0,
       primaryResourceType: 'Mana',
       classResourceCost: 0,
       components: [],
@@ -395,13 +439,71 @@ export const getSpellRollableTable = (spell) => {
   if (!spell) return null;
 
   // Try to find the rollable table data in various locations
-  return spell.rollableTable ||
-         spell.rollTable ||
-         spell.randomTable ||
-         spell.randomEffectsTable ||
-         spell.typeConfig?.rollableTable ||
-         spell.effectConfig?.rollableTable ||
-         spell.mechanicsConfig?.rollableTable ||
-         spell.spellConfig?.rollableTable ||
-         null;
+  const rollableTable = spell.rollableTable ||
+                       spell.rollTable ||
+                       spell.randomTable ||
+                       spell.randomEffectsTable ||
+                       spell.typeConfig?.rollableTable ||
+                       spell.effectConfig?.rollableTable ||
+                       spell.mechanicsConfig?.rollableTable ||
+                       spell.spellConfig?.rollableTable ||
+                       null;
+
+  // If we found a rollable table, ensure it has the proper structure
+  if (rollableTable && typeof rollableTable === 'object') {
+    return {
+      enabled: rollableTable.enabled !== false, // Default to enabled if not specified
+      name: rollableTable.name || 'Random Effects',
+      description: rollableTable.description || '',
+      resolutionType: rollableTable.resolutionType || 'DICE',
+      resolutionConfig: rollableTable.resolutionConfig || { diceType: 'd100' },
+      entries: Array.isArray(rollableTable.entries) ? rollableTable.entries : []
+    };
+  }
+
+  return null;
+};
+
+/**
+ * Format rollable table data for concise display in spell cards
+ * @param {Object} rollableTableData - The rollable table data
+ * @returns {string} - Formatted text for display
+ */
+export const formatRollableTableForCard = (rollableTableData) => {
+  if (!rollableTableData || !rollableTableData.enabled) {
+    return null;
+  }
+
+  const { name, resolutionType, resolutionConfig, entries } = rollableTableData;
+  const entryCount = entries ? entries.length : 0;
+
+  // Format resolution method
+  let resolutionText = '';
+  switch (resolutionType) {
+    case 'DICE':
+      resolutionText = resolutionConfig.diceType || 'd100';
+      break;
+    case 'CARDS':
+      resolutionText = `${resolutionConfig.cardCount || 3} cards`;
+      break;
+    case 'COINS':
+      resolutionText = `${resolutionConfig.coinCount || 5} coins`;
+      break;
+    default:
+      resolutionText = 'random';
+  }
+
+  // Create concise description
+  if (entryCount === 0) {
+    return `${name} (${resolutionText})`;
+  } else if (entryCount <= 3) {
+    // For small tables, show the effects
+    const effectsList = entries.slice(0, 3).map(entry =>
+      entry.effect || entry.description || 'Effect'
+    ).join(', ');
+    return `${name}: ${effectsList} (${resolutionText})`;
+  } else {
+    // For larger tables, just show count
+    return `${name}: ${entryCount} effects (${resolutionText})`;
+  }
 };

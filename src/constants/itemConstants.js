@@ -1,33 +1,45 @@
 export const RARITY_COLORS = {
+    poor: {
+        border: '#8b7355',
+        text: '#a08c70',
+        glow: 'rgba(139, 115, 85, 0.3)',
+        orbColor: 'rgba(139, 115, 85, 0.7)'
+    },
     common: {
-        border: '#9d9d9d',
-        text: '#9d9d9d',
-        glow: 'rgba(157, 157, 157, 0.2)',
-        orbColor: 'rgba(157, 157, 157, 0.7)'
+        border: '#a08c70',
+        text: '#c4b896',
+        glow: 'rgba(160, 140, 112, 0.3)',
+        orbColor: 'rgba(160, 140, 112, 0.7)'
     },
     uncommon: {
-        border: '#1eff00',
-        text: '#1eff00',
-        glow: 'rgba(30, 255, 0, 0.2)',
-        orbColor: 'rgba(30, 255, 0, 0.7)'
+        border: '#b8860b',
+        text: '#daa520',
+        glow: 'rgba(184, 134, 11, 0.3)',
+        orbColor: 'rgba(184, 134, 11, 0.7)'
     },
     rare: {
-        border: '#0070dd',
-        text: '#0070dd',
-        glow: 'rgba(0, 112, 221, 0.2)',
-        orbColor: 'rgba(0, 112, 221, 0.7)'
+        border: '#cd853f',
+        text: '#deb887',
+        glow: 'rgba(205, 133, 63, 0.3)',
+        orbColor: 'rgba(205, 133, 63, 0.7)'
     },
     epic: {
-        border: '#a335ee',
-        text: '#a335ee',
-        glow: 'rgba(163, 53, 238, 0.2)',
-        orbColor: 'rgba(163, 53, 238, 0.7)'
+        border: '#8b4513',
+        text: '#a0522d',
+        glow: 'rgba(139, 69, 19, 0.3)',
+        orbColor: 'rgba(139, 69, 19, 0.7)'
     },
     legendary: {
-        border: '#ff8000',
-        text: '#ff8000',
-        glow: 'rgba(255, 128, 0, 0.2)',
-        orbColor: 'rgba(255, 128, 0, 0.7)'
+        border: '#ffd700',
+        text: '#ffed4e',
+        glow: 'rgba(255, 215, 0, 0.4)',
+        orbColor: 'rgba(255, 215, 0, 0.7)'
+    },
+    artifact: {
+        border: '#e6cc80',
+        text: '#f0e6d2',
+        glow: 'rgba(230, 204, 128, 0.4)',
+        orbColor: 'rgba(230, 204, 128, 0.7)'
     }
 };
 
@@ -59,6 +71,17 @@ export const SKILL_LEVELS = {
     3: { name: 'Adept', color: '#0070dd' },
     4: { name: 'Expert', color: '#a335ee' },
     5: { name: 'Master', color: '#ff8000' }
+};
+
+/**
+ * Helper function to get quality color based on item rarity
+ * @param {string} quality - The quality/rarity of the item
+ * @returns {string} - The color code for the specified quality
+ */
+export const getQualityColor = (quality) => {
+    // Check for null or undefined and provide a default
+    const qualityLower = quality?.toLowerCase() || 'common';
+    return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
 };
 
 export const STAT_LABELS = {

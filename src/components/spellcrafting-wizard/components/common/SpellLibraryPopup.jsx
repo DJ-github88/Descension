@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
-import LibraryStyleSpellCard from './LibraryStyleSpellCard';
-import { transformSpellForCard } from '../../core/utils/spellCardTransformer';
-import '../../styles/ConsolidatedSpellCard.css';
+import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
+import UnifiedSpellCard from './UnifiedSpellCard';
 import '../../styles/SpellLibraryPopup.css';
-
-// Import Cinzel font for WoW-style headers
-const cinzelFontLink = document.createElement('link');
-cinzelFontLink.rel = 'stylesheet';
-cinzelFontLink.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap';
-document.head.appendChild(cinzelFontLink);
 
 /**
  * SpellLibraryPopup component
- * Displays a popup window with a grid of spells from the library
+ * A standalone modal popup for selecting spells from the library
  *
  * @param {Object} props
  * @param {boolean} props.isOpen - Whether the popup is open
@@ -29,303 +23,149 @@ const SpellLibraryPopup = ({
   title = 'Select Spell from Library',
   filterType = ''
 }) => {
-  // Get spell library context
+  // Get library state from context
   const library = useSpellLibrary();
 
-  // State for search and filtering
+  // State for search
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredSpells, setFilteredSpells] = useState([]);
-  const [selectedSpellId, setSelectedSpellId] = useState(null);
-  const [viewMode, setViewMode] = useState('grid');
 
-  // Handle escape key to close popup
+  // Handle escape key to close the modal
   useEffect(() => {
     const handleEscKey = (event) => {
-      if (event.key === 'Escape' && isOpen) {
+      if (event.key === 'Escape') {
         onClose();
       }
     };
 
-    window.addEventListener('keydown', handleEscKey);
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey);
+      // Prevent scrolling on the body when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
     return () => {
-      window.removeEventListener('keydown', handleEscKey);
+      document.removeEventListener('keydown', handleEscKey);
+      // Restore scrolling when component unmounts or modal closes
+      document.body.style.overflow = 'auto';
     };
   }, [isOpen, onClose]);
 
-  // Filter spells based on search query and filter type
-  useEffect(() => {
-    if (isOpen) {
-      let filtered = library.spells || [];
+  // Apply filters to the spells
+  const filteredSpells = React.useMemo(() => {
+    return library.spells.filter(spell => {
+      // Search filter
+      if (searchQuery && !spell.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+          !spell.description?.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false;
+      }
 
-      // Apply type filter if provided
+      // Filter type from props (if provided)
       if (filterType) {
-        filtered = filtered.filter(spell => {
-          // Filter based on spell type
-          if (filterType === 'form' && spell.effectType === 'transformation') {
-            return true;
-          }
-          if (filterType === 'proc' && (spell.effectType === 'damage' || spell.effectType === 'healing' || spell.effectType === 'buff')) {
-            return true;
-          }
-          if (filterType === spell.effectType) {
-            return true;
-          }
+        // Special handling for "proc" filter type
+        if (filterType === 'proc') {
+          // For proc effects, include damage, healing, and buff spells
+          return ['damage', 'healing', 'buff'].includes(spell.effectType);
+        }
+        // Special handling for "form" filter type
+        else if (filterType === 'form' && spell.effectType === 'transformation') {
+          return true;
+        }
+        // Default filter by exact effect type
+        else if (spell.effectType !== filterType) {
           return false;
-        });
+        }
       }
 
-      // Apply search query filter
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        filtered = filtered.filter(spell =>
-          spell.name.toLowerCase().includes(query) ||
-          (spell.description && spell.description.toLowerCase().includes(query))
-        );
-      }
+      return true;
+    });
+  }, [searchQuery, filterType, library.spells]);
 
-      setFilteredSpells(filtered);
-    }
-  }, [isOpen, searchQuery, library.spells, filterType]);
-
-  // Handle spell selection
+  // Handle selecting a spell
   const handleSelectSpell = (spellId) => {
-    setSelectedSpellId(spellId);
-  };
-
-  // Handle final spell selection
-  const handleConfirmSelection = () => {
-    if (selectedSpellId && onSelectSpell) {
-      onSelectSpell(selectedSpellId);
-      onClose();
-    }
-  };
-
-  // Get spell icon URL
-  const getSpellIconUrl = (iconName) => {
-    // Use medium size for better quality and faster loading
-    return `https://wow.zamimg.com/images/wow/icons/medium/${iconName || 'inv_misc_questionmark'}.jpg`;
-  };
-
-  // Handle backdrop click
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
+    const selectedSpell = library.spells.find(s => s.id === spellId);
+    if (selectedSpell) {
+      if (onSelectSpell) {
+        onSelectSpell(selectedSpell);
+      }
       onClose();
     }
   };
 
   if (!isOpen) return null;
 
-  return (
-    <div className="spell-library-modal-backdrop" onClick={handleBackdropClick}>
-      <div className="spell-library-modal">
+  // Use ReactDOM.createPortal to render the modal directly to the document body
+  return ReactDOM.createPortal(
+    <div className="spell-library-modal-backdrop" onClick={onClose}>
+      <div
+        className="spell-library-modal"
+        onClick={(e) => e.stopPropagation()} // Prevent clicks inside from closing
+      >
         {/* Modal header */}
         <div className="spell-library-modal-header">
           <h2>{title}</h2>
           <button className="close-modal-btn" onClick={onClose}>×</button>
         </div>
 
+        {/* Modal content */}
         <div className="spell-library-popup-content">
-          {/* Search and filter bar */}
+          {/* Search input */}
           <div className="spell-library-popup-header">
             <div className="search-container">
               <input
                 type="text"
-                className="spell-search-input"
                 placeholder="Search spells..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                className="spell-search-input"
               />
-              {searchQuery && (
-                <button
-                  className="clear-search-btn"
-                  onClick={() => setSearchQuery('')}
-                  title="Clear search"
-                >
-                  ×
-                </button>
-              )}
-            </div>
-
-            <div className="view-toggle-buttons">
-              <button
-                className={`view-toggle-button ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
-                title="List view"
-              >
-                <i className="fas fa-list"></i>
-              </button>
-              <button
-                className={`view-toggle-button ${viewMode === 'grid' ? 'active' : ''}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid view"
-              >
-                <i className="fas fa-th"></i>
-              </button>
+              <span className="search-icon">🔍</span>
             </div>
           </div>
 
-          {/* Spells grid/list */}
-          <div className={`spell-library-popup-spells ${viewMode}-view`}>
+          {/* Spell cards */}
+          <div className="spell-library-popup-spells grid-view">
             {filteredSpells.length === 0 ? (
               <div className="no-spells-found">
-                {library.spells.length === 0
-                  ? 'No spells in library. Create some spells first!'
-                  : 'No matching spells found.'}
+                <p>No spells match your search criteria.</p>
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="clear-search-btn"
+                >
+                  Clear Search
+                </button>
               </div>
             ) : (
               <div className="spell-cards-container">
                 {filteredSpells.map(spell => {
-                  // Transform the spell data for the LibraryStyleSpellCard
-                  // Use the same transformation function as in the review step
+                  // Transform the spell data for the card
                   const transformedSpell = transformSpellForCard(spell);
-
-                  // Add any additional properties needed for proper display
-
-                  // Ensure procConfig is properly formatted for chance-on-hit effects
-                  if (!transformedSpell.procConfig) {
-                    transformedSpell.procConfig = spell.procConfig || {
-                      enabled: false,
-                      procType: 'dice',
-                      procChance: 15,
-                      diceThreshold: 18,
-                      spellEffect: null,
-                      useRollableTable: false,
-                      effectType: spell.effectType || 'damage',
-                      effectDetails: null,
-                      effectDuration: 2,
-                      effectDurationUnit: 'rounds',
-                      customEffects: []
-                    };
-                  }
-
-                  // Ensure criticalConfig is properly formatted for critical hit effects
-                  if (!transformedSpell.criticalConfig) {
-                    transformedSpell.criticalConfig = spell.criticalConfig || {
-                      enabled: true,
-                      critType: 'dice',
-                      critMultiplier: 2,
-                      spellEffect: null,
-                      useRollableTable: false,
-                      effectType: spell.effectType || 'damage',
-                      effectDetails: null,
-                      effectDuration: 2,
-                      effectDurationUnit: 'rounds'
-                    };
-                  }
-
-                  // Get rollable table data if available
-                  const rollableTableData = spell.rollableTable ? {
-                    enabled: true,
-                    name: spell.rollableTable.name || 'Random Effects',
-                    resolutionType: spell.rollableTable.resolutionType || 'DICE',
-                    entries: spell.rollableTable.entries || []
-                  } : null;
+                  const rollableTableData = getSpellRollableTable(spell);
 
                   return (
                     <div
                       key={spell.id}
-                      className={`spell-item library-style ${selectedSpellId === spell.id ? 'selected' : ''}`}
+                      className="spell-item library-style"
                       onClick={() => handleSelectSpell(spell.id)}
                     >
-                      <div className="review-spell-preview">
-                        <LibraryStyleSpellCard
-                          spell={transformedSpell}
-                          rollableTableData={rollableTableData}
-                        />
-                      </div>
+                      <UnifiedSpellCard
+                        spell={transformedSpell}
+                        variant="wizard"
+                        rollableTableData={rollableTableData}
+                        showActions={false}
+                        showDescription={true}
+                        showStats={true}
+                        showTags={true}
+                      />
                     </div>
                   );
                 })}
               </div>
             )}
           </div>
-
-          {/* Selected spell preview */}
-          {selectedSpellId && (
-            <div className="selected-spell-preview">
-              <h3>Selected Spell</h3>
-              <div className="selected-spell-card">
-                {(() => {
-                  const selectedSpell = library.spells.find(s => s.id === selectedSpellId);
-                  if (!selectedSpell) return null;
-
-                  // Transform the spell data for the LibraryStyleSpellCard
-                  // Use the same transformation function as in the review step
-                  const transformedSpell = transformSpellForCard(selectedSpell);
-
-                  // Add any additional properties needed for proper display
-
-                  // Ensure procConfig is properly formatted for chance-on-hit effects
-                  if (!transformedSpell.procConfig) {
-                    transformedSpell.procConfig = selectedSpell.procConfig || {
-                      enabled: false,
-                      procType: 'dice',
-                      procChance: 15,
-                      diceThreshold: 18,
-                      spellEffect: null,
-                      useRollableTable: false,
-                      effectType: selectedSpell.effectType || 'damage',
-                      effectDetails: null,
-                      effectDuration: 2,
-                      effectDurationUnit: 'rounds',
-                      customEffects: []
-                    };
-                  }
-
-                  // Ensure criticalConfig is properly formatted for critical hit effects
-                  if (!transformedSpell.criticalConfig) {
-                    transformedSpell.criticalConfig = selectedSpell.criticalConfig || {
-                      enabled: true,
-                      critType: 'dice',
-                      critMultiplier: 2,
-                      spellEffect: null,
-                      useRollableTable: false,
-                      effectType: selectedSpell.effectType || 'damage',
-                      effectDetails: null,
-                      effectDuration: 2,
-                      effectDurationUnit: 'rounds'
-                    };
-                  }
-
-                  // Get rollable table data if available
-                  const rollableTableData = selectedSpell.rollableTable ? {
-                    enabled: true,
-                    name: selectedSpell.rollableTable.name || 'Random Effects',
-                    resolutionType: selectedSpell.rollableTable.resolutionType || 'DICE',
-                    entries: selectedSpell.rollableTable.entries || []
-                  } : null;
-
-                  return (
-                    <LibraryStyleSpellCard
-                      spell={transformedSpell}
-                      rollableTableData={rollableTableData}
-                    />
-                  );
-                })()}
-              </div>
-            </div>
-          )}
-
-          {/* Action buttons */}
-          <div className="spell-library-popup-actions">
-            <button
-              className="wow-button secondary"
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-
-            <button
-              className="wow-button primary"
-              onClick={handleConfirmSelection}
-              disabled={!selectedSpellId}
-            >
-              Select Spell
-            </button>
-          </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

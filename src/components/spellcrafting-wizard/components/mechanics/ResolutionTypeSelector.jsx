@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaDiceD20, FaCoins, FaClone } from 'react-icons/fa';
+import '../../styles/ResolutionTypeSelector.css';
 
 const ResolutionTypeSelector = ({
   selectedType,
@@ -15,8 +16,16 @@ const ResolutionTypeSelector = ({
     onConfigChange({ cardCount: parseInt(e.target.value) });
   };
 
+  const handleDeckTypeChange = (e) => {
+    onConfigChange({ deckType: e.target.value });
+  };
+
   const handleCoinCountChange = (e) => {
     onConfigChange({ coinCount: parseInt(e.target.value) });
+  };
+
+  const handleCoinTypeChange = (e) => {
+    onConfigChange({ coinType: e.target.value });
   };
 
   return (
@@ -72,7 +81,7 @@ const ResolutionTypeSelector = ({
                 id="dice-type"
                 value={config.diceType}
                 onChange={handleDiceTypeChange}
-                className="wow-settings-input"
+                className="pf-input"
               >
                 <option value="d4">d4</option>
                 <option value="d6">d6</option>
@@ -97,12 +106,16 @@ const ResolutionTypeSelector = ({
                 max="10"
                 value={config.cardCount}
                 onChange={handleCardCountChange}
-                className="wow-settings-input"
+                className="pf-input"
               />
             </div>
             <div className="form-group">
               <label>Deck Type</label>
-              <select className="wow-settings-input">
+              <select
+                className="pf-input"
+                value={config.deckType || 'standard'}
+                onChange={handleDeckTypeChange}
+              >
                 <option value="standard">Standard (52 cards)</option>
                 <option value="tarot">Tarot (78 cards)</option>
               </select>
@@ -121,12 +134,16 @@ const ResolutionTypeSelector = ({
                 max="10"
                 value={config.coinCount}
                 onChange={handleCoinCountChange}
-                className="wow-settings-input"
+                className="pf-input"
               />
             </div>
             <div className="form-group">
               <label>Coin Type</label>
-              <select className="wow-settings-input">
+              <select
+                className="pf-input"
+                value={config.coinType || 'standard'}
+                onChange={handleCoinTypeChange}
+              >
                 <option value="standard">Standard (Heads/Tails)</option>
                 <option value="weighted">Weighted</option>
               </select>

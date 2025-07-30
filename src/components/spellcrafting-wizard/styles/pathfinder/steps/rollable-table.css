@@ -1,0 +1,286 @@
+/* ===== PATHFINDER ROLLABLE TABLE STEP STYLING ===== */
+/* Rollable Table configuration with Pathfinder theme */
+
+.rollable-table-container {
+  width: 100%;
+  height: 100%;
+  background: var(--pf-gradient-parchment);
+  padding: var(--pf-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-6);
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+/* Table Configuration */
+.rollable-table-config {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-6);
+  box-shadow: var(--pf-shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.rollable-table-config::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at top right,
+    rgba(212, 175, 55, 0.1),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.rollable-table-config-header {
+  margin-bottom: var(--pf-space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.rollable-table-config-title {
+  font-size: var(--pf-text-xl);
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-2) 0;
+}
+
+.rollable-table-config-description {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.5;
+}
+
+/* Table Settings */
+.rollable-table-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--pf-space-4);
+  margin-bottom: var(--pf-space-6);
+  position: relative;
+  z-index: 1;
+}
+
+.rollable-table-setting {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+}
+
+.rollable-table-setting-label {
+  display: block;
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+}
+
+.rollable-table-setting-input {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.rollable-table-setting-input:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold);
+}
+
+.rollable-table-setting-select {
+  width: 100%;
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.rollable-table-setting-select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold);
+}
+
+/* Table Entries */
+.rollable-table-entries {
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-6);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.rollable-table-entries-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-4);
+}
+
+.rollable-table-entries-title {
+  font-size: var(--pf-text-xl);
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin: 0;
+}
+
+.rollable-table-add-btn {
+  padding: var(--pf-space-2) var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.rollable-table-add-btn:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* Table Entry List */
+.rollable-table-entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+
+.rollable-table-entry {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--pf-space-3);
+  align-items: center;
+  transition: all var(--pf-transition-normal);
+}
+
+.rollable-table-entry:hover {
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.rollable-table-entry-range {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  min-width: 60px;
+  text-align: center;
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1) var(--pf-space-2);
+}
+
+.rollable-table-entry-content {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.4;
+}
+
+.rollable-table-entry-actions {
+  display: flex;
+  gap: var(--pf-space-2);
+}
+
+.rollable-table-entry-action {
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-xs);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.rollable-table-entry-action:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+}
+
+.rollable-table-entry-action.danger {
+  background: var(--pf-gradient-danger);
+  border-color: var(--pf-error);
+  color: var(--pf-text-on-dark);
+}
+
+.rollable-table-entry-action.danger:hover {
+  background: var(--pf-gradient-danger-hover);
+  border-color: var(--pf-error-dark);
+}
+
+/* Table Preview */
+.rollable-table-preview {
+  background: var(--pf-gradient-parchment-dark);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+}
+
+.rollable-table-preview-title {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+  font-size: var(--pf-text-base);
+}
+
+.rollable-table-preview-text {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .rollable-table-settings {
+    grid-template-columns: 1fr;
+  }
+  
+  .rollable-table-entry {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-2);
+  }
+  
+  .rollable-table-entries-header {
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    align-items: stretch;
+  }
+  
+  .rollable-table-container {
+    padding: var(--pf-space-4);
+    gap: var(--pf-space-4);
+  }
+}

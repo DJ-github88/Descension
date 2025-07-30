@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SpellWizardProvider } from '../context/spellWizardContext';
-import LibraryStyleSpellCard from '../components/common/LibraryStyleSpellCard';
+import UnifiedSpellCard from '../components/common/UnifiedSpellCard';
+import { transformSpellForCard } from '../core/utils/spellCardTransformer';
 
 const TestEffectTriggers = () => {
   const [testSpell, setTestSpell] = useState({
@@ -97,7 +98,14 @@ const TestEffectTriggers = () => {
         </ul>
         
         <div style={{ marginTop: '20px', border: '1px solid #333', borderRadius: '5px', padding: '10px' }}>
-          <LibraryStyleSpellCard spell={testSpell} />
+          <UnifiedSpellCard
+            spell={transformSpellForCard(testSpell)}
+            variant="wizard"
+            showActions={false}
+            showDescription={true}
+            showStats={true}
+            showTags={true}
+          />
         </div>
       </div>
     </SpellWizardProvider>

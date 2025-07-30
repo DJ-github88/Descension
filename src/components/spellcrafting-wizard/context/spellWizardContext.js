@@ -54,6 +54,7 @@ export const ACTION_TYPES = {
   UPDATE_EFFECT_TRIGGER: 'UPDATE_EFFECT_TRIGGER',
   REMOVE_EFFECT_TRIGGER: 'REMOVE_EFFECT_TRIGGER',
   UPDATE_CONDITIONAL_EFFECT: 'UPDATE_CONDITIONAL_EFFECT',
+  UPDATE_TRIGGER_ROLE: 'UPDATE_TRIGGER_ROLE',
 
   // Trap Placement
   UPDATE_TRAP_CONFIG: 'UPDATE_TRAP_CONFIG',
@@ -204,7 +205,7 @@ const initialState = {
     // }
 
     // Track which effects have conditional activation
-    conditionalEffects: {}
+    conditionalEffects: {},
     // Example structure:
     // conditionalEffects: {
     //   damage: {
@@ -216,6 +217,16 @@ const initialState = {
     //     }
     //   }
     // }
+
+    // Trigger role configuration
+    triggerRole: {
+      mode: 'CONDITIONAL', // 'CONDITIONAL', 'AUTO_CAST', 'BOTH'
+      activationDelay: 0, // Optional delay in seconds before auto-casting
+      requiresLOS: true, // Whether line of sight is required for auto-cast
+      maxRange: null, // Maximum range for auto-cast (null = use spell's range)
+      cooldownAfterTrigger: 0, // Additional cooldown when triggered automatically
+      resourceModifier: 1.0 // Resource cost modifier when triggered (1.0 = normal cost)
+    }
   },
 
   // Trap placement configuration
@@ -255,8 +266,7 @@ function determineWizardFlow(state) {
     { id: 5, name: 'Resources', required: true },
     { id: 6, name: 'Cooldown', required: true },
     { id: 'rollable-table', name: 'Rollable Table', required: false },
-    { id: 'mechanics', name: 'Mechanics', required: false },
-    { id: 7, name: 'Review', required: true }
+    { id: 'mechanics', name: 'Mechanics', required: false }
   ];
 
   // For trap spells, we'll skip the targeting step since it's handled in the trap placement step
@@ -281,18 +291,11 @@ function determineWizardFlow(state) {
     flow.splice(6, 0, { id: 'channeling', name: 'Channeling', required: true });
   }
 
-  // Always include the Mechanics step
-  // Find the index of the 'mechanics' step if it exists
+  // Always include the Mechanics step at the end if it doesn't exist
   const mechanicsIndex = flow.findIndex(step => step.id === 'mechanics');
-
-  // If the mechanics step doesn't exist, add it before the Review step
   if (mechanicsIndex === -1) {
-    // Find the index of the Review step
-    const reviewIndex = flow.findIndex(step => step.id === 7);
-    if (reviewIndex !== -1) {
-      // Add the Mechanics step before the Review step
-      flow.splice(reviewIndex, 0, { id: 'mechanics', name: 'Mechanics', required: false });
-    }
+    // Add the Mechanics step at the end
+    flow.push({ id: 'mechanics', name: 'Mechanics', required: false });
   }
 
   return flow;
@@ -600,11 +603,18 @@ function spellWizardReducer(state, action) {
 
     // Type configuration
     case ACTION_TYPES.SET_SPELL_TYPE:
-      // When changing spell type, reset type-specific configurations
+      // When changing spell type, preserve important configurations like damage types
       return {
         ...state,
         spellType: action.payload,
-        typeConfig: {},
+        typeConfig: {
+          // Preserve damage types, icon, school, and tags when changing spell type
+          icon: state.typeConfig?.icon,
+          school: state.typeConfig?.school, // Primary damage type
+          secondaryElement: state.typeConfig?.secondaryElement, // Secondary damage type
+          tags: state.typeConfig?.tags
+          // Other type-specific configs will be reset and reconfigured for the new type
+        },
         // Reset trigger config if changing from REACTION/PASSIVE/STATE to other
         triggerConfig: (action.payload !== 'REACTION' && action.payload !== 'PASSIVE' && action.payload !== 'STATE')
           ? {}
@@ -644,11 +654,47 @@ function spellWizardReducer(state, action) {
       };
 
     case ACTION_TYPES.REMOVE_EFFECT_TYPE:
-      return {
+      const newState = {
         ...state,
         effectTypes: state.effectTypes.filter(type => type !== action.payload),
         lastModified: new Date()
       };
+
+      // Clear associated configuration when effect type is removed
+      switch (action.payload) {
+        case 'damage':
+          newState.damageConfig = null;
+          break;
+        case 'healing':
+          newState.healingConfig = null;
+          break;
+        case 'buff':
+          newState.buffConfig = null;
+          break;
+        case 'debuff':
+          newState.debuffConfig = null;
+          break;
+        case 'utility':
+          newState.utilityConfig = null;
+          break;
+        case 'control':
+          newState.controlConfig = null;
+          break;
+        case 'summoning':
+          newState.summonConfig = null;
+          break;
+        case 'transformation':
+          newState.transformConfig = null;
+          break;
+        case 'purification':
+          newState.purificationConfig = null;
+          break;
+        case 'restoration':
+          newState.restorationConfig = null;
+          break;
+      }
+
+      return newState;
 
     case ACTION_TYPES.UPDATE_EFFECTS_MAP:
       return {
@@ -956,7 +1002,8 @@ function spellWizardReducer(state, action) {
     case ACTION_TYPES.UPDATE_PROPAGATION:
       return {
         ...state,
-        propagation: { ...action.payload }
+        propagation: { ...action.payload },
+        lastModified: new Date()
       };
 
     // Resource configuration
@@ -1039,6 +1086,20 @@ function spellWizardReducer(state, action) {
           conditionalEffects: {
             ...state.triggerConfig.conditionalEffects,
             [action.payload.effectType]: action.payload.config
+          }
+        },
+        lastModified: new Date()
+      };
+
+    // Update trigger role configuration
+    case ACTION_TYPES.UPDATE_TRIGGER_ROLE:
+      return {
+        ...state,
+        triggerConfig: {
+          ...state.triggerConfig,
+          triggerRole: {
+            ...state.triggerConfig.triggerRole,
+            ...action.payload
           }
         },
         lastModified: new Date()
@@ -1170,6 +1231,7 @@ function SpellWizardProvider({ children }) {
     spellType: state.spellType,
     effectTypes: state.effectTypes,
     targetingConfig: state.targetingConfig,
+    propagation: state.propagation,
     durationConfig: state.durationConfig,
     triggerConfig: state.triggerConfig,
     trapConfig: state.trapConfig,
@@ -1191,6 +1253,7 @@ function SpellWizardProvider({ children }) {
     state.spellType,
     state.effectTypes,
     state.targetingConfig,
+    state.propagation,
     state.durationConfig,
     state.triggerConfig,
     state.trapConfig,
@@ -1317,6 +1380,7 @@ const actionCreators = {
   updateMechanicsConfig: (config) => ({ type: ACTION_TYPES.UPDATE_MECHANICS_CONFIG, payload: config }),
   updateCooldownConfig: (config) => ({ type: ACTION_TYPES.UPDATE_COOLDOWN_CONFIG, payload: config }),
   updateTriggerConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRIGGER_CONFIG, payload: config }),
+  updateTriggerRole: (config) => ({ type: ACTION_TYPES.UPDATE_TRIGGER_ROLE, payload: config }),
   updateConditionalEffect: (effectType, config) => ({ type: ACTION_TYPES.UPDATE_CONDITIONAL_EFFECT, payload: { effectType, config } }),
   updateTrapConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRAP_CONFIG, payload: config }),
   updateChannelingConfig: (config) => ({ type: ACTION_TYPES.UPDATE_CHANNELING_CONFIG, payload: config }),

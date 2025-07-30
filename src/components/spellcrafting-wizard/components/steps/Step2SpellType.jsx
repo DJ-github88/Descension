@@ -1,13 +1,4 @@
 import React, { useEffect } from 'react';
-import {
-  FaBolt,
-  FaBars as FaStream,
-  FaStar,
-  FaShield,
-  FaSkull,
-  FaCircleHalfStroke,
-  FaCircleDot
-} from 'react-icons/fa6';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import { SPELL_TYPES, getExampleSpells } from '../../core/mechanics/spellTypeSystem';
 import WizardStep from '../common/WizardStep';
@@ -31,9 +22,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
       case 'ACTION':
         newConfig.castTime = 0;
         newConfig.castTimeType = 'IMMEDIATE';
-        newConfig.interruptible = true;
-        newConfig.castingVisibility = true;
-        newConfig.partialEffectOnInterrupt = 'none';
+        // Removed interruptible, castingVisibility, and partialEffectOnInterrupt
         break;
       case 'CHANNELED':
         newConfig.maxChannelDuration = 3;
@@ -53,15 +42,20 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
         newConfig.reactionWindow = 'immediate';
         break;
       case 'TRAP':
-        // Only set minimal defaults - detailed configuration will be in TrapPlacementStep
+        // Set trap configuration defaults
         newConfig.placementTime = 1;
+        newConfig.visibility = 'hidden';
+        newConfig.cooldownAfterTrigger = 0;
+        newConfig.cooldownUnit = 'seconds';
+        newConfig.maxTriggers = 1;
         break;
       case 'STATE':
         // Only set minimal defaults - detailed configuration will be in the Triggers step
         newConfig.cooldownAfterTrigger = 0;
+        newConfig.cooldownUnit = 'seconds';
         newConfig.maxTriggers = -1;
         newConfig.stateVisibility = 'visible';
-        newConfig.triggerPriority = 'normal';
+        // Removed triggerPriority
         break;
       default:
         break;
@@ -85,27 +79,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
     }));
   };
 
-  // Get icon for spell type
-  const getSpellTypeIcon = (type) => {
-    switch (type) {
-      case 'ACTION':
-        return <FaBolt />;
-      case 'CHANNELED':
-        return <FaStream />;
-      case 'PASSIVE':
-        return <FaStar />;
-      case 'REACTION':
-        return <FaShield />;
-      case 'TRAP':
-        return <FaSkull />;
-      case 'STATE':
-        return <FaCircleHalfStroke />;
-      case 'ZONE':
-        return <FaCircleDot />;
-      default:
-        return <FaBolt />;
-    }
-  };
+
 
   // Get description for spell type
   const getSpellTypeDescription = (type) => {
@@ -166,9 +140,6 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
             onClick={() => handleSpellTypeSelect(type)}
           >
             <div className="spell-type-header">
-              <div className="spell-type-icon">
-                {getSpellTypeIcon(type)}
-              </div>
               <h3 className="spell-type-title">{type}</h3>
             </div>
             <p className="spell-type-description">
@@ -225,42 +196,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                 </div>
               </div>
 
-              <div className="spell-wizard-form-row">
-                <div className="spell-wizard-form-group">
-                  <div className="spell-wizard-checkbox-group">
-                    <input
-                      id="interruptible"
-                      name="interruptible"
-                      type="checkbox"
-                      className="spell-wizard-checkbox"
-                      checked={state.typeConfig.interruptible ?? true}
-                      onChange={handleConfigChange}
-                    />
-                    <label htmlFor="interruptible" className="spell-wizard-label">
-                      Can be Interrupted
-                    </label>
-                  </div>
-                  <small className="spell-wizard-help-text">
-                    Whether the spell can be interrupted during casting
-                  </small>
-                </div>
 
-                <div className="spell-wizard-form-group">
-                  <div className="spell-wizard-checkbox-group">
-                    <input
-                      id="castingVisibility"
-                      name="castingVisibility"
-                      type="checkbox"
-                      className="spell-wizard-checkbox"
-                      checked={state.typeConfig.castingVisibility ?? true}
-                      onChange={handleConfigChange}
-                    />
-                    <label htmlFor="castingVisibility" className="spell-wizard-label">
-                      Visible While Casting
-                    </label>
-                  </div>
-                </div>
-              </div>
             </>
           )}
 
@@ -467,6 +403,84 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                     How many turns it takes to place the trap
                   </small>
                 </div>
+
+                <div className="spell-wizard-form-group spell-wizard-form-group-half">
+                  <label htmlFor="visibility" className="spell-wizard-label">
+                    Visibility
+                  </label>
+                  <select
+                    id="visibility"
+                    name="visibility"
+                    className="spell-wizard-select"
+                    value={state.typeConfig.visibility ?? 'hidden'}
+                    onChange={handleConfigChange}
+                  >
+                    <option value="hidden">Hidden</option>
+                    <option value="visible">Visible</option>
+                    <option value="magical">Magical Aura</option>
+                  </select>
+                  <small className="spell-wizard-help-text">
+                    How visible the trap is to characters
+                  </small>
+                </div>
+              </div>
+
+              <div className="spell-wizard-form-row">
+                <div className="spell-wizard-form-group spell-wizard-form-group-half">
+                  <label htmlFor="cooldownAfterTrigger" className="spell-wizard-label">
+                    Cooldown After Trigger
+                  </label>
+                  <div className="duration-config">
+                    <div className="duration-value">
+                      <input
+                        id="cooldownAfterTrigger"
+                        name="cooldownAfterTrigger"
+                        type="number"
+                        min="0"
+                        max="300"
+                        className="spell-wizard-input"
+                        value={state.typeConfig.cooldownAfterTrigger ?? 0}
+                        onChange={handleConfigChange}
+                      />
+                    </div>
+                    <div className="duration-unit">
+                      <select
+                        id="cooldownUnit"
+                        name="cooldownUnit"
+                        className="spell-wizard-select"
+                        value={state.typeConfig.cooldownUnit ?? 'seconds'}
+                        onChange={handleConfigChange}
+                      >
+                        <option value="seconds">Seconds</option>
+                        <option value="turns">Turns</option>
+                        <option value="rounds">Rounds</option>
+                        <option value="minutes">Minutes</option>
+                      </select>
+                    </div>
+                  </div>
+                  <small className="spell-wizard-help-text">
+                    Time before the trap can trigger again (0 for no cooldown)
+                  </small>
+                </div>
+
+                <div className="spell-wizard-form-group spell-wizard-form-group-half">
+                  <label htmlFor="maxTriggers" className="spell-wizard-label">
+                    Maximum Triggers
+                  </label>
+                  <input
+                    id="maxTriggers"
+                    name="maxTriggers"
+                    type="number"
+                    min="-1"
+                    max="100"
+                    className="spell-wizard-input"
+                    value={state.typeConfig.maxTriggers ?? 1}
+                    onChange={handleConfigChange}
+                  />
+                  <small className="spell-wizard-help-text">
+                    How many times the trap can trigger (-1 for unlimited)
+                  </small>
+                </div>
               </div>
 
               <div className="spell-wizard-info-box">
@@ -596,18 +610,36 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="cooldownAfterTrigger" className="spell-wizard-label">
-                    Cooldown After Trigger (seconds)
+                    Cooldown After Trigger
                   </label>
-                  <input
-                    id="cooldownAfterTrigger"
-                    name="cooldownAfterTrigger"
-                    type="number"
-                    min="0"
-                    max="300"
-                    className="spell-wizard-input"
-                    value={state.typeConfig.cooldownAfterTrigger ?? 0}
-                    onChange={handleConfigChange}
-                  />
+                  <div className="duration-config">
+                    <div className="duration-value">
+                      <input
+                        id="cooldownAfterTrigger"
+                        name="cooldownAfterTrigger"
+                        type="number"
+                        min="0"
+                        max="300"
+                        className="spell-wizard-input"
+                        value={state.typeConfig.cooldownAfterTrigger ?? 0}
+                        onChange={handleConfigChange}
+                      />
+                    </div>
+                    <div className="duration-unit">
+                      <select
+                        id="cooldownUnit"
+                        name="cooldownUnit"
+                        className="spell-wizard-select"
+                        value={state.typeConfig.cooldownUnit ?? 'seconds'}
+                        onChange={handleConfigChange}
+                      >
+                        <option value="seconds">Seconds</option>
+                        <option value="turns">Turns</option>
+                        <option value="rounds">Rounds</option>
+                        <option value="minutes">Minutes</option>
+                      </select>
+                    </div>
+                  </div>
                   <small className="spell-wizard-help-text">
                     Time before the state can trigger again (0 for no cooldown)
                   </small>
@@ -651,25 +683,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                   </select>
                 </div>
 
-                <div className="spell-wizard-form-group">
-                  <label htmlFor="triggerPriority" className="spell-wizard-label">
-                    Trigger Priority
-                  </label>
-                  <select
-                    id="triggerPriority"
-                    name="triggerPriority"
-                    className="spell-wizard-select"
-                    value={state.typeConfig.triggerPriority ?? 'normal'}
-                    onChange={handleConfigChange}
-                  >
-                    <option value="high">High</option>
-                    <option value="normal">Normal</option>
-                    <option value="low">Low</option>
-                  </select>
-                  <small className="spell-wizard-help-text">
-                    Determines the order when multiple states trigger simultaneously
-                  </small>
-                </div>
+
               </div>
 
               <div className="spell-wizard-info-box">

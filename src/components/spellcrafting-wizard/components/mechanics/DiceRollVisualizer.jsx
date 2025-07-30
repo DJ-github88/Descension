@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { FaDiceD20, FaDiceD6, FaDice, FaDiceFive, FaDiceFour, FaDiceOne, FaDiceSix, FaDiceThree, FaDiceTwo } from 'react-icons/fa';
 import '../../styles/DiceRollVisualizer.css';
 
-const DiceRollVisualizer = ({ diceType = 'd20', onRoll, critThreshold = 20, critRange = 1 }) => {
+const DiceRollVisualizer = ({ diceType = 'd20', onRoll, specialThreshold = 20, specialRange = 1 }) => {
   const [result, setResult] = useState(null);
   const [rolling, setRolling] = useState(false);
-  const [isCritical, setIsCritical] = useState(false);
+  const [isSpecial, setIsSpecial] = useState(false);
 
   const rollDie = () => {
     setRolling(true);
@@ -27,13 +27,13 @@ const DiceRollVisualizer = ({ diceType = 'd20', onRoll, critThreshold = 20, crit
       const finalRoll = Math.floor(Math.random() * sides) + 1;
       setResult(finalRoll);
 
-      // Check if critical
-      const minCritValue = critThreshold - critRange + 1;
-      const isCrit = finalRoll >= minCritValue && finalRoll <= critThreshold;
-      setIsCritical(isCrit);
+      // Check if special result (high roll)
+      const minSpecialValue = specialThreshold - specialRange + 1;
+      const isSpecialRoll = finalRoll >= minSpecialValue && finalRoll <= specialThreshold;
+      setIsSpecial(isSpecialRoll);
 
       if (onRoll) {
-        onRoll(finalRoll, isCrit);
+        onRoll(finalRoll, isSpecialRoll);
       }
     }, 1000);
   };
@@ -51,7 +51,7 @@ const DiceRollVisualizer = ({ diceType = 'd20', onRoll, critThreshold = 20, crit
   };
 
   return (
-    <div className={`dice-visualizer ${rolling ? 'rolling' : ''} ${isCritical ? 'critical' : ''}`}>
+    <div className={`dice-visualizer ${rolling ? 'rolling' : ''} ${isSpecial ? 'special' : ''}`}>
       <div className="dice-icon">
         {getDiceIcon()}
       </div>
@@ -67,7 +67,7 @@ const DiceRollVisualizer = ({ diceType = 'd20', onRoll, critThreshold = 20, crit
       </button>
       {result !== null && (
         <div className="roll-status">
-          {isCritical ? 'CRITICAL HIT!' : 'Normal hit'}
+          {isSpecial ? 'Exceptional Roll!' : 'Standard Roll'}
         </div>
       )}
     </div>

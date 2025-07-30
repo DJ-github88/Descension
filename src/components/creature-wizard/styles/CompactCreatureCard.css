@@ -1,0 +1,124 @@
+/* Compact Creature Card - D&D/Pathfinder Theme */
+.compact-creature-card {
+  padding: 10px;
+  min-height: 160px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* D&D/Pathfinder style card with parchment background */
+.compact-creature-card.wow-style-card {
+  background: #f0e6d2; /* Parchment background */
+  border: 1px solid #a08c70;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: visible;
+}
+
+.compact-creature-card.wow-style-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(122, 59, 46, 0.7), transparent); /* Rustic red gradient */
+}
+
+.compact-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d5cbb0;
+  padding-bottom: 8px;
+}
+
+.compact-creature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid;
+  flex-shrink: 0;
+  margin-right: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.compact-creature-name-type {
+  flex: 1;
+  min-width: 0; /* Allows text to truncate properly */
+}
+
+.compact-creature-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 3px 0;
+  color: #7a3b2e; /* Rustic red */
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compact-creature-type-size {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.compact-creature-type {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #f0e6d2; /* Parchment color */
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  background-color: #7a3b2e; /* Rustic red */
+  white-space: nowrap;
+}
+
+.compact-creature-size {
+  font-size: 10px;
+  color: #3a3a3a;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Main stats (HP, AC, Init) - D&D/Pathfinder Theme */
+.compact-creature-main-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  background-color: #e6dcc6; /* Slightly darker parchment */
+  border-radius: 4px;
+  padding: 6px;
+  border: 1px solid #d5cbb0;
+}
+
+.compact-main-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.compact-main-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #3a3a3a;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.compact-main-stat-label {
+  font-size: 10px;
+  color: #7a3b2e; /* Rustic red */
+  font-weight: 600;
+  margin-top: 1px;
+}

@@ -125,7 +125,9 @@
   background-color: rgba(var(--wizard-primary-rgb), 0.1);
 }
 
-.spell-icon {
+/* Scope spell-icon to spell selector only */
+.spell-selector .spell-icon,
+.spell-dropdown .spell-icon {
   width: 24px;
   height: 24px;
   border-radius: 4px;

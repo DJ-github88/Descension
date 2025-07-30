@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FaDiceD20, FaSkull, FaChevronUp, FaCoins, FaClone, FaBolt, FaFire, FaWind, FaWater, FaTable } from 'react-icons/fa';
 import IconSelectionCard from '../common/IconSelectionCard';
 import SpellLibraryButton from '../common/SpellLibraryButton';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 import { useSpellWizardState } from '../../context/spellWizardContext';
+import '../../styles/ChanceOnHitConfig.css';
 
 const ChanceOnHitConfig = ({ config, onConfigChange }) => {
   // Get the spell library context
@@ -47,25 +48,62 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
     }
   }, [wizardState, procConfig.rollableTableEnabled]);
 
-  // Update parent when config changes
+  // Update parent when config changes - use ref to prevent infinite loops
+  const onConfigChangeRef = useRef(onConfigChange);
+  onConfigChangeRef.current = onConfigChange;
+
   useEffect(() => {
-    if (onConfigChange) {
-      onConfigChange(procConfig);
+    if (onConfigChangeRef.current) {
+      onConfigChangeRef.current(procConfig);
     }
-  }, [procConfig, onConfigChange]);
+  }, [procConfig]);
 
   // Handle changes to config
   const handleChange = (field, value) => {
-    console.log(`Changing ${field} to:`, value);
-    setProcConfig(prevConfig => ({
-      ...prevConfig,
-      [field]: value
-    }));
+    setProcConfig(prevConfig => {
+      const newConfig = {
+        ...prevConfig,
+        [field]: value
+      };
+
+      // Auto-calculate proc chance based on threshold changes
+      if (field === 'diceThreshold') {
+        newConfig.procChance = Math.round(((21 - value) / 20) * 100);
+      } else if (field === 'cardProcRule') {
+        // Calculate card-based proc chances
+        if (value === 'face_cards') {
+          newConfig.procChance = Math.round((12 / 52) * 100); // ~23%
+        } else if (value === 'aces') {
+          newConfig.procChance = Math.round((4 / 52) * 100); // ~8%
+        } else if (value === 'specific_suit') {
+          newConfig.procChance = Math.round((13 / 52) * 100); // 25%
+        } else if (value === 'red_cards') {
+          newConfig.procChance = Math.round((26 / 52) * 100); // 50%
+        } else if (value === 'black_cards') {
+          newConfig.procChance = Math.round((26 / 52) * 100); // 50%
+        } else if (value === 'pairs') {
+          newConfig.procChance = Math.round((3 / 51) * 100); // ~6% (3 matching cards out of remaining 51)
+        }
+      } else if (field === 'coinProcRule' || field === 'coinCount') {
+        // Calculate coin-based proc chances
+        const coinCount = field === 'coinCount' ? value : prevConfig.coinCount;
+        const procRule = field === 'coinProcRule' ? value : prevConfig.coinProcRule;
+
+        if (procRule === 'all_heads') {
+          newConfig.procChance = Math.round((1 / Math.pow(2, coinCount)) * 100);
+        } else if (procRule === 'sequence') {
+          newConfig.procChance = Math.round((1 / Math.pow(2, coinCount)) * 100);
+        } else if (procRule === 'pattern') {
+          newConfig.procChance = Math.round((1 / Math.pow(2, coinCount)) * 100);
+        }
+      }
+
+      return newConfig;
+    });
   };
 
   // Toggle rollable table selection
   const toggleRollableTable = (useTable) => {
-    console.log("Toggling rollable table to:", useTable);
 
     // Check if rollable table is configured in wizard state
     const isRollableTableConfigured = wizardState &&
@@ -77,29 +115,32 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
       alert("You've selected to use a rollable table for chance on hit. Please make sure to configure and enable a rollable table in the Rollable Table step.");
     }
 
-    setProcConfig(prevConfig => ({
-      ...prevConfig,
-      useRollableTable: useTable,
-      // Clear spell effect if switching to rollable table
-      spellEffect: useTable ? null : prevConfig.spellEffect
-    }));
+    // Use handleChange to ensure proper state propagation
+    handleChange('useRollableTable', useTable);
+    if (useTable) {
+      handleChange('spellEffect', null); // Clear spell effect if switching to rollable table
+    }
   };
 
   // We'll filter spells directly in the render method
 
   return (
     <div className="chance-on-hit-config section">
-      <h3 className="section-title">CHANCE ON HIT CONFIGURATION</h3>
       <div className="config-header">
-        <div className="toggle-container">
-          <label className="toggle-switch-label">
+        <div className="config-toggle">
+          <label className="wow-checkbox-label">
             <input
               type="checkbox"
               checked={procConfig.enabled}
               onChange={(e) => handleChange('enabled', e.target.checked)}
+              className="wow-checkbox"
             />
-            <span className="toggle-slider"></span>
+            <span className="wow-checkbox-custom"></span>
+            <span className="wow-option-text">Enable Chance on Hit Effects</span>
           </label>
+          <div className="wow-option-description">
+            When enabled, this spell has a chance to trigger additional effects when it hits a target
+          </div>
         </div>
       </div>
 
@@ -158,12 +199,13 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
                       min="1"
                       max="100"
                       value={procConfig.procChance}
-                      onChange={(e) => handleChange('procChance', parseInt(e.target.value))}
+                      readOnly
+                      className="readonly-input"
                     />
                     <span className="input-label">%</span>
                   </div>
                   <div className="help-text">
-                    Approximately {Math.round(((21 - procConfig.diceThreshold) / 20) * 100)}% chance on d20
+                    Automatically calculated from threshold ({procConfig.diceThreshold}+ on d20)
                   </div>
                 </div>
               </div>
@@ -228,9 +270,13 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
                     min="1"
                     max="100"
                     value={procConfig.procChance}
-                    onChange={(e) => handleChange('procChance', parseInt(e.target.value))}
+                    readOnly
+                    className="readonly-input"
                   />
                   <span className="input-label">%</span>
+                </div>
+                <div className="help-text">
+                  Automatically calculated from card rule ({procConfig.cardProcRule.replace('_', ' ')})
                 </div>
               </div>
             </div>
@@ -328,7 +374,7 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
               </div>
 
               {procConfig.spellEffect && (
-                <div className="section-panel" style={{ marginTop: '15px' }}>
+                <div className="section-panel selected-spell-panel">
                   <div className="section-panel-header">
                     <h4>Selected Spell Effect</h4>
                   </div>
@@ -376,7 +422,7 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
 
               {wizardState.rollableTable && wizardState.rollableTable.enabled ? (
                 <>
-                  <p>The configured rollable table will be triggered on chance-on-hit proc:</p>
+                  <p>The configured rollable table will be triggered on damage proc:</p>
                   <div className="section-panel">
                     <div className="section-panel-header">
                       <h4>{wizardState.rollableTable.name || 'Unnamed Table'}</h4>
@@ -398,8 +444,8 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
                 </>
               ) : (
                 <div className="section-panel">
-                  <div className="section-panel-content" style={{ backgroundColor: 'rgba(255, 193, 7, 0.1)', borderLeft: '3px solid #ffc107' }}>
-                    <p style={{ margin: 0, color: '#ffc107' }}>
+                  <div className="section-panel-content warning-panel">
+                    <p className="warning-text">
                       <strong>No rollable table configured yet.</strong> Please go to the Rollable Table step to configure and enable a table.
                     </p>
                   </div>
@@ -470,6 +516,40 @@ const ChanceOnHitConfig = ({ config, onConfigChange }) => {
               ))}
             </div>
           </div>
+
+          {/* Selected Effects Summary */}
+          {(procConfig.spellEffect || procConfig.customEffects.length > 0) && (
+            <div className="section">
+              <h3 className="section-title">Selected Effects Summary</h3>
+              <div className="selected-effects-summary">
+                {procConfig.spellEffect && (
+                  <div className="selected-effect-item">
+                    <strong>Spell Effect:</strong> {procConfig.spellEffect}
+                  </div>
+                )}
+                {procConfig.customEffects.length > 0 && (
+                  <div className="selected-effect-item">
+                    <strong>Additional Effects:</strong> {
+                      procConfig.customEffects.map(effectId => {
+                        const effectNames = {
+                          'burning': 'Burning',
+                          'stun': 'Stun',
+                          'slow': 'Slow',
+                          'knockback': 'Knockback',
+                          'shock': 'Shock',
+                          'disarm': 'Disarm'
+                        };
+                        return effectNames[effectId] || effectId;
+                      }).join(', ')
+                    }
+                  </div>
+                )}
+                <div className="selected-effect-item">
+                  <strong>Proc Chance:</strong> {procConfig.procChance}% ({procConfig.procType === 'dice' ? `${procConfig.diceThreshold}+ on d20` : procConfig.procType})
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

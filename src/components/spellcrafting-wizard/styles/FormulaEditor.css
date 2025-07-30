@@ -1,108 +1,118 @@
-/* FormulaEditor.css */
+/* FormulaEditor.css - Pathfinder Theme */
 
 .formula-editor {
-  background-color: rgba(35, 35, 50, 0.8);
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 12px;
-  border: 1px solid #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-3);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-md);
+  font-family: var(--pf-font-body);
 }
 
 .formula-input-container {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: var(--pf-space-4);
   align-items: center;
 }
 
 .formula-input {
   flex: 1;
-  background-color: rgba(30, 30, 40, 0.7);
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: #fff;
-  padding: 8px 12px;
-  font-family: monospace;
-  font-size: 1rem;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-base);
 }
 
 .formula-buttons {
   display: flex;
-  margin-left: 12px;
+  margin-left: var(--pf-space-3);
 }
 
 .formula-button {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  border: 1px solid #34495e;
-  border-radius: 4px;
-  padding: 6px 12px;
-  margin-left: 8px;
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-primary);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1) var(--pf-space-3);
+  margin-left: var(--pf-space-2);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--pf-transition-normal);
+  font-family: var(--pf-font-ui);
 }
 
 .formula-button:hover {
-  background-color: #34495e;
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .formula-templates,
 .formula-variables {
-  background-color: rgba(40, 40, 55, 0.9);
-  border-radius: 6px;
-  padding: 12px;
-  margin-top: 8px;
-  border: 1px solid #555;
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  margin-top: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
   max-height: 300px;
   overflow-y: auto;
 }
 
 .formula-templates h4,
 .formula-variables h4 {
-  color: #ecf0f1;
+  color: var(--pf-text-primary);
   margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 1rem;
-  border-bottom: 1px solid #555;
-  padding-bottom: 8px;
+  margin-bottom: var(--pf-space-3);
+  font-size: var(--pf-text-base);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-heading);
 }
 
 .templates-list,
 .variables-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--pf-space-2);
 }
 
 .template-item,
 .variable-item {
-  background-color: rgba(50, 50, 70, 0.7);
-  border-radius: 4px;
-  padding: 10px;
+  background: var(--pf-gradient-button);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--pf-transition-normal);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
 }
 
 .template-item:hover,
 .variable-item:hover {
-  background-color: rgba(60, 60, 80, 0.9);
+  background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .template-name,
 .variable-name {
-  color: #3498db;
-  font-weight: bold;
-  margin-bottom: 4px;
+  color: var(--pf-gold);
+  font-weight: var(--pf-font-bold);
+  margin-bottom: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
 }
 
 .template-formula {
-  color: #2ecc71;
-  font-family: monospace;
-  margin-bottom: 4px;
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-mono);
+  margin-bottom: var(--pf-space-1);
 }
 
 .template-description,
 .variable-description {
-  color: #bdc3c7;
-  font-size: 0.9rem;
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-body);
 }

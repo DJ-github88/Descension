@@ -134,28 +134,28 @@ const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         <div className="effect-config-group">
           <h4 className="effect-config-label">Cooldown Type</h4>
           <div className="effect-options tabs mb-md">
-            <button 
-              className={`effect-option-tab ${cooldownConfig.type === 'turn_based' ? 'selected' : ''}`}
+            <button
+              className={`pf-button ${cooldownConfig.type === 'turn_based' ? 'selected' : ''}`}
               onClick={() => handleCooldownConfigChange({...cooldownConfig, type: 'turn_based'})}>
               Turn Based
             </button>
-            <button 
-              className={`effect-option-tab ${cooldownConfig.type === 'charge_based' ? 'selected' : ''}`}
+            <button
+              className={`pf-button ${cooldownConfig.type === 'charge_based' ? 'selected' : ''}`}
               onClick={() => handleCooldownConfigChange({...cooldownConfig, type: 'charge_based'})}>
               Charge Based
             </button>
-            <button 
-              className={`effect-option-tab ${cooldownConfig.type === 'short_rest' ? 'selected' : ''}`}
+            <button
+              className={`pf-button ${cooldownConfig.type === 'short_rest' ? 'selected' : ''}`}
               onClick={() => handleCooldownConfigChange({...cooldownConfig, type: 'short_rest'})}>
               Short Rest
             </button>
-            <button 
-              className={`effect-option-tab ${cooldownConfig.type === 'long_rest' ? 'selected' : ''}`}
+            <button
+              className={`pf-button ${cooldownConfig.type === 'long_rest' ? 'selected' : ''}`}
               onClick={() => handleCooldownConfigChange({...cooldownConfig, type: 'long_rest'})}>
               Long Rest
             </button>
-            <button 
-              className={`effect-option-tab ${cooldownConfig.type === 'dice_based' ? 'selected' : ''}`}
+            <button
+              className={`pf-button ${cooldownConfig.type === 'dice_based' ? 'selected' : ''}`}
               onClick={() => handleCooldownConfigChange({...cooldownConfig, type: 'dice_based'})}>
               Dice Based
             </button>

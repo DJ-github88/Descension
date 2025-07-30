@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
-import '../../styles/base.css';
-import '../../styles/components.css';
+// Pathfinder styles imported via main.css
 
 const VisualCardSelector = ({ onCardSelected }) => {
   const state = useSpellWizardState();

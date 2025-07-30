@@ -1,17 +1,18 @@
-/* DiceCalculator.css */
+/* DiceCalculator.css - Pathfinder Theme */
 
 .dice-calculator {
-  background-color: rgba(35, 35, 50, 0.8);
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 12px;
-  border: 1px solid #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  margin-top: var(--pf-space-3);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-md);
+  font-family: var(--pf-font-body);
 }
 
 .dice-formula-input {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: var(--pf-space-4);
   align-items: center;
 }
 
@@ -19,111 +20,120 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  color: #ddd;
-  font-size: 0.9rem;
-  margin-right: 12px;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  margin-right: var(--pf-space-3);
+  font-family: var(--pf-font-ui);
 }
 
 .dice-formula-input input {
-  background-color: rgba(30, 30, 40, 0.7);
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: #fff;
-  padding: 8px 12px;
-  margin-top: 4px;
-  font-family: monospace;
-  font-size: 1rem;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  margin-top: var(--pf-space-1);
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-base);
 }
 
 .dice-formula-input input.invalid {
-  border-color: #ff5555;
-  box-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+  border-color: var(--pf-error);
+  box-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
 }
 
 .preset-button {
-  background-color: #444;
-  color: #ddd;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-primary);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2) var(--pf-space-3);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--pf-transition-normal);
   height: fit-content;
-  margin-top: 24px;
+  margin-top: var(--pf-space-6);
+  font-family: var(--pf-font-ui);
 }
 
 .preset-button:hover {
-  background-color: #555;
-  color: #fff;
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .dice-presets {
-  background-color: rgba(40, 40, 55, 0.9);
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 16px;
-  border: 1px solid #555;
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  margin-bottom: var(--pf-space-4);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .dice-presets h4 {
   margin-top: 0;
-  margin-bottom: 10px;
-  color: #ddd;
-  font-size: 0.95rem;
+  margin-bottom: var(--pf-space-2);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-heading);
 }
 
 .preset-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
+  gap: var(--pf-space-2);
 }
 
 .preset-item {
-  background-color: rgba(50, 50, 70, 0.8);
-  border-radius: 5px;
-  padding: 10px;
+  background: var(--pf-gradient-button);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
+  transition: all var(--pf-transition-normal);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
 }
 
 .preset-item:hover {
-  background-color: rgba(60, 60, 90, 0.8);
+  background: var(--pf-gradient-button-hover);
   transform: translateY(-2px);
-  border-color: #6a6aff;
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .preset-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 6px;
+  margin-bottom: var(--pf-space-1);
 }
 
 .preset-level {
-  color: #aaa;
-  font-size: 0.8rem;
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
   text-transform: uppercase;
+  font-family: var(--pf-font-ui);
 }
 
 .preset-notation {
-  color: #fff;
-  font-family: monospace;
-  font-weight: bold;
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-mono);
+  font-weight: var(--pf-font-semibold);
 }
 
 .preset-description {
-  color: #bbb;
-  font-size: 0.85rem;
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-xs);
   margin: 0;
+  font-family: var(--pf-font-body);
 }
 
 .dice-stats {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
-  background-color: rgba(40, 40, 60, 0.7);
-  border-radius: 6px;
-  padding: 10px;
+  margin-bottom: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .stat-item {
@@ -132,100 +142,108 @@
 }
 
 .stat-label {
-  color: #aaa;
-  font-size: 0.8rem;
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
 }
 
 .stat-value {
-  color: #ddd;
-  font-size: 1.2rem;
-  font-weight: bold;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-semibold);
+  font-family: var(--pf-font-mono);
 }
 
 .dice-error {
-  color: #ff5555;
+  color: var(--pf-error);
   text-align: center;
   font-style: italic;
+  font-family: var(--pf-font-body);
 }
 
 .dice-scaling {
-  margin-bottom: 16px;
-  background-color: rgba(40, 40, 60, 0.7);
-  border-radius: 6px;
-  padding: 10px;
+  margin-bottom: var(--pf-space-4);
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .dice-scaling label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #ddd;
-  font-size: 0.9rem;
-  margin-bottom: 8px;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--pf-font-ui);
 }
 
 .dice-scaling input {
-  background-color: rgba(30, 30, 40, 0.7);
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: #fff;
-  padding: 6px 8px;
+  background: var(--pf-gradient-input);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  padding: var(--pf-space-1) var(--pf-space-2);
   width: 60px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-mono);
 }
 
 .scaled-preview {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
+  margin-top: var(--pf-space-2);
 }
 
 .scaled-label {
-  color: #aaa;
-  font-size: 0.85rem;
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  font-family: var(--pf-font-ui);
 }
 
 .scaled-value {
-  color: #6a6aff;
-  font-family: monospace;
-  font-weight: bold;
+  color: var(--pf-gold);
+  font-family: var(--pf-font-mono);
+  font-weight: var(--pf-font-semibold);
 }
 
 .dice-distribution {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #444;
+  margin-top: var(--pf-space-5);
+  padding-top: var(--pf-space-4);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
 }
 
 .dice-distribution h4 {
   margin-top: 0;
-  margin-bottom: 12px;
-  color: #ddd;
-  font-size: 0.95rem;
+  margin-bottom: var(--pf-space-3);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
   text-align: center;
+  font-family: var(--pf-font-heading);
 }
 
 .distribution-chart {
   height: 120px;
   position: relative;
-  background-color: rgba(30, 30, 40, 0.6);
-  border-radius: 4px;
-  border: 1px solid #444;
-  padding: 4px;
-  margin-bottom: 6px;
+  background: var(--pf-gradient-parchment-dark);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--pf-space-1);
+  margin-bottom: var(--pf-space-1);
 }
 
 .distribution-bar {
   position: absolute;
   bottom: 0;
-  background: linear-gradient(to top, #4a4aff, #8a8aff);
-  border-radius: 2px 2px 0 0;
+  background: linear-gradient(to top, var(--pf-gold-dark), var(--pf-gold));
+  border-radius: var(--pf-border-radius-sm) var(--pf-border-radius-sm) 0 0;
   opacity: 0.8;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--pf-transition-normal);
 }
 
 .distribution-bar:hover {
@@ -235,25 +253,26 @@
 .distribution-labels {
   display: flex;
   justify-content: space-between;
-  color: #aaa;
-  font-size: 0.8rem;
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  font-family: var(--pf-font-ui);
 }
 
 @media (max-width: 768px) {
   .preset-list {
     grid-template-columns: 1fr;
   }
-  
+
   .dice-formula-input {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .dice-formula-input label {
     margin-right: 0;
-    margin-bottom: 8px;
+    margin-bottom: var(--pf-space-2);
   }
-  
+
   .preset-button {
     margin-top: 0;
   }

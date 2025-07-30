@@ -50,7 +50,7 @@ const LockSettingsModal = ({ container, onSave, onClose }) => {
     };
 
     return createPortal(
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="lock-settings-overlay" onClick={onClose}>
             <div className="lock-settings-modal" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
                     <h3>Lock Settings</h3>

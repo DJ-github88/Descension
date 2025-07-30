@@ -22,9 +22,7 @@ const SPELL_TYPES = {
       // Enhanced cast time mechanics
       castTime: 0, // Default: instant cast (0 turns)
       castTimeType: 'IMMEDIATE', // Default: resolves immediately
-      interruptible: true, // Can be interrupted by default
-      castingVisibility: true, // Visible to others by default
-      partialEffectOnInterrupt: null, // No partial effect by default
+      // Removed interruptible, castingVisibility, and partialEffectOnInterrupt
       scalingWithCastTime: null, // No scaling by default
       continueCastingOnTurnEnd: false, // Doesn't continue when turn ends by default
     },
@@ -150,7 +148,7 @@ const SPELL_TYPES = {
       resourceThreshold: null, // Resource-based activation threshold
       stateVisibility: 'visible', // Whether the state is visible to others
       deactivationCondition: null, // Condition to deactivate the state
-      triggerPriority: 'normal' // Priority in the trigger queue
+      // Removed triggerPriority
     }
   };
 
@@ -262,9 +260,7 @@ const SPELL_TYPES = {
         errors.push(`Invalid state visibility type: ${spell.stateVisibility}`);
       }
 
-      if (spell.triggerPriority && !['high', 'normal', 'low'].includes(spell.triggerPriority)) {
-        errors.push(`Invalid trigger priority: ${spell.triggerPriority}`);
-      }
+      // Removed triggerPriority validation
     }
 
     return {
@@ -285,7 +281,7 @@ const SPELL_TYPES = {
           effect: 'damage',
           targeting: 'area',
           duration: 'instant',
-          interruptible: true,
+          // Removed interruptible
           scalingWithCastTime: { damage: 1.5 } // 50% more damage if fully cast
         }),
 

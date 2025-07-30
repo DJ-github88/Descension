@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/components.css';
+// Pathfinder styles imported via main.css
 
 const DiceFormulaExamples = () => {
   return (

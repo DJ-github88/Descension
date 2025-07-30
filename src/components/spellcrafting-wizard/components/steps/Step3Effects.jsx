@@ -21,8 +21,7 @@ import {
   FaWandMagicSparkles,
   FaDroplet
 } from 'react-icons/fa6';
-import '../../styles/base.css';
-import '../../styles/components.css';
+// Pathfinder styles imported via main.css
 // StepMechanics.css removed as it's now incorporated into MechanicsConfig.css
 
 // Import effect type components
@@ -114,18 +113,23 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
   const initializeConfigurations = (effectType) => {
     switch (effectType) {
       case 'damage':
+        // Use damage types from Step 1 instead of defaulting to fire
+        const primaryElementType = state.typeConfig?.school || 'fire';
+        const secondaryElementType = state.typeConfig?.secondaryElement || null;
+
         dispatch(actionCreators.updateDamageConfig({
           formula: getDefaultDamageFormula(),
           damageType: 'direct',
-          elementType: 'fire',
-          canCrit: true,
+          elementType: primaryElementType,
+          secondaryElementType: secondaryElementType,
+          canCrit: false,
           critMultiplier: 2,
           critDiceOnly: false,
           dotConfig: {
             duration: 3,
             tickFrequency: 'round',
             scalingType: 'flat',
-            dotFormula: '1d4 + damage/2'
+            dotFormula: '1d4 + INT/2'
           }
         }));
         break;
@@ -417,10 +421,10 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
 
       // Only initialize if the configuration doesn't exist
       if (!configExists) {
-        console.log(`Initializing configuration for ${effectType}`);
+        // console.log(`Initializing configuration for ${effectType}`);
         initializeConfigurations(effectType);
       } else {
-        console.log(`Configuration for ${effectType} already exists, not initializing`);
+        // console.log(`Configuration for ${effectType} already exists, not initializing`);
       }
     }
   };
@@ -645,16 +649,9 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
           ))}
         </div>
 
-        {/* Effect Configuration */}
-        {selectedEffectType && (
-          <div className="effect-config-container">
-            {renderEffectTypeConfig()}
-          </div>
-        )}
-
-        {/* Effect Type Navigation */}
+        {/* Effect Type Navigation - Moved to top */}
         {state.effectTypes.length > 0 && (
-          <div className="effect-type-nav">
+          <div className="effect-type-nav effect-type-nav-top">
             <div className="effect-type-tabs">
               {state.effectTypes.map((effectType) => (
                 <button
@@ -670,6 +667,13 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
                 </button>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Effect Configuration */}
+        {selectedEffectType && (
+          <div className="effect-config-container">
+            {renderEffectTypeConfig()}
           </div>
         )}
       </div>

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import StatusEffectConfigPopup from './StatusEffectConfigPopup';
+import ReactDOM from 'react-dom';
+import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import DiceFormulaExamples from '../../components/tooltips/DiceFormulaExamples';
 import SpellSelector from '../../components/common/SpellSelector';
+
 import './progressive-buff.css';
+import '../../styles/buff-config-options.css';
+import '../../styles/effects/unified-effects.css';
+import './BuffEffects.css';
 
 // Import data from utility files
 import {
@@ -11,15 +16,13 @@ import {
 } from '../../core/data/buffTypes';
 
 import {
+  BUFF_DEBUFF_STAT_MODIFIERS,
   PRIMARY_STAT_MODIFIERS,
   SECONDARY_STAT_MODIFIERS,
-  COMBAT_STAT_MODIFIERS,
   DAMAGE_TYPE_MODIFIERS,
   RESISTANCE_MODIFIERS,
   UTILITY_STAT_MODIFIERS
 } from '../../core/data/statModifier';
-
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
 
 // Status effects with WoW icons
 const STATUS_EFFECTS = [
@@ -379,14 +382,19 @@ const STAT_CATEGORIES = {
 };
 
 const BuffEffects = ({ state, dispatch, actionCreators }) => {
+  // Initialize Pathfinder tooltips
+
+
   const [selectedStatCategory, setSelectedStatCategory] = useState('primary');
   const [selectedStatusCategory, setSelectedStatusCategory] = useState('all');
   const [statPreview, setStatPreview] = useState(null);
   const [statusEffectPreview, setStatusEffectPreview] = useState(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [tooltipContent, setTooltipContent] = useState(null);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [showDiceExamples, setShowDiceExamples] = useState(false);
+
+  // State for tooltip
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipContent, setTooltipContent] = useState(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   // State for the status effect configuration popup
   const [configPopupOpen, setConfigPopupOpen] = useState(false);
@@ -394,9 +402,9 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
   // Default buff configuration
   const defaultBuffConfig = {
-    duration: 3, // Legacy field
-    durationValue: 3,
-    durationType: 'turns',
+    duration: 1, // Legacy field
+    durationValue: 1,
+    durationType: 'rounds',
     durationUnit: 'rounds',
     restType: 'short',
     canBeDispelled: true,
@@ -418,11 +426,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     // Initialize default buff configuration if not already set
     if (!buffConfig) {
       setBuffConfig(defaultBuffConfig);
+      return; // Don't sync to global state yet, wait for next render
     }
 
-    // Always sync with global state
+    // Only sync with global state if buffConfig is valid
     dispatch(actionCreators.updateBuffConfig(buffConfig));
-  }, [buffConfig]);
+  }, [buffConfig, dispatch]);
 
   // Initialize duration fields if not set
   useEffect(() => {
@@ -461,150 +470,138 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     const isSelected = buffConfig.statusEffects?.some(e => e.id === effect.id);
     const selectedEffect = isSelected ? buffConfig.statusEffects.find(e => e.id === effect.id) : null;
 
-    // Create WoW Classic style tooltip content
+    // Create Pathfinder style tooltip content
     const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {effect.description}
+      <div className="pathfinder-tooltip">
+        <div className="pathfinder-tooltip-header">
+          <img
+            src={getIconUrl(effect.icon)}
+            alt={effect.name}
+            className="pathfinder-tooltip-icon"
+          />
+          <span className="pathfinder-tooltip-title">{effect.name}</span>
         </div>
-        {effect.category === 'primary' && (
-          <div className="tooltip-effect">
-            Increases your character's {effect.name.toLowerCase()} attribute.
+
+        <div className="pathfinder-tooltip-body">
+          <div className="pathfinder-tooltip-description">
+            {effect.description}
           </div>
-        )}
-        {effect.category === 'secondary' && (
-          <div className="tooltip-effect">
-            Enhances your {effect.name.toLowerCase()} stat.
-          </div>
-        )}
-        {effect.category === 'resistance' && (
-          <div className="tooltip-effect">
-            Provides protection against {effect.name.toLowerCase()} damage.
-          </div>
-        )}
-        {effect.category === 'damage' && (
-          <div className="tooltip-effect">
-            Increases the damage you deal with {effect.name.toLowerCase()} spells.
-          </div>
-        )}
-        {effect.category === 'utility' && (
-          <div className="tooltip-effect">
-            Grants utility benefits related to {effect.name.toLowerCase()}.
-          </div>
-        )}
 
-        {/* Show configured options if this effect is selected */}
-        {isSelected && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-section-header">Current Configuration:</div>
-
-            {/* Show selected option */}
-            {selectedEffect.option && effect.options && (
-              <div className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">Option:</span> {
-                  effect.options.find(o => o.id === selectedEffect.option)?.name || 'None'
-                }
-              </div>
-            )}
-
-            {/* Show level if applicable */}
-            {selectedEffect.level && (
-              <div className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">Level:</span> {selectedEffect.level}
-              </div>
-            )}
-
-            {/* Show lifelink specific configuration */}
-            {effect.id === 'lifelink' && (
-              <>
-                {selectedEffect.direction && (
-                  <div className="tooltip-option">
-                    <span className="tooltip-bullet"></span>
-                    <span className="tooltip-gold">Direction:</span> {
-                      selectedEffect.direction === 'caster_to_target' ? 'Caster to Target' :
-                      selectedEffect.direction === 'target_to_caster' ? 'Target to Caster' :
-                      'Bidirectional'
-                    }
-                  </div>
-                )}
-
-                {selectedEffect.sourceResource && selectedEffect.targetResource && (
-                  <div className="tooltip-option">
-                    <span className="tooltip-bullet"></span>
-                    <span className="tooltip-gold">Resources:</span> {
-                      `${selectedEffect.sourceResource} → ${selectedEffect.targetResource}`
-                    }
-                  </div>
-                )}
-
-                {selectedEffect.calculationType && (
-                  <div className="tooltip-option">
-                    <span className="tooltip-bullet"></span>
-                    <span className="tooltip-gold">Calculation:</span> {
-                      selectedEffect.calculationType === 'percentage' ? `${selectedEffect.conversionRate || 25}%` :
-                      selectedEffect.calculationType === 'fixed' ? `Fixed (${selectedEffect.fixedAmount || 5})` :
-                      selectedEffect.calculationType === 'dice' ? `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'}` :
-                      `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'} per ${selectedEffect.perAmount || 5}`
-                    }
-                  </div>
-                )}
-              </>
-            )}
-          </>
-        )}
-
-        {/* Status effect available options (only show if not selected) */}
-        {!isSelected && effect.options && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-section-header">Available Options:</div>
-            {effect.options.map((option, index) => (
-              <div key={index} className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">{option.name}:</span> {option.description}
-              </div>
-            ))}
-          </>
-        )}
-
-        {/* Duration information for status effects */}
-        {effect.category && ['combat', 'mental', 'physical', 'sensory', 'magical'].includes(effect.category) && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-casttime">
-              <span className="tooltip-gold">Duration:</span> Varies based on spell power
+          {effect.category === 'primary' && (
+            <div className="pathfinder-tooltip-effect">
+              Increases your character's {effect.name.toLowerCase()} attribute.
             </div>
-            <div className="tooltip-casttime">
-              <span className="tooltip-gold">Type:</span> {effect.category.charAt(0).toUpperCase() + effect.category.slice(1)} Effect
+          )}
+          {effect.category === 'secondary' && (
+            <div className="pathfinder-tooltip-effect">
+              Enhances your {effect.name.toLowerCase()} stat.
             </div>
-          </>
-        )}
-        <div className="tooltip-divider"></div>
-        <div className="tooltip-flavor-text">
-          {effect.category === 'primary' && "\"The very essence of your being grows stronger.\""}
-          {effect.category === 'secondary' && "\"Your capabilities expand beyond normal limits.\""}
-          {effect.category === 'resistance' && "\"Your body hardens against harmful energies.\""}
-          {effect.category === 'damage' && "\"Your magical attacks surge with newfound power.\""}
-          {effect.category === 'utility' && "\"Your adaptability to the world around you improves.\""}
-          {effect.category === 'combat' && "\"Your allies stand in awe of your newfound might.\""}
-          {effect.category === 'mental' && "\"Your mind transcends its former limitations.\""}
-          {effect.category === 'physical' && "\"Your body moves with supernatural grace and power.\""}
-          {effect.category === 'sensory' && "\"Your senses sharpen beyond mortal capacity.\""}
-          {effect.category === 'magical' && "\"Arcane energy flows through you like never before.\""}
-          {effect.category === 'vampiric' && "\"The boundaries between life forces blur at your command.\""}
+          )}
+          {effect.category === 'resistance' && (
+            <div className="pathfinder-tooltip-effect">
+              Provides protection against {effect.name.toLowerCase()} damage.
+            </div>
+          )}
+          {effect.category === 'spell_damage' && (
+            <div className="pathfinder-tooltip-effect">
+              Increases the damage you deal with {effect.name.toLowerCase()} spells.
+            </div>
+          )}
+          {effect.category === 'utility' && (
+            <div className="pathfinder-tooltip-effect">
+              Grants utility benefits related to {effect.name.toLowerCase()}.
+            </div>
+          )}
+
+          {/* Show configured options if this effect is selected */}
+          {isSelected && (
+            <div className="pathfinder-tooltip-section">
+              <div className="pathfinder-tooltip-section-header">Current Configuration</div>
+
+              {selectedEffect.option && effect.options && (
+                <div className="pathfinder-tooltip-option">
+                  <span className="pathfinder-tooltip-label">Option:</span> {
+                    effect.options.find(o => o.id === selectedEffect.option)?.name || 'None'
+                  }
+                </div>
+              )}
+
+              {selectedEffect.level && (
+                <div className="pathfinder-tooltip-option">
+                  <span className="pathfinder-tooltip-label">Level:</span> {selectedEffect.level}
+                </div>
+              )}
+
+              {/* Show lifelink specific configuration */}
+              {effect.id === 'lifelink' && (
+                <>
+                  {selectedEffect.direction && (
+                    <div className="pathfinder-tooltip-option">
+                      <span className="pathfinder-tooltip-label">Direction:</span> {
+                        selectedEffect.direction === 'caster_to_target' ? 'Caster to Target' :
+                        selectedEffect.direction === 'target_to_caster' ? 'Target to Caster' :
+                        'Bidirectional'
+                      }
+                    </div>
+                  )}
+
+                  {selectedEffect.sourceResource && selectedEffect.targetResource && (
+                    <div className="pathfinder-tooltip-option">
+                      <span className="pathfinder-tooltip-label">Resources:</span> {
+                        `${selectedEffect.sourceResource} → ${selectedEffect.targetResource}`
+                      }
+                    </div>
+                  )}
+
+                  {selectedEffect.calculationType && (
+                    <div className="pathfinder-tooltip-option">
+                      <span className="pathfinder-tooltip-label">Calculation:</span> {
+                        selectedEffect.calculationType === 'percentage' ? `${selectedEffect.conversionRate || 25}%` :
+                        selectedEffect.calculationType === 'fixed' ? `Fixed (${selectedEffect.fixedAmount || 5})` :
+                        selectedEffect.calculationType === 'dice' ? `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'}` :
+                        `${selectedEffect.diceCount || 1}${selectedEffect.diceType || 'd6'} per ${selectedEffect.perAmount || 5}`
+                      }
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Status effect available options (only show if not selected) */}
+          {!isSelected && effect.options && (
+            <div className="pathfinder-tooltip-section">
+              <div className="pathfinder-tooltip-section-header">Available Options</div>
+              {effect.options.slice(0, 3).map((option, index) => (
+                <div key={index} className="pathfinder-tooltip-option">
+                  <span className="pathfinder-tooltip-label">{option.name}:</span> {option.description}
+                </div>
+              ))}
+              {effect.options.length > 3 && (
+                <div className="pathfinder-tooltip-more">
+                  ...and {effect.options.length - 3} more options
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Duration information for status effects */}
+          {effect.category && ['combat', 'mental', 'physical', 'sensory', 'magical'].includes(effect.category) && (
+            <div className="pathfinder-tooltip-section">
+              <div className="pathfinder-tooltip-meta">
+                <span className="pathfinder-tooltip-label">Duration:</span> Varies based on spell power
+              </div>
+              <div className="pathfinder-tooltip-meta">
+                <span className="pathfinder-tooltip-label">Type:</span> {effect.category.charAt(0).toUpperCase() + effect.category.slice(1)} Effect
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
 
-    // Store the tooltip data including title and icon
-    setTooltipContent({
-      content: tooltipContent,
-      title: effect.name,
-      icon: effect.icon
-    });
+    // Store the tooltip data
+    setTooltipContent(tooltipContent);
     setShowTooltip(true);
     // Update position using client coordinates for fixed positioning
     setMousePos({ x: e.clientX, y: e.clientY });
@@ -628,6 +625,72 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
   };
 
+  // Get resistance scaling options
+  const getResistanceScalingOptions = (resistanceType) => {
+    if (resistanceType === 'absorption') {
+      // Absorption uses flat numbers and dice formulas
+      return [
+        { value: 5, label: '5 points', description: 'Absorbs 5 damage until depleted' },
+        { value: 10, label: '10 points', description: 'Absorbs 10 damage until depleted' },
+        { value: 15, label: '15 points', description: 'Absorbs 15 damage until depleted' },
+        { value: 20, label: '20 points', description: 'Absorbs 20 damage until depleted' },
+        { value: 25, label: '25 points', description: 'Absorbs 25 damage until depleted' },
+        { value: 50, label: '50 points', description: 'Absorbs 50 damage until depleted' },
+        { value: '1d4', label: '1d4 points', description: 'Absorbs 1d4 damage (rolled when applied)' },
+        { value: '1d6', label: '1d6 points', description: 'Absorbs 1d6 damage (rolled when applied)' },
+        { value: '1d8', label: '1d8 points', description: 'Absorbs 1d8 damage (rolled when applied)' },
+        { value: '1d10', label: '1d10 points', description: 'Absorbs 1d10 damage (rolled when applied)' },
+        { value: '1d12', label: '1d12 points', description: 'Absorbs 1d12 damage (rolled when applied)' },
+        { value: '1d20', label: '1d20 points', description: 'Absorbs 1d20 damage (rolled when applied)' },
+        { value: '2d6', label: '2d6 points', description: 'Absorbs 2d6 damage (rolled when applied)' },
+        { value: '3d6', label: '3d6 points', description: 'Absorbs 3d6 damage (rolled when applied)' },
+        { value: 'custom', label: 'Custom Formula', description: 'Enter custom dice formula (e.g., 2d6+3, 1d4+STR)' }
+      ];
+    } else {
+      // Standard resistance uses percentage-based options with healing conversion
+      return [
+        // Healing conversion (negative percentages)
+        { value: -200, label: 'Vampiric', description: 'Heals for 200% of damage (-200%)', multiplier: -2.0, color: '#e91e63' },
+        { value: -100, label: 'Absorbing', description: 'Heals for 100% of damage (-100%)', multiplier: -1.0, color: '#9c27b0' },
+        { value: -50, label: 'Draining', description: 'Heals for 50% of damage (-50%)', multiplier: -0.5, color: '#673ab7' },
+        { value: -25, label: 'Siphoning', description: 'Heals for 25% of damage (-25%)', multiplier: -0.25, color: '#3f51b5' },
+
+        // Standard resistance levels
+        { value: 0, label: 'Immune', description: 'Takes no damage (0%)', multiplier: 0.0, color: '#4caf50' },
+        { value: 50, label: 'Resistant', description: 'Takes half damage (50%)', multiplier: 0.5, color: '#8bc34a' },
+        { value: 75, label: 'Guarded', description: 'Takes reduced damage (75%)', multiplier: 0.75, color: '#cddc39' },
+        { value: 125, label: 'Susceptible', description: 'Takes increased damage (125%)', multiplier: 1.25, color: '#ff9800' },
+        { value: 150, label: 'Exposed', description: 'Takes much more damage (150%)', multiplier: 1.5, color: '#ff5722' },
+        { value: 200, label: 'Vulnerable', description: 'Takes double damage (200%)', multiplier: 2.0, color: '#f44336' }
+      ];
+    }
+  };
+
+  // Get CSS class name for resistance level
+  const getResistanceLevelClass = (value) => {
+    if (value === null || value === undefined || value === 'none') return 'none';
+
+    // Handle string values (resistance level names)
+    if (typeof value === 'string') {
+      return value.toLowerCase();
+    }
+
+    // Handle numeric values
+    switch (value) {
+      case -200: return 'vampiric';
+      case -100: return 'absorbing';
+      case -50: return 'draining';
+      case -25: return 'siphoning';
+      case 0: return 'immune';
+      case 50: return 'resistant';
+      case 75: return 'guarded';
+      case 125: return 'susceptible';
+      case 150: return 'exposed';
+      case 200: return 'vulnerable';
+      default: return 'none';
+    }
+  };
+
   // Get stat modifiers by category
   const getStatModifiersByCategory = (category) => {
     // Define primary stat modifiers with an All option
@@ -642,26 +705,41 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       ...DAMAGE_TYPE_MODIFIERS
     ];
 
-    // Define resistance modifiers specifically for the resistance tab
+    // Define resistance modifiers with new scaling system
     const RESISTANCE_MODIFIERS = [
-      { id: 'all_resistances', name: 'All Resistances', icon: 'spell_holy_divineshield', description: 'Increases resistance to all damage types', category: 'resistance' },
-      { id: 'physical_resistance', name: 'Physical Resistance', icon: 'inv_shield_05', description: 'Increases resistance to physical damage', category: 'resistance' },
-      { id: 'fire_resistance', name: 'Fire Resistance', icon: 'spell_fire_firearmor', description: 'Increases resistance to fire damage', category: 'resistance' },
-      { id: 'cold_resistance', name: 'Cold Resistance', icon: 'spell_frost_frostarmor', description: 'Increases resistance to cold damage', category: 'resistance' },
-      { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'spell_nature_lightningshield', description: 'Increases resistance to lightning damage', category: 'resistance' },
-      { id: 'acid_resistance', name: 'Acid Resistance', icon: 'spell_nature_acid_01', description: 'Increases resistance to acid damage', category: 'resistance' },
-      { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'spell_shadow_antishadow', description: 'Increases resistance to necrotic damage', category: 'resistance' },
-      { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'spell_holy_blessingofprotection', description: 'Increases resistance to radiant damage', category: 'resistance' },
-      { id: 'poison_resistance', name: 'Poison Resistance', icon: 'ability_creature_poison_02', description: 'Increases resistance to poison damage', category: 'resistance' },
-      { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'spell_shadow_mindtwisting', description: 'Increases resistance to psychic damage', category: 'resistance' },
-      { id: 'thunder_resistance', name: 'Thunder Resistance', icon: 'spell_nature_thunderclap', description: 'Increases resistance to thunder damage', category: 'resistance' },
-      { id: 'force_resistance', name: 'Force Resistance', icon: 'spell_arcane_blast', description: 'Increases resistance to force damage', category: 'resistance' },
-      { id: 'slashing_resistance', name: 'Slashing Resistance', icon: 'inv_sword_04', description: 'Increases resistance to slashing damage', category: 'resistance' },
-      { id: 'piercing_resistance', name: 'Piercing Resistance', icon: 'inv_spear_06', description: 'Increases resistance to piercing damage', category: 'resistance' },
-      { id: 'bludgeoning_resistance', name: 'Bludgeoning Resistance', icon: 'inv_mace_02', description: 'Increases resistance to bludgeoning damage', category: 'resistance' },
-      { id: 'damage_immunity', name: 'Damage Immunity', icon: 'spell_holy_divineprotection', description: 'Grants immunity to all damage types', category: 'resistance' },
-      { id: 'magic_immunity', name: 'Magic Immunity', icon: 'spell_arcane_prismaticcloak', description: 'Grants immunity to magical effects', category: 'resistance' },
-      { id: 'damage_reduction', name: 'Damage Reduction', icon: 'spell_holy_devotionaura', description: 'Reduces all incoming damage by a percentage', category: 'resistance' }
+      { id: 'all_resistances', name: 'All Resistances', icon: 'spell_holy_divineshield', description: 'Modifies resistance to all damage types', category: 'resistance', resistanceType: 'general' },
+      { id: 'physical_resistance', name: 'Physical Resistance', icon: 'inv_shield_05', description: 'Modifies resistance to physical damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'fire_resistance', name: 'Fire Resistance', icon: 'spell_fire_firearmor', description: 'Modifies resistance to fire damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'cold_resistance', name: 'Cold Resistance', icon: 'spell_frost_frostarmor', description: 'Modifies resistance to cold damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'lightning_resistance', name: 'Lightning Resistance', icon: 'spell_nature_lightningshield', description: 'Modifies resistance to lightning damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'acid_resistance', name: 'Acid Resistance', icon: 'spell_nature_acid_01', description: 'Modifies resistance to acid damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'necrotic_resistance', name: 'Necrotic Resistance', icon: 'spell_shadow_antishadow', description: 'Modifies resistance to necrotic damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'radiant_resistance', name: 'Radiant Resistance', icon: 'spell_holy_blessingofprotection', description: 'Modifies resistance to radiant damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'poison_resistance', name: 'Poison Resistance', icon: 'ability_creature_poison_02', description: 'Modifies resistance to poison damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'psychic_resistance', name: 'Psychic Resistance', icon: 'spell_shadow_mindtwisting', description: 'Modifies resistance to psychic damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'thunder_resistance', name: 'Thunder Resistance', icon: 'spell_nature_thunderclap', description: 'Modifies resistance to thunder damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'force_resistance', name: 'Force Resistance', icon: 'spell_arcane_blast', description: 'Modifies resistance to force damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'slashing_resistance', name: 'Slashing Resistance', icon: 'inv_sword_04', description: 'Modifies resistance to slashing damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'piercing_resistance', name: 'Piercing Resistance', icon: 'inv_spear_06', description: 'Modifies resistance to piercing damage', category: 'resistance', resistanceType: 'standard' },
+      { id: 'bludgeoning_resistance', name: 'Bludgeoning Resistance', icon: 'inv_mace_02', description: 'Modifies resistance to bludgeoning damage', category: 'resistance', resistanceType: 'standard' },
+
+      // Absorption types - use flat numbers for all damage types
+      { id: 'damage_absorption', name: 'All Damage Absorption', icon: 'spell_arcane_arcaneshield', description: 'Absorbs a fixed amount of all damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'physical_absorption', name: 'Physical Absorption', icon: 'inv_shield_05', description: 'Absorbs a fixed amount of physical damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'fire_absorption', name: 'Fire Absorption', icon: 'spell_fire_firearmor', description: 'Absorbs a fixed amount of fire damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'cold_absorption', name: 'Cold Absorption', icon: 'spell_frost_frostarmor', description: 'Absorbs a fixed amount of cold damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'lightning_absorption', name: 'Lightning Absorption', icon: 'spell_nature_lightningshield', description: 'Absorbs a fixed amount of lightning damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'acid_absorption', name: 'Acid Absorption', icon: 'spell_nature_acid_01', description: 'Absorbs a fixed amount of acid damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'necrotic_absorption', name: 'Necrotic Absorption', icon: 'spell_shadow_antishadow', description: 'Absorbs a fixed amount of necrotic damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'radiant_absorption', name: 'Radiant Absorption', icon: 'spell_holy_blessingofprotection', description: 'Absorbs a fixed amount of radiant damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'poison_absorption', name: 'Poison Absorption', icon: 'ability_creature_poison_02', description: 'Absorbs a fixed amount of poison damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'psychic_absorption', name: 'Psychic Absorption', icon: 'spell_shadow_mindtwisting', description: 'Absorbs a fixed amount of psychic damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'thunder_absorption', name: 'Thunder Absorption', icon: 'spell_nature_thunderclap', description: 'Absorbs a fixed amount of thunder damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'force_absorption', name: 'Force Absorption', icon: 'spell_arcane_blast', description: 'Absorbs a fixed amount of force damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'slashing_absorption', name: 'Slashing Absorption', icon: 'inv_sword_04', description: 'Absorbs a fixed amount of slashing damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'piercing_absorption', name: 'Piercing Absorption', icon: 'inv_spear_06', description: 'Absorbs a fixed amount of piercing damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'bludgeoning_absorption', name: 'Bludgeoning Absorption', icon: 'inv_mace_02', description: 'Absorbs a fixed amount of bludgeoning damage', category: 'resistance', resistanceType: 'absorption' },
+      { id: 'magical_absorption', name: 'Magical Absorption', icon: 'spell_arcane_prismaticcloak', description: 'Absorbs a fixed amount of magical damage', category: 'resistance', resistanceType: 'absorption' }
     ];
 
     // Define secondary stat modifiers to include healing received
@@ -686,7 +764,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       case 'secondary':
         return SECONDARY_STAT_MODIFIERS_EXTENDED;
       case 'combat':
-        return COMBAT_STAT_MODIFIERS;
+        return BUFF_DEBUFF_STAT_MODIFIERS.filter(stat => stat.category === 'combat');
       case 'damage':
         return DAMAGE_TYPE_MODIFIERS_EXTENDED;
       case 'resistance':
@@ -777,6 +855,21 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     }));
   };
 
+  // Update an entire stat modifier object (for resistance dropdowns)
+  const updateStatModifier = (statId, updatedStat) => {
+    const updatedModifiers = buffConfig.statModifiers.map(mod => {
+      if (mod.id === statId) {
+        return updatedStat;
+      }
+      return mod;
+    });
+
+    setBuffConfig(prev => ({
+      ...prev,
+      statModifiers: updatedModifiers
+    }));
+  };
+
   // Remove stat modifier from buff
   const removeStatModifier = (statId) => {
     if (!statId) return;
@@ -797,7 +890,87 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     const exists = statusEffects.some(e => e.id === effect.id);
 
     if (!exists) {
-      // Only include essential properties, not default magnitude or type
+      // Get default configuration for this buff effect
+      const getDefaultBuffConfig = (effectId) => {
+        const defaults = {
+          'inspired': {
+            option: 'bardic',
+            inspirationDie: 'd6',
+            usesPerDuration: 1,
+            appliesTo: 'any',
+            durationType: 'until_used',
+            canBeDispelled: true
+          },
+          'blessed': {
+            option: 'protection',
+            bonusType: 'flat',
+            rollBonus: 2,
+            bonusDie: 'd4',
+            affectsAttacks: true,
+            affectsSaves: true,
+            affectsSkills: false,
+            durationType: 'minutes',
+            durationValue: 10,
+            canBeDispelled: true
+          },
+          'resistance': {
+            option: 'elemental',
+            damageTypes: ['fire'],
+            resistanceValue: '50',
+            absorptionAmount: '',
+            durationType: 'minutes',
+            durationValue: 10,
+            canStack: false
+          },
+          'haste': {
+            option: 'movement',
+            speedBonus: '50',
+            extraActions: '1',
+            castingReduction: '50',
+            duration: 10,
+            hasLethargy: false
+          },
+          'invisible': {
+            option: 'full',
+            durationType: 'minutes',
+            durationValue: 10,
+            canBeDispelled: true
+          },
+          'flying': {
+            option: 'wings',
+            durationType: 'minutes',
+            durationValue: 10,
+            canBeDispelled: true
+          },
+          'advantage_attack': {
+            option: 'all',
+            durationType: 'rounds',
+            durationValue: 10,
+            canBeDispelled: true
+          },
+          'saving_throw_advantage': {
+            option: 'all',
+            durationType: 'rounds',
+            durationValue: 10,
+            canBeDispelled: true
+          },
+          'damage_resistance': {
+            option: 'physical',
+            resistancePercent: 50,
+            durationType: 'minutes',
+            durationValue: 10
+          },
+          'lifesteal': {
+            option: 'percent',
+            lifestealPercent: 25,
+            durationType: 'rounds',
+            durationValue: 10
+          }
+        };
+        return defaults[effectId] || {};
+      };
+
+      // Include essential properties with default configuration values
       const newStatusEffect = {
         id: effect.id,
         name: effect.name,
@@ -805,7 +978,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         icon: effect.icon || null,
         description: effect.description || '',
         hasAdvancedConfig: effect.hasAdvancedConfig || false,
-        options: effect.options || []
+        options: effect.options || [],
+        ...getDefaultBuffConfig(effect.id)
       };
 
       setBuffConfig(prev => ({
@@ -1063,36 +1237,45 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
   };
 
   return (
-    <div className="spell-effects-container">
-      <h3>Buff Configuration</h3>
+    <div className="pf-effects-container">
+      <div className="pf-section-header">
+        <h3 className="pf-section-title">Buff Configuration</h3>
+        <div className="pf-section-subtitle">Apply positive effects to allies</div>
+      </div>
 
-      <div className="buff-config-section">
-        <div className="effect-config-section">
-          <h4>Duration</h4>
+      <div className="pf-config-section">
+        <div className="pf-config-group">
+          <h4 className="pf-config-title">Duration</h4>
 
-          <div className="effect-config-option">
-            <label>Duration Type</label>
-            <div className="effect-options">
+          <div className="pf-config-option duration-config-section">
+            <label className="pf-label duration-label">Duration Type</label>
+            <div className="pf-button-group duration-button-group">
               <button
-                className={`effect-option-button ${buffConfig.durationType === 'turns' ? 'active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'turns' ? 'pf-button-active' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'turns')}
               >
-                <span>Turns/Rounds</span>
+                <span>Turns</span>
               </button>
               <button
-                className={`effect-option-button ${buffConfig.durationType === 'time' ? 'active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'rounds' ? 'pf-button-active' : ''}`}
+                onClick={() => updateBuffConfig('durationType', 'rounds')}
+              >
+                <span>Rounds</span>
+              </button>
+              <button
+                className={`pf-button ${buffConfig.durationType === 'time' ? 'pf-button-active' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'time')}
               >
                 <span>Time-Based</span>
               </button>
               <button
-                className={`effect-option-button ${buffConfig.durationType === 'rest' ? 'active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'rest' ? 'pf-button-active' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'rest')}
               >
                 <span>Rest-Based</span>
               </button>
               <button
-                className={`effect-option-button ${buffConfig.durationType === 'permanent' ? 'active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'permanent' ? 'pf-button-active' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'permanent')}
               >
                 <span>Permanent</span>
@@ -1100,26 +1283,31 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             </div>
           </div>
 
-          {buffConfig.durationType === 'turns' && (
-            <div className="effect-config-option">
-              <label>Number of Turns/Rounds</label>
+
+
+          {buffConfig.durationType === 'rounds' && (
+            <div className="pf-config-option">
+              <label className="pf-label">Number of Rounds</label>
               <input
                 type="number"
                 min="1"
                 max="100"
-                value={buffConfig.durationValue || 3}
+                value={buffConfig.durationValue || 1}
+                placeholder="1"
                 onChange={(e) => {
                   updateBuffConfig('durationValue', parseInt(e.target.value));
                   // Also update legacy duration field for backward compatibility
                   updateBuffConfig('duration', parseInt(e.target.value));
                 }}
+                className="pf-input"
               />
             </div>
           )}
 
           {buffConfig.durationType === 'time' && (
-            <div className="effect-config-option">
-              <div className="duration-time-input">
+            <div className="pf-config-option">
+              <label className="pf-label">Duration</label>
+              <div className="pf-input-group">
                 <input
                   type="number"
                   min="1"
@@ -1128,12 +1316,14 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                   onChange={(e) => {
                     updateBuffConfig('durationValue', parseInt(e.target.value));
                   }}
+                  className="pf-input"
                 />
                 <select
                   value={buffConfig.durationUnit || 'minutes'}
                   onChange={(e) => {
                     updateBuffConfig('durationUnit', e.target.value);
                   }}
+                  className="pf-select"
                 >
                   <option value="seconds">Seconds</option>
                   <option value="minutes">Minutes</option>
@@ -1145,17 +1335,17 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           )}
 
           {buffConfig.durationType === 'rest' && (
-            <div className="effect-config-option">
-              <label>Rest Type</label>
-              <div className="effect-options">
+            <div className="pf-config-option">
+              <label className="pf-label">Rest Type</label>
+              <div className="pf-button-group">
                 <button
-                  className={`effect-option-button ${buffConfig.restType === 'short' ? 'active' : ''}`}
+                  className={`pf-button ${buffConfig.restType === 'short' ? 'pf-button-active' : ''}`}
                   onClick={() => updateBuffConfig('restType', 'short')}
                 >
                   <span>Until Short Rest</span>
                 </button>
                 <button
-                  className={`effect-option-button ${buffConfig.restType === 'long' ? 'active' : ''}`}
+                  className={`pf-button ${buffConfig.restType === 'long' ? 'pf-button-active' : ''}`}
                   onClick={() => updateBuffConfig('restType', 'long')}
                 >
                   <span>Until Long Rest</span>
@@ -1165,14 +1355,14 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           )}
 
           {buffConfig.durationType === 'permanent' && (
-            <div className="effect-config-option">
-              <div className="toggle-options">
-                <div className="toggle-option">
+            <div className="pf-config-option">
+              <div className="pf-toggle-group">
+                <div className="pf-toggle-option">
                   <button
-                    className={`toggle-button ${buffConfig.canBeDispelled ? 'active' : ''}`}
+                    className={`pf-toggle-button ${buffConfig.canBeDispelled ? 'pf-toggle-active' : ''}`}
                     onClick={() => updateBuffConfig('canBeDispelled', !buffConfig.canBeDispelled)}
                   >
-                    <div className="toggle-icon">
+                    <div className="pf-toggle-icon">
                       {buffConfig.canBeDispelled ? '✓' : ''}
                     </div>
                     <span>Can Be Dispelled</span>
@@ -1182,15 +1372,15 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             </div>
           )}
 
-          {(buffConfig.durationType === 'turns' || buffConfig.durationType === 'time') && (
-            <div className="effect-config-option">
-              <div className="toggle-options">
-                <div className="toggle-option">
+          {(buffConfig.durationType === 'turns' || buffConfig.durationType === 'rounds' || buffConfig.durationType === 'time') && (
+            <div className="pf-config-option">
+              <div className="pf-toggle-group">
+                <div className="pf-toggle-option">
                   <button
-                    className={`toggle-button ${buffConfig.concentrationRequired ? 'active' : ''}`}
+                    className={`pf-toggle-button ${buffConfig.concentrationRequired ? 'pf-toggle-active' : ''}`}
                     onClick={() => updateBuffConfig('concentrationRequired', !buffConfig.concentrationRequired)}
                   >
-                    <div className="toggle-icon">
+                    <div className="pf-toggle-icon">
                       {buffConfig.concentrationRequired ? '✓' : ''}
                     </div>
                     <span>Requires Concentration</span>
@@ -1201,39 +1391,43 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           )}
         </div>
 
-        <div className="config-option">
-          <label>Stacking</label>
-          <select
-            value={buffConfig.stackingRule || 'replace'}
-            onChange={(e) => {
-              const newStackingRule = e.target.value;
-              updateBuffConfig('stackingRule', newStackingRule);
+        <div className="pf-config-group">
+          <h4 className="pf-config-title">Stacking</h4>
+          <div className="pf-config-option">
+            <label className="pf-label">Stacking Rule</label>
+            <select
+              value={buffConfig.stackingRule || 'replace'}
+              onChange={(e) => {
+                const newStackingRule = e.target.value;
+                updateBuffConfig('stackingRule', newStackingRule);
 
-              // Initialize progressiveStages array when selecting progressive stacking rule
-              if (newStackingRule === 'progressive' && !buffConfig.progressiveStages) {
-                updateBuffConfig('progressiveStages', []);
-              }
-            }}
-            className="buff-dropdown"
-          >
-            {BUFF_STACKING_RULES.map(rule => (
-              <option key={rule.value} value={rule.value}>
-                {rule.label}
-              </option>
-            ))}
-          </select>
-        </div>
+                // Initialize progressiveStages array when selecting progressive stacking rule
+                if (newStackingRule === 'progressive' && !buffConfig.progressiveStages) {
+                  updateBuffConfig('progressiveStages', []);
+                }
+              }}
+              className="pf-select"
+            >
+              {BUFF_STACKING_RULES.map(rule => (
+                <option key={rule.value} value={rule.value}>
+                  {rule.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className="config-option">
-          <label>Max Stacks</label>
-          <input
-            type="number"
-            value={buffConfig.maxStacks || 1}
-            min="1"
-            max="10"
-            onChange={(e) => updateBuffConfig('maxStacks', parseInt(e.target.value))}
-            disabled={buffConfig.stackingRule !== 'selfStacking' && buffConfig.stackingRule !== 'cumulative'}
-          />
+          <div className="pf-config-option">
+            <label className="pf-label">Max Stacks</label>
+            <input
+              type="number"
+              value={buffConfig.maxStacks || 1}
+              min="1"
+              max="10"
+              onChange={(e) => updateBuffConfig('maxStacks', parseInt(e.target.value))}
+              disabled={buffConfig.stackingRule !== 'selfStacking' && buffConfig.stackingRule !== 'cumulative'}
+              className="pf-input"
+            />
+          </div>
         </div>
 
         {/* Progressive buff configuration */}
@@ -1472,97 +1666,180 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         {/* Default Magnitude and Default Type fields removed as they are configured when choosing a buff */}
       </div>
 
-      {showDiceExamples && <DiceFormulaExamples />}
+      {/* Contextual Dice Formula Examples - Only show when there are stats that can use formulas */}
+      {buffConfig.statModifiers && buffConfig.statModifiers.length > 0 && (
+        <>
+          {showDiceExamples && <DiceFormulaExamples />}
 
-      <button
-        className="dice-formula-help-button"
-        onClick={() => setShowDiceExamples(!showDiceExamples)}
-      >
-        {showDiceExamples ? 'Hide Dice Formula Examples' : 'Show Dice Formula Examples'}
-      </button>
+          <div className="pf-help-section">
+            <button
+              className="pf-help-button"
+              onClick={() => setShowDiceExamples(!showDiceExamples)}
+            >
+              {showDiceExamples ? 'Hide Dice Formula Examples' : 'Show Dice Formula Examples'}
+            </button>
+            <p className="pf-help-text">
+              Use dice formulas for dynamic buffs (e.g., "2d4" for 2-8 Spirit instead of flat +3)
+            </p>
+          </div>
+        </>
+      )}
 
       {buffConfig.statModifiers && buffConfig.statModifiers.length > 0 && (
-        <div className="selected-stats">
-          <h4>Selected Stats</h4>
-          <div className="selected-stats-list">
+        <div className="pf-config-group">
+          <h4 className="pf-config-title">Selected Stats</h4>
+          <div className="pf-selected-stats-list">
             {buffConfig.statModifiers.map(stat => (
-              <div className="selected-stat" key={stat.id}>
-                <div className="stat-icon">
+              <div className="pf-selected-stat" key={stat.id}>
+                <div className="pf-stat-icon">
                   <img src={getIconUrl(stat.icon)} alt={stat.name} />
                 </div>
-                <div className="stat-info">
-                  <div className="stat-name">{stat.name}</div>
-                  <div className="stat-description">{stat.description}</div>
+                <div className="pf-stat-info">
+                  <div className="pf-stat-name">{stat.name}</div>
+                  <div className="pf-stat-description">{stat.description}</div>
                 </div>
-                <div className="stat-value-controls">
-                  <input
-                    type="text"
-                    className={`stat-value-input ${typeof stat.magnitude === 'string' ? 'formula' : (stat.magnitude < 0 ? 'negative' : 'positive')}`}
-                    // Use defaultValue instead of value to allow clearing the field
-                    defaultValue={typeof stat.magnitude === 'string' ? stat.magnitude : (stat.magnitudeType === 'percentage' ?
-                      `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}%` :
-                      `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}`)}
-                    onBlur={(e) => {
-                      let value = e.target.value;
+                <div className="pf-stat-controls">
+                  {/* Special handling for resistance stats */}
+                  {stat.category === 'resistance' ? (
+                    <>
+                      <select
+                        className={`pf-resistance-select ${getResistanceLevelClass(stat.resistanceLevel || stat.magnitude)}`}
+                        value={stat.resistanceLevel || stat.magnitude || 'none'}
+                        onChange={(e) => {
+                          const selectedOption = getResistanceScalingOptions(stat.resistanceType).find(opt => opt.value.toString() === e.target.value);
+                          if (selectedOption) {
+                            updateStatModifierValue(stat.id, selectedOption.value);
+                            // Store the resistance level for styling
+                            updateStatModifier(stat.id, {
+                              ...stat,
+                              resistanceLevel: selectedOption.label.toLowerCase(),
+                              magnitude: selectedOption.value,
+                              magnitudeType: stat.resistanceType === 'absorption' ?
+                                (typeof selectedOption.value === 'string' && selectedOption.value !== 'custom' ? 'formula' : 'flat') :
+                                'percentage'
+                            });
+                          }
+                        }}
+                      >
+                        <option value="none">Select Resistance Level</option>
+                        {getResistanceScalingOptions(stat.resistanceType).map(option => (
+                          <option
+                            key={option.value}
+                            value={option.value}
+                            style={{ color: option.color }}
+                          >
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                      {stat.resistanceType === 'absorption' && (stat.resistanceLevel === 'custom formula' || stat.magnitude === 'custom') && (
+                        <div className="pf-custom-absorption-input">
+                          <input
+                            type="text"
+                            className="pf-stat-input pf-formula"
+                            placeholder="Enter formula or flat value (e.g., 2d6+3, 1d4+STR, 50)"
+                            defaultValue={typeof stat.customFormula === 'string' ? stat.customFormula : ''}
+                            onBlur={(e) => {
+                              const formula = e.target.value.trim();
+                              if (formula) {
+                                // Check if it's a flat number or a dice formula
+                                const isFlat = /^\d+$/.test(formula);
+                                const magnitude = isFlat ? parseInt(formula, 10) : formula;
+                                const magnitudeType = isFlat ? 'flat' : 'formula';
 
-                      // Handle empty field
-                      if (value === '') {
-                        updateStatModifierValue(stat.id, 0);
-                        return;
-                      }
+                                updateStatModifier(stat.id, {
+                                  ...stat,
+                                  customFormula: formula,
+                                  magnitude: magnitude,
+                                  magnitudeType: magnitudeType
+                                });
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.target.blur();
+                              }
+                            }}
+                          />
+                          <div className="pf-formula-help">
+                            Examples: 1d4, 2d6+3, 1d8+STR, 3d4+2, 50, 100
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    /* Standard input for non-resistance stats */
+                    <input
+                      type="text"
+                      className={`pf-stat-input ${typeof stat.magnitude === 'string' ? 'pf-formula' : (stat.magnitude < 0 ? 'pf-negative' : 'pf-positive')}`}
+                      // Use defaultValue instead of value to allow clearing the field
+                      defaultValue={typeof stat.magnitude === 'string' ? stat.magnitude : (stat.magnitudeType === 'percentage' ?
+                        `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}%` :
+                        `${stat.magnitude >= 0 ? '+' : ''}${stat.magnitude}`)}
+                      onBlur={(e) => {
+                        let value = e.target.value;
 
-                      // Remove the % sign and + sign for processing
-                      if (stat.magnitudeType === 'percentage') {
-                        value = value.replace(/%/g, '');
-                      }
-                      value = value.replace(/^\+/, '');
-
-                      // Check if it's a valid number
-                      const isNumber = !isNaN(parseFloat(value)) && isFinite(value);
-
-                      // Check if it's a dice formula
-                      // Handle 'd6' format (without a number prefix)
-                      const diceRegex = /^-?d\d+|^-?\d+d\d+|^-?\d+d\d+k\d+|^-?\d+d\d+k\d+l/;
-                      const isDiceFormula = diceRegex.test(value);
-
-                      if (isNumber) {
-                        updateStatModifierValue(stat.id, parseFloat(value));
-                      } else if (isDiceFormula) {
-                        // If it starts with 'd', add '1' prefix
-                        if (value.startsWith('d')) {
-                          value = '1' + value;
-                        } else if (value.startsWith('-d')) {
-                          value = '-1' + value.substring(1);
+                        // Handle empty field
+                        if (value === '') {
+                          updateStatModifierValue(stat.id, 0);
+                          return;
                         }
-                        updateStatModifierValue(stat.id, value);
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      // Handle Enter key
-                      if (e.key === 'Enter') {
-                        e.target.blur(); // Trigger the onBlur event
-                      }
-                    }}
-                    placeholder="Enter value or formula"
-                    title="Examples: 5, 2d6, d20, -d4, 1d8+2"
-                  />
+
+                        // Remove the % sign and + sign for processing
+                        if (stat.magnitudeType === 'percentage') {
+                          value = value.replace(/%/g, '');
+                        }
+                        value = value.replace(/^\+/, '');
+
+                        // Check if it's a valid number
+                        const isNumber = !isNaN(parseFloat(value)) && isFinite(value);
+
+                        // Check if it's a dice formula
+                        // Handle 'd6' format (without a number prefix)
+                        const diceRegex = /^-?d\d+|^-?\d+d\d+|^-?\d+d\d+k\d+|^-?\d+d\d+k\d+l/;
+                        const isDiceFormula = diceRegex.test(value);
+
+                        if (isNumber) {
+                          updateStatModifierValue(stat.id, parseFloat(value));
+                        } else if (isDiceFormula) {
+                          // If it starts with 'd', add '1' prefix
+                          if (value.startsWith('d')) {
+                            value = '1' + value;
+                          } else if (value.startsWith('-d')) {
+                            value = '-1' + value.substring(1);
+                          }
+                          updateStatModifierValue(stat.id, value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        // Handle Enter key
+                        if (e.key === 'Enter') {
+                          e.target.blur(); // Trigger the onBlur event
+                        }
+                      }}
+                      placeholder="Examples: 5, 2d6, d20, -d4, 1d8+2"
+                    />
+                  )}
                 </div>
-                <div className="stat-type-toggle">
-                  <button
-                    className={stat.magnitudeType === 'flat' ? 'active' : ''}
-                    onClick={() => updateStatModifierType(stat.id, 'flat')}
-                  >
-                    Flat
-                  </button>
-                  <button
-                    className={stat.magnitudeType === 'percentage' ? 'active' : ''}
-                    onClick={() => updateStatModifierType(stat.id, 'percentage')}
-                  >
-                    %
-                  </button>
-                </div>
+                {/* Only show type toggle for non-resistance stats */}
+                {stat.category !== 'resistance' && (
+                  <div className="pf-stat-type-toggle">
+                    <button
+                      className={`pf-toggle-btn ${stat.magnitudeType === 'flat' ? 'pf-toggle-active' : ''}`}
+                      onClick={() => updateStatModifierType(stat.id, 'flat')}
+                    >
+                      Flat
+                    </button>
+                    <button
+                      className={`pf-toggle-btn ${stat.magnitudeType === 'percentage' ? 'pf-toggle-active' : ''}`}
+                      onClick={() => updateStatModifierType(stat.id, 'percentage')}
+                    >
+                      %
+                    </button>
+                  </div>
+                )}
                 <button
-                  className="remove-stat"
+                  className="pf-remove-btn"
                   onClick={() => removeStatModifier(stat.id)}
                 >
                   ×
@@ -1573,56 +1850,56 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         </div>
       )}
 
-      <div className="stat-selector-section">
-        <h4>Choose Stats to Buff:</h4>
+      <div className="pf-config-group">
+        <h4 className="pf-config-title">Choose Stats to Buff</h4>
 
-        <div className="stat-category-tabs">
+        <div className="pf-tab-group">
           <button
-            className={selectedStatCategory === 'primary' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'primary' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('primary')}
           >
             Primary Stats
           </button>
           <button
-            className={selectedStatCategory === 'secondary' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'secondary' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('secondary')}
           >
             Secondary Stats
           </button>
           <button
-            className={selectedStatCategory === 'combat' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'combat' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('combat')}
           >
             Combat Stats
           </button>
           <button
-            className={selectedStatCategory === 'damage' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'damage' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('damage')}
           >
             Damage Types
           </button>
           <button
-            className={selectedStatCategory === 'resistance' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'resistance' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('resistance')}
           >
             Resistances
           </button>
           <button
-            className={selectedStatCategory === 'utility' ? 'active' : ''}
+            className={`pf-tab ${selectedStatCategory === 'utility' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatCategory('utility')}
           >
             Utility
           </button>
         </div>
 
-        <div className="stat-cards-grid">
+        <div className="pf-stat-grid">
           {getStatModifiersByCategory(selectedStatCategory).map(stat => {
             const isSelected = buffConfig.statModifiers?.some(modifier => modifier.id === stat.id);
 
             return (
               <div
                 key={stat.id}
-                className={`stat-card ${isSelected ? 'selected' : ''}`}
+                className={`pf-stat-card ${isSelected ? 'pf-stat-selected' : ''}`}
                 onClick={() => {
                   if (isSelected) {
                     removeStatModifier(stat.id);
@@ -1637,9 +1914,9 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                 <img
                   src={getIconUrl(stat.icon)}
                   alt={stat.name}
-                  className="stat-icon"
+                  className="pf-stat-icon"
                 />
-                <div className="stat-name">{stat.name}</div>
+                <div className="pf-stat-name">{stat.name}</div>
                 {renderStatIndicator(stat)}
               </div>
             );
@@ -1647,79 +1924,79 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         </div>
       </div>
 
-      <div className="status-effects-section">
-        <h4>Status Effects</h4>
+      <div className="pf-config-group">
+        <h4 className="pf-config-title">Status Effects</h4>
 
-        <div className="status-category-tabs">
+        <div className="pf-tab-group">
           <button
-            className={selectedStatusCategory === 'all' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'all' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('all')}
           >
             All Effects
           </button>
           <button
-            className={selectedStatusCategory === 'combat' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'combat' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('combat')}
           >
             Combat
           </button>
           <button
-            className={selectedStatusCategory === 'skills' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'skills' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('skills')}
           >
             Skills
           </button>
           <button
-            className={selectedStatusCategory === 'empowerment' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'empowerment' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('empowerment')}
           >
             Empowerment
           </button>
           <button
-            className={selectedStatusCategory === 'protection' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'protection' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('protection')}
           >
             Protection
           </button>
           <button
-            className={selectedStatusCategory === 'healing' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'healing' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('healing')}
           >
             Healing
           </button>
           <button
-            className={selectedStatusCategory === 'mobility' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'mobility' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('mobility')}
           >
             Mobility
           </button>
           <button
-            className={selectedStatusCategory === 'stealth' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'stealth' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('stealth')}
           >
             Stealth
           </button>
           <button
-            className={selectedStatusCategory === 'mental' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'mental' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('mental')}
           >
             Mental
           </button>
           <button
-            className={selectedStatusCategory === 'fortune' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'fortune' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('fortune')}
           >
             Fortune
           </button>
           <button
-            className={selectedStatusCategory === 'vampiric' ? 'active' : ''}
+            className={`pf-tab ${selectedStatusCategory === 'vampiric' ? 'pf-tab-active' : ''}`}
             onClick={() => setSelectedStatusCategory('vampiric')}
           >
             Lifelink
           </button>
         </div>
 
-        <div className="status-effects-grid">
+        <div className="pf-status-grid">
           {getStatusEffectsByCategory(selectedStatusCategory).map(effect => {
             const isSelected = buffConfig.statusEffects?.some(e => e.id === effect.id);
             const selectedEffect = isSelected ? buffConfig.statusEffects.find(e => e.id === effect.id) : null;
@@ -1727,7 +2004,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             return (
               <div
                 key={effect.id}
-                className={`status-effect-card ${isSelected ? 'selected' : ''}`}
+                className={`pf-status-card ${isSelected ? 'pf-status-selected' : ''}`}
                 onClick={() => {
                   if (isSelected) {
                     // If already selected, open the configuration popup
@@ -1752,15 +2029,15 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                 onMouseLeave={handleMouseLeave}
                 onMouseMove={handleMouseMove}
               >
-                <div className="status-effect-icon">
+                <div className="pf-status-icon">
                   <img src={getIconUrl(effect.icon)} alt={effect.name} />
                 </div>
-                <div className="status-effect-name">{effect.name}</div>
-                <div className="status-effect-description">{effect.description}</div>
+                <div className="pf-status-name">{effect.name}</div>
+                <div className="pf-status-description">{effect.description}</div>
 
                 {isSelected && (
                   <button
-                    className="status-effect-remove"
+                    className="pf-status-remove"
                     onClick={(e) => {
                       e.stopPropagation();
                       removeStatusEffect(effect.id);
@@ -1770,26 +2047,16 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                     ×
                   </button>
                 )}
-
-
-
-
               </div>
             );
           })}
         </div>
       </div>
 
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
+
 
       {/* Status Effect Configuration Popup */}
-      <StatusEffectConfigPopup
+      <CleanStatusEffectConfigPopup
         isOpen={configPopupOpen}
         onClose={() => setConfigPopupOpen(false)}
         effect={selectedStatusEffect}
@@ -1797,6 +2064,26 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         updateConfig={updateBuffConfig}
         configType="buff"
       />
+
+      {/* Tooltip Rendering */}
+      {showTooltip && tooltipContent && (() => {
+        const tooltipRoot = document.getElementById('tooltip-root') || document.body;
+        return ReactDOM.createPortal(
+          <div
+            style={{
+              position: 'fixed',
+              left: mousePos.x,
+              top: mousePos.y,
+              zIndex: 99999,
+              pointerEvents: 'none',
+              transform: 'translate(10px, -100%)'
+            }}
+          >
+            {tooltipContent}
+          </div>,
+          tooltipRoot
+        );
+      })()}
     </div>
   );
 };

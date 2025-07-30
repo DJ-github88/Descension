@@ -35,7 +35,8 @@ export const LIBRARY_ACTION_TYPES = {
 
   // Library management
   IMPORT_LIBRARY: 'IMPORT_LIBRARY',
-  RESET_LIBRARY: 'RESET_LIBRARY'
+  RESET_LIBRARY: 'RESET_LIBRARY',
+  CLEAR_LIBRARY: 'CLEAR_LIBRARY'
 };
 
 // Initial state
@@ -64,6 +65,25 @@ function spellLibraryReducer(state, action) {
         ...state,
         spells: [...state.spells, newSpell],
         selectedSpell: newSpell.id
+      };
+    }
+
+    case 'ADD_SPELL_DIRECT': {
+      // Add spell directly without modifying ID or other properties
+      const spell = action.payload;
+
+      return {
+        ...state,
+        spells: [...state.spells, spell]
+      };
+    }
+
+    case 'REPLACE_ALL_SPELLS': {
+      // Replace all spells with the provided array
+      return {
+        ...state,
+        spells: action.payload,
+        selectedSpell: null
       };
     }
 
@@ -329,6 +349,14 @@ function spellLibraryReducer(state, action) {
       };
     }
 
+    case LIBRARY_ACTION_TYPES.CLEAR_LIBRARY: {
+      return {
+        ...state,
+        spells: [],
+        selectedSpell: null
+      };
+    }
+
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -341,7 +369,7 @@ function SpellLibraryProvider({ children }) {
     spellLibraryReducer,
     null,
     () => {
-      console.log('Initializing library state from storage');
+      // console.log('Initializing library state from storage');
       const storedLibrary = loadLibraryFromStorage();
 
       if (!storedLibrary) {
@@ -349,14 +377,14 @@ function SpellLibraryProvider({ children }) {
         return initialState;
       }
 
-      console.log('Found library in storage with', storedLibrary.spells?.length || 0, 'spells');
+      // console.log('Found library in storage with', storedLibrary.spells?.length || 0, 'spells');
       return validateLibraryIntegrity(storedLibrary);
     }
   );
 
   // Save to local storage whenever state changes
   useEffect(() => {
-    console.log('Saving library state to storage:', state);
+    // console.log('Saving library state to storage:', state);
     const saved = saveLibraryToStorage(state);
     if (!saved) {
       console.error('Failed to save library to storage');
@@ -478,6 +506,10 @@ const libraryActionCreators = {
 
   resetLibrary: () => ({
     type: LIBRARY_ACTION_TYPES.RESET_LIBRARY
+  }),
+
+  clearLibrary: () => ({
+    type: LIBRARY_ACTION_TYPES.CLEAR_LIBRARY
   })
 };
 

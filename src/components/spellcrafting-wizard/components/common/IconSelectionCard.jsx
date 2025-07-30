@@ -1,6 +1,5 @@
 import React from 'react';
-import '../../styles/base.css';
-import '../../styles/components.css';
+// Pathfinder styles imported via main.css
 
 /**
  * IconSelectionCard - A reusable component for icon-based selections with hover effects

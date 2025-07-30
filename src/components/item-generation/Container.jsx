@@ -49,16 +49,16 @@ const Container = ({ container }) => {
     const renderGrid = () => {
         const grid = [];
         const gridSize = container.containerProperties?.gridSize || { rows: 4, cols: 6 };
-        
+
         for (let row = 0; row < gridSize.rows; row++) {
             const rowSlots = [];
             for (let col = 0; col < gridSize.cols; col++) {
                 const item = container.items.find(
                     item => item.position.row === row && item.position.col === col
                 );
-                
+
                 rowSlots.push(
-                    <div 
+                    <div
                         key={`${row}-${col}`}
                         className="container-slot"
                         onDragOver={(e) => {
@@ -67,19 +67,27 @@ const Container = ({ container }) => {
                         }}
                         onDrop={(e) => {
                             e.preventDefault();
-                            const itemData = JSON.parse(e.dataTransfer.getData('text/plain'));
-                            // Handle item drop logic here
+                            try {
+                                const dataText = e.dataTransfer.getData('text/plain');
+                                if (dataText && dataText.trim() !== '') {
+                                    const itemData = JSON.parse(dataText);
+                                    // Handle item drop logic here
+                                    console.log('Item dropped:', itemData);
+                                }
+                            } catch (error) {
+                                console.error('Error handling drop:', error);
+                            }
                         }}
                     >
                         {item && (
-                            <div 
+                            <div
                                 className="container-item"
                                 draggable
                                 onDragStart={(e) => {
                                     e.dataTransfer.setData('text/plain', JSON.stringify(item));
                                 }}
                             >
-                                <img 
+                                <img
                                     src={item.imageUrl || `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`}
                                     alt={item.name}
                                     onError={(e) => {
@@ -101,7 +109,7 @@ const Container = ({ container }) => {
     };
 
     return (
-        <div 
+        <div
             ref={containerRef}
             className="container-window"
             style={{
@@ -113,20 +121,20 @@ const Container = ({ container }) => {
             <div className="container-header">
                 <span>{container.name}</span>
                 <div className="container-controls">
-                    <button 
+                    <button
                         className={`container-button ${container.isLocked ? 'locked' : ''}`}
                         onClick={() => toggleLock(container.id)}
                     >
                         {container.isLocked ? '🔒' : '🔓'}
                     </button>
-                    <button 
+                    <button
                         className="container-button"
                         onClick={() => toggleOpen(container.id)}
                         disabled={container.isLocked}
                     >
                         {container.isOpen ? '📦' : '📭'}
                     </button>
-                    <button 
+                    <button
                         className="container-button"
                         onClick={() => removeContainer(container.id)}
                     >

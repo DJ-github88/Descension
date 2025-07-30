@@ -6,7 +6,7 @@ import '../../styles/SpellLibraryButton.css';
 /**
  * SpellLibraryButton component
  * A button that opens a popup to select spells from the library
- * 
+ *
  * @param {Object} props
  * @param {string} props.selectedSpellId - Currently selected spell ID
  * @param {Function} props.onSpellSelect - Callback when a spell is selected
@@ -23,25 +23,25 @@ const SpellLibraryButton = ({
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const library = useSpellLibrary();
-  
+
   // Find the selected spell in the library
-  const selectedSpell = selectedSpellId 
+  const selectedSpell = selectedSpellId
     ? library.spells.find(spell => spell.id === selectedSpellId)
     : null;
-  
+
   // Get spell icon URL
   const getSpellIconUrl = (iconName) => {
     return `https://wow.zamimg.com/images/wow/icons/large/${iconName || 'inv_misc_questionmark'}.jpg`;
   };
-  
+
   // Handle spell selection
-  const handleSpellSelect = (spellId) => {
+  const handleSpellSelect = (spell) => {
     if (onSpellSelect) {
-      onSpellSelect(spellId);
+      onSpellSelect(spell.id);
     }
     setIsPopupOpen(false);
   };
-  
+
   // Handle clearing the selection
   const handleClearSelection = (e) => {
     e.stopPropagation();
@@ -49,7 +49,7 @@ const SpellLibraryButton = ({
       onSpellSelect(null);
     }
   };
-  
+
   return (
     <div className="spell-library-button-container">
       {selectedSpell ? (
@@ -77,7 +77,7 @@ const SpellLibraryButton = ({
             >
               <i className="fas fa-exchange-alt"></i>
             </button>
-            
+
             <button
               className="clear-selection-btn"
               onClick={handleClearSelection}
@@ -88,7 +88,7 @@ const SpellLibraryButton = ({
           </div>
         </div>
       ) : (
-        <button 
+        <button
           className="spell-library-button"
           onClick={() => setIsPopupOpen(true)}
         >
@@ -96,7 +96,7 @@ const SpellLibraryButton = ({
           <span>{buttonText}</span>
         </button>
       )}
-      
+
       <SpellLibraryPopup
         isOpen={isPopupOpen}
         onClose={() => setIsPopupOpen(false)}

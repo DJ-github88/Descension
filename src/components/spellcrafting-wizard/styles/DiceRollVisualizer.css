@@ -1,32 +1,33 @@
-/* Dice Roll Visualizer Styles */
+/* Dice Roll Visualizer Styles - Pathfinder Theme */
 
 .dice-visualizer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(15, 23, 42, 0.3);
-  border-radius: 8px;
-  border: 1px solid rgba(66, 91, 158, 0.2);
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  background: var(--pf-gradient-parchment-light);
+  border-radius: var(--pf-border-radius-lg);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  padding: var(--pf-space-5);
+  margin-bottom: var(--pf-space-4);
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .dice-visualizer.rolling {
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+  border-color: var(--pf-gold);
+  box-shadow: var(--pf-shadow-lg), 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 .dice-visualizer.critical {
-  border-color: rgba(245, 158, 11, 0.5);
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+  border-color: var(--pf-fire);
+  box-shadow: var(--pf-shadow-lg), 0 0 15px rgba(220, 20, 60, 0.3);
 }
 
 .dice-icon {
   font-size: 3rem;
-  color: #3b82f6;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  color: var(--pf-gold);
+  margin-bottom: var(--pf-space-4);
+  transition: all var(--pf-transition-normal);
 }
 
 .dice-icon-svg {

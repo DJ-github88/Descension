@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { FaDiceD20, FaSkull, FaChevronUp, FaCoins, FaClone, FaBolt, FaFire, FaWind, FaWater, FaArrowsRotate, FaPlus, FaXmark, FaTable } from 'react-icons/fa6';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { FaDiceD20, FaSkull, FaChevronUp, FaCoins, FaClone, FaBolt, FaFire, FaWind, FaWater, FaTable, FaPlus, FaTimes, FaRedo, FaSync } from 'react-icons/fa';
 import IconSelectionCard from '../common/IconSelectionCard';
 import SpellLibraryButton from '../common/SpellLibraryButton';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 import { useSpellWizardState } from '../../context/spellWizardContext';
+import '../../styles/ChanceOnHitConfig.css';
 
 const CriticalHitConfig = ({ config, onConfigChange }) => {
   // Get the spell library context
@@ -55,16 +56,18 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
     }
   }, [wizardState, critConfig.rollableTableEnabled]);
 
-  // Update parent when config changes
+  // Update parent when config changes - use ref to prevent infinite loops
+  const onConfigChangeRef = useRef(onConfigChange);
+  onConfigChangeRef.current = onConfigChange;
+
   useEffect(() => {
-    if (onConfigChange) {
-      onConfigChange(critConfig);
+    if (onConfigChangeRef.current) {
+      onConfigChangeRef.current(critConfig);
     }
-  }, [critConfig, onConfigChange]);
+  }, [critConfig]);
 
   // Handle changes to config
   const handleChange = (field, value) => {
-    console.log(`Changing ${field} to:`, value);
     setCritConfig(prevConfig => ({
       ...prevConfig,
       [field]: value
@@ -73,7 +76,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
 
   // Toggle rollable table selection
   const toggleRollableTable = (useTable) => {
-    console.log("Toggling rollable table to:", useTable);
+    // console.log("Toggling rollable table to:", useTable);
 
     // Check if rollable table is configured in wizard state
     const isRollableTableConfigured = wizardState &&
@@ -85,33 +88,36 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
       alert("You've selected to use a rollable table for critical hits. Please make sure to configure and enable a rollable table in the Rollable Table step.");
     }
 
-    setCritConfig(prevConfig => ({
-      ...prevConfig,
-      useRollableTable: useTable,
-      // Clear spell effect if switching to rollable table
-      spellEffect: useTable ? null : prevConfig.spellEffect
-    }));
+    // Use handleChange to ensure proper state propagation
+    handleChange('useRollableTable', useTable);
+    if (useTable) {
+      handleChange('spellEffect', null); // Clear spell effect if switching to rollable table
+    }
   };
 
   return (
     <div className="critical-hit-config section">
-      <h3 className="section-title">CRITICAL HIT CONFIGURATION</h3>
+      {/* ===== SECTION 1: ENABLE TOGGLES ===== */}
       <div className="config-header">
-        <div className="toggle-container">
-          <label className="toggle-switch-label">
+        <h3>Critical Hit Configuration</h3>
+
+        <div className="config-toggle">
+          <label className="wow-checkbox-label">
             <input
               type="checkbox"
               checked={critConfig.enabled}
               onChange={(e) => handleChange('enabled', e.target.checked)}
+              className="wow-checkbox"
             />
-            <span className="toggle-slider"></span>
+            <span className="wow-checkbox-custom"></span>
+            <span className="wow-option-text">Enable Critical Hit Effects</span>
           </label>
+          <div className="wow-option-description">
+            When enabled, this spell can trigger additional effects on critical hits
+          </div>
         </div>
-      </div>
 
-      {critConfig.enabled && (
-        <>
-          {/* Effect-Only Critical Checkbox - Using WoW-styled checkbox */}
+        {critConfig.enabled && (
           <div className="crit-only-toggle">
             <div className="wow-option">
               <label className="wow-checkbox-label">
@@ -129,30 +135,34 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
               </div>
             </div>
           </div>
+        )}
+      </div>
 
-          {/* Critical Hit Resolution Method - only show if not in effect-only mode */}
+      {critConfig.enabled && (
+        <>
+          {/* ===== SECTION 2: SPECIAL EFFECT RESOLUTION ===== */}
           {!critConfig.critOnlyEffect && (
-            <div className="crit-resolution-method">
-              <h4>Critical Hit Resolution</h4>
+            <div className="special-effects-section">
+              <h4>Special Effect Resolution</h4>
               <div className="resolution-options">
                 <IconSelectionCard
                   icon={<FaDiceD20 className="icon" />}
                   title="Dice Based"
-                  description="Critical hits determined by dice rolls"
+                  description="Special effects determined by dice rolls"
                   onClick={() => handleChange('critType', 'dice')}
                   selected={critConfig.critType === 'dice'}
                 />
                 <IconSelectionCard
                   icon={<FaClone className="icon" />}
                   title="Card Based"
-                  description="Critical hits determined by card draws"
+                  description="Special effects determined by card draws"
                   onClick={() => handleChange('critType', 'cards')}
                   selected={critConfig.critType === 'cards'}
                 />
                 <IconSelectionCard
                   icon={<FaCoins className="icon" />}
                   title="Coin Based"
-                  description="Critical hits determined by coin flips"
+                  description="Special effects determined by coin flips"
                   onClick={() => handleChange('critType', 'coins')}
                   selected={critConfig.critType === 'coins'}
                 />
@@ -160,24 +170,37 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
             </div>
           )}
 
-          {/* Dice-based critical configuration - only show if not in effect-only mode */}
+          {/* ===== SECTION 3: CRITICAL MULTIPLIER & DICE ===== */}
           {!critConfig.critOnlyEffect && critConfig.critType === 'dice' && (
-            <div className="dice-crit-config">
-              <div className="config-row">
-                <div className="form-group">
+            <div className="multiplier-section">
+              <h4>Critical Multiplier & Extra Dice</h4>
+
+              <div className="multiplier-row">
+                <div className="control-group">
                   <label>Critical Multiplier</label>
-                  <div className="input-with-label">
-                    <input
-                      type="number"
-                      min="1"
-                      max="10"
-                      step="0.5"
-                      value={critConfig.critMultiplier}
-                      onChange={(e) => handleChange('critMultiplier', parseFloat(e.target.value))}
-                    />
-                    <span className="input-label">×</span>
+                  <div className="crit-multiplier-controls">
+                    <button
+                      type="button"
+                      className="multiplier-button"
+                      onClick={() => handleChange('critMultiplier', Math.max(1, critConfig.critMultiplier - 0.5))}
+                      disabled={critConfig.critMultiplier <= 1}
+                    >
+                      −
+                    </button>
+                    <div className="multiplier-display">
+                      {critConfig.critMultiplier}×
+                    </div>
+                    <button
+                      type="button"
+                      className="multiplier-button"
+                      onClick={() => handleChange('critMultiplier', Math.min(10, critConfig.critMultiplier + 0.5))}
+                      disabled={critConfig.critMultiplier >= 10}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
+
                 <div className="form-group">
                   <label>Extra Critical Dice</label>
                   <input
@@ -189,25 +212,29 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="checkbox-label">
+              <div className="config-toggle">
+                <label className="wow-checkbox-label">
                   <input
                     type="checkbox"
                     checked={critConfig.critDiceOnly}
                     onChange={(e) => handleChange('critDiceOnly', e.target.checked)}
+                    className="wow-checkbox"
                   />
-                  <span>Multiply dice only (not modifiers)</span>
+                  <span className="wow-checkbox-custom"></span>
+                  <span className="wow-option-text">Multiply dice only (not modifiers)</span>
                 </label>
               </div>
 
-              <div className="form-group">
-                <label className="checkbox-label">
+              <div className="config-toggle">
+                <label className="wow-checkbox-label">
                   <input
                     type="checkbox"
                     checked={critConfig.explodingDice}
                     onChange={(e) => handleChange('explodingDice', e.target.checked)}
+                    className="wow-checkbox"
                   />
-                  <span>Exploding Dice (reroll and add when maximum value is rolled)</span>
+                  <span className="wow-checkbox-custom"></span>
+                  <span className="wow-option-text">Exploding Dice (reroll and add when maximum value is rolled)</span>
                 </label>
               </div>
 
@@ -216,14 +243,14 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                   <label>Exploding Dice Resolution</label>
                   <div className="resolution-options">
                     <IconSelectionCard
-                      icon={<FaArrowsRotate className="icon" />}
+                      icon={<FaRedo className="icon" />}
                       title="Reroll & Add"
                       description="Reroll dice that show maximum value and add to total"
                       onClick={() => handleChange('explodingDiceType', 'reroll_add')}
                       selected={critConfig.explodingDiceType === 'reroll_add'}
                     />
                     <IconSelectionCard
-                      icon={<FaXmark className="icon" />}
+                      icon={<FaTimes className="icon" />}
                       title="Double Value"
                       description="Double the value of dice that show maximum value"
                       onClick={() => handleChange('explodingDiceType', 'double_value')}
@@ -293,7 +320,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
               )}
 
               <div className="form-group">
-                <label>Card Critical Resolution</label>
+                <label>Card Special Resolution</label>
                 <div className="resolution-options">
                   <IconSelectionCard
                     icon={<FaClone className="icon" />}
@@ -303,7 +330,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                     selected={critConfig.cardCritResolution === 'draw_add'}
                   />
                   <IconSelectionCard
-                    icon={<FaXmark className="icon" />}
+                    icon={<FaTimes className="icon" />}
                     title="Multiply Card Values"
                     description="Multiply the value of all cards by the multiplier"
                     onClick={() => handleChange('cardCritResolution', 'multiply_value')}
@@ -311,7 +338,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                   />
                   <IconSelectionCard
                     icon={<FaPlus className="icon" />}
-                    title="Double Total Damage"
+                    title="Double Total Effect"
                     description="Double the final damage after all calculations"
                     onClick={() => handleChange('cardCritResolution', 'double_damage')}
                     selected={critConfig.cardCritResolution === 'double_damage'}
@@ -389,7 +416,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                     selected={critConfig.coinCritResolution === 'flip_add'}
                   />
                   <IconSelectionCard
-                    icon={<FaXmark className="icon" />}
+                    icon={<FaTimes className="icon" />}
                     title="Multiply Coin Values"
                     description="Multiply the value of all coins by the multiplier"
                     onClick={() => handleChange('coinCritResolution', 'multiply_value')}
@@ -483,7 +510,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
               </div>
 
               {critConfig.spellEffect && (
-                <div className="section-panel" style={{ marginTop: '15px' }}>
+                <div className="section-panel selected-spell-panel">
                   <div className="section-panel-header">
                     <h4>Selected Spell Effect</h4>
                   </div>
@@ -504,7 +531,7 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                           const { CUSTOM_LIBRARY_SPELLS } = require('../../../../data/customSpellLibraryData');
                           spell = CUSTOM_LIBRARY_SPELLS.find(s => s.id === critConfig.spellEffect);
                         } catch (error) {
-                          console.error("Error loading custom spell library data:", error);
+                          // Error loading custom spell library data
                         }
                       }
 
@@ -553,8 +580,8 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
                 </>
               ) : (
                 <div className="section-panel">
-                  <div className="section-panel-content" style={{ backgroundColor: 'rgba(255, 193, 7, 0.1)', borderLeft: '3px solid #ffc107' }}>
-                    <p style={{ margin: 0, color: '#ffc107' }}>
+                  <div className="section-panel-content warning-panel">
+                    <p className="warning-text">
                       <strong>No rollable table configured yet.</strong> Please go to the Rollable Table step to configure and enable a table.
                     </p>
                   </div>
@@ -563,10 +590,10 @@ const CriticalHitConfig = ({ config, onConfigChange }) => {
             </div>
           )}
 
-          {/* Critical Effect Selection - always show, even in effect-only mode */}
+          {/* Special Effect Selection - always show, even in effect-only mode */}
           <div className="section">
-            <h3 className="section-title">Critical Hit Effects</h3>
-            <p>Select additional effects that occur on critical hits:</p>
+            <h3 className="section-title">Special Effects</h3>
+            <p>Select additional effects that occur on special results:</p>
             <div className="spell-wizard-card-grid small">
               {[
                 {

@@ -103,23 +103,23 @@ const CardDrawVisualizer = ({
     setCards([]);
     setIsCritical(false);
   };
-  
-  const getCriticalDescription = () => {
+
+  const getSpecialDescription = () => {
     switch (critRule) {
-      case 'face_cards': return 'Face cards (J, Q, K) are critical';
-      case 'aces': return 'Aces are critical';
-      case 'specific_suit': return `${critSuit.charAt(0).toUpperCase() + critSuit.slice(1)} are critical`;
-      case 'red_cards': return 'Red cards are critical';
-      case 'black_cards': return 'Black cards are critical';
-      case 'pairs': return 'Pairs are critical';
+      case 'face_cards': return 'Face cards (J, Q, K) are special';
+      case 'aces': return 'Aces are special';
+      case 'specific_suit': return `${critSuit.charAt(0).toUpperCase() + critSuit.slice(1)} are special`;
+      case 'red_cards': return 'Red cards are special';
+      case 'black_cards': return 'Black cards are special';
+      case 'pairs': return 'Pairs are special';
       default: return '';
     }
   };
   
   return (
-    <div className={`card-draw-visualizer ${drawing ? 'drawing' : ''} ${isCritical ? 'critical' : ''}`}>
+    <div className={`card-draw-visualizer ${drawing ? 'drawing' : ''} ${isCritical ? 'special' : ''}`}>
       <div className="card-draw-info">
-        <div className="card-rule">{getCriticalDescription()}</div>
+        <div className="card-rule">{getSpecialDescription()}</div>
       </div>
       
       <div className="card-draw-area">

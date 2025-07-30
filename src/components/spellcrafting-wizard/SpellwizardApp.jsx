@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import {
   SpellWizardProvider,
   useSpellWizardState,
@@ -26,14 +27,17 @@ import TrapPlacementStep from './components/steps/TrapPlacementStep';
 import Step8Channeling from './components/steps/Step8Channeling';
 import RollableTableStep from './components/steps/RollableTableStep';
 import Step9Balance from './components/steps/Step9Balance';
-import Step10Review from './components/steps/Step10Review';
 
-// Import test component
-import TestEffectTriggers from './test/TestEffectTriggers';
+
+
 
 // Import library components
 import SpellLibrary from './components/library/SpellLibrary';
 import SampleSpellsLoader from './components/library/SampleSpellsLoader';
+import UnifiedSpellCard from './components/common/UnifiedSpellCard';
+import { transformSpellForCard } from './core/utils/spellCardTransformer';
+
+// Tooltip system removed per user request
 
 // Import helper components
 // Note: FontAwesome icons removed to avoid loading issues
@@ -98,6 +102,7 @@ const AppContent = ({ hideHeader = false }) => {
   const [activeTab, setActiveTab] = useState('spells'); // 'spells', 'collections', or 'wizard'
   const [showSettings, setShowSettings] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showQuickSpell, setShowQuickSpell] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
@@ -139,7 +144,7 @@ const AppContent = ({ hideHeader = false }) => {
       const flow = determineWizardFlow(wizardState);
       wizardDispatch(actionCreators.updateWizardFlow(flow));
     }
-  }, [activeView, wizardState, wizardDispatch]);
+  }, [activeView, wizardDispatch]);
 
   // Effect to listen for the internal load spell event
   useEffect(() => {
@@ -147,8 +152,7 @@ const AppContent = ({ hideHeader = false }) => {
       // Get the spell and edit mode from the event
       const { spell, editMode } = event.detail;
 
-      console.log('SpellwizardApp received internalLoadSpell event:', spell.name);
-      console.log('Spell data in internalLoadSpell:', JSON.stringify(spell, null, 2));
+
 
       // Load the spell into the wizard
       handleLoadSpell(spell, editMode);
@@ -160,14 +164,14 @@ const AppContent = ({ hideHeader = false }) => {
     // Handle setSpellName event
     const handleSetSpellName = (event) => {
       const { name } = event.detail;
-      console.log('SpellwizardApp received setSpellName event:', name);
+
       wizardDispatch(actionCreators.setName(name));
     };
 
     // Handle setSpellDescription event
     const handleSetSpellDescription = (event) => {
       const { description } = event.detail;
-      console.log('SpellwizardApp received setSpellDescription event:', description);
+
       wizardDispatch(actionCreators.setDescription(description));
     };
 
@@ -248,12 +252,12 @@ const AppContent = ({ hideHeader = false }) => {
         }
       };
 
-      console.log('Saving spell to library:', spellData);
+
 
       if (editMode && editingSpellId) {
         // Update existing spell
         libraryDispatch(libraryActionCreators.updateSpell(editingSpellId, spellData));
-        console.log('Spell updated in library');
+
         showNotification('Spell updated in library', 'success');
       } else {
         // Add new spell
@@ -263,7 +267,7 @@ const AppContent = ({ hideHeader = false }) => {
           dateCreated: new Date().toISOString(),
         };
         libraryDispatch(libraryActionCreators.addSpell(newSpellData));
-        console.log('New spell saved to library');
+
         showNotification('New spell saved to library', 'success');
       }
 
@@ -288,13 +292,12 @@ const AppContent = ({ hideHeader = false }) => {
   // Handle load spell from library
   const handleLoadSpell = (spellData, isEditing = false) => {
     try {
-      console.log('Loading spell data:', spellData);
+
 
       // Make a deep copy of the spell data to avoid reference issues
       const spellCopy = JSON.parse(JSON.stringify(spellData));
 
-      // Log the spell data for debugging
-      console.log('Spell copy:', JSON.stringify(spellCopy, null, 2));
+
 
       // Ensure the spell data has all the required fields
       const formattedSpellData = {
@@ -413,7 +416,7 @@ const AppContent = ({ hideHeader = false }) => {
         isValid: true
       };
 
-      console.log('Formatted spell data:', formattedSpellData);
+
 
       // Dispatch the action to load the spell
       wizardDispatch(actionCreators.loadSpell(formattedSpellData));
@@ -473,9 +476,11 @@ const AppContent = ({ hideHeader = false }) => {
   };
 
   return (
-    <div className={`app-container ${isMobile ? 'mobile' : 'desktop'} ${isLandscape ? 'landscape' : 'portrait'}`}>
+    <div className={`app-container pf-spellbook ${isMobile ? 'mobile' : 'desktop'} ${isLandscape ? 'landscape' : 'portrait'}`}>
       {/* Load sample spells if library is empty */}
       <SampleSpellsLoader />
+      {/* Manage spell library - load clean spells and remove invalid ones */}
+      {/* <SpellLibraryManager /> */}
       {/* Header with tabs and global controls */}
       {!hideHeader && <header className="app-header">
         <div className="app-title">
@@ -511,27 +516,17 @@ const AppContent = ({ hideHeader = false }) => {
             <span className="tab-text">Spell Library</span>
           </button>
 
-          <button
-            className={`app-tab ${activeView === 'test-triggers' ? 'active' : ''}`}
-            onClick={() => handleViewSwitch('test-triggers')}
-          >
-            <img
-              src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_selfdestruct.jpg"
-              alt="Test Triggers"
-              className="tab-icon-img"
-            />
-            <span className="tab-text">Test Triggers</span>
-          </button>
+
 
         </div>
 
         <div className="app-global-controls">
           <button
-            className="app-control-btn"
+            className="app-control-btn finalize-btn"
             onClick={handleSaveSpell}
-            title={editMode ? "Update Spell in Library" : "Save Spell to Library"}
+            title={editMode ? "Finalize & Update Spell" : "Finalize & Save Spell"}
           >
-            <span className="control-text">{editMode ? "Update" : "Save"}</span>
+            <span className="control-text">{editMode ? "Finalize" : "Finalize"}</span>
           </button>
 
           <button
@@ -577,6 +572,14 @@ const AppContent = ({ hideHeader = false }) => {
 
           <button
             className="app-control-btn"
+            onClick={() => setShowQuickSpell(!showQuickSpell)}
+            title="Quick Spell Generator"
+          >
+            <span className="control-text">Quick Spell</span>
+          </button>
+
+          <button
+            className="app-control-btn"
             onClick={() => setShowHelp(!showHelp)}
             title="Help"
           >
@@ -587,37 +590,27 @@ const AppContent = ({ hideHeader = false }) => {
       </header>}
 
       {/* Main content area */}
-      <div className={`app-content ${activeView}-active`} style={{ flex: 1, display: 'flex', overflow: 'auto' }}>
+      <div className={`app-content ${activeView}-active`}>
         {editMode && (
           <div className="edit-mode-indicator">
             Editing Spell: {wizardState.name || 'Unnamed Spell'}
           </div>
         )}
-        <div className="app-main-panel" style={{
-          flex: 1,
-          overflow: 'auto',
-          marginTop: editMode ? '40px' : '0' // Add margin when in edit mode
-        }}>
+        <div className={`app-main-panel ${editMode ? 'edit-mode' : ''}`}>
           {activeView === 'wizard' ? (
             <WizardView />
           ) : activeView === 'library' ? (
             <LibraryView onLoadSpell={handleLoadSpell} />
-          ) : activeView === 'test-triggers' ? (
-            <TestEffectTriggers />
           ) : null}
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="app-footer">
-        <div className="app-footer-content">
-          <p>Spell Crafting Wizard • <a href="#help" onClick={(e) => { e.preventDefault(); setShowHelp(true); }}>Help</a></p>
-        </div>
-      </footer>
+      {/* Footer - removed to make space for wizard progress tabs */}
 
       {/* Modals */}
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
       {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
+      {showQuickSpell && <QuickSpellModal onClose={() => setShowQuickSpell(false)} onGenerateSpell={handleLoadSpell} />}
       {showLoadDialog && (
         <LoadSpellModal
           onClose={() => setShowLoadDialog(false)}
@@ -647,6 +640,8 @@ const WizardView = () => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
 
+  // Tooltip system removed per user request
+
   // Get the current step and wizard flow
   const { currentStep, wizardFlow } = state;
 
@@ -659,10 +654,9 @@ const WizardView = () => {
     4: Step4Targeting,
     5: Step5Resources,
     6: Step6Cooldown,
-    7: Step10Review,    // Map step 7 to the Review step
+    7: Step7Mechanics,  // Map step 7 to the Mechanics step
     8: Step8Channeling,
     9: Step9Balance,
-    10: Step10Review,   // Keep this for backward compatibility
 
     // Special steps with string IDs
     'rollable-table': RollableTableStep,
@@ -683,7 +677,7 @@ const WizardView = () => {
 
     if (currentStepIndex < wizardFlow.length - 1) {
       // Add a transition class for animation
-      const stepContent = document.querySelector('.wizard-step-content');
+      const stepContent = document.querySelector('.wizard-main-content');
       if (stepContent) {
         stepContent.classList.add('step-transition-out');
 
@@ -716,7 +710,7 @@ const WizardView = () => {
 
     if (currentStepIndex > 0) {
       // Add a transition class for animation
-      const stepContent = document.querySelector('.wizard-step-content');
+      const stepContent = document.querySelector('.wizard-main-content');
       if (stepContent) {
         stepContent.classList.add('step-transition-out-reverse');
 
@@ -752,7 +746,7 @@ const WizardView = () => {
     const isForward = newStepIndex > currentStepIndex;
 
     // Add appropriate transition class
-    const stepContent = document.querySelector('.wizard-step-content');
+    const stepContent = document.querySelector('.wizard-main-content');
     if (stepContent) {
       stepContent.classList.add(isForward ? 'step-transition-out' : 'step-transition-out-reverse');
 
@@ -812,42 +806,51 @@ const WizardView = () => {
   };
 
   return (
-    <div className="wizard-view" style={{ height: '100%', overflow: 'auto' }}>
-      {/* Step indicators/progress */}
-      <div className="wizard-progress">
-        {wizardFlow && wizardFlow.length > 0 ? (
-          wizardFlow.map((step) => (
-            <div
-              key={step.id}
-              className={`wizard-step-indicator ${getStepStatus(step.id)}`}
-              onClick={() => handleJumpToStep(step.id)}
-              title={step.name}
-            >
-              <span className="step-number">{typeof step.id === 'number' ? step.id : '•'}</span>
-              <span className="step-name">{step.name}</span>
-            </div>
-          ))
-        ) : (
-          <div className="wizard-loading">Loading wizard steps...</div>
-        )}
-      </div>
-
-      {/* Active step content */}
-      <div className="wizard-step-content" style={{ overflow: 'auto', flex: 1, paddingBottom: '20px' }}>
+    <div className="spellbook-wizard-layout">
+      {/* Main content area - full expansion with padding for overlay */}
+      <div className="wizard-main-content">
         {renderCurrentStep()}
       </div>
 
-      {/* Error display */}
-      {Object.keys(state.errors || {}).length > 0 && (
-        <div className="wizard-errors">
-          <h3>Errors</h3>
-          <ul>
-            {Object.entries(state.errors).map(([key, error]) => (
-              <li key={key}>{error}</li>
-            ))}
-          </ul>
+      {/* Fixed Progress Bar Overlay - positioned within the spellbook window */}
+      <div className="wizard-progress-overlay">
+        <div className="spell-wizard-progress-bar">
+          <div
+            className="spell-wizard-progress-fill"
+            style={{
+              width: `${wizardFlow ? ((wizardFlow.findIndex(step => step.id === currentStep) + 1) / wizardFlow.length) * 100 : 0}%`
+            }}
+          />
+          <div className="spell-wizard-progress-segments">
+            {wizardFlow && wizardFlow.length > 0 ? (
+              wizardFlow.map((step, index) => (
+                <div
+                  key={step.id}
+                  className={`spell-wizard-progress-segment ${getStepStatus(step.id)} ${
+                    wizardFlow.findIndex(s => s.id === currentStep) === index ? 'active' : ''
+                  }`}
+                  onClick={() => handleJumpToStep(step.id)}
+                >
+                  <span className="spell-step-number">{index + 1}</span>
+                  <div className="spell-step-tooltip">
+                    <div className="spell-tooltip-header">
+                      <span className="spell-tooltip-title">Step {index + 1}</span>
+                    </div>
+                    <div className="spell-tooltip-content">
+                      <div className="spell-tooltip-name">{step.name}</div>
+                      {step.description && (
+                        <div className="spell-tooltip-description">{step.description}</div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="wizard-loading">Loading...</div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -894,6 +897,163 @@ const SettingsModal = ({ onClose }) => {
         </div>
         <div className="modal-footer">
           <button className="modal-btn" onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Quick Spell Modal component
+const QuickSpellModal = ({ onClose, onGenerateSpell }) => {
+  const [selectedTemplate, setSelectedTemplate] = useState('');
+  const [spellName, setSpellName] = useState('');
+  const [damageType, setDamageType] = useState('fire');
+
+  // Quick spell templates
+  const quickTemplates = [
+    {
+      id: 'damage-bolt',
+      name: 'Damage Bolt',
+      description: 'A simple projectile that deals elemental damage',
+      icon: 'spell_fire_fireball02',
+      category: 'damage'
+    },
+    {
+      id: 'healing-touch',
+      name: 'Healing Touch',
+      description: 'A basic healing spell that restores health',
+      icon: 'spell_holy_heal',
+      category: 'healing'
+    },
+    {
+      id: 'protective-shield',
+      name: 'Protective Shield',
+      description: 'Creates a magical barrier that absorbs damage',
+      icon: 'spell_holy_devotion',
+      category: 'buff'
+    }
+  ];
+
+  const damageTypes = [
+    { id: 'fire', name: 'Fire' },
+    { id: 'cold', name: 'Cold' },
+    { id: 'lightning', name: 'Lightning' },
+    { id: 'acid', name: 'Acid' },
+    { id: 'necrotic', name: 'Necrotic' },
+    { id: 'radiant', name: 'Radiant' },
+    { id: 'force', name: 'Force' },
+    { id: 'psychic', name: 'Psychic' },
+    { id: 'poison', name: 'Poison' },
+    { id: 'thunder', name: 'Thunder' },
+    { id: 'bludgeoning', name: 'Bludgeoning' },
+    { id: 'piercing', name: 'Piercing' },
+    { id: 'slashing', name: 'Slashing' }
+  ];
+
+  const generateSpell = () => {
+    if (!selectedTemplate || !spellName) return;
+
+    const template = quickTemplates.find(t => t.id === selectedTemplate);
+    if (!template) return;
+
+    // Generate spell based on template
+    const spellData = {
+      id: `${spellName.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${Date.now()}`,
+      name: spellName,
+      description: `${template.description}. Generated using the Quick Spell wizard.`,
+      icon: template.icon,
+      spellType: 'ACTION',
+      tags: [template.category, damageType],
+      effectTypes: [template.category === 'damage' ? 'damage' : template.category],
+      damageTypes: template.category === 'damage' ? [damageType] : [],
+      targetingConfig: {
+        targetingType: 'single',
+        range: 60,
+        validTargets: template.category === 'healing' || template.category === 'buff' ? ['ally'] : ['enemy']
+      },
+      resourceCost: {
+        mana: 15,
+        health: 0,
+        stamina: 0,
+        focus: 0
+      },
+      resolution: 'DICE',
+      dateCreated: new Date().toISOString(),
+      lastModified: new Date().toISOString(),
+      categoryIds: [],
+      visualTheme: damageType,
+      castingDescription: `You channel ${damageType} energy and cast ${spellName}.`,
+      effectDescription: template.description,
+      impactDescription: `The target is affected by ${spellName}.`
+    };
+
+    // Add specific configurations based on template
+    if (template.category === 'damage') {
+      spellData.damageConfig = {
+        damageType: 'direct',
+        elementType: damageType,
+        formula: '2d6 + 3',
+        hasDotEffect: false
+      };
+    } else if (template.category === 'healing') {
+      spellData.healingConfig = {
+        healingType: 'direct',
+        formula: '2d8 + 4',
+        hasHotEffect: false
+      };
+    }
+
+    onGenerateSpell(spellData);
+    onClose();
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-container" onClick={e => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>Quick Spell Generator</h2>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        <div className="modal-content">
+          <div className="form-group">
+            <label>Spell Name:</label>
+            <input
+              type="text"
+              value={spellName}
+              onChange={(e) => setSpellName(e.target.value)}
+              placeholder="Enter spell name..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Element Type:</label>
+            <select value={damageType} onChange={(e) => setDamageType(e.target.value)}>
+              {damageTypes.map(type => (
+                <option key={type.id} value={type.id}>{type.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Spell Template:</label>
+            <div className="template-options">
+              {quickTemplates.map(template => (
+                <div
+                  key={template.id}
+                  className={`template-option ${selectedTemplate === template.id ? 'selected' : ''}`}
+                  onClick={() => setSelectedTemplate(template.id)}
+                >
+                  <strong>{template.name}</strong>
+                  <p>{template.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="modal-actions">
+            <button onClick={onClose}>Cancel</button>
+            <button onClick={generateSpell} disabled={!selectedTemplate || !spellName}>
+              Generate Spell
+            </button>
+          </div>
         </div>
       </div>
     </div>

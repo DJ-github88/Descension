@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import SpellContextMenu from './SpellContextMenu';
-import CollectionSpellCard from './CollectionSpellCard';
+import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
+import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
+import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
+// Pathfinder styles imported via main.css
+import '../../styles/CollectionMaps.css';
 
 /**
  * CollectionViewWindow - Window to display spells in a collection
@@ -14,20 +18,189 @@ const CollectionViewWindow = ({
   collectionId
 }) => {
   const [contextMenu, setContextMenu] = useState(null);
+  const [viewMode, setViewMode] = useState('compact'); // 'compact' or 'grid'
   const library = useSpellLibrary();
   const dispatch = useSpellLibraryDispatch();
+
+  // Unified mapping function (same as Step10Review and ExternalLivePreview)
+  const mapSpellToUnifiedFormat = (spell) => {
+    // Extract icon from spell
+    const extractSpellIcon = (spellData) => {
+      return spellData.typeConfig?.icon || spellData.icon || 'inv_misc_questionmark';
+    };
+
+    const formatCastTime = (spellData) => {
+      if (!spellData) return 'Instant';
+
+      // Handle different casting time formats
+      if (spellData.actionType === 'channeled') return 'Channeled';
+      if (spellData.spellType === 'reaction') return 'Reaction';
+      if (spellData.spellType === 'ritual') return 'Ritual';
+      if (spellData.spellType === 'passive') return 'Passive';
+
+      const castTime = spellData.castTime ||
+                      spellData.castingTime ||
+                      (spellData.castingConfig && spellData.castingConfig.castTime) ||
+                      (spellData.typeConfig && spellData.typeConfig.castTime) ||
+                      'Instant';
+
+      return castTime;
+    };
+
+    const icon = spell.typeConfig?.icon || extractSpellIcon(spell) || 'inv_misc_questionmark';
+
+    // Determine damage types - SAME LOGIC AS STEP10REVIEW
+    const damageTypes = [];
+
+    // First check if we have a primary type selected in Step 1
+    if (spell.typeConfig?.school) {
+      damageTypes.push(spell.typeConfig.school);
+    }
+
+    // Check for secondary type in Step 1
+    if (spell.typeConfig?.secondaryElement) {
+      damageTypes.push(spell.typeConfig.secondaryElement);
+    }
+
+    // If no types are set in Step 1, check damage config
+    if (damageTypes.length === 0 && spell.damageConfig?.damageType) {
+      // For direct damage
+      if (spell.damageConfig.damageType === 'direct' && spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+      // For DoT damage
+      else if (spell.damageConfig.damageType === 'dot' && spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+      // For combined damage (direct + DoT)
+      else if (spell.damageConfig.hasDotEffect && spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+      // Fallback if elementType is not set
+      else if (spell.damageConfig.elementType) {
+        damageTypes.push(spell.damageConfig.elementType);
+      }
+    }
+
+    // Create a properly structured spell object for the unified card
+    return {
+      // Basic Information
+      id: spell.id || 'unknown',
+      name: spell.name || 'Unnamed Spell',
+      description: spell.description || '',
+      level: spell.level || 1,
+      icon: icon,
+      spellType: spell.spellType || 'ACTION',
+      effectType: spell.effectTypes && spell.effectTypes.length > 0 ? spell.effectTypes[0] : 'utility',
+      effectTypes: spell.effectTypes || [],
+
+      // Type configuration
+      typeConfig: spell.typeConfig || {},
+
+      // Casting information
+      castTime: formatCastTime(spell),
+      range: spell.targetingConfig?.rangeDistance ? `${spell.targetingConfig.rangeDistance} ft` : spell.range || '30 ft',
+      rangeType: spell.targetingConfig?.rangeType || 'ranged',
+
+      // Targeting information
+      targetingMode: spell.targetingConfig?.targetingType || 'single',
+      targetRestriction: spell.targetingConfig?.targetRestrictions && spell.targetingConfig.targetRestrictions.length > 0 ?
+                         spell.targetingConfig.targetRestrictions[0] :
+                         spell.targetingConfig?.targetRestriction || null,
+      targetRestrictions: spell.targetingConfig?.targetRestrictions && spell.targetingConfig.targetRestrictions.length > 0 ?
+                         spell.targetingConfig.targetRestrictions :
+                         spell.targetingConfig?.targetRestriction ? [spell.targetingConfig.targetRestriction] : [],
+      maxTargets: spell.targetingConfig?.maxTargets || 1,
+      selectionMethod: spell.targetingConfig?.selectionMethod ||
+                      spell.targetingConfig?.targetSelectionMethod || 'manual',
+      targetSelectionMethod: spell.targetingConfig?.targetSelectionMethod ||
+                            spell.targetingConfig?.selectionMethod || 'manual',
+      rangeDistance: spell.targetingConfig?.rangeDistance || 30,
+
+      // AOE information
+      aoeShape: spell.targetingConfig?.aoeShape || 'circle',
+      aoeSize: spell.targetingConfig?.aoeParameters?.radius ||
+               spell.targetingConfig?.aoeParameters?.size ||
+               spell.targetingConfig?.aoeParameters?.length || 20,
+      aoeParameters: spell.targetingConfig?.aoeParameters || {},
+      movementBehavior: spell.targetingConfig?.movementBehavior || 'static',
+      targetingConfig: spell.targetingConfig || {},
+
+      // Damage/Healing information
+      primaryDamage: spell.damageConfig ? {
+        dice: spell.damageConfig.formula ||
+              spell.damageConfig.diceNotation ||
+              spell.effectResolutions?.damage?.config?.formula ||
+              '6d6',
+        flat: spell.damageConfig.flatBonus || 0,
+        type: spell.damageConfig.elementType || spell.typeConfig?.school || 'force'
+      } : null,
+
+      // Damage types - CRITICAL: Use the same logic as Step10Review
+      damageTypes: damageTypes.length > 0 ? damageTypes : (spell.damageTypes || []),
+
+      // Damage config
+      damageConfig: spell.damageConfig || {},
+
+      // Resolution type
+      resolution: spell.damageConfig?.resolution || spell.healingConfig?.resolution || spell.resolution || 'DICE',
+
+      // School from typeConfig
+      school: spell.typeConfig?.school || spell.school || 'Arcane',
+
+      // Element type from typeConfig
+      elementType: spell.typeConfig?.school || spell.damageConfig?.elementType || spell.elementType,
+
+      // Tags
+      tags: spell.tags || [],
+
+      // Resource costs
+      resourceConfig: spell.resourceConfig || null,
+      resourceCost: spell.resourceCost || null,
+      manaCost: spell.resourceConfig?.resourceAmount || spell.manaCost || 25,
+
+      // Propagation configuration
+      propagation: spell.propagation || {
+        method: 'none',
+        behavior: '',
+        parameters: {}
+      },
+
+      // Rarity
+      rarity: spell.rarity || 'uncommon'
+    };
+  };
 
   // Get the collection
   const collection = library.categories.find(cat => cat.id === collectionId);
 
-  // Get spells in the collection
-  const collectionSpells = library.spells.filter(spell => {
-    // Check if the spell belongs to this collection
-    if (spell.categoryIds && spell.categoryIds.includes(collectionId)) {
-      return true;
-    }
-    return false;
-  });
+  // Get spells in the collection and remove duplicates
+  const collectionSpells = React.useMemo(() => {
+    const spellsInCollection = library.spells.filter(spell => {
+      // Check if the spell belongs to this collection
+      if (spell.categoryIds && spell.categoryIds.includes(collectionId)) {
+        return true;
+      }
+      return false;
+    });
+
+    // Remove duplicates by spell ID and name (in case there are spells with same name but different IDs)
+    const uniqueSpells = [];
+    const seenIds = new Set();
+    const seenNames = new Set();
+
+    spellsInCollection.forEach(spell => {
+      const spellKey = `${spell.id}-${spell.name}`;
+      if (!seenIds.has(spell.id) && !seenNames.has(spell.name.toLowerCase())) {
+        seenIds.add(spell.id);
+        seenNames.add(spell.name.toLowerCase());
+        uniqueSpells.push(spell);
+      }
+    });
+
+    console.log(`Collection ${collectionId}: Found ${spellsInCollection.length} spells, filtered to ${uniqueSpells.length} unique spells`);
+    return uniqueSpells;
+  }, [library.spells, collectionId]);
 
   // Handle clicking outside to close
   useEffect(() => {
@@ -43,8 +216,9 @@ const CollectionViewWindow = ({
     };
   }, [contextMenu]);
 
-  // Handle selecting a spell
+  // Handle selecting a spell - in collections, just select the spell, don't edit it
   const handleSelectSpell = (spellId) => {
+    // Just select the spell, don't open the editor
     dispatch(libraryActionCreators.selectSpell(spellId));
   };
 
@@ -65,6 +239,8 @@ const CollectionViewWindow = ({
   // Handle editing a spell by transferring its data to the wizard
   const handleEditSpell = (spellId) => {
     dispatch(libraryActionCreators.selectSpell(spellId));
+    // Navigate to the spell wizard with the spell ID
+    window.location.href = `/spell-wizard?editMode=true&spellId=${spellId}`;
     onClose();
   };
 
@@ -83,45 +259,58 @@ const CollectionViewWindow = ({
 
   // Function to clean up duplicate spells in this collection
   const cleanupDuplicateSpells = () => {
+    console.log('Starting duplicate cleanup for collection:', collectionId);
+
     // Get all spells in this collection
     const spellsInCollection = library.spells.filter(spell =>
       spell.categoryIds && spell.categoryIds.includes(collectionId)
     );
 
-    // For each spell, ensure it has no duplicate category IDs
+    console.log('Found spells in collection before cleanup:', spellsInCollection.length);
+
+    // Create a map to track spells by name (case-insensitive)
+    const spellsByName = new Map();
+    const duplicateSpellsToRemove = [];
+
     spellsInCollection.forEach(spell => {
-      if (spell.categoryIds) {
+      const normalizedName = spell.name.toLowerCase().trim();
+
+      if (spellsByName.has(normalizedName)) {
+        // This is a duplicate - mark for removal
+        duplicateSpellsToRemove.push(spell.id);
+        console.log('Found duplicate spell:', spell.name, 'ID:', spell.id);
+      } else {
+        // First occurrence of this spell name
+        spellsByName.set(normalizedName, spell);
+      }
+    });
+
+    // Remove duplicate spells from this collection
+    duplicateSpellsToRemove.forEach(spellId => {
+      const spell = library.spells.find(s => s.id === spellId);
+      if (spell && spell.categoryIds) {
+        // Remove this collection from the spell's categories
+        const updatedCategories = spell.categoryIds.filter(id => id !== collectionId);
+        console.log('Removing duplicate spell from collection:', spell.name);
+        dispatch(libraryActionCreators.categorizeSpell(spellId, updatedCategories));
+      }
+    });
+
+    // Also clean up any duplicate category IDs within remaining spells
+    spellsInCollection.forEach(spell => {
+      if (spell.categoryIds && !duplicateSpellsToRemove.includes(spell.id)) {
         // Get unique category IDs
         const uniqueCategoryIds = [...new Set(spell.categoryIds)];
 
         // If there were duplicates, update the spell
         if (uniqueCategoryIds.length !== spell.categoryIds.length) {
+          console.log('Cleaning up duplicate category IDs for spell:', spell.name);
           dispatch(libraryActionCreators.categorizeSpell(spell.id, uniqueCategoryIds));
         }
       }
     });
 
-    // Check for duplicate spell entries (same spell appearing multiple times)
-    const spellIds = spellsInCollection.map(spell => spell.id);
-    const uniqueSpellIds = [...new Set(spellIds)];
-
-    // If we found duplicate spell entries, remove them
-    if (uniqueSpellIds.length !== spellIds.length) {
-      console.log('Found duplicate spell entries in collection, cleaning up...');
-
-      // For each unique spell ID, ensure it only appears once in the collection
-      uniqueSpellIds.forEach(spellId => {
-        const spell = library.spells.find(s => s.id === spellId);
-        if (spell && spell.categoryIds) {
-          // Ensure the spell has this collection ID only once
-          const categoryIds = spell.categoryIds.filter(id => id !== collectionId);
-          categoryIds.push(collectionId); // Add it back once
-
-          // Update the spell's categories
-          dispatch(libraryActionCreators.categorizeSpell(spellId, categoryIds));
-        }
-      });
-    }
+    console.log('Duplicate cleanup completed. Removed', duplicateSpellsToRemove.length, 'duplicate spells');
   };
 
   // Clean up duplicates when the component mounts
@@ -143,141 +332,251 @@ const CollectionViewWindow = ({
   // This ensures it's not constrained by any parent containers
   return ReactDOM.createPortal(
     <div
-      className={`collection-view-overlay ${isOpen ? 'active' : ''}`}
-      onClick={onClose}
+      className="pf-collection-view-window"
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-        backdropFilter: 'blur(5px)'
+        top: '10%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 10001
       }}
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          backgroundColor: '#0f172a',
-          borderRadius: '10px',
-          boxShadow: '0 0 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(30, 58, 138, 0.5)',
-          width: '90%',
-          maxWidth: '1200px',
-          maxHeight: '90vh',
-          display: 'flex',
-          flexDirection: 'column',
-          border: '2px solid #1e3a8a',
-          overflow: 'hidden'
-        }}
-      >
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '15px 20px',
-          borderBottom: '2px solid #1e3a8a',
-          background: 'linear-gradient(to bottom, #1e293b, #0f172a)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{
-              marginRight: '15px',
-              width: '48px',
-              height: '48px',
-              borderRadius: '6px',
-              overflow: 'hidden',
-              border: '2px solid #4a4a4a',
-              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.3)'
-            }}>
+        <div className="pf-collection-view-header">
+          <div className="pf-collection-view-title">
+            <div className="collection-icon-wrapper">
               <img
                 src={`https://wow.zamimg.com/images/wow/icons/large/${collection.icon || 'inv_misc_questionmark'}.jpg`}
                 alt={collection.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                className="collection-icon"
               />
             </div>
-            <h2 style={{
-              margin: 0,
-              color: '#ffd100',
-              fontFamily: '"Cinzel", serif',
-              fontSize: '24px',
-              textShadow: '1px 1px 2px #000'
-            }}>{collection.name}</h2>
+            <h2 className="pf-collection-view-name">{collection.name}</h2>
           </div>
-          <button
-            onClick={onClose}
-            style={{
-              backgroundColor: 'rgba(220, 38, 38, 0.3)',
-              border: '1px solid rgba(248, 113, 113, 0.4)',
-              color: '#fff',
-              width: '32px',
-              height: '32px',
-              borderRadius: '4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer'
-            }}
-          >
-            <i className="fas fa-times"></i>
-          </button>
+
+          {/* View mode toggle buttons */}
+          <div className="collection-view-controls">
+            <div className="view-mode-toggle">
+              <button
+                className={`pf-button pf-button-small ${viewMode === 'compact' ? 'pf-button-primary' : 'pf-button-secondary'}`}
+                onClick={() => setViewMode('compact')}
+                title="Compact view with hover tooltips"
+              >
+                <i className="fas fa-th"></i>
+              </button>
+              <button
+                className={`pf-button pf-button-small ${viewMode === 'grid' ? 'pf-button-primary' : 'pf-button-secondary'}`}
+                onClick={() => setViewMode('grid')}
+                title="Grid view with full spell cards"
+              >
+                <i className="fas fa-th-large"></i>
+              </button>
+            </div>
+            <button
+              onClick={onClose}
+              className="pf-button pf-button-close"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
         </div>
-        <div style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: '0',
-          backgroundColor: '#0f172a'
-        }}>
+        <div className="pf-collection-view-content">
           {collectionSpells.length === 0 ? (
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '40px 20px',
-              textAlign: 'center',
-              color: '#94a3b8',
-              height: '100%',
-              minHeight: '300px'
-            }}>
-              <i className="fas fa-book-open" style={{ fontSize: '48px', marginBottom: '20px', opacity: 0.5 }}></i>
-              <p style={{ fontSize: '18px', margin: '0 0 10px 0' }}>No spells in this collection.</p>
-              <p style={{ fontSize: '14px', opacity: 0.7 }}>Right-click on spells in the library to add them to this collection.</p>
+            <div className="pf-collection-empty">
+              <i className="fas fa-book-open"></i>
+              <p>No spells in this collection.</p>
+              <p className="pf-collection-empty-hint">Right-click on spells in the library to add them to this collection.</p>
             </div>
           ) : (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: '20px',
-              padding: '20px',
-              overflowY: 'auto',
-              maxHeight: 'calc(100vh - 200px)',
-              backgroundColor: 'rgba(15, 23, 42, 0.95)',
-              backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.95)), url(\'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill-opacity="0.03"><path d="M0 0h64v64H0z" fill="none"/><path d="M32 8l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="%231e3a8a"/></svg>\')',
-              borderRadius: '8px',
-              boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.5)'
-            }}>
-              {collectionSpells.map(spell => (
-                <CollectionSpellCard
-                  key={spell.id}
-                  spell={spell}
-                  isSelected={library.selectedSpell === spell.id}
-                  onSelect={() => handleSelectSpell(spell.id)}
-                  onDelete={() => handleRemoveFromCollection(spell.id)}
-                  onDuplicate={() => handleDuplicateSpell(spell.id)}
-                  categories={library.categories}
-                  onContextMenu={(e) => {
-                    e.preventDefault();
-                    setContextMenu({
-                      x: e.clientX,
-                      y: e.clientY,
-                      spellId: spell.id
-                    });
-                  }}
-                />
-              ))}
+            <div className={`spell-library-spells ${viewMode}-view`}>
+              <div className="spell-cards-container">
+              {collectionSpells.map((spell, index) => {
+                // Use the unified mapping function for consistency
+                const transformedSpell = mapSpellToUnifiedFormat(spell);
+
+                // Get the rollable table data from the spell
+                const rollableTableData = getSpellRollableTable(spell);
+
+                // Format the effects for display
+                const formattedEffects = formatAllEffects(transformedSpell);
+
+                // Add the formatted effects to the transformed spell
+                if (formattedEffects) {
+                  transformedSpell.damageEffects = formattedEffects.damageEffects;
+                  transformedSpell.healingEffects = formattedEffects.healingEffects;
+                  transformedSpell.buffEffects = formattedEffects.buffEffects;
+                  transformedSpell.debuffEffects = formattedEffects.debuffEffects;
+                  transformedSpell.controlEffects = formattedEffects.controlEffects;
+                  transformedSpell.procEffects = formattedEffects.procEffects;
+                  transformedSpell.criticalEffects = formattedEffects.criticalEffects;
+                  transformedSpell.channelingEffects = formattedEffects.channelingEffects;
+                }
+
+                // Ensure resource costs are properly formatted
+                if (!transformedSpell.resourceCost) {
+                  transformedSpell.resourceCost = {
+                    mana: 0,
+                    health: 0,
+                    stamina: 0,
+                    focus: 0,
+                    resourceValues: {}
+                  };
+                }
+
+                // Ensure damage/healing configuration is properly formatted ONLY for damage spells
+                if (transformedSpell.effectTypes?.includes('damage') &&
+                    !transformedSpell.damageConfig &&
+                    transformedSpell.primaryDamage?.dice) {
+                  transformedSpell.damageConfig = {
+                    damageType: 'direct',
+                    elementType: transformedSpell.damageTypes?.[0] || 'fire',
+                    formula: transformedSpell.primaryDamage.dice
+                  };
+                }
+
+                if (transformedSpell.effectTypes?.includes('healing') &&
+                    !transformedSpell.healingConfig &&
+                    transformedSpell.healing?.dice) {
+                  transformedSpell.healingConfig = {
+                    healingType: 'direct',
+                    formula: transformedSpell.healing?.dice || '6d6'
+                  };
+                }
+
+                // Ensure cooldown configuration is properly formatted
+                if (!transformedSpell.cooldownConfig) {
+                  transformedSpell.cooldownConfig = {
+                    enabled: false,
+                    cooldownRounds: 0,
+                    cooldownType: 'rounds'
+                  };
+                }
+
+                // Ensure coin mechanics are properly preserved
+                if (spell.resolution === 'COINS' || spell.name?.toLowerCase().includes('fortune') || spell.name?.toLowerCase().includes('coin')) {
+                  transformedSpell.resolution = 'COINS';
+                  transformedSpell.coinConfig = spell.coinConfig || {
+                    flipCount: 5,
+                    formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)'
+                  };
+
+                  // If it's Fortune Frost, ensure it has the right configuration
+                  if (spell.name?.toLowerCase().includes('fortune frost')) {
+                    transformedSpell.coinConfig = {
+                      flipCount: 5,
+                      formula: 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)'
+                    };
+                    transformedSpell.resourceCost = { mana: '1d10' };
+                  }
+                }
+
+                // Only apply specific resource cost overrides for special spells
+                // Don't randomize resource costs - use the actual spell data
+                if (spell.name?.toLowerCase().includes('fortune frost')) {
+                  // Fortune Frost uses 1d10 mana
+                  transformedSpell.resourceCost = { mana: '1d10' };
+                }
+
+                // Render compact view or full card view based on viewMode
+                if (viewMode === 'compact') {
+                  return (
+                    <UnifiedSpellCard
+                      key={spell.id}
+                      spell={transformedSpell}
+                      variant="compact"
+                      rollableTableData={rollableTableData}
+                      onClick={() => handleSelectSpell(spell.id)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        setContextMenu({
+                          x: e.clientX,
+                          y: e.clientY,
+                          spellId: spell.id
+                        });
+                      }}
+                      isSelected={library.selectedSpell === spell.id}
+                      className="collection-compact-item"
+                      showActions={false}
+                      showDescription={false}
+                      showStats={false}
+                      showTags={false}
+                      isDraggable={true}
+                    />
+                  );
+                }
+
+                // Full card view (grid)
+                return (
+                  <div
+                    key={spell.id}
+                    className="spell-card-wrapper"
+                    style={{
+                      position: 'relative',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => handleSelectSpell(spell.id)}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      setContextMenu({
+                        x: e.clientX,
+                        y: e.clientY,
+                        spellId: spell.id
+                      });
+                    }}
+                    draggable={true}
+                    onDragStart={(e) => {
+                      const spellData = {
+                        id: spell.id,
+                        name: spell.name,
+                        icon: spell.icon || 'spell_holy_holybolt',
+                        cooldown: spell.cooldown || 0,
+                        level: spell.level || 1,
+                        spellType: spell.spellType || 'ACTION'
+                      };
+                      e.dataTransfer.setData('application/json', JSON.stringify(spellData));
+                      e.dataTransfer.effectAllowed = 'copy';
+                      console.log('Dragging spell from collection grid view:', spellData);
+                    }}
+                    title="Drag to action bar to add spell"
+                  >
+                    {/* Action buttons - positioned in top-right corner for better visibility */}
+                    <div className="pf-collection-spell-actions">
+                      <button
+                        className="pf-button pf-button-small pf-button-secondary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDuplicateSpell(spell.id);
+                        }}
+                        title="Duplicate spell"
+                      >
+                        <i className="fas fa-copy"></i>
+                      </button>
+                      <button
+                        className="pf-button pf-button-small pf-button-danger"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveFromCollection(spell.id);
+                        }}
+                        title="Remove from collection"
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    </div>
+
+                    <div className="review-spell-preview">
+                      <UnifiedSpellCard
+                        spell={transformedSpell}
+                        variant="wizard"
+                        rollableTableData={rollableTableData}
+                        showActions={false}
+                        showDescription={true}
+                        showStats={true}
+                        showTags={true}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+              </div>
             </div>
           )}
 
@@ -298,8 +597,7 @@ const CollectionViewWindow = ({
             document.body
           )}
         </div>
-      </div>
-    </div>,
+      </div>,
     document.body
   );
 };

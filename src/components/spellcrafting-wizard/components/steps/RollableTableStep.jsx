@@ -33,10 +33,62 @@ const RollableTableStep = () => {
   if (!rollableTable) return <div className="loading">Loading...</div>;
 
   const handleToggleEnabled = () => {
-    dispatch(actionCreators.updateRollableTable({
+    const newEnabled = !rollableTable.enabled;
+
+    // If enabling and no entries exist, add some sample entries for testing
+    const updatedTable = {
       ...rollableTable,
-      enabled: !rollableTable.enabled
-    }));
+      enabled: newEnabled
+    };
+
+    if (newEnabled && (!rollableTable.entries || rollableTable.entries.length === 0)) {
+      updatedTable.name = 'Random Effects';
+      updatedTable.description = 'Roll for random magical effects';
+      updatedTable.entries = [
+        {
+          id: 'sample-1',
+          range: { min: 1, max: 25 },
+          customName: 'Minor Healing',
+          effect: 'Heals 1d4 hit points',
+          modifiesBaseSpell: false,
+          spellReference: null,
+          effectModifications: {},
+          formulaOverrides: {}
+        },
+        {
+          id: 'sample-2',
+          range: { min: 26, max: 50 },
+          customName: 'Spark Damage',
+          effect: 'Deals 1d6 lightning damage',
+          modifiesBaseSpell: false,
+          spellReference: null,
+          effectModifications: {},
+          formulaOverrides: {}
+        },
+        {
+          id: 'sample-3',
+          range: { min: 51, max: 75 },
+          customName: 'Speed Boost',
+          effect: 'Increases movement speed by 10 feet for 1 round',
+          modifiesBaseSpell: false,
+          spellReference: null,
+          effectModifications: {},
+          formulaOverrides: {}
+        },
+        {
+          id: 'sample-4',
+          range: { min: 76, max: 100 },
+          customName: 'Magic Resistance',
+          effect: 'Grants advantage on next saving throw',
+          modifiesBaseSpell: false,
+          spellReference: null,
+          effectModifications: {},
+          formulaOverrides: {}
+        }
+      ];
+    }
+
+    dispatch(actionCreators.updateRollableTable(updatedTable));
   };
 
   const handleNameChange = (e) => {
@@ -53,20 +105,94 @@ const RollableTableStep = () => {
     }));
   };
 
+  // Convert entries to match the new resolution type
+  const convertEntriesToResolutionType = (entries, newType, config = {}) => {
+    if (!entries || entries.length === 0) return entries;
+
+    return entries.map((entry, index) => {
+      let newRange;
+
+      switch (newType) {
+        case 'DICE':
+          // Convert to dice ranges (distribute evenly across d100)
+          const rangeSize = Math.floor(100 / entries.length);
+          const min = (index * rangeSize) + 1;
+          const max = index === entries.length - 1 ? 100 : (index + 1) * rangeSize;
+          return {
+            ...entry,
+            range: { min, max },
+            cardPattern: null,
+            coinPattern: null
+          };
+
+        case 'CARDS':
+          // Convert to card patterns
+          const cardPatterns = [
+            'Hearts', 'Diamonds', 'Clubs', 'Spades',
+            'Red Cards', 'Black Cards', 'Face Cards', 'Number Cards',
+            'Aces', 'Kings', 'Queens', 'Jacks'
+          ];
+          const cardPattern = cardPatterns[index % cardPatterns.length] || `Pattern ${index + 1}`;
+          return {
+            ...entry,
+            range: null,
+            cardPattern: cardPattern
+          };
+
+        case 'COINS':
+          // Convert to coin patterns
+          const coinPatterns = [
+            'All Heads', 'All Tails', 'Mostly Heads', 'Mostly Tails',
+            'Mixed', 'Alternating', 'Two Heads', 'Two Tails',
+            'Three Heads', 'Three Tails'
+          ];
+          const coinPattern = coinPatterns[index % coinPatterns.length] || `Pattern ${index + 1}`;
+          return {
+            ...entry,
+            range: null,
+            coinPattern: coinPattern
+          };
+
+        default:
+          return entry;
+      }
+    });
+  };
+
   const handleResolutionTypeChange = (type) => {
+    const convertedEntries = convertEntriesToResolutionType(
+      rollableTable.entries,
+      type,
+      rollableTable.resolutionConfig
+    );
+
     dispatch(actionCreators.updateRollableTable({
       ...rollableTable,
-      resolutionType: type
+      resolutionType: type,
+      entries: convertedEntries
     }));
   };
 
   const handleResolutionConfigChange = (config) => {
+    const newConfig = {
+      ...rollableTable.resolutionConfig,
+      ...config
+    };
+
+    // If card count or coin count changed, we might need to update entries
+    let updatedEntries = rollableTable.entries;
+    if ((config.cardCount || config.coinCount) && rollableTable.entries && rollableTable.entries.length > 0) {
+      updatedEntries = convertEntriesToResolutionType(
+        rollableTable.entries,
+        rollableTable.resolutionType,
+        newConfig
+      );
+    }
+
     dispatch(actionCreators.updateRollableTable({
       ...rollableTable,
-      resolutionConfig: {
-        ...rollableTable.resolutionConfig,
-        ...config
-      }
+      resolutionConfig: newConfig,
+      entries: updatedEntries
     }));
   };
 

@@ -1,97 +1,378 @@
+/* Override window-content height for inventory window */
+.inventory-window-content {
+    height: auto !important;
+    min-height: fit-content !important;
+    flex: none !important;
+}
+
 .inventory-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    color: #fff;
+    color: #3a2f1a;
+    min-height: fit-content;
+    overflow: hidden; /* Prevent scrolling and extra space */
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    border: 2px solid #8b7355;
+    box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.3);
 }
 
+.inventory-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Currency Section */
 .currency-section {
     display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 50%, #c4b490 100%);
+    border-radius: 8px;
+    border: 2px solid #8b7355;
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 10px rgba(240, 230, 210, 0.3);
+}
+
+.currency-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: #8b6914;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #8b6914;
+    padding-bottom: 0.5rem;
+    text-shadow: 0 1px 2px rgba(139, 105, 20, 0.3);
+    font-weight: 600;
+}
+
+.currency-container {
+    display: flex;
+    justify-content: space-between;
     gap: 1rem;
-    padding: 0.5rem;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
 }
 
 .currency {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex: 1;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    padding: 0.5rem;
+    border-radius: 6px;
+    position: relative;
+    border: 1px solid #8b7355;
+    box-shadow: inset 0 0 8px rgba(139, 115, 85, 0.2);
+}
+
+.coin-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.currency-label {
+    font-size: 0.7rem;
+    color: #5a4a2a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.5);
+    font-weight: 600;
 }
 
 .coin {
-    width: 20px;
-    height: 20px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(139, 115, 85, 0.4);
+    transition: all 0.2s ease;
+}
+
+.coin:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.6);
 }
 
 .coin.gold {
-    background: linear-gradient(45deg, #ffd700, #ffa500);
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    border: 2px solid #ffd700;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.6);
 }
 
 .coin.silver {
-    background: linear-gradient(45deg, #c0c0c0, #a0a0a0);
-    box-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+    border: 2px solid #c0c0c0;
+    box-shadow: 0 2px 8px rgba(192, 192, 192, 0.6);
 }
 
 .coin.copper {
-    background: linear-gradient(45deg, #cd7f32, #b87333);
-    box-shadow: 0 0 5px rgba(205, 127, 50, 0.5);
+    border: 2px solid #cd7f32;
+    box-shadow: 0 2px 8px rgba(205, 127, 50, 0.6);
 }
 
-.currency-input {
-    width: 60px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-    padding: 0.25rem;
-    border-radius: 4px;
+.currency-value {
+    min-width: 45px;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 1px solid #8b7355;
+    color: #3a2f1a;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.2);
 }
 
+/* Clickable currency styles */
+.currency-value:hover {
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    border-color: #8b6914;
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(139, 105, 20, 0.4);
+}
+
+.coin-wrapper[style*="cursor: pointer"]:hover {
+    filter: brightness(1.2);
+}
+
+.currency-value[style*="cursor: pointer"]:hover {
+    box-shadow: 0 0 8px rgba(139, 105, 20, 0.4);
+}
+
+/* Withdraw Currency Button */
+.withdraw-currency-button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: linear-gradient(to bottom, #8b6914, #6b5010);
+    border: 2px solid #5a4a0d;
+    border-radius: 6px;
+    color: #f0e6d2;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(58, 47, 26, 0.8);
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    letter-spacing: 0.5px;
+}
+
+.withdraw-currency-button:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #9b7a18, #8b6914);
+    border-color: #6b5010;
+    box-shadow: 0 2px 8px rgba(139, 115, 85, 0.6);
+    transform: translateY(-1px);
+}
+
+.withdraw-currency-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Inventory Grid */
 .inventory-grid {
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 1px;
-    border-radius: 4px;
+    gap: 0px;
+    background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #8b7355;
+    box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
+}
+
+.inventory-section-headers {
+    display: flex;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.section-header {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.35rem 0;
+    border-bottom: 2px solid;
+    text-shadow: 0 1px 2px rgba(58, 47, 26, 0.8);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #8b7355;
+    border-bottom: 2px solid;
+}
+
+.section-header.normal {
+    color: #1a3d0a;
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
+    border: 1px solid #4a934a;
+    border-bottom-color: #4a934a;
+    flex-basis: calc(100% * 5/15);
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.section-header.encumbered {
+    color: #5a4a0a;
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    border: 1px solid #c9a83f;
+    border-bottom-color: #c9a83f;
+    flex-basis: calc(100% * 5/15);
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.section-header.overencumbered {
+    color: #4a1a0a;
+    background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
+    border: 1px solid #a05a46;
+    border-bottom-color: #a05a46;
+    flex-basis: calc(100% * 5/15);
+    font-weight: bold;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
 .inventory-row {
     display: flex;
-    gap: 1px;
+    gap: 0px;
+    margin-bottom: 0px;
 }
 
 .inventory-cell {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     transition: all 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid #8b7355;
     position: relative;
+    overflow: visible; /* Allow rotated items to overflow */
+    box-sizing: border-box;
+    border-radius: 2px;
+    box-shadow: inset 0 0 4px rgba(139, 115, 85, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .inventory-cell.normal {
-    background: rgba(70, 70, 70, 0.3);
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
+    border-color: #4a934a;
 }
 
 .inventory-cell.encumbered {
-    background: rgba(255, 255, 0, 0.1);
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    border-color: #c9a83f;
+    box-shadow: inset 0 0 4px rgba(201, 168, 63, 0.3);
 }
 
 .inventory-cell.overencumbered {
-    background: rgba(255, 0, 0, 0.1);
+    background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
+    border-color: #a05a46;
+    box-shadow: inset 0 0 4px rgba(160, 90, 70, 0.3);
 }
 
 .inventory-cell.occupied {
-    background: rgba(100, 100, 100, 0.3);
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
 }
 
 .inventory-cell:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: #6b5010;
+    box-shadow: inset 0 0 6px rgba(139, 115, 85, 0.4);
 }
 
+.inventory-cell.drag-over {
+    background: linear-gradient(135deg, #d0e8ff 0%, #b8d8ff 100%);
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+}
+
+.inventory-cell.drag-invalid {
+    background: linear-gradient(135deg, #f0d0d0 0%, #e8c0c0 100%);
+    border-color: #a05a46;
+    box-shadow: 0 0 8px rgba(160, 90, 70, 0.5);
+}
+
+/* Item wrapper that doesn't rotate */
+.item-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+/* Non-rotating border and blue indicator */
+.item-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 15;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Blue indicator removed - rotation functionality preserved without visual indicator */
+
+/* Simple currency display styles */
+.currency-display-simple {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: rgba(139, 115, 85, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(139, 115, 85, 0.3);
+}
+
+.clickable-coin {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.clickable-coin:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.coin-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.currency-number {
+    color: #000000;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* The actual rotating item */
 .inventory-item {
     position: absolute;
     top: 0;
@@ -101,30 +382,321 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: transparent; /* Remove background to prevent white extensions */
     cursor: move;
+    border-radius: 2px;
+    overflow: visible; /* Allow content to overflow during rotation */
+    z-index: 10;
+    transform-origin: center center;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+    box-sizing: border-box;
+    /* Ensure the item is properly centered */
+    margin: 0;
+    padding: 0;
+    /* No border here - border is handled by item-border */
+}
+
+.inventory-item.multi-cell {
+    z-index: 20;
+}
+
+/* Selected item border */
+.item-border.selected {
+    border: 2px solid rgba(0, 255, 255, 0.7);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Rotation indicator styles */
+.rotation-indicator-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.item-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 2px; /* Reduced padding to allow items to fill cells better */
+    overflow: visible;
+    z-index: 25; /* Ensure content is above the rotation indicator but below selected highlight */
+    cursor: pointer; /* Make sure the cursor is a pointer for better UX */
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #3a2f1a;
+    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
+}
+
+.item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the entire cell */
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    position: relative;
+    box-sizing: border-box;
+    display: block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.multi-cell .item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the entire cell for multi-cell items too */
+}
+
+.item-name {
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 0.25rem;
+    word-break: break-word;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.item-quantity {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    min-width: 16px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
+
+/* Size indicator is now defined inline in the component */
+
+/* Inventory Bottom Bar */
+.inventory-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: rgba(139, 115, 85, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(139, 115, 85, 0.3);
+    margin-top: 10px;
+}
+
+.encumbrance-text {
+    color: #2d4a1e;
+    font-weight: bold;
+    font-size: 16px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 4px rgba(45, 74, 30, 0.3);
+    padding: 4px 8px;
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
+    border: 1px solid #4a934a;
+    border-radius: 4px;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.encumbrance-penalty-text {
+    color: #8b4513;
+    font-weight: bold;
+    font-size: 13px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+    display: block;
+    margin-top: 2px;
+    padding: 2px 4px;
+    background: rgba(139, 69, 19, 0.1);
+    border-radius: 3px;
+}
+
+/* Encumbrance state specific styling */
+.encumbrance-text.normal {
+    color: #2d4a1e;
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
+    border-color: #4a934a;
+}
+
+.encumbrance-text.encumbered {
+    color: #8b6914;
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    border-color: #c9a83f;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 4px rgba(139, 105, 20, 0.3);
+}
+
+.encumbrance-text.overencumbered {
+    color: #8b2635;
+    background: linear-gradient(135deg, #f0d4d4 0%, #e8c0c0 100%);
+    border-color: #a05a46;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 4px rgba(139, 38, 53, 0.3);
+}
+
+.item-count-indicator {
+    padding: 0.25rem 0.5rem;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border-radius: 6px;
+    border: 1px solid #8b7355;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.2);
+}
+
+.count-label {
+    font-weight: bold;
+    color: #5a4a2a;
+}
+
+.count-normal {
+    color: #2d5016;
+    font-weight: bold;
+}
+
+.count-encumbered {
+    color: #8b6914;
+    font-weight: bold;
+}
+
+.count-overencumbered {
+    color: #7a3b2e;
+    font-weight: bold;
+}
+
+.count-total {
+    margin-left: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid #8b7355;
 }
 
 .encumbrance-indicator {
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 6px;
+    border: 1px solid #8b7355;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.2);
+}
+
+.encumbrance-title {
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
+.encumbrance-penalty {
+    font-size: 0.75rem;
+    font-style: italic;
+    opacity: 0.9;
+    line-height: 1.2;
+}
+
 .encumbrance-indicator.normal {
-    background: rgba(0, 255, 0, 0.1);
-    color: #00ff00;
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
+    color: #2d5016;
+    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
 }
 
 .encumbrance-indicator.encumbered {
-    background: rgba(255, 255, 0, 0.1);
-    color: #ffff00;
+    background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
+    color: #8b6914;
+    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
 }
 
 .encumbrance-indicator.overencumbered {
-    background: rgba(255, 0, 0, 0.1);
-    color: #ff0000;
+    background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
+    color: #7a3b2e;
+    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
 }
+
+.inventory-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+
+
+/* Item Context Menu */
+.item-context-menu {
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.7);
+    overflow: hidden;
+    min-width: 180px;
+    z-index: 99999; /* Increased z-index to match tooltip */
+    position: fixed; /* Changed from absolute to fixed */
+    backdrop-filter: blur(4px);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    transform: translateZ(0); /* Force GPU acceleration */
+}
+
+.item-context-menu ul {
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.item-context-menu li {
+    padding: 0.6rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #3a2f1a;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.item-context-menu li i {
+    width: 16px;
+    text-align: center;
+    color: #8b7355;
+}
+
+.item-context-menu li:last-child {
+    border-bottom: none;
+}
+
+.item-context-menu li:hover {
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    color: #3a2f1a;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
+}
+
+.item-context-menu li.danger {
+    color: #7a3b2e;
+}
+
+.item-context-menu li.danger:hover {
+    background: linear-gradient(135deg, #f0d0d0 0%, #e8c0c0 100%);
+}
+
+/* Item Tooltip Wrapper */
+.item-tooltip-wrapper {
+    background: transparent;
+    min-width: 280px;
+    max-width: 300px;
+    position: fixed;
+    z-index: 999999999; /* Maximum z-index to ensure it's above everything */
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+    transform: translateZ(0); /* Force GPU acceleration for smoother rendering */
+}
+
+

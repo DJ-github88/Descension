@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
-import { CUSTOM_LIBRARY_SPELLS } from '../../../../data/customSpellLibraryData';
+import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 import { transformSpellForCard } from '../../core/utils/spellCardTransformer';
 
 /**
@@ -16,7 +16,7 @@ const SampleSpellsLoader = () => {
       console.log('Loading sample spells into the library...');
 
       // Add each sample spell to the library
-      CUSTOM_LIBRARY_SPELLS.forEach(spell => {
+      LIBRARY_SPELLS.forEach(spell => {
         // Transform the spell data to match the format expected by LibraryStyleSpellCard
         const transformedSpell = transformSpellForCard(spell);
 
@@ -105,7 +105,7 @@ const SampleSpellsLoader = () => {
 
       console.log('Sample spells loaded successfully!');
     }
-  }, [library.spells.length, dispatch]);
+  }, [library.spells.length]);
 
   // This component doesn't render anything
   return null;

@@ -1,0 +1,580 @@
+/* Spell Tooltip Styling - Wider spell cards with no scrolling */
+
+/* Spell tooltip container - transparent wrapper to avoid double frame */
+.spell-tooltip-overlay {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  /* Clean transparent background - let spell card handle styling */
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  /* Sizing for scaled spell cards (75% of original) */
+  width: auto !important; /* Let content determine width */
+  height: auto;
+  max-height: none; /* Remove height constraint - let scaled content determine height */
+  overflow: visible; /* No scrolling - show full scaled content */
+  z-index: 99999 !important; /* Ensure tooltip appears above everything */
+  position: fixed !important;
+  /* Improved text readability */
+  color: var(--pf-text-primary, #2d1810);
+}
+
+.spell-tooltip-container {
+  position: relative;
+  border-radius: 0; /* Remove border radius to avoid interfering with spell card */
+  width: 100%;
+  height: auto;
+}
+
+/* Scrollbar styling for tooltip containers */
+.spell-tooltip-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.spell-tooltip-container::-webkit-scrollbar-track {
+  background: rgba(139, 115, 85, 0.3); /* Pathfinder brown with transparency */
+  border-radius: 6px;
+}
+
+.spell-tooltip-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b7355 0%, #6d5a42 100%);
+  border-radius: 6px;
+  border: 1px solid #4a3d2a;
+}
+
+.spell-tooltip-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9d8567 0%, #7a6650 100%);
+}
+
+/* Firefox scrollbar styling */
+.spell-tooltip-container {
+  scrollbar-width: thin;
+  scrollbar-color: #8b7355 rgba(139, 115, 85, 0.3);
+}
+
+.spell-tooltip-content {
+  padding: 0; /* Remove padding to let spell card handle its own spacing */
+  margin: 0;
+  width: 100%;
+  height: auto;
+  overflow: visible; /* No scrolling within content */
+}
+
+/* Scaled down spell cards in tooltips - like zooming out while keeping everything intact */
+/* Apply to all possible spell card selectors to ensure it works everywhere */
+.spell-tooltip-content .wow-spell-card,
+.spell-tooltip-content .pf-spell-card,
+.spell-tooltip-overlay .wow-spell-card,
+.spell-tooltip-overlay .pf-spell-card,
+div[class*="spell-tooltip"] .wow-spell-card,
+div[class*="spell-tooltip"] .pf-spell-card {
+  margin: 0;
+  width: 100%;
+  max-width: none !important; /* Allow spell card to use its natural max-width (580px) */
+  min-width: auto !important; /* Allow spell card to use its natural min-width (520px) */
+  min-height: auto !important; /* Remove fixed height constraint */
+  max-height: none !important; /* Remove any max height constraints */
+  height: auto !important; /* Allow natural height */
+  /* Remove border override - let spell card use its natural border styling */
+  border: unset !important;
+  border-radius: unset !important;
+  box-shadow: unset !important;
+  /* Scale down the entire card like zooming out - keeps everything proportional */
+  transform: scale(0.75) !important; /* 75% of original size - force override */
+  transform-origin: top left !important; /* Scale from top-left corner */
+  overflow: visible !important; /* No internal scrolling */
+}
+
+/* Very compact spell card header */
+.spell-tooltip-content .pf-spell-card-header,
+.spell-tooltip-content .wow-spell-card-header,
+.spell-tooltip-content .spell-card-header {
+  padding: 2px 4px !important;
+  min-height: auto !important;
+  gap: 3px !important;
+}
+
+/* Very compact spell icon */
+.spell-tooltip-content .pf-spell-icon,
+.spell-tooltip-content .spell-icon {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* Readable spell name */
+.spell-tooltip-content .pf-spell-name,
+.spell-tooltip-content .spell-name {
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+  font-weight: bold !important;
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Readable spell meta info */
+.spell-tooltip-content .pf-spell-meta,
+.spell-tooltip-content .spell-meta {
+  font-size: 10px !important;
+  gap: 4px !important;
+  color: var(--pf-text-secondary, #5a1e12) !important;
+}
+
+/* Very compact spell body - no height constraints */
+.spell-tooltip-content .pf-spell-card-body,
+.spell-tooltip-content .wow-spell-card-body,
+.spell-tooltip-content .spell-card-body {
+  padding: 2px 4px !important;
+  gap: 2px !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Very compact spell sections */
+.spell-tooltip-content .pf-spell-section,
+.spell-tooltip-content .spell-section {
+  margin-bottom: 2px !important;
+}
+
+.spell-tooltip-content .pf-spell-section:last-child,
+.spell-tooltip-content .spell-section:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Very compact section headers */
+.spell-tooltip-content .pf-section-header,
+.spell-tooltip-content .section-header {
+  font-size: 9px !important;
+  padding: 1px 3px !important;
+  margin-bottom: 1px !important;
+  font-weight: bold !important;
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Very compact effect lists */
+.spell-tooltip-content .pf-effect-list,
+.spell-tooltip-content .effect-list {
+  gap: 1px !important;
+}
+
+.spell-tooltip-content .pf-effect-item,
+.spell-tooltip-content .effect-item {
+  padding: 1px 3px !important;
+  font-size: 8px !important;
+  line-height: 1.1 !important;
+  color: var(--pf-text-secondary, #5a1e12) !important;
+}
+
+/* Very compact resource costs */
+.spell-tooltip-content .pf-resource-cost,
+.spell-tooltip-content .resource-cost {
+  font-size: 8px !important;
+  padding: 1px 2px !important;
+  color: var(--pf-text-secondary, #5a1e12) !important;
+}
+
+/* Very compact spell stats */
+.spell-tooltip-content .pf-spell-stats,
+.spell-tooltip-content .spell-stats {
+  gap: 3px !important;
+}
+
+.spell-tooltip-content .pf-stat-item,
+.spell-tooltip-content .stat-item {
+  font-size: 8px !important;
+}
+
+/* Very compact rollable table display */
+.spell-tooltip-content .rollable-table-section {
+  margin-top: 2px !important;
+}
+
+.spell-tooltip-content .rollable-table-header {
+  font-size: 8px !important;
+  padding: 1px 3px !important;
+  font-weight: bold !important;
+}
+
+.spell-tooltip-content .rollable-table-entries {
+  /* Show all entries without scrolling */
+}
+
+.spell-tooltip-content .rollable-table-entry {
+  padding: 1px 3px !important;
+  font-size: 7px !important;
+  line-height: 1.1 !important;
+}
+
+/* Readable description text - no height restrictions */
+.spell-tooltip-content .pf-spell-description,
+.spell-tooltip-content .spell-description {
+  padding: 4px 6px !important;
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Show all sections in tooltips - no hiding */
+
+/* Very compact spell card sections */
+.spell-tooltip-content .spell-card-tags,
+.spell-tooltip-content .spell-card-components {
+  font-size: 7px !important;
+  padding: 1px 2px !important;
+  margin: 1px 0 !important;
+}
+
+/* Spell card container - no height restrictions */
+.spell-tooltip-content .wow-spell-card .spell-card-content,
+.spell-tooltip-content .pf-spell-card .spell-card-content,
+.spell-tooltip-content .wow-spell-card .pf-spell-card-body,
+.spell-tooltip-content .pf-spell-card .pf-spell-card-body {
+  padding: 2px !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Very compact damage/healing sections */
+.spell-tooltip-content .damage-effects-section,
+.spell-tooltip-content .healing-effects-section {
+  margin-bottom: 1px !important;
+}
+
+.spell-tooltip-content .damage-effects-section .section-header,
+.spell-tooltip-content .healing-effects-section .section-header {
+  font-size: 8px !important;
+  padding: 1px 3px !important;
+  font-weight: bold !important;
+}
+
+/* Very compact tooltip borders */
+.tooltip-top-border,
+.tooltip-bottom-border {
+  height: 1px !important;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #8B4513 10%,
+    #D2691E 50%,
+    #8B4513 90%,
+    transparent 100%
+  ) !important;
+}
+
+/* Ultra-compact spell cards - very small but complete, no scrolling */
+
+/* ===== COMPREHENSIVE TEXT COLOR FIXES FOR SPELL TOOLTIPS ===== */
+
+/* ULTRA-AGGRESSIVE overrides for all text in spell tooltips */
+.spell-tooltip-content *,
+.spell-tooltip-overlay *,
+.spell-tooltip-content div,
+.spell-tooltip-content span,
+.spell-tooltip-content p,
+.spell-tooltip-content h1,
+.spell-tooltip-content h2,
+.spell-tooltip-content h3,
+.spell-tooltip-content h4,
+.spell-tooltip-content h5,
+.spell-tooltip-content h6 {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ULTRA-SPECIFIC overrides for white text with all possible variations */
+.spell-tooltip-content *[style*="color: #fff"],
+.spell-tooltip-content *[style*="color: #ffffff"],
+.spell-tooltip-content *[style*="color: white"],
+.spell-tooltip-content *[style*="color:#fff"],
+.spell-tooltip-content *[style*="color:#ffffff"],
+.spell-tooltip-content *[style*="color:white"],
+.spell-tooltip-content *[style*="color: rgb(255, 255, 255)"],
+.spell-tooltip-content *[style*="color:rgb(255,255,255)"],
+.spell-tooltip-overlay *[style*="color: #fff"],
+.spell-tooltip-overlay *[style*="color: #ffffff"],
+.spell-tooltip-overlay *[style*="color: white"],
+.spell-tooltip-overlay *[style*="color:#fff"],
+.spell-tooltip-overlay *[style*="color:#ffffff"],
+.spell-tooltip-overlay *[style*="color:white"],
+.spell-tooltip-overlay *[style*="color: rgb(255, 255, 255)"],
+.spell-tooltip-overlay *[style*="color:rgb(255,255,255)"] {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ULTRA-SPECIFIC overrides for yellow/gold colors with all variations */
+.spell-tooltip-content *[style*="color: #ffd700"],
+.spell-tooltip-content *[style*="color: #ffcc00"],
+.spell-tooltip-content *[style*="color: #f9e2af"],
+.spell-tooltip-content *[style*="color: #fcd34d"],
+.spell-tooltip-content *[style*="color: #facc15"],
+.spell-tooltip-content *[style*="color: #f59e0b"],
+.spell-tooltip-content *[style*="color: #fbbf24"],
+.spell-tooltip-content *[style*="color: #ffd100"],
+.spell-tooltip-content *[style*="color: #f97316"],
+.spell-tooltip-content *[style*="color:#ffd700"],
+.spell-tooltip-content *[style*="color:#ffcc00"],
+.spell-tooltip-content *[style*="color:#f9e2af"],
+.spell-tooltip-content *[style*="color:#fcd34d"],
+.spell-tooltip-content *[style*="color:#facc15"],
+.spell-tooltip-content *[style*="color:#f59e0b"],
+.spell-tooltip-content *[style*="color:#fbbf24"],
+.spell-tooltip-content *[style*="color:#ffd100"],
+.spell-tooltip-content *[style*="color:#f97316"],
+.spell-tooltip-overlay *[style*="color: #ffd700"],
+.spell-tooltip-overlay *[style*="color: #ffcc00"],
+.spell-tooltip-overlay *[style*="color: #f9e2af"],
+.spell-tooltip-overlay *[style*="color: #fcd34d"],
+.spell-tooltip-overlay *[style*="color: #facc15"],
+.spell-tooltip-overlay *[style*="color: #f59e0b"],
+.spell-tooltip-overlay *[style*="color: #fbbf24"],
+.spell-tooltip-overlay *[style*="color: #ffd100"],
+.spell-tooltip-overlay *[style*="color: #f97316"],
+.spell-tooltip-overlay *[style*="color:#ffd700"],
+.spell-tooltip-overlay *[style*="color:#ffcc00"],
+.spell-tooltip-overlay *[style*="color:#f9e2af"],
+.spell-tooltip-overlay *[style*="color:#fcd34d"],
+.spell-tooltip-overlay *[style*="color:#facc15"],
+.spell-tooltip-overlay *[style*="color:#f59e0b"],
+.spell-tooltip-overlay *[style*="color:#fbbf24"],
+.spell-tooltip-overlay *[style*="color:#ffd100"],
+.spell-tooltip-overlay *[style*="color:#f97316"] {
+  color: var(--pf-brown-medium, #8B4513) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Damage effects text styling */
+.spell-tooltip-content .damage-effects-section,
+.spell-tooltip-content .healing-effects-section,
+.spell-tooltip-content .proc-effects-section,
+.spell-tooltip-content .critical-effects-section {
+  color: var(--pf-text-primary, #2d1810) !important;
+}
+
+/* Section headers with better contrast */
+.spell-tooltip-content .damage-effects-section .section-header,
+.spell-tooltip-content .healing-effects-section .section-header {
+  color: var(--pf-text-primary, #2d1810) !important;
+  background: rgba(139, 69, 19, 0.1) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ULTRA-AGGRESSIVE overrides for any remaining text */
+.spell-tooltip-overlay .wow-spell-card *,
+.spell-tooltip-overlay .pf-spell-card *,
+.spell-tooltip-content .wow-spell-card *,
+.spell-tooltip-content .pf-spell-card * {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Force override for any inline styles that might still be white or yellow */
+.spell-tooltip-overlay [style*="color"],
+.spell-tooltip-content [style*="color"] {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Special handling for icons and components that should stay their original colors */
+.spell-tooltip-overlay .fa,
+.spell-tooltip-overlay .fas,
+.spell-tooltip-overlay .far,
+.spell-tooltip-overlay .fab,
+.spell-tooltip-content .fa,
+.spell-tooltip-content .fas,
+.spell-tooltip-content .far,
+.spell-tooltip-content .fab {
+  text-shadow: none !important;
+}
+
+/* Component tags should stay white on blue background */
+.spell-tooltip-overlay .component-tag,
+.spell-tooltip-content .component-tag {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* NUCLEAR OPTION - Override ALL text in spell tooltips */
+.spell-tooltip-overlay,
+.spell-tooltip-overlay *,
+.spell-tooltip-content,
+.spell-tooltip-content * {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Override any remaining light/white text colors */
+.spell-tooltip-overlay *[style*="color: #e2e8f0"],
+.spell-tooltip-overlay *[style*="color: #f8fafc"],
+.spell-tooltip-overlay *[style*="color: #cdd6f4"],
+.spell-tooltip-overlay *[style*="color: #94a3b8"],
+.spell-tooltip-overlay *[style*="color: #64748b"],
+.spell-tooltip-overlay *[style*="color: #475569"],
+.spell-tooltip-content *[style*="color: #e2e8f0"],
+.spell-tooltip-content *[style*="color: #f8fafc"],
+.spell-tooltip-content *[style*="color: #cdd6f4"],
+.spell-tooltip-content *[style*="color: #94a3b8"],
+.spell-tooltip-content *[style*="color: #64748b"],
+.spell-tooltip-content *[style*="color: #475569"] {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Force override for specific spell card elements that might still be white */
+.spell-tooltip-overlay .wow-spell-card-description,
+.spell-tooltip-overlay .spell-card-description,
+.spell-tooltip-overlay .pf-spell-description,
+.spell-tooltip-content .wow-spell-card-description,
+.spell-tooltip-content .spell-card-description,
+.spell-tooltip-content .pf-spell-description {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Override component tags to stay white on dark backgrounds */
+.spell-tooltip-overlay .component-tag,
+.spell-tooltip-content .component-tag,
+.spell-tooltip-overlay *[style*="backgroundColor: #1e3a8a"],
+.spell-tooltip-content *[style*="backgroundColor: #1e3a8a"] {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* Smooth transitions for tooltip appearance - don't interfere with spell card scaling */
+.spell-tooltip-overlay {
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    /* Remove transform from animation to avoid conflicts with spell card scaling */
+  }
+  to {
+    opacity: 1;
+    /* Let spell card handle its own transform scaling */
+  }
+}
+
+/* No scrollbars needed - content should fit in wider tooltip */
+
+/* UNIVERSAL SPELL CARD SCALING - Apply to ALL spell cards in ANY tooltip context */
+/* This ensures scaling works for spell library tooltips, action bar tooltips, etc. */
+[class*="tooltip"] .wow-spell-card,
+[class*="tooltip"] .pf-spell-card,
+[class*="Tooltip"] .wow-spell-card,
+[class*="Tooltip"] .pf-spell-card,
+.tooltip .wow-spell-card,
+.tooltip .pf-spell-card {
+  transform: scale(0.75) !important;
+  transform-origin: top left !important;
+  max-width: none !important;
+  min-width: auto !important;
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* UNIVERSAL TOOLTIP CONTAINER FIXES - Ensure all tooltip containers allow proper sizing */
+[class*="tooltip"],
+[class*="Tooltip"],
+.tooltip {
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Clean CSS scaling - no debug styling */
+body .spell-tooltip-overlay .wow-spell-card,
+body .spell-tooltip-overlay .pf-spell-card,
+body .spell-tooltip-content .wow-spell-card,
+body .spell-tooltip-content .pf-spell-card,
+body div[class*="spell-tooltip"] .wow-spell-card,
+body div[class*="spell-tooltip"] .pf-spell-card,
+body [class*="tooltip"] .wow-spell-card,
+body [class*="tooltip"] .pf-spell-card,
+html .spell-tooltip-overlay .wow-spell-card,
+html .spell-tooltip-overlay .pf-spell-card,
+html .spell-tooltip-content .wow-spell-card,
+html .spell-tooltip-content .pf-spell-card {
+  /* Scaling is now handled by inline styles in the component */
+  max-width: none !important;
+  min-width: auto !important;
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* FINAL NUCLEAR OPTION - Override ALL possible light text colors */
+.spell-tooltip-overlay *[style*="color: #e2e8f0"],
+.spell-tooltip-overlay *[style*="color: #f8fafc"],
+.spell-tooltip-overlay *[style*="color: #cdd6f4"],
+.spell-tooltip-overlay *[style*="color: #94a3b8"],
+.spell-tooltip-overlay *[style*="color: #64748b"],
+.spell-tooltip-overlay *[style*="color: #475569"],
+.spell-tooltip-overlay *[style*="color: #ea580c"],
+.spell-tooltip-overlay *[style*="color: #eab308"],
+.spell-tooltip-overlay *[style*="color:#e2e8f0"],
+.spell-tooltip-overlay *[style*="color:#f8fafc"],
+.spell-tooltip-overlay *[style*="color:#cdd6f4"],
+.spell-tooltip-overlay *[style*="color:#94a3b8"],
+.spell-tooltip-overlay *[style*="color:#64748b"],
+.spell-tooltip-overlay *[style*="color:#475569"],
+.spell-tooltip-overlay *[style*="color:#ea580c"],
+.spell-tooltip-overlay *[style*="color:#eab308"],
+.spell-tooltip-content *[style*="color: #e2e8f0"],
+.spell-tooltip-content *[style*="color: #f8fafc"],
+.spell-tooltip-content *[style*="color: #cdd6f4"],
+.spell-tooltip-content *[style*="color: #94a3b8"],
+.spell-tooltip-content *[style*="color: #64748b"],
+.spell-tooltip-content *[style*="color: #475569"],
+.spell-tooltip-content *[style*="color: #ea580c"],
+.spell-tooltip-content *[style*="color: #eab308"],
+.spell-tooltip-content *[style*="color:#e2e8f0"],
+.spell-tooltip-content *[style*="color:#f8fafc"],
+.spell-tooltip-content *[style*="color:#cdd6f4"],
+.spell-tooltip-content *[style*="color:#94a3b8"],
+.spell-tooltip-content *[style*="color:#64748b"],
+.spell-tooltip-content *[style*="color:#475569"],
+.spell-tooltip-content *[style*="color:#ea580c"],
+.spell-tooltip-content *[style*="color:#eab308"] {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* ULTIMATE NUCLEAR OPTION - Override ALL text in spell tooltips regardless of color */
+.spell-tooltip-overlay div,
+.spell-tooltip-overlay span,
+.spell-tooltip-overlay p,
+.spell-tooltip-content div,
+.spell-tooltip-content span,
+.spell-tooltip-content p {
+  color: var(--pf-text-primary, #2d1810) !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Preserve specific colors for icons and special elements */
+.spell-tooltip-overlay .fa,
+.spell-tooltip-overlay .fas,
+.spell-tooltip-overlay .far,
+.spell-tooltip-overlay .fab,
+.spell-tooltip-content .fa,
+.spell-tooltip-content .fas,
+.spell-tooltip-content .far,
+.spell-tooltip-content .fab {
+  text-shadow: none !important;
+}
+
+/* Keep component tags white on blue background */
+.spell-tooltip-overlay *[style*="backgroundColor: #1e3a8a"],
+.spell-tooltip-content *[style*="backgroundColor: #1e3a8a"] {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}

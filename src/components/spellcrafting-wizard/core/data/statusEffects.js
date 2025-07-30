@@ -239,10 +239,10 @@ export const POSITIVE_STATUS_EFFECTS = [
     }
   ];
 
-  /**
-   * Combat advantages that can be used in the buff system
-   */
-  export const COMBAT_ADVANTAGES = [
+/**
+ * Combat advantages that can be used in the buff system
+ */
+export const COMBAT_ADVANTAGES = [
     // Buff advantages
     {
       id: 'attackers_advantage_buff',
@@ -430,10 +430,10 @@ export const POSITIVE_STATUS_EFFECTS = [
     }
   ];
 
-  /**
-   * Negative status effects that can be applied by debuffs
-   */
-  export const NEGATIVE_STATUS_EFFECTS = [
+/**
+ * Negative status effects that can be applied by debuffs
+ */
+export const NEGATIVE_STATUS_EFFECTS = [
     {
       id: 'blinded',
       name: 'Blinded',
@@ -536,31 +536,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       counters: ['physical prowess', 'stamina'],
       saveType: 'constitution'
     },
-    {
-      id: 'stunned',
-      name: 'Stunned',
-      description: 'Incapacitated, cannot move, auto-fails STR and AGI saves',
-      icon: 'spell_frost_stun',
-      category: 'physical',
-      actionPointCost: 3,
-      options: [
-        { id: 'dazed', name: 'Dazed', description: 'Disadvantage on attacks and ability checks' },
-        { id: 'unconscious', name: 'Unconscious', description: 'Falls prone, unable to act, attacks have advantage' },
-        { id: 'electric', name: 'Electric Stun', description: 'Muscles spasm, may conduct to nearby creatures' }
-      ],
-      defaultParameters: {
-        stunDuration: 1, // rounds
-        noReactions: true,
-        disadvantage: true,
-        dropItems: true,
-        criticalHits: true,
-        wakesWhenDamaged: false,
-        conductivity: false,
-        electricDamage: 0
-      },
-      counters: ['actions', 'reactions'],
-      saveType: 'constitution'
-    },
+
     {
       id: 'restrained',
       name: 'Restrained',
@@ -603,75 +579,15 @@ export const POSITIVE_STATUS_EFFECTS = [
       counters: ['spellcasting', 'verbal communication'],
       saveType: 'charisma'
     },
-    {
-      id: 'slowed',
-      name: 'Slowed',
-      description: 'Movement speed and action points reduced',
-      icon: 'spell_frost_frostshock',
-      category: 'physical',
-      actionPointCost: 2,
-      options: [
-        { id: 'hindered', name: 'Hindered Movement', description: 'Movement speed reduced by half' },
-        { id: 'lethargic', name: 'Lethargy', description: 'Action points reduced each round' },
-        { id: 'temporal', name: 'Temporal Slowness', description: 'Actions take longer to perform' }
-      ],
-      defaultParameters: {
-        slowDuration: 3, // rounds
-        speedReduction: 50, // percent
-        actionPointReduction: 1,
-        attackPenalty: -2
-      },
-      counters: ['mobility', 'action economy'],
-      saveType: 'dexterity'
-    },
-    {
-      id: 'burning',
-      name: 'Burning',
-      description: 'Taking continuous fire damage and may spread to nearby flammable objects',
-      icon: 'spell_fire_soulburn',
-      category: 'elemental',
-      actionPointCost: 2,
-      options: [
-        { id: 'mild', name: 'Mild Burn', description: 'Low damage over time' },
-        { id: 'intense', name: 'Intense Burn', description: 'Moderate damage with additional effects' },
-        { id: 'magical', name: 'Magical Fire', description: 'Cannot be extinguished by normal means' }
-      ],
-      defaultParameters: {
-        burnDuration: 3, // rounds
-        burnDamage: '1d6',
-        spreadChance: 20, // percent
-        extinguishDC: 15
-      },
-      counters: ['concentration', 'hiding'],
-      saveType: 'dexterity'
-    },
-    {
-      id: 'frozen',
-      name: 'Frozen',
-      description: 'Movement slowed or stopped and taking cold damage',
-      icon: 'spell_frost_glacier', // Using frost icon for cold damage
-      category: 'elemental',
-      actionPointCost: 3,
-      options: [
-        { id: 'chilled', name: 'Chilled', description: 'Slowed movement and reduced dexterity' },
-        { id: 'frostbitten', name: 'Frostbitten', description: 'Painful cold damage with lasting effects' },
-        { id: 'frozen', name: 'Frozen Solid', description: 'Completely immobilized in ice' }
-      ],
-      defaultParameters: {
-        freezeDuration: 2, // rounds
-        freezeDamage: '1d6',
-        movementReduction: 50, // percent
-        actionPointCost: 1 // extra cost to break free
-      },
-      counters: ['mobility', 'dexterity'],
-      saveType: 'constitution'
-    }
+
+
+
   ];
 
-  /**
-   * Combat disadvantages for the debuff system
-   */
-  export const COMBAT_DISADVANTAGES = [
+/**
+ * Combat disadvantages for the debuff system
+ */
+export const COMBAT_DISADVANTAGES = [
     // Debuff disadvantages
     {
       id: 'attackers_advantage',
@@ -852,7 +768,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {boolean} positive - Whether to search in positive or negative effects
    * @returns {Object|null} - The found status effect or null
    */
-  export function findStatusEffectById(id, positive = true) {
+export function findStatusEffectById(id, positive = true) {
     const effectsArray = positive ? POSITIVE_STATUS_EFFECTS : NEGATIVE_STATUS_EFFECTS;
     return effectsArray.find(effect => effect.id === id) || null;
   }
@@ -862,7 +778,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {string} id - The ID of the status effect to find
    * @returns {Object|null} - The found status effect or null
    */
-  export function findAnyStatusEffectById(id) {
+export function findAnyStatusEffectById(id) {
     return findStatusEffectById(id, true) || findStatusEffectById(id, false);
   }
 
@@ -872,7 +788,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {boolean} isAdvantage - Whether to search in advantages or disadvantages
    * @returns {Object|null} - The found combat advantage/disadvantage or null
    */
-  export function findCombatEffectById(id, isAdvantage = true) {
+export function findCombatEffectById(id, isAdvantage = true) {
     const effectsArray = isAdvantage ? COMBAT_ADVANTAGES : COMBAT_DISADVANTAGES;
     return effectsArray.find(effect => effect.id === id) || null;
   }
@@ -883,7 +799,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {boolean} positive - Whether to search in positive or negative effects
    * @returns {Array} - Array of status effects in the category
    */
-  export function getStatusEffectsByCategory(category, positive = true) {
+export function getStatusEffectsByCategory(category, positive = true) {
     const effectsArray = positive ? POSITIVE_STATUS_EFFECTS : NEGATIVE_STATUS_EFFECTS;
     return effectsArray.filter(effect => effect.category === category);
   }
@@ -894,7 +810,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {Array} existingEffects - Array of existing effects
    * @returns {Object} - {stacks: boolean, conflicts: Array}
    */
-  export function checkStatusEffectStacking(effect, existingEffects) {
+export function checkStatusEffectStacking(effect, existingEffects) {
     if (!effect || !existingEffects || !existingEffects.length) {
       return { stacks: true, conflicts: [] };
     }
@@ -956,7 +872,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {string} effectId - ID of the effect to find counters for
    * @returns {Array} - Array of status effects that counter the given effect
    */
-  export function getStatusEffectCounters(effectId) {
+export function getStatusEffectCounters(effectId) {
     const effect = findAnyStatusEffectById(effectId);
     if (!effect) return [];
 
@@ -993,7 +909,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {string} effectId - The ID of the effect to check immunity for
    * @returns {boolean} - Whether the target is immune
    */
-  export function isImmuneToStatusEffect(target, effectId) {
+export function isImmuneToStatusEffect(target, effectId) {
     if (!target || !target.immunities) return false;
 
     // Direct immunity to the effect
@@ -1025,7 +941,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {Object} parameters - Custom parameters for the effect
    * @returns {string} - A formatted description of the effect
    */
-  export function getStatusEffectDescription(effectId, positive = true, parameters = {}) {
+export function getStatusEffectDescription(effectId, positive = true, parameters = {}) {
     const effect = findStatusEffectById(effectId, positive);
     if (!effect) return 'Unknown effect';
 
@@ -1059,7 +975,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {string} effectIdB - Second effect ID
    * @returns {boolean} - Whether the effects are compatible
    */
-  export function areStatusEffectsCompatible(effectIdA, effectIdB) {
+export function areStatusEffectsCompatible(effectIdA, effectIdB) {
     // Self-comparison is always true
     if (effectIdA === effectIdB) return true;
 
@@ -1086,7 +1002,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {string} effectId - The ID of the negative status effect
    * @returns {string} - 'severe', 'moderate', or 'mild'
    */
-  export function getStatusEffectSeverity(effectId) {
+export function getStatusEffectSeverity(effectId) {
     const severeEffects = ['paralyzed', 'stunned', 'charmed'];
     const moderateEffects = ['blinded', 'frightened', 'poisoned', 'restrained', 'silenced'];
 
@@ -1101,7 +1017,7 @@ export const POSITIVE_STATUS_EFFECTS = [
    * @param {Object} caster - The entity applying the effect
    * @returns {number} - The calculated save DC
    */
-  export function getStatusEffectSaveDC(effectId, caster) {
+export function getStatusEffectSaveDC(effectId, caster) {
     const effect = findAnyStatusEffectById(effectId);
     if (!effect) return 10;
 

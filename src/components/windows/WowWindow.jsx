@@ -1,10 +1,12 @@
-import React from 'react';
-import Draggable from 'react-draggable';
+import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, useCallback } from 'react';
 import { Resizable } from 'react-resizable';
+import { createPortal } from 'react-dom';
+import DraggableWindow from './DraggableWindow';
 import '../../styles/wow-window.css';
+import '../../styles/draggable-window.css';
 import 'react-resizable/css/styles.css';
 
-export default function WowWindow({
+const WowWindow = forwardRef(({
     title,
     children,
     isOpen,
@@ -14,23 +16,110 @@ export default function WowWindow({
     customHeader,
     headerTabs = [],
     activeTab,
-    onTabChange
-}) {
+    onTabChange,
+    centered = false,
+    bounds = "body",
+    onDrag = null,
+    className = ""
+}, ref) => {
     if (!isOpen) return null;
 
-    return (
-        <Draggable
-            handle=".window-header"
+    // Create refs for components
+    const draggableRef = useRef(null);
+    const windowElementRef = useRef(null);
+
+    // State for window size
+    const [windowSize, setWindowSize] = useState({
+        width: defaultSize.width,
+        height: defaultSize.height
+    });
+
+    // Expose methods to parent component
+    useImperativeHandle(ref, () => ({
+        getElement: () => windowElementRef.current,
+        centerWindow: () => {
+            if (draggableRef.current) {
+                draggableRef.current.centerWindow();
+            }
+        }
+    }));
+
+    // Effect to handle window resize for centered windows
+    useEffect(() => {
+        // Center the window on mount if centered is true
+        if (centered && draggableRef.current) {
+            // Use a timeout to ensure the window has rendered with its actual size
+            const timer = setTimeout(() => {
+                draggableRef.current.centerWindow();
+            }, 100);
+
+            return () => clearTimeout(timer);
+        }
+
+        // Handle window resize for centered windows
+        if (centered) {
+            const handleResize = () => {
+                if (draggableRef.current) {
+                    draggableRef.current.centerWindow();
+                }
+            };
+
+            // Add event listener
+            window.addEventListener('resize', handleResize);
+
+            // Clean up
+            return () => {
+                window.removeEventListener('resize', handleResize);
+            };
+        }
+    }, [centered]);
+
+    // Handle resize
+    const handleResize = (event, { size }) => {
+        setWindowSize({
+            width: size.width,
+            height: size.height
+        });
+    };
+
+    // Handle wheel events within window content to prevent conflicts with grid
+    const handleWindowWheel = useCallback((e) => {
+        // Allow wheel events to bubble normally within window content
+        // This prevents the Grid component from intercepting wheel events
+        // when they occur within WoW windows
+        e.stopPropagation();
+    }, []);
+
+    // Use createPortal to render the window at the document body level
+    // This ensures it's not constrained by any parent containers
+    return createPortal(
+        <DraggableWindow
+            ref={draggableRef}
+            isOpen={isOpen}
             defaultPosition={defaultPosition}
+            centered={centered}
+            bounds={bounds}
+            handleClassName="window-header"
+            zIndex={10000}
+            onDrag={onDrag}
         >
             <Resizable
-                width={defaultSize.width}
-                height={defaultSize.height}
+                width={windowSize.width}
+                height={windowSize.height}
                 minConstraints={[300, 400]}
-                maxConstraints={[800, 1000]}
+                maxConstraints={[1200, 1000]}
+                onResize={handleResize}
+                resizeHandles={['se']}
             >
-                <div className="wow-window">
-                    <div className="window-header">
+                <div
+                    className={`wow-window ${className}`}
+                    style={{
+                        width: windowSize.width,
+                        height: windowSize.height
+                    }}
+                    ref={windowElementRef}
+                >
+                    <div className="window-header draggable-window-handle dnd-theme-header">
                         <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
                             {customHeader || (
                                 <>
@@ -43,30 +132,53 @@ export default function WowWindow({
                                                 <button
                                                     key={tab.id}
                                                     className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
-                                                    onClick={() => onTabChange && onTabChange(tab.id)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (onTabChange) onTabChange(tab.id);
+                                                    }}
+                                                    title={tab.tooltip || tab.name}
                                                 >
                                                     {tab.icon && (
                                                         <img
                                                             src={tab.icon}
-                                                            alt={tab.label}
+                                                            alt={tab.name}
                                                             className="tab-icon-img"
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                                            }}
                                                         />
                                                     )}
-                                                    <span>{tab.label}</span>
+                                                    {tab.label && <span>{tab.label}</span>}
                                                 </button>
                                             ))}
                                         </div>
                                     )}
                                 </>
                             )}
-                            <button className="window-close" onClick={onClose} style={{ position: 'absolute', right: '0', top: '50%', transform: 'translateY(-50%)' }}>×</button>
+                            <button
+                                className="window-close"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (onClose) onClose();
+                                }}
+                                style={{ position: 'absolute', right: '0', top: '50%', transform: 'translateY(-50%)' }}
+                            >
+                                ×
+                            </button>
                         </div>
                     </div>
-                    <div className="window-content">
+                    <div className="window-content" onWheel={handleWindowWheel}>
                         {children}
                     </div>
                 </div>
             </Resizable>
-        </Draggable>
+        </DraggableWindow>,
+        document.body
     );
-}
+});
+
+// Add display name to fix React warning about missing static flag
+WowWindow.displayName = 'WowWindow';
+
+export default WowWindow;

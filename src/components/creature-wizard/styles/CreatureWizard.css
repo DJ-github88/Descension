@@ -1,0 +1,300 @@
+/* D&D/Pathfinder Themed Creature Wizard */
+.creature-wizard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #f0e6d2; /* Parchment background */
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.creature-wizard-header {
+  padding: 15px 20px;
+  background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
+  border-bottom: 1px solid #a08c70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.creature-wizard-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #f0e6d2; /* Parchment color */
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.wizard-progress {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.progress-steps {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 24px;
+  right: 24px;
+  height: 2px;
+  background: linear-gradient(to right,
+    rgba(240, 230, 210, 0.2),
+    rgba(240, 230, 210, 0.4),
+    rgba(240, 230, 210, 0.2)
+  );
+  z-index: 1;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.progress-step:hover {
+  background-color: rgba(240, 230, 210, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5a6c7d, #34495e);
+  color: #f0e6d2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  margin-bottom: 3px;
+  position: relative;
+  z-index: 3;
+  border: 2px solid rgba(240, 230, 210, 0.3);
+  font-size: 11px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.step-number::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(240, 230, 210, 0.2), transparent);
+  z-index: -1;
+}
+
+.progress-step.active .step-number {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: #ffffff;
+  border-color: #f0e6d2;
+  box-shadow:
+    0 0 10px rgba(52, 152, 219, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.progress-step.completed .step-number {
+  background: linear-gradient(135deg, #27ae60, #229954);
+  color: #ffffff;
+  border-color: #f0e6d2;
+  box-shadow:
+    0 0 8px rgba(39, 174, 96, 0.4),
+    0 3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.step-label {
+  font-size: 9px;
+  color: rgba(240, 230, 210, 0.9);
+  text-align: center;
+  font-weight: 500;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active .step-label {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+.progress-step.completed .step-label {
+  color: rgba(240, 230, 210, 0.95);
+  font-weight: 600;
+}
+
+.progress-step:hover .step-number {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border-color: #ffffff;
+  box-shadow:
+    0 0 12px rgba(74, 144, 226, 0.5),
+    0 3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.progress-step:hover .step-label {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+.creature-wizard-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #f0e6d2; /* Parchment background */
+}
+
+.creature-wizard-footer {
+  padding: 12px 25px;
+  background: linear-gradient(to bottom, #2c3e50, #1a252f); /* Rich blue-grey gradient */
+  border-top: 2px solid #34495e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.creature-wizard-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(240, 230, 210, 0.3), transparent);
+}
+
+.wizard-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(52, 73, 94, 0.4);
+  border-radius: 20px;
+  padding: 8px 16px;
+  border: 1px solid rgba(240, 230, 210, 0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  flex: 0 0 auto;
+}
+
+.wizard-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.wizard-button {
+  padding: 12px 24px;
+  border: 2px solid rgba(240, 230, 210, 0.3);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wizard-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.wizard-button:hover::before {
+  left: 100%;
+}
+
+.wizard-button.primary {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.wizard-button.primary:hover {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.wizard-button.primary:disabled {
+  background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.wizard-button.secondary {
+  background: linear-gradient(135deg, #5a6c7d, #34495e);
+  color: #f0e6d2;
+  border-color: rgba(240, 230, 210, 0.4);
+  box-shadow: 0 4px 8px rgba(52, 73, 94, 0.3);
+}
+
+.wizard-button.secondary:hover {
+  background: linear-gradient(135deg, #6a7c8d, #44596e);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(52, 73, 94, 0.4);
+  border-color: rgba(240, 230, 210, 0.6);
+}
+
+.wizard-button.secondary:disabled {
+  background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+  color: rgba(240, 230, 210, 0.5);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.wizard-button:disabled::before {
+  display: none;
+}

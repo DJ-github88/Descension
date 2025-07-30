@@ -4,6 +4,12 @@ import '../../styles/item-wizard.css';
 import '../../styles/step-tooltip.css';
 import { WOW_ICONS, getIconUrl } from './wowIcons';
 import ItemTooltip from './ItemTooltip';
+import ChanceOnBeingHitConfig from './ChanceOnBeingHitConfig';
+import StepChanceOnHit from './steps/StepChanceOnHit';
+import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { RARITY_COLORS } from '../../constants/itemConstants';
+import { CURRENCY_TYPES } from './itemConstants';
+import ExternalItemPreview from './ExternalItemPreview';
 
 // Default image to show when item image fails to load
 const DEFAULT_ITEM_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
@@ -14,10 +20,10 @@ const STEPS = {
     SLOT_AND_SIZE: 2,
     STATS: 3,
     COMBAT_STATS: 4,
-    UTILITY: 5,
-    VALUE: 6,
-    APPEARANCE: 7,
-    REVIEW: 8
+    CHANCE_ON_HIT: 5,
+    UTILITY: 6,
+    VALUE: 7,
+    APPEARANCE: 8
 };
 
 const STEP_INFO = {
@@ -54,6 +60,11 @@ const STEP_INFO = {
         icon: 'achievement_pvp_p_14',
         description: 'Define the item\'s combat capabilities. From devastating damage to impenetrable defenses, make it worthy of battle.'
     },
+    [STEPS.CHANCE_ON_HIT]: {
+        name: 'On Being Hit',
+        icon: 'ability_warrior_revenge',
+        description: 'Configure effects that trigger when the wearer is struck in battle. Create defensive mechanisms that punish attackers or protect the bearer.'
+    },
     [STEPS.UTILITY]: {
         name: 'Utility',
         icon: 'trade_engineering',
@@ -66,18 +77,13 @@ const STEP_INFO = {
     },
     [STEPS.APPEARANCE]: {
         name: 'Appearance',
-        icon: 'inv_misc_bag_28_halloween', 
+        icon: 'inv_misc_bag_28_halloween',
         description: 'Design the item\'s visual appearance. The finest items are as magnificent to behold as they are powerful to use.'
-    },
-    [STEPS.REVIEW]: {
-        name: 'Review',
-        icon: 'inv_fabric_moonrag_01',
-        description: 'Review your creation in all its glory. Is it everything you imagined it would be?'
     }
 };
 const getStepInfo = (step, itemType) => {
     if (step === STEPS.STATS) {
-        return itemType === 'miscellaneous' 
+        return itemType === 'miscellaneous'
             ? STEP_INFO[step].getMiscInfo()
             : STEP_INFO[step].getRegularInfo();
     }
@@ -122,85 +128,85 @@ const HAND_OPTIONS = {
 
 const WEAPON_SUBTYPES = {
     // Ranged Weapons
-    BOW: { 
-        name: 'Bow', 
-        icon: 'ability_hunter_aimedshot', 
+    BOW: {
+        name: 'Bow',
+        icon: 'ability_hunter_aimedshot',
         slot: 'RANGED',
         description: 'Traditional ranged weapon using arrows'
     },
-    CROSSBOW: { 
-        name: 'Crossbow', 
-        icon: 'inv_weapon_crossbow_02', 
+    CROSSBOW: {
+        name: 'Crossbow',
+        icon: 'inv_weapon_crossbow_02',
         slot: 'RANGED',
         description: 'Mechanical ranged weapon with high precision'
     },
-    THROWN: { 
-        name: 'Thrown Weapon', 
-        icon: 'inv_throwingaxe_03', 
+    THROWN: {
+        name: 'Thrown Weapon',
+        icon: 'inv_throwingaxe_03',
         slot: 'RANGED',
         description: 'Weapons designed to be thrown at enemies'
     },
-    WAND: { 
-        name: 'Wand', 
-        icon: 'inv_wand_11', 
+    WAND: {
+        name: 'Wand',
+        icon: 'inv_wand_11',
         slot: 'RANGED',
         description: 'Magic channeling device for spellcasters'
     },
-    
+
     // One-Handed Weapons
-    SWORD: { 
-        name: 'Sword', 
-        icon: 'inv_sword_20', 
+    SWORD: {
+        name: 'Sword',
+        icon: 'inv_sword_20',
         slot: 'ONE_HANDED',
         description: 'Versatile bladed weapon for slashing and thrusting'
     },
-    AXE: { 
-        name: 'Axe', 
-        icon: 'inv_axe_17', 
+    AXE: {
+        name: 'Axe',
+        icon: 'inv_axe_17',
         slot: 'ONE_HANDED',
         description: 'Powerful chopping weapon with cleaving edge'
     },
-    MACE: { 
-        name: 'Mace', 
-        icon: 'inv_mace_20', 
+    MACE: {
+        name: 'Mace',
+        icon: 'inv_mace_20',
         slot: 'ONE_HANDED',
         description: 'Blunt weapon effective against armored foes'
     },
-    DAGGER: { 
-        name: 'Dagger', 
-        icon: 'inv_weapon_shortblade_15', 
+    DAGGER: {
+        name: 'Dagger',
+        icon: 'inv_weapon_shortblade_15',
         slot: 'ONE_HANDED',
         description: 'Quick stabbing weapon for close combat'
     },
-    
+
     // Two-Handed Weapons
-    GREATSWORD: { 
-        name: 'Greatsword', 
-        icon: 'inv_sword_34', 
+    GREATSWORD: {
+        name: 'Greatsword',
+        icon: 'inv_sword_34',
         slot: 'TWO_HANDED',
         description: 'Massive sword requiring both hands to wield'
     },
-    GREATAXE: { 
-        name: 'Greataxe', 
-        icon: 'inv_axe_09', 
+    GREATAXE: {
+        name: 'Greataxe',
+        icon: 'inv_axe_09',
         slot: 'TWO_HANDED',
         description: 'Heavy two-handed axe for devastating strikes'
     },
-    MAUL: { 
-        name: 'Maul', 
-        icon: 'inv_hammer_16', 
+    MAUL: {
+        name: 'Maul',
+        icon: 'inv_hammer_16',
         slot: 'TWO_HANDED',
         description: 'Massive hammer that crushes armor and bone'
     },
-    POLEARM: { 
-        name: 'Polearm', 
-        icon: 'inv_spear_05', 
+    POLEARM: {
+        name: 'Polearm',
+        icon: 'inv_spear_05',
         slot: 'TWO_HANDED',
         description: 'Long-reaching weapon with extended range'
     },
-    STAFF: { 
-        name: 'Staff', 
-        icon: 'inv_staff_20', 
+    STAFF: {
+        name: 'Staff',
+        icon: 'inv_staff_20',
         slot: 'TWO_HANDED',
         description: 'Versatile weapon favored by spellcasters'
     }
@@ -235,23 +241,23 @@ const OFF_HAND_TYPES = {
 };
 
 const ARMOR_QUALITIES = {
-    CLOTH: { 
-        name: 'Cloth', 
+    CLOTH: {
+        name: 'Cloth',
         icon: 'inv_chest_cloth_01',
         description: 'Light fabric armor for spellcasters'
     },
-    LEATHER: { 
-        name: 'Leather', 
+    LEATHER: {
+        name: 'Leather',
         icon: 'inv_chest_leather_01',
         description: 'Medium armor made from treated hide'
     },
-    MAIL: { 
-        name: 'Mail', 
+    MAIL: {
+        name: 'Mail',
         icon: 'inv_chest_chain_05',
         description: 'Heavy armor of interlocking metal rings'
     },
-    PLATE: { 
-        name: 'Plate', 
+    PLATE: {
+        name: 'Plate',
         icon: 'inv_chest_plate04',
         description: 'Heaviest armor made of solid metal plates'
     }
@@ -259,96 +265,96 @@ const ARMOR_QUALITIES = {
 
 const EQUIPMENT_SLOTS = {
     // Armor slots
-    head: { 
-        icon: 'inv_helmet_01', 
+    head: {
+        icon: 'inv_helmet_01',
         info: 'Head',
         type: 'armor',
         description: 'Protective headgear'
     },
-    shoulders: { 
-        icon: 'inv_shoulder_01', 
+    shoulders: {
+        icon: 'inv_shoulder_01',
         info: 'Shoulders',
         type: 'armor',
         description: 'Shoulder armor and pauldrons'
     },
-    back: { 
-        icon: 'inv_misc_cape_01', 
+    back: {
+        icon: 'inv_misc_cape_01',
         info: 'Back',
         type: 'armor',
         description: 'Cloaks and capes'
     },
-    chest: { 
-        icon: 'inv_chest_cloth_01', 
+    chest: {
+        icon: 'inv_chest_cloth_01',
         info: 'Chest',
         type: 'armor',
         description: 'Body armor and breastplates'
     },
-    wrists: { 
-        icon: 'inv_bracer_02', 
+    wrists: {
+        icon: 'inv_bracer_02',
         info: 'Wrists',
         type: 'armor',
         description: 'Bracers and wristguards'
     },
-    hands: { 
-        icon: 'inv_gauntlets_01', 
+    hands: {
+        icon: 'inv_gauntlets_01',
         info: 'Hands',
         type: 'armor',
         description: 'Gloves and gauntlets'
     },
-    waist: { 
-        icon: 'inv_belt_01', 
+    waist: {
+        icon: 'inv_belt_01',
         info: 'Waist',
         type: 'armor',
         description: 'Belts and girdles'
     },
-    legs: { 
-        icon: 'inv_pants_01', 
+    legs: {
+        icon: 'inv_pants_01',
         info: 'Legs',
         type: 'armor',
         description: 'Leggings and greaves'
     },
-    feet: { 
-        icon: 'inv_boots_01', 
+    feet: {
+        icon: 'inv_boots_01',
         info: 'Feet',
         type: 'armor',
         description: 'Boots and sabatons'
     },
-    off_hand: { 
-        icon: 'inv_shield_01', 
+    off_hand: {
+        icon: 'inv_shield_01',
         info: 'Off Hand',
         type: 'armor',
         description: 'Shields and defensive items'
     },
 
     // Accessory slots
-    neck: { 
-        icon: 'inv_jewelry_necklace_01', 
+    neck: {
+        icon: 'inv_jewelry_necklace_01',
         info: 'Neck',
         type: 'accessory',
         description: 'Necklaces and amulets'
     },
-    ring: { 
-        icon: 'inv_jewelry_ring_01', 
+    ring: {
+        icon: 'inv_jewelry_ring_01',
         info: 'Ring',
         type: 'accessory',
         description: 'Magical rings with powerful effects'
     },
-    trinket: { 
-        icon: 'inv_jewelry_talisman_01', 
+    trinket: {
+        icon: 'inv_jewelry_talisman_01',
         info: 'Trinket',
         type: 'accessory',
         description: 'Unique items with special abilities'
     },
 
     // Clothing slots
-    shirt: { 
-        icon: 'inv_shirt_01', 
+    shirt: {
+        icon: 'inv_shirt_01',
         info: 'Shirt',
         type: 'clothing',
         description: 'Cosmetic undershirt'
     },
-    tabard: { 
-        icon: 'inv_shirt_guildtabard_01', 
+    tabard: {
+        icon: 'inv_shirt_guildtabard_01',
         info: 'Tabard',
         type: 'clothing',
         description: 'Decorative guild or faction tabard'
@@ -536,74 +542,83 @@ const COMBAT_STATS = {
         description: 'Bonus to initiative rolls'
     },
     armorClass: {
-        name: 'Armor Class',
+        name: 'Armor',
         icon: 'inv_shield_04',
-        description: 'Bonus to Armor Class'
+        description: 'Bonus to Armor'
     },
-    critChance: {
-        name: 'Critical Chance',
-        icon: 'ability_rogue_unfairadvantage',
-        description: 'Chance to land critical hits'
-    },
-    hitChance: {
-        name: 'Hit Chance',
-        icon: 'ability_hunter_snipershot',
-        description: 'Accuracy of your attacks'
-    }
+
 };
 
 const DAMAGE_TYPES = {
-    fire: { 
-        name: 'Fire', 
+    fire: {
+        name: 'Fire',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg',
         color: '#ff4400'
     },
-    cold: { 
-        name: 'Cold', 
+    cold: {
+        name: 'Cold',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg',
         color: '#3399ff'
     },
-    lightning: { 
-        name: 'Lightning', 
+    lightning: {
+        name: 'Lightning',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg',
         color: '#ffff00'
     },
-    acid: { 
-        name: 'Acid', 
+    acid: {
+        name: 'Acid',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_02.jpg',
         color: '#00ff00'
     },
-    force: { 
-        name: 'Force', 
+    force: {
+        name: 'Force',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg',
         color: '#ff66ff'
     },
-    necrotic: { 
-        name: 'Necrotic', 
+    necrotic: {
+        name: 'Necrotic',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg',
         color: '#4B0082'
     },
-    radiant: { 
-        name: 'Radiant', 
+    radiant: {
+        name: 'Radiant',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg',
         color: '#FFFACD'
     },
-    poison: { 
-        name: 'Poison', 
+    poison: {
+        name: 'Poison',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_dualweild.jpg',
         color: '#008000'
     },
-    psychic: { 
-        name: 'Psychic', 
+    psychic: {
+        name: 'Psychic',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindtwisting.jpg',
         color: '#FF00FF'
     },
-    thunder: { 
-        name: 'Thunder', 
+    thunder: {
+        name: 'Thunder',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_thunderclap.jpg',
         color: '#0066ff'
     }
 };
+
+// Enhanced resistance levels based on spell system
+const RESISTANCE_LEVELS = [
+    // Healing from damage (negative multipliers)
+    { value: -200, label: 'Vampiric', description: 'Heals for 2× damage taken', multiplier: -2.0, color: '#ff0080' },
+    { value: -100, label: 'Absorbing', description: 'Heals for 1× damage taken', multiplier: -1.0, color: '#ff4080' },
+    { value: -50, label: 'Draining', description: 'Heals for 0.5× damage taken', multiplier: -0.5, color: '#ff8080' },
+    { value: -25, label: 'Siphoning', description: 'Heals for 0.25× damage taken', multiplier: -0.25, color: '#ffb080' },
+
+    // Standard resistance levels
+    { value: 0, label: 'Immune', description: 'Takes no damage', multiplier: 0.0, color: '#4caf50' },
+    { value: 50, label: 'Resistant', description: 'Takes 0.5× damage', multiplier: 0.5, color: '#8bc34a' },
+    { value: 75, label: 'Guarded', description: 'Takes 0.75× damage', multiplier: 0.75, color: '#cddc39' },
+    { value: 100, label: 'Normal', description: 'Takes normal damage', multiplier: 1.0, color: '#9e9e9e' },
+    { value: 125, label: 'Susceptible', description: 'Takes 1.25× damage', multiplier: 1.25, color: '#ff9800' },
+    { value: 150, label: 'Exposed', description: 'Takes 1.5× damage', multiplier: 1.5, color: '#ff5722' },
+    { value: 200, label: 'Vulnerable', description: 'Takes 2× damage', multiplier: 2.0, color: '#f44336' }
+];
 
 const UTILITY_STATS = {
     movementSpeed: {
@@ -726,16 +741,8 @@ const QUALITY_TYPES = {
 
 // Quality color mapping
 const getQualityColor = (quality) => {
-    const colors = {
-        poor: '#9d9d9d',
-        common: '#ffffff',
-        uncommon: '#1eff00',
-        rare: '#0070dd',
-        epic: '#a335ee',
-        legendary: '#ff8000',
-        artifact: '#e6cc80'
-    };
-    return colors[quality] || colors.common;
+    const qualityLower = quality?.toLowerCase() || 'common';
+    return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
 };
 
 // Process resistances
@@ -757,6 +764,8 @@ const getResistanceDescription = (resistance) => resistance;
 
 
 export default function ItemWizard({ onClose, onComplete, onCancel, initialData = {} }) {
+    console.log('ItemWizard rendering with props:', { onClose, onComplete, onCancel, initialData });
+
     const handleClose = (item = null) => {
         if (item) {
             const formattedItem = {
@@ -769,43 +778,59 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 offHandType: itemData.offHandType,
                 hand: itemData.hand,
                 requiredLevel: itemData.requiredLevel || 0,
-                    
+
                     // For weapons
                     ...(itemData.type === 'weapon' && {
                         weaponSlot: itemData.weaponSlot,
                         hand: itemData.hand,
                         weaponStats: itemData.weaponStats
                     }),
-                    
+
                     // Armor class directly at top level for display
                     armorClass: itemData.combatStats?.armorClass?.value || 0,
-                    
+
                     // Slots (important for display)
-                    slots: itemData.type === 'weapon' ? 
-                          [itemData.weaponSlot] : 
+                    slots: itemData.type === 'weapon' ?
+                          [itemData.weaponSlot] :
                           itemData.slots || [],
-                    
+
                     // Base stats - preserve structure with values and isPercentage
                     baseStats: itemData.baseStats || {},
-                    
+
                     // Combat stats - preserve structure
                     combatStats: itemData.combatStats || {},
-                    
+
                     // Utility stats - preserve structure
                     utilityStats: itemData.utilityStats || {},
-                    
+
                     // Value - preserve format
                     value: itemData.value || { gold: 0, silver: 0, copper: 0 },
-                    
+
                     // Appearance
                     iconId: itemData.iconId,
                     imageUrl: itemData.imageUrl || (itemData.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${itemData.iconId}.jpg` : null),
-    
+
+                    // Set stackable property based on item type
+                    stackable: (itemData.type === 'consumable' || itemData.type === 'miscellaneous'),
+                    maxStackSize: (itemData.type === 'consumable' || itemData.type === 'miscellaneous') ? 5 : undefined,
+
+                    // Preserve dimensions if they were provided in initialData
+                    width: initialData.width || itemData.width || 1,
+                    height: initialData.height || itemData.height || 1,
+
+// Currency item properties
+...(itemData.type === 'currency' && {
+    subtype: itemData.subtype,
+    currencyType: itemData.currencyType || 'gold',
+    currencyValue: itemData.currencyValue || 1,
+    isCurrency: true
+}),
+
 // Miscellaneous item properties
 ...(itemData.type === 'miscellaneous' && {
     // Common properties
     subtype: itemData.subtype,
-    
+
     // Quest items
     ...(itemData.subtype === 'QUEST' && {
         questGiver: itemData.questGiver || '',
@@ -826,6 +851,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         source: itemData.source || '',
         preservationMethod: itemData.preservationMethod || ''
     }),
+
+
 
     // Crafting materials
     ...(itemData.subtype === 'CRAFTING' && {
@@ -863,10 +890,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             estimatedValue: itemData.estimatedValue || '',
             description: itemData.description || ''
         })
-    
+
 }),
                 };
-                
+
                 if (onComplete) {
                     onComplete(formattedItem);
                 } else if (onClose) {
@@ -878,11 +905,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 onClose(null);
             }
         };
-    
+
     // Helper functions for consistent display formatting
     function getDamageTypeColor(type) {
         if (!type) return '#ffffff';
-        
+
         const colors = {
             slashing: '#A52A2A',
             piercing: '#C0C0C0',
@@ -898,31 +925,31 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             psychic: '#FF69B4',
             thunder: '#0066ff'
         };
-        
+
         return colors[type.toLowerCase()] || '#ffffff';
     }
-    
+
     function getWeaponSlotDisplay(slot, hand) {
         if (!slot) return '';
-        
+
         if (slot === 'ONE_HANDED') {
             if (hand === 'MAIN_HAND') return 'Main Hand';
             if (hand === 'OFF_HAND') return 'Off Hand';
             if (hand === 'ONE_HAND') return 'One Hand';
             return 'One-Handed';
         }
-        
+
         if (slot === 'TWO_HANDED') return 'Two-Handed';
         if (slot === 'RANGED') return 'Ranged';
-        
-        return slot.split('_').map(word => 
+
+        return slot.split('_').map(word =>
             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
     }
-    
+
     function getWeaponSubtypeDisplay(subtype) {
         if (!subtype) return '';
-        
+
         // Map of subtypes to display names
         const subtypeMap = {
             SWORD: 'Sword',
@@ -939,15 +966,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             THROWN: 'Thrown',
             WAND: 'Wand'
         };
-        
-        return subtypeMap[subtype] || subtype.split('_').map(word => 
+
+        return subtypeMap[subtype] || subtype.split('_').map(word =>
             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
     }
-    
+
     function getArmorSlotDisplay(slot) {
         if (!slot) return '';
-        
+
         // Map common slots to display names
         const slotMap = {
             head: 'Head',
@@ -961,12 +988,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             off_hand: 'Off Hand',
             back: 'Back'
         };
-        
-        return slotMap[slot] || slot.split('_').map(word => 
+
+        return slotMap[slot] || slot.split('_').map(word =>
             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
     }
-    
+
     function getArmorSubtypeDisplay(slot, offHandType, subtype) {
         if (slot === 'off_hand' && offHandType) {
             // Map off-hand types
@@ -977,10 +1004,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 TOTEM: 'Totem',
                 IDOL: 'Idol'
             };
-            return offHandMap[offHandType] || offHandType.charAt(0).toUpperCase() + 
+            return offHandMap[offHandType] || offHandType.charAt(0).toUpperCase() +
                    offHandType.slice(1).toLowerCase();
         }
-        
+
         if (subtype) {
             // Map armor types
             const armorMap = {
@@ -989,16 +1016,16 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 MAIL: 'Mail',
                 PLATE: 'Plate'
             };
-            return armorMap[subtype] || subtype.charAt(0).toUpperCase() + 
+            return armorMap[subtype] || subtype.charAt(0).toUpperCase() +
                    subtype.slice(1).toLowerCase();
         }
-        
+
         return '';
     }
-    
+
     function getAccessorySlotDisplay(slot) {
         if (!slot) return '';
-        
+
         const slotMap = {
             neck: 'Neck',
             ring: 'Ring',
@@ -1008,8 +1035,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             trinket1: 'Trinket',
             trinket2: 'Trinket'
         };
-        
-        return slotMap[slot] || slot.split('_').map(word => 
+
+        return slotMap[slot] || slot.split('_').map(word =>
             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
     }
@@ -1046,12 +1073,24 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 manaRegen: { value: 0, isPercentage: false },
                 initiative: { value: 0, isPercentage: false },
                 armorClass: { value: 0, isPercentage: false },
-                critChance: { value: 0, isPercentage: true },
-                hitChance: { value: 0, isPercentage: true },
+
                 spellDamage: {
                     types: {}
                 },
-                resistances: {}
+                resistances: {},
+                onHitEffects: {
+                    enabled: false,
+                    procType: 'dice',
+                    procChance: 15,
+                    diceThreshold: 18,
+                    cardProcRule: 'face_cards',
+                    coinProcRule: 'all_heads',
+                    coinCount: 3,
+                    procSuit: 'hearts',
+                    spellEffect: null,
+                    customEffects: [],
+                    useRollableTable: false
+                }
             },
             utilityStats: {
                 movementSpeed: { value: 0, isPercentage: false },
@@ -1127,20 +1166,22 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     }, [itemData.type]);
 
     const updateItemData = (newData) => {
+        console.log('updateItemData called with:', newData);
         setItemData(prevData => {
             // Create a new object with the updates
             const updatedData = { ...prevData, ...newData };
-            
+
             // Don't reset quality when changing equipment slot
             if (newData.slots && !newData.quality) {
                 updatedData.quality = prevData.quality;
             }
-            
+
             // Don't reset quality when changing armor type
             if (newData.subtype && !newData.quality) {
                 updatedData.quality = prevData.quality;
             }
-            
+
+            console.log('updateItemData result:', updatedData);
             return updatedData;
         });
     };
@@ -1153,10 +1194,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         <h3 className="wow-heading quality-text">Choose Item Type</h3>
                         <div className="item-type-grid">
                             {Object.keys(ITEM_TYPES).map(type => (
-                                <button 
+                                <button
                                     key={type}
                                     className={`type-button ${itemData.type === type ? 'selected' : ''}`}
-                                    onClick={() => updateItemData({ type, subtype: '', slots: [] })}
+                                    onClick={() => updateItemData({
+                                        type,
+                                        subtype: type === 'consumable' ? 'potion' : '',
+                                        slots: [],
+                                        consumableType: type === 'consumable' ? 'POTION' : undefined
+                                    })}
                                 >
                                     <img src={`https://wow.zamimg.com/images/wow/icons/large/${ITEM_TYPES[type].icon}.jpg`} alt={ITEM_TYPES[type].name} />
                                     <span className="wow-text">{ITEM_TYPES[type].name}</span>
@@ -1181,7 +1227,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     style={{ color: QUALITY_TYPES[itemData.quality]?.color }}
                                 />
                             </div>
-                
+
                             <div className="form-group">
                                 <label>Quality:</label>
                                 <div className="quality-grid">
@@ -1193,9 +1239,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                             onClick={() => updateItemData({ quality })}
                                             style={{ '--wow-accent-color': data.color }}
                                         >
-                                            <img 
-                                                src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`} 
-                                                alt={data.name} 
+                                            <img
+                                                src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
+                                                alt={data.name}
                                             />
                                             <span>{data.name}</span>
                                             <div className="flavor-text" style={{ color: data.color }}>
@@ -1205,14 +1251,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     ))}
                                 </div>
                             </div>
-                
+
                             <div className="form-group">
                                 <label>Level Requirement:</label>
                                 <div className="level-requirement-input">
                                     <div className="level-input-group">
-                                        <img 
-                                            src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_championsgrace.jpg" 
-                                            alt="Level Requirement" 
+                                        <img
+                                            src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_championsgrace.jpg"
+                                            alt="Level Requirement"
                                             className="level-icon"
                                         />
                                         <button
@@ -1244,7 +1290,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 </div>
                             </div>
-                
+
                             <div className="form-group">
                                 <label>Description:</label>
                                 <textarea
@@ -1262,7 +1308,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 return (
                     <div className="wizard-step">
                         <h3>Equipment Slot</h3>
-                        
+
                         {itemData.type === 'weapon' && (
                             <>
                                 <div className="slot-selection">
@@ -1272,13 +1318,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                             <div
                                                 key={slot}
                                                 className={`slot-option ${itemData.weaponSlot === slot ? 'selected' : ''}`}
-                                                onClick={() => updateItemData({ 
+                                                onClick={() => updateItemData({
                                                     weaponSlot: slot,
                                                     hand: null,
                                                     subtype: null
                                                 })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                     alt={data.name}
                                                     onError={(e) => {
@@ -1302,7 +1348,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     className={`hand-option ${itemData.hand === hand ? 'selected' : ''}`}
                                                     onClick={() => updateItemData({ hand })}
                                                 >
-                                                    <img 
+                                                    <img
                                                         src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                         alt={data.name}
                                                         onError={(e) => {
@@ -1329,7 +1375,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                         className={`subtype-option ${itemData.subtype === type ? 'selected' : ''}`}
                                                         onClick={() => updateItemData({ subtype: type })}
                                                     >
-                                                        <img 
+                                                        <img
                                                             src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                             alt={data.name}
                                                             onError={(e) => {
@@ -1370,13 +1416,20 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     className={`slot-option ${itemData.slots?.includes(slot) ? 'selected' : ''}`}
                                                     onClick={() => {
                                                         const quality = itemData.quality;
-                                                        updateItemData({ 
-                                                            slots: [slot], 
+                                                        const updates = {
+                                                            slots: [slot],
                                                             quality
-                                                        });
+                                                        };
+
+                                                        // Set default off-hand type if selecting off_hand slot
+                                                        if (slot === 'off_hand') {
+                                                            updates.offHandType = 'SHIELD';
+                                                        }
+
+                                                        updateItemData(updates);
                                                     }}
                                                 >
-                                                    <img 
+                                                    <img
                                                         src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                         alt={data.info}
                                                         onError={(e) => {
@@ -1399,12 +1452,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     key={quality}
                                                     className={`quality-option ${itemData.subtype === quality ? 'selected' : ''}`}
                                                     onClick={() => {
-                                                        updateItemData({ 
+                                                        updateItemData({
                                                             subtype: quality
                                                         });
                                                     }}
                                                 >
-                                                    <img 
+                                                    <img
                                                         src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                         alt={data.name}
                                                         onError={(e) => {
@@ -1429,7 +1482,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     className={`quality-option ${itemData.offHandType === type ? 'selected' : ''}`}
                                                     onClick={() => updateItemData({ offHandType: type })}
                                                 >
-                                                    <img 
+                                                    <img
                                                         src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                         alt={data.name}
                                                         onError={(e) => {
@@ -1452,9 +1505,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 <div
                                                     key={type}
                                                     className={`quality-option ${itemData.consumableType === type ? 'selected' : ''}`}
-                                                    onClick={() => updateItemData({ consumableType: type })}
+                                                    onClick={() => updateItemData({
+                                                        consumableType: type,
+                                                        subtype: data.name.toLowerCase()
+                                                    })}
                                                 >
-                                                    <img 
+                                                    <img
                                                         src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                         alt={data.name}
                                                         onError={(e) => {
@@ -1479,7 +1535,39 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     className={`quality-option ${itemData.subtype === type ? 'selected' : ''}`}
                                                     onClick={() => updateItemData({ subtype: type })}
                                                 >
-                                                    <img 
+                                                    <img
+                                                        src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
+                                                        alt={data.name}
+                                                        onError={(e) => {
+                                                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                                        }}
+                                                    />
+                                                    <span>{data.name}</span>
+                                                    <p className="quality-description">{data.description}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {itemData.type === 'currency' && (
+                                    <div className="quality-selection">
+                                        <h4>Currency Type</h4>
+                                        <div className="quality-options">
+                                            {Object.entries(CURRENCY_TYPES).map(([type, data]) => (
+                                                <div
+                                                    key={type}
+                                                    className={`quality-option ${itemData.subtype === type ? 'selected' : ''}`}
+                                                    onClick={() => updateItemData({
+                                                        subtype: type,
+                                                        name: data.name,
+                                                        description: data.description,
+                                                        iconId: data.icon,
+                                                        currencyType: data.type,
+                                                        currencyValue: data.value
+                                                    })}
+                                                >
+                                                    <img
                                                         src={`https://wow.zamimg.com/images/wow/icons/large/${data.icon}.jpg`}
                                                         alt={data.name}
                                                         onError={(e) => {
@@ -1499,7 +1587,63 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 );
 
             case STEPS.STATS:
-                if (itemData.type === 'miscellaneous' && itemData.subtype === 'QUEST') {
+                if (itemData.type === 'currency') {
+                    return (
+                        <div className="wizard-step">
+                            <h3 className="wow-heading quality-text">Currency Amount</h3>
+                            <div className="currency-amount-section">
+                                <div className="currency-amount-display">
+                                    <img
+                                        src={`https://wow.zamimg.com/images/wow/icons/large/${itemData.iconId || 'inv_misc_coin_01'}.jpg`}
+                                        alt={itemData.name}
+                                        className="currency-icon-large"
+                                    />
+                                    <div className="currency-info">
+                                        <h4>{itemData.name || 'Currency'}</h4>
+                                        <p>{itemData.description || 'A currency item'}</p>
+                                    </div>
+                                </div>
+
+                                <div className="currency-amount-config">
+                                    <div className="currency-value-control">
+                                        <label>Amount:</label>
+                                        <div className="stat-input-group">
+                                            <button
+                                                className="stat-button"
+                                                onClick={() => updateItemData({
+                                                    currencyValue: Math.max(1, (itemData.currencyValue || 1) - 1)
+                                                })}
+                                            >
+                                                -
+                                            </button>
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                value={itemData.currencyValue || 1}
+                                                onChange={(e) => updateItemData({
+                                                    currencyValue: Math.max(1, parseInt(e.target.value) || 1)
+                                                })}
+                                                className="stat-input wow-input"
+                                            />
+                                            <button
+                                                className="stat-button"
+                                                onClick={() => updateItemData({
+                                                    currencyValue: (itemData.currencyValue || 1) + 1
+                                                })}
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="currency-type-display">
+                                        <p>When looted, this will add {itemData.currencyValue || 1} {itemData.currencyType || 'gold'} to the player's currency.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'QUEST') {
                     return (
 
 <div className="wizard-step">
@@ -1508,9 +1652,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         {/* Quest Giver Section */}
         <div className="property-section">
             <div className="property-header">
-                <img 
-                    src="https://wow.zamimg.com/images/wow/icons/large/inv_helm_plate_dragonquest_b_01.jpg" 
-                    alt="Quest Giver" 
+                <img
+                    src="https://wow.zamimg.com/images/wow/icons/large/inv_helm_plate_dragonquest_b_01.jpg"
+                    alt="Quest Giver"
                     className="property-icon"
                 />
                 <label className="wow-text">Quest Giver</label>
@@ -1527,9 +1671,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         {/* Required Level Section */}
         <div className="property-section">
             <div className="property-header">
-                <img 
-                    src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_championsgrace.jpg" 
-                    alt="Required Level" 
+                <img
+                    src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_championsgrace.jpg"
+                    alt="Required Level"
                     className="property-icon"
                 />
                 <label className="wow-text">Required Level</label>
@@ -1566,9 +1710,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         {/* Quest Objectives Section */}
         <div className="property-section">
             <div className="property-header">
-                <img 
-                    src="https://wow.zamimg.com/images/wow/icons/large/achievement_quests_completed_daily_08.jpg" 
-                    alt="Quest Objectives" 
+                <img
+                    src="https://wow.zamimg.com/images/wow/icons/large/achievement_quests_completed_daily_08.jpg"
+                    alt="Quest Objectives"
                     className="property-icon"
                 />
                 <label className="wow-text">Quest Objectives</label>
@@ -1585,9 +1729,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         {/* Quest Chain Section */}
         <div className="property-section">
             <div className="property-header">
-                <img 
-                    src="https://wow.zamimg.com/images/wow/icons/large/achievement_quests_completed_06.jpg" 
-                    alt="Quest Chain" 
+                <img
+                    src="https://wow.zamimg.com/images/wow/icons/large/achievement_quests_completed_06.jpg"
+                    alt="Quest Chain"
                     className="property-icon"
                 />
                 <label className="wow-text">Quest Chain</label>
@@ -1604,9 +1748,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         {/* Time Limit Section */}
         <div className="property-section">
             <div className="property-header">
-                <img 
-                    src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pocketwatch_02.jpg" 
-                    alt="Time Limit" 
+                <img
+                    src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pocketwatch_02.jpg"
+                    alt="Time Limit"
                     className="property-icon"
                 />
                 <label className="wow-text">Time Limit</label>
@@ -1648,68 +1792,68 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'REAGENT') {
                     // Define the magic types within the scope
                     const MAGIC_TYPES = {
-                        fire: { 
-                            name: 'Fire Magic', 
+                        fire: {
+                            name: 'Fire Magic',
                             icon: 'spell_fire_fire',
                             description: 'Magic of flame and heat',
                             color: '#ff4400'
                         },
-                        cold: { 
-                            name: 'Frost Magic', 
+                        cold: {
+                            name: 'Frost Magic',
                             icon: 'spell_frost_frostbolt02',
                             description: 'Magic of ice and cold',
                             color: '#3399ff'
                         },
-                        lightning: { 
-                            name: 'Lightning Magic', 
+                        lightning: {
+                            name: 'Lightning Magic',
                             icon: 'spell_nature_lightning',
                             description: 'Magic of storms and electricity',
                             color: '#ffff00'
                         },
-                        acid: { 
-                            name: 'Acid Magic', 
+                        acid: {
+                            name: 'Acid Magic',
                             icon: 'ability_creature_poison_02',
                             description: 'Magic of corrosion and dissolution',
                             color: '#00ff00'
                         },
-                        force: { 
-                            name: 'Force Magic', 
+                        force: {
+                            name: 'Force Magic',
                             icon: 'spell_arcane_blast',
                             description: 'Pure magical energy',
                             color: '#ff66ff'
                         },
-                        necrotic: { 
-                            name: 'Death Magic', 
+                        necrotic: {
+                            name: 'Death Magic',
                             icon: 'spell_shadow_shadowbolt',
                             description: 'Magic of death and decay',
                             color: '#4B0082'
                         },
-                        radiant: { 
-                            name: 'Holy Magic', 
+                        radiant: {
+                            name: 'Holy Magic',
                             icon: 'spell_holy_holybolt',
                             description: 'Divine and sacred magic',
                             color: '#FFFACD'
                         },
-                        poison: { 
-                            name: 'Poison Magic', 
+                        poison: {
+                            name: 'Poison Magic',
                             icon: 'ability_rogue_dualweild',
                             description: 'Magic of toxins and venom',
                             color: '#008000'
                         },
-                        psychic: { 
-                            name: 'Mind Magic', 
+                        psychic: {
+                            name: 'Mind Magic',
                             icon: 'spell_shadow_mindtwisting',
                             description: 'Magic of thoughts and consciousness',
                             color: '#FF00FF'
                         },
-                        thunder: { 
-                            name: 'Thunder Magic', 
+                        thunder: {
+                            name: 'Thunder Magic',
                             icon: 'spell_nature_thunderclap',
                             description: 'Magic of sound and concussive force',
                             color: '#0066ff'
                         }
                     };
-                
+
                     const PRESERVATION_METHODS = {
                         dried: {
                             name: 'Dried',
@@ -1742,7 +1886,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Kept fresh through magical means'
                         }
                     };
-                
+
                     return (
                         <div className="wizard-step">
                             <h3 className="wow-heading">Reagent Properties</h3>
@@ -1750,9 +1894,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 {/* Magic Type Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg"
-                                            alt="Magic Type" 
+                                            alt="Magic Type"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Magic Type</label>
@@ -1767,9 +1911,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     '--magic-color': info.color
                                                 }}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -1780,13 +1924,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Required For Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_spellwarding.jpg"
-                                            alt="Required For" 
+                                            alt="Required For"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Required For</label>
@@ -1799,13 +1943,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={3}
                                     />
                                 </div>
-                
+
                                 {/* Quantity Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg"
-                                            alt="Quantity" 
+                                            alt="Quantity"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Quantity Per Cast</label>
@@ -1813,7 +1957,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     <div className="quantity-input-group">
                                         <button
                                             className="quantity-button"
-                                            onClick={() => updateItemData({ 
+                                            onClick={() => updateItemData({
                                                 quantityPerUse: Math.max(1, (itemData.quantityPerUse || 1) - 1)
                                             })}
                                         >
@@ -1822,7 +1966,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         <input
                                             type="number"
                                             value={itemData.quantityPerUse || 1}
-                                            onChange={(e) => updateItemData({ 
+                                            onChange={(e) => updateItemData({
                                                 quantityPerUse: Math.max(1, parseInt(e.target.value) || 1)
                                             })}
                                             className="wow-input"
@@ -1830,7 +1974,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         />
                                         <button
                                             className="quantity-button"
-                                            onClick={() => updateItemData({ 
+                                            onClick={() => updateItemData({
                                                 quantityPerUse: (itemData.quantityPerUse || 1) + 1
                                             })}
                                         >
@@ -1838,13 +1982,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         </button>
                                     </div>
                                 </div>
-                
+
                                 {/* Magical Properties Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg"
-                                            alt="Magical Properties" 
+                                            alt="Magical Properties"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Magical Properties</label>
@@ -1857,13 +2001,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={3}
                                     />
                                 </div>
-                
+
                                 {/* Source Location Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_map02.jpg"
-                                            alt="Source" 
+                                            alt="Source"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Source Location</label>
@@ -1876,13 +2020,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={3}
                                     />
                                 </div>
-                
+
                                 {/* Preservation Method Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_preservation.jpg"
-                                            alt="Preservation" 
+                                            alt="Preservation"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Preservation Method</label>
@@ -1894,9 +2038,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`preservation-button ${itemData.preservationMethod === method ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ preservationMethod: method })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="preservation-icon"
                                                 />
                                                 <div className="preservation-info">
@@ -1960,7 +2104,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Medicinal and magical plants'
                         }
                     };
-                
+
                     // Define professions with icons
                     const PROFESSIONS = {
                         Alchemy: {
@@ -2000,7 +2144,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Craft wooden items and tools'
                         }
                     };
-                
+
                     // Define gathering methods with icons
                     const GATHERING_METHODS = {
                         mining: {
@@ -2039,7 +2183,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Extracted from stone deposits'
                         }
                     };
-                
+
                     return (
                         <div className="wizard-step">
                             <h3 className="wow-heading">Crafting Material Properties</h3>
@@ -2047,9 +2191,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 {/* Material Type Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg"
-                                            alt="Material Type" 
+                                            alt="Material Type"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Material Type</label>
@@ -2061,9 +2205,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.materialType === type ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ materialType: type })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2074,13 +2218,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Professions Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg"
-                                            alt="Required Professions" 
+                                            alt="Required Professions"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Required Professions</label>
@@ -2093,19 +2237,19 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 onClick={() => {
                                                     const professions = itemData.professions || [];
                                                     if (professions.includes(profession)) {
-                                                        updateItemData({ 
-                                                            professions: professions.filter(p => p !== profession) 
+                                                        updateItemData({
+                                                            professions: professions.filter(p => p !== profession)
                                                         });
                                                     } else {
-                                                        updateItemData({ 
-                                                            professions: [...professions, profession] 
+                                                        updateItemData({
+                                                            professions: [...professions, profession]
                                                         });
                                                     }
                                                 }}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={profession} 
+                                                    alt={profession}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2116,13 +2260,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Gathering Method Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_pick_02.jpg"
-                                            alt="Gathering Method" 
+                                            alt="Gathering Method"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Gathering Method</label>
@@ -2134,9 +2278,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.gatheringMethod === method ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ gatheringMethod: method })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2147,13 +2291,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Recipes Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_scroll_03.jpg"
-                                            alt="Recipes" 
+                                            alt="Recipes"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Used in Recipes</label>
@@ -2166,13 +2310,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={3}
                                     />
                                 </div>
-                
+
                                 {/* Source Locations Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_map_01.jpg"
-                                            alt="Source Locations" 
+                                            alt="Source Locations"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Source Locations</label>
@@ -2185,13 +2329,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={3}
                                     />
                                 </div>
-                
+
                                 {/* Special Properties Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_06.jpg"
-                                            alt="Special Properties" 
+                                            alt="Special Properties"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Special Properties</label>
@@ -2250,7 +2394,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'High-end merchandise'
                         }
                     };
-                
+
                     const DEMAND_LEVELS = {
                         low: {
                             name: 'Low Demand',
@@ -2278,7 +2422,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Overwhelming market demand'
                         }
                     };
-                
+
                     const QUALITY_GRADES = {
                         poor: {
                             name: 'Poor',
@@ -2306,7 +2450,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Finest possible quality'
                         }
                     };
-                
+
                     return (
                         <div className="wizard-step">
                             <h3 className="wow-heading">Trade Goods Properties</h3>
@@ -2314,9 +2458,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 {/* Trade Category Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg"
-                                            alt="Trade Category" 
+                                            alt="Trade Category"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Trade Category</label>
@@ -2328,9 +2472,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.tradeCategory === category ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ tradeCategory: category })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2341,15 +2485,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
-                                
-                
+
+
+
                                 {/* Origin Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_map02.jpg"
-                                            alt="Origin" 
+                                            alt="Origin"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Origin</label>
@@ -2362,13 +2506,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={2}
                                     />
                                 </div>
-                
+
                                 {/* Demand Level Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_19.jpg"
-                                            alt="Demand Level" 
+                                            alt="Demand Level"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Demand Level</label>
@@ -2380,9 +2524,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.demandLevel === level ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ demandLevel: level })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2393,13 +2537,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Quality Grade Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_variety_01.jpg"
-                                            alt="Quality Grade" 
+                                            alt="Quality Grade"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Quality Grade</label>
@@ -2411,9 +2555,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.qualityGrade === grade ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ qualityGrade: grade })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2424,13 +2568,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Merchant Notes Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_03.jpg"
-                                            alt="Merchant Notes" 
+                                            alt="Merchant Notes"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Merchant Notes</label>
@@ -2479,7 +2623,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Activates magical portals and gateways'
                         }
                     };
-                
+
                     const SECURITY_LEVELS = {
                         basic: {
                             name: 'Basic Security',
@@ -2507,7 +2651,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Ancient and powerful protection'
                         }
                     };
-                
+
                     return (
                         <div className="wizard-step">
                             <h3 className="wow-heading">Key Properties</h3>
@@ -2515,9 +2659,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 {/* Key Type Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_key_03.jpg"
-                                            alt="Key Type" 
+                                            alt="Key Type"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Key Type</label>
@@ -2529,9 +2673,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.keyType === type ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ keyType: type })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2542,13 +2686,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Unlocks Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_key_05.jpg"
-                                            alt="Unlocks" 
+                                            alt="Unlocks"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Unlocks</label>
@@ -2561,13 +2705,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={2}
                                     />
                                 </div>
-                
+
                                 {/* Location Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_map02.jpg"
-                                            alt="Location" 
+                                            alt="Location"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Location</label>
@@ -2580,13 +2724,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         rows={2}
                                     />
                                 </div>
-                
+
                                 {/* Security Level Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_1h_jewelcraftingtool_a_05.jpg"
-                                            alt="Security Level" 
+                                            alt="Security Level"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Security Level</label>
@@ -2598,9 +2742,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.securityLevel === level ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ securityLevel: level })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2611,35 +2755,50 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
-                                {/* One-Time Use Section */}
+
+                                {/* Key Usage Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_key_07.jpg"
-                                            alt="One-Time Use" 
+                                            alt="Key Usage"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Key Usage</label>
                                     </div>
-                                    <div className="checkbox-group wow-checkbox-container">
-                                        <input
-                                            type="checkbox"
-                                            id="oneTimeUse"
-                                            checked={itemData.oneTimeUse || false}
-                                            onChange={(e) => updateItemData({ oneTimeUse: e.target.checked })}
-                                            className="wow-checkbox"
-                                        />
-                                        <label htmlFor="oneTimeUse">One-Time Use</label>
+                                    <div className="key-usage-options">
+                                        <div className="usage-option">
+                                            <div className="checkbox-group wow-checkbox-container">
+                                                <input
+                                                    type="checkbox"
+                                                    id="oneTimeUse"
+                                                    checked={itemData.oneTimeUse || false}
+                                                    onChange={(e) => updateItemData({ oneTimeUse: e.target.checked })}
+                                                    className="wow-checkbox"
+                                                />
+                                                <label htmlFor="oneTimeUse" className="usage-label">
+                                                    <span className="usage-title">Single Use Only</span>
+                                                    <span className="usage-description">Key breaks or becomes unusable after one use</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div className="usage-note">
+                                            <span className="note-text">
+                                                {itemData.oneTimeUse
+                                                    ? "⚠️ This key will be destroyed after use"
+                                                    : "🔄 This key can be used multiple times"
+                                                }
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                
+
                                 {/* Special Instructions Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_03.jpg"
-                                            alt="Special Instructions" 
+                                            alt="Special Instructions"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Special Instructions</label>
@@ -2706,7 +2865,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             examples: 'Flawed Stone, Rock Shard, Mineral Fragment'
                         }
                     };
-                
+
                     const CONDITIONS = {
                         intact: {
                             name: 'Intact',
@@ -2729,7 +2888,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             description: 'Rotting or decomposing'
                         }
                     };
-                
+
                     return (
                         <div className="wizard-step">
                             <h3 className="wow-heading">Junk Properties</h3>
@@ -2737,9 +2896,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 {/* Junk Type Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bone_01.jpg"
-                                            alt="Junk Type" 
+                                            alt="Junk Type"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Junk Type</label>
@@ -2751,9 +2910,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.junkType === type ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ junkType: type })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2767,13 +2926,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         ))}
                                     </div>
                                 </div>
-                
+
                                 {/* Condition Section */}
                                 <div className="property-section">
                                     <div className="property-header">
-                                        <img 
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_crystal_02.jpg"
-                                            alt="Condition" 
+                                            alt="Condition"
                                             className="property-icon"
                                         />
                                         <label className="wow-text">Condition</label>
@@ -2785,9 +2944,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 className={`magic-type-button ${itemData.condition === condition ? 'selected' : ''}`}
                                                 onClick={() => updateItemData({ condition: condition })}
                                             >
-                                                <img 
+                                                <img
                                                     src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
-                                                    alt={info.name} 
+                                                    alt={info.name}
                                                     className="magic-icon"
                                                 />
                                                 <div className="magic-info">
@@ -2890,9 +3049,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     .map(([stat, info]) => (
         <div key={stat} className="stat-item">
             <div className="stat-header">
-                <img 
-                    src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`} 
-                    alt={info.name} 
+                <img
+                    src={`https://wow.zamimg.com/images/wow/icons/large/${info.icon}.jpg`}
+                    alt={info.name}
                     className="stat-icon"
                 />
                 <label className="stat-label wow-text">{info.name}</label>
@@ -3068,126 +3227,63 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 <label className="resistance-label wow-text">{info.name}</label>
                                             </div>
                                             <div className="resistance-controls">
-                                                <div className="stat-input-group">
-                                                    <button
-                                                        className="stat-button"
-                                                        onClick={() => {
-                                                            const newResistances = { ...itemData.combatStats.resistances };
-                                                            if (!newResistances[type]) newResistances[type] = {};
+                                                <select
+                                                    value={itemData.combatStats.resistances[type]?.level || 100}
+                                                    onChange={(e) => {
+                                                        const level = parseInt(e.target.value);
+                                                        const selectedLevel = RESISTANCE_LEVELS.find(r => r.value === level);
+                                                        const newResistances = { ...itemData.combatStats.resistances };
+
+                                                        if (level === 100) {
+                                                            // Normal resistance - remove entry
+                                                            delete newResistances[type];
+                                                        } else {
                                                             newResistances[type] = {
-                                                                ...newResistances[type],
-                                                                value: Math.max(0, (newResistances[type].value || 0) - 1)
+                                                                level: level,
+                                                                label: selectedLevel?.label || 'Normal',
+                                                                description: selectedLevel?.description || 'Takes normal damage',
+                                                                multiplier: selectedLevel?.multiplier || 1.0,
+                                                                color: selectedLevel?.color || '#9e9e9e'
                                                             };
-                                                            updateItemData({
-                                                                combatStats: {
-                                                                    ...itemData.combatStats,
-                                                                    resistances: newResistances
-                                                                }
-                                                            });
-                                                        }}
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <input
-                                                        type="number"
-                                                        value={itemData.combatStats.resistances[type]?.value || 0}
-                                                        onChange={(e) => {
-                                                            const val = parseInt(e.target.value) || 0;
-                                                            const newResistances = { ...itemData.combatStats.resistances };
-                                                            if (!newResistances[type]) newResistances[type] = {};
-                                                            newResistances[type] = {
-                                                                ...newResistances[type],
-                                                                value: Math.max(0, val)
-                                                            };
-                                                            updateItemData({
-                                                                combatStats: {
-                                                                    ...itemData.combatStats,
-                                                                    resistances: newResistances
-                                                                }
-                                                            });
-                                                        }}
-                                                        className="stat-input wow-input"
-                                                        min="0"
-                                                        style={{ color: info.color }}
-                                                    />
-                                                    <button
-                                                        className="stat-button"
-                                                        onClick={() => {
-                                                            const newResistances = { ...itemData.combatStats.resistances };
-                                                            if (!newResistances[type]) newResistances[type] = {};
-                                                            newResistances[type] = {
-                                                                ...newResistances[type],
-                                                                value: (newResistances[type].value || 0) + 1
-                                                            };
-                                                            updateItemData({
-                                                                combatStats: {
-                                                                    ...itemData.combatStats,
-                                                                    resistances: newResistances
-                                                                }
-                                                            });
-                                                        }}
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
-                                                <div className="resistance-toggles">
-                                                    <label className="resistance-toggle-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={itemData.combatStats.resistances[type]?.resistant || false}
-                                                            onChange={() => {
-                                                                const newResistances = { ...itemData.combatStats.resistances };
-                                                                if (!newResistances[type]) newResistances[type] = {};
-                                                                newResistances[type] = {
-                                                                    ...newResistances[type],
-                                                                    resistant: !newResistances[type].resistant,
-                                                                    immune: false // Uncheck immune if resistant is checked
-                                                                };
-                                                                updateItemData({
-                                                                    combatStats: {
-                                                                        ...itemData.combatStats,
-                                                                        resistances: newResistances
-                                                                    }
-                                                                });
-                                                            }}
-                                                        />
-                                                        <span>Resistant</span>
-                                                    </label>
-                                                    <label className="resistance-toggle-label">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={itemData.combatStats.resistances[type]?.immune || false}
-                                                            onChange={() => {
-                                                                const newResistances = { ...itemData.combatStats.resistances };
-                                                                if (!newResistances[type]) newResistances[type] = {};
-                                                                newResistances[type] = {
-                                                                    ...newResistances[type],
-                                                                    immune: !newResistances[type].immune,
-                                                                    resistant: false // Uncheck resistant if immune is checked
-                                                                };
-                                                                updateItemData({
-                                                                    combatStats: {
-                                                                        ...itemData.combatStats,
-                                                                        resistances: newResistances
-                                                                    }
-                                                                });
-                                                            }}
-                                                        />
-                                                        <span>Immune</span>
-                                                    </label>
+                                                        }
+
+                                                        updateItemData({
+                                                            combatStats: {
+                                                                ...itemData.combatStats,
+                                                                resistances: newResistances
+                                                            }
+                                                        });
+                                                    }}
+                                                    className="resistance-select"
+                                                    style={{
+                                                        color: itemData.combatStats.resistances[type]?.color || '#9e9e9e',
+                                                        borderColor: info.color
+                                                    }}
+                                                >
+                                                    {RESISTANCE_LEVELS.map(level => (
+                                                        <option
+                                                            key={level.value}
+                                                            value={level.value}
+                                                            style={{ color: level.color }}
+                                                        >
+                                                            {level.label} ({level.multiplier === 1.0 ? 'Normal' : level.multiplier < 0 ? `Heals ${Math.abs(level.multiplier)}×` : `${level.multiplier}×`})
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <div className="resistance-description">
+                                                    {itemData.combatStats.resistances[type]?.description || 'Takes normal damage'}
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-
-                            <div className="stat-description wow-flavor-text" style={{ marginTop: '16px', textAlign: 'center' }}>
-                                "Power flows through this item, ready to be unleashed..."
-                            </div>
                         </div>
                     </div>
                 );
+
+            case STEPS.CHANCE_ON_HIT:
+                return <StepChanceOnHit itemData={itemData} updateItemData={updateItemData} />;
 
             case STEPS.UTILITY:
                 return (
@@ -3197,7 +3293,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             <div className="damage-properties-section">
                                 <h4 className="wow-heading">Damage Properties</h4>
                                 <div className="damage-grid">
-                                    <div className="damage-row">
+                                    {/* Base Damage Controls Row */}
+                                    <div className="damage-controls-row">
                                         <div className="damage-section">
                                             <div className="section-header">
                                                 <img src={DAMAGE_ICONS.base} alt="Base Damage" className="section-icon" />
@@ -3215,11 +3312,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                             }}
                                                             className="wow-select"
                                                             style={{
-                                                                color: itemData.weaponStats.baseDamage.damageType ? 
-                                                                    (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color || 
+                                                                color: itemData.weaponStats.baseDamage.damageType ?
+                                                                    (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color ||
                                                                      DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color) : 'inherit',
-                                                                textShadow: itemData.weaponStats.baseDamage.damageType ? 
-                                                                    `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color || 
+                                                                textShadow: itemData.weaponStats.baseDamage.damageType ?
+                                                                    `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color ||
                                                                               DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color}` : 'none'
                                                             }}
                                                         >
@@ -3236,11 +3333,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                             }}
                                                             className="wow-select"
                                                             style={{
-                                                                color: itemData.weaponStats.baseDamage.damageType ? 
-                                                                    (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color || 
+                                                                color: itemData.weaponStats.baseDamage.damageType ?
+                                                                    (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color ||
                                                                      DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color) : 'inherit',
-                                                                textShadow: itemData.weaponStats.baseDamage.damageType ? 
-                                                                    `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color || 
+                                                                textShadow: itemData.weaponStats.baseDamage.damageType ?
+                                                                    `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color ||
                                                                               DAMAGE_TYPES[itemData.weaponStats.baseDamage.damageType]?.color}` : 'none'
                                                             }}
                                                         >
@@ -3250,87 +3347,96 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div className="damage-type-section">
-                                                    <div className="damage-type-grid">
-                                                        {/* Physical Damage Types First */}
-                                                        {Object.entries(PHYSICAL_DAMAGE_TYPES).map(([type, info]) => {
-                                                            const descriptions = {
-                                                                piercing: "Sharp points that penetrate armor and flesh",
-                                                                slashing: "Cutting edges that cleave through defenses",
-                                                                bludgeoning: "Crushing force that shatters bone and stone"
-                                                            };
-                                                            // Convert hex to RGB for glow effects
-                                                            const hexToRgb = (hex) => {
-                                                                const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-                                                                return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
-                                                            };
-                                                            return (
-                                                            <button
-                                                                key={type}
-                                                                className={`damage-type-button ${itemData.weaponStats.baseDamage.damageType === type ? 'selected' : ''}`}
-                                                                onClick={() => {
-                                                                    const newWeaponStats = { ...itemData.weaponStats };
-                                                                    newWeaponStats.baseDamage.damageType = type;
-                                                                    updateItemData({ weaponStats: newWeaponStats });
-                                                                }}
-                                                                style={{
-                                                                    '--type-color': info.color,
-                                                                    '--type-color-rgb': hexToRgb(info.color)
-                                                                }}
-                                                            >
-                                                                <img src={info.icon} alt={info.name} className="damage-type-icon" />
-                                                                <div className="damage-type-tooltip">
-                                                                    <span className="damage-type-name">{info.name}</span>
-                                                                    <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
-                                                                </div>
-                                                            </button>
-                                                        )})}
-                                                        {/* Magical Damage Types Second */}
-                                                        {Object.entries(DAMAGE_TYPES).map(([type, info]) => {
-                                                            const descriptions = {
-                                                                fire: "Searing flames that burn and incinerate",
-                                                                cold: "Freezing energy that chills to the bone",
-                                                                lightning: "Electric bolts that shock and stun",
-                                                                acid: "Corrosive energy that melts and dissolves",
-                                                                force: "Pure magical energy that warps reality",
-                                                                necrotic: "Death energy that withers and decays",
-                                                                radiant: "Divine light that sears and purifies",
-                                                                poison: "Toxic essence that corrupts and weakens",
-                                                                psychic: "Mental energy that shatters the mind",
-                                                                thunder: "Concussive force that deafens and destroys"
-                                                            };
-                                                            // Convert hex to RGB for glow effects
-                                                            const hexToRgb = (hex) => {
-                                                                const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-                                                                return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
-                                                            };
-                                                            return (
-                                                            <button
-                                                                key={type}
-                                                                className={`damage-type-button ${itemData.weaponStats.baseDamage.damageType === type ? 'selected' : ''}`}
-                                                                onClick={() => {
-                                                                    const newWeaponStats = { ...itemData.weaponStats };
-                                                                    newWeaponStats.baseDamage.damageType = type;
-                                                                    updateItemData({ weaponStats: newWeaponStats });
-                                                                }}
-                                                                style={{
-                                                                    '--type-color': info.color,
-                                                                    '--type-color-rgb': hexToRgb(info.color)
-                                                                }}
-                                                            >
-                                                                <img src={info.icon} alt={info.name} className="damage-type-icon" />
-                                                                <div className="damage-type-tooltip">
-                                                                    <span className="damage-type-name">{info.name}</span>
-                                                                    <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
-                                                                </div>
-                                                            </button>
-                                                        )})}
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="damage-row">
+
+                                    {/* Full Width Damage Type Selection */}
+                                    <div className="damage-type-selection-section">
+                                        <div className="section-header">
+                                            <h5 className="wow-heading">Select Damage Type</h5>
+                                        </div>
+                                        <div className="damage-type-section item-editor">
+                                            <div className="damage-type-grid">
+                                                {/* Physical Damage Types First */}
+                                                {Object.entries(PHYSICAL_DAMAGE_TYPES).map(([type, info]) => {
+                                                    const descriptions = {
+                                                        piercing: "Sharp points that penetrate armor and flesh",
+                                                        slashing: "Cutting edges that cleave through defenses",
+                                                        bludgeoning: "Crushing force that shatters bone and stone"
+                                                    };
+                                                    // Convert hex to RGB for glow effects
+                                                    const hexToRgb = (hex) => {
+                                                        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                                                        return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+                                                    };
+                                                    return (
+                                                    <button
+                                                        key={type}
+                                                        className={`damage-type-button ${itemData.weaponStats.baseDamage.damageType === type ? 'selected' : ''}`}
+                                                        onClick={() => {
+                                                            const newWeaponStats = { ...itemData.weaponStats };
+                                                            newWeaponStats.baseDamage.damageType = type;
+                                                            updateItemData({ weaponStats: newWeaponStats });
+                                                        }}
+                                                        style={{
+                                                            '--type-color': info.color,
+                                                            '--type-color-rgb': hexToRgb(info.color)
+                                                        }}
+                                                    >
+                                                        <img src={info.icon} alt={info.name} className="damage-type-icon" />
+                                                        <div className="damage-type-tooltip">
+                                                            <span className="damage-type-name">{info.name}</span>
+                                                            <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
+                                                        </div>
+                                                    </button>
+                                                )})}
+                                                {/* Magical Damage Types Second */}
+                                                {Object.entries(DAMAGE_TYPES).map(([type, info]) => {
+                                                    const descriptions = {
+                                                        fire: "Searing flames that burn and incinerate",
+                                                        cold: "Freezing energy that chills to the bone",
+                                                        lightning: "Electric bolts that shock and stun",
+                                                        acid: "Corrosive energy that melts and dissolves",
+                                                        force: "Pure magical energy that warps reality",
+                                                        necrotic: "Death energy that withers and decays",
+                                                        radiant: "Divine light that sears and purifies",
+                                                        poison: "Toxic essence that corrupts and weakens",
+                                                        psychic: "Mental energy that shatters the mind",
+                                                        thunder: "Concussive force that deafens and destroys"
+                                                    };
+                                                    // Convert hex to RGB for glow effects
+                                                    const hexToRgb = (hex) => {
+                                                        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                                                        return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+                                                    };
+                                                    return (
+                                                    <button
+                                                        key={type}
+                                                        className={`damage-type-button ${itemData.weaponStats.baseDamage.damageType === type ? 'selected' : ''}`}
+                                                        onClick={() => {
+                                                            const newWeaponStats = { ...itemData.weaponStats };
+                                                            newWeaponStats.baseDamage.damageType = type;
+                                                            updateItemData({ weaponStats: newWeaponStats });
+                                                        }}
+                                                        style={{
+                                                            '--type-color': info.color,
+                                                            '--type-color-rgb': hexToRgb(info.color)
+                                                        }}
+                                                    >
+                                                        <img src={info.icon} alt={info.name} className="damage-type-icon" />
+                                                        <div className="damage-type-tooltip">
+                                                            <span className="damage-type-name">{info.name}</span>
+                                                            <span className="damage-type-description">{descriptions[type] || info.description || `${info.name.toLowerCase()} damage`}</span>
+                                                        </div>
+                                                    </button>
+                                                )})}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Bonus Damage and Critical Hit Row */}
+                                    <div className="damage-controls-row">
                                         <div className="damage-section">
                                             <div className="section-header">
                                                 <img src={DAMAGE_ICONS.bonus} alt="Bonus Damage" className="section-icon" />
@@ -3360,11 +3466,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                             }}
                                                             className="stat-input wow-input"
                                                             style={{
-                                                                color: itemData.weaponStats.baseDamage.bonusDamageType ? 
-                                                                    (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.bonusDamageType]?.color || 
+                                                                color: itemData.weaponStats.baseDamage.bonusDamageType ?
+                                                                    (PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.bonusDamageType]?.color ||
                                                                      DAMAGE_TYPES[itemData.weaponStats.baseDamage.bonusDamageType]?.color) : 'inherit',
-                                                                textShadow: itemData.weaponStats.baseDamage.bonusDamageType ? 
-                                                                    `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.bonusDamageType]?.color || 
+                                                                textShadow: itemData.weaponStats.baseDamage.bonusDamageType ?
+                                                                    `0 0 8px ${PHYSICAL_DAMAGE_TYPES[itemData.weaponStats.baseDamage.bonusDamageType]?.color ||
                                                                               DAMAGE_TYPES[itemData.weaponStats.baseDamage.bonusDamageType]?.color}` : 'none'
                                                             }}
                                                         />
@@ -3380,7 +3486,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div className="damage-type-section">
+                                                <div className="damage-type-section item-editor">
                                                     <div className="damage-type-grid">
                                                         {/* Physical Damage Types First */}
                                                         {Object.entries(PHYSICAL_DAMAGE_TYPES).map(([type, info]) => {
@@ -3590,7 +3696,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             {itemData.type === 'consumable' && (
                                 <div className="stat-item">
                                     <div className="stat-header">
-                                        <img 
+                                        <img
                                             src={`https://wow.zamimg.com/images/wow/icons/large/spell_holy_unyieldingfaith.jpg`}
                                             alt="Duration Type"
                                             className="stat-icon"
@@ -3626,7 +3732,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             {itemData.type === 'consumable' && (
                                 <div className="stat-item">
                                     <div className="stat-header">
-                                        <img 
+                                        <img
                                             src={`https://wow.zamimg.com/images/wow/icons/large/inv_misc_pocketwatch_01.jpg`}
                                             alt="Duration Value"
                                             className="stat-icon"
@@ -3714,7 +3820,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         </div>
                                         <span>Additional Inventory Space</span>
                                     </label>
-                                    
+
                                     {itemData.utilityStats.carryingCapacity.enabled && (
                                         <div className="slots-input">
                                             <label>Additional Slots:</label>
@@ -3743,10 +3849,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 {Array(itemData.utilityStats.carryingCapacity.slots || 1)
                                                     .fill(null)
                                                     .map((_, i) => (
-                                                        <div 
-                                                            key={i} 
+                                                        <div
+                                                            key={i}
                                                             className="additional-slot"
-                                                            title={`${itemData.utilityStats.carryingCapacity.slots} additional inventory slots`}
+                                                            // Removed title to prevent browser tooltip conflict
                                                         >
                                                             <div className="slot-plus">+</div>
                                                         </div>
@@ -3769,9 +3875,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                             <div className="currency-grid">
                                 <div className="currency-item">
                                     <div className="currency-header">
-                                        <img 
-                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg" 
-                                            alt="Gold" 
+                                        <img
+                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
+                                            alt="Gold"
                                             className="currency-icon"
                                         />
                                         <label className="currency-label wow-text">Gold</label>
@@ -3785,7 +3891,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         >
                                             -
                                         </button>
-                                        <input 
+                                        <input
                                             type="number"
                                             min="0"
                                             value={itemData.value.gold || 0}
@@ -3793,7 +3899,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 value: { ...itemData.value, gold: Math.max(0, parseInt(e.target.value) || 0) }
                                             })}
                                             className="stat-input wow-input"
-                                            style={{ color: '#FFD700' }}
+                                            placeholder="0"
                                         />
                                         <button
                                             className="stat-button"
@@ -3808,9 +3914,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
                                 <div className="currency-item">
                                     <div className="currency-header">
-                                        <img 
-                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_03.jpg" 
-                                            alt="Silver" 
+                                        <img
+                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_03.jpg"
+                                            alt="Silver"
                                             className="currency-icon"
                                         />
                                         <label className="currency-label wow-text">Silver</label>
@@ -3824,7 +3930,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         >
                                             -
                                         </button>
-                                        <input 
+                                        <input
                                             type="number"
                                             min="0"
                                             max="99"
@@ -3833,7 +3939,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 value: { ...itemData.value, silver: Math.max(0, Math.min(99, parseInt(e.target.value) || 0)) }
                                             })}
                                             className="stat-input wow-input"
-                                            style={{ color: '#C0C0C0' }}
+                                            placeholder="0"
                                         />
                                         <button
                                             className="stat-button"
@@ -3848,9 +3954,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
                                 <div className="currency-item">
                                     <div className="currency-header">
-                                        <img 
-                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_05.jpg" 
-                                            alt="Copper" 
+                                        <img
+                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_05.jpg"
+                                            alt="Copper"
                                             className="currency-icon"
                                         />
                                         <label className="currency-label wow-text">Copper</label>
@@ -3864,7 +3970,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         >
                                             -
                                         </button>
-                                        <input 
+                                        <input
                                             type="number"
                                             min="0"
                                             max="99"
@@ -3873,7 +3979,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 value: { ...itemData.value, copper: Math.max(0, Math.min(99, parseInt(e.target.value) || 0)) }
                                             })}
                                             className="stat-input wow-input"
-                                            style={{ color: '#B87333' }}
+                                            placeholder="0"
                                         />
                                         <button
                                             className="stat-button"
@@ -3886,8 +3992,16 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 </div>
                             </div>
-                            <div className="value-total wow-flavor-text" style={{ marginTop: '16px', textAlign: 'center' }}>
-                                Total Value: {itemData.value.gold}g {itemData.value.silver}s {itemData.value.copper}c
+                            <div className="value-total">
+                                <span className="total-label">Total Value:</span>
+                                <span className="currency-display">
+                                    <span className="gold-amount">{itemData.value.gold || 0}</span>
+                                    <span className="gold-symbol">g</span>
+                                    <span className="silver-amount">{itemData.value.silver || 0}</span>
+                                    <span className="silver-symbol">s</span>
+                                    <span className="copper-amount">{itemData.value.copper || 0}</span>
+                                    <span className="copper-symbol">c</span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -3903,19 +4017,19 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         <div key={category} className="wow-icon-category">
                                             <h4 className="wow-category-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
                                             <div className="wow-icon-grid">
-                                                {Array.isArray(items) 
+                                                {Array.isArray(items)
                                                     ? items.map(item => (
                                                         <button
                                                             key={item.id}
                                                             className={`wow-icon-button ${itemData.iconId === item.id ? 'selected' : ''}`}
-                                                            onClick={() => updateItemData({ 
+                                                            onClick={() => updateItemData({
                                                                 iconId: item.id,
                                                                 imageUrl: getIconUrl(item.id)
                                                             })}
                                                         >
-                                                            <img 
-                                                                src={getIconUrl(item.id)} 
-                                                                alt={item.name} 
+                                                            <img
+                                                                src={getIconUrl(item.id)}
+                                                                alt={item.name}
                                                                 className="wow-item-icon"
                                                             />
                                                             <span className="wow-icon-name">{item.name}</span>
@@ -3931,14 +4045,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                                     <button
                                                                         key={item.id}
                                                                         className={`wow-icon-button ${itemData.iconId === item.id ? 'selected' : ''}`}
-                                                                        onClick={() => updateItemData({ 
+                                                                        onClick={() => updateItemData({
                                                                             iconId: item.id,
                                                                             imageUrl: getIconUrl(item.id)
                                                                         })}
                                                                     >
-                                                                        <img 
-                                                                            src={getIconUrl(item.id)} 
-                                                                            alt={item.name} 
+                                                                        <img
+                                                                            src={getIconUrl(item.id)}
+                                                                            alt={item.name}
                                                                             className="wow-item-icon"
                                                                         />
                                                                         <span className="wow-icon-name">{item.name}</span>
@@ -3980,35 +4094,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     );
                 }
 
-                case STEPS.REVIEW:
-                    // Debug logging can stay if needed
-                    console.log('=== DEBUG ITEM DATA ===');
-                    console.log('Item Data:', JSON.stringify(itemData, null, 2));
-                
-                    return (
-                        <div className="wizard-step">
-                            <h3 className="wow-heading quality-text">Review Item</h3>
-                            <div className="tooltip-container">
-                                <ItemTooltip item={itemData} />
-                            </div>
-                            
-                            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
-                                <button 
-                                    className="wow-button" 
-                                    onClick={() => handleClose(itemData)}
-                                >
-                                    Create Item
-                                </button>
-                                <button 
-                                    className="wow-button secondary"
-                                    onClick={() => setCurrentStep(STEPS.ITEM_TYPE)}
-                                >
-                                    Start Over
-                                </button>
-                            </div>
-                        </div>
-                    );
-
             default:
                 return null;
         }
@@ -4017,9 +4102,19 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
 
     const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 100, y: 100 });
+    const [position, setPosition] = useState(() => ({
+        x: Math.max(50, (window.innerWidth - 800) / 2),
+        y: Math.max(50, (window.innerHeight - 600) / 2)
+    }));
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const modalRef = useRef(null);
+
+    // Window position and size for external preview
+    const [windowPosition, setWindowPosition] = useState(() => ({
+        x: Math.max(50, (window.innerWidth - 800) / 2),
+        y: Math.max(50, (window.innerHeight - 600) / 2)
+    }));
+    const [windowSize, setWindowSize] = useState({ width: 800, height: 600 });
 
     const handleMouseDown = (e) => {
         if (e.target.closest('.wizard-header')) {
@@ -4037,7 +4132,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             if (isDragging && modalRef.current) {
                 const newX = e.clientX - dragOffset.x;
                 const newY = e.clientY - dragOffset.y;
-                setPosition({ x: newX, y: newY });
+                const newPosition = { x: newX, y: newY };
+                setPosition(newPosition);
+                setWindowPosition(newPosition);
             }
         };
 
@@ -4056,9 +4153,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
     const prevStep = () => {
         let newStep = currentStep - 1;
-        if (itemData.type === 'miscellaneous') {
-            // Skip combat and utility steps
-            if (newStep === STEPS.UTILITY || newStep === STEPS.COMBAT_STATS) {
+        if (itemData.type === 'miscellaneous' || itemData.type === 'currency') {
+            // Skip combat, chance-on-hit, and utility steps
+            if (newStep === STEPS.UTILITY || newStep === STEPS.CHANCE_ON_HIT || newStep === STEPS.COMBAT_STATS) {
                 newStep = STEPS.STATS;
             }
         }
@@ -4067,9 +4164,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
     const nextStep = () => {
         let newStep = currentStep + 1;
-        if (itemData.type === 'miscellaneous') {
-            // Skip combat and utility steps
-            if (newStep === STEPS.COMBAT_STATS || newStep === STEPS.UTILITY) {
+        if (itemData.type === 'miscellaneous' || itemData.type === 'currency') {
+            // Skip combat, chance-on-hit, and utility steps
+            if (newStep === STEPS.COMBAT_STATS || newStep === STEPS.CHANCE_ON_HIT || newStep === STEPS.UTILITY) {
                 newStep = STEPS.VALUE;
             }
         }
@@ -4077,22 +4174,22 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     };
 
     const renderProgressBar = () => {
-        // Filter out combat and utility steps for miscellaneous items
+        // Filter out combat, chance-on-hit, and utility steps for miscellaneous and currency items
         const relevantSteps = Object.entries(STEPS).filter(([_, stepIndex]) => {
-            if (itemData.type === 'miscellaneous') {
-                return ![STEPS.COMBAT_STATS, STEPS.UTILITY].includes(stepIndex);
+            if (itemData.type === 'miscellaneous' || itemData.type === 'currency') {
+                return ![STEPS.COMBAT_STATS, STEPS.CHANCE_ON_HIT, STEPS.UTILITY].includes(stepIndex);
             }
             return true;
         });
-    
+
         const totalSteps = relevantSteps.length;
         const currentProgress = ((currentStep + 1) / totalSteps) * 100;
-        
+
         return (
             <div className="wow-progress-bar">
-                <div 
-                    className="wow-progress-fill" 
-                    style={{ width: `${currentProgress}%` }} 
+                <div
+                    className="wow-progress-fill"
+                    style={{ width: `${currentProgress}%` }}
                 />
                 <div className="wow-progress-segments">
                     {relevantSteps.map(([stepName, stepIndex]) => {
@@ -4105,15 +4202,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 } ${stepIndex === currentStep ? 'active' : ''}`}
                                 onClick={() => setCurrentStep(stepIndex)}
                             >
-                                <img 
-                                    src={`https://wow.zamimg.com/images/wow/icons/large/${stepInfo.icon}.jpg`} 
+                                <img
+                                    src={`https://wow.zamimg.com/images/wow/icons/large/${stepInfo.icon}.jpg`}
                                     alt={stepInfo.name}
                                     className="step-icon"
                                 />
                                 <div className="step-tooltip">
                                     <div className="tooltip-header">
-                                        <img 
-                                            src={`https://wow.zamimg.com/images/wow/icons/large/${stepInfo.icon}.jpg`} 
+                                        <img
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${stepInfo.icon}.jpg`}
                                             alt={stepInfo.name}
                                             className="tooltip-icon"
                                         />
@@ -4131,12 +4228,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         );
     };
 
+    console.log('ItemWizard about to render, position:', position, 'currentStep:', currentStep);
+
     return createPortal(
-        <>
-            <div className="modal-backdrop" onClick={() => handleClose()} />
-            <div 
+        <SpellLibraryProvider>
+            <div className="modal-backdrop" />
+            <div
                 ref={modalRef}
-                className="item-wizard-modal"
+                className="item-wizard-modal spellbook-wizard-layout"
                 data-quality={itemData.quality || 'common'}
                 style={{
                     position: 'fixed',
@@ -4146,32 +4245,66 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 }}
                 onMouseDown={handleMouseDown}
             >
-                <div className="wizard-header">
-                    <h2>Item Editor</h2>
-                    <button className="close-button" onClick={() => handleClose()}>×</button>
-                </div>
-                {renderProgressBar()}
-                <div className="wizard-content">
-                    {renderStep()}
-                </div>
-                <div className="wizard-footer">
-                    <button 
-                        className="nav-button prev" 
-                        onClick={prevStep}
-                        disabled={currentStep === 0}
-                    >
-                        Previous
-                    </button>
-                    <button 
-                        className="nav-button next" 
-                        onClick={nextStep}
-                        disabled={currentStep === Object.keys(STEPS).length - 1}
-                    >
-                        {currentStep === Object.keys(STEPS).length - 2 ? 'Finish' : 'Next'}
-                    </button>
+                <div className="item-wizard-content spellbook-wizard-layout">
+                    <div className="wizard-header">
+                        <h2>Item Editor</h2>
+                        <button className="close-button" onClick={() => handleClose()}>×</button>
+                    </div>
+                    {/* Single column layout - Preview is now external */}
+                    <div className="wizard-main-content">
+                        <div className="spell-wizard-step">
+                            <div className="spell-wizard-step-content">
+                                <div className="spell-wizard-form">
+                                    {renderStep()}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="wizard-footer">
+                        {currentStep === Object.keys(STEPS).length - 1 ? (
+                            <div className="wizard-nav-controls">
+                                <button
+                                    className="wizard-nav-btn"
+                                    onClick={prevStep}
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    className="wizard-nav-btn wizard-nav-create"
+                                    onClick={() => handleClose(itemData)}
+                                >
+                                    Create Item
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="wizard-nav-controls">
+                                <button
+                                    className="wizard-nav-btn"
+                                    onClick={prevStep}
+                                    disabled={currentStep === 0}
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    className="wizard-nav-btn"
+                                    onClick={nextStep}
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </>,
+
+            {/* External Item Preview */}
+            <ExternalItemPreview
+                itemData={itemData}
+                windowPosition={windowPosition}
+                windowSize={windowSize}
+                isOpen={true}
+            />
+        </SpellLibraryProvider>,
         document.body
     );
 }

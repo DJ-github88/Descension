@@ -1,0 +1,289 @@
+/* Advanced Lighting Panel Styles - Pathfinder Theme */
+.advanced-lighting-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    color: #f4f1e8;
+    font-family: 'Cinzel', 'Bookman Old Style', serif;
+}
+
+/* Section Styling */
+.advanced-section {
+    background: rgba(139, 105, 20, 0.1);
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.advanced-section h4 {
+    margin: 0 0 12px 0;
+    color: #d4af37;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+/* Control Groups */
+.control-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    border: 1px solid rgba(139, 105, 20, 0.4);
+}
+
+.control-label {
+    color: #f4f1e8;
+    font-size: 13px;
+    font-weight: bold;
+    flex: 1;
+}
+
+.control-input {
+    flex: 0 0 auto;
+    margin-left: 12px;
+}
+
+/* Range Sliders */
+.range-slider {
+    width: 120px;
+    accent-color: #d4af37;
+    background: rgba(139, 105, 20, 0.2);
+    border-radius: 4px;
+}
+
+.range-value {
+    color: #d4af37;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: right;
+    margin-left: 8px;
+}
+
+/* Checkboxes */
+.checkbox-input {
+    accent-color: #d4af37;
+    transform: scale(1.2);
+}
+
+/* Select Dropdowns */
+.select-input {
+    background: rgba(139, 105, 20, 0.2);
+    border: 1px solid rgba(139, 105, 20, 0.6);
+    border-radius: 4px;
+    color: #f4f1e8;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-family: 'Cinzel', serif;
+}
+
+.select-input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
+}
+
+/* Weather Effects */
+.weather-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.weather-type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.weather-type-button {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.2), rgba(139, 105, 20, 0.1));
+    border: 2px solid rgba(139, 105, 20, 0.4);
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #f4f1e8;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+}
+
+.weather-type-button:hover {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.4), rgba(139, 105, 20, 0.2));
+    border-color: #8b6914;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.weather-type-button.active {
+    background: linear-gradient(to bottom, #8b6914, #6b5010);
+    border-color: #d4af37;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(139, 105, 20, 0.6);
+}
+
+.weather-icon {
+    font-size: 16px;
+}
+
+.weather-name {
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Performance Settings */
+.performance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.performance-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 105, 20, 0.3);
+}
+
+.performance-label {
+    color: #f4f1e8;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.performance-value {
+    color: #d4af37;
+    font-size: 11px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.action-button {
+    flex: 1;
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.3), rgba(139, 105, 20, 0.2));
+    border: 2px solid rgba(139, 105, 20, 0.6);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #f4f1e8;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.action-button:hover:not(:disabled) {
+    background: linear-gradient(to bottom, rgba(139, 105, 20, 0.5), rgba(139, 105, 20, 0.3));
+    border-color: #8b6914;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.action-button.primary {
+    background: linear-gradient(to bottom, #4caf50, #45a049);
+    border-color: #66bb6a;
+}
+
+.action-button.primary:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #66bb6a, #4caf50);
+    border-color: #81c784;
+}
+
+.action-button.danger {
+    background: linear-gradient(to bottom, #f44336, #d32f2f);
+    border-color: #ef5350;
+}
+
+.action-button.danger:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #ef5350, #f44336);
+    border-color: #e57373;
+}
+
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Collapsible Sections */
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 12px;
+    background: rgba(139, 105, 20, 0.2);
+    border-radius: 6px;
+    border: 1px solid rgba(139, 105, 20, 0.4);
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.collapsible-header:hover {
+    background: rgba(139, 105, 20, 0.3);
+    border-color: #8b6914;
+}
+
+.collapsible-title {
+    color: #d4af37;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.collapsible-toggle {
+    color: #f4f1e8;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.collapsible-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.collapsible-content.collapsed {
+    max-height: 0;
+}
+
+.collapsible-content.expanded {
+    max-height: 500px;
+}
+
+/* Scrollbar Styling */
+.advanced-lighting-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.advanced-lighting-panel::-webkit-scrollbar-track {
+    background: rgba(139, 105, 20, 0.1);
+    border-radius: 3px;
+}
+
+.advanced-lighting-panel::-webkit-scrollbar-thumb {
+    background: rgba(139, 105, 20, 0.4);
+    border-radius: 3px;
+}
+
+.advanced-lighting-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 105, 20, 0.6);
+}

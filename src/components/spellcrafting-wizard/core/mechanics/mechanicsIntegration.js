@@ -117,7 +117,7 @@ export function generateGameSpecificSpell(baseConfig, gameSystem = 'CUSTOM') {
     // Generate critical hit configuration
     if (!spellConfig.damageConfig.criticalConfig) {
       spellConfig.damageConfig.criticalConfig = {
-        enabled: true,
+        enabled: false,
         critType: gameSystem === 'WOW' ? 'percentage' : 'dice',
         critThreshold: 20,
         critRange: 1,

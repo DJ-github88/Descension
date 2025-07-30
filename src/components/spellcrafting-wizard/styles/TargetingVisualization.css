@@ -644,26 +644,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1.25rem 0.75rem;
-    background: linear-gradient(to bottom, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
-    border: 2px solid var(--wizard-border);
-    border-radius: var(--wizard-border-radius);
-    transition: all 0.2s ease;
+    padding: var(--pf-space-5) var(--pf-space-3);
+    background: var(--pf-gradient-button);
+    border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+    border-radius: var(--pf-border-radius);
+    transition: all var(--pf-transition-normal);
     cursor: pointer;
     text-align: center;
+    font-family: var(--pf-font-body);
   }
   
   .spell-wizard-card:hover {
-    background: linear-gradient(to bottom, rgba(30, 58, 138, 0.8), rgba(23, 37, 84, 0.8));
-    border-color: var(--wizard-primary);
+    background: var(--pf-gradient-button-hover);
+    border-color: var(--pf-brown-dark);
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--pf-shadow-md);
   }
-  
+
   .spell-wizard-card.selected {
-    background: linear-gradient(to bottom, rgba(37, 99, 235, 0.8), rgba(30, 64, 175, 0.8));
-    border-color: var(--wizard-primary-light);
-    box-shadow: 0 0 15px rgba(58, 158, 255, 0.3);
+    background: var(--pf-gradient-gold);
+    border-color: var(--pf-gold-dark);
+    box-shadow: var(--pf-shadow-glow);
+    color: var(--pf-brown-darkest);
   }
   
   .spell-wizard-card-icon {
@@ -679,13 +681,13 @@
   }
   
   .spell-wizard-card.selected .spell-wizard-card-icon {
-    border-color: var(--wizard-primary-light);
-    box-shadow: 0 0 10px rgba(58, 158, 255, 0.5);
+    border-color: var(--pf-gold);
+    box-shadow: var(--pf-shadow-glow);
   }
-  
+
   .spell-wizard-card:hover .spell-wizard-card-icon {
     transform: scale(1.05);
-    border-color: var(--wizard-primary);
+    border-color: var(--pf-brown-dark);
   }
   
   .spell-wizard-card-icon img {
@@ -712,23 +714,24 @@
     color: #ffffff;
   }
   
-  .spell-wizard-card p, 
+  .spell-wizard-card p,
   .spell-wizard-card small {
-    font-size: 0.85rem;
-    color: var(--wizard-text-muted);
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-secondary);
     margin: 0;
     line-height: 1.4;
-    transition: all 0.2s ease;
+    transition: all var(--pf-transition-normal);
+    font-family: var(--pf-font-body);
   }
-  
+
   .spell-wizard-card.selected p,
   .spell-wizard-card.selected small {
-    color: rgba(191, 219, 254, 0.9);
+    color: var(--pf-brown-darkest);
   }
-  
+
   .spell-wizard-card:hover p,
   .spell-wizard-card:hover small {
-    color: rgba(191, 219, 254, 0.8);
+    color: var(--pf-text-primary);
   }
   
   /* Spell Icon */

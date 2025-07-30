@@ -2,6 +2,37 @@ import React from 'react';
 
 const getStatDescription = (stat) => {
     const descriptions = {
+        // Core Resources
+        'Health': {
+            title: 'Health Points',
+            color: '#ff4444',
+            effects: [
+                'Your character\'s life force and physical condition',
+                'When reduced to 0, your character becomes unconscious',
+                'Restored through rest, healing spells, or potions',
+                'Maximum health increases with Constitution'
+            ]
+        },
+        'Mana': {
+            title: 'Mana Points',
+            color: '#4444ff',
+            effects: [
+                'Magical energy used to cast spells',
+                'Required for most magical abilities',
+                'Restored through rest or mana potions',
+                'Maximum mana increases with Intelligence and Spirit'
+            ]
+        },
+        'Action Points': {
+            title: 'Action Points',
+            color: '#ffd100',
+            effects: [
+                'Points used to perform actions in combat',
+                'Regenerated each turn based on initiative roll',
+                'Used for movement, attacks, and special abilities',
+                'Higher initiative rolls grant more action points'
+            ]
+        },
         // Spell Damage Types
         'Cold Damage': {
             title: 'Cold Damage',
@@ -21,6 +52,106 @@ const getStatDescription = (stat) => {
                 'Common spells: Fireball, Fire Bolt',
                 'Can light torches and melt ice',
                 'Extra effective in dry environments'
+            ]
+        },
+        'Fire Power': {
+            title: 'Fire Spell Power',
+            color: '#FF4500',
+            effects: [
+                'Increases damage of fire-based spells',
+                'Affects spells like Fireball, Flame Strike, and Burning Hands',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating fire magic'
+            ]
+        },
+        'Cold Power': {
+            title: 'Cold Spell Power',
+            color: '#3CE7FF',
+            effects: [
+                'Increases damage of cold-based spells',
+                'Affects spells like Ice Storm, Cone of Cold, and Frost Bolt',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating ice magic'
+            ]
+        },
+        'Lightning Power': {
+            title: 'Lightning Spell Power',
+            color: '#FFD700',
+            effects: [
+                'Increases damage of lightning-based spells',
+                'Affects spells like Lightning Bolt, Chain Lightning, and Shock',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating electrical magic'
+            ]
+        },
+        'Poison Power': {
+            title: 'Poison Spell Power',
+            color: '#9ACD32',
+            effects: [
+                'Increases damage of poison-based spells',
+                'Affects spells like Poison Cloud, Toxic Bolt, and Venomous Strike',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more potent toxins'
+            ]
+        },
+        'Necrotic Power': {
+            title: 'Necrotic Spell Power',
+            color: '#8B008B',
+            effects: [
+                'Increases damage of necrotic-based spells',
+                'Affects spells like Drain Life, Death Coil, and Wither',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating death magic'
+            ]
+        },
+        'Radiant Power': {
+            title: 'Radiant Spell Power',
+            color: '#FFD700',
+            effects: [
+                'Increases damage of radiant-based spells',
+                'Affects spells like Sacred Flame, Divine Light, and Holy Bolt',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more powerful divine magic'
+            ]
+        },
+        'Psychic Power': {
+            title: 'Psychic Spell Power',
+            color: '#FF69B4',
+            effects: [
+                'Increases damage of psychic-based spells',
+                'Affects spells like Mind Blast, Psychic Lance, and Mental Crush',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating mental attacks'
+            ]
+        },
+        'Force Power': {
+            title: 'Force Spell Power',
+            color: '#4169E1',
+            effects: [
+                'Increases damage of force-based spells',
+                'Affects spells like Magic Missile, Force Bolt, and Telekinetic Strike',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more powerful pure magical force'
+            ]
+        },
+        'Acid Power': {
+            title: 'Acid Spell Power',
+            color: '#32CD32',
+            effects: [
+                'Increases damage of acid-based spells',
+                'Affects spells like Acid Splash, Vitriolic Sphere, and Acid Arrow',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more corrosive and destructive acid magic'
+            ]
+        },
+        'Thunder Power': {
+            title: 'Thunder Spell Power',
+            color: '#4169E1',
+            effects: [
+                'Increases damage of thunder-based spells',
+                'Affects spells like Thunderwave, Shatter, and Thunder Step',
+                'Based on Intelligence and magical equipment',
+                'Higher power means more devastating sonic and concussive magic'
             ]
         },
         'Lightning Damage': {
@@ -106,52 +237,35 @@ const getStatDescription = (stat) => {
         // Physical Damage Types
         'Piercing Damage': {
             title: 'Piercing Damage',
-            color: '#FF4D4D',
+            color: '#8B4513',
             effects: [
-                'Damage from piercing weapons',
+                'Damage from piercing weapons and ranged attacks',
+                'Base: Agility ÷ 2 + Equipment bonuses',
                 'Effective against lightly armored targets',
-                'Common weapons: daggers, rapiers, arrows'
+                'Common weapons: daggers, rapiers, arrows, crossbow bolts'
             ]
         },
         'Bludgeoning Damage': {
             title: 'Bludgeoning Damage',
-            color: '#FF4D4D',
+            color: '#8B4513',
             effects: [
-                'Damage from blunt weapons',
+                'Damage from blunt melee weapons',
+                'Base: Strength ÷ 2 + Equipment bonuses',
                 'Effective against skeletons and constructs',
-                'Common weapons: maces, hammers, clubs'
+                'Common weapons: maces, hammers, clubs, flails'
             ]
         },
         'Slashing Damage': {
             title: 'Slashing Damage',
-            color: '#FF4D4D',
+            color: '#8B4513',
             effects: [
-                'Damage from edged weapons',
+                'Damage from edged melee weapons',
+                'Base: Strength ÷ 2 + Equipment bonuses',
                 'Effective against unarmored targets',
-                'Common weapons: swords, axes, scimitars'
-            ]
-        },
-        'Hit Chance': {
-            title: 'Hit Chance',
-            color: '#FFB81A',
-            effects: [
-                'Adds bonus to attack rolls',
-                '+1: Adds 1 to your d20 attack roll',
-                '+2: Adds 2 to your d20 attack roll',
-                '+3: Adds 3 to your d20 attack roll (significant advantage)'
+                'Common weapons: swords, axes, scimitars, claws'
             ]
         },
         // Other Stats
-        'Crit Chance': {
-            title: 'Critical Strike',
-            color: '#FFB81A',
-            effects: [
-                'Increases critical hit range on d20',
-                '5%: Critical on natural 19-20',
-                '10%: Critical on natural 18-20',
-                '15%: Critical on natural 17-20'
-            ]
-        },
         'Spell Power': {
             title: 'Spell Power',
             color: '#69CCF0',
@@ -161,6 +275,81 @@ const getStatDescription = (stat) => {
                 'Different schools gain additional bonuses'
             ]
         },
+        // Individual Spell Power Types (matching store names)
+        'Fire Spell Power': {
+            title: 'Fire Spell Power',
+            color: '#FF4400',
+            effects: [
+                'Increases damage of Fire spells',
+                'Adds to Fire spell damage rolls',
+                'Enhances burning effects and heat-based magic'
+            ]
+        },
+        'Cold Spell Power': {
+            title: 'Cold Spell Power',
+            color: '#3CE7FF',
+            effects: [
+                'Increases damage of Cold spells',
+                'Adds to Cold spell damage rolls',
+                'Enhances freezing effects and ice-based magic'
+            ]
+        },
+        'Lightning Spell Power': {
+            title: 'Lightning Spell Power',
+            color: '#FFFF00',
+            effects: [
+                'Increases damage of Lightning spells',
+                'Adds to Lightning spell damage rolls',
+                'Enhances electrical effects and storm magic'
+            ]
+        },
+
+        'Force Spell Power': {
+            title: 'Force Spell Power',
+            color: '#FF8AFF',
+            effects: [
+                'Increases damage of Force spells',
+                'Adds to Force spell damage rolls',
+                'Enhances pure magic and arcane force effects'
+            ]
+        },
+        'Necrotic Spell Power': {
+            title: 'Necrotic Spell Power',
+            color: '#8C48FF',
+            effects: [
+                'Increases damage of Necrotic spells',
+                'Adds to Necrotic spell damage rolls',
+                'Enhances death magic and life-draining effects'
+            ]
+        },
+        'Radiant Spell Power': {
+            title: 'Radiant Spell Power',
+            color: '#FFE680',
+            effects: [
+                'Increases damage of Radiant spells',
+                'Adds to Radiant spell damage rolls',
+                'Enhances divine magic and holy light effects'
+            ]
+        },
+        'Poison Spell Power': {
+            title: 'Poison Spell Power',
+            color: '#00FF00',
+            effects: [
+                'Increases damage of Poison spells',
+                'Adds to Poison spell damage rolls',
+                'Enhances toxic effects and venomous magic'
+            ]
+        },
+        'Psychic Spell Power': {
+            title: 'Psychic Spell Power',
+            color: '#FF69B4',
+            effects: [
+                'Increases damage of Psychic spells',
+                'Adds to Psychic spell damage rolls',
+                'Enhances mental magic and mind effects'
+            ]
+        },
+
         'Melee Power': {
             title: 'Melee Power',
             color: '#FF4D4D',
@@ -201,8 +390,21 @@ const getStatDescription = (stat) => {
             title: 'Vision Range',
             color: '#AAD372',
             effects: [
-                'How far you can see in the dark.',
-                'Without vision, you must spend extra movement to see.'
+                'How far you can see in normal light conditions',
+                'Determines perception range for spotting enemies',
+                'Affected by lighting and environmental conditions',
+                'Base vision for most characters is 120 feet'
+            ]
+        },
+        'Darkvision': {
+            title: 'Darkvision',
+            color: '#9370DB',
+            effects: [
+                'Ability to see in complete darkness',
+                'Allows normal vision in dark environments',
+                'Common racial trait for dwarves, elves, and other races',
+                'Typically ranges from 60 to 120 feet',
+                'Does not work in magical darkness'
             ]
         },
         'Swim Speed': {
@@ -213,12 +415,32 @@ const getStatDescription = (stat) => {
                 'Without swim speed, you must spend extra movement to swim.'
             ]
         },
+        'Armor': {
+            title: 'Armor',
+            color: '#C0C0C0',
+            effects: [
+                'Reduces physical damage taken',
+                'Base: Agility ÷ 2',
+                'Enhanced by armor equipment',
+                'Higher values provide better protection'
+            ]
+        },
+        'Dodge': {
+            title: 'Dodge',
+            color: '#AAD372',
+            effects: [
+                'Chance to completely avoid attacks',
+                'Base: Agility ÷ 3',
+                'Each point gives 1% dodge chance',
+                'Works against physical and some magical attacks'
+            ]
+        },
         'Armor Class': {
-            title: 'Armor Class',
+            title: 'Armor',
             color: '#FFF',
             effects: [
                 'Determines difficulty to be hit',
-                'Enemy must roll higher than AC to hit',
+                'Enemy must roll higher than armor to hit',
                 'Some attacks may target different defenses'
             ]
         },
@@ -294,27 +516,108 @@ const getStatDescription = (stat) => {
                 'Can be improved through gear and special abilities'
             ]
         },
+        'Passive Perception': {
+            title: 'Passive Perception',
+            color: '#FFD700',
+            effects: [
+                'Your awareness of surroundings without actively looking',
+                'Used to notice hidden enemies, traps, and secrets',
+                'Calculated as 10 + Spirit modifier',
+                'Higher values detect threats more easily'
+            ]
+        },
+        'Ranged Damage': {
+            title: 'Ranged Damage',
+            color: '#228B22',
+            effects: [
+                'Damage with ranged weapons like bows and crossbows',
+                'Base: Agility ÷ 2 + Equipment bonuses',
+                'Effective at long distances',
+                'Common weapons: bows, crossbows, throwing weapons'
+            ]
+        },
+        'Climb Speed': {
+            title: 'Climb Speed',
+            color: '#8B4513',
+            effects: [
+                'How fast you can climb walls and surfaces',
+                'Without climb speed, climbing costs extra movement',
+                'Useful for scaling obstacles and reaching high places'
+            ]
+        },
     };
 
     return descriptions[stat];
 };
 
-const GeneralStatTooltip = ({ stat }) => {
+const GeneralStatTooltip = ({ stat, value, baseValue, equipmentBonus, encumbranceEffect, encumbranceDescription, buffEffect, debuffEffect, description }) => {
     const info = getStatDescription(stat);
-    if (!info) return null;
+
+    // Build calculation breakdown for derived stats
+    const buildCalculationBreakdown = () => {
+        if (baseValue === undefined || value === undefined || typeof value !== 'number') return null;
+
+        const parts = [];
+        const equipmentValue = equipmentBonus || ((value || 0) - (baseValue || 0));
+
+        // Always show base
+        parts.push(`${Math.round(baseValue)} (base)`);
+
+        // Add equipment if non-zero
+        if (equipmentValue !== 0) {
+            parts.push(`${equipmentValue > 0 ? '+' : ''}${Math.round(equipmentValue)} (equipment)`);
+        }
+
+        // Add encumbrance if provided and non-zero
+        if (encumbranceEffect !== undefined && encumbranceEffect !== 0) {
+            parts.push(`${encumbranceEffect > 0 ? '+' : ''}${Math.round(encumbranceEffect)} (encumbrance)`);
+        }
+
+        // Add buffs if provided and non-zero
+        if (buffEffect !== undefined && buffEffect !== 0) {
+            parts.push(`${buffEffect > 0 ? '+' : ''}${Math.round(buffEffect)} (buffs)`);
+        }
+
+        // Add debuffs if provided and non-zero
+        if (debuffEffect !== undefined && debuffEffect !== 0) {
+            parts.push(`${debuffEffect > 0 ? '+' : ''}${Math.round(debuffEffect)} (debuffs)`);
+        }
+
+        // Calculate the total from the components
+        const total = Math.round(baseValue) +
+                     Math.round(equipmentValue) +
+                     Math.round(encumbranceEffect || 0) +
+                     Math.round(buffEffect || 0) +
+                     Math.round(debuffEffect || 0);
+
+        return `${parts.join(' ')} = ${total}`;
+    };
 
     return (
         <>
-            <div className="tooltip-header" style={{ color: info.color }}>
-                {info.title}
+            <div className="equipment-slot-name">
+                {info?.title || stat}
             </div>
-            <div className="tooltip-effects">
-                {info.effects.map((effect, index) => (
-                    <div key={index} className="tooltip-effect">
-                        {effect}
-                    </div>
-                ))}
-            </div>
+            {value !== undefined && (
+                <div className="equipment-slot-description">
+                    Current Value: {typeof value === 'string' ? value : Math.round(value)}
+                </div>
+            )}
+            {description && (
+                <div className="equipment-slot-description">
+                    {description}
+                </div>
+            )}
+            {info?.effects?.map((effect, index) => (
+                <div key={index} className="equipment-slot-description">
+                    • {effect}
+                </div>
+            ))}
+            {baseValue !== undefined && value !== undefined && typeof value === 'number' && (
+                <div className="equipment-slot-description">
+                    <strong>Calculation:</strong> {buildCalculationBreakdown()}
+                </div>
+            )}
         </>
     );
 };

@@ -65,20 +65,20 @@ const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
   // Thematic formula examples for each resource type
   const thematicExamples = {
     mana: [
-      { name: 'Arcane Surge', formula: '0.15 * max_mana + (intellect / 5)' },
-      { name: 'Mana Burn', formula: 'min(50, current_mana * 0.2)' },
+      { name: 'Arcane Surge', formula: '0.15 * maxMana + (intelligence / 5)' },
+      { name: 'Mana Burn', formula: 'min(50, currentMana * 0.2)' },
     ],
     rage: [
-      { name: 'Berserker Strike', formula: 'strength / 5 + missing_health / 2' },
-      { name: 'Battle Fury', formula: '10 + (damage_taken * 0.05)' },
+      { name: 'Berserker Strike', formula: 'strength / 5 + (maxHealth - currentHealth) / 2' },
+      { name: 'Battle Fury', formula: '10 + (exhaustionLevel * 2)' },
     ],
     energy: [
-      { name: 'Shadow Strike', formula: '35 - (agility / 20) - (haste_percent / 5)' },
-      { name: 'Combo Finisher', formula: '10 * combo_points + 5' },
+      { name: 'Shadow Strike', formula: '35 - (agility / 20)' },
+      { name: 'Combo Finisher', formula: '10 * level + 5' },
     ],
     focus: [
-      { name: 'Aimed Shot', formula: '30 + (target_distance / 10)' },
-      { name: 'Beast Bond', formula: '25 - (pet_health_percent / 5)' },
+      { name: 'Aimed Shot', formula: '30 + (agility / 10)' },
+      { name: 'Beast Bond', formula: '25 - (currentHealth / maxHealth * 10)' },
     ],
     soul_shards: [
       { name: 'Soul Harvest', formula: 'max(1, dot_count / 2)' },

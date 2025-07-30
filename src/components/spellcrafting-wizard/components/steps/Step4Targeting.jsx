@@ -8,7 +8,9 @@ import {
 import WizardStep from '../common/WizardStep';
 // TargetingGrid component removed
 import TagBasedTargeting from '../targeting/TagBasedTargeting';
+
 import '../../styles/Step4Targeting.css';
+import '../../styles/effects/unified-effects.css';
 import {
   TARGETING_TYPES as ALL_TARGETING_TYPES,
   AOE_SHAPES,
@@ -192,6 +194,9 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
   const canvasRef = useRef(null);
+
+  // Initialize Pathfinder tooltips
+
 
   // Get existing targeting configuration
   const { targetingConfig, spellType, effectTypes, propagation } = state;
@@ -2376,7 +2381,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
               `${selectedEffect.charAt(0).toUpperCase() + selectedEffect.slice(1)} Targeting Type` :
               'Targeting Type'}
           </h3>
-          <div className="spell-wizard-card-grid">
+          <div className="targeting-options">
             {availableTargetingTypes.map(type => {
               // Determine if this type is selected based on the current mode
               let isSelected = false;
@@ -2389,7 +2394,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
               return (
                 <div
                   key={type.id}
-                  className={`spell-wizard-card ${isSelected ? 'selected' : ''}`}
+                  className={`targeting-option-card ${isSelected ? 'selected' : ''}`}
                   onClick={() => {
                     if (state.targetingMode === 'unified') {
                       // Update unified targeting
@@ -2425,15 +2430,16 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                     }
                   }}
                 >
-                  <div className="spell-wizard-card-icon">
-                    <img
-                      src={`https://wow.zamimg.com/images/wow/icons/large/${type.icon}.jpg`}
-                      alt={type.name}
-                      className="spell-icon"
-                    />
+                  <div className="targeting-option-header">
+                    <div className="targeting-option-icon">
+                      <img
+                        src={`https://wow.zamimg.com/images/wow/icons/large/${type.icon}.jpg`}
+                        alt={type.name}
+                      />
+                    </div>
+                    <div className="targeting-option-name">{type.name}</div>
                   </div>
-                  <h4>{type.name}</h4>
-                  <p>{type.description}</p>
+                  <div className="targeting-option-description">{type.description}</div>
                 </div>
               );
             })}
@@ -3046,7 +3052,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 min={1}
                                 max={10}
                                 value={propagationCount}
-                                onChange={e => setPropagationCount(Number(e.target.value))}
+                                onChange={e => {
+                                  const newCount = Number(e.target.value);
+                                  setPropagationCount(newCount);
+
+                                  // Update global state immediately
+                                  const propagationConfig = {
+                                    method: selectedPropagation,
+                                    behavior: selectedBehavior,
+                                    parameters: {
+                                      count: newCount,
+                                      range: propagationRange,
+                                      decay: propagationDecay,
+                                      secondaryRadius: secondaryRadius,
+                                      spreadRate: spreadRate,
+                                      forkCount: forkCount
+                                    }
+                                  };
+                                  dispatch(actionCreators.updatePropagation(propagationConfig));
+                                }}
                                 className="param-input"
                               />
                               <span className="range-value">{propagationCount}</span>
@@ -3061,7 +3085,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 max={60}
                                 step={5}
                                 value={propagationRange}
-                                onChange={e => setPropagationRange(Number(e.target.value))}
+                                onChange={e => {
+                                  const newRange = Number(e.target.value);
+                                  setPropagationRange(newRange);
+
+                                  // Update global state immediately
+                                  const propagationConfig = {
+                                    method: selectedPropagation,
+                                    behavior: selectedBehavior,
+                                    parameters: {
+                                      count: propagationCount,
+                                      range: newRange,
+                                      decay: propagationDecay,
+                                      secondaryRadius: secondaryRadius,
+                                      spreadRate: spreadRate,
+                                      forkCount: forkCount
+                                    }
+                                  };
+                                  dispatch(actionCreators.updatePropagation(propagationConfig));
+                                }}
                                 className="param-input"
                               />
                               <span className="range-value">{propagationRange} ft</span>
@@ -3076,7 +3118,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 max={50}
                                 step={5}
                                 value={propagationDecay}
-                                onChange={e => setPropagationDecay(Number(e.target.value))}
+                                onChange={e => {
+                                  const newDecay = Number(e.target.value);
+                                  setPropagationDecay(newDecay);
+
+                                  // Update global state immediately
+                                  const propagationConfig = {
+                                    method: selectedPropagation,
+                                    behavior: selectedBehavior,
+                                    parameters: {
+                                      count: propagationCount,
+                                      range: propagationRange,
+                                      decay: newDecay,
+                                      secondaryRadius: secondaryRadius,
+                                      spreadRate: spreadRate,
+                                      forkCount: forkCount
+                                    }
+                                  };
+                                  dispatch(actionCreators.updatePropagation(propagationConfig));
+                                }}
                                 className="param-input"
                               />
                               <span className="range-value">{propagationDecay}%</span>
@@ -3095,7 +3155,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               max={60}
                               step={5}
                               value={propagationRange}
-                              onChange={e => setPropagationRange(Number(e.target.value))}
+                              onChange={e => {
+                                const newRange = Number(e.target.value);
+                                setPropagationRange(newRange);
+
+                                // Update global state immediately
+                                const propagationConfig = {
+                                  method: selectedPropagation,
+                                  behavior: selectedBehavior,
+                                  parameters: {
+                                    count: propagationCount,
+                                    range: newRange,
+                                    decay: propagationDecay,
+                                    secondaryRadius: secondaryRadius,
+                                    spreadRate: spreadRate,
+                                    forkCount: forkCount
+                                  }
+                                };
+                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                              }}
                               className="param-input"
                             />
                             <span className="range-value">{propagationRange} ft</span>
@@ -3113,7 +3191,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               max={30}
                               step={5}
                               value={secondaryRadius}
-                              onChange={e => setSecondaryRadius(Number(e.target.value))}
+                              onChange={e => {
+                                const newRadius = Number(e.target.value);
+                                setSecondaryRadius(newRadius);
+
+                                // Update global state immediately
+                                const propagationConfig = {
+                                  method: selectedPropagation,
+                                  behavior: selectedBehavior,
+                                  parameters: {
+                                    count: propagationCount,
+                                    range: propagationRange,
+                                    decay: propagationDecay,
+                                    secondaryRadius: newRadius,
+                                    spreadRate: spreadRate,
+                                    forkCount: forkCount
+                                  }
+                                };
+                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                              }}
                               className="param-input"
                             />
                             <span className="range-value">{secondaryRadius} ft</span>
@@ -3130,7 +3226,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               min={1}
                               max={10}
                               value={spreadRate}
-                              onChange={e => setSpreadRate(Number(e.target.value))}
+                              onChange={e => {
+                                const newRate = Number(e.target.value);
+                                setSpreadRate(newRate);
+
+                                // Update global state immediately
+                                const propagationConfig = {
+                                  method: selectedPropagation,
+                                  behavior: selectedBehavior,
+                                  parameters: {
+                                    count: propagationCount,
+                                    range: propagationRange,
+                                    decay: propagationDecay,
+                                    secondaryRadius: secondaryRadius,
+                                    spreadRate: newRate,
+                                    forkCount: forkCount
+                                  }
+                                };
+                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                              }}
                               className="param-input"
                             />
                             <span className="range-value">{spreadRate} ft/s</span>
@@ -3147,7 +3261,25 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               min={1}
                               max={6}
                               value={forkCount}
-                              onChange={e => setForkCount(Number(e.target.value))}
+                              onChange={e => {
+                                const newForkCount = Number(e.target.value);
+                                setForkCount(newForkCount);
+
+                                // Update global state immediately
+                                const propagationConfig = {
+                                  method: selectedPropagation,
+                                  behavior: selectedBehavior,
+                                  parameters: {
+                                    count: propagationCount,
+                                    range: propagationRange,
+                                    decay: propagationDecay,
+                                    secondaryRadius: secondaryRadius,
+                                    spreadRate: spreadRate,
+                                    forkCount: newForkCount
+                                  }
+                                };
+                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                              }}
                               className="param-input"
                             />
                             <span className="range-value">{forkCount}</span>

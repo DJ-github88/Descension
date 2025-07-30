@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { FaCog } from 'react-icons/fa';
 
-// Import utilities
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
+// Pathfinder styles imported via main.css
+import '../../styles/effects/unified-effects.css';
+import '../../styles/pathfinder/wizard-enhancements.css';
+
+// Import utilities and stat data
+import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
+
 
 // Utility type definitions
 export const UTILITY_TYPES = {
@@ -51,6 +58,15 @@ const DURATION_TYPES = [
   { id: 'days', name: 'Days', description: 'In-game days', icon: 'inv_misc_pocketwatch_01' }
 ];
 
+// Potency options with proper scaling
+const POTENCY_OPTIONS = [
+  { id: 'minor', name: 'Minor', description: 'Basic effect with modest benefits', color: '#8B4513' },
+  { id: 'moderate', name: 'Moderate', description: 'Standard effect with good benefits', color: '#CD853F' },
+  { id: 'major', name: 'Major', description: 'Strong effect with significant benefits', color: '#DAA520' },
+  { id: 'extreme', name: 'Extreme', description: 'Very powerful effect with major benefits', color: '#FF8C00' },
+  { id: 'legendary', name: 'Legendary', description: 'Legendary effect with extraordinary benefits', color: '#FF4500' }
+];
+
 // Enhancement effects
 const ENHANCEMENT_EFFECTS = [
   { id: 'attribute', name: 'Attribute Boost', description: 'Enhances one or more attributes', icon: 'inv_misc_gem_02' },
@@ -98,65 +114,87 @@ const PROTECTION_EFFECTS = [
   { id: 'dispel', name: 'Dispel Magic', description: 'Remove magical effects', icon: 'inv_misc_tome_07' }
 ];
 
-// Effect descriptions based on potency (minor, moderate, major)
+// Enhanced effect descriptions with proper potency scaling
 const UTILITY_EFFECT_DESCRIPTIONS = {
   enhancement: {
     attribute: {
-      minor: "Grants +1 to a single attribute check",
-      moderate: "Grants +2 to all checks with a specific attribute",
-      major: "Grants +3 to all checks with two attributes of your choice"
+      minor: "Grants +1 bonus to a single attribute for all checks",
+      moderate: "Grants +2 bonus to a single attribute for all checks",
+      major: "Grants +3 bonus to a single attribute for all checks",
+      extreme: "Grants +4 bonus to a single attribute for all checks",
+      legendary: "Grants +5 bonus to a single attribute for all checks"
     },
     skill: {
-      minor: "Advantage on the next check for one skill",
-      moderate: "Advantage on all checks for one skill for the duration",
-      major: "Advantage on all checks for three skills for the duration"
+      minor: "Grants advantage on the next skill check",
+      moderate: "Grants advantage on all checks for one skill",
+      major: "Grants advantage on all checks for two skills",
+      extreme: "Grants advantage on all checks for three skills",
+      legendary: "Grants advantage on all skill checks"
     },
     speed: {
-      minor: "Increases movement speed by 5 feet",
-      moderate: "Increases movement speed by 10 feet and jump distance by 5 feet",
-      major: "Doubles movement speed and jump distance"
+      minor: "Increases movement speed by 10 feet",
+      moderate: "Increases movement speed by 20 feet",
+      major: "Increases movement speed by 30 feet",
+      extreme: "Increases movement speed by 40 feet",
+      legendary: "Increases movement speed by 50 feet"
     },
     senses: {
-      minor: "Advantage on the next Perception check",
-      moderate: "Advantage on all Perception checks and +5 to passive Perception",
-      major: "Darkvision 60 feet, advantage on all Perception checks, and +10 to passive Perception"
+      minor: "Grants advantage on Perception checks",
+      moderate: "Grants darkvision 30 feet and advantage on Perception checks",
+      major: "Grants darkvision 60 feet and advantage on Perception checks",
+      extreme: "Grants darkvision 90 feet and advantage on Perception checks",
+      legendary: "Grants truesight 60 feet and advantage on Perception checks"
     },
     speak: {
-      minor: "Understand one language for 1 hour",
+      minor: "Understand one language for the duration",
       moderate: "Speak and understand one language for the duration",
-      major: "Speak and understand all languages for the duration"
+      major: "Speak and understand two languages for the duration",
+      extreme: "Speak and understand three languages for the duration",
+      legendary: "Speak and understand all languages for the duration"
     },
     disguise: {
-      minor: "Change minor features (hair color, eye color) for 1 hour",
-      moderate: "Change appearance completely for the duration",
-      major: "Perfect illusory disguise that passes physical inspection for the duration"
+      minor: "Change minor features (hair, eye color) for the duration",
+      moderate: "Change appearance to look like another humanoid for the duration",
+      major: "Perfect disguise that fools visual inspection for the duration",
+      extreme: "Perfect disguise that fools physical inspection for the duration",
+      legendary: "Perfect disguise that fools magical detection for the duration"
     }
   },
   detection: {
     truesight: {
-      minor: "See through illusions within 10 feet for 1 minute",
+      minor: "See through illusions within 15 feet for the duration",
       moderate: "See through illusions and invisibility within 30 feet for the duration",
-      major: "True sight within 60 feet for the duration (see through illusions, invisibility, and darkness)"
+      major: "Truesight within 60 feet for the duration",
+      extreme: "Truesight within 90 feet for the duration",
+      legendary: "Truesight within 120 feet for the duration"
     },
     magic: {
-      minor: "Detect presence of magic within 10 feet",
-      moderate: "Detect magic within 30 feet and identify schools of magic",
-      major: "Detect magic within 60 feet, identify schools of magic, and see magical auras"
+      minor: "Detect presence of magic within 30 feet",
+      moderate: "Detect magic within 60 feet and identify schools",
+      major: "Detect magic within 90 feet, identify schools and strength",
+      extreme: "Detect magic within 120 feet, identify schools, strength, and casters",
+      legendary: "Detect all magic within 150 feet with complete information"
     },
     invisible: {
-      minor: "See invisible creatures within 10 feet for 1 minute",
-      moderate: "See invisible creatures within 30 feet for the duration",
-      major: "See invisible creatures within 60 feet and through ethereal plane for the duration"
+      minor: "See invisible creatures within 30 feet for the duration",
+      moderate: "See invisible creatures within 60 feet for the duration",
+      major: "See invisible creatures within 90 feet for the duration",
+      extreme: "See invisible creatures within 120 feet for the duration",
+      legendary: "See invisible creatures within 150 feet and through all concealment"
     },
     hidden: {
-      minor: "Advantage on checks to find traps within 10 feet",
-      moderate: "Automatically detect secret doors and compartments within 30 feet",
-      major: "Automatically detect all hidden objects, doors, and traps within 60 feet"
+      minor: "Detect secret doors and traps within 15 feet",
+      moderate: "Detect secret doors and traps within 30 feet",
+      major: "Detect all hidden objects within 60 feet",
+      extreme: "Detect all hidden objects within 90 feet",
+      legendary: "Detect all hidden objects within 120 feet and their exact nature"
     },
     creatures: {
-      minor: "Detect presence of one creature type within 30 feet",
-      moderate: "Detect presence and number of one creature type within 60 feet",
-      major: "Detect presence, number, and location of all creatures within 120 feet"
+      minor: "Detect one creature type within 60 feet",
+      moderate: "Detect two creature types within 90 feet",
+      major: "Detect three creature types within 120 feet",
+      extreme: "Detect all creature types within 150 feet",
+      legendary: "Detect all creatures within 200 feet with exact locations and types"
     }
   },
   movement: {
@@ -247,13 +285,7 @@ const UTILITY_EFFECT_DESCRIPTIONS = {
   }
 };
 
-// Difficulty levels
-const DIFFICULTY_LEVELS = [
-  { id: 'easy', name: 'Easy (DC 10)', description: 'Simple task, most should succeed' },
-  { id: 'moderate', name: 'Moderate (DC 15)', description: 'Challenging, requires some skill' },
-  { id: 'hard', name: 'Hard (DC 20)', description: 'Difficult, requires expertise' },
-  { id: 'very_hard', name: 'Very Hard (DC 25)', description: 'Extremely difficult, masters may fail' }
-];
+
 
 // Define ability scores for saving throws
 const ABILITY_SCORES = [
@@ -271,11 +303,13 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     state.utilityConfig?.utilityType || 'enhancement'
   );
 
-  // Tooltip state
-  const [tooltipContent, setTooltipContent] = useState(null);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [effectPreview, setEffectPreview] = useState(null);
+
+  // Configuration popup state
+  const [configPopupOpen, setConfigPopupOpen] = useState(false);
+  const [selectedEffectForConfig, setSelectedEffectForConfig] = useState(null);
+  // Local state just for potency UI highlighting
+  const [localPotencySelection, setLocalPotencySelection] = useState(null);
 
   // Define default configuration
   const defaultConfig = {
@@ -285,7 +319,6 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     concentration: false,
     difficultyClass: 15,
     abilitySave: 'spi',
-    difficulty: 'moderate',
     selectedEffects: []
   };
 
@@ -302,14 +335,14 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
       setUtilityConfig(newConfig);
       dispatch(actionCreators.updateUtilityConfig(newConfig));
     }
-  }, [selectedUtilityCategory]);
+  }, [selectedUtilityCategory, utilityConfig.utilityType, dispatch]);
 
   // Effect to sync state when configuration changes
   useEffect(() => {
     if (state.utilityConfig !== utilityConfig) {
       dispatch(actionCreators.updateUtilityConfig(utilityConfig));
     }
-  }, [utilityConfig]);
+  }, [utilityConfig, dispatch]);
 
   // Handle utility configuration changes
   const updateUtilityConfig = (field, value) => {
@@ -351,11 +384,22 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
       const effect = effectsMap.find(e => e.id === effectId);
 
       if (effect) {
+        // Get enhanced description for default potency
+        const defaultPotency = 'moderate';
+        let enhancedDescription = effect.description;
+
+        if (UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effect.id]?.[defaultPotency]) {
+          enhancedDescription = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory][effect.id][defaultPotency];
+        }
+
         selectedEffects.push({
           id: effect.id,
           name: effect.name,
-          description: effect.description,
-          potency: 'moderate'
+          description: enhancedDescription,
+          customName: effect.name,
+          customDescription: '', // Don't set custom description by default
+          potency: defaultPotency,
+          statModifiers: [] // Add stat modifiers array
         });
       }
     }
@@ -363,15 +407,124 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     updateUtilityConfig('selectedEffects', selectedEffects);
   };
 
-  // Update effect potency
-  const updateEffectPotency = (effectId, potency) => {
+  // Update effect configuration
+  const updateEffectConfig = (effectId, field, value) => {
     const selectedEffects = [...(utilityConfig.selectedEffects || [])];
     const effectIndex = selectedEffects.findIndex(e => e.id === effectId);
 
     if (effectIndex >= 0) {
       selectedEffects[effectIndex] = {
         ...selectedEffects[effectIndex],
-        potency
+        [field]: value
+      };
+
+      // Update the selectedEffectForConfig state FIRST to ensure immediate UI update
+      if (selectedEffectForConfig && selectedEffectForConfig.id === effectId) {
+        const updatedSelectedEffect = {
+          ...selectedEffectForConfig,
+          [field]: value
+        };
+        setSelectedEffectForConfig(updatedSelectedEffect);
+      }
+
+      // Update the utility config which will trigger the spell wizard context update
+      const newConfig = {
+        ...utilityConfig,
+        selectedEffects: selectedEffects
+      };
+
+      setUtilityConfig(newConfig);
+      dispatch(actionCreators.updateUtilityConfig(newConfig));
+    }
+  };
+
+  // Update effect potency (legacy support)
+  const updateEffectPotency = (effectId, potency) => {
+    updateEffectConfig(effectId, 'potency', potency);
+  };
+
+  // Stat modifier management functions
+  const addStatModifierToEffect = (effectId, stat) => {
+    const selectedEffects = [...(utilityConfig.selectedEffects || [])];
+    const effectIndex = selectedEffects.findIndex(e => e.id === effectId);
+
+    if (effectIndex >= 0) {
+      const effect = selectedEffects[effectIndex];
+      const existingModifiers = [...(effect.statModifiers || [])];
+
+      // Check if this stat is already added
+      if (!existingModifiers.some(mod => mod.id === stat.id)) {
+        existingModifiers.push({
+          ...stat,
+          magnitude: 2,
+          magnitudeType: 'flat'
+        });
+
+        selectedEffects[effectIndex] = {
+          ...effect,
+          statModifiers: existingModifiers
+        };
+
+        updateUtilityConfig('selectedEffects', selectedEffects);
+      }
+    }
+  };
+
+  const removeStatModifierFromEffect = (effectId, statId) => {
+    const selectedEffects = [...(utilityConfig.selectedEffects || [])];
+    const effectIndex = selectedEffects.findIndex(e => e.id === effectId);
+
+    if (effectIndex >= 0) {
+      const effect = selectedEffects[effectIndex];
+      const updatedModifiers = (effect.statModifiers || []).filter(mod => mod.id !== statId);
+
+      selectedEffects[effectIndex] = {
+        ...effect,
+        statModifiers: updatedModifiers
+      };
+
+      updateUtilityConfig('selectedEffects', selectedEffects);
+    }
+  };
+
+  const updateStatModifierValue = (effectId, statId, magnitude) => {
+    const selectedEffects = [...(utilityConfig.selectedEffects || [])];
+    const effectIndex = selectedEffects.findIndex(e => e.id === effectId);
+
+    if (effectIndex >= 0) {
+      const effect = selectedEffects[effectIndex];
+      const updatedModifiers = (effect.statModifiers || []).map(mod => {
+        if (mod.id === statId) {
+          return { ...mod, magnitude };
+        }
+        return mod;
+      });
+
+      selectedEffects[effectIndex] = {
+        ...effect,
+        statModifiers: updatedModifiers
+      };
+
+      updateUtilityConfig('selectedEffects', selectedEffects);
+    }
+  };
+
+  const updateStatModifierType = (effectId, statId, magnitudeType) => {
+    const selectedEffects = [...(utilityConfig.selectedEffects || [])];
+    const effectIndex = selectedEffects.findIndex(e => e.id === effectId);
+
+    if (effectIndex >= 0) {
+      const effect = selectedEffects[effectIndex];
+      const updatedModifiers = (effect.statModifiers || []).map(mod => {
+        if (mod.id === statId) {
+          return { ...mod, magnitudeType };
+        }
+        return mod;
+      });
+
+      selectedEffects[effectIndex] = {
+        ...effect,
+        statModifiers: updatedModifiers
       };
 
       updateUtilityConfig('selectedEffects', selectedEffects);
@@ -390,270 +543,214 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     }
   };
 
+  // Get stat modifiers by category
+  const getStatModifiersByCategory = (category) => {
+    if (!BUFF_DEBUFF_STAT_MODIFIERS) {
+      return [];
+    }
+    return BUFF_DEBUFF_STAT_MODIFIERS.filter(stat => stat.category === category);
+  };
+
   // Get WoW-style icon URL
   const getIconUrl = (iconName) => {
     if (!iconName) return '';
     return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
   };
 
-  // Show tooltip on hover
-  const handleMouseEnter = (effect, e) => {
-    // Create WoW Classic style tooltip content
-    const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {effect.description}
-        </div>
 
-        {/* Potency information */}
-        <div className="tooltip-effect">
-          <span className="tooltip-gold">Effect Type:</span> {selectedUtilityCategory.charAt(0).toUpperCase() + selectedUtilityCategory.slice(1)} Utility
-        </div>
-
-        {/* Potency levels description */}
-        <div className="tooltip-divider"></div>
-        <div className="tooltip-section-header">Potency Levels:</div>
-        <div className="tooltip-option">
-          <span className="tooltip-bullet"></span>
-          <span className="tooltip-gold">Minor:</span> Basic effect with limited power
-        </div>
-        <div className="tooltip-option">
-          <span className="tooltip-bullet"></span>
-          <span className="tooltip-gold">Moderate:</span> Standard effect with balanced power
-        </div>
-        <div className="tooltip-option">
-          <span className="tooltip-bullet"></span>
-          <span className="tooltip-gold">Major:</span> Powerful effect with enhanced capabilities
-        </div>
-
-        {/* Selected potency if applicable */}
-        {utilityConfig.selectedEffects?.some(e => e.id === effect.id) && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-casttime">
-              <span className="tooltip-gold">Current Potency:</span> {
-                utilityConfig.selectedEffects.find(e => e.id === effect.id).potency.charAt(0).toUpperCase() +
-                utilityConfig.selectedEffects.find(e => e.id === effect.id).potency.slice(1)
-              }
-            </div>
-          </>
-        )}
-
-        <div className="tooltip-divider"></div>
-        <div className="tooltip-flavor-text">
-          {selectedUtilityCategory === 'enhancement' && "\"Your abilities transcend normal limitations.\""}
-          {selectedUtilityCategory === 'detection' && "\"Your senses extend beyond mortal perception.\""}
-          {selectedUtilityCategory === 'movement' && "\"The laws of nature bend to your will.\""}
-          {selectedUtilityCategory === 'illumination' && "\"Light and darkness become tools in your hands.\""}
-          {selectedUtilityCategory === 'protection' && "\"Arcane shields protect you from harm.\""}
-        </div>
-      </div>
-    );
-
-    // Store the tooltip data including title and icon
-    setTooltipContent({
-      content: tooltipContent,
-      title: effect.name,
-      icon: effect.icon
-    });
-    setShowTooltip(true);
-    // Update position using client coordinates for fixed positioning
-    setMousePos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
-
-  // Track mouse position during hover
-  const handleMouseMove = (e) => {
-    if (showTooltip) {
-      setMousePos({ x: e.pageX, y: e.pageY });
-    }
-  };
-
-  // Set effect preview
-  const showEffectPreview = (effect) => {
-    setEffectPreview(effect);
-  };
-
-  // Clear effect preview
-  const clearEffectPreview = () => {
-    setEffectPreview(null);
-  };
 
   return (
-    <div className="spell-effects-container">
-      <h3>Utility Configuration</h3>
+    <div className="utility-effects-container">
+      <div className="section">
+        <h3>Utility Effects Configuration</h3>
+        <p>Create versatile utility effects that provide non-combat benefits and special abilities</p>
+      </div>
 
-      <div className="buff-config-section">
-        <div className="config-option">
-          <label>Duration Type</label>
-          <select
-            value={utilityConfig.durationUnit || 'minutes'}
-            onChange={(e) => updateUtilityConfig('durationUnit', e.target.value)}
-            className="buff-dropdown"
-          >
-            {DURATION_TYPES.map(type => (
-              <option key={type.id} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      {/* Enhanced Configuration Section - Moved to top */}
+      <div className="section">
+        <h4>Effect Configuration</h4>
 
-        {utilityConfig.durationUnit !== 'instant' && (
-          <div className="config-option">
-            <label>Duration Value</label>
-            <input
-              type="number"
-              min="1"
-              max="100"
-              value={utilityConfig.duration}
-              onChange={(e) => {
-                const duration = Math.max(1, Math.min(100, parseInt(e.target.value) || 1));
-                updateUtilityConfig('duration', duration);
-              }}
-            />
+        <div className="utility-config-grid">
+          <div className="config-group">
+            <label>Duration</label>
+            <div className="duration-config">
+              <input
+                type="number"
+                min="1"
+                max="100"
+                value={utilityConfig.duration}
+                onChange={(e) => {
+                  const duration = Math.max(1, parseInt(e.target.value) || 1);
+                  updateUtilityConfig('duration', duration);
+                }}
+                className="duration-value"
+              />
+              <select
+                value={utilityConfig.durationUnit || 'minutes'}
+                onChange={(e) => updateUtilityConfig('durationUnit', e.target.value)}
+                className="duration-unit"
+              >
+                {DURATION_TYPES.map(type => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        )}
 
-        <div className="config-option">
-          <label>Concentration</label>
-          <div className="button-toggle-group">
-            <button
-              className={utilityConfig.concentration ? 'active' : ''}
-              onClick={() => updateUtilityConfig('concentration', true)}
-            >
-              Yes
-            </button>
-            <button
-              className={!utilityConfig.concentration ? 'active' : ''}
-              onClick={() => updateUtilityConfig('concentration', false)}
-            >
-              No
-            </button>
+          <div className="config-group">
+            <label>Requires Concentration</label>
+            <div className="concentration-toggle">
+              <button
+                type="button"
+                className={`toggle-btn ${utilityConfig.concentration === true ? 'active' : ''}`}
+                onClick={() => updateUtilityConfig('concentration', true)}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className={`toggle-btn ${utilityConfig.concentration === false ? 'active' : ''}`}
+                onClick={() => updateUtilityConfig('concentration', false)}
+              >
+                No
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div className="config-option">
-          <label>Difficulty Class</label>
-          <input
-            type="number"
-            min="5"
-            max="30"
-            value={utilityConfig.difficultyClass}
-            onChange={(e) => {
-              const dc = Math.max(5, Math.min(30, parseInt(e.target.value) || 15));
-              updateUtilityConfig('difficultyClass', dc);
-            }}
-          />
-        </div>
+          <div className="config-group">
+            <label>Difficulty Class (DC)</label>
+            <div className="dc-config">
+              <input
+                type="number"
+                min="1"
+                max="50"
+                value={utilityConfig.difficultyClass}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || value === '0') {
+                    updateUtilityConfig('difficultyClass', 1);
+                  } else {
+                    const dc = Math.max(1, Math.min(50, parseInt(value) || 1));
+                    updateUtilityConfig('difficultyClass', dc);
+                  }
+                }}
+                className="dc-input"
+              />
+              <span className="dc-label">DC</span>
+            </div>
+          </div>
 
-        <div className="config-option">
-          <label>Ability Save</label>
-          <select
-            value={utilityConfig.abilitySave || 'spi'}
-            onChange={(e) => updateUtilityConfig('abilitySave', e.target.value)}
-            className="buff-dropdown"
-          >
-            {ABILITY_SCORES.map(ability => (
-              <option key={ability.id} value={ability.id}>
-                {ability.name}
-              </option>
-            ))}
-          </select>
+          <div className="config-group">
+            <label>Saving Throw</label>
+            <select
+              value={utilityConfig.abilitySave || 'spi'}
+              onChange={(e) => updateUtilityConfig('abilitySave', e.target.value)}
+              className="save-select"
+            >
+              {ABILITY_SCORES.map(ability => (
+                <option key={ability.id} value={ability.id}>
+                  {ability.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
-      {utilityConfig.selectedEffects && utilityConfig.selectedEffects.length > 0 && (
-        <div className="selected-stats">
-          <h4>Selected Effects</h4>
-          <div className="selected-stats-list">
-            {utilityConfig.selectedEffects.map(effect => {
-              const originalEffect = getEffectsForType(selectedUtilityCategory).find(e => e.id === effect.id);
+      {/* Combined Category Selection and Available Effects */}
+      <div className="section">
+        <h4>Available Effects</h4>
 
-              return (
-                <div className="selected-stat" key={effect.id}>
-                  <div className="stat-icon">
-                    <img src={getIconUrl(originalEffect?.icon)} alt={effect.name} />
-                  </div>
-                  <div className="stat-info">
-                    <div className="stat-name">{effect.name}</div>
-                    <div className="stat-description">{getEffectDescription(effect)}</div>
-                  </div>
-                  <div className="stat-value-controls">
-                    <div className="stat-type-toggle">
-                      <button
-                        className={effect.potency === 'minor' ? 'active' : ''}
-                        onClick={() => updateEffectPotency(effect.id, 'minor')}
-                      >
-                        Minor
-                      </button>
-                      <button
-                        className={effect.potency === 'moderate' ? 'active' : ''}
-                        onClick={() => updateEffectPotency(effect.id, 'moderate')}
-                      >
-                        Moderate
-                      </button>
-                      <button
-                        className={effect.potency === 'major' ? 'active' : ''}
-                        onClick={() => updateEffectPotency(effect.id, 'major')}
-                      >
-                        Major
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    className="remove-stat"
-                    onClick={() => toggleEffect(effect.id)}
-                  >
-                    ×
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      <div className="stat-selector-section">
-        <h4>Choose Utility Effects:</h4>
-
-        <div className="stat-category-tabs">
+        {/* Utility Category Selection at Header */}
+        <div className="utility-category-buttons">
           {Object.values(UTILITY_TYPES).map(type => (
             <button
               key={type.id}
-              className={selectedUtilityCategory === type.id ? 'active' : ''}
+              className={`utility-category-btn ${selectedUtilityCategory === type.id ? 'selected' : ''}`}
               onClick={() => setSelectedUtilityCategory(type.id)}
             >
-              {type.name}
+              <img
+                src={`https://wow.zamimg.com/images/wow/icons/large/${type.icon}.jpg`}
+                alt={type.name}
+                className="utility-category-btn-icon"
+              />
+              <span>{type.name}</span>
             </button>
           ))}
         </div>
 
-        <div className="stat-cards-grid">
+        {/* Selected Effects Section - Moved up here */}
+        {utilityConfig.selectedEffects && utilityConfig.selectedEffects.length > 0 && (
+          <div className="selected-stats">
+            <h4>Selected Effects ({utilityConfig.selectedEffects.length})</h4>
+            <div className="selected-effects-grid">
+              {utilityConfig.selectedEffects.map(effect => {
+                const originalEffect = getEffectsForType(selectedUtilityCategory).find(e => e.id === effect.id);
+
+                return (
+                  <div className="selected-effect-card" key={effect.id}>
+                    <div className="effect-card-header">
+                      <img src={getIconUrl(originalEffect?.icon)} alt={effect.customName || effect.name} className="effect-card-icon" />
+                      <div className="effect-card-title">{effect.customName || effect.name}</div>
+                      <button
+                        className="effect-configure-btn"
+                        onClick={() => {
+                          setSelectedEffectForConfig(effect);
+                          setLocalPotencySelection(effect.potency || 'moderate'); // Initialize local state
+                          setConfigPopupOpen(true);
+                        }}
+                        title="Configure effect"
+                      >
+                        <FaCog />
+                      </button>
+                      <button
+                        className="effect-remove-btn"
+                        onClick={() => toggleEffect(effect.id)}
+                        title="Remove effect"
+                      >
+                        <i className="fas fa-times"></i>
+                      </button>
+                    </div>
+                    <div className="effect-card-description">
+                      {effect.customDescription || effect.description || getEffectDescription(effect)}
+                    </div>
+                    <div className="effect-card-potency">
+                      Potency: {effect.potency}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Available Effects Grid */}
+        <div className="utility-effects-grid">
           {getEffectsForType(selectedUtilityCategory).map(effect => {
             const isSelected = utilityConfig.selectedEffects?.some(e => e.id === effect.id);
 
             return (
               <div
                 key={effect.id}
-                className={`stat-card ${isSelected ? 'selected' : ''}`}
+                className={`utility-effect-card ${isSelected ? 'selected' : ''}`}
                 onClick={() => toggleEffect(effect.id)}
-                onMouseEnter={(e) => handleMouseEnter(effect, e)}
-                onMouseLeave={handleMouseLeave}
-                onMouseMove={handleMouseMove}
               >
-                <img
-                  src={getIconUrl(effect.icon)}
-                  alt={effect.name}
-                  className="stat-icon"
-                />
-                <div className="stat-name">{effect.name}</div>
+                <div className="utility-effect-header">
+                  <img
+                    src={`https://wow.zamimg.com/images/wow/icons/large/${effect.icon}.jpg`}
+                    alt={effect.name}
+                    className="utility-effect-icon"
+                  />
+                  <div className="utility-effect-info">
+                    <h6>{effect.name}</h6>
+                    <p>{effect.description}</p>
+                  </div>
+                </div>
                 {isSelected && (
-                  <div className="stat-indicator">
-                    {utilityConfig.selectedEffects.find(e => e.id === effect.id).potency}
+                  <div className="utility-effect-selected">
+                    <span className="utility-effect-checkmark">✓</span>
                   </div>
                 )}
               </div>
@@ -662,13 +759,124 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
         </div>
       </div>
 
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
+
+
+
+
+
+
+
+
+      {/* Enhanced Effect Configuration Popup - Rendered outside spellbook window */}
+      {configPopupOpen && selectedEffectForConfig && ReactDOM.createPortal(
+        <div className="effect-config-popup-overlay" onClick={() => setConfigPopupOpen(false)}>
+          <div className="effect-config-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="effect-config-header">
+              <img
+                src={getIconUrl(getEffectsForType(selectedUtilityCategory).find(e => e.id === selectedEffectForConfig.id)?.icon)}
+                alt={selectedEffectForConfig.name}
+                className="effect-config-icon"
+              />
+              <h3>Configure Effect</h3>
+              <button
+                className="effect-config-close"
+                onClick={() => setConfigPopupOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="effect-config-content">
+              <div className="effect-config-field">
+                <label>Effect Name</label>
+                <input
+                  type="text"
+                  value={selectedEffectForConfig.customName || selectedEffectForConfig.name}
+                  onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'customName', e.target.value)}
+                  placeholder="Custom effect name"
+                />
+              </div>
+
+              <div className="effect-config-field">
+                <label>Potency Level</label>
+                <div className="potency-selection-grid">
+                  {POTENCY_OPTIONS.map(potency => {
+                    // Use local state for UI highlighting, fallback to actual state
+                    const currentPotency = localPotencySelection || selectedEffectForConfig.potency || 'moderate';
+                    const isSelected = currentPotency === potency.id;
+
+                    const effectType = getEffectsForType(selectedUtilityCategory).find(e => e.id === selectedEffectForConfig.id);
+
+
+
+                    // Get the proper description based on category and effect ID
+                    let description = 'No description available';
+                    if (effectType && UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effectType.id]?.[potency.id]) {
+                      description = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory][effectType.id][potency.id];
+                    }
+
+                    return (
+                      <div
+                        key={potency.id}
+                        className={`potency-option ${isSelected ? 'selected' : ''} potency-${potency.id}`}
+                        onClick={(e) => {
+
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Set local state immediately for UI feedback
+                          setLocalPotencySelection(potency.id);
+                          updateEffectConfig(selectedEffectForConfig.id, 'potency', potency.id);
+                          // Also update the description if no custom description is set
+                          if (!selectedEffectForConfig.customDescription) {
+                            // Get the enhanced description for this potency level
+                            const enhancedDescription = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effectType.id]?.[potency.id];
+                            if (enhancedDescription) {
+                              updateEffectConfig(selectedEffectForConfig.id, 'description', enhancedDescription);
+                            }
+                          }
+                        }}
+                      >
+                        <div className="potency-header">
+                          <h5 style={{ color: potency.color }}>{potency.name}</h5>
+                          <p className="potency-description">{potency.description}</p>
+                        </div>
+                        <div className="potency-effect-preview">
+                          <strong>Effect:</strong> {description}
+                        </div>
+                        {isSelected && (
+                          <div className="potency-selected-indicator">✓</div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="effect-config-field">
+                <label>Custom Description (Optional)</label>
+                <textarea
+                  value={selectedEffectForConfig.customDescription || ''}
+                  onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'customDescription', e.target.value)}
+                  placeholder="Override the default description with your own..."
+                  rows="3"
+                />
+              </div>
+
+            </div>
+
+            <div className="effect-config-footer">
+              <button
+                className="effect-config-save"
+                onClick={() => setConfigPopupOpen(false)}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
     </div>
   );
 };

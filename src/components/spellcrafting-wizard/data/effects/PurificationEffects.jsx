@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
+
 import './purification-effects.css';
 import IconSelectionCard from '../../components/common/IconSelectionCard';
 import {
@@ -147,15 +147,24 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
   // Initialize purification configuration with defaults
   const [purificationConfig, setPurificationConfig] = useState(state.purificationConfig || defaultConfig);
 
+  // Effect to update state when purification type changes
   useEffect(() => {
-    // Initialize default purification configuration if not already set
-    if (!purificationConfig) {
-      setPurificationConfig(defaultConfig);
+    if (selectedPurificationType !== purificationConfig.purificationType) {
+      const newConfig = {
+        ...purificationConfig,
+        purificationType: selectedPurificationType
+      };
+      setPurificationConfig(newConfig);
+      dispatch(actionCreators.updatePurificationConfig(newConfig));
     }
+  }, [selectedPurificationType, purificationConfig.purificationType, dispatch]);
 
-    // Always sync with global state
-    dispatch(actionCreators.updatePurificationConfig(purificationConfig));
-  }, [purificationConfig]);
+  // Effect to sync state when configuration changes
+  useEffect(() => {
+    if (state.purificationConfig !== purificationConfig) {
+      dispatch(actionCreators.updatePurificationConfig(purificationConfig));
+    }
+  }, [purificationConfig, state.purificationConfig, dispatch, actionCreators]);
 
   // Handle mouse events for tooltips
   const handleMouseEnter = (content, e) => {
@@ -176,10 +185,13 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
   // Handle purification type change
   const handlePurificationTypeChange = (type) => {
     setSelectedPurificationType(type);
+
+    // Clear selected effects when changing purification type since they're type-specific
+    // Each purification type has its own set of available effects
     setPurificationConfig(prev => ({
       ...prev,
       purificationType: type,
-      selectedEffects: [] // Reset selected effects when changing type
+      selectedEffects: [] // Clear effects when switching types
     }));
   };
 
@@ -807,13 +819,6 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
       {renderDurationSettings()}
 
       {/* Tooltip */}
-      <Wc3Tooltip
-        content={tooltipContent?.description}
-        title={tooltipContent?.name}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
     </div>
   );
 };

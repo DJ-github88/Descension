@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   PROC_TRIGGERS, 
   PROC_EFFECTS, 
@@ -15,10 +15,12 @@ const ProcEffectConfig = ({ procConfig, onChange }) => {
   const [selectedEffect, setSelectedEffect] = useState('');
   const [showInfo, setShowInfo] = useState(false);
   
-  // Initialize with default values if needed
+  // Initialize with default values if needed - use useCallback to prevent infinite loops
+  const stableOnChange = useCallback(onChange, []);
+
   useEffect(() => {
     if (!procConfig) {
-      onChange({
+      stableOnChange({
         enabled: false,
         triggers: [],
         effects: [],
@@ -26,7 +28,7 @@ const ProcEffectConfig = ({ procConfig, onChange }) => {
         chanceValue: 0
       });
     }
-  }, [procConfig, onChange]);
+  }, [procConfig, stableOnChange]);
   
   // Handle enabling/disabling proc effects
   const handleEnableChange = (e) => {

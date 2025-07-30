@@ -94,7 +94,10 @@
     color: rgba(255, 255, 255, 0.5);
 }
 
-.item-tooltip {
+/* Removed conflicting item-tooltip styles - using main styles from item-tooltip.css */
+/* These styles were conflicting with the main ItemTooltip component */
+
+.item-tile-tooltip {
     display: none;
     position: absolute;
     bottom: 100%;
@@ -107,7 +110,7 @@
     z-index: 1000;
 }
 
-.item-tile:hover .item-tooltip {
+.item-tile:hover .item-tile-tooltip {
     display: block;
 }
 
@@ -124,8 +127,7 @@
     flex-direction: column;
     gap: 8px;
     padding: 8px;
-    height: 100%;
-    min-height: 0;
+    align-self: flex-start;
 }
 
 .controls {
@@ -166,9 +168,7 @@
     display: flex;
     flex-direction: column;
     gap: 1px;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
+    align-self: flex-start;
 }
 
 .preview-row {
@@ -241,7 +241,8 @@
     background: rgba(0, 128, 0, 0.8);
 }
 
-.modal-overlay {
+/* Generic item generation modal overlay - lower priority */
+.item-generation-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -251,5 +252,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 9998; /* Lower than other specific modals */
 }

@@ -26,7 +26,6 @@ import {
   } from '../../data/enhancedEffectSystemData';
 
   import { calculateTotalResources } from '../mechanics/resourceManager';
-  import { validateSpellConfig } from './spellValidator';
 
   /**
    * Serialize a spell configuration to JSON
@@ -51,12 +50,6 @@ import {
     try {
       // Parse JSON string
       const config = JSON.parse(jsonString);
-
-      // Validate the configuration
-      const validation = validateSpellConfig(config);
-
-      // Add validation results to the config
-      config._validation = validation;
 
       return config;
     } catch (error) {
@@ -119,12 +112,6 @@ import {
           baseConfig[key] = value;
         }
       }
-
-      // Validate the modified config
-      const validation = validateSpellConfig(baseConfig);
-
-      // Add validation results to the config
-      baseConfig._validation = validation;
 
       return baseConfig;
     } catch (error) {

@@ -18,24 +18,19 @@ const SpellContextMenu = ({
   onAddToCollection
 }) => {
   return (
-    <div 
+    <div
       className="spell-context-menu"
-      style={{ left: x, top: y }}
+      style={{
+        left: x,
+        top: y,
+        position: 'fixed',
+        zIndex: 9999999
+      }}
       onClick={e => e.stopPropagation()}
     >
-      <button 
-        className="context-menu-item primary-action"
-        onClick={() => {
-          onEdit(spell.id);
-          onClose();
-        }}
-      >
-        <i className="fas fa-edit"></i>
-        Edit Spell
-      </button>
 
-      <button 
-        className="context-menu-item"
+      <button
+        className="context-menu-item primary-action"
         onClick={() => {
           onDuplicate(spell.id);
           onClose();
@@ -46,7 +41,7 @@ const SpellContextMenu = ({
       </button>
 
       {inCollection ? (
-        <button 
+        <button
           className="context-menu-item delete-item"
           onClick={() => {
             onDelete(spell.id);
@@ -63,7 +58,7 @@ const SpellContextMenu = ({
               <div className="context-menu-header">Add to Collection</div>
               <div className="context-menu-items">
                 {collections.map(collection => (
-                  <div 
+                  <div
                     key={collection.id}
                     className="context-menu-item"
                     onClick={() => {
@@ -79,7 +74,7 @@ const SpellContextMenu = ({
             </div>
           )}
 
-          <button 
+          <button
             className="context-menu-item delete-item"
             onClick={() => {
               onDelete(spell.id);
@@ -102,7 +97,7 @@ SpellContextMenu.propTypes = {
   onClose: PropTypes.func.isRequired,
   collections: PropTypes.array,
   inCollection: PropTypes.bool,
-  onEdit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func, // Made optional since edit functionality is removed
   onDuplicate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onAddToCollection: PropTypes.func

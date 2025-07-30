@@ -1,0 +1,1097 @@
+/* ===== PATHFINDER SPELLBOOK - WIZARD LAYOUT ===== */
+/* Main wizard container and navigation styling */
+
+/* ===== MAIN SPELLBOOK CONTAINER ===== */
+
+.pf-spellbook {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+  background: var(--pf-gradient-parchment);
+  overflow: hidden;
+}
+
+/* ===== SPELLBOOK LAYOUT ===== */
+
+.spellbook-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--pf-gradient-parchment);
+}
+
+/* ===== TAB CONTAINER ===== */
+
+.tab-container {
+  display: flex;
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  padding: var(--pf-space-2) var(--pf-space-4);
+  box-shadow: 0 2px 8px rgba(45, 24, 16, 0.2);
+  position: relative;
+}
+
+.tab-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-gold) 20%,
+    var(--pf-gold) 80%,
+    transparent
+  );
+}
+
+/* ===== TAB BUTTONS ===== */
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  padding: var(--pf-space-3) var(--pf-space-6);
+  margin-right: var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  position: relative;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.tab-button:hover {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.tab-button.active {
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-brown-dark);
+  border-bottom-color: var(--pf-parchment);
+  box-shadow: 
+    var(--pf-shadow-md),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--pf-parchment);
+}
+
+.tab-button .tab-icon {
+  margin-right: var(--pf-space-2);
+  font-size: var(--pf-text-lg);
+}
+
+/* ===== APP CONTAINER ===== */
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--pf-gradient-parchment);
+}
+
+.app-container.pf-spellbook {
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+/* ===== APP HEADER ===== */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--pf-space-4) var(--pf-space-6);
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  box-shadow: 0 4px 12px rgba(45, 24, 16, 0.2);
+  position: relative;
+  z-index: var(--pf-z-sticky);
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-gold) 20%,
+    var(--pf-gold) 80%,
+    transparent
+  );
+}
+
+/* ===== APP TITLE ===== */
+
+.app-title {
+  display: flex;
+  align-items: center;
+  color: var(--pf-text-on-dark);
+}
+
+.app-title h1 {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-3xl);
+  font-weight: var(--pf-font-bold);
+  margin: 0 0 0 var(--pf-space-4);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: var(--pf-gold);
+}
+
+.app-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--pf-border-radius);
+  border: 2px solid var(--pf-gold);
+  box-shadow: var(--pf-shadow-md);
+}
+
+/* ===== APP TABS ===== */
+
+.app-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.app-tab {
+  display: flex;
+  align-items: center;
+  padding: var(--pf-space-3) var(--pf-space-6);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius) var(--pf-border-radius) 0 0;
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+  text-decoration: none;
+}
+
+.app-tab:hover {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.app-tab.active {
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-brown-dark);
+  border-bottom-color: var(--pf-parchment);
+  box-shadow: var(--pf-shadow-md), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== APP CONTROLS ===== */
+
+.app-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+.app-control-btn {
+  display: flex;
+  align-items: center;
+  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.app-control-btn:hover {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.app-control-btn:active {
+  background: var(--pf-gradient-button-active);
+  transform: translateY(0);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.app-control-btn.active {
+  background: var(--pf-brown-medium);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-brown-dark);
+}
+
+.control-icon {
+  margin-right: var(--pf-space-2);
+  font-size: var(--pf-text-base);
+}
+
+.control-text {
+  font-size: var(--pf-text-sm);
+}
+
+/* Special styling for the finalize button */
+.app-control-btn.finalize-btn {
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+  font-weight: var(--pf-font-bold);
+  box-shadow:
+    var(--pf-shadow-md),
+    0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.app-control-btn.finalize-btn:hover {
+  background: var(--pf-gradient-gold-bright);
+  color: var(--pf-brown-darkest);
+  transform: translateY(-2px);
+  box-shadow:
+    var(--pf-shadow-lg),
+    0 0 15px rgba(212, 175, 55, 0.5);
+}
+
+/* ===== APP CONTENT ===== */
+
+.app-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  background: var(--pf-gradient-parchment);
+}
+
+.app-main-panel {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.app-main-panel.edit-mode {
+  margin-top: 40px;
+}
+
+/* ===== EDIT MODE INDICATOR ===== */
+
+.edit-mode-indicator {
+  position: fixed;
+  top: var(--pf-wizard-header-height);
+  left: 0;
+  right: 0;
+  background: var(--pf-warning);
+  color: var(--pf-text-on-dark);
+  padding: var(--pf-space-2) var(--pf-space-4);
+  text-align: center;
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-semibold);
+  font-size: var(--pf-text-sm);
+  z-index: var(--pf-z-sticky);
+  box-shadow: var(--pf-shadow-md);
+  border-bottom: 2px solid var(--pf-warning-light);
+}
+
+/* ===== LOADING WRAPPER ===== */
+
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--pf-space-8);
+  background: var(--pf-gradient-parchment);
+}
+
+.loading-text {
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-xl);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-muted);
+  margin-top: var(--pf-space-4);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-3);
+  }
+  
+  .app-title h1 {
+    font-size: var(--pf-text-2xl);
+    margin-left: var(--pf-space-2);
+  }
+  
+  .app-logo {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .tab-container {
+    flex-wrap: wrap;
+    gap: var(--pf-space-1);
+  }
+  
+  .tab-button {
+    padding: var(--pf-space-2) var(--pf-space-4);
+    margin-right: var(--pf-space-1);
+    font-size: var(--pf-text-sm);
+  }
+  
+  .app-main-panel {
+    max-width: 100%;
+    padding: var(--pf-space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-title h1 {
+    font-size: var(--pf-text-xl);
+  }
+
+  .tab-button {
+    padding: var(--pf-space-2) var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+  }
+
+  .tab-button .tab-icon {
+    margin-right: var(--pf-space-1);
+    font-size: var(--pf-text-base);
+  }
+
+  .app-controls {
+    gap: var(--pf-space-2);
+  }
+
+  .app-control-btn {
+    padding: var(--pf-space-1) var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+  }
+}
+
+/* ===== WIZARD-SPECIFIC LAYOUT ===== */
+
+.spellbook-wizard-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--pf-gradient-parchment);
+  overflow: hidden; /* Prevent layout overflow */
+  position: relative; /* Enable absolute positioning for children */
+}
+
+/* ===== WIZARD PROGRESS OVERLAY ===== */
+
+/* Progress bar that sticks to bottom of spellbook content */
+.spellbook-content {
+  position: relative !important;
+  height: 100% !important;
+}
+
+.wizard-progress-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--pf-gradient-parchment-dark);
+  border-top: 1px solid var(--pf-brown-medium);
+  box-shadow: 0 -2px 4px rgba(45, 24, 16, 0.1);
+  padding: 2px 8px;
+  backdrop-filter: blur(2px);
+  height: 24px;
+  min-height: 24px;
+  max-height: 24px;
+}
+
+/* ===== WIZARD MAIN CONTENT ===== */
+
+.wizard-main-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 0 30px 0; /* Minimal bottom padding for progress bar */
+  background: var(--pf-gradient-parchment);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Improved scroll responsiveness */
+  scrollbar-width: thin;
+  scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light);
+  /* Enhanced scroll performance */
+  scroll-behavior: auto;
+  overscroll-behavior: contain;
+  /* Reduce scroll resistance for better responsiveness */
+  scroll-padding: 0;
+}
+
+.wizard-main-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.wizard-main-content::-webkit-scrollbar-track {
+  background: var(--pf-brown-light);
+  border-radius: 6px;
+}
+
+.wizard-main-content::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-medium);
+  border-radius: 6px;
+  border: 2px solid var(--pf-brown-light);
+}
+
+.wizard-main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-brown-dark);
+}
+
+/* ===== EXTERNAL SPELL PREVIEW LAYOUT ===== */
+
+.spell-wizard-with-preview {
+  display: flex;
+  gap: var(--pf-space-4);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.spell-wizard-main {
+  flex: 1;
+  min-width: 0; /* Allow flex shrinking */
+}
+
+/* ===== EXTERNAL LIVE PREVIEW PANEL ===== */
+
+.external-spell-preview {
+  width: 420px;
+  min-width: 420px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  background: var(--pf-gradient-header);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  overflow: hidden;
+  margin: var(--pf-space-3);
+  margin-left: 0;
+  height: calc(100vh - var(--pf-space-6));
+}
+
+/* ===== PATHFINDER LIVE PREVIEW STYLING ===== */
+
+.external-spell-preview-pathfinder {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-parchment);
+  overflow: hidden;
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+  backdrop-filter: blur(2px);
+}
+
+.external-spell-preview-pathfinder .external-preview-header {
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  text-align: center;
+}
+
+.external-spell-preview-pathfinder .preview-title {
+  margin: 0;
+  font-size: var(--pf-text-sm);
+  font-weight: 600;
+  color: var(--pf-text-primary);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.external-spell-preview-pathfinder .external-preview-content {
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  overflow-y: auto;
+  max-height: 580px;
+}
+
+.external-preview-header {
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-header);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.external-preview-header h3 {
+  margin: 0 0 var(--pf-space-1) 0;
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-display);
+  font-size: var(--pf-text-lg);
+  font-weight: var(--pf-font-bold);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.external-preview-subtitle {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  font-style: italic;
+}
+
+.external-preview-card {
+  flex: 1;
+  padding: var(--pf-space-3);
+  background: var(--pf-parchment);
+  overflow-y: auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.external-preview-card .unified-spell-card {
+  width: 100%;
+  max-width: none;
+  min-width: auto;
+}
+
+/* ===== RESPONSIVE EXTERNAL PREVIEW LAYOUT ===== */
+
+@media (max-width: 1600px) {
+  .external-spell-preview {
+    width: 380px;
+    min-width: 380px;
+    max-width: 380px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .external-spell-preview {
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .spell-wizard-with-preview {
+    flex-direction: column;
+    gap: var(--pf-space-2);
+  }
+
+  .external-spell-preview {
+    width: 100%;
+    min-width: auto;
+    max-width: none;
+    height: 300px;
+    margin: var(--pf-space-2);
+    order: -1; /* Show preview at top on mobile */
+  }
+
+  .spell-wizard-main {
+    flex: 1;
+    height: calc(100vh - 320px);
+  }
+}
+
+@media (max-width: 768px) {
+  .external-spell-preview {
+    height: 250px;
+    margin: var(--pf-space-1);
+  }
+
+  .external-preview-card .unified-spell-card {
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .spell-wizard-main {
+    height: calc(100vh - 270px);
+  }
+}
+
+/* ===== WIZARD FOOTER ===== */
+
+.spellbook-layout .wizard-footer {
+  background: var(--pf-gradient-header);
+  border-top: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  padding: var(--pf-space-1) var(--pf-space-4) var(--pf-space-2) var(--pf-space-4); /* Reduced top padding */
+  box-shadow: 0 -2px 8px rgba(45, 24, 16, 0.2);
+  position: relative;
+  z-index: var(--pf-z-sticky);
+  flex-shrink: 0;
+  /* Optimized footer height for better content space and moved progress bar */
+  min-height: 90px; /* Reduced height */
+  max-height: 110px; /* Reduced height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to top */
+}
+
+.spellbook-layout .wizard-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-gold) 20%,
+    var(--pf-gold) 80%,
+    transparent
+  );
+}
+
+/* ===== WIZARD PROGRESS TABS (IN FOOTER) ===== */
+
+.wizard-progress-tabs {
+  display: flex;
+  gap: var(--pf-space-2);
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  width: 100%;
+  margin: 0 auto var(--pf-space-3) auto;
+  padding: var(--pf-space-3) var(--pf-space-4) var(--pf-space-4) var(--pf-space-4);
+  border-bottom: 1px solid var(--pf-brown-light);
+  /* Ensure tabs don't get cut off */
+  overflow: visible;
+  min-height: 70px;
+}
+
+.wizard-step-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: 50%;
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+  position: relative;
+  /* Circular design with proper sizing */
+  height: 40px;
+  width: 40px;
+  min-height: 40px;
+  min-width: 40px;
+  max-height: 40px;
+  max-width: 40px;
+  white-space: nowrap;
+  /* Ensure equal distribution */
+  flex: 0 0 auto;
+}
+
+.wizard-step-tab:hover {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--pf-shadow-md);
+  border-color: var(--pf-gold);
+  z-index: 10;
+}
+
+.wizard-step-tab.active {
+  background: var(--pf-gold);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-gold-dark);
+  box-shadow:
+    var(--pf-shadow-md),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  z-index: 10;
+}
+
+.wizard-step-tab.completed {
+  background: var(--pf-success);
+  color: var(--pf-text-on-dark);
+  border-color: var(--pf-success-dark);
+}
+
+.wizard-step-tab.pending {
+  background: var(--pf-gradient-button);
+  color: var(--pf-text-muted);
+}
+
+.step-tab-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+}
+
+/* Ensure wizard step tooltips appear above everything */
+.wizard-step-tab[data-tooltip] {
+  position: relative;
+}
+
+.wizard-step-tab[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: fixed;
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  font-weight: normal;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-parchment);
+  z-index: 10000;
+  pointer-events: none;
+  white-space: nowrap;
+  max-width: 300px;
+  word-wrap: break-word;
+  white-space: normal;
+  transform: translateX(-50%) translateY(-120%);
+  left: 50%;
+  bottom: 100%;
+  animation: tooltip-appear 0.2s ease-out;
+}
+
+@keyframes tooltip-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-120%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-120%) scale(1);
+  }
+}
+
+.step-tab-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 0;
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-bold);
+}
+
+.step-tab-name {
+  display: none; /* Hide step names to save space */
+}
+
+/* ===== WIZARD NAVIGATION FOOTER ===== */
+
+.wizard-navigation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pf-space-4);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.wizard-nav-controls {
+  display: flex;
+  gap: var(--pf-space-3);
+}
+
+.wizard-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-3) var(--pf-space-6);
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm);
+  min-width: 100px;
+}
+
+.wizard-nav-btn:hover:not(:disabled) {
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md);
+}
+
+.wizard-nav-btn:disabled {
+  background: var(--pf-gradient-button-disabled);
+  color: var(--pf-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.wizard-nav-cancel {
+  background: var(--pf-gradient-danger);
+  border-color: var(--pf-error);
+  color: var(--pf-text-on-dark);
+}
+
+.wizard-nav-cancel:hover {
+  background: var(--pf-gradient-danger-hover);
+  border-color: var(--pf-error-dark);
+}
+
+/* ===== WIZARD PROGRESS BAR ===== */
+
+.spell-wizard-progress-bar {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background: var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.spell-wizard-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    var(--pf-brown-medium),
+    var(--pf-brown-dark)
+  );
+  transition: width var(--pf-transition-normal);
+  border-radius: var(--pf-border-radius);
+}
+
+.spell-wizard-progress-segments {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  z-index: 2;
+}
+
+.spell-wizard-progress-segment {
+  position: relative;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.spell-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--pf-gradient-button);
+  border: 2px solid var(--pf-brown-medium);
+  color: var(--pf-text-primary);
+  font-weight: bold;
+  font-size: var(--pf-text-sm);
+  transition: all var(--pf-transition-normal);
+}
+
+.spell-wizard-progress-segment.active .spell-step-number {
+  background: var(--pf-gradient-primary);
+  border-color: var(--pf-primary);
+  color: var(--pf-text-on-dark);
+  transform: scale(1.1);
+}
+
+.spell-wizard-progress-segment.completed .spell-step-number {
+  background: var(--pf-gradient-success);
+  border-color: var(--pf-success);
+  color: var(--pf-text-on-dark);
+}
+
+.spell-wizard-progress-segment:hover .spell-step-number {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(45, 24, 16, 0.3);
+}
+
+/* ===== STEP TOOLTIPS ===== */
+
+.spell-step-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  background: var(--pf-gradient-tooltip);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  box-shadow: var(--pf-shadow-tooltip);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--pf-transition-normal);
+  z-index: 1001;
+  min-width: 120px;
+  text-align: center;
+  font-size: var(--pf-text-xs);
+}
+
+.spell-wizard-progress-segment:hover .spell-step-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.spell-tooltip-header {
+  font-weight: bold;
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-1);
+}
+
+.spell-tooltip-name {
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-xs);
+}
+
+.spell-tooltip-description {
+  color: var(--pf-text-muted);
+  font-size: var(--pf-text-xs);
+  margin-top: var(--pf-space-1);
+}
+
+.wizard-progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    var(--pf-gold),
+    var(--pf-gold-light)
+  );
+  transition: width var(--pf-transition-normal);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.wizard-progress-text {
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== RESPONSIVE FOOTER DESIGN ===== */
+
+@media (max-width: 1024px) {
+  .wizard-footer {
+    min-height: 120px;
+    max-height: 160px;
+    padding: var(--pf-space-2) var(--pf-space-3);
+  }
+
+  .wizard-progress-tabs {
+    gap: var(--pf-space-1);
+    width: 100%;
+    padding: var(--pf-space-2) var(--pf-space-3) var(--pf-space-3) var(--pf-space-3);
+    justify-content: space-between;
+    min-height: 60px;
+  }
+
+  .wizard-step-tab {
+    height: 36px;
+    width: 36px;
+    min-height: 36px;
+    min-width: 36px;
+    max-height: 36px;
+    max-width: 36px;
+    padding: var(--pf-space-1);
+  }
+
+  .step-tab-number {
+    font-size: var(--pf-text-xs);
+  }
+}
+
+@media (max-width: 768px) {
+  .spellbook-layout .wizard-footer {
+    min-height: 140px;
+    max-height: 180px;
+  }
+
+  .spellbook-layout .wizard-navigation-footer {
+    flex-direction: column;
+    gap: var(--pf-space-2);
+  }
+
+  .spellbook-layout .wizard-nav-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .spellbook-layout .wizard-progress-bar-container {
+    order: -1;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .spellbook-layout .wizard-step-tab {
+    min-height: 26px;
+    min-width: 26px;
+    max-width: 26px;
+  }
+
+  .spellbook-layout .step-tab-number {
+    font-size: 10px;
+  }
+}

@@ -32,7 +32,7 @@ import {
   faLink,
   faWind
 } from '@fortawesome/free-solid-svg-icons';
-import '../../data/effects/shared-effect-cards.css';
+// Pathfinder styles imported via main.css
 
 const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const state = useSpellWizardState();
@@ -1570,40 +1570,15 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       <div style={{ fontWeight: 'bold', color: '#ff4444' }}>Interruption</div>
                     </div>
 
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: 'rgba(49, 50, 68, 0.6)',
-                      border: '1px solid #45475a',
-                      borderRadius: '4px',
-                      padding: '12px',
-                      marginBottom: '12px'
-                    }}>
-                      <label className="wow-checkbox" style={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        userSelect: 'none'
-                      }}>
-                        <input
-                          type="checkbox"
-                          checked={!channelingConfig.interruptible}
-                          onChange={() => handleChannelingConfigChange({ interruptible: !channelingConfig.interruptible })}
-                          style={{
-                            marginRight: '8px',
-                            width: '18px',
-                            height: '18px',
-                            accentColor: '#ff4444'
-                          }}
-                        />
-                        <span style={{
-                          fontWeight: 'bold',
-                          color: '#cdd6f4',
-                          fontSize: '14px'
-                        }}>
-                          Cannot be interrupted
-                        </span>
+                    <div className="pf-checkbox-container channeling-option">
+                      <input
+                        type="checkbox"
+                        className="pf-checkbox"
+                        checked={!channelingConfig.interruptible}
+                        onChange={() => handleChannelingConfigChange({ interruptible: !channelingConfig.interruptible })}
+                      />
+                      <label className="pf-checkbox-label">
+                        Cannot be interrupted
                       </label>
                     </div>
 
@@ -1648,40 +1623,15 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       <div style={{ fontWeight: 'bold', color: '#ff7700' }}>Movement</div>
                     </div>
 
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: 'rgba(49, 50, 68, 0.6)',
-                      border: '1px solid #45475a',
-                      borderRadius: '4px',
-                      padding: '12px',
-                      marginBottom: '12px'
-                    }}>
-                      <label className="wow-checkbox" style={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        userSelect: 'none'
-                      }}>
-                        <input
-                          type="checkbox"
-                          checked={!channelingConfig.movementAllowed}
-                          onChange={() => handleChannelingConfigChange({ movementAllowed: !channelingConfig.movementAllowed })}
-                          style={{
-                            marginRight: '8px',
-                            width: '18px',
-                            height: '18px',
-                            accentColor: '#ff7700'
-                          }}
-                        />
-                        <span style={{
-                          fontWeight: 'bold',
-                          color: '#cdd6f4',
-                          fontSize: '14px'
-                        }}>
-                          Must stand still
-                        </span>
+                    <div className="pf-checkbox-container channeling-option">
+                      <input
+                        type="checkbox"
+                        className="pf-checkbox"
+                        checked={!channelingConfig.movementAllowed}
+                        onChange={() => handleChannelingConfigChange({ movementAllowed: !channelingConfig.movementAllowed })}
+                      />
+                      <label className="pf-checkbox-label">
+                        Must stand still
                       </label>
                     </div>
 
@@ -2971,7 +2921,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 ))}
 
                 <button
-                  className="effect-option-tab mt-sm"
+                  className="pf-button mt-sm"
                   onClick={() => {
                     if (!channelingConfig.stages) {
                       handleChannelingConfigChange({

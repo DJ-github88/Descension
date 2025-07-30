@@ -1,8 +1,7 @@
-/* WoW Classic Styling */
+/* WoW Classic Styling - Legacy Support Only */
+/* Note: All spell cards now use UnifiedSpellCard component with Pathfinder styling */
 
-/* Spell Card - see SpellLibrary.css for main definition */
-/* Only keeping rarity and school color styles in this file */
-
+/* Legacy spell card gloss effect - kept for backwards compatibility */
 .spell-card-gloss {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
   height: 50%;
@@ -11,75 +10,6 @@
   top: 0;
   width: 100%;
   z-index: 1;
-}
-
-.spell-card-content {
-  position: relative;
-  z-index: 2;
-}
-
-/* Spell Card Header */
-.spell-card-header {
-  display: flex;
-  padding: 12px;
-}
-
-.spell-icon-wrapper {
-  position: relative;
-  margin-right: 12px;
-}
-
-.spell-icon-border {
-  background: #000;
-  border: 1px solid #666;
-  border-radius: 4px;
-  height: 40px;
-  overflow: hidden;
-  width: 40px;
-}
-
-.spell-icon {
-  height: 100%;
-  object-fit: cover;
-  width: 100%;
-}
-
-.spell-rank {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid #666;
-  border-radius: 50%;
-  bottom: -5px;
-  color: #fff;
-  font-size: 9px;
-  font-weight: bold;
-  height: 18px;
-  line-height: 16px;
-  position: absolute;
-  right: -5px;
-  text-align: center;
-  width: 18px;
-}
-
-.spell-info {
-  flex: 1;
-}
-
-.spell-name {
-  color: #FFD100;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0 0 4px 0;
-  text-shadow: 1px 1px 2px #000;
-}
-
-.spell-meta {
-  display: flex;
-  font-size: 11px;
-  gap: 10px;
-}
-
-.spell-cast-time, .spell-range {
-  color: #aaa;
 }
 
 /* Spell Card Body */

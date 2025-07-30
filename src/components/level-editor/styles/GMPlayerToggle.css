@@ -1,0 +1,130 @@
+/* GM/Player Toggle - Simplified Draggable Button */
+.gm-player-toggle-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+
+    /* Container styling */
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    transition: all 0.3s ease;
+    user-select: none;
+    min-width: 70px;
+
+    /* Pathfinder Parchment Background */
+    background:
+        linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%),
+        radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
+
+    /* Rich Border & Shadow */
+    border: 2px solid #8B4513;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 rgba(139, 69, 19, 0.2);
+}
+
+.drag-handle {
+    padding: 6px 4px;
+    cursor: move;
+    color: #8B4513;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 1;
+    border-right: 1px solid rgba(139, 69, 19, 0.3);
+    user-select: none;
+}
+
+.drag-handle:hover {
+    background: rgba(139, 69, 19, 0.1);
+}
+
+.gm-player-toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    user-select: none;
+    color: inherit;
+    min-width: 50px;
+}
+
+.gm-player-toggle-button:hover {
+    background: rgba(139, 69, 19, 0.1);
+}
+
+/* Mode-specific styling */
+.gm-player-toggle-container.gm-mode {
+    background:
+        linear-gradient(145deg, #f0ead6 0%, #e8dcc6 100%),
+        radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.05) 0%, transparent 50%);
+    color: #8B4513;
+    border-color: #8B4513;
+}
+
+.gm-player-toggle-container.player-mode {
+    background:
+        linear-gradient(145deg, #e8dcc6 0%, #d4c4a8 100%),
+        radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
+    color: #5a1e12;
+    border-color: #8B4513;
+}
+
+.mode-text {
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Hover and interaction effects */
+.gm-player-toggle-container:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -1px 0 rgba(139, 69, 19, 0.3);
+}
+
+.gm-player-toggle-button:active {
+    transform: translateY(1px);
+}
+
+/* Focus styles for accessibility */
+.gm-player-toggle-button:focus {
+    outline: 2px solid #d4af37;
+    outline-offset: 2px;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gm-player-toggle-container {
+        top: 10px;
+        right: 10px;
+    }
+
+    .drag-handle {
+        padding: 10px 6px;
+        font-size: 10px;
+    }
+
+    .gm-player-toggle-button {
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+
+    .mode-icon {
+        font-size: 14px;
+    }
+}

@@ -37,7 +37,7 @@ export default function CreatureLibrary() {
     return (
         <div className="creature-library">
             <h2>Creature Library</h2>
-            
+
             {/* Add Creature Buttons */}
             <div className="creature-types">
                 <button
@@ -63,13 +63,13 @@ export default function CreatureLibrary() {
             {/* Creature List */}
             <div className="creature-list">
                 {creatures.map((creature) => (
-                    <div 
-                        key={creature.id} 
+                    <div
+                        key={creature.id}
                         className={`creature-card ${selectedCreature === creature.id ? 'selected' : ''}`}
                         onClick={() => setSelectedCreature(creature.id)}
                     >
                         <h3>{creature.name} ({creature.type})</h3>
-                        
+
                         {/* Core Stats */}
                         <div className="creature-stats">
                             <div>HP: {creature.stats.currentHealth}/{creature.stats.maxHealth}</div>
@@ -90,7 +90,7 @@ export default function CreatureLibrary() {
                         {/* Abilities */}
                         <div className="creature-abilities">
                             <h4>Abilities</h4>
-                            <button 
+                            <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleAddAbility(creature.id);
@@ -104,7 +104,9 @@ export default function CreatureLibrary() {
                                     <span>{ability.name}</span>
                                     <span>Type: {ability.type}</span>
                                     <span>AP: {ability.apCost}</span>
-                                    {ability.damage > 0 && <span>DMG: {ability.damage}</span>}
+                                    {ability.damage && <span>DMG: {typeof ability.damage === 'object'
+                                        ? `${ability.damage.diceCount}d${ability.damage.diceType}${ability.damage.bonus > 0 ? `+${ability.damage.bonus}` : ''} ${ability.damage.damageType || ''}`
+                                        : ability.damage}</span>}
                                     {ability.healing > 0 && <span>HEAL: {ability.healing}</span>}
                                 </div>
                             ))}

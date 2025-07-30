@@ -11,14 +11,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 99999; /* Extremely high z-index to ensure it's on top of everything */
 }
 
 /* Modal container */
 .spell-library-modal {
   width: 90%;
   max-width: 800px;
-  max-height: 75vh;
+  height: 80vh;
+  max-height: 700px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(66, 91, 158, 0.5);
@@ -29,6 +30,7 @@
   background-color: rgba(10, 20, 40, 0.95);
   background-image: linear-gradient(rgba(10, 20, 40, 0.95), rgba(10, 20, 40, 0.95)),
     url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill-opacity="0.03"><path d="M0 0h64v64H0z" fill="none"/><path d="M32 8l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="%231e3a8a"/></svg>');
+  position: relative;
 }
 
 @keyframes modalFadeIn {
@@ -129,6 +131,16 @@
   box-shadow: 0 0 0 2px rgba(255, 209, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+.search-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  pointer-events: none;
+}
+
 .clear-search-btn {
   position: absolute;
   right: 8px;
@@ -206,12 +218,32 @@
 /* Grid view */
 .spell-library-popup-spells.grid-view .spell-cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
   gap: 16px;
   padding: 16px;
   width: 100%;
-  max-height: 60vh;
+  max-height: 50vh;
   overflow-y: auto;
+}
+
+/* Enhanced scroll bar styling for spell library */
+.spell-cards-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.spell-cards-container::-webkit-scrollbar-track {
+  background: rgba(139, 69, 19, 0.1);
+  border-radius: 6px;
+}
+
+.spell-cards-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #D4AF37, #B8860B);
+  border-radius: 6px;
+  border: 1px solid #8B4513;
+}
+
+.spell-cards-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #FFD700, #DAA520);
 }
 
 /* List view */
@@ -248,12 +280,11 @@
   box-shadow: 0 0 0 1px #ffd100, 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Library style spell cards */
+/* Library style spell cards - minimal container styling */
 .spell-item.library-style {
   padding: 0;
   background-color: transparent;
   border: none;
-  box-shadow: none;
   height: auto;
   width: 100%;
 }
@@ -261,7 +292,6 @@
 .spell-item.library-style:hover {
   background-color: transparent;
   border: none;
-  box-shadow: none;
 }
 
 .spell-item.library-style.selected {
@@ -279,7 +309,9 @@
   box-shadow: none;
 }
 
-.spell-icon {
+/* Scope spell-icon to spell library popup only */
+.spell-library-popup .spell-icon,
+.spell-item .spell-icon {
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -359,19 +391,15 @@
   max-width: 450px;
 }
 
-/* Ensure spell cards in the library match the ones in the review step */
+/* Let spell cards use their natural Pathfinder styling */
 .spell-item.library-style .wow-spell-card {
-  margin: 0;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
+  margin: 0 auto;
 }
 
 .spell-item.library-style .review-spell-preview {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center;
   padding: 0;
-  margin: 0;
 }
 
 /* Ensure resource icons have their own icons instead of overlaying on the spell icon */
@@ -492,7 +520,9 @@
   z-index: 2;
 }
 
-.grid-view .spell-icon {
+/* Grid view spell icons - scoped to spell library popup */
+.spell-library-popup .grid-view .spell-icon,
+.grid-view .spell-item .spell-icon {
   width: 48px;
   height: 48px;
   margin-right: 0;
@@ -567,7 +597,7 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .spell-library-popup-spells.grid-view .spell-cards-container {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
     gap: 14px;
     padding: 14px;
   }

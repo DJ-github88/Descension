@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import '../../styles/unlock-container-modal.css';
 
-const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
+const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose }) => {
     const [input, setInput] = useState('');
     const [guessedLetters, setGuessedLetters] = useState(new Set());
     const [error, setError] = useState('');
@@ -13,6 +13,44 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
     const inputRef = useRef(null);
     const updateItem = useItemStore(state => state.updateItem);
     const removeItem = useItemStore(state => state.removeItem);
+
+    // Create a wrapper for onSuccess that unlocks the container
+    const onSuccess = (updatedContainer) => {
+        // Make sure container properties exist
+        if (!container.containerProperties) {
+            container.containerProperties = {
+                gridSize: { rows: 4, cols: 6 },
+                items: [],
+                isLocked: true,
+                lockType: 'thievery',
+                lockDC: 15,
+                lockCode: '',
+                flavorText: '',
+                maxAttempts: 3,
+                failureAction: 'none',
+                failureActionDetails: {}
+            };
+        }
+
+        // Update container to be unlocked
+        const updatedProps = {
+            ...container.containerProperties,
+            isLocked: false
+        };
+
+        // Update the container in the store
+        updateItem(container.id, {
+            type: 'container', // Force type to be container
+            containerProperties: updatedProps
+        });
+
+        // Also update the local container object for immediate use
+        container.containerProperties = updatedProps;
+        container.type = 'container'; // Force type to be container
+
+        // Call the original onSuccess function
+        originalOnSuccess(updatedContainer || container);
+    };
 
     useEffect(() => {
         if (inputRef.current) {
@@ -61,12 +99,12 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
     const checkWordProgress = (newLetter) => {
         const targetWord = container.containerProperties.lockCode;
         const newGuessedLetters = new Set([...guessedLetters, newLetter]);
-        
+
         // Check if the new letter is in the word (ignoring spaces)
         if (!targetWord.replace(/\s/g, '').includes(newLetter)) {
             const newAttempts = attempts + 1;
             setAttempts(newAttempts);
-            
+
             if (newAttempts >= container.containerProperties.maxAttempts) {
                 handleFailure();
             } else {
@@ -83,7 +121,7 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
 
     const handleFailure = () => {
         const { failureAction, failureActionDetails } = container.containerProperties;
-        
+
         switch (failureAction) {
             case 'remove_items':
                 const itemCount = container.containerProperties.items.length;
@@ -132,7 +170,7 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
             const roll = Math.floor(Math.random() * 20) + 1;
             setDiceRoll(roll);
             const total = roll + parseInt(input || 0);
-            
+
             if (total >= container.containerProperties.lockDC) {
                 onSuccess();
             } else {
@@ -169,7 +207,7 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
     const renderGuessedLetters = () => {
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const uniqueLetters = new Set([...container.containerProperties.lockCode.replace(/\s/g, '')]);
-        
+
         return (
             <div className="letter-status">
                 <div className="letter-grid">
@@ -201,7 +239,7 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
     };
 
     return createPortal(
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="unlock-container-overlay" onClick={onClose}>
             <div className="unlock-container-modal" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
                     <h3>Unlock {container.name}</h3>
@@ -256,7 +294,7 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
                                 autoCapitalize="off"
                                 spellCheck="false"
                             />
-                            <button 
+                            <button
                                 className="submit-button"
                                 onClick={handleNumericSubmit}
                                 disabled={!input}
@@ -305,14 +343,35 @@ const UnlockContainerModal = ({ container, onSuccess, onClose }) => {
                         Cancel
                     </button>
                     {container.containerProperties.lockType === 'thievery' && (
-                        <button 
-                            className="unlock-button"
-                            onClick={handleSubmit}
-                            disabled={!input}
-                        >
-                            <i className="fas fa-unlock"></i>
-                            Pick Lock
-                        </button>
+                        <>
+                            <button
+                                className="unlock-button"
+                                onClick={handleSubmit}
+                                disabled={!input}
+                            >
+                                <i className="fas fa-unlock"></i>
+                                Pick Lock
+                            </button>
+                            <button
+                                className="success-button"
+                                onClick={onSuccess}
+                                style={{
+                                    backgroundColor: '#4CAF50',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '8px 16px',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    marginLeft: '8px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px'
+                                }}
+                            >
+                                <i className="fas fa-check"></i>
+                                Success
+                            </button>
+                        </>
                     )}
                 </div>
             </div>

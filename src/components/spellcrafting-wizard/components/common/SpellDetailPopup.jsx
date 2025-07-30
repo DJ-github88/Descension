@@ -1,8 +1,8 @@
 import React from 'react';
 import WowWindow from '../../../windows/WowWindow';
-import LibraryStyleSpellCard from './LibraryStyleSpellCard';
+import UnifiedSpellCard from './UnifiedSpellCard';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
-import '../../styles/ConsolidatedSpellCard.css';
+// Pathfinder styles imported via main.css
 
 /**
  * SpellDetailPopup component
@@ -41,7 +41,14 @@ const SpellDetailPopup = ({ isOpen, onClose, spellId, onSelectSpell }) => {
       }}>
         {/* Spell card */}
         <div className="spell-card-container" style={{ flex: 1 }}>
-          <LibraryStyleSpellCard spell={spell} />
+          <UnifiedSpellCard
+            spell={spell}
+            variant="wizard"
+            showActions={false}
+            showDescription={true}
+            showStats={true}
+            showTags={true}
+          />
         </div>
 
         {/* Action buttons */}

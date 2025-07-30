@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { FaHeart, FaDroplet, FaBolt, FaFire, FaShield, FaHeartPulse, FaGaugeHigh, FaGauge, FaChevronDown } from 'react-icons/fa6';
-import '../../styles/RestorationEffects.css';
 import IconSelectionCard from '../../components/common/IconSelectionCard';
 import FormulaEditor from '../../components/mechanics/FormulaEditor';
 import ResolutionSelector from '../../components/mechanics/ResolutionSelector';
-import DiceRollVisualizer from '../../components/mechanics/DiceRollVisualizer';
-import CardDrawVisualizer from '../../components/mechanics/CardDrawVisualizer';
-import CoinFlipVisualizer from '../../components/mechanics/CoinFlipVisualizer';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
-import '../../styles/MechanicsConfig.css';
-import '../../../../styles/VariablesDisplay.css';
+
+import './restoration-effects.css';
+
+// Pathfinder styles imported via main.css
+
 
 // Helper function to get icon URL
 const getIconUrl = (iconName) => {
@@ -92,16 +91,8 @@ const STAT_VARIABLES = {
   ALTERNATING_PATTERN: { name: 'Alternating Pattern', description: 'Boolean if coins alternate heads/tails' }
 };
 
-const VARIABLE_CATEGORIES = {
-  'Primary Attributes': ['STR', 'AGI', 'CON', 'INT', 'WIS', 'SPIR', 'CHA'],
-  'Resources': ['CHP', 'MHP', 'CMP', 'MMP', 'CINF', 'MINF', 'CAP', 'MAP'],
-  'Recovery': ['HR', 'MR', 'IR', 'APR'],
-  'Combat Variables': ['LEVEL', 'ROUND', 'TURN', 'COMBO'],
-  'Math Functions': ['MAX(a, b)', 'MIN(a, b)', 'FLOOR(a)', 'CEIL(a)', 'ROUND(a)', 'ABS(a)'],
-  'Dice Variables': ['1d4', '1d6', '1d8', '1d10', '1d12', '1d20', '2d6', '3d6'],
-  'Card Variables': ['CARD_VALUE', 'FACE_CARDS', 'PAIRS', 'SAME_SUIT', 'FLUSH', 'STRAIGHT', 'THREE_KIND', 'FOUR_KIND', 'FULL_HOUSE', 'RED_COUNT', 'BLACK_COUNT', 'ACE_COUNT'],
-  'Coin Variables': ['HEADS_COUNT', 'TAILS_COUNT', 'ALL_HEADS', 'ALL_TAILS', 'HEADS_RATIO', 'TOTAL_FLIPS', 'CONSECUTIVE_HEADS', 'ALTERNATING_PATTERN']
-};
+// Import centralized variable definitions
+import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
 
 // Variables Display Component
 const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {
@@ -166,17 +157,24 @@ const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {
           <div key={category} className="variables-category">
             <div className="category-title">{category}</div>
             <div className="variables-grid">
-              {variables.map(variable => (
-                <div
-                  key={variable}
-                  id={`var-${variable}`}
-                  className="variable-item"
-                  onClick={() => handleVariableClick(variable)}
-                >
-                  <span className="variable-name">{variable}</span>
-                  <span className="variable-desc">{STAT_VARIABLES[variable]?.description || ''}</span>
-                </div>
-              ))}
+              {variables.map(variable => {
+                // Get the proper display name from ALL_VARIABLES
+                const variableInfo = ALL_VARIABLES[variable];
+                const displayName = variableInfo?.name || variable;
+                const description = variableInfo?.description || STAT_VARIABLES[variable]?.description || '';
+
+                return (
+                  <div
+                    key={variable}
+                    id={`var-${variable}`}
+                    className="variable-item"
+                    onClick={() => handleVariableClick(variable)}
+                  >
+                    <span className="variable-name">{displayName}</span>
+                    <span className="variable-desc">{description}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         ))}
@@ -210,7 +208,6 @@ const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {
 const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectType, config }) => {
   // Create state for restoration config
   const [restorationConfig, setRestorationConfig] = useState(() => {
-    console.log("Initializing restoration config with:", config);
     return config || {
       resourceType: config?.resourceType || 'mana', // Use config resourceType if available
       resolution: 'DICE',
@@ -240,14 +237,17 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
   // Update parent state when local state changes
   useEffect(() => {
-    if (dispatch && actionCreators) {
-      if (actionCreators.updateRestorationConfig) {
+    if (dispatch && actionCreators && actionCreators.updateRestorationConfig) {
+      // Use a timeout to prevent rapid state updates that might cause rendering issues
+      const timeoutId = setTimeout(() => {
         dispatch(actionCreators.updateRestorationConfig(restorationConfig));
-      }
 
-      if (actionCreators.updateEffectData && effectId) {
-        dispatch(actionCreators.updateEffectData(effectId, getEffectData()));
-      }
+        if (actionCreators.updateEffectData && effectId) {
+          dispatch(actionCreators.updateEffectData(effectId, getEffectData()));
+        }
+      }, 10);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [restorationConfig, dispatch, actionCreators, effectId]);
 
@@ -272,10 +272,19 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
 
   // Update a specific config property
   const updateRestorationConfig = (key, value) => {
-    setRestorationConfig(prev => ({
-      ...prev,
-      [key]: value
-    }));
+    setRestorationConfig(prev => {
+      const newConfig = {
+        ...prev,
+        [key]: value
+      };
+
+      // For progressive stages updates, ensure we maintain all properties
+      if (key === 'overTimeProgressiveStages') {
+        newConfig.overTimeProgressiveStages = Array.isArray(value) ? value : [];
+      }
+
+      return newConfig;
+    });
   };
 
   // Handle resource type change
@@ -375,29 +384,23 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
         effectType: 'restoration'
       };
 
-      // Update the spell's trigger configuration
+      // Update the spell's trigger configuration without causing wizard flow changes
       dispatch(actionCreators.updateTriggerConfig({
         ...state?.triggerConfig,
         restorationTrigger: spellTriggerConfig
       }));
-
-      // Update the spell's wizard flow to include the trigger step if needed
-      if (actionCreators.updateWizardFlow) {
-        // We'll use setTimeout to ensure the state updates first
-        setTimeout(() => {
-          dispatch(actionCreators.updateWizardFlow());
-        }, 100);
-      }
     }
   };
 
   // Handle progressive over time toggle
   const handleProgressiveOverTimeToggle = (isEnabled) => {
-    // Create a new config with all the updated values
+    // Create a new config with all the updated values, preserving all existing properties
     const newConfig = {
       ...restorationConfig,
       isProgressiveOverTime: isEnabled,
-      scalingType: isEnabled ? 'progressive' : 'flat'
+      scalingType: isEnabled ? 'progressive' : (restorationConfig.scalingType || 'flat'),
+      // Progressive stages require over time to be enabled
+      isOverTime: isEnabled ? true : restorationConfig.isOverTime
     };
 
     // Initialize progressiveStages array when enabling progressive effect
@@ -407,13 +410,21 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
         formula: restorationConfig.overTimeFormula || `1d4 + ${getResourceCode(restorationConfig.resourceType)}/2`,
         description: ''
       }];
+    } else if (!isEnabled) {
+      // When disabling, keep the stages but don't use them
+      // This preserves user's work in case they toggle back on
+      newConfig.overTimeProgressiveStages = restorationConfig.overTimeProgressiveStages || [];
     }
 
-    // Update the config
+    // Update the local config first
     setRestorationConfig(newConfig);
-    if (dispatch && actionCreators && actionCreators.updateRestorationConfig) {
-      dispatch(actionCreators.updateRestorationConfig(newConfig));
-    }
+
+    // Then dispatch to global state - use a timeout to ensure local state is updated first
+    setTimeout(() => {
+      if (dispatch && actionCreators && actionCreators.updateRestorationConfig) {
+        dispatch(actionCreators.updateRestorationConfig(newConfig));
+      }
+    }, 0);
   };
 
   // Handle adding a new progressive stage
@@ -826,20 +837,40 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
       description: 'Celestial energy channeled from the cosmos',
       icon: 'ability_druid_eclipseorange',
       reactIcon: FaHeartPulse
+    },
+    {
+      id: 'soul_power',
+      name: 'Soul Power',
+      description: 'Spiritual essence used for divine magic',
+      icon: 'spell_holy_spiritualguidence',
+      reactIcon: FaHeartPulse
+    },
+    {
+      id: 'chi',
+      name: 'Chi',
+      description: 'Inner energy used for martial arts and balance',
+      icon: 'ability_monk_healthsphere',
+      reactIcon: FaGaugeHigh
+    },
+    {
+      id: 'arcane_power',
+      name: 'Arcane Power',
+      description: 'Raw magical energy from the arcane realm',
+      icon: 'spell_arcane_arcanepotency',
+      reactIcon: FaBolt
     }
   ];
 
-  // Main render function
-  return (
-    <div className="restoration-effects-container">
-      {/* First section: Resource Type Selection */}
+  // Render resource type selection
+  const renderResourceTypeSelection = () => {
+    return (
       <div className="resource-type-selection section">
         <h3>Resource Type</h3>
         <div className="card-selection-grid">
           {resourceTypes.map(resource => (
             <IconSelectionCard
               key={resource.id}
-              icon={<resource.reactIcon className="icon" />}
+              icon={<img src={getIconUrl(resource.icon)} alt={resource.name} className="icon" />}
               title={resource.name}
               description={resource.description}
               onClick={() => handleResourceTypeChange(resource.id)}
@@ -847,7 +878,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
               onMouseEnter={(e) => handleMouseEnter({
                 name: resource.name,
                 description: resource.description,
-                icon: resource.icon
+                icon: getIconUrl(resource.icon)
               }, e)}
               onMouseLeave={handleMouseLeave}
               onMouseMove={handleMouseMove}
@@ -855,8 +886,12 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
           ))}
         </div>
       </div>
+    );
+  };
 
-      {/* Second section: Resolution Method */}
+  // Render resolution method section
+  const renderResolutionMethod = () => {
+    return (
       <div className="resolution-method section">
         <h3>Resolution Method</h3>
         <ResolutionSelector
@@ -864,68 +899,56 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
           onResolutionChange={handleResolutionChange}
         />
 
-        {/* Visual resolution mechanics display based on selected type */}
-        <div className="visual-resolution-display">
-          {restorationConfig.resolution === 'DICE' && (
-            <div className="dice-display">
-              <div className="dice-info">
-                <h4>Dice Resolution</h4>
-                <p>Resource restoration is calculated using dice rolls with the formula: <code>{restorationConfig.formula}</code></p>
-                <p className="interaction-hint">Click on a die to add it to your formula</p>
-              </div>
-              <DiceRollVisualizer
-                diceType="d20"
-                onRoll={(roll) => console.log('Rolled:', roll)}
-              />
-            </div>
-          )}
 
-          {restorationConfig.resolution === 'CARDS' && (
-            <div className="cards-display">
-              <div className="cards-info">
-                <h4>Card Draw Resolution</h4>
-                <p>Resource restoration is calculated based on drawn cards with the formula: <code>{restorationConfig.formula}</code></p>
-              </div>
-              <CardDrawVisualizer
-                formula={restorationConfig.formula}
-                cardCount={5}
-              />
-            </div>
-          )}
-
-          {restorationConfig.resolution === 'COINS' && (
-            <div className="coins-display">
-              <div className="coins-info">
-                <h4>Coin Flip Resolution</h4>
-                <p>Resource restoration is calculated based on coin flips with the formula: <code>{restorationConfig.formula}</code></p>
-              </div>
-              <CoinFlipVisualizer
-                formula={restorationConfig.formula}
-                coinCount={5}
-              />
-            </div>
-          )}
-        </div>
       </div>
+    );
+  };
 
-      {/* Third section: Formula Configuration */}
+  // Handle instant restoration toggle
+  const handleInstantRestorationToggle = (isEnabled) => {
+    updateRestorationConfig('duration', isEnabled ? 'instant' : 'over-time-only');
+  };
+
+  // Render formula configuration section
+  const renderFormulaConfiguration = () => {
+    const hasInstantRestoration = restorationConfig.duration === 'instant' || !restorationConfig.duration;
+
+    return (
       <div className="formula-configuration section">
         <h3>Resource Restoration Formula</h3>
-        <div className="formula-input-container">
-          <input
-            type="text"
-            className="formula-input"
-            value={restorationConfig.formula}
-            onChange={(e) => handleFormulaChange(e.target.value)}
-            placeholder={`Enter formula (e.g. 2d6 + ${getResourceCode(restorationConfig.resourceType)})`}
-          />
-          <button
-            className="formula-button"
-            onClick={() => handleFormulaChange(`2d6 + ${getResourceCode(restorationConfig.resourceType)}`)}
-          >
-            Reset
-          </button>
+
+        {/* Instant Restoration Toggle */}
+        <div className="instant-restoration-toggle">
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={hasInstantRestoration}
+              onChange={(e) => handleInstantRestorationToggle(e.target.checked)}
+            />
+            <span className="toggle-slider"></span>
+          </label>
+          <span className="toggle-label">Enable instant restoration</span>
         </div>
+
+        {hasInstantRestoration && (
+          <div className="instant-restoration-settings">
+            <div className="formula-input-container">
+              <input
+                type="text"
+                className="formula-input"
+                value={restorationConfig.formula}
+                onChange={(e) => handleFormulaChange(e.target.value)}
+                placeholder={`Enter formula (e.g. 2d6 + ${getResourceCode(restorationConfig.resourceType)})`}
+              />
+              <button
+                className="formula-button"
+                onClick={() => handleFormulaChange(`2d6 + ${getResourceCode(restorationConfig.resourceType)}`)}
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Complex Formula Examples Toggle */}
         <div className="complex-examples-toggle" onClick={() => setShowComplexExamples(!showComplexExamples)}>
@@ -957,13 +980,13 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                 <div className="example-description">Uses your highest stat to determine power</div>
               </div>
 
-              <div className="complex-example-card" onClick={() => handleFormulaChange(`(2d6 + ${getResourceCode(restorationConfig.resourceType)}*2)*(CHP &lt; MHP/2 ? 1.5 : 1)`)}>
+              <div className="complex-example-card" onClick={() => handleFormulaChange(`(2d6 + ${getResourceCode(restorationConfig.resourceType)}*2)*(CHP < MHP/2 ? 1.5 : 1)`)}>
                 <h5 className="example-title">Desperate Infusion</h5>
                 <div className="example-formula">(2d6 + {getResourceCode(restorationConfig.resourceType)}*2)*(CHP &lt; MHP/2 ? 1.5 : 1)</div>
                 <div className="example-description">50% more restoration when below half health</div>
               </div>
 
-              <div className="complex-example-card" onClick={() => handleFormulaChange(`(1d4 + 1d6 + 1d8)*(CMP/MMP &gt; 0.7 ? 2 : 1)`)}>
+              <div className="complex-example-card" onClick={() => handleFormulaChange(`(1d4 + 1d6 + 1d8)*(CMP/MMP > 0.7 ? 2 : 1)`)}>
                 <h5 className="example-title">Tactical Conversion</h5>
                 <div className="example-formula">(1d4 + 1d6 + 1d8)*(CMP/MMP &gt; 0.7 ? 2 : 1)</div>
                 <div className="example-description">Double restoration when mana is above 70%</div>
@@ -975,7 +998,7 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
                 <div className="example-description">More restoration the lower your health is</div>
               </div>
 
-              <div className="complex-example-card" onClick={() => handleFormulaChange(`ROUND*1d8 + STR + ${getResourceCode(restorationConfig.resourceType)}*(ROUND &gt; 3 ? 2 : 1)`)}>
+              <div className="complex-example-card" onClick={() => handleFormulaChange(`ROUND*1d8 + STR + ${getResourceCode(restorationConfig.resourceType)}*(ROUND > 3 ? 2 : 1)`)}>
                 <h5 className="example-title">Momentum Surge</h5>
                 <div className="example-formula">ROUND*1d8 + STR + {getResourceCode(restorationConfig.resourceType)}*(ROUND &gt; 3 ? 2 : 1)</div>
                 <div className="example-description">Gets stronger each round with big bonus after round 3</div>
@@ -1011,8 +1034,12 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
           resolution={restorationConfig.resolution}
         />
       </div>
+    );
+  };
 
-      {/* Fourth section: Over Time Configuration */}
+  // Render over-time configuration section
+  const renderOverTimeConfiguration = () => {
+    return (
       <div className="over-time-configuration section">
         <h3>Restoration Over Time</h3>
         <div className="over-time-toggle">
@@ -1295,14 +1322,23 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
           </div>
         )}
       </div>
+    );
+  };
 
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
+  // Main render function
+  return (
+    <div className="restoration-effects-container">
+      {/* Resource Type Selection */}
+      {renderResourceTypeSelection()}
+
+      {/* Resolution Method */}
+      {renderResolutionMethod()}
+
+      {/* Formula Configuration */}
+      {renderFormulaConfiguration()}
+
+      {/* Over Time Configuration */}
+      {renderOverTimeConfiguration()}
 
       {/* Copy Tooltip */}
       {copyTooltip.show && (
@@ -1325,6 +1361,53 @@ const RestorationEffects = ({ state, dispatch, actionCreators, effectId, effectT
           {copyTooltip.text}
         </div>
       )}
+
+      {/* Tooltip Rendering */}
+      {showTooltip && tooltipContent && (() => {
+        const tooltipRoot = document.getElementById('tooltip-root') || document.body;
+        return ReactDOM.createPortal(
+          <div
+            className="wc3-tooltip"
+            style={{
+              position: 'fixed',
+              left: mousePos.x,
+              top: mousePos.y,
+              zIndex: 99999,
+              pointerEvents: 'none',
+              transform: 'translate(10px, -100%)'
+            }}
+          >
+            <div className="tooltip-top-border"></div>
+            <div className="wc3-tooltip-content">
+              {tooltipContent.icon && (
+                <div className="wc3-tooltip-header">
+                  <img
+                    src={tooltipContent.icon}
+                    alt={tooltipContent.title}
+                    className="tooltip-icon"
+                    style={{ width: '32px', height: '32px', marginRight: '8px' }}
+                  />
+                  <span className="wc3-tooltip-title">{tooltipContent.title}</span>
+                </div>
+              )}
+              {!tooltipContent.icon && tooltipContent.title && (
+                <div className="wc3-tooltip-header">
+                  <span className="wc3-tooltip-title">{tooltipContent.title}</span>
+                </div>
+              )}
+              <div className="wc3-tooltip-body">
+                {typeof tooltipContent.content === 'string' ? (
+                  <div className="tooltip-description">{tooltipContent.content}</div>
+                ) : (
+                  tooltipContent.content
+                )}
+              </div>
+            </div>
+            <div className="tooltip-bottom-border"></div>
+          </div>,
+          tooltipRoot
+        );
+      })()}
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useState, useRef, useEffect } from 'react';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
-import '../spellcrafting-wizard/styles/SpellWizard.css';
-import '../spellcrafting-wizard/styles/SpellPreview.css';
+import '../spellcrafting-wizard/styles/pathfinder/main.css';
 
 // Import spell library data
 import { LIBRARY_SPELLS, LIBRARY_COLLECTIONS } from '../../data/spellLibraryData';
@@ -17,231 +16,24 @@ import {
   FaInfoCircle as InfoCircleIcon
 } from 'react-icons/fa';
 
-// Import WoW Classic styles
-import '../../styles/wow-classic.css';
+// Import UnifiedSpellCard for consistency
+import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 
 // Lazy load SpellWizard to avoid circular dependencies
 const SpellWizard = lazy(() => import('../spellcrafting-wizard/SpellWizardWrapper'));
 
-// Enhanced Spell Card Component with WoW Classic styling
+// Enhanced Spell Card Component using UnifiedSpellCard
 const SpellCard = ({ spell, onClick }) => {
-  // Format damage or healing values
-  const formatDamageOrHealing = (data) => {
-    if (!data) return 'N/A';
-    return `${data.dice || ''}${data.flat > 0 ? ` + ${data.flat}` : ''}`;
-  };
-
-  // Get rarity class for border coloring based on spell complexity
-  const getRarityClass = () => {
-    // Instead of level, use the number of effects or complexity
-    const effectCount = [
-      spell.primaryDamage ? 1 : 0,
-      spell.healing ? 1 : 0,
-      spell.debuffConfig ? 1 : 0,
-      spell.buffConfig ? 1 : 0,
-      spell.negativeEffects?.length > 0 ? 1 : 0,
-      spell.mechanicsConfig?.procs ? 1 : 0,
-      spell.mechanicsConfig?.forms ? 1 : 0,
-      spell.mechanicsConfig?.combos ? 1 : 0
-    ].reduce((a, b) => a + b, 0);
-
-    if (effectCount >= 4) return 'legendary';
-    if (effectCount >= 3) return 'epic';
-    if (effectCount >= 2) return 'rare';
-    if (effectCount >= 1) return 'uncommon';
-    return 'common';
-  };
-
-  // Get spell school color
-  const getSpellSchoolColor = () => {
-    const theme = spell.visualTheme;
-    switch (theme) {
-      case 'fire': return 'spell-fire';
-      case 'frost': return 'spell-frost';
-      case 'arcane': return 'spell-arcane';
-      case 'nature': return 'spell-nature';
-      case 'shadow': return 'spell-shadow';
-      case 'holy': return 'spell-holy';
-      case 'lightning': return 'spell-lightning';
-      case 'physical': return 'spell-physical';
-      default: return '';
-    }
-  };
-
-  // Format casting time
-  const formatCastingTime = () => {
-    if (spell.actionType === 'channeled') return 'Channeled';
-    if (spell.spellType === 'reaction') return 'Reaction';
-    if (spell.spellType === 'ritual') return 'Ritual';
-    if (spell.spellType === 'passive') return 'Passive';
-    return 'Instant';
-  };
-
-  // Format range
-  const formatRange = () => {
-    if (spell.targetingMode === 'self') return 'Self';
-    if (spell.targetingMode === 'aoe') {
-      return `${spell.aoeShape || 'Area'} (${spell.aoeSize || 20} ft)`;
-    }
-    if (spell.range) return `${spell.range} ft`;
-    return 'Touch';
-  };
-
-  // Format duration
-  const formatDuration = () => {
-    if (spell.durationType === 'instant') return 'Instant';
-    if (spell.durationType && spell.durationValue) {
-      return `${spell.durationValue} ${spell.durationType}`;
-    }
-    if (spell.actionType === 'channeled') {
-      return `Up to ${spell.channelMaxRounds || 5} rounds`;
-    }
-    return 'Instant';
-  };
-
   return (
-    <div
-      className={`wow-spell-card ${getRarityClass()} ${getSpellSchoolColor()}`}
-      onClick={() => onClick(spell.id)}
-    >
-      <div className="spell-card-gloss"></div>
-      <div className="spell-card-content">
-        <div className="spell-card-header">
-          <div className="spell-icon-wrapper">
-            <div className="spell-icon-border">
-              <img
-                src={`https://wow.zamimg.com/images/wow/icons/large/${spell.icon || 'inv_misc_questionmark'}.jpg`}
-                alt={spell.name}
-                className="spell-icon"
-              />
-            </div>
-            <div className="spell-rank">{spell.spellType}</div>
-          </div>
-          <div className="spell-info">
-            <h3 className="spell-name">{spell.name}</h3>
-            <div className="spell-meta">
-              <span className="spell-cast-time">{formatCastingTime()}</span>
-              <span className="spell-range">{formatRange()}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="spell-divider"></div>
-
-        <div className="spell-body">
-          <p className="spell-description">{spell.description}</p>
-
-          <div className="spell-stats">
-            {/* Damage display */}
-            {(spell.effectType === 'damage' || spell.primaryDamage) && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Damage:</span>
-                <span className="spell-stat-value damage">
-                  {formatDamageOrHealing(spell.primaryDamage)}
-                  {spell.damageTypes && spell.damageTypes.length > 0 &&
-                    <span className="damage-type"> {spell.damageTypes[0]}</span>
-                  }
-                </span>
-              </div>
-            )}
-
-            {/* Healing display */}
-            {(spell.effectType === 'healing' || spell.healing) && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Healing:</span>
-                <span className="spell-stat-value healing">
-                  {formatDamageOrHealing(spell.healing)}
-                </span>
-              </div>
-            )}
-
-            {/* Status effects display */}
-            {spell.negativeEffects && spell.negativeEffects.length > 0 && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Effects:</span>
-                <span className="spell-stat-value effect">
-                  {spell.negativeEffects.join(', ')}
-                </span>
-              </div>
-            )}
-
-            {/* Buff effects display */}
-            {spell.buffConfig && spell.buffConfig.statPenalties && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Buffs:</span>
-                <span className="spell-stat-value buff">
-                  {spell.buffConfig.statPenalties.map(p =>
-                    `${p.stat} ${p.value > 0 ? '+' : ''}${p.value}${p.isPercentage ? '%' : ''}`
-                  ).join(', ')}
-                </span>
-              </div>
-            )}
-
-            {/* Debuff effects display */}
-            {spell.debuffConfig && spell.debuffConfig.statPenalties && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Debuffs:</span>
-                <span className="spell-stat-value debuff">
-                  {spell.debuffConfig.statPenalties.map(p =>
-                    `${p.stat} ${p.value > 0 ? '+' : ''}${p.value}${p.isPercentage ? '%' : ''}`
-                  ).join(', ')}
-                </span>
-              </div>
-            )}
-
-            {/* Duration display */}
-            {spell.durationType && spell.durationType !== 'instant' && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Duration:</span>
-                <span className="spell-stat-value">
-                  {formatDuration()}
-                </span>
-              </div>
-            )}
-
-            {/* Cooldown display */}
-            {spell.cooldown && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Cooldown:</span>
-                <span className="spell-stat-value cooldown">
-                  {spell.cooldown}
-                </span>
-              </div>
-            )}
-
-            {/* Area of effect display */}
-            {spell.aoeShape && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">Area:</span>
-                <span className="spell-stat-value">
-                  {spell.aoeShape} ({spell.aoeSize} ft)
-                </span>
-              </div>
-            )}
-
-            {/* School display */}
-            {spell.class && (
-              <div className="spell-stat">
-                <span className="spell-stat-name">School:</span>
-                <span className="spell-stat-value school">
-                  {spell.class}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="spell-footer">
-          <div className="spell-tags">
-            {spell.tags && spell.tags.map((tag, index) => (
-              <span key={`tag-${index}`} className={`spell-tag ${tag}`}>{tag}</span>
-            ))}
-          </div>
-          <div className={`spell-type-badge ${spell.spellType}`}>
-            {spell.spellType}
-          </div>
-        </div>
-      </div>
+    <div onClick={onClick} style={{ cursor: 'pointer' }}>
+      <UnifiedSpellCard
+        spell={spell}
+        variant="library"
+        showActions={false}
+        showDescription={false}
+        showStats={true}
+        showTags={false}
+      />
     </div>
   );
 };

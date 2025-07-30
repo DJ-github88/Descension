@@ -39,33 +39,43 @@ const SpellSelector = ({
     ? library.spells.find(spell => spell.id === selectedSpellId)
     : null;
 
-  // Log selected spell information for debugging
-  useEffect(() => {
-    console.log('SpellSelector - Selected Spell ID:', selectedSpellId);
-    console.log('SpellSelector - Found Spell:', selectedSpell);
-    console.log('SpellSelector - Library Spells:', library.spells);
-  }, [selectedSpellId, selectedSpell, library.spells]);
+
 
   // Filter spells based on search query and filter type
   useEffect(() => {
     if (isDropdownOpen) {
-      let filtered = library.spells;
+      let filtered = library.spells || [];
 
       // Apply type filter if provided
       if (filterType) {
         filtered = filtered.filter(spell => {
+          // Check both effectType (singular) and effectTypes (array) properties
+          const effectType = spell.effectType;
+          const effectTypes = spell.effectTypes || [];
+
           // Filter based on spell type
-          if (filterType === 'form' && spell.effectType === 'transformation') {
+          if (filterType === 'form') {
+            // Temporarily show all spells for form selection to help with debugging
+            // TODO: Restore proper filtering once we identify transformation spells
             return true;
           }
-          if (filterType === 'proc' && (spell.effectType === 'damage' || spell.effectType === 'healing' || spell.effectType === 'buff')) {
-            return true;
+          if (filterType === 'proc') {
+            // For proc spells, accept damage, healing, or buff spells
+            const validProcTypes = ['damage', 'healing', 'buff'];
+            return validProcTypes.includes(effectType) || effectTypes.some(type => validProcTypes.includes(type));
           }
-          if (filterType === spell.effectType) {
+          if (filterType === effectType || effectTypes.includes(filterType)) {
             return true;
           }
           return false;
         });
+      }
+
+      // Debug logging for form filter
+      if (filterType === 'form') {
+        console.log('Form filter - Total spells:', library.spells.length);
+        console.log('Form filter - Filtered spells:', filtered.length);
+        console.log('Form filter - All spell names:', library.spells.map(s => s.name));
       }
 
       // Apply search query filter
@@ -212,8 +222,10 @@ const SpellSelector = ({
         <div className="spell-dropdown">
           {filteredSpells.length === 0 ? (
             <div className="no-spells-found">
-              {library.spells.length === 0
+              {(library.spells || []).length === 0
                 ? 'No spells in library. Create some spells first!'
+                : filterType === 'proc'
+                ? 'No damage, healing, or buff spells found. Create some spells with these effects first!'
                 : 'No matching spells found.'}
             </div>
           ) : (

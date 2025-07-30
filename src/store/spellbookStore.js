@@ -14,12 +14,15 @@ const initialState = {
   collections: DEFAULT_COLLECTIONS,
   selectedSpell: null,
   selectedCollection: null,
-  activeTab: 'spells', // Default tab
+  activeTab: 'wizard', // Default tab - changed from 'spells' to 'wizard'
   filters: {
     searchText: '',
     categories: [],
     levels: { min: 0, max: 9 }
-  }
+  },
+  // Window position persistence
+  windowPosition: null, // Will be set when user moves the window
+  windowSize: { width: 1000, height: 700 } // Default size
 };
 
 // Create the store
@@ -35,11 +38,11 @@ const useSpellbookStore = create(
           id: spellData.id || generateSpellId(spellData.name),
           createdAt: new Date().toISOString()
         };
-        
+
         set(state => ({
           spells: [...state.spells, spell],
-          collections: state.collections.map(col => 
-            col.id === 'custom' 
+          collections: state.collections.map(col =>
+            col.id === 'custom'
               ? { ...col, spells: [...col.spells, spell.id] }
               : col
           )
@@ -72,7 +75,7 @@ const useSpellbookStore = create(
           icon,
           spells: []
         };
-        
+
         set(state => ({
           collections: [...state.collections, collection]
         }));
@@ -110,13 +113,26 @@ const useSpellbookStore = create(
         filters: { ...state.filters, ...updates }
       })),
 
+      // Window position management
+      setWindowPosition: (position) => {
+        set({ windowPosition: position });
+      },
+
+      setWindowSize: (size) => {
+        set({ windowSize: size });
+      },
+
       // Reset store
       resetStore: () => set(initialState)
     }),
     {
       name: 'spellbook-storage',
       version: 1,
-      getStorage: () => localStorage
+      storage: {
+        getItem: (name) => localStorage.getItem(name),
+        setItem: (name, value) => localStorage.setItem(name, value),
+        removeItem: (name) => localStorage.removeItem(name)
+      }
     }
   )
 );

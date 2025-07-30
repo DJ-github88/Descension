@@ -28,18 +28,18 @@ const FormulaHelpPopup = ({ show, onHide, resourceType }) => {
   // Resource-specific variables and formulas
   const resourceVariables = {
     mana: [
-      { name: 'max_mana', description: 'Maximum mana pool', example: '0.2 * max_mana' },
-      { name: 'current_mana', description: 'Current mana amount', example: '0.1 * current_mana' },
-      { name: 'intellect', description: 'Intellect stat value', example: 'intellect / 5' },
-      { name: 'mana_regen', description: 'Mana regeneration rate', example: 'mana_regen * 3' },
-      { name: 'spell_cost', description: 'Base spell cost', example: 'spell_cost * 1.5' },
+      { name: 'maxMana', description: 'Maximum mana pool', example: '0.2 * maxMana' },
+      { name: 'currentMana', description: 'Current mana amount', example: '0.1 * currentMana' },
+      { name: 'intelligence', description: 'Intelligence stat value', example: 'intelligence / 5' },
+      { name: 'manaRegen', description: 'Mana regeneration rate', example: 'manaRegen * 3' },
+      { name: 'spellDamage', description: 'Spell damage power', example: 'spellDamage * 1.5' },
     ],
     rage: [
-      { name: 'max_rage', description: 'Maximum rage capacity (100)', example: '0.25 * max_rage' },
-      { name: 'current_rage', description: 'Current rage amount', example: 'current_rage / 2' },
+      { name: 'maxHealth', description: 'Maximum health capacity', example: '0.25 * maxHealth' },
+      { name: 'currentHealth', description: 'Current health amount', example: 'currentHealth / 2' },
       { name: 'strength', description: 'Strength stat value', example: 'strength / 10' },
-      { name: 'damage_taken', description: 'Recent damage taken', example: 'damage_taken * 0.1' },
-      { name: 'missing_health', description: 'Missing health percentage', example: 'missing_health / 2' },
+      { name: 'damage', description: 'Physical damage bonus', example: 'damage * 0.1' },
+      { name: 'exhaustionLevel', description: 'Current exhaustion level', example: 'exhaustionLevel * 2' },
     ],
     energy: [
       { name: 'max_energy', description: 'Maximum energy capacity (100)', example: 'max_energy * 0.3' },
@@ -81,10 +81,10 @@ const FormulaHelpPopup = ({ show, onHide, resourceType }) => {
   // Thematic formula examples for each resource type
   const thematicExamples = {
     mana: [
-      { name: 'Arcane Surge', formula: '0.15 * max_mana + (intellect / 5)', description: 'Powerful arcane spell that scales with intellect' },
-      { name: 'Mana Burn', formula: 'min(50, current_mana * 0.2)', description: 'Burns a portion of current mana, up to 50' },
-      { name: 'Intellect Drain', formula: 'intellect * 0.5 + level * 2', description: 'Drains intellect-based mana' },
-      { name: 'Ley Line Tap', formula: 'spell_power * 0.3 + 20', description: 'Taps into ley lines for power' },
+      { name: 'Arcane Surge', formula: '0.15 * maxMana + (intelligence / 5)', description: 'Powerful arcane spell that scales with intellect' },
+      { name: 'Mana Burn', formula: 'min(50, currentMana * 0.2)', description: 'Burns a portion of current mana, up to 50' },
+      { name: 'Intellect Drain', formula: 'intelligence * 0.5 + level * 2', description: 'Drains intellect-based mana' },
+      { name: 'Ley Line Tap', formula: 'spellDamage * 0.3 + 20', description: 'Taps into ley lines for power' },
     ],
     rage: [
       { name: 'Berserker Strike', formula: 'strength / 5 + missing_health / 2', description: 'More powerful when low on health' },

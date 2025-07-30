@@ -1,15 +1,10 @@
 import React from 'react';
-import './styles/base.css';
-import './styles/components.css';
-import './styles/app-container.css';
-import './styles/targeting-buttons.css';
-import './styles/MechanicsConfig.css';
-import './styles/TrapPlacement.css';
-import './styles/info-box.css';
-import './styles/TriggerWizard.css';
-import { SpellWizardProvider } from './context/spellWizardContext';
+import './styles/pathfinder/main.css';
 import { SpellLibraryProvider } from './context/SpellLibraryContext';
+import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext.js';
 import SpellwizardApp from './SpellwizardApp';
+
+
 
 // Wrapper component that provides the necessary context providers
 const SpellWizardWrapper = (props) => {
@@ -21,8 +16,6 @@ const SpellWizardWrapper = (props) => {
 
       // Access the SpellWizard context to load the spell
       // This will be handled in the SpellwizardApp component
-      console.log('SpellWizardWrapper received loadSpellIntoWizard event:', spell.name);
-      console.log('Spell data received:', JSON.stringify(spell, null, 2));
 
       // We'll dispatch this event again so SpellwizardApp can handle it
       const internalEvent = new CustomEvent('internalLoadSpell', {
@@ -63,11 +56,11 @@ const SpellWizardWrapper = (props) => {
   }, []);
 
   return (
-    <SpellWizardProvider>
+    <CreatureLibraryProvider>
       <SpellLibraryProvider>
         <SpellwizardApp {...props} />
       </SpellLibraryProvider>
-    </SpellWizardProvider>
+    </CreatureLibraryProvider>
   );
 };
 

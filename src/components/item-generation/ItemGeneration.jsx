@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import useItemStore from '../../store/itemStore';
 import ItemWizard from './ItemWizard';
+import ManualCoinGenerationModal from './ManualCoinGenerationModal';
+import '../../styles/item-generation.css';
 
 const GRID_SIZE = {
     ROWS: 5,
@@ -8,7 +10,7 @@ const GRID_SIZE = {
 };
 
 export default function ItemGeneration({ onContainerCreate }) {
-    const { 
+    const {
         selectedTiles,
         addSelectedTile,
         removeSelectedTile,
@@ -23,10 +25,11 @@ export default function ItemGeneration({ onContainerCreate }) {
     const [drawMode, setDrawMode] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
+    const [isCoinModalOpen, setIsCoinModalOpen] = useState(false);
 
     const handleMouseDown = (row, col) => {
         const tileKey = `${row}-${col}`;
-        
+
         if (editMode) {
             if (selectedTiles.includes(tileKey)) {
                 const dimensions = calculateDimensions();
@@ -35,7 +38,9 @@ export default function ItemGeneration({ onContainerCreate }) {
                     quality: 'common',
                     stats: {},
                     description: '',
-                    dimensions
+                    // Set width and height directly from dimensions
+                    width: dimensions.width,
+                    height: dimensions.height
                 });
             }
             return;
@@ -62,7 +67,7 @@ export default function ItemGeneration({ onContainerCreate }) {
             const [r, c] = tile.split('-').map(Number);
             return { row: r, col: c };
         });
-        
+
         const minCol = Math.min(...positions.map(p => p.col));
         const maxCol = Math.max(...positions.map(p => p.col));
         const minRow = Math.min(...positions.map(p => p.row));
@@ -83,8 +88,21 @@ export default function ItemGeneration({ onContainerCreate }) {
 
     const handleSaveItem = (item) => {
         if (item) {
-            setPreviewItem(item);
-            generateItem(item);
+            // Ensure dimensions are preserved
+            const dimensions = calculateDimensions();
+            const itemWithDimensions = {
+                ...item,
+                width: item.width || dimensions.width,
+                height: item.height || dimensions.height
+            };
+
+            console.log('Saving item with dimensions:', {
+                width: itemWithDimensions.width,
+                height: itemWithDimensions.height
+            });
+
+            setPreviewItem(itemWithDimensions);
+            generateItem(itemWithDimensions);
         }
         setEditingItem(null);
         setEditMode(false);
@@ -103,9 +121,9 @@ export default function ItemGeneration({ onContainerCreate }) {
             for (let col = 0; col < GRID_SIZE.COLS; col++) {
                 const tileKey = `${row}-${col}`;
                 const isSelected = selectedTiles.includes(tileKey);
-                
+
                 gridRow.push(
-                    <div 
+                    <div
                         key={tileKey}
                         className={`preview-tile ${isSelected ? 'selected' : ''}`}
                         onMouseDown={() => handleMouseDown(row, col)}
@@ -124,13 +142,13 @@ export default function ItemGeneration({ onContainerCreate }) {
     };
 
     return (
-        <div 
+        <div
             className="item-generation"
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
         >
             <div className="controls">
-                <button 
+                <button
                     className={`tool-button ${drawMode ? 'active' : ''}`}
                     onClick={() => {
                         setDrawMode(!drawMode);
@@ -140,14 +158,14 @@ export default function ItemGeneration({ onContainerCreate }) {
                 >
                     Draw
                 </button>
-                <button 
+                <button
                     className={`tool-button ${editMode ? 'active' : ''}`}
                     onClick={handleEditClick}
                     disabled={selectedTiles.length === 0}
                 >
                     Edit
                 </button>
-                <button 
+                <button
                     className="tool-button"
                     onClick={() => {
                         clearSelectedTiles();
@@ -163,11 +181,28 @@ export default function ItemGeneration({ onContainerCreate }) {
                 >
                     Create Container
                 </button>
+                <button
+                    className="tool-button"
+                    onClick={() => setIsCoinModalOpen(true)}
+                >
+                    Add Coins
+                </button>
             </div>
 
             <div className="preview-grid">
                 {renderGrid()}
             </div>
+
+            {isCoinModalOpen && (
+                <ManualCoinGenerationModal
+                    onClose={() => setIsCoinModalOpen(false)}
+                    onComplete={(coinItem) => {
+                        setPreviewItem(coinItem);
+                        generateItem(coinItem);
+                        setIsCoinModalOpen(false);
+                    }}
+                />
+            )}
 
             {editingItem && (
                 <ItemWizard

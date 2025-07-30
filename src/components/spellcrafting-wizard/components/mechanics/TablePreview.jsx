@@ -67,11 +67,15 @@ const TablePreview = ({ table }) => {
   const getResultColumnHeader = () => {
     switch (table.resolutionType) {
       case 'DICE':
-        return `Roll (${table.resolutionConfig.diceType})`;
+        return `Roll (${table.resolutionConfig.diceType || 'd100'})`;
       case 'CARDS':
-        return 'Card Pattern';
+        const deckType = table.resolutionConfig.deckType || 'standard';
+        const deckLabel = deckType === 'tarot' ? 'Tarot' : 'Standard';
+        return `Card Pattern (${deckLabel})`;
       case 'COINS':
-        return 'Coin Pattern';
+        const coinType = table.resolutionConfig.coinType || 'standard';
+        const coinLabel = coinType === 'weighted' ? 'Weighted' : 'Standard';
+        return `Coin Pattern (${coinLabel})`;
       default:
         return 'Result';
     }

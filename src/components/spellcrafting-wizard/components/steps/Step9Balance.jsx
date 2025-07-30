@@ -212,9 +212,12 @@ const Step11Balance = () => {
   };
 
   return (
-    <div className="spell-wizard-step-content">
-      <h3>Balance Evaluation</h3>
-      
+    <div className="spell-wizard-step-content step9-balance-content">
+      <div className="step9-header">
+        <h3>Balance Evaluation</h3>
+        <p className="step-description">Review and adjust your spell's power balance to ensure fair gameplay.</p>
+      </div>
+
       {balanceReport ? (
         <>
           <Card className="mb-4">

@@ -1,62 +1,129 @@
-/* Summoning Effects Styles */
+/* Summoning Effects Styles - Pathfinder Theme */
 
 .section {
-  background-color: rgba(13, 19, 33, 0.7);
-  border: 1px solid #334155;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-6);
+  margin-bottom: var(--pf-space-4);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .section-title {
-  color: #ffd100;
-  font-size: 1.25rem;
-  font-weight: 600;
+  color: var(--pf-brown-dark);
+  font-size: var(--pf-text-xl);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: var(--pf-space-4);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  text-shadow: 0 0 5px rgba(255, 209, 0, 0.5);
-  border-bottom: 1px solid #334155;
-  padding-bottom: 10px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding-bottom: var(--pf-space-2);
 }
 
 .section h3 {
-  color: #ffd100;
-  font-size: 1.25rem;
-  font-weight: 600;
+  color: var(--pf-brown-dark);
+  font-size: var(--pf-text-xl);
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: var(--pf-space-4);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  text-shadow: 0 0 5px rgba(255, 209, 0, 0.5);
-  border-bottom: 1px solid #334155;
-  padding-bottom: 10px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+  padding-bottom: var(--pf-space-2);
 }
 
+/* ===== OVERRIDE DARK SECTION PANELS ===== */
 .section-panel {
-  background-color: rgba(30, 41, 59, 0.5);
-  border: 1px solid #475569;
-  border-radius: 6px;
+  background: var(--pf-gradient-parchment-light) !important;
+  border: 2px solid var(--pf-brown-medium) !important;
+  border-radius: 8px !important;
   margin-top: 20px;
   overflow: hidden;
 }
 
 .section-panel-header {
-  background-color: rgba(15, 23, 42, 0.7);
+  background: var(--pf-gradient-parchment-dark) !important;
   padding: 12px 16px;
-  border-bottom: 1px solid #475569;
+  border-bottom: 2px solid var(--pf-brown-medium) !important;
 }
 
 .section-panel-header h4 {
-  color: #e2e8f0;
+  color: var(--pf-brown-dark) !important;
   margin: 0;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .section-panel-content {
   padding: 16px;
+  background: var(--pf-gradient-parchment-light) !important;
+}
+
+/* ===== NEW PATHFINDER CREATURE SELECTION STYLING ===== */
+.pf-creature-selection-container {
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 8px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.pf-creature-header {
+  background: var(--pf-gradient-parchment-dark);
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--pf-brown-medium);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pf-creature-header h4 {
+  color: var(--pf-brown-dark);
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.pf-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 2px solid var(--pf-brown-medium);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pf-button-primary {
+  background: var(--pf-gradient-parchment-medium);
+  color: var(--pf-brown-dark);
+}
+
+.pf-button-primary:hover {
+  background: var(--pf-gradient-parchment-dark);
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+}
+
+.pf-creature-content {
+  padding: 16px;
+  background: var(--pf-gradient-parchment-light);
+}
+
+.pf-empty-state {
+  text-align: center;
+  color: var(--pf-brown-medium);
+  font-style: italic;
+  padding: 20px;
 }
 
 /* Quantity Controls */
@@ -216,56 +283,6 @@
   flex-wrap: wrap;
 }
 
-.effect-option-tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  background-color: rgba(15, 23, 42, 0.7);
-  border: 1px solid #475569;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 80px;
-}
-
-.effect-option-tab:hover {
-  background-color: rgba(30, 58, 138, 0.3);
-  border-color: #3b82f6;
-}
-
-.effect-option-tab.selected {
-  background-color: rgba(37, 99, 235, 0.3);
-  border-color: #60a5fa;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-}
-
-.effect-option-tab-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 5px;
-  border: 1px solid #475569;
-}
-
-.effect-option-tab-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.effect-option-tab-name {
-  font-size: 0.85rem;
-  color: #e2e8f0;
-  text-align: center;
-}
-
-.effect-option-tab.selected .effect-option-tab-name {
-  color: #ffffff;
-  font-weight: 600;
-}
-
 /* Trigger hint styles */
 .trigger-info {
   margin-top: 8px;
@@ -295,3 +312,563 @@
   border-radius: 2px;
   border: 1px solid #475569;
 }
+
+/* ===== IMPROVED SUMMONING LAYOUT ===== */
+
+/* Main container for the new layout */
+.summoning-effects-container {
+  width: 100%;
+  background: var(--pf-gradient-parchment);
+  padding: var(--pf-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-6);
+  border-radius: var(--pf-border-radius-lg);
+  box-shadow: var(--pf-shadow-sm);
+  min-height: 500px;
+}
+
+/* Header section */
+.summoning-header-section {
+  text-align: center;
+  margin-bottom: var(--pf-space-4);
+}
+
+.summoning-main-title {
+  font-family: var(--pf-font-heading);
+  font-size: var(--pf-text-xl);
+  font-weight: 700;
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-2) 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.summoning-subtitle {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-brown-medium);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Main grid layout */
+.summoning-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: var(--pf-space-6);
+  flex: 1;
+  min-height: 400px;
+}
+
+/* Left column - creatures */
+.summoning-creatures-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+}
+
+.summoning-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--pf-space-3);
+}
+
+.summoning-section-header h4 {
+  font-family: var(--pf-font-heading);
+  font-size: var(--pf-text-lg);
+  font-weight: 600;
+  color: var(--pf-text-secondary);
+  margin: 0;
+}
+
+.summoning-select-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-4);
+  background: var(--pf-gradient-primary);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.summoning-select-btn:hover {
+  background: var(--pf-gradient-primary-light);
+  border-color: var(--pf-brown-dark);
+  transform: translateY(-1px);
+}
+
+.summoning-creatures-area {
+  flex: 1;
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+  min-height: 300px;
+}
+
+/* Right column - configuration */
+.summoning-config-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+}
+
+.summoning-config-section {
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-4);
+}
+
+.config-section-title {
+  font-family: var(--pf-font-heading);
+  font-size: var(--pf-text-lg);
+  font-weight: 600;
+  color: var(--pf-text-secondary);
+  margin: 0 0 var(--pf-space-4) 0;
+  text-align: center;
+}
+
+.summoning-config-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+}
+
+/* Configuration options */
+.config-option {
+  background: var(--pf-gradient-parchment);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+}
+
+.config-option:hover {
+  background: var(--pf-gradient-parchment-light);
+  border-color: var(--pf-brown-medium);
+}
+
+.config-option-header {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+}
+
+.config-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+  flex-shrink: 0;
+}
+
+.config-option-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+}
+
+.config-option-name {
+  font-family: var(--pf-font-heading);
+  font-size: var(--pf-text-base);
+  font-weight: 600;
+  color: var(--pf-text-secondary);
+}
+
+.config-option-desc {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-brown-medium);
+  font-style: italic;
+}
+
+.config-toggle {
+  flex-shrink: 0;
+}
+
+.toggle-switch {
+  width: 50px;
+  height: 24px;
+  background: var(--pf-brown-light);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.toggle-switch.active {
+  background: var(--pf-blue);
+}
+
+.toggle-slider {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all var(--pf-transition-normal);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch.active .toggle-slider {
+  transform: translateX(26px);
+}
+
+.config-option-details {
+  margin-top: var(--pf-space-3);
+  padding-top: var(--pf-space-3);
+  border-top: 1px solid var(--pf-brown-light);
+}
+
+.duration-inputs {
+  display: flex;
+  gap: var(--pf-space-2);
+}
+
+.duration-input,
+.duration-unit-select,
+.control-type-select {
+  padding: var(--pf-space-2);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+}
+
+.duration-input {
+  width: 80px;
+}
+
+.duration-unit-select,
+.control-type-select {
+  flex: 1;
+}
+
+.config-option-note {
+  margin-top: var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-brown-medium);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Control type cards styling */
+.control-type-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-3);
+}
+
+.control-type-card {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment);
+  border: 2px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.control-type-card:hover {
+  background: var(--pf-gradient-parchment-light);
+  border-color: var(--pf-brown-medium);
+  transform: translateY(-1px);
+}
+
+.control-type-card.selected {
+  background: var(--pf-gradient-primary);
+  border-color: var(--pf-brown-dark);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.control-type-card-icon {
+  flex-shrink: 0;
+}
+
+.control-type-card-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+}
+
+.control-type-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+}
+
+.control-type-name {
+  font-family: var(--pf-font-heading);
+  font-size: var(--pf-text-sm);
+  font-weight: 600;
+  color: var(--pf-text-secondary);
+}
+
+.control-type-desc {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-brown-medium);
+  font-style: italic;
+}
+
+/* Control range styling on spell card */
+.summoning-control-range {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-brown-medium);
+  font-style: italic;
+}
+
+/* ===== IMPROVED CREATURE SELECTION STYLING ===== */
+
+/* Selected creatures list styling */
+.selected-creatures-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: none; /* Remove height restriction */
+  overflow-y: visible; /* Remove scroll */
+  padding: 16px; /* Add padding for breathing room */
+}
+
+.creature-selection-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--pf-gradient-parchment-light);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.creature-selection-item:hover {
+  border-color: var(--pf-brown-dark);
+  background: var(--pf-gradient-parchment-medium);
+}
+
+/* ===== CREATURE HEADER SECTION ===== */
+.creature-header-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+}
+
+.creature-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.creature-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.creature-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.creature-name {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--pf-brown-dark);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: var(--pf-font-display);
+}
+
+.creature-type-size {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: var(--pf-brown-medium);
+  font-style: italic;
+}
+
+.remove-creature-btn {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--pf-danger);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.remove-creature-btn:hover {
+  background: var(--pf-danger-dark);
+  transform: scale(1.1);
+}
+
+/* ===== CREATURE DESCRIPTION SECTION ===== */
+.creature-description-section {
+  padding: 8px 0;
+  border-top: 1px solid var(--pf-brown-light);
+  border-bottom: 1px solid var(--pf-brown-light);
+}
+
+.creature-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--pf-text-secondary);
+  font-style: italic;
+}
+
+/* ===== CREATURE STATS SECTION ===== */
+.creature-stats-section {
+  padding: 8px 0;
+}
+
+.creature-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  background: var(--pf-gradient-parchment);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-brown-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pf-brown-dark);
+}
+
+/* ===== CREATURE CONFIG SECTION ===== */
+.creature-config-section {
+  padding: 8px 0;
+  border-top: 1px solid var(--pf-brown-light);
+}
+
+.creature-config-header h6 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pf-brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.creature-config-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+  padding: 0 16px;
+}
+
+.creature-config-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--pf-gradient-parchment);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.creature-config-control label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-brown-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.creature-config-control input,
+.creature-config-control select {
+  padding: 6px 8px;
+  border: 1px solid var(--pf-brown-light);
+  border-radius: 4px;
+  background: var(--pf-gradient-parchment);
+  color: var(--pf-text-primary);
+  font-size: 14px;
+  font-family: var(--pf-font-body);
+}
+
+.creature-config-control input:focus,
+.creature-config-control select:focus {
+  outline: none;
+  border-color: var(--pf-brown-medium);
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
+}
+
+.creature-cr {
+  margin: 0;
+  font-size: 12px;
+  color: var(--pf-brown-light);
+  font-weight: 600;
+}
+
+.remove-creature-btn {
+  width: 32px;
+  height: 32px;
+  background: var(--pf-gradient-parchment-dark);
+  border: 2px solid var(--pf-brown-medium);
+  border-radius: 50%;
+  color: var(--pf-red);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.remove-creature-btn:hover {
+  background: var(--pf-red);
+  color: white;
+  border-color: var(--pf-red);
+  transform: scale(1.1);
+}
+
+

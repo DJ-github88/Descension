@@ -9,28 +9,35 @@
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  /* Performance optimizations for container */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
 }
 
 .grid-tile {
   position: absolute;
-  width: 50px;
-  height: 50px;
-  border: 1px solid rgba(77, 155, 230, 0.1);
+  /* width and height are set dynamically via inline styles */
+  border: 1px solid rgba(77, 155, 230, 0.15);
   box-sizing: border-box;
-  pointer-events: none;
+  pointer-events: all;
+  background: transparent; /* Remove any background dots or patterns */
+  /* Performance optimizations */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
 }
 
-.grid-tile::after {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
+.grid-tile.hovered {
   background-color: rgba(77, 155, 230, 0.2);
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  border: 1px solid rgba(77, 155, 230, 0.4);
+  /* Optimize hover state */
+  transform: translateZ(0) scale(1.02);
 }
+
+/* Removed circular dots/markers from grid tiles for cleaner appearance */
 
 /* Grid overlay for token placement */
 .token-grid-overlay {
@@ -55,7 +62,6 @@
   box-sizing: border-box;
   pointer-events: none;
   z-index: 2;
-  transition: all 0.2s ease;
 }
 
 /* Active cell (for token placement) */
@@ -71,7 +77,7 @@
     width: 40px;
     height: 40px;
   }
-  
+
   .grid-cell-highlight {
     width: 40px;
     height: 40px;

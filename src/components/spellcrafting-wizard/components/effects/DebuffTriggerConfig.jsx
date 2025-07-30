@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRunning, faArrowsAlt, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,7 +9,9 @@ const DebuffTriggerConfig = ({ triggerConfig, onChange }) => {
   const [selectedTrigger, setSelectedTrigger] = useState(triggerConfig?.triggerId || 'distance_traveled');
   const [parameters, setParameters] = useState(triggerConfig?.parameters || {});
 
-  // Initialize with default values if not provided
+  // Initialize with default values if not provided - use useCallback to prevent infinite loops
+  const stableOnChange = useCallback(onChange, []);
+
   useEffect(() => {
     if (!triggerConfig) {
       const defaultConfig = {
@@ -21,9 +23,9 @@ const DebuffTriggerConfig = ({ triggerConfig, onChange }) => {
         targetEntity: 'target',
         effectType: 'debuff'
       };
-      onChange(defaultConfig);
+      stableOnChange(defaultConfig);
     }
-  }, [triggerConfig, onChange]);
+  }, [triggerConfig, stableOnChange]);
 
   // Update the trigger configuration when selections change
   const updateTriggerConfig = (triggerId, newParameters = {}) => {

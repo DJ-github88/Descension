@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faTrash, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { FaFire, FaHeart, FaWandMagic, FaSkull, FaGauge, FaHandSparkles, FaDragon, FaVirus, FaFireFlameCurved } from 'react-icons/fa6';
+import { FaFire, FaHeart, FaWandMagic, FaSkull, FaGauge, FaHandSparkles, FaDragon, FaVirus } from 'react-icons/fa6';
 import { useSpellWizardState } from '../../context/spellWizardContext';
 import { getIconUrl } from '../../utils/iconUtils';
 import '../../styles/GraduatedRecipeEffects.css';
@@ -223,6 +223,17 @@ const EnhancedGraduatedRecipeEffects = ({
   const getAvailableEffectTypes = () => {
     const availableEffects = [];
     const effectsMap = spellWizardState.effectsMap || {};
+
+    // Ensure all React Icons are available
+    if (!FaFire || !FaHeart || !FaWandMagic || !FaSkull || !FaHandSparkles || !FaDragon || !FaGauge) {
+      console.warn('Some React Icons are not available, using fallback');
+      return [{
+        id: 'damage',
+        name: 'Damage',
+        icon: FaFire || (() => null),
+        formula: '2d6 + INT'
+      }];
+    }
 
     // Always include the current effect type even if not configured
     const hasCurrentEffectType = [
@@ -528,9 +539,11 @@ const EnhancedGraduatedRecipeEffects = ({
     return availableEffects;
   };
 
-  // Update parent when effects change
+  // Update parent when effects change - but only if effects actually changed
   useEffect(() => {
-    onGraduatedEffectsChange(effects);
+    if (Object.keys(effects).length > 0) {
+      onGraduatedEffectsChange(effects);
+    }
   }, [effects, onGraduatedEffectsChange]);
 
   // Update when recipe length changes
@@ -714,10 +727,10 @@ const EnhancedGraduatedRecipeEffects = ({
         }
       });
     }
-  }, [recipeLength, effectType, spellWizardState, effects, getDefaultFormula, getDefaultEffectConfig]);
+  }, [recipeLength, effectType, effects]);
 
   // Add a new graduated effect level
-  const addEffectLevel = () => {
+  const addEffectLevel = useCallback(() => {
     // Find the next available level
     const existingLevels = Object.keys(effects).map(Number).sort((a, b) => a - b);
 
@@ -739,7 +752,7 @@ const EnhancedGraduatedRecipeEffects = ({
     }
 
     return addEffectLevelWithNumber(newLevel);
-  };
+  }, [effects, recipeLength]);
 
   // Helper function to add an effect level with a specific number
   const addEffectLevelWithNumber = (newLevel) => {
@@ -749,8 +762,6 @@ const EnhancedGraduatedRecipeEffects = ({
     //   return;
     // }
 
-    // Update parent component with the new effects
-    const updatedEffects = { ...effects };
     // The actual effect will be added in the setEffects call below
 
     // Create a scaled formula based on the level
@@ -1028,43 +1039,30 @@ const EnhancedGraduatedRecipeEffects = ({
       }
     }));
 
-    // Update the parent component with the new effects
-    setTimeout(() => {
-      const updatedEffects = { ...effects };
-      onGraduatedEffectsChange(updatedEffects);
-    }, 0);
+    // Update the parent component with the new effects immediately
+    onGraduatedEffectsChange({ ...effects });
   };
 
   // Remove a graduated effect level
-  const removeEffectLevel = (level) => {
+  const removeEffectLevel = useCallback((level) => {
     // Create a copy of the current effects to work with
     const currentEffects = { ...effects };
     delete currentEffects[level];
 
     // If this was the last effect, add a new level 1 effect
     if (Object.keys(currentEffects).length === 0) {
-      // First update the state to remove the current effect
+      // Update state and parent immediately
       setEffects({});
+      onGraduatedEffectsChange({});
 
-      // Then update the parent component with an empty object
-      setTimeout(() => {
-        onGraduatedEffectsChange({});
-
-        // After a short delay, add a new level 1 effect
-        setTimeout(() => {
-          addEffectLevelWithNumber(1);
-        }, 50);
-      }, 0);
+      // Add a new level 1 effect immediately
+      addEffectLevelWithNumber(1);
     } else {
-      // Update local state
+      // Update local state and parent immediately
       setEffects(currentEffects);
-
-      // Update the parent component
-      setTimeout(() => {
-        onGraduatedEffectsChange(currentEffects);
-      }, 0);
+      onGraduatedEffectsChange(currentEffects);
     }
-  };
+  }, [effects, onGraduatedEffectsChange, addEffectLevelWithNumber]);
 
   // Update a specific effect level
   const updateEffectLevel = (level, field, value) => {
@@ -1077,10 +1075,8 @@ const EnhancedGraduatedRecipeEffects = ({
         }
       };
 
-      // Update the parent component
-      setTimeout(() => {
-        onGraduatedEffectsChange(newEffects);
-      }, 0);
+      // Update the parent component immediately
+      onGraduatedEffectsChange(newEffects);
 
       return newEffects;
     });
@@ -1267,10 +1263,8 @@ const EnhancedGraduatedRecipeEffects = ({
         [level]: newEffect
       };
 
-      // Update the parent component
-      setTimeout(() => {
-        onGraduatedEffectsChange(updatedEffects);
-      }, 0);
+      // Update the parent component immediately
+      onGraduatedEffectsChange(updatedEffects);
 
       return updatedEffects;
     });
@@ -1528,7 +1522,7 @@ const EnhancedGraduatedRecipeEffects = ({
                           onClick={() => updateEffectType(level, effect.id)}
                           title={effect.name}
                         >
-                          <FontAwesomeIcon icon={effect.icon} />
+                          {effect.icon && typeof effect.icon === 'function' && <effect.icon />}
                           <span>{effect.name}</span>
                         </button>
                       ))}
@@ -1537,10 +1531,11 @@ const EnhancedGraduatedRecipeEffects = ({
                 )}
 
                 {/* Damage Type Display */}
-                {(effects[level]?.effectType || '') === 'damage' && (
+                {(effects[level]?.effectType || '') === 'damage' && spellWizardState.damageConfig && (
                   <div className="graduated-effect-damage-type">
                     <label>Damage Type:</label>
                     <div className="damage-type-selector">
+                      {/* Always show Direct damage as it's the base type */}
                       <button
                         className={`damage-type-button ${(effects[level]?.damageType || 'direct') === 'direct' && !(effects[level]?.hasDotEffect) ? 'active' : ''}`}
                         onClick={() => {
@@ -1562,59 +1557,67 @@ const EnhancedGraduatedRecipeEffects = ({
                           updateEffectLevel(level, 'directFormula', currentDirectFormula);
                         }}
                       >
-                        <FontAwesomeIcon icon={FaFire} />
+                        <FaFire />
                         <span>Direct</span>
                       </button>
-                      <button
-                        className={`damage-type-button ${(effects[level]?.damageType || 'direct') === 'dot' ? 'active' : ''}`}
-                        onClick={() => {
-                          // Store current formulas before changing type
-                          const currentDotFormula = effects[level]?.dotFormula || getDefaultFormula('damage', 'dot');
-                          const currentDirectFormula = effects[level]?.directFormula || getDefaultFormula('damage', 'direct');
 
-                          // Store the current formula as the appropriate type formula
-                          if (effects[level]?.damageType === 'direct') {
-                            updateEffectLevel(level, 'directFormula', effects[level]?.formula || currentDirectFormula);
-                          }
+                      {/* Only show DoT if it was configured in the spell */}
+                      {(spellWizardState.damageConfig.damageType === 'dot' || spellWizardState.damageConfig.hasDotEffect) && (
+                        <button
+                          className={`damage-type-button ${(effects[level]?.damageType || 'direct') === 'dot' ? 'active' : ''}`}
+                          onClick={() => {
+                            // Store current formulas before changing type
+                            const currentDotFormula = effects[level]?.dotFormula || getDefaultFormula('damage', 'dot');
+                            const currentDirectFormula = effects[level]?.directFormula || getDefaultFormula('damage', 'direct');
 
-                          // Update damage type
-                          updateEffectLevel(level, 'damageType', 'dot');
-                          updateEffectLevel(level, 'hasDotEffect', false);
+                            // Store the current formula as the appropriate type formula
+                            if (effects[level]?.damageType === 'direct') {
+                              updateEffectLevel(level, 'directFormula', effects[level]?.formula || currentDirectFormula);
+                            }
 
-                          // Update the main formula to the DoT formula
-                          updateEffectLevel(level, 'formula', currentDotFormula);
-                          updateEffectLevel(level, 'dotFormula', currentDotFormula);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={FaSkull} />
-                        <span>DoT</span>
-                      </button>
-                      <button
-                        className={`damage-type-button ${(effects[level]?.damageType || 'direct') === 'direct' && (effects[level]?.hasDotEffect) ? 'active' : ''}`}
-                        onClick={() => {
-                          // Store current formulas before changing type
-                          const currentDotFormula = effects[level]?.dotFormula || getDefaultFormula('damage', 'dot');
-                          const currentDirectFormula = effects[level]?.directFormula || getDefaultFormula('damage', 'direct');
+                            // Update damage type
+                            updateEffectLevel(level, 'damageType', 'dot');
+                            updateEffectLevel(level, 'hasDotEffect', false);
 
-                          // Store the current formula as the appropriate type formula
-                          if (effects[level]?.damageType === 'dot') {
-                            updateEffectLevel(level, 'dotFormula', effects[level]?.formula || currentDotFormula);
-                          } else if (effects[level]?.damageType === 'direct' && !effects[level]?.hasDotEffect) {
-                            updateEffectLevel(level, 'directFormula', effects[level]?.formula || currentDirectFormula);
-                          }
+                            // Update the main formula to the DoT formula
+                            updateEffectLevel(level, 'formula', currentDotFormula);
+                            updateEffectLevel(level, 'dotFormula', currentDotFormula);
+                          }}
+                        >
+                          <FaSkull />
+                          <span>DoT</span>
+                        </button>
+                      )}
 
-                          // Update damage type
-                          updateEffectLevel(level, 'damageType', 'direct');
-                          updateEffectLevel(level, 'hasDotEffect', true);
+                      {/* Only show Combined if DoT effect was configured in the spell */}
+                      {spellWizardState.damageConfig.hasDotEffect && (
+                        <button
+                          className={`damage-type-button ${(effects[level]?.damageType || 'direct') === 'direct' && (effects[level]?.hasDotEffect) ? 'active' : ''}`}
+                          onClick={() => {
+                            // Store current formulas before changing type
+                            const currentDotFormula = effects[level]?.dotFormula || getDefaultFormula('damage', 'dot');
+                            const currentDirectFormula = effects[level]?.directFormula || getDefaultFormula('damage', 'direct');
 
-                          // Update the main formula to the direct formula
-                          updateEffectLevel(level, 'formula', currentDirectFormula);
-                          updateEffectLevel(level, 'directFormula', currentDirectFormula);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={FaFireFlameCurved} />
-                        <span>Combined</span>
-                      </button>
+                            // Store the current formula as the appropriate type formula
+                            if (effects[level]?.damageType === 'dot') {
+                              updateEffectLevel(level, 'dotFormula', effects[level]?.formula || currentDotFormula);
+                            } else if (effects[level]?.damageType === 'direct' && !effects[level]?.hasDotEffect) {
+                              updateEffectLevel(level, 'directFormula', effects[level]?.formula || currentDirectFormula);
+                            }
+
+                            // Update damage type
+                            updateEffectLevel(level, 'damageType', 'direct');
+                            updateEffectLevel(level, 'hasDotEffect', true);
+
+                            // Update the main formula to the direct formula
+                            updateEffectLevel(level, 'formula', currentDirectFormula);
+                            updateEffectLevel(level, 'directFormula', currentDirectFormula);
+                          }}
+                        >
+                          <FaFire />
+                          <span>Combined</span>
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1638,9 +1641,7 @@ const EnhancedGraduatedRecipeEffects = ({
                       }}
                       placeholder="Enter formula (e.g., 2d6 + INT)"
                     />
-                    <div className="formula-help">
-                      <span>Base formula: {getDefaultFormula('damage', 'direct')}</span>
-                    </div>
+
                   </div>
                 )}
 
@@ -1663,9 +1664,7 @@ const EnhancedGraduatedRecipeEffects = ({
                       }}
                       placeholder="Enter formula (e.g., 2d8 + HEA)"
                     />
-                    <div className="formula-help">
-                      <span>Base formula: {getDefaultFormula('healing', 'direct')}</span>
-                    </div>
+
                   </div>
                 )}
 
@@ -1699,7 +1698,7 @@ const EnhancedGraduatedRecipeEffects = ({
                           updateEffectLevel(level, 'directFormula', currentDirectFormula);
                         }}
                       >
-                        <FontAwesomeIcon icon={FaHeart} />
+                        <FaHeart />
                         <span>Direct</span>
                       </button>
 
@@ -1728,7 +1727,7 @@ const EnhancedGraduatedRecipeEffects = ({
                             updateEffectLevel(level, 'hotFormula', currentHotFormula);
                           }}
                         >
-                          <FontAwesomeIcon icon={FaHeart} />
+                          <FaHeart />
                           <span>HoT</span>
                         </button>
                       )}
@@ -1758,7 +1757,7 @@ const EnhancedGraduatedRecipeEffects = ({
                             updateEffectLevel(level, 'shieldFormula', currentShieldFormula);
                           }}
                         >
-                          <FontAwesomeIcon icon={FaHeart} />
+                          <FaHeart />
                           <span>Shield</span>
                         </button>
                       )}
@@ -2344,13 +2343,49 @@ const EnhancedGraduatedRecipeEffects = ({
                   </div>
                 )}
 
-                {/* Toxic Requirements */}
-                <div className="graduated-effect-toxic-requirements">
-                  <label>{isChordSystem ? 'Required Chord Functions:' : 'Required Toxic Types:'}</label>
-                  <div className="toxic-requirements-description">
-                    <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
-                    <span>{isChordSystem ? 'Select which chord functions are required for this effect level.' : 'Select which toxic types are required for this effect level.'}</span>
+                {/* Match Type Selection */}
+                {isChordSystem && (
+                  <div className="graduated-effect-match-type">
+                    <div className="match-type-header">
+                      <h4>Match Type</h4>
+                      <div className="match-type-description">
+                        <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+                        <span>Choose how this effect level should match chord functions.</span>
+                      </div>
+                    </div>
+                    <div className="match-type-options">
+                      <button
+                        className={`match-type-option ${(effects[level]?.matchType || 'count') === 'count' ? 'active' : ''}`}
+                        onClick={() => updateEffectLevel(level, 'matchType', 'count')}
+                      >
+                        <div className="match-type-content">
+                          <h5>Count-Based</h5>
+                          <p>Requires any {level} chord function{level > 1 ? 's' : ''}</p>
+                        </div>
+                      </button>
+                      <button
+                        className={`match-type-option ${effects[level]?.matchType === 'specific' ? 'active' : ''}`}
+                        onClick={() => updateEffectLevel(level, 'matchType', 'specific')}
+                      >
+                        <div className="match-type-content">
+                          <h5>Function-Specific</h5>
+                          <p>Requires specific chord functions</p>
+                        </div>
+                      </button>
+                    </div>
                   </div>
+                )}
+
+                {/* Chord/Toxic Requirements */}
+                {(effects[level]?.matchType === 'specific' || !isChordSystem) && (
+                  <div className="graduated-effect-toxic-requirements">
+                    <div className="toxic-requirements-header">
+                      <h4>{isChordSystem ? 'Required Chord Functions' : 'Required Toxic Types'}</h4>
+                      <div className="toxic-requirements-description">
+                        <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+                        <span>{isChordSystem ? 'Select which chord functions are required for this effect level. Click to cycle through counts.' : 'Select which toxic types are required for this effect level. Click to cycle through counts.'}</span>
+                      </div>
+                    </div>
                   <div className="toxic-type-selector">
                     {Object.entries(selectedToxicTypes).length > 0 ? (
                       Object.entries(selectedToxicTypes).map(([toxicId, count]) => {
@@ -2443,32 +2478,18 @@ const EnhancedGraduatedRecipeEffects = ({
                         return (
                           <button
                             key={toxicId}
-                            className={`toxic-icon-button ${effects[level]?.requiredToxicTypes?.[toxicId] ? 'active' : ''}`}
-                            style={{ borderColor: toxicType.color }}
+                            className={`chord-function-button ${effects[level]?.requiredToxicTypes?.[toxicId] ? 'active' : ''}`}
                             onClick={handleToxicTypeSelect}
                             onMouseEnter={handleTooltipEnter}
                             onMouseLeave={handleTooltipLeave}
                             onMouseMove={handleTooltipMove}
                           >
-                            {toxicType.wowIcon ? (
-                              <div className="toxic-icon-wrapper">
-                                <img
-                                  src={`https://wow.zamimg.com/images/wow/icons/large/${toxicType.wowIcon}.jpg`}
-                                  alt={toxicType.name}
-                                  style={{ width: '42px', height: '42px', borderRadius: '4px' }}
-                                />
-                                {effects[level]?.requiredToxicTypes?.[toxicId] && (
-                                  <div className="toxic-count">{effects[level].requiredToxicTypes[toxicId]}</div>
-                                )}
-                              </div>
-                            ) : (
-                              <div className="toxic-icon-wrapper">
-                                <FontAwesomeIcon icon={FaVirus} style={{ fontSize: '24px', color: toxicType.color }} />
-                                {effects[level]?.requiredToxicTypes?.[toxicId] && (
-                                  <div className="toxic-count">{effects[level].requiredToxicTypes[toxicId]}</div>
-                                )}
-                              </div>
-                            )}
+                            <div className="chord-icon-wrapper">
+                              {toxicType.name}
+                              {effects[level]?.requiredToxicTypes?.[toxicId] && (
+                                <div className="toxic-count">{effects[level].requiredToxicTypes[toxicId]}</div>
+                              )}
+                            </div>
                           </button>
                         );
                       })
@@ -2498,6 +2519,7 @@ const EnhancedGraduatedRecipeEffects = ({
                   </button>
 
                 </div>
+                )}
 
                 {/* Description Input */}
                 <div className="graduated-effect-description">
@@ -2521,7 +2543,7 @@ const EnhancedGraduatedRecipeEffects = ({
                         onClick={() => toggleEffectReference(level, effect.id)}
                         title={`${effects[level].effectReferences?.[effect.id] ? 'Remove' : 'Add'} ${effect.name} effect`}
                       >
-                        <FontAwesomeIcon icon={effect.icon} />
+                        {effect.icon && typeof effect.icon === 'function' && <effect.icon />}
                         <span>{effect.name}</span>
                       </button>
                     ))}
@@ -2546,4 +2568,4 @@ const EnhancedGraduatedRecipeEffects = ({
   );
 };
 
-export default EnhancedGraduatedRecipeEffects;
+export default memo(EnhancedGraduatedRecipeEffects);

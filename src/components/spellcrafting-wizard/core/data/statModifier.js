@@ -93,91 +93,11 @@ export const SECONDARY_STAT_MODIFIERS = [
     icon: 'spell_holy_flashheal',
     derivedFrom: ['spirit']
   },
-  {
-    id: 'crit',
-    name: 'Critical Strike',
-    description: 'Chance to deal critical damage',
-    defaultValue: 5,
-    category: 'secondary',
-    icon: 'ability_rogue_ambush',
-    derivedFrom: ['agility']
-  },
-  {
-    id: 'armor',
-    name: 'Armor',
-    description: 'Reduces damage taken from physical attacks',
-    defaultValue: 0,
-    category: 'secondary',
-    icon: 'inv_shield_04',
-    derivedFrom: ['constitution']
-  },
-  {
-    id: 'evasion',
-    name: 'Evasion',
-    description: 'Chance to avoid attacks completely',
-    defaultValue: 0,
-    category: 'secondary',
-    icon: 'ability_rogue_quickrecovery',
-    derivedFrom: ['agility']
-  }
+
 ];
 
 // Combat-focused stat definitions
 export const COMBAT_STAT_MODIFIERS = [
-  {
-    id: 'hit_chance',
-    name: 'Hit Chance',
-    description: 'Chance to successfully hit a target',
-    defaultValue: 75,
-    category: 'combat',
-    icon: 'ability_hunter_snipershot',
-    derivedFrom: ['agility', 'intelligence']
-  },
-  {
-    id: 'crit_chance',
-    name: 'Critical Chance',
-    description: 'Chance to land a critical hit dealing bonus damage',
-    defaultValue: 5,
-    category: 'combat',
-    icon: 'ability_rogue_ambush',
-    derivedFrom: ['agility', 'intelligence']
-  },
-  {
-    id: 'crit_damage',
-    name: 'Critical Damage',
-    description: 'Multiplier for damage dealt by critical hits',
-    defaultValue: 2.0,
-    category: 'combat',
-    icon: 'ability_warrior_savageblow',
-    derivedFrom: ['strength']
-  },
-  {
-    id: 'dodge',
-    name: 'Dodge',
-    description: 'Chance to avoid attacks completely',
-    defaultValue: 5,
-    category: 'combat',
-    icon: 'ability_rogue_quickrecovery',
-    derivedFrom: ['agility']
-  },
-  {
-    id: 'parry',
-    name: 'Parry',
-    description: 'Chance to parry incoming attacks, reducing damage',
-    defaultValue: 0,
-    category: 'combat',
-    icon: 'ability_warrior_challange',
-    derivedFrom: ['strength', 'agility']
-  },
-  {
-    id: 'block',
-    name: 'Block',
-    description: 'Chance to block incoming attacks, reducing damage',
-    defaultValue: 0,
-    category: 'combat',
-    icon: 'ability_defend',
-    derivedFrom: ['strength']
-  },
   {
     id: 'initiative',
     name: 'Initiative',
@@ -188,8 +108,8 @@ export const COMBAT_STAT_MODIFIERS = [
     derivedFrom: ['agility', 'intelligence']
   },
   {
-    id: 'armor_class',
-    name: 'Armor Class',
+    id: 'armor',
+    name: 'Armor',
     description: 'General defense against physical attacks',
     defaultValue: 10,
     category: 'combat',
@@ -477,6 +397,24 @@ export const UTILITY_STAT_MODIFIERS = [
     category: 'utility',
     icon: 'inv_misc_bag_08',
     derivedFrom: ['strength']
+  },
+  {
+    id: 'mana_cost_reduction',
+    name: 'Mana Cost Reduction',
+    description: 'Reduces the mana cost of spells by a percentage',
+    defaultValue: 0,
+    category: 'utility',
+    icon: 'spell_arcane_arcaneresilience',
+    derivedFrom: ['intelligence', 'spirit']
+  },
+  {
+    id: 'inventory_capacity',
+    name: 'Inventory Capacity',
+    description: 'Additional inventory slots available',
+    defaultValue: 0,
+    category: 'utility',
+    icon: 'inv_misc_bag_15',
+    derivedFrom: ['strength']
   }
 ];
 
@@ -509,6 +447,34 @@ export const WEAPON_DAMAGE_MODIFIERS = [
     icon: 'inv_mace_02',
     derivedFrom: ['strength']
   }
+];
+
+// Stat modifiers specifically for buffs and debuffs (excludes unwanted stats)
+export const BUFF_DEBUFF_STAT_MODIFIERS = [
+  // Primary stats - always useful for buffs/debuffs
+  ...PRIMARY_STAT_MODIFIERS,
+
+  // Secondary stats - useful for buffs/debuffs
+  ...SECONDARY_STAT_MODIFIERS,
+
+  // Combat stats - only the useful ones (no hit/crit chance)
+  ...COMBAT_STAT_MODIFIERS.filter(stat =>
+    !stat.id.includes('hit_chance') &&
+    !stat.id.includes('crit_chance') &&
+    !stat.id.includes('crit_damage')
+  ),
+
+  // All damage type modifiers - useful for buffs/debuffs
+  ...DAMAGE_TYPE_MODIFIERS,
+
+  // All resistance modifiers - useful for buffs/debuffs
+  ...RESISTANCE_MODIFIERS,
+
+  // Utility stats - useful for buffs/debuffs
+  ...UTILITY_STAT_MODIFIERS,
+
+  // Weapon damage modifiers - useful for buffs/debuffs
+  ...WEAPON_DAMAGE_MODIFIERS
 ];
 
 // Combined array of all stat modifiers
@@ -701,6 +667,7 @@ export default {
   PRIMARY_STAT_MODIFIERS,
   SECONDARY_STAT_MODIFIERS,
   COMBAT_STAT_MODIFIERS,
+  BUFF_DEBUFF_STAT_MODIFIERS,
   findStatById,
   findStatsByCategory,
   getStatsAffectedByEffect,

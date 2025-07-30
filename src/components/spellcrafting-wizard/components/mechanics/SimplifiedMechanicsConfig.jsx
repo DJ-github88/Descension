@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,18 +14,25 @@ import {
   faPaw,
   faFlask,
   faMusic,
-  faVirus,
   faSkullCrossbones,
-  faInfoCircle
+  faInfoCircle,
+  faGear,
+  faCog,
+  faCheck,
+  faChevronDown,
+  faEye,
+  faPlus,
+  faExclamationTriangle,
+  faWandMagicSparkles
 } from '@fortawesome/free-solid-svg-icons';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
+
 import SpellSelector from '../common/SpellSelector';
 import IconSelectionCard from '../common/IconSelectionCard';
 import EnhancedGraduatedRecipeEffects from './EnhancedGraduatedRecipeEffects';
 
-// Import styles
+// Import Pathfinder styles
 import '../../styles/MechanicThresholds.css';
-import '../../styles/StepMechanicsConfig.css';
+// Pathfinder styles imported via main.css
 
 // Simplified mechanics systems
 const MECHANICS_SYSTEMS = {
@@ -77,7 +85,7 @@ const MECHANICS_SYSTEMS = {
     name: "Toxic/Disease System",
     description: "Apply and consume different toxins and diseases for enhanced effects",
     maxPoints: 8,
-    icon: faVirus,
+    icon: faSkullCrossbones,
     thresholds: [2, 4, 6, 8],
     color: "#8B008B", // Dark magenta color
     types: [
@@ -85,11 +93,23 @@ const MECHANICS_SYSTEMS = {
       { id: 'toxic_consumer', name: 'Toxic Consumer', description: 'Consumes toxins for enhanced effects', icon: faSkullCrossbones }
     ],
     toxicTypes: [
-      { id: 'disease', name: 'Disease', description: 'Biological affliction that weakens the target', color: '#8B8000', wowIcon: 'spell_shadow_plaguecloud' },
-      { id: 'poison', name: 'Poison', description: 'Toxic substance that damages over time', color: '#00FF00', wowIcon: 'ability_rogue_deadlybrew' },
-      { id: 'curse', name: 'Curse', description: 'Magical affliction that reduces effectiveness', color: '#800080', wowIcon: 'spell_shadow_curseofsargeras' },
-      { id: 'venom', name: 'Venom', description: 'Potent toxin that causes severe damage', color: '#008000', wowIcon: 'ability_creature_poison_06' },
-      { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', color: '#A52A2A', wowIcon: 'spell_shadow_creepingplague' }
+      // Core Toxic Types
+      { id: 'disease', name: 'Disease', description: 'Biological afflictions that weaken the target over time', color: '#8B008B', wowIcon: 'ability_creature_disease_01' },
+      { id: 'poison', name: 'Poison', description: 'Toxic substances that cause immediate and ongoing damage', color: '#00AA00', wowIcon: 'ability_creature_poison_06' },
+      { id: 'curse', name: 'Curse', description: 'Magical afflictions that reduce effectiveness and luck', color: '#4B0082', wowIcon: 'spell_shadow_curseofsargeras' },
+      { id: 'venom', name: 'Venom', description: 'Injected toxins that cause severe damage and paralysis', color: '#228B22', wowIcon: 'ability_creature_poison_03' },
+
+      // Advanced Toxic Types
+      { id: 'blight', name: 'Blight', description: 'Corrupting force that spreads to nearby targets', color: '#8B0000', wowIcon: 'spell_shadow_creepingplague' },
+      { id: 'acid', name: 'Acid', description: 'Corrosive substance that dissolves armor and flesh', color: '#FFD700', wowIcon: 'spell_nature_acid_01' },
+      { id: 'necrosis', name: 'Necrosis', description: 'Death magic that causes tissue decay and weakness', color: '#2F4F4F', wowIcon: 'spell_shadow_deathcoil' },
+      { id: 'miasma', name: 'Miasma', description: 'Toxic cloud that impairs vision and breathing', color: '#696969', wowIcon: 'spell_shadow_plaguecloud' },
+
+      // Exotic Toxic Types
+      { id: 'parasites', name: 'Parasites', description: 'Living organisms that drain health and mana', color: '#8B4513', wowIcon: 'spell_nature_insectswarm' },
+      { id: 'radiation', name: 'Radiation', description: 'Arcane energy that mutates and weakens over time', color: '#00CED1', wowIcon: 'spell_arcane_arcanetorrent' },
+      { id: 'corruption', name: 'Corruption', description: 'Dark energy that corrupts from within', color: '#4B0082', wowIcon: 'spell_shadow_abominationexplosion' },
+      { id: 'contagion', name: 'Contagion', description: 'Rapidly spreading infection that jumps between targets', color: '#8B4513', wowIcon: 'spell_shadow_contagion' }
     ]
   },
   CHORD_SYSTEM: {
@@ -127,10 +147,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
   const dispatch = useSpellWizardDispatch();
   const library = useSpellLibrary();
 
-  // Tooltip state
-  const [tooltipContent, setTooltipContent] = useState(null);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Tooltip state removed for cleaner interface
 
   // Get recommended system based on effect type
   const getRecommendedSystem = (type) => {
@@ -409,23 +426,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
     });
   };
 
-  // Handle mouse events for tooltips
-  const handleMouseEnter = (content, event) => {
-    setTooltipContent(content);
-    setShowTooltip(true);
-    setMousePos({ x: event.clientX, y: event.clientY });
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-    setTooltipContent(null);
-  };
-
-  const handleMouseMove = (event) => {
-    if (showTooltip) {
-      setMousePos({ x: event.clientX, y: event.clientY });
-    }
-  };
+  // Tooltip handlers removed for cleaner Pathfinder aesthetic
 
   // Handle toxic type selection
   const handleToxicTypeSelect = (toxicType, event) => {
@@ -455,55 +456,17 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
       };
     });
 
-    // Handle tooltip
-    handleMouseEnter({
-      title: toxicType.name,
-      content: toxicType.description,
-      icon: toxicType.wowIcon
-    }, event);
+    // Tooltip removed
   };
 
   // Handle toxic tooltip events
-  const handleToxicTooltipEnter = (toxicType, event) => {
-    const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {toxicType.description}
-        </div>
-        <div className="tooltip-effect">
-          <span className="tooltip-gold">Type:</span> {toxicType.name}
-        </div>
-      </div>
-    );
-
-    setTooltipContent({
-      content: tooltipContent,
-      title: toxicType.name,
-      icon: toxicType.wowIcon ? `https://wow.zamimg.com/images/wow/icons/large/${toxicType.wowIcon}.jpg` : null
-    });
-    setShowTooltip(true);
-    setMousePos({ x: event.clientX, y: event.clientY });
-  };
-
-  const handleToxicTooltipLeave = () => {
-    setShowTooltip(false);
-  };
-
-  const handleToxicTooltipMove = (event) => {
-    setMousePos({ x: event.clientX, y: event.clientY });
-  };
+  // Toxic tooltip handlers removed
 
   // Handle chord function selection
   const handleChordOptionChange = (option, value, event) => {
     handleOptionChange('CHORD_SYSTEM', option, value);
 
-    // If it's a chord function, show tooltip
-    if (option === 'chordFunction') {
-      const chordFunction = MECHANICS_SYSTEMS.CHORD_SYSTEM.chordFunctions.find(cf => cf.id === value);
-      if (chordFunction && event) {
-        handleChordTooltipEnter(chordFunction, event);
-      }
-    }
+    // Chord function tooltip removed
   };
 
   // Add a chord to the recipe
@@ -525,10 +488,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
       };
     });
 
-    // Show tooltip
-    if (event) {
-      handleChordTooltipEnter(chordFunction, event);
-    }
+    // Tooltip removed
   };
 
   // Remove a chord from the recipe
@@ -551,41 +511,23 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
     });
   };
 
-  // Handle chord tooltip events
-  const handleChordTooltipEnter = (chordFunction, event) => {
-    const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {chordFunction.description}
-        </div>
-        <div className="tooltip-effect">
-          <span className="tooltip-gold">Function:</span> {chordFunction.name}
-        </div>
-        <div className="tooltip-flavor">
-          "{chordFunction.theory}"
-        </div>
-      </div>
-    );
-
-    setTooltipContent({
-      content: tooltipContent,
-      title: chordFunction.name,
-      icon: chordFunction.wowIcon ? `https://wow.zamimg.com/images/wow/icons/large/${chordFunction.wowIcon}.jpg` : null
-    });
-    setShowTooltip(true);
-    setMousePos({ x: event.clientX, y: event.clientY });
+  // Clear the entire recipe
+  const clearRecipe = () => {
+    setConfig(prevConfig => ({
+      ...prevConfig,
+      chordOptions: {
+        ...prevConfig.chordOptions,
+        recipeDisplay: [],
+        recipe: '',
+        requiredFunctions: {}
+      }
+    }));
   };
 
-  const handleChordTooltipLeave = () => {
-    setShowTooltip(false);
-  };
-
-  const handleChordTooltipMove = (event) => {
-    setMousePos({ x: event.clientX, y: event.clientY });
-  };
+  // Chord tooltip handlers removed
 
   // Handle toxic effects change
-  const handleToxicEffectsChange = (effects) => {
+  const handleToxicEffectsChange = useCallback((effects) => {
     setConfig(prevConfig => ({
       ...prevConfig,
       toxicOptions: {
@@ -593,10 +535,10 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
         toxicEffects: effects
       }
     }));
-  };
+  }, [setConfig]);
 
   // Handle chord graduated effects change
-  const handleChordGraduatedEffectsChange = (effects) => {
+  const handleChordGraduatedEffectsChange = useCallback((effects) => {
     setConfig(prevConfig => ({
       ...prevConfig,
       chordOptions: {
@@ -604,7 +546,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
         graduatedEffects: effects
       }
     }));
-  };
+  }, [setConfig]);
 
   // Get the selected system with safety checks
   const systemObj = MECHANICS_SYSTEMS[config.system] || MECHANICS_SYSTEMS['COMBO_POINTS'];
@@ -626,143 +568,177 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
   return (
     <div className="step-mechanics-config">
-      <div className="mechanics-header">
-        <h3>Effect Mechanics Configuration</h3>
-        <div className="mechanics-toggle">
-          <label className="toggle-switch">
+      {/* Pathfinder-Style Header */}
+      <div className="mechanics-header-pathfinder">
+        <div className="mechanics-title-section">
+          <h3>Spell Mechanics</h3>
+          <p className="mechanics-subtitle">Add special mechanics to enhance your spell's behavior</p>
+        </div>
+        <div className="mechanics-toggle-pathfinder">
+          <label className="pf-toggle-switch">
             <input
               type="checkbox"
               checked={config.enabled}
               onChange={handleToggleEnabled}
             />
-            <span className="toggle-slider"></span>
+            <span className="pf-toggle-slider"></span>
           </label>
-          <span className="toggle-label">{config.enabled ? 'Enabled' : 'Disabled'}</span>
+          <span className="pf-toggle-label">{config.enabled ? 'Mechanics Enabled' : 'No Mechanics'}</span>
         </div>
       </div>
 
       {config.enabled && (
-        <>
-          <div className="effect-config-group">
-            <h4 className="section-header">Select Mechanic System</h4>
-            <div className="effect-options mechanics-options">
+        <div className="mechanics-content-layout-row">
+          {/* Top Section - System Selection in Row */}
+          <div className="mechanics-system-selection-row">
+            <h4 className="mechanics-section-title">Choose Mechanic System</h4>
+            <div className="mechanics-system-grid">
               {Object.entries(MECHANICS_SYSTEMS).map(([systemId, system]) => (
                 <div
                   key={systemId}
-                  className={`effect-option ${config.system === systemId ? 'selected' : ''}`}
+                  className={`pf-system-option-compact ${config.system === systemId ? 'selected' : ''}`}
                   onClick={() => handleSystemChange(systemId)}
-                  onMouseEnter={(e) => handleMouseEnter({
-                    title: system.name,
-                    content: system.description,
-                    icon: system.icon
-                  }, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
                 >
-                  <div className="effect-option-icon">
-                    <FontAwesomeIcon icon={system.icon} style={{ color: system.color }} />
-                  </div>
-                  <div className="effect-option-content">
-                    <h5>{system.name}</h5>
-                    <p>{system.description}</p>
+                  <div className="pf-system-content-compact">
+                    <h5 className="pf-system-title-compact">{system.name}</h5>
+                    <p className="pf-system-description-compact">{system.description}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="effect-config-group">
-            <h4 className="section-header">Configure {selectedSystem.name}</h4>
+          {/* Bottom Section - Configuration */}
+          <div className="mechanics-configuration-section">
+            <div className="mechanics-section">
+              <h4 className="mechanics-section-title">Configure {selectedSystem.name}</h4>
 
-            {/* Type Selection */}
-            <div className="mechanic-type-selection">
-              <label>Mechanic Type:</label>
-              <div className="mechanic-type-options">
-                {selectedSystem.types.map(type => (
-                  <div
-                    key={type.id}
-                    className={`mechanic-type-option ${config.type === type.id ? 'selected' : ''}`}
-                    onClick={() => handleTypeChange(type.id)}
-                    onMouseEnter={(e) => handleMouseEnter({
-                      title: type.name,
-                      content: type.description,
-                      icon: type.icon
-                    }, e)}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={handleMouseMove}
-                  >
-                    <FontAwesomeIcon icon={type.icon} />
-                    <span>{type.name}</span>
+              {/* Pathfinder Type Selection */}
+              <div className="pf-type-selection">
+                <div className="pf-type-header">
+                  <label className="pf-type-label">Mechanic Type</label>
+                  <div className="pf-type-description">
+                    Choose how this mechanic behaves in your spell
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* System-specific Configuration */}
-            {config.system === 'COMBO_POINTS' && (
-              <div className="combo-points-config">
-                <div className="config-row">
-                  <label>Threshold:</label>
-                  <div className="threshold-selector">
-                    {selectedSystem.thresholds.map(threshold => (
-                      <div
-                        key={threshold}
-                        className={`threshold-option ${config.thresholdValue === threshold ? 'selected' : ''}`}
-                        onClick={() => handleThresholdChange(threshold)}
-                      >
-                        {threshold} {threshold === 1 ? 'point' : 'points'}
+                </div>
+                <div className="pf-type-list">
+                  {selectedSystem.types.map(type => (
+                    <div
+                      key={type.id}
+                      className={`pf-type-option ${config.type === type.id ? 'selected' : ''}`}
+                      onClick={() => handleTypeChange(type.id)}
+                    >
+                      <div className="pf-type-content">
+                        <h6 className="pf-type-title">{type.name}</h6>
+                        <p className="pf-type-description">{type.description}</p>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="config-row">
-                  <label>Consumption Rule:</label>
-                  <select
-                    value={config.comboOptions.consumptionRule}
-                    onChange={(e) => handleOptionChange('COMBO_POINTS', 'consumptionRule', e.target.value)}
-                  >
-                    <option value="all">Consume All Points</option>
-                    <option value="threshold">Consume Threshold Amount</option>
-                    <option value="none">Don't Consume Points</option>
-                  </select>
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
 
-            {config.system === 'PROC_SYSTEM' && (
-              <div className="proc-system-config">
-                <div className="config-row">
-                  <label>Proc Chance:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={config.procOptions.procChance}
-                    onChange={(e) => handleOptionChange('PROC_SYSTEM', 'procChance', parseInt(e.target.value))}
-                  />
-                  <span className="input-suffix">%</span>
-                </div>
-                <div className="config-row">
-                  <label>Trigger Limit:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="10"
-                    value={config.procOptions.triggerLimit}
-                    onChange={(e) => handleOptionChange('PROC_SYSTEM', 'triggerLimit', parseInt(e.target.value))}
-                  />
-                  <span className="input-suffix">per round</span>
-                </div>
-                <div className="config-row">
-                  <label>Linked Spell:</label>
-                  <SpellSelector
-                    selectedSpellId={config.procOptions.spellId}
-                    onSpellSelected={(spellId) => handleOptionChange('PROC_SYSTEM', 'spellId', spellId)}
-                    placeholder="Select a spell to trigger"
-                  />
-                </div>
-              </div>
-            )}
+              {/* Enhanced System-specific Configuration */}
+              <div className="mechanics-system-config">
+                {config.system === 'COMBO_POINTS' && (
+                  <div className="combo-points-config-enhanced">
+                    <div className="config-section">
+                      <div className="config-section-header">
+                        <FontAwesomeIcon icon={faArrowUp} className="config-icon" />
+                        <h5>Combo Point Settings</h5>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Point Threshold</label>
+                        <div className="config-description">Choose how many combo points are required</div>
+                        <div className="pf-threshold-selector">
+                          {selectedSystem.thresholds.map(threshold => (
+                            <div
+                              key={threshold}
+                              className={`pf-threshold-option ${config.thresholdValue === threshold ? 'selected' : ''}`}
+                              onClick={() => handleThresholdChange(threshold)}
+                            >
+                              <div className="pf-threshold-number">{threshold}</div>
+                              <div className="pf-threshold-label">{threshold === 1 ? 'point' : 'points'}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Consumption Rule</label>
+                        <div className="config-description">How combo points are consumed when the spell is cast</div>
+                        <div className="pf-select-wrapper">
+                          <select
+                            value={config.comboOptions.consumptionRule}
+                            onChange={(e) => handleOptionChange('COMBO_POINTS', 'consumptionRule', e.target.value)}
+                            className="pf-config-select"
+                          >
+                            <option value="all">Consume All Points</option>
+                            <option value="threshold">Consume Threshold Amount</option>
+                            <option value="none">Don't Consume Points</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {config.system === 'PROC_SYSTEM' && (
+                  <div className="proc-system-config-enhanced">
+                    <div className="config-section">
+                      <div className="config-section-header">
+                        <FontAwesomeIcon icon={faBolt} className="config-icon" />
+                        <h5>Proc System Settings</h5>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Proc Chance</label>
+                        <div className="config-description">Percentage chance for the effect to trigger</div>
+                        <div className="pf-input-group">
+                          <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={config.procOptions.procChance}
+                            onChange={(e) => handleOptionChange('PROC_SYSTEM', 'procChance', parseInt(e.target.value))}
+                            className="pf-config-input"
+                          />
+                          <span className="pf-input-suffix">%</span>
+                        </div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Trigger Limit</label>
+                        <div className="config-description">Maximum number of triggers per round</div>
+                        <div className="pf-input-group">
+                          <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            value={config.procOptions.triggerLimit}
+                            onChange={(e) => handleOptionChange('PROC_SYSTEM', 'triggerLimit', parseInt(e.target.value))}
+                            className="pf-config-input"
+                          />
+                          <span className="pf-input-suffix">per round</span>
+                        </div>
+                      </div>
+
+                      <div className="config-field">
+                        <label className="config-label">Linked Spell</label>
+                        <div className="config-description">Choose which spell this proc will trigger</div>
+                        <div className="spell-selector-wrapper">
+                          <SpellSelector
+                            selectedSpellId={config.procOptions.spellId}
+                            onSelectSpell={(spellId) => handleOptionChange('PROC_SYSTEM', 'spellId', spellId)}
+                            filterType="proc"
+                            placeholder="Select a spell to trigger"
+                            className="config-spell-selector"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
             {config.system === 'STATE_REQUIREMENTS' && (
               <div className="state-requirements-config">
@@ -871,7 +847,8 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                   <label>Form Spell:</label>
                   <SpellSelector
                     selectedSpellId={config.formOptions.formSpellId}
-                    onSpellSelected={(spellId) => handleOptionChange('FORM_SYSTEM', 'formSpellId', spellId)}
+                    onSelectSpell={(spellId) => handleOptionChange('FORM_SYSTEM', 'formSpellId', spellId)}
+                    filterType="form"
                     placeholder="Select a form spell"
                   />
                 </div>
@@ -884,36 +861,19 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                 {/* Toxic Type Selection */}
                 <div className="config-row">
                   <label>Toxic Types:</label>
-                  <div className="toxic-type-selector">
+                  <div className="chord-function-grid">
                     {MECHANICS_SYSTEMS.TOXIC_SYSTEM.toxicTypes.map(toxicType => (
                       <button
                         key={toxicType.id}
-                        className={`toxic-icon-button ${config.toxicOptions.selectedToxicTypes[toxicType.id] ? 'active' : ''}`}
-                        style={{ borderColor: toxicType.color }}
+                        className={`chord-function-button ${config.toxicOptions.selectedToxicTypes[toxicType.id] ? 'active' : ''}`}
                         onClick={(e) => handleToxicTypeSelect(toxicType, e)}
-                        onMouseEnter={(e) => handleToxicTooltipEnter(toxicType, e)}
-                        onMouseLeave={handleToxicTooltipLeave}
-                        onMouseMove={handleToxicTooltipMove}
                       >
-                        {toxicType.wowIcon ? (
-                          <div className="toxic-icon-wrapper">
-                            <img
-                              src={`https://wow.zamimg.com/images/wow/icons/large/${toxicType.wowIcon}.jpg`}
-                              alt={toxicType.name}
-                              style={{ width: '42px', height: '42px', borderRadius: '4px' }}
-                            />
-                            {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
-                              <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="toxic-icon-wrapper">
-                            {toxicType.name}
-                            {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
-                              <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
-                            )}
-                          </div>
-                        )}
+                        <div className="chord-icon-wrapper">
+                          {toxicType.name}
+                          {config.toxicOptions.selectedToxicTypes[toxicType.id] && (
+                            <div className="toxic-count">{config.toxicOptions.selectedToxicTypes[toxicType.id]}</div>
+                          )}
+                        </div>
                       </button>
                     ))}
                   </div>
@@ -925,22 +885,30 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                 {/* Duration Configuration */}
                 <div className="config-row">
                   <label>Duration:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="10"
-                    value={config.toxicOptions.duration}
-                    onChange={(e) => handleOptionChange('TOXIC_SYSTEM', 'duration', parseInt(e.target.value))}
-                  />
-                  <select
-                    value={config.toxicOptions.durationType}
-                    onChange={(e) => handleOptionChange('TOXIC_SYSTEM', 'durationType', e.target.value)}
-                    style={{ marginLeft: '8px' }}
-                  >
-                    <option value="rounds">Rounds</option>
-                    <option value="minutes">Minutes</option>
-                    <option value="hours">Hours</option>
-                  </select>
+                  <div className="duration-config">
+                    <input
+                      type="number"
+                      min="1"
+                      max="60"
+                      value={config.toxicOptions.duration}
+                      onChange={(e) => handleOptionChange('TOXIC_SYSTEM', 'duration', parseInt(e.target.value))}
+                      className="duration-input"
+                    />
+                    <select
+                      value={config.toxicOptions.durationType}
+                      onChange={(e) => handleOptionChange('TOXIC_SYSTEM', 'durationType', e.target.value)}
+                      className="duration-select"
+                    >
+                      <option value="rounds">Rounds (6 sec each)</option>
+                      <option value="minutes">Minutes</option>
+                      <option value="hours">Hours</option>
+                      <option value="permanent">Permanent</option>
+                      <option value="until_cured">Until Cured</option>
+                    </select>
+                  </div>
+                  <div className="effect-description">
+                    How long the toxic effects last on the target.
+                  </div>
                 </div>
 
                 {/* Consumption Rule */}
@@ -1007,10 +975,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                           onChange={(e) => handleOptionChange('TOXIC_SYSTEM', 'modifiedFormula', e.target.value)}
                           placeholder={`${getOriginalFormula()} + [toxic_count] * 2`}
                         />
-                        <div className="formula-help">
-                          <span>Use <code>[toxic_count]</code> to reference the number of toxic effects consumed.</span>
-                          <span>Use <code>[toxic_type:disease]</code> to reference the count of a specific toxic type.</span>
-                        </div>
+
                       </div>
                     </div>
 
@@ -1026,9 +991,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                         onGraduatedEffectsChange={handleToxicEffectsChange}
                         effectType={effectType}
                         selectedToxicTypes={config.toxicOptions.selectedToxicTypes}
-                        onToxicTooltipEnter={handleToxicTooltipEnter}
-                        onToxicTooltipLeave={handleToxicTooltipLeave}
-                        onToxicTooltipMove={handleToxicTooltipMove}
+
                         isChordSystem={false}
                       />
                     </div>
@@ -1042,37 +1005,21 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
               <div className="chord-system-config">
                 {/* Note Configuration */}
                 {config.type === 'note' && (
-                  <div className="config-row">
-                    <label>Chord Function:</label>
-                    <div className="chord-function-selector">
+                  <div className="config-field">
+                    <label className="config-label">Chord Function</label>
+                    <div className="config-description">Select the chord function this note represents in music theory</div>
+                    <div className="chord-function-grid">
                       {MECHANICS_SYSTEMS.CHORD_SYSTEM.chordFunctions.map(chordFunction => (
                         <button
                           key={chordFunction.id}
-                          className={`chord-function-button ${config.chordOptions.chordFunction === chordFunction.id ? 'active' : ''}`}
-                          style={{ borderColor: chordFunction.color }}
+                          className={`chord-function-button ${config.chordOptions.chordFunction === chordFunction.id ? 'active' : ''} chord-color-${chordFunction.id.replace('_', '-')}`}
                           onClick={(e) => handleChordOptionChange('chordFunction', chordFunction.id, e)}
-                          onMouseEnter={(e) => handleChordTooltipEnter(chordFunction, e)}
-                          onMouseLeave={handleChordTooltipLeave}
-                          onMouseMove={handleChordTooltipMove}
                         >
-                          {chordFunction.wowIcon ? (
-                            <div className="chord-icon-wrapper">
-                              <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${chordFunction.wowIcon}.jpg`}
-                                alt={chordFunction.name}
-                                style={{ width: '42px', height: '42px', borderRadius: '4px' }}
-                              />
-                            </div>
-                          ) : (
-                            <div className="chord-icon-wrapper">
-                              {chordFunction.name}
-                            </div>
-                          )}
+                          <div className="chord-icon-wrapper">
+                            {chordFunction.name}
+                          </div>
                         </button>
                       ))}
-                    </div>
-                    <div className="effect-description">
-                      Select the chord function this note represents in music theory.
                     </div>
                   </div>
                 )}
@@ -1107,154 +1054,80 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
 
                 {/* Chord Recipe Configuration */}
                 {config.type === 'chord' && (
-                  <>
-                    <div className="config-row">
-                      <label>Recipe:</label>
+                  <div className="chord-recipe-builder">
+                    <div className="chord-recipe-header">
+                      <h5 className="chord-recipe-title">Chord Recipe Builder</h5>
+                      <button
+                        className="chord-recipe-clear"
+                        onClick={clearRecipe}
+                      >
+                        Clear Recipe
+                      </button>
+                    </div>
+
+                    <div className="config-field">
+                      <label className="config-label">Current Recipe</label>
+                      <div className="config-description">The sequence of notes required to cast this spell</div>
                       <div className="chord-recipe-display">
                         {config.chordOptions.recipeDisplay.length > 0 ? (
-                          config.chordOptions.recipeDisplay.map((chord, index) => (
-                            <div
-                              key={index}
-                              className="chord-recipe-item"
-                              style={{ borderColor: chord.color }}
-                              onClick={() => removeChordFromRecipe(index)}
-                            >
-                              {chord.name}
-                              <span className="remove-chord">×</span>
-                            </div>
-                          ))
+                          <>
+                            {config.chordOptions.recipeDisplay.map((chord, index) => (
+                              <React.Fragment key={index}>
+                                <div className="chord-recipe-note">
+                                  <div className="chord-recipe-note-name">{chord.name}</div>
+                                  <button
+                                    className="chord-recipe-note-remove"
+                                    onClick={() => removeChordFromRecipe(index)}
+                                  >
+                                    ×
+                                  </button>
+                                </div>
+                                {index < config.chordOptions.recipeDisplay.length - 1 && (
+                                  <div className="chord-recipe-arrow">→</div>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </>
                         ) : (
-                          <div className="empty-recipe">No chord functions added</div>
+                          <div className="chord-recipe-empty">No chord functions added</div>
                         )}
                       </div>
                     </div>
 
-                    <div className="config-row">
-                      <label>Add to Recipe:</label>
-                      <div className="chord-function-selector">
+                    <div className="config-field">
+                      <label className="config-label">Add to Recipe</label>
+                      <div className="config-description">Click a chord function to add it to the recipe</div>
+                      <div className="chord-function-grid">
                         {MECHANICS_SYSTEMS.CHORD_SYSTEM.chordFunctions.map(chordFunction => (
                           <button
                             key={chordFunction.id}
                             className="chord-function-button"
-                            style={{ borderColor: chordFunction.color }}
                             onClick={(e) => addChordToRecipe(chordFunction, e)}
-                            onMouseEnter={(e) => handleChordTooltipEnter(chordFunction, e)}
-                            onMouseLeave={handleChordTooltipLeave}
-                            onMouseMove={handleChordTooltipMove}
                           >
-                            {chordFunction.wowIcon ? (
-                              <div className="chord-icon-wrapper">
-                                <img
-                                  src={`https://wow.zamimg.com/images/wow/icons/large/${chordFunction.wowIcon}.jpg`}
-                                  alt={chordFunction.name}
-                                  style={{ width: '32px', height: '32px', borderRadius: '4px' }}
-                                />
-                              </div>
-                            ) : (
-                              <div className="chord-icon-wrapper">
-                                {chordFunction.name}
-                              </div>
-                            )}
+                            <div className="chord-icon-wrapper">
+                              {chordFunction.name}
+                            </div>
                           </button>
                         ))}
                       </div>
                     </div>
 
-                    <div className="config-row">
-                      <label>Improvisation Window:</label>
-                      <input
-                        type="number"
-                        min="1"
-                        max="10"
-                        value={config.chordOptions.improvisationWindow}
-                        onChange={(e) => handleOptionChange('CHORD_SYSTEM', 'improvisationWindow', parseInt(e.target.value))}
-                      />
-                      <span className="input-suffix">rounds</span>
-                      <div className="effect-description">
-                        The number of rounds players have to complete the chord recipe.
+                    <div className="config-field">
+                      <label className="config-label">Improvisation Window</label>
+                      <div className="config-description">The number of rounds players have to complete the chord recipe</div>
+                      <div className="improvisation-window-input">
+                        <input
+                          type="number"
+                          min="1"
+                          max="10"
+                          value={config.chordOptions.improvisationWindow}
+                          onChange={(e) => handleOptionChange('CHORD_SYSTEM', 'improvisationWindow', parseInt(e.target.value))}
+                        />
+                        <span className="improvisation-window-label">rounds</span>
                       </div>
                     </div>
 
-                    {/* Partial Match Type Selection */}
-                    <div className="config-row">
-                      <label>Partial Match Type:</label>
-                      <div className="partial-match-options">
-                        <button
-                          className={`partial-match-option ${config.chordOptions.partialMatchType === 'count' ? 'active' : ''}`}
-                          onClick={() => handleOptionChange('CHORD_SYSTEM', 'partialMatchType', 'count')}
-                        >
-                          <div className="partial-match-icon">
-                            <FontAwesomeIcon icon={faArrowUp} />
-                          </div>
-                          <div className="partial-match-content">
-                            <h5>Count-Based</h5>
-                            <p>Effects scale based on how many chord functions match, regardless of which ones.</p>
-                          </div>
-                        </button>
-                        <button
-                          className={`partial-match-option ${config.chordOptions.partialMatchType === 'specific' ? 'active' : ''}`}
-                          onClick={() => handleOptionChange('CHORD_SYSTEM', 'partialMatchType', 'specific')}
-                        >
-                          <div className="partial-match-icon">
-                            <FontAwesomeIcon icon={faMusic} />
-                          </div>
-                          <div className="partial-match-content">
-                            <h5>Function-Specific</h5>
-                            <p>Effects require specific chord functions to be matched.</p>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
 
-                    {/* Specific Chord Functions Selection (only shown when partialMatchType is 'specific') */}
-                    {config.chordOptions.partialMatchType === 'specific' && (
-                      <div className="config-row">
-                        <label>Required Functions:</label>
-                        <div className="required-functions-description">
-                          <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
-                          <span>Select which chord functions are required for partial resolution.</span>
-                        </div>
-                        <div className="chord-function-selector">
-                          {config.chordOptions.recipeDisplay.map((chord, index) => (
-                            <button
-                              key={index}
-                              className={`chord-function-button ${config.chordOptions.requiredFunctions[chord.id] ? 'active' : ''}`}
-                              style={{ borderColor: chord.color }}
-                              onClick={() => {
-                                const requiredFunctions = { ...config.chordOptions.requiredFunctions };
-                                if (requiredFunctions[chord.id]) {
-                                  delete requiredFunctions[chord.id];
-                                } else {
-                                  requiredFunctions[chord.id] = true;
-                                }
-                                handleOptionChange('CHORD_SYSTEM', 'requiredFunctions', requiredFunctions);
-                              }}
-                              onMouseEnter={(e) => handleChordTooltipEnter(chord, e)}
-                              onMouseLeave={handleChordTooltipLeave}
-                              onMouseMove={handleChordTooltipMove}
-                            >
-                              <div className="chord-icon-wrapper">
-                                {chord.wowIcon ? (
-                                  <img
-                                    src={`https://wow.zamimg.com/images/wow/icons/large/${chord.wowIcon}.jpg`}
-                                    alt={chord.name}
-                                    style={{ width: '32px', height: '32px', borderRadius: '4px' }}
-                                  />
-                                ) : (
-                                  chord.name
-                                )}
-                                {config.chordOptions.requiredFunctions[chord.id] && (
-                                  <div className="required-function-indicator">✓</div>
-                                )}
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                        <div className="effect-description">
-                          Click to toggle which chord functions are required for partial resolution.
-                        </div>
-                      </div>
-                    )}
 
                     {/* Graduated Effects for Chord Recipe */}
                     <div className="effect-config-group">
@@ -1262,11 +1135,7 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                         <h4>Graduated Recipe Effects</h4>
                         <div className="graduated-effects-description">
                           <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
-                          <span>
-                            {config.chordOptions.partialMatchType === 'count'
-                              ? 'Configure different effects based on how many chord functions match the recipe.'
-                              : 'Configure different effects based on which specific chord functions are matched.'}
-                          </span>
+                          <span>Configure different effects based on chord function matches. Each level can require specific chord functions or just a count.</span>
                         </div>
                       </div>
                       <EnhancedGraduatedRecipeEffects
@@ -1275,255 +1144,26 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                         onGraduatedEffectsChange={handleChordGraduatedEffectsChange}
                         effectType={effectType}
                         isChordSystem={true}
-                        partialMatchType={config.chordOptions.partialMatchType}
-                        requiredFunctions={config.chordOptions.requiredFunctions}
+                        selectedToxicTypes={Object.fromEntries(config.chordOptions.recipeDisplay.map(chord => [chord.id, 1]))}
                       />
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             )}
 
-            {/* System Preview */}
-            <div className="mechanics-preview">
-              <h4 className="section-header">Preview</h4>
-              <div className="preview-content" style={{ borderColor: selectedSystem.color }}>
-                {/* Combo Points Preview */}
-                {config.system === 'COMBO_POINTS' && (
-                  <div className="preview-text">
-                    {config.type === 'builder' ? (
-                      <p>
-                        This spell generates <span className="highlight" style={{ color: selectedSystem.color }}>1 combo point</span> when cast.
-                      </p>
-                    ) : (
-                      <p>
-                        This spell requires <span className="highlight" style={{ color: selectedSystem.color }}>{config.thresholdValue} combo points</span> to cast.
-                        {config.comboOptions.consumptionRule === 'all' && ' All points will be consumed.'}
-                        {config.comboOptions.consumptionRule === 'threshold' && ` ${config.thresholdValue} points will be consumed.`}
-                        {config.comboOptions.consumptionRule === 'none' && ' No points will be consumed.'}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Proc System Preview */}
-                {config.system === 'PROC_SYSTEM' && (
-                  <div className="preview-text">
-                    <p>
-                      This spell has a <span className="highlight" style={{ color: selectedSystem.color }}>{config.procOptions.procChance}% chance</span> to trigger
-                      {config.procOptions.spellId ? (
-                        <span> the spell <span className="highlight">{library.spells.find(spell => spell.id === config.procOptions.spellId)?.name || 'selected spell'}</span></span>
-                      ) : (
-                        <span> an additional effect</span>
-                      )}
-                      {config.procOptions.triggerLimit > 1 ? (
-                        <span> up to <span className="highlight">{config.procOptions.triggerLimit} times</span> per round.</span>
-                      ) : (
-                        <span> once per round.</span>
-                      )}
-                    </p>
-                  </div>
-                )}
-
-                {/* State Requirements Preview */}
-                {config.system === 'STATE_REQUIREMENTS' && (
-                  <div className="preview-text">
-                    <p>
-                      When target's <span className="highlight" style={{ color: selectedSystem.color }}>{config.stateOptions.resourceType}</span> is
-                      <span className="highlight" style={{ color: selectedSystem.color }}> {config.stateOptions.thresholdType} {config.stateOptions.thresholdValue}%</span>,
-                      this spell's formula changes from
-                      <span className="highlight"> {getOriginalFormula()}</span> to
-                      <span className="highlight"> {config.stateOptions.modifiedFormula || getOriginalFormula() + ' * 1.5'}</span>.
-                    </p>
-                  </div>
-                )}
-
-                {/* Form System Preview */}
-                {config.system === 'FORM_SYSTEM' && (
-                  <div className="preview-text">
-                    <p>
-                      This spell {config.formOptions.requiresForm ? 'requires' : 'is enhanced by'}
-                      <span className="highlight" style={{ color: selectedSystem.color }}> {config.formOptions.formType.replace('_', ' ')}</span>
-                      {config.formOptions.requiresForm ? ' to cast' : ''} and provides
-                      <span className="highlight"> {config.formOptions.bonusAmount}% {config.formOptions.bonusType}</span>
-                      {config.formOptions.formSpellId ? (
-                        <span> when using <span className="highlight">{library.spells.find(spell => spell.id === config.formOptions.formSpellId)?.name || 'selected form spell'}</span>.</span>
-                      ) : (
-                        <span> when in the correct form.</span>
-                      )}
-                    </p>
-                  </div>
-                )}
-
-                {/* Toxic System Preview */}
-                {config.system === 'TOXIC_SYSTEM' && config.type === 'toxic_applier' && (
-                  <div className="preview-text">
-                    <p>
-                      This spell applies the following toxic effects to the target:
-                      {Object.entries(config.toxicOptions.selectedToxicTypes).length > 0 ? (
-                        <ul className="toxic-preview-list">
-                          {Object.entries(config.toxicOptions.selectedToxicTypes).map(([toxicId, count]) => {
-                            const toxicType = MECHANICS_SYSTEMS.TOXIC_SYSTEM.toxicTypes.find(t => t.id === toxicId);
-                            return (
-                              <li key={toxicId} className="toxic-preview-item">
-                                <span className="highlight" style={{ color: toxicType?.color || '#ffffff' }}>
-                                  {count}x {toxicType?.name || toxicId}
-                                </span>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      ) : (
-                        <span className="highlight"> No toxic types selected</span>
-                      )}
-                      <span> for </span>
-                      <span className="highlight">{config.toxicOptions.duration} {config.toxicOptions.durationType}</span>.
-                    </p>
-                  </div>
-                )}
-
-                {config.system === 'TOXIC_SYSTEM' && config.type === 'toxic_consumer' && (
-                  <div className="preview-text">
-                    <p>
-                      This spell consumes toxic effects from the target using the
-                      <span className="highlight" style={{ color: selectedSystem.color }}>
-                        {' '}{config.toxicOptions.consumptionRule === 'all' ? 'all toxics' :
-                          config.toxicOptions.consumptionRule === 'specific' ? 'specific types' :
-                          'threshold'}{' '}
-                      </span>
-                      rule.
-                      {config.toxicOptions.updateFormula && (
-                        <>
-                          <span> The spell's formula will be updated based on the consumed toxic effects.</span>
-
-                          {/* Show the modified formula if it exists */}
-                          {config.toxicOptions.modifiedFormula && (
-                            <div className="modified-formula-preview">
-                              <span>Base formula </span>
-                              <span className="highlight">{getOriginalFormula()}</span>
-                              <span> will be modified to </span>
-                              <span className="highlight">{config.toxicOptions.modifiedFormula}</span>
-                              <span> when toxics are consumed.</span>
-                            </div>
-                          )}
-
-                          {/* Show graduated effects if they exist */}
-                          {Object.keys(config.toxicOptions.toxicEffects || {}).length > 0 ? (
-                            <>
-                              <span> It has </span>
-                              <span className="highlight">
-                                {Object.keys(config.toxicOptions.toxicEffects).length}
-                              </span>
-                              <span> graduated effect levels based on toxic consumption:</span>
-                              <ul className="graduated-effects-preview">
-                                {Object.entries(config.toxicOptions.toxicEffects || {})
-                                  .sort(([levelA], [levelB]) => parseInt(levelA) - parseInt(levelB))
-                                  .map(([level, effect]) => (
-                                    <li key={level} className="graduated-effect-item">
-                                      <span className="highlight" style={{ color: selectedSystem.color }}>
-                                        {level} toxic{parseInt(level) !== 1 ? 's' : ''}:
-                                      </span>
-                                      <span> {effect.formula || 'No formula specified'}</span>
-                                    </li>
-                                  ))}
-                              </ul>
-                            </>
-                          ) : (
-                            !config.toxicOptions.modifiedFormula && (
-                              <span> No formula modifications have been configured yet.</span>
-                            )
-                          )}
-                        </>
-                      )}
-                    </p>
-                  </div>
-                )}
-
-                {/* Chord System Preview */}
-                {config.system === 'CHORD_SYSTEM' && config.type === 'chord' && (
-                  <div className="preview-text">
-                    <p>
-                      This spell requires a specific sequence of
-                      <span className="highlight" style={{ color: selectedSystem.color }}>
-                        {' '}{config.chordOptions.recipeDisplay.length}{' '}
-                      </span>
-                      chord functions to be played in order:
-                      {config.chordOptions.recipeDisplay.length > 0 ? (
-                        <ul className="chord-preview-list">
-                          {config.chordOptions.recipeDisplay.map((chord, index) => (
-                            <li key={index} className="chord-preview-item">
-                              <span className="highlight" style={{ color: chord.color }}>
-                                {chord.name}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <span className="highlight"> No chord functions added</span>
-                      )}
-                      <span> Players have </span>
-                      <span className="highlight">{config.chordOptions.improvisationWindow} rounds</span>
-                      <span> to complete this recipe.</span>
-
-                      {/* Graduated Effects Preview */}
-                      {Object.keys(config.chordOptions.graduatedEffects || {}).length > 0 && (
-                        <>
-                          <div className="graduated-effects-section">
-                            <span>The spell has </span>
-                            <span className="highlight">
-                              {Object.keys(config.chordOptions.graduatedEffects).length}
-                            </span>
-                            <span> graduated effect levels based on partial recipe matches:</span>
-                            <ul className="graduated-effects-preview">
-                              {Object.entries(config.chordOptions.graduatedEffects || {})
-                                .sort(([levelA], [levelB]) => parseInt(levelA) - parseInt(levelB))
-                                .map(([level, effect]) => (
-                                  <li key={level} className="graduated-effect-item">
-                                    <span className="highlight" style={{ color: selectedSystem.color }}>
-                                      {level}/{config.chordOptions.recipeDisplay.length} chord functions:
-                                    </span>
-                                    <span> {effect.formula || 'No formula specified'}</span>
-                                  </li>
-                                ))}
-                            </ul>
-                          </div>
-                        </>
-                      )}
-                    </p>
-                  </div>
-                )}
-
-                {config.system === 'CHORD_SYSTEM' && (config.type === 'note' || config.type === 'wildcard' || config.type === 'extender') && (
-                  <div className="preview-text">
-                    <p>
-                      This spell plays a
-                      <span className="highlight" style={{ color: selectedSystem.color }}>
-                        {' '}{config.type === 'note' ? (
-                          <>
-                            {MECHANICS_SYSTEMS.CHORD_SYSTEM.chordFunctions.find(cf => cf.id === config.chordOptions.chordFunction)?.name || 'Unknown'}
-                          </>
-                        ) : config.type === 'wildcard' ? 'wildcard' : 'extender'}{' '}
-                      </span>
-                      note that can be used in chord recipes.
-                      {config.type === 'wildcard' && ' It can substitute for any chord function in a recipe.'}
-                      {config.type === 'extender' && ` It extends the improvisation window by ${config.chordOptions.extendDuration} rounds.`}
-                    </p>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
-        </>
+        </div>
+
+
+
+
+      </div>
       )}
 
-      {/* WoW Classic Tooltip */}
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
-      />
+      {/* Tooltip rendering removed for cleaner interface */}
+
     </div>
   );
 };

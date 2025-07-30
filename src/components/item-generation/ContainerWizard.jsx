@@ -181,135 +181,147 @@ function ContainerWizard({ onComplete, onCancel }) {
     };
 
     return createPortal(
-        <div className="modal-overlay">
+        <div className="container-wizard-overlay">
             <div className="wizard-container">
                 <div className="wizard-header">
                     <h2>Create Container</h2>
                     <button className="close-button" onClick={onCancel}>×</button>
                 </div>
                 <div className="wizard-content">
-                    <div className="form-group">
-                        <label>
-                            <i className="fas fa-tag"></i>
-                            Name
-                        </label>
-                        <input
-                            type="text"
-                            value={containerData.name}
-                            onChange={(e) => setContainerData({ ...containerData, name: e.target.value })}
-                            placeholder="Enter container name"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>
-                            <i className="fas fa-align-left"></i>
-                            Description
-                        </label>
-                        <textarea
-                            value={containerData.description}
-                            onChange={(e) => setContainerData({ ...containerData, description: e.target.value })}
-                            placeholder="Enter container description"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>
-                            <i className="fas fa-star"></i>
-                            Quality
-                        </label>
-                        <div className="select-wrapper">
-                            <select
-                                value={containerData.quality}
-                                onChange={(e) => setContainerData({ ...containerData, quality: e.target.value })}
-                                style={{ color: qualities.find(q => q.id === containerData.quality)?.color }}
-                            >
-                                {qualities.map(quality => (
-                                    <option 
-                                        key={quality.id} 
-                                        value={quality.id}
-                                        style={{ color: quality.color }}
+                    {/* Basic Information Section */}
+                    <div className="wizard-section">
+                        <div className="wizard-section-title">
+                            <i className="fas fa-info-circle"></i>
+                            Basic Information
+                        </div>
+                        <div className="wizard-two-column">
+                            <div className="form-group">
+                                <label>
+                                    <i className="fas fa-tag"></i>
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    value={containerData.name}
+                                    onChange={(e) => setContainerData({ ...containerData, name: e.target.value })}
+                                    placeholder="Enter container name"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>
+                                    <i className="fas fa-star"></i>
+                                    Quality
+                                </label>
+                                <div className="select-wrapper">
+                                    <select
+                                        value={containerData.quality}
+                                        onChange={(e) => setContainerData({ ...containerData, quality: e.target.value })}
+                                        style={{ color: qualities.find(q => q.id === containerData.quality)?.color }}
                                     >
-                                        {quality.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <label>
-                            <i className="fas fa-box"></i>
-                            Container Type
-                        </label>
-                        <div className="icon-grid">
-                            {containerIcons.map(icon => (
-                                <div
-                                    key={icon.id}
-                                    className={`icon-option ${containerData.iconId === icon.id ? 'selected' : ''}`}
-                                    onClick={() => handleIconChange(icon.id)}
-                                    title={icon.name}
-                                >
-                                    <img 
-                                        src={`https://wow.zamimg.com/images/wow/icons/large/${icon.id}.jpg`} 
-                                        alt={icon.name}
-                                        onError={(e) => {
-                                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-                                        }}
-                                    />
-                                    <span>{icon.name}</span>
+                                        {qualities.map(quality => (
+                                            <option
+                                                key={quality.id}
+                                                value={quality.id}
+                                                style={{ color: quality.color }}
+                                            >
+                                                {quality.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
-                            ))}
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label>
+                                <i className="fas fa-align-left"></i>
+                                Description
+                            </label>
+                            <textarea
+                                value={containerData.description}
+                                onChange={(e) => setContainerData({ ...containerData, description: e.target.value })}
+                                placeholder="Enter container description"
+                                rows={3}
+                            />
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label>
-                            <i className="fas fa-th"></i>
-                            Grid Size
-                        </label>
-                        <div className="grid-size-inputs">
-                            <div>
-                                <label>
-                                    <i className="fas fa-arrows-alt-v"></i>
-                                    Rows
-                                </label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="10"
-                                    value={containerData.rows}
-                                    onChange={(e) => setContainerData({ 
-                                        ...containerData, 
-                                        rows: Math.min(10, Math.max(1, parseInt(e.target.value) || 1))
-                                    })}
-                                />
+                    {/* Container Type & Size Section */}
+                    <div className="wizard-section">
+                        <div className="wizard-section-title">
+                            <i className="fas fa-box"></i>
+                            Container Type & Size
+                        </div>
+                        <div className="form-group">
+                            <label>Container Type</label>
+                            <div className="icon-grid">
+                                {containerIcons.map(icon => (
+                                    <div
+                                        key={icon.id}
+                                        className={`icon-option ${containerData.iconId === icon.id ? 'selected' : ''}`}
+                                        onClick={() => handleIconChange(icon.id)}
+                                        title={icon.name}
+                                    >
+                                        <img
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${icon.id}.jpg`}
+                                            alt={icon.name}
+                                            onError={(e) => {
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                            }}
+                                        />
+                                        <span>{icon.name}</span>
+                                    </div>
+                                ))}
                             </div>
-                            <div>
-                                <label>
-                                    <i className="fas fa-arrows-alt-h"></i>
-                                    Columns
-                                </label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="10"
-                                    value={containerData.cols}
-                                    onChange={(e) => setContainerData({ 
-                                        ...containerData, 
-                                        cols: Math.min(10, Math.max(1, parseInt(e.target.value) || 1))
-                                    })}
-                                />
+                        </div>
+                        <div className="form-group">
+                            <label>
+                                <i className="fas fa-th"></i>
+                                Grid Size
+                            </label>
+                            <div className="grid-size-inputs">
+                                <div>
+                                    <label>
+                                        <i className="fas fa-arrows-alt-v"></i>
+                                        Rows
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="10"
+                                        value={containerData.rows}
+                                        onChange={(e) => setContainerData({
+                                            ...containerData,
+                                            rows: Math.min(10, Math.max(1, parseInt(e.target.value) || 1))
+                                        })}
+                                    />
+                                </div>
+                                <div>
+                                    <label>
+                                        <i className="fas fa-arrows-alt-h"></i>
+                                        Columns
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="10"
+                                        value={containerData.cols}
+                                        onChange={(e) => setContainerData({
+                                            ...containerData,
+                                            cols: Math.min(10, Math.max(1, parseInt(e.target.value) || 1))
+                                        })}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label>
+                    {/* Security Section */}
+                    <div className="wizard-section">
+                        <div className="wizard-section-title">
                             <i className="fas fa-lock"></i>
-                            Security
-                        </label>
-                        <div className="security-settings">
+                            Security Settings
+                        </div>
+                        <div className="form-group">
                             <label className="checkbox-label">
                                 <input
                                     type="checkbox"
@@ -322,6 +334,7 @@ function ContainerWizard({ onComplete, onCancel }) {
                                 />
                                 <span>Lock Container</span>
                             </label>
+                        </div>
 
                             {containerData.isLocked && (
                                 <>
@@ -540,7 +553,6 @@ function ContainerWizard({ onComplete, onCancel }) {
                                     )}
                                 </>
                             )}
-                        </div>
                     </div>
 
                     <div className="wizard-footer">

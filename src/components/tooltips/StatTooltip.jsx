@@ -1,14 +1,21 @@
 import React from 'react';
+import { calculateStatModifier } from '../../utils/characterUtils';
 
 const getStatDescription = (stat, value) => {
     const modifier = Math.floor((value - 10) / 2);
+
+    // Calculate inventory grid size based on strength
+    const baseRows = 5;
+    const additionalRows = Math.max(0, modifier);
+    const totalRows = baseRows + additionalRows;
+
     const descriptions = {
         strength: {
             title: "Strength",
             color: "#FF4D4D",
             effects: [
                 `Increases Melee Power by ${modifier * 2}`,
-                `Inventory Space: 5x15 (Base 5x5)`,
+                `Inventory Space: ${totalRows}x15 (Base 5x15)`,
                 "Yellow Grid: Encumbered (-10ft movement)",
                 "Red Grid: Overencumbered (-20ft movement, disadvantage on checks)"
             ]
@@ -18,7 +25,7 @@ const getStatDescription = (stat, value) => {
             color: "#AAD372",
             effects: [
                 `Increases Ranged Power by ${modifier * 2}`,
-                `Improves Critical Strike chance by ${modifier}%`,
+                `Increases Armor by ${modifier}`,
                 `Grants +${modifier} Initiative`
             ]
         },
@@ -92,38 +99,74 @@ const getStatDescription = (stat, value) => {
     return descriptions[stat.toLowerCase()];
 };
 
-const StatTooltip = ({ stat, value }) => {
+const StatTooltip = ({ stat, value, components }) => {
     const info = getStatDescription(stat, value);
     if (!info) return null;
 
+    // Build calculation breakdown
+    const buildCalculationBreakdown = () => {
+        if (!components) return null;
+
+        const parts = [];
+        const { base, equipment, encumbrance, buffs, debuffs } = components;
+
+        // Always show base
+        parts.push(`${Math.round(base)} (base)`);
+
+        // Add equipment if non-zero
+        if (equipment !== 0) {
+            parts.push(`${equipment > 0 ? '+' : ''}${Math.round(equipment)} (equipment)`);
+        }
+
+        // Add encumbrance if non-zero
+        if (encumbrance !== 0) {
+            parts.push(`${encumbrance > 0 ? '+' : ''}${Math.round(encumbrance)} (encumbrance)`);
+        }
+
+        // Add buffs if non-zero
+        if (buffs !== 0) {
+            parts.push(`${buffs > 0 ? '+' : ''}${Math.round(buffs)} (buffs)`);
+        }
+
+        // Add debuffs if non-zero
+        if (debuffs !== 0) {
+            parts.push(`${debuffs > 0 ? '+' : ''}${Math.round(debuffs)} (debuffs)`);
+        }
+
+        const total = base + equipment + encumbrance + buffs + debuffs;
+        return `${parts.join(' ')} = ${Math.round(total)}`;
+    };
+
     return (
-        <div className="stat-tooltip">
-            <div className="tooltip-header" style={{ color: info.color }}>
+        <>
+            <div className="equipment-slot-name">
                 {info.title}
             </div>
             {info.description && (
-                <div className="tooltip-description">
+                <div className="equipment-slot-description">
                     {info.description}
                 </div>
             )}
-            <div className="tooltip-effects">
-                {info.effects.map((effect, index) => (
-                    typeof effect === 'string' ? (
-                        <div key={index} className="tooltip-effect">
-                            {effect}
-                        </div>
-                    ) : effect.spellSchools ? (
-                        <div key={index} className="spell-schools">
-                            {effect.spellSchools.map((school, i) => (
-                                <span key={i} style={{ color: school.color }}>
-                                    {school.name}{i < effect.spellSchools.length - 1 ? ', ' : ''}
-                                </span>
-                            ))}
-                        </div>
-                    ) : null
-                ))}
+            <div className="equipment-slot-description">
+                Current Value: {Math.round(value)} • Modifier: {calculateStatModifier(value)}
             </div>
-        </div>
+            {components && (components.equipment !== 0 || components.encumbrance !== 0 || components.buffs !== 0 || components.debuffs !== 0) && (
+                <div className="equipment-slot-description">
+                    <strong>Calculation:</strong> {buildCalculationBreakdown()}
+                </div>
+            )}
+            {info.effects.map((effect, index) => (
+                typeof effect === 'string' ? (
+                    <div key={index} className="equipment-slot-description">
+                        • {effect}
+                    </div>
+                ) : effect.spellSchools ? (
+                    <div key={index} className="equipment-slot-description">
+                        Spell Schools: {effect.spellSchools.map(school => school.name).join(', ')}
+                    </div>
+                ) : null
+            ))}
+        </>
     );
 };
 

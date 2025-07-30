@@ -248,7 +248,7 @@ export function generateDefaultFormula(resolutionType, options = {}) {
  */
 export function generateCriticalConfig(resolutionType) {
   const baseConfig = {
-    enabled: true,
+    enabled: false,
     critType: resolutionType.toLowerCase()
   };
 

@@ -718,7 +718,7 @@ const EnhancedEffectPreview = ({
                         value={
                           <div className="creature-info">
                             <img
-                              src={`https://wow.zamimg.com/images/wow/icons/small/${creature.icon}.jpg`}
+                              src={`https://wow.zamimg.com/images/wow/icons/small/${creature.tokenIcon}.jpg`}
                               alt={creature.name}
                               className="wow-element-icon"
                               onError={(e) => {

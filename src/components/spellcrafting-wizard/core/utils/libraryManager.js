@@ -11,12 +11,26 @@ const LIBRARY_STORAGE_KEY = 'spell_library_data';
 const LIBRARY_VERSION = 1; // For future migrations
 
 /**
+ * Clear the library from localStorage - useful for forcing a reload of default spells
+ */
+export function clearLibraryFromStorage() {
+  try {
+    console.log('Clearing library from localStorage');
+    localStorage.removeItem(LIBRARY_STORAGE_KEY);
+    return true;
+  } catch (error) {
+    console.error('Error clearing library from storage:', error);
+    return false;
+  }
+}
+
+/**
  * Save the entire library to localStorage
  */
 export function saveLibraryToStorage(library) {
   try {
     // Debug log to see what's being saved
-    console.log('Saving library to storage:', library);
+    // console.log('Saving library to storage:', library);
 
     const libraryData = {
       version: LIBRARY_VERSION,
@@ -40,7 +54,7 @@ export function saveLibraryToStorage(library) {
 
     // Verify the data was saved correctly
     const savedData = localStorage.getItem(LIBRARY_STORAGE_KEY);
-    console.log('Saved data size:', savedData ? savedData.length : 0, 'bytes');
+    // console.log('Saved data size:', savedData ? savedData.length : 0, 'bytes');
 
     return true;
   } catch (error) {
@@ -61,7 +75,7 @@ export function loadLibraryFromStorage() {
       return getDefaultLibrary();
     }
 
-    console.log('Found library in storage, size:', data.length, 'bytes');
+    // console.log('Found library in storage, size:', data.length, 'bytes');
 
     const libraryData = JSON.parse(data);
 
@@ -538,9 +552,9 @@ export function getDefaultLibrary() {
   // We don't import at the top level to avoid circular dependencies
   const { LIBRARY_SPELLS } = require('../../../../data/spellLibraryData');
 
-  // Create a default library with the sample spells
+  // Create a default library with all the spells loaded immediately
   return {
-    spells: [], // Start with empty spells array, SampleSpellsLoader will add the spells
+    spells: LIBRARY_SPELLS || [], // Load all spells immediately
     categories: createDefaultCategories(),
     filters: {
       query: '',

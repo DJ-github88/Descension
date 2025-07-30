@@ -1,16 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import '../../styles/MechanicsConfig.css';
+// Pathfinder styles imported via main.css
 import '../../styles/effects/ProgressiveEffects.css';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators, ACTION_TYPES, determineWizardFlow } from '../../context/spellWizardContext';
 import IconSelectionCard from '../../components/common/IconSelectionCard';
 import CriticalHitConfig from '../../components/mechanics/CriticalHitConfig';
 import ChanceOnHitConfig from '../../components/mechanics/ChanceOnHitConfig';
 import SpellLibraryButton from '../../components/common/SpellLibraryButton';
-import Wc3Tooltip from '../../../tooltips/Wc3Tooltip';
+import { useUnifiedTooltip } from '../../../common/useUnifiedTooltip';
+import UnifiedTooltip from '../../../common/UnifiedTooltip';
+import MechanicsPopup from '../../components/common/MechanicsPopup';
+import MathHelpModal from '../../components/common/MathHelpModal';
+import { FaCog } from 'react-icons/fa';
+
+
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
-import '../../styles/CriticalHitConfig.css';
-import '../../styles/ChanceOnHitConfig.css';
+// Pathfinder styles imported via main.css
+import '../../styles/effects/unified-effects.css';
+import './healing-effects.css';
+import './damage-effects.css'; // Reuse damage effects styling
+import './progressive-buff.css'; // Progressive effects styling
 import VisualCardSelector from '../../components/mechanics/VisualCardSelector';
+import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
 
 // Import icons
 import {
@@ -47,50 +57,9 @@ import {
   getMaxRoll
 } from '../../core/mechanics/diceSystem';
 
-// Variable definitions for stats and attributes
-const STAT_VARIABLES = {
-  // Primary Attributes
-  STR: { name: 'Strength', description: 'Physical power and melee damage' },
-  AGI: { name: 'Agility', description: 'Dexterity and reflexes' },
-  CON: { name: 'Constitution', description: 'Health and stamina' },
-  INT: { name: 'Intelligence', description: 'Magical power and knowledge' },
-  SPIR: { name: 'Spirit', description: 'Willpower and spiritual energy' },
-  CHA: { name: 'Charisma', description: 'Social influence and leadership' },
+// Note: Variable definitions are now imported from formulaVariables.js for consistency
 
-  // Healing Related
-  HEA: { name: 'Healing', description: 'Base healing power' },
-  HEAL_MOD: { name: 'Healing Modifier', description: 'Percentage boost to healing' },
-  CRIT_HEAL: { name: 'Critical Healing', description: 'Critical healing chance' },
 
-  // Resource Stats
-  MHP: { name: 'Max HP', description: 'Maximum health points' },
-  CHP: { name: 'Current HP', description: 'Current health points' },
-  MMP: { name: 'Max MP', description: 'Maximum mana points' },
-  CMP: { name: 'Current MP', description: 'Current mana points' },
-
-  // Recovery Stats
-  HR: { name: 'Health Regen', description: 'Health regeneration rate' },
-  HEALR: { name: 'Healing Received', description: 'Healing received multiplier' },
-  HEALP: { name: 'Healing Power', description: 'Healing power multiplier' },
-
-  // Special Variables
-  DIVINE: { name: 'Divine Power', description: 'Divine energy for holy spells' },
-  NATURE: { name: 'Nature Power', description: 'Nature energy for druidic spells' },
-  ARCANE: { name: 'Arcane Power', description: 'Arcane energy for mystic healing' },
-
-  // Round-based Variables
-  ROUND: { name: 'Round', description: 'Current round of effect' },
-  DURATION: { name: 'Duration', description: 'Total duration of effect' }
-};
-
-const VARIABLE_CATEGORIES = {
-  'Primary Attributes': ['STR', 'AGI', 'CON', 'INT', 'SPIR', 'CHA'],
-  'Healing Stats': ['HEA', 'HEAL_MOD', 'CRIT_HEAL'],
-  'Resources': ['MHP', 'CHP', 'MMP', 'CMP'],
-  'Recovery': ['HR', 'HEALR', 'HEALP'],
-  'Power Sources': ['DIVINE', 'NATURE', 'ARCANE'],
-  'Time Variables': ['ROUND', 'DURATION']
-};
 
 // Custom formula evaluation function
 const customEvaluateFormula = (formula, variables = {}) => {
@@ -101,7 +70,7 @@ const customEvaluateFormula = (formula, variables = {}) => {
 
       // Replace variable placeholders with their values
       let result = diceAverage;
-      Object.keys(STAT_VARIABLES).forEach(variable => {
+      Object.keys(ALL_VARIABLES).forEach(variable => {
         if (formula.includes(variable)) {
           const varValue = variables[variable] || 0;
           result += varValue;
@@ -173,7 +142,7 @@ const VariablesDisplay = ({ onVariableClick }) => {
                   onClick={() => handleVariableClick(variable)}
                 >
                   <span className="variable-name">{variable}</span>
-                  <span className="variable-desc">{STAT_VARIABLES[variable].description}</span>
+                  <span className="variable-desc">{ALL_VARIABLES[variable]?.description || 'No description available'}</span>
                 </div>
               ))}
             </div>
@@ -202,9 +171,24 @@ const HealingEffects = (props) => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
 
+  // Initialize unified tooltip system
+  const { tooltipState, handleMouseEnter, handleMouseLeave, handleMouseMove } = useUnifiedTooltip();
+
   // Get current spell config from props
   const { currentEffect, effectConfig } = props;
   const spellId = state.currentSpellId;
+
+  // Popup states (matching damage effects)
+  const [showCriticalHitPopup, setShowCriticalHitPopup] = useState(false);
+  const [showChanceOnHitPopup, setShowChanceOnHitPopup] = useState(false);
+  const [showMathHelp, setShowMathHelp] = useState(false);
+
+  // Card/Coin selection states (matching damage effects)
+  const [drawCount, setDrawCount] = useState(3);
+  const [coinCount, setCoinCount] = useState(5);
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [activeSuit, setActiveSuit] = useState('hearts');
+  const [selectedCoinPattern, setSelectedCoinPattern] = useState('basic');
 
   // Create state for healing config
   const [healingConfig, setHealingConfig] = useState(() => {
@@ -281,103 +265,7 @@ const HealingEffects = (props) => {
     return healingConfig.resolution || 'DICE';
   });
 
-  // State for enhanced tooltips
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipContent, setTooltipContent] = useState(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // Tooltip handlers
-  const handleMouseEnter = (data, e) => {
-    // Create WoW Classic style tooltip content
-    const tooltipContent = (
-      <div>
-        <div className="tooltip-stat-line">
-          {data.description || data.name}
-        </div>
-
-        {/* Healing type information */}
-        {data.healingType && (
-          <div className="tooltip-effect">
-            <span className="tooltip-gold">Healing Type:</span> {formatHealingType(data.healingType)}
-          </div>
-        )}
-
-        {/* Formula information if applicable */}
-        {data.formula && (
-          <div className="tooltip-effect">
-            <span className="tooltip-gold">Formula:</span> {data.formula}
-          </div>
-        )}
-
-        {/* Duration information if applicable */}
-        {data.duration && (
-          <div className="tooltip-casttime">
-            <span className="tooltip-gold">Duration:</span> {data.duration} {data.durationUnit || 'rounds'}
-          </div>
-        )}
-
-        {/* Healing mechanics information */}
-        {data.healingType && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-section-header">Healing Properties:</div>
-            <div className="tooltip-option">
-              <span className="tooltip-bullet"></span>
-              <span className="tooltip-gold">Affected by:</span> {getHealingAffectedBy(data.healingType)}
-            </div>
-            {data.healingType === 'hot' && (
-              <div className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">Ticks:</span> Every round for duration
-              </div>
-            )}
-            {data.healingType === 'shield' && (
-              <div className="tooltip-option">
-                <span className="tooltip-bullet"></span>
-                <span className="tooltip-gold">Absorbs:</span> Damage up to shield value
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Resolution method information */}
-        {data.resolutionMethod && (
-          <>
-            <div className="tooltip-divider"></div>
-            <div className="tooltip-casttime">
-              <span className="tooltip-gold">Resolution:</span> {formatResolutionMethod(data.resolutionMethod)}
-            </div>
-          </>
-        )}
-
-        {/* Flavor text based on healing type */}
-        <div className="tooltip-divider"></div>
-        <div className="tooltip-flavor-text">
-          {getHealingFlavorText(data.healingType || healingConfig.healingType)}
-        </div>
-      </div>
-    );
-
-    // Store the tooltip data including title and icon
-    setTooltipContent({
-      content: tooltipContent,
-      title: data.title || data.name,
-      icon: data.icon || getHealingTypeIcon(data.healingType)
-    });
-    setShowTooltip(true);
-    // Update position using client coordinates for fixed positioning
-    setMousePos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = (e) => {
-    if (showTooltip) {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setShowTooltip(false);
-  };
 
   // Format healing type for display
   const formatHealingType = (type) => {
@@ -444,10 +332,7 @@ const HealingEffects = (props) => {
   const [hotFormulaExamples, setHotFormulaExamples] = useState([]);
   const [shieldFormulaExamples, setShieldFormulaExamples] = useState([]);
 
-  // State for card selection
-  const [activeSuit, setActiveSuit] = useState('hearts');
-  const [selectedCards, setSelectedCards] = useState([]);
-  const [drawCount, setDrawCount] = useState(healingConfig.drawCount || 3);
+  // State for card selection (already declared above, removing duplicate)
 
   // Helper function to get default formula
   const getDefaultFormula = (resolutionType) => {
@@ -467,13 +352,13 @@ const HealingEffects = (props) => {
   const getDefaultHotFormula = (resolutionType) => {
     switch (resolutionType) {
       case 'DICE':
-        return `1d4 + HEA/2`;
+        return `1d4 + healingPower/2`;
       case 'CARDS':
-        return `CARD_VALUE/2 + HEA/2`;
+        return `CARD_VALUE/2 + healingPower/2`;
       case 'COINS':
-        return `HEADS_COUNT * 3 + HEA/3`;
+        return `HEADS_COUNT * 3 + healingPower/3`;
       default:
-        return `1d4 + HEA/2`;
+        return `1d4 + healingPower/2`;
     }
   };
 
@@ -481,20 +366,20 @@ const HealingEffects = (props) => {
   const getDefaultShieldFormula = (resolutionType) => {
     switch (resolutionType) {
       case 'DICE':
-        return `2d6 + HEA`;
+        return `2d6 + healingPower`;
       case 'CARDS':
-        return `CARD_VALUE + HEA*1.5`;
+        return `CARD_VALUE + healingPower*1.5`;
       case 'COINS':
-        return `HEADS_COUNT * 10 + HEA`;
+        return `HEADS_COUNT * 10 + healingPower`;
       default:
-        return `2d6 + HEA`;
+        return `2d6 + healingPower`;
     }
   };
 
+
+
   // Handler for healing configuration changes
   const handleHealingConfigChange = (field, value) => {
-    console.log(`Updating healing config: ${field} = ${value}`);
-
     // Create a new config object with the updated field
     const newConfig = {
       ...healingConfig,
@@ -527,42 +412,17 @@ const HealingEffects = (props) => {
 
     // Special handling for healing type changes to ensure proper state updates
     if (field === 'healingType') {
-      // If changing to direct healing, make sure we reset the HoT and Shield flags
-      if (value === 'direct') {
-        // We already updated the healingType in the newConfig above
-        // Now we need to make sure the additional effects are properly reset
-        if (newConfig.hasHotEffect || newConfig.hasShieldEffect) {
-          const updatedConfig = {
-            ...newConfig,
-            hasHotEffect: false,
-            hasShieldEffect: false
-          };
-          setHealingConfig(updatedConfig);
-          dispatch(actionCreators.updateHealingConfig(updatedConfig));
-        }
+      // When changing healing types, preserve additional effects unless they conflict
+      // Only clear hasHotEffect when switching TO 'hot' as primary type (to avoid duplication)
+      if (value === 'hot') {
+        const updatedConfig = {
+          ...newConfig,
+          hasHotEffect: false // Clear additional HoT when HoT becomes primary
+        };
+        setHealingConfig(updatedConfig);
+        dispatch(actionCreators.updateHealingConfig(updatedConfig));
       }
-      // If changing to HoT, make sure we reset the Shield flag
-      else if (value === 'hot') {
-        if (newConfig.hasShieldEffect) {
-          const updatedConfig = {
-            ...newConfig,
-            hasShieldEffect: false
-          };
-          setHealingConfig(updatedConfig);
-          dispatch(actionCreators.updateHealingConfig(updatedConfig));
-        }
-      }
-      // If changing to Shield, make sure we reset the HoT flag
-      else if (value === 'shield') {
-        if (newConfig.hasHotEffect) {
-          const updatedConfig = {
-            ...newConfig,
-            hasHotEffect: false
-          };
-          setHealingConfig(updatedConfig);
-          dispatch(actionCreators.updateHealingConfig(updatedConfig));
-        }
-      }
+      // For 'direct' and 'shield' types, preserve additional effects
     }
   };
 
@@ -786,26 +646,98 @@ const HealingEffects = (props) => {
 
   // Handler for resolution change
   const handleResolutionChange = (resolutionId) => {
+    // console.log('HealingEffects - Resolution change:', resolutionId);
     setCurrentResolution(resolutionId);
-    handleHealingConfigChange('resolution', resolutionId);
+
+    // Update progressive stage formulas if they exist
+    if (healingConfig.progressiveStages?.length > 0) {
+      const updatedStages = healingConfig.progressiveStages.map(stage => {
+        // Get appropriate base formula based on new resolution method
+        let newFormula;
+        if (resolutionId === 'CARDS') {
+          newFormula = 'cards * 2 + HEA/2';
+        } else if (resolutionId === 'COINS') {
+          newFormula = 'heads * 3 + HEA/2';
+        } else {
+          newFormula = '1d4 + HEA/2';
+        }
+
+        return {
+          ...stage,
+          formula: newFormula
+        };
+      });
+
+      // Update the healing config with new progressive stages
+      const newConfig = {
+        ...healingConfig,
+        progressiveStages: updatedStages
+      };
+      setHealingConfig(newConfig);
+      dispatch(actionCreators.updateHealingConfig(newConfig));
+    }
+
+    // Create a comprehensive config update to avoid multiple state updates
+    const configUpdate = {
+      resolution: resolutionId,
+      globalResolution: resolutionId
+    };
+
+    // Initialize config objects when switching to card/coin resolution
+    if (resolutionId === 'CARDS') {
+      // Initialize main card config
+      configUpdate.cardConfig = {
+        drawCount: healingConfig.cardConfig?.drawCount || 3,
+        formula: healingConfig.cardConfig?.formula || 'CARD_VALUE + HEA'
+      };
+
+      // Initialize HoT card config if HoT is enabled OR if healing type is 'hot'
+      if (healingConfig.hasHealingOverTime || healingConfig.healingType === 'hot') {
+        configUpdate.hotCardConfig = {
+          drawCount: healingConfig.hotCardConfig?.drawCount || 3,
+          formula: healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2'
+        };
+      }
+
+      // Initialize shield card config if shield is enabled
+      if (healingConfig.hasShieldEffect) {
+        configUpdate.shieldCardConfig = {
+          drawCount: healingConfig.shieldCardConfig?.drawCount || 3,
+          formula: healingConfig.shieldCardConfig?.formula || 'CARD_VALUE + HEA'
+        };
+      }
+    } else if (resolutionId === 'COINS') {
+      // Initialize main coin config (fix default flipCount to match damage effects)
+      configUpdate.coinConfig = {
+        flipCount: healingConfig.coinConfig?.flipCount || 4,
+        formula: healingConfig.coinConfig?.formula || 'HEADS_COUNT * 7 + HEA'
+      };
+
+      // Initialize HoT coin config if HoT is enabled OR if healing type is 'hot'
+      if (healingConfig.hasHealingOverTime || healingConfig.healingType === 'hot') {
+        configUpdate.hotCoinConfig = {
+          flipCount: healingConfig.hotCoinConfig?.flipCount || 4,
+          formula: healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 3 + HEA/2'
+        };
+      }
+
+      // Initialize shield coin config if shield is enabled
+      if (healingConfig.hasShieldEffect) {
+        configUpdate.shieldCoinConfig = {
+          flipCount: healingConfig.shieldCoinConfig?.flipCount || 4,
+          formula: healingConfig.shieldCoinConfig?.formula || 'HEADS_COUNT * 7 + HEA'
+        };
+      }
+    }
+
+    // Apply all changes in a single update
+    // console.log('HealingEffects - Applying config update:', configUpdate);
+    const newConfig = { ...healingConfig, ...configUpdate };
+    setHealingConfig(newConfig);
+    dispatch(actionCreators.updateHealingConfig(newConfig));
 
     // Update formula examples for new resolution
     updateFormulaExamples(resolutionId);
-
-    // Set new default formulas based on resolution
-    let newFormula = getDefaultFormula(resolutionId);
-    let newHotFormula = getDefaultHotFormula(resolutionId);
-    let newShieldFormula = getDefaultShieldFormula(resolutionId);
-
-    // Always update formulas when resolution changes
-    handleHealingConfigChange('formula', newFormula);
-    handleHealingConfigChange('hotFormula', newHotFormula);
-    handleHealingConfigChange('shieldFormula', newShieldFormula);
-
-    // Also update the spell's main resolution in the wizard state
-    // There's no direct updateSpellState action, so we need to use a different approach
-    // We'll add a resolution property to the healingConfig instead
-    handleHealingConfigChange('globalResolution', resolutionId);
   };
 
   // Synchronize local state with global state when component mounts or global state changes
@@ -854,7 +786,7 @@ const HealingEffects = (props) => {
         setCurrentResolution(state.healingConfig.resolution || 'DICE');
       }
     }
-  }, [state.healingConfig, healingConfig.healingType, healingConfig.hasHotEffect, healingConfig.hasShieldEffect, currentResolution]);
+  }, [state.healingConfig]);
 
   // Initialize component when it mounts
   useEffect(() => {
@@ -912,8 +844,6 @@ const HealingEffects = (props) => {
           shieldTrigger: shieldTriggerConfig
         }));
       }
-    } else {
-      console.log("Component mounted, but no global healing config found");
     }
   }, []);  // Empty dependency array means this runs once on mount
 
@@ -924,17 +854,93 @@ const HealingEffects = (props) => {
 
   // Handler for formula change
   const handleFormulaChange = (value) => {
-    handleHealingConfigChange('formula', value);
+    // For pure HoT healing type, use HoT-specific configs
+    if (healingConfig.healingType === 'hot') {
+      if (currentResolution === 'CARDS') {
+        handleHealingConfigChange('hotCardConfig', {
+          ...healingConfig.hotCardConfig,
+          formula: value
+        });
+      } else if (currentResolution === 'COINS') {
+        handleHealingConfigChange('hotCoinConfig', {
+          ...healingConfig.hotCoinConfig,
+          formula: value
+        });
+      } else {
+        // For DICE resolution, update the HoT formula
+        handleHealingConfigChange('hotFormula', value);
+      }
+    } else if (healingConfig.healingType === 'shield') {
+      // For shield healing type, use shield-specific configs
+      if (currentResolution === 'CARDS') {
+        handleHealingConfigChange('shieldCardConfig', {
+          ...healingConfig.shieldCardConfig,
+          formula: value
+        });
+      } else if (currentResolution === 'COINS') {
+        handleHealingConfigChange('shieldCoinConfig', {
+          ...healingConfig.shieldCoinConfig,
+          formula: value
+        });
+      } else {
+        // For DICE resolution, update the shield formula
+        handleHealingConfigChange('shieldFormula', value);
+      }
+    } else {
+      // For direct healing type, use regular configs
+      if (currentResolution === 'CARDS') {
+        handleHealingConfigChange('cardConfig', {
+          ...healingConfig.cardConfig,
+          formula: value
+        });
+      } else if (currentResolution === 'COINS') {
+        handleHealingConfigChange('coinConfig', {
+          ...healingConfig.coinConfig,
+          formula: value
+        });
+      } else {
+        // For DICE resolution, update the main formula
+        handleHealingConfigChange('formula', value);
+      }
+    }
   };
 
   // Handler for hot formula change
   const handleHotFormulaChange = (value) => {
-    handleHealingConfigChange('hotFormula', value);
+    // Update the appropriate config based on current resolution
+    if (currentResolution === 'CARDS') {
+      handleHealingConfigChange('hotCardConfig', {
+        ...healingConfig.hotCardConfig,
+        formula: value
+      });
+    } else if (currentResolution === 'COINS') {
+      handleHealingConfigChange('hotCoinConfig', {
+        ...healingConfig.hotCoinConfig,
+        formula: value
+      });
+    } else {
+      // For DICE resolution, update the main hot formula
+      handleHealingConfigChange('hotFormula', value);
+    }
   };
 
   // Handler for shield formula change
   const handleShieldFormulaChange = (value) => {
-    handleHealingConfigChange('shieldFormula', value);
+    // Update the appropriate config based on current resolution
+    if (currentResolution === 'CARDS') {
+      handleHealingConfigChange('shieldCardConfig', {
+        ...healingConfig.shieldCardConfig,
+        formula: value
+      });
+    } else if (currentResolution === 'COINS') {
+      handleHealingConfigChange('shieldCoinConfig', {
+        ...healingConfig.shieldCoinConfig,
+        formula: value
+      });
+    } else {
+      // For DICE resolution, update the main shield formula
+      handleHealingConfigChange('shieldFormula', value);
+    }
   };
 
   // Apply formula example
@@ -1009,8 +1015,7 @@ const HealingEffects = (props) => {
       }));
     }
 
-    // Log the update for debugging
-    console.log("Updated healing config:", newConfig);
+    // Config updated successfully
   };
 
   // Handler for toggling Shield effect
@@ -1048,8 +1053,7 @@ const HealingEffects = (props) => {
       }));
     }
 
-    // Log the update for debugging
-    console.log("Updated healing config:", newConfig);
+    // Config updated successfully
   };
 
   // Update the dice display to be interactive with the formula and add complex formula examples
@@ -1060,33 +1064,41 @@ const HealingEffects = (props) => {
     handleHealingConfigChange('formula', newFormula);
   };
 
+  // Add variables to formula
+  const addToFormula = (variable) => {
+    const newFormula = healingConfig.formula
+      ? `${healingConfig.formula} + ${variable}`
+      : variable;
+    handleHealingConfigChange('formula', newFormula);
+  };
+
   const getComplexFormulaExamples = () => {
     switch (currentResolution) {
       case 'DICE':
         return [
           {
             name: 'Empowered Healing',
-            formula: `2d8 + HEA*1.5`,
+            formula: `2d8 + healingPower*1.5`,
             description: 'Boosted healing power'
           },
           {
             name: 'Critical Recovery',
-            formula: `3d8 + (CHP < MHP/3 ? HEA*2 : HEA)`,
+            formula: `3d8 + (currentHealth < maxHealth/3 ? healingPower*2 : healingPower)`,
             description: 'Stronger healing when target is below 33% health'
           },
           {
             name: 'Adaptive Restoration',
-            formula: `2d6 + MAX(INT, SPIR)*0.8 + HEA`,
+            formula: `2d6 + MAX(intelligence, spirit)*0.8 + healingPower`,
             description: 'Uses your highest mental stat for bonus healing'
           },
           {
             name: 'Merciful Blessing',
-            formula: `4d6 + HEA*(MHP-CHP)/MHP*2`,
+            formula: `4d6 + healingPower*(maxHealth-currentHealth)/maxHealth*2`,
             description: 'Healing scales with how badly wounded the target is'
           },
           {
             name: 'Mana Conversion',
-            formula: `2d8 + HEA*(CMP/MMP + 0.5)`,
+            formula: `2d8 + healingPower*(currentMana/maxMana + 0.5)`,
             description: 'Healing is stronger with higher mana'
           },
           {
@@ -1233,8 +1245,7 @@ const HealingEffects = (props) => {
     return getDefaultFormula(resolutionType);
   };
 
-  // Add state for formula help visibility
-  const [showFormulaHelp, setShowFormulaHelp] = useState(false);
+
 
   // Render complex formula examples
   const renderComplexFormulaExamples = () => {
@@ -1265,40 +1276,53 @@ const HealingEffects = (props) => {
 
   // Main render function
   return (
-    <div className="healing-effects-container">
+    <div className="damage-effects-container">
       {/* First section: Healing Type Selection */}
-      <div className="healing-type-selection section">
+      <div className="healing-type-section section">
         <h3>Primary Healing Method</h3>
-        <div className="card-selection-grid">
+        <div className="three-column">
           <IconSelectionCard
-            icon={<FaHeart className="icon" />}
-            title="Direct Healing"
-            description="Heals target immediately in a single burst"
-            onClick={() => handleHealingTypeChange('direct')}
+            icon=""
+            title="Immediate Healing"
+            description="Heals target immediately upon casting"
+            onClick={() => {
+              const newConfig = {
+                ...healingConfig,
+                healingType: 'direct'
+              };
+              setHealingConfig(newConfig);
+              dispatch(actionCreators.updateHealingConfig(newConfig));
+            }}
             selected={healingConfig.healingType === 'direct'}
-            onMouseEnter={(e) => handleMouseEnter({name: 'Direct Healing', description: 'Heals target immediately in a single burst', healingType: 'direct', icon: 'spell_holy_heal'}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
           />
           <IconSelectionCard
-            icon={<FaHeartPulse className="icon" />}
+            icon=""
             title="Healing Over Time"
             description="Applies healing over multiple rounds or turns"
-            onClick={() => handleHealingTypeChange('hot')}
+            onClick={() => {
+              const newConfig = {
+                ...healingConfig,
+                healingType: 'hot',
+                hasHotEffect: false // Don't set hasHotEffect when HoT is the primary type
+              };
+              setHealingConfig(newConfig);
+              dispatch(actionCreators.updateHealingConfig(newConfig));
+            }}
             selected={healingConfig.healingType === 'hot'}
-            onMouseEnter={(e) => handleMouseEnter({name: 'Healing Over Time', description: 'Applies healing over multiple rounds or turns', healingType: 'hot', icon: 'spell_holy_renew'}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
           />
           <IconSelectionCard
-            icon={<FaShield className="icon" />}
+            icon=""
             title="Absorption Shield"
             description="Creates a barrier that absorbs incoming damage"
-            onClick={() => handleHealingTypeChange('shield')}
+            onClick={() => {
+              const newConfig = {
+                ...healingConfig,
+                healingType: 'shield'
+              };
+              setHealingConfig(newConfig);
+              dispatch(actionCreators.updateHealingConfig(newConfig));
+            }}
             selected={healingConfig.healingType === 'shield'}
-            onMouseEnter={(e) => handleMouseEnter({name: 'Absorption Shield', description: 'Creates a barrier that absorbs incoming damage', healingType: 'shield', icon: 'spell_holy_powerwordshield'}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
           />
         </div>
 
@@ -1313,7 +1337,7 @@ const HealingEffects = (props) => {
                 description="Also applies healing over multiple rounds"
                 onClick={toggleHotEffect}
                 selected={healingConfig.hasHotEffect}
-                onMouseEnter={(e) => handleMouseEnter({name: 'Add Healing Over Time', description: 'Adds a healing over time component to your direct healing spell', healingType: 'combined', icon: 'spell_holy_divineprovidence'}, e)}
+                onMouseEnter={handleMouseEnter('Adds a healing over time component to your direct healing spell', { title: 'Add Healing Over Time', variant: 'default' })}
                 onMouseLeave={handleMouseLeave}
                 onMouseMove={handleMouseMove}
               />
@@ -1323,7 +1347,7 @@ const HealingEffects = (props) => {
                 description="Also creates a protective barrier"
                 onClick={toggleShieldEffect}
                 selected={healingConfig.hasShieldEffect}
-                onMouseEnter={(e) => handleMouseEnter({name: 'Add Absorption Shield', description: 'Adds a protective shield component to your direct healing spell', healingType: 'combined', icon: 'spell_holy_divineaegis'}, e)}
+                onMouseEnter={handleMouseEnter('Adds a protective shield component to your direct healing spell', { title: 'Add Absorption Shield', variant: 'default' })}
                 onMouseLeave={handleMouseLeave}
                 onMouseMove={handleMouseMove}
               />
@@ -1374,148 +1398,577 @@ const HealingEffects = (props) => {
         <div className="resolution-options">
           <button
             className={`resolution-option ${currentResolution === 'DICE' ? 'active' : ''}`}
-            onClick={() => handleResolutionChange('DICE')}
-            onMouseEnter={(e) => handleMouseEnter({name: 'Dice Resolution', description: 'Use dice rolls to determine healing amounts', icon: 'inv_misc_dice_01', resolutionMethod: 'DICE'}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Healing Dice button clicked');
+              handleResolutionChange('DICE');
+            }}
+            style={{ pointerEvents: 'auto', zIndex: 20 }}
           >
             <FaDiceD20 className="resolution-icon" />
             <span>Dice</span>
           </button>
           <button
             className={`resolution-option ${currentResolution === 'CARDS' ? 'active' : ''}`}
-            onClick={() => handleResolutionChange('CARDS')}
-            onMouseEnter={(e) => handleMouseEnter({name: 'Card Resolution', description: 'Use cards to determine healing amounts', icon: 'inv_misc_ticket_tarot_deck_01', resolutionMethod: 'CARDS'}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Healing Cards button clicked');
+              handleResolutionChange('CARDS');
+            }}
+            style={{ pointerEvents: 'auto', zIndex: 20 }}
           >
             <FaClone className="resolution-icon" />
             <span>Cards</span>
           </button>
           <button
             className={`resolution-option ${currentResolution === 'COINS' ? 'active' : ''}`}
-            onClick={() => handleResolutionChange('COINS')}
-            onMouseEnter={(e) => handleMouseEnter({name: 'Coin Resolution', description: 'Use coin flips to determine healing amounts', icon: 'inv_misc_coin_01', resolutionMethod: 'COINS'}, e)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Healing Coins button clicked');
+              handleResolutionChange('COINS');
+            }}
+            style={{ pointerEvents: 'auto', zIndex: 20 }}
           >
             <FaCoins className="resolution-icon" />
             <span>Coins</span>
           </button>
         </div>
 
+        {/* Count Configuration for Cards/Coins */}
+        {currentResolution === 'CARDS' && (
+          <div className="count-config-section">
+            <label htmlFor="healing-card-draw-count">Cards Drawn:</label>
+            <input
+              id="healing-card-draw-count"
+              type="number"
+              min="1"
+              max="10"
+              value={healingConfig.cardConfig?.drawCount || drawCount || 3}
+              onChange={(e) => {
+                const newDrawCount = parseInt(e.target.value) || 3;
+                setDrawCount(newDrawCount);
+                handleHealingConfigChange('cardConfig', {
+                  ...healingConfig.cardConfig,
+                  drawCount: newDrawCount,
+                  formula: healingConfig.cardConfig?.formula || 'CARD_VALUE + HEA'
+                });
+              }}
+              className="count-input"
+            />
+          </div>
+        )}
+
+        {currentResolution === 'COINS' && (
+          <div className="count-config-section">
+            <label htmlFor="healing-coin-flip-count">Coins Flipped:</label>
+            <input
+              id="healing-coin-flip-count"
+              type="number"
+              min="1"
+              max="10"
+              value={healingConfig.coinConfig?.flipCount || 5}
+              onChange={(e) => {
+                const flipCount = parseInt(e.target.value) || 5;
+                handleHealingConfigChange('coinConfig', {
+                  ...healingConfig.coinConfig,
+                  flipCount: flipCount,
+                  formula: healingConfig.coinConfig?.formula || 'HEADS_COUNT * 7 + HEA'
+                });
+              }}
+              className="count-input"
+            />
+          </div>
+        )}
+
+        {/* Resolution-specific configuration */}
+        <div className="resolution-config-section">
+          {/* Formula Input - Show for direct healing, shield types, and healing over time */}
+          {(healingConfig.healingType === 'direct' || healingConfig.healingType === 'shield' || healingConfig.healingType === 'hot') && (
+            <div className="formula-input-section">
+              <h4>Formula</h4>
+              <textarea
+                value={
+                  healingConfig.healingType === 'hot' ? (
+                    currentResolution === 'CARDS'
+                      ? (healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2')
+                      : currentResolution === 'COINS'
+                      ? (healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 2 + HEA/2')
+                      : (healingConfig.hotFormula || '1d4 + HEA/2')
+                  ) : healingConfig.healingType === 'shield' ? (
+                    currentResolution === 'CARDS'
+                      ? (healingConfig.shieldCardConfig?.formula || 'CARD_VALUE + HEA')
+                      : currentResolution === 'COINS'
+                      ? (healingConfig.shieldCoinConfig?.formula || 'HEADS_COUNT * 3 + HEA')
+                      : (healingConfig.shieldFormula || '2d6 + HEA')
+                  ) : (
+                    currentResolution === 'CARDS'
+                      ? (healingConfig.cardConfig?.formula || 'CARD_VALUE + HEA')
+                      : currentResolution === 'COINS'
+                      ? (healingConfig.coinConfig?.formula || 'HEADS_COUNT * 3 + HEA')
+                      : (healingConfig.formula || '1d8 + HEA')
+                  )
+                }
+                onChange={(e) => handleFormulaChange(e.target.value)}
+                placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
+                className="main-formula-input"
+                rows="2"
+              />
+            </div>
+          )}
+
+          {/* Shield Properties Configuration - Show for shield healing type */}
+          {healingConfig.healingType === 'shield' && (
+            <div className="shield-properties-section">
+              <div className="shield-form-row">
+                <div className="shield-input-group">
+                  <label>Duration:</label>
+                  <div className="shield-input-with-select">
+                    <input
+                      type="number"
+                      value={healingConfig.shieldDuration}
+                      onChange={(e) => handleHealingConfigChange('shieldDuration', parseInt(e.target.value, 10))}
+                      min="1"
+                      max="10"
+                      className="shield-input"
+                    />
+                    <select className="shield-select">
+                      <option value="round">Rounds</option>
+                      <option value="minute">Minutes</option>
+                      <option value="hour">Hours</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="shield-input-group">
+                  <label>Damage Type Absorption:</label>
+                  <select
+                    value={healingConfig.shieldDamageTypes}
+                    onChange={(e) => handleHealingConfigChange('shieldDamageTypes', e.target.value)}
+                    className="shield-select"
+                  >
+                    <option value="all">All Damage Types</option>
+                    <option value="physical">Physical Damage Only</option>
+                    <option value="magical">Magical Damage Only</option>
+                    <option value="fire">Fire Damage Only</option>
+                    <option value="cold">Cold Damage Only</option>
+                    <option value="lightning">Lightning Damage Only</option>
+                    <option value="acid">Acid Damage Only</option>
+                    <option value="poison">Poison Damage Only</option>
+                    <option value="necrotic">Necrotic Damage Only</option>
+                    <option value="radiant">Radiant Damage Only</option>
+                    <option value="force">Force Damage Only</option>
+                  </select>
+                </div>
+
+                <div className="shield-input-group">
+                  <label>Overflow Behavior:</label>
+                  <select
+                    value={healingConfig.shieldOverflow}
+                    onChange={(e) => handleHealingConfigChange('shieldOverflow', e.target.value)}
+                    className="shield-select"
+                  >
+                    <option value="dissipate">Excess damage dissipates</option>
+                    <option value="convert_to_healing">Convert excess to healing</option>
+                  </select>
+                </div>
+
+                <div className="shield-input-group">
+                  <label>Break Behavior:</label>
+                  <select
+                    value={healingConfig.shieldBreakBehavior}
+                    onChange={(e) => handleHealingConfigChange('shieldBreakBehavior', e.target.value)}
+                    className="shield-select"
+                  >
+                    <option value="fade">Fade gradually when damaged</option>
+                    <option value="shatter">Shatter completely when exceeded</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Duration Configuration - Show for healing over time */}
+          {healingConfig.healingType === 'hot' && (
+            <div className="formula-input-section">
+              <h4>Duration</h4>
+              <div className="hot-duration-controls">
+                <input
+                  type="number"
+                  value={healingConfig.hotDuration || 3}
+                  onChange={(e) => handleHealingConfigChange('hotDuration', parseInt(e.target.value, 10))}
+                  min="1"
+                  max="10"
+                  className="hot-input"
+                />
+                <select
+                  value={healingConfig.hotTickType || 'round'}
+                  onChange={(e) => handleHealingConfigChange('hotTickType', e.target.value)}
+                  className="hot-select"
+                >
+                  <option value="round">Rounds</option>
+                  <option value="turn">Turns</option>
+                  <option value="minute">Minutes</option>
+                </select>
+              </div>
+            </div>
+          )}
+
+          {/* Progressive HoT Configuration - Show for primary HoT */}
+          {healingConfig.healingType === 'hot' && (
+            <div className="progressive-buff-config">
+              <h4>Progressive HoT Configuration</h4>
+              <p className="stage-description">Configure custom formulas for each turn of healing over time</p>
+              <div className="config-option">
+                <div className="toggle-options">
+                  <div className="toggle-option">
+                    <button
+                      className={`pf-button ${healingConfig.isProgressiveHot ? 'active' : ''}`}
+                      onClick={() => {
+                        const newValue = !healingConfig.isProgressiveHot;
+
+                        // Create a complete new config object
+                        const newConfig = {
+                          ...healingConfig,
+                          isProgressiveHot: newValue,
+                          hotScalingType: newValue ? 'progressive' : 'flat'
+                        };
+
+                        if (newValue) {
+                          // Create stages for each turn of the duration
+                          const duration = healingConfig.hotDuration || 3;
+                          const baseFormula = currentResolution === 'CARDS'
+                            ? (healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2')
+                            : currentResolution === 'COINS'
+                            ? (healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 2 + HEA/2')
+                            : (healingConfig.hotFormula || '1d4 + HEA/2');
+
+                          // Create stages for each turn of the duration
+                          const stages = [];
+                          for (let i = 1; i <= duration; i++) {
+                            stages.push({
+                              turn: i,
+                              formula: baseFormula,
+                              spellEffect: null
+                            });
+                          }
+                          newConfig.hotProgressiveStages = stages;
+                        }
+
+                        // Update both local and global state
+                        setHealingConfig(newConfig);
+                        dispatch(actionCreators.updateHealingConfig(newConfig));
+                      }}
+                    >
+                      <div className="toggle-icon">
+                        {healingConfig.isProgressiveHot ? '✓' : ''}
+                      </div>
+                      <span>Enable Progressive HoT</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {healingConfig.isProgressiveHot && (
+                <div className="progressive-stages">
+                  <h4>HoT Stages</h4>
+                  <div className="stage-list">
+                    {(healingConfig.hotProgressiveStages || []).map((stage, index) => {
+                      const tickFrequency = healingConfig.hotTickType || 'round';
+                      const unitLabel = tickFrequency === 'round' ? 'Round' :
+                                       tickFrequency === 'turn' ? 'Turn' :
+                                       tickFrequency.charAt(0).toUpperCase() + tickFrequency.slice(1);
+
+                      return (
+                        <div key={index} className="progressive-stage">
+                          <div className="stage-header">
+                            <h5>{unitLabel} {stage.turn}</h5>
+                          </div>
+                          <div className="stage-content">
+                            <div className="stage-formula">
+                              <label>Formula:</label>
+                              <input
+                                type="text"
+                                value={stage.formula || ''}
+                                onChange={(e) => {
+                                  const newStages = [...(healingConfig.hotProgressiveStages || [])];
+                                  newStages[index] = { ...newStages[index], formula: e.target.value };
+                                  const newConfig = { ...healingConfig, hotProgressiveStages: newStages };
+                                  setHealingConfig(newConfig);
+                                  dispatch(actionCreators.updateHealingConfig(newConfig));
+                                }}
+                                placeholder="Enter formula for this turn"
+                                className="stage-formula-input"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Formula Examples - Show for direct healing, shield types, and healing over time */}
+          {(healingConfig.healingType === 'direct' || healingConfig.healingType === 'shield' || healingConfig.healingType === 'hot') && currentResolution === 'DICE' && (
+            <div className="dice-examples-section">
+              <h5>Dice Formula Examples</h5>
+              <div className="examples-grid">
+                {(healingConfig.healingType === 'hot' ? hotFormulaExamples :
+                  healingConfig.healingType === 'shield' ? shieldFormulaExamples : formulaExamples).slice(0, 8).map((example, index) => (
+                  <button
+                    key={index}
+                    className={`example-card ${
+                      healingConfig.healingType === 'hot'
+                        ? healingConfig.hotFormula === example.formula
+                        : healingConfig.healingType === 'shield'
+                        ? healingConfig.shieldFormula === example.formula
+                        : healingConfig.formula === example.formula
+                    } ? 'active' : ''`}
+                    onClick={() => handleFormulaChange(example.formula)}
+                  >
+                    <div className="example-title">{example.name}</div>
+                    <div className="example-desc">{example.description}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(healingConfig.healingType === 'direct' || healingConfig.healingType === 'shield' || healingConfig.healingType === 'hot') && currentResolution === 'CARDS' && (
+            <div className="card-examples-section">
+              <h5>Card Formula Examples</h5>
+              <div className="examples-grid">
+                {(healingConfig.healingType === 'hot' ? hotFormulaExamples :
+                  healingConfig.healingType === 'shield' ? shieldFormulaExamples : formulaExamples).slice(0, 10).map((example, index) => (
+                  <button
+                    key={index}
+                    className={`example-card ${
+                      healingConfig.healingType === 'hot'
+                        ? healingConfig.hotCardConfig?.formula === example.formula
+                        : healingConfig.healingType === 'shield'
+                        ? healingConfig.shieldCardConfig?.formula === example.formula
+                        : healingConfig.cardConfig?.formula === example.formula
+                    } ? 'active' : ''`}
+                    onClick={() => handleFormulaChange(example.formula)}
+                  >
+                    <div className="example-title">{example.name}</div>
+                    <div className="example-desc">{example.description}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(healingConfig.healingType === 'direct' || healingConfig.healingType === 'shield' || healingConfig.healingType === 'hot') && currentResolution === 'COINS' && (
+            <div className="coin-examples-section">
+              <h5>Coin Formula Examples</h5>
+              <div className="examples-grid">
+                {(healingConfig.healingType === 'hot' ? hotFormulaExamples :
+                  healingConfig.healingType === 'shield' ? shieldFormulaExamples : formulaExamples).slice(0, 10).map((example, index) => (
+                  <button
+                    key={index}
+                    className={`example-card ${
+                      healingConfig.healingType === 'hot'
+                        ? healingConfig.hotCoinConfig?.formula === example.formula
+                        : healingConfig.healingType === 'shield'
+                        ? healingConfig.shieldCoinConfig?.formula === example.formula
+                        : healingConfig.coinConfig?.formula === example.formula
+                    } ? 'active' : ''`}
+                    onClick={() => handleFormulaChange(example.formula)}
+                  >
+                    <div className="example-title">{example.name}</div>
+                    <div className="example-desc">{example.description}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+
         {/* Visual resolution mechanics display based on selected type */}
         <div className="visual-resolution-display">
           {currentResolution === 'DICE' && (
-            <div className="dice-display">
-              <div className="dice-info">
-                <h4>Dice Resolution</h4>
-                <p>Healing is calculated using dice rolls with the formula: <code>{healingConfig.formula}</code></p>
-                <p className="interaction-hint">Click on a die to add it to your formula</p>
-              </div>
-              <div className="dice-stats">
-                <div className="stat-item">
-                  <div className="stat-label">Minimum</div>
-                  <div className="stat-value">{parseDiceNotation(healingConfig.formula) ? getMinRoll(healingConfig.formula) : 'N/A'}</div>
+            <div className="dice-info-section">
+              <h4>Dice Resolution</h4>
+              <p>Healing is calculated using dice rolls with the formula: <code>{
+                healingConfig.healingType === 'hot'
+                  ? (healingConfig.hotFormula || '1d4 + HEA/2')
+                  : healingConfig.formula
+              }</code></p>
+            </div>
+          )}
+
+          {currentResolution === 'DICE' && (
+            <div>
+              {/* Character Variables for Dice */}
+              <div className="character-variables-section">
+                <h5>Character Variables</h5>
+
+                <div className="character-variables-compact">
+                  {/* Core Attributes */}
+                  <div className="variable-category">
+                    <h6>Core Attributes</h6>
+                    <div className="variables-grid">
+                      {['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'].map(attr => (
+                        <button
+                          key={attr}
+                          className="variable-button"
+                          onClick={() => addToFormula(attr)}
+                        >
+                          {attr.charAt(0).toUpperCase() + attr.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Healing Stats */}
+                  <div className="variable-category">
+                    <h6>Healing Stats</h6>
+                    <div className="variables-grid">
+                      {['healingPower', 'maxHealth', 'maxMana', 'healthRegen', 'manaRegen'].map(stat => (
+                        <button
+                          key={stat}
+                          className="variable-button"
+                          onClick={() => addToFormula(stat)}
+                        >
+                          {stat.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Current Resources */}
+                  <div className="variable-category">
+                    <h6>Current Resources</h6>
+                    <div className="variables-grid">
+                      {['currentHealth', 'currentMana', 'currentActionPoints', 'exhaustionLevel'].map(stat => (
+                        <button
+                          key={stat}
+                          className="variable-button"
+                          onClick={() => addToFormula(stat)}
+                        >
+                          {stat.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-label">Average</div>
-                  <div className="stat-value">{parseDiceNotation(healingConfig.formula) ? getAverageRoll(healingConfig.formula) : 'N/A'}</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-label">Maximum</div>
-                  <div className="stat-value">{parseDiceNotation(healingConfig.formula) ? getMaxRoll(healingConfig.formula) : 'N/A'}</div>
-                </div>
-              </div>
-              <div className="dice-visuals">
-                <div
-                  className="die d4"
-                  onClick={() => addDiceToFormula('d4')}
-                  onMouseEnter={(e) => handleMouseEnter({name: 'Four-sided Die', description: 'Add a d4 to your healing formula', icon: 'inv_misc_dice_01'}, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >d4</div>
-                <div
-                  className="die d6"
-                  onClick={() => addDiceToFormula('d6')}
-                  onMouseEnter={(e) => handleMouseEnter({name: 'Six-sided Die', description: 'Add a d6 to your healing formula', icon: 'inv_misc_dice_02'}, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >d6</div>
-                <div
-                  className="die d8"
-                  onClick={() => addDiceToFormula('d8')}
-                  onMouseEnter={(e) => handleMouseEnter({name: 'Eight-sided Die', description: 'Add a d8 to your healing formula', icon: 'inv_misc_dice_03'}, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >d8</div>
-                <div
-                  className="die d10"
-                  onClick={() => addDiceToFormula('d10')}
-                  onMouseEnter={(e) => handleMouseEnter({name: 'Ten-sided Die', description: 'Add a d10 to your healing formula', icon: 'inv_misc_dice_04'}, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >d10</div>
-                <div
-                  className="die d12"
-                  onClick={() => addDiceToFormula('d12')}
-                  onMouseEnter={(e) => handleMouseEnter({name: 'Twelve-sided Die', description: 'Add a d12 to your healing formula', icon: 'inv_misc_dice_05'}, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >d12</div>
-                <div
-                  className="die d20"
-                  onClick={() => addDiceToFormula('d20')}
-                  onMouseEnter={(e) => handleMouseEnter({name: 'Twenty-sided Die', description: 'Add a d20 to your healing formula', icon: 'inv_misc_dice_06'}, e)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={handleMouseMove}
-                >d20</div>
+
+                {/* Resolution-Specific Variables */}
+                {currentResolution === 'DICE' && (
+                  <div className="variable-category dice-variables-section">
+                    <h6>Dice Variables</h6>
+                    <div className="variables-grid">
+                      {['1d4', '1d6', '1d8', '1d10', '1d12', '1d20', '2d6', '3d6'].map(dice => (
+                        <button
+                          key={dice}
+                          className="variable-button resolution-specific"
+                          onClick={() => addToFormula(dice)}
+                        >
+                          {dice}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {currentResolution === 'DICE' && (
+                  <div className="variable-category dice-functions-section">
+                    <h6>Dice Functions</h6>
+                    <div className="variables-grid">
+                      {['DICE_COUNT', 'DICE_SIDES', 'TOTAL_ROLL', 'HIGHEST_DIE', 'LOWEST_DIE', 'CRITICAL_HEALS'].map(variable => (
+                        <button
+                          key={variable}
+                          className="variable-button resolution-specific"
+                          onClick={() => addToFormula(variable)}
+                        >
+                          {variable.replace(/_/g, ' ')}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
           {currentResolution === 'CARDS' && (
             <div className="card-display">
-              <div className="card-info">
-                <h4>Card Healing Formula</h4>
-                <p>
-                  Build a formula using playing cards. Select specific cards to add bonuses to your formula.
-                  <code>{healingConfig.formula || 'CARD_VALUE + HEA'}</code>
-                </p>
-              </div>
 
-              {/* Draw Count Selector */}
-              <div className="draw-count-selector">
-                <label htmlFor="draw-count">Cards Drawn Per Healing:</label>
-                <div className="draw-count-controls">
-                  <button
-                    className="draw-count-button"
-                    onClick={() => setDrawCount(Math.max(1, drawCount - 1))}
-                    disabled={drawCount <= 1}
-                    onMouseEnter={(e) => handleMouseEnter({name: 'Decrease Draw Count', description: 'Draw fewer cards per healing', icon: 'inv_misc_ticket_tarot_card'}, e)}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={handleMouseMove}
-                  >-</button>
-                  <input
-                    id="draw-count"
-                    type="number"
-                    min="1"
-                    max="10"
-                    value={drawCount}
-                    onChange={(e) => setDrawCount(parseInt(e.target.value) || 1)}
-                    className="draw-count-input"
-                  />
-                  <button
-                    className="draw-count-button"
-                    onClick={() => setDrawCount(Math.min(10, drawCount + 1))}
-                    disabled={drawCount >= 10}
-                    onMouseEnter={(e) => handleMouseEnter({name: 'Increase Draw Count', description: 'Draw more cards per healing', icon: 'inv_misc_ticket_tarot_cards'}, e)}
-                    onMouseLeave={handleMouseLeave}
-                    onMouseMove={handleMouseMove}
-                  >+</button>
+              {/* Card Variables */}
+              <div className="character-variables-section">
+                <h5>Card Variables</h5>
+
+                <div className="character-variables-compact">
+                  {/* Core Attributes */}
+                  <div className="variable-category">
+                    <h6>Core Attributes</h6>
+                    <div className="variables-grid">
+                      {['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'].map(attr => (
+                        <button
+                          key={attr}
+                          className="variable-button"
+                          onClick={() => addToFormula(attr)}
+                        >
+                          {attr.charAt(0).toUpperCase() + attr.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Healing Stats */}
+                  <div className="variable-category">
+                    <h6>Healing Stats</h6>
+                    <div className="variables-grid">
+                      {['healingPower', 'maxHealth', 'maxMana', 'healthRegen', 'manaRegen'].map(stat => (
+                        <button
+                          key={stat}
+                          className="variable-button"
+                          onClick={() => addToFormula(stat)}
+                        >
+                          {stat.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Current Resources */}
+                  <div className="variable-category">
+                    <h6>Current Resources</h6>
+                    <div className="variables-grid">
+                      {['currentHealth', 'currentMana', 'currentActionPoints', 'exhaustionLevel'].map(stat => (
+                        <button
+                          key={stat}
+                          className="variable-button"
+                          onClick={() => addToFormula(stat)}
+                        >
+                          {stat.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <div className="draw-count-info">
-                  <p>Each healing draws {drawCount} card{drawCount !== 1 ? 's' : ''} from the deck</p>
+
+                {/* Card-Specific Variables */}
+                <div className="variable-category">
+                  <h6>Card Variables</h6>
+                  <div className="variables-grid">
+                    {['CARD_VALUE', 'FACE_CARDS', 'ACES', 'HIGHEST_CARD', 'RED_COUNT', 'BLACK_COUNT', 'SUIT_COUNT', 'PAIRS', 'SAME_SUIT', 'FLUSH', 'STRAIGHT', 'ROYAL_FLUSH', 'POKER_HAND_RANK'].map(variable => (
+                      <button
+                        key={variable}
+                        className="variable-button resolution-specific"
+                        onClick={() => addToFormula(variable)}
+                      >
+                        {variable.replace(/_/g, ' ')}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -1630,65 +2083,7 @@ const HealingEffects = (props) => {
                 </div>
               </div>
 
-              <div className="formula-builder">
-                <h4>Formula Builder</h4>
-                <div className="formula-input-row">
-                  <input
-                    type="text"
-                    className="formula-input"
-                    value={
-                      healingConfig.healingType === 'hot' ? healingConfig.hotFormula : healingConfig.formula
-                    }
-                    onChange={(e) => {
-                      if (healingConfig.healingType === 'hot') {
-                        handleHotFormulaChange(e.target.value);
-                      } else {
-                        // Both direct healing and shield use the same formula
-                        handleFormulaChange(e.target.value);
-                      }
-                    }}
-                    placeholder={`Enter formula (e.g. CARD_VALUE + HEA)`}
-                  />
-                  <button className="formula-button" onClick={() => {
-                    if (healingConfig.healingType === 'hot') {
-                      handleHotFormulaChange(getDefaultHotFormula(currentResolution));
-                    } else {
-                      // Both direct healing and shield use the same formula
-                      handleFormulaChange(createDefaultFormula(currentResolution));
-                    }
-                  }}>
-                    Reset
-                  </button>
-                </div>
 
-                <div className="selected-cards-display">
-                  <h4>Selected Cards: {selectedCards.length > 0 ? `${selectedCards.length} card(s) selected` : 'None'}</h4>
-                  <div className="selected-cards-list">
-                    {selectedCards.length > 0 ? (
-                      selectedCards.map((card, index) => {
-                        const [rank, suit] = card.split('-');
-                        return (
-                          <div key={index} className="selected-card-item" onClick={() => toggleCardSelection(card)}>
-                            {rank}<span className={`suit-symbol ${suit === 'hearts' || suit === 'diamonds' ? 'red' : 'black'}`}>{getSuitSymbol(suit)}</span>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <div className="no-cards-selected">Click cards below to select them</div>
-                    )}
-                  </div>
-                  {selectedCards.length > 0 && (
-                    <button
-                      className="apply-cards-button"
-                      onClick={() => updateFormulaWithCardSelection()}
-                    >
-                      Apply Selected Cards to Formula
-                    </button>
-                  )}
-                </div>
-
-                {renderComplexFormulaExamples()}
-              </div>
 
               {/* Card Selection Area */}
               <div className="card-selector-container">
@@ -1763,1088 +2158,850 @@ const HealingEffects = (props) => {
                   healingConfig.shieldFormula
                 }</code></p>
               </div>
-              <div className="coin-variables">
-                <div className="variable-item" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
 
-                  const newFormula = formula ? `${formula} + HEADS_COUNT` : 'HEADS_COUNT';
+              {/* Coin Variables */}
+              <div className="character-variables-section">
+                <h5>Coin Variables</h5>
 
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <span className="variable-name">HEADS_COUNT</span>
-                  <span className="variable-desc">Number of heads flipped</span>
+                <div className="character-variables-compact">
+                  {/* Core Attributes */}
+                  <div className="variable-category">
+                    <h6>Core Attributes</h6>
+                    <div className="variables-grid">
+                      {['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'].map(attr => (
+                        <button
+                          key={attr}
+                          className="variable-button"
+                          onClick={() => addToFormula(attr)}
+                        >
+                          {attr.charAt(0).toUpperCase() + attr.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Healing Stats */}
+                  <div className="variable-category">
+                    <h6>Healing Stats</h6>
+                    <div className="variables-grid">
+                      {['healingPower', 'maxHealth', 'maxMana', 'healthRegen', 'manaRegen'].map(stat => (
+                        <button
+                          key={stat}
+                          className="variable-button"
+                          onClick={() => addToFormula(stat)}
+                        >
+                          {stat.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Current Resources */}
+                  <div className="variable-category">
+                    <h6>Current Resources</h6>
+                    <div className="variables-grid">
+                      {['currentHealth', 'currentMana', 'currentActionPoints', 'exhaustionLevel'].map(stat => (
+                        <button
+                          key={stat}
+                          className="variable-button"
+                          onClick={() => addToFormula(stat)}
+                        >
+                          {stat.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <div className="variable-item" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
 
-                  const newFormula = formula ? `${formula} + TAILS_COUNT` : 'TAILS_COUNT';
-
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <span className="variable-name">TAILS_COUNT</span>
-                  <span className="variable-desc">Number of tails flipped</span>
-                </div>
-                <div className="variable-item" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
-
-                  const newFormula = formula ? `${formula} + ALL_HEADS` : 'ALL_HEADS';
-
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <span className="variable-name">ALL_HEADS</span>
-                  <span className="variable-desc">Boolean if all coins are heads</span>
-                </div>
-                <div className="variable-item" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
-
-                  const newFormula = formula ? `${formula} + ALL_TAILS` : 'ALL_TAILS';
-
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <span className="variable-name">ALL_TAILS</span>
-                  <span className="variable-desc">Boolean if all coins are tails</span>
-                </div>
-                <div className="variable-item" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
-
-                  const newFormula = formula ? `${formula} + HEADS_RATIO` : 'HEADS_RATIO';
-
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <span className="variable-name">HEADS_RATIO</span>
-                  <span className="variable-desc">Ratio of heads (0.0-1.0)</span>
+                {/* Coin-Specific Variables */}
+                <div className="variable-category">
+                  <h6>Coin Variables</h6>
+                  <div className="variables-grid">
+                    {['HEADS_COUNT', 'TAILS_COUNT', 'ALL_HEADS', 'ALL_TAILS', 'LONGEST_STREAK', 'ALTERNATING_PATTERN', 'COIN_COUNT'].map(variable => (
+                      <button
+                        key={variable}
+                        className="variable-button resolution-specific"
+                        onClick={() => addToFormula(variable)}
+                      >
+                        {variable.replace(/_/g, ' ')}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="coin-visuals">
-                <div className="coin heads" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
 
-                  const newFormula = formula ? `${formula} + HEADS_COUNT * 8` : 'HEADS_COUNT * 8';
 
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <div className="coin-face">H</div>
-                </div>
-                <div className="coin tails" onClick={() => {
-                  const formula =
-                    healingConfig.healingType === 'direct' ? healingConfig.formula :
-                    healingConfig.healingType === 'hot' ? healingConfig.hotFormula :
-                    healingConfig.shieldFormula;
 
-                  const newFormula = formula ? `${formula} + TAILS_COUNT * 5` : 'TAILS_COUNT * 5';
-
-                  if (healingConfig.healingType === 'direct') {
-                    handleFormulaChange(newFormula);
-                  } else if (healingConfig.healingType === 'hot') {
-                    handleHotFormulaChange(newFormula);
-                  } else {
-                    handleShieldFormulaChange(newFormula);
-                  }
-                }}>
-                  <div className="coin-face">T</div>
-                </div>
-              </div>
-              <div className="flip-simulation">
-                <button className="simulate-button" onClick={() => alert('Coin flip simulation would go here')}>
-                  Simulate Flip
-                </button>
-              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Third section: Formula Input */}
-      <div className="formula-section section">
-        <h3>
-          {healingConfig.healingType === 'direct' && !healingConfig.hasHotEffect && !healingConfig.hasShieldEffect && 'Healing Formula'}
-          {healingConfig.healingType === 'direct' && (healingConfig.hasHotEffect || healingConfig.hasShieldEffect) && 'Direct Healing Formula'}
-          {healingConfig.healingType === 'hot' && !healingConfig.hasShieldEffect && 'Healing Over Time Formula'}
-          {healingConfig.healingType === 'hot' && healingConfig.hasShieldEffect && 'Primary HoT Formula'}
-          {healingConfig.healingType === 'shield' && !healingConfig.hasHotEffect && 'Shield Absorption Formula'}
-          {healingConfig.healingType === 'shield' && healingConfig.hasHotEffect && 'Primary Shield Formula'}
-        </h3>
-        <div className="formula-builder">
-          <div className="formula-header">
-            <button
-              className="help-button"
-              onClick={() => setShowFormulaHelp(prev => !prev)}
-            >
-              {showFormulaHelp ? 'Hide Syntax Help' : 'Show Syntax Help'}
-            </button>
-          </div>
 
-          {showFormulaHelp && (
-            <div className="formula-explanation">
-              <h4>Formula Syntax Guide</h4>
-              <div className="formula-explanation-content">
-                <div className="syntax-item">
-                  <div className="syntax-title">Basic Operators</div>
-                  <div className="syntax-examples">
-                    <div className="syntax-example">
-                      <code>+</code> <span>Addition (2 + 3 = 5)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>-</code> <span>Subtraction (5 - 2 = 3)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>*</code> <span>Multiplication (2 * 3 = 6)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>/</code> <span>Division (6 / 2 = 3)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="syntax-item">
-                  <div className="syntax-title">Dice Notation</div>
-                  <div className="syntax-examples">
-                    <div className="syntax-example">
-                      <code>1d6</code> <span>Roll one 6-sided die (result: 1-6)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>2d8</code> <span>Roll two 8-sided dice (result: 2-16)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>3d4 + 2</code> <span>Roll three 4-sided dice and add 2 (result: 5-14)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="syntax-item">
-                  <div className="syntax-title">Conditional Expressions</div>
-                  <div className="syntax-examples">
-                    <div className="syntax-example">
-                      <code>(condition ? trueValue : falseValue)</code> <span>If condition is true, use trueValue, otherwise use falseValue</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>(CHP &lt; MHP/2 ? 1.5 : 1)</code> <span>If current HP is less than half of max HP, use 1.5, otherwise use 1</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>(ROYAL_FLUSH ? 100 : 0)</code> <span>If ROYAL_FLUSH is true, add 100, otherwise add 0</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="syntax-item">
-                  <div className="syntax-title">Comparison Operators</div>
-                  <div className="syntax-examples">
-                    <div className="syntax-example">
-                      <code>&lt;</code> <span>Less than (5 &lt; 10 is true)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>&gt;</code> <span>Greater than (10 &gt; 5 is true)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>=</code> <span>Equal to (5 = 5 is true)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>!=</code> <span>Not equal to (5 != 10 is true)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="syntax-item">
-                  <div className="syntax-title">Functions</div>
-                  <div className="syntax-examples">
-                    <div className="syntax-example">
-                      <code>MIN(a, b)</code> <span>The minimum of a and b (MIN(5, 10) = 5)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>MAX(a, b)</code> <span>The maximum of a and b (MAX(5, 10) = 10)</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>ROUND(x)</code> <span>Round x to the nearest integer</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>HAS_CARDS('...')</code> <span>True if specific cards are drawn (select cards below)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="syntax-item">
-                  <div className="syntax-title">Healing Variables</div>
-                  <div className="syntax-examples">
-                    <div className="syntax-example">
-                      <code>HEA</code> <span>Base healing power stat</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>CRIT_HEAL</code> <span>Critical healing chance</span>
-                    </div>
-                    <div className="syntax-example">
-                      <code>CHP/MHP</code> <span>Current and maximum health points</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="syntax-item">
-                  <div className="syntax-title">Example Formula</div>
-                  <div className="syntax-full-example">
-                    <code>2d8 + HEA * (CHP &lt; MHP/3 ? 1.5 : 1)</code>
-                    <div className="syntax-explanation">
-                      <ul>
-                        <li>Roll 2d8 for base healing</li>
-                        <li>Add healing power (multiplied by 1.5 if target is below 33% health)</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="formula-input-row">
-            <input
-              type="text"
-              className="formula-input"
-              id="healingFormula"
-              value={
-                healingConfig.healingType === 'direct' ? healingConfig.formula || '' :
-                healingConfig.healingType === 'hot' ? healingConfig.hotFormula || '' :
-                healingConfig.shieldFormula || ''
-              }
-              onChange={(e) => {
-                if (healingConfig.healingType === 'direct') {
-                  handleFormulaChange(e.target.value);
-                } else if (healingConfig.healingType === 'hot') {
-                  handleHotFormulaChange(e.target.value);
-                } else {
-                  handleShieldFormulaChange(e.target.value);
-                }
-              }}
-              placeholder={`Enter formula (e.g. ${
-                healingConfig.healingType === 'direct' ? getDefaultFormula(currentResolution) :
-                healingConfig.healingType === 'hot' ? getDefaultHotFormula(currentResolution) :
-                getDefaultShieldFormula(currentResolution)
-              })`}
-            />
-            <button
-              className="formula-button"
-              onClick={() => {
-                if (healingConfig.healingType === 'direct') {
-                  handleFormulaChange(getDefaultFormula(currentResolution));
-                } else if (healingConfig.healingType === 'hot') {
-                  handleHotFormulaChange(getDefaultHotFormula(currentResolution));
-                } else {
-                  handleShieldFormulaChange(getDefaultShieldFormula(currentResolution));
-                }
-              }}
-            >
-              Reset
-            </button>
-          </div>
-
-          <VariablesDisplay onVariableClick={(variable) => {
-            const input = document.getElementById('healingFormula');
-            if (input) {
-              const start = input.selectionStart;
-              const end = input.selectionEnd;
-              const currentValue = input.value;
-              const newValue = currentValue.substring(0, start) + variable + currentValue.substring(end);
-
-              if (healingConfig.healingType === 'hot') {
-                handleHotFormulaChange(newValue);
-              } else {
-                // Both direct healing and shield use the same formula
-                handleFormulaChange(newValue);
-              }
-
-              // Set cursor position after the inserted variable
-              setTimeout(() => {
-                input.setSelectionRange(start + variable.length, start + variable.length);
-                input.focus();
-              }, 0);
-            }
-          }} />
-
-          {renderComplexFormulaExamples()}
-        </div>
-      </div>
 
       {/* Additional formula sections for combined effects */}
       {healingConfig.healingType === 'direct' && healingConfig.hasHotEffect && (
-        <div className="formula-section section">
-          <h3>Healing Over Time Formula</h3>
-          <div className="formula-builder">
-            <div className="formula-input-group">
-              <input
-                type="text"
-                className="formula-input"
-                id="hotFormula"
-                value={healingConfig.hotFormula || ''}
-                onChange={(e) => handleHotFormulaChange(e.target.value)}
-                placeholder={`Enter formula (e.g. ${getDefaultHotFormula(currentResolution)})`}
-              />
-              <button
-                className="formula-button"
-                onClick={() => handleHotFormulaChange(getDefaultHotFormula(currentResolution))}
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {healingConfig.healingType === 'direct' && healingConfig.hasShieldEffect && (
-        <div className="formula-section section">
-          <h3>Shield Absorption Formula</h3>
-          <div className="formula-builder">
-            <div className="formula-input-group">
-              <input
-                type="text"
-                className="formula-input"
-                id="shieldFormula"
-                value={healingConfig.shieldFormula || ''}
-                onChange={(e) => handleShieldFormulaChange(e.target.value)}
-                placeholder={`Enter formula (e.g. ${getDefaultShieldFormula(currentResolution)})`}
-              />
-              <button
-                className="formula-button"
-                onClick={() => handleShieldFormulaChange(getDefaultShieldFormula(currentResolution))}
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {healingConfig.healingType === 'hot' && healingConfig.hasShieldEffect && (
-        <div className="formula-section section">
-          <h3>Shield Absorption Formula</h3>
-          <div className="formula-builder">
-            <div className="formula-input-group">
-              <input
-                type="text"
-                className="formula-input"
-                id="shieldFormula"
-                value={healingConfig.shieldFormula || ''}
-                onChange={(e) => handleShieldFormulaChange(e.target.value)}
-                placeholder={`Enter formula (e.g. ${getDefaultShieldFormula(currentResolution)})`}
-              />
-              <button
-                className="formula-button"
-                onClick={() => handleShieldFormulaChange(getDefaultShieldFormula(currentResolution))}
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {healingConfig.healingType === 'shield' && healingConfig.hasHotEffect && (
-        <div className="formula-section section">
-          <h3>Healing Over Time Formula</h3>
-          <div className="formula-builder">
-            <div className="formula-input-group">
-              <input
-                type="text"
-                className="formula-input"
-                id="hotFormula"
-                value={healingConfig.hotFormula || ''}
-                onChange={(e) => handleHotFormulaChange(e.target.value)}
-                placeholder={`Enter formula (e.g. ${getDefaultHotFormula(currentResolution)})`}
-              />
-              <button
-                className="formula-button"
-                onClick={() => handleHotFormulaChange(getDefaultHotFormula(currentResolution))}
-              >
-                Reset
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Additional configurations based on healing type */}
-      {(healingConfig.healingType === 'hot' || healingConfig.hasHotEffect) && (
         <div className="hot-config section">
           <h3>Healing Over Time Configuration</h3>
 
-          <div className="hot-form-row">
-            <div className="hot-input-group">
-              <label>Trigger Type:</label>
+          {/* HoT Formula */}
+          <div className="formula-input-section">
+            <h4>Formula</h4>
+            <textarea
+              value={
+                currentResolution === 'CARDS'
+                  ? (healingConfig.hotCardConfig?.formula || '')
+                  : currentResolution === 'COINS'
+                  ? (healingConfig.hotCoinConfig?.formula || '')
+                  : (healingConfig.hotFormula || '')
+              }
+              onChange={(e) => handleHotFormulaChange(e.target.value)}
+              placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
+              className="main-formula-input"
+              rows="2"
+            />
+          </div>
+
+          {/* HoT Duration Configuration */}
+          <div className="formula-input-section">
+            <h4>Duration</h4>
+            <div className="hot-duration-controls">
+              <input
+                type="number"
+                value={healingConfig.hotDuration || 3}
+                onChange={(e) => handleHealingConfigChange('hotDuration', parseInt(e.target.value, 10))}
+                min="1"
+                max="10"
+                className="hot-input"
+              />
               <select
-                value={healingConfig.hotTriggerType}
-                onChange={(e) => {
-                  // First, update the local state to maintain the view
-                  setHealingConfig(prev => ({
-                    ...prev,
-                    hotTriggerType: e.target.value
-                  }));
-
-                  // Then update the global state
-                  handleHealingConfigChange('hotTriggerType', e.target.value);
-
-                  // If changing to trigger-based, update the spell's trigger configuration
-                  if (e.target.value === 'trigger') {
-                    // Create a trigger configuration for the spell's trigger system
-                    const spellTriggerConfig = {
-                      triggerId: 'hot_trigger',
-                      parameters: {},
-                      targetEntity: 'target',
-                      effectType: 'hot'
-                    };
-
-                    // Update the spell's trigger configuration
-                    dispatch(actionCreators.updateTriggerConfig({
-                      ...state.triggerConfig,
-                      hotTrigger: spellTriggerConfig
-                    }));
-
-                    // Update the spell's wizard flow to include the trigger step
-                    // We'll use setTimeout to ensure the state updates first
-                    setTimeout(() => {
-                      dispatch(actionCreators.updateWizardFlow());
-                    }, 100);
-                  }
-
-                  // If changing to channeled, update the spell's channeling configuration
-                  if (e.target.value === 'channeled') {
-                    // Make sure the spell type is set to CHANNELED
-                    if (state.spellType !== 'CHANNELED') {
-                      dispatch(actionCreators.setSpellType('CHANNELED'));
-                    }
-
-                    // Initialize a channeling configuration if it doesn't exist
-                    if (!state.channelingConfig) {
-                      dispatch(actionCreators.updateChannelingConfig({
-                        type: 'power_up',
-                        maxDuration: 3,
-                        durationUnit: 'turns',
-                        interruptible: true,
-                        movementAllowed: false,
-                        costValue: 1,
-                        costType: 'mana',
-                        costTrigger: 'per_turn',
-                        perRoundFormulas: {
-                          hot_healing: [
-                            { round: 1, formula: healingConfig.hotFormula || '1d4', description: 'Round 1 healing' },
-                            { round: 2, formula: healingConfig.hotFormula || '1d4', description: 'Round 2 healing' },
-                            { round: 3, formula: healingConfig.hotFormula || '1d4', description: 'Round 3 healing' }
-                          ]
-                        }
-                      }));
-                    } else if (!state.channelingConfig.perRoundFormulas || !state.channelingConfig.perRoundFormulas.hot_healing) {
-                      // If channeling config exists but doesn't have HoT formulas, add them
-                      dispatch(actionCreators.updateChannelingConfig({
-                        ...state.channelingConfig,
-                        perRoundFormulas: {
-                          ...state.channelingConfig.perRoundFormulas,
-                          hot_healing: [
-                            { round: 1, formula: healingConfig.hotFormula || '1d4', description: 'Round 1 healing' },
-                            { round: 2, formula: healingConfig.hotFormula || '1d4', description: 'Round 2 healing' },
-                            { round: 3, formula: healingConfig.hotFormula || '1d4', description: 'Round 3 healing' }
-                          ]
-                        }
-                      }));
-                    }
-
-                    // Update the spell's wizard flow to include the channeling step
-                    setTimeout(() => {
-                      // Get the current flow and let the context determine the new flow
-                      dispatch({
-                        type: ACTION_TYPES.UPDATE_WIZARD_FLOW,
-                        payload: determineWizardFlow(state)
-                      });
-                    }, 100);
-                  }
-                }}
+                value={healingConfig.hotTickType || 'round'}
+                onChange={(e) => handleHealingConfigChange('hotTickType', e.target.value)}
                 className="hot-select"
               >
-                <option value="periodic">Periodic (Every Round/Turn)</option>
-                <option value="trigger">Trigger-Based</option>
-                <option value="channeled">Channeled (Configured in Channeling Step)</option>
+                <option value="round">Rounds</option>
+                <option value="turn">Turns</option>
+                <option value="minute">Minutes</option>
               </select>
             </div>
           </div>
 
-          {healingConfig.hotTriggerType === 'periodic' ? (
-            <div className="hot-form-row">
-              <div className="hot-input-group">
-                <label>Duration:</label>
-                <div className="hot-input-with-select">
-                  <input
-                    type="number"
-                    value={healingConfig.hotDuration}
-                    onChange={(e) => handleHealingConfigChange('hotDuration', parseInt(e.target.value, 10))}
-                    min="1"
-                    max="10"
-                    className="hot-input"
-                  />
-                  <select
-                    value={healingConfig.hotTickType}
-                    onChange={(e) => handleHealingConfigChange('hotTickType', e.target.value)}
-                    className="hot-select"
-                  >
-                    <option value="round">Rounds</option>
-                    <option value="turn">Turns</option>
-                    <option value="minute">Minutes</option>
-                    <option value="hour">Hours</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="hot-input-group">
-                <label>Healing occurs at:</label>
-                <select
-                  value={healingConfig.hotApplication}
-                  onChange={(e) => handleHealingConfigChange('hotApplication', e.target.value)}
-                  className="hot-select"
-                >
-                  <option value="start">Start of turn</option>
-                  <option value="end">End of turn</option>
-                </select>
-              </div>
-
-              <div className="hot-input-group">
-                <label>Custom Formula Per Stage:</label>
-                <button
-                  className={`toggle-button ${healingConfig.isProgressiveHot ? 'active' : ''}`}
-                  onClick={() => {
-                    // Direct approach - create a completely new config object
-                    const newValue = !healingConfig.isProgressiveHot;
-
-                    // Create a new config with all the updated values
-                    const newConfig = {
-                      ...healingConfig,
-                      isProgressiveHot: newValue,
-                      hotScalingType: newValue ? 'progressive' : 'flat'
-                    };
-
-                    // Initialize progressiveStages array when enabling progressive effect
-                    if (newValue && (!healingConfig.hotProgressiveStages || healingConfig.hotProgressiveStages.length === 0)) {
-                      newConfig.hotProgressiveStages = [{
-                        triggerAt: 1,
-                        formula: healingConfig.hotFormula || '1d4 + HEA/2',
-                        description: '',
-                        spellEffect: null
-                      }];
-                    }
-
-                    // Update the local state directly
-                    setHealingConfig(newConfig);
-
-                    // Update the global state
-                    dispatch(actionCreators.updateHealingConfig(newConfig));
-                  }}
-                >
-                  {healingConfig.isProgressiveHot ? 'Enabled' : 'Disabled'}
-                </button>
-              </div>
-
-              {/* Progressive HoT Configuration */}
-              {healingConfig.isProgressiveHot && (
-                <div className="hot-input-group full-width">
-                    <div className="progressive-stages">
-                      <div className="stage-description">
-                        Configure different formulas for each stage of the HoT effect.
-                      </div>
-
-                      {(!healingConfig.hotProgressiveStages || healingConfig.hotProgressiveStages.length === 0) ? (
-                        <div className="no-stages">No stages configured yet. Add a stage to get started.</div>
-                      ) : (
-                        <div className="stages-list">
-                          {healingConfig.hotProgressiveStages.map((stage, index) => (
-                            <div key={index} className="stage-item">
-                              <div className="stage-header">
-                                <div className="stage-title">Stage {index + 1}</div>
-                                <div className="stage-actions">
-                                  <button
-                                    className="stage-action delete"
-                                    onClick={() => {
-                                      const updatedStages = [...healingConfig.hotProgressiveStages];
-                                      updatedStages.splice(index, 1);
-                                      handleHealingConfigChange('hotProgressiveStages', updatedStages);
-                                    }}
-                                  >
-                                    <i className="fas fa-trash"></i>
-                                  </button>
-                                </div>
-                              </div>
-
-                              <div className="stage-content">
-                                <div className="stage-timing">
-                                  <label>Trigger At:</label>
-                                  <div className="stage-timing-inputs">
-                                    <input
-                                      type="number"
-                                      value={stage.triggerAt || ''}
-                                      onChange={(e) => {
-                                        const updatedStages = [...healingConfig.hotProgressiveStages];
-                                        updatedStages[index] = {
-                                          ...updatedStages[index],
-                                          triggerAt: parseInt(e.target.value) || 0
-                                        };
-                                        handleHealingConfigChange('hotProgressiveStages', updatedStages);
-                                      }}
-                                      min="1"
-                                    />
-                                    <span className="unit-label">{healingConfig.hotTickType || 'rounds'}</span>
-                                  </div>
-                                </div>
-
-                                <div className="stage-formula">
-                                  <label>Formula:</label>
-                                  <input
-                                    type="text"
-                                    value={stage.formula || ''}
-                                    onChange={(e) => {
-                                      const updatedStages = [...healingConfig.hotProgressiveStages];
-                                      updatedStages[index] = {
-                                        ...updatedStages[index],
-                                        formula: e.target.value
-                                      };
-                                      handleHealingConfigChange('hotProgressiveStages', updatedStages);
-                                    }}
-                                    placeholder="Enter formula for this stage"
-                                  />
-                                </div>
-
-                                <div className="stage-description-input">
-                                  <label>Description (optional):</label>
-                                  <input
-                                    type="text"
-                                    value={stage.description || ''}
-                                    onChange={(e) => {
-                                      const updatedStages = [...healingConfig.hotProgressiveStages];
-                                      updatedStages[index] = {
-                                        ...updatedStages[index],
-                                        description: e.target.value
-                                      };
-                                      handleHealingConfigChange('hotProgressiveStages', updatedStages);
-                                    }}
-                                    placeholder="Describe this stage's effect"
-                                  />
-                                </div>
-
-                                <div className="stage-spell-effect">
-                                  <label>Trigger Spell (optional):</label>
-                                  <SpellLibraryButton
-                                    selectedSpellId={stage.spellEffect || null}
-                                    onSpellSelect={(spellId) => {
-                                      const updatedStages = [...healingConfig.hotProgressiveStages];
-                                      updatedStages[index] = {
-                                        ...updatedStages[index],
-                                        spellEffect: spellId
-                                      };
-                                      handleHealingConfigChange('hotProgressiveStages', updatedStages);
-                                    }}
-                                    buttonText="Select Spell"
-                                    popupTitle="Select Spell to Trigger at Stage"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <button
-                        className="add-stage-button"
-                        onClick={() => {
-                          const progressiveStages = healingConfig.hotProgressiveStages || [];
-                          const newStage = {
-                            triggerAt: progressiveStages.length + 1,
-                            formula: healingConfig.hotFormula || '1d4 + HEA/2',
-                            description: '',
-                            spellEffect: null
-                          };
-                          handleHealingConfigChange('hotProgressiveStages', [...progressiveStages, newStage]);
-                        }}
-                      >
-                        + Add Stage
-                      </button>
-                    </div>
-                </div>
-              )}
-            </div>
-          ) : healingConfig.hotTriggerType === 'trigger' ? (
-            <div className="hot-form-row">
-              <div className="hot-input-group">
-                <label>Effect Duration:</label>
-                <div className="hot-input-with-select">
-                  <input
-                    type="number"
-                    value={healingConfig.hotDuration}
-                    onChange={(e) => handleHealingConfigChange('hotDuration', parseInt(e.target.value, 10))}
-                    min="1"
-                    max="10"
-                    className="hot-input"
-                  />
-                  <select
-                    value={healingConfig.hotTickType}
-                    onChange={(e) => handleHealingConfigChange('hotTickType', e.target.value)}
-                    className="hot-select"
-                  >
-                    <option value="round">Rounds</option>
-                    <option value="turn">Turns</option>
-                    <option value="minute">Minutes</option>
-                    <option value="hour">Hours</option>
-                  </select>
-                </div>
-                <div className="trigger-note">
-                  <p>This HoT will be applied when the trigger condition is met. Configure the trigger in the Triggers step.</p>
-                  <p>The duration above determines how long the HoT effect lasts after being triggered.</p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="hot-form-row">
-              <div className="hot-input-group">
-                <div className="channeled-note">
-                  <p>This HoT will be configured in the Channeling step. The formula you've defined here will be available in the channeling configuration.</p>
-                  <p>You can define different formulas for each round of channeling in the Channeling step.</p>
-                </div>
-                <div className="channeled-info">
-                  <p>Base HoT Formula: <code>{healingConfig.hotFormula}</code></p>
-                </div>
-              </div>
+          {/* Count Configuration for HoT Cards/Coins */}
+          {currentResolution === 'CARDS' && (
+            <div className="count-config-section">
+              <label htmlFor="hot-card-draw-count">Cards Drawn (HoT):</label>
+              <input
+                id="hot-card-draw-count"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.hotCardConfig?.drawCount || 3}
+                onChange={(e) => {
+                  const drawCount = parseInt(e.target.value) || 3;
+                  handleHealingConfigChange('hotCardConfig', {
+                    ...healingConfig.hotCardConfig,
+                    drawCount: drawCount,
+                    formula: healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2'
+                  });
+                }}
+                className="count-input"
+              />
             </div>
           )}
 
-          <div className="hot-formula-group">
-            <div className="hot-tick-preview">
-              <h4>Healing Preview</h4>
-              <div className="hot-tick-container">
-                {Array.from({ length: healingConfig.hotDuration || 3 }).map((_, index) => {
-                  const roundNum = index + 1;
-                  let scalingFactor = 1;
+          {currentResolution === 'COINS' && (
+            <div className="count-config-section">
+              <label htmlFor="hot-coin-flip-count">Coins Flipped (HoT):</label>
+              <input
+                id="hot-coin-flip-count"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.hotCoinConfig?.flipCount || 4}
+                onChange={(e) => {
+                  const flipCount = parseInt(e.target.value) || 4;
+                  handleHealingConfigChange('hotCoinConfig', {
+                    ...healingConfig.hotCoinConfig,
+                    flipCount: flipCount,
+                    formula: healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 2 + HEA/2'
+                  });
+                }}
+                className="count-input"
+              />
+            </div>
+          )}
 
-                  // Apply scaling factor based on scaling type
-                  switch (healingConfig.hotScalingType) {
-                    case 'increasing':
-                      scalingFactor = 1 + (index * 0.25); // Increases by 25% each tick
-                      break;
-                    case 'decreasing':
-                      scalingFactor = 1 - (index * 0.15); // Decreases by 15% each tick (not below 0.55)
-                      scalingFactor = Math.max(0.55, scalingFactor);
-                      break;
-                    case 'frontloaded':
-                      // Start at 1.5, end at 0.75
-                      scalingFactor = 1.5 - (index * (0.75 / (healingConfig.hotDuration - 1 || 1)));
-                      break;
-                    case 'backloaded':
-                      // Start at 0.75, end at 1.5
-                      scalingFactor = 0.75 + (index * (0.75 / (healingConfig.hotDuration - 1 || 1)));
-                      break;
-                    default: // flat
-                      scalingFactor = 1;
-                  }
+          {/* Progressive HoT Configuration */}
+          <div className="progressive-buff-config">
+            <h4>Progressive HoT Configuration</h4>
+            <p className="stage-description">Configure custom formulas for each turn of healing over time</p>
+            <div className="config-option">
+              <div className="toggle-options">
+                <div className="toggle-option">
+                  <button
+                    className={`pf-button ${healingConfig.isProgressiveHot ? 'active' : ''}`}
+                    onClick={() => {
+                      const newValue = !healingConfig.isProgressiveHot;
 
-                  const diceAvg = parseDiceNotation(healingConfig.hotFormula)
-                    ? Math.round(getAverageRoll(healingConfig.hotFormula, { ROUND: roundNum, DURATION: healingConfig.hotDuration || 3 }) * scalingFactor)
-                    : 'N/A';
+                      // Create a complete new config object
+                      const newConfig = {
+                        ...healingConfig,
+                        isProgressiveHot: newValue,
+                        hotScalingType: newValue ? 'progressive' : 'flat'
+                      };
 
-                  return (
-                    <div key={index} className="hot-tick-item">
-                      <div className="hot-tick-round">Round {roundNum}</div>
-                      <div className="hot-tick-value">{diceAvg} healing</div>
+                      if (newValue) {
+                        // Create stages for each turn of the duration
+                        const duration = healingConfig.hotDuration || 3;
+                        const baseFormula = currentResolution === 'CARDS'
+                          ? (healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2')
+                          : currentResolution === 'COINS'
+                          ? (healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 2 + HEA/2')
+                          : (healingConfig.hotFormula || '1d4 + HEA/2');
+
+                        // Create stages for each turn of the duration
+                        const stages = [];
+                        for (let i = 1; i <= duration; i++) {
+                          stages.push({
+                            turn: i,
+                            formula: baseFormula,
+                            spellEffect: null
+                          });
+                        }
+                        newConfig.hotProgressiveStages = stages;
+                      }
+
+                      // Update both local and global state
+                      setHealingConfig(newConfig);
+                      dispatch(actionCreators.updateHealingConfig(newConfig));
+                    }}
+                  >
+                    <div className="toggle-icon">
+                      {healingConfig.isProgressiveHot ? '✓' : ''}
                     </div>
-                  );
-                })}
-              </div>
-              <div className="hot-total">
-                <div className="hot-total-label">Total Healing:</div>
-                <div className="hot-total-value">
-                  {parseDiceNotation(healingConfig.hotFormula)
-                    ? Array.from({ length: healingConfig.hotDuration || 3 })
-                        .map((_, i) => {
-                          let scalingFactor = 1;
-
-                          // Apply scaling factor based on scaling type
-                          switch (healingConfig.hotScalingType) {
-                            case 'increasing':
-                              scalingFactor = 1 + (i * 0.25); // Increases by 25% each tick
-                              break;
-                            case 'decreasing':
-                              scalingFactor = 1 - (i * 0.15); // Decreases by 15% each tick (not below 0.55)
-                              scalingFactor = Math.max(0.55, scalingFactor);
-                              break;
-                            case 'frontloaded':
-                              // Start at 1.5, end at 0.75
-                              scalingFactor = 1.5 - (i * (0.75 / (healingConfig.hotDuration - 1 || 1)));
-                              break;
-                            case 'backloaded':
-                              // Start at 0.75, end at 1.5
-                              scalingFactor = 0.75 + (i * (0.75 / (healingConfig.hotDuration - 1 || 1)));
-                              break;
-                            default: // flat
-                              scalingFactor = 1;
-                          }
-
-                          return getAverageRoll(healingConfig.hotFormula, { ROUND: i + 1, DURATION: healingConfig.hotDuration || 3 }) * scalingFactor;
-                        })
-                        .reduce((sum, val) => sum + val, 0).toFixed(0)
-                    : 'N/A'
-                  }
+                    <span>Enable Progressive HoT</span>
+                  </button>
                 </div>
               </div>
             </div>
+
+            {healingConfig.isProgressiveHot && (
+              <div className="progressive-stages">
+                <h4>HoT Stages</h4>
+                <div className="stage-list">
+                  {(healingConfig.hotProgressiveStages || []).map((stage, index) => {
+                    const tickFrequency = healingConfig.hotTickType || 'round';
+                    const unitLabel = tickFrequency === 'round' ? 'Round' :
+                                     tickFrequency === 'turn' ? 'Turn' :
+                                     tickFrequency.charAt(0).toUpperCase() + tickFrequency.slice(1);
+
+                    return (
+                      <div key={index} className="progressive-stage">
+                        <div className="stage-header">
+                          <h5>{unitLabel} {stage.turn}</h5>
+                        </div>
+                        <div className="stage-content">
+                          <div className="stage-formula">
+                            <label>Formula:</label>
+                            <input
+                              type="text"
+                              value={stage.formula || ''}
+                              onChange={(e) => {
+                                const newStages = [...(healingConfig.hotProgressiveStages || [])];
+                                newStages[index] = { ...newStages[index], formula: e.target.value };
+                                const newConfig = { ...healingConfig, hotProgressiveStages: newStages };
+                                setHealingConfig(newConfig);
+                                dispatch(actionCreators.updateHealingConfig(newConfig));
+                              }}
+                              placeholder="Enter formula for this turn"
+                              className="stage-formula-input"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {(healingConfig.healingType === 'shield' || healingConfig.hasShieldEffect) && (
+      {/* HoT + Shield Configuration */}
+      {healingConfig.healingType === 'hot' && healingConfig.hasShieldEffect && (
         <div className="shield-config section">
           <h3>Shield Configuration</h3>
 
-          <div className="shield-form-row">
-            <div className="shield-input-group">
-              <label>Duration:</label>
-              <div className="shield-input-with-select">
-                <input
-                  type="number"
-                  value={healingConfig.shieldDuration}
-                  onChange={(e) => handleHealingConfigChange('shieldDuration', parseInt(e.target.value, 10))}
-                  min="1"
-                  max="10"
-                  className="shield-input"
-                />
+          {/* Shield Formula */}
+          <div className="formula-input-section">
+            <h4>Formula</h4>
+            <textarea
+              value={
+                currentResolution === 'CARDS'
+                  ? (healingConfig.shieldCardConfig?.formula || '')
+                  : currentResolution === 'COINS'
+                  ? (healingConfig.shieldCoinConfig?.formula || '')
+                  : (healingConfig.shieldFormula || '')
+              }
+              onChange={(e) => handleShieldFormulaChange(e.target.value)}
+              placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
+              className="main-formula-input"
+              rows="2"
+            />
+          </div>
+
+          {/* Shield Properties Configuration */}
+          <div className="shield-properties-section">
+            <div className="shield-form-row">
+              <div className="shield-input-group">
+                <label>Duration:</label>
+                <div className="shield-input-with-select">
+                  <input
+                    type="number"
+                    value={healingConfig.shieldDuration}
+                    onChange={(e) => handleHealingConfigChange('shieldDuration', parseInt(e.target.value, 10))}
+                    min="1"
+                    max="10"
+                    className="shield-input"
+                  />
+                  <select className="shield-select">
+                    <option value="round">Rounds</option>
+                    <option value="minute">Minutes</option>
+                    <option value="hour">Hours</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="shield-input-group">
+                <label>Damage Type Absorption:</label>
                 <select
+                  value={healingConfig.shieldDamageTypes}
+                  onChange={(e) => handleHealingConfigChange('shieldDamageTypes', e.target.value)}
                   className="shield-select"
                 >
-                  <option value="round">Rounds</option>
-                  <option value="minute">Minutes</option>
-                  <option value="hour">Hours</option>
+                  <option value="all">All Damage Types</option>
+                  <option value="physical">Physical Damage Only</option>
+                  <option value="magical">Magical Damage Only</option>
+                  <option value="fire">Fire Damage Only</option>
+                  <option value="cold">Cold Damage Only</option>
+                  <option value="lightning">Lightning Damage Only</option>
+                  <option value="acid">Acid Damage Only</option>
+                  <option value="poison">Poison Damage Only</option>
+                  <option value="necrotic">Necrotic Damage Only</option>
+                  <option value="radiant">Radiant Damage Only</option>
+                  <option value="force">Force Damage Only</option>
+                </select>
+              </div>
+
+              <div className="shield-input-group">
+                <label>Overflow Behavior:</label>
+                <select
+                  value={healingConfig.shieldOverflow}
+                  onChange={(e) => handleHealingConfigChange('shieldOverflow', e.target.value)}
+                  className="shield-select"
+                >
+                  <option value="dissipate">Excess damage dissipates</option>
+                  <option value="convert_to_healing">Convert excess to healing</option>
+                </select>
+              </div>
+
+              <div className="shield-input-group">
+                <label>Break Behavior:</label>
+                <select
+                  value={healingConfig.shieldBreakBehavior}
+                  onChange={(e) => handleHealingConfigChange('shieldBreakBehavior', e.target.value)}
+                  className="shield-select"
+                >
+                  <option value="fade">Fade gradually when damaged</option>
+                  <option value="shatter">Shatter completely when exceeded</option>
                 </select>
               </div>
             </div>
+          </div>
 
-            <div className="shield-input-group">
-              <label>Damage Type Absorption:</label>
-              <select
-                value={healingConfig.shieldDamageTypes}
-                onChange={(e) => handleHealingConfigChange('shieldDamageTypes', e.target.value)}
-                className="shield-select"
-              >
-                <option value="all">All Damage Types</option>
-                <option value="physical">Physical Damage Only</option>
-                <option value="magical">Magical Damage Only</option>
-                <option value="fire">Fire Damage Only</option>
-                <option value="cold">Cold Damage Only</option>
-                <option value="lightning">Lightning Damage Only</option>
-                <option value="acid">Acid Damage Only</option>
-                <option value="poison">Poison Damage Only</option>
-                <option value="necrotic">Necrotic Damage Only</option>
-                <option value="radiant">Radiant Damage Only</option>
-                <option value="force">Force Damage Only</option>
-              </select>
+          {/* Count Configuration for Shield Cards/Coins */}
+          {currentResolution === 'CARDS' && (
+            <div className="count-config-section">
+              <label htmlFor="shield-card-draw-count-hot">Cards Drawn (Shield):</label>
+              <input
+                id="shield-card-draw-count-hot"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.shieldCardConfig?.drawCount || 3}
+                onChange={(e) => {
+                  const drawCount = parseInt(e.target.value) || 3;
+                  handleHealingConfigChange('shieldCardConfig', {
+                    ...healingConfig.shieldCardConfig,
+                    drawCount: drawCount,
+                    formula: healingConfig.shieldCardConfig?.formula || 'CARD_VALUE + HEA'
+                  });
+                }}
+                className="count-input"
+              />
             </div>
+          )}
 
-            <div className="shield-input-group">
-              <label>Overflow Behavior:</label>
-              <select
-                value={healingConfig.shieldOverflow}
-                onChange={(e) => handleHealingConfigChange('shieldOverflow', e.target.value)}
-                className="shield-select"
-              >
-                <option value="dissipate">Excess damage dissipates</option>
-                <option value="convert_to_healing">Convert excess to healing</option>
-              </select>
+          {currentResolution === 'COINS' && (
+            <div className="count-config-section">
+              <label htmlFor="shield-coin-flip-count-hot">Coins Flipped (Shield):</label>
+              <input
+                id="shield-coin-flip-count-hot"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.shieldCoinConfig?.flipCount || 4}
+                onChange={(e) => {
+                  const flipCount = parseInt(e.target.value) || 4;
+                  handleHealingConfigChange('shieldCoinConfig', {
+                    ...healingConfig.shieldCoinConfig,
+                    flipCount: flipCount,
+                    formula: healingConfig.shieldCoinConfig?.formula || 'HEADS_COUNT * 7 + HEA'
+                  });
+                }}
+                className="count-input"
+              />
             </div>
+          )}
+        </div>
+      )}
 
-            <div className="shield-input-group">
-              <label>Break Behavior:</label>
+      {/* Shield + HoT Configuration */}
+      {healingConfig.healingType === 'shield' && healingConfig.hasHotEffect && (
+        <div className="hot-config section">
+          <h3>Healing Over Time Configuration</h3>
+
+          {/* HoT Formula */}
+          <div className="formula-input-section">
+            <h4>Formula</h4>
+            <textarea
+              value={
+                currentResolution === 'CARDS'
+                  ? (healingConfig.hotCardConfig?.formula || '')
+                  : currentResolution === 'COINS'
+                  ? (healingConfig.hotCoinConfig?.formula || '')
+                  : (healingConfig.hotFormula || '')
+              }
+              onChange={(e) => handleHotFormulaChange(e.target.value)}
+              placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
+              className="main-formula-input"
+              rows="2"
+            />
+          </div>
+
+          {/* HoT Duration Configuration */}
+          <div className="formula-input-section">
+            <h4>Duration</h4>
+            <div className="hot-duration-controls">
+              <input
+                type="number"
+                value={healingConfig.hotDuration || 3}
+                onChange={(e) => handleHealingConfigChange('hotDuration', parseInt(e.target.value, 10))}
+                min="1"
+                max="10"
+                className="hot-input"
+              />
               <select
-                value={healingConfig.shieldBreakBehavior}
-                onChange={(e) => handleHealingConfigChange('shieldBreakBehavior', e.target.value)}
-                className="shield-select"
+                value={healingConfig.hotTickType || 'round'}
+                onChange={(e) => handleHealingConfigChange('hotTickType', e.target.value)}
+                className="hot-select"
               >
-                <option value="fade">Fade gradually when damaged</option>
-                <option value="shatter">Shatter completely when exceeded</option>
+                <option value="round">Rounds</option>
+                <option value="turn">Turns</option>
+                <option value="minute">Minutes</option>
               </select>
             </div>
           </div>
 
-          <div className="shield-formula-group">
-            <div className="shield-preview">
-              <h4>Shield Preview</h4>
-              <div className="shield-stats">
-                <div className="shield-stat-item">
-                  <div className="shield-stat-label">Average Absorption</div>
-                  <div className="shield-stat-value">
-                    {parseDiceNotation(healingConfig.shieldFormula)
-                      ? getAverageRoll(healingConfig.shieldFormula).toFixed(1)
-                      : 'N/A'
-                    }
-                  </div>
-                </div>
-                <div className="shield-stat-item">
-                  <div className="shield-stat-label">Range</div>
-                  <div className="shield-stat-value">
-                    {parseDiceNotation(healingConfig.shieldFormula)
-                      ? `${getMinRoll(healingConfig.shieldFormula)} - ${getMaxRoll(healingConfig.shieldFormula)}`
-                      : 'N/A'
-                    }
-                  </div>
-                </div>
-                <div className="shield-stat-item">
-                  <div className="shield-stat-label">Duration</div>
-                  <div className="shield-stat-value">{healingConfig.shieldDuration || 3} rounds</div>
+          {/* Count Configuration for HoT Cards/Coins */}
+          {currentResolution === 'CARDS' && (
+            <div className="count-config-section">
+              <label htmlFor="hot-card-draw-count-shield">Cards Drawn (HoT):</label>
+              <input
+                id="hot-card-draw-count-shield"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.hotCardConfig?.drawCount || 3}
+                onChange={(e) => {
+                  const drawCount = parseInt(e.target.value) || 3;
+                  handleHealingConfigChange('hotCardConfig', {
+                    ...healingConfig.hotCardConfig,
+                    drawCount: drawCount,
+                    formula: healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2'
+                  });
+                }}
+                className="count-input"
+              />
+            </div>
+          )}
+
+          {currentResolution === 'COINS' && (
+            <div className="count-config-section">
+              <label htmlFor="hot-coin-flip-count-shield">Coins Flipped (HoT):</label>
+              <input
+                id="hot-coin-flip-count-shield"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.hotCoinConfig?.flipCount || 4}
+                onChange={(e) => {
+                  const flipCount = parseInt(e.target.value) || 4;
+                  handleHealingConfigChange('hotCoinConfig', {
+                    ...healingConfig.hotCoinConfig,
+                    flipCount: flipCount,
+                    formula: healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 2 + HEA/2'
+                  });
+                }}
+                className="count-input"
+              />
+            </div>
+          )}
+
+          {/* Progressive HoT Configuration */}
+          <div className="progressive-buff-config">
+            <h4>Progressive HoT Configuration</h4>
+            <p className="stage-description">Configure custom formulas for each turn of healing over time</p>
+            <div className="config-option">
+              <div className="toggle-options">
+                <div className="toggle-option">
+                  <button
+                    className={`pf-button ${healingConfig.isProgressiveHot ? 'active' : ''}`}
+                    onClick={() => {
+                      const newValue = !healingConfig.isProgressiveHot;
+
+                      // Create a complete new config object
+                      const newConfig = {
+                        ...healingConfig,
+                        isProgressiveHot: newValue,
+                        hotScalingType: newValue ? 'progressive' : 'flat'
+                      };
+
+                      if (newValue) {
+                        // Create stages for each turn of the duration
+                        const duration = healingConfig.hotDuration || 3;
+                        const baseFormula = currentResolution === 'CARDS'
+                          ? (healingConfig.hotCardConfig?.formula || 'CARD_VALUE/2 + HEA/2')
+                          : currentResolution === 'COINS'
+                          ? (healingConfig.hotCoinConfig?.formula || 'HEADS_COUNT * 2 + HEA/2')
+                          : (healingConfig.hotFormula || '1d4 + HEA/2');
+
+                        // Create stages for each turn of the duration
+                        const stages = [];
+                        for (let i = 1; i <= duration; i++) {
+                          stages.push({
+                            turn: i,
+                            formula: baseFormula,
+                            spellEffect: null
+                          });
+                        }
+                        newConfig.hotProgressiveStages = stages;
+                      }
+
+                      // Update both local and global state
+                      setHealingConfig(newConfig);
+                      dispatch(actionCreators.updateHealingConfig(newConfig));
+                    }}
+                  >
+                    <div className="toggle-icon">
+                      {healingConfig.isProgressiveHot ? '✓' : ''}
+                    </div>
+                    <span>Enable Progressive HoT</span>
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Shield Break/Expiration Effects */}
-          <div className="shield-effects-section wow-setting-section">
-            <h4 className="wow-section-header">Shield Effect Triggers</h4>
+            {healingConfig.isProgressiveHot && (
+              <div className="progressive-stages">
+                <h4>HoT Stages</h4>
+                <div className="stage-list">
+                  {(healingConfig.hotProgressiveStages || []).map((stage, index) => {
+                    const tickFrequency = healingConfig.hotTickType || 'round';
+                    const unitLabel = tickFrequency === 'round' ? 'Round' :
+                                     tickFrequency === 'turn' ? 'Turn' :
+                                     tickFrequency.charAt(0).toUpperCase() + tickFrequency.slice(1);
 
-            {/* Shield Break Effect */}
-            <div className="shield-effect-group">
-              <label>On Shield Break Effect:</label>
-              <select
-                value={healingConfig.shieldBreakEffect || ''}
-                onChange={(e) => handleHealingConfigChange('shieldBreakEffect', e.target.value || null)}
-                className="shield-select"
-              >
-                <option value="">-- No Effect --</option>
-                {LIBRARY_SPELLS.map(spell => (
-                  <option key={spell.id} value={spell.id}>
-                    {spell.name} ({spell.damageTypes?.[0] || 'effect'})
-                  </option>
-                ))}
-              </select>
-
-              {healingConfig.shieldBreakEffect && (
-                <div className="selected-spell-preview">
-                  <h5>Selected Break Effect</h5>
-                  <div className="spell-preview wow-card">
-                    {(() => {
-                      const spell = LIBRARY_SPELLS.find(s => s.id === healingConfig.shieldBreakEffect);
-                      return spell ? (
-                        <div className="spell-card-mini">
-                          <div className="spell-name">{spell.name}</div>
-                          <div className="spell-type">{spell.damageTypes?.[0] || 'effect'}</div>
-                          <div className="spell-description">{spell.description || 'No description available'}</div>
+                    return (
+                      <div key={index} className="progressive-stage">
+                        <div className="stage-header">
+                          <h5>{unitLabel} {stage.turn}</h5>
                         </div>
-                      ) : 'No spell selected';
-                    })()}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Shield Expiration Effect */}
-            <div className="shield-effect-group">
-              <label>On Shield Expiration Effect:</label>
-              <select
-                value={healingConfig.shieldExpireEffect || ''}
-                onChange={(e) => handleHealingConfigChange('shieldExpireEffect', e.target.value || null)}
-                className="shield-select"
-              >
-                <option value="">-- No Effect --</option>
-                {LIBRARY_SPELLS.map(spell => (
-                  <option key={spell.id} value={spell.id}>
-                    {spell.name} ({spell.damageTypes?.[0] || 'effect'})
-                  </option>
-                ))}
-              </select>
-
-              {healingConfig.shieldExpireEffect && (
-                <div className="selected-spell-preview">
-                  <h5>Selected Expiration Effect</h5>
-                  <div className="spell-preview wow-card">
-                    {(() => {
-                      const spell = LIBRARY_SPELLS.find(s => s.id === healingConfig.shieldExpireEffect);
-                      return spell ? (
-                        <div className="spell-card-mini">
-                          <div className="spell-name">{spell.name}</div>
-                          <div className="spell-type">{spell.damageTypes?.[0] || 'effect'}</div>
-                          <div className="spell-description">{spell.description || 'No description available'}</div>
+                        <div className="stage-content">
+                          <div className="stage-formula">
+                            <label>Formula:</label>
+                            <input
+                              type="text"
+                              value={stage.formula || ''}
+                              onChange={(e) => {
+                                const newStages = [...(healingConfig.hotProgressiveStages || [])];
+                                newStages[index] = { ...newStages[index], formula: e.target.value };
+                                const newConfig = { ...healingConfig, hotProgressiveStages: newStages };
+                                setHealingConfig(newConfig);
+                                dispatch(actionCreators.updateHealingConfig(newConfig));
+                              }}
+                              placeholder="Enter formula for this turn"
+                              className="stage-formula-input"
+                            />
+                          </div>
                         </div>
-                      ) : 'No spell selected';
-                    })()}
-                  </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Critical Hit Configuration */}
-      <div className="critical-hit-section section">
-        <h3>Critical Healing Configuration</h3>
+      {/* Direct + Shield Configuration */}
+      {healingConfig.healingType === 'direct' && healingConfig.hasShieldEffect && (
+        <div className="shield-config section">
+          <h3>Shield Configuration</h3>
+
+          {/* Shield Formula */}
+          <div className="formula-input-section">
+            <h4>Formula</h4>
+            <textarea
+              value={
+                currentResolution === 'CARDS'
+                  ? (healingConfig.shieldCardConfig?.formula || '')
+                  : currentResolution === 'COINS'
+                  ? (healingConfig.shieldCoinConfig?.formula || '')
+                  : (healingConfig.shieldFormula || '')
+              }
+              onChange={(e) => handleShieldFormulaChange(e.target.value)}
+              placeholder={`Enter ${currentResolution.toLowerCase()} formula`}
+              className="main-formula-input"
+              rows="2"
+            />
+          </div>
+
+          {/* Shield Properties Configuration */}
+          <div className="shield-properties-section">
+            <div className="shield-form-row">
+              <div className="shield-input-group">
+                <label>Duration:</label>
+                <div className="shield-input-with-select">
+                  <input
+                    type="number"
+                    value={healingConfig.shieldDuration}
+                    onChange={(e) => handleHealingConfigChange('shieldDuration', parseInt(e.target.value, 10))}
+                    min="1"
+                    max="10"
+                    className="shield-input"
+                  />
+                  <select className="shield-select">
+                    <option value="round">Rounds</option>
+                    <option value="minute">Minutes</option>
+                    <option value="hour">Hours</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="shield-input-group">
+                <label>Damage Type Absorption:</label>
+                <select
+                  value={healingConfig.shieldDamageTypes}
+                  onChange={(e) => handleHealingConfigChange('shieldDamageTypes', e.target.value)}
+                  className="shield-select"
+                >
+                  <option value="all">All Damage Types</option>
+                  <option value="physical">Physical Damage Only</option>
+                  <option value="magical">Magical Damage Only</option>
+                  <option value="fire">Fire Damage Only</option>
+                  <option value="cold">Cold Damage Only</option>
+                  <option value="lightning">Lightning Damage Only</option>
+                  <option value="acid">Acid Damage Only</option>
+                  <option value="poison">Poison Damage Only</option>
+                  <option value="necrotic">Necrotic Damage Only</option>
+                  <option value="radiant">Radiant Damage Only</option>
+                  <option value="force">Force Damage Only</option>
+                </select>
+              </div>
+
+              <div className="shield-input-group">
+                <label>Overflow Behavior:</label>
+                <select
+                  value={healingConfig.shieldOverflow}
+                  onChange={(e) => handleHealingConfigChange('shieldOverflow', e.target.value)}
+                  className="shield-select"
+                >
+                  <option value="dissipate">Excess damage dissipates</option>
+                  <option value="convert_to_healing">Convert excess to healing</option>
+                </select>
+              </div>
+
+              <div className="shield-input-group">
+                <label>Break Behavior:</label>
+                <select
+                  value={healingConfig.shieldBreakBehavior}
+                  onChange={(e) => handleHealingConfigChange('shieldBreakBehavior', e.target.value)}
+                  className="shield-select"
+                >
+                  <option value="fade">Fade gradually when damaged</option>
+                  <option value="shatter">Shatter completely when exceeded</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Count Configuration for Shield Cards/Coins */}
+          {currentResolution === 'CARDS' && (
+            <div className="count-config-section">
+              <label htmlFor="shield-card-draw-count-direct">Cards Drawn (Shield):</label>
+              <input
+                id="shield-card-draw-count-direct"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.shieldCardConfig?.drawCount || 3}
+                onChange={(e) => {
+                  const drawCount = parseInt(e.target.value) || 3;
+                  handleHealingConfigChange('shieldCardConfig', {
+                    ...healingConfig.shieldCardConfig,
+                    drawCount: drawCount,
+                    formula: healingConfig.shieldCardConfig?.formula || 'CARD_VALUE + HEA'
+                  });
+                }}
+                className="count-input"
+              />
+            </div>
+          )}
+
+          {currentResolution === 'COINS' && (
+            <div className="count-config-section">
+              <label htmlFor="shield-coin-flip-count-direct">Coins Flipped (Shield):</label>
+              <input
+                id="shield-coin-flip-count-direct"
+                type="number"
+                min="1"
+                max="10"
+                value={healingConfig.shieldCoinConfig?.flipCount || 4}
+                onChange={(e) => {
+                  const flipCount = parseInt(e.target.value) || 4;
+                  handleHealingConfigChange('shieldCoinConfig', {
+                    ...healingConfig.shieldCoinConfig,
+                    flipCount: flipCount,
+                    formula: healingConfig.shieldCoinConfig?.formula || 'HEADS_COUNT * 7 + HEA'
+                  });
+                }}
+                className="count-input"
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Mechanics Configuration Buttons */}
+      <div className="mechanics-buttons-section section">
+        <h3>Advanced Mechanics</h3>
+        <div className="mechanics-buttons-grid">
+          <button
+            className={`mechanics-config-button ${healingConfig.criticalConfig?.enabled ? 'active' : ''}`}
+            onClick={() => setShowCriticalHitPopup(true)}
+          >
+            <FaCog className="mechanics-button-icon" />
+            <div className="mechanics-button-content">
+              <h4>Critical Healing</h4>
+              <p>{healingConfig.criticalConfig?.enabled ? 'Configured' : 'Configure critical healing mechanics'}</p>
+            </div>
+          </button>
+
+          <button
+            className={`mechanics-config-button ${healingConfig.chanceOnHitConfig?.enabled ? 'active' : ''}`}
+            onClick={() => setShowChanceOnHitPopup(true)}
+          >
+            <FaCog className="mechanics-button-icon" />
+            <div className="mechanics-button-content">
+              <h4>Chance on Heal</h4>
+              <p>{healingConfig.chanceOnHitConfig?.enabled ? 'Configured' : 'Configure chance-based healing effects'}</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Math Help Modal */}
+      <MathHelpModal
+        show={showMathHelp}
+        onHide={() => setShowMathHelp(false)}
+        currentResolution={currentResolution}
+        formulaType="healing"
+      />
+
+      {/* Critical Hit Configuration Popup */}
+      <MechanicsPopup
+        show={showCriticalHitPopup}
+        onHide={() => setShowCriticalHitPopup(false)}
+        title="Critical Healing Configuration"
+        size="large"
+      >
         <CriticalHitConfig
-          config={healingConfig.criticalConfig}
-          onConfigChange={(critConfig) => handleHealingConfigChange('criticalConfig', critConfig)}
+          config={healingConfig.criticalConfig || {
+            enabled: false,
+            critType: 'dice',
+            critMultiplier: 2,
+            critDiceOnly: false,
+            extraDice: '',
+            explodingDice: false,
+            critEffects: [],
+            cardCritRule: 'face_cards',
+            coinCritRule: 'all_heads',
+            coinCount: 3,
+            spellEffect: null
+          }}
+          onConfigChange={(critConfig) => {
+            const newConfig = { ...healingConfig };
+            newConfig.criticalConfig = critConfig;
+            setHealingConfig(newConfig);
+            dispatch(actionCreators.updateHealingConfig(newConfig));
+          }}
+          effectType="healing"
         />
-      </div>
+      </MechanicsPopup>
 
-      {/* Chance-on-Hit Effects */}
-      <div className="chance-on-hit-section section">
-        <h3>Chance-on-Heal Effects</h3>
+      {/* Chance on Hit Configuration Popup */}
+      <MechanicsPopup
+        show={showChanceOnHitPopup}
+        onHide={() => setShowChanceOnHitPopup(false)}
+        title="Chance on Heal Configuration"
+        size="large"
+      >
         <ChanceOnHitConfig
-          config={healingConfig.chanceOnHitConfig}
-          onConfigChange={(procConfig) => handleHealingConfigChange('chanceOnHitConfig', procConfig)}
+          config={healingConfig.chanceOnHitConfig || {
+            enabled: false,
+            procType: 'dice',
+            procChance: 15,
+            diceThreshold: 18,
+            cardProcRule: 'face_cards',
+            coinProcRule: 'all_heads',
+            coinCount: 3,
+            procSuit: 'hearts',
+            spellEffect: null,
+            customEffects: []
+          }}
+          onConfigChange={(chanceConfig) => {
+            const newConfig = { ...healingConfig };
+            newConfig.chanceOnHitConfig = chanceConfig;
+            setHealingConfig(newConfig);
+            dispatch(actionCreators.updateHealingConfig(newConfig));
+          }}
+          effectType="healing"
         />
-      </div>
+      </MechanicsPopup>
 
-      {/* WoW Classic Tooltip */}
-      <Wc3Tooltip
-        content={tooltipContent?.content}
-        title={tooltipContent?.title}
-        icon={tooltipContent?.icon}
-        position={mousePos}
-        isVisible={showTooltip}
+
+
+      {/* Unified Tooltip */}
+      <UnifiedTooltip
+        content={tooltipState.content}
+        title={tooltipState.title}
+        icon={tooltipState.icon}
+        isVisible={tooltipState.isVisible}
+        position={tooltipState.position}
+        variant={tooltipState.variant}
       />
     </div>
   );

@@ -5,6 +5,7 @@ import { FaSearch, FaMagic, FaFire, FaSnowflake, FaHeart, FaShieldAlt, FaSkull }
 import { useSpellWizardState } from '../../context/spellWizardContext';
 import FormulaModifierSection from './FormulaModifierSection';
 import '../../styles/FormulaModifierSection.css';
+import '../../styles/RollableTableStep.css';
 
 const TableEntryEditor = ({
   entries,

@@ -1,0 +1,373 @@
+/* CleanStatusEffectConfigPopup - Pathfinder Styling */
+
+/* Main Popup Overlay */
+.status-effect-config-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+}
+
+/* Popup Window */
+.status-effect-config-popup {
+  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: 3px solid var(--pf-brown-medium, #8B4513);
+  border-radius: 12px;
+  max-width: 500px;
+  max-height: 80vh;
+  width: 90vw;
+  overflow: hidden;
+  font-family: var(--pf-font-body, 'Crimson Text', serif);
+  color: var(--pf-text-primary, #2d1810);
+  box-shadow:
+    0 20px 60px rgba(45, 24, 16, 0.4),
+    0 0 0 1px rgba(139, 69, 19, 0.2);
+  animation: popupSlideIn 0.3s ease-out;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Pathfinder Header */
+.pathfinder-header {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--pf-brown-dark, #654321);
+  position: relative;
+}
+
+.pathfinder-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #D4AF37 50%, transparent 100%);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.effect-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 2px solid #D4AF37;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pathfinder-header h3 {
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: #F5F5DC;
+  margin: 0;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.close-button {
+  background: rgba(220, 53, 69, 0.9);
+  border: 2px solid #dc3545;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.close-button:hover {
+  background: #dc3545;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Popup Content */
+.popup-content {
+  padding: 20px;
+  max-height: calc(80vh - 80px);
+  overflow-y: auto;
+  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+}
+
+/* Custom scrollbar for popup content */
+.popup-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+  background: rgba(139, 69, 19, 0.1);
+  border-radius: 4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-medium, #8B4513);
+  border-radius: 4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-brown-dark, #654321);
+}
+
+/* Configuration Sections */
+.effect-config-section {
+  background: rgba(248, 244, 230, 0.6);
+  border: 2px solid var(--pf-brown-light, #a08c70);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
+}
+
+.effect-config-section h4 {
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-size: var(--pf-text-lg, 18px);
+  font-weight: var(--pf-font-semibold, 600);
+  color: var(--pf-text-primary, #2d1810);
+  margin: 0 0 var(--pf-space-3, 12px) 0;
+  padding-bottom: var(--pf-space-2, 8px);
+  border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Configuration Options */
+.effect-config-option {
+  margin-bottom: var(--pf-space-3, 12px);
+}
+
+.effect-config-option label {
+  display: block;
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-size: var(--pf-text-sm, 14px);
+  font-weight: var(--pf-font-semibold, 600);
+  color: var(--pf-text-primary, #2d1810);
+  margin-bottom: var(--pf-space-2, 8px);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Input Fields */
+.effect-config-option input[type="number"],
+.effect-config-option input[type="text"],
+.effect-config-option textarea,
+.effect-config-option select {
+  width: 100%;
+  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
+  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-light, #a08c70);
+  border-radius: var(--pf-border-radius, 8px);
+  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  font-size: var(--pf-text-sm, 14px);
+  color: var(--pf-text-primary, #2d1810);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all var(--pf-transition-normal, 0.25s ease);
+}
+
+.effect-config-option textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.effect-config-option input:focus,
+.effect-config-option textarea:focus,
+.effect-config-option select:focus {
+  outline: none;
+  border-color: var(--pf-primary, #1976d2);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+/* Button Groups */
+.effect-options {
+  display: flex;
+  gap: var(--pf-space-2, 8px);
+  flex-wrap: wrap;
+}
+
+.effect-option-button {
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
+  border-radius: var(--pf-border-radius, 8px);
+  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
+  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  font-size: var(--pf-text-sm, 14px);
+  font-weight: var(--pf-font-medium, 500);
+  color: var(--pf-text-primary, #2d1810);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal, 0.25s ease);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+}
+
+.effect-option-button:hover {
+  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-md, 0 4px 8px rgba(45, 24, 16, 0.15));
+}
+
+.effect-option-button.active {
+  background: var(--pf-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%)) !important;
+  border-color: var(--pf-brown-dark, #654321) !important;
+  color: var(--pf-text-light, #f8f4e6) !important;
+  box-shadow:
+    var(--pf-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
+    0 0 0 2px rgba(139, 69, 19, 0.4) !important;
+  font-weight: var(--pf-font-semibold, 600) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(1px);
+}
+
+/* Toggle Options */
+.toggle-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2, 8px);
+}
+
+.toggle-option {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-button {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2, 8px);
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
+  border-radius: var(--pf-border-radius, 8px);
+  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
+  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  font-size: var(--pf-text-sm, 14px);
+  color: var(--pf-text-primary, #2d1810);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal, 0.25s ease);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  width: 100%;
+}
+
+.toggle-button:hover {
+  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+  transform: translateY(-1px);
+}
+
+.toggle-button.active {
+  background: var(--pf-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%)) !important;
+  border-color: var(--pf-brown-dark, #654321) !important;
+  color: var(--pf-text-light, #f8f4e6) !important;
+  box-shadow:
+    var(--pf-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
+    0 0 0 1px rgba(139, 69, 19, 0.3) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(1px);
+  font-weight: var(--pf-font-semibold, 600) !important;
+}
+
+.toggle-icon {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--pf-brown-medium, #8B4513);
+  border-radius: 3px;
+  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--pf-success, #2e7d32);
+  font-weight: bold;
+}
+
+.toggle-button.active .toggle-icon {
+  background: var(--pf-text-light, #f8f4e6);
+  color: var(--pf-brown-dark, #654321);
+  border-color: var(--pf-text-light, #f8f4e6);
+}
+
+/* Save Type Tabs */
+.save-type-tabs {
+  display: flex;
+  gap: 0;
+  border-radius: var(--pf-border-radius, 8px);
+  overflow: hidden;
+  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
+  margin-bottom: var(--pf-space-3, 12px);
+}
+
+.save-type-tab {
+  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+  border: none;
+  border-right: 1px solid var(--pf-brown-medium, #8B4513);
+  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
+  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  font-size: var(--pf-text-xs, 12px);
+  color: var(--pf-text-primary, #2d1810);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal, 0.25s ease);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pf-space-1, 4px);
+  flex: 1;
+  text-align: center;
+}
+
+.save-type-tab:last-child {
+  border-right: none;
+}
+
+.save-type-tab:hover {
+  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
+}
+
+.save-type-tab.selected {
+  background: var(--pf-gradient-button-active, linear-gradient(135deg, #1976d2 0%, #1565c0 100%));
+  color: white;
+  font-weight: var(--pf-font-semibold, 600);
+}
+
+.save-type-tab-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-type-tab-icon img {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}

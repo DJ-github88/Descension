@@ -1,17 +1,19 @@
-/* SpellContextMenu.css - Styling for spell and collection context menus */
+/* SpellContextMenu.css - Pathfinder Theme */
 
 .spell-context-menu {
-  position: fixed;
-  background-color: rgba(13, 25, 46, 0.95);
-  border: 1px solid var(--library-border-light, #334155);
-  border-radius: 4px;
+  position: fixed !important;
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width-thick) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
   min-width: 220px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(30, 58, 138, 0.1);
-  z-index: 1000;
-  color: #fff;
+  box-shadow: var(--pf-shadow-lg), var(--pf-shadow-glow);
+  z-index: 9999999 !important; /* Ensure it's above all other elements */
+  color: var(--pf-text-primary);
   animation: menuFadeIn 0.2s ease-out;
   overflow: hidden;
-  font-family: 'Friz Quadrata', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--pf-font-ui);
+  padding: var(--pf-space-1) 0;
+  pointer-events: auto !important;
 }
 
 @keyframes menuFadeIn {
@@ -26,8 +28,8 @@
 }
 
 .context-menu-section {
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--pf-space-1) 0;
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .context-menu-section:last-child {
@@ -35,30 +37,33 @@
 }
 
 .context-menu-header {
-  padding: 8px 12px;
-  color: #ffd100;
-  font-size: 0.9rem;
-  font-weight: 600;
+  padding: var(--pf-space-2) var(--pf-space-3);
+  color: var(--pf-gold);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(255, 209, 0, 0.3);
-  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: var(--pf-border-width) solid var(--pf-gold);
+  background: var(--pf-gradient-parchment-dark);
+  font-family: var(--pf-font-ui);
 }
 
 .context-menu-item {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  padding: var(--pf-space-2) var(--pf-space-3);
   cursor: pointer;
-  transition: background-color 0.2s;
-  color: #fff;
+  transition: all var(--pf-transition-normal);
+  color: var(--pf-text-primary);
   text-decoration: none;
   border: none;
   background: none;
   width: 100%;
   text-align: left;
-  font-size: 0.95rem;
-  border-bottom: 1px solid rgba(58, 90, 140, 0.2);
+  font-size: var(--pf-text-sm);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  pointer-events: auto !important;
+  font-family: var(--pf-font-ui);
 }
 
 .context-menu-item:last-child {
@@ -66,27 +71,27 @@
 }
 
 .context-menu-item:hover {
-  background-color: rgba(59, 130, 246, 0.2);
-  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.3);
-  color: #00c8ff;
+  background: var(--pf-gradient-button-hover);
+  box-shadow: var(--pf-shadow-inset);
+  color: var(--pf-text-primary);
 }
 
 .context-menu-item i {
-  margin-right: 8px;
+  margin-right: var(--pf-space-2);
   width: 16px;
   text-align: center;
-  color: #94a3b8;
+  color: var(--pf-text-muted);
 }
 
 .context-menu-item:hover i {
-  color: #60a5fa;
+  color: var(--pf-gold);
 }
 
 .context-menu-items {
   max-height: 200px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  scrollbar-color: var(--pf-brown-light) transparent;
 }
 
 .context-menu-items::-webkit-scrollbar {
@@ -98,52 +103,53 @@
 }
 
 .context-menu-items::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
+  background: var(--pf-brown-light);
+  border-radius: var(--pf-border-radius-sm);
 }
 
 .primary-action {
-  color: #60a5fa;
-  font-weight: 600;
-  background-color: rgba(59, 130, 246, 0.1);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--pf-gold);
+  font-weight: var(--pf-font-semibold);
+  background: var(--pf-gradient-gold);
+  border-bottom: var(--pf-border-width) solid var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
 }
 
 .primary-action:hover {
-  background-color: rgba(59, 130, 246, 0.2);
-  color: #00c8ff;
-  box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.4);
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-text-primary);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .primary-action i {
-  color: #60a5fa;
+  color: var(--pf-brown-darkest);
 }
 
 .primary-action:hover i {
-  color: #00c8ff;
+  color: var(--pf-gold);
 }
 
 .delete-item {
-  color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--pf-error);
+  background: var(--pf-gradient-parchment-light);
 }
 
 .delete-item:hover {
-  background-color: rgba(239, 68, 68, 0.2);
-  color: #ff5252;
-  box-shadow: inset 0 0 10px rgba(239, 68, 68, 0.3);
+  background: var(--pf-gradient-button-hover);
+  color: var(--pf-error);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .delete-item i {
-  color: #ef4444;
+  color: var(--pf-error);
 }
 
 .delete-item:hover i {
-  color: #ff5252;
+  color: var(--pf-error);
 }
 
 .context-menu-divider {
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.1);
-  margin: 4px 0;
+  background: var(--pf-brown-light);
+  margin: var(--pf-space-1) 0;
 }

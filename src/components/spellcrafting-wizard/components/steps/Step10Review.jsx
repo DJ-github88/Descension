@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import { LIBRARY_ACTION_TYPES, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
-import SimplifiedSpellCard from '../common/SimplifiedSpellCard';
-import LibraryStyleSpellCard from '../common/LibraryStyleSpellCard';
+import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import WizardStep from '../common/WizardStep';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
-// Import consolidated spell card styles
-import '../../styles/ConsolidatedSpellCard.css';
-import '../../styles/Step10Review.css';
-import '../../styles/buff-config-review.css';
-import '../../styles/trigger-display-review.css';
+// Pathfinder styles imported via main.css
 import {
   serializeSpell,
   deserializeSpell,
@@ -18,6 +13,7 @@ import {
   createSpellTemplate
 } from '../../core/utils/spellSerializer';
 import { extractSpellIcon } from '../../core/utils/previewGenerator';
+import { formatFormulaToPlainEnglish } from '../common/SpellCardUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSave,
@@ -85,16 +81,10 @@ const Step10Review = ({
     return castTime > 0 ? `${castTime} turn${castTime > 1 ? 's' : ''}` : 'Instant';
   };
 
-  // Map wizard state to a format the SimplifiedSpellCard can understand
+  // Map wizard state to a format the UnifiedSpellCard can understand
   const mapWizardStateToPreviewState = () => {
-    // Debug log to see what's in the spell state
-    console.log('Mapping spell state to preview state:', spellState);
-    console.log('Spell type:', spellState.spellType);
     // Extract icon from spell state
     const icon = spellState.typeConfig?.icon || extractSpellIcon(spellState) || 'inv_misc_questionmark';
-
-    // Log the full spell state for debugging
-    console.log('Full spell state:', JSON.stringify(spellState, null, 2));
 
     // Determine resolution method
     let resolution = 'DICE';
@@ -215,7 +205,11 @@ const Step10Review = ({
         forkCount: spellState.propagation.parameters?.forkCount || 0,
         // Include all parameters to ensure nothing is missed
         parameters: spellState.propagation.parameters || {}
-      } : null,
+      } : {
+        method: 'none',
+        behavior: '',
+        parameters: {}
+      },
 
       // Trap configuration
       trapConfig: spellState.trapConfig || null,
@@ -224,11 +218,14 @@ const Step10Review = ({
       triggerConfig: hasActualTriggers ? spellState.triggerConfig : null,
 
       // Damage/Healing information
-      primaryDamage: spellState.damageConfig ? {
+      primaryDamage: spellState.damageConfig && (
+        spellState.damageConfig.formula ||
+        spellState.damageConfig.diceNotation ||
+        spellState.effectResolutions?.damage?.config?.formula
+      ) ? {
         dice: spellState.damageConfig.formula ||
               spellState.damageConfig.diceNotation ||
-              spellState.effectResolutions?.damage?.config?.formula ||
-              '6d6',
+              spellState.effectResolutions?.damage?.config?.formula,
         flat: spellState.damageConfig.flatBonus || 0,
         type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'force'
       } : null,
@@ -236,6 +233,33 @@ const Step10Review = ({
       // Damage types
       damageTypes: spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] :
                   spellState.typeConfig?.school ? [spellState.typeConfig.school] : ['force'],
+
+      // Saving throw information for damage effects
+      damageConfig: {
+        ...spellState.damageConfig,
+        // Ensure saving throw information is included (backward compatibility)
+        savingThrow: spellState.damageConfig?.savingThrow || null,
+        savingThrowType: spellState.damageConfig?.savingThrowType || 'agility',
+        difficultyClass: spellState.damageConfig?.difficultyClass || 15,
+        partialEffect: spellState.damageConfig?.partialEffect || false,
+        partialEffectFormula: spellState.damageConfig?.partialEffectFormula || 'damage/2',
+        partialEffectType: spellState.damageConfig?.partialEffectType || 'half',
+        directDamageFormula: spellState.damageConfig?.directDamageFormula || 'damage/2',
+        dotDamageFormula: spellState.damageConfig?.dotDamageFormula || 'dot_damage/2',
+        // Include the new savingThrowConfig structure for UnifiedSpellCard
+        savingThrowConfig: spellState.damageConfig?.savingThrowConfig || (
+          spellState.damageConfig?.savingThrow ? {
+            enabled: true,
+            savingThrowType: spellState.damageConfig.savingThrowType || 'agility',
+            difficultyClass: spellState.damageConfig.difficultyClass || 15,
+            partialEffect: spellState.damageConfig.partialEffect || false,
+            partialEffectFormula: spellState.damageConfig.partialEffectFormula || 'damage/2'
+          } : null
+        )
+      },
+
+      // Healing configuration
+      healingConfig: spellState.healingConfig || null,
 
       // Resolution type
       resolution: spellState.damageConfig?.resolution || spellState.healingConfig?.resolution || 'DICE',
@@ -253,20 +277,23 @@ const Step10Review = ({
       dotApplication: spellState.damageConfig?.dotApplication || 'start',
       dotScalingType: spellState.damageConfig?.dotScalingType || 'flat',
 
-      // Healing over time configuration
-      isHot: spellState.healingConfig?.healingType === 'hot',
-      hasHotEffect: spellState.healingConfig?.hasHotEffect || false,
+      // Healing over time configuration - only include if healing is enabled
+      isHot: spellState.effectTypes?.includes('healing') && spellState.healingConfig?.healingType === 'hot',
+      hasHotEffect: spellState.effectTypes?.includes('healing') && (spellState.healingConfig?.hasHotEffect === true),
       hotDuration: spellState.healingConfig?.hotDuration || 3,
       hotTick: spellState.healingConfig?.hotFormula || '1d4',
       hotTickType: spellState.healingConfig?.hotTickType || 'round',
       hotApplication: spellState.healingConfig?.hotApplication || 'start',
 
-      // Healing configurations
-      healing: spellState.healingConfig ? {
+      // Healing configurations - only include if healing is enabled
+      healing: (spellState.effectTypes?.includes('healing') && spellState.healingConfig && (
+        spellState.healingConfig.formula ||
+        spellState.healingConfig.diceNotation ||
+        spellState.effectResolutions?.healing?.config?.formula
+      )) ? {
         dice: spellState.healingConfig.formula ||
               spellState.healingConfig.diceNotation ||
-              spellState.effectResolutions?.healing?.config?.formula ||
-              '6d6',
+              spellState.effectResolutions?.healing?.config?.formula,
         flat: spellState.healingConfig.flatBonus || 0
       } : null,
 
@@ -274,9 +301,9 @@ const Step10Review = ({
       healingCardConfig: spellState.healingConfig?.cardConfig,
       hotScalingType: spellState.healingConfig?.hotScalingType || 'flat',
 
-      // Shield configuration
-      isShield: spellState.healingConfig?.healingType === 'shield',
-      hasShieldEffect: spellState.healingConfig?.hasShieldEffect || false,
+      // Shield configuration - only include if healing is enabled
+      isShield: spellState.effectTypes?.includes('healing') && spellState.healingConfig?.healingType === 'shield',
+      hasShieldEffect: spellState.effectTypes?.includes('healing') && (spellState.healingConfig?.hasShieldEffect === true),
       shieldDuration: spellState.healingConfig?.shieldDuration || 3,
       shieldAmount: spellState.healingConfig?.shieldFormula || '2d6', // Use the shield formula
       shieldDamageTypes: spellState.healingConfig?.shieldDamageTypes || 'all',
@@ -284,25 +311,28 @@ const Step10Review = ({
       shieldBreakBehavior: spellState.healingConfig?.shieldBreakBehavior || 'fade',
       shieldBreakEffect: spellState.healingConfig?.shieldBreakEffect || null,
       shieldExpireEffect: spellState.healingConfig?.shieldExpireEffect || null,
-      healing: spellState.healingConfig ? {
+      healing: spellState.healingConfig && (
+        spellState.healingConfig.formula ||
+        spellState.healingConfig.diceNotation ||
+        spellState.effectResolutions?.healing?.config?.formula
+      ) ? {
         dice: spellState.healingConfig.formula ||
               spellState.healingConfig.diceNotation ||
-              spellState.effectResolutions?.healing?.config?.formula ||
-              '6d6',
+              spellState.effectResolutions?.healing?.config?.formula,
         flat: spellState.healingConfig.flatBonus || 0
       } : null,
       damageTypes: damageTypes,
 
       // Resolution method
       resolution: resolution,
-      // Add formula directly to the spell object for easier access
+      // Add formula directly to the spell object for easier access (only if exists)
       formula: spellState.damageConfig?.formula ||
               spellState.healingConfig?.formula ||
               spellState.effectResolutions?.damage?.config?.formula ||
               spellState.effectResolutions?.healing?.config?.formula ||
               spellState.damageConfig?.diceNotation ||
               spellState.healingConfig?.diceNotation ||
-              '6d6',
+              null,
       // Also include in diceConfig for compatibility
       diceConfig: {
         formula: spellState.damageConfig?.formula ||
@@ -311,7 +341,7 @@ const Step10Review = ({
                 spellState.effectResolutions?.healing?.config?.formula ||
                 spellState.damageConfig?.diceNotation ||
                 spellState.healingConfig?.diceNotation ||
-                '6d6'
+                null
       },
       cardConfig: spellState.cardConfig || {
         drawCount: 3,
@@ -364,16 +394,30 @@ const Step10Review = ({
         controlType: spellState.damageConfig?.criticalConfig?.controlType || spellState.healingConfig?.criticalConfig?.controlType || spellState.criticalConfig?.controlType || 'Stun'
       },
 
-      // Rollable table configuration
-      rollableTable: spellState.rollableTable || null,
+      // Rollable table configuration - only include if explicitly enabled
+      rollableTable: (spellState.rollableTable && spellState.rollableTable.enabled === true) ? spellState.rollableTable : null,
 
       // Buff/Debuff configuration
       buffConfig: spellState.buffConfig || null,
       debuffConfig: spellState.debuffConfig || null,
 
+      // Control configuration
+      controlConfig: spellState.controlConfig || null,
+
+      // Summoning configuration
+      summonConfig: spellState.summonConfig || null,
+      summoningConfig: spellState.summonConfig || null,
+
+      // Transformation configuration
+      transformConfig: spellState.transformConfig || null,
+      transformationConfig: spellState.transformConfig || null,
+
       // Resource configuration
       resourceCost: {
-        mana: spellState.resourceCost?.mana || spellState.resourceConfig?.resourceAmount || 25,
+        // Use the formula if useFormulas.mana is true, otherwise use the value
+        mana: spellState.resourceCost?.useFormulas?.mana
+          ? spellState.resourceCost?.resourceFormulas?.mana || "1d10+2"
+          : spellState.resourceCost?.resourceValues?.mana || spellState.resourceCost?.mana || spellState.resourceConfig?.resourceAmount || "1d10+2",
         actionPoints: spellState.resourceCost?.actionPoints || spellState.resourceConfig?.actionPoints || 1,
         primaryResourceType: spellState.resourceCost?.primaryResourceType || spellState.resourceConfig?.resourceType || 'Mana',
         classResourceCost: spellState.resourceCost?.classResourceCost || spellState.resourceConfig?.classResourceCost || 0,
@@ -525,7 +569,7 @@ const Step10Review = ({
               }).join(' & ') + ' damage';
             }
 
-            return `Damage over Time: ${effect.damageAmount}${triggerText}${damageTypeText}`;
+            return `${effect.damageAmount}${triggerText}${damageTypeText}`;
           }
           // For regular damage, include a clear label with formula
           if (effect.effectName === 'Damage') {
@@ -537,7 +581,7 @@ const Step10Review = ({
               }).join(' & ') + ' damage';
             }
 
-            return `Direct Damage: ${effect.damageAmount}${damageTypeText}`;
+            return `${effect.damageAmount}${damageTypeText}`;
           }
           // For other damage effects
           return `${effect.effectName}${effect.duration ? ` for ${effect.duration}` : ''}`;
@@ -570,7 +614,7 @@ const Step10Review = ({
           }
           // For regular healing, include a clear label with formula
           if (effect.effectName === 'Healing') {
-            return `Direct Healing: ${effect.healAmount}${effect.duration ? ` Lasts for ${effect.duration}` : ''}`;
+            return `${effect.healAmount}${effect.duration ? ` Lasts for ${effect.duration}` : ''}`;
           }
           // For other healing effects
           return `${effect.effectName}${effect.duration ? ` for ${effect.duration}` : ''}`;
@@ -823,7 +867,7 @@ const Step10Review = ({
               }).join(' & ') + ' damage';
             }
 
-            return `Direct Damage: ${effect.damageAmount}${damageTypeText}`;
+            return `${effect.damageAmount}${damageTypeText}`;
           } else if (effect.effectName === 'Damage over Time' || effect.effectName === 'Trigger-Based Damage over Time') {
             // Format damage types with proper capitalization
             let damageTypeText = '';
@@ -833,7 +877,7 @@ const Step10Review = ({
               }).join(' & ') + ' damage';
             }
 
-            return `Damage over Time: ${effect.damageAmount} over ${effect.duration || '3 rounds'}${damageTypeText}`;
+            return `${effect.damageAmount} over ${effect.duration || '3 rounds'}${damageTypeText}`;
           }
 
           return `${effect.effectName}: ${effect.damageAmount}${effect.duration ? ` for ${effect.duration}` : ''}`;
@@ -1031,10 +1075,6 @@ const Step10Review = ({
       tags: [
         // Include tags from typeConfig
         ...(spellState.typeConfig?.tags || []),
-        // Add resolution-based tags
-        resolution === 'DICE' ? 'dice-based' : null,
-        resolution === 'CARDS' ? 'card-based' : null,
-        resolution === 'COINS' ? 'coin-based' : null,
         // Add effect-based tags
         ...(spellState.effectTypes || []),
         // Include any tags directly on the spellState
@@ -1457,10 +1497,12 @@ const Step10Review = ({
 
         if (resolution === 'COINS' && spellState.coinConfig) {
           const flipCount = spellState.coinConfig.flipCount || 5;
-          damageAmount = `Flip ${flipCount}: ${spellState.coinConfig.formula || 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)'}`;
+          const formula = spellState.coinConfig.formula || 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)';
+          damageAmount = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(formula, 'damage')}`;
         } else if (resolution === 'CARDS' && spellState.cardConfig) {
           const drawCount = spellState.cardConfig.drawCount || 3;
-          damageAmount = `Draw ${drawCount}: ${spellState.cardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 5'}`;
+          const formula = spellState.cardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 5';
+          damageAmount = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(formula, 'damage')}`;
         } else {
           damageAmount = spellState.damageConfig.formula ||
                         spellState.effectResolutions?.damage?.config?.formula ||
@@ -1533,7 +1575,7 @@ const Step10Review = ({
       }
     }
 
-    // Process healing effects
+    // Process healing effects - only if healing is explicitly enabled in effectTypes
     if (spellState.effectTypes?.includes('healing') && spellState.healingConfig) {
       // Only add the specific healing type that was selected
       const healingType = spellState.healingConfig.healingType || 'direct';
@@ -1549,14 +1591,14 @@ const Step10Review = ({
             formula: 'HEADS_COUNT * 7 + (LONGEST_STREAK > 2 ? LONGEST_STREAK * 5 : 0)'
           };
           const flipCount = coinConfig.flipCount || 5;
-          healAmount = `Flip ${flipCount}: ${coinConfig.formula}`;
+          healAmount = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(coinConfig.formula, 'healing')}`;
         } else if (resolution === 'CARDS') {
           const cardConfig = spellState.healingConfig.cardConfig || {
             drawCount: 3,
             formula: 'CARD_VALUE + FACE_CARD_COUNT * 3'
           };
           const drawCount = cardConfig.drawCount || 3;
-          healAmount = `Draw ${drawCount}: ${cardConfig.formula}`;
+          healAmount = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(cardConfig.formula, 'healing')}`;
         } else {
           healAmount = spellState.healingConfig.formula ||
                       spellState.effectResolutions?.healing?.config?.formula ||
@@ -1582,14 +1624,14 @@ const Step10Review = ({
             formula: 'HEADS_COUNT * 7 + (LONGEST_STREAK > 2 ? LONGEST_STREAK * 5 : 0)'
           };
           const flipCount = coinConfig.flipCount || 5;
-          healAmount = `Flip ${flipCount}: ${coinConfig.formula}`;
+          healAmount = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(coinConfig.formula, 'healing')}`;
         } else if (resolution === 'CARDS') {
           const cardConfig = spellState.healingConfig.hotCardConfig || spellState.healingConfig.cardConfig || {
             drawCount: 3,
             formula: 'CARD_VALUE + FACE_CARD_COUNT * 3'
           };
           const drawCount = cardConfig.drawCount || 3;
-          healAmount = `Draw ${drawCount}: ${cardConfig.formula}`;
+          healAmount = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(cardConfig.formula, 'healing')}`;
         } else {
           healAmount = spellState.healingConfig.hotFormula ||
                       spellState.healingConfig.formula ||
@@ -1653,14 +1695,14 @@ const Step10Review = ({
             formula: 'HEADS_COUNT * 10 + (ALL_HEADS ? 20 : 0)'
           };
           const flipCount = coinConfig.flipCount || 5;
-          healAmount = `Flip ${flipCount}: ${coinConfig.formula}`;
+          healAmount = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(coinConfig.formula, 'healing')}`;
         } else if (resolution === 'CARDS') {
           const cardConfig = spellState.healingConfig.shieldCardConfig || spellState.healingConfig.cardConfig || {
             drawCount: 3,
             formula: 'CARD_VALUE + FACE_CARD_COUNT * 5'
           };
           const drawCount = cardConfig.drawCount || 3;
-          healAmount = `Draw ${drawCount}: ${cardConfig.formula}`;
+          healAmount = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(cardConfig.formula, 'healing')}`;
         } else {
           // Use the shield formula
           healAmount = spellState.healingConfig.shieldFormula ||
@@ -1698,10 +1740,12 @@ const Step10Review = ({
 
         if (resolution === 'COINS' && spellState.healingConfig.hotCoinConfig) {
           const flipCount = spellState.healingConfig.hotCoinConfig.flipCount || 5;
-          healAmount = `Flip ${flipCount}: ${spellState.healingConfig.hotCoinConfig.formula || 'HEADS_COUNT * 7 + (LONGEST_STREAK > 2 ? LONGEST_STREAK * 5 : 0)'}`;
+          const formula = spellState.healingConfig.hotCoinConfig.formula || 'HEADS_COUNT * 7 + (LONGEST_STREAK > 2 ? LONGEST_STREAK * 5 : 0)';
+          healAmount = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(formula, 'healing')}`;
         } else if (resolution === 'CARDS' && spellState.healingConfig.hotCardConfig) {
           const drawCount = spellState.healingConfig.hotCardConfig.drawCount || 3;
-          healAmount = `Draw ${drawCount}: ${spellState.healingConfig.hotCardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 3'}`;
+          const formula = spellState.healingConfig.hotCardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 3';
+          healAmount = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(formula, 'healing')}`;
         } else {
           healAmount = spellState.healingConfig.hotFormula || '1d4';
         }
@@ -1748,10 +1792,12 @@ const Step10Review = ({
 
         if (resolution === 'COINS' && spellState.healingConfig.shieldCoinConfig) {
           const flipCount = spellState.healingConfig.shieldCoinConfig.flipCount || 5;
-          healAmount = `Flip ${flipCount}: ${spellState.healingConfig.shieldCoinConfig.formula || 'HEADS_COUNT * 10 + (ALL_HEADS ? 20 : 0)'}`;
+          const formula = spellState.healingConfig.shieldCoinConfig.formula || 'HEADS_COUNT * 10 + (ALL_HEADS ? 20 : 0)';
+          healAmount = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(formula, 'healing')}`;
         } else if (resolution === 'CARDS' && spellState.healingConfig.shieldCardConfig) {
           const drawCount = spellState.healingConfig.shieldCardConfig.drawCount || 3;
-          healAmount = `Draw ${drawCount}: ${spellState.healingConfig.shieldCardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 5'}`;
+          const formula = spellState.healingConfig.shieldCardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 5';
+          healAmount = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(formula, 'healing')}`;
         } else {
           // Use the shield formula
           healAmount = spellState.healingConfig.shieldFormula || '2d6';
@@ -2311,10 +2357,12 @@ const Step10Review = ({
       let restorationFormula = '';
       if (resolution === 'COINS' && spellState.restorationConfig.coinConfig) {
         const flipCount = spellState.restorationConfig.coinConfig.flipCount || 5;
-        restorationFormula = `Flip ${flipCount}: ${spellState.restorationConfig.coinConfig.formula || 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)'}`;
+        const formula = spellState.restorationConfig.coinConfig.formula || 'HEADS_COUNT * 8 + (ALL_HEADS ? 15 : 0)';
+        restorationFormula = `Flip ${flipCount}: ${formatFormulaToPlainEnglish(formula, 'restoration')}`;
       } else if (resolution === 'CARDS' && spellState.restorationConfig.cardConfig) {
         const drawCount = spellState.restorationConfig.cardConfig.drawCount || 3;
-        restorationFormula = `Draw ${drawCount}: ${spellState.restorationConfig.cardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 5'}`;
+        const formula = spellState.restorationConfig.cardConfig.formula || 'CARD_VALUE + FACE_CARD_COUNT * 5';
+        restorationFormula = `Draw ${drawCount}: ${formatFormulaToPlainEnglish(formula, 'restoration')}`;
       } else {
         restorationFormula = spellState.restorationConfig.formula || '2d6';
       }
@@ -2517,26 +2565,8 @@ const Step10Review = ({
     onJumpToStep(sectionStep);
   };
 
-  // Log the spell state for debugging
-  useEffect(() => {
-    if (isActive) {
-      console.log('Spell state in review step:', spellState);
-      console.log('Damage config:', spellState.damageConfig);
-      console.log('Healing config:', spellState.healingConfig);
-      console.log('Effect resolutions:', spellState.effectResolutions);
-      console.log('Rollable table:', spellState.rollableTable);
-    }
-  }, [isActive, spellState]);
-
   // Create the mapped spell data for preview
   const previewSpellData = mapWizardStateToPreviewState();
-
-  // Log the preview data for debugging
-  useEffect(() => {
-    if (isActive) {
-      console.log('Preview spell data:', previewSpellData);
-    }
-  }, [isActive, previewSpellData]);
 
   // Trigger conditions display has been removed from the review step
 
@@ -2554,10 +2584,15 @@ const Step10Review = ({
       <div className="step10-review-container">
         <div className="review-content-wrapper">
           <div className="review-spell-preview">
-            {/* Display spell card in library style */}
-            <LibraryStyleSpellCard
+            {/* Display spell card in wizard style */}
+            <UnifiedSpellCard
               spell={previewSpellData}
-              rollableTableData={spellState.rollableTable ? {
+              variant="wizard"
+              showActions={false}
+              showDescription={true}
+              showStats={true}
+              showTags={true}
+              rollableTableData={(spellState.rollableTable && spellState.rollableTable.enabled === true) ? {
                 enabled: true,
                 name: spellState.rollableTable.name || 'Random Effects',
                 resolutionType: spellState.rollableTable.resolutionType || 'DICE',
@@ -2740,24 +2775,7 @@ const Step10Review = ({
           </div>
         </div>
 
-        <div className="wizard-navigation">
-          <button
-            className="nav-button previous"
-            onClick={onPrevious}
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="nav-icon" />
-            Previous
-          </button>
 
-          <button
-            className="nav-button complete"
-            onClick={onNext}
-            disabled={!allSectionsReviewed}
-          >
-            Complete
-            <FontAwesomeIcon icon={faArrowRight} className="nav-icon" />
-          </button>
-        </div>
       </div>
     </WizardStep>
   );

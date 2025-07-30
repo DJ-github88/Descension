@@ -4,10 +4,10 @@ export const STEPS = {
     SLOT_AND_SIZE: 2,
     STATS: 3,
     COMBAT_STATS: 4,
-    UTILITY: 5,
-    VALUE: 6,
-    APPEARANCE: 7,
-    REVIEW: 8
+    CHANCE_ON_HIT: 5,
+    UTILITY: 6,
+    VALUE: 7,
+    APPEARANCE: 8
 };
 
 export const STEP_INFO = {
@@ -26,7 +26,7 @@ export const STEP_INFO = {
         icon: 'inv_misc_desecrated_platehelm',
         description: 'Determine where this item is worn or held. The right placement can mean the difference between a useful tool and a masterpiece.'
     },
-    
+
     [STEPS.STATS]: {
         name: 'Stats',
         icon: 'spell_holy_prayeroffortitude',
@@ -36,6 +36,11 @@ export const STEP_INFO = {
         name: 'Combat',
         icon: 'achievement_pvp_p_14',
         description: 'Define the item\'s combat capabilities. From devastating damage to impenetrable defenses, make it worthy of battle.'
+    },
+    [STEPS.CHANCE_ON_HIT]: {
+        name: 'On Being Hit',
+        icon: 'ability_warrior_revenge',
+        description: 'Configure effects that trigger when the wearer is struck in battle. Create defensive mechanisms that punish attackers or protect the bearer.'
     },
     [STEPS.UTILITY]: {
         name: 'Utility',
@@ -49,13 +54,8 @@ export const STEP_INFO = {
     },
     [STEPS.APPEARANCE]: {
         name: 'Appearance',
-        icon: 'inv_misc_bag_28_halloween', 
+        icon: 'inv_misc_bag_28_halloween',
         description: 'Design the item\'s visual appearance. The finest items are as magnificent to behold as they are powerful to use.'
-    },
-    [STEPS.REVIEW]: {
-        name: 'Review',
-        icon: 'inv_fabric_moonrag_01',
-        description: 'Review your creation in all its glory. Is it everything you imagined it would be?'
     }
 };
 
@@ -70,10 +70,10 @@ export const getStepOrder = (isEditing, itemType) => {
         STEPS.SLOT_AND_SIZE,
         STEPS.STATS,
         STEPS.COMBAT_STATS,
+        STEPS.CHANCE_ON_HIT,
         STEPS.UTILITY,
         STEPS.VALUE,
-        STEPS.APPEARANCE,
-        STEPS.REVIEW
+        STEPS.APPEARANCE
     ];
 
     // For weapons, ensure combat stats come right after slot selection
@@ -83,10 +83,10 @@ export const getStepOrder = (isEditing, itemType) => {
             STEPS.SLOT_AND_SIZE,
             STEPS.COMBAT_STATS,
             STEPS.STATS,
+            STEPS.CHANCE_ON_HIT,
             STEPS.UTILITY,
             STEPS.VALUE,
-            STEPS.APPEARANCE,
-            STEPS.REVIEW
+            STEPS.APPEARANCE
         ];
     }
 
