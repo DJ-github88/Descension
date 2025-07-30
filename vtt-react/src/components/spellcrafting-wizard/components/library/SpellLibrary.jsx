@@ -7,6 +7,7 @@ import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
+import '../../styles/pathfinder/main.css';
 
 import SpellContextMenu from './SpellContextMenu';
 import SpellLibraryFormatter from './SpellLibraryFormatter';
@@ -75,8 +76,7 @@ if (typeof document !== 'undefined') {
   }
 }
 
-// Import Pathfinder-themed styles
-import '../../styles/pathfinder/main.css';
+
 
 const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // State for view options - force compact view and clear any stored preferences

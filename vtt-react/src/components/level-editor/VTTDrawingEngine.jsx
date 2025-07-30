@@ -52,8 +52,6 @@ const VTTDrawingEngine = () => {
             const gridSystem = getGridSystem();
             const viewport = gridSystem.getViewportDimensions();
             return gridSystem.worldToScreen(worldX, worldY, viewport.width, viewport.height);
-
-            return { x: screenX, y: screenY };
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, effectiveZoom]);
 

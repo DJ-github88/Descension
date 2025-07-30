@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
+import { useInspectionCharacter } from '../../contexts/InspectionContext';
 
 // Border color options for tokens
 const BORDER_COLORS = [
@@ -15,7 +16,7 @@ const BORDER_COLORS = [
     '#607D8B', // Gray
     '#000000'  // Black
 ];
-import { useInspectionCharacter } from '../../contexts/InspectionContext';
+
 
 export default function Lore() {
     // Use inspection context if available, otherwise use regular character store

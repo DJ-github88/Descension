@@ -6,6 +6,7 @@ import FormulaEditor from '../../components/mechanics/FormulaEditor';
 import ResolutionSelector from '../../components/mechanics/ResolutionSelector';
 
 import './restoration-effects.css';
+import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
 
 // Pathfinder styles imported via main.css
 
@@ -91,8 +92,7 @@ const STAT_VARIABLES = {
   ALTERNATING_PATTERN: { name: 'Alternating Pattern', description: 'Boolean if coins alternate heads/tails' }
 };
 
-// Import centralized variable definitions
-import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
+
 
 // Variables Display Component
 const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {
