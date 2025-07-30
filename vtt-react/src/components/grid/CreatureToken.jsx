@@ -13,7 +13,7 @@ import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/creature-token.css';
 import WowWindow from '../windows/WowWindow';
 import CreatureWindow from '../windows/CreatureWindow';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import ShopWindow from '../shop/ShopWindow';
