@@ -670,13 +670,13 @@ const renderTooltipEntry = (entry, index) => {
 };
 
 export default function ItemTooltip({ item }) {
+    // Use hooks to get store data (hooks must be called before early returns)
+    const { availableRecipes } = useCraftingStore();
+    const { items: itemLibrary } = useItemStore();
+
     if (!item) {
         return null;
     }
-
-    // Use hooks to get store data
-    const { availableRecipes } = useCraftingStore();
-    const { items: itemLibrary } = useItemStore();
 
     // Special handling for recipe items
     if (item.subtype === 'recipe' && item.recipeId) {

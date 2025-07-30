@@ -27,13 +27,8 @@ const ActionBar = () => {
     const spellHoverTimeoutRef = useRef(null);
     const spellHideTimeoutRef = useRef(null);
 
-    // Get spell library for spell tooltips (with error handling)
-    let spellLibrary = null;
-    try {
-        spellLibrary = useSpellLibrary();
-    } catch (error) {
-        console.warn('SpellLibrary context not available:', error);
-    }
+    // Get spell library for spell tooltips (hooks must be called unconditionally)
+    const spellLibrary = useSpellLibrary();
 
     // Get inventory items to track quantities
     const inventoryItems = useInventoryStore(state => state.items);

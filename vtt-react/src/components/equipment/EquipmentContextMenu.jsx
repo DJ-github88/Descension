@@ -7,12 +7,12 @@ import '../../styles/context-menu.css';
  * Context menu for equipping items from inventory
  */
 const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
-    if (!item) return null;
-
-    // Get current equipment state for validation
+    // Get current equipment state for validation (hook must be called before early return)
     const { equipment } = useCharacterStore(state => ({
         equipment: state.equipment
     }));
+
+    if (!item) return null;
 
     const compatibleSlots = getCompatibleSlots(item);
 
