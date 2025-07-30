@@ -138,12 +138,9 @@ const GridContainer = ({ gridItem }) => {
     setShowContextMenu(false);
   };
 
-  // If the original item doesn't exist, don't render anything
-  if (!originalItem) return null;
-
   // Convert grid coordinates to screen coordinates using the same system as GridItem
   const screenPosition = useMemo(() => {
-    if (!gridItem.gridPosition) return { x: 0, y: 0 };
+    if (!gridItem.gridPosition || !originalItem) return { x: 0, y: 0 };
 
     try {
       // Use the same coordinate system as GridItem and GM notes
@@ -153,9 +150,9 @@ const GridContainer = ({ gridItem }) => {
 
       return screenPos;
     } catch (error) {
-      // Fallback calculation using the same pattern as GridItem
-      const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
-      const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
+      // Fallback calculation using simplified grid positioning
+      const worldX = (gridItem.gridPosition.col * gridSize) + (gridSize / 2);
+      const worldY = (gridItem.gridPosition.row * gridSize) + (gridSize / 2);
 
       return {
         x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
@@ -172,9 +169,7 @@ const GridContainer = ({ gridItem }) => {
     playerZoom,
     effectiveZoom,
     gridSize,
-    gridOffsetX,
-    gridOffsetY,
-    gridMovesWithBackground
+    originalItem
   ]);
 
   // Calculate container dimensions based on grid size and zoom
@@ -185,6 +180,9 @@ const GridContainer = ({ gridItem }) => {
     const containerHeight = containerSize.rows * gridSize * effectiveZoom;
     return { width: containerWidth, height: containerHeight };
   }, [gridSize, effectiveZoom]);
+
+  // If the original item doesn't exist, don't render anything (early return after all hooks)
+  if (!originalItem) return null;
 
   return (
     <>
