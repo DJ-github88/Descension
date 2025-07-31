@@ -1,34 +1,80 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
   const [activeSection, setActiveSection] = useState('home');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Handle scroll to show/hide scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const renderHomeSection = () => (
     <div className="landing-section">
       <div className="hero-section">
         <div className="hero-content">
-          <h1 className="game-title">Mythrill</h1>
+          <div className="title-section">
+            <h1 className="game-title">Mythrill</h1>
+            <div className="title-ornament">
+              <i className="fas fa-gem"></i>
+              <span className="ornament-line"></span>
+              <i className="fas fa-dragon"></i>
+              <span className="ornament-line"></span>
+              <i className="fas fa-gem"></i>
+            </div>
+          </div>
+
           <p className="game-subtitle">The Ultimate Fantasy TTRPG Experience</p>
           <p className="game-description">
-            Embark on epic adventures in a world of magic, mystery, and endless possibilities. 
+            Embark on epic adventures in a world of magic, mystery, and endless possibilities.
             Create your character, join parties, and experience tabletop gaming like never before.
           </p>
-          
+
+          <div className="game-highlights">
+            <div className="highlight-item">
+              <i className="fas fa-dice-d20"></i>
+              <span>27 Unique Classes</span>
+            </div>
+            <div className="highlight-item">
+              <i className="fas fa-magic"></i>
+              <span>Dynamic Spellcrafting</span>
+            </div>
+            <div className="highlight-item">
+              <i className="fas fa-users"></i>
+              <span>Real-time Multiplayer</span>
+            </div>
+          </div>
+
           <div className="action-buttons">
-            <button 
+            <button
               className="primary-action-btn"
               onClick={onEnterSinglePlayer}
             >
               <i className="fas fa-user"></i>
-              Single Player
+              <span className="btn-text">
+                <span className="btn-title">Single Player</span>
+                <span className="btn-subtitle">Start your solo adventure</span>
+              </span>
             </button>
-            <button 
+            <button
               className="secondary-action-btn"
               onClick={onEnterMultiplayer}
             >
               <i className="fas fa-users"></i>
-              Multiplayer
+              <span className="btn-text">
+                <span className="btn-title">Multiplayer</span>
+                <span className="btn-subtitle">Join friends online</span>
+              </span>
             </button>
           </div>
         </div>
@@ -41,28 +87,45 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
         </div>
       </div>
 
+      {/* Quick Start Guide */}
+      <div className="quick-start-section">
+        <h2>Getting Started is Easy</h2>
+        <div className="quick-start-grid">
+          <div className="start-step">
+            <div className="step-number">1</div>
+            <h3>Choose Your Mode</h3>
+            <p>Start with Single Player to learn the basics, or jump into Multiplayer to adventure with friends</p>
+          </div>
+          <div className="start-step">
+            <div className="step-number">2</div>
+            <h3>Create Your Character</h3>
+            <p>Choose from 27 unique classes and customize your hero's abilities</p>
+          </div>
+          <div className="start-step">
+            <div className="step-number">3</div>
+            <h3>Begin Your Adventure</h3>
+            <p>Explore, craft spells, and engage in epic battles</p>
+          </div>
+        </div>
+      </div>
+
       <div className="features-preview">
-        <h2>Experience the Adventure</h2>
+        <h2>Core Features</h2>
         <div className="features-grid">
           <div className="feature-card">
             <i className="fas fa-dice-d20"></i>
             <h3>Dynamic Combat</h3>
-            <p>Engage in tactical combat with our advanced VTT system</p>
+            <p>Tactical combat with advanced VTT system</p>
           </div>
           <div className="feature-card">
             <i className="fas fa-magic"></i>
             <h3>Spell Crafting</h3>
-            <p>Create and customize spells with our unique crafting system</p>
+            <p>Create and customize unique spells</p>
           </div>
           <div className="feature-card">
             <i className="fas fa-users"></i>
-            <h3>Party System</h3>
-            <p>Adventure with friends in real-time multiplayer sessions</p>
-          </div>
-          <div className="feature-card">
-            <i className="fas fa-map"></i>
-            <h3>Rich World</h3>
-            <p>Explore detailed maps and immersive environments</p>
+            <h3>Real-time Multiplayer</h3>
+            <p>Adventure with friends online</p>
           </div>
         </div>
       </div>
@@ -279,6 +342,17 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           <p>&copy; 2024 Mythrill. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          className="scroll-to-top"
+          onClick={scrollToTop}
+          title="Back to top"
+        >
+          <i className="fas fa-chevron-up"></i>
+        </button>
+      )}
     </div>
   );
 };

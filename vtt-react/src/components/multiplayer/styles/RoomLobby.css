@@ -27,6 +27,34 @@
 .lobby-header {
   text-align: center;
   margin-bottom: 30px;
+  position: relative;
+}
+
+.back-to-landing-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(101, 67, 33, 0.9));
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  color: #f0e6d2;
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.back-to-landing-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 1));
+  border-color: #d4af37;
+  color: #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
 }
 
 .lobby-header h1 {
@@ -519,5 +547,12 @@
 
   .room-info {
     display: none;
+  }
+
+  .back-to-landing-btn {
+    position: static;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import './styles/RoomLobby.css';
 
-const RoomLobby = ({ onJoinRoom }) => {
+const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   const [socket, setSocket] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [roomName, setRoomName] = useState('');
@@ -124,6 +124,14 @@ const RoomLobby = ({ onJoinRoom }) => {
     <div className="room-lobby">
       <div className="lobby-container">
         <div className="lobby-header">
+          <button
+            className="back-to-landing-btn"
+            onClick={onReturnToLanding}
+            title="Return to main menu"
+          >
+            <i className="fas fa-arrow-left"></i>
+            Back to Main Menu
+          </button>
           <h1>Mythrill D&D</h1>
           <p>Join or create a multiplayer session</p>
         </div>

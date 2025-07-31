@@ -3,11 +3,13 @@
 .landing-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
-  background-image: 
+  background-image:
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
   font-family: 'Cinzel', serif;
   color: #f0e6d2;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 /* Header */
@@ -119,12 +121,34 @@
   margin-bottom: 80px;
 }
 
+.title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
 .hero-content h1 {
   font-size: 4rem;
   font-weight: 700;
   color: #d4af37;
-  margin-bottom: 16px;
+  margin-bottom: 0.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.title-ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #d4af37;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+}
+
+.ornament-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
 }
 
 .game-subtitle {
@@ -137,8 +161,46 @@
 .game-description {
   font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   opacity: 0.8;
+}
+
+.game-highlights {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.highlight-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 69, 19, 0.5);
+  border-radius: 8px;
+  min-width: 120px;
+  transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+.highlight-item i {
+  font-size: 1.5rem;
+  color: #d4af37;
+}
+
+.highlight-item span {
+  font-size: 0.9rem;
+  text-align: center;
+  font-weight: 500;
 }
 
 .action-buttons {
@@ -150,15 +212,34 @@
 .secondary-action-btn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 32px;
-  font-size: 1.1rem;
+  gap: 16px;
+  padding: 20px 32px;
   font-family: 'Cinzel', serif;
-  font-weight: 600;
   border: 2px solid;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.btn-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.btn-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: 400;
+  line-height: 1;
 }
 
 .primary-action-btn {
@@ -173,15 +254,27 @@
 }
 
 .secondary-action-btn {
-  background: transparent;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 0.95));
   border-color: #8b4513;
   color: #f0e6d2;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 .secondary-action-btn:hover {
-  background: rgba(139, 69, 19, 0.3);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 1), rgba(101, 67, 33, 1));
   border-color: #d4af37;
   color: #d4af37;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+}
+
+.secondary-action-btn .btn-subtitle {
+  color: rgba(240, 230, 210, 0.9);
+}
+
+.secondary-action-btn:hover .btn-subtitle {
+  color: rgba(212, 175, 55, 0.9);
 }
 
 .hero-image {
@@ -208,6 +301,71 @@
   font-size: 4rem;
 }
 
+/* Quick Start Section */
+.quick-start-section {
+  margin-bottom: 80px;
+}
+
+.quick-start-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #d4af37;
+  margin-bottom: 50px;
+}
+
+.quick-start-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.start-step {
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #8b4513;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.start-step:hover {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c1810;
+  margin: 0 auto 20px;
+  border: 3px solid #8b4513;
+}
+
+.start-step h3 {
+  font-size: 1.4rem;
+  color: #d4af37;
+  margin-bottom: 15px;
+}
+
+.start-step p {
+  color: #f0e6d2;
+  opacity: 0.9;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
 /* Features Grid */
 .features-preview h2 {
   text-align: center;
@@ -218,8 +376,10 @@
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .feature-card {
@@ -518,6 +678,30 @@
   opacity: 0.6;
 }
 
+/* Scroll to Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  border: 2px solid #8b4513;
+  border-radius: 50%;
+  color: #2c1810;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-to-top:hover {
+  background: linear-gradient(135deg, #f0c040, #d4af37);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section {
@@ -531,6 +715,37 @@
   
   .action-buttons {
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-highlights {
+    gap: 1rem;
+  }
+
+  .highlight-item {
+    min-width: 100px;
+    padding: 0.75rem;
+  }
+
+  .primary-action-btn,
+  .secondary-action-btn {
+    min-width: 250px;
+  }
+
+  .quick-start-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .start-step {
+    padding: 20px 15px;
+  }
+
+  .step-number {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
   }
   
   .header-content {

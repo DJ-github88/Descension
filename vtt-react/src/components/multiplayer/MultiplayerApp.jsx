@@ -220,7 +220,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // If not in a room, show the lobby
   if (!currentRoom) {
-    return <RoomLobby onJoinRoom={handleJoinRoom} />;
+    return <RoomLobby onJoinRoom={handleJoinRoom} onReturnToLanding={onReturnToSinglePlayer} />;
   }
 
   // Clean VTT interface with integrated multiplayer
@@ -241,8 +241,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <GMPlayerToggle />
       </div>
 
-      {/* Multiplayer indicator - minimal visual feedback */}
+      {/* Multiplayer indicator with back button */}
       <div className="multiplayer-indicator">
+        <button
+          className="leave-room-btn"
+          onClick={handleReturnToSinglePlayer}
+          title="Leave room and return to main menu"
+        >
+          <i className="fas fa-sign-out-alt"></i>
+          Leave Room
+        </button>
         <div className="room-info">
           <span className="room-name">{currentRoom.name}</span>
           <span className="player-count">{connectedPlayers.length + 1} players</span>
