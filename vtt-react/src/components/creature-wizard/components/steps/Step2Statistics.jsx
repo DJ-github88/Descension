@@ -3,7 +3,7 @@ import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } fr
 import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import '../../styles/WizardSteps.css';
 import './Step2Statistics.css';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 const Step2Statistics = () => {
   const wizardState = useCreatureWizard();
