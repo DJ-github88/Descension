@@ -70,6 +70,31 @@ export default function App() {
         initCreatureStore();
     }, []);
 
+    // Control body overflow based on game mode
+    useEffect(() => {
+        if (gameMode === 'single' || gameMode === 'multiplayer') {
+            // Prevent scrolling in game modes
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            document.body.style.height = '100%';
+        } else {
+            // Allow scrolling on landing page
+            document.body.style.overflow = 'auto';
+            document.body.style.position = 'static';
+            document.body.style.width = 'auto';
+            document.body.style.height = 'auto';
+        }
+
+        // Cleanup function to reset on unmount
+        return () => {
+            document.body.style.overflow = 'auto';
+            document.body.style.position = 'static';
+            document.body.style.width = 'auto';
+            document.body.style.height = 'auto';
+        };
+    }, [gameMode]);
+
     const handleEnterSinglePlayer = () => {
         setGameMode('single');
     };
