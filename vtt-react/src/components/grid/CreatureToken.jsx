@@ -123,6 +123,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Force re-render when token state changes for real-time updates
   const [forceUpdate, setForceUpdate] = useState(0);
 
+  // Get current game state for reactive updates
+  const gameState = useGameStore();
+  const { cameraX, cameraY, zoomLevel, playerZoom, gridSize, feetPerTile, showMovementVisualization, isGMMode } = gameState;
+  const effectiveZoom = zoomLevel * playerZoom;
+
   // Handle mouse move and up for dragging
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -271,11 +276,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     return unsubscribe;
   }, [tokenId]);
-
-  // Get current game state for reactive updates
-  const gameState = useGameStore();
-  const { cameraX, cameraY, zoomLevel, playerZoom, gridSize, feetPerTile, showMovementVisualization, isGMMode } = gameState;
-  const effectiveZoom = zoomLevel * playerZoom;
 
   // Convert world coordinates to screen coordinates for proper positioning
   const screenPosition = useMemo(() => {
