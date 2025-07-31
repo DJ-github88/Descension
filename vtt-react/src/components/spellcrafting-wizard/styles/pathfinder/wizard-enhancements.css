@@ -1594,6 +1594,7 @@
   position: fixed !important;
   z-index: 1000 !important;
   backdrop-filter: blur(4px) !important;
+  overflow: hidden !important;
 }
 
 .wow-nav-grid {
@@ -1604,6 +1605,7 @@
   padding: 4px 6px !important;
   cursor: move !important;
   gap: 2px !important;
+  overflow: hidden !important;
 }
 
 .wow-nav-button {

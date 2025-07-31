@@ -28,6 +28,12 @@ const SpellbookWindow = lazy(() =>
         return { default: () => <div>Error loading Spellbook</div> };
     })
 );
+const CampaignManagerWindow = lazy(() =>
+    import('./windows/CampaignManagerWindow').catch(err => {
+        console.error('Failed to load CampaignManagerWindow:', err);
+        return { default: () => <div>Error loading Campaign Manager</div> };
+    })
+);
 const QuestLogWindow = lazy(() =>
     import('./windows/QuestLogWindow').catch(err => {
         console.error('Failed to load QuestLogWindow:', err);
@@ -309,6 +315,17 @@ const NAVIGATION_BUTTONS = [
         svg: <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
     },
     {
+        id: 'campaign',
+        title: 'Campaign Manager',
+        shortcut: 'P',
+        svg: <>
+            <path d="M12 2l3.09 6.26L22 9l-5 4.87L18.18 22 12 18.77 5.82 22 7 13.87 2 9l6.91-.74L12 2z"/>
+            <path d="M8 14l2 2 4-4"/>
+            <circle cx="12" cy="8" r="2"/>
+        </>,
+        premium: true
+    },
+    {
         id: 'chat',
         title: 'Chat',
         shortcut: 'H',
@@ -465,7 +482,8 @@ export default function Navigation({ onReturnToLanding }) {
             const playerRestrictedButtons = [
                 'leveleditor',    // Level Editor
                 'creatures',      // Creature Library
-                'maplibrary'      // Map Library
+                'maplibrary',     // Map Library
+                'campaign'        // Campaign Manager (Premium GM Feature)
                 // Note: settings is now allowed in player mode
             ];
 
@@ -686,6 +704,18 @@ export default function Navigation({ onReturnToLanding }) {
                         </Suspense>
                     </ErrorBoundary>
                 );
+            case 'campaign':
+                return openWindows.has(button.id) && (
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <CampaignManagerWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
+                );
             case 'chat':
                 return openWindows.has(button.id) && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
@@ -823,8 +853,8 @@ export default function Navigation({ onReturnToLanding }) {
                                         <button
                                             key={button.id}
                                             onClick={() => handleButtonClick(button.id)}
-                                            className={`wow-nav-button ${isActive ? 'active' : ''}`}
-                                            title={`${button.title} (${button.shortcut})`}
+                                            className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
+                                            title={`${button.title} (${button.shortcut})${button.premium ? ' - Premium Feature' : ''}`}
                                         >
                                         <svg
                                             viewBox="0 0 24 24"
