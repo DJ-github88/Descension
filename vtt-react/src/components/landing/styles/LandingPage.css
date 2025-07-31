@@ -1,7 +1,28 @@
 /* Mythrill Landing Page - Pathfinder Theme */
 
+/* Custom Scrollbar */
+.landing-page::-webkit-scrollbar {
+  width: 12px;
+}
+
+.landing-page::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+}
+
+.landing-page::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  border-radius: 6px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.landing-page::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #e6c547, #c9a429);
+}
+
 .landing-page {
   min-height: 100vh;
+  height: auto;
   background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
   background-image:
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
@@ -9,7 +30,9 @@
   font-family: 'Cinzel', serif;
   color: #f0e6d2;
   overflow-x: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
+  line-height: 1.6;
 }
 
 /* Header */
@@ -119,6 +142,8 @@
   gap: 60px;
   align-items: center;
   margin-bottom: 80px;
+  min-height: 70vh;
+  max-height: 85vh;
 }
 
 .title-section {
@@ -155,14 +180,20 @@
   font-size: 1.5rem;
   color: #f0e6d2;
   margin-bottom: 24px;
-  opacity: 0.9;
+  opacity: 0.95;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-weight: 500;
 }
 
 .game-description {
   font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 30px;
-  opacity: 0.8;
+  color: #f0e6d2;
+  margin-bottom: 32px;
+  max-width: 500px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  font-weight: 400;
+  opacity: 0.95;
 }
 
 .game-highlights {
@@ -383,12 +414,13 @@
 }
 
 .feature-card {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
   border: 2px solid #8b4513;
   border-radius: 12px;
   padding: 30px;
   text-align: center;
   transition: all 0.3s ease;
+  color: #f0e6d2;
 }
 
 .feature-card:hover {
@@ -433,10 +465,11 @@
 
 .info-card,
 .account-card {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
   border: 2px solid #8b4513;
   border-radius: 12px;
   padding: 30px;
+  color: #f0e6d2;
 }
 
 .info-card h3,
@@ -455,6 +488,8 @@
 .info-card li {
   padding: 8px 0;
   border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+  color: #f0e6d2;
+  font-weight: 500;
 }
 
 .info-card li:before {
@@ -482,13 +517,14 @@
 }
 
 .pricing-card {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
   border: 2px solid #8b4513;
   border-radius: 12px;
   padding: 30px;
   text-align: center;
   position: relative;
   transition: all 0.3s ease;
+  color: #f0e6d2;
 }
 
 .pricing-card.premium {
@@ -537,6 +573,8 @@
 .pricing-card li {
   padding: 8px 0;
   border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+  color: #f0e6d2;
+  font-weight: 500;
 }
 
 .pricing-btn {
@@ -634,6 +672,39 @@
   background: rgba(139, 69, 19, 0.1);
   border-radius: 6px;
   border-left: 4px solid #d4af37;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.character-creation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.create-character-btn {
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  border: none;
+  color: #1a0f08;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  margin-top: 1rem;
+}
+
+.create-character-btn:hover {
+  background: linear-gradient(135deg, #e6c547, #c9a429);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 /* Footer */

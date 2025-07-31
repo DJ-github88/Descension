@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import CharacterCreation from '../character-creation/CharacterCreation';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showCharacterCreation, setShowCharacterCreation] = useState(false);
 
   // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
@@ -17,6 +19,16 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCharacterCreationComplete = (characterData) => {
+    console.log('Character created:', characterData);
+    setShowCharacterCreation(false);
+    // Here you would typically save the character data or navigate to the game
+  };
+
+  const handleCharacterCreationCancel = () => {
+    setShowCharacterCreation(false);
   };
 
   const renderHomeSection = () => (
@@ -58,22 +70,22 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           <div className="action-buttons">
             <button
               className="primary-action-btn"
-              onClick={onEnterSinglePlayer}
-            >
-              <i className="fas fa-user"></i>
-              <span className="btn-text">
-                <span className="btn-title">Single Player</span>
-                <span className="btn-subtitle">Start your solo adventure</span>
-              </span>
-            </button>
-            <button
-              className="secondary-action-btn"
               onClick={onEnterMultiplayer}
             >
               <i className="fas fa-users"></i>
               <span className="btn-text">
-                <span className="btn-title">Multiplayer</span>
-                <span className="btn-subtitle">Join friends online</span>
+                <span className="btn-title">Play Online</span>
+                <span className="btn-subtitle">Adventure with friends</span>
+              </span>
+            </button>
+            <button
+              className="secondary-action-btn"
+              onClick={onEnterSinglePlayer}
+            >
+              <i className="fas fa-hammer"></i>
+              <span className="btn-text">
+                <span className="btn-title">World Builder</span>
+                <span className="btn-subtitle">Create maps & creatures</span>
               </span>
             </button>
           </div>
@@ -93,18 +105,18 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
         <div className="quick-start-grid">
           <div className="start-step">
             <div className="step-number">1</div>
-            <h3>Choose Your Mode</h3>
-            <p>Start with Single Player to learn the basics, or jump into Multiplayer to adventure with friends</p>
+            <h3>Create Your Character</h3>
+            <p>Choose from 27 unique classes and customize your hero's abilities - completely free!</p>
           </div>
           <div className="start-step">
             <div className="step-number">2</div>
-            <h3>Create Your Character</h3>
-            <p>Choose from 27 unique classes and customize your hero's abilities</p>
+            <h3>Join or Create a Room</h3>
+            <p>Play with up to 2 friends for free, or upgrade for larger parties</p>
           </div>
           <div className="start-step">
             <div className="step-number">3</div>
-            <h3>Begin Your Adventure</h3>
-            <p>Explore, craft spells, and engage in epic battles</p>
+            <h3>Adventure Together</h3>
+            <p>Explore worlds, craft spells, and engage in epic multiplayer battles</p>
           </div>
         </div>
       </div>
@@ -174,39 +186,40 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
         <h2>Membership & Pricing</h2>
         <div className="pricing-grid">
           <div className="pricing-card free">
-            <h3>Free Adventurer</h3>
-            <div className="price">$0<span>/month</span></div>
+            <h3>Base Edition</h3>
+            <div className="price">Free<span>/forever</span></div>
             <ul>
-              <li>Single-player mode</li>
-              <li>Basic character creation</li>
-              <li>Limited spell library</li>
-              <li>Community forums access</li>
+              <li>✓ Full character creation (27 classes)</li>
+              <li>✓ World Builder mode</li>
+              <li>✓ 2-player multiplayer rooms</li>
+              <li>✓ Complete spell crafting system</li>
+              <li>✓ Basic VTT features</li>
             </ul>
             <button className="pricing-btn">Current Plan</button>
           </div>
-          
+
           <div className="pricing-card premium">
-            <h3>Premium Hero</h3>
-            <div className="price">$9.99<span>/month</span></div>
+            <h3>Party Edition</h3>
+            <div className="price">Coming Soon</div>
             <ul>
-              <li>Full multiplayer access</li>
-              <li>Advanced character options</li>
-              <li>Complete spell library</li>
-              <li>Custom character portraits</li>
-              <li>Priority support</li>
+              <li>✓ Everything in Base Edition</li>
+              <li>✓ Up to 6-player multiplayer rooms</li>
+              <li>✓ Advanced GM tools</li>
+              <li>✓ Custom content sharing</li>
+              <li>✓ Enhanced VTT features</li>
             </ul>
             <button className="pricing-btn">Coming Soon</button>
           </div>
-          
+
           <div className="pricing-card legendary">
-            <h3>Legendary Master</h3>
-            <div className="price">$19.99<span>/month</span></div>
+            <h3>Guild Edition</h3>
+            <div className="price">Coming Soon</div>
             <ul>
-              <li>Everything in Premium</li>
-              <li>GM tools & campaign management</li>
-              <li>Custom content creation</li>
-              <li>Early access to new features</li>
-              <li>Direct developer feedback</li>
+              <li>✓ Everything in Party Edition</li>
+              <li>✓ Unlimited player rooms</li>
+              <li>✓ Campaign management tools</li>
+              <li>✓ Priority support & feedback</li>
+              <li>✓ Early access to new features</li>
             </ul>
             <button className="pricing-btn">Coming Soon</button>
           </div>
@@ -234,18 +247,24 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           <div className="account-card">
             <h3>Character Creation</h3>
             <p>Build your perfect character with our comprehensive creation system.</p>
-            <div className="placeholder-content">
+            <div className="character-creation-content">
               <div className="character-preview">
                 <div className="char-portrait-placeholder">
                   <i className="fas fa-user-circle"></i>
                 </div>
-                <p><em>Advanced character creator in development...</em></p>
                 <ul>
-                  <li>Visual character builder</li>
-                  <li>Background & personality tools</li>
-                  <li>Equipment customization</li>
-                  <li>Character art integration</li>
+                  <li>27 unique character classes</li>
+                  <li>10 races with multiple subraces</li>
+                  <li>Pathfinder-inspired styling</li>
+                  <li>WoW-style class selection</li>
                 </ul>
+                <button
+                  className="create-character-btn"
+                  onClick={() => setShowCharacterCreation(true)}
+                >
+                  <i className="fas fa-plus"></i>
+                  Create New Character
+                </button>
               </div>
             </div>
           </div>
@@ -256,10 +275,10 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
             <div className="placeholder-content">
               <p><em>Character management system coming soon...</em></p>
               <div className="char-list-placeholder">
-                <div className="char-item">📜 Character saves & backups</div>
-                <div className="char-item">🎭 Multiple character slots</div>
-                <div className="char-item">📊 Character statistics</div>
-                <div className="char-item">🏆 Achievement tracking</div>
+                <div className="char-item"><i className="fas fa-scroll"></i> Character saves & backups</div>
+                <div className="char-item"><i className="fas fa-theater-masks"></i> Multiple character slots</div>
+                <div className="char-item"><i className="fas fa-chart-bar"></i> Character statistics</div>
+                <div className="char-item"><i className="fas fa-trophy"></i> Achievement tracking</div>
               </div>
             </div>
           </div>
@@ -352,6 +371,14 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
         >
           <i className="fas fa-chevron-up"></i>
         </button>
+      )}
+
+      {/* Character Creation Modal */}
+      {showCharacterCreation && (
+        <CharacterCreation
+          onComplete={handleCharacterCreationComplete}
+          onCancel={handleCharacterCreationCancel}
+        />
       )}
     </div>
   );
