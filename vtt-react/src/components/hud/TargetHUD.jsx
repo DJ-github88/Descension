@@ -39,15 +39,110 @@ const TargetHUD = () => {
     // Force re-render when tokens change for creature targets - use reactive subscription
     const tokens = useCreatureStore(state => state.tokens);
 
-    // Don't render if no target
-    if (!currentTarget) {
-        return null;
-    }
+    // Real-time updates for condition timers
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(Date.now());
+        }, 1000); // Update every second
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // Watch for store changes using direct store access
+    useEffect(() => {
+        // Force update when target changes or when we need to refresh
+        setForceUpdate(prev => prev + 1);
+    }, [currentTarget, refreshKey]);
+
+    // Watch for token changes specifically for creature targets
+    useEffect(() => {
+        if (targetType === 'creature' && currentTarget?.id) {
+            const targetToken = tokens.find(t => t.creatureId === currentTarget.id);
+            // Always force refresh when tokens array changes for creature targets
+            setForceUpdate(prev => prev + 1);
+        }
+    }, [tokens, targetType, currentTarget?.id]);
+
+    // Subscribe to store changes for immediate updates
+    useEffect(() => {
+        const unsubscribers = [];
+
+        // Subscribe to party store changes for party member targets
+        if (targetType === 'party_member') {
+            const unsubscribeParty = usePartyStore.subscribe(
+                (state) => state.partyMembers,
+                (partyMembers) => {
+                    // Check if our target is in the updated party members
+                    const updatedMember = partyMembers.find(m => m.id === currentTarget?.id);
+                    if (updatedMember) {
+                        setForceUpdate(prev => prev + 1);
+                    }
+                }
+            );
+            unsubscribers.push(unsubscribeParty);
+        }
+
+        // Subscribe to character store changes for current player target
+        if (targetType === 'player' || (targetType === 'party_member' && currentTarget?.id === 'current-player')) {
+            const unsubscribeCharacter = useCharacterStore.subscribe(
+                (state) => state,
+                () => {
+                    setForceUpdate(prev => prev + 1);
+                }
+            );
+            unsubscribers.push(unsubscribeCharacter);
+        }
+
+        // Subscribe to creature store changes for creature targets
+        if (targetType === 'creature') {
+            const unsubscribeCreature = useCreatureStore.subscribe(
+                (state) => state.tokens,
+                (tokens) => {
+                    // Check if our target token was updated
+                    const targetToken = tokens.find(t => t.creatureId === currentTarget?.id);
+                    if (targetToken) {
+                        setForceUpdate(prev => prev + 1);
+                    }
+                }
+            );
+            unsubscribers.push(unsubscribeCreature);
+        }
+
+        return () => {
+            unsubscribers.forEach(unsubscribe => unsubscribe());
+        };
+    }, [targetType, currentTarget?.id]);
+
+    // Close context menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Check if the click is inside any context menu
+            const isInsideContextMenu = event.target.closest('.party-context-menu') ||
+                                      event.target.closest('.buff-context-menu') ||
+                                      event.target.closest('.debuff-context-menu');
+
+            if (!isInsideContextMenu) {
+                if (showContextMenu) {
+                    setShowContextMenu(false);
+                }
+                if (conditionContextMenu.show) {
+                    setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } });
+                }
+            }
+        };
+
+        if (showContextMenu || conditionContextMenu.show) {
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [showContextMenu, conditionContextMenu.show]);
 
     // Get target data based on type - memoized to ensure reactivity
     const targetData = useMemo(() => {
         // This function will re-run when dependencies change
         const _ = forceUpdate; // Keep forceUpdate dependency for timer-based updates
+        if (!currentTarget) return null;
+
         if (targetType === 'party_member' || targetType === 'player') {
             // For party members, get fresh data from stores instead of cached data
             if (currentTarget.id === 'current-player') {
@@ -160,6 +255,11 @@ const TargetHUD = () => {
         }
         return null;
     }, [targetType, currentTarget, tokens, forceUpdate, refreshKey]);
+
+    // Don't render if no target
+    if (!currentTarget) {
+        return null;
+    }
 
     if (!targetData) return null;
 
@@ -572,124 +672,9 @@ const TargetHUD = () => {
         setDurationModalCondition(null);
     };
 
-    // Real-time updates for condition timers
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentTime(Date.now());
-        }, 1000); // Update every second
 
-        return () => clearInterval(interval);
-    }, []);
 
-    // Watch for store changes using direct store access
-    useEffect(() => {
-        // Force update when target changes or when we need to refresh
-        setForceUpdate(prev => prev + 1);
-    }, [currentTarget, refreshKey]);
 
-    // Watch for token changes specifically for creature targets
-    useEffect(() => {
-        if (targetType === 'creature' && currentTarget?.id) {
-            const targetToken = tokens.find(t => t.creatureId === currentTarget.id);
-            // Always force refresh when tokens array changes for creature targets
-            setForceUpdate(prev => prev + 1);
-        }
-    }, [tokens, targetType, currentTarget?.id]);
-
-    // Subscribe to store changes for immediate updates
-    useEffect(() => {
-        const unsubscribers = [];
-
-        // Subscribe to party store changes for party member targets
-        if (targetType === 'party_member') {
-            const unsubscribeParty = usePartyStore.subscribe(
-                (state) => state.partyMembers,
-                (partyMembers) => {
-                    // Check if our target is in the updated party members
-                    const updatedMember = partyMembers.find(m => m.id === currentTarget?.id);
-                    if (updatedMember) {
-                        setForceUpdate(prev => prev + 1);
-                    }
-                }
-            );
-            unsubscribers.push(unsubscribeParty);
-
-            // Also subscribe to character store if targeting current player
-            if (currentTarget?.id === 'current-player') {
-                const unsubscribeCharacter = useCharacterStore.subscribe(
-                    (state) => ({
-                        health: state.health,
-                        mana: state.mana,
-                        actionPoints: state.actionPoints,
-                        class: state.class,
-                        classResource: state.classResource
-                    }),
-                    (resources) => {
-                        setForceUpdate(prev => prev + 1);
-                    }
-                );
-                unsubscribers.push(unsubscribeCharacter);
-            }
-        }
-
-        // Subscribe to creature store changes for creature targets
-        if (targetType === 'creature') {
-
-            // Subscribe to the entire store state to catch all changes
-            const unsubscribeCreature = useCreatureStore.subscribe(
-                (state) => {
-                    // Find the specific token for our target
-                    const targetToken = state.tokens.find(t => t.creatureId === currentTarget?.id);
-                    return targetToken ? targetToken.state : null;
-                },
-                (tokenState) => {
-                    if (tokenState) {
-                        // Force immediate refresh when our specific token's state changes
-                        setForceUpdate(prev => prev + 1);
-                        setRefreshKey(prev => prev + 1);
-                    }
-                }
-            );
-            unsubscribers.push(unsubscribeCreature);
-
-            // Also subscribe to the tokens array for general changes
-            const unsubscribeTokens = useCreatureStore.subscribe(
-                (state) => state.tokens,
-                (tokens) => {
-                    setForceUpdate(prev => prev + 1);
-                }
-            );
-            unsubscribers.push(unsubscribeTokens);
-        }
-
-        return () => {
-            unsubscribers.forEach(unsubscribe => unsubscribe());
-        };
-    }, [targetType, currentTarget?.id]);
-
-    // Close context menu when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            // Check if the click is inside any context menu
-            const isInsideContextMenu = event.target.closest('.party-context-menu') ||
-                                      event.target.closest('.buff-context-menu') ||
-                                      event.target.closest('.debuff-context-menu');
-
-            if (!isInsideContextMenu) {
-                if (showContextMenu) {
-                    setShowContextMenu(false);
-                }
-                if (conditionContextMenu.show) {
-                    setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } });
-                }
-            }
-        };
-
-        if (showContextMenu || conditionContextMenu.show) {
-            document.addEventListener('mousedown', handleClickOutside);
-            return () => document.removeEventListener('mousedown', handleClickOutside);
-        }
-    }, [showContextMenu, conditionContextMenu.show]);
 
 
 
