@@ -1,0 +1,148 @@
+/* Creature Filters Styles */
+.creature-filters {
+  padding: 1rem;
+  color: #ffffff;
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+}
+
+.filter-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffd100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-filters-button {
+  background: none;
+  border: none;
+  color: #aaaaaa;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-button:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.filter-subtitle {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #cccccc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.25rem;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-option input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.filter-option-label {
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.filter-range {
+  padding: 0 0.5rem;
+}
+
+.range-inputs {
+  position: relative;
+  height: 30px;
+  margin-bottom: 0.5rem;
+}
+
+.range-slider {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  outline: none;
+  -webkit-appearance: none;
+  pointer-events: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffd100;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffd100;
+  cursor: pointer;
+  pointer-events: auto;
+  border: none;
+}
+
+.min-range {
+  z-index: 1;
+}
+
+.max-range {
+  z-index: 2;
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #cccccc;
+}
+
+.range-values span:nth-child(2) {
+  margin: 0 0.5rem;
+}
+
+.sort-select {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #ffd100;
+}
+
+.sort-select option {
+  background-color: #1e2024;
+  color: #ffffff;
+}

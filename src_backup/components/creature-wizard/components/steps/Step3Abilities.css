@@ -1,0 +1,551 @@
+/* Abilities Step Styling */
+.abilities-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.abilities-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.ability-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding: 10px 0;
+}
+
+.add-from-spell-library-btn {
+  background: linear-gradient(to bottom, #2196F3, #0b7dda);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin: 20px auto;
+  width: fit-content;
+  min-width: 280px;
+  justify-content: center;
+}
+
+.add-from-spell-library-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0.5;
+}
+
+.add-from-spell-library-btn:hover {
+  background: linear-gradient(to bottom, #2196F3, #1976D2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.add-from-spell-library-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.add-from-spell-library-btn i {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.abilities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ability-item {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.ability-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #4CAF50, #8BC34A);
+  opacity: 0.7;
+}
+
+.ability-item:hover {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.25));
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ability-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.ability-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.ability-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.ability-action-button {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cccccc;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.ability-action-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.ability-action-button.edit:hover {
+  color: #4CAF50;
+  border-color: rgba(76, 175, 80, 0.5);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+.ability-action-button.delete:hover {
+  color: #F44336;
+  border-color: rgba(244, 67, 54, 0.5);
+  box-shadow: 0 0 8px rgba(244, 67, 54, 0.3);
+}
+
+.ability-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.ability-type {
+  background: linear-gradient(to bottom, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.2));
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #4CAF50;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+}
+
+.ability-type::before {
+  content: '•';
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.ability-damage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(to bottom, rgba(244, 67, 54, 0.2), rgba(244, 67, 54, 0.1));
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.damage-value {
+  color: #F44336;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.damage-type {
+  color: #dddddd;
+  font-size: 13px;
+}
+
+.ability-cost,
+.ability-cooldown,
+.ability-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cost-label,
+.cooldown-label,
+.range-label {
+  color: #aaaaaa;
+  font-size: 13px;
+}
+
+.cost-value,
+.cooldown-value,
+.range-value {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.ability-description {
+  margin-bottom: 15px;
+  color: #dddddd;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 15px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: 8px;
+  border-left: 4px solid rgba(76, 175, 80, 0.6);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.3px;
+}
+
+/* Spell Library Integration */
+.spell-library-container {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.spell-library-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #2196F3, #03A9F4);
+  border-radius: 3px 3px 0 0;
+}
+
+.spell-library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+}
+
+.spell-library-header h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2196F3;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.close-selector-button {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cccccc;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-selector-button:hover {
+  background: rgba(244, 67, 54, 0.2);
+  color: #F44336;
+  border-color: rgba(244, 67, 54, 0.3);
+  transform: rotate(90deg);
+}
+
+.spell-search {
+  margin-bottom: 20px;
+}
+
+.spell-search input {
+  width: 100%;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 16px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.spell-search input:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 10px rgba(33, 150, 243, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.spell-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 15px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: 8px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(33, 150, 243, 0.5) rgba(0, 0, 0, 0.3);
+}
+
+.spell-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.spell-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.spell-grid::-webkit-scrollbar-thumb {
+  background: rgba(33, 150, 243, 0.5);
+  border-radius: 4px;
+}
+
+.spell-card {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.spell-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #2196F3, #03A9F4);
+  opacity: 0.7;
+}
+
+.spell-card:hover {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.35));
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border-color: rgba(33, 150, 243, 0.3);
+}
+
+.spell-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.spell-card-header h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.spell-type {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: linear-gradient(to bottom, rgba(33, 150, 243, 0.3), rgba(33, 150, 243, 0.2));
+  color: #2196F3;
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(33, 150, 243, 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.spell-card-content p {
+  margin: 0;
+  font-size: 15px;
+  color: #dddddd;
+  line-height: 1.6;
+  max-height: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading indicator */
+.loading-library {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 18px;
+  color: #2196F3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Ability effects styling */
+.ability-effects {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.ability-effects h5 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: #4CAF50;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.effects-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.effect-item {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #dddddd;
+  border-left: 3px solid #4CAF50;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.effect-item:last-child {
+  margin-bottom: 0;
+}
+
+.effect-item strong {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+/* No abilities message */
+.no-abilities {
+  text-align: center;
+  padding: 40px 30px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+  border-radius: 10px;
+  border: 1px dashed rgba(33, 150, 243, 0.4);
+  color: #bbb;
+  font-size: 16px;
+  margin: 20px 0;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.no-abilities::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(33, 150, 243, 0.6), transparent);
+}
+
+.no-abilities-icon {
+  font-size: 48px;
+  color: rgba(33, 150, 243, 0.4);
+  margin-bottom: 20px;
+}
+
+.no-abilities p {
+  margin: 0;
+  line-height: 1.6;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}

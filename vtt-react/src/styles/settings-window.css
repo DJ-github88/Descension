@@ -1,0 +1,949 @@
+/* Modern D&D/Pathfinder Themed Settings Window */
+
+/* Legacy styles for backward compatibility */
+.wow-settings {
+    padding: 20px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    max-height: 100%;
+    overflow-y: auto;
+    background-color: #f0e6d2; /* Parchment background */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d5cbb0' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* Modern Settings Layout */
+.modern-settings {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #3a3a3a;
+}
+
+/* Tab Navigation */
+.settings-tabs {
+    display: flex;
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
+    border-bottom: 2px solid #a08c70;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.settings-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 8px;
+    background: none;
+    border: none;
+    color: #f0e6d2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(160, 140, 112, 0.3);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.settings-tab:last-child {
+    border-right: none;
+}
+
+.settings-tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.settings-tab.active {
+    background: linear-gradient(to bottom, #a08c70, #8a7660);
+    color: #fff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tab-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.tab-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Tab Content */
+.settings-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+
+    /* Optimize scrolling performance */
+    will-change: scroll-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto !important;
+    contain: layout style paint;
+}
+
+.settings-tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Settings Cards */
+.settings-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #a08c70;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.settings-card-header {
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+    color: #f0e6d2;
+    padding: 16px 20px;
+    border-bottom: 2px solid #a08c70;
+}
+
+.settings-card-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-card-header p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.settings-card-body {
+    padding: 20px;
+}
+
+/* Control Groups */
+.control-group {
+    margin-bottom: 24px;
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+.control-label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3a3a3a;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.control-value {
+    font-weight: 700;
+    color: #7a3b2e;
+    background: rgba(122, 59, 46, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Control Rows */
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.control-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+/* Control Elements */
+.control-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 8px;
+    background: linear-gradient(to right, #d5cbb0, #a08c70);
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #a08c70;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.control-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    border: 2px solid #f0e6d2;
+}
+
+.control-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #f0e6d2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.control-button {
+    padding: 10px 20px;
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-transform: none;
+    min-width: 80px;
+}
+
+.control-button.primary {
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+    color: #f0e6d2;
+    border-color: #5e2e23;
+}
+
+.control-button.primary:hover {
+    background: linear-gradient(135deg, #8a4b3e, #6e3e33);
+    box-shadow: 0 4px 12px rgba(122, 59, 46, 0.3);
+    transform: translateY(-1px);
+}
+
+.control-button.secondary {
+    background: linear-gradient(135deg, #a08c70, #8a7660);
+    color: #f0e6d2;
+    border-color: #8a7660;
+}
+
+.control-button.secondary:hover {
+    background: linear-gradient(135deg, #b09c80, #9a8670);
+    box-shadow: 0 4px 12px rgba(160, 140, 112, 0.3);
+    transform: translateY(-1px);
+}
+
+.control-button.small {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 60px;
+}
+
+.control-button.danger {
+    background: linear-gradient(135deg, #c74545, #a03636);
+    color: #fff;
+    border-color: #a03636;
+}
+
+.control-button.danger:hover {
+    background: linear-gradient(135deg, #d75555, #b04646);
+    box-shadow: 0 4px 12px rgba(199, 69, 69, 0.3);
+}
+
+.control-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.control-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.control-input:focus {
+    outline: none;
+    border-color: #7a3b2e;
+    box-shadow: 0 0 0 3px rgba(122, 59, 46, 0.2);
+}
+
+.control-file {
+    padding: 10px;
+    border: 2px dashed #a08c70;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.control-file:hover {
+    border-color: #7a3b2e;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.control-color {
+    width: 50px;
+    height: 40px;
+    border: 2px solid #a08c70;
+    border-radius: 6px;
+    cursor: pointer;
+    background: none;
+}
+
+.control-message {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 12px;
+    font-weight: 500;
+}
+
+.control-message.error {
+    background: rgba(199, 69, 69, 0.1);
+    border: 2px solid #c74545;
+    color: #c74545;
+}
+
+.control-message.success {
+    background: rgba(74, 147, 74, 0.1);
+    border: 2px solid #4a934a;
+    color: #4a934a;
+}
+
+/* Window Scale Preview Styles */
+.control-preview {
+    margin-left: 12px;
+    font-weight: 600;
+    color: #7a3b2e;
+    animation: fadeInScale 0.3s ease-out;
+}
+
+.control-value.preview {
+    background: rgba(122, 59, 46, 0.2);
+    color: #7a3b2e;
+    border: 1px solid #7a3b2e;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Button Animations */
+.control-button.pulse {
+    animation: buttonPulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 0 0 rgba(122, 59, 46, 0.7);
+}
+
+.control-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(122, 59, 46, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(122, 59, 46, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(122, 59, 46, 0);
+    }
+}
+
+/* Grid Preview */
+.grid-preview-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.preview-instructions {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.grid-preview {
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    cursor: grab;
+    transition: all 0.3s ease;
+}
+
+.grid-preview.dragging {
+    cursor: grabbing;
+    border-color: #7a3b2e;
+    box-shadow: 0 0 12px rgba(122, 59, 46, 0.4);
+}
+
+.grid-position-info {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Background Management */
+.background-list {
+    margin-top: 20px;
+}
+
+.background-list h4 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    color: #3a3a3a;
+    border-bottom: 1px solid #a08c70;
+    padding-bottom: 8px;
+}
+
+.background-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #d5cbb0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.background-item:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: #a08c70;
+}
+
+.background-item.active {
+    background: rgba(122, 59, 46, 0.1);
+    border-color: #7a3b2e;
+    border-width: 2px;
+}
+
+.background-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.background-name {
+    font-weight: 600;
+    color: #3a3a3a;
+}
+
+.background-layer {
+    font-size: 12px;
+    color: #666;
+}
+
+.background-controls {
+    display: flex;
+    gap: 8px;
+}
+
+/* Background Alignment Controls */
+.background-alignment {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(122, 59, 46, 0.05);
+    border: 1px solid rgba(122, 59, 46, 0.2);
+    border-radius: 6px;
+}
+
+.control-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.control-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #7a3b2e;
+    border: 2px solid #a08c70;
+    border-radius: 3px;
+}
+
+.checkbox-label {
+    font-size: 14px;
+    color: #3a3a3a;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.alignment-description {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    margin-left: 26px;
+    line-height: 1.3;
+}
+
+/* Grid Alignment Modal */
+.grid-alignment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-alignment-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.grid-alignment-content {
+    position: relative;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 3px solid #a08c70;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.grid-alignment-header {
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+    color: #f0e6d2;
+    padding: 20px;
+    border-bottom: 2px solid #a08c70;
+    position: relative;
+}
+
+.grid-alignment-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.grid-alignment-header p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #f0e6d2;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.grid-alignment-body {
+    padding: 20px;
+}
+
+.alignment-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.alignment-preview-section {
+    margin-bottom: 20px;
+}
+
+.alignment-preview {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.alignment-preview:hover {
+    border-color: #7a3b2e;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.alignment-preview.dragging {
+    cursor: grabbing;
+    border-color: #7a3b2e;
+    box-shadow: 0 6px 20px rgba(122, 59, 46, 0.3);
+}
+
+.alignment-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid #a08c70;
+}
+
+.wow-settings-section {
+    margin-bottom: 24px;
+    background-color: rgba(213, 203, 176, 0.3);
+    border: 1px solid #d5cbb0;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.wow-settings-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #7a3b2e; /* Rustic red */
+    margin: 0 0 12px 0;
+    border-bottom: 1px solid rgba(122, 59, 46, 0.3);
+    padding-bottom: 8px;
+}
+
+.wow-settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wow-settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wow-settings-label {
+    font-size: 14px;
+    color: #3a3a3a;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.wow-file-input {
+    background: #fff;
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    padding: 8px;
+    color: #3a3a3a;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.wow-text-input {
+    background: #fff;
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    padding: 8px 12px;
+    color: #3a3a3a;
+    font-size: 14px;
+    flex: 1;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.wow-text-input:focus {
+    outline: none;
+    border-color: #7a3b2e; /* Rustic red */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(122, 59, 46, 0.2);
+}
+
+.wow-range-input {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(213, 203, 176, 0.5);
+    border-radius: 3px;
+    outline: none;
+    margin: 10px 0;
+    border: 1px solid #a08c70;
+}
+
+.wow-range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #7a3b2e; /* Rustic red */
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.wow-range-input::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #7a3b2e; /* Rustic red */
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.wow-range-value {
+    font-size: 14px;
+    color: #3a3a3a;
+    margin-left: 8px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.wow-button {
+    background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    color: #f0e6d2; /* Parchment color */
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.wow-button:hover {
+    background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
+    border-color: #3a3a3a;
+    color: #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.wow-button:active {
+    transform: translateY(1px);
+}
+
+.wow-settings-url-input {
+    display: flex;
+    gap: 8px;
+}
+
+.wow-settings-url-input .wow-text-input {
+    flex: 1;
+}
+
+.wow-settings-message {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 8px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.wow-settings-message.error {
+    background: rgba(160, 90, 70, 0.2);
+    border: 1px solid #a05a46;
+    color: #a05a46;
+}
+
+.wow-settings-message.success {
+    background: rgba(74, 147, 74, 0.2);
+    border: 1px solid #4a934a;
+    color: #4a934a;
+}
+
+.wow-settings-preview {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.wow-grid-preview-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.wow-grid-preview-instructions {
+    font-size: 14px;
+    color: #3a3a3a;
+    opacity: 0.8;
+    margin-bottom: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.wow-grid-preview {
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: grab;
+}
+
+.wow-grid-preview.dragging {
+    cursor: grabbing;
+    border-color: #7a3b2e;
+    box-shadow: 0 0 8px rgba(122, 59, 46, 0.3);
+}
+
+.wow-settings-grid-position {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.wow-settings-grid-coordinates {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.wow-color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.wow-color-picker {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: none;
+}
+
+.wow-color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.wow-color-picker::-webkit-color-swatch {
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.wow-color-value {
+    font-size: 14px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.wow-settings-note {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    margin-top: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.reset-button {
+    background: linear-gradient(to bottom, #a05a46, #8a4a36);
+    border-color: #3a3a3a;
+}
+
+.reset-button:hover {
+    background: linear-gradient(to bottom, #b06a56, #a05a46);
+}
+
+.wow-settings-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.short-rest-button {
+    background: linear-gradient(to bottom, #4a934a, #3a7a3a);
+    border-color: #3a3a3a;
+}
+
+.short-rest-button:hover {
+    background: linear-gradient(to bottom, #5aa35a, #4a934a);
+}
+
+.long-rest-button {
+    background: linear-gradient(to bottom, #4a934a, #3a7a3a);
+    border-color: #3a3a3a;
+}
+
+.long-rest-button:hover {
+    background: linear-gradient(to bottom, #5aa35a, #4a934a);
+}
+
+.apply-button {
+    background: linear-gradient(to bottom, #c9a83f, #b09030);
+    border-color: #3a3a3a;
+}
+
+.apply-button:hover {
+    background: linear-gradient(to bottom, #d9b84f, #c9a83f);
+}

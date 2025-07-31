@@ -2,10 +2,14 @@
   "name": "vtt-react",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
+<<<<<<< HEAD
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
+=======
+>>>>>>> Spell
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@upstash/context7-mcp": "github:upstash/context7",
@@ -29,6 +33,7 @@
     "zustand": "^4.5.6"
   },
   "scripts": {
+<<<<<<< HEAD
     "start": "start-port-3000.bat",
     "start-original": "react-scripts start",
     "start-legacy": "start-legacy.bat",
@@ -37,6 +42,13 @@
     "build-original": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+=======
+    "start": "cd vtt-react && npm start",
+    "start-legacy": "cd vtt-react && npm run start-legacy",
+    "build": "cd vtt-react && npm run build",
+    "test": "cd vtt-react && npm test",
+    "eject": "cd vtt-react && npm run eject"
+>>>>>>> Spell
   },
   "eslintConfig": {
     "extends": [
@@ -85,6 +97,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/preset-react": "^7.26.3",
     "@nodelib/fs.scandir": "^4.0.1",
+<<<<<<< HEAD
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
     "eslint": "^8.57.1",
@@ -93,5 +106,9 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
     "vm-browserify": "^1.1.2"
+=======
+    "@types/jest": "^29.5.14",
+    "eslint": "^8.57.1"
+>>>>>>> Spell
   }
 }

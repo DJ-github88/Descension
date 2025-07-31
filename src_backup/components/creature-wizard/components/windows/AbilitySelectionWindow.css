@@ -1,0 +1,360 @@
+/* Ability Selection Window Styles */
+.ability-selection-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
+  pointer-events: auto;
+}
+
+.ability-selection-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFEmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAyMC0wNC0xNlQxNjozNDo0NiswMjowMCIgeG1wOk1vZGlmeURhdGU9IjIwMjAtMDQtMTZUMTY6Mzg6MTQrMDI6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMjAtMDQtMTZUMTY6Mzg6MTQrMDI6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiBwaG90b3Nob3A6Q29sb3JNb2RlPSIzIiBwaG90b3Nob3A6SUNDUHJvZmlsZT0ic1JHQiBJRUM2MTk2Ni0yLjEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6YzI0MGRmNzQtY2FmMy00MjQx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');
+  background-repeat: repeat;
+}
+
+/* Header styles */
+.ability-selection-header {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.ability-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.ability-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 14px;
+}
+
+.ability-search-input {
+  width: 100%;
+  padding: 10px 40px 10px 35px;
+  background-color: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.ability-search-input:focus {
+  outline: none;
+  border-color: #4a4a4a;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.ability-search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.ability-search-clear:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Type filters */
+.ability-type-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ability-type-filter {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #ccc;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ability-type-filter:hover {
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+.ability-type-filter.active {
+  background-color: #3a3a3a;
+  border-color: #666;
+  color: #fff;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.ability-type-filter i {
+  font-size: 12px;
+}
+
+/* Content area */
+.ability-selection-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 70%; /* Make room for the preview panel */
+  border-right: 1px solid #444;
+}
+
+/* Footer */
+.ability-selection-footer {
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid #444;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.ability-cancel-button {
+  background: linear-gradient(to bottom, #4a4a4a, #2a2a2a);
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #ccc;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.ability-cancel-button:hover {
+  background: linear-gradient(to bottom, #5a5a5a, #3a3a3a);
+  color: #fff;
+  border-color: #666;
+}
+
+/* Loading states */
+.loading-window,
+.loading-library {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: #ccc;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Ability preview panel */
+.ability-preview-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-left: 1px solid #444;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.ability-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid #444;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.ability-preview-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid #444;
+  background-color: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ability-preview-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ability-preview-title {
+  flex: 1;
+}
+
+.ability-preview-title h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ability-preview-type {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.ability-preview-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ability-preview-description {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.ability-preview-effects {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 15px;
+  border: 1px solid #333;
+}
+
+.ability-preview-effects h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ccc;
+  border-bottom: 1px solid #333;
+  padding-bottom: 8px;
+}
+
+.ability-preview-effects ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ability-preview-effects li {
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 13px;
+  color: #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.effect-label {
+  font-weight: 600;
+  color: #aaa;
+}
+
+.effect-value {
+  color: #fff;
+}
+
+/* Effect type colors */
+.effect-type-damage .effect-label {
+  color: #f44336;
+}
+
+.effect-type-healing .effect-label {
+  color: #4caf50;
+}
+
+.effect-type-condition .effect-label,
+.effect-type-control .effect-label {
+  color: #9c27b0;
+}
+
+.effect-type-buff .effect-label {
+  color: #2196f3;
+}
+
+/* Ability stats */
+.ability-preview-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ability-stat {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  color: #aaa;
+}
+
+.stat-value {
+  color: #fff;
+  font-weight: 600;
+}
