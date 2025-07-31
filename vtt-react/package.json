@@ -27,11 +27,11 @@
     "zustand": "^4.5.6"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "craco start",
     "start-original": "react-scripts start",
-    "start-legacy": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
-    "start-port-3001": "PORT=3001 react-scripts start",
-    "build": "react-scripts build",
+    "start-legacy": "NODE_OPTIONS=--openssl-legacy-provider craco start",
+    "start-port-3001": "PORT=3001 craco start",
+    "build": "craco build",
     "build-original": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -55,6 +55,14 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.27.1",
-    "@babel/preset-react": "^7.26.3"
+    "@babel/preset-react": "^7.26.3",
+    "@craco/craco": "^7.1.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5",
+    "vm-browserify": "^1.1.2"
   }
 }

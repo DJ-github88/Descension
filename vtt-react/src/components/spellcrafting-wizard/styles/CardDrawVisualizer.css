@@ -137,7 +137,7 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><path d="M20 0 L40 20 L20 40 L0 20 Z" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+  background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
 }
 
 .card-draw-controls {

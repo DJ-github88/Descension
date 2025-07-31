@@ -216,7 +216,7 @@
     background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
     border: 1px solid #4a934a;
     border-bottom-color: #4a934a;
-    flex-basis: calc(100% * 5/15);
+    flex-basis: calc(100% * 0.3333);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
@@ -226,7 +226,7 @@
     background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
     border: 1px solid #c9a83f;
     border-bottom-color: #c9a83f;
-    flex-basis: calc(100% * 5/15);
+    flex-basis: calc(100% * 0.3333);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
@@ -236,7 +236,7 @@
     background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
     border: 1px solid #a05a46;
     border-bottom-color: #a05a46;
-    flex-basis: calc(100% * 5/15);
+    flex-basis: calc(100% * 0.3333);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
