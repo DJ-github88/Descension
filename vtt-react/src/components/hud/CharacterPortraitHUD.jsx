@@ -27,6 +27,8 @@ const CharacterPortraitHUD = ({
     // Get character data - use current player data if this is the current player
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
+        baseName: state.baseName,
+        roomName: state.roomName,
         race: state.race,
         raceDisplayName: state.raceDisplayName,
         class: state.class,
@@ -35,7 +37,9 @@ const CharacterPortraitHUD = ({
         actionPoints: state.actionPoints,
         classResource: state.classResource, // Add class resource to subscription
         lore: state.lore,
-        tokenSettings: state.tokenSettings
+        tokenSettings: state.tokenSettings,
+        derivedStats: state.derivedStats,
+        equipmentBonuses: state.equipmentBonuses
     }));
 
     const characterData = isCurrentPlayer ? currentPlayerData : character;

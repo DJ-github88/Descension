@@ -27,6 +27,8 @@ const getEncumbranceState = () => {
 const useCharacterStore = create((set, get) => ({
     // Base character info
     name: 'Character Name',
+    baseName: 'Character Name', // Store the original name without room formatting
+    roomName: '', // Current room name for multiplayer
     race: '', // Race ID (e.g., 'nordmark')
     subrace: '', // Subrace ID (e.g., 'berserker_nordmark')
     class: 'Class',
@@ -560,6 +562,17 @@ const useCharacterStore = create((set, get) => ({
         set(state => {
             const newState = { [field]: value };
 
+            // If name is being changed, update baseName and format with room if needed
+            if (field === 'name') {
+                newState.baseName = value;
+                // If we're in a room, format the name with room name
+                if (state.roomName) {
+                    newState.name = `${value} (${state.roomName})`;
+                } else {
+                    newState.name = value;
+                }
+            }
+
             // If class is being changed, initialize the class resource
             if (field === 'class' && value && value !== state.class) {
                 const classResource = initializeClassResource(value, {
@@ -594,6 +607,27 @@ const useCharacterStore = create((set, get) => ({
 
             return newState;
         });
+    },
+
+    // Room name management for multiplayer
+    setRoomName: (roomName) => {
+        set(state => {
+            const newState = { roomName };
+            // Update displayed name to include room name
+            if (roomName && state.baseName) {
+                newState.name = `${state.baseName} (${roomName})`;
+            } else if (state.baseName) {
+                newState.name = state.baseName;
+            }
+            return newState;
+        });
+    },
+
+    clearRoomName: () => {
+        set(state => ({
+            roomName: '',
+            name: state.baseName || state.name.replace(/\s*\([^)]*\)\s*$/, '') // Remove room name from display
+        }));
     },
 
     // Quest-based skill progress

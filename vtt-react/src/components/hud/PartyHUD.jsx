@@ -583,6 +583,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         health: state.health,
         mana: state.mana,
         actionPoints: state.actionPoints,
+        derivedStats: state.derivedStats,
+        equipmentBonuses: state.equipmentBonuses,
         classResource: state.classResource // Add class resource to subscription
     }));
 

@@ -29,7 +29,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Get stores for state synchronization
   const { setIsGMMode, setMultiplayerState } = useGameStore();
-  const { updateCharacterInfo } = useCharacterStore();
+  const { updateCharacterInfo, setRoomName, clearRoomName } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
 
@@ -125,9 +125,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setCurrentPlayer(currentPlayerData);
     }
 
-    // Update character name to match multiplayer player name
+    // Update character name to match multiplayer player name and set room name
     if (currentPlayerData?.name) {
       updateCharacterInfo('name', currentPlayerData.name);
+    }
+
+    // Set room name for character name formatting
+    if (room?.name) {
+      setRoomName(room.name);
     }
 
     // Update game store GM mode
@@ -201,6 +206,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Clear chat multiplayer integration
     clearMultiplayerIntegration();
+
+    // Clear room name from character
+    clearRoomName();
 
     setCurrentRoom(null);
     setSocket(null);
