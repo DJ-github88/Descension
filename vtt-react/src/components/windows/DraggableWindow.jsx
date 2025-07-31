@@ -29,14 +29,7 @@ const DraggableWindow = forwardRef(({
     zIndex = 1000,
     onDrag = null
 }, ref) => {
-<<<<<<< HEAD:src/components/windows/DraggableWindow.jsx
-    // Don't render if not open
-    if (!isOpen) return null;
-
-    // Get window scale from store
-=======
     // Get window scale from store (hooks must be called before any early returns)
->>>>>>> Spell:vtt-react/src/components/windows/DraggableWindow.jsx
     const windowScale = useGameStore(state => state.windowScale);
 
     // Create refs for the draggable component
@@ -73,7 +66,6 @@ const DraggableWindow = forwardRef(({
     // Track dragging state to prevent conflicts
     const [isDragging, setIsDragging] = useState(false);
 
-<<<<<<< HEAD:src/components/windows/DraggableWindow.jsx
     // Update position after initial render to ensure proper centering
     useEffect(() => {
         if (centered && windowRef.current) {
@@ -116,8 +108,6 @@ const DraggableWindow = forwardRef(({
         setPosition: (newPosition) => setPosition(newPosition)
     }), [position]);
 
-=======
->>>>>>> Spell:vtt-react/src/components/windows/DraggableWindow.jsx
     // Handle drag start
     const handleDragStart = useCallback((e, data) => {
         setIsDragging(true);
@@ -160,30 +150,7 @@ const DraggableWindow = forwardRef(({
         }
 
         e.stopPropagation();
-<<<<<<< HEAD:src/components/windows/DraggableWindow.jsx
-    }, [zIndex, onDrag]);
-=======
     }, [onDrag, zIndex]);
-
-    // Expose methods to parent component
-    useImperativeHandle(ref, () => ({
-        getElement: () => windowRef.current,
-        centerWindow: () => {
-            if (windowRef.current) {
-                const windowWidth = windowRef.current.offsetWidth;
-                const windowHeight = windowRef.current.offsetHeight;
-
-                // Calculate center position
-                const left = Math.max(0, Math.floor((window.innerWidth - windowWidth) / 2));
-                const top = Math.max(0, Math.floor((window.innerHeight - windowHeight) / 2));
-
-                // Update position - React will handle the transform
-                setPosition({ x: left, y: top });
-            }
-        },
-        getPosition: () => position,
-        setPosition: (newPosition) => setPosition(newPosition)
-    }), [position]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {
@@ -209,9 +176,6 @@ const DraggableWindow = forwardRef(({
 
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
-
-
->>>>>>> Spell:vtt-react/src/components/windows/DraggableWindow.jsx
 
     return (
         <Draggable

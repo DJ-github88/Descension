@@ -6,10 +6,7 @@ import FormulaEditor from '../../components/mechanics/FormulaEditor';
 import ResolutionSelector from '../../components/mechanics/ResolutionSelector';
 
 import './restoration-effects.css';
-<<<<<<< HEAD:src/components/spellcrafting-wizard/data/effects/RestorationEffects.jsx
-=======
 import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
->>>>>>> Spell:vtt-react/src/components/spellcrafting-wizard/data/effects/RestorationEffects.jsx
 
 // Pathfinder styles imported via main.css
 
@@ -94,13 +91,6 @@ const STAT_VARIABLES = {
   CONSECUTIVE_HEADS: { name: 'Consecutive Heads', description: 'Longest streak of heads' },
   ALTERNATING_PATTERN: { name: 'Alternating Pattern', description: 'Boolean if coins alternate heads/tails' }
 };
-
-<<<<<<< HEAD:src/components/spellcrafting-wizard/data/effects/RestorationEffects.jsx
-// Import centralized variable definitions
-import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
-=======
-
->>>>>>> Spell:vtt-react/src/components/spellcrafting-wizard/data/effects/RestorationEffects.jsx
 
 // Variables Display Component
 const VariablesDisplay = ({ onVariableClick, resolution = 'DICE' }) => {

@@ -7,22 +7,12 @@ import '../../styles/context-menu.css';
  * Context menu for equipping items from inventory
  */
 const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
-<<<<<<< HEAD:src/components/equipment/EquipmentContextMenu.jsx
-    if (!item) return null;
-
-    // Get current equipment state for validation
-=======
     // Get current equipment state for validation (hook must be called before early return)
->>>>>>> Spell:vtt-react/src/components/equipment/EquipmentContextMenu.jsx
     const { equipment } = useCharacterStore(state => ({
         equipment: state.equipment
     }));
 
-<<<<<<< HEAD:src/components/equipment/EquipmentContextMenu.jsx
-=======
     if (!item) return null;
-
->>>>>>> Spell:vtt-react/src/components/equipment/EquipmentContextMenu.jsx
     const compatibleSlots = getCompatibleSlots(item);
 
     // Filter slots based on current equipment state (e.g., two-handed weapon conflicts)

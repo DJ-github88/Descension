@@ -52,11 +52,6 @@ const VTTDrawingEngine = () => {
             const gridSystem = getGridSystem();
             const viewport = gridSystem.getViewportDimensions();
             return gridSystem.worldToScreen(worldX, worldY, viewport.width, viewport.height);
-<<<<<<< HEAD:src/components/level-editor/VTTDrawingEngine.jsx
-
-            return { x: screenX, y: screenY };
-=======
->>>>>>> Spell:vtt-react/src/components/level-editor/VTTDrawingEngine.jsx
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, effectiveZoom]);
 

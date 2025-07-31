@@ -20,22 +20,12 @@ const MovementVisualization = ({
     const { isInCombat, validateMovement, turnMovementUsed, getTotalUnlockedMovement } = useCombatStore();
     const { tokens, creatures } = useCreatureStore();
 
-<<<<<<< HEAD:src/components/grid/MovementVisualization.jsx
-    // Don't render if visualization is disabled or no positions provided
-    if (!showMovementVisualization || !startPosition || !currentPosition || !gridSystem) {
-        return null;
-    }
-
-    // Calculate movement data
-    const movementData = useMemo(() => {
-=======
     // Calculate movement data (hook must be called before early return)
     const movementData = useMemo(() => {
         // Don't calculate if visualization is disabled or no positions provided
         if (!showMovementVisualization || !startPosition || !currentPosition || !gridSystem) {
             return null;
         }
->>>>>>> Spell:vtt-react/src/components/grid/MovementVisualization.jsx
         // Find the token and creature data
         const token = tokens.find(t => t.id === tokenId);
         const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
@@ -115,10 +105,7 @@ const MovementVisualization = ({
         };
     }, [startPosition, currentPosition, tokenId, tokens, creatures, feetPerTile, isInCombat, gridSystem, movementLineColor]);
 
-<<<<<<< HEAD:src/components/grid/MovementVisualization.jsx
-=======
     // Don't render if no movement data or visualization is disabled
->>>>>>> Spell:vtt-react/src/components/grid/MovementVisualization.jsx
     if (!movementData) return null;
 
     // Convert world coordinates to screen coordinates

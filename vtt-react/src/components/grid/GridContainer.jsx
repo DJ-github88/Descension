@@ -138,18 +138,9 @@ const GridContainer = ({ gridItem }) => {
     setShowContextMenu(false);
   };
 
-<<<<<<< HEAD:src/components/grid/GridContainer.jsx
-  // If the original item doesn't exist, don't render anything
-  if (!originalItem) return null;
-
-  // Convert grid coordinates to screen coordinates using the same system as GridItem
-  const screenPosition = useMemo(() => {
-    if (!gridItem.gridPosition) return { x: 0, y: 0 };
-=======
   // Convert grid coordinates to screen coordinates using the same system as GridItem
   const screenPosition = useMemo(() => {
     if (!gridItem.gridPosition || !originalItem) return { x: 0, y: 0 };
->>>>>>> Spell:vtt-react/src/components/grid/GridContainer.jsx
 
     try {
       // Use the same coordinate system as GridItem and GM notes
@@ -159,15 +150,9 @@ const GridContainer = ({ gridItem }) => {
 
       return screenPos;
     } catch (error) {
-<<<<<<< HEAD:src/components/grid/GridContainer.jsx
-      // Fallback calculation using the same pattern as GridItem
-      const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
-      const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
-=======
       // Fallback calculation using simplified grid positioning
       const worldX = (gridItem.gridPosition.col * gridSize) + (gridSize / 2);
       const worldY = (gridItem.gridPosition.row * gridSize) + (gridSize / 2);
->>>>>>> Spell:vtt-react/src/components/grid/GridContainer.jsx
 
       return {
         x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
@@ -184,13 +169,7 @@ const GridContainer = ({ gridItem }) => {
     playerZoom,
     effectiveZoom,
     gridSize,
-<<<<<<< HEAD:src/components/grid/GridContainer.jsx
-    gridOffsetX,
-    gridOffsetY,
-    gridMovesWithBackground
-=======
     originalItem
->>>>>>> Spell:vtt-react/src/components/grid/GridContainer.jsx
   ]);
 
   // Calculate container dimensions based on grid size and zoom
@@ -202,12 +181,8 @@ const GridContainer = ({ gridItem }) => {
     return { width: containerWidth, height: containerHeight };
   }, [gridSize, effectiveZoom]);
 
-<<<<<<< HEAD:src/components/grid/GridContainer.jsx
-=======
   // If the original item doesn't exist, don't render anything (early return after all hooks)
   if (!originalItem) return null;
-
->>>>>>> Spell:vtt-react/src/components/grid/GridContainer.jsx
   return (
     <>
       <div

@@ -7,10 +7,7 @@ import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
-<<<<<<< HEAD:src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx
-=======
 import '../../styles/pathfinder/main.css';
->>>>>>> Spell:vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx
 
 import SpellContextMenu from './SpellContextMenu';
 import SpellLibraryFormatter from './SpellLibraryFormatter';
@@ -78,13 +75,6 @@ if (typeof document !== 'undefined') {
     document.head.appendChild(styleElement);
   }
 }
-
-<<<<<<< HEAD:src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx
-// Import Pathfinder-themed styles
-import '../../styles/pathfinder/main.css';
-=======
-
->>>>>>> Spell:vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx
 
 const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // State for view options - force compact view and clear any stored preferences
