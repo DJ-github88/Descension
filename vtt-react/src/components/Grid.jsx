@@ -26,7 +26,7 @@ import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
 import StaticFogOverlay from "./level-editor/StaticFogOverlay";
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
-import { throttle, rafThrottle } from "../utils/performanceUtils";
+// Removed unused imports: throttle, rafThrottle
 
 import '../styles/Grid.css';
 
@@ -87,29 +87,7 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
 };
 
 export default function Grid() {
-
-
-    // Grid rendering mode - use canvas for better performance, especially at low zoom
-    const [useCanvasGrid, setUseCanvasGrid] = useState(true);
-
-    // Force canvas rendering at low zoom levels for better performance
-    const shouldUseCanvas = useCanvasGrid || effectiveZoom < 0.5;
-
-
-
-    // Smooth zoom state
-    const [isZooming, setIsZooming] = useState(false);
-    const zoomAnimationRef = useRef(null);
-    const targetZoomRef = useRef(null);
-
-    // Simple panning state - no momentum, just direct response
-    const [isDraggingCamera, setIsDraggingCamera] = useState(false);
-    const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
-
-    // Track when items are being dragged to enable pointer events
-    const [isDraggingItem, setIsDraggingItem] = useState(false);
-
-    // Get state from game store - now includes camera and zoom
+    // Get state from game store first to access zoom values
     const gameStore = useGameStore();
     const {
         gridSize,
@@ -128,24 +106,61 @@ export default function Grid() {
         zoomLevel,
         playerZoom,
         showGrid,
-        isGridAlignmentMode,
-        gridAlignmentStep,
-        gridAlignmentRectangles,
-        isBackgroundManipulationMode,
-        isGMMode,
+        showWallLayer,
+        showFogLayer,
+        showTileLayer,
+        showLightLayer,
+        showShadowLayer,
+        showDrawingLayer,
+        showPortalLayer,
+        showAtmosphericLayer,
+        showCreatureLayer,
+        showItemLayer,
+        showGMNotesLayer,
+        showCharacterLayer,
+        showEffectLayer,
+        showUILayer,
+        showDebugLayer,
+        tileSize,
         moveCameraBy,
-        playerZoomIn,
-        playerZoomOut,
+        setPlayerZoom,
         setGridSize,
         setGridOffset,
-        updateBackground,
+        gridAlignmentStep,
         setGridAlignmentStep,
+        gridAlignmentRectangles,
         addGridAlignmentRectangle,
         clearGridAlignmentRectangles
     } = gameStore;
 
-    // Calculate effective zoom (GM zoom * player zoom)
+    // Calculate effective zoom early (GM zoom * player zoom)
     const effectiveZoom = zoomLevel * playerZoom;
+
+    // Grid rendering mode - use canvas for better performance, especially at low zoom
+    const [useCanvasGrid] = useState(true);
+
+    // Force canvas rendering at low zoom levels for better performance
+    const shouldUseCanvas = useCanvasGrid || effectiveZoom < 0.5;
+
+    // Smooth zoom state (removed unused variables)
+    const zoomAnimationRef = useRef(null);
+
+    // Simple panning state - no momentum, just direct response
+    const [isDraggingCamera, setIsDraggingCamera] = useState(false);
+    const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+
+    // Track when items are being dragged to enable pointer events
+    const [isDraggingItem, setIsDraggingItem] = useState(false);
+
+    // Additional state from game store (continuing from earlier destructuring)
+    const {
+        isGridAlignmentMode,
+        isBackgroundManipulationMode,
+        isGMMode,
+        playerZoomIn,
+        playerZoomOut,
+        updateBackground
+    } = gameStore;
 
     // Initialize viewport size state first (needed by instantZoom function)
     const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
