@@ -31,7 +31,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const { setIsGMMode, setMultiplayerState } = useGameStore();
   const { updateCharacterInfo } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
-  const { addUser, removeUser, addNotification } = useChatStore();
+  const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
 
   useEffect(() => {
     if (!socket) return;
@@ -174,6 +174,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Set multiplayer state in game store
     setMultiplayerState(true, room, handleReturnToSinglePlayer);
 
+    // Set up chat integration for multiplayer
+    const sendChatMessage = (message) => {
+      if (socketConnection) {
+        socketConnection.emit('chat_message', {
+          message: message,
+          type: 'chat'
+        });
+      }
+    };
+    setMultiplayerIntegration(socketConnection, sendChatMessage);
+
     console.log('Joined room:', room.name, 'as', isGameMaster ? 'GM' : 'Player');
     console.log('Character name set to:', currentPlayerData?.name);
   };
@@ -187,6 +198,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     connectedPlayers.forEach(player => {
       removeUser(player.id);
     });
+
+    // Clear chat multiplayer integration
+    clearMultiplayerIntegration();
 
     setCurrentRoom(null);
     setSocket(null);

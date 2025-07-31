@@ -33,7 +33,11 @@ const initialState = {
   ],
 
   // Current user
-  currentUser: { id: 'current', name: 'Player', class: 'paladin', level: 10 }
+  currentUser: { id: 'current', name: 'Player', class: 'paladin', level: 10 },
+
+  // Multiplayer integration
+  multiplayerSocket: null,
+  sendMultiplayerMessage: null
 };
 
 // Maximum number of messages to keep per tab
@@ -149,9 +153,15 @@ const useChatStore = create(
 
       // Send a message to the social tab
       sendMessage: (tab, content) => {
-        const { addNotification, currentUser } = get();
+        const { addNotification, currentUser, multiplayerSocket, sendMultiplayerMessage } = get();
 
-        // Create message object
+        // If in multiplayer mode and sending to social tab, send through socket
+        if (tab === 'social' && multiplayerSocket && sendMultiplayerMessage) {
+          sendMultiplayerMessage(content);
+          return; // Don't add locally, it will come back through the socket
+        }
+
+        // Create message object for local/single-player mode
         const message = {
           sender: currentUser,
           content,
@@ -185,6 +195,18 @@ const useChatStore = create(
           user.id === userId ? { ...user, status } : user
         )
       })),
+
+      // Set multiplayer socket and send function
+      setMultiplayerIntegration: (socket, sendFunction) => set({
+        multiplayerSocket: socket,
+        sendMultiplayerMessage: sendFunction
+      }),
+
+      // Clear multiplayer integration
+      clearMultiplayerIntegration: () => set({
+        multiplayerSocket: null,
+        sendMultiplayerMessage: null
+      }),
 
       // Reset store to initial state
       resetStore: () => set(initialState)
