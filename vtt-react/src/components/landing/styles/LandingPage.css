@@ -129,8 +129,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  overflow-y: auto;
-  max-height: calc(100vh - 80px); /* Account for header height */
+  /* Remove overflow from here - let body handle scrolling */
 }
 
 .landing-section {
