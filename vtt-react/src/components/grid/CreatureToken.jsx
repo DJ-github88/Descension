@@ -106,6 +106,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     window.gridSystem = gridSystem;
   }, [gridSystem]);
 
+  // Store previous token state for comparison
+  const prevTokenStateRef = useRef(null);
+
   // Find the token and creature data
   const token = tokens.find(t => t.id === tokenId);
   const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
@@ -119,11 +122,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Force re-render when token state changes for real-time updates
   const [forceUpdate, setForceUpdate] = useState(0);
-
-
-
-  // Store previous token state for comparison
-  const prevTokenStateRef = useRef(null);
 
   // Handle mouse move and up for dragging
   useEffect(() => {
