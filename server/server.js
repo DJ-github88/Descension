@@ -23,19 +23,23 @@ console.log('CORS Origins:', allowedOrigins);
 console.log('Environment:', process.env.NODE_ENV);
 console.log('Railway Environment:', process.env.RAILWAY_ENVIRONMENT);
 
-// Configure CORS for Socket.io
+// Configure CORS for Socket.io with more permissive settings
 const io = socketIo(server, {
   cors: {
-    origin: allowedOrigins,
-    methods: ["GET", "POST"],
+    origin: "*", // Temporarily allow all origins for debugging
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
-  }
+  },
+  allowEIO3: true // Allow Engine.IO v3 clients
 });
 
 // Middleware
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
+  origin: "*", // Temporarily allow all origins for debugging
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.json());
 
@@ -312,4 +316,7 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`Mythrill server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Socket.IO server initialized`);
+  console.log(`Server URL: http://localhost:${PORT}`);
+  console.log(`CORS Origins: ${JSON.stringify(allowedOrigins)}`);
 });
