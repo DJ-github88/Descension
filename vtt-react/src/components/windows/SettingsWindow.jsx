@@ -7,6 +7,9 @@ export default function SettingsWindow({ activeTab: propActiveTab }) {
     const takeShortRest = useGameStore(state => state.takeShortRest);
     const takeLongRest = useGameStore(state => state.takeLongRest);
     const isGMMode = useGameStore(state => state.isGMMode);
+    const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
+    const multiplayerRoom = useGameStore(state => state.multiplayerRoom);
+    const leaveMultiplayer = useGameStore(state => state.leaveMultiplayer);
 
     // Window scale controls
     const windowScale = useGameStore(state => state.windowScale);
@@ -90,6 +93,13 @@ export default function SettingsWindow({ activeTab: propActiveTab }) {
         takeLongRest();
         setRestMessage('Long rest taken. Characters have fully recovered.');
         setTimeout(() => setRestMessage(''), 3000);
+    };
+
+    // Handle leave multiplayer room
+    const handleLeaveMultiplayer = () => {
+        if (window.confirm('Are you sure you want to leave the multiplayer room?')) {
+            leaveMultiplayer();
+        }
     };
 
 
@@ -288,6 +298,36 @@ export default function SettingsWindow({ activeTab: propActiveTab }) {
                     </div>
                 </div>
             </div>
+
+            {/* Multiplayer Section - only show when in multiplayer */}
+            {isInMultiplayer && (
+                <div className="settings-card">
+                    <div className="settings-card-header">
+                        <h3>🌐 Multiplayer</h3>
+                        <p>Manage your multiplayer session</p>
+                    </div>
+                    <div className="settings-card-body">
+                        <div className="control-group">
+                            <label className="control-label">Current Room</label>
+                            <div className="control-info">
+                                <span className="room-name-display">{multiplayerRoom?.name || 'Unknown Room'}</span>
+                            </div>
+                        </div>
+                        <div className="control-group">
+                            <label className="control-label">Leave Room</label>
+                            <button
+                                className="control-button danger"
+                                onClick={handleLeaveMultiplayer}
+                            >
+                                Leave Multiplayer Room
+                            </button>
+                            <div className="control-help">
+                                <p>This will disconnect you from the multiplayer session and return you to single-player mode.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 

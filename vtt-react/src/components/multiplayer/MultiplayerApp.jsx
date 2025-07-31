@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import RoomLobby from './RoomLobby';
-import ChatWindow from './ChatWindow';
+
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
+import useChatStore from '../../store/chatStore';
 import './styles/MultiplayerApp.css';
 
 // Import main game components
@@ -25,12 +26,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [isGM, setIsGM] = useState(false);
   const [connectedPlayers, setConnectedPlayers] = useState([]);
-  const [showChat, setShowChat] = useState(true);
 
   // Get stores for state synchronization
-  const { setIsGMMode } = useGameStore();
-  const { setName } = useCharacterStore();
+  const { setIsGMMode, setMultiplayerState } = useGameStore();
+  const { updateCharacterInfo } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
+  const { addUser, removeUser, addNotification } = useChatStore();
 
   useEffect(() => {
     if (!socket) return;
@@ -54,6 +55,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             actionPoints: { current: 3, max: 3 }
           }
         });
+
+        // Add to chat system
+        addUser({
+          id: data.player.id,
+          name: data.player.name,
+          class: 'Unknown',
+          level: 1,
+          status: 'online'
+        });
       }
     });
 
@@ -65,6 +75,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Remove from party system
       removePartyMember(data.player.id);
+
+      // Remove from chat system
+      removeUser(data.player.id);
     });
 
     socket.on('room_closed', (data) => {
@@ -73,12 +86,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       handleLeaveRoom();
     });
 
+    // Listen for chat messages
+    socket.on('chat_message', (message) => {
+      // Add to chat system
+      addNotification('social', {
+        sender: {
+          name: message.playerName,
+          class: message.isGM ? 'GM' : 'Player',
+          level: 1
+        },
+        content: message.content,
+        type: 'message'
+      });
+    });
+
     return () => {
       socket.off('player_joined');
       socket.off('player_left');
       socket.off('room_closed');
+      socket.off('chat_message');
     };
-  }, [socket, currentRoom]);
+  }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
 
   const handleJoinRoom = (room, socketConnection, isGameMaster) => {
     setCurrentRoom(room);
@@ -99,7 +127,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Update character name to match multiplayer player name
     if (currentPlayerData?.name) {
-      setName(currentPlayerData.name);
+      updateCharacterInfo('name', currentPlayerData.name);
     }
 
     // Update game store GM mode
@@ -112,7 +140,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Integrate multiplayer players into party system
     createParty(room.name, currentPlayerData?.name || 'Player');
 
-    // Add other players to party (excluding current player)
+    // Add other players to party and chat (excluding current player)
     allPlayers.forEach(player => {
       if (player.id !== currentPlayerData?.id) {
         addPartyMember({
@@ -126,6 +154,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             actionPoints: { current: 3, max: 3 }
           }
         });
+
+        // Add to chat system
+        addUser({
+          id: player.id,
+          name: player.name,
+          class: 'Unknown',
+          level: 1,
+          status: 'online'
+        });
       }
     });
 
@@ -133,6 +170,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     if (isGameMaster) {
       // Leadership is already set in createParty for current player
     }
+
+    // Set multiplayer state in game store
+    setMultiplayerState(true, room, handleReturnToSinglePlayer);
 
     console.log('Joined room:', room.name, 'as', isGameMaster ? 'GM' : 'Player');
     console.log('Character name set to:', currentPlayerData?.name);
@@ -142,15 +182,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     if (socket) {
       socket.disconnect();
     }
-    
+
+    // Clear multiplayer players from chat system
+    connectedPlayers.forEach(player => {
+      removeUser(player.id);
+    });
+
     setCurrentRoom(null);
     setSocket(null);
     setCurrentPlayer(null);
     setIsGM(false);
     setConnectedPlayers([]);
-    
-    // Reset GM mode
+
+    // Reset GM mode and clear multiplayer state
     setIsGMMode(true); // Default back to GM mode for single player
+    setMultiplayerState(false, null, null);
   };
 
   const handleReturnToSinglePlayer = () => {
@@ -181,33 +227,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <GMPlayerToggle />
       </div>
 
-      {/* Chat Window - positioned as overlay */}
-      {showChat && (
-        <div className="multiplayer-chat-overlay">
-          <ChatWindow
-            socket={socket}
-            room={currentRoom}
-            currentPlayer={currentPlayer}
-          />
+      {/* Multiplayer indicator - minimal visual feedback */}
+      <div className="multiplayer-indicator">
+        <div className="room-info">
+          <span className="room-name">{currentRoom.name}</span>
+          <span className="player-count">{connectedPlayers.length + 1} players</span>
         </div>
-      )}
-
-      {/* Minimal multiplayer controls */}
-      <div className="multiplayer-controls">
-        <button
-          className="chat-toggle-btn"
-          onClick={() => setShowChat(!showChat)}
-          title={showChat ? 'Hide Chat' : 'Show Chat'}
-        >
-          💬
-        </button>
-        <button
-          className="leave-room-btn"
-          onClick={handleLeaveRoom}
-          title="Leave Room"
-        >
-          🚪
-        </button>
       </div>
     </div>
   );

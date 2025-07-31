@@ -14,6 +14,11 @@ const initialState = {
     // Global GM/Player mode for controlling access to features
     isGMMode: true, // GM can see all features, Player mode restricts access
 
+    // Multiplayer state
+    isInMultiplayer: false,
+    multiplayerRoom: null,
+    onLeaveMultiplayer: null, // Function to call when leaving multiplayer
+
     // Enhanced background system - support for multiple layers
     backgrounds: [], // [{ id, url, position: {x, y}, scale, opacity, zIndex, name, sticksToGrid }]
     activeBackgroundId: null,
@@ -660,7 +665,28 @@ const useGameStore = create(
             // Movement visualization settings
             setShowMovementVisualization: (show) => set({ showMovementVisualization: show }),
             setMovementLineColor: (color) => set({ movementLineColor: color }),
-            setMovementLineWidth: (width) => set({ movementLineWidth: width })
+            setMovementLineWidth: (width) => set({ movementLineWidth: width }),
+
+            // Multiplayer management
+            setMultiplayerState: (isInMultiplayer, room, onLeaveCallback) => {
+                set({
+                    isInMultiplayer,
+                    multiplayerRoom: room,
+                    onLeaveMultiplayer: onLeaveCallback
+                });
+            },
+
+            leaveMultiplayer: () => {
+                const state = get();
+                if (state.onLeaveMultiplayer) {
+                    state.onLeaveMultiplayer();
+                }
+                set({
+                    isInMultiplayer: false,
+                    multiplayerRoom: null,
+                    onLeaveMultiplayer: null
+                });
+            }
         }),
         {
             name: 'game-store',

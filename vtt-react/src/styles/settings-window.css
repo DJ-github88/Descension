@@ -947,3 +947,28 @@
 .apply-button:hover {
     background: linear-gradient(to bottom, #d9b84f, #c9a83f);
 }
+
+/* Multiplayer Settings Styles */
+.room-name-display {
+    color: #d4af37;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 4px 8px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.control-button.danger {
+    background: linear-gradient(to bottom, #c74545, #a03535);
+    border-color: #8b2e2e;
+    color: #f0e6d2;
+}
+
+.control-button.danger:hover {
+    background: linear-gradient(to bottom, #d75555, #c74545);
+    border-color: #a03535;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(199, 69, 69, 0.3);
+}
