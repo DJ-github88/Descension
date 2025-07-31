@@ -180,11 +180,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       const viewportHeight = window.innerHeight;
 
       // Convert screen position back to world coordinates
-      const finalWorldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+      const rawWorldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-      console.log('🖱️ Mouse up - finalWorldPos:', finalWorldPos);
+      // Snap to grid center for proper alignment
+      const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
+      const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-      // Update token position to final position
+      console.log('🖱️ Mouse up - rawWorldPos:', rawWorldPos, 'gridCoords:', gridCoords, 'finalWorldPos:', finalWorldPos);
+
+      // Update token position to snapped grid center
       updateTokenPosition(tokenId, finalWorldPos);
 
       // Handle combat movement validation if in combat
