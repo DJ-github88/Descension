@@ -219,6 +219,7 @@ export default function CharacterPanel() {
         actionPoints,
         classResource,
         name,
+        baseName,
         race,
         subrace,
         racialTraits = [],
@@ -230,6 +231,7 @@ export default function CharacterPanel() {
         exhaustionLevel,
         updateEquipment,
         updateCharacterInfo,
+        updateBaseName,
         updateResource,
         unequipItem,
         immunities = [] // Default to empty array if not provided
@@ -288,8 +290,8 @@ export default function CharacterPanel() {
                     <label className="character-field-label">Character Name</label>
                     <input
                         type="text"
-                        value={name}
-                        onChange={(e) => updateCharacterInfo('name', e.target.value)}
+                        value={baseName || name}
+                        onChange={(e) => updateBaseName ? updateBaseName(e.target.value) : updateCharacterInfo('name', e.target.value)}
                         className="character-field-input"
                         placeholder="Enter character name"
                     />

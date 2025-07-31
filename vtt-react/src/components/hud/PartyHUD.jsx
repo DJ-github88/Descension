@@ -296,7 +296,15 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                 {/* Info Section */}
                 <div className="party-member-info">
                     <div className="member-header">
-                        <div className="member-name">{member.name}</div>
+                        <div className="member-name">
+                            {member.name}
+                            {member.character?.level && ` (Level ${member.character.level})`}
+                            {(member.character?.exhaustionLevel || 0) > 0 && (
+                                <span className="exhaustion-indicator" title={`Exhausted ${member.character.exhaustionLevel}`}>
+                                    💤
+                                </span>
+                            )}
+                        </div>
                         <div className="member-details">
                             <div className="member-race-class">
                                 {(() => {
@@ -305,11 +313,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                     return `${race} ${characterClass}`;
                                 })()}
                             </div>
-                            <div className="member-alignment-exhaustion">
+                            <div className="member-alignment">
                                 <span className="alignment">{member.character?.alignment || 'Neutral'}</span>
-                                {(member.character?.exhaustionLevel || 0) > 0 && (
-                                    <span className="exhaustion">Exhausted {member.character.exhaustionLevel}</span>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -578,6 +583,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         race: state.race,
         raceDisplayName: state.raceDisplayName,
         class: state.class,
+        level: state.level,
         alignment: state.alignment,
         exhaustionLevel: state.exhaustionLevel,
         health: state.health,
@@ -846,7 +852,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             role: 'member', // Will be updated by leadership logic
             status: 'online',
             character: {
-                level: 1, // TODO: Add level to character store
+                level: currentPlayerData.level,
                 race: currentPlayerData.race,
                 raceDisplayName: currentPlayerData.raceDisplayName,
                 class: currentPlayerData.class,

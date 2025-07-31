@@ -1588,6 +1588,9 @@
     color: #3a2f1f;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
     line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .member-details {
@@ -1622,6 +1625,13 @@
     background: rgba(211, 47, 47, 0.1);
     padding: 1px 3px;
     border-radius: 3px;
+}
+
+.exhaustion-indicator {
+    font-size: 12px;
+    opacity: 0.8;
+    cursor: help;
+    margin-left: 4px;
     border: 1px solid rgba(211, 47, 47, 0.3);
 }
 

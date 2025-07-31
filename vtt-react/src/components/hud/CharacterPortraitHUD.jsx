@@ -32,6 +32,7 @@ const CharacterPortraitHUD = ({
         race: state.race,
         raceDisplayName: state.raceDisplayName,
         class: state.class,
+        level: state.level,
         health: state.health,
         mana: state.mana,
         actionPoints: state.actionPoints,

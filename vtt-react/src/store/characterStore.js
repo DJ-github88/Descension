@@ -564,12 +564,14 @@ const useCharacterStore = create((set, get) => ({
 
             // If name is being changed, update baseName and format with room if needed
             if (field === 'name') {
-                newState.baseName = value;
+                // Extract base name by removing any existing room formatting
+                const cleanName = value.replace(/\s*\([^)]*\)\s*$/, '');
+                newState.baseName = cleanName;
                 // If we're in a room, format the name with room name
                 if (state.roomName) {
-                    newState.name = `${value} (${state.roomName})`;
+                    newState.name = `${cleanName} (${state.roomName})`;
                 } else {
-                    newState.name = value;
+                    newState.name = cleanName;
                 }
             }
 
@@ -605,6 +607,20 @@ const useCharacterStore = create((set, get) => ({
                 }
             }
 
+            return newState;
+        });
+    },
+
+    // Update just the base name without room formatting (for character sheet input)
+    updateBaseName: (newBaseName) => {
+        set(state => {
+            const newState = { baseName: newBaseName };
+            // Update displayed name with room formatting if in a room
+            if (state.roomName) {
+                newState.name = `${newBaseName} (${state.roomName})`;
+            } else {
+                newState.name = newBaseName;
+            }
             return newState;
         });
     },
