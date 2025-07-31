@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import RoomLobby from './RoomLobby';
 import ChatWindow from './ChatWindow';
 import useGameStore from '../../store/gameStore';
+import useCharacterStore from '../../store/characterStore';
+import usePartyStore from '../../store/partyStore';
 import './styles/MultiplayerApp.css';
 
 // Import main game components
@@ -25,8 +27,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [connectedPlayers, setConnectedPlayers] = useState([]);
   const [showChat, setShowChat] = useState(true);
 
-  // Get game store for potential state synchronization
+  // Get stores for state synchronization
   const { setIsGMMode } = useGameStore();
+  const { setName } = useCharacterStore();
+  const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
 
   useEffect(() => {
     if (!socket) return;
@@ -37,14 +41,30 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Update connected players list
       if (currentRoom) {
         setConnectedPlayers(prev => [...prev, data.player]);
+
+        // Add to party system
+        addPartyMember({
+          id: data.player.id,
+          name: data.player.name,
+          character: {
+            class: 'Unknown',
+            level: 1,
+            health: { current: 100, max: 100 },
+            mana: { current: 50, max: 50 },
+            actionPoints: { current: 3, max: 3 }
+          }
+        });
       }
     });
 
     socket.on('player_left', (data) => {
       console.log('Player left:', data);
-      setConnectedPlayers(prev => 
+      setConnectedPlayers(prev =>
         prev.filter(player => player.id !== data.player.id)
       );
+
+      // Remove from party system
+      removePartyMember(data.player.id);
     });
 
     socket.on('room_closed', (data) => {
@@ -64,25 +84,58 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setCurrentRoom(room);
     setSocket(socketConnection);
     setIsGM(isGameMaster);
-    
+
     // Set current player info
+    let currentPlayerData;
     if (isGameMaster) {
+      currentPlayerData = room.gm;
       setCurrentPlayer(room.gm);
     } else {
       // Find the current player in the room's players
       const players = Array.from(room.players.values());
-      const currentPlayerData = players[players.length - 1]; // Last joined player
+      currentPlayerData = players[players.length - 1]; // Last joined player
       setCurrentPlayer(currentPlayerData);
+    }
+
+    // Update character name to match multiplayer player name
+    if (currentPlayerData?.name) {
+      setName(currentPlayerData.name);
     }
 
     // Update game store GM mode
     setIsGMMode(isGameMaster);
 
-    // Initialize connected players list
+    // Create/update party with multiplayer players
     const allPlayers = [room.gm, ...Array.from(room.players.values())];
     setConnectedPlayers(allPlayers);
 
+    // Integrate multiplayer players into party system
+    createParty(room.name, currentPlayerData?.name || 'Player');
+
+    // Add other players to party (excluding current player)
+    allPlayers.forEach(player => {
+      if (player.id !== currentPlayerData?.id) {
+        addPartyMember({
+          id: player.id,
+          name: player.name,
+          character: {
+            class: 'Unknown',
+            level: 1,
+            health: { current: 100, max: 100 },
+            mana: { current: 50, max: 50 },
+            actionPoints: { current: 3, max: 3 }
+          }
+        });
+      }
+    });
+
+    // Set GM leadership if current player is GM
+    if (isGameMaster) {
+      // Leadership is already set in createParty for current player
+    }
+
     console.log('Joined room:', room.name, 'as', isGameMaster ? 'GM' : 'Player');
+    console.log('Character name set to:', currentPlayerData?.name);
   };
 
   const handleLeaveRoom = () => {
@@ -110,92 +163,51 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     return <RoomLobby onJoinRoom={handleJoinRoom} />;
   }
 
-  // If in a room, show the game interface with chat
+  // Clean VTT interface with integrated multiplayer
   return (
-    <div className="multiplayer-app">
-      {/* Room Header */}
-      <div className="room-header">
-        <div className="room-info">
-          <h2>{currentRoom.name}</h2>
-          <span className="player-role">
-            {isGM ? '👑 Game Master' : '🎲 Player'}
-          </span>
-        </div>
-        
-        <div className="room-controls">
-          <button 
-            className="toggle-chat-button"
-            onClick={() => setShowChat(!showChat)}
-          >
-            {showChat ? 'Hide Chat' : 'Show Chat'}
-          </button>
-          
-          <button 
-            className="leave-room-button"
-            onClick={handleLeaveRoom}
-          >
-            Leave Room
-          </button>
-          
-          <button 
-            className="single-player-button"
-            onClick={handleReturnToSinglePlayer}
-          >
-            Single Player Mode
-          </button>
-        </div>
+    <div className="multiplayer-vtt">
+      {/* Full VTT Interface */}
+      <div className="vtt-game-screen">
+        <Grid />
+        <GridItemsManager />
+        <HUDContainer />
+        <ActionBar />
+        <CombatSelectionWindow />
+        <FloatingCombatTextManager />
+        <DynamicFogManager />
+        <DynamicLightingManager />
+        <AtmosphericEffectsManager />
+        <Navigation />
+        <GMPlayerToggle />
       </div>
 
-      {/* Main Game Area */}
-      <div className="game-area">
-        {/* Connected Players Sidebar */}
-        <div className="players-sidebar">
-          <h3>Connected Players</h3>
-          <div className="players-list">
-            {connectedPlayers.map(player => (
-              <div key={player.id} className={`player-item ${player.id === currentPlayer?.id ? 'current-player' : ''}`}>
-                <span className="player-name">
-                  {player.isGM && '👑 '}
-                  {player.name}
-                  {player.id === currentPlayer?.id && ' (You)'}
-                </span>
-                <span className="player-status online">●</span>
-              </div>
-            ))}
-          </div>
+      {/* Chat Window - positioned as overlay */}
+      {showChat && (
+        <div className="multiplayer-chat-overlay">
+          <ChatWindow
+            socket={socket}
+            room={currentRoom}
+            currentPlayer={currentPlayer}
+          />
         </div>
+      )}
 
-        {/* Game Content Area - Full VTT Interface */}
-        <div className="game-content">
-          <div className="multiplayer-game-screen">
-            <Grid />
-            <GridItemsManager />
-            <HUDContainer />
-            <ActionBar />
-            <CombatSelectionWindow />
-            <FloatingCombatTextManager />
-            <DynamicFogManager />
-            <DynamicLightingManager />
-            <AtmosphericEffectsManager />
-
-            {/* Navigation overlay for multiplayer */}
-            <div className="multiplayer-navigation">
-              <Navigation />
-              <GMPlayerToggle />
-            </div>
-          </div>
-        </div>
-
-        {/* Chat Window */}
-        {showChat && (
-          <div className="chat-sidebar">
-            <ChatWindow 
-              socket={socket}
-              room={currentRoom}
-              currentPlayer={currentPlayer}
-            />
-          </div>
-        )}
+      {/* Minimal multiplayer controls */}
+      <div className="multiplayer-controls">
+        <button
+          className="chat-toggle-btn"
+          onClick={() => setShowChat(!showChat)}
+          title={showChat ? 'Hide Chat' : 'Show Chat'}
+        >
+          💬
+        </button>
+        <button
+          className="leave-room-btn"
+          onClick={handleLeaveRoom}
+          title="Leave Room"
+        >
+          🚪
+        </button>
       </div>
     </div>
   );
