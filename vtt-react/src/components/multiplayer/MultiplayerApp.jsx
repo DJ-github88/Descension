@@ -4,6 +4,19 @@ import ChatWindow from './ChatWindow';
 import useGameStore from '../../store/gameStore';
 import './styles/MultiplayerApp.css';
 
+// Import main game components
+import Grid from "../Grid";
+import Navigation from "../Navigation";
+import HUDContainer from "../hud/HUDContainer";
+import GridItemsManager from "../grid/GridItemsManager";
+import GMPlayerToggle from "../level-editor/GMPlayerToggle";
+import DynamicFogManager from "../level-editor/DynamicFogManager";
+import DynamicLightingManager from "../level-editor/DynamicLightingManager";
+import AtmosphericEffectsManager from "../level-editor/AtmosphericEffectsManager";
+import ActionBar from "../ui/ActionBar";
+import CombatSelectionWindow from "../combat/CombatSelectionOverlay";
+import { FloatingCombatTextManager } from "../combat/FloatingCombatText";
+
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [currentRoom, setCurrentRoom] = useState(null);
   const [socket, setSocket] = useState(null);
@@ -152,30 +165,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           </div>
         </div>
 
-        {/* Game Content Area */}
+        {/* Game Content Area - Full VTT Interface */}
         <div className="game-content">
-          <div className="game-placeholder">
-            <h3>🎲 Mythrill D&D - Multiplayer Mode</h3>
-            <p>Welcome to your multiplayer session!</p>
-            <p><strong>Room:</strong> {currentRoom.name}</p>
-            <p><strong>Your Role:</strong> {isGM ? 'Game Master' : 'Player'}</p>
-            <p><strong>Players Connected:</strong> {connectedPlayers.length}</p>
-            
-            <div className="multiplayer-features">
-              <h4>🚀 Coming Soon:</h4>
-              <ul>
-                <li>✅ Real-time chat (working now!)</li>
-                <li>🔄 Synchronized character positions</li>
-                <li>🎯 Shared combat tracker</li>
-                <li>🗺️ Real-time map updates</li>
-                <li>🎲 Shared dice rolls</li>
-                <li>📝 Collaborative notes</li>
-              </ul>
-            </div>
+          <div className="multiplayer-game-screen">
+            <Grid />
+            <GridItemsManager />
+            <HUDContainer />
+            <ActionBar />
+            <CombatSelectionWindow />
+            <FloatingCombatTextManager />
+            <DynamicFogManager />
+            <DynamicLightingManager />
+            <AtmosphericEffectsManager />
 
-            <div className="test-area">
-              <h4>🧪 Test the Chat:</h4>
-              <p>Use the chat window to communicate with other players in real-time!</p>
+            {/* Navigation overlay for multiplayer */}
+            <div className="multiplayer-navigation">
+              <Navigation />
+              <GMPlayerToggle />
             </div>
           </div>
         </div>
