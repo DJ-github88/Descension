@@ -42,6 +42,54 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
     return icons[raceName] || 'fas fa-user';
   };
 
+  const getRaceColor = (raceName) => {
+    const colors = {
+      'Nordmark': '#8B7355',
+      'Grimheart': '#A0522D',
+      'Voidtouched': '#4B0082',
+      'Mirrorkin': '#C0C0C0',
+      'Thornkin': '#228B22',
+      'Stormcaller': '#4169E1',
+      'Shadowmere': '#2F2F4F',
+      'Ironbound': '#708090',
+      'Flameborn': '#FF4500',
+      'Frostkin': '#87CEEB'
+    };
+    return colors[raceName] || '#d4af37';
+  };
+
+  const getClassColor = (className) => {
+    const colors = {
+      'Pyrofiend': '#FF4500',
+      'Minstrel': '#FF69B4',
+      'Chronarch': '#4169E1',
+      'Chaos Weaver': '#9932CC',
+      'Gambler': '#DAA520',
+      'Martyr': '#F5F5DC',
+      'False Prophet': '#8B008B',
+      'Exorcist': '#FFD700',
+      'Plaguebringer': '#228B22',
+      'Lichborne': '#800080',
+      'Deathcaller': '#2F2F2F',
+      'Spellguard': '#4682B4',
+      'Inscriptor': '#B8860B',
+      'Arcanoneer': '#FF6347',
+      'Witch Doctor': '#32CD32',
+      'Formbender': '#8FBC8F',
+      'Primalist': '#228B22',
+      'Berserker': '#DC143C',
+      'Dreadnaught': '#708090',
+      'Titan': '#8B7355',
+      'Toxicologist': '#00CED1',
+      'Covenbane': '#A0522D',
+      'Bladedancer': '#8B0000',
+      'Lunarch': '#87CEEB',
+      'Huntress': '#228B22',
+      'Warden': '#4682B4'
+    };
+    return colors[className] || '#d4af37';
+  };
+
   // All 27 character classes organized by paths
   const characterClasses = {
     'Infernal Path': [
@@ -164,12 +212,13 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
         <div className="sidebar-header">
           <h2>Race</h2>
         </div>
-        <div className="race-list">
+        <div className="race-grid">
           {getRaceList().map((race) => (
             <div
               key={race.id}
-              className={`race-option ${selectedRace === race.id ? 'selected' : ''}`}
+              className={`race-card ${selectedRace === race.id ? 'selected' : ''}`}
               onClick={() => handleRaceSelect(race.id)}
+              style={{'--race-color': getRaceColor(race.name)}}
             >
               <div className="race-icon">
                 <i className={race.icon}></i>
@@ -185,12 +234,13 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             <div className="sidebar-header">
               <h3>Subrace</h3>
             </div>
-            <div className="subrace-list">
+            <div className="subrace-grid">
               {getSelectedRaceData()?.subraces.map((subrace) => (
                 <div
                   key={subrace.id}
-                  className={`subrace-option ${selectedSubrace === subrace.id ? 'selected' : ''}`}
+                  className={`subrace-card ${selectedSubrace === subrace.id ? 'selected' : ''}`}
                   onClick={() => handleSubraceSelect(subrace.id)}
+                  style={{'--race-color': getRaceColor(getSelectedRaceData()?.name)}}
                 >
                   <span className="subrace-name">{subrace.name}</span>
                 </div>
@@ -204,27 +254,23 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
           <div className="sidebar-header">
             <h2>Class</h2>
           </div>
-          <div className="class-paths">
-            {Object.entries(characterClasses).map(([pathName, classes]) => (
-              <div key={pathName} className="class-path">
-                <h4 className="path-title">{pathName}</h4>
-                <div className="class-list">
-                  {classes.map((classInfo) => (
-                    <div
-                      key={classInfo.name}
-                      className={`class-option ${selectedClass === classInfo.name ? 'selected' : ''}`}
-                      onClick={() => handleClassSelect(classInfo.name)}
-                      style={{ '--theme-color': getClassThemeColor(classInfo.theme) }}
-                    >
-                      <div className="class-icon">
-                        <i className={classInfo.icon}></i>
-                      </div>
-                      <span className="class-name">{classInfo.name}</span>
-                    </div>
-                  ))}
+          <div className="class-grid">
+            {Object.entries(characterClasses).flatMap(([pathName, classes]) =>
+              classes.map((classInfo) => (
+                <div
+                  key={classInfo.name}
+                  className={`class-card ${selectedClass === classInfo.name ? 'selected' : ''}`}
+                  onClick={() => handleClassSelect(classInfo.name)}
+                  style={{'--class-color': getClassColor(classInfo.name)}}
+                >
+                  <div className="class-icon">
+                    <i className={classInfo.icon}></i>
+                  </div>
+                  <div className="class-name">{classInfo.name}</div>
+                  <div className="class-path">{pathName}</div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

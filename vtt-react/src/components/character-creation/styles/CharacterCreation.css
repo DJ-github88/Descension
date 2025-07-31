@@ -76,287 +76,361 @@
   font-size: 1.3rem;
 }
 
-/* Elegant Race Selection */
-.race-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Modern Race Grid Selection */
+.race-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
   margin-bottom: 35px;
 }
 
-.race-option {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 16px 18px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%),
-    linear-gradient(90deg, #3a3a3a 0%, #4a4a4a 50%, #3a3a3a 100%);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #e8dcc0;
-  position: relative;
-  overflow: hidden;
-}
-
-.race-option::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%);
-  transition: left 0.5s ease;
-}
-
-.race-option:hover::before {
-  left: 100%;
-}
-
-.race-option:hover {
-  background:
-    linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%),
-    linear-gradient(90deg, #4a4a4a 0%, #5a5a5a 50%, #4a4a4a 100%);
-  border-color: rgba(212, 175, 55, 0.5);
-  transform: translateX(8px);
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
-}
-
-.race-option.selected {
-  background:
-    linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%),
-    linear-gradient(90deg, #5a4a2a 0%, #6a5a3a 50%, #5a4a2a 100%);
-  border-color: #d4af37;
-  color: #f4e4bc;
-  font-weight: 600;
-  box-shadow:
-    0 0 20px rgba(212, 175, 55, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.race-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  background:
-    radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.race-option:hover .race-icon {
-  background:
-    radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
-  transform: scale(1.1);
-}
-
-.race-option.selected .race-icon {
-  color: #d4af37;
-  background:
-    radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
-}
-
-.race-name {
-  font-size: 1.1rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-}
-
-/* Elegant Subrace Selection */
-.subrace-section {
-  margin-top: 25px;
-}
-
-.subrace-list {
+.race-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.subrace-option {
-  padding: 14px 20px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%),
-    linear-gradient(90deg, #2a2a2a 0%, #3a3a3a 50%, #2a2a2a 100%);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #e8dcc0;
-  position: relative;
-  margin-left: 15px;
-}
-
-.subrace-option::before {
-  content: '';
-  position: absolute;
-  left: -15px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 0;
-  background: #d4af37;
-  transition: height 0.3s ease;
-}
-
-.subrace-option:hover::before,
-.subrace-option.selected::before {
-  height: 60%;
-}
-
-.subrace-option:hover {
-  background:
-    linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.03) 100%),
-    linear-gradient(90deg, #3a3a3a 0%, #4a4a4a 50%, #3a3a3a 100%);
-  border-color: rgba(212, 175, 55, 0.3);
-  transform: translateX(5px);
-}
-
-.subrace-option.selected {
-  background:
-    linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%),
-    linear-gradient(90deg, #4a3a2a 0%, #5a4a3a 50%, #4a3a2a 100%);
-  border-color: rgba(212, 175, 55, 0.6);
-  color: #f4e4bc;
-  font-weight: 600;
-}
-
-.subrace-name {
-  font-size: 1rem;
-  letter-spacing: 0.3px;
-}
-
-/* Elegant Class Selection */
-.class-section {
-  margin-top: 35px;
-}
-
-.class-paths {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-.class-path {
-  /* Remove path sectioning - classes will be displayed individually */
-  display: contents;
-}
-
-.path-title {
-  /* Hide path titles */
-  display: none;
-}
-
-.class-list {
-  display: contents;
-}
-
-.class-option {
-  display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 16px 18px;
+  padding: 20px 12px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%),
-    linear-gradient(90deg, #3a3a3a 0%, #4a4a4a 50%, #3a3a3a 100%);
+    linear-gradient(145deg, #3a3a3a 0%, #4a4a4a 50%, #3a3a3a 100%);
   border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 10px;
+  border-radius: 15px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: #e8dcc0;
   position: relative;
   overflow: hidden;
+  text-align: center;
+  min-height: 120px;
 }
 
-.class-option::before {
+.race-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--theme-color, #d4af37) 0%, transparent 100%);
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 50% 50%, var(--race-color, #d4af37) 0%, transparent 70%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
-.class-option:hover::before,
-.class-option.selected::before {
-  opacity: 1;
-}
-
-.class-option::after {
+.race-card::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.1) 50%, transparent 100%);
-  transition: left 0.5s ease;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  transform: rotate(-45deg);
+  transition: transform 0.6s ease;
+  opacity: 0;
 }
 
-.class-option:hover::after {
-  left: 100%;
+.race-card:hover::before {
+  opacity: 0.1;
 }
 
-.class-option:hover {
+.race-card:hover::after {
+  opacity: 1;
+  transform: rotate(-45deg) translate(50%, 50%);
+}
+
+.race-card:hover {
   background:
     linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%),
-    linear-gradient(90deg, #4a4a4a 0%, #5a5a5a 50%, #4a4a4a 100%);
-  border-color: rgba(212, 175, 55, 0.5);
-  transform: translateX(8px);
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+    linear-gradient(145deg, #4a4a4a 0%, #5a5a5a 50%, #4a4a4a 100%);
+  border-color: var(--race-color, rgba(212, 175, 55, 0.6));
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px var(--race-color, rgba(212, 175, 55, 0.3));
 }
 
-.class-option.selected {
+.race-card.selected {
   background:
-    linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%),
-    linear-gradient(90deg, #5a4a2a 0%, #6a5a3a 50%, #5a4a2a 100%);
-  border-color: var(--theme-color, #d4af37);
+    linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%),
+    linear-gradient(145deg, #5a4a2a 0%, #6a5a3a 50%, #5a4a2a 100%);
+  border-color: var(--race-color, #d4af37);
   color: #f4e4bc;
   font-weight: 600;
+  transform: translateY(-3px);
   box-shadow:
-    0 0 20px rgba(212, 175, 55, 0.3),
+    0 0 30px var(--race-color, rgba(212, 175, 55, 0.4)),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.class-icon {
-  width: 32px;
-  height: 32px;
+.race-card.selected::before {
+  opacity: 0.2;
+}
+
+.race-card .race-icon {
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 2rem;
   background:
-    radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  color: var(--theme-color, #d4af37);
+    radial-gradient(circle, var(--race-color, rgba(212, 175, 55, 0.3)) 0%, transparent 70%);
+  border-radius: 12px;
+  transition: all 0.4s ease;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+  color: var(--race-color, #d4af37);
 }
 
-.class-option:hover .class-icon {
+.race-card:hover .race-icon {
   background:
-    radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+    radial-gradient(circle, var(--race-color, rgba(212, 175, 55, 0.5)) 0%, transparent 70%);
+  transform: scale(1.15) rotateY(10deg);
+  box-shadow: 0 8px 20px var(--race-color, rgba(212, 175, 55, 0.3));
+}
+
+.race-card.selected .race-icon {
+  background:
+    radial-gradient(circle, var(--race-color, rgba(212, 175, 55, 0.6)) 0%, transparent 70%);
   transform: scale(1.1);
+  box-shadow: 0 0 25px var(--race-color, rgba(212, 175, 55, 0.5));
 }
 
-.class-option.selected .class-icon {
-  background:
-    radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%);
-  color: var(--theme-color, #d4af37);
-}
-
-.class-name {
+.race-card .race-name {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Modern Subrace Grid Selection */
+.subrace-section {
+  margin-top: 30px;
+}
+
+.subrace-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.subrace-card {
+  padding: 16px 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%),
+    linear-gradient(145deg, #2a2a2a 0%, #3a3a3a 50%, #2a2a2a 100%);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #e8dcc0;
+  position: relative;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subrace-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 50% 50%, var(--race-color, #d4af37) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.subrace-card:hover::before {
+  opacity: 0.08;
+}
+
+.subrace-card:hover {
+  background:
+    linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.03) 100%),
+    linear-gradient(145deg, #3a3a3a 0%, #4a4a4a 50%, #3a3a3a 100%);
+  border-color: var(--race-color, rgba(212, 175, 55, 0.4));
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.subrace-card.selected {
+  background:
+    linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%),
+    linear-gradient(145deg, #4a3a2a 0%, #5a4a3a 50%, #4a3a2a 100%);
+  border-color: var(--race-color, rgba(212, 175, 55, 0.8));
+  color: #f4e4bc;
+  font-weight: 600;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 20px var(--race-color, rgba(212, 175, 55, 0.3)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.subrace-card.selected::before {
+  opacity: 0.15;
+}
+
+.subrace-card .subrace-name {
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Modern Class Grid Selection */
+.class-section {
+  margin-top: 35px;
+}
+
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.class-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 10px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%),
+    linear-gradient(145deg, #3a3a3a 0%, #4a4a4a 50%, #3a3a3a 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #e8dcc0;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  min-height: 140px;
+}
+
+.class-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 50% 30%, var(--class-color, #d4af37) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.class-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  transform: rotate(-45deg);
+  transition: transform 0.6s ease;
+  opacity: 0;
+}
+
+.class-card:hover::before {
+  opacity: 0.12;
+}
+
+.class-card:hover::after {
+  opacity: 1;
+  transform: rotate(-45deg) translate(50%, 50%);
+}
+
+.class-card:hover {
+  background:
+    linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%),
+    linear-gradient(145deg, #4a4a4a 0%, #5a5a5a 50%, #4a4a4a 100%);
+  border-color: var(--class-color, rgba(212, 175, 55, 0.6));
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px var(--class-color, rgba(212, 175, 55, 0.3));
+}
+
+.class-card.selected {
+  background:
+    linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.1) 100%),
+    linear-gradient(145deg, #5a4a2a 0%, #6a5a3a 50%, #5a4a2a 100%);
+  border-color: var(--class-color, #d4af37);
+  color: #f4e4bc;
+  font-weight: 600;
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 30px var(--class-color, rgba(212, 175, 55, 0.4)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.class-card.selected::before {
+  opacity: 0.2;
+}
+
+.class-card .class-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background:
+    radial-gradient(circle, var(--class-color, rgba(212, 175, 55, 0.3)) 0%, transparent 70%);
+  border-radius: 10px;
+  transition: all 0.4s ease;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
+  color: var(--class-color, #d4af37);
+}
+
+.class-card:hover .class-icon {
+  background:
+    radial-gradient(circle, var(--class-color, rgba(212, 175, 55, 0.5)) 0%, transparent 70%);
+  transform: scale(1.15) rotateY(10deg);
+  box-shadow: 0 6px 20px var(--class-color, rgba(212, 175, 55, 0.3));
+}
+
+.class-card.selected .class-icon {
+  background:
+    radial-gradient(circle, var(--class-color, rgba(212, 175, 55, 0.6)) 0%, transparent 70%);
+  transform: scale(1.1);
+  box-shadow: 0 0 25px var(--class-color, rgba(212, 175, 55, 0.5));
+}
+
+.class-card .class-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 4px;
+}
+
+.class-card .class-path {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  position: relative;
+  z-index: 2;
+  color: var(--class-color, #d4af37);
 }
 
 /* Elegant Character Preview Center */
@@ -878,6 +952,25 @@
   .character-silhouette {
     font-size: 8rem;
   }
+
+  /* Adjust grid for smaller sidebars */
+  .class-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .class-card {
+    min-height: 120px;
+    padding: 14px 8px;
+  }
+
+  .class-card .class-name {
+    font-size: 0.85rem;
+  }
+
+  .class-card .class-path {
+    font-size: 0.65rem;
+  }
 }
 
 @media (max-width: 900px) {
@@ -934,6 +1027,36 @@
   .create-btn {
     padding: 14px 30px;
     font-size: 1.1rem;
+  }
+
+  /* Mobile grid adjustments */
+  .race-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .subrace-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .class-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .race-card,
+  .subrace-card,
+  .class-card {
+    min-height: auto;
+    padding: 16px 12px;
+  }
+
+  .race-card .race-icon,
+  .class-card .class-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.4rem;
   }
 }
 
