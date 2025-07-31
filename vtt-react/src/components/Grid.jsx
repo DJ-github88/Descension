@@ -106,7 +106,6 @@ export default function Grid() {
         zoomLevel,
         playerZoom,
         showGrid,
-        showWallLayer,
         showFogLayer,
         showTileLayer,
         showLightLayer,
