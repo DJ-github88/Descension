@@ -434,7 +434,7 @@ function CharacterSheetWindow({ isOpen, onClose }) {
     );
 }
 
-export default function Navigation() {
+export default function Navigation({ onReturnToLanding }) {
     const [openWindows, setOpenWindows] = useState(new Set());
 
     // Level editor store
@@ -571,11 +571,18 @@ export default function Navigation() {
             return;
         }
 
+        // ESC key to return to landing page
+        if (e.key === 'Escape' && onReturnToLanding) {
+            e.preventDefault();
+            onReturnToLanding();
+            return;
+        }
+
         if (button) {
             e.preventDefault();
             handleButtonClick(button.id);
         }
-    }, [handleButtonClick]);
+    }, [handleButtonClick, onReturnToLanding]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);
@@ -837,6 +844,29 @@ export default function Navigation() {
                                     );
                                 })}
 
+                                {/* Back to Landing Page Button */}
+                                {onReturnToLanding && (
+                                    <button
+                                        onClick={onReturnToLanding}
+                                        className="wow-nav-button back-button"
+                                        title="Return to Main Menu (ESC)"
+                                    >
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            className="wow-nav-icon"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                                        </svg>
+                                        <div className="shortcut">
+                                            ESC
+                                        </div>
+                                    </button>
+                                )}
 
                             </div>
                         </div>

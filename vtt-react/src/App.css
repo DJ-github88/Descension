@@ -1390,3 +1390,23 @@ textarea:focus {
   color: var(--pf-brown-dark);
   font-family: 'Cinzel', serif;
 }
+
+/* Back Button Styling */
+.wow-nav-button.back-button {
+  background: linear-gradient(180deg, #8b4513, #654321);
+  border-color: #5a3a1a;
+}
+
+.wow-nav-button.back-button:hover {
+  background: linear-gradient(180deg, #a0522d, #8b4513);
+  border-color: #d4af37;
+  transform: scale(1.05);
+}
+
+.wow-nav-button.back-button .wow-nav-icon {
+  stroke: #f0e6d2;
+}
+
+.wow-nav-button.back-button:hover .wow-nav-icon {
+  stroke: #d4af37;
+}

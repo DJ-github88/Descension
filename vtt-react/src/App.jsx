@@ -17,6 +17,8 @@ import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/
 
 // Multiplayer components
 import MultiplayerApp from "./components/multiplayer/MultiplayerApp";
+// Landing page
+import LandingPage from "./components/landing/LandingPage";
 
 
 import initChatStore from './utils/initChatStore';
@@ -36,8 +38,7 @@ import './styles/grid-item.css';
 import './styles/party-hud.css';
 // Import creature and character token styles
 import './styles/creature-token.css';
-// Import multiplayer mode button styles
-import './styles/multiplayer-button.css';
+
 
 function GameScreen() {
     return (
@@ -61,7 +62,7 @@ function GameScreen() {
 }
 
 export default function App() {
-    const [gameMode, setGameMode] = useState('single'); // 'single' or 'multiplayer'
+    const [gameMode, setGameMode] = useState('landing'); // 'landing', 'single', or 'multiplayer'
 
     // Initialize stores with sample data
     useEffect(() => {
@@ -69,35 +70,39 @@ export default function App() {
         initCreatureStore();
     }, []);
 
-    const handleSwitchToMultiplayer = () => {
+    const handleEnterSinglePlayer = () => {
+        setGameMode('single');
+    };
+
+    const handleEnterMultiplayer = () => {
         setGameMode('multiplayer');
     };
 
-    const handleReturnToSinglePlayer = () => {
-        setGameMode('single');
+    const handleReturnToLanding = () => {
+        setGameMode('landing');
     };
 
     return (
         <GameProvider>
             <SpellLibraryProvider>
-                {gameMode === 'single' ? (
+                {gameMode === 'landing' && (
+                    <LandingPage
+                        onEnterSinglePlayer={handleEnterSinglePlayer}
+                        onEnterMultiplayer={handleEnterMultiplayer}
+                    />
+                )}
+
+                {gameMode === 'single' && (
                     <div className="spell-wizard-container">
                         <GameScreen />
-                        <Navigation />
+                        <Navigation onReturnToLanding={handleReturnToLanding} />
                         {/* Global GM/Player toggle - always visible */}
                         <GMPlayerToggle />
-
-                        {/* Multiplayer Mode Button */}
-                        <button
-                            className="multiplayer-mode-button"
-                            onClick={handleSwitchToMultiplayer}
-                            title="Switch to Multiplayer Mode"
-                        >
-                            🌐 Multiplayer
-                        </button>
                     </div>
-                ) : (
-                    <MultiplayerApp onReturnToSinglePlayer={handleReturnToSinglePlayer} />
+                )}
+
+                {gameMode === 'multiplayer' && (
+                    <MultiplayerApp onReturnToSinglePlayer={handleReturnToLanding} />
                 )}
             </SpellLibraryProvider>
         </GameProvider>
