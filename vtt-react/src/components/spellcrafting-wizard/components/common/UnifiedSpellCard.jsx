@@ -3678,8 +3678,18 @@ const UnifiedSpellCard = ({
 
   const handleDragStart = (e) => {
     if (isDraggable) {
-      e.dataTransfer.setData('text/plain', JSON.stringify(spell));
+      // Format spell data for action bar compatibility
+      const spellData = {
+        id: spell.id,
+        name: spell.name,
+        icon: spell.icon || 'spell_holy_holybolt',
+        cooldown: spell.cooldown || 0,
+        level: spell.level || 1,
+        spellType: spell.spellType || 'ACTION'
+      };
+      e.dataTransfer.setData('application/json', JSON.stringify(spellData));
       e.dataTransfer.effectAllowed = 'copy';
+      console.log('Dragging spell from UnifiedSpellCard:', spellData);
     }
   };
 
