@@ -75,7 +75,8 @@ body {
   background: var(--pf-gradient-parchment);
   color: var(--pf-text-primary);
   /* Allow scrolling by default - will be overridden for game screen */
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
   background-attachment: fixed;
@@ -90,10 +91,11 @@ code {
 }
 
 #root {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   /* Allow scrolling by default - will be overridden for game screen */
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--pf-gradient-parchment);
 }
 
