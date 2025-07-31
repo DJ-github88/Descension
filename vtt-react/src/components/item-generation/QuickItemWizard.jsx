@@ -838,14 +838,14 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                     }
 
                     // Parse weapon type from prompt
-                    const weaponTypes = ['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'SPEAR'];
+                    const weaponTypes = ['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'POLEARM'];
                     for (const wType of weaponTypes) {
-                        if (lowerPrompt.includes(wType.toLowerCase())) {
+                        if (lowerPrompt.includes(wType.toLowerCase()) || (wType === 'POLEARM' && lowerPrompt.includes('spear'))) {
                             subtype = wType;
                             break;
                         }
                     }
-                    if (!subtype) subtype = getRandomElement(['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'SPEAR']);
+                    if (!subtype) subtype = getRandomElement(['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'POLEARM']);
                 } else {
                     if (Math.random() < 0.7) {
                         const weaponSlot = 'ONE_HANDED';
@@ -853,7 +853,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                     } else {
                         const weaponSlot = 'TWO_HANDED';
                     }
-                    subtype = getRandomElement(['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'SPEAR']);
+                    subtype = getRandomElement(['STAFF', 'SWORD', 'AXE', 'MACE', 'DAGGER', 'POLEARM']);
                 }
                 break;
 

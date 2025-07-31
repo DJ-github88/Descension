@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ITEM_TYPES, QUALITY_TYPES, EQUIPMENT_SLOTS, CURRENCY_TYPES } from './itemConstants';
+import { WEAPON_SUBTYPES } from './weaponTypes';
 
 // Quality multipliers for stats
 const QUALITY_MULTIPLIERS = {
@@ -528,7 +529,9 @@ const generateContainerItems = (containerQuality, containerSize, fillLevel, incl
                 }
 
                 // Select random subtype for the chosen item type
-                const itemSubtype = getRandomProperty(ITEM_SUBTYPES[itemType]);
+                const itemSubtype = itemType === 'weapon'
+                    ? getRandomProperty(WEAPON_SUBTYPES)
+                    : getRandomProperty(ITEM_SUBTYPES[itemType]);
 
                 // Select quality based on distribution
                 const itemQuality = selectQualityFromDistribution(qualityDistribution);
@@ -650,13 +653,19 @@ const generateBasicItem = (type, subtype, quality, powerScale) => {
         combatStats = generateCombatStats(type, subtype, quality, powerScale);
         weaponStats = generateWeaponStats(subtype, quality, powerScale);
 
-        // Set appropriate weapon slot
-        if (subtype === 'GREATSWORD' || subtype === 'GREATAXE' || subtype === 'POLEARM' || subtype === 'STAFF') {
-            slots = ['twoHand'];
-        } else if (subtype === 'BOW' || subtype === 'CROSSBOW' || subtype === 'WAND') {
-            slots = ['mainHand']; // Ranged weapons
+        // Set appropriate weapon slot based on WEAPON_SUBTYPES data
+        const weaponData = WEAPON_SUBTYPES[subtype];
+        if (weaponData) {
+            if (weaponData.slot === 'TWO_HANDED') {
+                slots = ['twoHand'];
+            } else if (weaponData.slot === 'RANGED') {
+                slots = ['ranged'];
+            } else {
+                slots = ['mainHand']; // One-handed weapons
+            }
         } else {
-            slots = ['mainHand']; // One-handed weapons
+            // Fallback for unknown subtypes
+            slots = ['mainHand'];
         }
     } else if (type === 'armor') {
         // Armor gets combat stats with armor class
@@ -810,8 +819,8 @@ const generateBasicItem = (type, subtype, quality, powerScale) => {
 
         // For weapons
         ...(type === 'weapon' && {
-            weaponSlot: (subtype === 'GREATSWORD' || subtype === 'GREATAXE' || subtype === 'POLEARM' || subtype === 'STAFF') ? 'TWO_HANDED' : 'ONE_HANDED',
-            hand: (subtype === 'BOW' || subtype === 'CROSSBOW' || subtype === 'WAND') ? 'RANGED' : 'MAIN_HAND',
+            weaponSlot: WEAPON_SUBTYPES[subtype]?.slot || 'ONE_HANDED',
+            hand: WEAPON_SUBTYPES[subtype]?.slot === 'RANGED' ? 'RANGED' : 'MAIN_HAND',
             weaponStats: weaponStats
         }),
 
@@ -1097,7 +1106,7 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
     // Generate item
     const generateItem = (type, subtype, quality, powerScale) => {
         // If no subtype is selected and this is not a container, pick a random one
-        const itemSubtype = type === 'container' ? '' : (subtype || getRandomProperty(ITEM_SUBTYPES[type]));
+        const itemSubtype = type === 'container' ? '' : (subtype || (type === 'weapon' ? getRandomProperty(WEAPON_SUBTYPES) : getRandomProperty(ITEM_SUBTYPES[type])));
 
         // Generate item name and description
         const nameOptions = type === 'container' ? { containerSize } : {};
@@ -1450,8 +1459,8 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
 
             // For weapons
             ...(type === 'weapon' && {
-                weaponSlot: (itemSubtype === 'GREATSWORD' || itemSubtype === 'GREATAXE' || itemSubtype === 'POLEARM' || itemSubtype === 'STAFF') ? 'TWO_HANDED' : 'ONE_HANDED',
-                hand: (itemSubtype === 'BOW' || itemSubtype === 'CROSSBOW' || itemSubtype === 'WAND') ? 'RANGED' : 'MAIN_HAND',
+                weaponSlot: WEAPON_SUBTYPES[itemSubtype]?.slot || 'ONE_HANDED',
+                hand: WEAPON_SUBTYPES[itemSubtype]?.slot === 'RANGED' ? 'RANGED' : 'MAIN_HAND',
                 weaponStats: weaponStats
             }),
 
@@ -1507,9 +1516,17 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                     <label>Item Subtype</label>
                     <select value={subtype} onChange={(e) => setSubtype(e.target.value)}>
                         <option value="">Random</option>
-                        {Object.entries(ITEM_SUBTYPES[type] || {}).map(([value, label]) => (
-                            <option key={value} value={value}>{label}</option>
-                        ))}
+                        {type === 'weapon' ? (
+                            // For weapons, show all weapon subtypes grouped by slot
+                            Object.entries(WEAPON_SUBTYPES).map(([value, data]) => (
+                                <option key={value} value={value}>{data.name} ({data.slot.replace('_', ' ')})</option>
+                            ))
+                        ) : (
+                            // For other item types, use the original logic
+                            Object.entries(ITEM_SUBTYPES[type] || {}).map(([value, label]) => (
+                                <option key={value} value={value}>{label}</option>
+                            ))
+                        )}
                     </select>
                 </div>
             )}
