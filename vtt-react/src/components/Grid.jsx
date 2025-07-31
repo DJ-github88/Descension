@@ -219,7 +219,7 @@ export default function Grid() {
     window.gridSystem = gridSystem;
     window.useLevelEditorStore = useLevelEditorStore;
 
-    const tileSize = gridSize || 50; // Use grid size from store or default to 50
+    // tileSize is already available from gameStore destructuring above
     const [hoveredTile, setHoveredTile] = useState(null);
     const [isDraggingCreature, setIsDraggingCreature] = useState(false);
     const [draggedCreatureId, setDraggedCreatureId] = useState(null);

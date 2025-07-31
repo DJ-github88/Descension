@@ -20,10 +20,12 @@ module.exports = {
         }
       }
 
+      // Remove ESLint plugin entirely to avoid CI errors
+      webpackConfig.plugins = webpackConfig.plugins.filter(
+        plugin => plugin.constructor.name !== 'ESLintWebpackPlugin'
+      );
+
       return webpackConfig;
     },
-  },
-  eslint: {
-    enable: false, // Disable ESLint in production builds to avoid CI errors
   },
 };
