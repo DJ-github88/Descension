@@ -13,11 +13,7 @@ import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/creature-token.css';
 import WowWindow from '../windows/WowWindow';
 import CreatureWindow from '../windows/CreatureWindow';
-<<<<<<< HEAD:src/components/grid/CreatureToken.jsx
 import ReactTooltip from 'react-tooltip';
-=======
-import { Tooltip as ReactTooltip } from 'react-tooltip';
->>>>>>> Spell:vtt-react/src/components/grid/CreatureToken.jsx
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import ShopWindow from '../shop/ShopWindow';
@@ -129,8 +125,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Store previous token state for comparison
   const prevTokenStateRef = useRef(null);
 
-<<<<<<< HEAD:src/components/grid/CreatureToken.jsx
-=======
   // Handle mouse move and up for dragging
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -240,8 +234,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, dragOffset, tokenId, updateTokenPosition, position, isInCombat, dragStartPosition, showMovementVisualization, activeMovement, updateMovementVisualization, feetPerTile, updateTempMovementDistance, validateMovement, setPendingMovementConfirmation, confirmMovement, clearMovementVisualization, creature, gridSystem]);
-
->>>>>>> Spell:vtt-react/src/components/grid/CreatureToken.jsx
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(
@@ -315,8 +307,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return scaledSize * effectiveZoom;
   }, [gridSize, effectiveZoom, creature]);
 
-<<<<<<< HEAD:src/components/grid/CreatureToken.jsx
-=======
   // Calculate health percentage for the health bar with real-time updates
   const healthPercentage = useMemo(() => {
     if (!token || !creature) return 0;
@@ -324,8 +314,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const _ = forceUpdate;
     return (token.state.currentHp / creature.stats.maxHp) * 100;
   }, [token?.state.currentHp, creature?.stats.maxHp, forceUpdate]);
-
->>>>>>> Spell:vtt-react/src/components/grid/CreatureToken.jsx
   // Handle context menu
   const handleContextMenu = (e) => {
     // Prevent the default browser context menu
