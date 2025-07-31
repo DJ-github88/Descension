@@ -8,12 +8,25 @@ require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 
+// Configure CORS origins
+const allowedOrigins = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT
+  ? [
+      "https://windtunnel.netlify.app",
+      "https://your-custom-domain.com"
+    ]
+  : [
+      "http://localhost:3000",
+      "http://127.0.0.1:3000"
+    ];
+
+console.log('CORS Origins:', allowedOrigins);
+console.log('Environment:', process.env.NODE_ENV);
+console.log('Railway Environment:', process.env.RAILWAY_ENVIRONMENT);
+
 // Configure CORS for Socket.io
 const io = socketIo(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? ["https://windtunnel.netlify.app", "https://your-custom-domain.com"]
-      : ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -21,12 +34,34 @@ const io = socketIo(server, {
 
 // Middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ["https://windtunnel.netlify.app", "https://your-custom-domain.com"]
-    : ["http://localhost:3000", "http://127.0.0.1:3000"],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    corsOrigins: allowedOrigins
+  });
+});
+
+// List public rooms endpoint
+app.get('/rooms', (req, res) => {
+  const publicRooms = Array.from(rooms.values())
+    .filter(room => !room.settings.isPrivate)
+    .map(room => ({
+      id: room.id,
+      name: room.name,
+      playerCount: room.players.size + 1, // +1 for GM
+      maxPlayers: room.settings.maxPlayers
+    }));
+
+  res.json(publicRooms);
+});
 
 // In-memory storage (upgrade to Redis later for production scaling)
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
