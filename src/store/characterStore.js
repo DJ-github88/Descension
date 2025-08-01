@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../utils/characterUtils';
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../data/classResources';
-import { applyRacialModifiers, getFullRaceData } from '../data/raceData';
+import { applyRacialModifiers, getFullRaceData, getRaceData } from '../data/raceData';
 
 // Import test utilities for development
 if (process.env.NODE_ENV === 'development') {
@@ -265,6 +265,15 @@ const useCharacterStore = create((set, get) => ({
             if (raceData) {
                 set({ raceDisplayName: raceData.subrace.name });
             }
+        } else if (state.race) {
+            // If only race is selected, use the race's proper name
+            const raceData = getRaceData(state.race);
+            if (raceData) {
+                set({ raceDisplayName: raceData.name });
+            }
+        } else {
+            // Clear display name if no race selected
+            set({ raceDisplayName: '' });
         }
     },
 
@@ -572,13 +581,20 @@ const useCharacterStore = create((set, get) => ({
                 }
             }
 
-            // If race is being changed, clear subrace
+            // If race is being changed, clear subrace and update display name
             if (field === 'race' && value !== state.race) {
                 newState.subrace = '';
                 newState.racialTraits = [];
                 newState.racialLanguages = [];
                 newState.racialSpeed = 30;
-                newState.raceDisplayName = '';
+
+                // Set race display name to the proper race name
+                if (value) {
+                    const raceData = getRaceData(value);
+                    newState.raceDisplayName = raceData ? raceData.name : '';
+                } else {
+                    newState.raceDisplayName = '';
+                }
             }
 
             // If subrace is being changed, update racial traits

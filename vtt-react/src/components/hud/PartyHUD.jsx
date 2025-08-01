@@ -555,14 +555,37 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         // Also subscribe to character store for current player updates
         const unsubscribeCharacter = useCharacterStore.subscribe(
             (state) => ({
+                name: state.name,
+                baseName: state.baseName,
+                race: state.race,
+                raceDisplayName: state.raceDisplayName,
+                class: state.class,
+                level: state.level,
                 health: state.health,
                 mana: state.mana,
                 actionPoints: state.actionPoints,
-                class: state.class,
                 classResource: state.classResource
             }),
-            (resources) => {
-
+            (characterData) => {
+                // Update the current player in the party store when character data changes
+                const partyState = usePartyStore.getState();
+                const currentMember = partyState.partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        name: characterData.name,
+                        character: {
+                            ...currentMember.character,
+                            race: characterData.race,
+                            raceDisplayName: characterData.raceDisplayName,
+                            class: characterData.class,
+                            level: characterData.level,
+                            health: characterData.health,
+                            mana: characterData.mana,
+                            actionPoints: characterData.actionPoints,
+                            classResource: characterData.classResource
+                        }
+                    });
+                }
                 setForceUpdate(prev => prev + 1);
             }
         );
@@ -841,7 +864,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Add current player to the party display if not already included
     const displayMembers = [...partyMembers];
-    const currentPlayerInParty = partyMembers.find(m => m.id === 'current-player' || m.name === currentPlayerData.name);
+    const currentPlayerInParty = partyMembers.find(m => m.id === 'current-player');
 
     if (!currentPlayerInParty) {
         // Add current player as first member using actual character data
@@ -864,6 +887,28 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 classResource: currentPlayerData.classResource // Add missing classResource
             }
         });
+    } else {
+        // Update the current player data in displayMembers with fresh character data
+        const currentPlayerIndex = displayMembers.findIndex(m => m.id === 'current-player');
+        if (currentPlayerIndex !== -1) {
+            displayMembers[currentPlayerIndex] = {
+                ...displayMembers[currentPlayerIndex],
+                name: currentPlayerData.name,
+                character: {
+                    ...displayMembers[currentPlayerIndex].character,
+                    level: currentPlayerData.level,
+                    race: currentPlayerData.race,
+                    raceDisplayName: currentPlayerData.raceDisplayName,
+                    class: currentPlayerData.class,
+                    alignment: currentPlayerData.alignment,
+                    exhaustionLevel: currentPlayerData.exhaustionLevel,
+                    health: currentPlayerData.health,
+                    mana: currentPlayerData.mana,
+                    actionPoints: currentPlayerData.actionPoints,
+                    classResource: currentPlayerData.classResource
+                }
+            };
+        }
     }
 
     // Set leadership based on party store state

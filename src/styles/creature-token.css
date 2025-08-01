@@ -1,7 +1,6 @@
 /* Creature Token Styles */
 .creature-token {
   position: absolute;
-<<<<<<< HEAD
   /* width and height are set dynamically via inline styles */
   border-radius: 50%;
   /* border is set dynamically via inline styles */
@@ -146,44 +145,12 @@
     radial-gradient(circle at 20% 80%, rgba(160, 140, 112, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(160, 140, 112, 0.1) 0%, transparent 50%);
 }
-
-=======
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  background-color: rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  cursor: grab;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  user-select: none;
-  touch-action: none;
-}
-
-.creature-token:hover {
-  transform: translate(-50%, -50%) scale(1.1);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.7);
-  z-index: 11;
-}
-
-.creature-token.dragging {
-  cursor: grabbing;
-  transform: translate(-50%, -50%) scale(1.15);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.8);
-  z-index: 100;
-  opacity: 0.8;
-}
-
->>>>>>> Spell
 .token-icon {
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
-<<<<<<< HEAD
+  background-repeat: no-repeat;
 }
 
 .token-health-bar {
@@ -492,8 +459,8 @@
 
 .pf-stat-item i {
   font-size: 14px;
-=======
-  background-repeat: no-repeat;
+  width: 16px;
+  text-align: center;
 }
 
 .token-health-bar {
@@ -583,12 +550,9 @@
 
 .context-menu-button i {
   margin-right: 0.5rem;
->>>>>>> Spell
   width: 16px;
   text-align: center;
 }
-
-<<<<<<< HEAD
 .pf-stat-label {
   font-family: 'Cinzel', serif;
   font-weight: 600;
@@ -1153,7 +1117,9 @@
   50% {
     transform: scale(1.1);
     box-shadow: 0 3px 8px rgba(255, 215, 0, 0.5);
-=======
+  }
+}
+
 .context-menu-button.danger {
   color: #ff6b6b;
 }
@@ -1252,6 +1218,5 @@
   to {
     opacity: 1;
     transform: translateY(0);
->>>>>>> Spell
   }
 }

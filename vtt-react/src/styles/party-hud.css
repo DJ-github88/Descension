@@ -1769,6 +1769,18 @@
     border-color: #7a3b2e;
 }
 
+.context-menu-button.danger-action {
+    background: linear-gradient(135deg, #f0d0d0 0%, #e8c0c0 50%, #d4a0a0 100%);
+    border-color: #a05555;
+    color: #8b3a3a;
+}
+
+.context-menu-button.danger-action:hover {
+    background: linear-gradient(135deg, #f5d5d5 0%, #edc5c5 50%, #d9a8a8 100%);
+    border-color: #954d4d;
+    color: #7a3030;
+}
+
 /* ====== TARGET HUD STYLES ====== */
 
 .target-hud-frame {

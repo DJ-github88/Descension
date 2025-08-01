@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useItemStore from '../../store/itemStore';
 import ConfirmationDialog from './ConfirmationDialog';
 import UnlockContainerModal from './UnlockContainerModal';
-import '../../styles/item-context-menu.css';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
 const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -151,108 +151,91 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
         }
     };
 
-    // If there's an error, show a simplified menu
+    // Build menu items array for UnifiedContextMenu
+    const menuItems = [];
+
+    // Edit Item
+    menuItems.push({
+        icon: '✏️',
+        label: 'Edit Item',
+        onClick: () => {
+            onEdit(itemId);
+            onClose();
+        }
+    });
+
+    // Container actions
+    if (isContainer) {
+        menuItems.push({
+            icon: isLocked ? '🔓' : (isOpen ? '📂' : '📁'),
+            label: isLocked ? 'Unlock Container' : (isOpen ? 'Close Container' : 'Open Container'),
+            onClick: handleOpen
+        });
+    }
+
+    // Move to folder options
+    const moveToFolderItems = categories
+        .filter(category => category.id !== currentCategoryId)
+        .map(category => ({
+            icon: '📁',
+            label: category.name,
+            onClick: () => {
+                onMoveToCategory(itemId, category.id);
+                onClose();
+            }
+        }));
+
+    if (moveToFolderItems.length > 0) {
+        // Add separator before move options
+        menuItems.push({ type: 'separator' });
+        menuItems.push(...moveToFolderItems);
+    }
+
+    // Delete Item
+    menuItems.push(
+        { type: 'separator' },
+        {
+            icon: '🗑️',
+            label: 'Delete Item',
+            onClick: handleDelete,
+            className: 'danger-action'
+        }
+    );
+
+    // If there's an error, show error item
     if (error) {
         return (
-            <div
-                className="item-context-menu error"
-                style={{
-                    left: x,
-                    top: y,
-                    backgroundColor: '#ffeeee',
-                    border: '1px solid #ff6666',
-                    boxShadow: '0 2px 8px rgba(255, 0, 0, 0.2)'
-                }}
-                onClick={e => e.stopPropagation()}
-            >
-                <div className="context-menu-error" style={{ padding: '10px', color: '#cc0000' }}>
-                    <i className="fas fa-exclamation-triangle" style={{ marginRight: '8px' }}></i>
-                    {error}
-                </div>
-                <button
-                    className="context-menu-item"
-                    onClick={onClose}
-                    style={{
-                        backgroundColor: '#ff6666',
-                        color: 'white',
-                        padding: '8px 12px',
-                        margin: '8px',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    <i className="fas fa-times" style={{ marginRight: '5px' }}></i>
-                    Close
-                </button>
-            </div>
+            <UnifiedContextMenu
+                visible={true}
+                x={x}
+                y={y}
+                onClose={onClose}
+                items={[
+                    {
+                        icon: '⚠️',
+                        label: error,
+                        disabled: true
+                    },
+                    { type: 'separator' },
+                    {
+                        icon: '✕',
+                        label: 'Close',
+                        onClick: onClose
+                    }
+                ]}
+            />
         );
     }
 
     return (
         <>
-            <div
-                className="item-context-menu"
-                style={{
-                    left: x,
-                    top: y
-                }}
-                onClick={e => e.stopPropagation()}
-            >
-                <button
-                    className="context-menu-item edit-item primary-action"
-                    onClick={() => {
-                        onEdit(itemId);
-                        onClose();
-                    }}
-                >
-                    <i className="fas fa-edit"></i>
-                    Edit Item
-                </button>
-
-
-
-                {isContainer && (
-                    <div className="context-menu-section">
-                        <button
-                            className="context-menu-item"
-                            onClick={handleOpen}
-                        >
-                            <i className={`fas fa-${isLocked ? 'unlock' : `folder-${isOpen ? 'open' : 'plus'}`}`}></i>
-                            {isLocked ? 'Unlock Container' : (isOpen ? 'Close Container' : 'Open Container')}
-                        </button>
-                    </div>
-                )}
-
-                <div className="context-menu-section">
-                    <div className="context-menu-header">Move to Folder</div>
-                    <div className="context-menu-items">
-                        {categories
-                            .filter(category => category.id !== currentCategoryId)
-                            .map(category => (
-                                <div
-                                    key={category.id}
-                                    className="context-menu-item"
-                                    onClick={() => {
-                                        onMoveToCategory(itemId, category.id);
-                                        onClose();
-                                    }}
-                                >
-                                    <i className="fas fa-folder"></i>
-                                    {category.name}
-                                </div>
-                            ))}
-                    </div>
-                </div>
-
-                <button
-                    className="context-menu-item delete-item"
-                    onClick={handleDelete}
-                >
-                    <i className="fas fa-trash"></i>
-                    Delete Item
-                </button>
-            </div>
+            <UnifiedContextMenu
+                visible={true}
+                x={x}
+                y={y}
+                onClose={onClose}
+                items={menuItems}
+            />
 
             {showConfirmation && (
                 <ConfirmationDialog
