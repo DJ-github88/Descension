@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useItemStore from '../../store/itemStore';
-import '../../styles/category-context-menu.css';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
 export default function CategoryContextMenu({ x, y, onClose, category, item }) {
     const editCategory = useItemStore(state => state.editCategory);
@@ -133,87 +133,81 @@ export default function CategoryContextMenu({ x, y, onClose, category, item }) {
 
     const isContainer = item?.type === 'container';
 
-    return (
-        <div 
-            className="category-context-menu"
-            style={{ left: x, top: y }}
-            onClick={e => e.stopPropagation()}
-        >
-            {!category.isBaseCategory && (
-                <>
-                    <button 
-                        className="menu-item"
-                        onClick={() => setEditMode('quick-rename')}
-                    >
-                        <i className="fas fa-signature"></i>
-                        Rename
-                    </button>
-                    <button 
-                        className="menu-item"
-                        onClick={() => setEditMode('full-edit')}
-                    >
-                        <i className="fas fa-edit"></i>
-                        Edit...
-                    </button>
-                    <button 
-                        className="menu-item"
-                        onClick={handleDelete}
-                    >
-                        <i className="fas fa-trash"></i>
-                        Delete
-                    </button>
-                </>
-            )}
-            
-            <button 
-                className="menu-item"
-                onClick={handleAddSubcategory}
-            >
-                <i className="fas fa-folder-plus"></i>
-                New Folder
-            </button>
-            <button 
-                className="menu-item"
-                onClick={() => {
-                    // TODO: Implement sort functionality
-                    onClose();
-                }}
-            >
-                <i className="fas fa-sort"></i>
-                Sort By
-            </button>
-            <button 
-                className="menu-item"
-                onClick={() => {
-                    // TODO: Implement collapse/expand functionality
-                    onClose();
-                }}
-            >
-                <i className="fas fa-compress-arrows-alt"></i>
-                Collapse All
-            </button>
+    // Build menu items array for UnifiedContextMenu
+    const menuItems = [];
 
-            {isContainer && (
-                <>
-                    <div className="menu-separator"></div>
-                    <button 
-                        className="menu-item"
-                        onClick={handleOpen}
-                    >
-                        <i className="fas fa-folder-open"></i>
-                        Open Container
-                    </button>
-                    <div 
-                        className="has-submenu menu-item"
-                        onMouseEnter={() => setShowLockOptions(true)}
-                        onMouseLeave={() => setShowLockOptions(false)}
-                    >
-                        <i className="fas fa-lock"></i>
-                        Lock Options
-                        {showLockOptions && renderLockOptions()}
-                    </div>
-                </>
-            )}
-        </div>
+    // Category management options (only for non-base categories)
+    if (!category.isBaseCategory) {
+        menuItems.push(
+            {
+                icon: '✏️',
+                label: 'Rename',
+                onClick: () => setEditMode('quick-rename')
+            },
+            {
+                icon: '⚙️',
+                label: 'Edit...',
+                onClick: () => setEditMode('full-edit')
+            },
+            {
+                icon: '🗑️',
+                label: 'Delete',
+                onClick: handleDelete,
+                className: 'danger-action'
+            }
+        );
+    }
+
+    // Add separator if we have category management options
+    if (!category.isBaseCategory) {
+        menuItems.push({ type: 'separator' });
+    }
+
+    // General folder options
+    menuItems.push(
+        {
+            icon: '📁',
+            label: 'New Folder',
+            onClick: handleAddSubcategory
+        },
+        {
+            icon: '🔄',
+            label: 'Sort By',
+            onClick: () => {
+                // TODO: Implement sort functionality
+                onClose();
+            }
+        },
+        {
+            icon: '📦',
+            label: 'Collapse All',
+            onClick: () => {
+                // TODO: Implement collapse/expand functionality
+                onClose();
+            }
+        }
+    );
+
+    // Container-specific options
+    if (isContainer) {
+        menuItems.push(
+            { type: 'separator' },
+            {
+                icon: '📂',
+                label: 'Open Container',
+                onClick: handleOpen
+            }
+            // Note: Lock options submenu would need special handling in UnifiedContextMenu
+        );
+    }
+
+    return (
+        <UnifiedContextMenu
+            visible={true}
+            x={x}
+            y={y}
+            onClose={onClose}
+            items={menuItems}
+        />
     );
 }

@@ -9,6 +9,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemCard from './ItemCard';
 import ItemContextMenu from './ItemContextMenu';
 import CategoryContextMenu from './CategoryContextMenu';
+import CategorizeModal from './CategorizeModal';
 import QuickItemGeneratorModal from './QuickItemGeneratorModal';
 import ContainerWizard from './ContainerWizard';
 import ContainerWindow from './ContainerWindow';
@@ -226,6 +227,8 @@ const ItemLibrary = ({ onClose }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [qualityFilter, setQualityFilter] = useState('');
     const [typeFilter, setTypeFilter] = useState('');
+    const [showCategorizeModal, setShowCategorizeModal] = useState(false);
+    const [categorizeModalData, setCategorizeModalData] = useState(null);
 
     const {
         items,
@@ -521,6 +524,11 @@ const ItemLibrary = ({ onClose }) => {
             setEditingItem(formattedItem);
             setShowItemWizard(true);
         }
+    };
+
+    const handleShowCategorizeModal = (itemId, categoryId, x, y) => {
+        setCategorizeModalData({ itemId, categoryId, x, y });
+        setShowCategorizeModal(true);
     };
 
     const handleItemWizardComplete = (newItemData) => {
@@ -1062,6 +1070,7 @@ const ItemLibrary = ({ onClose }) => {
                     itemId={contextMenu.itemId}
                     item={contextMenu.validatedItem || items.find(item => item.id === contextMenu.itemId)}
                     onEdit={handleEditItem}
+                    onShowCategorizeModal={handleShowCategorizeModal}
                 />
             )}
 
@@ -1100,6 +1109,25 @@ const ItemLibrary = ({ onClose }) => {
                     windowPosition={recipeWizardPosition}
                     windowSize={recipeWizardSize}
                     isOpen={showRecipeWizard}
+                />
+            )}
+
+            {/* Categorize Modal */}
+            {showCategorizeModal && categorizeModalData && (
+                <CategorizeModal
+                    categories={categories}
+                    currentCategoryId={categorizeModalData.categoryId}
+                    x={categorizeModalData.x}
+                    y={categorizeModalData.y}
+                    onMoveToCategory={(categoryId) => {
+                        handleMoveToCategory(categorizeModalData.itemId, categoryId);
+                        setShowCategorizeModal(false);
+                        setCategorizeModalData(null);
+                    }}
+                    onClose={() => {
+                        setShowCategorizeModal(false);
+                        setCategorizeModalData(null);
+                    }}
                 />
             )}
         </div>,

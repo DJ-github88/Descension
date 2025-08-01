@@ -4,7 +4,7 @@ import ConfirmationDialog from './ConfirmationDialog';
 import UnlockContainerModal from './UnlockContainerModal';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
-const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item }) => {
+const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [error, setError] = useState(null);
@@ -173,22 +173,16 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
         });
     }
 
-    // Move to folder options
-    const moveToFolderItems = categories
-        .filter(category => category.id !== currentCategoryId)
-        .map(category => ({
+    // Categorize option
+    if (categories && categories.length > 0) {
+        menuItems.push({
             icon: '📁',
-            label: category.name,
+            label: 'Categorize',
             onClick: () => {
-                onMoveToCategory(itemId, category.id);
-                onClose();
+                onShowCategorizeModal(itemId, currentCategoryId, x, y);
+                onClose(); // Close the context menu immediately
             }
-        }));
-
-    if (moveToFolderItems.length > 0) {
-        // Add separator before move options
-        menuItems.push({ type: 'separator' });
-        menuItems.push(...moveToFolderItems);
+        });
     }
 
     // Delete Item
@@ -252,6 +246,8 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                     onClose={() => setShowUnlockModal(false)}
                 />
             )}
+
+
         </>
     );
 };

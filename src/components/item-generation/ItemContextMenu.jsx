@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import useItemStore from '../../store/itemStore';
 import ConfirmationDialog from './ConfirmationDialog';
 import UnlockContainerModal from './UnlockContainerModal';
-import CategorizeModal from './CategorizeModal';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
-const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item }) => {
+const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
-    const [showCategorizeModal, setShowCategorizeModal] = useState(false);
     const [error, setError] = useState(null);
     const removeItem = useItemStore(state => state.removeItem);
     const toggleContainerOpen = useItemStore(state => state.toggleContainerOpen);
@@ -181,7 +179,8 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
             icon: '📁',
             label: 'Categorize',
             onClick: () => {
-                setShowCategorizeModal(true);
+                onShowCategorizeModal(itemId, currentCategoryId, x, y);
+                onClose(); // Close the context menu immediately
             }
         });
     }
@@ -248,18 +247,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                 />
             )}
 
-            {showCategorizeModal && (
-                <CategorizeModal
-                    categories={categories}
-                    currentCategoryId={currentCategoryId}
-                    onMoveToCategory={(categoryId) => {
-                        onMoveToCategory(itemId, categoryId);
-                        setShowCategorizeModal(false);
-                        onClose();
-                    }}
-                    onClose={() => setShowCategorizeModal(false)}
-                />
-            )}
+
         </>
     );
 };
