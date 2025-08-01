@@ -35,12 +35,12 @@ const initialState = {
     cameraX: 0,
     cameraY: 0,
     zoomLevel: 1.0, // GM-controlled base zoom level
-    minZoom: 0.1,
+    minZoom: 0.2, // Increased from 0.1 to prevent VTT breaking
     maxZoom: 5.0,
 
     // Player navigation zoom (separate from GM zoom)
     playerZoom: 1.0,
-    minPlayerZoom: 0.25,
+    minPlayerZoom: 0.4, // Increased from 0.25 to prevent excessive zoom out
     maxPlayerZoom: 4.0,
 
     // Grid rendering settings

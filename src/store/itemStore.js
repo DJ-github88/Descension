@@ -3672,8 +3672,11 @@ const useItemStore = create(
             }),
 
             removeItem: (itemId) => set(state => {
+                console.log('Removing item with ID:', itemId);
+
                 // Remove the item from items array
                 const newItems = state.items.filter(item => item.id !== itemId);
+                console.log('Items before removal:', state.items.length, 'Items after removal:', newItems.length);
 
                 // Remove the item from itemCategories
                 const newItemCategories = { ...state.itemCategories };
@@ -3682,11 +3685,15 @@ const useItemStore = create(
                 // If this was the selected item, clear the selection
                 const newSelectedItem = state.selectedItem?.id === itemId ? null : state.selectedItem;
 
-                return {
+                const newState = {
                     items: newItems,
                     itemCategories: newItemCategories,
-                    selectedItem: newSelectedItem
+                    selectedItem: newSelectedItem,
+                    itemsVersion: state.itemsVersion // Maintain the version to prevent reset
                 };
+
+                console.log('New state after item removal:', newState);
+                return newState;
             }),
 
             moveItem: (itemId, categoryId) => set(state => ({
@@ -3770,35 +3777,48 @@ const useItemStore = create(
                     const str = localStorage.getItem(name);
                     if (!str) return null;
 
-                    // Parse the stored data
-                    const parsed = JSON.parse(str);
+                    try {
+                        // Parse the stored data
+                        const parsed = JSON.parse(str);
 
-                    // Check version and reset if outdated
-                    if (!parsed.state || !parsed.state.itemsVersion || parsed.state.itemsVersion < COMPREHENSIVE_ITEMS_VERSION) {
-                        // Item store version outdated, resetting to comprehensive items
+                        // Check version and reset if outdated
+                        if (!parsed.state || !parsed.state.itemsVersion || parsed.state.itemsVersion < COMPREHENSIVE_ITEMS_VERSION) {
+                            console.log('Item store version outdated or missing, resetting to comprehensive items');
+                            console.log('Stored version:', parsed.state?.itemsVersion, 'Required version:', COMPREHENSIVE_ITEMS_VERSION);
+                            localStorage.removeItem(name);
+                            return null; // This will trigger default initialization
+                        }
+
+                        // Convert arrays back to Sets for specific properties
+                        if (parsed.state && parsed.state.openContainers) {
+                            // Ensure openContainers is a Set
+                            parsed.state.openContainers = new Set(parsed.state.openContainers);
+                        }
+
+                        console.log('Successfully loaded item store from localStorage');
+                        return parsed;
+                    } catch (error) {
+                        console.error('Error parsing item store from localStorage:', error);
                         localStorage.removeItem(name);
-                        return null; // This will trigger default initialization
+                        return null;
                     }
-
-                    // Convert arrays back to Sets for specific properties
-                    if (parsed.state && parsed.state.openContainers) {
-                        // Ensure openContainers is a Set
-                        parsed.state.openContainers = new Set(parsed.state.openContainers);
-                    }
-
-                    return parsed;
                 },
                 setItem: (name, value) => {
-                    // Convert Sets to arrays for storage
-                    const serialized = {
-                        ...value,
-                        state: {
-                            ...value.state,
-                            openContainers: Array.from(value.state.openContainers || []),
-                            selectedTiles: Array.from(value.state.selectedTiles || [])
-                        }
-                    };
-                    localStorage.setItem(name, JSON.stringify(serialized));
+                    try {
+                        // Convert Sets to arrays for storage
+                        const serialized = {
+                            ...value,
+                            state: {
+                                ...value.state,
+                                openContainers: Array.from(value.state.openContainers || []),
+                                selectedTiles: Array.from(value.state.selectedTiles || [])
+                            }
+                        };
+                        console.log('Saving item store to localStorage, items count:', value.state.items?.length);
+                        localStorage.setItem(name, JSON.stringify(serialized));
+                    } catch (error) {
+                        console.error('Error saving item store to localStorage:', error);
+                    }
                 },
                 removeItem: (name) => localStorage.removeItem(name)
             }

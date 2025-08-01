@@ -44,6 +44,11 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
             const silver = silverMatch ? parseInt(silverMatch[1]) : 0;
             const copper = copperMatch ? parseInt(copperMatch[1]) : 0;
 
+            // Set reasonable maximum limits
+            const MAX_GOLD = 999999;
+            const MAX_SILVER = 999999;
+            const MAX_COPPER = 999999;
+
             // Validate the values
             if (gold < 0 || silver < 0 || copper < 0) {
                 setError('Values cannot be negative');
@@ -51,8 +56,22 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
                 return;
             }
 
+            if (gold > MAX_GOLD || silver > MAX_SILVER || copper > MAX_COPPER) {
+                setError(`Maximum values: ${MAX_GOLD}g ${MAX_SILVER}s ${MAX_COPPER}c`);
+                setIsValid(false);
+                return;
+            }
+
             if (gold === 0 && silver === 0 && copper === 0) {
-                setError('Please enter at least one currency value');
+                setError('Please enter at least one currency value (format: 1g 5s 20c)');
+                setIsValid(false);
+                return;
+            }
+
+            // Check for invalid format (numbers without currency letters)
+            const hasNumbersWithoutCurrency = /\d+(?![gsc])/i.test(inputValue.replace(/\s/g, ''));
+            if (hasNumbersWithoutCurrency) {
+                setError('Use format: 1g 5s 20c (numbers must be followed by g, s, or c)');
                 setIsValid(false);
                 return;
             }
@@ -68,9 +87,14 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
         }
     }, [inputValue]);
 
-    // Handle input change
+    // Handle input change with validation
     const handleInputChange = (e) => {
-        setInputValue(e.target.value);
+        const value = e.target.value;
+
+        // Only allow digits, letters g/s/c (case insensitive), and spaces
+        const sanitizedValue = value.replace(/[^0-9gscGSC\s]/g, '');
+
+        setInputValue(sanitizedValue);
     };
 
     // Handle generate
@@ -148,12 +172,13 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
                             type="text"
                             value={inputValue}
                             onChange={handleInputChange}
-                            placeholder="e.g., 1g 5s 20c"
+                            placeholder="Format: 1g 5s 20c (max: 999999 each)"
                             className="pf-currency-text-input"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             spellCheck="false"
+                            maxLength={50}
                         />
 
                         {isValid && (

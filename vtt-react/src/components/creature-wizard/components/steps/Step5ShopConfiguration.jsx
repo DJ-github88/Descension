@@ -475,24 +475,27 @@ const Step5ShopConfiguration = () => {
                             <input
                               type="number"
                               min="0"
+                              max="999999"
                               value={shopItem.customPrice.gold}
                               onChange={(e) => handlePriceChange(index, 'gold', e.target.value)}
                               placeholder="0"
                             />
                             <span className="currency-label gold">g</span>
-                            
+
                             <input
                               type="number"
                               min="0"
+                              max="999999"
                               value={shopItem.customPrice.silver}
                               onChange={(e) => handlePriceChange(index, 'silver', e.target.value)}
                               placeholder="0"
                             />
                             <span className="currency-label silver">s</span>
-                            
+
                             <input
                               type="number"
                               min="0"
+                              max="999999"
                               value={shopItem.customPrice.copper}
                               onChange={(e) => handlePriceChange(index, 'copper', e.target.value)}
                               placeholder="0"

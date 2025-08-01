@@ -292,6 +292,7 @@ export default function CharacterPanel() {
                         onChange={(e) => updateCharacterInfo('name', e.target.value)}
                         className="character-field-input"
                         placeholder="Enter character name"
+                        maxLength={30}
                     />
                 </div>
 

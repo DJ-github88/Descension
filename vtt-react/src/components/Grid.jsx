@@ -957,9 +957,16 @@ export default function Grid() {
                 // Calculate target zoom with smooth scaling
                 const zoomFactor = 1.15; // Slightly more aggressive zoom for better feel
                 const currentZoom = playerZoom;
-                const targetZoom = e.deltaY < 0 ?
+                let targetZoom = e.deltaY < 0 ?
                     Math.min(currentZoom * zoomFactor, gameStore.maxPlayerZoom) :
                     Math.max(currentZoom / zoomFactor, gameStore.minPlayerZoom);
+
+                // Additional safety check: prevent effective zoom from going too low to avoid VTT breaking
+                const effectiveTargetZoom = zoomLevel * targetZoom;
+                const minEffectiveZoom = 0.15; // Minimum effective zoom to prevent VTT issues
+                if (effectiveTargetZoom < minEffectiveZoom) {
+                    targetZoom = Math.max(targetZoom, minEffectiveZoom / zoomLevel);
+                }
 
                 // Apply instant zoom if zoom actually changes
                 if (Math.abs(targetZoom - currentZoom) > 0.001) {

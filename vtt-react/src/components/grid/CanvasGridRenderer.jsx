@@ -46,69 +46,69 @@ const CanvasGridRenderer = ({
     const finalGridLineThickness = storeGridLineThickness || gridLineThickness;
     const finalGridLineOpacity = storeGridLineOpacity || 0.8;
     
-    // Enhanced Level-of-Detail (LOD) system
+    // Enhanced Level-of-Detail (LOD) system with smoother transitions
     const getLODLevel = useCallback((zoom) => {
-        if (zoom < 0.05) return 0; // No grid - too zoomed out
-        if (zoom < 0.15) return 1; // Major grid lines only (every 10th)
-        if (zoom < 0.3) return 2; // Sparse grid (every 5th line)
-        if (zoom < 0.6) return 3; // Medium grid (every 2nd line)
-        if (zoom < 1.2) return 4; // Normal grid (every line)
-        if (zoom < 2.0) return 5; // Detailed grid with sub-divisions
+        if (zoom < 0.2) return 0; // No grid - too zoomed out (increased from 0.05)
+        if (zoom < 0.4) return 1; // Major grid lines only (every 10th) - smoother transition
+        if (zoom < 0.7) return 2; // Sparse grid (every 5th line) - smoother transition
+        if (zoom < 1.0) return 3; // Medium grid (every 2nd line) - smoother transition
+        if (zoom < 1.5) return 4; // Normal grid (every line) - smoother transition
+        if (zoom < 2.5) return 5; // Detailed grid with sub-divisions
         return 6; // Ultra-detailed grid with fine sub-divisions
     }, []);
 
-    // Calculate grid line spacing and styling based on LOD
+    // Calculate grid line spacing and styling based on LOD with smoother transitions
     const getGridProperties = useCallback((lodLevel, baseSpacing, zoom) => {
         switch (lodLevel) {
             case 0:
                 return { spacing: 0, opacity: 0, lineWidth: 0 }; // No grid
             case 1:
                 return {
-                    spacing: baseSpacing * 10,
-                    opacity: Math.min(0.8, zoom * 8),
-                    lineWidth: Math.max(1, zoom * 2),
-                    skipFactor: 10
+                    spacing: baseSpacing * 8, // Reduced from 10 for smoother transition
+                    opacity: Math.min(0.6, zoom * 3), // More gradual opacity scaling
+                    lineWidth: Math.max(1.2, zoom * 2.5), // Slightly thicker lines for visibility
+                    skipFactor: 8 // Reduced from 10
                 }; // Major grid lines only
             case 2:
                 return {
-                    spacing: baseSpacing * 5,
-                    opacity: Math.min(0.7, zoom * 4),
-                    lineWidth: Math.max(0.8, zoom * 1.5),
-                    skipFactor: 5
+                    spacing: baseSpacing * 4, // Reduced from 5 for smoother transition
+                    opacity: Math.min(0.65, zoom * 2.5), // More gradual opacity scaling
+                    lineWidth: Math.max(1.0, zoom * 2.0), // Better line width scaling
+                    skipFactor: 4 // Reduced from 5
                 }; // Sparse grid
             case 3:
                 return {
                     spacing: baseSpacing * 2,
-                    opacity: Math.min(0.6, zoom * 2),
-                    lineWidth: Math.max(0.6, zoom),
+                    opacity: Math.min(0.7, zoom * 1.8), // Improved opacity scaling
+                    lineWidth: Math.max(0.8, zoom * 1.2), // Better line width scaling
                     skipFactor: 2
                 }; // Medium grid
             case 4:
                 return {
                     spacing: baseSpacing,
-                    opacity: Math.min(0.7, zoom * 1.2), // Increased opacity for better visibility
-                    lineWidth: Math.max(0.8, zoom * 1.0), // Increased line width
+                    opacity: Math.min(0.75, zoom * 1.0), // More consistent opacity
+                    lineWidth: Math.max(0.8, zoom * 0.8), // Better line width scaling
                     skipFactor: 1
                 }; // Normal grid
             case 5:
                 return {
                     spacing: baseSpacing,
-                    opacity: 0.4,
-                    lineWidth: 0.5,
+                    opacity: 0.5, // Increased from 0.4 for better visibility
+                    lineWidth: 0.6, // Increased from 0.5
                     skipFactor: 1,
                     showSubGrid: true,
-                    subGridOpacity: 0.2
+                    subGridOpacity: 0.25 // Increased from 0.2
                 }; // Detailed with sub-divisions
             case 6:
                 return {
                     spacing: baseSpacing,
-                    opacity: 0.3,
-                    lineWidth: 0.4,
+                    opacity: 0.4, // Increased from 0.3
+                    lineWidth: 0.5, // Increased from 0.4
                     skipFactor: 1,
                     showSubGrid: true,
-                    subGridOpacity: 0.15,
+                    subGridOpacity: 0.2, // Increased from 0.15
                     showFineGrid: true,
-                    fineGridOpacity: 0.1
+                    fineGridOpacity: 0.15 // Increased from 0.1
                 }; // Ultra-detailed
             default:
                 return { spacing: baseSpacing, opacity: 0.5, lineWidth: 1, skipFactor: 1 };

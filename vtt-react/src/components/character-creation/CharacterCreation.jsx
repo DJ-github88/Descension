@@ -326,6 +326,7 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             onChange={(e) => setCharacterName(e.target.value)}
             placeholder="Enter character name"
             className="character-name-input"
+            maxLength={30}
           />
         </div>
       </div>
