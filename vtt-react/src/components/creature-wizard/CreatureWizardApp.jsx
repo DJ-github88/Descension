@@ -221,7 +221,6 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
 
       {/* External Creature Preview */}
       <ExternalCreaturePreview
-        key={`creature-preview-${wizardState.lastModified?.getTime() || Date.now()}`}
         creatureData={wizardState}
         isOpen={true}
       />

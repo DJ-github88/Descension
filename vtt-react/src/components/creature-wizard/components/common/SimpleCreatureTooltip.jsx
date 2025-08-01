@@ -80,204 +80,268 @@ const SimpleCreatureTooltip = ({ creature }) => {
   const lootPreview = getLootPreview();
 
   return (
-    <div className="pf-creature-tooltip">
-      {/* Tooltip borders for consistency with spell tooltips */}
-      <div className="tooltip-top-border"></div>
-
-      {/* Tooltip content container */}
-      <div className="wc3-tooltip-content" style={{ padding: '12px' }}>
-        {/* Creature name with challenge rating */}
+    <div
+      className="creature-preview-tooltip"
+      style={{
+        background: 'linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%)',
+        border: '2px solid #4a4a4a',
+        borderRadius: '12px',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        color: '#e0e0e0',
+        fontFamily: "'Segoe UI', 'Roboto', sans-serif",
+        fontSize: '13px',
+        maxWidth: '320px',
+        minWidth: '280px',
+        overflow: 'hidden',
+        position: 'relative',
+        backdropFilter: 'blur(10px)'
+      }}
+    >
+      {/* Header with creature name and type */}
       <div
         style={{
-          fontSize: '14px',
-          fontWeight: 'bold',
-          marginBottom: '4px',
-          color: '#7a3b2e',
-          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
-          letterSpacing: '0.3px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+          background: 'linear-gradient(90deg, #3a3a3a 0%, #2a2a2a 100%)',
+          borderBottom: '1px solid #4a4a4a',
+          padding: '12px 16px',
+          borderRadius: '10px 10px 0 0'
         }}
       >
-        <span>{creature.name}</span>
-        {challengeInfo && (
-          <span style={{
-            fontSize: '10px',
-            background: 'rgba(122, 59, 46, 0.2)',
-            padding: '1px 4px',
-            borderRadius: '3px',
-            color: '#7a3b2e',
-            fontWeight: 'normal'
-          }}>
-            {challengeInfo}
-          </span>
-        )}
-      </div>
-
-      {/* Type and size */}
-      <div
-        style={{
-          fontSize: '10px',
-          color: '#8b6914',
-          marginBottom: '6px',
-          fontStyle: 'italic'
-        }}
-      >
-        {formatSizeName(creature.size)} {formatTypeName(creature.type)} • {sizeMapping.width}×{sizeMapping.height}
-      </div>
-
-      {/* Flavor text description - truncated */}
-      {creature.description && (
         <div
           style={{
-            fontSize: '10px',
-            color: '#5d4e37',
-            marginBottom: '8px',
-            lineHeight: '1.3',
-            fontStyle: 'italic',
-            borderLeft: '2px solid #a08c70',
-            paddingLeft: '6px',
-            background: 'rgba(160, 140, 112, 0.08)',
-            padding: '4px 6px',
-            borderRadius: '0 3px 3px 0',
-            maxHeight: '40px',
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical'
+            fontSize: '16px',
+            fontWeight: '600',
+            color: '#ffffff',
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+            marginBottom: '4px'
           }}
         >
-          "{creature.description.length > 120 ? creature.description.substring(0, 120) + '...' : creature.description}"
+          {creature.name}
         </div>
-      )}
 
-      {/* Core stats */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: '8px',
-          fontSize: '11px'
-        }}
-      >
-        <div style={{ textAlign: 'center', background: 'rgba(122, 59, 46, 0.1)', padding: '3px 6px', borderRadius: '3px', flex: 1, marginRight: '4px' }}>
-          <div style={{ fontWeight: 'bold', color: '#7a3b2e', fontSize: '9px' }}>HP</div>
-          <div style={{ color: '#3e2723' }}>{creature.stats.maxHp}</div>
-        </div>
-        <div style={{ textAlign: 'center', background: 'rgba(122, 59, 46, 0.1)', padding: '3px 6px', borderRadius: '3px', flex: 1, marginRight: '4px' }}>
-          <div style={{ fontWeight: 'bold', color: '#7a3b2e', fontSize: '9px' }}>Armor</div>
-          <div style={{ color: '#3e2723' }}>{creature.stats.armor || creature.stats.armorClass}</div>
-        </div>
-        <div style={{ textAlign: 'center', background: 'rgba(122, 59, 46, 0.1)', padding: '3px 6px', borderRadius: '3px', flex: 1 }}>
-          <div style={{ fontWeight: 'bold', color: '#7a3b2e', fontSize: '9px' }}>Init</div>
-          <div style={{ color: '#3e2723' }}>{creature.stats.initiative}</div>
-        </div>
-      </div>
-
-      {/* Resistances and Vulnerabilities */}
-      {(creature.resistances && Object.keys(creature.resistances).length > 0) ||
-       (creature.vulnerabilities && Object.keys(creature.vulnerabilities).length > 0) ? (
-        <div style={{ marginBottom: '6px' }}>
-          {creature.resistances && Object.keys(creature.resistances).length > 0 && (
-            <div style={{ marginBottom: '2px' }}>
-              <span style={{ fontSize: '9px', fontWeight: 'bold', color: '#2e7d32' }}>Resist: </span>
-              <span style={{ fontSize: '9px', color: '#388e3c' }}>
-                {Object.entries(creature.resistances).slice(0, 2).map(([type, value]) =>
-                  `${type.substring(0, 4)} ${formatResistanceValue(value)}`
-                ).join(', ')}
-              </span>
-            </div>
-          )}
-          {creature.vulnerabilities && Object.keys(creature.vulnerabilities).length > 0 && (
-            <div>
-              <span style={{ fontSize: '9px', fontWeight: 'bold', color: '#d32f2f' }}>Vuln: </span>
-              <span style={{ fontSize: '9px', color: '#f44336' }}>
-                {Object.entries(creature.vulnerabilities).slice(0, 2).map(([type, value]) =>
-                  `${type.substring(0, 4)} ${formatResistanceValue(value)}`
-                ).join(', ')}
-              </span>
-            </div>
-          )}
-        </div>
-      ) : null}
-
-      {/* Notable Abilities - compact */}
-      {notableAbilities.length > 0 && (
-        <div style={{ marginBottom: '6px' }}>
-          <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#7a3b2e', marginBottom: '2px' }}>
-            Abilities:
-          </div>
-          {notableAbilities.slice(0, 1).map((ability, index) => (
-            <div key={index} style={{
-              fontSize: '9px',
-              color: '#5d4e37',
-              marginBottom: '2px',
-              paddingLeft: '6px',
-              borderLeft: '1px solid #a08c70'
-            }}>
-              <span style={{ fontWeight: 'bold', color: '#7a3b2e' }}>{ability.name}:</span> {ability.description.length > 60 ? ability.description.substring(0, 60) + '...' : ability.description}
-            </div>
-          ))}
-          {creature.abilities && creature.abilities.length > 1 && (
-            <div style={{ fontSize: '8px', color: '#8b6914', fontStyle: 'italic', marginTop: '1px' }}>
-              +{creature.abilities.length - 1} more abilities
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Loot Preview */}
-      {lootPreview && (
-        <div style={{ marginBottom: '6px' }}>
-          <div style={{ fontSize: '10px', fontWeight: 'bold', color: '#7a3b2e', marginBottom: '2px' }}>
-            Loot:
-          </div>
-          <div style={{ fontSize: '9px', color: '#8b6914' }}>
-            {lootPreview.slice(0, 2).join(', ')}
-          </div>
-        </div>
-      )}
-
-      {/* Tags */}
-      {creature.tags && creature.tags.length > 0 && (
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '2px',
-          marginTop: '4px'
-        }}>
-          {creature.tags.slice(0, 3).map((tag, index) => (
-            <span
-              key={index}
-              style={{
-                fontSize: '8px',
-                background: 'rgba(139, 69, 19, 0.15)',
-                color: '#7a3b2e',
-                padding: '1px 4px',
-                borderRadius: '6px',
-                border: '1px solid rgba(139, 69, 19, 0.2)'
-              }}
-            >
-              {tag}
-            </span>
-          ))}
-          {creature.tags.length > 3 && (
+        <div
+          style={{
+            fontSize: '12px',
+            color: '#b0b0b0',
+            fontWeight: '400'
+          }}
+        >
+          {sizeMapping[creature.size] || creature.size} {creature.type}
+          {challengeInfo && (
             <span style={{
-              fontSize: '8px',
-              color: '#8b6914',
-              fontStyle: 'italic',
-              alignSelf: 'center'
+              marginLeft: '8px',
+              fontSize: '11px',
+              background: 'rgba(255, 215, 0, 0.2)',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              color: '#ffd700',
+              fontWeight: '500'
             }}>
-              +{creature.tags.length - 3}
+              {challengeInfo}
             </span>
           )}
         </div>
-      )}
       </div>
 
-      {/* Tooltip bottom border */}
-      <div className="tooltip-bottom-border"></div>
+      {/* Main content */}
+      <div style={{ padding: '16px' }}>
+        {/* Description */}
+        {creature.description && (
+          <div
+            style={{
+              fontSize: '12px',
+              color: '#c0c0c0',
+              marginBottom: '12px',
+              lineHeight: '1.4',
+            }}
+          >
+            "{creature.description.length > 100 ? creature.description.substring(0, 100) + '...' : creature.description}"
+          </div>
+        )}
+
+        {/* Core stats grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '8px',
+            marginBottom: '12px'
+          }}
+        >
+          {/* HP */}
+          <div style={{
+            background: 'rgba(220, 53, 69, 0.2)',
+            border: '1px solid rgba(220, 53, 69, 0.4)',
+            borderRadius: '6px',
+            padding: '8px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '10px', color: '#ff6b7a', fontWeight: '600', marginBottom: '2px' }}>HP</div>
+            <div style={{ fontSize: '14px', color: '#ffffff', fontWeight: 'bold' }}>{creature.stats.maxHp}</div>
+          </div>
+
+          {/* Armor */}
+          <div style={{
+            background: 'rgba(108, 117, 125, 0.2)',
+            border: '1px solid rgba(108, 117, 125, 0.4)',
+            borderRadius: '6px',
+            padding: '8px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '10px', color: '#9ca3af', fontWeight: '600', marginBottom: '2px' }}>ARMOR</div>
+            <div style={{ fontSize: '14px', color: '#ffffff', fontWeight: 'bold' }}>{creature.stats.armor || creature.stats.armorClass}</div>
+          </div>
+
+          {/* Initiative */}
+          <div style={{
+            background: 'rgba(255, 193, 7, 0.2)',
+            border: '1px solid rgba(255, 193, 7, 0.4)',
+            borderRadius: '6px',
+            padding: '8px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '10px', color: '#ffc107', fontWeight: '600', marginBottom: '2px' }}>INIT</div>
+            <div style={{ fontSize: '14px', color: '#ffffff', fontWeight: 'bold' }}>+{creature.stats.initiative}</div>
+          </div>
+        </div>
+
+        {/* Resistances and Vulnerabilities */}
+        {(creature.resistances && Object.keys(creature.resistances).length > 0) ||
+         (creature.vulnerabilities && Object.keys(creature.vulnerabilities).length > 0) ? (
+          <div style={{
+            marginBottom: '12px',
+            display: 'flex',
+            gap: '8px',
+            flexWrap: 'wrap'
+          }}>
+            {creature.resistances && Object.keys(creature.resistances).length > 0 && (
+              <div style={{
+                background: 'rgba(34, 197, 94, 0.2)',
+                border: '1px solid rgba(34, 197, 94, 0.3)',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                fontSize: '10px'
+              }}>
+                <span style={{ color: '#22c55e', fontWeight: '600' }}>RESIST: </span>
+                <span style={{ color: '#86efac' }}>
+                  {Object.entries(creature.resistances).slice(0, 2).map(([type, value]) =>
+                    `${type.substring(0, 4)} ${formatResistanceValue(value)}`
+                  ).join(', ')}
+                </span>
+              </div>
+            )}
+            {creature.vulnerabilities && Object.keys(creature.vulnerabilities).length > 0 && (
+              <div style={{
+                background: 'rgba(239, 68, 68, 0.2)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                fontSize: '10px'
+              }}>
+                <span style={{ color: '#ef4444', fontWeight: '600' }}>VULN: </span>
+                <span style={{ color: '#fca5a5' }}>
+                  {Object.entries(creature.vulnerabilities).slice(0, 2).map(([type, value]) =>
+                    `${type.substring(0, 4)} ${formatResistanceValue(value)}`
+                  ).join(', ')}
+                </span>
+              </div>
+            )}
+          </div>
+        ) : null}
+
+        {/* Notable Abilities */}
+        {notableAbilities.length > 0 && (
+          <div style={{ marginBottom: '12px' }}>
+            <div style={{
+              fontSize: '11px',
+              fontWeight: '600',
+              color: '#a78bfa',
+              marginBottom: '6px',
+              borderBottom: '1px solid rgba(167, 139, 250, 0.3)',
+              paddingBottom: '2px'
+            }}>
+              ABILITIES
+            </div>
+            {notableAbilities.slice(0, 2).map((ability, index) => (
+              <div key={index} style={{
+                fontSize: '11px',
+                color: '#d1d5db',
+                marginBottom: '4px',
+                padding: '6px 8px',
+                background: 'rgba(167, 139, 250, 0.1)',
+                borderRadius: '4px',
+                border: '1px solid rgba(167, 139, 250, 0.2)'
+              }}>
+                <span style={{ fontWeight: '600', color: '#c4b5fd' }}>{ability.name}:</span> {ability.description.length > 50 ? ability.description.substring(0, 50) + '...' : ability.description}
+              </div>
+            ))}
+            {creature.abilities && creature.abilities.length > 2 && (
+              <div style={{ fontSize: '10px', color: '#9ca3af', fontStyle: 'italic', textAlign: 'center' }}>
+                +{creature.abilities.length - 2} more abilities
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Loot Preview */}
+        {lootPreview && (
+          <div style={{ marginBottom: '12px' }}>
+            <div style={{
+              fontSize: '11px',
+              fontWeight: '600',
+              color: '#fbbf24',
+              marginBottom: '4px'
+            }}>
+              LOOT
+            </div>
+            <div style={{
+              fontSize: '11px',
+              color: '#fde68a',
+              background: 'rgba(251, 191, 36, 0.1)',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              border: '1px solid rgba(251, 191, 36, 0.2)'
+            }}>
+              {lootPreview.slice(0, 2).join(', ')}
+            </div>
+          </div>
+        )}
+
+        {/* Tags */}
+        {creature.tags && creature.tags.length > 0 && (
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '4px'
+          }}>
+            {creature.tags.slice(0, 3).map((tag, index) => (
+              <span
+                key={index}
+                style={{
+                  fontSize: '9px',
+                  background: 'rgba(156, 163, 175, 0.2)',
+                  border: '1px solid rgba(156, 163, 175, 0.3)',
+                  color: '#d1d5db',
+                  padding: '2px 6px',
+                  borderRadius: '4px',
+                  fontWeight: '500'
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+            {creature.tags.length > 3 && (
+              <span style={{
+                fontSize: '9px',
+                color: '#9ca3af',
+                fontStyle: 'italic',
+                alignSelf: 'center'
+              }}>
+                +{creature.tags.length - 3}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
