@@ -413,14 +413,10 @@
 
 /* Portal tooltip styles - appears above all windows */
 .creature-card-hover-preview-portal {
-  width: 240px; /* Balanced size for readability */
-  background-color: #f0e6d2; /* Parchment background */
-  border: 1px solid #a08c70;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 420px; /* Much larger for enhanced tooltip */
   pointer-events: none;
-  animation: fadeIn 0.2s ease-out;
-  transform: scale(0.85); /* Slightly smaller but still readable */
+  animation: fadeIn 0.3s ease-out;
+  transform: scale(1.0); /* Full size for better readability */
   transform-origin: top left;
   /* Removed max-height and overflow restrictions to show full content */
 }
