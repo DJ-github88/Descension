@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { v4 as generateUniqueId } from 'uuid';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
@@ -88,6 +88,7 @@ const CreatureLibrary = ({ onEdit }) => {
   const [viewMode, setViewMode] = useState('grid');
   const [hoveredCreature, setHoveredCreature] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const libraryRef = useRef(null);
   const [inspectingCreature, setInspectingCreature] = useState(null);
 
   // Debug: Log the library state - only on mount
@@ -115,6 +116,32 @@ const CreatureLibrary = ({ onEdit }) => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  // Prevent background scrolling when tooltip is visible
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (hoveredCreature) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Find the scrollable tooltip content and scroll it directly
+        const scrollableContent = document.querySelector('.creature-card-hover-preview-portal .creature-tooltip-scrollable');
+        if (scrollableContent) {
+          scrollableContent.scrollTop += e.deltaY;
+        }
+      }
+    };
+
+    if (libraryRef.current) {
+      libraryRef.current.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      if (libraryRef.current) {
+        libraryRef.current.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [hoveredCreature]);
 
   // Handle creature selection
   const handleSelectCreature = (creatureId, editMode = false) => {
@@ -274,14 +301,8 @@ const CreatureLibrary = ({ onEdit }) => {
 
   return (
     <div
+      ref={libraryRef}
       className="creature-library"
-      onWheel={(e) => {
-        // Prevent scrolling the library when a tooltip is visible
-        if (hoveredCreature) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }}
     >
       {/* Header with controls */}
       <div className="creature-library-header">
@@ -410,20 +431,6 @@ const CreatureLibrary = ({ onEdit }) => {
                       onMouseEnter={(e) => handleMouseEnter(creature, e)}
                       onMouseMove={handleMouseMove}
                       onMouseLeave={handleMouseLeave}
-                      onWheel={(e) => {
-                        // If this creature card has a tooltip visible, redirect scroll to tooltip
-                        if (hoveredCreature && hoveredCreature.id === creature.id) {
-                          e.preventDefault();
-                          e.stopPropagation();
-
-                          // Find the scrollable tooltip content and scroll it directly
-                          const scrollableContent = document.querySelector('.creature-card-hover-preview-portal .creature-tooltip-scrollable');
-                          if (scrollableContent) {
-                            // Scroll the content directly
-                            scrollableContent.scrollTop += e.deltaY;
-                          }
-                        }
-                      }}
                       draggable
                       onDragStart={handleDragStart}
                     >

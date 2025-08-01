@@ -254,16 +254,7 @@ const CreatureSelectionWindow = ({
           </div>
 
           {/* Creature Grid */}
-          <div
-            className="creature-grid"
-            onWheel={(e) => {
-              // Prevent scrolling the grid when a tooltip is visible
-              if (hoveredCreature) {
-                e.preventDefault();
-                e.stopPropagation();
-              }
-            }}
-          >
+          <div className="creature-grid">
             {filteredCreatures.map(creature => (
               <div
                 key={creature.id}

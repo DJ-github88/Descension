@@ -263,16 +263,7 @@ const GMNotesWindow = ({
                                 <h4>Stored Creatures</h4>
                                 <p>Drag creatures here to store them, then drag them out to the grid when needed.</p>
                             </div>
-                            <div
-                                className="gm-creatures-grid"
-                                onWheel={(e) => {
-                                    // Prevent scrolling the grid when a tooltip is visible
-                                    if (hoveredCreature) {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }
-                                }}
-                            >
+                            <div className="gm-creatures-grid">
                                 {storedCreatures.map(creatureId => {
                                     const creature = creatures.find(c => c.id === creatureId);
                                     if (!creature) return null;
