@@ -269,9 +269,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
         padding: '0',
         color: '#f8f4e6',
         fontFamily: "'Cinzel', 'Bookman Old Style', serif",
-        fontSize: '13px',
-        minWidth: '380px',
-        maxWidth: '420px',
+        fontSize: '12px',
+        minWidth: '300px',
+        maxWidth: '320px',
         overflow: 'hidden',
         position: 'relative',
         boxShadow: `
@@ -288,7 +288,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
         style={{
           background: 'linear-gradient(145deg, #5a1e12 0%, #8B4513 50%, #5a1e12 100%)',
           borderBottom: '2px solid #8B4513',
-          padding: '16px 20px',
+          padding: '12px 16px',
           position: 'relative'
         }}
       >
@@ -316,7 +316,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
         {/* Creature Name */}
         <div
           style={{
-            fontSize: '18px',
+            fontSize: '16px',
             fontWeight: '700',
             color: '#f8f4e6',
             marginBottom: '6px',
@@ -348,7 +348,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
       </div>
 
       {/* Main Content */}
-      <div style={{ padding: '18px 20px' }}>
+      <div style={{ padding: '14px 16px' }}>
         {/* Creature name */}
         <div
           style={{
@@ -387,7 +387,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
               background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(160, 140, 112, 0.1) 100%)',
               border: '1px solid rgba(139, 69, 19, 0.3)',
               borderRadius: '8px',
-              padding: '12px 14px',
+              padding: '10px 12px',
               textAlign: 'justify',
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
               position: 'relative'
@@ -415,8 +415,8 @@ const SimpleCreatureTooltip = ({ creature }) => {
               "
             </div>
 
-            <div style={{ padding: '0 12px' }}>
-              {creature.description.length > 200 ? creature.description.substring(0, 200) + '...' : creature.description}
+            <div style={{ padding: '0 10px' }}>
+              {creature.description.length > 140 ? creature.description.substring(0, 140) + '...' : creature.description}
             </div>
           </div>
         )}
@@ -426,8 +426,8 @@ const SimpleCreatureTooltip = ({ creature }) => {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '12px',
-            marginBottom: '18px'
+            gap: '8px',
+            marginBottom: '14px'
           }}
         >
           {/* HP */}
@@ -435,7 +435,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
             background: 'linear-gradient(135deg, rgba(220, 53, 69, 0.25) 0%, rgba(139, 0, 0, 0.15) 100%)',
             border: '2px solid rgba(220, 53, 69, 0.4)',
             borderRadius: '8px',
-            padding: '10px 8px',
+            padding: '8px 6px',
             textAlign: 'center',
             position: 'relative'
           }}>

@@ -6,19 +6,9 @@ import useCreatureStore from '../../../../store/creatureStore';
 // External Creature Preview Component that renders outside the creature wizard window
 const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
   const { windowPosition, windowSize } = useCreatureStore();
-  const [debouncedCreatureData, setDebouncedCreatureData] = useState(creatureData);
-
-  // Debounce creature data updates to prevent constant re-rendering while typing
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedCreatureData(creatureData);
-    }, 300); // 300ms delay
-
-    return () => clearTimeout(timer);
-  }, [creatureData]);
 
   // Only show when the wizard is open and we have some creature data
-  if (!isOpen || !debouncedCreatureData || Object.keys(debouncedCreatureData).length === 0) {
+  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0) {
     return null;
   }
 
@@ -37,67 +27,67 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
     overflow: 'visible'
   };
 
-  // Create a complete creature object for the tooltip using debounced data
+  // Create a complete creature object for the tooltip using real-time data
   const createPreviewCreature = useMemo(() => {
     // Ensure we have a complete creature structure for the tooltip
     const previewCreature = {
-      id: debouncedCreatureData.id || 'preview-creature',
-      name: debouncedCreatureData.name || 'Unnamed Creature',
-      description: debouncedCreatureData.description || '',
-      type: debouncedCreatureData.type || 'humanoid',
-      size: debouncedCreatureData.size || 'medium',
-      tags: debouncedCreatureData.tags || [],
-      tokenIcon: debouncedCreatureData.tokenIcon || 'inv_misc_questionmark',
-      tokenBorder: debouncedCreatureData.tokenBorder || '#ffffff',
+      id: creatureData.id || 'preview-creature',
+      name: creatureData.name || 'Unnamed Creature',
+      description: creatureData.description || '',
+      type: creatureData.type || 'humanoid',
+      size: creatureData.size || 'medium',
+      tags: creatureData.tags || [],
+      tokenIcon: creatureData.tokenIcon || 'inv_misc_questionmark',
+      tokenBorder: creatureData.tokenBorder || '#ffffff',
       
       // Statistics
       stats: {
         // Base attributes
-        strength: debouncedCreatureData.stats?.strength || 10,
-        agility: debouncedCreatureData.stats?.agility || 10,
-        constitution: debouncedCreatureData.stats?.constitution || 10,
-        intelligence: debouncedCreatureData.stats?.intelligence || 10,
-        spirit: debouncedCreatureData.stats?.spirit || 10,
-        charisma: debouncedCreatureData.stats?.charisma || 10,
+        strength: creatureData.stats?.strength || 10,
+        agility: creatureData.stats?.agility || 10,
+        constitution: creatureData.stats?.constitution || 10,
+        intelligence: creatureData.stats?.intelligence || 10,
+        spirit: creatureData.stats?.spirit || 10,
+        charisma: creatureData.stats?.charisma || 10,
 
         // Derived stats
-        maxHp: debouncedCreatureData.stats?.maxHp || 100,
-        currentHp: debouncedCreatureData.stats?.currentHp || debouncedCreatureData.stats?.maxHp || 100,
-        maxMana: debouncedCreatureData.stats?.maxMana || 50,
-        currentMana: debouncedCreatureData.stats?.currentMana || debouncedCreatureData.stats?.maxMana || 50,
-        maxActionPoints: debouncedCreatureData.stats?.maxActionPoints || 6,
-        currentActionPoints: debouncedCreatureData.stats?.currentActionPoints || debouncedCreatureData.stats?.maxActionPoints || 6,
-        armorClass: debouncedCreatureData.stats?.armorClass || 15,
-        armor: debouncedCreatureData.stats?.armor || debouncedCreatureData.stats?.armorClass || 15, // For tooltip compatibility
-        initiative: debouncedCreatureData.stats?.initiative || 2,
+        maxHp: creatureData.stats?.maxHp || 100,
+        currentHp: creatureData.stats?.currentHp || creatureData.stats?.maxHp || 100,
+        maxMana: creatureData.stats?.maxMana || 50,
+        currentMana: creatureData.stats?.currentMana || creatureData.stats?.maxMana || 50,
+        maxActionPoints: creatureData.stats?.maxActionPoints || 6,
+        currentActionPoints: creatureData.stats?.currentActionPoints || creatureData.stats?.maxActionPoints || 6,
+        armorClass: creatureData.stats?.armorClass || 15,
+        armor: creatureData.stats?.armor || creatureData.stats?.armorClass || 15, // For tooltip compatibility
+        initiative: creatureData.stats?.initiative || 2,
         
         // Movement
-        speed: debouncedCreatureData.stats?.speed || 30,
-        flying: debouncedCreatureData.stats?.flying || 0,
-        swimming: debouncedCreatureData.stats?.swimming || 15,
+        speed: creatureData.stats?.speed || 30,
+        flying: creatureData.stats?.flying || 0,
+        swimming: creatureData.stats?.swimming || 15,
 
         // Vision
-        sightRange: debouncedCreatureData.stats?.sightRange || 60,
-        darkvision: debouncedCreatureData.stats?.darkvision || 0,
+        sightRange: creatureData.stats?.sightRange || 60,
+        darkvision: creatureData.stats?.darkvision || 0,
 
         // Combat stats
-        criticalChance: debouncedCreatureData.stats?.criticalChance || 5,
-        criticalMultiplier: debouncedCreatureData.stats?.criticalMultiplier || 2,
+        criticalChance: creatureData.stats?.criticalChance || 5,
+        criticalMultiplier: creatureData.stats?.criticalMultiplier || 2,
 
         // Challenge rating (if available)
-        challengeRating: debouncedCreatureData.stats?.challengeRating || null,
-        experiencePoints: debouncedCreatureData.stats?.experiencePoints || null
+        challengeRating: creatureData.stats?.challengeRating || null,
+        experiencePoints: creatureData.stats?.experiencePoints || null
       },
 
       // Resistances and vulnerabilities
-      resistances: debouncedCreatureData.resistances || {},
-      vulnerabilities: debouncedCreatureData.vulnerabilities || {},
+      resistances: creatureData.resistances || {},
+      vulnerabilities: creatureData.vulnerabilities || {},
 
       // Abilities
-      abilities: debouncedCreatureData.abilities || [],
+      abilities: creatureData.abilities || [],
 
       // Loot table
-      lootTable: debouncedCreatureData.lootTable || {
+      lootTable: creatureData.lootTable || {
         currency: {
           gold: { min: 0, max: 0 },
           silver: { min: 0, max: 0 },
@@ -105,10 +95,10 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
         },
         items: []
       },
-      
+
       // Shopkeeper properties
-      isShopkeeper: debouncedCreatureData.isShopkeeper || false,
-      shopInventory: debouncedCreatureData.shopInventory || {
+      isShopkeeper: creatureData.isShopkeeper || false,
+      shopInventory: creatureData.shopInventory || {
         items: [],
         restockOnLongRest: false,
         shopName: '',
@@ -128,7 +118,7 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
     };
 
     return previewCreature;
-  }, [debouncedCreatureData]);
+  }, [creatureData]);
 
   return ReactDOM.createPortal(
     <div style={position}>
