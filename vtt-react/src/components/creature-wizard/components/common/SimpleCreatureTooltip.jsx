@@ -284,7 +284,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
 
   return (
     <div
-      className="enhanced-creature-tooltip"
+      className="enhanced-creature-tooltip creature-tooltip-content"
       style={{
         background: 'linear-gradient(145deg, rgba(45, 35, 25, 0.98) 0%, rgba(35, 25, 18, 0.99) 100%)',
         border: '3px solid #8B4513',
@@ -372,12 +372,14 @@ const SimpleCreatureTooltip = ({ creature }) => {
       </div>
 
       {/* Main Content */}
-      <div style={{
-        padding: '14px 16px',
-        maxHeight: '400px',
-        overflowY: 'auto',
-        overflowX: 'hidden'
-      }}>
+      <div
+        className="creature-tooltip-scrollable"
+        style={{
+          padding: '14px 16px',
+          maxHeight: '400px',
+          overflowY: 'auto',
+          overflowX: 'hidden'
+        }}>
 
 
         {/* Rich Flavor Text Description */}

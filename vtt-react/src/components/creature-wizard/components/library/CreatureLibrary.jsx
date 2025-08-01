@@ -401,6 +401,20 @@ const CreatureLibrary = ({ onEdit }) => {
                       onMouseEnter={(e) => handleMouseEnter(creature, e)}
                       onMouseMove={handleMouseMove}
                       onMouseLeave={handleMouseLeave}
+                      onWheel={(e) => {
+                        // If this creature card has a tooltip visible, redirect scroll to tooltip
+                        if (hoveredCreature && hoveredCreature.id === creature.id) {
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          // Find the scrollable tooltip content and scroll it directly
+                          const scrollableContent = document.querySelector('.creature-card-hover-preview-portal .creature-tooltip-scrollable');
+                          if (scrollableContent) {
+                            // Scroll the content directly
+                            scrollableContent.scrollTop += e.deltaY;
+                          }
+                        }
+                      }}
                       draggable
                       onDragStart={handleDragStart}
                     >
