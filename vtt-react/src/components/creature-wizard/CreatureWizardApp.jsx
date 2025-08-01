@@ -217,6 +217,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
           </div>
         </div>
       </div>
+      </div>
 
       {/* External Creature Preview */}
       <ExternalCreaturePreview
