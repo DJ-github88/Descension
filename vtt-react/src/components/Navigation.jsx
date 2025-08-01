@@ -89,8 +89,32 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
 
     // Handle window drag to update position in store
     const handleWindowDrag = useCallback((position) => {
-        setWindowPosition(position);
+        // Only save x and y coordinates to avoid circular references
+        setWindowPosition({ x: position.x, y: position.y });
     }, [setWindowPosition]);
+
+    // Handle window resize to update size in store
+    const handleWindowResize = useCallback((size) => {
+        setWindowSize(size);
+    }, [setWindowSize]);
+
+    // Calculate proper default position (centered)
+    const getDefaultPosition = useCallback(() => {
+        const { windowPosition } = useCreatureStore.getState();
+        if (windowPosition) {
+            return windowPosition;
+        }
+        // Center the window on screen
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const windowWidth = 1200;
+        const windowHeight = 800;
+
+        return {
+            x: Math.max(0, (screenWidth - windowWidth) / 2),
+            y: Math.max(0, (screenHeight - windowHeight) / 2)
+        };
+    }, []);
 
     return (
         <WowWindow
@@ -98,8 +122,10 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             onClose={onClose}
             title="Creature Library"
             defaultSize={{ width: 1200, height: 800 }}
-            defaultPosition={{ x: 100, y: 100 }}
+            defaultPosition={getDefaultPosition()}
+            centered={false}
             onDrag={handleWindowDrag}
+            onResize={handleWindowResize}
             customHeader={
                 <div className="spellbook-tab-headers">
                     {tabs.map(tab => (
