@@ -273,7 +273,16 @@ const CreatureLibrary = ({ onEdit }) => {
   };
 
   return (
-    <div className="creature-library">
+    <div
+      className="creature-library"
+      onWheel={(e) => {
+        // Prevent scrolling the library when a tooltip is visible
+        if (hoveredCreature) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
+    >
       {/* Header with controls */}
       <div className="creature-library-header">
         <div className="creature-library-title">
