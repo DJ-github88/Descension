@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import useItemStore from '../../store/itemStore';
 import ConfirmationDialog from './ConfirmationDialog';
 import UnlockContainerModal from './UnlockContainerModal';
+import CategorizeModal from './CategorizeModal';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
 const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
+    const [showCategorizeModal, setShowCategorizeModal] = useState(false);
     const [error, setError] = useState(null);
     const removeItem = useItemStore(state => state.removeItem);
     const toggleContainerOpen = useItemStore(state => state.toggleContainerOpen);
@@ -173,22 +175,15 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
         });
     }
 
-    // Move to folder options
-    const moveToFolderItems = categories
-        .filter(category => category.id !== currentCategoryId)
-        .map(category => ({
+    // Categorize option
+    if (categories && categories.length > 0) {
+        menuItems.push({
             icon: '📁',
-            label: category.name,
+            label: 'Categorize',
             onClick: () => {
-                onMoveToCategory(itemId, category.id);
-                onClose();
+                setShowCategorizeModal(true);
             }
-        }));
-
-    if (moveToFolderItems.length > 0) {
-        // Add separator before move options
-        menuItems.push({ type: 'separator' });
-        menuItems.push(...moveToFolderItems);
+        });
     }
 
     // Delete Item
@@ -250,6 +245,19 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                     container={item}
                     onSuccess={handleUnlockSuccess}
                     onClose={() => setShowUnlockModal(false)}
+                />
+            )}
+
+            {showCategorizeModal && (
+                <CategorizeModal
+                    categories={categories}
+                    currentCategoryId={currentCategoryId}
+                    onMoveToCategory={(categoryId) => {
+                        onMoveToCategory(itemId, categoryId);
+                        setShowCategorizeModal(false);
+                        onClose();
+                    }}
+                    onClose={() => setShowCategorizeModal(false)}
                 />
             )}
         </>

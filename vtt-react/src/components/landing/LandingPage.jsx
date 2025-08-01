@@ -90,13 +90,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
             </button>
           </div>
         </div>
-        
-        <div className="hero-image">
-          <div className="placeholder-image">
-            <i className="fas fa-dragon"></i>
-            <p>Epic Fantasy Artwork</p>
-          </div>
-        </div>
       </div>
 
       {/* Quick Start Guide */}

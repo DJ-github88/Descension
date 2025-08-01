@@ -1,0 +1,118 @@
+.categorize-modal {
+    background: #f4e4bc;
+    border: 3px solid #8b4513;
+    border-radius: 8px;
+    width: 300px;
+    max-height: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    font-family: 'Cinzel', serif;
+}
+
+.categorize-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 2px solid #8b4513;
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+}
+
+.categorize-modal-header h3 {
+    margin: 0;
+    color: #2c1810;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #2c1810;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background-color: rgba(44, 24, 16, 0.1);
+}
+
+.categorize-modal-content {
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.no-categories {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: #fff;
+    border: 2px solid #8b4513;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-item:hover {
+    background: #f0f0f0;
+    border-color: #d4af37;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.category-name {
+    color: #2c1810;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* Scrollbar styling */
+.categorize-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.categorize-modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.categorize-modal-content::-webkit-scrollbar-thumb {
+    background: #8b4513;
+    border-radius: 4px;
+}
+
+.categorize-modal-content::-webkit-scrollbar-thumb:hover {
+    background: #654321;
+}

@@ -179,22 +179,22 @@
 
 .game-subtitle {
   font-size: 1.5rem;
-  color: #f0e6d2;
+  color: #2c1810;
   margin-bottom: 24px;
-  opacity: 0.95;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  font-weight: 500;
+  opacity: 1;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  font-weight: 600;
 }
 
 .game-description {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #f0e6d2;
+  color: #2c1810;
   margin-bottom: 32px;
   max-width: 500px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-  font-weight: 400;
-  opacity: 0.95;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  font-weight: 500;
+  opacity: 1;
 }
 
 .game-highlights {
