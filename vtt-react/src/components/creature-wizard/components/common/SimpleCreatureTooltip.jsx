@@ -540,93 +540,114 @@ const SimpleCreatureTooltip = ({ creature }) => {
               RESISTANCES & VULNERABILITIES
             </div>
 
-            {/* Resistances */}
-            {creature.resistances && Object.keys(creature.resistances).length > 0 && (
-              <div style={{ marginBottom: '8px' }}>
-                <div style={{
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  color: '#4caf50',
-                  marginBottom: '6px',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
-                }}>
-                  RESIST:
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  {Object.entries(creature.resistances).slice(0, 3).map(([type, value]) => {
-                    // Convert value to resistance level
-                    let resistanceLevel = 'resistant';
-                    if (typeof value === 'number') {
-                      if (value === -200) resistanceLevel = 'vampiric';
-                      else if (value === -100) resistanceLevel = 'absorbing';
-                      else if (value === -50) resistanceLevel = 'draining';
-                      else if (value === -25) resistanceLevel = 'siphoning';
-                      else if (value === 0) resistanceLevel = 'immune';
-                      else if (value === 25) resistanceLevel = 'highly_resistant';
-                      else if (value === 50) resistanceLevel = 'resistant';
-                      else if (value === 75) resistanceLevel = 'slight_reduction';
-                      else if (value === 100) resistanceLevel = 'normal';
-                    }
+            {/* Resistances and Vulnerabilities from single resistances object */}
+            {creature.resistances && Object.keys(creature.resistances).length > 0 && (() => {
+              // Separate resistances and vulnerabilities from the single resistances object
+              const resistances = {};
+              const vulnerabilities = {};
 
-                    const thematicDesc = getThematicResistanceDescription(resistanceLevel, type);
-                    return (
-                      <div key={type} style={{
+              Object.entries(creature.resistances).forEach(([type, value]) => {
+                if (typeof value === 'number') {
+                  if (value <= 100) {
+                    resistances[type] = value;
+                  } else {
+                    vulnerabilities[type] = value;
+                  }
+                }
+              });
+
+              return (
+                <>
+                  {/* Resistances */}
+                  {Object.keys(resistances).length > 0 && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <div style={{
                         fontSize: '11px',
-                        color: '#86efac',
-                        background: 'rgba(34, 197, 94, 0.15)',
-                        border: '1px solid rgba(34, 197, 94, 0.3)',
-                        borderRadius: '6px',
-                        padding: '6px 10px',
+                        fontWeight: '600',
+                        color: '#4caf50',
+                        marginBottom: '6px',
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
                       }}>
-                        • {thematicDesc}
+                        RESIST:
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        {Object.entries(resistances).slice(0, 3).map(([type, value]) => {
+                          // Convert value to resistance level
+                          let resistanceLevel = 'resistant';
+                          if (typeof value === 'number') {
+                            if (value === -200) resistanceLevel = 'vampiric';
+                            else if (value === -100) resistanceLevel = 'absorbing';
+                            else if (value === -50) resistanceLevel = 'draining';
+                            else if (value === -25) resistanceLevel = 'siphoning';
+                            else if (value === 0) resistanceLevel = 'immune';
+                            else if (value === 25) resistanceLevel = 'highly_resistant';
+                            else if (value === 50) resistanceLevel = 'resistant';
+                            else if (value === 75) resistanceLevel = 'guarded';
+                            else if (value === 100) resistanceLevel = 'normal';
+                          }
 
-            {/* Vulnerabilities */}
-            {creature.vulnerabilities && Object.keys(creature.vulnerabilities).length > 0 && (
-              <div>
-                <div style={{
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  color: '#ef4444',
-                  marginBottom: '6px',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
-                }}>
-                  VULN:
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  {Object.entries(creature.vulnerabilities).slice(0, 3).map(([type, value]) => {
-                    // Convert value to vulnerability level
-                    let vulnerabilityLevel = 'vulnerable';
-                    if (typeof value === 'number') {
-                      if (value === 125) vulnerabilityLevel = 'susceptible';
-                      else if (value === 150) vulnerabilityLevel = 'exposed';
-                      else if (value === 200) vulnerabilityLevel = 'vulnerable';
-                    }
+                          const thematicDesc = getThematicResistanceDescription(resistanceLevel, type);
+                          return (
+                            <div key={type} style={{
+                              fontSize: '11px',
+                              color: '#86efac',
+                              background: 'rgba(34, 197, 94, 0.15)',
+                              border: '1px solid rgba(34, 197, 94, 0.3)',
+                              borderRadius: '6px',
+                              padding: '6px 10px',
+                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                            }}>
+                              • {thematicDesc}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
-                    const thematicDesc = getThematicResistanceDescription(vulnerabilityLevel, type);
-                    return (
-                      <div key={type} style={{
+                  {/* Vulnerabilities */}
+                  {Object.keys(vulnerabilities).length > 0 && (
+                    <div style={{ marginBottom: '8px' }}>
+                      <div style={{
                         fontSize: '11px',
-                        color: '#fca5a5',
-                        background: 'rgba(239, 68, 68, 0.15)',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: '6px',
-                        padding: '6px 10px',
+                        fontWeight: '600',
+                        color: '#ef4444',
+                        marginBottom: '6px',
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
                       }}>
-                        • {thematicDesc}
+                        VULN:
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        {Object.entries(vulnerabilities).slice(0, 3).map(([type, value]) => {
+                          // Convert value to vulnerability level
+                          let vulnerabilityLevel = 'vulnerable';
+                          if (typeof value === 'number') {
+                            if (value === 125) vulnerabilityLevel = 'susceptible';
+                            else if (value === 150) vulnerabilityLevel = 'exposed';
+                            else if (value === 200) vulnerabilityLevel = 'vulnerable';
+                          }
+
+                          const thematicDesc = getThematicResistanceDescription(vulnerabilityLevel, type);
+                          return (
+                            <div key={type} style={{
+                              fontSize: '11px',
+                              color: '#fca5a5',
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              borderRadius: '6px',
+                              padding: '6px 10px',
+                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                            }}>
+                              • {thematicDesc}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         ) : null}
 
