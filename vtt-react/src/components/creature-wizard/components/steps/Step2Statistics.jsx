@@ -60,8 +60,12 @@ const Step2Statistics = () => {
       // Remove resistance if set to none
       delete updatedResistances[damageType];
     } else {
-      // Update resistance
-      updatedResistances[damageType] = value;
+      // Find the resistance level to get the percentage value
+      const resistanceLevel = resistanceLevels.find(level => level.value === value);
+      if (resistanceLevel) {
+        // Store the percentage value for proper tooltip display
+        updatedResistances[damageType] = resistanceLevel.percentage;
+      }
     }
 
     dispatch(wizardActionCreators.setResistances(updatedResistances));
@@ -73,7 +77,7 @@ const Step2Statistics = () => {
     const numValue = parseInt(value, 10) || 0;
 
     const updatedSpellPowers = {
-      ...(wizardState.spellPowers || {})
+      ...(wizardState.stats.spellPowers || {})
     };
 
     if (numValue === 0) {
@@ -94,7 +98,7 @@ const Step2Statistics = () => {
     const numValue = parseInt(value, 10) || 0;
 
     const updatedAttackPowers = {
-      ...(wizardState.attackPowers || {})
+      ...(wizardState.stats.attackPowers || {})
     };
 
     if (numValue === 0) {
@@ -199,17 +203,23 @@ const Step2Statistics = () => {
   // Melee damage types
   const meleeTypes = ['bludgeoning', 'piercing', 'slashing'];
 
-  // Resistance levels with new system
+  // Enhanced resistance levels with thematic descriptions
   const resistanceLevels = [
-    { value: 'none', label: 'None', modifier: 0 },
+    { value: 'none', label: 'None', modifier: 0, percentage: 100 },
+    // Healing from damage (negative multipliers)
+    { value: 'vampiric', label: 'Vampiric', modifier: -200, percentage: -200, description: 'Heals for 200% of damage taken' },
+    { value: 'absorbing', label: 'Absorbing', modifier: -100, percentage: -100, description: 'Heals for 100% of damage taken' },
+    { value: 'draining', label: 'Draining', modifier: -50, percentage: -50, description: 'Heals for 50% of damage taken' },
+    { value: 'siphoning', label: 'Siphoning', modifier: -25, percentage: -25, description: 'Heals for 25% of damage taken' },
+    // Immunity and resistance
+    { value: 'immune', label: 'Immune', modifier: -100, percentage: 0, description: 'Takes no damage' },
+    { value: 'highly_resistant', label: 'Highly Resistant', modifier: -75, percentage: 25, description: 'Takes 25% damage' },
+    { value: 'resistant', label: 'Resistant', modifier: -50, percentage: 50, description: 'Takes 50% damage' },
+    { value: 'guarded', label: 'Guarded', modifier: -25, percentage: 75, description: 'Takes 75% damage' },
     // Increased Damage Taken
-    { value: 'susceptible', label: 'Susceptible (+25%)', modifier: 25 },
-    { value: 'exposed', label: 'Exposed (+50%)', modifier: 50 },
-    { value: 'vulnerable', label: 'Vulnerable (+100%)', modifier: 100 },
-    // Reduced Damage Taken
-    { value: 'guarded', label: 'Guarded (-25%)', modifier: -25 },
-    { value: 'resistant', label: 'Resistant (-50%)', modifier: -50 },
-    { value: 'immune', label: 'Immune (-100%)', modifier: -100 }
+    { value: 'susceptible', label: 'Susceptible', modifier: 25, percentage: 125, description: 'Takes 125% damage' },
+    { value: 'exposed', label: 'Exposed', modifier: 50, percentage: 150, description: 'Takes 150% damage' },
+    { value: 'vulnerable', label: 'Vulnerable', modifier: 100, percentage: 200, description: 'Takes 200% damage' }
   ];
 
   // Render tab content based on active tab
@@ -703,13 +713,18 @@ const Step2Statistics = () => {
                 <div className="resistance-control">
                   <label>Resistance</label>
                   <select
-                    value={wizardState.resistances[damageType.id] || 'none'}
+                    value={(() => {
+                      const currentPercentage = wizardState.resistances[damageType.id];
+                      if (currentPercentage === undefined) return 'none';
+                      const level = resistanceLevels.find(l => l.percentage === currentPercentage);
+                      return level ? level.value : 'none';
+                    })()}
                     onChange={(e) => handleResistanceChange(damageType.id, e.target.value)}
                     className={`resistance-select ${wizardState.resistances[damageType.id] || 'none'}`}
                   >
                     {resistanceLevels.map(level => (
                       <option key={level.value} value={level.value}>
-                        {level.label}
+                        {level.label} {level.description && `(${level.description})`}
                       </option>
                     ))}
                   </select>
@@ -723,7 +738,7 @@ const Step2Statistics = () => {
                       type="number"
                       min="0"
                       max="200"
-                      value={(wizardState.spellPowers && wizardState.spellPowers[damageType.id]) || 0}
+                      value={(wizardState.stats.spellPowers && wizardState.stats.spellPowers[damageType.id]) || 0}
                       onChange={(e) => handleSpellPowerChange(damageType.id, e.target.value)}
                       className="power-input"
                     />
@@ -738,7 +753,7 @@ const Step2Statistics = () => {
                       type="number"
                       min="0"
                       max="200"
-                      value={(wizardState.attackPowers && wizardState.attackPowers[damageType.id]) || 0}
+                      value={(wizardState.stats.attackPowers && wizardState.stats.attackPowers[damageType.id]) || 0}
                       onChange={(e) => handleAttackPowerChange(damageType.id, e.target.value)}
                       className="power-input"
                     />

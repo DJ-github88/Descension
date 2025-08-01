@@ -61,7 +61,21 @@ const SimplifiedSpellCard = ({ spell }) => {
           left: tooltipPosition.x,
           position: 'fixed',
           zIndex: 99999,
-          maxWidth: '420px'
+          maxWidth: '420px',
+          maxHeight: '500px',
+          overflow: 'auto'
+        }}
+        onWheel={(e) => {
+          // Stop propagation to prevent background scrolling when scrolling tooltip
+          e.stopPropagation();
+        }}
+        onMouseEnter={() => {
+          // Keep tooltip visible when hovering over it
+          setShowTooltip(true);
+        }}
+        onMouseLeave={() => {
+          // Hide tooltip when leaving it
+          setShowTooltip(false);
         }}
       >
         <UnifiedSpellCard

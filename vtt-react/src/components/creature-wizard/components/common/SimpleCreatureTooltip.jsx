@@ -537,10 +537,10 @@ const SimpleCreatureTooltip = ({ creature }) => {
                       else if (value === -50) resistanceLevel = 'draining';
                       else if (value === -25) resistanceLevel = 'siphoning';
                       else if (value === 0) resistanceLevel = 'immune';
-                      else if (value === 25) resistanceLevel = 'slight_reduction';
+                      else if (value === 25) resistanceLevel = 'highly_resistant';
                       else if (value === 50) resistanceLevel = 'resistant';
                       else if (value === 75) resistanceLevel = 'guarded';
-                      else if (value === 100) resistanceLevel = 'nullified';
+                      else if (value === 100) resistanceLevel = 'normal';
                     }
 
                     const thematicDesc = getThematicResistanceDescription(resistanceLevel, type);
@@ -554,7 +554,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
                         padding: '6px 10px',
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
                       }}>
-                        • {type?.toUpperCase() || 'UNKNOWN'} RESISTANCE ({value}% LESS DAMAGE)
+                        • {thematicDesc}
                       </div>
                     );
                   })}
@@ -595,7 +595,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
                         padding: '6px 10px',
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
                       }}>
-                        • {type?.toUpperCase() || 'UNKNOWN'} VULNERABLE (DOUBLE DAMAGE)
+                        • {thematicDesc}
                       </div>
                     );
                   })}
