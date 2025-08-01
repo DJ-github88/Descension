@@ -963,7 +963,7 @@ export default function Grid() {
 
                 // Additional safety check: prevent effective zoom from going too low to avoid VTT breaking
                 const effectiveTargetZoom = zoomLevel * targetZoom;
-                const minEffectiveZoom = 0.15; // Minimum effective zoom to prevent VTT issues
+                const minEffectiveZoom = 0.6; // Much higher minimum to prevent grid combining
                 if (effectiveTargetZoom < minEffectiveZoom) {
                     targetZoom = Math.max(targetZoom, minEffectiveZoom / zoomLevel);
                 }
