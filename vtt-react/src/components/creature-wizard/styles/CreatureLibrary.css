@@ -414,11 +414,18 @@
 /* Portal tooltip styles - appears above all windows */
 .creature-card-hover-preview-portal {
   width: 320px; /* Balanced size - not too big, not too small */
-  pointer-events: none;
+  pointer-events: auto; /* Allow scroll events */
   animation: fadeIn 0.3s ease-out;
   transform: scale(1.0); /* Full size for better readability */
   transform-origin: top left;
-  /* Removed max-height and overflow restrictions to show full content */
+  max-height: 500px; /* Add height restriction for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  /* Enhanced scroll responsiveness */
+  scroll-behavior: auto !important;
+  overscroll-behavior: contain;
+  scroll-padding: 0;
+  will-change: scroll-position;
+  transform: translateZ(0);
 }
 
 /* Make tooltip content slightly more compact while preserving readability */

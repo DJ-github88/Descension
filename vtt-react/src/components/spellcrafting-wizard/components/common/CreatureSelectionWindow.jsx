@@ -308,8 +308,19 @@ const CreatureSelectionWindow = ({
             position: 'fixed',
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
-            zIndex: 999999999,
-            pointerEvents: 'none'
+            zIndex: 999999999
+          }}
+          onWheel={(e) => {
+            // Stop propagation to prevent background scrolling when scrolling tooltip
+            e.stopPropagation();
+          }}
+          onMouseEnter={() => {
+            // Keep tooltip visible when hovering over it
+            setHoveredCreature(hoveredCreature);
+          }}
+          onMouseLeave={() => {
+            // Hide tooltip when leaving it
+            setHoveredCreature(null);
           }}
         >
           <SimpleCreatureTooltip creature={hoveredCreature} />

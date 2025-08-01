@@ -272,6 +272,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
         fontSize: '12px',
         minWidth: '300px',
         maxWidth: '320px',
+        maxHeight: '500px',
         overflow: 'hidden',
         position: 'relative',
         boxShadow: `
@@ -348,32 +349,13 @@ const SimpleCreatureTooltip = ({ creature }) => {
       </div>
 
       {/* Main Content */}
-      <div style={{ padding: '14px 16px' }}>
-        {/* Creature name */}
-        <div
-          style={{
-            fontSize: '14px',
-            fontWeight: 'bold',
-            marginBottom: '4px',
-            color: '#7a3b2e',
-            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.3)',
-            letterSpacing: '0.3px'
-          }}
-        >
-          {creature.name}
-        </div>
+      <div style={{
+        padding: '14px 16px',
+        maxHeight: '400px',
+        overflowY: 'auto',
+        overflowX: 'hidden'
+      }}>
 
-        {/* Type and size */}
-        <div
-          style={{
-            fontSize: '10px',
-            color: '#8b6914',
-            marginBottom: '6px',
-            fontStyle: 'italic'
-          }}
-        >
-          {formatSizeName(creature.size)} {formatTypeName(creature.type)} • {sizeMapping.width}×{sizeMapping.height}
-        </div>
 
         {/* Rich Flavor Text Description */}
         {creature.description && (
@@ -572,7 +554,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
                         padding: '6px 10px',
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
                       }}>
-                        • {thematicDesc}
+                        • {type?.toUpperCase() || 'UNKNOWN'} RESISTANCE ({value}% LESS DAMAGE)
                       </div>
                     );
                   })}
@@ -613,7 +595,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
                         padding: '6px 10px',
                         textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
                       }}>
-                        • {thematicDesc}
+                        • {type?.toUpperCase() || 'UNKNOWN'} VULNERABLE (DOUBLE DAMAGE)
                       </div>
                     );
                   })}

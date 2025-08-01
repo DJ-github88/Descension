@@ -329,12 +329,25 @@ const GMNotesWindow = ({
             {/* Creature Tooltip */}
             {showCreatureTooltip && hoveredCreature && createPortal(
                 <div
+                    className="creature-card-hover-preview-portal"
                     style={{
                         position: 'fixed',
                         left: tooltipPosition.x,
                         top: tooltipPosition.y,
-                        pointerEvents: 'none',
                         zIndex: 999999999
+                    }}
+                    onWheel={(e) => {
+                        // Stop propagation to prevent background scrolling when scrolling tooltip
+                        e.stopPropagation();
+                    }}
+                    onMouseEnter={() => {
+                        // Keep tooltip visible when hovering over it
+                        setShowCreatureTooltip(true);
+                    }}
+                    onMouseLeave={() => {
+                        // Hide tooltip when leaving it
+                        setShowCreatureTooltip(false);
+                        setHoveredCreature(null);
                     }}
                 >
                     <SimpleCreatureTooltip creature={hoveredCreature} />
