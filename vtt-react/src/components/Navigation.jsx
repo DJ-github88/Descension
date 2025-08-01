@@ -6,6 +6,13 @@ import useLevelEditorStore from '../store/levelEditorStore';
 import WowWindow from './windows/WowWindow';
 import SettingsWindow from './windows/SettingsWindow';
 import CharacterPanel from './character-sheet/Equipment';
+import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
+import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
+import CreatureLibrary from './creature-wizard/components/library/CreatureLibrary';
+
+// Lazy load the wizard components
+const CreatureWizardApp = lazy(() => import('./creature-wizard/CreatureWizardApp'));
+
 import CharacterStats from './character-sheet/CharacterStats';
 import Skills from './character-sheet/Skills';
 import Lore from './character-sheet/Lore';
@@ -16,6 +23,7 @@ import useCombatStore from '../store/combatStore';
 import useChatStore from '../store/chatStore';
 import useCreatureStore from '../store/creatureStore';
 import ErrorBoundary from './ErrorBoundary';
+import './creature-wizard/styles/CreatureWindow.css';
 
 import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
 import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
@@ -115,12 +123,27 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                 </div>
             }
         >
-            <CreatureWindow
-                activeView={activeView}
-                editingCreatureId={editingCreatureId}
-                onEditCreature={handleEditCreature}
-                onBackToLibrary={handleBackToLibrary}
-            />
+            <div className="creature-window">
+                <CreatureLibraryProvider>
+                    <CreatureWizardProvider>
+                        {/* Main content area */}
+                        <div className="creature-window-content">
+                            {activeView === 'library' ? (
+                                <CreatureLibrary onEdit={handleEditCreature} />
+                            ) : (
+                                <Suspense fallback={<div className="loading-wizard">Loading Creature Wizard...</div>}>
+                                    <CreatureWizardApp
+                                        editMode={!!editingCreatureId}
+                                        creatureId={editingCreatureId}
+                                        onSave={handleBackToLibrary}
+                                        onCancel={handleBackToLibrary}
+                                    />
+                                </Suspense>
+                            )}
+                        </div>
+                    </CreatureWizardProvider>
+                </CreatureLibraryProvider>
+            </div>
         </WowWindow>
     );
 }
