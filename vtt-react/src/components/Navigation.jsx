@@ -4,7 +4,6 @@ import { Resizable } from 'react-resizable';
 import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import WowWindow from './windows/WowWindow';
-import CreatureWindow from './windows/CreatureWindow';
 import SettingsWindow from './windows/SettingsWindow';
 import CharacterPanel from './character-sheet/Equipment';
 import CharacterStats from './character-sheet/CharacterStats';
@@ -360,7 +359,6 @@ const NAVIGATION_BUTTONS = [
         id: 'creatures',
         title: 'Creature Library',
         shortcut: 'L',
-        window: CreatureWindow,
         svg: <>
             <path d="M7 7h10M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z M12 11c-2.5 0-3.5 1.5-3.5 3s1 3 3.5 3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
             <path d="M9 17c-2.5 0-3.5-1.5-3.5-3s1-3 3.5-3m6 0c2.5 0 3.5 1.5 3.5 3s-1 3-3.5 3"/>
