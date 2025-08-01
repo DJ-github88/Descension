@@ -71,6 +71,19 @@ const getThematicResistanceDescription = (resistanceLevel, damageType) => {
       force: 'Force Immunity (immune to force damage)',
       damage: 'Immunity (immune to damage)'
     },
+    highly_resistant: {
+      fire: 'Fire Highly Resistant (75% less fire damage)',
+      cold: 'Cold Highly Resistant (75% less cold damage)',
+      lightning: 'Lightning Highly Resistant (75% less lightning damage)',
+      acid: 'Acid Highly Resistant (75% less acid damage)',
+      poison: 'Poison Highly Resistant (75% less poison damage)',
+      necrotic: 'Necrotic Highly Resistant (75% less necrotic damage)',
+      radiant: 'Radiant Highly Resistant (75% less radiant damage)',
+      psychic: 'Psychic Highly Resistant (75% less psychic damage)',
+      thunder: 'Thunder Highly Resistant (75% less thunder damage)',
+      force: 'Force Highly Resistant (75% less force damage)',
+      damage: 'Highly Resistant (75% less damage)'
+    },
     slight_reduction: {
       fire: 'Fire Resistance (25% less fire damage)',
       cold: 'Cold Resistance (25% less cold damage)',
@@ -240,16 +253,26 @@ const SimpleCreatureTooltip = ({ creature }) => {
       lootItems.push(`${currency.gold.min}-${currency.gold.max} gold`);
     } else if (currency?.silver?.max > 0) {
       lootItems.push(`${currency.silver.min}-${currency.silver.max} silver`);
+    } else if (currency?.copper?.max > 0) {
+      lootItems.push(`${currency.copper.min}-${currency.copper.max} copper`);
     }
 
-    // Add notable items
+    // Add items with drop chances
     if (items && items.length > 0) {
-      const notableItems = items.filter(item =>
-        item.quality === 'rare' || item.quality === 'epic' || item.quality === 'legendary'
-      ).slice(0, 2);
+      // Show up to 3 items, prioritizing higher quality and drop chance
+      const sortedItems = items
+        .filter(item => item.dropChance > 0)
+        .sort((a, b) => {
+          const qualityOrder = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1, poor: 0 };
+          const qualityDiff = (qualityOrder[b.quality] || 0) - (qualityOrder[a.quality] || 0);
+          if (qualityDiff !== 0) return qualityDiff;
+          return b.dropChance - a.dropChance;
+        })
+        .slice(0, 3);
 
-      notableItems.forEach(item => {
-        lootItems.push(item.name || 'Special Item');
+      sortedItems.forEach(item => {
+        const dropText = item.dropChance < 100 ? ` (${item.dropChance}%)` : '';
+        lootItems.push(`${item.name || 'Item'}${dropText}`);
       });
     }
 
@@ -539,7 +562,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
                       else if (value === 0) resistanceLevel = 'immune';
                       else if (value === 25) resistanceLevel = 'highly_resistant';
                       else if (value === 50) resistanceLevel = 'resistant';
-                      else if (value === 75) resistanceLevel = 'guarded';
+                      else if (value === 75) resistanceLevel = 'slight_reduction';
                       else if (value === 100) resistanceLevel = 'normal';
                     }
 
@@ -697,6 +720,54 @@ const SimpleCreatureTooltip = ({ creature }) => {
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
             }}>
               {lootPreview.slice(0, 3).join(', ')}
+            </div>
+          </div>
+        )}
+
+        {/* Shopkeeper Info */}
+        {creature.isShopkeeper && (
+          <div style={{ marginBottom: '16px' }}>
+            {/* Section Header */}
+            <div style={{
+              fontSize: '13px',
+              fontWeight: '700',
+              color: '#10b981',
+              marginBottom: '10px',
+              textAlign: 'center',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)',
+              borderBottom: '1px solid rgba(16, 185, 129, 0.3)',
+              paddingBottom: '4px'
+            }}>
+              SHOPKEEPER
+            </div>
+
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.1) 100%)',
+              border: '1px solid rgba(16, 185, 129, 0.3)',
+              borderRadius: '8px',
+              padding: '10px 12px',
+              fontSize: '11px',
+              color: '#6ee7b7',
+              lineHeight: '1.4',
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+            }}>
+              {creature.shopInventory?.shopName && (
+                <div style={{ fontWeight: '600', marginBottom: '4px' }}>
+                  {creature.shopInventory.shopName}
+                </div>
+              )}
+              {creature.shopInventory?.shopDescription && (
+                <div style={{ fontSize: '10px', opacity: 0.9 }}>
+                  {creature.shopInventory.shopDescription.length > 60
+                    ? creature.shopInventory.shopDescription.substring(0, 60) + '...'
+                    : creature.shopInventory.shopDescription}
+                </div>
+              )}
+              {creature.shopInventory?.items?.length > 0 && (
+                <div style={{ fontSize: '10px', marginTop: '6px', opacity: 0.8 }}>
+                  {creature.shopInventory.items.length} items for sale
+                </div>
+              )}
             </div>
           </div>
         )}
