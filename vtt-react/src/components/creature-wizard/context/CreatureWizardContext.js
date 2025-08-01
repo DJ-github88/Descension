@@ -120,7 +120,8 @@ const initialState = {
   isValid: false,
   validationErrors: {},
   editMode: false,
-  originalCreatureId: null
+  originalCreatureId: null,
+  lastModified: null
 };
 
 // Action types
@@ -156,7 +157,8 @@ function creatureWizardReducer(state, action) {
     case ACTION_TYPES.SET_BASIC_INFO:
       const newState = {
         ...state,
-        ...action.payload
+        ...action.payload,
+        lastModified: new Date()
       };
 
       // Always validate the name based on the current state
@@ -174,7 +176,8 @@ function creatureWizardReducer(state, action) {
         stats: {
           ...state.stats,
           ...action.payload
-        }
+        },
+        lastModified: new Date()
       };
       
     case ACTION_TYPES.SET_RESISTANCES:
@@ -192,7 +195,8 @@ function creatureWizardReducer(state, action) {
     case ACTION_TYPES.ADD_ABILITY:
       return {
         ...state,
-        abilities: [...state.abilities, action.payload]
+        abilities: [...state.abilities, action.payload],
+        lastModified: new Date()
       };
       
     case ACTION_TYPES.UPDATE_ABILITY:

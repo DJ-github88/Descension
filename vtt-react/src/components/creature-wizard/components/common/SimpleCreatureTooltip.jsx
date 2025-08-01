@@ -1,5 +1,7 @@
 import React from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
+import '../../../../styles/creature-token.css';
+import '../../../../styles/wow-classic-tooltip.css';
 
 const SimpleCreatureTooltip = ({ creature }) => {
   if (!creature) return null;
@@ -78,41 +80,13 @@ const SimpleCreatureTooltip = ({ creature }) => {
   const lootPreview = getLootPreview();
 
   return (
-    <div
-      style={{
-        background: '#f0e6d2',
-        border: '2px solid #8b4513',
-        borderRadius: '8px',
-        padding: '12px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-        fontFamily: "'Bookman Old Style', 'Garamond', serif",
-        fontSize: '12px',
-        color: '#3e2723',
-        pointerEvents: 'none',
-        maxWidth: '280px',
-        minWidth: '260px',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-    >
-      {/* Background overlay for texture */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
-          backgroundImage: `
-            radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(160, 140, 112, 0.05) 0%, transparent 50%)
-          `,
-          borderRadius: '6px',
-          zIndex: -1
-        }}
-      />
-      {/* Creature name with challenge rating */}
+    <div className="pf-creature-tooltip">
+      {/* Tooltip borders for consistency with spell tooltips */}
+      <div className="tooltip-top-border"></div>
+
+      {/* Tooltip content container */}
+      <div className="wc3-tooltip-content" style={{ padding: '12px' }}>
+        {/* Creature name with challenge rating */}
       <div
         style={{
           fontSize: '14px',
@@ -300,6 +274,10 @@ const SimpleCreatureTooltip = ({ creature }) => {
           )}
         </div>
       )}
+      </div>
+
+      {/* Tooltip bottom border */}
+      <div className="tooltip-bottom-border"></div>
     </div>
   );
 };

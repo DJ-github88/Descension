@@ -147,6 +147,10 @@ const useCreatureStore = create(
       // Grid tokens
       tokens: [], // [{creatureId, position: {x, y}, state: {...}}]
 
+      // Window position persistence for external preview
+      windowPosition: null, // Will be set when user moves the window
+      windowSize: { width: 1200, height: 800 }, // Default size
+
       // Actions
 
       // Category actions
@@ -430,6 +434,15 @@ const useCreatureStore = create(
       // Get all creatures with processed loot items
       getAllCreatures: () => {
         return processCreaturesLoot(get().creatures);
+      },
+
+      // Window position management for external preview
+      setWindowPosition: (position) => {
+        set({ windowPosition: position });
+      },
+
+      setWindowSize: (size) => {
+        set({ windowSize: size });
       }
     }),
     {

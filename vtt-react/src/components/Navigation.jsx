@@ -15,6 +15,7 @@ import ItemLibrary from './item-generation/ItemLibrary';
 import MapLibraryWindow from './windows/MapLibraryWindow';
 import useCombatStore from '../store/combatStore';
 import useChatStore from '../store/chatStore';
+import useCreatureStore from '../store/creatureStore';
 import ErrorBoundary from './ErrorBoundary';
 
 import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
@@ -57,6 +58,7 @@ const CraftingWindow = lazy(() =>
 function CreatureWindowWrapper({ isOpen, onClose }) {
     const [activeView, setActiveView] = useState('library');
     const [editingCreatureId, setEditingCreatureId] = useState(null);
+    const { setWindowPosition, setWindowSize } = useCreatureStore();
 
     const tabs = [
         { id: 'library', label: 'Library' },
@@ -78,6 +80,11 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
         setActiveView('wizard');
     };
 
+    // Handle window drag to update position in store
+    const handleWindowDrag = useCallback((position) => {
+        setWindowPosition(position);
+    }, [setWindowPosition]);
+
     return (
         <WowWindow
             isOpen={isOpen}
@@ -85,6 +92,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             title="Creature Library"
             defaultSize={{ width: 1200, height: 800 }}
             defaultPosition={{ x: 100, y: 100 }}
+            onDrag={handleWindowDrag}
             customHeader={
                 <div className="spellbook-tab-headers">
                     {tabs.map(tab => (

@@ -7,6 +7,7 @@ import Step2Statistics from './components/steps/Step2Statistics';
 import Step3Abilities from './components/steps/Step3Abilities';
 import Step4LootTable from './components/steps/Step4LootTable';
 import Step5ShopConfiguration from './components/steps/Step5ShopConfiguration';
+import ExternalCreaturePreview from './components/common/ExternalCreaturePreview';
 import './styles/CreatureWizard.css';
 
 const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCancel }) => {
@@ -150,10 +151,11 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
   };
 
   return (
-    <div className="creature-wizard">
-      <div className="creature-wizard-content">
-        {renderStep()}
-      </div>
+    <>
+      <div className="creature-wizard">
+        <div className="creature-wizard-content">
+          {renderStep()}
+        </div>
 
       <div className="creature-wizard-footer">
         <div className="wizard-progress">
@@ -215,7 +217,14 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
           </div>
         </div>
       </div>
-    </div>
+
+      {/* External Creature Preview */}
+      <ExternalCreaturePreview
+        key={`creature-preview-${wizardState.lastModified?.getTime() || Date.now()}`}
+        creatureData={wizardState}
+        isOpen={true}
+      />
+    </>
   );
 };
 
