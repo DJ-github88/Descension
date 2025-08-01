@@ -17,17 +17,6 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
   const wizardX = windowPosition?.x || ((window.innerWidth - 1200) / 2);
   const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);
 
-  // Debug logging
-  console.log('ExternalCreaturePreview positioning:', {
-    windowPosition,
-    windowSize,
-    wizardX,
-    wizardY,
-    wizardWidth,
-    calculatedLeft: wizardX + wizardWidth + 10,
-    calculatedTop: wizardY + 60
-  });
-
   const position = {
     left: wizardX + wizardWidth + 10, // Position to the right of the wizard
     top: wizardY + 60, // Align with wizard content area
