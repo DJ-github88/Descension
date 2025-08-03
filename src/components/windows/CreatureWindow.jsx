@@ -3,7 +3,7 @@ import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibr
 import { CreatureWizardProvider } from '../creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
 import useCreatureStore from '../../store/creatureStore';
-import '../creature-wizard/styles/CreatureWindow.css';
+import { useCreatureWizardCSS } from '../../hooks/useComponentCSS';
 
 // Lazy load the wizard components
 const CreatureWizardApp = lazy(() => import('../creature-wizard/CreatureWizardApp'));
@@ -19,6 +19,9 @@ export default function CreatureWindow({
 }) {
   const [activeView, setActiveView] = useState(propActiveView || initialView);
   const [editingCreatureId, setEditingCreatureId] = useState(propEditingCreatureId || initialCreatureId);
+
+  // Load creature wizard CSS dynamically when component mounts
+  const { isLoaded, applyIsolation } = useCreatureWizardCSS(true);
 
   // Update state when props change
   useEffect(() => {
@@ -756,23 +759,27 @@ export default function CreatureWindow({
   };
 
   return (
-    <div className="creature-window">
+    <div className="creature-window creature-isolated-container" ref={applyIsolation}>
       <CreatureLibraryProvider>
         <CreatureWizardProvider>
 
           {/* Main content area */}
           <div className="creature-window-content">
-            {activeView === 'library' ? (
-              <CreatureLibrary onEdit={handleEditCreature} />
+            {isLoaded ? (
+              activeView === 'library' ? (
+                <CreatureLibrary onEdit={handleEditCreature} />
+              ) : (
+                <Suspense fallback={<div className="loading-wizard">Loading Creature Wizard...</div>}>
+                  <CreatureWizardApp
+                    editMode={!!editingCreatureId}
+                    creatureId={editingCreatureId}
+                    onSave={handleBackToLibrary}
+                    onCancel={handleBackToLibrary}
+                  />
+                </Suspense>
+              )
             ) : (
-              <Suspense fallback={<div className="loading-wizard">Loading Creature Wizard...</div>}>
-                <CreatureWizardApp
-                  editMode={!!editingCreatureId}
-                  creatureId={editingCreatureId}
-                  onSave={handleBackToLibrary}
-                  onCancel={handleBackToLibrary}
-                />
-              </Suspense>
+              <div className="loading-wizard">Loading Creature Library...</div>
             )}
           </div>
         </CreatureWizardProvider>

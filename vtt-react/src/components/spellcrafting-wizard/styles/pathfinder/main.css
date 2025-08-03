@@ -43,14 +43,15 @@
 /* ===== COMPLETELY ISOLATED SPELLBOOK WRAPPER ===== */
 
 /* CRITICAL: Use CSS containment to completely isolate spellbook */
-.spellbook-layout {
+.spellbook-layout,
+.spellbook-isolated-container {
   contain: layout style paint;
   isolation: isolate;
   position: relative;
   z-index: 1;
-  font-family: var(--pf-font-body) !important;
-  color: var(--pf-text-primary) !important;
-  background: var(--pf-gradient-parchment) !important;
+  font-family: var(--sb-font-body, var(--pf-font-body)) !important;
+  color: var(--sb-text-primary, var(--pf-text-primary)) !important;
+  background: var(--sb-gradient-parchment, var(--pf-gradient-parchment)) !important;
 }
 
 /* Apply Pathfinder theming ONLY within spellbook containers */

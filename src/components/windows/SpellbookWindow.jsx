@@ -9,9 +9,8 @@ import CollectionViewWindow from '../spellcrafting-wizard/components/library/Col
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { formatFormulaToPlainEnglish } from '../spellcrafting-wizard/components/common/SpellCardUtils';
-
-// Pathfinder-themed styles are now imported globally in App.jsx
 import { clearAllSpellCache } from '../../utils/clearSpellCache';
+import { useSpellbookCSS } from '../../hooks/useComponentCSS';
 
 // Define simple icon components instead of using react-icons/fa
 const SearchIcon = () => <span style={{ fontSize: '12px' }}></span>;
@@ -61,16 +60,9 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
     setWindowPosition,
     setWindowSize
   } = useSpellbookStore();
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Set isLoaded to true after component mounts
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 500); // Small delay for smoother transition
-
-    return () => clearTimeout(timer);
-  }, []);
+  // Load spellbook CSS dynamically when component mounts
+  const { isLoaded, applyIsolation } = useSpellbookCSS(isOpen);
 
   const renderContent = () => {
     if (!isLoaded) {
@@ -173,8 +165,16 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
         </div>
       }
     >
-      <div className="spellbook-content" style={{ position: 'relative', height: '100%' }}>
-        {renderContent()}
+      <div
+        className="spellbook-content spellbook-isolated-container"
+        style={{ position: 'relative', height: '100%' }}
+        ref={applyIsolation}
+      >
+        {isLoaded ? renderContent() : (
+          <div className="loading-wrapper">
+            <div className="loading-text">Loading spellbook...</div>
+          </div>
+        )}
       </div>
     </WowWindow>
   );

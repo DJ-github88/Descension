@@ -1,12 +1,13 @@
 /* D&D/Pathfinder Themed Creature Wizard */
-.creature-wizard {
+.creature-wizard,
+.creature-isolated-container .creature-wizard {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: #f0e6d2; /* Parchment background */
-  color: #3a3a3a;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
+  background-color: var(--cw-parchment, #f0e6d2); /* Parchment background */
+  color: var(--cw-text-primary, #3a3a3a);
+  font-family: var(--cw-font-body, 'Bookman Old Style', 'Garamond', serif);
 }
 
 .creature-wizard-header {
