@@ -144,19 +144,18 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             <div className="creature-window">
                 <CreatureLibraryProvider>
                     <CreatureWizardProvider>
-                        {/* Main content area - always render both components for pre-loading */}
+                        {/* Main content area - conditional rendering since CSS is preloaded */}
                         <div className="creature-window-content">
-                            <div style={{ display: activeView === 'library' ? 'block' : 'none' }}>
+                            {activeView === 'library' ? (
                                 <CreatureLibrary onEdit={handleEditCreature} />
-                            </div>
-                            <div style={{ display: activeView === 'wizard' ? 'block' : 'none' }}>
+                            ) : (
                                 <CreatureWizardApp
                                     editMode={!!editingCreatureId}
                                     creatureId={editingCreatureId}
                                     onSave={handleBackToLibrary}
                                     onCancel={handleBackToLibrary}
                                 />
-                            </div>
+                            )}
                         </div>
                     </CreatureWizardProvider>
                 </CreatureLibraryProvider>
