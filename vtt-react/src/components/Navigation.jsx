@@ -10,8 +10,8 @@ import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibra
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from './creature-wizard/components/library/CreatureLibrary';
 
-// Lazy load the wizard components
-const CreatureWizardApp = lazy(() => import('./creature-wizard/CreatureWizardApp'));
+// Pre-load the wizard components for better development experience
+import CreatureWizardApp from './creature-wizard/CreatureWizardApp';
 
 import CharacterStats from './character-sheet/CharacterStats';
 import Skills from './character-sheet/Skills';
@@ -30,18 +30,9 @@ import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardC
 import ExternalLivePreview from './spellcrafting-wizard/ExternalLivePreview';
 import 'react-resizable/css/styles.css';
 
-const SpellbookWindow = lazy(() =>
-    import('./windows/SpellbookWindow').catch(err => {
-        console.error('Failed to load SpellbookWindow:', err);
-        return { default: () => <div>Error loading Spellbook</div> };
-    })
-);
-const CampaignManagerWindow = lazy(() =>
-    import('./windows/CampaignManagerWindow').catch(err => {
-        console.error('Failed to load CampaignManagerWindow:', err);
-        return { default: () => <div>Error loading Campaign Manager</div> };
-    })
-);
+// Pre-load these components instead of lazy loading for better development experience
+import SpellbookWindow from './windows/SpellbookWindow';
+import CampaignManagerWindow from './windows/CampaignManagerWindow';
 const QuestLogWindow = lazy(() =>
     import('./windows/QuestLogWindow').catch(err => {
         console.error('Failed to load QuestLogWindow:', err);
@@ -152,20 +143,19 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             <div className="creature-window">
                 <CreatureLibraryProvider>
                     <CreatureWizardProvider>
-                        {/* Main content area */}
+                        {/* Main content area - always render both components for pre-loading */}
                         <div className="creature-window-content">
-                            {activeView === 'library' ? (
+                            <div style={{ display: activeView === 'library' ? 'block' : 'none' }}>
                                 <CreatureLibrary onEdit={handleEditCreature} />
-                            ) : (
-                                <Suspense fallback={<div className="loading-wizard">Loading Creature Wizard...</div>}>
-                                    <CreatureWizardApp
-                                        editMode={!!editingCreatureId}
-                                        creatureId={editingCreatureId}
-                                        onSave={handleBackToLibrary}
-                                        onCancel={handleBackToLibrary}
-                                    />
-                                </Suspense>
-                            )}
+                            </div>
+                            <div style={{ display: activeView === 'wizard' ? 'block' : 'none' }}>
+                                <CreatureWizardApp
+                                    editMode={!!editingCreatureId}
+                                    creatureId={editingCreatureId}
+                                    onSave={handleBackToLibrary}
+                                    onCancel={handleBackToLibrary}
+                                />
+                            </div>
                         </div>
                     </CreatureWizardProvider>
                 </CreatureLibraryProvider>

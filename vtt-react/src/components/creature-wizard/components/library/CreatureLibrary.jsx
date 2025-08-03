@@ -91,11 +91,7 @@ const CreatureLibrary = ({ onEdit }) => {
   const libraryRef = useRef(null);
   const [inspectingCreature, setInspectingCreature] = useState(null);
 
-  // Debug: Log the library state - only on mount
-  useEffect(() => {
-    console.log('CreatureLibrary mounted');
-    // Avoid excessive logging that could cause performance issues
-  }, []);
+  // Component mounted - no logging needed for production
 
   // Filter and sort creatures - memoize to prevent recalculation on every render
   const filteredCreatures = React.useMemo(() => {

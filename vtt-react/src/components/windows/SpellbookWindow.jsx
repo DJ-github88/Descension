@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
@@ -21,8 +21,8 @@ const MagicIcon = () => <span style={{ fontSize: '12px' }}></span>;
 const BoltIcon = () => <span style={{ fontSize: '12px' }}></span>;
 const PlusIcon = () => <span style={{ fontSize: '12px' }}></span>;
 
-// Lazy load SpellWizard to avoid circular dependencies
-const SpellWizard = lazy(() => import('../spellcrafting-wizard/SpellWizardWrapper'));
+// Pre-load SpellWizard for better development experience
+import SpellWizard from '../spellcrafting-wizard/SpellWizardWrapper';
 
 // Simple wrapper that uses UnifiedSpellCard for spellbook display
 const SpellCardWrapper = ({ spell, onClick }) => {
@@ -40,15 +40,13 @@ const SpellCardWrapper = ({ spell, onClick }) => {
 };
 
 const SpellWizardTab = () => {
-  // No local state, just render the wizard
+  // No local state, just render the wizard (pre-loaded)
   return (
-    <Suspense fallback={<div className="loading-wizard">Loading Spell Wizard...</div>}>
-      <div style={{ width: '100%', height: '100%', padding: 0, overflow: 'hidden', position: 'relative' }}>
-        <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
-          <SpellWizard hideHeader={true} />
-        </div>
+    <div style={{ width: '100%', height: '100%', padding: 0, overflow: 'hidden', position: 'relative' }}>
+      <div style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+        <SpellWizard hideHeader={true} />
       </div>
-    </Suspense>
+    </div>
   );
 };
 
@@ -81,16 +79,20 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
       );
     }
 
-    switch (activeTab) {
-      case 'wizard':
-        return <SpellWizardTab />;
-      case 'library':
-        return <SpellLibraryTab />;
-      case 'collections':
-        return <SpellCollectionTab />;
-      default:
-        return <SpellWizardTab />;
-    }
+    // Always render all tabs but hide them when not active for pre-loading
+    return (
+      <>
+        <div style={{ display: activeTab === 'wizard' ? 'block' : 'none', width: '100%', height: '100%' }}>
+          <SpellWizardTab />
+        </div>
+        <div style={{ display: activeTab === 'library' ? 'block' : 'none', width: '100%', height: '100%' }}>
+          <SpellLibraryTab />
+        </div>
+        <div style={{ display: activeTab === 'collections' ? 'block' : 'none', width: '100%', height: '100%' }}>
+          <SpellCollectionTab />
+        </div>
+      </>
+    );
   };
 
   // Spell Library Tab Component - now includes filtering functionality
