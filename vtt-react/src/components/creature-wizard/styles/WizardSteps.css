@@ -37,10 +37,39 @@
   border-radius: 2px;
 }
 
+/* Form sections for better organization */
+.form-section {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(139, 115, 85, 0.4);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5a1e12;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(139, 115, 85, 0.3);
+  font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.field-hint {
+  font-size: 12px;
+  color: #6b5b47;
+  margin-top: 5px;
+  font-style: italic;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
 .form-row {
   display: flex;
-  gap: 25px;
-  margin-bottom: 25px;
+  gap: 20px;
+  margin-bottom: 20px;
   align-items: flex-start;
 }
 
@@ -52,11 +81,17 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.4);
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 18px;
   border-radius: 8px;
-  border: 1px solid rgba(139, 115, 85, 0.3);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(139, 115, 85, 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.form-group:hover {
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
 }
 
 .form-group label {
@@ -173,51 +208,51 @@
 .token-appearance-container {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 20px;
-  border-radius: 12px;
-  border: 2px solid rgba(139, 115, 85, 0.3);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .token-preview {
   display: flex;
   align-items: center;
-  gap: 30px;
-  margin-bottom: 20px;
-  padding: 20px;
+  gap: 20px;
+  margin-bottom: 15px;
+  padding: 15px;
   background: linear-gradient(135deg,
-    rgba(240, 230, 210, 0.6) 0%,
-    rgba(230, 220, 200, 0.4) 100%);
-  border-radius: 8px;
-  border: 1px solid rgba(139, 115, 85, 0.2);
+    rgba(240, 230, 210, 0.7) 0%,
+    rgba(230, 220, 200, 0.5) 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
 }
 
 .token-icon {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  border: 4px solid;
+  border: 3px solid;
   cursor: pointer;
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.3),
-    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    0 3px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
 }
 
 .token-icon:hover {
   transform: scale(1.05);
   box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.4),
-    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3);
 }
 
 .token-controls {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   flex: 1;
 }
 

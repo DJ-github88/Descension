@@ -33,6 +33,7 @@ import 'react-resizable/css/styles.css';
 // Pre-load these components instead of lazy loading for better development experience
 import SpellbookWindow from './windows/SpellbookWindow';
 import CampaignManagerWindow from './windows/CampaignManagerWindow';
+import CreatureWindow from './windows/CreatureWindow';
 const QuestLogWindow = lazy(() =>
     import('./windows/QuestLogWindow').catch(err => {
         console.error('Failed to load QuestLogWindow:', err);

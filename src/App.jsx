@@ -21,6 +21,10 @@ import initCreatureStore from './utils/initCreatureStore';
 // PRELOAD: Import Pathfinder spell wizard styles upfront to see their impact
 import './components/spellcrafting-wizard/styles/pathfinder/main.css';
 import './components/spellcrafting-wizard/styles/pathfinder/collections.css';
+// PRELOAD: Import creature wizard styles upfront to prevent flickering
+import './components/creature-wizard/styles/CreatureWizard.css';
+import './components/creature-wizard/styles/WizardSteps.css';
+import './components/creature-wizard/styles/CreatureWindow.css';
 // NUCLEAR OPTION: Complete character sheet isolation
 import './styles/character-sheet-isolation.css';
 // Import WoW Classic tooltip styles
