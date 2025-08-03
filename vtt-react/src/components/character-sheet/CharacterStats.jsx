@@ -215,16 +215,31 @@ export default function CharacterStats() {
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;
 
+
+
     const {
-        stats,
-        equipment,
-        health,
-        mana,
-        actionPoints,
-        resistances,
+        stats = { strength: 10, agility: 10, constitution: 10, intelligence: 10, spirit: 10, charisma: 10 },
+        equipment = {},
+        health = { current: 50, max: 50 },
+        mana = { current: 50, max: 50 },
+        actionPoints = { current: 3, max: 3 },
+        resistances = {},
         immunities = [],
         updateStat
-    } = dataSource;
+    } = dataSource || {};
+
+    // Early return with fallback if no data source
+    if (!dataSource) {
+        return (
+            <div className="stats-container">
+                <div className="stats-navigation">
+                    <div style={{ padding: '20px', color: '#5a1e12' }}>
+                        Loading character stats...
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     const { getActiveEffects } = useBuffStore();
     const { getActiveDebuffEffects } = useDebuffStore();

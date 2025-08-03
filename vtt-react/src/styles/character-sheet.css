@@ -2502,8 +2502,80 @@
     color: #666;
 }
 
+/* Character Summary Layout */
+.character-summary-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.character-summary-portrait {
+    flex: 1;
+    min-width: 300px;
+}
+
+.character-summary-stats {
+    flex: 1;
+    min-width: 400px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+/* CRITICAL: Override all conflicting CSS for character stats in equipment panel */
+.character-summary-stats .stats-container {
+    display: flex !important;
+    flex-direction: row !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 0 !important;
+    max-width: none !important;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 50%,
+        rgba(213, 203, 176, 0.85) 100%) !important;
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    color: #5a1e12 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    min-height: auto !important;
+}
+
+.character-summary-stats .stats-navigation {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 280px !important;
+    background: linear-gradient(135deg,
+        rgba(213, 203, 176, 0.9) 0%,
+        rgba(203, 193, 166, 0.8) 100%) !important;
+    border-right: 3px solid #8b7355 !important;
+    padding: 20px 15px !important;
+    gap: 8px !important;
+    box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.character-summary-stats .stats-content-area {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    padding: 20px !important;
+    overflow-y: auto !important;
+}
+
+.character-summary-stats .stats-fields {
+    display: block !important;
+}
+
+.character-summary-stats .stats-content {
+    display: block !important;
+}
+
 /* Character Stats Panel - Updated to match Lore/Skills styling */
-.stats-container {
+.character-summary-stats .stats-container {
     display: flex;
     height: 100%;
     padding: 0; /* Remove padding to use full space */
@@ -2516,18 +2588,131 @@
     color: #5a1e12;
 }
 
-/* Stats Navigation */
-.stats-navigation {
-    width: 280px;
+/* Override navigation button styles specifically for character summary */
+.character-summary-stats .stats-nav-button {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 15px !important;
     background: linear-gradient(135deg,
-        rgba(213, 203, 176, 0.9) 0%,
-        rgba(203, 193, 166, 0.8) 100%);
-    border-right: 3px solid #8b7355;
-    padding: 20px 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(240, 230, 210, 0.4) 100%) !important;
+    border: 2px solid #a08c70 !important;
+    border-radius: 8px !important;
+    color: #5a1e12 !important;
+    font-family: 'Cinzel', serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    text-align: left !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    margin: 0 !important;
+    width: auto !important;
+}
+
+.character-summary-stats .stats-nav-button:hover {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(240, 230, 210, 0.6) 100%) !important;
+    border-color: #7a3b2e !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.character-summary-stats .stats-nav-button.active {
+    background: linear-gradient(135deg,
+        rgba(122, 59, 46, 0.9) 0%,
+        rgba(90, 30, 18, 0.8) 100%) !important;
+    color: #f0e6d2 !important;
+    border-color: #5a1e12 !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.character-summary-stats .stats-nav-icon {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    border: 1px solid rgba(122, 59, 46, 0.3) !important;
+    object-fit: cover !important;
+}
+
+.character-summary-stats .stats-nav-text {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: inherit !important;
+}
+
+.character-summary-stats .stats-section-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 2px solid rgba(122, 59, 46, 0.3) !important;
+}
+
+.character-summary-stats .stats-section-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+    border: 2px solid #8b7355 !important;
+}
+
+.character-summary-stats .stats-section-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #5a1e12 !important;
+    margin: 0 !important;
+    font-family: 'Cinzel', serif !important;
+}
+
+.character-summary-stats .stat-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+    margin-bottom: 6px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(122, 59, 46, 0.2) !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+}
+
+.character-summary-stats .stat-row:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border-color: rgba(122, 59, 46, 0.4) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.character-summary-stats .stat-label-container {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex: 1 !important;
+}
+
+.character-summary-stats .stat-label {
+    font-weight: 600 !important;
+    color: #5a1e12 !important;
+    font-size: 14px !important;
+}
+
+.character-summary-stats .stat-value {
+    font-weight: bold !important;
+    color: #7a3b2e !important;
+    font-size: 14px !important;
+    text-align: right !important;
+}
+
+.character-summary-stats .stat-icon {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    border: 1px solid #a08c70 !important;
+    transition: all 0.2s ease !important;
 }
 
 .stats-nav-button {
