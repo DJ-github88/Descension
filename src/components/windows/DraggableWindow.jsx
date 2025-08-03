@@ -215,7 +215,7 @@ const DraggableWindow = forwardRef(({
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={windowScale} // Use window scale for consistent dragging
+            scale={1} // Always use scale 1 since we handle scaling manually
         >
             <div
                 ref={nodeRef}
