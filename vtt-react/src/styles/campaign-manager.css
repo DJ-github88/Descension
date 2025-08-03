@@ -133,7 +133,7 @@
 }
 
 .stat-value {
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--pf-brown-dark, #5a1e12);
     font-family: var(--pf-font-display, 'Cinzel', serif);

@@ -447,7 +447,6 @@
 /* Skills Tab */
 .skills-container {
   display: flex;
-  flex-direction: column;
   gap: 25px;
 }
 
