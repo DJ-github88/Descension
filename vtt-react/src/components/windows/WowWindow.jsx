@@ -133,8 +133,8 @@ const WowWindow = forwardRef(({
                 <div
                     className={`wow-window ${className}`}
                     style={{
-                        width: windowSize.width,
-                        height: windowSize.height
+                        width: '100%',
+                        height: '100%'
                     }}
                     ref={windowElementRef}
                 >
