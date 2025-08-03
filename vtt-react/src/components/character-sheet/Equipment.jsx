@@ -10,6 +10,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import UnequipContextMenu from '../equipment/UnequipContextMenu';
 import ClassResourceBar from '../hud/ClassResourceBar';
+import CharacterStats from './CharacterStats';
 import { createInventoryItem, isOffHandDisabled } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig, getResourceDisplayText } from '../../data/classResources';
@@ -282,21 +283,25 @@ export default function CharacterPanel() {
         });
     };
 
-    // Render character info section
+    // Render character info section with side-by-side layout
     const renderCharacterInfo = () => (
         <div className="character-info-content">
-            <div className="character-identity-section">
-                <div className="character-name-section">
-                    <label className="character-field-label">Character Name</label>
-                    <input
-                        type="text"
-                        value={baseName || name}
-                        onChange={(e) => updateBaseName ? updateBaseName(e.target.value) : updateCharacterInfo('name', e.target.value)}
-                        className="character-field-input"
-                        placeholder="Enter character name"
-                        maxLength={30}
-                    />
-                </div>
+            {/* Character Info and Model Layout */}
+            <div className="character-summary-layout">
+                {/* Left Side - Character Model and Info */}
+                <div className="character-summary-portrait">
+                    <div className="character-identity-section">
+                        <div className="character-name-section">
+                            <label className="character-field-label">Character Name</label>
+                            <input
+                                type="text"
+                                value={baseName || name}
+                                onChange={(e) => updateBaseName ? updateBaseName(e.target.value) : updateCharacterInfo('name', e.target.value)}
+                                className="character-field-input"
+                                placeholder="Enter character name"
+                                maxLength={30}
+                            />
+                        </div>
 
                 <div className="character-details-grid">
                     <div className="character-field">
@@ -452,6 +457,13 @@ export default function CharacterPanel() {
                         </div>
                     </div>
                 )}
+                    </div>
+                </div>
+
+                {/* Right Side - Character Stats */}
+                <div className="character-summary-stats">
+                    <CharacterStats />
+                </div>
             </div>
         </div>
     );

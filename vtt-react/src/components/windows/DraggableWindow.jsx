@@ -97,21 +97,17 @@ const DraggableWindow = forwardRef(({
     }, [centered, getInitialPosition]);
 
     // Direct transform update for better performance and fluidity
-    const updateTransform = useCallback((x, y, scale, isDragging) => {
+    const updateTransform = useCallback((x, y, scale) => {
         if (nodeRef.current) {
-            // During dragging, temporarily disable scale to prevent conflicts
-            if (isDragging) {
-                nodeRef.current.style.transform = `translate(${x}px, ${y}px)`;
-            } else {
-                nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-            }
+            // Always apply scale to maintain consistent window size
+            nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
         }
     }, []);
 
     // Manage transform through optimized DOM manipulation
     useEffect(() => {
-        updateTransform(position.x, position.y, windowScale, isDragging);
-    }, [position.x, position.y, windowScale, isDragging, updateTransform]);
+        updateTransform(position.x, position.y, windowScale);
+    }, [position.x, position.y, windowScale, updateTransform]);
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({

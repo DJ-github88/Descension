@@ -2608,7 +2608,13 @@
 /* Character Portrait Section */
 .character-summary-portrait {
     flex-shrink: 0;
-    width: 200px;
+    width: 400px;
+}
+
+/* Character Stats Section */
+.character-summary-stats {
+    flex: 1;
+    min-width: 0; /* Allow shrinking */
 }
 
 .character-portrait-container {
