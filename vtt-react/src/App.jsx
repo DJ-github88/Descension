@@ -23,9 +23,8 @@ import LandingPage from "./components/landing/LandingPage";
 
 import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
-// PRELOAD: Import Pathfinder spell wizard styles upfront to see their impact
-import './components/spellcrafting-wizard/styles/pathfinder/main.css';
-import './components/spellcrafting-wizard/styles/pathfinder/collections.css';
+// REMOVED: Global spellbook CSS imports that were causing interference
+// These styles will now only load when spellbook components are actually used
 // NUCLEAR OPTION: Complete character sheet isolation
 import './styles/character-sheet-isolation.css';
 // Import WoW Classic tooltip styles
