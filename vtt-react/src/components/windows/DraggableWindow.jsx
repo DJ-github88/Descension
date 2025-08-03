@@ -3,6 +3,20 @@ import Draggable from 'react-draggable';
 import useGameStore from '../../store/gameStore';
 import '../../styles/draggable-window.css';
 
+// Simple throttle function for performance optimization
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+};
+
 /**
  * DraggableWindow - A unified draggable window component for consistent window behavior
  *
@@ -80,13 +94,20 @@ const DraggableWindow = forwardRef(({
         }
     }, [centered, getInitialPosition]);
 
-    // Always manage transform through direct DOM manipulation - apply window scale
+    // Throttled transform update for better performance
+    const throttledTransformUpdate = useCallback(
+        throttle((x, y, scale) => {
+            if (nodeRef.current) {
+                nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+            }
+        }, 16), // ~60fps
+        []
+    );
+
+    // Manage transform through optimized DOM manipulation
     useEffect(() => {
-        if (nodeRef.current) {
-            // Apply both translation and window scale
-            nodeRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${windowScale})`;
-        }
-    }, [position.x, position.y, windowScale]);
+        throttledTransformUpdate(position.x, position.y, windowScale);
+    }, [position.x, position.y, windowScale, throttledTransformUpdate]);
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
@@ -119,23 +140,31 @@ const DraggableWindow = forwardRef(({
         e.stopPropagation();
     }, [zIndex]);
 
+    // Throttled drag handler for better performance
+    const throttledDragHandler = useCallback(
+        throttle((data) => {
+            setPosition({ x: data.x, y: data.y });
+        }, 16), // ~60fps
+        []
+    );
+
     // Handle drag with optimized performance
     const handleDrag = useCallback((e, data) => {
-        // Update position state and let useEffect handle the transform
-        setPosition({ x: data.x, y: data.y });
+        // Use throttled position updates during drag
+        throttledDragHandler(data);
 
-        // Call the onDrag callback during dragging for real-time updates
+        // Call the onDrag callback during dragging for real-time updates (throttled)
         if (onDrag && data && typeof data === 'object') {
             onDrag(data);
         }
 
         e.stopPropagation();
-    }, [onDrag]);
+    }, [onDrag, throttledDragHandler]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
         setIsDragging(false);
-        // Update state with final position
+        // Update state with final position (immediate, not throttled)
         setPosition({ x: data.x, y: data.y });
 
         // Reset z-index to normal and re-enable transitions
@@ -159,20 +188,10 @@ const DraggableWindow = forwardRef(({
             const timer = setTimeout(() => {
                 const newPosition = getInitialPosition();
                 setPosition(newPosition);
-
-                // No need to force positioning - React will handle it through state
             }, 100);
             return () => clearTimeout(timer);
         }
     }, [centered, getInitialPosition]);
-
-    // Always manage transform through direct DOM manipulation - apply window scale
-    useEffect(() => {
-        if (nodeRef.current) {
-            // Apply both translation and window scale
-            nodeRef.current.style.transform = `translate(${position.x}px, ${position.y}px) scale(${windowScale})`;
-        }
-    }, [position.x, position.y, windowScale]);
 
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;

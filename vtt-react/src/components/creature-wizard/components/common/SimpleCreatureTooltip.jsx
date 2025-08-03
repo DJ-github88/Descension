@@ -2,6 +2,7 @@ import React from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
 import '../../../../styles/creature-token.css';
 import '../../../../styles/wow-classic-tooltip.css';
+import './SimpleCreatureTooltip.css';
 
 // Complete thematic resistance descriptions matching spell wizard format
 const getThematicResistanceDescription = (resistanceLevel, damageType) => {
@@ -283,39 +284,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
   const lootPreview = getLootPreview();
 
   return (
-    <div
-      className="enhanced-creature-tooltip creature-tooltip-content"
-      style={{
-        background: 'linear-gradient(145deg, rgba(45, 35, 25, 0.98) 0%, rgba(35, 25, 18, 0.99) 100%)',
-        border: '3px solid #8B4513',
-        borderRadius: '12px',
-        padding: '0',
-        color: '#f8f4e6',
-        fontFamily: "'Cinzel', 'Bookman Old Style', serif",
-        fontSize: '12px',
-        minWidth: '300px',
-        maxWidth: '320px',
-        maxHeight: '500px',
-        overflow: 'hidden',
-        position: 'relative',
-        boxShadow: `
-          0 12px 40px rgba(0, 0, 0, 0.8),
-          inset 0 1px 0 rgba(139, 69, 19, 0.4),
-          0 0 0 1px rgba(139, 69, 19, 0.6),
-          0 0 20px rgba(139, 69, 19, 0.3)
-        `,
-        backdropFilter: 'blur(6px)'
-      }}
-    >
+    <div className="enhanced-creature-tooltip">
       {/* Ornate Header */}
-      <div
-        style={{
-          background: 'linear-gradient(145deg, #5a1e12 0%, #8B4513 50%, #5a1e12 100%)',
-          borderBottom: '2px solid #8B4513',
-          padding: '12px 16px',
-          position: 'relative'
-        }}
-      >
+      <div className="creature-tooltip-header">
         {/* Decorative pattern overlay */}
         <div
           style={{
@@ -337,49 +308,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
           }}
         />
 
-        {/* Creature Name */}
-        <div
-          style={{
-            fontSize: '16px',
-            fontWeight: '700',
-            color: '#f8f4e6',
-            marginBottom: '6px',
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
-            letterSpacing: '0.8px',
-            position: 'relative',
-            zIndex: 1,
-            textAlign: 'center'
-          }}
-        >
+        <div className="creature-tooltip-name">
           {creature.name}
         </div>
 
         {/* Type and Size */}
-        <div
-          style={{
-            fontSize: '13px',
-            color: '#e8dcc6',
-            fontStyle: 'italic',
-            opacity: 0.95,
-            position: 'relative',
-            zIndex: 1,
-            textAlign: 'center',
-            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
-          }}
-        >
+        <div className="creature-tooltip-subtitle">
           {formatSizeName(creature.size)} {formatTypeName(creature.type)} • {sizeMapping.width}×{sizeMapping.height}
         </div>
       </div>
 
       {/* Main Content */}
-      <div
-        className="creature-tooltip-scrollable"
-        style={{
-          padding: '14px 16px',
-          maxHeight: '400px',
-          overflowY: 'auto',
-          overflowX: 'hidden'
-        }}>
+      <div className="creature-tooltip-content">
 
 
         {/* Rich Flavor Text Description */}
@@ -866,6 +806,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
           }}
         />
       </div>
+
+      {/* Tooltip Footer */}
+      <div className="creature-tooltip-footer"></div>
     </div>
   );
 };

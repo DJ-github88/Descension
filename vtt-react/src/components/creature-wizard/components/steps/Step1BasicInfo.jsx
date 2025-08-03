@@ -263,15 +263,16 @@ const Step1BasicInfo = () => {
     <div className="wizard-step">
       <h2>Basic Information</h2>
 
-      <div className="form-row">
+      {/* Name and Description Section */}
+      <div className="form-row single-column">
         <div className="form-group">
-          <label htmlFor="creature-name">Name</label>
+          <label htmlFor="creature-name">Creature Name</label>
           <input
             id="creature-name"
             type="text"
             value={wizardState.name}
             onChange={handleNameChange}
-            placeholder="Enter creature name"
+            placeholder="Enter a unique name for your creature"
             className={wizardState.validationErrors.name ? 'error' : ''}
           />
           {wizardState.validationErrors.name && (
@@ -280,22 +281,23 @@ const Step1BasicInfo = () => {
         </div>
       </div>
 
-      <div className="form-row">
+      <div className="form-row single-column">
         <div className="form-group">
-          <label htmlFor="creature-description">Description</label>
+          <label htmlFor="creature-description">Description & Lore</label>
           <textarea
             id="creature-description"
             value={wizardState.description}
             onChange={handleDescriptionChange}
-            placeholder="Enter a detailed description of your creature's appearance, behavior, and lore..."
-            rows={4}
+            placeholder="Describe your creature's appearance, behavior, habitat, and background lore. This will help players understand what they're encountering..."
+            rows={5}
           />
         </div>
       </div>
 
+      {/* Type and Size Section */}
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="creature-type">Type</label>
+          <label htmlFor="creature-type">Creature Type</label>
           <select
             id="creature-type"
             value={wizardState.type}
@@ -310,7 +312,7 @@ const Step1BasicInfo = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="creature-size">Size</label>
+          <label htmlFor="creature-size">Size Category</label>
           <select
             id="creature-size"
             value={wizardState.size}
@@ -325,14 +327,15 @@ const Step1BasicInfo = () => {
         </div>
       </div>
 
-      <div className="form-row">
+      {/* Tags Section */}
+      <div className="form-row single-column">
         <div className="form-group">
-          <label htmlFor="creature-tags">Tags</label>
+          <label htmlFor="creature-tags">Tags & Categories</label>
           <div className="tags-input-container">
             <input
               id="creature-tags"
               type="text"
-              placeholder="Add tags (press Enter)"
+              placeholder="Add descriptive tags (e.g., undead, fire, boss) - press Enter to add"
               onKeyDown={handleTagInput}
             />
             <div className="tags-container">
@@ -353,9 +356,10 @@ const Step1BasicInfo = () => {
         </div>
       </div>
 
-      <div className="form-row">
+      {/* Token Appearance Section */}
+      <div className="form-row single-column">
         <div className="form-group">
-          <label>Token Appearance</label>
+          <label>Token Appearance & Visual Design</label>
           <div className="token-appearance-container">
             <div className="token-preview">
               <div
@@ -365,6 +369,7 @@ const Step1BasicInfo = () => {
                   borderColor: wizardState.tokenBorder
                 }}
                 onClick={() => setShowIconPicker(!showIconPicker)}
+                title="Click to change icon"
               ></div>
               <div className="token-controls">
                 <button
@@ -372,7 +377,7 @@ const Step1BasicInfo = () => {
                   className="token-control-button"
                   onClick={() => setShowIconPicker(!showIconPicker)}
                 >
-                  {showIconPicker ? 'Close Icon Picker' : 'Change Icon'}
+                  {showIconPicker ? 'Close Icon Picker' : 'Change Token Icon'}
                 </button>
                 <div className="border-color-picker">
                   <span>Border Color:</span>
@@ -383,6 +388,7 @@ const Step1BasicInfo = () => {
                         className={`color-option ${wizardState.tokenBorder === color ? 'selected' : ''}`}
                         style={{ backgroundColor: color }}
                         onClick={() => handleBorderColorSelect(color)}
+                        title={`Select ${color} border`}
                       ></div>
                     ))}
                   </div>

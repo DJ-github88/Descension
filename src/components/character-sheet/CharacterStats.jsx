@@ -1026,6 +1026,84 @@ export default function CharacterStats() {
     const renderStatBlock = () => {
         const currentGroup = statGroups[selectedStatGroup];
 
+        // Special case for Character Summary - show portrait with stats on the right
+        if (selectedStatGroup === 'summary') {
+            return (
+                <div className="character-summary-layout">
+                    {/* Character Portrait Section */}
+                    <div className="character-summary-portrait">
+                        <div className="character-portrait-container">
+                            <img
+                                src="https://wow.zamimg.com/uploads/screenshots/normal/1046017-human-priest.jpg"
+                                alt="Character Portrait"
+                                className="character-summary-image"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Stats Section on the Right */}
+                    <div className="character-summary-stats">
+                        {currentGroup.stats.map((stat, index) => (
+                            <div
+                                key={index}
+                                className="summary-stat-row"
+                                onContextMenu={(e) => handleStatRightClick(e, stat)}
+                                style={{ cursor: isGMMode && stat.statName ? 'context-menu' : 'default' }}
+                            >
+                                <div className="summary-stat-label-container">
+                                    {(stat.icon || STAT_ICONS[stat.label.toLowerCase()]) && (
+                                        <img
+                                            src={stat.icon || STAT_ICONS[stat.label.toLowerCase()]}
+                                            alt={stat.label}
+                                            className="summary-stat-icon"
+                                            style={stat.color ? { borderColor: stat.color } : {}}
+                                        />
+                                    )}
+                                    <span className="summary-stat-label">{stat.label}:</span>
+                                </div>
+                                <div className="summary-stat-value-container">
+                                    <span className="summary-stat-value" style={stat.color ? { color: stat.color } : {}}>
+                                        {formatStatValue(stat.label, stat.value)}
+                                    </span>
+                                    {stat.modifier !== undefined && (
+                                        <span className="summary-stat-modifier">
+                                            ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
+                                        </span>
+                                    )}
+                                </div>
+                                {stat.tooltip && (
+                                    <div
+                                        className="tooltip-trigger"
+                                        onMouseEnter={(e) => handleStatHover(e, stat.label)}
+                                        onMouseMove={updateTooltipPosition}
+                                        onMouseLeave={handleStatLeave}
+                                    />
+                                )}
+                                {hoveredStat === stat.label && (
+                                    <TooltipPortal>
+                                        <div
+                                            className="equipment-slot-tooltip"
+                                            style={{
+                                                position: 'fixed',
+                                                left: tooltipPosition.x,
+                                                top: tooltipPosition.y,
+                                                transform: 'translate(10px, -50%)',
+                                                pointerEvents: 'none',
+                                                zIndex: 999999999
+                                            }}
+                                        >
+                                            <div className="equipment-slot-name">{stat.label}</div>
+                                            <div className="equipment-slot-description">{stat.description}</div>
+                                        </div>
+                                    </TooltipPortal>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
         // Special case for resistances section - new system
         if (selectedStatGroup === 'resistances') {
             const getResistanceValue = (level) => {

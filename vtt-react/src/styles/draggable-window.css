@@ -12,11 +12,25 @@
     top: 0;
     left: 0;
     /* Remove transition that can cause blurriness */
+
+    /* Performance optimizations */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
 
 /* Disable transition during dragging for performance */
 .draggable-window.dragging {
     transition: none;
+    /* Additional performance optimizations during drag */
+    will-change: transform;
+    pointer-events: none; /* Prevent hover effects during drag */
+}
+
+/* Re-enable pointer events for the drag handle */
+.draggable-window.dragging .window-header,
+.draggable-window.dragging .draggable-window-handle {
+    pointer-events: auto;
 }
 
 .draggable-window-handle {
