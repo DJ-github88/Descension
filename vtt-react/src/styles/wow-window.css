@@ -203,11 +203,6 @@
 /* Prevent size flickering during drag */
 .draggable-window.dragging .wow-window {
     will-change: auto !important;
-    /* Lock dimensions during drag to prevent flickering */
-    min-width: unset !important;
-    max-width: unset !important;
-    min-height: unset !important;
-    max-height: unset !important;
 }
 
 /* Disable resizable during drag to prevent conflicts */
@@ -219,9 +214,6 @@
 /* Prevent any size changes during drag */
 .draggable-window.dragging .react-resizable {
     pointer-events: none !important;
-    /* Lock the resizable container size during drag */
-    width: var(--locked-width) !important;
-    height: var(--locked-height) !important;
 }
 
 .wow-window .react-resizable-handle-se {

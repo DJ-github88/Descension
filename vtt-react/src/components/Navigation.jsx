@@ -10,7 +10,7 @@ import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibra
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from './creature-wizard/components/library/CreatureLibrary';
 
-// Pre-load the wizard components for better development experience
+// Pre-load the wizard components to prevent flickering during drag operations
 import CreatureWizardApp from './creature-wizard/CreatureWizardApp';
 
 import CharacterStats from './character-sheet/CharacterStats';
@@ -33,7 +33,6 @@ import 'react-resizable/css/styles.css';
 // Pre-load these components instead of lazy loading for better development experience
 import SpellbookWindow from './windows/SpellbookWindow';
 import CampaignManagerWindow from './windows/CampaignManagerWindow';
-import CreatureWindow from './windows/CreatureWindow';
 const QuestLogWindow = lazy(() =>
     import('./windows/QuestLogWindow').catch(err => {
         console.error('Failed to load QuestLogWindow:', err);
@@ -144,18 +143,19 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             <div className="creature-window">
                 <CreatureLibraryProvider>
                     <CreatureWizardProvider>
-                        {/* Main content area - conditional rendering since CSS is preloaded */}
+                        {/* Main content area - always render both components for pre-loading */}
                         <div className="creature-window-content">
-                            {activeView === 'library' ? (
+                            <div style={{ display: activeView === 'library' ? 'block' : 'none' }}>
                                 <CreatureLibrary onEdit={handleEditCreature} />
-                            ) : (
+                            </div>
+                            <div style={{ display: activeView === 'wizard' ? 'block' : 'none' }}>
                                 <CreatureWizardApp
                                     editMode={!!editingCreatureId}
                                     creatureId={editingCreatureId}
                                     onSave={handleBackToLibrary}
                                     onCancel={handleBackToLibrary}
                                 />
-                            )}
+                            </div>
                         </div>
                     </CreatureWizardProvider>
                 </CreatureLibraryProvider>

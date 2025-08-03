@@ -138,11 +138,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = (zIndex + 100).toString();
             nodeRef.current.classList.add('dragging'); // Disable transition during drag
-
-            // Lock current dimensions to prevent size flickering
-            const rect = nodeRef.current.getBoundingClientRect();
-            nodeRef.current.style.setProperty('--locked-width', `${rect.width}px`);
-            nodeRef.current.style.setProperty('--locked-height', `${rect.height}px`);
         }
 
         // Call external onDragStart callback
@@ -184,10 +179,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-
-            // Remove locked dimensions
-            nodeRef.current.style.removeProperty('--locked-width');
-            nodeRef.current.style.removeProperty('--locked-height');
         }
 
         // Call the onDrag callback if provided with valid data

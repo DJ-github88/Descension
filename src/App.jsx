@@ -18,13 +18,20 @@ import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/
 
 import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
-// PRELOAD: Import Pathfinder spell wizard styles upfront to see their impact
+// PRELOAD: Import Pathfinder spell wizard styles upfront to prevent flickering
 import './components/spellcrafting-wizard/styles/pathfinder/main.css';
 import './components/spellcrafting-wizard/styles/pathfinder/collections.css';
 // PRELOAD: Import creature wizard styles upfront to prevent flickering
 import './components/creature-wizard/styles/CreatureWizard.css';
-import './components/creature-wizard/styles/WizardSteps.css';
+import './components/creature-wizard/styles/CreatureLibrary.css';
 import './components/creature-wizard/styles/CreatureWindow.css';
+import './components/creature-wizard/styles/WizardSteps.css';
+import './components/creature-wizard/styles/CompactCreatureCard.css';
+import './components/creature-wizard/styles/LibraryStyleCreatureCard.css';
+import './components/creature-wizard/styles/CreatureFilters.css';
+import './components/creature-wizard/styles/CreatureContextMenu.css';
+import './components/creature-wizard/styles/CreatureInspectView.css';
+import './components/creature-wizard/styles/ShopConfiguration.css';
 // NUCLEAR OPTION: Complete character sheet isolation
 import './styles/character-sheet-isolation.css';
 // Import WoW Classic tooltip styles

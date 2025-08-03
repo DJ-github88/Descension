@@ -1,12 +1,12 @@
-import React, { useState, lazy, Suspense, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from '../creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
 import useCreatureStore from '../../store/creatureStore';
 import '../creature-wizard/styles/CreatureWindow.css';
 
-// Lazy load the wizard components
-const CreatureWizardApp = lazy(() => import('../creature-wizard/CreatureWizardApp'));
+// Pre-load the wizard components to prevent flickering
+import CreatureWizardApp from '../creature-wizard/CreatureWizardApp';
 
 export default function CreatureWindow({
   initialCreatureId = null,
@@ -765,14 +765,12 @@ export default function CreatureWindow({
             {activeView === 'library' ? (
               <CreatureLibrary onEdit={handleEditCreature} />
             ) : (
-              <Suspense fallback={<div className="loading-wizard">Loading Creature Wizard...</div>}>
-                <CreatureWizardApp
-                  editMode={!!editingCreatureId}
-                  creatureId={editingCreatureId}
-                  onSave={handleBackToLibrary}
-                  onCancel={handleBackToLibrary}
-                />
-              </Suspense>
+              <CreatureWizardApp
+                editMode={!!editingCreatureId}
+                creatureId={editingCreatureId}
+                onSave={handleBackToLibrary}
+                onCancel={handleBackToLibrary}
+              />
             )}
           </div>
         </CreatureWizardProvider>
