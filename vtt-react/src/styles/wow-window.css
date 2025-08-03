@@ -181,13 +181,39 @@
     overscroll-behavior: contain;
     scroll-padding: 0;
     will-change: scroll-position;
-    transform: translateZ(0);
+    /* Remove transform that conflicts with dragging */
 }
 
 /* Make resize handle invisible but keep functionality - exclude combat timeline */
 .wow-window .react-resizable-handle {
     opacity: 0 !important;
     background: transparent !important;
+}
+
+/* Disable transitions during dragging for better performance */
+.draggable-window.dragging .wow-window,
+.draggable-window.dragging .window-header-tab,
+.draggable-window.dragging .tab-button,
+.draggable-window.dragging .spellbook-tab,
+.draggable-window.dragging .window-close {
+    transition: none !important;
+    transform: none !important;
+}
+
+/* Prevent size flickering during drag */
+.draggable-window.dragging .wow-window {
+    will-change: auto !important;
+}
+
+/* Disable resizable during drag to prevent conflicts */
+.draggable-window.dragging .react-resizable-handle {
+    pointer-events: none !important;
+    display: none !important;
+}
+
+/* Prevent any size changes during drag */
+.draggable-window.dragging .react-resizable {
+    pointer-events: none !important;
 }
 
 .wow-window .react-resizable-handle-se {

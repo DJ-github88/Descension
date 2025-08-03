@@ -41,7 +41,9 @@ const DraggableWindow = forwardRef(({
     centered = false,
     bounds = "body",
     zIndex = 1000,
-    onDrag = null
+    onDrag = null,
+    onDragStart = null,
+    onDragStop = null
 }, ref) => {
     // Get window scale from store (hooks must be called before any early returns)
     const windowScale = useGameStore(state => state.windowScale);
@@ -137,8 +139,14 @@ const DraggableWindow = forwardRef(({
             nodeRef.current.style.zIndex = (zIndex + 100).toString();
             nodeRef.current.classList.add('dragging'); // Disable transition during drag
         }
+
+        // Call external onDragStart callback
+        if (onDragStart) {
+            onDragStart(data);
+        }
+
         e.stopPropagation();
-    }, [zIndex]);
+    }, [zIndex, onDragStart]);
 
     // Throttled drag handler for better performance
     const throttledDragHandler = useCallback(
@@ -178,8 +186,13 @@ const DraggableWindow = forwardRef(({
             onDrag(data);
         }
 
+        // Call external onDragStop callback
+        if (onDragStop) {
+            onDragStop(data);
+        }
+
         e.stopPropagation();
-    }, [onDrag, zIndex]);
+    }, [onDrag, onDragStop, zIndex]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {

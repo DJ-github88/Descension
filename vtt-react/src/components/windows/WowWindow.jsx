@@ -72,13 +72,30 @@ const WowWindow = forwardRef(({
         }
     }, [centered]);
 
-    // Handle resize
+    // Track if window is being dragged to prevent resize conflicts
+    const [isDragging, setIsDragging] = useState(false);
+
+    // Handle resize - only when not dragging
     const handleResize = (event, { size }) => {
-        setWindowSize({
-            width: size.width,
-            height: size.height
-        });
+        if (!isDragging) {
+            setWindowSize({
+                width: size.width,
+                height: size.height
+            });
+        }
     };
+
+    // Handle drag start/stop to prevent resize conflicts
+    const handleDragStart = useCallback(() => {
+        setIsDragging(true);
+    }, []);
+
+    const handleDragStop = useCallback((position) => {
+        setIsDragging(false);
+        if (onDrag) {
+            onDrag(position);
+        }
+    }, [onDrag]);
 
     // Handle wheel events within window content to prevent conflicts with grid
     const handleWindowWheel = useCallback((e) => {
@@ -102,7 +119,8 @@ const WowWindow = forwardRef(({
             bounds={bounds}
             handleClassName="window-header"
             zIndex={10000}
-            onDrag={onDrag}
+            onDragStart={handleDragStart}
+            onDragStop={handleDragStop}
         >
             <Resizable
                 width={windowSize.width}
