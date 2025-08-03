@@ -1,10 +1,97 @@
 /* ===== PATHFINDER SPELLBOOK - SPELL CARDS ===== */
 /* All spell card variants with Pathfinder theming */
+/* SCOPED TO SPELLBOOK CONTAINERS ONLY - prevents interference with external elements */
+
+/* ===== CRITICAL: RESET EXTERNAL SPELL CARDS ===== */
+/* Ensure spell cards OUTSIDE spellbook containers maintain character sheet styling */
+
+/* Reset unified spell cards outside spellbook to character sheet styling */
+.unified-spell-card:not(.spellbook-layout .unified-spell-card):not(.spell-library-tab .unified-spell-card):not(.pf-spellbook .unified-spell-card) {
+  background: #f0e6d2 !important;
+  border: 1px solid #8B4513 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  color: #5a1e12 !important;
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  max-width: none !important;
+  min-width: auto !important;
+  width: auto !important;
+}
+
+/* Reset unified spell card headers outside spellbook to character sheet styling */
+.unified-spell-card-header:not(.spellbook-layout .unified-spell-card-header):not(.spell-library-tab .unified-spell-card-header):not(.pf-spellbook .unified-spell-card-header) {
+  background: linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%) !important;
+  border-bottom: 2px solid #8B4513 !important;
+  color: #2d1810 !important;
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Reset wow spell cards outside spellbook to character sheet styling */
+.wow-spell-card:not(.spellbook-layout .wow-spell-card):not(.spell-library-tab .wow-spell-card):not(.pf-spellbook .wow-spell-card) {
+  background: #f0e6d2 !important;
+  border: 1px solid #8B4513 !important;
+  border-radius: 6px !important;
+  color: #5a1e12 !important;
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  max-width: none !important;
+  min-width: auto !important;
+  width: auto !important;
+}
+
+/* ===== PROTECT CHARACTER SHEET ELEMENTS ===== */
+/* Ensure character sheet elements maintain their styling */
+
+.character-sheet-container,
+.character-sheet-container *,
+.character-container,
+.character-container *,
+.character-navigation,
+.character-navigation *,
+.character-stats,
+.character-stats *,
+.stats-container,
+.stats-container *,
+.stat-block,
+.stat-block * {
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+  color: #5a1e12 !important;
+}
+
+/* Prevent CSS variable leakage to character sheet */
+:root {
+  --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --pf-text-primary: #5a1e12;
+  --pf-text-secondary: #5a1e12;
+}
+
+/* Only allow spellbook variables within spellbook containers */
+.spellbook-layout,
+.spell-library-tab,
+.pf-spellbook {
+  --pf-font-body: 'Crimson Text', serif;
+  --pf-font-display: 'Cinzel', serif;
+  --pf-font-ui: 'Crimson Text', serif;
+  --pf-text-primary: #2d1810;
+  --pf-text-secondary: #5a1e12;
+}
 
 /* ===== ENHANCED BASE SPELL CARD ===== */
 
-.pf-spell-card,
-.wow-spell-card {
+/* SCOPED SELECTORS - Only apply within spellbook containers */
+.spellbook-layout .pf-spell-card,
+.spellbook-layout .wow-spell-card,
+.spellbook-layout .unified-spell-card,
+.spell-library-tab .pf-spell-card,
+.spell-library-tab .wow-spell-card,
+.spell-library-tab .unified-spell-card,
+.pf-spellbook .pf-spell-card,
+.pf-spellbook .wow-spell-card,
+.pf-spellbook .unified-spell-card {
   background: var(--pf-gradient-parchment);
   border: none;
   border-radius: var(--pf-border-radius-lg);

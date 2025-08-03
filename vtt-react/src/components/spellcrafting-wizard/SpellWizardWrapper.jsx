@@ -1,6 +1,5 @@
 import React from 'react';
-// Load CSS only when SpellWizardWrapper is actually used (not globally)
-import './styles/pathfinder/main.css';
+// CSS is now loaded globally in App.jsx - no need to import here
 import { SpellLibraryProvider } from './context/SpellLibraryContext';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext.js';
 import SpellwizardApp from './SpellwizardApp';

@@ -2,10 +2,6 @@ import React, { lazy, Suspense, useState, useEffect, useRef, useCallback } from 
 import ReactDOM from 'react-dom';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
-
-// Load spellbook CSS only when SpellbookWindow is used
-import '../spellcrafting-wizard/styles/pathfinder/main.css';
-import '../spellcrafting-wizard/styles/pathfinder/collections.css';
 import { LIBRARY_SPELLS } from '../../data/spellLibraryData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import CollectionContextMenu from '../spellcrafting-wizard/components/library/CollectionContextMenu';
