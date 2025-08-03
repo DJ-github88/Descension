@@ -460,10 +460,7 @@ export default function CharacterPanel() {
                     </div>
                 </div>
 
-                {/* Right Side - Character Stats */}
-                <div className="character-summary-stats">
-                    <CharacterStats />
-                </div>
+
             </div>
         </div>
     );
