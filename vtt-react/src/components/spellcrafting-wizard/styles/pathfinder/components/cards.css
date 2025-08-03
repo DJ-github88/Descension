@@ -1695,10 +1695,10 @@
 }
 
 /* Override any global interference from creature windows or other components */
+/* REMOVED GLOBAL BODY SELECTOR - was causing interference with external spell cards */
 .spellbook-layout .unified-spell-card .unified-spell-card-header,
 .creature-window .unified-spell-card .unified-spell-card-header,
-.spellbook-tab-headers ~ * .unified-spell-card .unified-spell-card-header,
-body .unified-spell-card .unified-spell-card-header {
+.spellbook-tab-headers ~ * .unified-spell-card .unified-spell-card-header {
   display: flex !important;
   flex-direction: column !important;
   padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
