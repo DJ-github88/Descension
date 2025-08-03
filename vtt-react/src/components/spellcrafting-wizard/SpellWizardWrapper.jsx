@@ -1,5 +1,5 @@
 import React from 'react';
-// CSS is now loaded globally in App.jsx - no need to import here
+import './styles/pathfinder/main.css';
 import { SpellLibraryProvider } from './context/SpellLibraryContext';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext.js';
 import SpellwizardApp from './SpellwizardApp';

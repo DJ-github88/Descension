@@ -1,9 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-// import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
-
-// Temporary fallback for missing terrain system
-const PROFESSIONAL_TERRAIN_TYPES = {};
+import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
 
 // Terrain categories for organization
 export const TERRAIN_CATEGORIES = {

@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useState, useRef, useEffect } from 'react';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
-// REMOVED: CSS import that was causing global interference
-// import '../spellcrafting-wizard/styles/pathfinder/main.css';
+import '../spellcrafting-wizard/styles/pathfinder/main.css';
 
 // Import spell library data
 import { LIBRARY_SPELLS, LIBRARY_COLLECTIONS } from '../../data/spellLibraryData';

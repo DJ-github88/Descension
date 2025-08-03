@@ -14,17 +14,17 @@ import CreatureToken from "./grid/CreatureToken";
 import CharacterToken from "./grid/CharacterToken";
 // import TokenTester from "./grid/TokenTester"; // Removed per user request
 import CanvasGridRenderer from "./grid/CanvasGridRenderer";
-// import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
-// import VTTDrawingEngine from "./level-editor/VTTDrawingEngine";
-// import TerrainSystem from "./level-editor/terrain/TerrainSystem";
-// import ObjectSystem from "./level-editor/objects/ObjectSystem";
-// import TileOverlay from "./level-editor/TileOverlay";
-// import LightSourceOverlay from "./level-editor/LightSourceOverlay";
-// import ShadowOverlay from "./level-editor/ShadowOverlay";
-// import CanvasWallSystem from "./level-editor/CanvasWallSystem";
-// import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
-// import StaticFogOverlay from "./level-editor/StaticFogOverlay";
-// import TextInteractionOverlay from "./grid/TextInteractionOverlay";
+import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
+import VTTDrawingEngine from "./level-editor/VTTDrawingEngine";
+import TerrainSystem from "./level-editor/terrain/TerrainSystem";
+import ObjectSystem from "./level-editor/objects/ObjectSystem";
+import TileOverlay from "./level-editor/TileOverlay";
+import LightSourceOverlay from "./level-editor/LightSourceOverlay";
+import ShadowOverlay from "./level-editor/ShadowOverlay";
+import CanvasWallSystem from "./level-editor/CanvasWallSystem";
+import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
+import StaticFogOverlay from "./level-editor/StaticFogOverlay";
+import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
 import { throttle, rafThrottle } from "../utils/performanceUtils";
 

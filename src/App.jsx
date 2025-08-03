@@ -1,70 +1,77 @@
-import React, { useState } from 'react';
-import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
-import { SpellWizardProvider } from "./components/spellcrafting-wizard/context/SpellWizardContext";
-import { CreatureLibraryProvider } from "./components/creature-wizard/context/CreatureLibraryContext";
-import { CreatureWizardProvider } from "./components/creature-wizard/context/CreatureWizardContext";
-import SpellbookWindow from "./components/windows/SpellbookWindow";
-import CreatureWindow from "./components/windows/CreatureWindow";
+import React, { useEffect } from 'react';
+import Grid from "./components/Grid";
+import Navigation from "./components/Navigation";
+import GameProvider from "./components/GameProvider";
+import HUDContainer from "./components/hud/HUDContainer";
+import GridItemsManager from "./components/grid/GridItemsManager";
+import GMPlayerToggle from "./components/level-editor/GMPlayerToggle";
+import DynamicFogManager from "./components/level-editor/DynamicFogManager";
+import DynamicLightingManager from "./components/level-editor/DynamicLightingManager";
+import AtmosphericEffectsManager from "./components/level-editor/AtmosphericEffectsManager";
 
-// Character sheet isolation - keep this for protection
+import ActionBar from "./components/ui/ActionBar";
+import CombatSelectionWindow from "./components/combat/CombatSelectionOverlay";
+// import CombatTimeline from "./components/combat/CombatTimeline"; // Removed per user request
+import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
+import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
+
+
+import initChatStore from './utils/initChatStore';
+import initCreatureStore from './utils/initCreatureStore';
+// PRELOAD: Import Pathfinder spell wizard styles upfront to see their impact
+import './components/spellcrafting-wizard/styles/pathfinder/main.css';
+import './components/spellcrafting-wizard/styles/pathfinder/collections.css';
+// NUCLEAR OPTION: Complete character sheet isolation
 import './styles/character-sheet-isolation.css';
+// Import WoW Classic tooltip styles
+import './styles/wow-classic-tooltip.css';
+// Import game screen styles
+import './styles/game-screen.css';
+// Import grid item styles
+import './styles/grid-item.css';
+// Import party HUD styles
+import './styles/party-hud.css';
+// Import creature and character token styles
+import './styles/creature-token.css';
+
+function GameScreen() {
+    return (
+        <div className="game-screen">
+            <Grid />
+            <GridItemsManager />
+            <HUDContainer />
+            <ActionBar />
+            <CombatSelectionWindow />
+            {/* <CombatTimeline /> */} {/* Removed per user request */}
+            <FloatingCombatTextManager />
+            {/* Dynamic Fog of War Manager - runs in background */}
+            <DynamicFogManager />
+            {/* Dynamic Lighting Manager - runs in background */}
+            <DynamicLightingManager />
+            {/* Atmospheric Effects Manager - weather and environmental effects */}
+            <AtmosphericEffectsManager />
+
+        </div>
+    );
+}
 
 export default function App() {
-    const [showSpellbook, setShowSpellbook] = useState(false);
-    const [showCreatures, setShowCreatures] = useState(false);
+    // Initialize stores with sample data
+    useEffect(() => {
+        initChatStore();
+        initCreatureStore();
+    }, []);
 
     return (
-        <div className="App" style={{ padding: '20px', fontFamily: 'Cinzel, serif', color: '#5a1e12' }}>
-            <h1>CSS Isolation Test</h1>
-            <p>This is the main app with character sheet styling (Cinzel font, brown color).</p>
-
-            <div style={{ marginBottom: '20px' }}>
-                <button
-                    onClick={() => setShowSpellbook(!showSpellbook)}
-                    style={{ marginRight: '10px', padding: '10px 20px' }}
-                >
-                    {showSpellbook ? 'Close' : 'Open'} Spellbook
-                </button>
-                <button
-                    onClick={() => setShowCreatures(!showCreatures)}
-                    style={{ padding: '10px 20px' }}
-                >
-                    {showCreatures ? 'Close' : 'Open'} Creature Library
-                </button>
-            </div>
-
-            <div className="character-sheet-container">
-                <h2>Character Sheet Section</h2>
-                <p>This should maintain Cinzel font and brown color even when spellbook/creature windows are open.</p>
-                <div className="unified-spell-card" style={{
-                    border: '1px solid #8B4513',
-                    padding: '10px',
-                    margin: '10px 0',
-                    background: '#f0e6d2'
-                }}>
-                    <h3>Test Spell Card (Outside Components)</h3>
-                    <p>This spell card should NOT be affected by spellbook or creature wizard CSS.</p>
+        <GameProvider>
+            <SpellLibraryProvider>
+                <div className="spell-wizard-container">
+                    <GameScreen />
+                    <Navigation />
+                    {/* Global GM/Player toggle - always visible */}
+                    <GMPlayerToggle />
                 </div>
-            </div>
-
-            {showSpellbook && (
-                <SpellLibraryProvider>
-                    <SpellWizardProvider>
-                        <SpellbookWindow
-                            isOpen={showSpellbook}
-                            onClose={() => setShowSpellbook(false)}
-                        />
-                    </SpellWizardProvider>
-                </SpellLibraryProvider>
-            )}
-
-            {showCreatures && (
-                <CreatureLibraryProvider>
-                    <CreatureWizardProvider>
-                        <CreatureWindow />
-                    </CreatureWizardProvider>
-                </CreatureLibraryProvider>
-            )}
-        </div>
+            </SpellLibraryProvider>
+        </GameProvider>
     );
 }
