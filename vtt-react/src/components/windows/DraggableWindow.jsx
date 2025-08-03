@@ -96,20 +96,22 @@ const DraggableWindow = forwardRef(({
         }
     }, [centered, getInitialPosition]);
 
-    // Throttled transform update for better performance
-    const throttledTransformUpdate = useCallback(
-        throttle((x, y, scale) => {
-            if (nodeRef.current) {
+    // Direct transform update for better performance and fluidity
+    const updateTransform = useCallback((x, y, scale, isDragging) => {
+        if (nodeRef.current) {
+            // During dragging, temporarily disable scale to prevent conflicts
+            if (isDragging) {
+                nodeRef.current.style.transform = `translate(${x}px, ${y}px)`;
+            } else {
                 nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
             }
-        }, 16), // ~60fps
-        []
-    );
+        }
+    }, []);
 
     // Manage transform through optimized DOM manipulation
     useEffect(() => {
-        throttledTransformUpdate(position.x, position.y, windowScale);
-    }, [position.x, position.y, windowScale, throttledTransformUpdate]);
+        updateTransform(position.x, position.y, windowScale, isDragging);
+    }, [position.x, position.y, windowScale, isDragging, updateTransform]);
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
@@ -148,26 +150,23 @@ const DraggableWindow = forwardRef(({
         e.stopPropagation();
     }, [zIndex, onDragStart]);
 
-    // Throttled drag handler for better performance
-    const throttledDragHandler = useCallback(
-        throttle((data) => {
-            setPosition({ x: data.x, y: data.y });
-        }, 16), // ~60fps
-        []
-    );
-
     // Handle drag with optimized performance
     const handleDrag = useCallback((e, data) => {
-        // Use throttled position updates during drag
-        throttledDragHandler(data);
+        // Update position immediately for fluid dragging
+        setPosition({ x: data.x, y: data.y });
 
-        // Call the onDrag callback during dragging for real-time updates (throttled)
+        // Update transform directly for immediate visual feedback
+        if (nodeRef.current) {
+            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px)`;
+        }
+
+        // Call the onDrag callback during dragging for real-time updates
         if (onDrag && data && typeof data === 'object') {
             onDrag(data);
         }
 
         e.stopPropagation();
-    }, [onDrag, throttledDragHandler]);
+    }, [onDrag]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -179,6 +178,8 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
+            // Re-apply scale after dragging ends to prevent flickering
+            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
         }
 
         // Call the onDrag callback if provided with valid data
@@ -192,7 +193,7 @@ const DraggableWindow = forwardRef(({
         }
 
         e.stopPropagation();
-    }, [onDrag, onDragStop, zIndex]);
+    }, [onDrag, onDragStop, zIndex, windowScale]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {
@@ -218,7 +219,7 @@ const DraggableWindow = forwardRef(({
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={1.0} // Use fixed scale for consistent dragging
+            scale={windowScale} // Use window scale for consistent dragging
         >
             <div
                 ref={nodeRef}

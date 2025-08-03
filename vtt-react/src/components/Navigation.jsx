@@ -10,7 +10,7 @@ import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibra
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from './creature-wizard/components/library/CreatureLibrary';
 
-// Pre-load the wizard components to prevent flickering during drag operations
+// Pre-load the wizard components for better development experience
 import CreatureWizardApp from './creature-wizard/CreatureWizardApp';
 
 import CharacterStats from './character-sheet/CharacterStats';
