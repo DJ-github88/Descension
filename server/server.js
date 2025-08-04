@@ -2,6 +2,8 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
@@ -67,9 +69,69 @@ app.get('/rooms', (req, res) => {
   res.json(publicRooms);
 });
 
-// In-memory storage (upgrade to Redis later for production scaling)
+// Persistent storage with file backup
+const ROOMS_FILE = path.join(__dirname, 'rooms.json');
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
+
+// Load rooms from file on startup
+function loadRooms() {
+  try {
+    if (fs.existsSync(ROOMS_FILE)) {
+      const data = fs.readFileSync(ROOMS_FILE, 'utf8');
+      const roomsData = JSON.parse(data);
+
+      // Convert back to Map and restore player Maps
+      Object.entries(roomsData).forEach(([roomId, roomData]) => {
+        // Convert players object back to Map
+        const playersMap = new Map();
+        if (roomData.players && typeof roomData.players === 'object') {
+          Object.entries(roomData.players).forEach(([playerId, playerData]) => {
+            playersMap.set(playerId, playerData);
+          });
+        }
+
+        rooms.set(roomId, {
+          ...roomData,
+          players: playersMap
+        });
+      });
+
+      console.log(`Loaded ${rooms.size} rooms from storage`);
+    }
+  } catch (error) {
+    console.error('Error loading rooms:', error);
+  }
+}
+
+// Save rooms to file
+function saveRooms() {
+  try {
+    const roomsData = {};
+
+    // Convert Map to object for JSON serialization
+    rooms.forEach((room, roomId) => {
+      // Convert players Map to object
+      const playersObj = {};
+      room.players.forEach((player, playerId) => {
+        playersObj[playerId] = player;
+      });
+
+      roomsData[roomId] = {
+        ...room,
+        players: playersObj
+      };
+    });
+
+    fs.writeFileSync(ROOMS_FILE, JSON.stringify(roomsData, null, 2));
+    console.log(`Saved ${rooms.size} rooms to storage`);
+  } catch (error) {
+    console.error('Error saving rooms:', error);
+  }
+}
+
+// Load rooms on startup
+loadRooms();
 
 // Room management functions
 function createRoom(roomName, gmName, gmSocketId, password) {
@@ -109,6 +171,7 @@ function createRoom(roomName, gmName, gmSocketId, password) {
     isGM: true
   });
 
+  saveRooms(); // Persist to file
   return room;
 }
 
@@ -150,7 +213,8 @@ function joinRoom(roomId, playerName, socketId, password) {
     roomId: roomId,
     isGM: false
   });
-  
+
+  saveRooms(); // Persist to file
   return { room, player };
 }
 
@@ -164,12 +228,14 @@ function leaveRoom(socketId) {
   if (player.isGM) {
     // GM left - close the room
     rooms.delete(player.roomId);
+    saveRooms(); // Persist to file
     // Notify all players
     return { type: 'room_closed', room };
   } else {
     // Regular player left
     room.players.delete(player.id);
     players.delete(socketId);
+    saveRooms(); // Persist to file
     return { type: 'player_left', room, player };
   }
 }
