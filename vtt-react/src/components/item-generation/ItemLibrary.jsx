@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
-import useGameStore from '../../store/gameStore';
+import DraggableWindow from '../windows/DraggableWindow';
 import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
 import ItemTooltip from './ItemTooltip';
@@ -249,8 +249,6 @@ const ItemLibrary = ({ onClose }) => {
         openContainers,
         toggleContainerOpen
     } = useItemStore();
-
-    const windowScale = useGameStore(state => state.windowScale);
 
     useEffect(() => {
         const handleClickOutside = () => setContextMenu(null);
@@ -649,18 +647,19 @@ const ItemLibrary = ({ onClose }) => {
         setShowContainerWizard(true);
     };
 
-    return createPortal(
-        <div
-            ref={containerRef}
-            className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
-            onMouseDown={handleMouseDown}
-            style={{
-                left: `${position.x}px`,
-                top: `${position.y}px`,
-                transform: `scale(${windowScale})`,
-                transformOrigin: 'top left'
-            }}
+    return (
+        <DraggableWindow
+            isOpen={true}
+            onClose={onClose}
+            defaultPosition={position}
+            handleClassName="item-library-header"
+            zIndex={1000}
         >
+            <div
+                ref={containerRef}
+                className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
+                onMouseDown={handleMouseDown}
+            >
             <div className="item-library-header">
                 <div className="item-library-title-section">
                     <div className="item-library-title">Item Library</div>
@@ -1135,8 +1134,8 @@ const ItemLibrary = ({ onClose }) => {
                     }}
                 />
             )}
-        </div>,
-        document.body
+            </div>
+        </DraggableWindow>
     );
 };
 

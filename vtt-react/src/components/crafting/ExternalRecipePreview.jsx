@@ -15,14 +15,14 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
     return null;
   }
 
-  // Calculate position with fallback values
-  const wizardWidth = windowSize?.width || 800;
+  // Calculate position with fallback values and live updates
+  const wizardWidth = (windowSize?.width || 800) * windowScale;
   const wizardX = windowPosition?.x || ((window.innerWidth - 800) / 2);
   const wizardY = windowPosition?.y || ((window.innerHeight - 600) / 2);
 
   const position = {
-    left: wizardX + wizardWidth + 10,
-    top: wizardY + 60,
+    left: wizardX + wizardWidth - 20, // Move much closer - overlap with wizard
+    top: wizardY + 40, // Closer to wizard header
     position: 'fixed',
     zIndex: 99999,
     width: '350px',

@@ -14,15 +14,15 @@ const ExternalLivePreview = () => {
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
   const windowScale = useGameStore(state => state.windowScale);
 
+  // Calculate position with fallback values and live updates
+  const spellbookWidth = (windowSize?.width || 1000) * windowScale;
+  const spellbookX = windowPosition?.x || ((window.innerWidth - 1000) / 2);
+  const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
+
   // Only show when the wizard tab is active
   if (activeTab !== 'wizard') {
     return null;
   }
-
-  // Calculate position with fallback values
-  const spellbookWidth = windowSize?.width || 1000;
-  const spellbookX = windowPosition?.x || ((window.innerWidth - 1000) / 2);
-  const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
 
   const position = {
     left: spellbookX + spellbookWidth - 30, // Move much closer - more overlap
