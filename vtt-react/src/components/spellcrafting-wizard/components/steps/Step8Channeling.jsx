@@ -626,6 +626,23 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           type: ACTION_TYPES.UPDATE_CHANNELING_CONFIG,
           payload: updatedConfig
         });
+
+        // Also update typeConfig for spell card display
+        const typeConfigUpdate = {
+          maxChannelDuration: updatedConfig.maxDuration,
+          durationUnit: updatedConfig.durationUnit?.toUpperCase() || 'TURNS',
+          interruptible: updatedConfig.interruptible,
+          movementAllowed: updatedConfig.movementAllowed,
+          costValue: updatedConfig.costValue,
+          costType: updatedConfig.costType,
+          costTrigger: updatedConfig.costTrigger
+        };
+
+        console.log("Updating typeConfig for spell card:", typeConfigUpdate);
+        dispatch({
+          type: ACTION_TYPES.UPDATE_TYPE_CONFIG,
+          payload: typeConfigUpdate
+        });
       }
     }
   }, [channelingConfig, dispatch, state.healingConfig, state.damageConfig, state.resourceCost, state.channelingConfig, targetingConfig, propagation, calculateScaledFormula, getInitialAreaSettings]);
@@ -733,6 +750,22 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
     dispatch({
       type: ACTION_TYPES.UPDATE_CHANNELING_CONFIG,
       payload: newConfig
+    });
+
+    // Also update typeConfig for spell card display
+    const typeConfigUpdate = {
+      maxChannelDuration: newConfig.maxDuration,
+      durationUnit: newConfig.durationUnit?.toUpperCase() || 'TURNS',
+      interruptible: newConfig.interruptible,
+      movementAllowed: newConfig.movementAllowed,
+      costValue: newConfig.costValue,
+      costType: newConfig.costType,
+      costTrigger: newConfig.costTrigger
+    };
+
+    dispatch({
+      type: ACTION_TYPES.UPDATE_TYPE_CONFIG,
+      payload: typeConfigUpdate
     });
 
     // Validate the new configuration
