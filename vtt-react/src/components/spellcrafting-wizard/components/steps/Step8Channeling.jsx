@@ -1190,8 +1190,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             </div>
 
             <div className="effect-custom-config" style={{ padding: '16px' }}>
-              <div className="wow-conditional-settings">
-                <div className="channeling-section-title">Duration Settings</div>
+              <div className="pf-conditional-settings">
+                <div className="pf-section-title">Duration Settings</div>
 
                 <div className="stat-cards-grid" style={{
                   display: 'grid',
@@ -1200,14 +1200,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   marginBottom: '16px'
                 }}>
                   {/* Duration Card */}
-                  <div className="wow-effect-button" style={{
+                  <div className="pf-card" style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '12px',
-                    background: 'rgba(30, 30, 46, 0.6)',
-                    border: '1px solid #313244',
-                    borderRadius: '6px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
+                    padding: '12px'
                   }}>
                     <div style={{
                       display: 'flex',
@@ -1232,21 +1228,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       justifyContent: 'center'
                     }}>
                       <button
-                        className="custom-button"
+                        className="pf-button pf-button-small"
                         onClick={() => handleChannelingConfigChange({ maxDuration: Math.max(1, channelingConfig.maxDuration - 1) })}
-                        style={{
-                          background: 'rgba(49, 50, 68, 0.6)',
-                          border: '1px solid #45475a',
-                          borderRadius: '4px',
-                          color: '#cdd6f4',
-                          width: '30px',
-                          height: '30px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease'
-                        }}
                       >
                         <FontAwesomeIcon icon={faMinus} />
                       </button>
@@ -1255,35 +1238,16 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         min="1"
                         value={channelingConfig.maxDuration}
                         onChange={(e) => handleChannelingConfigChange({ maxDuration: Math.max(1, parseInt(e.target.value) || 1) })}
+                        className="pf-input pf-input-small"
                         style={{
-                          background: 'rgba(49, 50, 68, 0.6)',
-                          border: '1px solid #45475a',
-                          borderRadius: '4px',
-                          color: '#ffd700',
-                          padding: '6px 8px',
                           margin: '0 8px',
                           width: '60px',
-                          textAlign: 'center',
-                          fontWeight: 'bold',
-                          fontSize: '16px'
+                          textAlign: 'center'
                         }}
                       />
                       <button
-                        className="custom-button"
+                        className="pf-button pf-button-small"
                         onClick={() => handleChannelingConfigChange({ maxDuration: channelingConfig.maxDuration + 1 })}
-                        style={{
-                          background: 'rgba(49, 50, 68, 0.6)',
-                          border: '1px solid #45475a',
-                          borderRadius: '4px',
-                          color: '#cdd6f4',
-                          width: '30px',
-                          height: '30px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease'
-                        }}
                       >
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
@@ -1297,17 +1261,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         <div
                           key={unit.id}
                           onClick={() => handleChannelingConfigChange({ durationUnit: unit.id })}
+                          className={`pf-button ${channelingConfig.durationUnit === unit.id ? 'pf-button-selected' : ''}`}
                           style={{
                             flex: 1,
-                            padding: '6px 8px',
-                            background: channelingConfig.durationUnit === unit.id ? 'rgba(255, 215, 0, 0.2)' : 'rgba(49, 50, 68, 0.6)',
-                            border: channelingConfig.durationUnit === unit.id ? '1px solid #ffd700' : '1px solid #45475a',
-                            borderRadius: '4px',
-                            textAlign: 'center',
-                            cursor: 'pointer',
-                            color: channelingConfig.durationUnit === unit.id ? '#ffd700' : '#cdd6f4',
-                            fontWeight: channelingConfig.durationUnit === unit.id ? 'bold' : 'normal',
-                            transition: 'all 0.2s ease'
+                            textAlign: 'center'
                           }}
                         >
                           {unit.label}
@@ -1317,14 +1274,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   </div>
 
                   {/* Interruptible Card */}
-                  <div className="wow-effect-button" style={{
+                  <div className="pf-card" style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '12px',
-                    background: 'rgba(30, 30, 46, 0.6)',
-                    border: '1px solid #313244',
-                    borderRadius: '6px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
+                    padding: '12px'
                   }}>
                     <div style={{
                       display: 'flex',
@@ -1712,20 +1665,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           <h3 className="pf-section-title">Resource Cost</h3>
           <p className="pf-section-description">Configure how resources are consumed while channeling</p>
 
-          <div className="selected-effect" style={{
-            background: 'rgba(30, 40, 60, 0.6)',
-            borderRadius: '8px',
-            border: '1px solid #2c3e50',
-            overflow: 'hidden',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-          }}>
-            <div className="effect-header" style={{
-              background: 'rgba(44, 62, 80, 0.7)',
-              padding: '12px 16px',
-              borderBottom: '1px solid #34495e',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
+          <div className="pf-section">
+            <div className="channeling-summary-header">
               <div className="effect-icon" style={{
                 background: 'rgba(255, 204, 0, 0.2)',
                 borderRadius: '50%',
@@ -1755,15 +1696,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             </div>
 
             <div className="effect-custom-config" style={{ padding: '16px' }}>
-              <div className="wow-conditional-settings">
-                <div className="wow-conditional-subtitle" style={{
-                  color: '#89dceb',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  marginBottom: '12px',
-                  borderBottom: '1px solid rgba(137, 220, 235, 0.3)',
-                  paddingBottom: '8px'
-                }}>Resource Settings</div>
+              <div className="pf-conditional-settings">
+                <div className="pf-section-title">Resource Settings</div>
 
                 <div className="stat-cards-grid" style={{
                   display: 'grid',
@@ -1772,14 +1706,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   marginBottom: '16px'
                 }}>
                   {/* Cost Value Card */}
-                  <div className="wow-effect-button" style={{
+                  <div className="pf-card" style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '12px',
-                    background: 'rgba(30, 30, 46, 0.6)',
-                    border: '1px solid #313244',
-                    borderRadius: '6px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
+                    padding: '12px'
                   }}>
                     <div style={{
                       display: 'flex',
