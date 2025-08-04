@@ -210,43 +210,25 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
             </div>
           </div>
 
-          {/* Navigation buttons in the overlay */}
+          {/* Only Next/Save button */}
           <div className="wizard-buttons">
-            <button
-              className="wizard-button secondary"
-              onClick={handleCancel}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </button>
-
-            <div className="navigation-buttons">
+            {wizardState.currentStep < wizardState.totalSteps ? (
               <button
-                className="wizard-button"
-                onClick={handlePrevStep}
-                disabled={wizardState.currentStep === 1 || isSubmitting}
+                className="wizard-button primary"
+                onClick={handleNextStep}
+                disabled={isSubmitting}
               >
-                Previous
+                Next
               </button>
-
-              {wizardState.currentStep < wizardState.totalSteps ? (
-                <button
-                  className="wizard-button primary"
-                  onClick={handleNextStep}
-                  disabled={isSubmitting}
-                >
-                  Next
-                </button>
-              ) : (
-                <button
-                  className="wizard-button primary"
-                  onClick={handleSave}
-                  disabled={isSubmitting || !wizardState.isValid}
-                >
-                  {isSubmitting ? 'Saving...' : 'Save Creature'}
-                </button>
-              )}
-            </div>
+            ) : (
+              <button
+                className="wizard-button primary"
+                onClick={handleSave}
+                disabled={isSubmitting || !wizardState.isValid}
+              >
+                {isSubmitting ? 'Saving...' : 'Save Creature'}
+              </button>
+            )}
           </div>
         </div>
       </div>

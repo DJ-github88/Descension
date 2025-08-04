@@ -384,13 +384,8 @@
 .wizard-buttons {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
   flex-shrink: 0;
-}
-
-.navigation-buttons {
-  display: flex;
-  gap: 6px;
 }
 
 .wizard-button {
@@ -507,31 +502,34 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 20px 20px 80px 20px; /* Increased bottom padding for progress bar */
+  padding: 20px;
   background-color: #f0e6d2;
   position: relative;
 }
 
-/* Clean unified progress bar overlay */
+/* Fixed overlay progress bar - always visible */
 .wizard-progress-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 900px;
   height: 60px;
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.98) 0%,
     rgba(230, 220, 200, 0.95) 50%,
     rgba(213, 203, 176, 0.92) 100%);
-  border-top: 2px solid #8b7355;
+  border: 2px solid #8b7355;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   padding: 8px 20px;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   z-index: 1001;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
 }
 
 .wizard-progress-overlay::before {
@@ -552,7 +550,7 @@
 /* Clean progress bar styling */
 .spell-wizard-progress-bar {
   position: relative;
-  width: calc(100% - 160px);
+  width: calc(100% - 120px);
   height: 28px;
   background: linear-gradient(135deg,
     rgba(45, 24, 16, 0.95) 0%,
