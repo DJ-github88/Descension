@@ -1429,12 +1429,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
             {/* DoT Effects */}
             {dotEffects.length > 0 && (
-              <div className="selected-effect" style={{
-                background: 'rgba(30, 40, 60, 0.6)',
-                borderRadius: '8px',
-                border: '1px solid #2c3e50',
-                overflow: 'hidden',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+              <div className="pf-section" style={{
                 marginBottom: '16px'
               }}>
                 <div className="effect-header" style={{
@@ -1513,12 +1508,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               type="text"
                               value={round.formula}
                               onChange={(e) => handleFormulaChange(dotEffects[0].id, index, e.target.value)}
+                              className="pf-input"
                               style={{
                                 flex: 1,
-                                background: 'rgba(49, 50, 68, 0.6)',
-                                border: '1px solid #45475a',
-                                borderRadius: '4px',
-                                color: '#ffcc00',
                                 padding: '6px 10px',
                                 fontFamily: 'monospace'
                               }}
@@ -1543,12 +1535,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
             {/* HoT Effects */}
             {hotEffects.length > 0 && (
-              <div className="selected-effect" style={{
-                background: 'rgba(30, 40, 60, 0.6)',
-                borderRadius: '8px',
-                border: '1px solid #2c3e50',
-                overflow: 'hidden',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+              <div className="pf-section" style={{
                 marginBottom: '16px'
               }}>
                 <div className="effect-header" style={{
@@ -1627,12 +1614,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               type="text"
                               value={round.formula}
                               onChange={(e) => handleFormulaChange(hotEffects[0].id, index, e.target.value)}
+                              className="pf-input"
                               style={{
                                 flex: 1,
-                                background: 'rgba(49, 50, 68, 0.6)',
-                                border: '1px solid #45475a',
-                                borderRadius: '4px',
-                                color: '#ffcc00',
                                 padding: '6px 10px',
                                 fontFamily: 'monospace'
                               }}
@@ -1730,21 +1714,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       justifyContent: 'center'
                     }}>
                       <button
-                        className="custom-button"
+                        className="pf-button pf-button-small"
                         onClick={() => handleChannelingConfigChange({ costValue: Math.max(0, channelingConfig.costValue - 1) })}
-                        style={{
-                          background: 'rgba(49, 50, 68, 0.6)',
-                          border: '1px solid #45475a',
-                          borderRadius: '4px',
-                          color: '#cdd6f4',
-                          width: '30px',
-                          height: '30px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease'
-                        }}
                       >
                         <FontAwesomeIcon icon={faMinus} />
                       </button>
@@ -1753,35 +1724,16 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         min="0"
                         value={channelingConfig.costValue}
                         onChange={(e) => handleChannelingConfigChange({ costValue: Math.max(0, parseInt(e.target.value) || 0) })}
+                        className="pf-input pf-input-small"
                         style={{
-                          background: 'rgba(49, 50, 68, 0.6)',
-                          border: '1px solid #45475a',
-                          borderRadius: '4px',
-                          color: '#ffcc00',
-                          padding: '6px 8px',
                           margin: '0 8px',
                           width: '60px',
-                          textAlign: 'center',
-                          fontWeight: 'bold',
-                          fontSize: '16px'
+                          textAlign: 'center'
                         }}
                       />
                       <button
-                        className="custom-button"
+                        className="pf-button pf-button-small"
                         onClick={() => handleChannelingConfigChange({ costValue: channelingConfig.costValue + 1 })}
-                        style={{
-                          background: 'rgba(49, 50, 68, 0.6)',
-                          border: '1px solid #45475a',
-                          borderRadius: '4px',
-                          color: '#cdd6f4',
-                          width: '30px',
-                          height: '30px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease'
-                        }}
                       >
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
@@ -2619,14 +2571,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           overflow: 'hidden',
           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
         }}>
-            <div className="effect-preview-header" style={{
-              background: 'linear-gradient(to bottom, rgba(30, 40, 70, 0.8), rgba(25, 35, 60, 0.8))',
-              padding: '16px',
-              borderBottom: '1px solid var(--pf-brown-light)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '16px'
-            }}>
+            <div className="channeling-summary-header">
               <div className="effect-preview-icon" style={{
                 width: '48px',
                 height: '48px',
