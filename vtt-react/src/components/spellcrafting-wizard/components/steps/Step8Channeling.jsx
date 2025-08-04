@@ -1323,14 +1323,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   </div>
 
                   {/* Movement Card */}
-                  <div className="wow-effect-button" style={{
+                  <div className="pf-card" style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '12px',
-                    background: 'rgba(30, 30, 46, 0.6)',
-                    border: '1px solid #313244',
-                    borderRadius: '6px',
-                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
+                    padding: '12px'
                   }}>
                     <div style={{
                       display: 'flex',
@@ -1821,17 +1817,14 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   </div>
 
                   {/* Resource Type Options */}
-                  <div className="wow-effect-button" style={{
+                  <div className="pf-card" style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '12px',
-                    background: 'rgba(30, 30, 46, 0.6)',
-                    border: '1px solid #313244',
-                    borderRadius: '6px'
+                    padding: '12px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                       <FontAwesomeIcon icon={faGem} style={{ fontSize: '18px', color: '#a335ee', marginRight: '8px' }} />
-                      <div style={{ fontWeight: 'bold', color: '#cdd6f4' }}>Resource Type</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Resource Type</div>
                     </div>
 
                     <div style={{
@@ -1859,14 +1852,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               alignItems: 'center',
                               justifyContent: 'center',
                               padding: '6px 4px',
-                              background: channelingConfig.costType === resource.type ? `rgba(${
-                                resource.color === '#0077ff' ? '0, 119, 255' :
-                                resource.color === '#ff0000' ? '255, 0, 0' :
-                                resource.color === '#ffff00' ? '255, 255, 0' :
-                                resource.color === '#00ff00' ? '0, 255, 0' :
-                                resource.color === '#ff3399' ? '255, 51, 153' : '255, 255, 255'
-                              }, 0.2)` : 'rgba(49, 50, 68, 0.6)',
-                              border: channelingConfig.costType === resource.type ? `1px solid ${resource.color}` : '1px solid #45475a',
+                              background: channelingConfig.costType === resource.type ? 'var(--pf-gradient-button-selected)' : 'var(--pf-gradient-button)',
+                              border: channelingConfig.costType === resource.type ? `1px solid ${resource.color}` : '1px solid var(--pf-brown-medium)',
                               borderRadius: '4px',
                               cursor: 'pointer',
                               boxShadow: channelingConfig.costType === resource.type ? `0 0 5px ${resource.color}` : 'none'
@@ -1883,7 +1870,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                               <span style={{
                                 fontWeight: channelingConfig.costType === resource.type ? 'bold' : 'normal',
-                                color: channelingConfig.costType === resource.type ? resource.color : '#cdd6f4'
+                                color: channelingConfig.costType === resource.type ? resource.color : 'var(--pf-text-primary)'
                               }}>
                                 {resource.type.charAt(0).toUpperCase() + resource.type.slice(1)}
                               </span>
@@ -1913,17 +1900,14 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   </div>
 
                   {/* Cost Trigger Options */}
-                  <div className="wow-effect-button" style={{
+                  <div className="pf-card" style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    padding: '12px',
-                    background: 'rgba(30, 30, 46, 0.6)',
-                    border: '1px solid #313244',
-                    borderRadius: '6px'
+                    padding: '12px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
                       <FontAwesomeIcon icon={faClock} style={{ fontSize: '18px', color: 'var(--pf-brown-medium)', marginRight: '8px' }} />
-                      <div style={{ fontWeight: 'bold', color: '#cdd6f4' }}>Cost Frequency</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Cost Frequency</div>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '8px' }}>
@@ -1938,8 +1922,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             display: 'flex',
                             alignItems: 'center',
                             padding: '8px',
-                            background: channelingConfig.costTrigger === trigger.id ? 'var(--pf-gradient-parchment-light)' : 'rgba(49, 50, 68, 0.6)',
-                            border: channelingConfig.costTrigger === trigger.id ? '1px solid var(--pf-brown-medium)' : '1px solid #45475a',
+                            background: channelingConfig.costTrigger === trigger.id ? 'var(--pf-gradient-button-selected)' : 'var(--pf-gradient-button)',
+                            border: channelingConfig.costTrigger === trigger.id ? '1px solid var(--pf-gold)' : '1px solid var(--pf-brown-medium)',
                             borderRadius: '4px',
                             cursor: 'pointer'
                           }}
@@ -1955,23 +1939,21 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                           <div style={{ textAlign: 'left' }}>
                             <div style={{
                               fontWeight: channelingConfig.costTrigger === trigger.id ? 'bold' : 'normal',
-                              color: channelingConfig.costTrigger === trigger.id ? '#89b4fa' : '#cdd6f4'
+                              color: channelingConfig.costTrigger === trigger.id ? 'var(--pf-gold)' : 'var(--pf-text-primary)'
                             }}>
                               {trigger.label}
                             </div>
-                            <div style={{ fontSize: '0.8rem', color: '#bac2de' }}>{trigger.desc}</div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--pf-text-secondary)' }}>{trigger.desc}</div>
                           </div>
                         </div>
                       ))}
                     </div>
 
-                    <div style={{
-                      fontSize: '12px',
-                      color: '#bac2de',
-                      background: 'rgba(0, 0, 0, 0.2)',
+                    <div className="pf-info-text" style={{
+                      textAlign: 'center',
                       padding: '8px',
-                      borderRadius: '4px',
-                      textAlign: 'center'
+                      background: 'var(--pf-gradient-parchment-dark)',
+                      borderRadius: '4px'
                     }}>
                       {channelingConfig.costTrigger === 'per_round' ?
                         "Resources consumed once per combat round" :
