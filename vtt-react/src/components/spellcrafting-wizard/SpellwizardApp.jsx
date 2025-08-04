@@ -662,6 +662,7 @@ const WizardView = () => {
     'rollable-table': RollableTableStep,
     'triggers': Step7Triggers,
     'trap-placement': TrapPlacementStep,
+    'channeling': Step8Channeling,  // Map 'channeling' to the Channeling step
     'mechanics': Step7Mechanics  // Map 'mechanics' to the Mechanics step
   };
 

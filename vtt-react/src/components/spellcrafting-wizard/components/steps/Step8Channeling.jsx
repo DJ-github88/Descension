@@ -1052,194 +1052,70 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       hints={hintsList}
       showHints={true}
     >
-      <div className="effects-container">
-        <div className="section" style={{
-          background: 'rgba(17, 27, 51, 0.7)',
-          borderRadius: '8px',
-          padding: '16px',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-          border: '1px solid #1a3c6e'
-        }}>
-          <h3 style={{
-            color: '#ffcc00',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            textShadow: '0 0 5px rgba(255, 204, 0, 0.5)',
-            marginBottom: '12px',
-            fontSize: '20px',
-            fontWeight: 'bold'
-          }}>Channeling Configuration</h3>
-          <p style={{
-            color: '#a0b9d9',
-            textAlign: 'center',
-            fontSize: '14px',
-            marginBottom: '20px',
-            padding: '0 20px'
-          }}>
+      <div className="channeling-container">
+        <div className="pf-section">
+          <h3 className="pf-section-title">Channeling Configuration</h3>
+          <p className="pf-section-description">
             Configure how your channeled spell works. Channeled spells are maintained over time, often growing in power or changing in some way as the channel continues.
           </p>
 
         {errors.length > 0 && (
-          <div className="selected-effect" style={{
-            background: 'rgba(231, 76, 60, 0.2)',
-            border: '1px solid #e74c3c',
-            marginBottom: '16px'
-          }}>
-            <div className="effect-header">
-              <div className="effect-icon">
-                <FontAwesomeIcon icon={faCircleXmark} style={{ color: '#e74c3c', fontSize: '20px' }} />
-              </div>
-              <div className="effect-info">
-                <div className="effect-name" style={{ color: '#e74c3c', fontWeight: 'bold' }}>Please fix the following issues:</div>
-                <div className="effect-description">
-                  <ul style={{ margin: '8px 0 0 0', padding: '0 0 0 20px' }}>
-                    {errors && errors.map((error, index) => (
-                      <li key={index} style={{ color: '#e74c3c', marginBottom: '4px' }}>{error}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          <div className="pf-error-card">
+            <div className="pf-error-header">
+              <FontAwesomeIcon icon={faCircleXmark} className="pf-error-icon" />
+              <div className="pf-error-title">Please fix the following issues:</div>
             </div>
+            <ul className="pf-error-list">
+              {errors && errors.map((error, index) => (
+                <li key={index} className="pf-error-item">{error}</li>
+              ))}
+            </ul>
           </div>
         )}
 
         {/* Channeling Configuration Summary */}
-        <div style={{ marginBottom: '24px' }}>
-          <div style={{
-            background: 'rgba(52, 152, 219, 0.1)',
-            borderRadius: '8px',
-            border: '1px solid #3498db',
-            padding: '4px',
-            marginBottom: '16px'
-          }}>
-            <div style={{
-              background: 'rgba(41, 128, 185, 0.3)',
-              borderRadius: '4px',
-              padding: '8px 12px',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              <FontAwesomeIcon icon={faInfoCircle} style={{ fontSize: '20px', color: '#3498db', marginRight: '10px' }} />
-              <p style={{
-                margin: 0,
-                color: '#a0b9d9',
-                fontSize: '14px',
-                fontWeight: 'bold'
-              }}>Your spell's channeling behavior is automatically configured based on your previous choices.</p>
-            </div>
+        <div className="pf-info-section">
+          <div className="pf-info-card">
+            <FontAwesomeIcon icon={faInfoCircle} className="pf-info-icon" />
+            <p className="pf-info-text">Your spell's channeling behavior is automatically configured based on your previous choices.</p>
           </div>
 
-          <div className="channeling-summary-card" style={{
-            background: 'rgba(30, 40, 60, 0.6)',
-            borderRadius: '8px',
-            border: '1px solid #2c3e50',
-            overflow: 'hidden'
-          }}>
-            <div className="channeling-summary-header" style={{
-              background: 'rgba(44, 62, 80, 0.7)',
-              padding: '12px 16px',
-              borderBottom: '1px solid #34495e',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              <div className="channeling-summary-icon" style={{
-                background: 'rgba(52, 152, 219, 0.2)',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: '12px'
-              }}>
-                <FontAwesomeIcon icon={faInfoCircle} style={{ fontSize: '22px', color: '#3498db' }} />
+          <div className="channeling-summary-card">
+            <div className="channeling-summary-header">
+              <div className="channeling-summary-icon">
+                <FontAwesomeIcon icon={faInfoCircle} />
               </div>
               <div className="channeling-summary-title">
-                <h4 style={{
-                  margin: '0 0 4px 0',
-                  color: '#3498db',
-                  fontSize: '18px',
-                  fontWeight: 'bold'
-                }}>Channeling Effects</h4>
-                <p style={{
-                  margin: 0,
-                  color: '#a0b9d9',
-                  fontSize: '13px'
-                }}>Based on your targeting, effects, and propagation settings</p>
+                <h4>Channeling Effects</h4>
+                <p>Based on your targeting, effects, and propagation settings</p>
               </div>
             </div>
 
-            <div className="channeling-summary-content" style={{ padding: '16px' }}>
-              <div className="channeling-summary-section" style={{
-                background: 'rgba(20, 30, 50, 0.5)',
-                borderRadius: '6px',
-                padding: '12px',
-                marginBottom: '12px',
-                border: '1px solid #2c3e50'
-              }}>
-                <h5 style={{
-                  margin: '0 0 10px 0',
-                  color: '#e67e22',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}>
-                  <FontAwesomeIcon icon={faChartLine} style={{ marginRight: '8px', color: '#e67e22' }} />
+            <div className="channeling-summary-content">
+              <div className="channeling-summary-section">
+                <h5 className="channeling-section-title">
+                  <FontAwesomeIcon icon={faChartLine} />
                   Effect Scaling
                 </h5>
-                <p style={{
-                  margin: '0 0 10px 0',
-                  color: '#a0b9d9',
-                  fontSize: '13px'
-                }}>Your spell's effects will scale in power as you maintain the channel.</p>
+                <p className="channeling-section-description">Your spell's effects will scale in power as you maintain the channel.</p>
 
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                  background: 'rgba(0, 0, 0, 0.2)',
-                  borderRadius: '4px',
-                  padding: '8px'
-                }}>
+                <div className="channeling-effects-list">
                   {effectTypes.includes('damage') && (
-                    <div className="channeling-detail-item" style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '6px 10px',
-                      background: 'rgba(255, 68, 0, 0.1)',
-                      borderRadius: '4px',
-                      border: '1px solid rgba(255, 68, 0, 0.3)'
-                    }}>
-                      <FontAwesomeIcon icon={faFire} style={{ marginRight: '8px', color: '#ff4400' }} />
-                      <span style={{ color: '#cdd6f4' }}>Damage increases with each round of channeling</span>
+                    <div className="channeling-effect-item damage">
+                      <FontAwesomeIcon icon={faFire} />
+                      <span>Damage increases with each round of channeling</span>
                     </div>
                   )}
                   {effectTypes.includes('healing') && (
-                    <div className="channeling-detail-item" style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '6px 10px',
-                      background: 'rgba(68, 255, 0, 0.1)',
-                      borderRadius: '4px',
-                      border: '1px solid rgba(68, 255, 0, 0.3)'
-                    }}>
-                      <FontAwesomeIcon icon={faHeart} style={{ marginRight: '8px', color: '#44ff00' }} />
-                      <span style={{ color: '#cdd6f4' }}>Healing increases with each round of channeling</span>
+                    <div className="channeling-effect-item healing">
+                      <FontAwesomeIcon icon={faHeart} />
+                      <span>Healing increases with each round of channeling</span>
                     </div>
                   )}
                   {(effectTypes.includes('buff') || effectTypes.includes('debuff')) && (
-                    <div className="channeling-detail-item" style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '6px 10px',
-                      background: 'rgba(52, 152, 219, 0.1)',
-                      borderRadius: '4px',
-                      border: '1px solid rgba(52, 152, 219, 0.3)'
-                    }}>
-                      <FontAwesomeIcon icon={faShieldAlt} style={{ marginRight: '8px', color: '#3498db' }} />
-                      <span style={{ color: '#cdd6f4' }}>Effect potency increases with each round of channeling</span>
+                    <div className="channeling-effect-item buff">
+                      <FontAwesomeIcon icon={faShieldAlt} />
+                      <span>Effect potency increases with each round of channeling</span>
                     </div>
                   )}
                 </div>
@@ -1248,89 +1124,45 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
               {(targetingConfig.targetingType === 'area' ||
                 (propagation && propagation.method) ||
                 (targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance)) && (
-                <div className="channeling-summary-section" style={{
-                  background: 'rgba(20, 30, 50, 0.5)',
-                  borderRadius: '6px',
-                  padding: '12px',
-                  border: '1px solid #2c3e50'
-                }}>
-                  <h5 style={{
-                    margin: '0 0 10px 0',
-                    color: '#9b59b6',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}>
-                    <FontAwesomeIcon icon={faArrowsAlt} style={{ marginRight: '8px', color: '#9b59b6' }} />
+                <div className="channeling-summary-section">
+                  <h5 className="channeling-section-title area">
+                    <FontAwesomeIcon icon={faArrowsAlt} />
                     Area Expansion
                   </h5>
-                  <p style={{
-                    margin: '0 0 10px 0',
-                    color: '#a0b9d9',
-                    fontSize: '13px'
-                  }}>Your spell's area of effect will expand as you maintain the channel.</p>
+                  <p className="channeling-section-description">Your spell's area of effect will expand as you maintain the channel.</p>
 
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px',
-                    background: 'rgba(0, 0, 0, 0.2)',
-                    borderRadius: '4px',
-                    padding: '8px'
-                  }}>
+                  <div className="channeling-effects-list">
                     {targetingConfig.targetingType === 'area' && targetingConfig.aoeShape && (
-                      <div className="channeling-detail-item" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '6px 10px',
-                        background: 'rgba(52, 152, 219, 0.1)',
-                        borderRadius: '4px',
-                        border: '1px solid rgba(52, 152, 219, 0.3)'
-                      }}>
+                      <div className="channeling-effect-item area">
                         <FontAwesomeIcon icon={
                           targetingConfig.aoeShape === 'circle' || targetingConfig.aoeShape === 'sphere' ? faCircle :
                           targetingConfig.aoeShape === 'square' || targetingConfig.aoeShape === 'cube' ? faSquare :
                           targetingConfig.aoeShape === 'cone' ? faPlay :
                           targetingConfig.aoeShape === 'line' ? faRuler : faCircle
-                        } style={{ marginRight: '8px', color: '#3498db' }} />
-                        <span style={{ color: '#cdd6f4' }}>
+                        } />
+                        <span>
                           {targetingConfig.aoeShape.charAt(0).toUpperCase() + targetingConfig.aoeShape.slice(1)} expands from {channelingConfig.initialRadius}ft to {channelingConfig.maxRadius}ft
                         </span>
                       </div>
                     )}
 
                     {propagation && propagation.method && (
-                      <div className="channeling-detail-item" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '6px 10px',
-                        background: 'rgba(231, 76, 60, 0.1)',
-                        borderRadius: '4px',
-                        border: '1px solid rgba(231, 76, 60, 0.3)'
-                      }}>
+                      <div className="channeling-effect-item propagation">
                         <FontAwesomeIcon icon={
                           propagation.method === 'explosion' ? faBomb :
                           propagation.method === 'chain' ? faLink :
                           propagation.method === 'spreading' ? faWind : faBomb
-                        } style={{ marginRight: '8px', color: '#e74c3c' }} />
-                        <span style={{ color: '#cdd6f4' }}>
+                        } />
+                        <span>
                           {propagation.method.charAt(0).toUpperCase() + propagation.method.slice(1)} effect increases in range
                         </span>
                       </div>
                     )}
 
                     {targetingConfig.rangeType === 'ranged' && targetingConfig.rangeDistance && (
-                      <div className="channeling-detail-item" style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '6px 10px',
-                        background: 'rgba(243, 156, 18, 0.1)',
-                        borderRadius: '4px',
-                        border: '1px solid rgba(243, 156, 18, 0.3)'
-                      }}>
-                        <FontAwesomeIcon icon={faRulerHorizontal} style={{ marginRight: '8px', color: '#f39c12' }} />
-                        <span style={{ color: '#cdd6f4' }}>
+                      <div className="channeling-effect-item range">
+                        <FontAwesomeIcon icon={faRulerHorizontal} />
+                        <span>
                           Range-based effect expands at {targetingConfig.rangeDistance}ft distance
                         </span>
                       </div>
@@ -1342,71 +1174,18 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           </div>
         </div>
 
-        <div className="section" style={{
-          background: 'rgba(17, 27, 51, 0.7)',
-          borderRadius: '8px',
-          padding: '16px',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-          border: '1px solid #1a3c6e',
-          marginTop: '24px'
-        }}>
-          <h3 style={{
-            color: '#ffcc00',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            textShadow: '0 0 5px rgba(255, 204, 0, 0.5)',
-            marginBottom: '12px',
-            fontSize: '20px',
-            fontWeight: 'bold'
-          }}>Channel Duration & Behavior</h3>
-          <p style={{
-            color: '#a0b9d9',
-            textAlign: 'center',
-            fontSize: '14px',
-            marginBottom: '20px',
-            padding: '0 20px'
-          }}>Configure how long the spell can be channeled and how it behaves while channeling</p>
+        <div className="pf-section">
+          <h3 className="pf-section-title">Channel Duration & Behavior</h3>
+          <p className="pf-section-description">Configure how long the spell can be channeled and how it behaves while channeling</p>
 
-          <div className="selected-effect" style={{
-            background: 'rgba(30, 40, 60, 0.6)',
-            borderRadius: '8px',
-            border: '1px solid #2c3e50',
-            overflow: 'hidden',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-          }}>
-            <div className="effect-header" style={{
-              background: 'rgba(44, 62, 80, 0.7)',
-              padding: '12px 16px',
-              borderBottom: '1px solid #34495e',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              <div className="effect-icon" style={{
-                background: 'rgba(102, 204, 255, 0.2)',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: '12px'
-              }}>
-                <FontAwesomeIcon icon={faClock} style={{ color: '#66ccff', fontSize: '20px' }} />
+          <div className="channeling-config">
+            <div className="channeling-config-header">
+              <div className="channeling-summary-icon">
+                <FontAwesomeIcon icon={faClock} />
               </div>
-              <div className="effect-info">
-                <div className="effect-name" style={{
-                  color: '#66ccff',
-                  fontSize: '18px',
-                  fontWeight: 'bold',
-                  marginBottom: '4px'
-                }}>Channeling Behavior</div>
-                <div className="effect-description" style={{
-                  color: '#a0b9d9',
-                  fontSize: '13px'
-                }}>
-                  Configure duration, interruption, and movement settings
-                </div>
+              <div className="channeling-summary-title">
+                <h4>Channeling Behavior</h4>
+                <p>Configure duration, interruption, and movement settings</p>
               </div>
             </div>
 
