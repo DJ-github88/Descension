@@ -962,7 +962,7 @@
   overflow: hidden !important;
 }
 
-.spell-wizard-step-content {
+.item-wizard-modal .spell-wizard-step-content {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -970,7 +970,7 @@
   padding: var(--pf-space-4, 16px) !important;
 }
 
-.spell-wizard-form {
+.item-wizard-modal .spell-wizard-form {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
