@@ -17,7 +17,7 @@ import CharacterStats from './character-sheet/CharacterStats';
 import Skills from './character-sheet/Skills';
 import Lore from './character-sheet/Lore';
 import InventoryWindow from './windows/InventoryWindow';
-import ItemLibrary from './item-generation/ItemLibrary';
+import ItemLibraryWindow from './windows/ItemLibraryWindow';
 import MapLibraryWindow from './windows/MapLibraryWindow';
 import useCombatStore from '../store/combatStore';
 import useChatStore from '../store/chatStore';
@@ -792,7 +792,7 @@ export default function Navigation({ onReturnToLanding }) {
 
             case 'itemgen':
                 return openWindows.has(button.id) && (
-                    <ItemLibrary
+                    <ItemLibraryWindow
                         key={button.id}
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
-import WowWindow from '../windows/WowWindow';
 import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
 import ItemTooltip from './ItemTooltip';
@@ -210,7 +209,7 @@ const CategoryTree = ({ categories, selectedCategory, onSelect, onAddSubcategory
 
 // Using the imported ItemCard component instead of defining it inline
 
-const ItemLibrary = ({ onClose }) => {
+const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [activeTab, setActiveTab] = useState('library');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -599,35 +598,11 @@ const ItemLibrary = ({ onClose }) => {
         setShowContainerWizard(true);
     };
 
-    return (
-        <WowWindow
-            isOpen={true}
-            onClose={onClose}
-            defaultPosition={position}
-            defaultSize={activeTab === 'designer' ? { width: 800, height: 600 } : { width: 1000, height: 700 }}
-            title="Item Library"
-            zIndex={1000}
-            customHeader={
-                <div className="item-library-tabs">
-                    <button
-                        className={`item-library-tab ${activeTab === 'library' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('library')}
-                    >
-                        Library
-                    </button>
-                    <button
-                        className={`item-library-tab ${activeTab === 'designer' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('designer')}
-                    >
-                        Item Designer
-                    </button>
-                </div>
-            }
+    const renderContent = () => (
+        <div
+            ref={containerRef}
+            className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
         >
-            <div
-                ref={containerRef}
-                className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
-            >
 
             <div className="item-library-content">
 
@@ -1079,7 +1054,39 @@ const ItemLibrary = ({ onClose }) => {
                     }}
                 />
             )}
-            </div>
+        </div>
+    );
+
+    if (contentOnly) {
+        return renderContent();
+    }
+
+    return (
+        <WowWindow
+            isOpen={true}
+            onClose={onClose}
+            defaultPosition={position}
+            defaultSize={activeTab === 'designer' ? { width: 800, height: 600 } : { width: 1000, height: 700 }}
+            title="Item Library"
+            zIndex={1000}
+            customHeader={
+                <div className="item-library-tabs">
+                    <button
+                        className={`item-library-tab ${activeTab === 'library' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('library')}
+                    >
+                        Library
+                    </button>
+                    <button
+                        className={`item-library-tab ${activeTab === 'designer' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('designer')}
+                    >
+                        Item Designer
+                    </button>
+                </div>
+            }
+        >
+            {renderContent()}
         </WowWindow>
     );
 };
