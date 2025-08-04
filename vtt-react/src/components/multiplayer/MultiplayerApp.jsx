@@ -130,20 +130,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
 
   const handleJoinRoom = (room, socketConnection, isGameMaster) => {
-    setCurrentRoom(room);
-    setSocket(socketConnection);
-    setIsGM(isGameMaster);
+    console.log('handleJoinRoom called with:', { room, socketConnection, isGameMaster });
 
-    // Set current player info
-    let currentPlayerData;
-    if (isGameMaster) {
-      currentPlayerData = room.gm;
-      setCurrentPlayer(room.gm);
-    } else {
-      // Find the current player in the room's players
-      const players = Array.from(room.players.values());
-      currentPlayerData = players[players.length - 1]; // Last joined player
-      setCurrentPlayer(currentPlayerData);
+    try {
+      setCurrentRoom(room);
+      setSocket(socketConnection);
+      setIsGM(isGameMaster);
+
+      // Set current player info
+      let currentPlayerData;
+      if (isGameMaster) {
+        currentPlayerData = room.gm;
+        setCurrentPlayer(room.gm);
+      } else {
+        // Find the current player in the room's players
+        const players = Array.from(room.players.values());
+        currentPlayerData = players[players.length - 1]; // Last joined player
+        setCurrentPlayer(currentPlayerData);
+      }
+
+      console.log('Current player data set:', currentPlayerData);
+    } catch (error) {
+      console.error('Error in handleJoinRoom:', error);
     }
 
     // Update character name to match multiplayer player name and set room name
@@ -216,17 +224,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   };
 
   const handleLeaveRoom = () => {
-    if (socket) {
-      socket.disconnect();
+    console.log('handleLeaveRoom called');
+
+    try {
+      if (socket) {
+        socket.disconnect();
+      }
+
+      // Clear multiplayer players from chat system
+      connectedPlayers.forEach(player => {
+        removeUser(player.id);
+      });
+
+      // Clear chat multiplayer integration
+      clearMultiplayerIntegration();
+    } catch (error) {
+      console.error('Error in handleLeaveRoom:', error);
     }
-
-    // Clear multiplayer players from chat system
-    connectedPlayers.forEach(player => {
-      removeUser(player.id);
-    });
-
-    // Clear chat multiplayer integration
-    clearMultiplayerIntegration();
 
     // Clear room name from character
     clearRoomName();
