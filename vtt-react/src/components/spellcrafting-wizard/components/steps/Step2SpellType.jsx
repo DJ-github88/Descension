@@ -366,7 +366,17 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
           )}
 
           {state.spellType === 'REACTION' && (
-            <>
+            <div style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              padding: '10px',
+              border: '1px solid #ccc',
+              backgroundColor: '#fff'
+            }}>
+              <p style={{ color: '#333', marginBottom: '15px' }}>
+                Configure the reaction spell properties below:
+              </p>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group">
                   <label htmlFor="availabilityType" className="spell-wizard-label">
@@ -423,11 +433,21 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                   </div>
                 </div>
               )}
-            </>
+            </div>
           )}
 
           {state.spellType === 'TRAP' && (
-            <>
+            <div style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              padding: '10px',
+              border: '1px solid #ccc',
+              backgroundColor: '#fff'
+            }}>
+              <p style={{ color: '#333', marginBottom: '15px' }}>
+                Configure the trap spell properties below:
+              </p>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="placementTime" className="spell-wizard-label">
