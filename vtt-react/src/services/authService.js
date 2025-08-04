@@ -10,18 +10,23 @@ import {
   sendEmailVerification
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { auth, googleProvider, db } from '../config/firebase';
+import { auth, googleProvider, db, isFirebaseConfigured } from '../config/firebase';
 
 class AuthService {
   constructor() {
     this.currentUser = null;
     this.authStateListeners = [];
-    
-    // Listen for auth state changes
-    onAuthStateChanged(auth, (user) => {
-      this.currentUser = user;
-      this.authStateListeners.forEach(listener => listener(user));
-    });
+    this.isConfigured = isFirebaseConfigured;
+
+    // Listen for auth state changes only if Firebase is configured
+    if (auth && this.isConfigured) {
+      onAuthStateChanged(auth, (user) => {
+        this.currentUser = user;
+        this.authStateListeners.forEach(listener => listener(user));
+      });
+    } else {
+      console.warn('Firebase Auth not configured - authentication disabled');
+    }
   }
 
   // Subscribe to auth state changes
@@ -38,19 +43,23 @@ class AuthService {
 
   // Sign up with email and password
   async signUp(email, password, displayName) {
+    if (!this.isConfigured || !auth) {
+      return { error: 'Authentication not configured', success: false };
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      
+
       // Update profile with display name
       await updateProfile(user, { displayName });
-      
+
       // Send email verification
       await sendEmailVerification(user);
-      
+
       // Create user document in Firestore
       await this.createUserDocument(user);
-      
+
       return { user, success: true };
     } catch (error) {
       console.error('Sign up error:', error);
@@ -60,6 +69,10 @@ class AuthService {
 
   // Sign in with email and password
   async signIn(email, password) {
+    if (!this.isConfigured || !auth) {
+      return { error: 'Authentication not configured', success: false };
+    }
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       return { user: userCredential.user, success: true };
@@ -71,13 +84,17 @@ class AuthService {
 
   // Sign in with Google
   async signInWithGoogle() {
+    if (!this.isConfigured || !auth || !googleProvider) {
+      return { error: 'Authentication not configured', success: false };
+    }
+
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      
+
       // Create or update user document in Firestore
       await this.createUserDocument(user);
-      
+
       return { user, success: true };
     } catch (error) {
       console.error('Google sign in error:', error);

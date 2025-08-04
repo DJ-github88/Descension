@@ -81,11 +81,20 @@ export default function App() {
         initChatStore();
         initCreatureStore();
 
-        // Initialize Firebase auth state listener
-        const unsubscribe = initializeAuth();
+        // Initialize Firebase auth state listener (only if Firebase is configured)
+        let unsubscribe = null;
+        try {
+            unsubscribe = initializeAuth();
+        } catch (error) {
+            console.warn('Authentication initialization failed:', error);
+        }
 
         // Cleanup on unmount
-        return unsubscribe;
+        return () => {
+            if (unsubscribe && typeof unsubscribe === 'function') {
+                unsubscribe();
+            }
+        };
     }, []);
 
     // Control body overflow based on game mode

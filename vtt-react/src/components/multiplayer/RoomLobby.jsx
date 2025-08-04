@@ -38,13 +38,13 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     });
 
     newSocket.on('room_created', (data) => {
-      console.log('Room created:', data);
+      console.log('Room created successfully:', data);
       setIsConnecting(false);
       onJoinRoom(data.room, newSocket, true); // true = isGM
     });
 
     newSocket.on('room_joined', (data) => {
-      console.log('Room joined:', data);
+      console.log('Room joined successfully:', data);
       setIsConnecting(false);
       onJoinRoom(data.room, newSocket, false); // false = not GM
     });
@@ -99,11 +99,14 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     setIsConnecting(true);
     setError('');
 
-    socket.emit('create_room', {
+    const roomData = {
       roomName: roomName.trim(),
       gmName: playerName.trim(),
       password: roomPassword.trim()
-    });
+    };
+
+    console.log('Creating room with data:', roomData);
+    socket.emit('create_room', roomData);
   };
 
   const handleJoinRoom = (targetRoomId = null, targetPassword = null) => {
@@ -128,11 +131,14 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     setIsConnecting(true);
     setError('');
 
-    socket.emit('join_room', {
+    const joinData = {
       roomId: finalRoomId.trim(),
       playerName: playerName.trim(),
       password: finalPassword.trim()
-    });
+    };
+
+    console.log('Joining room with data:', joinData);
+    socket.emit('join_room', joinData);
   };
 
   const handleQuickJoin = (room) => {

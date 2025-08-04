@@ -113,15 +113,24 @@ function createRoom(roomName, gmName, gmSocketId, password) {
 }
 
 function joinRoom(roomId, playerName, socketId, password) {
+  console.log('joinRoom called with:', { roomId, playerName, socketId });
   const room = rooms.get(roomId);
-  if (!room) return null;
+
+  if (!room) {
+    console.log('Room not found:', roomId, 'Available rooms:', Array.from(rooms.keys()));
+    return null;
+  }
+
+  console.log('Room found:', room.name, 'Checking password...');
 
   // Check password
   if (room.password !== password) {
+    console.log('Password mismatch. Expected:', room.password, 'Received:', password);
     return { error: 'Incorrect password' };
   }
 
   if (room.players.size >= room.settings.maxPlayers) {
+    console.log('Room is full:', room.players.size, '>=', room.settings.maxPlayers);
     return { error: 'Room is full' };
   }
   
@@ -194,15 +203,19 @@ io.on('connection', (socket) => {
   
   // Create a new room
   socket.on('create_room', (data) => {
+    console.log('Received create_room request:', data);
     const { roomName, gmName, password } = data;
 
     if (!roomName || !gmName || !password) {
+      console.log('Missing required fields:', { roomName, gmName, password });
       socket.emit('error', { message: 'Room name, GM name, and password are required' });
       return;
     }
 
     const room = createRoom(roomName, gmName, socket.id, password);
     socket.join(room.id);
+
+    console.log('Room created successfully:', room.id, 'Total rooms:', rooms.size);
 
     socket.emit('room_created', {
       room: {
@@ -215,19 +228,26 @@ io.on('connection', (socket) => {
     });
 
     // Broadcast room list update to all connected clients
-    io.emit('room_list_updated', getPublicRooms());
+    const publicRooms = getPublicRooms();
+    console.log('Broadcasting room list update:', publicRooms);
+    io.emit('room_list_updated', publicRooms);
 
     console.log(`Room created: ${room.name} (${room.id}) by ${gmName}`);
   });
   
   // Join an existing room
   socket.on('join_room', (data) => {
+    console.log('Received join_room request:', data);
     const { roomId, playerName, password } = data;
 
     if (!roomId || !playerName || !password) {
+      console.log('Missing required fields for join:', { roomId, playerName, password });
       socket.emit('error', { message: 'Room ID, player name, and password are required' });
       return;
     }
+
+    console.log('Attempting to join room:', roomId, 'Total rooms available:', rooms.size);
+    console.log('Available room IDs:', Array.from(rooms.keys()));
 
     const result = joinRoom(roomId, playerName, socket.id, password);
     

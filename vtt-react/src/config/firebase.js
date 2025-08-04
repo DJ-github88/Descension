@@ -4,8 +4,14 @@ import { getAuth, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
+// Check if Firebase is configured
+const isFirebaseConfigured = !!(
+  process.env.REACT_APP_FIREBASE_API_KEY &&
+  process.env.REACT_APP_FIREBASE_PROJECT_ID
+);
+
 // Firebase configuration
-const firebaseConfig = {
+const firebaseConfig = isFirebaseConfigured ? {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
@@ -13,34 +19,55 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
-};
+} : null;
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Firebase Authentication and get a reference to the service
-export const auth = getAuth(app);
-
-// Initialize Cloud Firestore and get a reference to the service
-export const db = getFirestore(app);
-
-// Initialize Analytics (optional)
-let analytics = null;
-if (typeof window !== 'undefined') {
-  analytics = getAnalytics(app);
+// Initialize Firebase only if configured
+let app = null;
+if (isFirebaseConfigured && firebaseConfig) {
+  try {
+    app = initializeApp(firebaseConfig);
+    console.log('Firebase initialized successfully');
+  } catch (error) {
+    console.warn('Firebase initialization failed:', error);
+  }
+} else {
+  console.warn('Firebase not configured - authentication features will be disabled');
 }
-export { analytics };
 
-// Google Auth Provider
-export const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({
-  prompt: 'select_account'
-});
+// Initialize Firebase services only if app is available
+export let auth = null;
+export let db = null;
+export let analytics = null;
+export let googleProvider = null;
 
-// Development emulator setup (uncomment for local development)
-// if (process.env.NODE_ENV === 'development') {
-//   connectAuthEmulator(auth, 'http://localhost:9099');
-//   connectFirestoreEmulator(db, 'localhost', 8080);
-// }
+if (app) {
+  try {
+    // Initialize Firebase Authentication and get a reference to the service
+    auth = getAuth(app);
 
+    // Initialize Cloud Firestore and get a reference to the service
+    db = getFirestore(app);
+
+    // Initialize Analytics (optional)
+    if (typeof window !== 'undefined') {
+      analytics = getAnalytics(app);
+    }
+
+    // Google Auth Provider
+    googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({
+      prompt: 'select_account'
+    });
+
+    // Development emulator setup (uncomment for local development)
+    // if (process.env.NODE_ENV === 'development') {
+    //   connectAuthEmulator(auth, 'http://localhost:9099');
+    //   connectFirestoreEmulator(db, 'localhost', 8080);
+    // }
+  } catch (error) {
+    console.warn('Firebase services initialization failed:', error);
+  }
+}
+
+export { isFirebaseConfigured };
 export default app;
