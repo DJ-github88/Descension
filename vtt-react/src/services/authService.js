@@ -17,15 +17,8 @@ class AuthService {
   constructor() {
     this.currentUser = null;
     this.authStateListeners = [];
-    this.isConfigured = isFirebaseConfigured || isDemoMode;
-    this.isDemoMode = isDemoMode;
-
-    // Use demo service if in demo mode
-    if (this.isDemoMode) {
-      console.log('AuthService: Using demo authentication');
-      // Return the demo service instance instead
-      return demoAuthService;
-    }
+    this.isConfigured = isFirebaseConfigured;
+    this.isDemoMode = false; // This will only be used for Firebase auth
 
     // Listen for auth state changes only if Firebase is configured
     if (auth && isFirebaseConfigured) {
@@ -227,6 +220,17 @@ class AuthService {
   }
 }
 
+// Factory function to create the appropriate auth service
+function createAuthService() {
+  if (isDemoMode) {
+    console.log('AuthService: Using demo authentication');
+    return demoAuthService;
+  } else {
+    console.log('AuthService: Using Firebase authentication');
+    return new AuthService();
+  }
+}
+
 // Create and export singleton instance
-const authService = new AuthService();
+const authService = createAuthService();
 export default authService;

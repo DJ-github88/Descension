@@ -14,6 +14,14 @@ const isFirebaseConfigured = !!(
 // Demo mode for development - use demo auth when Firebase is not properly configured
 const isDemoMode = process.env.NODE_ENV === 'development' && !isFirebaseConfigured;
 
+// Debug logging
+console.log('Firebase Configuration Debug:');
+console.log('- NODE_ENV:', process.env.NODE_ENV);
+console.log('- API_KEY:', process.env.REACT_APP_FIREBASE_API_KEY);
+console.log('- PROJECT_ID:', process.env.REACT_APP_FIREBASE_PROJECT_ID);
+console.log('- isFirebaseConfigured:', isFirebaseConfigured);
+console.log('- isDemoMode:', isDemoMode);
+
 // Firebase configuration
 const firebaseConfig = isFirebaseConfigured ? {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
