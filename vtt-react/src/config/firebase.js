@@ -4,13 +4,14 @@ import { getAuth, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 
-// Check if Firebase is configured
+// Check if Firebase is configured with real credentials
 const isFirebaseConfigured = !!(
   process.env.REACT_APP_FIREBASE_API_KEY &&
-  process.env.REACT_APP_FIREBASE_PROJECT_ID
+  process.env.REACT_APP_FIREBASE_PROJECT_ID &&
+  process.env.REACT_APP_FIREBASE_API_KEY !== 'demo-api-key'
 );
 
-// Demo mode for development - set to true to enable demo authentication
+// Demo mode for development - use demo auth when Firebase is not properly configured
 const isDemoMode = process.env.NODE_ENV === 'development' && !isFirebaseConfigured;
 
 // Firebase configuration

@@ -57,9 +57,13 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
   };
 
   const handleGoogleSignIn = async () => {
+    console.log('Starting Google sign-in process...');
     const result = await signInWithGoogle();
     if (result.success) {
+      console.log('Google sign-in successful!');
       onClose();
+    } else {
+      console.error('Google sign-in failed:', result.error);
     }
   };
 

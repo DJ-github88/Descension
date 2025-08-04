@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import CharacterCreation from '../character-creation/CharacterCreation';
-import AccountWindow from '../auth/AccountWindow';
+import AuthModal from '../auth/AuthModal';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCharacterCreation, setShowCharacterCreation] = useState(false);
-  const [showAccountWindow, setShowAccountWindow] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
@@ -263,7 +263,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
             <div className="account-actions">
               <button
                 className="primary-account-btn"
-                onClick={() => setShowAccountWindow(true)}
+                onClick={() => setShowAuthModal(true)}
               >
                 <i className="fas fa-sign-in-alt"></i>
                 Get Started
@@ -412,10 +412,11 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
         />
       )}
 
-      {/* Account Window */}
-      <AccountWindow
-        isOpen={showAccountWindow}
-        onClose={() => setShowAccountWindow(false)}
+      {/* Authentication Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialMode="register"
       />
     </div>
   );

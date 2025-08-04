@@ -123,27 +123,71 @@ class DemoAuthService {
   // Sign in with Google (demo)
   async signInWithGoogle() {
     try {
-      // Create a demo Google user
+      // Simulate Google OAuth popup
+      console.log('Demo: Opening Google OAuth popup...');
+
+      // Create a realistic demo Google user
+      const googleUsers = [
+        {
+          email: 'adventurer@gmail.com',
+          displayName: 'Epic Adventurer',
+          photoURL: 'https://lh3.googleusercontent.com/a/default-user=s96-c'
+        },
+        {
+          email: 'dungeonmaster@gmail.com',
+          displayName: 'Master of Dungeons',
+          photoURL: 'https://lh3.googleusercontent.com/a/default-user=s96-c'
+        },
+        {
+          email: 'mythrill.player@gmail.com',
+          displayName: 'Mythrill Player',
+          photoURL: 'https://lh3.googleusercontent.com/a/default-user=s96-c'
+        }
+      ];
+
+      // Pick a random demo user or create new one
+      const randomUser = googleUsers[Math.floor(Math.random() * googleUsers.length)];
+
       const user = {
-        uid: `google-demo-${Date.now()}`,
-        email: 'demo@google.com',
-        displayName: 'Demo Google User',
-        photoURL: 'https://via.placeholder.com/150/4285f4/ffffff?text=G',
-        emailVerified: true
+        uid: `google-${Date.now()}`,
+        email: randomUser.email,
+        displayName: randomUser.displayName,
+        photoURL: randomUser.photoURL,
+        emailVerified: true,
+        providerId: 'google.com'
       };
 
-      // Create user document
-      await this.createUserDocument(user);
+      // Check if user already exists
+      const existingUsers = this.getAllUsers();
+      const existingUser = existingUsers.find(u => u.email === user.email);
 
-      // Set as current user
-      this.currentUser = user;
-      localStorage.setItem('mythrill-demo-user', JSON.stringify(user));
+      if (existingUser) {
+        // Sign in existing user
+        const { password: _, ...userWithoutPassword } = existingUser;
+        this.currentUser = userWithoutPassword;
+        localStorage.setItem('mythrill-demo-user', JSON.stringify(userWithoutPassword));
+        this.notifyListeners(userWithoutPassword);
+        console.log('Demo: Signed in existing Google user:', userWithoutPassword.email);
+        return { user: userWithoutPassword, success: true };
+      } else {
+        // Create new user
+        this.users.set(user.uid, user);
+        localStorage.setItem('mythrill-demo-users', JSON.stringify(Array.from(this.users.entries())));
 
-      // Notify listeners
-      this.notifyListeners(user);
+        // Create user document
+        await this.createUserDocument(user);
 
-      return { user, success: true };
+        // Set as current user
+        this.currentUser = user;
+        localStorage.setItem('mythrill-demo-user', JSON.stringify(user));
+
+        // Notify listeners
+        this.notifyListeners(user);
+        console.log('Demo: Created new Google user:', user.email);
+        return { user, success: true };
+      }
     } catch (error) {
+      console.error('Demo Google sign-in error:', error);
       return { error: error.message, success: false };
     }
   }
