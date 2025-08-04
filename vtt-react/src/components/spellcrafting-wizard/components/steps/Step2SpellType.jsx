@@ -153,11 +153,35 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
       </div>
 
       {state.spellType && (
-        <div className="spell-type-config">
-          <h4>{state.spellType} Configuration</h4>
+        <div className="spell-type-config" style={{
+          display: 'block',
+          visibility: 'visible',
+          opacity: 1,
+          minHeight: '200px',
+          border: '2px solid #8b4513',
+          padding: '20px',
+          margin: '20px 0',
+          backgroundColor: '#f8f5f0'
+        }}>
+          <h4 style={{
+            color: '#8b4513',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            marginBottom: '15px'
+          }}>{state.spellType} Configuration</h4>
 
           {state.spellType === 'ACTION' && (
-            <>
+            <div style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              padding: '10px',
+              border: '1px solid #ccc',
+              backgroundColor: '#fff'
+            }}>
+              <p style={{ color: '#333', marginBottom: '15px' }}>
+                Configure the action spell properties below:
+              </p>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="castTime" className="spell-wizard-label">
@@ -196,12 +220,21 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                 </div>
               </div>
 
-
-            </>
+            </div>
           )}
 
           {state.spellType === 'CHANNELED' && (
-            <>
+            <div style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              padding: '10px',
+              border: '1px solid #ccc',
+              backgroundColor: '#fff'
+            }}>
+              <p style={{ color: '#333', marginBottom: '15px' }}>
+                Configure the channeled spell properties below:
+              </p>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="maxChannelDuration" className="spell-wizard-label">
@@ -295,11 +328,22 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                   </small>
                 </div>
               </div>
-            </>
+            </div>
           )}
 
           {state.spellType === 'PASSIVE' && (
-            <div className="spell-wizard-form-row">
+            <div style={{
+              display: 'block',
+              visibility: 'visible',
+              opacity: 1,
+              padding: '10px',
+              border: '1px solid #ccc',
+              backgroundColor: '#fff'
+            }}>
+              <p style={{ color: '#333', marginBottom: '15px' }}>
+                Configure the passive spell properties below:
+              </p>
+              <div className="spell-wizard-form-row">
               <div className="spell-wizard-form-group">
                 <div className="spell-wizard-checkbox-group">
                   <input

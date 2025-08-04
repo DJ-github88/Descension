@@ -8,23 +8,23 @@ import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useLevelEditorStore, { TERRAIN_TYPES, WALL_TYPES } from "../store/levelEditorStore";
 import useMapStore from "../store/mapStore";
-import GridItem from "./grid/GridItem";
-import GridContainer from "./grid/GridContainer";
-import CreatureToken from "./grid/CreatureToken";
-import CharacterToken from "./grid/CharacterToken";
+// import GridItem from "./grid/GridItem"; // Temporarily disabled
+// import GridContainer from "./grid/GridContainer"; // Temporarily disabled
+// import CreatureToken from "./grid/CreatureToken"; // Temporarily disabled
+// import CharacterToken from "./grid/CharacterToken"; // Temporarily disabled
 // import TokenTester from "./grid/TokenTester"; // Removed per user request
-import CanvasGridRenderer from "./grid/CanvasGridRenderer";
-import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
-import VTTDrawingEngine from "./level-editor/VTTDrawingEngine";
-import TerrainSystem from "./level-editor/terrain/TerrainSystem";
-import ObjectSystem from "./level-editor/objects/ObjectSystem";
-import TileOverlay from "./level-editor/TileOverlay";
-import LightSourceOverlay from "./level-editor/LightSourceOverlay";
-import ShadowOverlay from "./level-editor/ShadowOverlay";
-import CanvasWallSystem from "./level-editor/CanvasWallSystem";
+// import CanvasGridRenderer from "./grid/CanvasGridRenderer"; // Temporarily disabled
+// import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor"; // Temporarily disabled
+// import VTTDrawingEngine from "./level-editor/VTTDrawingEngine"; // Temporarily disabled
+// import TerrainSystem from "./level-editor/terrain/TerrainSystem"; // Temporarily disabled
+// import ObjectSystem from "./level-editor/objects/ObjectSystem"; // Temporarily disabled
+// import TileOverlay from "./level-editor/TileOverlay"; // Temporarily disabled
+// import LightSourceOverlay from "./level-editor/LightSourceOverlay"; // Temporarily disabled
+// import ShadowOverlay from "./level-editor/ShadowOverlay"; // Temporarily disabled
+// import CanvasWallSystem from "./level-editor/CanvasWallSystem"; // Temporarily disabled
 import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
-import StaticFogOverlay from "./level-editor/StaticFogOverlay";
-import TextInteractionOverlay from "./grid/TextInteractionOverlay";
+// import StaticFogOverlay from "./level-editor/StaticFogOverlay"; // Temporarily disabled
+// import TextInteractionOverlay from "./grid/TextInteractionOverlay"; // Temporarily disabled
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
 import { throttle, rafThrottle } from "../utils/performanceUtils";
 
@@ -1911,8 +1911,8 @@ export default function Grid() {
 
     return (
         <>
-            {/* Professional VTT Editor */}
-            <ProfessionalVTTEditor />
+            {/* Professional VTT Editor - temporarily disabled */}
+            {/* <ProfessionalVTTEditor /> */}
 
             <div
                 id="grid-overlay"
@@ -1939,18 +1939,7 @@ export default function Grid() {
                 {/* Multiple backgrounds */}
                 {backgrounds.length > 0 && renderBackgrounds()}
 
-                {/* High-performance canvas-based grid renderer */}
-                {shouldUseCanvas && (
-                    <CanvasGridRenderer
-                        viewportSize={viewportSize}
-                        onGridInteraction={handleCanvasGridInteraction}
-                        showGrid={showGrid}
-                        gridLineColor="rgba(77, 155, 230, 0.15)"
-                        gridLineThickness={1}
-                        isDraggingItem={isDraggingItem}
-                        isDraggingCharacterToken={isDraggingCharacterToken}
-                    />
-                )}
+                {/* High-performance canvas-based grid renderer - temporarily disabled */}
 
                 {/* Fallback DOM-based grid tiles (for compatibility) */}
                 {!shouldUseCanvas && showGrid && gridTiles.map((tile) => {
@@ -2268,20 +2257,20 @@ export default function Grid() {
                     </div>
                 )}
 
-            {/* Tile Overlay - Always visible tiles */}
-            <TileOverlay />
+            {/* Tile Overlay - Always visible tiles - temporarily disabled */}
+            {/* <TileOverlay /> */}
 
-            {/* Light Source Overlay - Dynamic lighting system */}
-            <LightSourceOverlay />
+            {/* Light Source Overlay - Dynamic lighting system - temporarily disabled */}
+            {/* <LightSourceOverlay /> */}
 
-            {/* Shadow Overlay - Dynamic shadow casting */}
-            <ShadowOverlay />
+            {/* Shadow Overlay - Dynamic shadow casting - temporarily disabled */}
+            {/* <ShadowOverlay /> */}
 
-            {/* Canvas Wall System - High-performance canvas-based wall rendering */}
-            <CanvasWallSystem />
+            {/* Canvas Wall System - High-performance canvas-based wall rendering - temporarily disabled */}
+            {/* <CanvasWallSystem /> */}
 
-            {/* Render grid items */}
-            {gridItems.map(gridItem => {
+            {/* Render grid items - temporarily disabled */}
+            {/* {gridItems.map(gridItem => {
                 // Get the original item to check if it's a container
                 // First try using originalItemStoreId if available
                 let originalItem = null;
@@ -2305,10 +2294,10 @@ export default function Grid() {
                 // Always render the item, even if the original item is not found
                 // This ensures currency items and other items will appear on the grid
                 return <GridItem key={uniqueKey} gridItem={gridItem} />;
-            })}
+            })} */}
 
-            {/* Render creature tokens */}
-            {tokens.map(token => {
+            {/* Render creature tokens - temporarily disabled */}
+            {/* {tokens.map(token => {
                 return (
                     <CreatureToken
                         key={token.id}
@@ -2317,10 +2306,10 @@ export default function Grid() {
                         onRemove={handleRemoveToken}
                     />
                 );
-            })}
+            })} */}
 
-            {/* Render character tokens */}
-            {characterTokens.map(token => {
+            {/* Render character tokens - temporarily disabled */}
+            {/* {characterTokens.map(token => {
                 return (
                     <CharacterToken
                         key={token.id}
@@ -2330,7 +2319,7 @@ export default function Grid() {
                         onInspect={handleCharacterTokenInspect}
                     />
                 );
-            })}
+            })} */}
 
             {/* Character Token Placement Preview */}
             {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}
@@ -2364,14 +2353,14 @@ export default function Grid() {
             {/* Token Tester for testing tooltips - Removed per user request */}
             {/* <TokenTester /> */}
 
-            {/* Professional Terrain System - Renders terrain on the grid */}
-            <TerrainSystem />
+            {/* Professional Terrain System - Renders terrain on the grid - temporarily disabled */}
+            {/* <TerrainSystem /> */}
 
-            {/* Professional Object System - Renders objects like lights, trees, etc */}
-            <ObjectSystem />
+            {/* Professional Object System - Renders objects like lights, trees, etc - temporarily disabled */}
+            {/* <ObjectSystem /> */}
 
-            {/* VTT Drawing Engine - Renders all drawings on the grid */}
-            <VTTDrawingEngine />
+            {/* VTT Drawing Engine - Renders all drawings on the grid - temporarily disabled */}
+            {/* <VTTDrawingEngine /> */}
 
             {/* Grid Tile Tooltip */}
             {showGridTooltip && hoveredGridTile && (() => {
@@ -2612,10 +2601,10 @@ export default function Grid() {
             />
 
             {/* Text Interaction Overlay - Handle text selection and movement when editor is closed */}
-            <TextInteractionOverlay gridRef={gridRef} />
+            {/* <TextInteractionOverlay gridRef={gridRef} /> */}
 
-            {/* Fog Systems - Available for both GM and Player modes */}
-            <StaticFogOverlay />
+            {/* Fog Systems - Available for both GM and Player modes - temporarily disabled */}
+            {/* <StaticFogOverlay /> */}
 
 
         </div>
