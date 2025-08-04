@@ -39,7 +39,7 @@ const AccountWindow = ({ isOpen, onClose }) => {
   return (
     <>
       <WowWindow
-        title="Account Management"
+        title="Welcome"
         isOpen={isOpen}
         onClose={onClose}
         defaultSize={{ width: 500, height: 400 }}
@@ -66,14 +66,14 @@ const AccountWindow = ({ isOpen, onClose }) => {
               </div>
 
               <div className="auth-actions">
-                <button 
+                <button
                   className="login-btn"
                   onClick={handleShowLogin}
                 >
                   <i className="fas fa-sign-in-alt"></i>
                   Sign In
                 </button>
-                <button 
+                <button
                   className="register-btn"
                   onClick={handleShowRegister}
                 >
@@ -101,7 +101,7 @@ const AccountWindow = ({ isOpen, onClose }) => {
                   )}
                 </div>
                 <div className="user-info">
-                  <h3>Welcome back, {user?.displayName || 'Adventurer'}!</h3>
+                  <h3>Welcome, {user?.displayName || 'Adventurer'}!</h3>
                   <p>{user?.email}</p>
                 </div>
               </div>

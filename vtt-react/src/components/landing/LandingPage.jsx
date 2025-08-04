@@ -228,28 +228,50 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
       <div className="account-content">
         <h2>Account & Character Management</h2>
         <div className="account-grid">
-          <div className="account-card">
-            <h3>Create Account</h3>
-            <p>Sign up for your Mythrill account to save characters, join campaigns, and connect with other players.</p>
-            <div className="account-features">
-              <div className="feature-item">
-                <i className="fab fa-google"></i>
-                <span>Google OAuth Integration</span>
+          <div className="account-card account-main">
+            <div className="account-hero">
+              <div className="account-icon">
+                <i className="fas fa-user-shield"></i>
               </div>
-              <div className="feature-item">
-                <i className="fas fa-shield-alt"></i>
-                <span>Secure Authentication</span>
+              <h3>Join the Adventure</h3>
+              <p>Create your Mythrill account to unlock the full potential of your tabletop experience</p>
+            </div>
+
+            <div className="account-benefits">
+              <div className="benefit-row">
+                <div className="benefit-item">
+                  <i className="fab fa-google"></i>
+                  <span>Google Sign-In</span>
+                </div>
+                <div className="benefit-item">
+                  <i className="fas fa-shield-alt"></i>
+                  <span>Secure & Private</span>
+                </div>
               </div>
-              <div className="feature-item">
-                <i className="fas fa-cloud"></i>
-                <span>Cloud Character Storage</span>
+              <div className="benefit-row">
+                <div className="benefit-item">
+                  <i className="fas fa-cloud"></i>
+                  <span>Cloud Storage</span>
+                </div>
+                <div className="benefit-item">
+                  <i className="fas fa-users"></i>
+                  <span>Multiplayer Ready</span>
+                </div>
               </div>
+            </div>
+
+            <div className="account-actions">
               <button
-                className="form-btn"
+                className="primary-account-btn"
                 onClick={() => setShowAccountWindow(true)}
               >
-                Open Account Manager
+                <i className="fas fa-sign-in-alt"></i>
+                Get Started
               </button>
+              <p className="account-note">
+                <i className="fas fa-info-circle"></i>
+                Free account • No credit card required
+              </p>
             </div>
           </div>
           

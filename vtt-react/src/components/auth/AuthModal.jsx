@@ -89,7 +89,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 
         <div className="auth-modal-header">
           <h2>
-            {mode === 'login' && 'Welcome Back'}
+            {mode === 'login' && 'Welcome'}
             {mode === 'register' && 'Join Mythrill'}
             {mode === 'forgot' && 'Reset Password'}
           </h2>
