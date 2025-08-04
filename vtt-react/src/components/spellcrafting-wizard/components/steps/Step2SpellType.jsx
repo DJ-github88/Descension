@@ -309,51 +309,32 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
           )}
 
           {state.spellType === 'PASSIVE' && (
-            <div style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              padding: '10px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff'
-            }}>
-              <p style={{ color: '#333', marginBottom: '15px' }}>
-                Configure the passive spell properties below:
-              </p>
+            <>
               <div className="spell-wizard-form-row">
-              <div className="spell-wizard-form-group">
-                <div className="spell-wizard-checkbox-group">
-                  <input
-                    id="toggleable"
-                    name="toggleable"
-                    type="checkbox"
-                    className="spell-wizard-checkbox"
-                    checked={state.typeConfig.toggleable ?? false}
-                    onChange={handleConfigChange}
-                  />
-                  <label htmlFor="toggleable" className="spell-wizard-label">
-                    Can be Toggled
-                  </label>
+                <div className="spell-wizard-form-group">
+                  <div className="spell-wizard-checkbox-group">
+                    <input
+                      id="toggleable"
+                      name="toggleable"
+                      type="checkbox"
+                      className="spell-wizard-checkbox"
+                      checked={state.typeConfig.toggleable ?? false}
+                      onChange={handleConfigChange}
+                    />
+                    <label htmlFor="toggleable" className="spell-wizard-label">
+                      Can be Toggled
+                    </label>
+                  </div>
+                  <small className="spell-wizard-help-text">
+                    Whether the passive effect can be turned on and off
+                  </small>
                 </div>
-                <small className="spell-wizard-help-text">
-                  Whether the passive effect can be turned on and off
-                </small>
               </div>
-            </div>
+            </>
           )}
 
           {state.spellType === 'REACTION' && (
-            <div style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              padding: '10px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff'
-            }}>
-              <p style={{ color: '#333', marginBottom: '15px' }}>
-                Configure the reaction spell properties below:
-              </p>
+            <>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group">
                   <label htmlFor="availabilityType" className="spell-wizard-label">
@@ -410,21 +391,11 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                   </div>
                 </div>
               )}
-            </div>
+            </>
           )}
 
           {state.spellType === 'TRAP' && (
-            <div style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              padding: '10px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff'
-            }}>
-              <p style={{ color: '#333', marginBottom: '15px' }}>
-                Configure the trap spell properties below:
-              </p>
+            <>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="placementTime" className="spell-wizard-label">
@@ -527,21 +498,11 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               <div className="spell-wizard-info-box">
                 <p>Additional trap configuration options will be available in the Trap Placement and Triggers steps.</p>
               </div>
-            </div>
+            </>
           )}
 
           {state.spellType === 'ZONE' && (
-            <div style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              padding: '10px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff'
-            }}>
-              <p style={{ color: '#333', marginBottom: '15px' }}>
-                Configure the zone spell properties below:
-              </p>
+            <>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="zoneDuration" className="spell-wizard-label">
@@ -653,21 +614,11 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               <div className="spell-wizard-info-box">
                 <p>Configure the zone's shape, size, movement behavior, and targeting options in the Targeting step.</p>
               </div>
-            </div>
+            </>
           )}
 
           {state.spellType === 'STATE' && (
-            <div style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              padding: '10px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff'
-            }}>
-              <p style={{ color: '#333', marginBottom: '15px' }}>
-                Configure the state spell properties below:
-              </p>
+            <>
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="cooldownAfterTrigger" className="spell-wizard-label">
@@ -750,7 +701,7 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               <div className="spell-wizard-info-box">
                 <p>Configure the activation conditions for your state spell in the Triggers step.</p>
               </div>
-            </div>
+            </>
           )}
         </div>
       )}
