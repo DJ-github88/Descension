@@ -1191,14 +1191,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
             <div className="effect-custom-config" style={{ padding: '16px' }}>
               <div className="wow-conditional-settings">
-                <div className="wow-conditional-subtitle" style={{
-                  color: '#89dceb',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  marginBottom: '12px',
-                  borderBottom: '1px solid rgba(137, 220, 235, 0.3)',
-                  paddingBottom: '8px'
-                }}>Duration Settings</div>
+                <div className="channeling-section-title">Duration Settings</div>
 
                 <div className="stat-cards-grid" style={{
                   display: 'grid',
@@ -1715,31 +1708,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           </div>
         )}
 
-        <div className="section" style={{
-          background: 'rgba(17, 27, 51, 0.7)',
-          borderRadius: '8px',
-          padding: '16px',
-          boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-          border: '1px solid #1a3c6e',
-          marginTop: '24px'
-        }}>
-          <h3 style={{
-            color: '#ffcc00',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            textShadow: '0 0 5px rgba(255, 204, 0, 0.5)',
-            marginBottom: '12px',
-            fontSize: '20px',
-            fontWeight: 'bold'
-          }}>Resource Cost</h3>
-          <p style={{
-            color: '#a0b9d9',
-            textAlign: 'center',
-            fontSize: '14px',
-            marginBottom: '20px',
-            padding: '0 20px'
-          }}>Configure how resources are consumed while channeling</p>
+        <div className="pf-section">
+          <h3 className="pf-section-title">Resource Cost</h3>
+          <p className="pf-section-description">Configure how resources are consumed while channeling</p>
 
           <div className="selected-effect" style={{
             background: 'rgba(30, 40, 60, 0.6)',
@@ -2021,7 +1992,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     borderRadius: '6px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                      <FontAwesomeIcon icon={faClock} style={{ fontSize: '18px', color: '#3498db', marginRight: '8px' }} />
+                      <FontAwesomeIcon icon={faClock} style={{ fontSize: '18px', color: 'var(--pf-brown-medium)', marginRight: '8px' }} />
                       <div style={{ fontWeight: 'bold', color: '#cdd6f4' }}>Cost Frequency</div>
                     </div>
 
@@ -2037,8 +2008,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             display: 'flex',
                             alignItems: 'center',
                             padding: '8px',
-                            background: channelingConfig.costTrigger === trigger.id ? 'rgba(52, 152, 219, 0.2)' : 'rgba(49, 50, 68, 0.6)',
-                            border: channelingConfig.costTrigger === trigger.id ? '1px solid #3498db' : '1px solid #45475a',
+                            background: channelingConfig.costTrigger === trigger.id ? 'var(--pf-gradient-parchment-light)' : 'rgba(49, 50, 68, 0.6)',
+                            border: channelingConfig.costTrigger === trigger.id ? '1px solid var(--pf-brown-medium)' : '1px solid #45475a',
                             borderRadius: '4px',
                             cursor: 'pointer'
                           }}
@@ -2047,7 +2018,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                             icon={trigger.icon}
                             style={{
                               marginRight: '8px',
-                              color: '#3498db',
+                              color: 'var(--pf-brown-medium)',
                               fontSize: '16px'
                             }}
                           />
@@ -2250,7 +2221,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
                 {channelingConfig.targetingDescription && (
                   <div className="targeting-description">
-                    <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px', color: '#3498db' }} />
+                    <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '8px', color: 'var(--pf-brown-medium)' }} />
                     <span>{channelingConfig.targetingDescription}</span>
                   </div>
                 )}
@@ -2410,7 +2381,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             <div className="selected-effect area-expansion-section">
               <div className="effect-header">
                 <div className="effect-icon">
-                  <FontAwesomeIcon icon={faShieldAlt} style={{ color: '#3498db' }} />
+                  <FontAwesomeIcon icon={faShieldAlt} style={{ color: 'var(--pf-brown-medium)' }} />
                 </div>
                 <div className="effect-info">
                   <div className="effect-name">Defensive Settings</div>
@@ -2739,7 +2710,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             <div className="effect-preview-header" style={{
               background: 'linear-gradient(to bottom, rgba(30, 40, 70, 0.8), rgba(25, 35, 60, 0.8))',
               padding: '16px',
-              borderBottom: '1px solid rgba(52, 152, 219, 0.3)',
+              borderBottom: '1px solid var(--pf-brown-light)',
               display: 'flex',
               alignItems: 'center',
               gap: '16px'
@@ -2782,7 +2753,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
             <div className="effect-preview-description" style={{
               padding: '12px 16px',
-              borderBottom: '1px solid rgba(52, 152, 219, 0.2)',
+              borderBottom: '1px solid var(--pf-brown-light)',
               color: '#a0b9d9',
               fontSize: '14px',
               fontStyle: 'italic',
@@ -2870,11 +2841,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       {effectTypes.map(effect => (
                         <span key={effect} style={{
                           padding: '3px 8px',
-                          backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                          backgroundColor: 'var(--pf-gradient-parchment-light)',
                           borderRadius: '4px',
                           fontSize: '13px',
-                          border: '1px solid rgba(52, 152, 219, 0.4)',
-                          color: '#66ccff',
+                          border: '1px solid var(--pf-brown-light)',
+                          color: 'var(--pf-text-primary)',
                           fontWeight: 'bold'
                         }}>
                           {effect.charAt(0).toUpperCase() + effect.slice(1)}
@@ -3118,10 +3089,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       {targetingConfig.rangeType === 'ranged' && (
                         <span style={{
                           padding: '3px 8px',
-                          backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                          backgroundColor: 'var(--pf-gradient-parchment-light)',
                           borderRadius: '4px',
-                          border: '1px solid rgba(52, 152, 219, 0.4)',
-                          color: '#3498db',
+                          border: '1px solid var(--pf-brown-light)',
+                          color: 'var(--pf-text-primary)',
                           fontSize: '13px'
                         }}>
                           {targetingConfig.rangeDistance || 30}ft range
@@ -3130,20 +3101,20 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       {targetingConfig.rangeType === 'touch' && (
                         <span style={{
                           padding: '3px 8px',
-                          backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                          backgroundColor: 'var(--pf-gradient-parchment-light)',
                           borderRadius: '4px',
-                          border: '1px solid rgba(52, 152, 219, 0.4)',
-                          color: '#3498db',
+                          border: '1px solid var(--pf-brown-light)',
+                          color: 'var(--pf-text-primary)',
                           fontSize: '13px'
                         }}>Touch</span>
                       )}
                       {targetingConfig.rangeType === 'self' && (
                         <span style={{
                           padding: '3px 8px',
-                          backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                          backgroundColor: 'var(--pf-gradient-parchment-light)',
                           borderRadius: '4px',
-                          border: '1px solid rgba(52, 152, 219, 0.4)',
-                          color: '#3498db',
+                          border: '1px solid var(--pf-brown-light)',
+                          color: 'var(--pf-text-primary)',
                           fontSize: '13px'
                         }}>Self</span>
                       )}
@@ -3287,10 +3258,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       </span>
                       <span style={{
                         padding: '3px 8px',
-                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        backgroundColor: 'var(--pf-gradient-parchment-light)',
                         borderRadius: '4px',
-                        border: '1px solid rgba(52, 152, 219, 0.4)',
-                        color: '#3498db',
+                        border: '1px solid var(--pf-brown-light)',
+                        color: 'var(--pf-text-primary)',
                         fontSize: '13px'
                       }}>
                         {channelingConfig.expansionRate}ft per {channelingConfig.durationUnit === 'rounds' ? 'round' : 'turn'}
@@ -3299,11 +3270,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                         (propagation && propagation.method)) && (
                         <span style={{
                           fontSize: '12px',
-                          color: '#66ccff',
-                          background: 'rgba(102, 204, 255, 0.1)',
+                          color: 'var(--pf-text-secondary)',
+                          background: 'var(--pf-gradient-parchment)',
                           padding: '2px 6px',
                           borderRadius: '4px',
-                          border: '1px solid rgba(102, 204, 255, 0.3)'
+                          border: '1px solid var(--pf-brown-light)'
                         }}>(from targeting)</span>
                       )}
                     </div>
@@ -3427,42 +3398,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           </div>
         {/* End of preview card */}
 
-        {/* Examples */}
-        <div className="effect-config-group mt-lg">
-          <h3 className="section-header">Example Channeled Spells</h3>
-          <div className="card-selection-grid">
-            <div className="icon-selection-card">
-              <h4>Arcane Barrage</h4>
-              <p>Power Up Channel</p>
-              <p className="text-muted mt-xs">Increasing damage over time, interruptible, no movement</p>
-            </div>
-            <div className="icon-selection-card">
-              <h4>Spirit Drain</h4>
-              <p>Mana Burn Channel</p>
-              <p className="text-muted mt-xs">Drains target's mana, converts to health, interruptible</p>
-            </div>
-            <div className="icon-selection-card">
-              <h4>Hurricane</h4>
-              <p>Area Expansion Channel</p>
-              <p className="text-muted mt-xs">AoE damage that grows larger over channel duration</p>
-            </div>
-            <div className="icon-selection-card">
-              <h4>Healing Rain</h4>
-              <p>Persistent Effect</p>
-              <p className="text-muted mt-xs">Consistent healing in an area, allows movement</p>
-            </div>
-            <div className="icon-selection-card">
-              <h4>Chaos Beam</h4>
-              <p>Staged Effect</p>
-              <p className="text-muted mt-xs">Changes damage type at specific breakpoints</p>
-            </div>
-            <div className="icon-selection-card">
-              <h4>Shield of Faith</h4>
-              <p>Defensive Channel</p>
-              <p className="text-muted mt-xs">Increasing absorption shield while channeling</p>
-            </div>
-          </div>
-        </div>
+
       </div>
     </WizardStep>
   );
