@@ -512,32 +512,26 @@
   position: relative;
 }
 
-/* Fixed Progress Bar Overlay - Always visible at bottom like spellwizard */
+/* Clean unified progress bar overlay */
 .wizard-progress-overlay {
-  position: fixed !important;
-  bottom: 8px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: calc(100% - 40px) !important;
-  max-width: 800px !important;
-  height: 50px !important;
-  min-height: 50px !important;
-  max-height: 50px !important;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.98) 0%,
     rgba(230, 220, 200, 0.95) 50%,
-    rgba(213, 203, 176, 0.92) 100%) !important;
-  border: 2px solid #8b7355 !important;
-  border-radius: 12px !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 20px !important;
-  padding: 8px 20px !important;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  z-index: 1001 !important;
-  backdrop-filter: blur(4px) !important;
-  flex-shrink: 0 !important;
+    rgba(213, 203, 176, 0.92) 100%);
+  border-top: 2px solid #8b7355;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 20px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  backdrop-filter: blur(2px);
 }
 
 .wizard-progress-overlay::before {
@@ -555,11 +549,11 @@
     transparent);
 }
 
-/* Progress bar styling */
+/* Clean progress bar styling */
 .spell-wizard-progress-bar {
   position: relative;
-  width: calc(100% - 160px); /* Leave space for buttons */
-  height: 24px;
+  width: calc(100% - 160px);
+  height: 28px;
   background: linear-gradient(135deg,
     rgba(45, 24, 16, 0.95) 0%,
     rgba(60, 40, 30, 0.9) 50%,
