@@ -955,14 +955,14 @@
   flex-direction: column !important;
 }
 
-.spell-wizard-step {
+.item-wizard-modal .spell-wizard-step {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
 }
 
-.spell-wizard-step-content {
+.item-wizard-modal .spell-wizard-step-content {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -970,7 +970,7 @@
   padding: var(--pf-space-4, 16px) !important;
 }
 
-.spell-wizard-form {
+.item-wizard-modal .spell-wizard-form {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -1477,14 +1477,14 @@
     margin-bottom: 8px;
 }
 
-.spell-wizard-card-grid {
+.item-wizard-modal .spell-wizard-card-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     margin-top: 12px;
 }
 
-.spell-wizard-card {
+.item-wizard-modal .spell-wizard-card {
     padding: 12px;
     background: var(--pf-gradient-button);
     border: var(--pf-border-width) solid var(--pf-brown-medium);
@@ -1493,30 +1493,30 @@
     transition: all var(--pf-transition-normal);
 }
 
-.spell-wizard-card:hover {
+.item-wizard-modal .spell-wizard-card:hover {
     background: var(--pf-gradient-button-hover);
     border-color: var(--pf-brown-dark);
     transform: translateY(-2px);
 }
 
-.spell-wizard-card.selected {
+.item-wizard-modal .spell-wizard-card.selected {
     background: var(--pf-gradient-gold);
     border-color: var(--pf-gold-dark);
     color: var(--pf-brown-darkest);
 }
 
-.spell-wizard-card-icon {
+.item-wizard-modal .spell-wizard-card-icon {
     display: flex;
     justify-content: center;
     margin-bottom: 8px;
 }
 
-.spell-wizard-card-icon .icon {
+.item-wizard-modal .spell-wizard-card-icon .icon {
     font-size: 24px;
     color: #ffd100;
 }
 
-.spell-wizard-card.selected .spell-wizard-card-icon .icon {
+.item-wizard-modal .spell-wizard-card.selected .spell-wizard-card-icon .icon {
     color: #fff;
 }
 
