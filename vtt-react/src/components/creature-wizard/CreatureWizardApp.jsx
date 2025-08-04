@@ -169,67 +169,68 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
 
   return (
     <>
-      <div className="spellbook-wizard-layout">
-        {/* Main content area - full expansion with padding for overlay */}
-        <div className="wizard-main-content">
+      <div className="creature-wizard-layout">
+        {/* Main content area */}
+        <div className="creature-wizard-main-content">
           {renderStep()}
         </div>
+      </div>
 
-        {/* Fixed Progress Bar Overlay - positioned within the creature wizard window */}
-        <div className="wizard-progress-overlay">
-          <div className="spell-wizard-progress-bar">
-            <div
-              className="spell-wizard-progress-fill"
-              style={{
-                width: `${(wizardState.currentStep / wizardState.totalSteps) * 100}%`
-              }}
-            />
-            <div className="spell-wizard-progress-segments">
-              {Array.from({ length: wizardState.totalSteps }, (_, index) => (
-                <div
-                  key={index + 1}
-                  className={`spell-wizard-progress-segment ${getStepStatus(index)} ${
-                    wizardState.currentStep === index + 1 ? 'active' : ''
-                  }`}
-                  onClick={() => wizardDispatch(wizardActionCreators.goToStep(index + 1))}
-                >
-                  <span className="spell-step-number">{index + 1}</span>
-                  <div className="spell-step-tooltip">
-                    <div className="spell-tooltip-header">
-                      <span className="spell-tooltip-title">Step {index + 1}</span>
-                    </div>
-                    <div className="spell-tooltip-content">
-                      <div className="spell-tooltip-name">{stepNames[index]?.name}</div>
-                      {stepNames[index]?.description && (
-                        <div className="spell-tooltip-description">{stepNames[index].description}</div>
-                      )}
-                    </div>
+      {/* Fixed Progress Bar Overlay - positioned outside the main layout */}
+      <div className="creature-wizard-progress-overlay">
+        <div className="creature-wizard-progress-bar">
+          <div
+            className="creature-wizard-progress-fill"
+            style={{
+              width: `${(wizardState.currentStep / wizardState.totalSteps) * 100}%`
+            }}
+          />
+          <div className="creature-wizard-progress-segments">
+            {Array.from({ length: wizardState.totalSteps }, (_, index) => (
+              <div
+                key={index + 1}
+                className={`creature-wizard-progress-segment ${getStepStatus(index)} ${
+                  wizardState.currentStep === index + 1 ? 'active' : ''
+                }`}
+                onClick={() => wizardDispatch(wizardActionCreators.goToStep(index + 1))}
+              >
+                <span className="creature-step-number">{index + 1}</span>
+                <div className="creature-step-tooltip">
+                  <div className="creature-tooltip-header">
+                    <span className="creature-tooltip-title">Step {index + 1}</span>
+                  </div>
+                  <div className="creature-tooltip-content">
+                    <div className="creature-tooltip-name">{stepNames[index]?.name}</div>
+                    {stepNames[index]?.description && (
+                      <div className="creature-tooltip-description">{stepNames[index].description}</div>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
           </div>
 
-          {/* Only Next/Save button */}
-          <div className="wizard-buttons">
-            {wizardState.currentStep < wizardState.totalSteps ? (
-              <button
-                className="wizard-button primary"
-                onClick={handleNextStep}
-                disabled={isSubmitting}
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                className="wizard-button primary"
-                onClick={handleSave}
-                disabled={isSubmitting || !wizardState.isValid}
-              >
-                {isSubmitting ? 'Saving...' : 'Save Creature'}
-              </button>
-            )}
-          </div>
+        {/* Only Next/Save button */}
+        <div className="creature-wizard-buttons">
+          {wizardState.currentStep < wizardState.totalSteps ? (
+            <button
+              className="creature-wizard-button primary"
+              onClick={handleNextStep}
+              disabled={isSubmitting}
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              className="creature-wizard-button primary"
+              onClick={handleSave}
+              disabled={isSubmitting || !wizardState.isValid}
+            >
+              {isSubmitting ? 'Saving...' : 'Save Creature'}
+            </button>
+          )}
+        </div>
         </div>
       </div>
 
