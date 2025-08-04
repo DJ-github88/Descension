@@ -12,7 +12,7 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
     return null;
   }
 
-  // Calculate position relative to the wizard window with live updates
+  // Calculate position relative to the wizard window with live updates - REACTIVE
   const wizardWidth = (windowSize?.width || 800) * windowScale;
   const wizardX = windowPosition?.x || 150;
   const wizardY = windowPosition?.y || 50;

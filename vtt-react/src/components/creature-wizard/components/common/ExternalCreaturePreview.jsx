@@ -14,7 +14,7 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
     return null;
   }
 
-  // Calculate position with fallback values and live updates
+  // Calculate position with fallback values and live updates - REACTIVE
   const wizardWidth = (windowSize?.width || 1200) * windowScale;
   const wizardX = windowPosition?.x || ((window.innerWidth - 1200) / 2);
   const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);

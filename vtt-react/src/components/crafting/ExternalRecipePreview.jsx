@@ -15,7 +15,7 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
     return null;
   }
 
-  // Calculate position with fallback values and live updates
+  // Calculate position with fallback values and live updates - REACTIVE
   const wizardWidth = (windowSize?.width || 800) * windowScale;
   const wizardX = windowPosition?.x || ((window.innerWidth - 800) / 2);
   const wizardY = windowPosition?.y || ((window.innerHeight - 600) / 2);

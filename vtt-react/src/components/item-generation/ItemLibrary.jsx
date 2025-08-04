@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
-import DraggableWindow from '../windows/DraggableWindow';
+import WowWindow from '../windows/WowWindow';
 import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
 import ItemTooltip from './ItemTooltip';
@@ -256,7 +256,7 @@ const ItemLibrary = ({ onClose }) => {
         return () => document.removeEventListener('click', handleClickOutside);
     }, []);
 
-    const [position, setPosition] = useState(() => {
+    const [position] = useState(() => {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
         const width = Math.min(800, windowWidth * 0.9);
@@ -266,57 +266,9 @@ const ItemLibrary = ({ onClose }) => {
             y: (windowHeight - height) / 4
         };
     });
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const containerRef = useRef(null);
 
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            if (isDragging && containerRef.current) {
-                const newX = e.clientX - dragOffset.x;
-                const newY = e.clientY - dragOffset.y;
-
-                // Add some padding to prevent the window from getting stuck at edges
-                const padding = 20;
-                const maxX = window.innerWidth - containerRef.current.offsetWidth + padding;
-                const maxY = window.innerHeight - containerRef.current.offsetHeight + padding;
-
-                setPosition({
-                    x: Math.max(-padding, Math.min(newX, maxX)),
-                    y: Math.max(-padding, Math.min(newY, maxY))
-                });
-            }
-        };
-
-        const handleMouseUp = () => {
-            setIsDragging(false);
-            document.body.style.cursor = 'default';
-        };
-
-        if (isDragging) {
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-            document.body.style.cursor = 'move';
-        }
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-            document.body.style.cursor = 'default';
-        };
-    }, [isDragging, dragOffset]);
-
-    const handleMouseDown = (e) => {
-        if (e.target.closest('.item-library-header')) {
-            setIsDragging(true);
-            const rect = containerRef.current.getBoundingClientRect();
-            setDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-            e.preventDefault(); // Prevent text selection while dragging
-        }
-    };
+    // Drag handling is now managed by WowWindow
 
     const handleDeleteItem = (itemId) => {
         removeItem(itemId);
@@ -648,41 +600,34 @@ const ItemLibrary = ({ onClose }) => {
     };
 
     return (
-        <DraggableWindow
+        <WowWindow
             isOpen={true}
             onClose={onClose}
             defaultPosition={position}
-            handleClassName="item-library-header"
+            defaultSize={activeTab === 'designer' ? { width: 800, height: 600 } : { width: 1000, height: 700 }}
+            title="Item Library"
             zIndex={1000}
+            customHeader={
+                <div className="item-library-tabs">
+                    <button
+                        className={`item-library-tab ${activeTab === 'library' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('library')}
+                    >
+                        Library
+                    </button>
+                    <button
+                        className={`item-library-tab ${activeTab === 'designer' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('designer')}
+                    >
+                        Item Designer
+                    </button>
+                </div>
+            }
         >
             <div
                 ref={containerRef}
                 className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
-                onMouseDown={handleMouseDown}
             >
-            <div className="item-library-header">
-                <div className="item-library-title-section">
-                    <div className="item-library-title">Item Library</div>
-                    {/* Tab Navigation in Header */}
-                    <div className="item-library-tabs">
-                        <button
-                            className={`item-library-tab ${activeTab === 'library' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('library')}
-                        >
-                            Library
-                        </button>
-                        <button
-                            className={`item-library-tab ${activeTab === 'designer' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('designer')}
-                        >
-                            Item Designer
-                        </button>
-                    </div>
-                </div>
-                <button className="item-library-close" onClick={onClose}>
-                    <i className="fas fa-times"></i>
-                </button>
-            </div>
 
             <div className="item-library-content">
 
@@ -1135,7 +1080,7 @@ const ItemLibrary = ({ onClose }) => {
                 />
             )}
             </div>
-        </DraggableWindow>
+        </WowWindow>
     );
 };
 
