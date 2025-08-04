@@ -643,6 +643,26 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           type: ACTION_TYPES.UPDATE_TYPE_CONFIG,
           payload: typeConfigUpdate
         });
+
+        // Also update resourceCost for spell card display
+        if (updatedConfig.costValue > 0 && updatedConfig.costType) {
+          const resourceCostUpdate = {
+            resourceTypes: [updatedConfig.costType],
+            resourceValues: {
+              [updatedConfig.costType]: updatedConfig.costValue
+            },
+            useFormulas: {
+              [updatedConfig.costType]: false
+            },
+            channelingCostTrigger: updatedConfig.costTrigger // Store trigger info
+          };
+
+          console.log("Updating resourceCost for channeling:", resourceCostUpdate);
+          dispatch({
+            type: ACTION_TYPES.UPDATE_RESOURCE_COST,
+            payload: resourceCostUpdate
+          });
+        }
       }
     }
   }, [channelingConfig, dispatch, state.healingConfig, state.damageConfig, state.resourceCost, state.channelingConfig, targetingConfig, propagation, calculateScaledFormula, getInitialAreaSettings]);
@@ -767,6 +787,25 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       type: ACTION_TYPES.UPDATE_TYPE_CONFIG,
       payload: typeConfigUpdate
     });
+
+    // Also update resourceCost for spell card display
+    if (newConfig.costValue > 0 && newConfig.costType) {
+      const resourceCostUpdate = {
+        resourceTypes: [newConfig.costType],
+        resourceValues: {
+          [newConfig.costType]: newConfig.costValue
+        },
+        useFormulas: {
+          [newConfig.costType]: false
+        },
+        channelingCostTrigger: newConfig.costTrigger // Store trigger info
+      };
+
+      dispatch({
+        type: ACTION_TYPES.UPDATE_RESOURCE_COST,
+        payload: resourceCostUpdate
+      });
+    }
 
     // Validate the new configuration
     validateConfig(newConfig);
@@ -1330,11 +1369,12 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     <div className="pf-checkbox-container channeling-option">
                       <input
                         type="checkbox"
+                        id="interruptible-checkbox"
                         className="pf-checkbox"
                         checked={!channelingConfig.interruptible}
                         onChange={() => handleChannelingConfigChange({ interruptible: !channelingConfig.interruptible })}
                       />
-                      <label className="pf-checkbox-label">
+                      <label htmlFor="interruptible-checkbox" className="pf-checkbox-label">
                         Cannot be interrupted
                       </label>
                     </div>
@@ -1369,21 +1409,21 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     }}>
                       <FontAwesomeIcon icon={faWalking} style={{
                         fontSize: '18px',
-                        color: '#ff7700',
-                        marginRight: '8px',
-                        filter: 'drop-shadow(0 0 2px rgba(255, 119, 0, 0.3))'
+                        color: 'var(--pf-brown-medium)',
+                        marginRight: '8px'
                       }} />
-                      <div style={{ fontWeight: 'bold', color: '#ff7700' }}>Movement</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Movement</div>
                     </div>
 
                     <div className="pf-checkbox-container channeling-option">
                       <input
                         type="checkbox"
+                        id="movement-checkbox"
                         className="pf-checkbox"
                         checked={!channelingConfig.movementAllowed}
                         onChange={() => handleChannelingConfigChange({ movementAllowed: !channelingConfig.movementAllowed })}
                       />
-                      <label className="pf-checkbox-label">
+                      <label htmlFor="movement-checkbox" className="pf-checkbox-label">
                         Must stand still
                       </label>
                     </div>
