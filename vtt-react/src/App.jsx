@@ -28,6 +28,8 @@ import './components/spellcrafting-wizard/styles/pathfinder/main.css';
 import './components/spellcrafting-wizard/styles/pathfinder/collections.css';
 // NUCLEAR OPTION: Complete character sheet isolation
 import './styles/character-sheet-isolation.css';
+// Player notification styles
+import './styles/player-notification.css';
 // Import WoW Classic tooltip styles
 import './styles/wow-classic-tooltip.css';
 // Import game screen styles

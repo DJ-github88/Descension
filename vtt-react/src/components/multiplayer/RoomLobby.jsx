@@ -6,7 +6,9 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   const [socket, setSocket] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [roomPassword, setRoomPassword] = useState('');
   const [roomId, setRoomId] = useState('');
+  const [joinPassword, setJoinPassword] = useState('');
   const [availableRooms, setAvailableRooms] = useState([]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState('');
@@ -53,6 +55,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       setIsConnecting(false);
     });
 
+    newSocket.on('room_list_updated', (rooms) => {
+      console.log('Room list updated:', rooms);
+      setAvailableRooms(rooms);
+    });
+
     setSocket(newSocket);
 
     // Connect to server
@@ -79,6 +86,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
+    if (!roomPassword.trim()) {
+      setError('Please enter a password for your room');
+      return;
+    }
+
     if (!socket) {
       setError('Not connected to server');
       return;
@@ -86,21 +98,28 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
 
     setIsConnecting(true);
     setError('');
-    
+
     socket.emit('create_room', {
       roomName: roomName.trim(),
-      gmName: playerName.trim()
+      gmName: playerName.trim(),
+      password: roomPassword.trim()
     });
   };
 
-  const handleJoinRoom = (targetRoomId = null) => {
+  const handleJoinRoom = (targetRoomId = null, targetPassword = null) => {
     const finalRoomId = targetRoomId || roomId;
-    
+    const finalPassword = targetPassword || joinPassword;
+
     if (!playerName.trim() || !finalRoomId.trim()) {
       setError('Please enter your name and a room ID');
       return;
     }
 
+    if (!finalPassword.trim()) {
+      setError('Please enter the room password');
+      return;
+    }
+
     if (!socket) {
       setError('Not connected to server');
       return;
@@ -108,22 +127,30 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
 
     setIsConnecting(true);
     setError('');
-    
+
     socket.emit('join_room', {
       roomId: finalRoomId.trim(),
-      playerName: playerName.trim()
+      playerName: playerName.trim(),
+      password: finalPassword.trim()
     });
   };
 
   const handleQuickJoin = (room) => {
-    setRoomId(room.id);
-    handleJoinRoom(room.id);
+    // For quick join, we need to prompt for password
+    const password = prompt(`Enter password for room "${room.name}":`);
+    if (password !== null) {
+      setRoomId(room.id);
+      setJoinPassword(password);
+      handleJoinRoom(room.id, password);
+    }
   };
 
   return (
     <div className="room-lobby">
       <div className="lobby-container">
         <div className="lobby-header">
+          <h1>Mythrill D&D</h1>
+          <p>Join or create a multiplayer session</p>
           <button
             className="back-to-landing-btn"
             onClick={onReturnToLanding}
@@ -132,8 +159,6 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
             <i className="fas fa-arrow-left"></i>
             Back to Main Menu
           </button>
-          <h1>Mythrill D&D</h1>
-          <p>Join or create a multiplayer session</p>
         </div>
 
         {error && (
@@ -183,9 +208,21 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
                   placeholder="Enter room ID"
                   disabled={isConnecting}
                 />
-                <button 
+              </div>
+
+              <label htmlFor="joinPassword">Room Password:</label>
+              <div className="room-input-group">
+                <input
+                  id="joinPassword"
+                  type="password"
+                  value={joinPassword}
+                  onChange={(e) => setJoinPassword(e.target.value)}
+                  placeholder="Enter room password"
+                  disabled={isConnecting}
+                />
+                <button
                   onClick={() => handleJoinRoom()}
-                  disabled={isConnecting || !playerName.trim() || !roomId.trim()}
+                  disabled={isConnecting || !playerName.trim() || !roomId.trim() || !joinPassword.trim()}
                   className="join-button"
                 >
                   {isConnecting ? 'Joining...' : 'Join'}
@@ -244,18 +281,30 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
               disabled={isConnecting}
               maxLength={30}
             />
-            
-            <button 
+
+            <label htmlFor="roomPassword">Room Password:</label>
+            <input
+              id="roomPassword"
+              type="password"
+              value={roomPassword}
+              onChange={(e) => setRoomPassword(e.target.value)}
+              placeholder="Enter a password for your room"
+              disabled={isConnecting}
+              maxLength={50}
+            />
+
+            <button
               onClick={handleCreateRoom}
-              disabled={isConnecting || !playerName.trim() || !roomName.trim()}
+              disabled={isConnecting || !playerName.trim() || !roomName.trim() || !roomPassword.trim()}
               className="create-button"
             >
               {isConnecting ? 'Creating...' : 'Create Room as GM'}
             </button>
-            
+
             <div className="gm-info">
               <p><strong>Note:</strong> You will be the Game Master (GM) of this room.</p>
               <p>As GM, you have full control over the game state and can manage players.</p>
+              <p><strong>Password Required:</strong> All players must enter the password to join.</p>
             </div>
           </div>
         )}

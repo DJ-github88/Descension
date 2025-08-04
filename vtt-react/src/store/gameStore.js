@@ -18,6 +18,7 @@ const initialState = {
     isInMultiplayer: false,
     multiplayerRoom: null,
     onLeaveMultiplayer: null, // Function to call when leaving multiplayer
+    multiplayerSocket: null, // Socket connection for real-time sync
 
     // Enhanced background system - support for multiple layers
     backgrounds: [], // [{ id, url, position: {x, y}, scale, opacity, zIndex, name, sticksToGrid }]
@@ -668,11 +669,12 @@ const useGameStore = create(
             setMovementLineWidth: (width) => set({ movementLineWidth: width }),
 
             // Multiplayer management
-            setMultiplayerState: (isInMultiplayer, room, onLeaveCallback) => {
+            setMultiplayerState: (isInMultiplayer, room, onLeaveCallback, socket = null) => {
                 set({
                     isInMultiplayer,
                     multiplayerRoom: room,
-                    onLeaveMultiplayer: onLeaveCallback
+                    onLeaveMultiplayer: onLeaveCallback,
+                    multiplayerSocket: socket
                 });
             },
 
@@ -684,8 +686,25 @@ const useGameStore = create(
                 set({
                     isInMultiplayer: false,
                     multiplayerRoom: null,
-                    onLeaveMultiplayer: null
+                    onLeaveMultiplayer: null,
+                    multiplayerSocket: null
                 });
+            },
+
+            // Multiplayer token movement
+            updateTokenPositionMultiplayer: (creatureId, position) => {
+                const state = get();
+
+                // Update local position first
+                state.updateTokenPosition(creatureId, position);
+
+                // Send to server if in multiplayer
+                if (state.isInMultiplayer && state.multiplayerSocket) {
+                    state.multiplayerSocket.emit('token_moved', {
+                        tokenId: creatureId,
+                        position: position
+                    });
+                }
             }
         }),
         {

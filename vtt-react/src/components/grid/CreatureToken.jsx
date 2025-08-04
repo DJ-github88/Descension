@@ -63,7 +63,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const contextMenuRef = useRef(null);
   const tokenRef = useRef(null);
 
-  const { tokens, creatures, updateTokenPosition, updateTokenState, removeToken, duplicateToken } = useCreatureStore();
+  const { tokens, creatures, updateTokenState, removeToken, duplicateToken } = useCreatureStore();
+  const { updateTokenPositionMultiplayer, isInMultiplayer } = useGameStore();
   const { currentTarget, setTarget, clearTarget } = useTargetingStore();
   const {
     isSelectionMode,
@@ -188,8 +189,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       console.log('🖱️ Mouse up - rawWorldPos:', rawWorldPos, 'gridCoords:', gridCoords, 'finalWorldPos:', finalWorldPos);
 
-      // Update token position to snapped grid center
-      updateTokenPosition(tokenId, finalWorldPos);
+      // Update token position to snapped grid center (with multiplayer sync)
+      updateTokenPositionMultiplayer(tokenId, finalWorldPos);
 
       // Handle combat movement validation if in combat
       if (isInCombat && dragStartPosition) {
@@ -218,7 +219,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         } else {
           console.log('❌ MOVEMENT IS INVALID - Reverting');
           // Revert to start position
-          updateTokenPosition(tokenId, dragStartPosition);
+          updateTokenPositionMultiplayer(tokenId, dragStartPosition);
           updateTempMovementDistance(tokenId, 0);
         }
 
@@ -550,7 +551,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       });
 
       // Update token position to final position (should already be there, but ensure it)
-      updateTokenPosition(pendingTokenId, finalPosition);
+      updateTokenPositionMultiplayer(pendingTokenId, finalPosition);
 
       // Track the movement and spend the required AP - use total distance, not current movement
       confirmMovement(pendingTokenId, requiredAP, totalDistance);
@@ -564,7 +565,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       console.log('❌ CANCELING MOVEMENT');
 
       // Revert token to start position
-      updateTokenPosition(pendingTokenId, startPosition);
+      updateTokenPositionMultiplayer(pendingTokenId, startPosition);
 
       // Clear temporary movement distance
       updateTempMovementDistance(pendingTokenId, 0);

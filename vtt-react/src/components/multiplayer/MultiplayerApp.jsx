@@ -5,6 +5,7 @@ import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
+import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import './styles/MultiplayerApp.css';
 
 // Import main game components
@@ -28,7 +29,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [connectedPlayers, setConnectedPlayers] = useState([]);
 
   // Get stores for state synchronization
-  const { setIsGMMode, setMultiplayerState } = useGameStore();
+  const { setIsGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
   const { updateCharacterInfo, setRoomName, clearRoomName } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
@@ -42,6 +43,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Update connected players list
       if (currentRoom) {
         setConnectedPlayers(prev => [...prev, data.player]);
+
+        // Show player join notification
+        showPlayerJoinNotification(data.player.name, currentRoom.name);
 
         // Add to party system
         addPartyMember({
@@ -73,6 +77,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         prev.filter(player => player.id !== data.player.id)
       );
 
+      // Show player leave notification
+      showPlayerLeaveNotification(data.player.name, currentRoom?.name || 'Room');
+
       // Remove from party system
       removePartyMember(data.player.id);
 
@@ -98,6 +105,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         content: message.content,
         type: 'message'
       });
+    });
+
+    // Listen for token movements from other players
+    socket.on('token_moved', (data) => {
+      console.log('Token moved by another player:', data);
+      // Update token position locally
+      updateTokenPosition(data.tokenId, data.position);
+    });
+
+    // Listen for item drops from other players
+    socket.on('item_dropped', (data) => {
+      console.log('Item dropped by another player:', data);
+      // TODO: Add item to grid at specified position
+      // This would integrate with the grid items system
     });
 
     return () => {
@@ -176,8 +197,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Leadership is already set in createParty for current player
     }
 
-    // Set multiplayer state in game store
-    setMultiplayerState(true, room, handleReturnToSinglePlayer);
+    // Set multiplayer state in game store with socket
+    setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection);
 
     // Set up chat integration for multiplayer
     const sendChatMessage = (message) => {

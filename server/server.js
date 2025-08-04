@@ -72,13 +72,14 @@ const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHis
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
 
 // Room management functions
-function createRoom(roomName, gmName, gmSocketId) {
+function createRoom(roomName, gmName, gmSocketId, password) {
   const roomId = uuidv4();
   const gmPlayerId = uuidv4();
-  
+
   const room = {
     id: roomId,
     name: roomName,
+    password: password, // Store the password
     gm: {
       id: gmPlayerId,
       name: gmName,
@@ -87,7 +88,7 @@ function createRoom(roomName, gmName, gmSocketId) {
     players: new Map(),
     settings: {
       maxPlayers: 6,
-      isPrivate: false,
+      isPrivate: true, // All rooms are now private with passwords
       allowSpectators: true
     },
     chatHistory: [],
@@ -99,7 +100,7 @@ function createRoom(roomName, gmName, gmSocketId) {
     },
     createdAt: new Date()
   };
-  
+
   rooms.set(roomId, room);
   players.set(gmSocketId, {
     id: gmPlayerId,
@@ -107,14 +108,19 @@ function createRoom(roomName, gmName, gmSocketId) {
     roomId: roomId,
     isGM: true
   });
-  
+
   return room;
 }
 
-function joinRoom(roomId, playerName, socketId) {
+function joinRoom(roomId, playerName, socketId, password) {
   const room = rooms.get(roomId);
   if (!room) return null;
-  
+
+  // Check password
+  if (room.password !== password) {
+    return { error: 'Incorrect password' };
+  }
+
   if (room.players.size >= room.settings.maxPlayers) {
     return { error: 'Room is full' };
   }
@@ -159,24 +165,27 @@ function leaveRoom(socketId) {
   }
 }
 
-// API Routes
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-app.get('/rooms', (req, res) => {
-  const publicRooms = Array.from(rooms.values())
-    .filter(room => !room.settings.isPrivate)
+// Helper function to get public room list
+function getPublicRooms() {
+  return Array.from(rooms.values())
     .map(room => ({
       id: room.id,
       name: room.name,
       playerCount: room.players.size + 1, // +1 for GM
       maxPlayers: room.settings.maxPlayers + 1,
       gm: room.gm.name,
-      createdAt: room.createdAt
+      createdAt: room.createdAt,
+      hasPassword: true // All rooms now have passwords
     }));
-  
-  res.json(publicRooms);
+}
+
+// API Routes
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.get('/rooms', (req, res) => {
+  res.json(getPublicRooms());
 });
 
 // Socket.io connection handling
@@ -185,16 +194,16 @@ io.on('connection', (socket) => {
   
   // Create a new room
   socket.on('create_room', (data) => {
-    const { roomName, gmName } = data;
-    
-    if (!roomName || !gmName) {
-      socket.emit('error', { message: 'Room name and GM name are required' });
+    const { roomName, gmName, password } = data;
+
+    if (!roomName || !gmName || !password) {
+      socket.emit('error', { message: 'Room name, GM name, and password are required' });
       return;
     }
-    
-    const room = createRoom(roomName, gmName, socket.id);
+
+    const room = createRoom(roomName, gmName, socket.id, password);
     socket.join(room.id);
-    
+
     socket.emit('room_created', {
       room: {
         id: room.id,
@@ -204,20 +213,23 @@ io.on('connection', (socket) => {
         settings: room.settings
       }
     });
-    
+
+    // Broadcast room list update to all connected clients
+    io.emit('room_list_updated', getPublicRooms());
+
     console.log(`Room created: ${room.name} (${room.id}) by ${gmName}`);
   });
   
   // Join an existing room
   socket.on('join_room', (data) => {
-    const { roomId, playerName } = data;
-    
-    if (!roomId || !playerName) {
-      socket.emit('error', { message: 'Room ID and player name are required' });
+    const { roomId, playerName, password } = data;
+
+    if (!roomId || !playerName || !password) {
+      socket.emit('error', { message: 'Room ID, player name, and password are required' });
       return;
     }
-    
-    const result = joinRoom(roomId, playerName, socket.id);
+
+    const result = joinRoom(roomId, playerName, socket.id, password);
     
     if (!result) {
       socket.emit('error', { message: 'Room not found' });
@@ -250,7 +262,10 @@ io.on('connection', (socket) => {
       player: player,
       playerCount: room.players.size + 1
     });
-    
+
+    // Broadcast room list update to all connected clients
+    io.emit('room_list_updated', getPublicRooms());
+
     console.log(`${playerName} joined room: ${room.name}`);
   });
   
@@ -289,7 +304,61 @@ io.on('connection', (socket) => {
     // Broadcast to all players in the room
     io.to(player.roomId).emit('chat_message', message);
   });
-  
+
+  // Handle token movement synchronization
+  socket.on('token_moved', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // TODO: Add permission checks here - for now, allow all movements
+    // In the future, check if player owns the token or has GM permissions
+
+    // Broadcast token movement to all other players in the room
+    socket.to(player.roomId).emit('token_moved', {
+      tokenId: data.tokenId,
+      position: data.position,
+      playerId: player.id,
+      playerName: player.name
+    });
+
+    console.log(`Token ${data.tokenId} moved by ${player.name} to`, data.position);
+  });
+
+  // Handle item drops on grid
+  socket.on('item_dropped', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Broadcast item drop to all players in the room
+    io.to(player.roomId).emit('item_dropped', {
+      item: data.item,
+      position: data.position,
+      playerId: player.id,
+      playerName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`Item ${data.item.name} dropped by ${player.name} at`, data.position);
+  });
+
   // Handle disconnection
   socket.on('disconnect', () => {
     console.log(`Player disconnected: ${socket.id}`);
