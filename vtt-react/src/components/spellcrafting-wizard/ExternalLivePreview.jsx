@@ -5,12 +5,14 @@ import { useSpellLibrary } from './context/SpellLibraryContext';
 import UnifiedSpellCard from './components/common/UnifiedSpellCard';
 import SpellCardWithProcs from './components/common/SpellCardWithProcs';
 import useSpellbookStore from '../../store/spellbookStore';
+import useGameStore from '../../store/gameStore';
 
 // External Live Preview Component that renders outside any window
 const ExternalLivePreview = () => {
   const state = useSpellWizardState();
   const library = useSpellLibrary();
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
+  const windowScale = useGameStore(state => state.windowScale);
 
   // Only show when the wizard tab is active
   if (activeTab !== 'wizard') {
@@ -23,8 +25,8 @@ const ExternalLivePreview = () => {
   const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
 
   const position = {
-    left: spellbookX + spellbookWidth - 10, // Move closer - slight overlap
-    top: spellbookY + 15, // Very close to the header
+    left: spellbookX + spellbookWidth - 30, // Move much closer - more overlap
+    top: spellbookY + 10, // Even closer to the header
     position: 'fixed',
     zIndex: 9998,
     width: '340px', // Slightly smaller width
@@ -377,7 +379,9 @@ const ExternalLivePreview = () => {
       ...position,
       border: 'none !important',
       outline: 'none !important',
-      boxShadow: 'none !important'
+      boxShadow: 'none !important',
+      transform: `scale(${windowScale})`,
+      transformOrigin: 'top left'
     }}>
       <style>
         {`

@@ -2,10 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import SimpleCreatureTooltip from './SimpleCreatureTooltip';
 import useCreatureStore from '../../../../store/creatureStore';
+import useGameStore from '../../../../store/gameStore';
 
 // External Creature Preview Component that renders outside the creature wizard window
 const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
   const { windowPosition, windowSize } = useCreatureStore();
+  const windowScale = useGameStore(state => state.windowScale);
 
   // Only show when the wizard is open and we have some creature data
   if (!isOpen || !creatureData || Object.keys(creatureData).length === 0) {
@@ -18,8 +20,8 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
   const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);
 
   const position = {
-    left: wizardX + wizardWidth + 10, // Position to the right of the wizard
-    top: wizardY + 60, // Align with wizard content area
+    left: wizardX + wizardWidth - 20, // Move much closer - overlap with wizard
+    top: wizardY + 40, // Closer to wizard header
     position: 'fixed',
     zIndex: 99999,
     width: '300px',
@@ -121,7 +123,11 @@ const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
   }, [creatureData]);
 
   return ReactDOM.createPortal(
-    <div style={position}>
+    <div style={{
+      ...position,
+      transform: `scale(${windowScale})`,
+      transformOrigin: 'top left'
+    }}>
       <SimpleCreatureTooltip creature={createPreviewCreature} />
     </div>,
     document.body

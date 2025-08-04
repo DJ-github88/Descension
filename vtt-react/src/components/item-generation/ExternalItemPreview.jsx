@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ItemTooltip from './ItemTooltip';
+import useGameStore from '../../store/gameStore';
 
 // External Item Preview Component that renders outside the item wizard window
 const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) => {
+  const windowScale = useGameStore(state => state.windowScale);
+
   // Only show when the wizard is open and we have some item data
   if (!isOpen || !itemData || Object.keys(itemData).length === 0) {
     return null;
@@ -189,7 +192,11 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
   };
 
   return ReactDOM.createPortal(
-    <div style={position}>
+    <div style={{
+      ...position,
+      transform: `scale(${windowScale})`,
+      transformOrigin: 'top left'
+    }}>
       <ItemTooltip item={createPreviewItem()} />
     </div>,
     document.body

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
+import useGameStore from '../../store/gameStore';
 import ItemWizard from './ItemWizard';
 import CategoryDialog from './CategoryDialog';
 import ItemTooltip from './ItemTooltip';
@@ -248,6 +249,8 @@ const ItemLibrary = ({ onClose }) => {
         openContainers,
         toggleContainerOpen
     } = useItemStore();
+
+    const windowScale = useGameStore(state => state.windowScale);
 
     useEffect(() => {
         const handleClickOutside = () => setContextMenu(null);
@@ -653,7 +656,9 @@ const ItemLibrary = ({ onClose }) => {
             onMouseDown={handleMouseDown}
             style={{
                 left: `${position.x}px`,
-                top: `${position.y}px`
+                top: `${position.y}px`,
+                transform: `scale(${windowScale})`,
+                transformOrigin: 'top left'
             }}
         >
             <div className="item-library-header">

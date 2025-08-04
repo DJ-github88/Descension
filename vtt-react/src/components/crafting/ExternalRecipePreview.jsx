@@ -1,12 +1,14 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import useItemStore from '../../store/itemStore';
+import useGameStore from '../../store/gameStore';
 import { SKILL_LEVELS, PROFESSIONS } from '../../store/craftingStore';
 import '../../styles/item-tooltip.css';
 
 // External Recipe Preview Component that renders outside the recipe wizard window
 const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen }) => {
   const { items: itemLibrary } = useItemStore();
+  const windowScale = useGameStore(state => state.windowScale);
 
   // Only show when the wizard is open and we have some recipe data
   if (!isOpen || !recipeData || Object.keys(recipeData).length === 0) {
@@ -95,7 +97,11 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
   const recipeQualityLower = recipeQuality.toLowerCase();
 
   return ReactDOM.createPortal(
-    <div style={position}>
+    <div style={{
+      ...position,
+      transform: `scale(${windowScale})`,
+      transformOrigin: 'top left'
+    }}>
       <div className="item-tooltip" data-quality={recipeQualityLower}>
         {/* Recipe Name - Always prefixed with "Recipe: " */}
         <div className="item-name" style={{
