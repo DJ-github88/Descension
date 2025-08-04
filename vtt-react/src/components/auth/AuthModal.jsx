@@ -1,9 +1,11 @@
 // Authentication modal with login/register forms
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import './styles/AuthModal.css';
 
 const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
+  const navigate = useNavigate();
   const [mode, setMode] = useState(initialMode); // 'login', 'register', 'forgot'
   const [formData, setFormData] = useState({
     email: '',
@@ -12,14 +14,14 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     displayName: ''
   });
 
-  const { 
-    signIn, 
-    signUp, 
-    signInWithGoogle, 
-    resetPassword, 
-    isLoading, 
-    error, 
-    clearError 
+  const {
+    signIn,
+    signUp,
+    signInWithGoogle,
+    resetPassword,
+    isLoading,
+    error,
+    clearError
   } = useAuthStore();
 
   const handleInputChange = (e) => {
@@ -42,11 +44,13 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
       const result = await signUp(formData.email, formData.password, formData.displayName);
       if (result.success) {
         onClose();
+        navigate('/account');
       }
     } else if (mode === 'login') {
       const result = await signIn(formData.email, formData.password);
       if (result.success) {
         onClose();
+        navigate('/account');
       }
     } else if (mode === 'forgot') {
       const result = await resetPassword(formData.email);
@@ -62,6 +66,7 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     if (result.success) {
       console.log('Google sign-in successful!');
       onClose();
+      navigate('/account');
     } else {
       console.error('Google sign-in failed:', result.error);
     }

@@ -25,7 +25,13 @@ const getEncumbranceState = () => {
 };
 
 const useCharacterStore = create((set, get) => ({
-    // Base character info
+    // Character management for account system
+    characters: [], // Array of all user's characters
+    currentCharacterId: null, // ID of currently active character
+    isLoading: false,
+    error: null,
+
+    // Base character info (for current character)
     name: 'Character Name',
     baseName: 'Character Name', // Store the original name without room formatting
     roomName: '', // Current room name for multiplayer
@@ -949,9 +955,173 @@ const useCharacterStore = create((set, get) => ({
             health: newHealth,
             mana: newMana
         });
+    },
 
+    // Character Management Functions for Account System
+    loadCharacters: async () => {
+        set({ isLoading: true, error: null });
+        try {
+            // For now, load from localStorage
+            // In the future, this would load from Firebase/database
+            const savedCharacters = localStorage.getItem('mythrill-characters');
+            const characters = savedCharacters ? JSON.parse(savedCharacters) : [];
+            set({ characters, isLoading: false });
+            return characters;
+        } catch (error) {
+            console.error('Error loading characters:', error);
+            set({ error: 'Failed to load characters', isLoading: false });
+            throw error;
+        }
+    },
 
-    }
+    createCharacter: async (characterData) => {
+        set({ isLoading: true, error: null });
+        try {
+            const newCharacter = {
+                id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                ...characterData,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            const state = get();
+            const updatedCharacters = [...state.characters, newCharacter];
+
+            // Save to localStorage
+            localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+
+            set({
+                characters: updatedCharacters,
+                isLoading: false
+            });
+
+            return newCharacter;
+        } catch (error) {
+            console.error('Error creating character:', error);
+            set({ error: 'Failed to create character', isLoading: false });
+            throw error;
+        }
+    },
+
+    updateCharacter: async (characterId, updates) => {
+        set({ isLoading: true, error: null });
+        try {
+            const state = get();
+            const updatedCharacters = state.characters.map(char =>
+                char.id === characterId
+                    ? { ...char, ...updates, updatedAt: new Date().toISOString() }
+                    : char
+            );
+
+            // Save to localStorage
+            localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+
+            set({
+                characters: updatedCharacters,
+                isLoading: false
+            });
+
+            return updatedCharacters.find(char => char.id === characterId);
+        } catch (error) {
+            console.error('Error updating character:', error);
+            set({ error: 'Failed to update character', isLoading: false });
+            throw error;
+        }
+    },
+
+    deleteCharacter: async (characterId) => {
+        set({ isLoading: true, error: null });
+        try {
+            const state = get();
+            const updatedCharacters = state.characters.filter(char => char.id !== characterId);
+
+            // Save to localStorage
+            localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+
+            set({
+                characters: updatedCharacters,
+                isLoading: false,
+                // Clear current character if it was deleted
+                currentCharacterId: state.currentCharacterId === characterId ? null : state.currentCharacterId
+            });
+
+            return true;
+        } catch (error) {
+            console.error('Error deleting character:', error);
+            set({ error: 'Failed to delete character', isLoading: false });
+            throw error;
+        }
+    },
+
+    loadCharacter: (characterId) => {
+        const state = get();
+        const character = state.characters.find(char => char.id === characterId);
+
+        if (character) {
+            // Load character data into current character state
+            set({
+                currentCharacterId: characterId,
+                name: character.name || 'Character Name',
+                baseName: character.baseName || character.name || 'Character Name',
+                race: character.race || '',
+                subrace: character.subrace || '',
+                class: character.class || 'Class',
+                level: character.level || 1,
+                alignment: character.alignment || 'Neutral Good',
+                stats: character.stats || {
+                    constitution: 10,
+                    strength: 10,
+                    agility: 10,
+                    intelligence: 10,
+                    spirit: 10,
+                    charisma: 10
+                },
+                health: character.health || { current: 45, max: 50 },
+                mana: character.mana || { current: 45, max: 50 },
+                actionPoints: character.actionPoints || { current: 1, max: 3 },
+                equipment: character.equipment || {},
+                resistances: character.resistances || get().resistances,
+                spellPower: character.spellPower || get().spellPower,
+                lore: character.lore || get().lore,
+                tokenSettings: character.tokenSettings || get().tokenSettings
+            });
+
+            // Recalculate derived stats
+            get().initializeCharacter();
+            return character;
+        }
+
+        return null;
+    },
+
+    saveCurrentCharacter: () => {
+        const state = get();
+        if (!state.currentCharacterId) return;
+
+        const characterData = {
+            name: state.name,
+            baseName: state.baseName,
+            race: state.race,
+            subrace: state.subrace,
+            class: state.class,
+            level: state.level,
+            alignment: state.alignment,
+            stats: state.stats,
+            health: state.health,
+            mana: state.mana,
+            actionPoints: state.actionPoints,
+            equipment: state.equipment,
+            resistances: state.resistances,
+            spellPower: state.spellPower,
+            lore: state.lore,
+            tokenSettings: state.tokenSettings,
+            updatedAt: new Date().toISOString()
+        };
+
+        get().updateCharacter(state.currentCharacterId, characterData);
+    },
+
+    clearError: () => set({ error: null })
 }));
 
 // Initialize the character store with derived stats

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Grid from "./components/Grid";
 import Navigation from "./components/Navigation";
 import GameProvider from "./components/GameProvider";
@@ -22,6 +23,10 @@ import LandingPage from "./components/landing/LandingPage";
 // Authentication components
 import AuthModal from "./components/auth/AuthModal";
 import UserProfile from "./components/auth/UserProfile";
+// Account management pages
+import AccountDashboard from "./components/account/AccountDashboard";
+import CharacterManagement from "./components/account/CharacterManagement";
+import CharacterCreationPage from "./components/account/CharacterCreationPage";
 import useAuthStore from "./store/authStore";
 
 
@@ -151,6 +156,7 @@ export default function App() {
 
     const handleCloseAuthModal = () => {
         setShowAuthModal(false);
+        setAuthMode('login');
     };
 
     const handleCloseUserProfile = () => {
@@ -160,55 +166,91 @@ export default function App() {
     return (
         <GameProvider>
             <SpellLibraryProvider>
-                {gameMode === 'landing' && (
-                    <LandingPage
-                        onEnterSinglePlayer={handleEnterSinglePlayer}
-                        onEnterMultiplayer={handleEnterMultiplayer}
-                        onShowLogin={handleShowLogin}
-                        onShowRegister={handleShowRegister}
-                        onShowUserProfile={handleShowUserProfile}
-                        isAuthenticated={isAuthenticated}
-                        user={user}
+                <Router>
+                    <Routes>
+                        {/* Landing page route */}
+                        <Route path="/" element={
+                            isAuthenticated ? (
+                                <Navigate to="/account" replace />
+                            ) : (
+                                <LandingPage
+                                    onEnterSinglePlayer={handleEnterSinglePlayer}
+                                    onEnterMultiplayer={handleEnterMultiplayer}
+                                    onShowLogin={handleShowLogin}
+                                    onShowRegister={handleShowRegister}
+                                    onShowUserProfile={handleShowUserProfile}
+                                    isAuthenticated={isAuthenticated}
+                                    user={user}
+                                />
+                            )
+                        } />
+
+                        {/* Account management routes */}
+                        <Route path="/account" element={
+                            isAuthenticated ? (
+                                <AccountDashboard user={user} />
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        } />
+
+                        <Route path="/account/characters" element={
+                            isAuthenticated ? (
+                                <CharacterManagement user={user} />
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        } />
+
+                        <Route path="/account/characters/create" element={
+                            isAuthenticated ? (
+                                <CharacterCreationPage user={user} />
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        } />
+
+                        {/* Game routes */}
+                        <Route path="/game" element={
+                            <div className="spell-wizard-container">
+                                <GameScreen />
+                                <Navigation
+                                    onReturnToLanding={handleReturnToLanding}
+                                    onShowLogin={handleShowLogin}
+                                    onShowUserProfile={handleShowUserProfile}
+                                    isAuthenticated={isAuthenticated}
+                                    user={user}
+                                />
+                                <GMPlayerToggle />
+                            </div>
+                        } />
+
+                        <Route path="/multiplayer" element={
+                            <MultiplayerApp
+                                onReturnToSinglePlayer={handleReturnToLanding}
+                                onShowLogin={handleShowLogin}
+                                onShowUserProfile={handleShowUserProfile}
+                                isAuthenticated={isAuthenticated}
+                                user={user}
+                            />
+                        } />
+
+                        {/* Redirect unknown routes to home */}
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+
+                    {/* Global modals */}
+                    <AuthModal
+                        isOpen={showAuthModal}
+                        onClose={handleCloseAuthModal}
+                        initialMode={authMode}
                     />
-                )}
 
-                {gameMode === 'single' && (
-                    <div className="spell-wizard-container">
-                        <GameScreen />
-                        <Navigation
-                            onReturnToLanding={handleReturnToLanding}
-                            onShowLogin={handleShowLogin}
-                            onShowUserProfile={handleShowUserProfile}
-                            isAuthenticated={isAuthenticated}
-                            user={user}
-                        />
-                        {/* Global GM/Player toggle - always visible */}
-                        <GMPlayerToggle />
-                    </div>
-                )}
-
-                {gameMode === 'multiplayer' && (
-                    <MultiplayerApp
-                        onReturnToSinglePlayer={handleReturnToLanding}
-                        onShowLogin={handleShowLogin}
-                        onShowUserProfile={handleShowUserProfile}
-                        isAuthenticated={isAuthenticated}
-                        user={user}
+                    <UserProfile
+                        isOpen={showUserProfile}
+                        onClose={handleCloseUserProfile}
                     />
-                )}
-
-                {/* Authentication Modal */}
-                <AuthModal
-                    isOpen={showAuthModal}
-                    onClose={handleCloseAuthModal}
-                    initialMode={authMode}
-                />
-
-                {/* User Profile Modal */}
-                <UserProfile
-                    isOpen={showUserProfile}
-                    onClose={handleCloseUserProfile}
-                />
+                </Router>
             </SpellLibraryProvider>
         </GameProvider>
     );
