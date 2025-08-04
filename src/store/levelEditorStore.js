@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
+
+// Simple terrain types for basic functionality
+const PROFESSIONAL_TERRAIN_TYPES = {
+    grass: { tileVariations: [] },
+    stone: { tileVariations: [] },
+    dirt: { tileVariations: [] },
+    water: { tileVariations: [] },
+    sand: { tileVariations: [] }
+};
 
 // Terrain categories for organization
 export const TERRAIN_CATEGORIES = {

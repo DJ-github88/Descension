@@ -149,14 +149,16 @@
 
 .tooltip-stat-label {
   font-size: 11px;
-  color: #5a1e12;
-  font-weight: 500;
+  color: #2d1810;
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 .tooltip-stat-value {
   font-size: 12px;
-  font-weight: 600;
-  color: #7a3b2e;
+  font-weight: 700;
+  color: #1a0f08;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 /* Resistance/Vulnerability styling */
@@ -189,14 +191,17 @@
 
 .tooltip-resistance-label {
   font-size: 11px;
-  font-weight: 500;
-  color: #5a1e12;
+  font-weight: 600;
+  color: #2d1810;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
 }
 
 .tooltip-resistance-value {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   margin-left: auto;
+  color: #1a0f08;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 /* Tags styling */
@@ -247,13 +252,15 @@
 .tooltip-description {
   font-size: 12px;
   line-height: 1.4;
-  color: #3a3a3a;
+  color: #1a0f08;
   font-style: italic;
   margin-bottom: 12px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 6px;
   border-left: 3px solid #8b7355;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  font-weight: 500;
 }
 
 /* Abilities section */

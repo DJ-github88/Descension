@@ -151,18 +151,13 @@ const DraggableWindow = forwardRef(({
         // Update position immediately for fluid dragging
         setPosition({ x: data.x, y: data.y });
 
-        // Update transform directly for immediate visual feedback - MAINTAIN SCALE DURING DRAG
-        if (nodeRef.current) {
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
-        }
-
         // Call the onDrag callback during dragging for real-time updates
         if (onDrag && data && typeof data === 'object') {
             onDrag(data);
         }
 
         e.stopPropagation();
-    }, [onDrag, windowScale]);
+    }, [onDrag]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -174,8 +169,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-            // Re-apply scale after dragging ends to prevent flickering
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
         }
 
         // Call the onDrag callback if provided with valid data
@@ -189,7 +182,7 @@ const DraggableWindow = forwardRef(({
         }
 
         e.stopPropagation();
-    }, [onDrag, onDragStop, zIndex, windowScale]);
+    }, [onDrag, onDragStop, zIndex]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {
@@ -215,7 +208,7 @@ const DraggableWindow = forwardRef(({
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={1} // Always use scale 1 since we handle scaling manually
+            scale={windowScale} // Use the actual window scale for proper drag calculations
         >
             <div
                 ref={nodeRef}

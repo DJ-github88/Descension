@@ -264,199 +264,109 @@ const Step1BasicInfo = () => {
       <div className="step-header">
         <h2>Basic Information</h2>
         <p className="step-description">
-          Define your creature's core identity, appearance, and lore. This information forms the foundation
-          of your creature and will be visible to players during encounters.
+          Define your creature's core identity, appearance, and classification.
         </p>
       </div>
 
-      {/* Essential Information Section */}
+      {/* Main content in three columns for better organization */}
       <div className="form-section">
-        <h3 className="section-title">Essential Details</h3>
+        <div className="form-row three-column">
+          {/* Left Column - Essential Info */}
+          <div className="form-column">
+            <h3 className="section-title">Essential Details</h3>
 
-        <div className="form-row single-column">
-          <div className="form-group">
-            <label htmlFor="creature-name" className="required-label">
-              Creature Name
-              <span className="required-asterisk">*</span>
-            </label>
-            <input
-              id="creature-name"
-              type="text"
-              value={wizardState.name}
-              onChange={handleNameChange}
-              placeholder="Enter a unique and memorable name for your creature"
-              className={wizardState.validationErrors.name ? 'error' : ''}
-              maxLength={50}
-            />
-            <div className="input-helper">
-              <span className="character-count">{wizardState.name.length}/50</span>
-              {wizardState.validationErrors.name && (
-                <div className="error-message">{wizardState.validationErrors.name}</div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="form-row single-column">
-          <div className="form-group">
-            <label htmlFor="creature-description">
-              Description & Lore
-              <span className="optional-label">(Optional)</span>
-            </label>
-            <textarea
-              id="creature-description"
-              value={wizardState.description}
-              onChange={handleDescriptionChange}
-              placeholder="Describe your creature's appearance, behavior, habitat, and background lore. Include details about how it moves, sounds it makes, its intelligence level, and any notable features that would be apparent to adventurers..."
-              rows={6}
-              maxLength={1000}
-            />
-            <div className="input-helper">
-              <span className="character-count">{wizardState.description.length}/1000</span>
-              <span className="helper-text">Rich descriptions enhance the storytelling experience</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Classification Section */}
-      <div className="form-section">
-        <h3 className="section-title">Classification</h3>
-        <p className="section-description">
-          Define the creature's biological type and physical size category for game mechanics.
-        </p>
-
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="creature-type" className="required-label">
-              Creature Type
-              <span className="required-asterisk">*</span>
-            </label>
-            <select
-              id="creature-type"
-              value={wizardState.type}
-              onChange={handleTypeChange}
-              className="enhanced-select"
-            >
-              {Object.values(CREATURE_TYPES).map(type => (
-                <option key={type} value={type}>
-                  {formatTypeName(type)}
-                </option>
-              ))}
-            </select>
-            <div className="input-helper">
-              <span className="helper-text">
-                {wizardState.type === 'humanoid' && 'Intelligent beings with human-like characteristics'}
-                {wizardState.type === 'beast' && 'Natural animals and creatures'}
-                {wizardState.type === 'undead' && 'Creatures animated by negative energy'}
-                {wizardState.type === 'fiend' && 'Evil creatures from lower planes'}
-                {wizardState.type === 'celestial' && 'Good creatures from upper planes'}
-                {wizardState.type === 'dragon' && 'Powerful reptilian creatures with magical abilities'}
-                {wizardState.type === 'fey' && 'Magical creatures from the Feywild'}
-                {wizardState.type === 'elemental' && 'Beings composed of elemental forces'}
-                {wizardState.type === 'aberration' && 'Alien and unnatural creatures'}
-                {wizardState.type === 'construct' && 'Artificial beings created through magic'}
-                {wizardState.type === 'giant' && 'Large humanoid creatures'}
-                {wizardState.type === 'monstrosity' && 'Unnatural creatures of magical origin'}
-                {wizardState.type === 'ooze' && 'Amorphous creatures without fixed form'}
-                {wizardState.type === 'plant' && 'Vegetable creatures and animated plants'}
-              </span>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="creature-size" className="required-label">
-              Size Category
-              <span className="required-asterisk">*</span>
-            </label>
-            <select
-              id="creature-size"
-              value={wizardState.size}
-              onChange={handleSizeChange}
-              className="enhanced-select"
-            >
-              {Object.values(CREATURE_SIZES).map(size => (
-                <option key={size} value={size}>
-                  {formatSizeName(size)}
-                </option>
-              ))}
-            </select>
-            <div className="input-helper">
-              <span className="helper-text">
-                {wizardState.size === 'tiny' && 'Up to 2.5 feet (halfling, sprite)'}
-                {wizardState.size === 'small' && '2.5 to 5 feet (gnome, kobold)'}
-                {wizardState.size === 'medium' && '5 to 10 feet (human, orc)'}
-                {wizardState.size === 'large' && '10 to 15 feet (ogre, centaur)'}
-                {wizardState.size === 'huge' && '15 to 20 feet (giant, dragon)'}
-                {wizardState.size === 'gargantuan' && '20+ feet (ancient dragon, kraken)'}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Tags & Organization Section */}
-      <div className="form-section">
-        <h3 className="section-title">Tags & Organization</h3>
-        <p className="section-description">
-          Add descriptive tags to help organize and search for your creature in the library.
-        </p>
-
-        <div className="form-row single-column">
-          <div className="form-group">
-            <label htmlFor="creature-tags">
-              Descriptive Tags
-              <span className="optional-label">(Optional)</span>
-            </label>
-            <div className="tags-input-container">
+            <div className="form-group">
+              <label htmlFor="creature-name" className="required-label">
+                Creature Name
+                <span className="required-asterisk">*</span>
+              </label>
               <input
-                id="creature-tags"
+                id="creature-name"
                 type="text"
-                placeholder="Type a tag and press Enter (e.g., undead, fire, boss, aquatic, flying)"
-                onKeyDown={handleTagInput}
-                className="tags-input"
+                value={wizardState.name}
+                onChange={handleNameChange}
+                placeholder="Enter creature name"
+                className={wizardState.validationErrors.name ? 'error' : ''}
+                maxLength={50}
               />
-              <div className="tags-container">
-                {wizardState.tags.map(tag => (
-                  <div key={tag} className="tag">
-                    <span className="tag-text">{tag}</span>
-                    <button
-                      type="button"
-                      className="remove-tag"
-                      onClick={() => handleRemoveTag(tag)}
-                      title={`Remove ${tag} tag`}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-              </div>
               <div className="input-helper">
-                <span className="helper-text">
-                  Suggested tags: environment (forest, desert, aquatic), abilities (flying, burrowing),
-                  elements (fire, ice, poison), role (boss, minion, scout), intelligence (intelligent, beast)
-                </span>
+                <span className="character-count">{wizardState.name.length}/50</span>
+                {wizardState.validationErrors.name && (
+                  <div className="error-message">{wizardState.validationErrors.name}</div>
+                )}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="creature-description">
+                Description & Lore
+                <span className="optional-label">(Optional)</span>
+              </label>
+              <textarea
+                id="creature-description"
+                value={wizardState.description}
+                onChange={handleDescriptionChange}
+                placeholder="Describe appearance, behavior, habitat, and lore..."
+                rows={3}
+                maxLength={1000}
+              />
+              <div className="input-helper">
+                <span className="character-count">{wizardState.description.length}/1000</span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Visual Design Section */}
-      <div className="form-section">
-        <h3 className="section-title">Visual Design</h3>
-        <p className="section-description">
-          Customize how your creature appears on the battle map and in the creature library.
-        </p>
+          {/* Middle Column - Classification */}
+          <div className="form-column">
+            <h3 className="section-title">Classification</h3>
 
-        <div className="form-row single-column">
-          <div className="form-group">
-            <label>Token Appearance & Visual Design</label>
-            <div className="token-appearance-container">
-              <div className="token-preview-section">
-                <div className="token-preview-label">Preview</div>
+            <div className="form-group">
+              <label htmlFor="creature-type" className="required-label">
+                Type
+                <span className="required-asterisk">*</span>
+              </label>
+              <select
+                id="creature-type"
+                value={wizardState.type}
+                onChange={handleTypeChange}
+                className="enhanced-select"
+              >
+                {Object.values(CREATURE_TYPES).map(type => (
+                  <option key={type} value={type}>
+                    {formatTypeName(type)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="creature-size" className="required-label">
+                Size
+                <span className="required-asterisk">*</span>
+              </label>
+              <select
+                id="creature-size"
+                value={wizardState.size}
+                onChange={handleSizeChange}
+                className="enhanced-select"
+              >
+                {Object.values(CREATURE_SIZES).map(size => (
+                  <option key={size} value={size}>
+                    {formatSizeName(size)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Right Column - Token Preview */}
+          <div className="form-column">
+            <h3 className="section-title">Token Appearance</h3>
+
+            <div className="form-group">
+              <div className="token-preview-compact">
                 <div
-                  className="token-icon enhanced-token"
+                  className="token-icon-compact"
                   style={{
                     backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${wizardState.tokenIcon}.jpg)`,
                     borderColor: wizardState.tokenBorder
@@ -464,74 +374,102 @@ const Step1BasicInfo = () => {
                   onClick={() => setShowIconPicker(!showIconPicker)}
                   title="Click to change icon"
                 >
-                  <div className="token-overlay">
-                    <span className="change-icon-text">Click to Change</span>
+                  <div className="token-overlay-compact">
+                    <span className="change-icon-text-compact">Change</span>
                   </div>
                 </div>
-                <div className="token-info">
-                  <span className="token-name">{wizardState.name || 'Unnamed Creature'}</span>
-                  <span className="token-details">{formatSizeName(wizardState.size)} {formatTypeName(wizardState.type)}</span>
-                </div>
-              </div>
-
-              <div className="token-controls">
-                <div className="control-group">
-                  <button
-                    type="button"
-                    className={`token-control-button ${showIconPicker ? 'active' : ''}`}
-                    onClick={() => setShowIconPicker(!showIconPicker)}
-                  >
-                    {showIconPicker ? '✓ Close Icon Picker' : '🎨 Browse Icons'}
-                  </button>
-                </div>
-
-                <div className="border-color-picker">
-                  <label className="color-picker-label">Border Color</label>
-                  <div className="color-options">
-                    {sampleColors.map(color => (
-                      <div
-                        key={color}
-                        className={`color-option ${wizardState.tokenBorder === color ? 'selected' : ''}`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => handleBorderColorSelect(color)}
-                        title={`Select ${color} border`}
-                      >
-                        {wizardState.tokenBorder === color && <span className="checkmark">✓</span>}
-                      </div>
-                    ))}
-                  </div>
+                <div className="token-info-compact">
+                  <span className="token-name-compact">{wizardState.name || 'Unnamed Creature'}</span>
+                  <span className="token-details-compact">{formatSizeName(wizardState.size)} {formatTypeName(wizardState.type)}</span>
                 </div>
               </div>
             </div>
 
-            {showIconPicker && (
-              <div className="icon-picker enhanced-picker">
-                <div className="picker-header">
-                  <h4>Choose an Icon</h4>
-                  <span className="picker-subtitle">Select an icon that best represents your creature</span>
-                </div>
-                <div className="icon-grid">
-                  {sampleIcons.map(icon => (
-                    <div
-                      key={icon}
-                      className={`icon-option ${wizardState.tokenIcon === icon ? 'selected' : ''}`}
-                      style={{ backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg)` }}
-                      onClick={() => handleIconSelect(icon)}
-                      title={`Select ${icon} icon`}
-                    >
-                      {wizardState.tokenIcon === icon && (
-                        <div className="selection-indicator">
-                          <span className="checkmark">✓</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+            {/* Border Color Picker - Moved here for better organization */}
+            <div className="form-group">
+              <label className="color-picker-label">Border Color</label>
+              <div className="color-options compact">
+                {sampleColors.slice(0, 8).map(color => (
+                  <div
+                    key={color}
+                    className={`color-option ${wizardState.tokenBorder === color ? 'selected' : ''}`}
+                    style={{ backgroundColor: color }}
+                    onClick={() => handleBorderColorSelect(color)}
+                    title={`Select ${color} border`}
+                  >
+                    {wizardState.tokenBorder === color && <span className="checkmark">✓</span>}
+                  </div>
+                ))}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Tags Section - More compact */}
+      <div className="form-section">
+        <h3 className="section-title">Tags & Organization</h3>
+
+        <div className="form-group">
+          <label htmlFor="creature-tags">
+            Descriptive Tags
+            <span className="optional-label">(Optional)</span>
+          </label>
+          <div className="tags-input-container">
+            <input
+              id="creature-tags"
+              type="text"
+              placeholder="Type a tag and press Enter (e.g., undead, fire, boss, aquatic, flying)"
+              onKeyDown={handleTagInput}
+              className="tags-input"
+            />
+            <div className="tags-container">
+              {wizardState.tags.map(tag => (
+                <div key={tag} className="tag">
+                  <span className="tag-text">{tag}</span>
+                  <button
+                    type="button"
+                    className="remove-tag"
+                    onClick={() => handleRemoveTag(tag)}
+                    title={`Remove ${tag} tag`}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Icon Picker */}
+      {showIconPicker && (
+        <div className="form-section">
+          <div className="icon-picker enhanced-picker">
+            <div className="picker-header">
+              <h4>Choose an Icon</h4>
+              <span className="picker-subtitle">Select an icon that best represents your creature</span>
+            </div>
+            <div className="icon-grid">
+              {sampleIcons.map(icon => (
+                <div
+                  key={icon}
+                  className={`icon-option ${wizardState.tokenIcon === icon ? 'selected' : ''}`}
+                  style={{ backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg)` }}
+                  onClick={() => handleIconSelect(icon)}
+                  title={`Select ${icon} icon`}
+                >
+                  {wizardState.tokenIcon === icon && (
+                    <div className="selection-indicator">
+                      <span className="checkmark">✓</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

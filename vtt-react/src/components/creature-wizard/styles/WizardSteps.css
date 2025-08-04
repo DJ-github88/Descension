@@ -125,6 +125,47 @@
   flex-direction: column;
 }
 
+/* Two-column layout for forms */
+.form-row.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* Three-column layout for better organization */
+.form-row.three-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 25px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .form-row.three-column {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-row.three-column .form-column:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row.three-column {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+/* Form column styling for grid layouts */
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .form-group {
   flex: 1;
   display: flex;
@@ -528,6 +569,12 @@
   gap: 8px;
   justify-content: center;
   max-width: 250px;
+}
+
+.color-options.compact {
+  gap: 6px;
+  max-width: 200px;
+  justify-content: flex-start;
 }
 
 .color-option {

@@ -327,17 +327,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
           <div
             style={{
               fontSize: '12px',
-              color: '#d4c4a8',
+              color: '#1a0f08',
               marginBottom: '16px',
               lineHeight: '1.5',
               fontStyle: 'italic',
-              background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(160, 140, 112, 0.1) 100%)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 230, 210, 0.3) 100%)',
               border: '1px solid rgba(139, 69, 19, 0.3)',
               borderRadius: '8px',
               padding: '10px 12px',
               textAlign: 'justify',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-              position: 'relative'
+              textShadow: '1px 1px 1px rgba(255, 255, 255, 0.3)',
+              position: 'relative',
+              fontWeight: '500'
             }}
           >
             {/* Decorative quote marks */}

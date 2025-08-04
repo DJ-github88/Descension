@@ -151,11 +151,6 @@ const DraggableWindow = forwardRef(({
         // Update position immediately for fluid dragging
         setPosition({ x: data.x, y: data.y });
 
-        // Update transform directly for immediate visual feedback
-        if (nodeRef.current) {
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px)`;
-        }
-
         // Call the onDrag callback during dragging for real-time updates
         if (onDrag && data && typeof data === 'object') {
             onDrag(data);

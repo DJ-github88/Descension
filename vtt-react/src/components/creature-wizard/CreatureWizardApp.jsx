@@ -150,73 +150,105 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
     }
   };
 
+  // Helper function to get step status
+  const getStepStatus = (stepIndex) => {
+    const stepNumber = stepIndex + 1;
+    if (stepNumber === wizardState.currentStep) return 'active';
+    if (stepNumber < wizardState.currentStep) return 'completed';
+    return 'pending';
+  };
+
+  // Step names array for easier management
+  const stepNames = [
+    { name: 'Basic Info', description: 'Define creature identity and appearance' },
+    { name: 'Statistics', description: 'Set creature stats and abilities' },
+    { name: 'Abilities', description: 'Configure special abilities and powers' },
+    { name: 'Loot Table', description: 'Set up treasure and rewards' },
+    { name: 'Shop Config', description: 'Configure merchant settings' }
+  ];
+
   return (
     <>
-      <div className="creature-wizard">
-        <div className="creature-wizard-content">
+      <div className="spellbook-wizard-layout">
+        {/* Main content area - full expansion with padding for overlay */}
+        <div className="wizard-main-content">
           {renderStep()}
         </div>
 
-      <div className="creature-wizard-footer">
-        <div className="wizard-progress">
-          <div className="progress-steps">
-            {Array.from({ length: wizardState.totalSteps }, (_, i) => (
-              <div
-                key={i + 1}
-                className={`progress-step ${wizardState.currentStep === i + 1 ? 'active' : ''} ${wizardState.currentStep > i + 1 ? 'completed' : ''}`}
-                onClick={() => wizardDispatch(wizardActionCreators.goToStep(i + 1))}
-              >
-                <div className="step-number">{i + 1}</div>
-                <div className="step-label">
-                  {i === 0 && 'Basic Info'}
-                  {i === 1 && 'Statistics'}
-                  {i === 2 && 'Abilities'}
-                  {i === 3 && 'Loot Table'}
-                  {i === 4 && 'Shop Config'}
+        {/* Fixed Progress Bar Overlay - positioned within the creature wizard window */}
+        <div className="wizard-progress-overlay">
+          <div className="spell-wizard-progress-bar">
+            <div
+              className="spell-wizard-progress-fill"
+              style={{
+                width: `${(wizardState.currentStep / wizardState.totalSteps) * 100}%`
+              }}
+            />
+            <div className="spell-wizard-progress-segments">
+              {Array.from({ length: wizardState.totalSteps }, (_, index) => (
+                <div
+                  key={index + 1}
+                  className={`spell-wizard-progress-segment ${getStepStatus(index)} ${
+                    wizardState.currentStep === index + 1 ? 'active' : ''
+                  }`}
+                  onClick={() => wizardDispatch(wizardActionCreators.goToStep(index + 1))}
+                >
+                  <span className="spell-step-number">{index + 1}</span>
+                  <div className="spell-step-tooltip">
+                    <div className="spell-tooltip-header">
+                      <span className="spell-tooltip-title">Step {index + 1}</span>
+                    </div>
+                    <div className="spell-tooltip-content">
+                      <div className="spell-tooltip-name">{stepNames[index]?.name}</div>
+                      {stepNames[index]?.description && (
+                        <div className="spell-tooltip-description">{stepNames[index].description}</div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="wizard-buttons">
-          <button
-            className="wizard-button secondary"
-            onClick={handleCancel}
-            disabled={isSubmitting}
-          >
-            Cancel
-          </button>
-
-          <div className="navigation-buttons">
+          {/* Navigation buttons in the overlay */}
+          <div className="wizard-buttons">
             <button
-              className="wizard-button"
-              onClick={handlePrevStep}
-              disabled={wizardState.currentStep === 1 || isSubmitting}
+              className="wizard-button secondary"
+              onClick={handleCancel}
+              disabled={isSubmitting}
             >
-              Previous
+              Cancel
             </button>
 
-            {wizardState.currentStep < wizardState.totalSteps ? (
+            <div className="navigation-buttons">
               <button
-                className="wizard-button primary"
-                onClick={handleNextStep}
-                disabled={isSubmitting}
+                className="wizard-button"
+                onClick={handlePrevStep}
+                disabled={wizardState.currentStep === 1 || isSubmitting}
               >
-                Next
+                Previous
               </button>
-            ) : (
-              <button
-                className="wizard-button primary"
-                onClick={handleSave}
-                disabled={isSubmitting || !wizardState.isValid}
-              >
-                {isSubmitting ? 'Saving...' : 'Save Creature'}
-              </button>
-            )}
+
+              {wizardState.currentStep < wizardState.totalSteps ? (
+                <button
+                  className="wizard-button primary"
+                  onClick={handleNextStep}
+                  disabled={isSubmitting}
+                >
+                  Next
+                </button>
+              ) : (
+                <button
+                  className="wizard-button primary"
+                  onClick={handleSave}
+                  disabled={isSubmitting || !wizardState.isValid}
+                >
+                  {isSubmitting ? 'Saving...' : 'Save Creature'}
+                </button>
+              )}
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       {/* External Creature Preview */}
