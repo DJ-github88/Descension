@@ -1,11 +1,13 @@
 // User profile component with account management
 import React, { useState } from 'react';
 import useAuthStore from '../../store/authStore';
+import CharacterManager from './CharacterManager';
 import './styles/UserProfile.css';
 
 const UserProfile = ({ isOpen, onClose }) => {
   const { user, userData, signOut, updateUserData, isLoading } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
+  const [showCharacterManager, setShowCharacterManager] = useState(false);
   const [editData, setEditData] = useState({
     displayName: userData?.displayName || '',
     preferences: {
@@ -223,11 +225,29 @@ const UserProfile = ({ isOpen, onClose }) => {
             </div>
           )}
 
+          {/* Character Management */}
+          <div className="profile-section">
+            <h3>Character Management</h3>
+            <div className="character-summary">
+              <div className="character-count">
+                <label>Characters Created:</label>
+                <span>{userData?.characters?.length || 0}</span>
+              </div>
+              <button
+                className="manage-characters-btn"
+                onClick={() => setShowCharacterManager(true)}
+              >
+                <i className="fas fa-users"></i>
+                Manage Characters
+              </button>
+            </div>
+          </div>
+
           {/* Account Actions */}
           <div className="profile-section">
             <h3>Account Actions</h3>
             <div className="action-buttons">
-              <button 
+              <button
                 className="sign-out-btn"
                 onClick={handleSignOut}
               >
@@ -237,6 +257,16 @@ const UserProfile = ({ isOpen, onClose }) => {
             </div>
           </div>
         </div>
+
+        {/* Character Manager Modal */}
+        <CharacterManager
+          isOpen={showCharacterManager}
+          onClose={() => setShowCharacterManager(false)}
+          onCreateCharacter={(character) => {
+            console.log('Character selected:', character);
+            setShowCharacterManager(false);
+          }}
+        />
       </div>
     </div>
   );
