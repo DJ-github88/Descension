@@ -25,8 +25,8 @@ const ExternalLivePreview = () => {
   const spellbookY = windowPosition?.y || ((window.innerHeight - 700) / 2);
 
   const position = {
-    left: spellbookX + spellbookWidth - 30, // Move much closer - more overlap
-    top: spellbookY + 10, // Even closer to the header
+    left: spellbookX + spellbookWidth + 10, // Small gap from spellbook
+    top: spellbookY + 60, // Aligned with content area
     position: 'fixed',
     zIndex: 9998,
     width: '340px', // Slightly smaller width

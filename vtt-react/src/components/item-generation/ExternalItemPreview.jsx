@@ -18,9 +18,9 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
   const wizardY = windowPosition?.y || 50;
   const tooltipWidth = 350;
 
-  // Position the tooltip much closer to the wizard window
-  let tooltipX = wizardX + wizardWidth - 20; // Overlap with wizard
-  const tooltipY = wizardY + 40; // Closer to wizard header
+  // Position the tooltip with a small gap from the wizard window
+  let tooltipX = wizardX + wizardWidth + 15; // Small gap from wizard
+  const tooltipY = wizardY + 60; // Aligned with content area
 
   // Check if tooltip would go off screen, if so position to the left of wizard
   if (tooltipX + tooltipWidth > window.innerWidth - 20) {
