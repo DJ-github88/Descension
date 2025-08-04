@@ -69,69 +69,11 @@ app.get('/rooms', (req, res) => {
   res.json(publicRooms);
 });
 
-// Persistent storage with file backup
-const ROOMS_FILE = path.join(__dirname, 'rooms.json');
+// Hosted room system - rooms exist only in memory while server is running
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
 
-// Load rooms from file on startup
-function loadRooms() {
-  try {
-    if (fs.existsSync(ROOMS_FILE)) {
-      const data = fs.readFileSync(ROOMS_FILE, 'utf8');
-      const roomsData = JSON.parse(data);
-
-      // Convert back to Map and restore player Maps
-      Object.entries(roomsData).forEach(([roomId, roomData]) => {
-        // Convert players object back to Map
-        const playersMap = new Map();
-        if (roomData.players && typeof roomData.players === 'object') {
-          Object.entries(roomData.players).forEach(([playerId, playerData]) => {
-            playersMap.set(playerId, playerData);
-          });
-        }
-
-        rooms.set(roomId, {
-          ...roomData,
-          players: playersMap
-        });
-      });
-
-      console.log(`Loaded ${rooms.size} rooms from storage`);
-    }
-  } catch (error) {
-    console.error('Error loading rooms:', error);
-  }
-}
-
-// Save rooms to file
-function saveRooms() {
-  try {
-    const roomsData = {};
-
-    // Convert Map to object for JSON serialization
-    rooms.forEach((room, roomId) => {
-      // Convert players Map to object
-      const playersObj = {};
-      room.players.forEach((player, playerId) => {
-        playersObj[playerId] = player;
-      });
-
-      roomsData[roomId] = {
-        ...room,
-        players: playersObj
-      };
-    });
-
-    fs.writeFileSync(ROOMS_FILE, JSON.stringify(roomsData, null, 2));
-    console.log(`Saved ${rooms.size} rooms to storage`);
-  } catch (error) {
-    console.error('Error saving rooms:', error);
-  }
-}
-
-// Load rooms on startup
-loadRooms();
+console.log('Mythrill VTT Server - Hosted room system initialized');
 
 // Room management functions
 function createRoom(roomName, gmName, gmSocketId, password) {
@@ -171,7 +113,7 @@ function createRoom(roomName, gmName, gmSocketId, password) {
     isGM: true
   });
 
-  saveRooms(); // Persist to file
+  console.log(`Room created: ${room.name} (${room.id}) - Total rooms: ${rooms.size}`);
   return room;
 }
 
@@ -214,7 +156,7 @@ function joinRoom(roomId, playerName, socketId, password) {
     isGM: false
   });
 
-  saveRooms(); // Persist to file
+  console.log(`Player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
   return { room, player };
 }
 
@@ -227,15 +169,16 @@ function leaveRoom(socketId) {
   
   if (player.isGM) {
     // GM left - close the room
+    console.log(`GM left, closing room: ${room.name} (${room.id})`);
     rooms.delete(player.roomId);
-    saveRooms(); // Persist to file
+    players.delete(socketId);
     // Notify all players
     return { type: 'room_closed', room };
   } else {
     // Regular player left
+    console.log(`Player ${player.name} left room: ${room.name}`);
     room.players.delete(player.id);
     players.delete(socketId);
-    saveRooms(); // Persist to file
     return { type: 'player_left', room, player };
   }
 }
@@ -381,12 +324,12 @@ io.on('connection', (socket) => {
     
     // Store in room history
     room.chatHistory.push(message);
-    
+
     // Keep only last 100 messages
     if (room.chatHistory.length > 100) {
       room.chatHistory = room.chatHistory.slice(-100);
     }
-    
+
     // Broadcast to all players in the room
     io.to(player.roomId).emit('chat_message', message);
   });

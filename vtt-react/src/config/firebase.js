@@ -10,6 +10,9 @@ const isFirebaseConfigured = !!(
   process.env.REACT_APP_FIREBASE_PROJECT_ID
 );
 
+// Demo mode for development - set to true to enable demo authentication
+const isDemoMode = process.env.NODE_ENV === 'development' && !isFirebaseConfigured;
+
 // Firebase configuration
 const firebaseConfig = isFirebaseConfigured ? {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,6 +33,8 @@ if (isFirebaseConfigured && firebaseConfig) {
   } catch (error) {
     console.warn('Firebase initialization failed:', error);
   }
+} else if (isDemoMode) {
+  console.log('Running in demo mode - using mock authentication');
 } else {
   console.warn('Firebase not configured - authentication features will be disabled');
 }
@@ -69,5 +74,5 @@ if (app) {
   }
 }
 
-export { isFirebaseConfigured };
+export { isFirebaseConfigured, isDemoMode };
 export default app;

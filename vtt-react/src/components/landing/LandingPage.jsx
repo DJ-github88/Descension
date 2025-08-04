@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import CharacterCreation from '../character-creation/CharacterCreation';
+import AccountWindow from '../auth/AccountWindow';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCharacterCreation, setShowCharacterCreation] = useState(false);
+  const [showAccountWindow, setShowAccountWindow] = useState(false);
 
   // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
@@ -229,11 +231,25 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           <div className="account-card">
             <h3>Create Account</h3>
             <p>Sign up for your Mythrill account to save characters, join campaigns, and connect with other players.</p>
-            <div className="placeholder-form">
-              <input type="email" placeholder="Email Address" disabled />
-              <input type="password" placeholder="Password" disabled />
-              <input type="password" placeholder="Confirm Password" disabled />
-              <button className="form-btn" disabled>Account System Coming Soon</button>
+            <div className="account-features">
+              <div className="feature-item">
+                <i className="fab fa-google"></i>
+                <span>Google OAuth Integration</span>
+              </div>
+              <div className="feature-item">
+                <i className="fas fa-shield-alt"></i>
+                <span>Secure Authentication</span>
+              </div>
+              <div className="feature-item">
+                <i className="fas fa-cloud"></i>
+                <span>Cloud Character Storage</span>
+              </div>
+              <button
+                className="form-btn"
+                onClick={() => setShowAccountWindow(true)}
+              >
+                Open Account Manager
+              </button>
             </div>
           </div>
           
@@ -373,6 +389,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           onCancel={handleCharacterCreationCancel}
         />
       )}
+
+      {/* Account Window */}
+      <AccountWindow
+        isOpen={showAccountWindow}
+        onClose={() => setShowAccountWindow(false)}
+      />
     </div>
   );
 };

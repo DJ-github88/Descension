@@ -10,16 +10,25 @@ import {
   sendEmailVerification
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { auth, googleProvider, db, isFirebaseConfigured } from '../config/firebase';
+import { auth, googleProvider, db, isFirebaseConfigured, isDemoMode } from '../config/firebase';
+import demoAuthService from './demoAuthService';
 
 class AuthService {
   constructor() {
     this.currentUser = null;
     this.authStateListeners = [];
-    this.isConfigured = isFirebaseConfigured;
+    this.isConfigured = isFirebaseConfigured || isDemoMode;
+    this.isDemoMode = isDemoMode;
+
+    // Use demo service if in demo mode
+    if (this.isDemoMode) {
+      console.log('AuthService: Using demo authentication');
+      // Return the demo service instance instead
+      return demoAuthService;
+    }
 
     // Listen for auth state changes only if Firebase is configured
-    if (auth && this.isConfigured) {
+    if (auth && isFirebaseConfigured) {
       onAuthStateChanged(auth, (user) => {
         this.currentUser = user;
         this.authStateListeners.forEach(listener => listener(user));
