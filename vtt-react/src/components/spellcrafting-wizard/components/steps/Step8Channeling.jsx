@@ -1309,8 +1309,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
                     <div style={{
                       fontSize: '12px',
-                      color: !channelingConfig.interruptible ? '#ff9999' : '#bac2de',
-                      background: 'rgba(0, 0, 0, 0.2)',
+                      color: !channelingConfig.interruptible ? 'var(--pf-error)' : 'var(--pf-text-secondary)',
+                      background: 'var(--pf-gradient-parchment-dark)',
                       padding: '8px',
                       borderRadius: '4px',
                       textAlign: 'center',
@@ -1358,8 +1358,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
                     <div style={{
                       fontSize: '12px',
-                      color: !channelingConfig.movementAllowed ? '#ffaa66' : '#bac2de',
-                      background: 'rgba(0, 0, 0, 0.2)',
+                      color: !channelingConfig.movementAllowed ? 'var(--pf-warning)' : 'var(--pf-text-secondary)',
+                      background: 'var(--pf-gradient-parchment-dark)',
                       padding: '8px',
                       borderRadius: '4px',
                       textAlign: 'center',
@@ -1388,7 +1388,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     fontSize: '20px',
                     filter: 'drop-shadow(0 0 3px rgba(102, 204, 255, 0.5))'
                   }} />
-                  <div style={{ fontSize: '14px', color: '#cdd6f4', lineHeight: '1.4' }}>
+                  <div style={{ fontSize: '14px', color: 'var(--pf-text-primary)', lineHeight: '1.4' }}>
                     <strong style={{ color: '#ffd700' }}>Total Duration:</strong> {channelingConfig.maxDuration} {channelingConfig.durationUnit || 'turns'} &nbsp;|&nbsp;
                     <strong style={{ color: '#ff4444' }}> Interruption:</strong> {!channelingConfig.interruptible ? "Cannot be interrupted" : "Can be interrupted"} &nbsp;|&nbsp;
                     <strong style={{ color: '#ff7700' }}> Movement:</strong> {!channelingConfig.movementAllowed ? "Must stand still" : "Can move"}
@@ -1503,7 +1503,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                           </div>
 
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <div style={{ flex: '0 0 80px', color: '#cdd6f4' }}>Formula:</div>
+                            <div style={{ flex: '0 0 80px', color: 'var(--pf-text-primary)' }}>Formula:</div>
                             <input
                               type="text"
                               value={round.formula}
@@ -1609,7 +1609,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                           </div>
 
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <div style={{ flex: '0 0 80px', color: '#cdd6f4' }}>Formula:</div>
+                            <div style={{ flex: '0 0 80px', color: 'var(--pf-text-primary)' }}>Formula:</div>
                             <input
                               type="text"
                               value={round.formula}
@@ -1739,14 +1739,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       </button>
                     </div>
 
-                    <div style={{
-                      fontSize: '12px',
-                      color: '#bac2de',
-                      background: 'rgba(0, 0, 0, 0.2)',
-                      padding: '8px',
-                      borderRadius: '4px',
+                    <div className="pf-info-text" style={{
                       textAlign: 'center',
-                      boxShadow: 'inset 0 0 5px rgba(0, 0, 0, 0.2)'
+                      padding: '8px',
+                      background: 'var(--pf-gradient-parchment-dark)',
+                      borderRadius: '4px'
                     }}>
                       <span style={{
                         fontWeight: 'bold',
@@ -1837,13 +1834,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                       })}
                     </div>
 
-                    <div style={{
-                      fontSize: '12px',
-                      color: '#bac2de',
-                      background: 'rgba(0, 0, 0, 0.2)',
+                    <div className="pf-info-text" style={{
+                      textAlign: 'center',
                       padding: '8px',
-                      borderRadius: '4px',
-                      textAlign: 'center'
+                      background: 'var(--pf-gradient-parchment-dark)',
+                      borderRadius: '4px'
                     }}>
                       {state.resourceCost?.primaryResourceType ?
                         `Using ${state.resourceCost.primaryResourceType} from Resources step` :
@@ -1930,7 +1925,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     fontSize: '20px',
                     filter: 'drop-shadow(0 0 3px rgba(255, 204, 0, 0.5))'
                   }} />
-                  <div style={{ fontSize: '14px', color: '#cdd6f4', lineHeight: '1.4' }}>
+                  <div style={{ fontSize: '14px', color: 'var(--pf-text-primary)', lineHeight: '1.4' }}>
                     <strong style={{ color: '#ffcc00' }}>Resource Cost:</strong> <span style={{
                       color: channelingConfig.costType === 'mana' ? '#0077ff' :
                              channelingConfig.costType === 'rage' ? '#ff0000' :
