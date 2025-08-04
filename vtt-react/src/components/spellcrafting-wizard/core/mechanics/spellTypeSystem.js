@@ -111,6 +111,14 @@ const SPELL_TYPES = {
       allowedEffects: ['damage', 'heal', 'buff', 'debuff', 'utility'],
       allowedTargeting: ['self', 'single', 'area'],
       allowedDurations: ['permanent', 'conditional', 'timed'],
+
+      // State-specific properties
+      activationCondition: null, // Must be defined for each state spell
+      cooldownAfterTrigger: 0, // Default: no cooldown between triggers
+      maxTriggers: -1, // Default: unlimited triggers
+      resourceThreshold: null, // Resource-based activation threshold
+      stateVisibility: 'visible', // Whether the state is visible to others
+      deactivationCondition: null, // Condition to deactivate the state
     },
 
     ZONE: {
@@ -129,26 +137,6 @@ const SPELL_TYPES = {
       leaveTrail: false, // Whether the zone leaves a trail as it moves
       trailDuration: 3, // Default duration for how long each trail segment remains active
       trailDurationUnit: 'rounds' // Unit for trail duration (seconds, minutes, hours, days, weeks, rounds, turns)
-    },
-
-    STATE: {
-      id: 'state',
-      name: 'State Spell',
-      description: 'Always-present spells that activate when specific conditions are met',
-      icon: 'state-icon',
-      actionPointCost: 0, // No action cost to trigger as it's automatic
-      allowedEffects: ['damage', 'heal', 'buff', 'debuff', 'utility'],
-      allowedTargeting: ['self', 'single', 'area'],
-      allowedDurations: ['permanent', 'conditional', 'timed'],
-
-      // State-specific properties
-      activationCondition: null, // Must be defined for each state spell
-      cooldownAfterTrigger: 0, // Default: no cooldown between triggers
-      maxTriggers: -1, // Default: unlimited triggers
-      resourceThreshold: null, // Resource-based activation threshold
-      stateVisibility: 'visible', // Whether the state is visible to others
-      deactivationCondition: null, // Condition to deactivate the state
-      // Removed triggerPriority
     }
   };
 
