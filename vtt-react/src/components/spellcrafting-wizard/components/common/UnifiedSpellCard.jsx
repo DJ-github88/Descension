@@ -870,14 +870,7 @@ const UnifiedSpellCard = ({
           bullets.push(typeConfig.movementAllowed ? 'Can move while channeling' : 'Must stand still');
         }
 
-        // Show resource cost frequency
-        if (spell.resourceCost && spell.resourceCost.channelingFrequency) {
-          const frequency = spell.resourceCost.channelingFrequency;
-          const frequencyText = frequency === 'perRound' ? 'per round' :
-                               frequency === 'atStart' ? 'at start' :
-                               frequency === 'atEnd' ? 'at end' : frequency;
-          bullets.push(`Resource cost: ${frequencyText}`);
-        }
+        // Note: Resource cost frequency is now shown next to the resource costs, not as a separate bullet
 
         // Show concentration DC (including base DC 10)
         if (typeConfig.concentrationDC !== undefined) {
@@ -1222,9 +1215,23 @@ const UnifiedSpellCard = ({
 
         // Show resource if it uses a formula OR has a value > 0
         if ((useFormula && formula) || (amount > 0)) {
+          // Format the amount with frequency for channeling spells
+          let displayAmount = useFormula ? formula : amount;
+
+          // Add frequency for channeling spells
+          if (spell.spellType === 'CHANNELED' && spell.resourceCost.channelingFrequency) {
+            const frequency = spell.resourceCost.channelingFrequency;
+            const frequencyText = frequency === 'per_round' ? '/round' :
+                                 frequency === 'per_turn' ? '/turn' :
+                                 frequency === 'per_second' ? '/sec' :
+                                 frequency === 'atStart' ? ' (at start)' :
+                                 frequency === 'atEnd' ? ' (at end)' : '';
+            displayAmount = `${displayAmount}${frequencyText}`;
+          }
+
           resources.push({
             type: type.toLowerCase().replace(/\s+/g, '-'),
-            amount: useFormula ? formula : amount,
+            amount: displayAmount,
             name: formatResourceName(type),
             icon: getResourceIcon(type),
             color: getResourceColor(type),
