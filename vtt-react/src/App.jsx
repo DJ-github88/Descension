@@ -19,6 +19,10 @@ import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/
 import MultiplayerApp from "./components/multiplayer/MultiplayerApp";
 // Landing page
 import LandingPage from "./components/landing/LandingPage";
+// Authentication components
+import AuthModal from "./components/auth/AuthModal";
+import UserProfile from "./components/auth/UserProfile";
+import useAuthStore from "./store/authStore";
 
 
 import initChatStore from './utils/initChatStore';
@@ -65,11 +69,23 @@ function GameScreen() {
 
 export default function App() {
     const [gameMode, setGameMode] = useState('landing'); // 'landing', 'single', or 'multiplayer'
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [showUserProfile, setShowUserProfile] = useState(false);
+    const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
 
-    // Initialize stores with sample data
+    // Authentication store
+    const { initializeAuth, isAuthenticated, user } = useAuthStore();
+
+    // Initialize authentication and stores
     useEffect(() => {
         initChatStore();
         initCreatureStore();
+
+        // Initialize Firebase auth state listener
+        const unsubscribe = initializeAuth();
+
+        // Cleanup on unmount
+        return unsubscribe;
     }, []);
 
     // Control body overflow based on game mode
@@ -109,6 +125,29 @@ export default function App() {
         setGameMode('landing');
     };
 
+    // Authentication handlers
+    const handleShowLogin = () => {
+        setAuthMode('login');
+        setShowAuthModal(true);
+    };
+
+    const handleShowRegister = () => {
+        setAuthMode('register');
+        setShowAuthModal(true);
+    };
+
+    const handleShowUserProfile = () => {
+        setShowUserProfile(true);
+    };
+
+    const handleCloseAuthModal = () => {
+        setShowAuthModal(false);
+    };
+
+    const handleCloseUserProfile = () => {
+        setShowUserProfile(false);
+    };
+
     return (
         <GameProvider>
             <SpellLibraryProvider>
@@ -116,21 +155,51 @@ export default function App() {
                     <LandingPage
                         onEnterSinglePlayer={handleEnterSinglePlayer}
                         onEnterMultiplayer={handleEnterMultiplayer}
+                        onShowLogin={handleShowLogin}
+                        onShowRegister={handleShowRegister}
+                        onShowUserProfile={handleShowUserProfile}
+                        isAuthenticated={isAuthenticated}
+                        user={user}
                     />
                 )}
 
                 {gameMode === 'single' && (
                     <div className="spell-wizard-container">
                         <GameScreen />
-                        <Navigation onReturnToLanding={handleReturnToLanding} />
+                        <Navigation
+                            onReturnToLanding={handleReturnToLanding}
+                            onShowLogin={handleShowLogin}
+                            onShowUserProfile={handleShowUserProfile}
+                            isAuthenticated={isAuthenticated}
+                            user={user}
+                        />
                         {/* Global GM/Player toggle - always visible */}
                         <GMPlayerToggle />
                     </div>
                 )}
 
                 {gameMode === 'multiplayer' && (
-                    <MultiplayerApp onReturnToSinglePlayer={handleReturnToLanding} />
+                    <MultiplayerApp
+                        onReturnToSinglePlayer={handleReturnToLanding}
+                        onShowLogin={handleShowLogin}
+                        onShowUserProfile={handleShowUserProfile}
+                        isAuthenticated={isAuthenticated}
+                        user={user}
+                    />
                 )}
+
+                {/* Authentication Modal */}
+                <AuthModal
+                    isOpen={showAuthModal}
+                    onClose={handleCloseAuthModal}
+                    initialMode={authMode}
+                />
+
+                {/* User Profile Modal */}
+                <UserProfile
+                    isOpen={showUserProfile}
+                    onClose={handleCloseUserProfile}
+                />
             </SpellLibraryProvider>
         </GameProvider>
     );
