@@ -155,6 +155,17 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
       {state.spellType && (
         <div className="spell-type-config">
           <h4>{state.spellType} Configuration</h4>
+          <div style={{
+            backgroundColor: 'red',
+            color: 'white',
+            padding: '20px',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            border: '5px solid blue',
+            margin: '10px 0'
+          }}>
+            TEST: This should always be visible when a spell type is selected!
+          </div>
 
           {state.spellType === 'ACTION' && (
             <>
@@ -308,9 +319,18 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
             </div>
           )}
 
-          {state.spellType === 'PASSIVE' && (
-            <>
-              <div className="spell-wizard-form-row">
+          {state.spellType === 'PASSIVE' && (() => {
+            console.log('PASSIVE configuration is rendering!', state.spellType, state.typeConfig);
+            return (
+              <>
+                <div className="spell-wizard-form-row" style={{
+                  border: '3px solid red',
+                  backgroundColor: 'yellow',
+                  padding: '20px',
+                  minHeight: '100px',
+                  display: 'block !important',
+                  visibility: 'visible !important'
+                }}>
                 <div className="spell-wizard-form-group">
                   <div className="spell-wizard-checkbox-group">
                     <input
@@ -330,8 +350,9 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                   </small>
                 </div>
               </div>
-            </>
-          )}
+              </>
+            );
+          })()}
 
           {state.spellType === 'REACTION' && (
             <>

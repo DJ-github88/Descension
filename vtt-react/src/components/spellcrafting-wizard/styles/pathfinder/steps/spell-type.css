@@ -338,7 +338,7 @@
   border-radius: var(--pf-border-radius-lg);
   box-shadow: var(--pf-shadow-inset);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .spell-type-config::before {
