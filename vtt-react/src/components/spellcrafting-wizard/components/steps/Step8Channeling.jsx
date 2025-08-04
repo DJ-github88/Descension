@@ -1214,11 +1214,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     }}>
                       <FontAwesomeIcon icon={faClock} style={{
                         fontSize: '18px',
-                        color: '#ffd700',
-                        marginRight: '8px',
-                        filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.3))'
+                        color: 'var(--pf-brown-medium)',
+                        marginRight: '8px'
                       }} />
-                      <div style={{ fontWeight: 'bold', color: '#ffd700' }}>Duration</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Duration</div>
                     </div>
 
                     <div style={{
@@ -1389,7 +1388,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     filter: 'drop-shadow(0 0 3px rgba(102, 204, 255, 0.5))'
                   }} />
                   <div style={{ fontSize: '14px', color: 'var(--pf-text-primary)', lineHeight: '1.4' }}>
-                    <strong style={{ color: '#ffd700' }}>Total Duration:</strong> {channelingConfig.maxDuration} {channelingConfig.durationUnit || 'turns'} &nbsp;|&nbsp;
+                    <strong style={{ color: 'var(--pf-gold)' }}>Total Duration:</strong> {channelingConfig.maxDuration} {channelingConfig.durationUnit || 'turns'} &nbsp;|&nbsp;
                     <strong style={{ color: '#ff4444' }}> Interruption:</strong> {!channelingConfig.interruptible ? "Cannot be interrupted" : "Can be interrupted"} &nbsp;|&nbsp;
                     <strong style={{ color: '#ff7700' }}> Movement:</strong> {!channelingConfig.movementAllowed ? "Must stand still" : "Can move"}
                   </div>
@@ -1409,16 +1408,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             border: '1px solid #1a3c6e',
             marginTop: '24px'
           }}>
-            <h3 style={{
-              color: '#ffcc00',
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              textShadow: '0 0 5px rgba(255, 204, 0, 0.5)',
-              marginBottom: '12px',
-              fontSize: '20px',
-              fontWeight: 'bold'
-            }}>Channeled Effects</h3>
+            <h3 className="pf-section-title">Channeled Effects</h3>
             <p style={{
               color: '#a0b9d9',
               textAlign: 'center',
@@ -1657,11 +1647,11 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 justifyContent: 'center',
                 marginRight: '12px'
               }}>
-                <FontAwesomeIcon icon={faCoins} style={{ color: '#ffcc00', fontSize: '20px' }} />
+                <FontAwesomeIcon icon={faCoins} style={{ color: 'var(--pf-gold)', fontSize: '20px' }} />
               </div>
               <div className="effect-info">
                 <div className="effect-name" style={{
-                  color: '#ffcc00',
+                  color: 'var(--pf-text-primary)',
                   fontSize: '18px',
                   fontWeight: 'bold',
                   marginBottom: '4px'
@@ -1700,11 +1690,10 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                     }}>
                       <FontAwesomeIcon icon={faCoins} style={{
                         fontSize: '18px',
-                        color: '#ffcc00',
-                        marginRight: '8px',
-                        filter: 'drop-shadow(0 0 2px rgba(255, 204, 0, 0.3))'
+                        color: 'var(--pf-brown-medium)',
+                        marginRight: '8px'
                       }} />
-                      <div style={{ fontWeight: 'bold', color: '#ffcc00' }}>Cost Amount</div>
+                      <div style={{ fontWeight: 'bold', color: 'var(--pf-text-primary)' }}>Cost Amount</div>
                     </div>
 
                     <div style={{
@@ -1920,13 +1909,12 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.2)'
                 }}>
                   <FontAwesomeIcon icon={faInfoCircle} style={{
-                    color: '#ffcc00',
+                    color: 'var(--pf-brown-medium)',
                     marginRight: '12px',
-                    fontSize: '20px',
-                    filter: 'drop-shadow(0 0 3px rgba(255, 204, 0, 0.5))'
+                    fontSize: '20px'
                   }} />
                   <div style={{ fontSize: '14px', color: 'var(--pf-text-primary)', lineHeight: '1.4' }}>
-                    <strong style={{ color: '#ffcc00' }}>Resource Cost:</strong> <span style={{
+                    <strong style={{ color: 'var(--pf-gold)' }}>Resource Cost:</strong> <span style={{
                       color: channelingConfig.costType === 'mana' ? '#0077ff' :
                              channelingConfig.costType === 'rage' ? '#ff0000' :
                              channelingConfig.costType === 'energy' ? '#ffff00' :
@@ -2580,8 +2568,7 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
               }}>
                 <FontAwesomeIcon icon={faClock} style={{
                   fontSize: '24px',
-                  color: '#ffd700',
-                  filter: 'drop-shadow(0 0 3px rgba(255, 215, 0, 0.5))'
+                  color: 'var(--pf-gold)'
                 }} />
               </div>
               <div className="effect-preview-title">
@@ -2771,9 +2758,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               }}>
                                 <strong style={{ color: '#cdd6f4' }}>Round {round.round}:</strong>
                                 <span style={{
-                                  color: '#ffcc00',
+                                  color: 'var(--pf-gold)',
                                   fontFamily: 'monospace',
-                                  background: 'rgba(0, 0, 0, 0.3)',
+                                  background: 'var(--pf-gradient-parchment-dark)',
                                   padding: '2px 6px',
                                   borderRadius: '4px',
                                   fontSize: '13px'
@@ -2841,9 +2828,9 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                               }}>
                                 <strong style={{ color: '#cdd6f4' }}>Round {round.round}:</strong>
                                 <span style={{
-                                  color: '#ffcc00',
+                                  color: 'var(--pf-gold)',
                                   fontFamily: 'monospace',
-                                  background: 'rgba(0, 0, 0, 0.3)',
+                                  background: 'var(--pf-gradient-parchment-dark)',
                                   padding: '2px 6px',
                                   borderRadius: '4px',
                                   fontSize: '13px'
