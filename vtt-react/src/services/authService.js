@@ -86,21 +86,43 @@ class AuthService {
 
   // Sign in with Google
   async signInWithGoogle() {
+    console.log('🔍 Google sign-in debug info:');
+    console.log('- isConfigured:', this.isConfigured);
+    console.log('- auth:', !!auth);
+    console.log('- googleProvider:', !!googleProvider);
+
     if (!this.isConfigured || !auth || !googleProvider) {
-      return { error: 'Authentication not configured', success: false };
+      const errorMsg = 'Authentication not configured. Please check Firebase setup.';
+      console.error('❌', errorMsg);
+      return { error: errorMsg, success: false };
     }
 
     try {
+      console.log('🚀 Starting Google sign-in popup...');
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+      console.log('✅ Google sign-in successful:', user.email);
 
       // Create or update user document in Firestore
       await this.createUserDocument(user);
 
       return { user, success: true };
     } catch (error) {
-      console.error('Google sign in error:', error);
-      return { error: error.message, success: false };
+      console.error('❌ Google sign in error:', error);
+      console.log('Error code:', error.code);
+      console.log('Error message:', error.message);
+
+      // Provide more specific error messages
+      let userFriendlyMessage = error.message;
+      if (error.code === 'auth/popup-closed-by-user') {
+        userFriendlyMessage = 'Sign-in was cancelled. Please try again.';
+      } else if (error.code === 'auth/popup-blocked') {
+        userFriendlyMessage = 'Popup was blocked. Please allow popups and try again.';
+      } else if (error.code === 'auth/operation-not-allowed') {
+        userFriendlyMessage = 'Google sign-in is not enabled. Please contact support.';
+      }
+
+      return { error: userFriendlyMessage, success: false };
     }
   }
 
