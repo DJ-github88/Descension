@@ -860,6 +860,25 @@ const UnifiedSpellCard = ({
         const unit = typeConfig.durationUnit || 'TURNS';
         bullets.push(`Up to ${maxDuration} ${unit.toLowerCase()}`);
 
+        // Show interruption status
+        if (typeConfig.interruptible !== undefined) {
+          bullets.push(typeConfig.interruptible ? 'Can be interrupted' : 'Cannot be interrupted');
+        }
+
+        // Show movement restrictions
+        if (typeConfig.movementAllowed !== undefined) {
+          bullets.push(typeConfig.movementAllowed ? 'Can move while channeling' : 'Must stand still');
+        }
+
+        // Show resource cost frequency
+        if (spell.resourceCost && spell.resourceCost.channelingFrequency) {
+          const frequency = spell.resourceCost.channelingFrequency;
+          const frequencyText = frequency === 'perRound' ? 'per round' :
+                               frequency === 'atStart' ? 'at start' :
+                               frequency === 'atEnd' ? 'at end' : frequency;
+          bullets.push(`Resource cost: ${frequencyText}`);
+        }
+
         // Show concentration DC (including base DC 10)
         if (typeConfig.concentrationDC !== undefined) {
           bullets.push(`DC ${typeConfig.concentrationDC} ${typeConfig.dcType || 'Spirit'}`);

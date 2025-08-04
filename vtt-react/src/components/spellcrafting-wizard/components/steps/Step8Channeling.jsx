@@ -654,7 +654,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             useFormulas: {
               [updatedConfig.costType]: false
             },
-            channelingCostTrigger: updatedConfig.costTrigger // Store trigger info
+            channelingCostTrigger: updatedConfig.costTrigger, // Store trigger info
+            channelingFrequency: updatedConfig.costTrigger // Add frequency for display
           };
 
           console.log("Updating resourceCost for channeling:", resourceCostUpdate);
@@ -798,7 +799,8 @@ const Step8Channeling = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
         useFormulas: {
           [newConfig.costType]: false
         },
-        channelingCostTrigger: newConfig.costTrigger // Store trigger info
+        channelingCostTrigger: newConfig.costTrigger, // Store trigger info
+        channelingFrequency: newConfig.costTrigger // Add frequency for display
       };
 
       dispatch({
