@@ -207,190 +207,143 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
 
   return (
     <div className="character-creation-page">
-      {/* Left Sidebar - Race Selection */}
-      <div className="creation-sidebar left-sidebar">
-        <div className="sidebar-header">
-          <h2>Race</h2>
-        </div>
-        <div className="race-grid">
-          {getRaceList().map((race) => (
-            <div
-              key={race.id}
-              className={`race-card ${selectedRace === race.id ? 'selected' : ''}`}
-              onClick={() => handleRaceSelect(race.id)}
-              style={{'--race-color': getRaceColor(race.name)}}
-            >
-              <div className="race-icon">
-                <i className={race.icon}></i>
-              </div>
-              <span className="race-name">{race.name}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Subrace Selection */}
-        {selectedRace && (
-          <div className="subrace-section">
-            <div className="sidebar-header">
-              <h3>Subrace</h3>
-            </div>
-            <div className="subrace-grid">
-              {getSelectedRaceData()?.subraces.map((subrace) => (
-                <div
-                  key={subrace.id}
-                  className={`subrace-card ${selectedSubrace === subrace.id ? 'selected' : ''}`}
-                  onClick={() => handleSubraceSelect(subrace.id)}
-                  style={{'--race-color': getRaceColor(getSelectedRaceData()?.name)}}
-                >
-                  <span className="subrace-name">{subrace.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Class Selection */}
-        <div className="class-section">
-          <div className="sidebar-header">
-            <h2>Class</h2>
-          </div>
-          <div className="class-grid">
-            {Object.entries(characterClasses).flatMap(([pathName, classes]) =>
-              classes.map((classInfo) => (
-                <div
-                  key={classInfo.name}
-                  className={`class-card ${selectedClass === classInfo.name ? 'selected' : ''}`}
-                  onClick={() => handleClassSelect(classInfo.name)}
-                  style={{'--class-color': getClassColor(classInfo.name)}}
-                >
-                  <div className="class-icon">
-                    <i className={classInfo.icon}></i>
-                  </div>
-                  <div className="class-name">{classInfo.name}</div>
-                  <div className="class-path">{pathName}</div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Center - Character Preview */}
-      <div className="character-preview">
-        <div className="preview-header">
+      <div className="character-creation">
+        {/* Header */}
+        <div className="creation-header">
           <h1>Character Creation</h1>
         </div>
 
-        <div className="character-model">
-          <div className="model-placeholder">
-            <i className="fas fa-user character-silhouette"></i>
-            <div className="character-info">
+        {/* Content */}
+        <div className="creation-content">
+          {/* Left Column */}
+          <div className="creation-column">
+            {/* Race Selection */}
+            <div className="creation-section">
+              <h2 className="section-title">Race</h2>
+              <div className="selection-grid">
+                {getRaceList().map((race) => (
+                  <div
+                    key={race.id}
+                    className={`selection-card ${selectedRace === race.id ? 'selected' : ''}`}
+                    onClick={() => handleRaceSelect(race.id)}
+                  >
+                    <div className="card-icon">
+                      <i className={race.icon}></i>
+                    </div>
+                    <div className="card-title">{race.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Subrace Selection */}
+            {selectedRace && (
+              <div className="creation-section">
+                <h2 className="section-title">Subrace</h2>
+                <div className="selection-grid">
+                  {getSelectedRaceData()?.subraces.map((subrace) => (
+                    <div
+                      key={subrace.id}
+                      className={`selection-card ${selectedSubrace === subrace.id ? 'selected' : ''}`}
+                      onClick={() => handleSubraceSelect(subrace.id)}
+                    >
+                      <div className="card-title">{subrace.name}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Class Selection */}
+            <div className="creation-section">
+              <h2 className="section-title">Class</h2>
+              <div className="selection-grid">
+                {Object.entries(characterClasses).flatMap(([pathName, classes]) =>
+                  classes.map((classInfo) => (
+                    <div
+                      key={classInfo.name}
+                      className={`selection-card ${selectedClass === classInfo.name ? 'selected' : ''}`}
+                      onClick={() => handleClassSelect(classInfo.name)}
+                    >
+                      <div className="card-icon">
+                        <i className={classInfo.icon}></i>
+                      </div>
+                      <div className="card-title">{classInfo.name}</div>
+                      <div className="card-subtitle">{pathName}</div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="creation-column">
+            {/* Character Preview */}
+            <div className="character-preview">
+              <div className="preview-icon">
+                <i className="fas fa-user"></i>
+              </div>
               {selectedRace && selectedSubrace && (
-                <div className="selected-race">
+                <div className="preview-text">
                   {getSelectedRaceData()?.name} - {getSelectedSubraceData()?.name}
                 </div>
               )}
               {selectedClass && (
-                <div className="selected-class">{selectedClass}</div>
+                <div className="preview-text">{selectedClass}</div>
+              )}
+              {!selectedRace && (
+                <div className="preview-text">Select a race to begin</div>
               )}
             </div>
-          </div>
-        </div>
 
-        <div className="character-customization">
-          <div className="customization-row">
-            <label>Gender:</label>
-            <div className="gender-buttons">
-              <button
-                className={`gender-btn ${selectedGender === 'male' ? 'selected' : ''}`}
-                onClick={() => setSelectedGender('male')}
-              >
-                Male
-              </button>
-              <button
-                className={`gender-btn ${selectedGender === 'female' ? 'selected' : ''}`}
-                onClick={() => setSelectedGender('female')}
-              >
-                Female
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="character-name-section">
-          <label htmlFor="characterName">Name:</label>
-          <input
-            id="characterName"
-            type="text"
-            value={characterName}
-            onChange={(e) => setCharacterName(e.target.value)}
-            placeholder="Enter character name"
-            className="character-name-input"
-            maxLength={30}
-          />
-        </div>
-      </div>
-
-      {/* Right Sidebar - Details */}
-      <div className="creation-sidebar right-sidebar">
-        <div className="sidebar-header">
-          <h2>Details</h2>
-        </div>
-
-        {/* Race Details */}
-        {getSelectedSubraceData() && (
-          <div className="details-section">
-            <h3>Racial Traits</h3>
-            <div className="race-description">
-              {getSelectedSubraceData().description}
-            </div>
-
-            {getSelectedSubraceData().statModifiers && (
-              <div className="stat-modifiers">
-                <h4>Stat Modifiers</h4>
-                <div className="modifiers-list">
-                  {formatStatModifiers(getSelectedSubraceData().statModifiers)}
-                </div>
+            {/* Character Name */}
+            <div className="creation-section">
+              <h2 className="section-title">Character Details</h2>
+              <div className="form-group">
+                <label className="form-label">Name:</label>
+                <input
+                  type="text"
+                  value={characterName}
+                  onChange={(e) => setCharacterName(e.target.value)}
+                  placeholder="Enter character name"
+                  className="form-input"
+                  maxLength={30}
+                />
               </div>
-            )}
-
-            {getSelectedSubraceData().traits && getSelectedSubraceData().traits.length > 0 && (
-              <div className="racial-traits">
-                <h4>Special Traits</h4>
-                {getSelectedSubraceData().traits.map((trait, index) => (
-                  <div key={index} className="trait-item">
-                    <div className="trait-name">{trait.name}</div>
-                    <div className="trait-description">{trait.description}</div>
+              <div className="form-group">
+                <label className="form-label">Gender:</label>
+                <div className="selection-grid" style={{gridTemplateColumns: '1fr 1fr'}}>
+                  <div
+                    className={`selection-card ${selectedGender === 'male' ? 'selected' : ''}`}
+                    onClick={() => setSelectedGender('male')}
+                  >
+                    <div className="card-title">Male</div>
                   </div>
-                ))}
+                  <div
+                    className={`selection-card ${selectedGender === 'female' ? 'selected' : ''}`}
+                    onClick={() => setSelectedGender('female')}
+                  >
+                    <div className="card-title">Female</div>
+                  </div>
               </div>
-            )}
-          </div>
-        )}
-
-        {/* Class Details */}
-        {selectedClass && (
-          <div className="details-section">
-            <h3>Class Features</h3>
-            <div className="class-description">
-              {getAllClasses().find(c => c.name === selectedClass)?.description}
             </div>
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* Bottom Action Bar */}
-      <div className="creation-actions">
-        <button className="cancel-btn" onClick={onCancel}>
-          Cancel
-        </button>
-        <button
-          className="create-btn"
-          onClick={handleComplete}
-          disabled={!characterName.trim() || !selectedClass || !selectedRace || !selectedSubrace}
-        >
-          Create Character
-        </button>
+        {/* Action Buttons */}
+        <div className="creation-actions">
+          <button className="btn btn-secondary" onClick={onCancel}>
+            Cancel
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={handleComplete}
+            disabled={!characterName.trim() || !selectedClass || !selectedRace || !selectedSubrace}
+          >
+            Create Character
+          </button>
+        </div>
       </div>
     </div>
   );
