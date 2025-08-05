@@ -133,8 +133,12 @@ const CharacterManagement = ({ user }) => {
       {/* Controls */}
       <div className="character-controls">
         <div className="controls-left">
+          <Link to="/account" className="back-button">
+            <i className="fas fa-arrow-left"></i>
+          </Link>
+          <h1 className="controls-title">CHARACTER MANAGEMENT</h1>
           <div className="sort-control">
-            <label>Sort by:</label>
+            <label>SORT BY:</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
               <option value="name">Name</option>
               <option value="class">Class</option>
@@ -143,18 +147,21 @@ const CharacterManagement = ({ user }) => {
             </select>
           </div>
           <div className="filter-control">
-            <label>Filter by class:</label>
+            <label>FILTER BY CLASS:</label>
             <select value={filterClass} onChange={(e) => setFilterClass(e.target.value)}>
-              <option value="all">All Classes</option>
+              <option value="all">ALL CLASSES</option>
               {availableClasses.map(className => (
-                <option key={className} value={className}>{className}</option>
+                <option key={className} value={className}>{className.toUpperCase()}</option>
               ))}
             </select>
           </div>
         </div>
         <div className="controls-right">
+          <button onClick={handleCreateCharacter} className="create-new-character-btn">
+            CREATE NEW CHARACTER
+          </button>
           <span className="character-count">
-            {filteredAndSortedCharacters.length} character{filteredAndSortedCharacters.length !== 1 ? 's' : ''}
+            {filteredAndSortedCharacters.length} CHARACTER{filteredAndSortedCharacters.length !== 1 ? 'S' : ''}
           </span>
         </div>
       </div>
