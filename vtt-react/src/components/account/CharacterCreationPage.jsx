@@ -124,11 +124,7 @@ const CharacterCreationPage = ({ user }) => {
         </div>
       )}
 
-      {/* Floating Back Button */}
-      <Link to="/account/characters" className="floating-back-btn" title="Back to Characters">
-        <i className="fas fa-arrow-left"></i>
-        <span className="back-btn-tooltip">Characters</span>
-      </Link>
+
 
       {/* Character Creation Component */}
       <main className="creation-main">

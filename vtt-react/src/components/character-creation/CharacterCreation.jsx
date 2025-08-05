@@ -424,6 +424,9 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
         {/* Action Buttons */}
         <div className="creation-actions">
           <button className="btn" onClick={onCancel}>
+            Characters
+          </button>
+          <button className="btn" onClick={onCancel}>
             Cancel
           </button>
           <button
