@@ -71,8 +71,8 @@ const AccountDashboard = ({ user }) => {
               )}
             </div>
             <div className="user-details">
-              <h1>Welcome back, {userData?.displayName || user?.displayName || 'Adventurer'}!</h1>
-              <p className="user-email">{user?.email}</p>
+              <h1>Welcome to Mythrill!</h1>
+              <p className="user-email">Your Adventure Awaits</p>
             </div>
           </div>
           <div className="header-actions">

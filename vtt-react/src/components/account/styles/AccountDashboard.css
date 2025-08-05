@@ -101,17 +101,20 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: auto;
+  grid-template-rows: auto auto;
   gap: 2rem;
+  align-items: start;
 }
 
 .dashboard-card {
   background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
   border: 3px solid #d4af37;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
 }
 
 .card-header {
@@ -137,13 +140,18 @@
 .card-content {
   padding: 1.5rem;
   color: #5d4e37;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-footer {
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-top: 2px solid rgba(212, 175, 55, 0.4);
   text-align: center;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(139, 69, 19, 0.05) 100%);
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 /* Characters Section */
@@ -154,18 +162,23 @@
 
 .characters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .character-preview {
   background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.8) 100%);
   border: 2px solid rgba(212, 175, 55, 0.6);
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.75rem;
   text-align: center;
   transition: all 0.3s ease;
   backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 140px;
 }
 
 .character-preview:hover {
@@ -176,17 +189,18 @@
 }
 
 .character-portrait {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: 3px solid #d4af37;
-  margin: 0 auto 1rem;
+  border: 2px solid #d4af37;
+  margin: 0 auto 0.5rem;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
 }
 
 .character-portrait img {
@@ -196,21 +210,31 @@
 }
 
 .character-portrait i {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #8b4513;
 }
 
+.character-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
 .character-info h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.1rem;
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
   color: #5d4e37;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .character-info p {
-  margin: 0.25rem 0;
+  margin: 0.1rem 0;
   color: #8b7355;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
 }
 
 .character-level {
@@ -219,7 +243,8 @@
 }
 
 .character-actions {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
 }
 
 .more-characters {
@@ -244,24 +269,32 @@
 /* Empty State */
 .empty-state {
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 2rem 1rem;
   color: #8b7355;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .empty-state i {
-  font-size: 4rem;
+  font-size: 3rem;
   color: #d4af37;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .empty-state h3 {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   color: #5d4e37;
   font-weight: 600;
+  font-size: 1.2rem;
 }
 
 .empty-state p {
   color: #8b7355;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
 }
 
 /* Game Actions */
