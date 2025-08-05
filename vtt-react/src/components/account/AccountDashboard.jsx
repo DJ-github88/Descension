@@ -114,7 +114,6 @@ const AccountDashboard = ({ user }) => {
                       <div className="character-info">
                         <h3>{character.name}</h3>
                         <p>{character.race} {character.class}</p>
-                        <p className="character-level">Level {character.level || 1}</p>
                       </div>
                       <div className="character-actions">
                         <button
