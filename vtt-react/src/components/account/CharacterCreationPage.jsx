@@ -78,7 +78,7 @@ const CharacterCreationPage = ({ user }) => {
   };
 
   const handleCharacterCreationCancel = () => {
-    navigate('/account/characters');
+    navigate('/account');
   };
 
   return (
@@ -87,10 +87,10 @@ const CharacterCreationPage = ({ user }) => {
       <header className="page-header">
         <div className="header-content">
           <div className="header-title">
-            <Link to="/account/characters" className="back-link">
+            <Link to="/account" className="back-link">
               <i className="fas fa-arrow-left"></i>
             </Link>
-            <h1>Create New Character</h1>
+            <h1>Character Creation</h1>
           </div>
           <div className="header-info">
             <span className="user-name">
