@@ -240,9 +240,6 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
                     className={`selection-card subrace-card ${selectedSubrace === subrace.id ? 'selected' : ''}`}
                     onClick={() => handleSubraceSelect(subrace.id)}
                   >
-                    <div className="card-icon">
-                      <i className="fas fa-star"></i>
-                    </div>
                     <div className="card-content">
                       <div className="card-title">{subrace.name}</div>
                     </div>
@@ -266,10 +263,8 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
                     <div className="card-icon">
                       <i className={classInfo.icon}></i>
                     </div>
-                    <div className="card-content">
-                      <div className="card-title">{classInfo.name}</div>
-                      <div className="card-subtitle">{pathName}</div>
-                    </div>
+                    <div className="card-title">{classInfo.name}</div>
+                    <div className="card-subtitle">{pathName}</div>
                   </div>
                 ))
               )}
@@ -400,19 +395,31 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
               <div className="detail-section">
                 <h3 className="detail-title">Class: {selectedClass}</h3>
                 <div className="detail-content">
-                  <p><strong>Description:</strong> A powerful class with unique abilities.</p>
-                  <p><strong>Role:</strong> Varies based on chosen path and specialization.</p>
+                  {(() => {
+                    const classData = Object.values(characterClasses).flat().find(c => c.name === selectedClass);
+                    return (
+                      <>
+                        <p><strong>Description:</strong> {classData?.description || 'A powerful class with unique abilities and specialized combat techniques.'}</p>
+                        <p><strong>Theme:</strong> {classData?.theme || 'Versatile'}</p>
+                        <p><strong>Path:</strong> {Object.keys(characterClasses).find(path =>
+                          characterClasses[path].some(c => c.name === selectedClass)
+                        )}</p>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             )}
 
             {!selectedRace && !selectedSubrace && !selectedClass && (
               <div className="detail-section">
-                <h3 className="detail-title">Getting Started</h3>
+                <h3 className="detail-title">Character Creation</h3>
                 <div className="detail-content">
-                  <p>Welcome to character creation! Start by selecting a race from the left panel.</p>
-                  <p>Each choice you make will unlock new options and provide detailed information here.</p>
-                  <p>Take your time to explore the different combinations available.</p>
+                  <p><strong>Step 1:</strong> Choose your character's race from the available options.</p>
+                  <p><strong>Step 2:</strong> Select a subrace to further customize your character.</p>
+                  <p><strong>Step 3:</strong> Pick a class that matches your preferred playstyle.</p>
+                  <p><strong>Step 4:</strong> Enter your character's name and select gender.</p>
+                  <p>Each selection will provide detailed information about your choices.</p>
                 </div>
               </div>
             )}

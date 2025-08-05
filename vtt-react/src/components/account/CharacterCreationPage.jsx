@@ -134,64 +134,6 @@ const CharacterCreationPage = ({ user }) => {
           />
         </div>
       </main>
-
-      {/* Help Section */}
-      <aside className="creation-help">
-        <div className="help-card">
-          <h3>
-            <i className="fas fa-question-circle"></i>
-            Character Creation Tips
-          </h3>
-          <ul>
-            <li>Choose a class that matches your preferred playstyle</li>
-            <li>Consider your race's bonuses when selecting stats</li>
-            <li>Your character name should be unique and memorable</li>
-            <li>You can always edit your character later</li>
-          </ul>
-        </div>
-
-        <div className="help-card">
-          <h3>
-            <i className="fas fa-info-circle"></i>
-            Available Options
-          </h3>
-          <div className="help-stats">
-            <div className="help-stat">
-              <span className="stat-number">27</span>
-              <span className="stat-label">Classes</span>
-            </div>
-            <div className="help-stat">
-              <span className="stat-number">10</span>
-              <span className="stat-label">Races</span>
-            </div>
-            <div className="help-stat">
-              <span className="stat-number">25+</span>
-              <span className="stat-label">Subraces</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="help-card">
-          <h3>
-            <i className="fas fa-gamepad"></i>
-            Quick Actions
-          </h3>
-          <div className="quick-actions">
-            <Link to="/account" className="quick-action">
-              <i className="fas fa-home"></i>
-              Account Dashboard
-            </Link>
-            <Link to="/account/characters" className="quick-action">
-              <i className="fas fa-users"></i>
-              Character Manager
-            </Link>
-            <Link to="/game" className="quick-action">
-              <i className="fas fa-dice-d20"></i>
-              Play Game
-            </Link>
-          </div>
-        </div>
-      </aside>
     </div>
   );
 };

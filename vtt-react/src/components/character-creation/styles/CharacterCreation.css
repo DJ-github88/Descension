@@ -7,8 +7,19 @@
   bottom: 0;
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
   font-family: 'Cinzel', serif;
-  color: #000;
+  color: #000 !important;
   overflow: hidden;
+}
+
+/* Force black text throughout character creation */
+.character-creation-page *,
+.character-creation *,
+.creation-column *,
+.selection-category *,
+.character-details *,
+.detail-section *,
+.form-group * {
+  color: #000 !important;
 }
 
 /* Full-Screen Grid Layout */
@@ -93,8 +104,8 @@
 
 .class-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
 }
 
 /* Compact Form Elements */
@@ -177,19 +188,25 @@
   margin: 0;
 }
 
-/* Subrace & Class Cards - Compact */
-.subrace-card,
-.class-card {
-  justify-content: flex-start;
-  text-align: left;
+/* Subrace Cards - Compact */
+.subrace-card {
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem 1rem;
 }
 
-.subrace-card .card-icon,
+/* Class Cards - Match Race Card Layout */
+.class-card {
+  flex-direction: column;
+  text-align: center;
+  min-height: 80px;
+  padding: 1rem;
+}
+
 .class-card .card-icon {
-  font-size: 1.2rem;
+  font-size: 2rem;
   color: #d4af37;
-  margin-right: 0.75rem;
-  min-width: 25px;
+  margin-bottom: 0.5rem;
 }
 
 .card-content {
@@ -206,9 +223,10 @@
 
 .card-subtitle {
   font-size: 0.8rem;
-  color: #000;
+  color: #000 !important;
   opacity: 0.7;
   margin: 0;
+  margin-top: 0.25rem;
 }
 
 /* Character Preview - Center */

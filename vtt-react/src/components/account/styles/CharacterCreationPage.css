@@ -5,7 +5,7 @@
   color: #f4f1e8;
   font-family: 'Cinzel', serif;
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
   gap: 0;
   background-image:
@@ -141,7 +141,7 @@
 
 /* Main Content */
 .creation-main {
-  grid-column: 1;
+  grid-column: 1 / -1;
   padding: 2rem;
   overflow-y: auto;
   max-height: calc(100vh - 120px);
@@ -270,6 +270,24 @@
   border: 2px solid #d4af37;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Force black text in character creation within account page */
+.creation-container .character-creation *,
+.creation-container .character-creation-page *,
+.creation-container .creation-column *,
+.creation-container .selection-category *,
+.creation-container .character-details *,
+.creation-container .detail-section *,
+.creation-container .form-group *,
+.creation-container .selection-card *,
+.creation-container .card-title,
+.creation-container .card-subtitle,
+.creation-container .category-title,
+.creation-container .detail-title,
+.creation-container .detail-content,
+.creation-container .form-label {
+  color: #000 !important;
 }
 
 /* Responsive Design */
