@@ -13,6 +13,25 @@ const CharacterManagement = ({ user }) => {
   const [sortBy, setSortBy] = useState('name'); // 'name', 'class', 'level', 'created'
   const [filterClass, setFilterClass] = useState('all');
 
+  // Helper functions for icons
+  const getRaceIcon = (race) => {
+    const raceIcons = {
+      'Human': '👤', 'Elf': '🧝', 'Dwarf': '🧔', 'Halfling': '🧙',
+      'Dragonborn': '🐲', 'Gnome': '🎭', 'Half-Elf': '🧝‍♂️', 'Half-Orc': '👹',
+      'Tiefling': '😈', 'Aasimar': '😇'
+    };
+    return raceIcons[race] || '👤';
+  };
+
+  const getClassIcon = (characterClass) => {
+    const classIcons = {
+      'Fighter': '⚔️', 'Wizard': '🔮', 'Rogue': '🗡️', 'Cleric': '✨',
+      'Ranger': '🏹', 'Paladin': '🛡️', 'Barbarian': '🪓', 'Bard': '🎵',
+      'Druid': '🌿', 'Monk': '👊', 'Sorcerer': '⚡', 'Warlock': '🔥'
+    };
+    return classIcons[characterClass] || '⚔️';
+  };
+
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
@@ -146,68 +165,133 @@ const CharacterManagement = ({ user }) => {
           <div className="characters-grid">
             {filteredAndSortedCharacters.map((character) => (
               <div key={character.id} className="character-card">
-                <div className="character-portrait">
-                  {character.image ? (
-                    <img src={character.image} alt={character.name} />
-                  ) : (
-                    <i className="fas fa-user-circle"></i>
-                  )}
-                  <div className="character-level">
-                    Lv. {character.level || 1}
-                  </div>
-                </div>
-                
-                <div className="character-info">
-                  <h3 className="character-name">{character.name}</h3>
-                  <p className="character-details">
-                    {character.race} {character.class}
-                  </p>
-                  {character.subrace && (
-                    <p className="character-subrace">{character.subrace}</p>
-                  )}
-                  <div className="character-stats">
-                    <div className="stat">
-                      <span className="stat-label">HP:</span>
-                      <span className="stat-value">{character.hitPoints || 100}</span>
+                {/* Character Header */}
+                <div className="character-card-header">
+                  <div className="character-portrait">
+                    {character.image ? (
+                      <img src={character.image} alt={character.name} />
+                    ) : (
+                      <i className="fas fa-user-circle"></i>
+                    )}
+                    <div className="character-level">
+                      {character.level || 1}
                     </div>
-                    <div className="stat">
-                      <span className="stat-label">AC:</span>
-                      <span className="stat-value">{character.armorClass || 10}</span>
+                  </div>
+
+                  <div className="character-header-info">
+                    <h3 className="character-name">{character.name}</h3>
+                    <p className="character-title">
+                      {character.race} {character.class}
+                    </p>
+                    {character.subrace && (
+                      <p className="character-subrace">{character.subrace}</p>
+                    )}
+                    <div className="character-class-icons">
+                      <div className="race-icon" title={character.race}>
+                        {getRaceIcon(character.race)}
+                      </div>
+                      <div className="class-icon" title={character.class}>
+                        {getClassIcon(character.class)}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="character-actions">
-                  <button 
-                    onClick={() => handlePlayCharacter(character.id)}
-                    className="btn btn-primary btn-sm"
-                    title="Play this character"
-                  >
-                    <i className="fas fa-play"></i>
-                    Play
-                  </button>
-                  <button 
-                    onClick={() => handleEditCharacter(character.id)}
-                    className="btn btn-secondary btn-sm"
-                    title="Edit character"
-                  >
-                    <i className="fas fa-edit"></i>
-                    Edit
-                  </button>
-                  <button 
-                    onClick={() => confirmDelete(character)}
-                    className="btn btn-danger btn-sm"
-                    title="Delete character"
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                </div>
-
-                {character.createdAt && (
-                  <div className="character-meta">
-                    <small>Created: {new Date(character.createdAt).toLocaleDateString()}</small>
+                {/* Character Body */}
+                <div className="character-card-body">
+                  {/* Primary Stats */}
+                  <div className="character-primary-stats">
+                    <div className="stat-group">
+                      <div className="stat-item">
+                        <span className="stat-label">Health</span>
+                        <span className="stat-value">{character.hitPoints || 100}</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-label">Armor</span>
+                        <span className="stat-value">{character.armorClass || 10}</span>
+                      </div>
+                      <div className="stat-item">
+                        <span className="stat-label">Speed</span>
+                        <span className="stat-value">{character.speed || 30}ft</span>
+                      </div>
+                    </div>
                   </div>
-                )}
+
+                  {/* Ability Scores */}
+                  <div className="character-abilities">
+                    <h4 className="section-title">Ability Scores</h4>
+                    <div className="abilities-grid">
+                      {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(ability => {
+                        const score = character[ability] || 10;
+                        const modifier = Math.floor((score - 10) / 2);
+                        return (
+                          <div key={ability} className="ability-score">
+                            <div className="ability-name">{ability.substring(0, 3).toUpperCase()}</div>
+                            <div className="ability-value">{score}</div>
+                            <div className="ability-modifier">
+                              {modifier >= 0 ? '+' : ''}{modifier}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Equipment Preview */}
+                  {(character.equippedWeapon || character.equippedArmor) && (
+                    <div className="character-equipment">
+                      <h4 className="section-title">Equipment</h4>
+                      <div className="equipment-preview">
+                        {character.equippedWeapon && (
+                          <div className="equipment-item">
+                            <i className="fas fa-sword"></i>
+                            <span>{character.equippedWeapon.name}</span>
+                          </div>
+                        )}
+                        {character.equippedArmor && (
+                          <div className="equipment-item">
+                            <i className="fas fa-shield-alt"></i>
+                            <span>{character.equippedArmor.name}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Character Actions */}
+                  <div className="character-actions">
+                    <button
+                      onClick={() => handlePlayCharacter(character.id)}
+                      className="btn btn-primary"
+                      title="Play this character"
+                    >
+                      <i className="fas fa-play"></i>
+                      Play
+                    </button>
+                    <button
+                      onClick={() => handleEditCharacter(character.id)}
+                      className="btn btn-secondary"
+                      title="Edit character"
+                    >
+                      <i className="fas fa-edit"></i>
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => confirmDelete(character)}
+                      className="btn btn-danger"
+                      title="Delete character"
+                    >
+                      <i className="fas fa-trash"></i>
+                    </button>
+                  </div>
+
+                  {/* Character Meta */}
+                  {character.createdAt && (
+                    <div className="character-meta">
+                      <small>Created: {new Date(character.createdAt).toLocaleDateString()}</small>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
