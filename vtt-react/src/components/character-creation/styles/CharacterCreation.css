@@ -361,50 +361,87 @@
   text-align: center;
   color: #000;
   width: 100%;
-  max-width: 500px;
-  background: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.95) 100%);
   border: 3px solid #d4af37;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   flex-shrink: 0;
-  min-height: 120px;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-stats::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d4af37 0%, #f4e4a6 50%, #d4af37 100%);
 }
 
 .preview-stats h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-  color: #000;
-  font-weight: 700;
+  margin: 0 0 2rem 0;
+  font-size: 1.8rem;
+  color: #2c2416;
+  font-weight: 800;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;
 }
 
 .stat-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  margin: 1rem auto 0 auto;
-  max-width: 320px;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 450px;
 }
 
 .stat-item {
-  background: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 245, 235, 0.8) 100%);
   border: 2px solid #d4af37;
-  border-radius: 6px;
-  padding: 0.75rem;
+  border-radius: 12px;
+  padding: 1rem 0.75rem;
   text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #d4af37 50%, transparent 100%);
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: #000;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  color: #8b4513;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Cinzel', serif;
 }
 
 .stat-value {
   font-size: 1.2rem;
-  color: #000;
-  font-weight: 700;
+  color: #2c2416;
+  font-weight: 800;
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 /* Details Panel Content */
