@@ -122,63 +122,50 @@
 
 .characters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
   padding: 1rem 0;
 }
 
 /* Character Cards */
 .character-card {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.98) 0%, rgba(232, 224, 208, 0.98) 100%);
-  border: 3px solid rgba(212, 175, 55, 0.7);
-  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  border-radius: 12px;
   padding: 0;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(15px);
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    0 4px 15px rgba(212, 175, 55, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  min-height: 380px;
+    0 6px 20px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(212, 175, 55, 0.1);
+  min-height: 320px;
   display: flex;
   flex-direction: column;
 }
 
 .character-card:hover {
   border-color: #d4af37;
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-3px);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 8px 25px rgba(212, 175, 55, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    0 4px 15px rgba(212, 175, 55, 0.2);
   background: linear-gradient(135deg, rgba(244, 241, 232, 1) 0%, rgba(232, 224, 208, 1) 100%);
 }
 
 /* Character Card Header */
 .character-card-header {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(244, 228, 166, 0.9) 100%);
-  padding: 1.5rem;
-  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.3) 100%);
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
   position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.character-card-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #d4af37, #f4e4a6, #d4af37);
-}
-
 .character-card-body {
-  padding: 1.5rem;
+  padding: 1.25rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -248,29 +235,27 @@
 }
 
 .character-name {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 1.4rem;
+  font-weight: 700;
   margin: 0;
-  color: #2c2416;
+  color: #1a1a1a;
   font-family: 'Cinzel', serif;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
   line-height: 1.2;
 }
 
 .character-title {
-  font-size: 1rem;
-  color: #8b4513;
+  font-size: 0.95rem;
+  color: #333333;
   margin: 0;
   font-weight: 600;
   font-family: 'Cinzel', serif;
 }
 
 .character-subrace {
-  font-size: 0.85rem;
-  color: #a0522d;
+  font-size: 0.8rem;
+  color: #555555;
   margin: 0;
   font-style: italic;
-  opacity: 0.8;
 }
 
 .character-class-icons {
@@ -283,12 +268,14 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(44, 36, 22, 0.1);
+  background: rgba(212, 175, 55, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  border: 1px solid rgba(212, 175, 55, 0.5);
 }
 
 /* Character Stats Sections */
@@ -318,8 +305,8 @@
 
 .stat-label {
   display: block;
-  color: #8b4513;
-  font-size: 0.8rem;
+  color: #333333;
+  font-size: 0.75rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
@@ -328,17 +315,17 @@
 
 .stat-value {
   display: block;
-  color: #2c2416;
-  font-size: 1.1rem;
-  font-weight: 800;
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 700;
   font-family: 'Cinzel', serif;
 }
 
 /* Section Titles */
 .section-title {
-  font-size: 1rem;
-  color: #2c2416;
-  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  margin: 0 0 0.75rem 0;
   font-weight: 700;
   font-family: 'Cinzel', serif;
   text-align: center;
@@ -383,8 +370,8 @@
 }
 
 .ability-name {
-  font-size: 0.7rem;
-  color: #8b4513;
+  font-size: 0.65rem;
+  color: #333333;
   font-weight: 600;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
@@ -392,16 +379,16 @@
 }
 
 .ability-value {
-  font-size: 1rem;
-  color: #2c2416;
-  font-weight: 800;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  font-weight: 700;
   font-family: 'Cinzel', serif;
   margin-bottom: 0.25rem;
 }
 
 .ability-modifier {
-  font-size: 0.75rem;
-  color: #a0522d;
+  font-size: 0.7rem;
+  color: #333333;
   font-weight: 600;
 }
 
@@ -424,12 +411,12 @@
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 6px;
-  font-size: 0.9rem;
-  color: #2c2416;
+  font-size: 0.85rem;
+  color: #1a1a1a;
 }
 
 .equipment-item i {
-  color: #d4af37;
+  color: #8b4513;
   width: 16px;
   text-align: center;
 }
@@ -511,8 +498,8 @@
 }
 
 .character-meta small {
-  color: #8b4513;
-  font-size: 0.8rem;
+  color: #666666;
+  font-size: 0.75rem;
   font-style: italic;
 }
 

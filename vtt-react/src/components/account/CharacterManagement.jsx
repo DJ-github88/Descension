@@ -16,20 +16,20 @@ const CharacterManagement = ({ user }) => {
   // Helper functions for icons
   const getRaceIcon = (race) => {
     const raceIcons = {
-      'Human': '👤', 'Elf': '🧝', 'Dwarf': '🧔', 'Halfling': '🧙',
-      'Dragonborn': '🐲', 'Gnome': '🎭', 'Half-Elf': '🧝‍♂️', 'Half-Orc': '👹',
-      'Tiefling': '😈', 'Aasimar': '😇'
+      'Human': 'H', 'Elf': 'E', 'Dwarf': 'D', 'Halfling': 'H',
+      'Dragonborn': 'Dr', 'Gnome': 'G', 'Half-Elf': 'HE', 'Half-Orc': 'HO',
+      'Tiefling': 'T', 'Aasimar': 'A'
     };
-    return raceIcons[race] || '👤';
+    return raceIcons[race] || 'H';
   };
 
   const getClassIcon = (characterClass) => {
     const classIcons = {
-      'Fighter': '⚔️', 'Wizard': '🔮', 'Rogue': '🗡️', 'Cleric': '✨',
-      'Ranger': '🏹', 'Paladin': '🛡️', 'Barbarian': '🪓', 'Bard': '🎵',
-      'Druid': '🌿', 'Monk': '👊', 'Sorcerer': '⚡', 'Warlock': '🔥'
+      'Fighter': 'F', 'Wizard': 'W', 'Rogue': 'R', 'Cleric': 'C',
+      'Ranger': 'Ra', 'Paladin': 'P', 'Barbarian': 'B', 'Bard': 'Bd',
+      'Druid': 'Dr', 'Monk': 'M', 'Sorcerer': 'S', 'Warlock': 'Wl'
     };
-    return classIcons[characterClass] || '⚔️';
+    return classIcons[characterClass] || 'F';
   };
 
   useEffect(() => {
