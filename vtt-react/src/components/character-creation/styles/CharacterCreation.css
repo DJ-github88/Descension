@@ -1,80 +1,100 @@
-/* WoW-Style Pathfinder Character Creation */
+/* Full-Screen Character Creation */
 .character-creation-page {
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
   font-family: 'Cinzel', serif;
   color: #000;
   overflow: hidden;
 }
 
-/* WoW-Style Layout */
+/* Full-Screen Grid Layout */
 .character-creation {
   height: 100vh;
   display: grid;
-  grid-template-columns: 300px 1fr 300px;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 350px 1fr 350px;
+  grid-template-rows: 1fr auto;
   grid-template-areas:
-    "header header header"
-    "left-panel center-panel right-panel"
+    "selections preview details"
     "actions actions actions";
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
 }
 
-/* Compact Header */
+/* Remove header - use full space */
 .creation-header {
-  grid-area: header;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-  border-bottom: 3px solid #d4af37;
-  padding: 1rem;
-  text-align: center;
+  display: none;
 }
 
-.creation-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  color: #000;
-  font-weight: 700;
-}
-
-/* Panel Layout */
-.creation-content {
-  display: contents;
-}
-
+/* Left Panel - Selections */
 .creation-column:first-child {
-  grid-area: left-panel;
-}
-
-.creation-column:last-child {
-  grid-area: right-panel;
-}
-
-/* WoW-Style Panels */
-.creation-column {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
-  border: 2px solid #d4af37;
-  margin: 0.5rem;
-  padding: 1rem;
+  grid-area: selections;
+  background: rgba(244, 241, 232, 0.8);
+  border-right: 3px solid #d4af37;
+  padding: 1.5rem;
   overflow-y: auto;
-  max-height: calc(100vh - 120px);
 }
 
-.creation-section {
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid #d4af37;
+/* Center Panel - Character Preview */
+.character-preview {
+  grid-area: preview;
+  background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Right Panel - Details */
+.creation-column:last-child {
+  grid-area: details;
+  background: rgba(244, 241, 232, 0.8);
+  border-left: 3px solid #d4af37;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* Selection Categories */
+.selection-category {
+  margin-bottom: 2rem;
+}
+
+.category-title {
+  font-size: 1.4rem;
+  color: #000;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 3px solid #d4af37;
+  padding-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.75rem;
   border-radius: 6px;
-  padding: 1rem;
+}
+
+/* Grid Layout for Selections */
+.race-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
-.section-title {
-  font-size: 1.2rem;
-  color: #000;
-  margin: 0 0 0.75rem 0;
-  font-weight: 700;
-  text-align: center;
-  border-bottom: 2px solid #d4af37;
-  padding-bottom: 0.25rem;
+.subrace-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.class-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
 }
 
 /* Compact Form Elements */
@@ -109,53 +129,75 @@
   box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
 }
 
-/* WoW-Style Selection Grid */
-.selection-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
+/* Selection Cards */
 .selection-card {
   background: #fff;
   border: 2px solid #d4af37;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 0.75rem;
-  text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 50px;
+  min-height: 60px;
+  position: relative;
 }
 
 .selection-card:hover {
   background: #f9f6f0;
   border-color: #e6c757;
+  transform: translateY(-1px);
 }
 
 .selection-card.selected {
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
   border-width: 3px;
   border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-.card-icon {
-  font-size: 1.5rem;
+/* Race Cards - Larger with Icons */
+.race-card {
+  flex-direction: column;
+  text-align: center;
+  min-height: 80px;
+  padding: 1rem;
+}
+
+.race-card .card-icon {
+  font-size: 2rem;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}
+
+.race-card .card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+/* Subrace & Class Cards - Compact */
+.subrace-card,
+.class-card {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.subrace-card .card-icon,
+.class-card .card-icon {
+  font-size: 1.2rem;
   color: #d4af37;
   margin-right: 0.75rem;
-  min-width: 30px;
+  min-width: 25px;
 }
 
 .card-content {
-  text-align: left;
   flex: 1;
 }
 
 .card-title {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: #000;
   margin: 0;
@@ -169,109 +211,252 @@
   margin: 0;
 }
 
-/* WoW-Style Center Panel */
-.character-preview {
-  grid-area: center-panel;
-  background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
-  border: 2px solid #d4af37;
-  margin: 0.5rem;
-  padding: 2rem;
-  text-align: center;
+/* Character Preview - Center */
+.character-preview-image {
+  width: 300px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 3px solid #d4af37;
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .preview-icon {
-  font-size: 6rem;
+  font-size: 8rem;
   color: #d4af37;
-  margin-bottom: 1rem;
+  opacity: 0.6;
 }
 
-.preview-text {
-  font-size: 1.3rem;
-  color: #000;
-  margin: 0.5rem 0;
+.character-name-display {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   font-weight: 600;
+  font-size: 1.1rem;
 }
 
-/* WoW-Style Action Bar */
+.preview-stats {
+  text-align: center;
+  color: #000;
+}
+
+.preview-stats h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: #000;
+  font-weight: 700;
+}
+
+.stat-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #000;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  color: #000;
+  font-weight: 700;
+}
+
+/* Details Panel Content */
+.character-details {
+  color: #000;
+}
+
+.detail-section {
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-title {
+  font-size: 1.2rem;
+  color: #000;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 0.25rem;
+}
+
+.detail-content {
+  color: #000;
+  line-height: 1.5;
+}
+
+.detail-content p {
+  margin: 0 0 0.5rem 0;
+  color: #000;
+}
+
+.detail-content strong {
+  color: #000;
+  font-weight: 700;
+}
+
+.trait-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.trait-list li {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.trait-list li strong {
+  color: #000;
+}
+
+/* Action Bar */
 .creation-actions {
   grid-area: actions;
   display: flex;
   justify-content: center;
   gap: 2rem;
-  padding: 1rem;
-  border-top: 2px solid #d4af37;
+  padding: 1.5rem;
+  border-top: 3px solid #d4af37;
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
 }
 
 .btn {
-  padding: 0.75rem 2rem;
-  border: 2px solid #d4af37;
-  border-radius: 6px;
+  padding: 1rem 3rem;
+  border: 3px solid #d4af37;
+  border-radius: 8px;
   font-family: 'Cinzel', serif;
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   color: #000;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-}
-
-.btn-primary:hover {
   background: #fff;
-  transform: translateY(-1px);
 }
 
-.btn-secondary {
-  background: transparent;
-}
-
-.btn-secondary:hover {
-  background: rgba(244, 241, 232, 0.5);
+.btn:hover {
+  background: #f9f6f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
-/* Gender Selection Override */
-.gender-selection .selection-grid {
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+/* Form Elements */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 1rem;
+  color: #000;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  background: #fff;
+  color: #000;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #e6c757;
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .character-creation {
+    grid-template-columns: 300px 1fr 300px;
+  }
+}
+
 @media (max-width: 1024px) {
   .character-creation {
-    grid-template-columns: 250px 1fr 250px;
+    grid-template-columns: 280px 1fr 280px;
+  }
+
+  .character-preview-image {
+    width: 250px;
+    height: 350px;
+  }
+
+  .preview-icon {
+    font-size: 6rem;
   }
 }
 
 @media (max-width: 768px) {
   .character-creation {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: 1fr auto auto auto;
     grid-template-areas:
-      "header"
-      "center-panel"
-      "left-panel"
+      "preview"
+      "selections"
+      "details"
       "actions";
   }
 
-  .creation-column:last-child {
-    display: none;
+  .character-preview-image {
+    width: 200px;
+    height: 280px;
   }
 
-  .creation-actions {
-    flex-direction: column;
-    gap: 1rem;
+  .preview-icon {
+    font-size: 4rem;
+  }
+
+  .stat-summary {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .race-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
