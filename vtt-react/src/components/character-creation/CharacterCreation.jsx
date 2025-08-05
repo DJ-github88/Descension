@@ -301,49 +301,48 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
           </div>
         </div>
 
-        {/* Main Content Area - Character Preview and Dynamic Info */}
-        <div className="character-main-content">
-          {/* Character Preview Section */}
-          <div className="character-preview-section">
-            {/* Character Name Input */}
-            <div className="character-name-section">
-              <label className="name-label">Character Name:</label>
-              <input
-                type="text"
-                className="name-input"
-                value={characterName}
-                onChange={(e) => setCharacterName(e.target.value)}
-                placeholder="Enter character name"
-                maxLength={30}
-              />
-            </div>
+        {/* Center Panel - Character Preview */}
+        <div className="character-preview">
+          {/* Character Name Input */}
+          <div className="character-name-section">
+            <label className="name-label">Character Name:</label>
+            <input
+              type="text"
+              className="name-input"
+              value={characterName}
+              onChange={(e) => setCharacterName(e.target.value)}
+              placeholder="Enter character name"
+              maxLength={30}
+            />
+          </div>
 
-            <div className="character-preview-image">
-              <div className="preview-icon">
-                <i className="fas fa-user"></i>
-              </div>
-            </div>
-
-            <div className="preview-stats">
-              <h3>Character Summary</h3>
-              <div className="stat-summary">
-                <div className="stat-item">
-                  <div className="stat-label">Race</div>
-                  <div className="stat-value">{selectedRace ? getSelectedRaceData()?.name : '—'}</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-label">Subrace</div>
-                  <div className="stat-value">{selectedSubrace ? getSelectedSubraceData()?.name : '—'}</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-label">Class</div>
-                  <div className="stat-value">{selectedClass ? selectedClass : '—'}</div>
-                </div>
-              </div>
+          <div className="character-preview-image">
+            <div className="preview-icon">
+              <i className="fas fa-user"></i>
             </div>
           </div>
 
-          {/* Dynamic Information Boxes */}
+          <div className="preview-stats">
+            <h3>Character Summary</h3>
+            <div className="stat-summary">
+              <div className="stat-item">
+                <div className="stat-label">Race</div>
+                <div className="stat-value">{selectedRace ? getSelectedRaceData()?.name : '—'}</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-label">Subrace</div>
+                <div className="stat-value">{selectedSubrace ? getSelectedSubraceData()?.name : '—'}</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-label">Class</div>
+                <div className="stat-value">{selectedClass ? selectedClass : '—'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Panel - Information Boxes */}
+        <div className="character-info-panel">
           <div className="character-info-boxes">
             {selectedRace && (
               <div className="info-box">

@@ -22,15 +22,15 @@
   color: #000 !important;
 }
 
-/* Full-Screen Grid Layout - Two Column Design */
+/* Full-Screen Grid Layout - Three Column with Center Preview and Right Info */
 .character-creation {
   height: 100vh;
   display: grid;
-  grid-template-columns: 380px 1fr;
+  grid-template-columns: 380px 1fr 450px;
   grid-template-rows: 1fr auto;
   grid-template-areas:
-    "selections main-content"
-    "actions actions";
+    "selections preview info-panel"
+    "actions actions actions";
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
   gap: 0;
 }
@@ -50,29 +50,34 @@
   box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Main Content Area - Combined Preview and Details */
-.character-main-content {
-  grid-area: main-content;
+/* Center Panel - Character Preview Only */
+.character-preview {
+  grid-area: preview;
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
-  padding: 2rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-/* Character Preview Section */
-.character-preview-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Right Panel - Information Boxes */
+.character-info-panel {
+  grid-area: info-panel;
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  border-left: 3px solid #d4af37;
+  padding: 1.5rem;
+  overflow-y: auto;
+  box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Dynamic Information Boxes Container */
 .character-info-boxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   width: 100%;
 }
@@ -148,29 +153,28 @@
   box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
 }
 
-/* Selection Cards */
+/* Selection Cards - Simplified without nested boxes */
 .selection-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: transparent;
   border: 2px solid #d4af37;
   border-radius: 8px;
-  padding: 0.75rem;
+  padding: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   min-height: 60px;
   position: relative;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .selection-card:hover {
-  background: #f9f6f0;
+  background: rgba(255, 255, 255, 0.3);
   border-color: #e6c757;
   transform: translateY(-1px);
 }
 
 .selection-card.selected {
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  background: rgba(255, 255, 255, 0.6);
   border-width: 3px;
   border-color: #d4af37;
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
@@ -532,9 +536,15 @@
   background: transparent !important;
 }
 
+@media (max-width: 1200px) {
+  .character-creation {
+    grid-template-columns: 320px 1fr 380px;
+  }
+}
+
 @media (max-width: 1024px) {
   .character-creation {
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 280px 1fr 320px;
   }
 
   .character-preview-image {
@@ -545,19 +555,16 @@
   .preview-icon {
     font-size: 6rem;
   }
-
-  .character-info-boxes {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 768px) {
   .character-creation {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
       "selections"
-      "main-content"
+      "preview"
+      "info-panel"
       "actions";
   }
 
@@ -565,6 +572,12 @@
     border-right: none;
     border-bottom: 3px solid #d4af37;
     box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .character-info-panel {
+    border-left: none;
+    border-top: 3px solid #d4af37;
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 
   .character-preview-image {
@@ -588,9 +601,5 @@
 
   .race-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .character-info-boxes {
-    grid-template-columns: 1fr;
   }
 }
