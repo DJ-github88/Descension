@@ -208,6 +208,37 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
   return (
     <div className="character-creation-page">
       <div className="character-creation">
+        {/* Header */}
+        <div className="creation-header">
+          <div className="header-content">
+            <div className="header-left">
+              <button onClick={onCancel} className="back-button">
+                <i className="fas fa-arrow-left"></i>
+              </button>
+              <h1 className="header-title">Character Management</h1>
+            </div>
+            <div className="header-right">
+              <button
+                onClick={() => {
+                  if (characterName && selectedRace && selectedClass) {
+                    const characterData = {
+                      name: characterName,
+                      race: selectedRace,
+                      subrace: selectedSubrace,
+                      class: selectedClass,
+                      gender: selectedGender
+                    };
+                    onComplete(characterData);
+                  }
+                }}
+                className="create-button"
+                disabled={!characterName || !selectedRace || !selectedClass}
+              >
+                Create Character
+              </button>
+            </div>
+          </div>
+        </div>
         {/* Left Panel - Selections */}
         <div className="creation-column">
           {/* Race Selection */}

@@ -27,17 +27,85 @@
   height: 100vh;
   display: grid;
   grid-template-columns: 380px 1fr 450px;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
   grid-template-areas:
+    "header header header"
     "selections preview info-panel"
     "actions actions actions";
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
   gap: 0;
 }
 
-/* Remove header - use full space */
+/* Header */
 .creation-header {
-  display: none;
+  grid-area: header;
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  border-bottom: 2px solid #d4af37;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.creation-header .header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.creation-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.creation-header .back-button {
+  background: none;
+  border: none;
+  color: #8b4513;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.creation-header .back-button:hover {
+  background: rgba(139, 69, 19, 0.1);
+  color: #d4af37;
+}
+
+.creation-header .header-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #8b4513;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+}
+
+.creation-header .create-button {
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
+  border: 2px solid #b8941f;
+  color: #2c2416;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.creation-header .create-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6c757 0%, #f4e4a6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.creation-header .create-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Left Panel - Selections */
@@ -48,7 +116,7 @@
   padding: 1.5rem;
   overflow-y: auto;
   box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 240px);
 }
 
 /* Center Panel - Character Preview Only */
@@ -73,7 +141,7 @@
   padding: 1.5rem;
   overflow-y: auto;
   box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
-  max-height: calc(100vh - 160px);
+  max-height: calc(100vh - 240px);
 }
 
 /* Dynamic Information Boxes Container */
