@@ -301,56 +301,54 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
           </div>
         </div>
 
-        {/* Center Panel - Character Preview */}
-        <div className="character-preview">
-          {/* Character Name Input */}
-          <div className="character-name-section">
-            <label className="name-label">Character Name:</label>
-            <input
-              type="text"
-              className="name-input"
-              value={characterName}
-              onChange={(e) => setCharacterName(e.target.value)}
-              placeholder="Enter character name"
-              maxLength={30}
-            />
-          </div>
-
-          <div className="character-preview-image">
-            <div className="preview-icon">
-              <i className="fas fa-user"></i>
+        {/* Main Content Area - Character Preview and Dynamic Info */}
+        <div className="character-main-content">
+          {/* Character Preview Section */}
+          <div className="character-preview-section">
+            {/* Character Name Input */}
+            <div className="character-name-section">
+              <label className="name-label">Character Name:</label>
+              <input
+                type="text"
+                className="name-input"
+                value={characterName}
+                onChange={(e) => setCharacterName(e.target.value)}
+                placeholder="Enter character name"
+                maxLength={30}
+              />
             </div>
-            {characterName && (
-              <div className="character-name-display">{characterName}</div>
-            )}
-          </div>
 
-          <div className="preview-stats">
-            <h3>Character Summary</h3>
-            <div className="stat-summary">
-              <div className="stat-item">
-                <div className="stat-label">Race</div>
-                <div className="stat-value">{selectedRace ? getSelectedRaceData()?.name : '—'}</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-label">Subrace</div>
-                <div className="stat-value">{selectedSubrace ? getSelectedSubraceData()?.name : '—'}</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-label">Class</div>
-                <div className="stat-value">{selectedClass ? selectedClass : '—'}</div>
+            <div className="character-preview-image">
+              <div className="preview-icon">
+                <i className="fas fa-user"></i>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Right Panel - Selection Details */}
-        <div className="creation-column">
-          <div className="character-details">
+            <div className="preview-stats">
+              <h3>Character Summary</h3>
+              <div className="stat-summary">
+                <div className="stat-item">
+                  <div className="stat-label">Race</div>
+                  <div className="stat-value">{selectedRace ? getSelectedRaceData()?.name : '—'}</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-label">Subrace</div>
+                  <div className="stat-value">{selectedSubrace ? getSelectedSubraceData()?.name : '—'}</div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-label">Class</div>
+                  <div className="stat-value">{selectedClass ? selectedClass : '—'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Dynamic Information Boxes */}
+          <div className="character-info-boxes">
             {selectedRace && (
-              <div className="detail-section">
-                <h3 className="detail-title">Race: {getSelectedRaceData()?.name}</h3>
-                <div className="detail-content">
+              <div className="info-box">
+                <h3 className="info-box-title">Race: {getSelectedRaceData()?.name}</h3>
+                <div className="info-box-content">
                   <p><strong>Description:</strong> {getSelectedRaceData()?.description || 'A proud and noble race.'}</p>
                   {getSelectedRaceData()?.traits && (
                     <>
@@ -369,9 +367,9 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             )}
 
             {selectedSubrace && (
-              <div className="detail-section">
-                <h3 className="detail-title">Subrace: {getSelectedSubraceData()?.name}</h3>
-                <div className="detail-content">
+              <div className="info-box">
+                <h3 className="info-box-title">Subrace: {getSelectedSubraceData()?.name}</h3>
+                <div className="info-box-content">
                   <p><strong>Description:</strong> {getSelectedSubraceData()?.description || 'A unique variant of the race.'}</p>
                   {getSelectedSubraceData()?.traits && (
                     <>
@@ -390,9 +388,9 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             )}
 
             {selectedClass && (
-              <div className="detail-section">
-                <h3 className="detail-title">Class: {selectedClass}</h3>
-                <div className="detail-content">
+              <div className="info-box">
+                <h3 className="info-box-title">Class: {selectedClass}</h3>
+                <div className="info-box-content">
                   {(() => {
                     const classData = Object.values(characterClasses).flat().find(c => c.name === selectedClass);
                     return (
@@ -410,9 +408,9 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             )}
 
             {!selectedRace && !selectedSubrace && !selectedClass && (
-              <div className="detail-section">
-                <h3 className="detail-title">Character Creation</h3>
-                <div className="detail-content">
+              <div className="info-box">
+                <h3 className="info-box-title">Character Creation</h3>
+                <div className="info-box-content">
                   <p><strong>Step 1:</strong> Choose your character's race from the available options.</p>
                   <p><strong>Step 2:</strong> Select a subrace to further customize your character.</p>
                   <p><strong>Step 3:</strong> Pick a class that matches your preferred playstyle.</p>

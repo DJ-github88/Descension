@@ -22,15 +22,15 @@
   color: #000 !important;
 }
 
-/* Full-Screen Grid Layout */
+/* Full-Screen Grid Layout - Two Column Design */
 .character-creation {
   height: 100vh;
   display: grid;
-  grid-template-columns: 420px 1fr 420px;
+  grid-template-columns: 380px 1fr;
   grid-template-rows: 1fr auto;
   grid-template-areas:
-    "selections preview details"
-    "actions actions actions";
+    "selections main-content"
+    "actions actions";
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
   gap: 0;
 }
@@ -50,28 +50,31 @@
   box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Center Panel - Character Preview */
-.character-preview {
-  grid-area: preview;
+/* Main Content Area - Combined Preview and Details */
+.character-main-content {
+  grid-area: main-content;
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Character Preview Section */
+.character-preview-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-  position: relative;
-  overflow-y: auto;
-  min-height: 0;
+  margin-bottom: 2rem;
 }
 
-/* Right Panel - Details */
-.creation-column:last-child {
-  grid-area: details;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%) !important;
-  border-left: 3px solid #d4af37;
-  padding: 1.5rem;
-  overflow-y: auto;
-  box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
+/* Dynamic Information Boxes Container */
+.character-info-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
 }
 
 /* Selection Categories */
@@ -276,17 +279,17 @@
   font-style: italic;
 }
 
-/* Character Preview - Center */
+/* Character Preview Image */
 .character-preview-image {
-  width: 320px;
-  height: 360px;
+  width: 280px;
+  height: 320px;
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #d4af37;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -298,17 +301,9 @@
   opacity: 0.6;
 }
 
+/* Remove the overlay name display - name input is sufficient */
 .character-name-display {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 1.1rem;
+  display: none;
 }
 
 .preview-stats {
@@ -378,6 +373,44 @@
 .detail-content {
   color: #000;
   line-height: 1.5;
+}
+
+/* Information Box Styling for New Layout */
+.info-box {
+  background: rgba(255, 255, 255, 0.9);
+  border: 3px solid #d4af37;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.info-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.info-box-title {
+  font-size: 1.4rem;
+  color: #000;
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 0.5rem;
+}
+
+.info-box-content {
+  color: #000;
+  line-height: 1.6;
+}
+
+.info-box-content p {
+  margin: 0 0 1rem 0;
+}
+
+.info-box-content p:last-child {
+  margin-bottom: 0;
 }
 
 .detail-content p {
@@ -501,7 +534,7 @@
 
 @media (max-width: 1024px) {
   .character-creation {
-    grid-template-columns: 280px 1fr 280px;
+    grid-template-columns: 320px 1fr;
   }
 
   .character-preview-image {
@@ -512,17 +545,26 @@
   .preview-icon {
     font-size: 6rem;
   }
+
+  .character-info-boxes {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
   .character-creation {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto auto;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
-      "preview"
       "selections"
-      "details"
+      "main-content"
       "actions";
+  }
+
+  .creation-column:first-child {
+    border-right: none;
+    border-bottom: 3px solid #d4af37;
+    box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.1);
   }
 
   .character-preview-image {
@@ -546,5 +588,9 @@
 
   .race-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .character-info-boxes {
+    grid-template-columns: 1fr;
   }
 }
