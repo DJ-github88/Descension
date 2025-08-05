@@ -216,7 +216,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
   const renderAccountSection = () => (
     <div className="landing-section">
       <div className="account-content">
-        <h2>Account & Character Management</h2>
+        <h2>Create Your Account</h2>
         <div className="account-grid">
           <div className="account-card account-main">
             <div className="account-hero">
@@ -224,7 +224,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
                 <i className="fas fa-user-shield"></i>
               </div>
               <h3>Join the Adventure</h3>
-              <p>Create your Mythrill account to unlock the full potential of your tabletop experience</p>
+              <p>Create your Mythrill account to unlock character creation, cloud saves, and multiplayer features</p>
             </div>
 
             <div className="account-benefits">
