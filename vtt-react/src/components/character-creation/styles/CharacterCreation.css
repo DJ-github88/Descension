@@ -58,12 +58,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
+  justify-content: space-evenly;
+  padding: 1.5rem;
   position: relative;
   overflow-y: auto;
   height: 100%;
-  gap: 1.5rem;
+  min-height: calc(100vh - 200px);
 }
 
 /* Right Panel - Information Boxes */
@@ -289,9 +289,10 @@
 /* Character Name Section */
 .character-name-section {
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   text-align: center;
   flex-shrink: 0;
+  padding: 1rem 0;
 }
 
 .name-label {
@@ -329,8 +330,8 @@
 
 /* Character Preview Image */
 .character-preview-image {
-  width: 320px;
-  height: 400px;
+  width: 380px;
+  height: 480px;
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #d4af37;
   border-radius: 12px;
@@ -340,11 +341,12 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
+  flex: 1;
+  max-height: 480px;
 }
 
 .preview-icon {
-  font-size: 9rem;
+  font-size: 12rem;
   color: #d4af37;
   opacity: 0.6;
 }
@@ -358,13 +360,14 @@
   text-align: center;
   color: #000;
   width: 100%;
-  max-width: 450px;
+  max-width: 500px;
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #d4af37;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  min-height: 120px;
 }
 
 .preview-stats h3 {
