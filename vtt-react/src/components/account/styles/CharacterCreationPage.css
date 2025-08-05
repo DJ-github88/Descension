@@ -1,25 +1,55 @@
 /* Character Creation Page Styles - Parchment Theme */
 .character-creation-page {
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: linear-gradient(135deg, #2c2416 0%, #3d3426 50%, #4a3f2a 100%);
   color: #f4f1e8;
   font-family: 'Cinzel', serif;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 1fr;
   gap: 0;
+  z-index: 1000;
   background-image:
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
 }
 
-/* Page Header */
+/* Page Header - Hidden for fullscreen character creation */
 .page-header {
-  grid-column: 1 / -1;
-  background: linear-gradient(135deg, rgba(44, 36, 22, 0.9) 0%, rgba(61, 52, 38, 0.9) 100%);
-  border-bottom: 3px solid #d4af37;
-  padding: 2rem 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: none;
+}
+
+/* Floating Back Button */
+.floating-back-btn {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 1001;
+  background: rgba(212, 175, 55, 0.9);
+  color: #2c2416;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid #d4af37;
+}
+
+.floating-back-btn:hover {
+  background: #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  color: #2c2416;
+  text-decoration: none;
 }
 
 .header-content {
@@ -141,16 +171,17 @@
 
 /* Main Content */
 .creation-main {
-  grid-column: 1 / -1;
-  padding: 2rem;
-  overflow-y: auto;
-  max-height: calc(100vh - 120px);
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 
 .creation-container {
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
+  height: 100%;
 }
 
 
@@ -162,13 +193,13 @@
   border: 2px solid #d4af37;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  height: calc(100vh - 120px) !important;
+  height: 100vh !important;
 }
 
 /* Ensure center panel uses proper layout */
 .creation-container .character-preview {
-  justify-content: space-evenly !important;
-  padding: 1.5rem !important;
+  justify-content: space-between !important;
+  padding: 1.5rem 1.5rem 3rem 1.5rem !important;
   min-height: calc(100vh - 200px) !important;
 }
 
