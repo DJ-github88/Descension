@@ -25,9 +25,9 @@
 }
 
 .header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  width: 100%;
+  margin: 0;
+  padding: 0 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,15 +71,25 @@
 }
 
 .header-actions .btn {
-  font-size: 0.9rem;
-  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+  border: 3px solid #d4af37;
+}
+
+.header-actions .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
 }
 
 /* Controls */
 .character-controls {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -139,15 +149,15 @@
 
 /* Main Content */
 .characters-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  margin: 0;
+  padding: 2rem 3rem;
 }
 
 .characters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 2rem;
   padding: 1rem 0;
 }
 
@@ -374,17 +384,21 @@
 
 .abilities-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
 }
 
 .ability-score {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(244, 228, 166, 0.15) 100%);
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 2px solid rgba(212, 175, 55, 0.4);
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
   text-align: center;
   transition: all 0.3s ease;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .ability-score:hover {
@@ -394,26 +408,29 @@
 }
 
 .ability-name {
-  font-size: 0.65rem;
-  color: #333333;
-  font-weight: 600;
+  font-size: 0.75rem;
+  color: #2c2416;
+  font-weight: 700;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  line-height: 1;
 }
 
 .ability-value {
-  font-size: 0.9rem;
-  color: #1a1a1a;
-  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2c2416;
+  font-weight: 800;
   font-family: 'Cinzel', serif;
   margin-bottom: 0.25rem;
+  line-height: 1;
 }
 
 .ability-modifier {
-  font-size: 0.7rem;
-  color: #333333;
-  font-weight: 600;
+  font-size: 0.8rem;
+  color: #8b4513;
+  font-weight: 700;
+  line-height: 1;
 }
 
 /* Equipment Preview */
@@ -703,15 +720,30 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .characters-grid {
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .characters-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .header-content,
+  .character-controls,
+  .characters-main {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
 @media (max-width: 992px) {
   .characters-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
   }
 
@@ -725,12 +757,14 @@
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+    padding: 0 1.5rem;
   }
 
   .character-controls {
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
+    padding: 1.5rem;
   }
 
   .controls-left {
@@ -744,7 +778,12 @@
   }
 
   .characters-main {
-    padding: 1rem;
+    padding: 1.5rem;
+  }
+
+  .header-actions .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
   }
 
   .character-card {
@@ -766,7 +805,8 @@
   }
 
   .abilities-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
   }
 
   .character-actions {
