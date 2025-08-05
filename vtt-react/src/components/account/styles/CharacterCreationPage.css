@@ -162,6 +162,27 @@
   border: 2px solid #d4af37;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  height: calc(100vh - 120px) !important;
+}
+
+/* Ensure center panel uses proper layout */
+.creation-container .character-preview {
+  justify-content: center !important;
+  gap: 1.5rem !important;
+  padding: 2rem 1.5rem !important;
+}
+
+/* Ensure character preview image has proper size */
+.creation-container .character-preview-image {
+  height: 400px !important;
+  flex-shrink: 0 !important;
+  flex: none !important;
+}
+
+/* Ensure action bar has fixed height */
+.creation-container .creation-actions {
+  height: 80px !important;
+  flex-shrink: 0 !important;
 }
 
 /* Force black text in character creation within account page */
