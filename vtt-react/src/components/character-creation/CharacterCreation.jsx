@@ -208,35 +208,51 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
   return (
     <div className="character-creation-page">
       <div className="character-creation">
-        {/* Header */}
-        <div className="creation-header">
-          <div className="header-content">
-            <div className="header-left">
-              <button onClick={onCancel} className="back-button">
-                <i className="fas fa-arrow-left"></i>
-              </button>
-              <h1 className="header-title">Character Management</h1>
+        {/* Controls Header */}
+        <div className="character-controls">
+          <div className="controls-left">
+            <button onClick={onCancel} className="back-button">
+              <i className="fas fa-arrow-left"></i>
+            </button>
+            <h1 className="controls-title">CHARACTER MANAGEMENT</h1>
+            <div className="sort-control">
+              <label>SORT BY:</label>
+              <select defaultValue="name">
+                <option value="name">Name</option>
+                <option value="class">Class</option>
+                <option value="race">Race</option>
+              </select>
             </div>
-            <div className="header-right">
-              <button
-                onClick={() => {
-                  if (characterName && selectedRace && selectedClass) {
-                    const characterData = {
-                      name: characterName,
-                      race: selectedRace,
-                      subrace: selectedSubrace,
-                      class: selectedClass,
-                      gender: selectedGender
-                    };
-                    onComplete(characterData);
-                  }
-                }}
-                className="create-button"
-                disabled={!characterName || !selectedRace || !selectedClass}
-              >
-                Create Character
-              </button>
+            <div className="filter-control">
+              <label>FILTER BY CLASS:</label>
+              <select defaultValue="all">
+                <option value="all">ALL CLASSES</option>
+                <option value="fighter">Fighter</option>
+                <option value="wizard">Wizard</option>
+                <option value="rogue">Rogue</option>
+              </select>
             </div>
+          </div>
+          <div className="controls-right">
+            <button
+              onClick={() => {
+                if (characterName && selectedRace && selectedClass) {
+                  const characterData = {
+                    name: characterName,
+                    race: selectedRace,
+                    subrace: selectedSubrace,
+                    class: selectedClass,
+                    gender: selectedGender
+                  };
+                  onComplete(characterData);
+                }
+              }}
+              className="create-new-character-btn"
+              disabled={!characterName || !selectedRace || !selectedClass}
+            >
+              CREATE NEW CHARACTER
+            </button>
+            <span className="character-count">1 CHARACTER</span>
           </div>
         </div>
         {/* Left Panel - Selections */}
