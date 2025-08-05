@@ -1,13 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RACE_DATA } from '../../data/raceData';
 import './styles/CharacterCreation.css';
 
-const CharacterCreation = ({ onComplete, onCancel }) => {
+const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing }) => {
   const [selectedClass, setSelectedClass] = useState(null);
   const [selectedRace, setSelectedRace] = useState(null);
   const [selectedSubrace, setSelectedSubrace] = useState(null);
   const [characterName, setCharacterName] = useState('');
   const [selectedGender, setSelectedGender] = useState('male');
+
+  // Pre-fill form when editing existing character
+  useEffect(() => {
+    if (isEditing && existingCharacter) {
+      setCharacterName(existingCharacter.name || '');
+      setSelectedClass(existingCharacter.class || null);
+      setSelectedRace(existingCharacter.race || null);
+      setSelectedSubrace(existingCharacter.subrace || null);
+      setSelectedGender(existingCharacter.gender || 'male');
+    }
+  }, [isEditing, existingCharacter]);
 
   // Convert RACE_DATA to the format we need
   const getRaceList = () => {
@@ -250,7 +261,7 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
               className="create-new-character-btn"
               disabled={!characterName || !selectedRace || !selectedClass}
             >
-              CREATE NEW CHARACTER
+              {isEditing ? 'UPDATE CHARACTER' : 'CREATE NEW CHARACTER'}
             </button>
             <span className="character-count">1 CHARACTER</span>
           </div>

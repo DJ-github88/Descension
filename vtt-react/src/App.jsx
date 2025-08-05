@@ -259,6 +259,14 @@ const AppContent = ({
                             )
                         } />
 
+                        <Route path="/account/characters/edit/:characterId" element={
+                            isAuthenticated ? (
+                                <CharacterCreationPage user={user} isEditing={true} />
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        } />
+
                         {/* Game routes */}
                         <Route path="/game" element={
                             <div className="spell-wizard-container">

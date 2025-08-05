@@ -1,77 +1,121 @@
 // Character creation page - wrapper for character creation with routing
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CharacterCreation from '../character-creation/CharacterCreation';
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';
 import './styles/CharacterCreationPage.css';
 
-const CharacterCreationPage = ({ user }) => {
+const CharacterCreationPage = ({ user, isEditing = false }) => {
   const navigate = useNavigate();
-  const { createCharacter } = useCharacterStore();
+  const { characterId } = useParams();
+  const { createCharacter, updateCharacter, characters, loadCharacters } = useCharacterStore();
   const { userData } = useAuthStore();
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
+  const [existingCharacter, setExistingCharacter] = useState(null);
+  const [isLoading, setIsLoading] = useState(isEditing);
+
+  // Load existing character data when editing
+  useEffect(() => {
+    const loadExistingCharacter = async () => {
+      if (isEditing && characterId) {
+        setIsLoading(true);
+        try {
+          await loadCharacters();
+          const character = characters.find(c => c.id === characterId);
+          if (character) {
+            setExistingCharacter(character);
+          } else {
+            setError('Character not found');
+          }
+        } catch (error) {
+          console.error('Error loading character:', error);
+          setError('Failed to load character data');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadExistingCharacter();
+  }, [isEditing, characterId, characters, loadCharacters]);
 
   const handleCharacterCreationComplete = async (characterData) => {
     setIsCreating(true);
     setError(null);
 
     try {
-      // Add user ID and creation timestamp to character data
-      const completeCharacterData = {
-        ...characterData,
-        userId: user.uid,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        level: 1,
-        experience: 0,
-        hitPoints: characterData.hitPoints || 100,
-        maxHitPoints: characterData.maxHitPoints || 100,
-        armorClass: characterData.armorClass || 10,
-        // Add default stats if not provided
-        stats: characterData.stats || {
-          strength: 10,
-          dexterity: 10,
-          constitution: 10,
-          intelligence: 10,
-          wisdom: 10,
-          charisma: 10
-        },
-        // Add empty inventory and equipment
-        inventory: [],
-        equipment: {
-          weapon: null,
-          armor: null,
-          shield: null,
-          accessories: []
-        },
-        // Add empty spells and abilities
-        spells: [],
-        abilities: [],
-        // Add character preferences
-        preferences: {
-          theme: userData?.preferences?.theme || 'pathfinder',
-          autoSave: true
-        }
-      };
+      if (isEditing && existingCharacter) {
+        // Update existing character
+        const updatedCharacterData = {
+          ...existingCharacter,
+          ...characterData,
+          updatedAt: new Date().toISOString(),
+        };
 
-      // Save character to store/database
-      const savedCharacter = await createCharacter(completeCharacterData);
-      
-      console.log('Character created successfully:', savedCharacter);
-      
-      // Navigate to character management page
-      navigate('/account/characters', { 
-        state: { 
-          message: `${characterData.name} has been created successfully!`,
-          newCharacterId: savedCharacter.id 
-        } 
-      });
-      
+        const savedCharacter = await updateCharacter(characterId, updatedCharacterData);
+        console.log('Character updated successfully:', savedCharacter);
+
+        navigate('/account/characters', {
+          state: {
+            message: `${characterData.name} has been updated successfully!`,
+            updatedCharacterId: characterId
+          }
+        });
+      } else {
+        // Create new character
+        const completeCharacterData = {
+          ...characterData,
+          userId: user.uid,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          level: 1,
+          experience: 0,
+          hitPoints: characterData.hitPoints || 100,
+          maxHitPoints: characterData.maxHitPoints || 100,
+          armorClass: characterData.armorClass || 10,
+          // Add default stats if not provided
+          stats: characterData.stats || {
+            strength: 10,
+            dexterity: 10,
+            constitution: 10,
+            intelligence: 10,
+            wisdom: 10,
+            charisma: 10
+          },
+          // Add empty inventory and equipment
+          inventory: [],
+          equipment: {
+            weapon: null,
+            armor: null,
+            shield: null,
+            accessories: []
+          },
+          // Add empty spells and abilities
+          spells: [],
+          abilities: [],
+          // Add character preferences
+          preferences: {
+            theme: userData?.preferences?.theme || 'pathfinder',
+            autoSave: true
+          }
+        };
+
+        const savedCharacter = await createCharacter(completeCharacterData);
+        console.log('Character created successfully:', savedCharacter);
+
+        navigate('/account/characters', {
+          state: {
+            message: `${characterData.name} has been created successfully!`,
+            newCharacterId: savedCharacter.id
+          }
+        });
+      }
+
     } catch (error) {
-      console.error('Error creating character:', error);
-      setError('Failed to create character. Please try again.');
+      console.error(`Error ${isEditing ? 'updating' : 'creating'} character:`, error);
+      setError(`Failed to ${isEditing ? 'update' : 'create'} character. Please try again.`);
     } finally {
       setIsCreating(false);
     }
@@ -90,7 +134,7 @@ const CharacterCreationPage = ({ user }) => {
             <Link to="/account" className="back-link">
               <i className="fas fa-arrow-left"></i>
             </Link>
-            <h1>Character Creation</h1>
+            <h1>{isEditing ? 'Edit Character' : 'Character Creation'}</h1>
           </div>
           <div className="header-info">
             <span className="user-name">
@@ -115,11 +159,11 @@ const CharacterCreationPage = ({ user }) => {
       )}
 
       {/* Loading Overlay */}
-      {isCreating && (
+      {(isCreating || isLoading) && (
         <div className="creation-overlay">
           <div className="creation-spinner">
             <i className="fas fa-spinner fa-spin"></i>
-            <p>Creating your character...</p>
+            <p>{isLoading ? 'Loading character data...' : `${isEditing ? 'Updating' : 'Creating'} your character...`}</p>
           </div>
         </div>
       )}
@@ -133,6 +177,8 @@ const CharacterCreationPage = ({ user }) => {
             onComplete={handleCharacterCreationComplete}
             onCancel={handleCharacterCreationCancel}
             isLoading={isCreating}
+            existingCharacter={existingCharacter}
+            isEditing={isEditing}
           />
         </div>
       </main>
