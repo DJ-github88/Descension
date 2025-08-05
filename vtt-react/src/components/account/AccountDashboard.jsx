@@ -151,9 +151,15 @@ const AccountDashboard = ({ user }) => {
               <div className="card-footer">
                 <div className="footer-actions">
                   {characters && characters.length > 0 && (
-                    <button onClick={handleManageCharacters} className="btn btn-link">
-                      Manage All Characters →
-                    </button>
+                    <>
+                      <button onClick={handleCreateCharacter} className="btn btn-primary">
+                        <i className="fas fa-plus"></i>
+                        Create Character
+                      </button>
+                      <button onClick={handleManageCharacters} className="btn btn-link">
+                        Manage All Characters →
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
