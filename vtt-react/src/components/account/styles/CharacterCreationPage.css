@@ -148,121 +148,13 @@
 }
 
 .creation-container {
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
-/* Help Sidebar */
-.creation-help {
-  grid-column: 2;
-  background: linear-gradient(135deg, rgba(44, 36, 22, 0.8) 0%, rgba(61, 52, 38, 0.8) 100%);
-  border-left: 3px solid rgba(212, 175, 55, 0.6);
-  padding: 2rem 1.5rem;
-  overflow-y: auto;
-  max-height: calc(100vh - 120px);
-  backdrop-filter: blur(10px);
-}
 
-.help-card {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
-  border: 2px solid rgba(212, 175, 55, 0.6);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  backdrop-filter: blur(5px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
 
-.help-card h3 {
-  margin: 0 0 1rem 0;
-  color: #8b4513;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-}
-
-.help-card ul {
-  margin: 0;
-  padding-left: 1.5rem;
-  color: #5d4e37;
-}
-
-.help-card li {
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
-}
-
-/* Help Stats */
-.help-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.help-stat {
-  text-align: center;
-  padding: 1rem 0.5rem;
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.8) 100%);
-  border-radius: 6px;
-  border: 2px solid rgba(212, 175, 55, 0.4);
-  backdrop-filter: blur(5px);
-}
-
-.stat-number {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #d4af37;
-  margin-bottom: 0.25rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.stat-label {
-  color: #8b7355;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
-}
-
-/* Quick Actions */
-.quick-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.quick-action {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.8) 100%);
-  border: 2px solid rgba(212, 175, 55, 0.6);
-  border-radius: 6px;
-  color: #5d4e37;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-  backdrop-filter: blur(5px);
-}
-
-.quick-action:hover {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
-  border-color: #d4af37;
-  color: #8b4513;
-  transform: translateX(2px);
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
-}
-
-.quick-action i {
-  color: #d4af37;
-  width: 16px;
-  text-align: center;
-}
 
 /* Character Creation Component Overrides */
 .creation-container .character-creation {
