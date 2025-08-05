@@ -271,45 +271,30 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             </div>
           </div>
 
-          {/* Character Details */}
+          {/* Gender Selection */}
           <div className="selection-category">
-            <h2 className="category-title">Character Details</h2>
-            <div className="form-group">
-              <label className="form-label">Character Name:</label>
-              <input
-                type="text"
-                className="form-input"
-                value={characterName}
-                onChange={(e) => setCharacterName(e.target.value)}
-                placeholder="Enter character name"
-                maxLength={30}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Gender:</label>
-              <div className="subrace-grid">
-                <div
-                  className={`selection-card subrace-card ${selectedGender === 'male' ? 'selected' : ''}`}
-                  onClick={() => setSelectedGender('male')}
-                >
-                  <div className="card-icon">
-                    <i className="fas fa-mars"></i>
-                  </div>
-                  <div className="card-content">
-                    <div className="card-title">Male</div>
-                  </div>
+            <h2 className="category-title">Gender</h2>
+            <div className="subrace-grid">
+              <div
+                className={`selection-card subrace-card ${selectedGender === 'male' ? 'selected' : ''}`}
+                onClick={() => setSelectedGender('male')}
+              >
+                <div className="card-icon">
+                  <i className="fas fa-mars"></i>
                 </div>
-                <div
-                  className={`selection-card subrace-card ${selectedGender === 'female' ? 'selected' : ''}`}
-                  onClick={() => setSelectedGender('female')}
-                >
-                  <div className="card-icon">
-                    <i className="fas fa-venus"></i>
-                  </div>
-                  <div className="card-content">
-                    <div className="card-title">Female</div>
-                  </div>
+                <div className="card-content">
+                  <div className="card-title">Male</div>
+                </div>
+              </div>
+              <div
+                className={`selection-card subrace-card ${selectedGender === 'female' ? 'selected' : ''}`}
+                onClick={() => setSelectedGender('female')}
+              >
+                <div className="card-icon">
+                  <i className="fas fa-venus"></i>
+                </div>
+                <div className="card-content">
+                  <div className="card-title">Female</div>
                 </div>
               </div>
             </div>
@@ -318,6 +303,19 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
 
         {/* Center Panel - Character Preview */}
         <div className="character-preview">
+          {/* Character Name Input */}
+          <div className="character-name-section">
+            <label className="name-label">Character Name:</label>
+            <input
+              type="text"
+              className="name-input"
+              value={characterName}
+              onChange={(e) => setCharacterName(e.target.value)}
+              placeholder="Enter character name"
+              maxLength={30}
+            />
+          </div>
+
           <div className="character-preview-image">
             <div className="preview-icon">
               <i className="fas fa-user"></i>

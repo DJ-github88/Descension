@@ -26,7 +26,7 @@
 .character-creation {
   height: 100vh;
   display: grid;
-  grid-template-columns: 400px 1fr 400px;
+  grid-template-columns: 450px 1fr 450px;
   grid-template-rows: 1fr auto;
   grid-template-areas:
     "selections preview details"
@@ -58,7 +58,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem;
   position: relative;
   overflow-y: auto;
 }
@@ -234,10 +234,51 @@
   margin-top: 0.25rem;
 }
 
+/* Character Name Section */
+.character-name-section {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.name-label {
+  display: block;
+  font-size: 1.1rem;
+  color: #000;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.name-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #000;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: #b8941f;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.name-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
 /* Character Preview - Center */
 .character-preview-image {
   width: 280px;
-  height: 350px;
+  height: 320px;
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #d4af37;
   border-radius: 12px;
@@ -245,7 +286,6 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  margin-top: 1rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -437,9 +477,15 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1400px) {
+  .character-creation {
+    grid-template-columns: 380px 1fr 380px;
+  }
+}
+
 @media (max-width: 1200px) {
   .character-creation {
-    grid-template-columns: 300px 1fr 300px;
+    grid-template-columns: 320px 1fr 320px;
   }
 }
 
@@ -450,7 +496,7 @@
 
   .character-preview-image {
     width: 250px;
-    height: 350px;
+    height: 300px;
   }
 
   .preview-icon {
@@ -471,7 +517,12 @@
 
   .character-preview-image {
     width: 200px;
-    height: 280px;
+    height: 250px;
+  }
+
+  .name-input {
+    font-size: 0.9rem;
+    padding: 0.6rem;
   }
 
   .preview-icon {
