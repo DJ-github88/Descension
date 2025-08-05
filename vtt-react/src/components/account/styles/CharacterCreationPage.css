@@ -1,21 +1,25 @@
-/* Character Creation Page Styles */
+/* Character Creation Page Styles - Parchment Theme */
 .character-creation-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  color: #e8e8e8;
+  background: linear-gradient(135deg, #2c2416 0%, #3d3426 50%, #4a3f2a 100%);
+  color: #f4f1e8;
   font-family: 'Cinzel', serif;
   display: grid;
   grid-template-columns: 1fr 300px;
   grid-template-rows: auto 1fr;
   gap: 0;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
 }
 
 /* Page Header */
 .page-header {
   grid-column: 1 / -1;
-  background: rgba(0, 0, 0, 0.3);
-  border-bottom: 2px solid #d4af37;
+  background: linear-gradient(135deg, rgba(44, 36, 22, 0.9) 0%, rgba(61, 52, 38, 0.9) 100%);
+  border-bottom: 3px solid #d4af37;
   padding: 2rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .header-content {
@@ -51,7 +55,8 @@
   margin: 0;
   font-size: 2rem;
   color: #d4af37;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-weight: 600;
 }
 
 .header-info {
@@ -61,7 +66,7 @@
 }
 
 .user-name {
-  color: #b8b8b8;
+  color: #c9b896;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -150,34 +155,38 @@
 /* Help Sidebar */
 .creation-help {
   grid-column: 2;
-  background: rgba(0, 0, 0, 0.3);
-  border-left: 2px solid rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, rgba(44, 36, 22, 0.8) 0%, rgba(61, 52, 38, 0.8) 100%);
+  border-left: 3px solid rgba(212, 175, 55, 0.6);
   padding: 2rem 1.5rem;
   overflow-y: auto;
   max-height: calc(100vh - 120px);
+  backdrop-filter: blur(10px);
 }
 
 .help-card {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.6);
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .help-card h3 {
   margin: 0 0 1rem 0;
-  color: #d4af37;
+  color: #8b4513;
   font-size: 1.1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 600;
 }
 
 .help-card ul {
   margin: 0;
   padding-left: 1.5rem;
-  color: #b8b8b8;
+  color: #5d4e37;
 }
 
 .help-card li {
@@ -196,9 +205,10 @@
 .help-stat {
   text-align: center;
   padding: 1rem 0.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.8) 100%);
   border-radius: 6px;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  backdrop-filter: blur(5px);
 }
 
 .stat-number {
@@ -207,13 +217,15 @@
   font-weight: bold;
   color: #d4af37;
   margin-bottom: 0.25rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .stat-label {
-  color: #b8b8b8;
+  color: #8b7355;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 /* Quick Actions */
@@ -228,20 +240,22 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.8) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.6);
   border-radius: 6px;
-  color: #e8e8e8;
+  color: #5d4e37;
   text-decoration: none;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  backdrop-filter: blur(5px);
 }
 
 .quick-action:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
   border-color: #d4af37;
-  color: #d4af37;
+  color: #8b4513;
   transform: translateX(2px);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
 }
 
 .quick-action i {

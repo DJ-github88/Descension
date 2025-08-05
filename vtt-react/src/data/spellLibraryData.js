@@ -9,8 +9,6 @@
 import { CUSTOM_LIBRARY_SPELLS, SPELL_CATEGORIES } from './customSpellLibraryData';
 import { ADDITIONAL_SPELLS } from './additionalSpells';
 import { ADVANCED_SPELLS } from './advancedSpells';
-import { testBuffSpell } from './testBuffSpell';
-import { testDebuffSpell } from './testDebuffSpell';
 import { ENHANCED_SPELL_LIBRARY, ALL_ENHANCED_CATEGORIES } from './enhancedSpellLibrary';
 import { ADDITIONAL_ENHANCED_SPELLS } from './additionalEnhancedSpells';
 
@@ -21,9 +19,7 @@ export const LIBRARY_SPELLS = [
   ...ADDITIONAL_SPELLS,
   ...ADVANCED_SPELLS,
   ...ENHANCED_SPELL_LIBRARY,
-  ...ADDITIONAL_ENHANCED_SPELLS,
-  testBuffSpell,
-  testDebuffSpell
+  ...ADDITIONAL_ENHANCED_SPELLS
 ];
 
 // Define new collections for the additional spells

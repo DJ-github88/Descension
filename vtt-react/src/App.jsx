@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Grid from "./components/Grid";
 import Navigation from "./components/Navigation";
 import GameProvider from "./components/GameProvider";
@@ -127,13 +127,7 @@ export default function App() {
         };
     }, [gameMode]);
 
-    const handleEnterSinglePlayer = () => {
-        setGameMode('single');
-    };
 
-    const handleEnterMultiplayer = () => {
-        setGameMode('multiplayer');
-    };
 
     const handleReturnToLanding = () => {
         setGameMode('landing');
@@ -167,7 +161,52 @@ export default function App() {
         <GameProvider>
             <SpellLibraryProvider>
                 <Router>
-                    <Routes>
+                    <AppContent
+                        isAuthenticated={isAuthenticated}
+                        user={user}
+                        showAuthModal={showAuthModal}
+                        authMode={authMode}
+                        showUserProfile={showUserProfile}
+                        handleShowLogin={handleShowLogin}
+                        handleShowRegister={handleShowRegister}
+                        handleShowUserProfile={handleShowUserProfile}
+                        handleCloseAuthModal={handleCloseAuthModal}
+                        handleCloseUserProfile={handleCloseUserProfile}
+                        handleReturnToLanding={handleReturnToLanding}
+                    />
+                </Router>
+            </SpellLibraryProvider>
+        </GameProvider>
+    );
+}
+
+// Component that uses navigate hook - must be inside Router
+const AppContent = ({
+    isAuthenticated,
+    user,
+    showAuthModal,
+    authMode,
+    showUserProfile,
+    handleShowLogin,
+    handleShowRegister,
+    handleShowUserProfile,
+    handleCloseAuthModal,
+    handleCloseUserProfile,
+    handleReturnToLanding
+}) => {
+    const navigate = useNavigate();
+
+    const handleEnterSinglePlayer = () => {
+        navigate('/game');
+    };
+
+    const handleEnterMultiplayer = () => {
+        navigate('/multiplayer');
+    };
+
+    return (
+        <>
+            <Routes>
                         {/* Landing page route */}
                         <Route path="/" element={
                             isAuthenticated ? (
@@ -237,21 +276,19 @@ export default function App() {
 
                         {/* Redirect unknown routes to home */}
                         <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
+            </Routes>
 
-                    {/* Global modals */}
-                    <AuthModal
-                        isOpen={showAuthModal}
-                        onClose={handleCloseAuthModal}
-                        initialMode={authMode}
-                    />
+            {/* Global modals */}
+            <AuthModal
+                isOpen={showAuthModal}
+                onClose={handleCloseAuthModal}
+                initialMode={authMode}
+            />
 
-                    <UserProfile
-                        isOpen={showUserProfile}
-                        onClose={handleCloseUserProfile}
-                    />
-                </Router>
-            </SpellLibraryProvider>
-        </GameProvider>
+            <UserProfile
+                isOpen={showUserProfile}
+                onClose={handleCloseUserProfile}
+            />
+        </>
     );
-}
+};

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import CharacterCreation from '../character-creation/CharacterCreation';
 import AuthModal from '../auth/AuthModal';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [showCharacterCreation, setShowCharacterCreation] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Handle scroll to show/hide scroll-to-top button
@@ -23,15 +21,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCharacterCreationComplete = (characterData) => {
-    console.log('Character created:', characterData);
-    setShowCharacterCreation(false);
-    // Here you would typically save the character data or navigate to the game
-  };
 
-  const handleCharacterCreationCancel = () => {
-    setShowCharacterCreation(false);
-  };
 
   const renderHomeSection = () => (
     <div className="landing-section">
@@ -275,44 +265,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
             </div>
           </div>
           
-          <div className="account-card">
-            <h3>Character Creation</h3>
-            <p>Build your perfect character with our comprehensive creation system.</p>
-            <div className="character-creation-content">
-              <div className="character-preview">
-                <div className="char-portrait-placeholder">
-                  <i className="fas fa-user-circle"></i>
-                </div>
-                <ul>
-                  <li>27 unique character classes</li>
-                  <li>10 races with multiple subraces</li>
-                  <li>Pathfinder-inspired styling</li>
-                  <li>WoW-style class selection</li>
-                </ul>
-                <button
-                  className="create-character-btn"
-                  onClick={() => setShowCharacterCreation(true)}
-                >
-                  <i className="fas fa-plus"></i>
-                  Create New Character
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div className="account-card">
-            <h3>My Characters</h3>
-            <p>Manage your character roster and campaign participation.</p>
-            <div className="placeholder-content">
-              <p><em>Character management system coming soon...</em></p>
-              <div className="char-list-placeholder">
-                <div className="char-item"><i className="fas fa-scroll"></i> Character saves & backups</div>
-                <div className="char-item"><i className="fas fa-theater-masks"></i> Multiple character slots</div>
-                <div className="char-item"><i className="fas fa-chart-bar"></i> Character statistics</div>
-                <div className="char-item"><i className="fas fa-trophy"></i> Achievement tracking</div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -404,13 +357,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
         </button>
       )}
 
-      {/* Character Creation Modal */}
-      {showCharacterCreation && (
-        <CharacterCreation
-          onComplete={handleCharacterCreationComplete}
-          onCancel={handleCharacterCreationCancel}
-        />
-      )}
+
 
       {/* Authentication Modal */}
       <AuthModal

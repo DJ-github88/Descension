@@ -33,10 +33,6 @@ const AccountDashboard = ({ user }) => {
     navigate('/');
   };
 
-  const handleCreateCharacter = () => {
-    navigate('/account/characters/create');
-  };
-
   const handleManageCharacters = () => {
     navigate('/account/characters');
   };
@@ -98,10 +94,6 @@ const AccountDashboard = ({ user }) => {
                 <i className="fas fa-users"></i>
                 Your Characters
               </h2>
-              <button onClick={handleCreateCharacter} className="btn btn-primary">
-                <i className="fas fa-plus"></i>
-                Create New
-              </button>
             </div>
             <div className="card-content">
               {characters && characters.length > 0 ? (
@@ -146,11 +138,7 @@ const AccountDashboard = ({ user }) => {
                 <div className="empty-state">
                   <i className="fas fa-user-plus"></i>
                   <h3>No Characters Yet</h3>
-                  <p>Create your first character to begin your adventure!</p>
-                  <button onClick={handleCreateCharacter} className="btn btn-primary">
-                    <i className="fas fa-plus"></i>
-                    Create Your First Character
-                  </button>
+                  <p>Visit the Character Manager to create your first character!</p>
                 </div>
               )}
               {characters && characters.length > 0 && (
@@ -163,12 +151,12 @@ const AccountDashboard = ({ user }) => {
             </div>
           </section>
 
-          {/* Quick Actions */}
-          <section className="dashboard-card quick-actions-card">
+          {/* Game Actions */}
+          <section className="dashboard-card game-actions-card">
             <div className="card-header">
               <h2>
-                <i className="fas fa-bolt"></i>
-                Quick Actions
+                <i className="fas fa-dice-d20"></i>
+                Game Options
               </h2>
             </div>
             <div className="card-content">
@@ -184,10 +172,6 @@ const AccountDashboard = ({ user }) => {
                 <Link to="/account/characters" className="action-btn">
                   <i className="fas fa-address-book"></i>
                   <span>Character Manager</span>
-                </Link>
-                <Link to="/account/characters/create" className="action-btn">
-                  <i className="fas fa-user-plus"></i>
-                  <span>Create Character</span>
                 </Link>
               </div>
             </div>

@@ -183,7 +183,7 @@ const CharacterCreationPage = ({ user }) => {
             </Link>
             <Link to="/account/characters" className="quick-action">
               <i className="fas fa-users"></i>
-              My Characters
+              Character Manager
             </Link>
             <Link to="/game" className="quick-action">
               <i className="fas fa-dice-d20"></i>
