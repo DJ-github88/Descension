@@ -199,8 +199,8 @@
 /* Ensure center panel uses proper layout */
 .creation-container .character-preview {
   justify-content: space-between !important;
-  padding: 1.5rem 1.5rem 3rem 1.5rem !important;
-  min-height: calc(100vh - 200px) !important;
+  padding: 1.5rem !important;
+  height: 100% !important;
 }
 
 /* Ensure character preview image has proper size */
@@ -226,10 +226,10 @@
 
 /* Ensure action bar has proper height and spacing */
 .creation-container .creation-actions {
-  min-height: 100px !important;
+  height: 120px !important;
   flex-shrink: 0 !important;
   padding: 2rem 1.5rem !important;
-  margin-top: auto !important;
+  align-items: center !important;
 }
 
 /* Force black text in character creation within account page */
