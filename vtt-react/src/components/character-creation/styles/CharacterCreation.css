@@ -26,7 +26,7 @@
 .character-creation {
   height: 100vh;
   display: grid;
-  grid-template-columns: 450px 1fr 450px;
+  grid-template-columns: 420px 1fr 420px;
   grid-template-rows: 1fr auto;
   grid-template-areas:
     "selections preview details"
@@ -43,7 +43,7 @@
 /* Left Panel - Selections */
 .creation-column:first-child {
   grid-area: selections;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%) !important;
   border-right: 3px solid #d4af37;
   padding: 1.5rem;
   overflow-y: auto;
@@ -57,16 +57,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 1.5rem;
+  justify-content: center;
+  padding: 2rem 1.5rem;
   position: relative;
   overflow-y: auto;
+  min-height: 0;
 }
 
 /* Right Panel - Details */
 .creation-column:last-child {
   grid-area: details;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%) !important;
   border-left: 3px solid #d4af37;
   padding: 1.5rem;
   overflow-y: auto;
@@ -237,8 +238,8 @@
 /* Character Name Section */
 .character-name-section {
   width: 100%;
-  max-width: 300px;
-  margin-bottom: 1.5rem;
+  max-width: 350px;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -252,12 +253,12 @@
 
 .name-input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   border: 2px solid #d4af37;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.9);
   color: #000;
-  font-size: 1rem;
+  font-size: 1.1rem;
   text-align: center;
   font-weight: 500;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -277,22 +278,22 @@
 
 /* Character Preview - Center */
 .character-preview-image {
-  width: 280px;
-  height: 320px;
+  width: 320px;
+  height: 360px;
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #d4af37;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .preview-icon {
-  font-size: 8rem;
+  font-size: 9rem;
   color: #d4af37;
   opacity: 0.6;
 }
@@ -327,7 +328,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
   margin-top: 1rem;
-  max-width: 280px;
+  max-width: 320px;
 }
 
 .stat-item {
@@ -357,10 +358,10 @@
 }
 
 .detail-section {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8) !important;
   border: 2px solid #d4af37;
   border-radius: 8px;
-  padding: 1.25rem;
+  padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -487,6 +488,15 @@
   .character-creation {
     grid-template-columns: 320px 1fr 320px;
   }
+}
+
+/* Ensure background colors are applied properly */
+.creation-column {
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%) !important;
+}
+
+.character-details {
+  background: transparent !important;
 }
 
 @media (max-width: 1024px) {
