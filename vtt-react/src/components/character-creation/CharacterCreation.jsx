@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { RACE_DATA } from '../../data/raceData';
 import './styles/CharacterCreation.css';
 
@@ -330,6 +330,7 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
             </div>
           </div>
         </div>
+          </div>
 
         {/* Action Buttons */}
         <div className="creation-actions">
