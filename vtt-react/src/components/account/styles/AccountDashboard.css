@@ -455,3 +455,97 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Footer Actions */
+.footer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-actions .btn {
+  flex-shrink: 0;
+}
+
+/* Membership Card */
+.membership-card {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.2) 0%, rgba(160, 82, 45, 0.2) 100%);
+  border: 2px solid #d4af37;
+}
+
+.membership-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.membership-tier {
+  text-align: center;
+}
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4bc 50%, #d4af37 100%);
+  color: #2c2416;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.tier-badge i {
+  color: #ff6b35;
+}
+
+.tier-description {
+  color: #c9b037;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.membership-benefits h4 {
+  color: #d4af37;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.membership-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.membership-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  color: #f4f1e8;
+}
+
+.membership-benefits li i {
+  color: #4caf50;
+  font-size: 1rem;
+}
+
+.membership-since {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.membership-since p {
+  color: #c9b037;
+  font-style: italic;
+  margin: 0;
+}
+
+.membership-since i {
+  margin-right: 0.5rem;
+  color: #d4af37;
+}

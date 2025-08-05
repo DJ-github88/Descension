@@ -112,6 +112,19 @@ class AuthService {
       console.log('Error code:', error.code);
       console.log('Error message:', error.message);
 
+      // Handle specific popup-related errors
+      if (error.code === 'auth/popup-closed-by-user') {
+        return { error: 'Sign-in was cancelled. Please try again.', success: false };
+      }
+
+      if (error.code === 'auth/popup-blocked') {
+        return { error: 'Popup was blocked by browser. Please allow popups and try again.', success: false };
+      }
+
+      if (error.code === 'auth/cancelled-popup-request') {
+        return { error: 'Sign-in request was cancelled. Please try again.', success: false };
+      }
+
       // Provide more specific error messages
       let userFriendlyMessage = error.message;
       if (error.code === 'auth/popup-closed-by-user') {

@@ -37,6 +37,10 @@ const AccountDashboard = ({ user }) => {
     navigate('/account/characters');
   };
 
+  const handleCreateCharacter = () => {
+    navigate('/account/characters/create');
+  };
+
   const handleEnterGame = (characterId) => {
     // Set active character and navigate to game
     navigate('/game', { state: { characterId } });
@@ -113,7 +117,7 @@ const AccountDashboard = ({ user }) => {
                         <p className="character-level">Level {character.level || 1}</p>
                       </div>
                       <div className="character-actions">
-                        <button 
+                        <button
                           onClick={() => handleEnterGame(character.id)}
                           className="btn btn-sm btn-primary"
                         >
@@ -138,16 +142,26 @@ const AccountDashboard = ({ user }) => {
                 <div className="empty-state">
                   <i className="fas fa-user-plus"></i>
                   <h3>No Characters Yet</h3>
-                  <p>Visit the Character Manager to create your first character!</p>
-                </div>
-              )}
-              {characters && characters.length > 0 && (
-                <div className="card-footer">
-                  <button onClick={handleManageCharacters} className="btn btn-link">
-                    Manage All Characters →
+                  <p>Create your first character to begin your adventure!</p>
+                  <button onClick={handleCreateCharacter} className="btn btn-primary">
+                    <i className="fas fa-plus"></i>
+                    Create Character
                   </button>
                 </div>
               )}
+              <div className="card-footer">
+                <div className="footer-actions">
+                  <button onClick={handleCreateCharacter} className="btn btn-primary">
+                    <i className="fas fa-plus"></i>
+                    Create Character
+                  </button>
+                  {characters && characters.length > 0 && (
+                    <button onClick={handleManageCharacters} className="btn btn-link">
+                      Manage All Characters →
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </section>
 
@@ -173,6 +187,54 @@ const AccountDashboard = ({ user }) => {
                   <i className="fas fa-address-book"></i>
                   <span>Character Manager</span>
                 </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* Membership Info */}
+          <section className="dashboard-card membership-card">
+            <div className="card-header">
+              <h2>
+                <i className="fas fa-crown"></i>
+                Membership
+              </h2>
+            </div>
+            <div className="card-content">
+              <div className="membership-info">
+                <div className="membership-tier">
+                  <div className="tier-badge">
+                    <i className="fas fa-star"></i>
+                    <span>Free Adventurer</span>
+                  </div>
+                  <p className="tier-description">
+                    Full access to all Mythrill features including character creation,
+                    multiplayer rooms, and cloud save functionality.
+                  </p>
+                </div>
+                <div className="membership-benefits">
+                  <h4>Your Benefits:</h4>
+                  <ul>
+                    <li><i className="fas fa-check"></i> Unlimited characters</li>
+                    <li><i className="fas fa-check"></i> Cloud synchronization</li>
+                    <li><i className="fas fa-check"></i> Multiplayer access</li>
+                    <li><i className="fas fa-check"></i> Character progression tracking</li>
+                  </ul>
+                </div>
+                <div className="membership-since">
+                  <p>
+                    <i className="fas fa-calendar-alt"></i>
+                    Member since {userData?.createdAt ?
+                      new Date(userData.createdAt.seconds * 1000).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long'
+                      }) :
+                      new Date().toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long'
+                      })
+                    }
+                  </p>
+                </div>
               </div>
             </div>
           </section>

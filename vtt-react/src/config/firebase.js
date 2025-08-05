@@ -83,6 +83,11 @@ if (app) {
     googleProvider.setCustomParameters({
       prompt: 'select_account'
     });
+
+    // Add additional scopes for better user info
+    googleProvider.addScope('email');
+    googleProvider.addScope('profile');
+
     console.log('✅ Google Auth Provider initialized');
 
     // Development emulator setup (uncomment for local development)

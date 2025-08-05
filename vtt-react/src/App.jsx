@@ -130,7 +130,8 @@ export default function App() {
 
 
     const handleReturnToLanding = () => {
-        setGameMode('landing');
+        // This will be handled by the navigate function in AppContent
+        // since we need access to the navigate hook
     };
 
     // Authentication handlers
@@ -204,6 +205,15 @@ const AppContent = ({
         navigate('/multiplayer');
     };
 
+    // Updated handleReturnToLanding to use React Router navigation
+    const handleReturnToLandingWithNavigation = () => {
+        if (isAuthenticated) {
+            navigate('/account');
+        } else {
+            navigate('/');
+        }
+    };
+
     return (
         <>
             <Routes>
@@ -254,7 +264,7 @@ const AppContent = ({
                             <div className="spell-wizard-container">
                                 <GameScreen />
                                 <Navigation
-                                    onReturnToLanding={handleReturnToLanding}
+                                    onReturnToLanding={handleReturnToLandingWithNavigation}
                                     onShowLogin={handleShowLogin}
                                     onShowUserProfile={handleShowUserProfile}
                                     isAuthenticated={isAuthenticated}
@@ -266,7 +276,7 @@ const AppContent = ({
 
                         <Route path="/multiplayer" element={
                             <MultiplayerApp
-                                onReturnToSinglePlayer={handleReturnToLanding}
+                                onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
                                 onShowLogin={handleShowLogin}
                                 onShowUserProfile={handleShowUserProfile}
                                 isAuthenticated={isAuthenticated}
