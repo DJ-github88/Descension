@@ -219,53 +219,6 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
   return (
     <div className="character-creation-page">
       <div className="character-creation">
-        {/* Controls Header */}
-        <div className="character-controls">
-          <div className="controls-left">
-            <button onClick={onCancel} className="back-button">
-              <i className="fas fa-arrow-left"></i>
-            </button>
-            <h1 className="controls-title">CHARACTER MANAGEMENT</h1>
-            <div className="sort-control">
-              <label>SORT BY:</label>
-              <select defaultValue="name">
-                <option value="name">Name</option>
-                <option value="class">Class</option>
-                <option value="race">Race</option>
-              </select>
-            </div>
-            <div className="filter-control">
-              <label>FILTER BY CLASS:</label>
-              <select defaultValue="all">
-                <option value="all">ALL CLASSES</option>
-                <option value="fighter">Fighter</option>
-                <option value="wizard">Wizard</option>
-                <option value="rogue">Rogue</option>
-              </select>
-            </div>
-          </div>
-          <div className="controls-right">
-            <button
-              onClick={() => {
-                if (characterName && selectedRace && selectedClass) {
-                  const characterData = {
-                    name: characterName,
-                    race: selectedRace,
-                    subrace: selectedSubrace,
-                    class: selectedClass,
-                    gender: selectedGender
-                  };
-                  onComplete(characterData);
-                }
-              }}
-              className="create-new-character-btn"
-              disabled={!characterName || !selectedRace || !selectedClass}
-            >
-              {isEditing ? 'UPDATE CHARACTER' : 'CREATE NEW CHARACTER'}
-            </button>
-            <span className="character-count">1 CHARACTER</span>
-          </div>
-        </div>
         {/* Left Panel - Selections */}
         <div className="creation-column">
           {/* Race Selection */}
@@ -492,7 +445,7 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
             onClick={handleComplete}
             disabled={!characterName.trim() || !selectedClass || !selectedRace || !selectedSubrace}
           >
-            Create Character
+            {isEditing ? 'Update Character' : 'Create Character'}
           </button>
         </div>
       </div>
