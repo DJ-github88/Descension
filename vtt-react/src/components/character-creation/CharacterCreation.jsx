@@ -230,7 +230,9 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
                     <div className="card-icon">
                       <i className={race.icon}></i>
                     </div>
-                    <div className="card-title">{race.name}</div>
+                    <div className="card-content">
+                      <div className="card-title">{race.name}</div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -247,7 +249,9 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
                       className={`selection-card ${selectedSubrace === subrace.id ? 'selected' : ''}`}
                       onClick={() => handleSubraceSelect(subrace.id)}
                     >
-                      <div className="card-title">{subrace.name}</div>
+                      <div className="card-content">
+                        <div className="card-title">{subrace.name}</div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -268,8 +272,10 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
                       <div className="card-icon">
                         <i className={classInfo.icon}></i>
                       </div>
-                      <div className="card-title">{classInfo.name}</div>
-                      <div className="card-subtitle">{pathName}</div>
+                      <div className="card-content">
+                        <div className="card-title">{classInfo.name}</div>
+                        <div className="card-subtitle">{pathName}</div>
+                      </div>
                     </div>
                   ))
                 )}
@@ -311,20 +317,24 @@ const CharacterCreation = ({ onComplete, onCancel }) => {
                   maxLength={30}
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group gender-selection">
                 <label className="form-label">Gender:</label>
-                <div className="selection-grid" style={{gridTemplateColumns: '1fr 1fr'}}>
+                <div className="selection-grid">
                   <div
                     className={`selection-card ${selectedGender === 'male' ? 'selected' : ''}`}
                     onClick={() => setSelectedGender('male')}
                   >
-                    <div className="card-title">Male</div>
+                    <div className="card-content">
+                      <div className="card-title">Male</div>
+                    </div>
                   </div>
                   <div
                     className={`selection-card ${selectedGender === 'female' ? 'selected' : ''}`}
                     onClick={() => setSelectedGender('female')}
                   >
-                    <div className="card-title">Female</div>
+                    <div className="card-content">
+                      <div className="card-title">Female</div>
+                    </div>
                   </div>
               </div>
             </div>
