@@ -193,10 +193,12 @@
   padding: 1rem 0 !important;
 }
 
-/* Ensure action bar has fixed height */
+/* Ensure action bar has proper height and spacing */
 .creation-container .creation-actions {
-  height: 80px !important;
+  min-height: 100px !important;
   flex-shrink: 0 !important;
+  padding: 2rem 1.5rem !important;
+  margin-top: auto !important;
 }
 
 /* Force black text in character creation within account page */
