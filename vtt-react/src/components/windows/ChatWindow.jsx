@@ -194,16 +194,10 @@ const ChatWindow = () => {
             if (parts.length > 0) parts.push(<span key="gold-space" style={{ margin: '0 4px' }}> </span>);
             parts.push(
               <span key="silver">
-                <span style={{
-                  color: '#ffffff',
-                  fontWeight: '700',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
-                  WebkitTextStroke: '1px rgba(0, 0, 0, 0.8)',
-                  textStroke: '1px rgba(0, 0, 0, 0.8)'
-                }}>
+                <span className="currency-amount-white">
                   {notification.silver}
                 </span>
-                <span style={{ color: '#c0c0c0', fontWeight: '700', marginLeft: '2px', textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)' }}>
+                <span className="currency-type-silver">
                   Silver
                 </span>
               </span>
@@ -214,16 +208,10 @@ const ChatWindow = () => {
             if (parts.length > 0) parts.push(<span key="silver-space" style={{ margin: '0 4px' }}> </span>);
             parts.push(
               <span key="copper">
-                <span style={{
-                  color: '#ffffff',
-                  fontWeight: '700',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
-                  WebkitTextStroke: '1px rgba(0, 0, 0, 0.8)',
-                  textStroke: '1px rgba(0, 0, 0, 0.8)'
-                }}>
+                <span className="currency-amount-white">
                   {notification.copper}
                 </span>
-                <span style={{ color: '#cd7f32', fontWeight: '700', marginLeft: '2px', textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)' }}>
+                <span className="currency-type-copper">
                   Copper
                 </span>
               </span>
