@@ -197,7 +197,19 @@
 .draggable-window.dragging .spellbook-tab,
 .draggable-window.dragging .window-close {
     transition: none !important;
-    transform: none !important;
+}
+
+/* Prevent any transform conflicts during dragging */
+.draggable-window.dragging {
+    will-change: transform !important;
+}
+
+.draggable-window.dragging * {
+    pointer-events: none !important;
+}
+
+.draggable-window.dragging .window-header {
+    pointer-events: auto !important;
 }
 
 /* Prevent size flickering during drag */

@@ -98,11 +98,11 @@ const DraggableWindow = forwardRef(({
 
     // Direct transform update for better performance and fluidity
     const updateTransform = useCallback((x, y, scale) => {
-        if (nodeRef.current) {
-            // Always apply scale to maintain consistent window size
+        if (nodeRef.current && !isDragging) {
+            // Only apply transform when not dragging to prevent conflicts
             nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
         }
-    }, []);
+    }, [isDragging]);
 
     // Manage transform through optimized DOM manipulation
     useEffect(() => {
@@ -148,8 +148,8 @@ const DraggableWindow = forwardRef(({
 
     // Handle drag with optimized performance
     const handleDrag = useCallback((e, data) => {
-        // Update position immediately for fluid dragging
-        setPosition({ x: data.x, y: data.y });
+        // Don't update position state during drag to prevent conflicts
+        // The Draggable component handles the visual positioning
 
         // Call the onDrag callback during dragging for real-time updates
         if (onDrag && data && typeof data === 'object') {
@@ -169,8 +169,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-            // Re-apply scale after dragging ends to prevent flickering
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
         }
 
         // Call the onDrag callback if provided with valid data
@@ -184,7 +182,7 @@ const DraggableWindow = forwardRef(({
         }
 
         e.stopPropagation();
-    }, [onDrag, onDragStop, zIndex, windowScale]);
+    }, [onDrag, onDragStop, zIndex]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {
@@ -210,7 +208,7 @@ const DraggableWindow = forwardRef(({
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={windowScale} // Use window scale for consistent dragging
+            scale={1} // Use scale 1 to prevent dragging conflicts
         >
             <div
                 ref={nodeRef}
