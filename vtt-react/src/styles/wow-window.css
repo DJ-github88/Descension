@@ -199,6 +199,16 @@
     transition: none !important;
 }
 
+/* Draggable window container - no visual styling */
+.draggable-window {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 /* Optimize dragging performance */
 .draggable-window.dragging {
     will-change: transform !important;

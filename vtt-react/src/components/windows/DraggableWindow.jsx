@@ -96,18 +96,7 @@ const DraggableWindow = forwardRef(({
         }
     }, [centered, getInitialPosition]);
 
-    // Direct transform update for better performance and fluidity
-    const updateTransform = useCallback((x, y, scale) => {
-        if (nodeRef.current && !isDragging) {
-            // Only apply transform when not dragging to prevent conflicts
-            nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-        }
-    }, [isDragging]);
-
-    // Manage transform through optimized DOM manipulation
-    useEffect(() => {
-        updateTransform(position.x, position.y, windowScale);
-    }, [position.x, position.y, windowScale, updateTransform]);
+    // No manual transform management - let CSS and Draggable handle everything
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
@@ -215,21 +204,15 @@ const DraggableWindow = forwardRef(({
                 className={`draggable-window ${className}`}
                 style={{
                     zIndex,
-                    position: 'fixed', // Changed from absolute to fixed for better positioning
+                    position: 'fixed',
                     pointerEvents: 'auto',
                     top: 0,
                     left: 0,
-                    transformOrigin: 'top left' // Scale from top-left corner
-                    // Transform is managed entirely through direct DOM manipulation
+                    transform: `scale(${windowScale})`,
+                    transformOrigin: 'top left'
                 }}
             >
-                <div
-                    ref={windowRef}
-                    style={{
-                        transform: `scale(${windowScale})`,
-                        transformOrigin: 'top left'
-                    }}
-                >
+                <div ref={windowRef}>
                     {children}
                 </div>
             </div>
