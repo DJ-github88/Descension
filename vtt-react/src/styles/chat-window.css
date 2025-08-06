@@ -1,36 +1,47 @@
-/* WoW-themed Chat Window Styles */
+/* Enhanced Pathfinder-themed Chat Window Styles */
 
 .chat-window {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  color: #fff;
-  font-family: 'Arial', sans-serif;
-  background-color: rgba(0, 0, 0, 0.8);
+  color: #3e2723;
+  font-family: 'Cinzel', serif;
+  background: linear-gradient(135deg,
+    rgba(248, 244, 230, 0.98) 0%,
+    rgba(240, 230, 210, 0.95) 50%,
+    rgba(235, 225, 205, 0.98) 100%
+  );
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
 }
 
-/* Loading state */
+/* Enhanced Loading state */
 .loading-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: linear-gradient(135deg,
+    rgba(248, 244, 230, 0.95) 0%,
+    rgba(240, 230, 210, 0.92) 100%
+  );
 }
 
 .loading-text {
-  color: #89dceb; /* WoW blue */
+  color: #8B4513;
   font-size: 16px;
-  text-shadow: 0 0 5px rgba(137, 220, 235, 0.5);
-  animation: pulse 1.5s infinite;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  animation: pulse-pathfinder 1.5s infinite;
+  font-family: 'Cinzel', serif;
 }
 
-@keyframes pulse {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
+@keyframes pulse-pathfinder {
+  0% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0.7; transform: scale(1); }
 }
 
 /* Header Tabs */

@@ -33,25 +33,25 @@
   100% { opacity: 0.6; }
 }
 
-/* Spellbook-Style Header Tabs */
+/* Enhanced Pathfinder-Style Header Tabs */
 .spellbook-tab-headers {
   display: flex;
   flex: 1;
-  height: 50px;
+  height: 55px;
   background: linear-gradient(135deg,
-    rgba(139, 115, 85, 0.95) 0%,
-    rgba(122, 59, 46, 0.9) 50%,
-    rgba(90, 30, 18, 0.85) 100%
+    rgba(45, 35, 25, 0.98) 0%,
+    rgba(35, 25, 18, 0.95) 50%,
+    rgba(25, 18, 12, 0.98) 100%
   );
-  border-bottom: 3px solid #8b7355;
+  border-bottom: 2px solid #8B4513;
   border-radius: 0;
   box-shadow:
-    inset 0 2px 0 rgba(240, 230, 210, 0.3),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
-    0 2px 8px rgba(0, 0, 0, 0.2);
+    inset 0 1px 0 rgba(139, 69, 19, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.4);
   position: relative;
-  padding: 0 4px;
-  gap: 2px;
+  padding: 0;
+  gap: 0;
   align-items: stretch;
   margin: 0;
   border-top-left-radius: 12px;
@@ -61,177 +61,225 @@
 
 .spellbook-tab {
   flex: 1;
-  padding: 8px 16px;
+  padding: 12px 20px;
   background: linear-gradient(135deg,
-    #f0e6d2 0%,
-    #e8dcc0 25%,
-    #f5f0e8 50%,
-    #e8dcc0 75%,
-    #f0e6d2 100%);
-  border: 2px solid #8b4513;
-  border-bottom: none;
-  border-radius: 0;
-  color: #3a2817;
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 13px;
+    #f8f4e6 0%,
+    #f0e6d2 25%,
+    #e8dcc0 50%,
+    #f0e6d2 75%,
+    #f8f4e6 100%
+  );
+  border: none;
+  border-right: 1px solid rgba(139, 69, 19, 0.3);
+  color: #5d4037;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  z-index: 1;
-  margin: 0;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.2);
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(139, 69, 19, 0.3),
-    1px 0 0 rgba(139, 69, 19, 0.5);
-  height: 48px;
+  overflow: hidden;
 }
 
 .spellbook-tab:first-child {
-  border-top-left-radius: 8px;
-  border-left: 2px solid #8b4513;
+  border-top-left-radius: 12px;
+  border-left: none;
 }
 
 .spellbook-tab:last-child {
-  border-top-right-radius: 8px;
-  border-right: 2px solid #8b4513;
+  border-top-right-radius: 12px;
+  border-right: none;
 }
 
 .spellbook-tab:hover:not(.active) {
   background: linear-gradient(135deg,
-    #f8f2e6 0%,
-    #f0e6d2 25%,
-    #f8f2e6 50%,
-    #f0e6d2 75%,
-    #f8f2e6 100%);
-  color: #2a1810;
+    #fff8f0 0%,
+    #f8f4e6 25%,
+    #f0e6d2 50%,
+    #f8f4e6 75%,
+    #fff8f0 100%
+  );
+  color: #4a2c20;
   transform: translateY(-1px);
   box-shadow:
-    inset 0 3px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(139, 69, 19, 0.4),
-    1px 0 0 rgba(139, 69, 19, 0.6),
-    0 2px 4px rgba(0, 0, 0, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 1);
 }
 
 .spellbook-tab.active {
   background: linear-gradient(135deg,
     #d4af37 0%,
-    #ffd700 25%,
-    #ffed4e 50%,
-    #ffd700 75%,
-    #d4af37 100%);
-  color: #2a1810;
+    #ffd700 20%,
+    #ffed4e 40%,
+    #ffd700 60%,
+    #d4af37 80%,
+    #b8941f 100%
+  );
+  color: #1a0f08;
   font-weight: 700;
-  border-color: #b8860b;
-  z-index: 2;
   transform: translateY(-2px);
+  z-index: 10;
   box-shadow:
-    inset 0 3px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(184, 134, 11, 0.5),
-    2px 0 0 rgba(184, 134, 11, 0.7),
-    0 4px 8px rgba(0, 0, 0, 0.3),
-    0 0 12px rgba(212, 175, 55, 0.4);
-  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.9);
+    inset 0 2px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    0 0 16px rgba(212, 175, 55, 0.3);
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 0.9),
+    0 0 4px rgba(255, 237, 78, 0.6);
+  border-right: 1px solid rgba(139, 69, 19, 0.5);
 }
 
 .spellbook-tab span {
-  font-size: 12px;
+  font-size: inherit;
   font-weight: inherit;
-  letter-spacing: 0.8px;
+  letter-spacing: inherit;
+  position: relative;
+  z-index: 2;
 }
 
-/* Unread indicator for spellbook tabs */
+/* Enhanced unread indicator for spellbook tabs */
 .spellbook-tab::after {
   content: attr(data-unread);
   position: absolute;
-  top: 2px;
-  right: 4px;
-  background-color: #e74c3c;
+  top: 6px;
+  right: 8px;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   color: white;
-  font-size: 10px;
-  min-width: 16px;
-  height: 16px;
-  border-radius: 8px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  font-weight: bold;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 3;
 }
 
 .spellbook-tab[data-unread]:not([data-unread="0"])::after {
   opacity: 1;
+  animation: pulse-notification 2s infinite;
 }
 
-/* Main Content Area */
+@keyframes pulse-notification {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Enhanced Main Content Area */
 .social-content {
   flex: 1;
-  overflow-y: auto;
-  background: linear-gradient(to bottom, #f5f0e5, #f0e6d2); /* Lighter gradient for better contrast */
-  padding: 6px 8px; /* Reduced padding for less spacing */
-  border: 1px solid rgba(122, 59, 46, 0.2); /* Subtle border */
-  border-radius: 4px; /* Rounded corners */
-  margin: 4px; /* Small margin */
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05); /* Very subtle inset shadow */
-
-  /* Optimize scrolling performance */
+  overflow: hidden;
+  background: linear-gradient(135deg,
+    rgba(248, 244, 230, 0.98) 0%,
+    rgba(240, 230, 210, 0.95) 50%,
+    rgba(235, 225, 205, 0.98) 100%
+  );
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  color: #3e2723;
+  position: relative;
   will-change: scroll-position;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: auto !important;
   contain: layout style paint;
-  background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
 }
 
-/* Friends List */
+.social-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 69, 19, 0.3) 50%,
+    transparent 100%
+  );
+}
+
+/* Enhanced Friends List Container */
 .friends-list-container {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 16px;
+  gap: 12px;
 }
 
 .friends-list {
-  width: 100%;
+  flex: 1;
   overflow-y: auto;
-  padding: 8px 12px; /* More padding */
-  background-color: rgba(213, 203, 176, 0.2); /* Slightly more opaque */
-  border: 1px solid rgba(122, 59, 46, 0.2); /* Subtle border */
-  border-radius: 4px; /* Rounded corners */
-  margin: 0 8px 8px 8px; /* Margin for spacing */
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inset shadow for depth */
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 69, 19, 0.4) transparent;
 }
 
-/* Section Headers */
+/* Enhanced Section Headers */
 .friends-section-header {
-  background: linear-gradient(to right, #7a3b2e, #a05a46, #7a3b2e);
-  color: #f0e6d2;
-  padding: 6px 10px;
-  font-weight: bold;
-  margin: 10px 0 5px 0;
-  border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-size: 14px;
+  background: linear-gradient(135deg,
+    #8B4513 0%,
+    #A0522D 25%,
+    #CD853F 50%,
+    #A0522D 75%,
+    #8B4513 100%
+  );
+  color: #f8f4e6;
+  padding: 12px 20px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  border-radius: 8px;
+  font-size: 15px;
+  text-transform: uppercase;
   text-align: center;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   position: relative;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-family: 'Cinzel', serif;
 }
 
 .friends-section-header::before,
 .friends-section-header::after {
-  content: "✧";
+  content: "◆";
   display: inline-block;
-  margin: 0 8px;
-  font-size: 12px;
+  margin: 0 12px;
+  font-size: 14px;
+  opacity: 0.8;
 }
 
 .friend-entry {
@@ -373,96 +421,184 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8); /* Light text shadow */
 }
 
-/* ENHANCED LOOT HISTORY STYLING */
+/* REDESIGNED LOOT HISTORY STYLING - Clean & Readable */
 
-/* Loot-specific entry styling for MAXIMUM READABILITY */
+/* Loot-specific entry styling with clean design */
 .friend-entry[data-loot-entry="true"] {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.75)); /* Much stronger white overlay for maximum contrast */
-  border-left: 6px solid transparent; /* Thicker left border */
-  border: 2px solid rgba(122, 59, 46, 0.4); /* Stronger border */
-  border-radius: 8px; /* More rounded */
-  padding: 20px 24px; /* Much more padding */
-  margin-bottom: 10px; /* More spacing */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
-  min-height: 80px; /* Ensure consistent height */
+  background: linear-gradient(135deg,
+    rgba(248, 244, 230, 0.95) 0%,
+    rgba(240, 230, 210, 0.92) 100%
+  );
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-left: 4px solid #8B4513;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  min-height: 70px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.friend-entry[data-loot-entry="true"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 69, 19, 0.3) 20%,
+    rgba(139, 69, 19, 0.6) 50%,
+    rgba(139, 69, 19, 0.3) 80%,
+    transparent 100%
+  );
 }
 
 .friend-entry[data-loot-entry="true"]:hover {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)); /* Even stronger white overlay */
-  border-left-color: #7a3b2e;
-  border-color: rgba(122, 59, 46, 0.6); /* Even stronger border on hover */
-  transform: translateX(3px) translateY(-1px); /* More pronounced movement */
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* Much enhanced shadow on hover */
+  background: linear-gradient(135deg,
+    rgba(255, 248, 240, 0.98) 0%,
+    rgba(248, 244, 230, 0.95) 100%
+  );
+  border-color: rgba(139, 69, 19, 0.5);
+  border-left-color: #A0522D;
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-/* Item name styling with quality colors - ENHANCED READABILITY */
+/* Item name styling with improved readability */
 .friend-entry[data-loot-entry="true"] .friend-name {
-  font-size: 19px; /* Even larger for better readability */
-  font-weight: 800; /* Extra bold */
-  text-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.5),
-    0 0 2px rgba(255, 255, 255, 1),
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8),
-    1px -1px 0 rgba(0, 0, 0, 0.8),
-    -1px 1px 0 rgba(0, 0, 0, 0.8); /* Multiple shadows for maximum contrast */
-  margin-bottom: 4px;
-  color: #000000; /* Pure black for maximum contrast */
-  line-height: 1.2;
-  letter-spacing: 0.5px;
-}
-
-/* Looter name styling - ENHANCED READABILITY */
-.friend-entry[data-loot-entry="true"] .friend-info > div:first-child {
-  font-size: 18px; /* Larger */
-  font-weight: 800; /* Extra bold */
-  color: #000000; /* Pure black for maximum contrast */
-  margin-bottom: 4px;
-  text-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.5),
-    0 0 2px rgba(255, 255, 255, 1),
-    1px 1px 0 rgba(0, 0, 0, 0.8),
-    -1px -1px 0 rgba(0, 0, 0, 0.8),
-    1px -1px 0 rgba(0, 0, 0, 0.8),
-    -1px 1px 0 rgba(0, 0, 0, 0.8); /* Multiple shadows for maximum contrast */
-  line-height: 1.2;
-  letter-spacing: 0.3px;
-}
-
-/* Source location styling - ENHANCED READABILITY */
-.friend-entry[data-loot-entry="true"] .friend-location {
-  font-size: 16px; /* Larger */
-  color: #000000; /* Pure black for maximum contrast */
-  font-weight: 700; /* Extra bold */
-  margin-top: 4px;
-  text-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.4),
-    0 0 1px rgba(255, 255, 255, 0.9),
-    1px 1px 0 rgba(0, 0, 0, 0.6),
-    -1px -1px 0 rgba(0, 0, 0, 0.6),
-    1px -1px 0 rgba(0, 0, 0, 0.6),
-    -1px 1px 0 rgba(0, 0, 0, 0.6); /* Multiple shadows for better contrast */
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
   line-height: 1.3;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+  color: inherit; /* Use the quality color from inline styles */
 }
 
-/* Enhanced timestamp for loot entries - ENHANCED READABILITY */
+/* Looter name and action styling */
+.friend-entry[data-loot-entry="true"] .friend-info > div:first-child {
+  font-size: 15px;
+  font-weight: 600;
+  color: #5d4037;
+  margin-bottom: 4px;
+  line-height: 1.4;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.friend-entry[data-loot-entry="true"] .friend-info > div:first-child span:first-child {
+  color: #3e2723;
+  font-weight: 700;
+}
+
+.friend-entry[data-loot-entry="true"] .friend-info > div:first-child span:last-child {
+  color: #6d4c41;
+  font-style: italic;
+  margin-left: 4px;
+}
+
+/* Source location styling */
+.friend-entry[data-loot-entry="true"] .friend-location {
+  font-size: 14px;
+  color: #795548;
+  font-weight: 500;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  font-style: italic;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+  line-height: 1.3;
+}
+
+/* Clean timestamp styling */
 .friend-entry[data-loot-entry="true"] .timestamp {
-  font-size: 15px; /* Larger */
-  background-color: rgba(122, 59, 46, 0.4); /* Much darker background */
-  color: #000000; /* Pure black text */
-  font-weight: 800; /* Extra bold */
-  border: 2px solid rgba(122, 59, 46, 0.6); /* Stronger border */
-  text-shadow:
-    0 1px 2px rgba(255, 255, 255, 1),
-    1px 1px 0 rgba(255, 255, 255, 0.8),
-    -1px -1px 0 rgba(255, 255, 255, 0.8),
-    1px -1px 0 rgba(255, 255, 255, 0.8),
-    -1px 1px 0 rgba(255, 255, 255, 0.8); /* White shadows for contrast against dark background */
-  padding: 6px 10px; /* More padding */
-  border-radius: 6px; /* More rounded */
-  letter-spacing: 0.3px;
+  font-size: 12px;
+  background: linear-gradient(135deg,
+    rgba(139, 69, 19, 0.15) 0%,
+    rgba(160, 82, 45, 0.2) 100%
+  );
+  color: #5d4037;
+  font-weight: 600;
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+  display: inline-block;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Quality-based border colors for loot entries */
+.friend-entry[data-loot-entry="true"][data-item-quality="poor"] {
+  border-left-color: #9d9d9d;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="common"] {
+  border-left-color: #ffffff;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="uncommon"] {
+  border-left-color: #1eff00;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="rare"] {
+  border-left-color: #0070dd;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="epic"] {
+  border-left-color: #a335ee;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="legendary"] {
+  border-left-color: #ff8000;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="artifact"] {
+  border-left-color: #e6cc80;
+}
+
+.friend-entry[data-loot-entry="true"][data-item-quality="currency"] {
+  border-left-color: #ffd700;
+  background: linear-gradient(135deg,
+    rgba(255, 248, 220, 0.95) 0%,
+    rgba(255, 245, 200, 0.92) 100%
+  );
+}
+
+/* Currency styling improvements */
+.currency-amount-white {
+  color: #3e2723;
+  font-weight: 700;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.currency-type-gold {
+  color: #ff8f00;
+  font-weight: 600;
+  margin-left: 2px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.currency-type-silver {
+  color: #9e9e9e;
+  font-weight: 600;
+  margin-left: 2px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.currency-type-copper {
+  color: #8d6e63;
+  font-weight: 600;
+  margin-left: 2px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 /* QUALITY-SPECIFIC LOOT ENTRY STYLING */
@@ -689,41 +825,70 @@
 }
 
 /* Action Buttons */
+/* Enhanced Action Buttons */
 .social-actions {
   display: flex;
-  padding: 10px;
-  background: linear-gradient(to bottom, #e6dcc6, #d5cbb0);
-  border-top: 1px solid #a08c70;
-  gap: 8px;
+  padding: 16px;
+  background: linear-gradient(135deg,
+    rgba(139, 69, 19, 0.1) 0%,
+    rgba(160, 82, 45, 0.15) 100%
+  );
+  border-top: 1px solid rgba(139, 69, 19, 0.3);
+  gap: 12px;
   justify-content: center;
   position: sticky;
   bottom: 0;
+  backdrop-filter: blur(2px);
 }
 
 .social-button {
-  background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-  border: 1px solid #3a3a3a;
-  color: #f0e6d2;
-  border-radius: 3px;
-  padding: 6px 12px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-size: 12px;
+  background: linear-gradient(135deg,
+    #8B4513 0%,
+    #A0522D 50%,
+    #8B4513 100%
+  );
+  border: 1px solid rgba(139, 69, 19, 0.6);
+  color: #f8f4e6;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
 }
 
 .social-button:hover {
-  background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
-  border-color: #3a3a3a;
+  background: linear-gradient(135deg,
+    #A0522D 0%,
+    #CD853F 50%,
+    #A0522D 100%
+  );
+  border-color: rgba(160, 82, 45, 0.8);
   color: #fff;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.social-button:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .social-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: linear-gradient(to bottom, #8a8a8a, #6a6a6a);
+  background: linear-gradient(135deg, #8a8a8a 0%, #6a6a6a 100%);
+  transform: none;
 }
 
 /* Context Menu */
