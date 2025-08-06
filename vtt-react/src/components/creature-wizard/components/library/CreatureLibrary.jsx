@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { v4 as generateUniqueId } from 'uuid';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
 import useCreatureStore from '../../../../store/creatureStore';
+import useGameStore from '../../../../store/gameStore';
 import CreatureContextMenu from './CreatureContextMenu';
 import CreatureFilters from './CreatureFilters';
 import LibraryStyleCreatureCard from '../common/LibraryStyleCreatureCard';
@@ -82,6 +83,8 @@ const CreatureLibrary = ({ onEdit }) => {
   const library = useCreatureLibrary();
   const dispatch = useCreatureLibraryDispatch();
   const creatureStore = useCreatureStore();
+  const { windowPosition, windowSize } = useCreatureStore();
+  const windowScale = useGameStore(state => state.windowScale);
 
   const [contextMenu, setContextMenu] = useState(null);
   const [isFiltersVisible, setIsFiltersVisible] = useState(true);
@@ -212,24 +215,24 @@ const CreatureLibrary = ({ onEdit }) => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Tooltip dimensions (approximate, accounting for scale(0.85))
-    const tooltipWidth = 240 * 0.85; // 204px
-    const tooltipHeight = 450 * 0.85; // 382px (estimated full content height)
+    // Tooltip dimensions (approximate)
+    const tooltipWidth = 320; // From CSS
+    const tooltipHeight = 450; // Estimated full content height
 
-    const margin = 20; // Minimum margin from screen edges
+    const margin = 15; // Smaller margin for closer positioning
 
-    // Position tooltip to the right of the window, not following cursor
-    // Assume the creature library window is roughly 800px wide and centered
-    const windowWidth = 800;
-    const windowX = (viewportWidth - windowWidth) / 2;
+    // Get actual window position and size from store, accounting for scale
+    const actualWindowWidth = (windowSize?.width || 1200) * windowScale;
+    const actualWindowX = windowPosition?.x || ((viewportWidth - 1200) / 2);
+    const actualWindowY = windowPosition?.y || ((viewportHeight - 800) / 2);
 
-    // Position tooltip to the right of the window
-    let x = windowX + windowWidth + margin;
+    // Position tooltip to the right of the actual window
+    let x = actualWindowX + actualWindowWidth + margin;
     let y = Math.max(margin, Math.min(event.clientY - 100, viewportHeight - tooltipHeight - margin));
 
     // If tooltip would go off screen on the right, position to the left of window
     if (x + tooltipWidth > viewportWidth - margin) {
-      x = windowX - tooltipWidth - margin;
+      x = actualWindowX - tooltipWidth - margin;
 
       // If still off screen on the left, clamp to margin
       if (x < margin) {
