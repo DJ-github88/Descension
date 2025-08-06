@@ -233,11 +233,11 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         </div>
       </div>
 
-      {/* External Creature Preview - Disabled for cleaner wizard experience */}
-      {/* <ExternalCreaturePreview
+      {/* External Creature Preview - Live preview to the right of wizard */}
+      <ExternalCreaturePreview
         creatureData={wizardState}
         isOpen={true}
-      /> */}
+      />
     </>
   );
 };
