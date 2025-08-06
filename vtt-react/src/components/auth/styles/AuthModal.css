@@ -22,12 +22,20 @@
   max-width: 450px;
   max-height: 90vh;
   overflow-y: auto;
+  /* Hide scrollbar while maintaining scroll functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
   position: relative;
   box-shadow: 
     0 20px 60px rgba(0, 0, 0, 0.8),
     0 0 40px rgba(212, 175, 55, 0.3);
   font-family: 'Cinzel', serif;
   color: #f0e6d2;
+}
+
+/* Hide scrollbar for webkit browsers (Chrome, Safari) */
+.auth-modal::-webkit-scrollbar {
+  display: none;
 }
 
 .auth-modal-close {
@@ -52,7 +60,7 @@
 
 .auth-modal-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 20px; /* Reduced from 32px to bring header closer to content */
 }
 
 .auth-modal-header h2 {
@@ -72,7 +80,7 @@
 .auth-modal-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px; /* Reduced from 24px to bring sections closer together */
 }
 
 /* Google Sign In Button */
@@ -119,6 +127,8 @@
   color: #f0e6d2;
   opacity: 0.7;
   font-size: 0.9rem;
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
+  padding: 0 16px;
 }
 
 .auth-divider::before {
@@ -131,13 +141,6 @@
   background: linear-gradient(90deg, transparent, #d4af37, transparent);
   z-index: 1;
 }
-
-.auth-divider::after {
-  content: 'or';
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
-  padding: 0 16px;
-  position: relative;
-  z-index: 2;
 }
 
 /* Form Styles */

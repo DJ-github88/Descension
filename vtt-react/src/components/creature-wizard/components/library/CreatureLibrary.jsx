@@ -206,11 +206,8 @@ const CreatureLibrary = ({ onEdit }) => {
     setHoveredCreature(null);
   };
 
-  // Update tooltip position
+  // Update tooltip position - position to the right of the window instead of following cursor
   const updateTooltipPosition = (event) => {
-    const mouseX = event.clientX;
-    const mouseY = event.clientY;
-
     // Get viewport dimensions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
@@ -219,34 +216,24 @@ const CreatureLibrary = ({ onEdit }) => {
     const tooltipWidth = 240 * 0.85; // 204px
     const tooltipHeight = 450 * 0.85; // 382px (estimated full content height)
 
-    // Default offset from cursor
-    const offsetX = 15;
-    const offsetY = -10;
-    const margin = 10; // Minimum margin from screen edges
+    const margin = 20; // Minimum margin from screen edges
 
-    // Calculate initial position
-    let x = mouseX + offsetX;
-    let y = mouseY + offsetY;
+    // Position tooltip to the right of the window, not following cursor
+    // Assume the creature library window is roughly 800px wide and centered
+    const windowWidth = 800;
+    const windowX = (viewportWidth - windowWidth) / 2;
 
-    // Adjust horizontal position if tooltip would go off screen
+    // Position tooltip to the right of the window
+    let x = windowX + windowWidth + margin;
+    let y = Math.max(margin, Math.min(event.clientY - 100, viewportHeight - tooltipHeight - margin));
+
+    // If tooltip would go off screen on the right, position to the left of window
     if (x + tooltipWidth > viewportWidth - margin) {
-      // Position to the left of cursor
-      x = mouseX - tooltipWidth - offsetX;
+      x = windowX - tooltipWidth - margin;
 
       // If still off screen on the left, clamp to margin
       if (x < margin) {
         x = margin;
-      }
-    }
-
-    // Adjust vertical position if tooltip would go off screen
-    if (y + tooltipHeight > viewportHeight - margin) {
-      // Position above cursor
-      y = mouseY - tooltipHeight - Math.abs(offsetY);
-
-      // If still off screen at the top, clamp to margin
-      if (y < margin) {
-        y = margin;
       }
     }
 

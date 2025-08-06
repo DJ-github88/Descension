@@ -767,6 +767,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     console.log('ItemWizard rendering with props:', { onClose, onComplete, onCancel, initialData });
 
     const handleClose = (item = null) => {
+        console.log('handleClose called with item:', item);
+        console.log('Available callbacks:', { onComplete: !!onComplete, onCancel: !!onCancel, onClose: !!onClose });
         if (item) {
             const formattedItem = {
                 id: itemData.id || crypto.randomUUID(),
@@ -900,8 +902,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     onClose(formattedItem);
                 }
             } else if (!item && onCancel) {
+                console.log('Calling onCancel()');
                 onCancel();
             } else if (onClose) {
+                console.log('Calling onClose(null)');
                 onClose(null);
             }
         };
@@ -4248,7 +4252,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 <div className="item-wizard-content spellbook-wizard-layout">
                     <div className="wizard-header">
                         <h2>Item Editor</h2>
-                        <button className="close-button" onClick={() => handleClose()}>×</button>
+                        <button className="close-button" onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('Close button clicked, calling handleClose()');
+                            handleClose();
+                        }}>×</button>
                     </div>
                     {/* Single column layout - Preview is now external */}
                     <div className="wizard-main-content">

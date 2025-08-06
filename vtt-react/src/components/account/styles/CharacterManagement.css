@@ -554,16 +554,16 @@
 }
 
 .character-actions .btn-primary {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
   color: #2c2416;
-  border-color: #28a745;
+  border-color: #d4af37;
   font-weight: 700;
 }
 
 .character-actions .btn-primary:hover {
-  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
-  border-color: #1e7e34;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+  background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%);
+  border-color: #b8941f;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
   color: #2c2416;
 }
 

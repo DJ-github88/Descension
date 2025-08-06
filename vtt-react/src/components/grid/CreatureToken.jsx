@@ -241,7 +241,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, dragOffset, tokenId, updateTokenPosition, position, isInCombat, dragStartPosition, showMovementVisualization, activeMovement, updateMovementVisualization, feetPerTile, updateTempMovementDistance, validateMovement, setPendingMovementConfirmation, confirmMovement, clearMovementVisualization, creature, gridSystem]);
+  }, [isDragging, dragOffset, tokenId, updateTokenPositionMultiplayer, position, isInCombat, dragStartPosition, showMovementVisualization, activeMovement, updateMovementVisualization, feetPerTile, updateTempMovementDistance, validateMovement, setPendingMovementConfirmation, confirmMovement, clearMovementVisualization, creature, gridSystem]);
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(

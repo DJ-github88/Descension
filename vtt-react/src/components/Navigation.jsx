@@ -5,7 +5,7 @@ import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import WowWindow from './windows/WowWindow';
 import SettingsWindow from './windows/SettingsWindow';
-import AccountWindow from './auth/AccountWindow';
+
 import CharacterPanel from './character-sheet/Equipment';
 import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
@@ -415,14 +415,7 @@ const NAVIGATION_BUTTONS = [
         </>
     },
 
-    {
-        id: 'account',
-        title: 'Account',
-        shortcut: 'A',
-        svg: <>
-            <path d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </>
-    },
+
 
     {
         id: 'leveleditor',
@@ -837,14 +830,7 @@ export default function Navigation({ onReturnToLanding }) {
                         onClose={() => handleButtonClick(button.id)}
                     />
                 );
-            case 'account':
-                return openWindows.has(button.id) && (
-                    <AccountWindow
-                        key={button.id}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                    />
-                );
+
             default:
                 if (button.window) {
                     const Window = button.window;
