@@ -22,24 +22,16 @@
   color: #000 !important;
 }
 
-/* Full-Screen Grid Layout - Three Column with Center Preview and Right Info */
+/* Full-Screen Flexbox Layout - Clean and Scrollable */
 .character-creation {
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 320px 1fr 380px;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    "controls controls controls"
-    "selections preview info-panel"
-    "actions actions actions";
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
-  gap: 0;
-  overflow: hidden;
 }
 
 /* Controls Header */
 .character-controls {
-  grid-area: controls;
   background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
   border-bottom: 2px solid #d4af37;
   padding: 0.75rem 2rem;
@@ -47,6 +39,49 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+/* Main Content Area - Three Column Flexbox */
+.character-creation-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Left Panel - Selections */
+.creation-column:first-child {
+  width: 320px;
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  border-right: 3px solid #d4af37;
+  padding: 1.5rem;
+  overflow-y: auto;
+  box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+/* Center Panel - Character Preview */
+.character-preview {
+  flex: 1;
+  background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.5rem;
+  overflow-y: auto;
+  gap: 1.5rem;
+}
+
+/* Right Panel - Information Boxes */
+.character-info-panel {
+  width: 380px;
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  border-left: 3px solid #d4af37;
+  padding: 1.5rem;
+  overflow-y: auto;
+  box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .controls-left {
@@ -146,44 +181,7 @@
   letter-spacing: 0.5px;
 }
 
-/* Left Panel - Selections */
-.creation-column:first-child {
-  grid-area: selections;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%) !important;
-  border-right: 3px solid #d4af37;
-  padding: 1.5rem;
-  overflow-y: auto;
-  box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  min-height: 0;
-}
-
-/* Center Panel - Character Preview Only */
-.character-preview {
-  grid-area: preview;
-  background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1.5rem;
-  position: relative;
-  overflow-y: auto;
-  height: 100%;
-  gap: 1.5rem;
-}
-
-/* Right Panel - Information Boxes */
-.character-info-panel {
-  grid-area: info-panel;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-  border-left: 3px solid #d4af37;
-  padding: 1.5rem;
-  overflow-y: auto;
-  box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  min-height: 0;
-}
+/* Old grid-based styles removed - using new flexbox layout above */
 
 /* Dynamic Information Boxes Container */
 .character-info-boxes {
@@ -602,7 +600,6 @@
 
 /* Action Bar */
 .creation-actions {
-  grid-area: actions;
   display: flex;
   justify-content: center;
   gap: 1.5rem;

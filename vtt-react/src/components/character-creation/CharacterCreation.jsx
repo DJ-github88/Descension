@@ -266,8 +266,11 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
             <span className="character-count">1 CHARACTER</span>
           </div>
         </div>
-        {/* Left Panel - Selections */}
-        <div className="creation-column">
+
+        {/* Main Content Area - Three Column Layout */}
+        <div className="character-creation-main">
+          {/* Left Panel - Selections */}
+          <div className="creation-column">
           {/* Race Selection */}
           <div className="selection-category">
             <h2 className="category-title">Choose Race</h2>
@@ -477,6 +480,7 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
               </div>
             )}
           </div>
+        </div>
         </div>
 
         {/* Action Buttons */}

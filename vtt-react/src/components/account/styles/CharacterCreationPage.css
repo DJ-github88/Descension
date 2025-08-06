@@ -160,50 +160,16 @@
 
 
 
-/* Character Creation Component Overrides */
+/* Character Creation Component - No Overrides */
 .creation-container .character-creation {
-  background: rgba(0, 0, 0, 0.4);
-  border: 2px solid #d4af37;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  height: 100vh !important;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  height: 100vh;
 }
 
-/* Ensure center panel uses proper layout */
-.creation-container .character-preview {
-  justify-content: space-between !important;
-  padding: 1.5rem !important;
-  height: 100% !important;
-}
-
-/* Ensure character preview image has proper size */
-.creation-container .character-preview-image {
-  width: 380px !important;
-  height: 480px !important;
-  flex: 1 !important;
-  max-height: 480px !important;
-}
-
-/* Ensure stats section has proper size */
-.creation-container .preview-stats {
-  max-width: 500px !important;
-  padding: 2rem !important;
-  min-height: 120px !important;
-}
-
-/* Ensure name section has proper size */
-.creation-container .character-name-section {
-  max-width: 400px !important;
-  padding: 1rem 0 !important;
-}
-
-/* Ensure action bar has proper height and spacing */
-.creation-container .creation-actions {
-  height: 120px !important;
-  flex-shrink: 0 !important;
-  padding: 2rem 1.5rem !important;
-  align-items: center !important;
-}
+/* Remove all overrides - let the main component handle styling */
 
 /* Force black text in character creation within account page */
 .creation-container .character-creation *,
