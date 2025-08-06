@@ -64,10 +64,20 @@
 /* Drag and drop styles */
 .item-card[draggable="true"] {
     cursor: grab;
+    cursor: -webkit-grab; /* Safari fallback */
+    cursor: -moz-grab; /* Firefox fallback */
+    /* Ensure drag events work properly */
+    -webkit-user-drag: element;
+    -khtml-user-drag: element;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .item-card[draggable="true"]:active {
     cursor: grabbing;
+    cursor: -webkit-grabbing; /* Safari fallback */
+    cursor: -moz-grabbing; /* Firefox fallback */
 }
 
 /* Quality colors - maintain WoW style for item quality */

@@ -21,6 +21,24 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     // State for quantity (for stackable items)
     const [quantity, setQuantity] = useState(item.quantity || 1);
 
+    // Check drag support on mount (for production debugging)
+    useEffect(() => {
+        if (process.env.NODE_ENV === 'production' && cardRef.current) {
+            const element = cardRef.current;
+            const isDraggable = element.draggable;
+            const hasDataTransfer = 'DataTransfer' in window;
+            const hasDragEvents = 'ondragstart' in element;
+
+            console.log('🎯 Drag support check:', {
+                itemName: item.name,
+                isDraggable,
+                hasDataTransfer,
+                hasDragEvents,
+                userAgent: navigator.userAgent
+            });
+        }
+    }, [item.name]);
+
     // Simple tooltip handlers (matching character sheet pattern)
     const handleMouseEnter = (e) => {
         if (!isDragging) {
@@ -48,10 +66,25 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     };
 
     const handleDragStart = (e) => {
+        // Debug logging for production troubleshooting
+        if (process.env.NODE_ENV === 'production') {
+            console.log('🎯 Production drag start:', item.name, {
+                dataTransfer: !!e.dataTransfer,
+                setData: typeof e.dataTransfer?.setData,
+                effectAllowed: typeof e.dataTransfer?.effectAllowed
+            });
+        }
+
         setIsDragging(true);
         setShowTooltip(false); // Hide tooltip when dragging starts
 
         try {
+            // Ensure dataTransfer exists
+            if (!e.dataTransfer) {
+                console.error('DataTransfer not available in drag event');
+                return;
+            }
+
             // Set the drag data with item information, including quantity if it exists
             const dragData = {
                 type: 'item',
@@ -60,10 +93,11 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 item: { ...item, quantity: quantity }
             };
 
-            e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+            const dragDataString = JSON.stringify(dragData);
+            e.dataTransfer.setData('text/plain', dragDataString);
 
             // Create a custom drag image if needed
-            if (item.iconId) {
+            if (item.iconId && e.dataTransfer.setDragImage) {
                 try {
                     const img = new Image();
                     img.src = `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`;
@@ -75,6 +109,10 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
 
             // Set the drag effect
             e.dataTransfer.effectAllowed = 'copy';
+
+            if (process.env.NODE_ENV === 'production') {
+                console.log('🎯 Production drag data set successfully');
+            }
         } catch (error) {
             console.error('Error in handleDragStart:', error);
         }

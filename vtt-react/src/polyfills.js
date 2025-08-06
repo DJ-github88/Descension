@@ -152,7 +152,7 @@ if (!String.prototype.includes) {
         if (typeof start !== 'number') {
             start = 0;
         }
-        
+
         if (start + search.length > this.length) {
             return false;
         } else {
@@ -160,6 +160,80 @@ if (!String.prototype.includes) {
         }
     };
 }
+
+// Drag and Drop API polyfills for better browser compatibility
+(function() {
+    'use strict';
+
+    if (typeof window !== 'undefined') {
+        // Ensure DataTransfer constructor exists
+        if (typeof window.DataTransfer === 'undefined') {
+            window.DataTransfer = function() {
+                this.data = {};
+                this.types = [];
+                this.files = [];
+                this.effectAllowed = 'all';
+                this.dropEffect = 'none';
+            };
+
+            window.DataTransfer.prototype.setData = function(type, data) {
+                this.data[type] = data;
+                if (this.types.indexOf(type) === -1) {
+                    this.types.push(type);
+                }
+            };
+
+            window.DataTransfer.prototype.getData = function(type) {
+                return this.data[type] || '';
+            };
+
+            window.DataTransfer.prototype.clearData = function(type) {
+                if (type) {
+                    delete this.data[type];
+                    const index = this.types.indexOf(type);
+                    if (index > -1) {
+                        this.types.splice(index, 1);
+                    }
+                } else {
+                    this.data = {};
+                    this.types = [];
+                }
+            };
+
+            window.DataTransfer.prototype.setDragImage = function(img, x, y) {
+                // Polyfill for setDragImage - basic implementation
+                this._dragImage = { img: img, x: x, y: y };
+            };
+        }
+
+        // Ensure drag events are properly supported
+        const dragEvents = ['dragstart', 'drag', 'dragenter', 'dragover', 'dragleave', 'drop', 'dragend'];
+        dragEvents.forEach(eventType => {
+            if (!window.document.createEvent) return;
+
+            try {
+                const event = document.createEvent('DragEvent');
+                if (!event.initDragEvent) {
+                    // Fallback for browsers that don't support DragEvent
+                    window.DragEvent = window.MouseEvent;
+                }
+            } catch (e) {
+                // If DragEvent is not supported, use MouseEvent as fallback
+                window.DragEvent = window.MouseEvent;
+            }
+        });
+
+        // Touch event polyfills for mobile compatibility
+        if (!window.TouchEvent && window.Touch) {
+            window.TouchEvent = function(type, eventInitDict) {
+                const event = document.createEvent('Event');
+                event.initEvent(type, true, true);
+                Object.assign(event, eventInitDict);
+                return event;
+            };
+        }
+    }
+})();
 
 // Handle async listener errors (Chrome extension compatibility)
 (function() {

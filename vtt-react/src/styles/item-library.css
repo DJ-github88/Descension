@@ -570,6 +570,8 @@
     width: 70px;
     height: auto;
     cursor: grab;
+    cursor: -webkit-grab; /* Safari fallback */
+    cursor: -moz-grab; /* Firefox fallback */
     transition: all 0.2s ease;
     position: relative;
     animation: fadeIn 0.3s ease-out;
@@ -581,10 +583,18 @@
     justify-content: flex-start;
     font-family: 'Bookman Old Style', 'Garamond', serif;
     z-index: 1;
+    /* Ensure drag events work properly */
+    -webkit-user-drag: element;
+    -khtml-user-drag: element;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .item-card:active {
     cursor: grabbing;
+    cursor: -webkit-grabbing; /* Safari fallback */
+    cursor: -moz-grabbing; /* Firefox fallback */
 }
 
 .item-card:hover {
