@@ -199,7 +199,7 @@
     transition: none !important;
 }
 
-/* Prevent any transform conflicts during dragging */
+/* Optimize dragging performance while maintaining scale */
 .draggable-window.dragging {
     will-change: transform !important;
 }
@@ -210,6 +210,11 @@
 
 .draggable-window.dragging .window-header {
     pointer-events: auto !important;
+}
+
+/* Ensure scale is maintained during drag */
+.draggable-window.dragging .wow-window {
+    transform-origin: top left !important;
 }
 
 /* Prevent size flickering during drag */
