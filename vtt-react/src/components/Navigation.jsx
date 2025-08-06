@@ -131,9 +131,8 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                     ))}
                     {activeView === 'wizard' && (
                         <button
-                            className="spellbook-tab back-button"
+                            className="creature-wizard-back-button"
                             onClick={handleBackToLibrary}
-                            style={{ marginLeft: 'auto' }}
                         >
                             <span>← Back to Library</span>
                         </button>
