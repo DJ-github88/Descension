@@ -98,16 +98,9 @@ const DraggableWindow = forwardRef(({
 
     // Direct transform update for better performance and fluidity
     const updateTransform = useCallback((x, y, scale) => {
-        if (nodeRef.current) {
-            // Always apply scale to maintain window size, but handle dragging differently
-            if (isDragging) {
-                // During dragging, let Draggable handle position but maintain scale
-                nodeRef.current.style.transform = `scale(${scale})`;
-                nodeRef.current.style.transformOrigin = 'top left';
-            } else {
-                // When not dragging, apply both position and scale
-                nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-            }
+        if (nodeRef.current && !isDragging) {
+            // Only apply transform when not dragging to prevent conflicts
+            nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
         }
     }, [isDragging]);
 
@@ -176,8 +169,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-            // Restore full transform with position and scale
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
         }
 
         // Call the onDrag callback if provided with valid data
@@ -191,7 +182,7 @@ const DraggableWindow = forwardRef(({
         }
 
         e.stopPropagation();
-    }, [onDrag, onDragStop, zIndex, windowScale]);
+    }, [onDrag, onDragStop, zIndex]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {
@@ -232,7 +223,13 @@ const DraggableWindow = forwardRef(({
                     // Transform is managed entirely through direct DOM manipulation
                 }}
             >
-                <div ref={windowRef}>
+                <div
+                    ref={windowRef}
+                    style={{
+                        transform: `scale(${windowScale})`,
+                        transformOrigin: 'top left'
+                    }}
+                >
                     {children}
                 </div>
             </div>
