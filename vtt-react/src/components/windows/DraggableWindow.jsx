@@ -125,6 +125,13 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = (zIndex + 100).toString();
             nodeRef.current.classList.add('dragging'); // Disable transition during drag
+
+            // For better performance during drag, temporarily disable complex content
+            const windowContent = nodeRef.current.querySelector('.window-content');
+            if (windowContent) {
+                windowContent.style.pointerEvents = 'none';
+                windowContent.style.userSelect = 'none';
+            }
         }
 
         // Call external onDragStart callback
@@ -158,6 +165,13 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
+
+            // Re-enable content interaction
+            const windowContent = nodeRef.current.querySelector('.window-content');
+            if (windowContent) {
+                windowContent.style.pointerEvents = '';
+                windowContent.style.userSelect = '';
+            }
         }
 
         // Call the onDrag callback if provided with valid data

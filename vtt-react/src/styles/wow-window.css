@@ -222,6 +222,23 @@
     pointer-events: auto !important;
 }
 
+/* Optimize content during drag for better performance */
+.draggable-window.dragging .window-content {
+    will-change: auto !important;
+    transform: translateZ(0) !important; /* Force hardware acceleration */
+    backface-visibility: hidden !important;
+    perspective: 1000px !important;
+}
+
+/* Disable complex animations and effects during drag */
+.draggable-window.dragging .item-card,
+.draggable-window.dragging .item-grid,
+.draggable-window.dragging .category-section {
+    transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
+}
+
 /* Prevent size flickering during drag */
 .draggable-window.dragging .wow-window {
     will-change: auto !important;
