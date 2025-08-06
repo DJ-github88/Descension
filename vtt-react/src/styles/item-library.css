@@ -81,42 +81,102 @@
     margin: 0;
 }
 
-.item-library-tabs {
-    display: flex;
-    gap: 4px;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 4px;
-    border-radius: 6px;
-    border: 1px solid rgba(240, 230, 210, 0.3);
+/* Spellbook-style tabs for Item Library */
+.spellbook-tab-headers {
+  display: flex;
+  background: linear-gradient(135deg,
+    rgba(101, 67, 33, 0.95) 0%,
+    rgba(139, 69, 19, 0.9) 25%,
+    rgba(160, 82, 45, 0.85) 50%,
+    rgba(139, 69, 19, 0.9) 75%,
+    rgba(101, 67, 33, 0.95) 100%);
+  border-bottom: 3px solid #654321;
+  border-radius: 0;
+  box-shadow:
+    inset 0 2px 0 rgba(240, 230, 210, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: visible;
+  gap: 0;
+  padding: 0;
+  height: 48px;
+  flex-shrink: 0;
 }
 
-.item-library-tab {
-    padding: 6px 12px;
-    background: transparent;
-    border: none;
-    color: #f0e6d2;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
+.spellbook-tab {
+  flex: 1;
+  padding: 8px 16px;
+  background: linear-gradient(135deg,
+    #f0e6d2 0%,
+    #e8dcc0 25%,
+    #f5f0e8 50%,
+    #e8dcc0 75%,
+    #f0e6d2 100%);
+  border: 2px solid #8b4513;
+  border-bottom: none;
+  border-radius: 0;
+  color: #3a2817;
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.3),
+    1px 0 0 rgba(139, 69, 19, 0.5);
+  height: 48px;
 }
 
-.item-library-tab:hover {
-    background-color: rgba(240, 230, 210, 0.2);
-    transform: translateY(-1px);
+.spellbook-tab:hover:not(.active) {
+  background: linear-gradient(135deg,
+    #f8f3e7 0%,
+    #f0e6d2 25%,
+    #f8f3e7 50%,
+    #f0e6d2 75%,
+    #f8f3e7 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.4),
+    1px 0 0 rgba(139, 69, 19, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.item-library-tab.active {
-    background: rgba(240, 230, 210, 0.3);
-    color: #f0e6d2;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
+.spellbook-tab.active {
+  background: linear-gradient(135deg,
+    #d4af37 0%,
+    #f4e4a6 25%,
+    #fff8dc 50%,
+    #f4e4a6 75%,
+    #d4af37 100%);
+  color: #2c1810;
+  border-color: #b8941f;
+  z-index: 2;
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(184, 148, 31, 0.5),
+    2px 0 0 rgba(184, 148, 31, 0.7),
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(212, 175, 55, 0.4);
+  font-weight: 700;
+}
+
+.spellbook-tab span:first-child {
+  font-size: 16px;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
 }
 
 .item-library-close {

@@ -1067,22 +1067,24 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             isOpen={true}
             onClose={onClose}
             defaultPosition={position}
-            defaultSize={activeTab === 'designer' ? { width: 800, height: 600 } : { width: 1000, height: 700 }}
+            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : { width: 1000, height: 700 }}
             title="Item Library"
             zIndex={1000}
             customHeader={
-                <div className="item-library-tabs">
+                <div className="spellbook-tab-headers">
                     <button
-                        className={`item-library-tab ${activeTab === 'library' ? 'active' : ''}`}
+                        className={`spellbook-tab ${activeTab === 'library' ? 'active' : ''}`}
                         onClick={() => setActiveTab('library')}
                     >
-                        Library
+                        <span>📚</span>
+                        <span>Library</span>
                     </button>
                     <button
-                        className={`item-library-tab ${activeTab === 'designer' ? 'active' : ''}`}
+                        className={`spellbook-tab ${activeTab === 'designer' ? 'active' : ''}`}
                         onClick={() => setActiveTab('designer')}
                     >
-                        Item Designer
+                        <span>🔨</span>
+                        <span>Designer</span>
                     </button>
                 </div>
             }
