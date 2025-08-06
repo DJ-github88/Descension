@@ -26,7 +26,7 @@
 .character-creation {
   height: 100vh;
   display: grid;
-  grid-template-columns: 380px 1fr 450px;
+  grid-template-columns: 320px 1fr 380px;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
     "controls controls controls"
@@ -155,6 +155,7 @@
   overflow-y: auto;
   box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
   height: 100%;
+  min-height: 0;
 }
 
 /* Center Panel - Character Preview Only */
@@ -181,6 +182,7 @@
   overflow-y: auto;
   box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
   height: 100%;
+  min-height: 0;
 }
 
 /* Dynamic Information Boxes Container */
@@ -390,8 +392,8 @@
 
 /* Character Preview Image */
 .character-preview-image {
-  width: 380px;
-  height: 480px;
+  width: 200px;
+  height: 250px;
   background: rgba(255, 255, 255, 0.9);
   border: 3px solid #d4af37;
   border-radius: 12px;
@@ -401,13 +403,12 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  max-height: 480px;
+  flex-shrink: 0;
   margin: 1rem 0;
 }
 
 .preview-icon {
-  font-size: 12rem;
+  font-size: 6rem;
   color: #d4af37;
   opacity: 0.6;
 }
