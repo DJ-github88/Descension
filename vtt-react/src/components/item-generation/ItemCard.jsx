@@ -51,24 +51,33 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
         setIsDragging(true);
         setShowTooltip(false); // Hide tooltip when dragging starts
 
-        // Set the drag data with item information, including quantity if it exists
-        const dragData = {
-            type: 'item',
-            id: item.id,
-            // Include the full item data with current quantity
-            item: { ...item, quantity: quantity }
-        };
-        e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+        try {
+            // Set the drag data with item information, including quantity if it exists
+            const dragData = {
+                type: 'item',
+                id: item.id,
+                // Include the full item data with current quantity
+                item: { ...item, quantity: quantity }
+            };
 
-        // Create a custom drag image if needed
-        if (item.iconId) {
-            const img = new Image();
-            img.src = `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`;
-            e.dataTransfer.setDragImage(img, 25, 25);
+            e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
+
+            // Create a custom drag image if needed
+            if (item.iconId) {
+                try {
+                    const img = new Image();
+                    img.src = `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`;
+                    e.dataTransfer.setDragImage(img, 25, 25);
+                } catch (imgError) {
+                    console.warn('Failed to set custom drag image:', imgError);
+                }
+            }
+
+            // Set the drag effect
+            e.dataTransfer.effectAllowed = 'copy';
+        } catch (error) {
+            console.error('Error in handleDragStart:', error);
         }
-
-        // Set the drag effect
-        e.dataTransfer.effectAllowed = 'copy';
     };
 
     // Handle drag end to clean up any visual feedback
@@ -111,9 +120,11 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                     <img
                         src={item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')}
                         alt={item.name}
+                        draggable={false}
                         onError={(e) => {
                             e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
                         }}
+                        onDragStart={(e) => e.preventDefault()}
                     />
                 </div>
                 <div className="item-name" style={{ color: getQualityColor(item.quality) }}>

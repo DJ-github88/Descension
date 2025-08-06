@@ -96,7 +96,18 @@ const DraggableWindow = forwardRef(({
         }
     }, [centered, getInitialPosition]);
 
-    // No manual transform management - let CSS and Draggable handle everything
+    // Direct transform update for better performance and fluidity
+    const updateTransform = useCallback((x, y, scale) => {
+        if (nodeRef.current) {
+            // Always apply scale to maintain consistent window size
+            nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+        }
+    }, []);
+
+    // Manage transform through optimized DOM manipulation
+    useEffect(() => {
+        updateTransform(position.x, position.y, windowScale);
+    }, [position.x, position.y, windowScale, updateTransform]);
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
@@ -125,13 +136,6 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = (zIndex + 100).toString();
             nodeRef.current.classList.add('dragging'); // Disable transition during drag
-
-            // For better performance during drag, temporarily disable complex content
-            const windowContent = nodeRef.current.querySelector('.window-content');
-            if (windowContent) {
-                windowContent.style.pointerEvents = 'none';
-                windowContent.style.userSelect = 'none';
-            }
         }
 
         // Call external onDragStart callback
@@ -139,21 +143,27 @@ const DraggableWindow = forwardRef(({
             onDragStart(data);
         }
 
-        e.stopPropagation();
-    }, [zIndex, onDragStart]);
+        // Only stop propagation if this is actually a window drag (from the handle)
+        if (e.target.closest(`.${handleClassName}`)) {
+            e.stopPropagation();
+        }
+    }, [zIndex, onDragStart, handleClassName]);
 
     // Handle drag with optimized performance
     const handleDrag = useCallback((e, data) => {
-        // Don't update position state during drag to prevent conflicts
-        // The Draggable component handles the visual positioning
+        // Update position immediately for fluid dragging
+        setPosition({ x: data.x, y: data.y });
 
         // Call the onDrag callback during dragging for real-time updates
         if (onDrag && data && typeof data === 'object') {
             onDrag(data);
         }
 
-        e.stopPropagation();
-    }, [onDrag]);
+        // Only stop propagation if this is actually a window drag (from the handle)
+        if (e.target.closest(`.${handleClassName}`)) {
+            e.stopPropagation();
+        }
+    }, [onDrag, handleClassName]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -165,13 +175,8 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-
-            // Re-enable content interaction
-            const windowContent = nodeRef.current.querySelector('.window-content');
-            if (windowContent) {
-                windowContent.style.pointerEvents = '';
-                windowContent.style.userSelect = '';
-            }
+            // Re-apply scale after dragging ends to prevent flickering
+            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
         }
 
         // Call the onDrag callback if provided with valid data
@@ -184,8 +189,11 @@ const DraggableWindow = forwardRef(({
             onDragStop(data);
         }
 
-        e.stopPropagation();
-    }, [onDrag, onDragStop, zIndex]);
+        // Only stop propagation if this is actually a window drag (from the handle)
+        if (e.target.closest(`.${handleClassName}`)) {
+            e.stopPropagation();
+        }
+    }, [onDrag, onDragStop, zIndex, windowScale, handleClassName]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {
@@ -211,19 +219,19 @@ const DraggableWindow = forwardRef(({
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={windowScale} // Use window scale for proper mouse tracking
+            scale={windowScale} // Use window scale for consistent dragging
         >
             <div
                 ref={nodeRef}
                 className={`draggable-window ${className}`}
                 style={{
                     zIndex,
-                    position: 'fixed',
+                    position: 'fixed', // Changed from absolute to fixed for better positioning
                     pointerEvents: 'auto',
                     top: 0,
                     left: 0,
-                    transform: `scale(${windowScale})`,
-                    transformOrigin: 'top left'
+                    transformOrigin: 'top left' // Scale from top-left corner
+                    // Transform is managed entirely through direct DOM manipulation
                 }}
             >
                 <div ref={windowRef}>
