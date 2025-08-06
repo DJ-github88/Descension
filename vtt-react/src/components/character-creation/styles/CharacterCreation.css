@@ -34,6 +34,7 @@
     "actions actions actions";
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
   gap: 0;
+  overflow: hidden;
 }
 
 /* Controls Header */
@@ -153,7 +154,7 @@
   padding: 1.5rem;
   overflow-y: auto;
   box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.1);
-  max-height: calc(100vh - 240px);
+  height: 100%;
 }
 
 /* Center Panel - Character Preview Only */
@@ -163,11 +164,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 1.5rem;
   position: relative;
   overflow-y: auto;
   height: 100%;
+  gap: 1.5rem;
 }
 
 /* Right Panel - Information Boxes */
@@ -178,7 +180,7 @@
   padding: 1.5rem;
   overflow-y: auto;
   box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.1);
-  max-height: calc(100vh - 240px);
+  height: 100%;
 }
 
 /* Dynamic Information Boxes Container */
@@ -260,52 +262,36 @@
   box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
 }
 
-/* Selection Cards - No background, just content */
+/* Base Selection Card */
 .selection-card {
-  background: none;
-  border: none;
-  border-radius: 0;
-  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  padding: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  min-height: 60px;
+  min-height: 80px;
   position: relative;
 }
 
 .selection-card:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #e6c757;
   transform: translateY(-1px);
 }
 
 .selection-card.selected {
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+  background: rgba(255, 255, 255, 0.5);
+  border-width: 3px;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 /* Race Cards - Larger with Icons */
 .race-card {
   flex-direction: column;
   text-align: center;
-  min-height: 80px;
-  padding: 1rem;
-  border: 2px solid #d4af37;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.race-card:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: #e6c757;
-}
-
-.race-card.selected {
-  background: rgba(255, 255, 255, 0.5);
-  border-width: 3px;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .race-card .card-icon {
@@ -325,43 +311,12 @@
 .subrace-card {
   justify-content: center;
   text-align: center;
-  padding: 0.75rem 1rem;
-  border: 2px solid #d4af37;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.subrace-card:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: #e6c757;
-}
-
-.subrace-card.selected {
-  background: rgba(255, 255, 255, 0.5);
-  border-width: 3px;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 /* Class Cards - Match Race Card Layout */
 .class-card {
   flex-direction: column;
   text-align: center;
-  min-height: 80px;
-  padding: 1rem;
-  border: 2px solid #d4af37;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.class-card:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: #e6c757;
-}
-
-.class-card.selected {
-  background: rgba(255, 255, 255, 0.5);
-  border-width: 3px;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .class-card .card-icon {
@@ -769,18 +724,29 @@
       "preview"
       "info-panel"
       "actions";
+    height: auto;
+    min-height: 100vh;
   }
 
   .creation-column:first-child {
     border-right: none;
     border-bottom: 3px solid #d4af37;
     box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.1);
+    height: auto;
+    min-height: 300px;
   }
 
   .character-info-panel {
     border-left: none;
     border-top: 3px solid #d4af37;
     box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: auto;
+    min-height: 200px;
+  }
+
+  .character-preview {
+    height: auto;
+    min-height: 300px;
   }
 
   .character-preview-image {
