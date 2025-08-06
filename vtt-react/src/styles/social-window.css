@@ -346,7 +346,7 @@
   line-height: 1.4;
   min-width: 120px;
   font-weight: 600; /* Bolder */
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6); /* Light text shadow */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 4px rgba(255, 255, 255, 0.4); /* Enhanced text shadow for better readability */
 }
 
 .friend-level {
@@ -778,6 +778,31 @@
 }
 
 
+
+/* ENHANCED TEXT SHADOWS FOR ALL MESSAGE TYPES - BETTER READABILITY */
+
+/* General friend entry text shadows for social and combat messages */
+.friend-entry:not([data-loot-entry="true"]) .friend-name span {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7), 0 0 6px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 700 !important;
+}
+
+.friend-entry:not([data-loot-entry="true"]) .friend-info > div:first-child {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9), 0 0 4px rgba(255, 255, 255, 0.5) !important;
+  font-weight: 600 !important;
+}
+
+.friend-entry:not([data-loot-entry="true"]) .timestamp {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 3px rgba(255, 255, 255, 0.4) !important;
+  font-weight: 600 !important;
+}
+
+/* Combat-specific text enhancements */
+.friend-entry .friend-info > div[style*="color: #c9323b"],
+.friend-entry .friend-info > div[style*="color: #2dc937"] {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8), 0 0 6px rgba(0, 0, 0, 0.4) !important;
+  font-weight: 700 !important;
+}
 
 /* IMPROVED CURRENCY TEXT - BETTER CONTRAST ON BEIGE BACKGROUND */
 .currency-amount-white {
