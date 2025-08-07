@@ -63,14 +63,30 @@
 /* Center Panel - Character Preview */
 .character-preview {
   flex: 1;
-  background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
+  background:
+    linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%),
+    radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 1.5rem;
+  padding: 2rem;
   overflow-y: auto;
-  gap: 1.5rem;
+  gap: 2rem;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Right Panel - Information Boxes */
@@ -283,9 +299,14 @@
 }
 
 .selection-card.selected {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.6);
   border-width: 3px;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  border-color: #b8941f;
+  box-shadow:
+    0 0 15px rgba(212, 175, 55, 0.4),
+    0 0 30px rgba(212, 175, 55, 0.2),
+    0 4px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 /* Race Cards - Larger with Icons */
@@ -311,6 +332,20 @@
 .subrace-card {
   justify-content: center;
   text-align: center;
+  flex-direction: row;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.subrace-card .card-icon {
+  font-size: 1.5rem;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+
+.subrace-card .card-content {
+  display: flex;
+  align-items: center;
 }
 
 /* Class Cards - Match Race Card Layout */
@@ -348,39 +383,53 @@
 /* Character Name Section */
 .character-name-section {
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   text-align: center;
   flex-shrink: 0;
-  padding: 0.5rem 0;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 245, 235, 0.8) 100%);
+  border: 2px solid #d4af37;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
 }
 
 .name-label {
   display: block;
-  font-size: 1.1rem;
-  color: #000;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  color: #2c2416;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
 }
 
 .name-input {
   width: 100%;
-  padding: 1rem;
-  border: 2px solid #d4af37;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000;
-  font-size: 1.1rem;
+  padding: 1rem 1.5rem;
+  border: 2px solid #b8941f;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #2c2416;
+  font-size: 1.2rem;
   text-align: center;
-  font-weight: 500;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
 }
 
 .name-input:focus {
   outline: none;
-  border-color: #b8941f;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+  border-color: #d4af37;
+  box-shadow:
+    0 0 0 3px rgba(212, 175, 55, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
 }
 
 .name-input::placeholder {
@@ -390,25 +439,44 @@
 
 /* Character Preview Image */
 .character-preview-image {
-  width: 200px;
-  height: 250px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 3px solid #d4af37;
-  border-radius: 12px;
+  width: 220px;
+  height: 280px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.9) 100%);
+  border: 4px solid #d4af37;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 1px rgba(212, 175, 55, 0.2);
   flex-shrink: 0;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
+  transition: all 0.3s ease;
+}
+
+.character-preview-image:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 0 0 1px rgba(212, 175, 55, 0.3);
 }
 
 .preview-icon {
-  font-size: 6rem;
+  font-size: 7rem;
   color: #d4af37;
-  opacity: 0.6;
+  opacity: 0.7;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.character-preview-image:hover .preview-icon {
+  opacity: 0.9;
+  transform: scale(1.05);
 }
 
 /* Remove the overlay name display - name input is sufficient */
@@ -466,12 +534,19 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 245, 235, 0.8) 100%);
   border: 2px solid #d4af37;
   border-radius: 12px;
-  padding: 1rem 0.75rem;
+  padding: 1.2rem 0.75rem;
   text-align: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  cursor: default;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: #b8941f;
 }
 
 .stat-item::before {
@@ -501,6 +576,26 @@
   margin: 0;
   font-family: 'Cinzel', serif;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Animation for when stat values are populated */
+.stat-item:not(:empty) .stat-value:not(:empty) {
+  animation: statPopIn 0.4s ease-out;
+}
+
+@keyframes statPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Details Panel Content */

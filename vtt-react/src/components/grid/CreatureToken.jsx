@@ -63,8 +63,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const contextMenuRef = useRef(null);
   const tokenRef = useRef(null);
 
-  const { tokens, creatures, updateTokenState, removeToken, duplicateToken } = useCreatureStore();
-  const { updateTokenPositionMultiplayer, isInMultiplayer } = useGameStore();
+  const { tokens, creatures, updateTokenState, removeToken, duplicateToken, updateTokenPosition } = useCreatureStore();
+  const { isInMultiplayer, multiplayerSocket } = useGameStore();
   const { currentTarget, setTarget, clearTarget } = useTargetingStore();
   const {
     isSelectionMode,
@@ -113,6 +113,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Find the token and creature data
   const token = tokens.find(t => t.id === tokenId);
   const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
+
+  // Helper function to update token position with multiplayer sync
+  const updateTokenPositionWithSync = (tokenId, position) => {
+    // Update local position using creatureStore
+    updateTokenPosition(tokenId, position);
+
+    // Send to server if in multiplayer
+    if (isInMultiplayer && multiplayerSocket && token) {
+      multiplayerSocket.emit('token_moved', {
+        tokenId: token.creatureId, // Use creatureId for multiplayer sync
+        position: position
+      });
+    }
+  };
 
   // Initialize previous state reference when token is first found
   useEffect(() => {
@@ -190,7 +204,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       console.log('🖱️ Mouse up - rawWorldPos:', rawWorldPos, 'gridCoords:', gridCoords, 'finalWorldPos:', finalWorldPos);
 
       // Update token position to snapped grid center (with multiplayer sync)
-      updateTokenPositionMultiplayer(tokenId, finalWorldPos);
+      updateTokenPositionWithSync(tokenId, finalWorldPos);
 
       // Handle combat movement validation if in combat
       if (isInCombat && dragStartPosition) {
@@ -201,25 +215,25 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         console.log('🏃 MOVEMENT DISTANCE:', Math.round(totalDistance), 'feet');
 
         // Validate movement and handle AP costs
-        const validation = validateMovement(tokenId, totalDistance, [creature]);
+        const validation = validateMovement(tokenId, dragStartPosition, finalWorldPos, [creature], feetPerTile);
 
-        if (validation.requiresConfirmation) {
+        if (validation.needsConfirmation) {
           console.log('⚠️ MOVEMENT REQUIRES CONFIRMATION');
           setPendingMovementConfirmation({
             tokenId,
             startPosition: dragStartPosition,
             finalPosition: finalWorldPos,
-            requiredAP: validation.requiredAP,
+            requiredAP: validation.additionalAPNeeded,
             totalDistance: totalDistance
           });
         } else if (validation.isValid) {
           console.log('✅ MOVEMENT IS VALID - Auto-confirming');
           // Auto-confirm valid movement
-          confirmMovement(tokenId, validation.requiredAP, totalDistance);
+          confirmMovement(tokenId, validation.additionalAPNeeded, totalDistance);
         } else {
           console.log('❌ MOVEMENT IS INVALID - Reverting');
           // Revert to start position
-          updateTokenPositionMultiplayer(tokenId, dragStartPosition);
+          updateTokenPositionWithSync(tokenId, dragStartPosition);
           updateTempMovementDistance(tokenId, 0);
         }
 
@@ -241,7 +255,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, dragOffset, tokenId, updateTokenPositionMultiplayer, position, isInCombat, dragStartPosition, showMovementVisualization, activeMovement, updateMovementVisualization, feetPerTile, updateTempMovementDistance, validateMovement, setPendingMovementConfirmation, confirmMovement, clearMovementVisualization, creature, gridSystem]);
+  }, [isDragging, dragOffset, tokenId, updateTokenPositionWithSync, position, isInCombat, dragStartPosition, showMovementVisualization, activeMovement, updateMovementVisualization, feetPerTile, updateTempMovementDistance, validateMovement, setPendingMovementConfirmation, confirmMovement, clearMovementVisualization, creature, gridSystem, token]);
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(
@@ -551,7 +565,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       });
 
       // Update token position to final position (should already be there, but ensure it)
-      updateTokenPositionMultiplayer(pendingTokenId, finalPosition);
+      updateTokenPositionWithSync(pendingTokenId, finalPosition);
 
       // Track the movement and spend the required AP - use total distance, not current movement
       confirmMovement(pendingTokenId, requiredAP, totalDistance);
@@ -565,7 +579,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       console.log('❌ CANCELING MOVEMENT');
 
       // Revert token to start position
-      updateTokenPositionMultiplayer(pendingTokenId, startPosition);
+      updateTokenPositionWithSync(pendingTokenId, startPosition);
 
       // Clear temporary movement distance
       updateTempMovementDistance(pendingTokenId, 0);
