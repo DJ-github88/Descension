@@ -186,6 +186,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       e.preventDefault();
       e.stopPropagation();
 
+      console.log('🖱️ Mouse up event triggered for token:', tokenId, 'isDragging:', isDragging);
+
       // Calculate final position
       const screenX = e.clientX - dragOffset.x;
       const screenY = e.clientY - dragOffset.y;
@@ -242,20 +244,25 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       }
 
       // End dragging
+      console.log('🖱️ Setting isDragging to false for token:', tokenId);
       setIsDragging(false);
       setDragStartPosition(null);
     };
 
     if (isDragging) {
+      console.log('🖱️ Adding mouse event listeners for token:', tokenId);
       document.addEventListener('mousemove', handleMouseMove, { passive: false });
       document.addEventListener('mouseup', handleMouseUp, { passive: false });
     }
 
     return () => {
+      if (isDragging) {
+        console.log('🖱️ Removing mouse event listeners for token:', tokenId);
+      }
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, dragOffset, tokenId, updateTokenPositionWithSync, position, isInCombat, dragStartPosition, showMovementVisualization, activeMovement, updateMovementVisualization, feetPerTile, updateTempMovementDistance, validateMovement, setPendingMovementConfirmation, confirmMovement, clearMovementVisualization, creature, gridSystem, token]);
+  }, [isDragging, dragOffset.x, dragOffset.y, tokenId]);
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(
@@ -731,6 +738,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       y: e.clientY - screenPosition.y
     });
 
+    console.log('🖱️ Starting drag for token:', tokenId);
     setIsDragging(true);
     setShowTooltip(false);
 
