@@ -24,7 +24,7 @@
 
 /* Full-Screen Flexbox Layout - Clean and Scrollable */
 .character-creation {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #f9f6f0 0%, #f4f1e8 100%);
@@ -488,7 +488,7 @@
   text-align: center;
   color: #000;
   width: 100%;
-  max-width: 600px;
+  max-width: 95%;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.95) 100%);
   border: 3px solid #d4af37;
   border-radius: 15px;
