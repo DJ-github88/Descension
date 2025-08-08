@@ -154,6 +154,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                                     creatureId={editingCreatureId}
                                     onSave={handleBackToLibrary}
                                     onCancel={handleBackToLibrary}
+                                    activeView={activeView}
                                 />
                             </div>
                         </div>

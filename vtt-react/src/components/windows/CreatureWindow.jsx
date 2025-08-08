@@ -771,6 +771,7 @@ export default function CreatureWindow({
                   creatureId={editingCreatureId}
                   onSave={handleBackToLibrary}
                   onCancel={handleBackToLibrary}
+                  activeView={activeView}
                 />
               </Suspense>
             )}

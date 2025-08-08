@@ -5,12 +5,12 @@ import useCreatureStore from '../../../../store/creatureStore';
 import useGameStore from '../../../../store/gameStore';
 
 // External Creature Preview Component that renders outside the creature wizard window
-const ExternalCreaturePreview = ({ creatureData, isOpen }) => {
+const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
   const { windowPosition, windowSize } = useCreatureStore();
   const windowScale = useGameStore(state => state.windowScale);
 
-  // Only show when the wizard is open and we have some creature data
-  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0) {
+  // Only show when the wizard is open, we have creature data, AND we're in wizard/create mode (not library)
+  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0 || activeView === 'library') {
     return null;
   }
 

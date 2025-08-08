@@ -319,7 +319,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
       </div>
 
       {/* Main Content */}
-      <div className="creature-tooltip-content">
+      <div className="creature-tooltip-content creature-tooltip-scrollable">
 
 
         {/* Rich Flavor Text Description */}

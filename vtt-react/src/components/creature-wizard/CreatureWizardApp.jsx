@@ -10,7 +10,7 @@ import Step5ShopConfiguration from './components/steps/Step5ShopConfiguration';
 import ExternalCreaturePreview from './components/common/ExternalCreaturePreview';
 import './styles/CreatureWizard.css';
 
-const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCancel }) => {
+const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCancel, activeView = 'wizard' }) => {
   const wizardState = useCreatureWizard();
   const wizardDispatch = useCreatureWizardDispatch();
   const library = useCreatureLibrary();
@@ -237,6 +237,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
       <ExternalCreaturePreview
         creatureData={wizardState}
         isOpen={true}
+        activeView={activeView}
       />
     </>
   );

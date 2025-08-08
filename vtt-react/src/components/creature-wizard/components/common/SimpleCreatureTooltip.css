@@ -1,13 +1,13 @@
-/* Enhanced Creature Tooltip - Pathfinder Theme */
+/* Enhanced Creature Tooltip - Pathfinder Theme with improved readability */
 .enhanced-creature-tooltip {
   background: linear-gradient(135deg,
-    rgba(240, 230, 210, 0.98) 0%,
-    rgba(230, 220, 200, 0.95) 50%,
-    rgba(213, 203, 176, 0.92) 100%);
+    rgba(248, 244, 230, 0.98) 0%,
+    rgba(240, 230, 210, 0.96) 50%,
+    rgba(230, 220, 200, 0.94) 100%);
   border: 3px solid #8b7355;
   border-radius: 12px;
   padding: 0;
-  color: #2d1810;
+  color: #1a0f08;
   font-family: 'Cinzel', 'Bookman Old Style', serif;
   font-size: 13px;
   min-width: 280px;
@@ -15,9 +15,9 @@
   max-height: 500px;
   overflow: hidden;
   position: relative;
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
     0 0 0 1px rgba(139, 115, 85, 0.6),
     0 0 16px rgba(139, 115, 85, 0.2);
   backdrop-filter: blur(4px);
@@ -83,13 +83,19 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-/* Tooltip Content */
+/* Tooltip Content - Enhanced scrolling and readability */
 .creature-tooltip-content {
   padding: 16px 20px;
   max-height: 350px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #8b7355 rgba(240, 230, 210, 0.3);
+  /* Enhanced scroll responsiveness */
+  scroll-behavior: auto !important;
+  overscroll-behavior: contain;
+  scroll-padding: 0;
+  will-change: scroll-position;
+  transform: translateZ(0);
 }
 
 .creature-tooltip-content::-webkit-scrollbar {
@@ -110,7 +116,7 @@
   background: #7a3b2e;
 }
 
-/* Tooltip Sections */
+/* Tooltip Sections - Enhanced readability */
 .tooltip-section {
   margin-bottom: 16px;
 }
@@ -122,12 +128,13 @@
 .tooltip-section-title {
   font-size: 14px;
   font-weight: 600;
-  color: #5a1e12;
+  color: #3d1a0e;
   margin-bottom: 8px;
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+  border-bottom: 1px solid rgba(139, 115, 85, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 .tooltip-stat-grid {

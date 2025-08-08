@@ -156,9 +156,9 @@
 
 .creature-inspect-content {
   flex: 1;
-  padding: 20px;
+  padding: 10px 15px;
   overflow-y: auto;
-  max-height: calc(85vh - 180px); /* Adjusted for header navigation */
+  max-height: calc(85vh - 120px); /* Reduced padding and adjusted for header navigation */
 }
 
 .creature-section-header {
@@ -275,7 +275,7 @@
 
 .stats-content-area {
   flex: 1;
-  padding: 15px;
+  padding: 10px;
   overflow-y: auto;
 }
 
@@ -283,8 +283,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
   border-bottom: 2px solid #8b7355;
 }
 
