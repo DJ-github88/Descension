@@ -4,7 +4,8 @@
 .creature-inspect-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto; /* Remove fixed height to prevent empty space */
+  min-height: 100%;
   padding: 0;
   margin: 0;
   background: linear-gradient(135deg,
@@ -156,10 +157,9 @@
 
 .creature-inspect-content {
   flex: 1;
-  padding: 5px 10px 20px 10px; /* Minimal top/side padding, more bottom padding for content visibility */
+  padding: 8px 12px; /* Balanced padding without excessive bottom space */
   overflow-y: auto;
-  max-height: calc(100vh - 140px); /* Use full viewport height minus header space */
-  min-height: 0; /* Important for flex scrolling */
+  max-height: calc(100vh - 120px); /* Optimized height calculation */
 }
 
 .creature-section-header {
@@ -214,32 +214,32 @@
     rgba(213, 203, 176, 0.9) 0%,
     rgba(200, 190, 160, 0.85) 100%);
   border-right: 3px solid #8b7355;
-  padding: 20px 10px;
+  padding: 12px 8px; /* Reduced padding for less clunky feel */
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px; /* Tighter gap between buttons */
   box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .stats-nav-button {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 15px;
+  gap: 8px; /* Tighter gap */
+  padding: 10px 12px; /* More compact padding */
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.8) 0%,
     rgba(220, 210, 190, 0.7) 100%);
   border: 2px solid #8b7355;
-  border-radius: 8px;
+  border-radius: 6px; /* Slightly smaller radius */
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: 'Cinzel', serif;
-  font-size: 12px;
+  font-size: 11px; /* Slightly smaller text */
   font-weight: 600;
   color: #5a1e12;
   text-align: left;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtler shadow */
 }
 
 .stats-nav-button:hover {
@@ -276,17 +276,16 @@
 
 .stats-content-area {
   flex: 1;
-  padding: 5px 8px 20px 8px; /* Minimal padding with extra bottom space */
+  padding: 8px 10px; /* Consistent, balanced padding */
   overflow-y: auto;
-  min-height: 0; /* Important for flex scrolling */
 }
 
 .stats-section-header {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+  gap: 12px; /* Tighter gap */
+  margin-bottom: 15px; /* Less bottom margin */
+  padding-bottom: 8px; /* Less padding */
   border-bottom: 2px solid #8b7355;
 }
 
@@ -411,10 +410,10 @@
 .stats-section {
   background: rgba(213, 203, 176, 0.3);
   border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 12px; /* Reduced padding */
+  margin-bottom: 12px; /* Tighter spacing */
   border: 1px solid #d5cbb0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtler shadow */
 }
 
 .stats-section h3 {
