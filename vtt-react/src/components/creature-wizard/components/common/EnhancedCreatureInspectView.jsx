@@ -93,7 +93,7 @@ const formatAbilityType = (type) => {
 };
 
 const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen, onClose }) => {
-  const [activeSection, setActiveSection] = useState('stats');
+  const [activeSection, setActiveSection] = useState('statistics');
   const [mounted, setMounted] = useState(false);
   const windowRef = useRef(null);
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -196,7 +196,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Define sections for the header navigation (matching character sheet style)
   const sections = {
-    stats: {
+    statistics: {
       title: 'Statistics',
       icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
     },
@@ -221,7 +221,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Render the content based on the active section
   const renderContent = () => {
     switch (activeSection) {
-      case 'stats':
+      case 'statistics':
         return renderStatsSection();
       case 'abilities':
         return renderAbilitiesSection();
@@ -682,6 +682,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
     return (
       <div className="stats-container">
+        {/* Left sidebar with stat groups - these become the new left navigation */}
         <div className="stats-navigation">
           {Object.entries(statGroups).map(([key, group]) => (
             <button
@@ -695,6 +696,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           ))}
         </div>
 
+        {/* Content area showing selected stat group */}
         <div className="stats-content-area">
           <div className="stats-section-header">
             <img
@@ -1452,7 +1454,20 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       centered={false} // Disable centering to prevent repositioning
       zIndex={20000} // Increased z-index to ensure it's above all other elements including the grid
       bounds="body"
-      customHeader={null}
+      customHeader={
+        <div className="spellbook-tab-headers">
+          {Object.entries(sections).map(([key, section]) => (
+            <button
+              key={key}
+              className={`spellbook-tab ${activeSection === key ? 'active' : ''}`}
+              onClick={() => setActiveSection(key)}
+            >
+              <img src={section.icon} alt="" className="tab-icon-img" />
+              <span>{section.title}</span>
+            </button>
+          ))}
+        </div>
+      }
     >
       <div className="creature-inspect-container">
         {/* Navigation sidebar like character sheet */}
@@ -1469,20 +1484,24 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           ))}
         </div>
 
-        {/* Content area like character sheet */}
+        {/* Content area with stat groups navigation for Statistics section */}
         <div className="creature-content-area">
-          <div className="creature-section-header">
-            <img
-              src={sections[activeSection].icon}
-              alt=""
-              className="creature-section-icon"
-            />
-            <h2 className="creature-section-title">{sections[activeSection].title}</h2>
-          </div>
+          {activeSection === 'statistics' ? renderStatsSection() : (
+            <>
+              <div className="creature-section-header">
+                <img
+                  src={sections[activeSection].icon}
+                  alt=""
+                  className="creature-section-icon"
+                />
+                <h2 className="creature-section-title">{sections[activeSection].title}</h2>
+              </div>
 
-          <div className="creature-section-content">
-            {renderContent()}
-          </div>
+              <div className="creature-section-content">
+                {renderContent()}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Item Tooltip */}

@@ -85,59 +85,50 @@
 /* Beautiful character sheet style tabs for ALL windows */
 .spellbook-tab-headers {
   display: flex;
-  background: linear-gradient(135deg,
-    rgba(213, 203, 176, 0.9) 0%,
-    rgba(203, 193, 166, 0.8) 100%);
-  border-bottom: 3px solid #8b7355;
-  padding: 15px 12px;
+  /* Remove background and borders - let the red header show through */
+  padding: 8px 12px;
   gap: 8px;
-  box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  align-items: center;
 
   /* Character sheet font styling */
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-  color: #5a1e12;
+  color: #f0e6d2; /* Light text for red header */
 }
 
 .spellbook-tab {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 15px;
-  background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(240, 230, 210, 0.4) 100%);
-  border: 2px solid #a08c70;
-  border-radius: 8px;
-  color: #5a1e12;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.2); /* Subtle dark background for red header */
+  border: 1px solid rgba(240, 230, 210, 0.3);
+  border-radius: 6px;
+  color: #f0e6d2; /* Light text for red header */
   font-family: 'Cinzel', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   flex: 1;
 }
 
 .spellbook-tab:hover:not(.active) {
-  background: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(240, 230, 210, 0.6) 100%);
-  border-color: #8b7355;
+  background: rgba(0, 0, 0, 0.4); /* Darker on hover */
+  border-color: rgba(240, 230, 210, 0.5);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .spellbook-tab.active {
-  background: linear-gradient(135deg,
-    rgba(122, 59, 46, 0.9) 0%,
-    rgba(139, 115, 85, 0.8) 100%);
-  border-color: #7a3b2e;
-  color: #f0e6d2;
+  background: rgba(240, 230, 210, 0.9); /* Light background when active */
+  border-color: #f0e6d2;
+  color: #5a1e12; /* Dark text when active */
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* Tab icon styling to match character sheet */
