@@ -156,9 +156,10 @@
 
 .creature-inspect-content {
   flex: 1;
-  padding: 10px 15px;
+  padding: 5px 10px 20px 10px; /* Minimal top/side padding, more bottom padding for content visibility */
   overflow-y: auto;
-  max-height: calc(85vh - 120px); /* Reduced padding and adjusted for header navigation */
+  max-height: calc(100vh - 140px); /* Use full viewport height minus header space */
+  min-height: 0; /* Important for flex scrolling */
 }
 
 .creature-section-header {
@@ -275,8 +276,9 @@
 
 .stats-content-area {
   flex: 1;
-  padding: 10px;
+  padding: 5px 8px 20px 8px; /* Minimal padding with extra bottom space */
   overflow-y: auto;
+  min-height: 0; /* Important for flex scrolling */
 }
 
 .stats-section-header {

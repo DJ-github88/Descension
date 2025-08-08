@@ -1,13 +1,13 @@
-/* Enhanced Creature Tooltip - Pathfinder Theme with improved readability */
+/* Enhanced Creature Tooltip - Pathfinder Theme with vastly improved readability */
 .enhanced-creature-tooltip {
   background: linear-gradient(135deg,
-    rgba(248, 244, 230, 0.98) 0%,
-    rgba(240, 230, 210, 0.96) 50%,
-    rgba(230, 220, 200, 0.94) 100%);
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(252, 248, 240, 0.96) 50%,
+    rgba(248, 244, 235, 0.94) 100%);
   border: 3px solid #8b7355;
   border-radius: 12px;
   padding: 0;
-  color: #1a0f08;
+  color: #000000;
   font-family: 'Cinzel', 'Bookman Old Style', serif;
   font-size: 13px;
   min-width: 280px;
@@ -17,7 +17,7 @@
   position: relative;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 0 0 1px rgba(139, 115, 85, 0.6),
     0 0 16px rgba(139, 115, 85, 0.2);
   backdrop-filter: blur(4px);
@@ -116,7 +116,7 @@
   background: #7a3b2e;
 }
 
-/* Tooltip Sections - Enhanced readability */
+/* Tooltip Sections - Vastly enhanced readability */
 .tooltip-section {
   margin-bottom: 16px;
 }
@@ -127,14 +127,14 @@
 
 .tooltip-section-title {
   font-size: 14px;
-  font-weight: 600;
-  color: #3d1a0e;
+  font-weight: 700;
+  color: #2d1810;
   margin-bottom: 8px;
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(139, 115, 85, 0.4);
+  border-bottom: 1px solid rgba(139, 115, 85, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .tooltip-stat-grid {
@@ -149,23 +149,23 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
-  border: 1px solid rgba(139, 115, 85, 0.2);
+  border: 1px solid rgba(139, 115, 85, 0.3);
 }
 
 .tooltip-stat-label {
   font-size: 11px;
-  color: #2d1810;
-  font-weight: 600;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  color: #000000;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .tooltip-stat-value {
   font-size: 12px;
   font-weight: 700;
-  color: #1a0f08;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+  color: #000000;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Resistance/Vulnerability styling */

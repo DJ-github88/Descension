@@ -327,18 +327,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
           <div
             style={{
               fontSize: '12px',
-              color: '#1a0f08',
+              color: '#000000',
               marginBottom: '16px',
               lineHeight: '1.5',
               fontStyle: 'italic',
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 230, 210, 0.3) 100%)',
-              border: '1px solid rgba(139, 69, 19, 0.3)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 244, 235, 0.7) 100%)',
+              border: '1px solid rgba(139, 69, 19, 0.4)',
               borderRadius: '8px',
               padding: '10px 12px',
               textAlign: 'justify',
-              textShadow: '1px 1px 1px rgba(255, 255, 255, 0.3)',
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)',
               position: 'relative',
-              fontWeight: '500'
+              fontWeight: '600'
             }}
           >
             {/* Decorative quote marks */}
@@ -389,18 +389,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
           }}>
             <div style={{
               fontSize: '11px',
-              color: '#ff6b7a',
+              color: '#000000',
               fontWeight: '700',
               marginBottom: '4px',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               HP
             </div>
             <div style={{
               fontSize: '16px',
-              color: '#ffffff',
+              color: '#000000',
               fontWeight: 'bold',
-              textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               {creature.stats.maxHp}
             </div>
@@ -417,18 +417,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
           }}>
             <div style={{
               fontSize: '11px',
-              color: '#c0c0c0',
+              color: '#000000',
               fontWeight: '700',
               marginBottom: '4px',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               ARMOR
             </div>
             <div style={{
               fontSize: '16px',
-              color: '#ffffff',
+              color: '#000000',
               fontWeight: 'bold',
-              textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               {creature.stats.armor || creature.stats.armorClass}
             </div>
@@ -445,18 +445,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
           }}>
             <div style={{
               fontSize: '11px',
-              color: '#ffc107',
+              color: '#000000',
               fontWeight: '700',
               marginBottom: '4px',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               INIT
             </div>
             <div style={{
               fontSize: '16px',
-              color: '#ffffff',
+              color: '#000000',
               fontWeight: 'bold',
-              textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               +{creature.stats.initiative}
             </div>
