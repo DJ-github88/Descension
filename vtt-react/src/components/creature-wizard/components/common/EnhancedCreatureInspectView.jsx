@@ -1468,7 +1468,31 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       }
     >
       <div className="creature-inspect-container">
-        <div className="creature-inspect-content">
+        {/* Navigation sidebar like character sheet */}
+        <div className="creature-navigation">
+          {Object.entries(sections).map(([key, section]) => (
+            <button
+              key={key}
+              className={`creature-nav-button ${activeSection === key ? 'active' : ''}`}
+              onClick={() => setActiveSection(key)}
+            >
+              <img src={section.icon} alt="" className="creature-nav-icon" />
+              <span className="creature-nav-text">{section.title}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Content area like character sheet */}
+        <div className="creature-content-area">
+          <div className="creature-section-header">
+            <img
+              src={sections[activeSection].icon}
+              alt=""
+              className="creature-section-icon"
+            />
+            <h2 className="creature-section-title">{sections[activeSection].title}</h2>
+          </div>
+
           <div className="creature-section-content">
             {renderContent()}
           </div>
