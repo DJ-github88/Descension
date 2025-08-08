@@ -257,9 +257,7 @@
 }
 
 .creature-section-content {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+  /* Remove weird padding and gaps - let content flow naturally */
 }
 
 /* Character Sheet Stats Layout - Exact Match */
@@ -344,7 +342,7 @@
 
 .stats-content-area {
   flex: 1;
-  padding: 8px 10px; /* Consistent, balanced padding */
+  padding: 20px; /* Match character sheet padding exactly */
   overflow-y: auto;
 }
 
@@ -383,7 +381,7 @@
 .stats-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; /* Tighter spacing */
 }
 
 .stat-row {

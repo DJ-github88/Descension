@@ -600,10 +600,30 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     };
 
     const renderContent = () => (
-        <div
-            ref={containerRef}
-            className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
-        >
+        <div className="item-library-main-container">
+            {/* Navigation sidebar like character sheet */}
+            <div className="item-library-navigation">
+                <button
+                    className={`item-library-nav-button ${activeTab === 'library' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('library')}
+                >
+                    <img src="/icons/book.png" alt="" className="item-library-nav-icon" />
+                    <span className="item-library-nav-text">Library</span>
+                </button>
+                <button
+                    className={`item-library-nav-button ${activeTab === 'designer' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('designer')}
+                >
+                    <img src="/icons/hammer.png" alt="" className="item-library-nav-icon" />
+                    <span className="item-library-nav-text">Designer</span>
+                </button>
+            </div>
+
+            {/* Content area */}
+            <div
+                ref={containerRef}
+                className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
+            >
 
             <div className="item-library-content">
 
@@ -1055,6 +1075,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     }}
                 />
             )}
+            </div>
         </div>
     );
 
@@ -1070,24 +1091,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : { width: 1000, height: 700 }}
             title="Item Library"
             zIndex={1000}
-            customHeader={
-                <div className="spellbook-tab-headers">
-                    <button
-                        className={`spellbook-tab ${activeTab === 'library' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('library')}
-                    >
-                        <span>📚</span>
-                        <span>Library</span>
-                    </button>
-                    <button
-                        className={`spellbook-tab ${activeTab === 'designer' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('designer')}
-                    >
-                        <span>🔨</span>
-                        <span>Designer</span>
-                    </button>
-                </div>
-            }
+            customHeader={null}
         >
             {renderContent()}
         </WowWindow>

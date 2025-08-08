@@ -1,14 +1,15 @@
 /* D&D/Pathfinder Themed Item Library */
 .item-library-container {
-    background-color: #f0e6d2; /* Parchment background */
-    background-image: linear-gradient(to bottom, rgba(240, 230, 210, 0.9), rgba(230, 220, 200, 0.9));
+    flex: 1; /* Take remaining space in the main container */
     color: #3a3a3a;
     display: flex;
     flex-direction: column;
     user-select: none;
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    padding: 20px;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
 }
 
 /* Library mode and designer mode now handled by WowWindow sizing */
@@ -149,6 +150,90 @@
 }
 
 .spellbook-tab span {
+  flex: 1;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Item Library Main Container */
+.item-library-main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  background: linear-gradient(135deg,
+    rgba(240, 230, 210, 0.95) 0%,
+    rgba(230, 220, 200, 0.9) 50%,
+    rgba(213, 203, 176, 0.85) 100%);
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  color: #5a1e12;
+}
+
+/* Item Library Navigation - Match character sheet exactly */
+.item-library-navigation {
+  width: 280px;
+  background: linear-gradient(135deg,
+    rgba(213, 203, 176, 0.9) 0%,
+    rgba(203, 193, 166, 0.8) 100%);
+  border-right: 3px solid #8b7355;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
+
+  /* Character sheet font styling */
+  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  color: #5a1e12;
+}
+
+.item-library-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(240, 230, 210, 0.4) 100%);
+  border: 2px solid #a08c70;
+  border-radius: 8px;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-library-nav-button:hover {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(240, 230, 210, 0.6) 100%);
+  border-color: #8b7355;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.item-library-nav-button.active {
+  background: linear-gradient(135deg,
+    rgba(122, 59, 46, 0.9) 0%,
+    rgba(139, 115, 85, 0.8) 100%);
+  border-color: #7a3b2e;
+  color: #f0e6d2;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.item-library-nav-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(139, 115, 85, 0.5);
+  flex-shrink: 0;
+}
+
+.item-library-nav-text {
   flex: 1;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }

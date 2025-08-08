@@ -1452,20 +1452,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       centered={false} // Disable centering to prevent repositioning
       zIndex={20000} // Increased z-index to ensure it's above all other elements including the grid
       bounds="body"
-      customHeader={
-        <div className="spellbook-tab-headers">
-          {Object.entries(sections).map(([key, section]) => (
-            <button
-              key={key}
-              className={`spellbook-tab ${activeSection === key ? 'active' : ''}`}
-              onClick={() => setActiveSection(key)}
-            >
-              <img src={section.icon} alt="" className="tab-icon-img" />
-              <span>{section.title}</span>
-            </button>
-          ))}
-        </div>
-      }
+      customHeader={null}
     >
       <div className="creature-inspect-container">
         {/* Navigation sidebar like character sheet */}
