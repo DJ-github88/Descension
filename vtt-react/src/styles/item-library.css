@@ -86,10 +86,12 @@
 .spellbook-tab-headers {
   display: flex;
   /* Remove background and borders - let the red header show through */
-  padding: 8px 12px;
-  gap: 8px;
+  padding: 4px 8px;
+  gap: 6px;
   flex-shrink: 0;
   align-items: center;
+  height: 100%; /* Fit within header height */
+  max-height: 50px; /* Prevent overflow */
 
   /* Character sheet font styling */
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
@@ -99,27 +101,28 @@
 .spellbook-tab {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 6px 10px;
   background: rgba(0, 0, 0, 0.2); /* Subtle dark background for red header */
   border: 1px solid rgba(240, 230, 210, 0.3);
-  border-radius: 6px;
+  border-radius: 4px;
   color: #f0e6d2; /* Light text for red header */
   font-family: 'Cinzel', serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   flex: 1;
+  height: 32px; /* Fixed height for consistency */
 }
 
 .spellbook-tab:hover:not(.active) {
-  background: rgba(0, 0, 0, 0.4); /* Darker on hover */
-  border-color: rgba(240, 230, 210, 0.5);
+  background: rgba(240, 230, 210, 0.2); /* Much lighter hover */
+  border-color: rgba(240, 230, 210, 0.6);
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .spellbook-tab.active {
@@ -133,9 +136,9 @@
 
 /* Tab icon styling to match character sheet */
 .spellbook-tab .tab-icon-img {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
   border: 1px solid rgba(139, 115, 85, 0.5);
   flex-shrink: 0;
 }
