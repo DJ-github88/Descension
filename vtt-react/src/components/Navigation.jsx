@@ -60,8 +60,16 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
     const { setWindowPosition, setWindowSize } = useCreatureStore();
 
     const tabs = [
-        { id: 'library', label: 'Library' },
-        { id: 'wizard', label: 'Create New' }
+        {
+            id: 'library',
+            label: 'Library',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
+        },
+        {
+            id: 'wizard',
+            label: 'Create New',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg'
+        }
     ];
 
     const handleCreateNewCreature = () => {
@@ -126,6 +134,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeView === tab.id ? 'active' : ''}`}
                             onClick={() => tab.id === 'wizard' ? handleCreateNewCreature() : setActiveView(tab.id)}
                         >
+                            <img src={tab.icon} alt="" className="tab-icon-img" />
                             <span>{tab.label}</span>
                         </button>
                     ))}
@@ -170,9 +179,21 @@ function SocialWindowWrapper({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('friends');
 
     const tabs = [
-        { id: 'friends', label: 'Friends' },
-        { id: 'ignored', label: 'Ignore' },
-        { id: 'who', label: 'Who' }
+        {
+            id: 'friends',
+            label: 'Friends',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/achievement_guildperk_everyonesfriend.jpg'
+        },
+        {
+            id: 'ignored',
+            label: 'Ignore',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg'
+        },
+        {
+            id: 'who',
+            label: 'Who',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg'
+        }
     ];
 
     return (
@@ -190,6 +211,7 @@ function SocialWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
+                            <img src={tab.icon} alt="" className="tab-icon-img" />
                             <span>{tab.label}</span>
                         </button>
                     ))}
@@ -221,8 +243,16 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
 
     // Tab definitions - filter based on GM/Player mode
     const getAllTabs = () => [
-        { id: 'interface', label: 'Interface' },
-        { id: 'gameplay', label: 'Gameplay' }
+        {
+            id: 'interface',
+            label: 'Interface',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_02.jpg'
+        },
+        {
+            id: 'gameplay',
+            label: 'Gameplay',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_gear_01.jpg'
+        }
     ];
 
     const getVisibleTabs = () => {
@@ -260,6 +290,7 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
+                            <img src={tab.icon} alt="" className="tab-icon-img" />
                             <span>{tab.label}</span>
                         </button>
                     ))}
@@ -299,6 +330,7 @@ function ChatWindowWrapper({ isOpen, onClose }) {
                         onClick={() => setActiveTab('social')}
                         data-unread={unreadCounts.social}
                     >
+                        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_letter_18.jpg" alt="" className="tab-icon-img" />
                         <span>Social</span>
                     </button>
                     <button
@@ -306,6 +338,7 @@ function ChatWindowWrapper({ isOpen, onClose }) {
                         onClick={() => setActiveTab('combat')}
                         data-unread={unreadCounts.combat}
                     >
+                        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg" alt="" className="tab-icon-img" />
                         <span>Combat</span>
                     </button>
                     <button
@@ -313,6 +346,7 @@ function ChatWindowWrapper({ isOpen, onClose }) {
                         onClick={() => setActiveTab('loot')}
                         data-unread={unreadCounts.loot}
                     >
+                        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_02.jpg" alt="" className="tab-icon-img" />
                         <span>Loot</span>
                     </button>
                 </div>
@@ -440,6 +474,26 @@ const NAVIGATION_BUTTONS = [
 function CharacterSheetWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('character');
 
+    // Define character sheet sections with icons
+    const characterSections = {
+        character: {
+            title: 'Character Sheet',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
+        },
+        stats: {
+            title: 'Stats',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg'
+        },
+        skills: {
+            title: 'Skills',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg'
+        },
+        lore: {
+            title: 'Lore',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_05.jpg'
+        }
+    };
+
     const renderContent = () => {
         switch (activeTab) {
             case 'character':
@@ -463,30 +517,16 @@ function CharacterSheetWindow({ isOpen, onClose }) {
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
                 <div className="spellbook-tab-headers">
-                    <button
-                        className={`spellbook-tab ${activeTab === 'character' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('character')}
-                    >
-                        <span>Character Sheet</span>
-                    </button>
-                    <button
-                        className={`spellbook-tab ${activeTab === 'stats' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('stats')}
-                    >
-                        <span>Stats</span>
-                    </button>
-                    <button
-                        className={`spellbook-tab ${activeTab === 'skills' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('skills')}
-                    >
-                        <span>Skills</span>
-                    </button>
-                    <button
-                        className={`spellbook-tab ${activeTab === 'lore' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('lore')}
-                    >
-                        <span>Lore</span>
-                    </button>
+                    {Object.entries(characterSections).map(([key, section]) => (
+                        <button
+                            key={key}
+                            className={`spellbook-tab ${activeTab === key ? 'active' : ''}`}
+                            onClick={() => setActiveTab(key)}
+                        >
+                            <img src={section.icon} alt="" className="tab-icon-img" />
+                            <span>{section.title}</span>
+                        </button>
+                    ))}
                 </div>
             }
         >

@@ -1445,7 +1445,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // This ensures the window is not constrained within parent containers
   return createPortal(
     <WowWindow
-      title={`${creature.name} - ${creature.size} ${creature.type}`}
       isOpen={true} // Always true since we're already checking isOpen above
       onClose={handleClose}
       defaultSize={{ width: 900, height: 700 }}
@@ -1453,32 +1452,23 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       centered={false} // Disable centering to prevent repositioning
       zIndex={20000} // Increased z-index to ensure it's above all other elements including the grid
       bounds="body"
-    >
-      <div className="creature-inspect-container">
-        {/* Header navigation tabs (like character sheet) */}
-        <div className="creature-inspect-header-navigation">
+      customHeader={
+        <div className="spellbook-tab-headers">
           {Object.entries(sections).map(([key, section]) => (
             <button
               key={key}
-              className={`creature-header-nav-button ${activeSection === key ? 'active' : ''}`}
-              onClick={() => handleSectionChange(key)}
+              className={`spellbook-tab ${activeSection === key ? 'active' : ''}`}
+              onClick={() => setActiveSection(key)}
             >
-              <img src={section.icon} alt="" className="creature-header-nav-icon" />
-              <span className="creature-header-nav-text">{section.title}</span>
+              <img src={section.icon} alt="" className="tab-icon-img" />
+              <span>{section.title}</span>
             </button>
           ))}
         </div>
-
+      }
+    >
+      <div className="creature-inspect-container">
         <div className="creature-inspect-content">
-          <div className="creature-section-header">
-            <img
-              src={sections[activeSection].icon}
-              alt=""
-              className="creature-section-icon"
-            />
-            <h2 className="creature-section-title">{sections[activeSection].title}</h2>
-          </div>
-
           <div className="creature-section-content">
             {renderContent()}
           </div>
