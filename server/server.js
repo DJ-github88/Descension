@@ -251,11 +251,11 @@ io.on('connection', (socket) => {
   
   // Create a new room
   socket.on('create_room', async (data) => {
-    console.log('Received create_room request:', data);
+    console.log('🎮 Received create_room request:', data);
     const { roomName, gmName, password } = data;
 
     if (!roomName || !gmName || !password) {
-      console.log('Missing required fields:', { roomName, gmName, password });
+      console.log('❌ Missing required fields:', { roomName, gmName, password });
       socket.emit('error', { message: 'Room name, GM name, and password are required' });
       return;
     }
@@ -288,11 +288,11 @@ io.on('connection', (socket) => {
   
   // Join an existing room
   socket.on('join_room', (data) => {
-    console.log('Received join_room request:', data);
+    console.log('🚪 Received join_room request:', data);
     const { roomId, playerName, password } = data;
 
     if (!roomId || !playerName || !password) {
-      console.log('Missing required fields for join:', { roomId, playerName, password });
+      console.log('❌ Missing required fields for join:', { roomId, playerName, password });
       socket.emit('error', { message: 'Room ID, player name, and password are required' });
       return;
     }
