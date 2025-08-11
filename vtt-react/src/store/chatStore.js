@@ -220,7 +220,13 @@ const useChatStore = create(
           return JSON.parse(str);
         },
         setItem: (name, value) => {
-          localStorage.setItem(name, JSON.stringify(value));
+          try {
+            // Exclude socket and function objects from storage
+            const { multiplayerSocket, sendMultiplayerMessage, ...serializableValue } = value;
+            localStorage.setItem(name, JSON.stringify(serializableValue));
+          } catch (error) {
+            console.error('Error writing to localStorage:', error);
+          }
         },
         removeItem: (name) => localStorage.removeItem(name)
       }

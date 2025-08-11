@@ -722,7 +722,9 @@ const useGameStore = create(
                 },
                 setItem: (name, value) => {
                     try {
-                        const jsonValue = JSON.stringify(value);
+                        // Exclude socket and other non-serializable objects from storage
+                        const { multiplayerSocket, onLeaveMultiplayer, ...serializableValue } = value;
+                        const jsonValue = JSON.stringify(serializableValue);
                         localStorage.setItem(name, jsonValue);
                     } catch (error) {
                         if (error.name === 'QuotaExceededError') {
