@@ -86,8 +86,31 @@ const IgnoreList = () => {
 
   return (
     <div className="friends-list-container">
+      {/* Ignore List Header with Actions */}
+      <div className="friends-list-header">
+        <div className="friends-list-title">Ignored Players</div>
+        <div className="friends-list-actions">
+          <button
+            className="compact-action-btn add-ignore"
+            onClick={handleAddIgnore}
+            title="Add Ignore"
+          >
+            <i className="fas fa-user-slash"></i>
+          </button>
+          {selectedIgnored && (
+            <button
+              className="compact-action-btn remove-ignore"
+              onClick={() => handleRemoveIgnore(ignored.find(i => i.id === selectedIgnored))}
+              title="Remove Ignore"
+            >
+              <i className="fas fa-user-check"></i>
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Ignore List */}
-      <div className="ignore-list">
+      <div className="friends-list">
         {ignored.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">
@@ -95,35 +118,15 @@ const IgnoreList = () => {
             </div>
             <div className="empty-state-text">No ignored players</div>
             <div className="empty-state-subtext">
-              Players you ignore will appear here
+              Click the ignore button above to add players
             </div>
           </div>
         ) : (
           <>
-            <div className="friends-section-header">Ignored Players</div>
+            <div className="friends-section-header">Ignored Players ({ignored.length})</div>
             {ignored.map(renderIgnoreEntry)}
           </>
         )}
-      </div>
-
-      {/* Content Spacer - pushes action buttons to bottom */}
-      <div style={{ flex: 1 }}></div>
-
-      {/* Action Buttons */}
-      <div className="social-actions">
-        <button
-          className="social-button"
-          onClick={handleAddIgnore}
-        >
-          Add Ignore
-        </button>
-        <button
-          className="social-button"
-          onClick={() => selectedIgnored && handleRemoveIgnore(ignored.find(i => i.id === selectedIgnored))}
-          disabled={!selectedIgnored}
-        >
-          Remove
-        </button>
       </div>
 
       {/* Add Ignore Dialog */}

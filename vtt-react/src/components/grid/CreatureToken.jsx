@@ -11,6 +11,7 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementVisualization from './MovementVisualization';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/creature-token.css';
+import '../../styles/unified-context-menu.css';
 import WowWindow from '../windows/WowWindow';
 import CreatureWindow from '../windows/CreatureWindow';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
@@ -832,7 +833,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       {showContextMenu && createPortal(
         <div
           ref={contextMenuRef}
-          className="creature-token-context-menu compact"
+          className="unified-context-menu compact"
           style={{
             left: contextMenuPosition.x,
             top: contextMenuPosition.y

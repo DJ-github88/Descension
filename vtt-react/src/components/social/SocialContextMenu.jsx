@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import '../../styles/social-window.css';
+import '../../styles/unified-context-menu.css';
 
 const SocialContextMenu = ({ x, y, player, onClose, onWhisper, onInvite, onAddFriend, onRemoveFriend, onAddIgnore, onRemoveIgnore }) => {
   const menuRef = useRef(null);
@@ -30,15 +30,12 @@ const SocialContextMenu = ({ x, y, player, onClose, onWhisper, onInvite, onAddFr
   const isIgnored = player?.isIgnored;
   
   return ReactDOM.createPortal(
-    <div 
+    <div
       ref={menuRef}
-      className="social-context-menu" 
-      style={{ 
-        left: x, 
-        top: y,
-        // Ensure menu doesn't go off screen
-        maxHeight: '80vh',
-        overflow: 'auto'
+      className="unified-context-menu small"
+      style={{
+        left: x,
+        top: y
       }}
     >
       {/* Whisper option - always available for online players */}

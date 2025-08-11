@@ -9,38 +9,8 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
   const { windowPosition, windowSize } = useCreatureStore();
   const windowScale = useGameStore(state => state.windowScale);
 
-  // Only show when the wizard is open, we have creature data, AND we're in wizard/create mode (not library)
-  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0 || activeView === 'library') {
-    return null;
-  }
-
-  // Calculate position with fallback values and live updates - REACTIVE
-  const wizardWidth = (windowSize?.width || 1200) * windowScale;
-  const wizardX = windowPosition?.x || ((window.innerWidth - 1200) / 2);
-  const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);
-
-  // Debug logging
-  console.log('ExternalCreaturePreview positioning:', {
-    windowPosition,
-    windowSize,
-    windowScale,
-    wizardWidth,
-    wizardX,
-    wizardY,
-    calculatedLeft: wizardX + wizardWidth + 15
-  });
-
-  const position = {
-    left: wizardX + wizardWidth + 15, // Small gap from creature wizard
-    top: wizardY + 60, // Aligned with content area
-    position: 'fixed',
-    zIndex: 99999,
-    width: '300px',
-    maxHeight: 'none',
-    overflow: 'visible'
-  };
-
   // Create a complete creature object for the tooltip using real-time data
+  // This must be called before any early returns to follow Rules of Hooks
   const createPreviewCreature = useMemo(() => {
     // Ensure we have a complete creature structure for the tooltip
     const previewCreature = {
@@ -132,6 +102,26 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
 
     return previewCreature;
   }, [creatureData]);
+
+  // Only show when the wizard is open, we have creature data, AND we're in wizard/create mode (not library)
+  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0 || activeView === 'library') {
+    return null;
+  }
+
+  // Calculate position with fallback values and live updates - REACTIVE
+  const wizardWidth = (windowSize?.width || 1200) * windowScale;
+  const wizardX = windowPosition?.x || ((window.innerWidth - 1200) / 2);
+  const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);
+
+  const position = {
+    left: wizardX + wizardWidth + 15, // Small gap from creature wizard
+    top: wizardY + 60, // Aligned with content area
+    position: 'fixed',
+    zIndex: 99999,
+    width: '300px',
+    maxHeight: 'none',
+    overflow: 'visible'
+  };
 
   return ReactDOM.createPortal(
     <div style={{

@@ -600,129 +600,108 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     };
 
     const renderContent = () => (
-        <div className="item-library-main-container">
-            {/* Navigation sidebar like character sheet */}
-            <div className="item-library-navigation">
-                <button
-                    className={`item-library-nav-button ${activeTab === 'library' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('library')}
-                >
-                    <img src="/icons/book.png" alt="" className="item-library-nav-icon" />
-                    <span className="item-library-nav-text">Library</span>
-                </button>
-                <button
-                    className={`item-library-nav-button ${activeTab === 'designer' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('designer')}
-                >
-                    <img src="/icons/hammer.png" alt="" className="item-library-nav-icon" />
-                    <span className="item-library-nav-text">Designer</span>
-                </button>
-            </div>
-
-            {/* Content area */}
-            <div
-                ref={containerRef}
-                className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
-            >
-
+        <div
+            ref={containerRef}
+            className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
+        >
             <div className="item-library-content">
-
                 {/* Tab Content */}
                 {activeTab === 'library' ? (
                     <div className="item-library-main-container">
-                        <div className="item-library-sidebar">
-                            <CategoryTree
-                                categories={categories}
-                                selectedCategory={selectedCategory}
-                                onSelect={setSelectedCategory}
-                                onAddSubcategory={handleAddCategory}
-                                onDelete={handleDeleteCategory}
-                                onDrop={handleDrop}
-                            />
-                        </div>
                         <div className="item-library-main">
-                            {/* Library Header - matching shop window style */}
+                            {/* Compact Library Header */}
                             <div className="library-window-header">
-                                <div className="library-info">
-                                    <span className="library-title">
-                                        {selectedCategory ?
-                                            categories.find(c => c.id === selectedCategory)?.name :
-                                        'All Items'}
-                                    </span>
-                                </div>
-
-                                {/* Header Filters */}
-                                <div className="header-filters">
-                                    <input
-                                        type="text"
-                                        placeholder="Search all items..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="header-filter-input"
-                                    />
+                                <div className="header-content">
+                                    {/* Category Dropdown */}
                                     <select
-                                        value={qualityFilter}
-                                        onChange={(e) => setQualityFilter(e.target.value)}
-                                        className="header-filter-select"
+                                        value={selectedCategory || ''}
+                                        onChange={(e) => setSelectedCategory(e.target.value || null)}
+                                        className="category-dropdown"
+                                        title="Select category"
                                     >
-                                        <option value="">All Qualities</option>
-                                        {filterOptions.qualities.map(quality => (
-                                            <option key={quality} value={quality}>
-                                                {quality.charAt(0).toUpperCase() + quality.slice(1)}
+                                        <option value="">All Items</option>
+                                        {categories.map(category => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
                                             </option>
                                         ))}
                                     </select>
-                                    <select
-                                        value={typeFilter}
-                                        onChange={(e) => setTypeFilter(e.target.value)}
-                                        className="header-filter-select"
-                                    >
-                                        <option value="">All Types</option>
-                                        {filterOptions.types.map(type => (
-                                            <option key={type} value={type}>
-                                                {type.charAt(0).toUpperCase() + type.slice(1)}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <button
-                                        onClick={() => {
-                                            setSearchQuery('');
-                                            setQualityFilter('');
-                                            setTypeFilter('');
-                                        }}
-                                        className="header-reset-btn"
-                                        title="Reset filters"
-                                    >
-                                        <i className="fas fa-times"></i>
-                                    </button>
-                                    <button
-                                        onClick={() => setShowRecipeWizard(true)}
-                                        className="header-action-btn recipe-wizard-btn"
-                                        title="Create Recipe"
-                                    >
-                                        <i className="fas fa-scroll"></i>
-                                        Recipe
-                                    </button>
-                                </div>
 
-                                <div className="action-buttons">
-                                    <button
-                                        onClick={() => {
-                                            const { resetToComprehensiveItems } = useItemStore.getState();
-                                            resetToComprehensiveItems();
-                                        }}
-                                        className="action-btn"
-                                        title="Load comprehensive item library"
-                                    >
-                                        <i className="fas fa-refresh"></i>
-                                    </button>
-                                    <button
-                                        onClick={() => setShowQuickItemGenerator(true)}
-                                        className="action-btn primary"
-                                        title="Quick item creation"
-                                    >
-                                        <i className="fas fa-magic"></i>
-                                    </button>
+                                    {/* Compact Filters */}
+                                    <div className="compact-filters">
+                                        <input
+                                            type="text"
+                                            placeholder="Search..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="compact-search"
+                                        />
+                                        <select
+                                            value={qualityFilter}
+                                            onChange={(e) => setQualityFilter(e.target.value)}
+                                            className="compact-select"
+                                        >
+                                            <option value="">Quality</option>
+                                            {filterOptions.qualities.map(quality => (
+                                                <option key={quality} value={quality}>
+                                                    {quality.charAt(0).toUpperCase() + quality.slice(1)}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <select
+                                            value={typeFilter}
+                                            onChange={(e) => setTypeFilter(e.target.value)}
+                                            className="compact-select"
+                                        >
+                                            <option value="">Type</option>
+                                            {filterOptions.types.map(type => (
+                                                <option key={type} value={type}>
+                                                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        {(searchQuery || qualityFilter || typeFilter) && (
+                                            <button
+                                                onClick={() => {
+                                                    setSearchQuery('');
+                                                    setQualityFilter('');
+                                                    setTypeFilter('');
+                                                }}
+                                                className="compact-clear"
+                                                title="Clear filters"
+                                            >
+                                                ×
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="header-actions">
+                                        <button
+                                            onClick={() => setShowQuickItemGenerator(true)}
+                                            className="action-btn primary"
+                                            title="Quick item creation"
+                                        >
+                                            <i className="fas fa-magic"></i>
+                                        </button>
+                                        <button
+                                            onClick={() => setShowRecipeWizard(true)}
+                                            className="action-btn secondary"
+                                            title="Create Recipe"
+                                        >
+                                            <i className="fas fa-scroll"></i>
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                const { resetToComprehensiveItems } = useItemStore.getState();
+                                                resetToComprehensiveItems();
+                                            }}
+                                            className="action-btn utility"
+                                            title="Reload library"
+                                        >
+                                            <i className="fas fa-refresh"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <div className={`item-grid ${activeView === 'list' ? 'list-view' : ''}`}>
@@ -942,6 +921,49 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     </div>
                 )}
             </div>
+        </div>
+    );
+
+    if (contentOnly) {
+        return renderContent();
+    }
+
+    const tabs = [
+        {
+            id: 'library',
+            label: 'Library',
+            icon: '/icons/book.png'
+        },
+        {
+            id: 'designer',
+            label: 'Designer',
+            icon: '/icons/hammer.png'
+        }
+    ];
+
+    return (
+        <WowWindow
+            isOpen={true}
+            onClose={onClose}
+            defaultPosition={position}
+            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : { width: 1000, height: 700 }}
+            title="Item Library"
+            zIndex={1000}
+            customHeader={
+                <div className="spellbook-tab-headers">
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.id}
+                            className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
+                            onClick={() => setActiveTab(tab.id)}
+                        >
+                            <span>{tab.label}</span>
+                        </button>
+                    ))}
+                </div>
+            }
+        >
+            {renderContent()}
 
             {showCategoryDialog && (
                 <CategoryDialog
@@ -1075,25 +1097,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     }}
                 />
             )}
-            </div>
-        </div>
-    );
-
-    if (contentOnly) {
-        return renderContent();
-    }
-
-    return (
-        <WowWindow
-            isOpen={true}
-            onClose={onClose}
-            defaultPosition={position}
-            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : { width: 1000, height: 700 }}
-            title="Item Library"
-            zIndex={1000}
-            customHeader={null}
-        >
-            {renderContent()}
         </WowWindow>
     );
 };

@@ -37,11 +37,11 @@
     "zustand": "^4.5.6"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "set NODE_OPTIONS=--max-old-space-size=8192 && craco start",
     "start-original": "react-scripts start",
-    "start-legacy": "NODE_OPTIONS=--openssl-legacy-provider craco start",
-    "start-port-3001": "PORT=3001 craco start",
-    "build": "craco build",
+    "start-legacy": "set NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 && craco start",
+    "start-port-3001": "set PORT=3001 && set NODE_OPTIONS=--max-old-space-size=8192 && craco start",
+    "build": "set NODE_OPTIONS=--max-old-space-size=8192 && craco build",
     "build-original": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

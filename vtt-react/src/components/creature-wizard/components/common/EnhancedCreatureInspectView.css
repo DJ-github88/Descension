@@ -2,8 +2,7 @@
 /* Matching the character sheet lore/skills section styling */
 
 .creature-inspect-container {
-  display: flex;
-  flex-direction: row; /* Side-by-side layout like character sheet */
+  display: block; /* Remove flex to fix squished layout */
   height: 100%;
   background: linear-gradient(135deg,
     rgba(240, 230, 210, 0.95) 0%,
@@ -228,6 +227,16 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  /* Ensure consistent background with stats content area */
+  background: transparent;
+}
+
+/* Full-width content area for non-stats sections */
+.creature-content-area-full {
+  width: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  background: transparent;
 }
 
 .creature-section-header {
@@ -265,10 +274,7 @@
   display: flex;
   flex-direction: row;
   height: 100%;
-  background: linear-gradient(135deg,
-    rgba(240, 230, 210, 0.95) 0%,
-    rgba(230, 220, 200, 0.9) 50%,
-    rgba(213, 203, 176, 0.85) 100%);
+  background: transparent; /* Use parent background */
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
   color: #5a1e12;
 }
@@ -344,6 +350,8 @@
   flex: 1;
   padding: 20px; /* Match character sheet padding exactly */
   overflow-y: auto;
+  /* Ensure consistent background with other content areas */
+  background: transparent;
 }
 
 .stats-section-header {
@@ -382,6 +390,96 @@
   display: flex;
   flex-direction: column;
   gap: 8px; /* Tighter spacing */
+}
+
+/* Stat Row Layout - Match Character Sheet Exactly */
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(240, 230, 210, 0.6) 100%);
+  border: 2px solid rgba(139, 115, 85, 0.4);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  margin-bottom: 8px;
+}
+
+.stat-row:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(122, 59, 46, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(122, 59, 46, 0.6);
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(240, 230, 210, 0.7) 100%);
+}
+
+.stat-label-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #8b7355;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #7a3b2e;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.stat-description {
+  font-family: 'Garamond', 'Times New Roman', serif;
+  font-size: 11px;
+  color: #8b7355;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.stat-value-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-value {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #5a1e12;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  min-width: 60px;
+  text-align: right;
+}
+
+.stat-modifier {
+  color: #7a3b2e;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin-left: 4px;
 }
 
 .stat-row {
@@ -927,7 +1025,87 @@
   font-weight: 600;
 }
 
-/* Loot items list */
+/* Loot items grid - Item Library Style */
+.loot-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 15px;
+  padding: 10px;
+}
+
+.loot-item-card {
+  position: relative;
+  width: 80px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 2px solid #a08c70;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.loot-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(122, 59, 46, 0.2);
+  border-color: rgba(122, 59, 46, 0.4);
+  z-index: 10;
+}
+
+.loot-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  border: 1px solid #d5cbb0;
+  background-color: #fff;
+}
+
+.loot-item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.loot-item-name {
+  font-size: 10px;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  margin-bottom: 2px;
+}
+
+.loot-item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-size: 8px;
+  color: #666;
+}
+
+.loot-drop-chance {
+  color: #ffd100;
+  font-weight: bold;
+}
+
+.loot-quantity {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+/* Legacy loot items list for backwards compatibility */
 .loot-items-list {
   display: flex;
   flex-direction: column;

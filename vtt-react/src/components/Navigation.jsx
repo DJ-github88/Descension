@@ -134,18 +134,10 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeView === tab.id ? 'active' : ''}`}
                             onClick={() => tab.id === 'wizard' ? handleCreateNewCreature() : setActiveView(tab.id)}
                         >
-                            <img src={tab.icon} alt="" className="tab-icon-img" />
                             <span>{tab.label}</span>
                         </button>
                     ))}
-                    {activeView === 'wizard' && (
-                        <button
-                            className="creature-wizard-back-button"
-                            onClick={handleBackToLibrary}
-                        >
-                            <span>← Back to Library</span>
-                        </button>
-                    )}
+
                 </div>
             }
         >
@@ -211,7 +203,6 @@ function SocialWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
-                            <img src={tab.icon} alt="" className="tab-icon-img" />
                             <span>{tab.label}</span>
                         </button>
                     ))}
@@ -290,7 +281,6 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
-                            <img src={tab.icon} alt="" className="tab-icon-img" />
                             <span>{tab.label}</span>
                         </button>
                     ))}
@@ -330,7 +320,6 @@ function ChatWindowWrapper({ isOpen, onClose }) {
                         onClick={() => setActiveTab('social')}
                         data-unread={unreadCounts.social}
                     >
-                        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_letter_18.jpg" alt="" className="tab-icon-img" />
                         <span>Social</span>
                     </button>
                     <button
@@ -338,7 +327,6 @@ function ChatWindowWrapper({ isOpen, onClose }) {
                         onClick={() => setActiveTab('combat')}
                         data-unread={unreadCounts.combat}
                     >
-                        <img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg" alt="" className="tab-icon-img" />
                         <span>Combat</span>
                     </button>
                     <button
@@ -346,7 +334,6 @@ function ChatWindowWrapper({ isOpen, onClose }) {
                         onClick={() => setActiveTab('loot')}
                         data-unread={unreadCounts.loot}
                     >
-                        <img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_02.jpg" alt="" className="tab-icon-img" />
                         <span>Loot</span>
                     </button>
                 </div>
@@ -523,7 +510,6 @@ function CharacterSheetWindow({ isOpen, onClose }) {
                             className={`spellbook-tab ${activeTab === key ? 'active' : ''}`}
                             onClick={() => setActiveTab(key)}
                         >
-                            <img src={section.icon} alt="" className="tab-icon-img" />
                             <span>{section.title}</span>
                         </button>
                     ))}

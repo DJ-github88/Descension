@@ -227,6 +227,39 @@ const FriendsList = () => {
 
   return (
     <div className="friends-list-container">
+      {/* Friends List Header with Actions */}
+      <div className="friends-list-header">
+        <div className="friends-list-title">Friends</div>
+        <div className="friends-list-actions">
+          <button
+            className="compact-action-btn add-friend"
+            onClick={handleAddFriend}
+            title="Add Friend"
+          >
+            <i className="fas fa-user-plus"></i>
+          </button>
+          {selectedFriend && (
+            <>
+              <button
+                className="compact-action-btn set-note"
+                onClick={() => handleAddNote(friends.find(f => f.id === selectedFriend))}
+                title="Set Note"
+              >
+                <i className="fas fa-sticky-note"></i>
+              </button>
+              <button
+                className="compact-action-btn send-message"
+                onClick={handleSendMessage}
+                disabled={friends.find(f => f.id === selectedFriend)?.status !== 'online'}
+                title="Send Message"
+              >
+                <i className="fas fa-comment"></i>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
       {/* Friends List */}
       <div className="friends-list">
         {friends.length === 0 ? (
@@ -236,7 +269,7 @@ const FriendsList = () => {
             </div>
             <div className="empty-state-text">No friends yet</div>
             <div className="empty-state-subtext">
-              Add friends to see them here
+              Click the + button above to add friends
             </div>
           </div>
         ) : (
@@ -244,7 +277,7 @@ const FriendsList = () => {
             {/* Online Friends Section */}
             {onlineFriends.length > 0 && (
               <>
-                <div className="friends-section-header">Online Players</div>
+                <div className="friends-section-header">Online Players ({onlineFriends.length})</div>
                 {onlineFriends.map(renderFriendEntry)}
               </>
             )}
@@ -252,39 +285,12 @@ const FriendsList = () => {
             {/* Offline Friends Section */}
             {offlineFriends.length > 0 && (
               <>
-                <div className="friends-section-header">Offline Players</div>
+                <div className="friends-section-header">Offline Players ({offlineFriends.length})</div>
                 {offlineFriends.map(renderFriendEntry)}
               </>
             )}
           </>
         )}
-      </div>
-
-      {/* Content Spacer - pushes action buttons to bottom */}
-      <div style={{ flex: 1 }}></div>
-
-      {/* Action Buttons */}
-      <div className="social-actions">
-        <button
-          className="social-button"
-          onClick={handleAddFriend}
-        >
-          Add Friend
-        </button>
-        <button
-          className="social-button"
-          onClick={() => selectedFriend && handleAddNote(friends.find(f => f.id === selectedFriend))}
-          disabled={!selectedFriend}
-        >
-          Set Note
-        </button>
-        <button
-          className="social-button"
-          onClick={handleSendMessage}
-          disabled={!selectedFriend || friends.find(f => f.id === selectedFriend)?.status !== 'online'}
-        >
-          Send Message
-        </button>
       </div>
 
       {/* Add Friend Dialog */}

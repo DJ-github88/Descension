@@ -140,7 +140,29 @@ const WowWindow = forwardRef(({
                 >
                     <div className="window-header draggable-window-handle dnd-theme-header">
                         <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
-                            {customHeader || (
+                            {customHeader ? (
+                                <>
+                                    <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
+                                        {customHeader}
+                                        <button
+                                            className="window-close"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (onClose) onClose();
+                                            }}
+                                            style={{
+                                                position: 'absolute',
+                                                right: '8px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                zIndex: 10
+                                            }}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
                                 <>
                                     <div className="window-title">{title}</div>
 
@@ -173,18 +195,18 @@ const WowWindow = forwardRef(({
                                             ))}
                                         </div>
                                     )}
+                                    <button
+                                        className="window-close"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (onClose) onClose();
+                                        }}
+                                        style={{ position: 'absolute', right: '0', top: '50%', transform: 'translateY(-50%)' }}
+                                    >
+                                        ×
+                                    </button>
                                 </>
                             )}
-                            <button
-                                className="window-close"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (onClose) onClose();
-                                }}
-                                style={{ position: 'absolute', right: '0', top: '50%', transform: 'translateY(-50%)' }}
-                            >
-                                ×
-                            </button>
                         </div>
                     </div>
                     <div className="window-content" onWheel={handleWindowWheel}>

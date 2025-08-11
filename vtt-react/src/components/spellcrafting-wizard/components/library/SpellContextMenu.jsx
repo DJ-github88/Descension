@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/SpellContextMenu.css';
+import '../../../../styles/unified-context-menu.css';
 
 /**
  * SpellContextMenu - Context menu for spells in the library or collections
@@ -19,18 +19,16 @@ const SpellContextMenu = ({
 }) => {
   return (
     <div
-      className="spell-context-menu"
+      className="unified-context-menu"
       style={{
         left: x,
-        top: y,
-        position: 'fixed',
-        zIndex: 9999999
+        top: y
       }}
       onClick={e => e.stopPropagation()}
     >
 
       <button
-        className="context-menu-item primary-action"
+        className="context-menu-button"
         onClick={() => {
           onDuplicate(spell.id);
           onClose();
@@ -42,7 +40,7 @@ const SpellContextMenu = ({
 
       {inCollection ? (
         <button
-          className="context-menu-item delete-item"
+          className="context-menu-button danger"
           onClick={() => {
             onDelete(spell.id);
             onClose();
@@ -60,7 +58,7 @@ const SpellContextMenu = ({
                 {collections.map(collection => (
                   <div
                     key={collection.id}
-                    className="context-menu-item"
+                    className="context-menu-button"
                     onClick={() => {
                       onAddToCollection(spell.id, collection.id);
                       onClose();
@@ -75,7 +73,7 @@ const SpellContextMenu = ({
           )}
 
           <button
-            className="context-menu-item delete-item"
+            className="context-menu-button danger"
             onClick={() => {
               onDelete(spell.id);
               onClose();

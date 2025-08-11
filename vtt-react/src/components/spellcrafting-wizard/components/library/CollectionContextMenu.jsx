@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/SpellContextMenu.css';
+import '../../../../styles/unified-context-menu.css';
 
 /**
  * CollectionContextMenu - Context menu for spell collections
@@ -21,29 +21,29 @@ const CollectionContextMenu = ({
   };
 
   return (
-    <div 
-      className="spell-context-menu"
+    <div
+      className="unified-context-menu"
       style={{ left: x, top: y }}
       onClick={e => e.stopPropagation()}
     >
-      <button 
-        className="context-menu-item primary-action"
+      <button
+        className="context-menu-button"
         onClick={() => handleItemClick(onOpen)}
       >
         <i className="fas fa-book-open"></i>
         Open Collection
       </button>
 
-      <button 
-        className="context-menu-item"
+      <button
+        className="context-menu-button"
         onClick={() => handleItemClick(onEdit)}
       >
         <i className="fas fa-edit"></i>
         Edit Collection
       </button>
 
-      <button 
-        className="context-menu-item delete-item"
+      <button
+        className="context-menu-button danger"
         onClick={() => handleItemClick(onDelete)}
       >
         <i className="fas fa-trash"></i>

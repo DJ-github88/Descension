@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/CreatureContextMenu.css';
+import '../../../../styles/unified-context-menu.css';
 
 const CreatureContextMenu = ({
   x,
@@ -55,40 +55,40 @@ const CreatureContextMenu = ({
 
   return (
     <div
-      className="creature-context-menu"
+      className="unified-context-menu"
       style={{ left: `${x}px`, top: `${y}px` }}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="context-menu-item" onClick={handleInspect}>
+      <div className="context-menu-button" onClick={handleInspect}>
         <i className="fas fa-search"></i>
         Inspect
       </div>
-      <div className="context-menu-item" onClick={handleEdit}>
+      <div className="context-menu-button" onClick={handleEdit}>
         <i className="fas fa-edit"></i>
         Edit
       </div>
-      <div className="context-menu-item" onClick={handleDuplicate}>
+      <div className="context-menu-button" onClick={handleDuplicate}>
         <i className="fas fa-copy"></i>
         Duplicate
       </div>
-      <div className="context-menu-item" onClick={handleDelete}>
+      <div className="context-menu-button danger" onClick={handleDelete}>
         <i className="fas fa-trash-alt"></i>
         Delete
       </div>
 
       {/* Add to category submenu */}
       {categories.length > 0 && (
-        <div className="context-menu-submenu">
-          <div className="context-menu-item">
+        <div className="context-menu-group">
+          <div className="group-header">
             <i className="fas fa-folder-plus"></i>
             Add to Category
-            <i className="fas fa-caret-right submenu-caret"></i>
+            <i className="fas fa-caret-right expand-icon"></i>
           </div>
-          <div className="context-submenu">
+          <div className="submenu">
             {categories.map(category => (
               <div
                 key={category.id}
-                className="context-menu-item"
+                className="context-menu-button"
                 onClick={(e) => handleAddToCategory(e, category.id)}
               >
                 <i className="fas fa-folder"></i>

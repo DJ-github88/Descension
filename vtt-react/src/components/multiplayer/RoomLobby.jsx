@@ -1,24 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
+import { auth } from '../../config/firebase';
+import { getUserRooms, createPersistentRoom } from '../../services/roomService';
 import './styles/RoomLobby.css';
 
 const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   const [socket, setSocket] = useState(null);
   const [playerName, setPlayerName] = useState('');
   const [roomName, setRoomName] = useState('');
+  const [roomDescription, setRoomDescription] = useState('');
   const [roomPassword, setRoomPassword] = useState('');
   const [roomId, setRoomId] = useState('');
   const [joinPassword, setJoinPassword] = useState('');
   const [availableRooms, setAvailableRooms] = useState([]);
+  const [userRooms, setUserRooms] = useState([]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('join'); // 'join' or 'create'
+  const [activeTab, setActiveTab] = useState('join'); // 'join', 'create', or 'my-rooms'
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
     (process.env.NODE_ENV === 'production'
       ? 'https://descension-production.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
+
+  useEffect(() => {
+    // Check authentication status
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+      if (user) {
+        setPlayerName(user.displayName || user.email?.split('@')[0] || 'Player');
+        loadUserRooms();
+      } else {
+        setUserRooms([]);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     // Initialize socket connection
@@ -78,6 +98,88 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     } catch (error) {
       console.error('Failed to fetch rooms:', error);
     }
+  };
+
+  const loadUserRooms = async () => {
+    if (!auth.currentUser) return;
+
+    try {
+      const rooms = await getUserRooms(auth.currentUser.uid);
+      setUserRooms(rooms);
+    } catch (error) {
+      console.error('Failed to load user rooms:', error);
+    }
+  };
+
+  const handleCreatePersistentRoom = async () => {
+    if (!isAuthenticated) {
+      setError('Please sign in to create persistent rooms');
+      return;
+    }
+
+    if (!roomName.trim()) {
+      setError('Please enter a room name');
+      return;
+    }
+
+    if (!roomPassword.trim()) {
+      setError('Please enter a password for your room');
+      return;
+    }
+
+    setIsConnecting(true);
+    setError('');
+
+    try {
+      // Create persistent room in Firebase
+      const roomId = await createPersistentRoom({
+        name: roomName.trim(),
+        description: roomDescription.trim(),
+        password: roomPassword.trim(),
+        gmName: playerName.trim(),
+        maxPlayers: 6
+      });
+
+      console.log('Persistent room created:', roomId);
+
+      // Refresh user rooms
+      await loadUserRooms();
+
+      // Switch to my rooms tab
+      setActiveTab('my-rooms');
+
+      // Clear form
+      setRoomName('');
+      setRoomDescription('');
+      setRoomPassword('');
+
+    } catch (error) {
+      console.error('Failed to create persistent room:', error);
+      setError('Failed to create room: ' + error.message);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const handleJoinPersistentRoom = (room) => {
+    if (!socket) {
+      setError('Not connected to server');
+      return;
+    }
+
+    setIsConnecting(true);
+    setError('');
+
+    // For persistent rooms, we need to connect to the live session
+    // The room password is already known since the user is a member
+    const joinData = {
+      roomId: room.id,
+      playerName: playerName.trim(),
+      password: room.password || '' // This should be handled securely
+    };
+
+    console.log('Joining persistent room:', joinData);
+    socket.emit('join_room', joinData);
   };
 
   const handleCreateRoom = () => {
@@ -186,18 +288,26 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
         </div>
 
         <div className="lobby-tabs">
-          <button 
+          <button
             className={`tab-button ${activeTab === 'join' ? 'active' : ''}`}
             onClick={() => setActiveTab('join')}
           >
             Join Room
           </button>
-          <button 
+          <button
             className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
             onClick={() => setActiveTab('create')}
           >
             Create Room
           </button>
+          {isAuthenticated && (
+            <button
+              className={`tab-button ${activeTab === 'my-rooms' ? 'active' : ''}`}
+              onClick={() => setActiveTab('my-rooms')}
+            >
+              My Rooms
+            </button>
+          )}
         </div>
 
         {activeTab === 'join' && (
@@ -287,6 +397,17 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
               maxLength={30}
             />
 
+            <label htmlFor="roomDescription">Description (Optional):</label>
+            <textarea
+              id="roomDescription"
+              value={roomDescription}
+              onChange={(e) => setRoomDescription(e.target.value)}
+              placeholder="Describe your campaign or session"
+              disabled={isConnecting}
+              maxLength={200}
+              rows={3}
+            />
+
             <label htmlFor="roomPassword">Room Password:</label>
             <input
               id="roomPassword"
@@ -298,19 +419,69 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
               maxLength={50}
             />
 
-            <button
-              onClick={handleCreateRoom}
-              disabled={isConnecting || !playerName.trim() || !roomName.trim() || !roomPassword.trim()}
-              className="create-button"
-            >
-              {isConnecting ? 'Creating...' : 'Create Room as GM'}
-            </button>
+            <div className="create-buttons">
+              <button
+                onClick={handleCreateRoom}
+                disabled={isConnecting || !playerName.trim() || !roomName.trim() || !roomPassword.trim()}
+                className="create-button"
+              >
+                {isConnecting ? 'Creating...' : 'Create Temporary Room'}
+              </button>
+
+              {isAuthenticated && (
+                <button
+                  onClick={handleCreatePersistentRoom}
+                  disabled={isConnecting || !roomName.trim() || !roomPassword.trim()}
+                  className="create-button persistent"
+                >
+                  {isConnecting ? 'Creating...' : 'Create Persistent Room'}
+                </button>
+              )}
+            </div>
 
             <div className="gm-info">
               <p><strong>Note:</strong> You will be the Game Master (GM) of this room.</p>
               <p>As GM, you have full control over the game state and can manage players.</p>
               <p><strong>Password Required:</strong> All players must enter the password to join.</p>
+              {!isAuthenticated && (
+                <p><strong>Tip:</strong> Sign in to create persistent rooms that save your progress!</p>
+              )}
             </div>
+          </div>
+        )}
+
+        {activeTab === 'my-rooms' && isAuthenticated && (
+          <div className="my-rooms-section">
+            <h3>My Rooms</h3>
+            {userRooms.length === 0 ? (
+              <p className="no-rooms">You haven't created any rooms yet.</p>
+            ) : (
+              <div className="rooms-list">
+                {userRooms.map(room => (
+                  <div key={room.id} className="room-card persistent">
+                    <div className="room-info">
+                      <h4>{room.name}</h4>
+                      {room.description && <p className="room-description">{room.description}</p>}
+                      <p>Role: {room.userRole === 'gm' ? 'Game Master' : 'Player'}</p>
+                      <p>Members: {room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</p>
+                      <p className="room-age">
+                        Last Activity: {room.lastActivity ? new Date(room.lastActivity.seconds * 1000).toLocaleString() : 'Unknown'}
+                      </p>
+                      {room.isActive && <span className="active-indicator">🟢 Active</span>}
+                    </div>
+                    <div className="room-actions">
+                      <button
+                        onClick={() => handleJoinPersistentRoom(room)}
+                        disabled={isConnecting}
+                        className="join-button"
+                      >
+                        {room.userRole === 'gm' ? 'Resume as GM' : 'Join'}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

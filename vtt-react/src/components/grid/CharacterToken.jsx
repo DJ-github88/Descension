@@ -6,6 +6,7 @@ import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import '../../styles/unified-context-menu.css';
 
 const CharacterToken = ({
     tokenId,
@@ -359,7 +360,7 @@ const CharacterToken = ({
             {showContextMenu && createPortal(
                 <div
                     ref={contextMenuRef}
-                    className="creature-token-context-menu compact"
+                    className="unified-context-menu compact"
                     style={{
                         left: contextMenuPosition.x,
                         top: contextMenuPosition.y

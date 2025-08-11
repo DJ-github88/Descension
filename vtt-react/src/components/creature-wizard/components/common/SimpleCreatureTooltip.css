@@ -181,34 +181,34 @@
 }
 
 .tooltip-resistance-item.resistant {
-  border-left-color: #2196F3;
+  border-left-color: #7a3b2e;
 }
 
 .tooltip-resistance-item.immune {
-  border-left-color: #4CAF50;
+  border-left-color: #4a7c59;
 }
 
 .tooltip-resistance-item.vulnerable {
-  border-left-color: #F44336;
+  border-left-color: #8b2635;
 }
 
 .tooltip-resistance-item.exposed {
-  border-left-color: #FF9800;
+  border-left-color: #b8860b;
 }
 
 .tooltip-resistance-label {
   font-size: 11px;
   font-weight: 600;
-  color: #2d1810;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3);
+  color: #1a0f08;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .tooltip-resistance-value {
   font-size: 11px;
   font-weight: 700;
   margin-left: auto;
-  color: #1a0f08;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+  color: #0f0804;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Tags styling */

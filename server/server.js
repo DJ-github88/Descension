@@ -7,6 +7,9 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
+// Firebase service for persistence
+const firebaseService = require('./services/firebaseService');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -69,14 +72,33 @@ app.get('/rooms', (req, res) => {
   res.json(publicRooms);
 });
 
-// Hosted room system - rooms exist only in memory while server is running
+// Hybrid room system - in-memory for active sessions + Firebase for persistence
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
 
-console.log('Mythrill VTT Server - Hosted room system initialized');
+console.log('Mythrill VTT Server - Hybrid room system initialized');
+
+// Load persistent rooms from Firebase on startup
+const loadPersistentRooms = async () => {
+  try {
+    const persistentRooms = await firebaseService.loadPersistentRooms();
+    for (const roomData of persistentRooms) {
+      // Mark as inactive since no one is connected yet
+      roomData.isActive = false;
+      rooms.set(roomData.id, roomData);
+      console.log(`📂 Loaded persistent room: ${roomData.name} (${roomData.id})`);
+    }
+    console.log(`✅ Loaded ${persistentRooms.length} persistent rooms`);
+  } catch (error) {
+    console.error('❌ Error loading persistent rooms:', error);
+  }
+};
+
+// Initialize persistent rooms
+loadPersistentRooms();
 
 // Room management functions
-function createRoom(roomName, gmName, gmSocketId, password) {
+async function createRoom(roomName, gmName, gmSocketId, password, persistToFirebase = true) {
   const roomId = uuidv4();
   const gmPlayerId = uuidv4();
 
@@ -99,10 +121,24 @@ function createRoom(roomName, gmName, gmSocketId, password) {
     gameState: {
       // This will hold synchronized game data
       characters: {},
-      combat: null,
-      mapData: null
+      combat: {
+        isActive: false,
+        currentTurn: null,
+        turnOrder: [],
+        round: 0
+      },
+      mapData: {
+        backgrounds: [],
+        activeBackgroundId: null,
+        cameraPosition: { x: 0, y: 0 },
+        zoomLevel: 1.0
+      },
+      tokens: {},
+      fogOfWar: {}
     },
-    createdAt: new Date()
+    createdAt: new Date(),
+    isActive: true, // Mark as active when created
+    lastActivity: new Date()
   };
 
   rooms.set(roomId, room);
@@ -112,6 +148,17 @@ function createRoom(roomName, gmName, gmSocketId, password) {
     roomId: roomId,
     isGM: true
   });
+
+  // Persist to Firebase if enabled
+  if (persistToFirebase) {
+    try {
+      await firebaseService.saveRoomData(roomId, room);
+      await firebaseService.setRoomActiveStatus(roomId, true);
+      console.log(`💾 Room persisted to Firebase: ${roomName} (${roomId})`);
+    } catch (error) {
+      console.error('❌ Failed to persist room to Firebase:', error);
+    }
+  }
 
   console.log(`Room created: ${room.name} (${room.id}) - Total rooms: ${rooms.size}`);
   return room;
@@ -211,7 +258,7 @@ io.on('connection', (socket) => {
   console.log(`Player connected: ${socket.id}`);
   
   // Create a new room
-  socket.on('create_room', (data) => {
+  socket.on('create_room', async (data) => {
     console.log('Received create_room request:', data);
     const { roomName, gmName, password } = data;
 
@@ -221,27 +268,30 @@ io.on('connection', (socket) => {
       return;
     }
 
-    const room = createRoom(roomName, gmName, socket.id, password);
-    socket.join(room.id);
+    try {
+      const room = await createRoom(roomName, gmName, socket.id, password);
+      socket.join(room.id);
 
-    console.log('Room created successfully:', room.id, 'Total rooms:', rooms.size);
+      console.log('Room created successfully:', room.id, 'Total rooms:', rooms.size);
 
-    socket.emit('room_created', {
-      room: {
-        id: room.id,
-        name: room.name,
-        gm: room.gm,
-        players: Array.from(room.players.values()),
-        settings: room.settings
-      }
-    });
+      socket.emit('room_created', {
+        room: {
+          id: room.id,
+          name: room.name,
+          gm: room.gm,
+          players: Array.from(room.players.values()),
+          settings: room.settings
+        }
+      });
+    } catch (error) {
+      console.error('Error creating room:', error);
+      socket.emit('error', { message: 'Failed to create room' });
+    }
 
     // Broadcast room list update to all connected clients
     const publicRooms = getPublicRooms();
     console.log('Broadcasting room list update:', publicRooms);
     io.emit('room_list_updated', publicRooms);
-
-    console.log(`Room created: ${room.name} (${room.id}) by ${gmName}`);
   });
   
   // Join an existing room
@@ -299,19 +349,19 @@ io.on('connection', (socket) => {
   });
   
   // Handle chat messages
-  socket.on('chat_message', (data) => {
+  socket.on('chat_message', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
       return;
     }
-    
+
     const room = rooms.get(player.roomId);
     if (!room) {
       socket.emit('error', { message: 'Room not found' });
       return;
     }
-    
+
     const message = {
       id: uuidv4(),
       playerId: player.id,
@@ -321,7 +371,7 @@ io.on('connection', (socket) => {
       timestamp: new Date(),
       type: data.type || 'chat' // 'chat', 'system', 'roll', etc.
     };
-    
+
     // Store in room history
     room.chatHistory.push(message);
 
@@ -330,12 +380,21 @@ io.on('connection', (socket) => {
       room.chatHistory = room.chatHistory.slice(-100);
     }
 
+    // Persist chat message to Firebase
+    try {
+      await firebaseService.addChatMessage(player.roomId, message);
+    } catch (error) {
+      console.error('Failed to persist chat message:', error);
+    }
+
     // Broadcast to all players in the room
     io.to(player.roomId).emit('chat_message', message);
+
+    console.log(`Chat message from ${player.name} in room ${room.name}: ${data.message}`);
   });
 
   // Handle token movement synchronization
-  socket.on('token_moved', (data) => {
+  socket.on('token_moved', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -348,18 +407,218 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // TODO: Add permission checks here - for now, allow all movements
-    // In the future, check if player owns the token or has GM permissions
+    // Update room game state
+    if (!room.gameState.tokens) {
+      room.gameState.tokens = {};
+    }
+
+    room.gameState.tokens[data.tokenId] = {
+      ...room.gameState.tokens[data.tokenId],
+      position: data.position,
+      lastMovedBy: player.id,
+      lastMovedAt: new Date()
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist token movement:', error);
+    }
 
     // Broadcast token movement to all other players in the room
     socket.to(player.roomId).emit('token_moved', {
       tokenId: data.tokenId,
       position: data.position,
       playerId: player.id,
-      playerName: player.name
+      playerName: player.name,
+      timestamp: new Date()
     });
 
     console.log(`Token ${data.tokenId} moved by ${player.name} to`, data.position);
+  });
+
+  // Handle character sheet updates
+  socket.on('character_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update character in room game state
+    if (!room.gameState.characters) {
+      room.gameState.characters = {};
+    }
+
+    room.gameState.characters[data.characterId] = {
+      ...data.character,
+      lastUpdatedBy: player.id,
+      lastUpdatedAt: new Date()
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist character update:', error);
+    }
+
+    // Broadcast character update to all players in the room
+    io.to(player.roomId).emit('character_updated', {
+      characterId: data.characterId,
+      character: data.character,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`Character ${data.characterId} updated by ${player.name}`);
+  });
+
+  // Handle map/background changes
+  socket.on('map_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can update the map' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update map data in room game state
+    room.gameState.mapData = {
+      ...room.gameState.mapData,
+      ...data.mapData,
+      lastUpdatedBy: player.id,
+      lastUpdatedAt: new Date()
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist map update:', error);
+    }
+
+    // Broadcast map update to all players in the room
+    socket.to(player.roomId).emit('map_updated', {
+      mapData: data.mapData,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`Map updated by GM ${player.name}`);
+  });
+
+  // Handle combat state changes
+  socket.on('combat_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can update combat state' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update combat state in room game state
+    room.gameState.combat = {
+      ...room.gameState.combat,
+      ...data.combat,
+      lastUpdatedBy: player.id,
+      lastUpdatedAt: new Date()
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist combat update:', error);
+    }
+
+    // Broadcast combat update to all players in the room
+    io.to(player.roomId).emit('combat_updated', {
+      combat: data.combat,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`Combat state updated by GM ${player.name}`);
+  });
+
+  // Handle dice roll synchronization
+  socket.on('dice_rolled', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    const rollData = {
+      id: uuidv4(),
+      playerId: player.id,
+      playerName: player.name,
+      isGM: player.isGM,
+      dice: data.dice,
+      results: data.results,
+      total: data.total,
+      purpose: data.purpose || 'general',
+      timestamp: new Date()
+    };
+
+    // Add to chat as a roll message
+    const rollMessage = {
+      id: uuidv4(),
+      playerId: player.id,
+      playerName: player.name,
+      isGM: player.isGM,
+      content: `Rolled ${data.dice.join(', ')}: ${data.results.join(', ')} (Total: ${data.total})`,
+      timestamp: new Date(),
+      type: 'roll',
+      rollData: rollData
+    };
+
+    room.chatHistory.push(rollMessage);
+
+    // Keep only last 100 messages
+    if (room.chatHistory.length > 100) {
+      room.chatHistory = room.chatHistory.slice(-100);
+    }
+
+    // Persist chat message to Firebase
+    try {
+      await firebaseService.addChatMessage(player.roomId, rollMessage);
+    } catch (error) {
+      console.error('Failed to persist dice roll:', error);
+    }
+
+    // Broadcast dice roll to all players in the room
+    io.to(player.roomId).emit('dice_rolled', rollData);
+    io.to(player.roomId).emit('chat_message', rollMessage);
+
+    console.log(`${player.name} rolled dice: ${data.results.join(', ')} (Total: ${data.total})`);
   });
 
   // Handle item drops on grid
@@ -389,9 +648,9 @@ io.on('connection', (socket) => {
   });
 
   // Handle disconnection
-  socket.on('disconnect', () => {
+  socket.on('disconnect', async () => {
     console.log(`Player disconnected: ${socket.id}`);
-    
+
     const result = leaveRoom(socket.id);
     if (result) {
       if (result.type === 'room_closed') {
@@ -399,13 +658,32 @@ io.on('connection', (socket) => {
         io.to(result.room.id).emit('room_closed', {
           message: 'The GM has left. Room is now closed.'
         });
+
+        // Mark room as inactive in Firebase
+        try {
+          await firebaseService.setRoomActiveStatus(result.room.id, false);
+        } catch (error) {
+          console.error('Failed to mark room as inactive:', error);
+        }
+
+        console.log(`Room closed: ${result.room.name}`);
       } else if (result.type === 'player_left') {
         // Notify remaining players
         socket.to(result.room.id).emit('player_left', {
           player: result.player,
           playerCount: result.room.players.size + 1
         });
+
+        // Update room data in Firebase
+        try {
+          await firebaseService.saveRoomData(result.room.id, result.room);
+        } catch (error) {
+          console.error('Failed to update room data:', error);
+        }
       }
+
+      // Broadcast updated room list
+      io.emit('room_list_updated', getPublicRooms());
     }
   });
 });

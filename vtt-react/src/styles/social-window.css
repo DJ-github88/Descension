@@ -33,33 +33,9 @@
   100% { opacity: 0.6; }
 }
 
-/* Enhanced Pathfinder-Style Header Tabs */
-.spellbook-tab-headers {
-  display: flex;
-  flex: 1;
-  height: 55px;
-  background: linear-gradient(135deg,
-    rgba(45, 35, 25, 0.98) 0%,
-    rgba(35, 25, 18, 0.95) 50%,
-    rgba(25, 18, 12, 0.98) 100%
-  );
-  border-bottom: 2px solid #8B4513;
-  border-radius: 0;
-  box-shadow:
-    inset 0 1px 0 rgba(139, 69, 19, 0.4),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
-    0 2px 8px rgba(0, 0, 0, 0.4);
-  position: relative;
-  padding: 0;
-  gap: 0;
-  align-items: stretch;
-  margin: 0;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  overflow: hidden;
-}
+/* Social window now uses unified spellbook-tab system */
 
-.spellbook-tab {
+.social-tab {
   flex: 1;
   padding: 12px 20px;
   background: linear-gradient(135deg,
@@ -91,17 +67,17 @@
   overflow: hidden;
 }
 
-.spellbook-tab:first-child {
+.social-tab:first-child {
   border-top-left-radius: 12px;
   border-left: none;
 }
 
-.spellbook-tab:last-child {
+.social-tab:last-child {
   border-top-right-radius: 12px;
   border-right: none;
 }
 
-.spellbook-tab:hover:not(.active) {
+.social-tab:hover:not(.active) {
   background: linear-gradient(135deg,
     #fff8f0 0%,
     #f8f4e6 25%,
@@ -118,7 +94,7 @@
   text-shadow: 0 1px 3px rgba(255, 255, 255, 1);
 }
 
-.spellbook-tab.active {
+.social-tab.active {
   background: linear-gradient(135deg,
     #8B4513 0%,
     #A0522D 25%,
@@ -141,7 +117,7 @@
   border-right: 1px solid rgba(139, 69, 19, 0.5);
 }
 
-.spellbook-tab span {
+.social-tab span {
   font-size: inherit;
   font-weight: inherit;
   letter-spacing: inherit;
@@ -149,8 +125,8 @@
   z-index: 2;
 }
 
-/* Enhanced unread indicator for spellbook tabs */
-.spellbook-tab::after {
+/* Enhanced unread indicator for social tabs */
+.social-tab::after {
   content: attr(data-unread);
   position: absolute;
   top: 6px;
@@ -174,7 +150,7 @@
   z-index: 3;
 }
 
-.spellbook-tab[data-unread]:not([data-unread="0"])::after {
+.social-tab[data-unread]:not([data-unread="0"])::after {
   opacity: 1;
   animation: pulse-notification 2s infinite;
 }
@@ -227,29 +203,146 @@
 .friends-list-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 12px 16px 0 16px; /* Remove bottom padding to let content fill */
-  gap: 12px;
+  flex: 1;
+  padding: 8px;
+  gap: 8px;
+  overflow: hidden;
+}
+
+/* Friends List Header with Actions */
+.friends-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 69, 19, 0.6);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.friends-list-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8f4e6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+}
+
+.friends-list-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.compact-action-btn {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8f4e6;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+}
+
+.compact-action-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.compact-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.compact-action-btn.add-friend {
+  background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%);
+  border-color: #2d5a27;
+}
+
+.compact-action-btn.add-friend:hover {
+  background: linear-gradient(135deg, #4a7c59 0%, #2d5a27 100%);
+}
+
+/* Compact search form for Who tab */
+.who-search-compact {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.compact-search-input {
+  padding: 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #3a2f1a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-size: 11px;
+  width: 120px;
+  transition: all 0.2s ease;
+}
+
+.compact-search-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: #ffffff;
+}
+
+.compact-action-btn.search {
+  background: linear-gradient(135deg, #7a3b2e 0%, #8b4513 100%);
+  border-color: #7a3b2e;
+}
+
+.compact-action-btn.search:hover {
+  background: linear-gradient(135deg, #8b4513 0%, #7a3b2e 100%);
+}
+
+.compact-action-btn.add-ignore {
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+  border-color: #8b4513;
+}
+
+.compact-action-btn.add-ignore:hover {
+  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
+}
+
+.compact-action-btn.remove-ignore {
+  background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%);
+  border-color: #2d5a27;
+}
+
+.compact-action-btn.remove-ignore:hover {
+  background: linear-gradient(135deg, #4a7c59 0%, #2d5a27 100%);
 }
 
 .friends-list {
   flex: 1;
   overflow-y: auto;
-  padding: 18px 18px 30px 18px; /* Increased bottom padding for better content visibility */
+  padding: 12px;
   background: linear-gradient(135deg,
     rgba(248, 244, 230, 0.98) 0%,
     rgba(240, 230, 210, 0.95) 50%,
     rgba(235, 225, 205, 0.98) 100%
   );
   border: 1px solid rgba(139, 69, 19, 0.3);
-  border-radius: 10px 10px 0 0; /* Remove bottom border radius to connect with footer */
+  border-radius: 6px;
   box-shadow:
     inset 0 2px 6px rgba(0, 0, 0, 0.08),
     0 2px 6px rgba(0, 0, 0, 0.12);
   scrollbar-width: thin;
   scrollbar-color: rgba(139, 69, 19, 0.4) transparent;
-  margin-bottom: 0; /* Ensure no gap between list and footer */
-  min-height: 400px; /* Ensure minimum height for better content display */
+  min-height: 0;
 }
 
 /* Enhanced Section Headers */
@@ -841,27 +934,7 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
 }
 
-/* Action Buttons - IMPROVED CLEAR HISTORY BUTTON & LAYOUT */
-.social-actions {
-  display: flex;
-  padding: 12px 16px; /* Reduced padding for better fit */
-  background: linear-gradient(135deg,
-    rgba(139, 69, 19, 0.2) 0%,
-    rgba(160, 82, 45, 0.25) 50%,
-    rgba(139, 69, 19, 0.2) 100%
-  );
-  border-top: 2px solid rgba(139, 69, 19, 0.5);
-  border-left: 1px solid rgba(139, 69, 19, 0.3);
-  border-right: 1px solid rgba(139, 69, 19, 0.3);
-  border-bottom: 1px solid rgba(139, 69, 19, 0.3);
-  border-radius: 0 0 10px 10px; /* Match the list border radius */
-  gap: 12px;
-  justify-content: center;
-  backdrop-filter: blur(3px);
-  margin: 0; /* Remove margins to extend fully to sides/bottom */
-  box-sizing: border-box;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); /* Match list shadow */
-}
+/* Old social actions removed - now using compact header buttons */
 
 .social-button {
   background: linear-gradient(135deg,
@@ -930,38 +1003,7 @@
   transform: none;
 }
 
-/* Context Menu */
-.social-context-menu {
-  position: fixed;
-  background: #f0e6d2;
-  border: 1px solid #a08c70;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  z-index: 10001;
-  min-width: 150px;
-  border-radius: 4px;
-  padding: 4px 0;
-  background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
-}
-
-.context-menu-item {
-  padding: 8px 12px;
-  color: #3a3a3a;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 12px;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-}
-
-.context-menu-item:hover {
-  background-color: rgba(122, 59, 46, 0.15);
-  color: #7a3b2e;
-}
-
-.context-menu-separator {
-  height: 1px;
-  background-color: #d5cbb0;
-  margin: 4px 0;
-}
+/* Context menu styles moved to unified-context-menu.css */
 
 /* Ignore List */
 .ignore-list-container {

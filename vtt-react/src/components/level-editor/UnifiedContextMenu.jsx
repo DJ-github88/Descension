@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import '../../styles/party-hud.css'; // Use character HUD context menu styling
+import '../../styles/unified-context-menu.css';
 
 const UnifiedContextMenu = ({
     visible,
@@ -95,13 +95,10 @@ const UnifiedContextMenu = ({
     return (
         <div
             ref={menuRef}
-            className="party-context-menu"
+            className="unified-context-menu"
             style={{
-                position: 'fixed',
                 left: position.left,
-                top: position.top,
-                zIndex: 999999,
-                pointerEvents: 'auto'
+                top: position.top
             }}
             onClick={(e) => {
                 console.log('🖱️ [CONTEXT MENU] Menu container clicked');

@@ -286,12 +286,60 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg',
         description: 'Base character attributes',
         stats: [
-          { label: 'Strength', statName: 'strength', value: creature.stats.strength || 10, tooltip: true, modifier: calculateModifier(creature.stats.strength || 10) },
-          { label: 'Agility', statName: 'agility', value: creature.stats.agility || 10, tooltip: true, modifier: calculateModifier(creature.stats.agility || 10) },
-          { label: 'Constitution', statName: 'constitution', value: creature.stats.constitution || 10, tooltip: true, modifier: calculateModifier(creature.stats.constitution || 10) },
-          { label: 'Intelligence', statName: 'intelligence', value: creature.stats.intelligence || 10, tooltip: true, modifier: calculateModifier(creature.stats.intelligence || 10) },
-          { label: 'Spirit', statName: 'spirit', value: creature.stats.spirit || 10, tooltip: true, modifier: calculateModifier(creature.stats.spirit || 10) },
-          { label: 'Charisma', statName: 'charisma', value: creature.stats.charisma || 10, tooltip: true, modifier: calculateModifier(creature.stats.charisma || 10) }
+          {
+            label: 'Strength',
+            statName: 'strength',
+            value: creature.stats.strength || 10,
+            tooltip: true,
+            modifier: calculateModifier(creature.stats.strength || 10),
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg',
+            description: 'Physical power and muscle'
+          },
+          {
+            label: 'Agility',
+            statName: 'agility',
+            value: creature.stats.agility || 10,
+            tooltip: true,
+            modifier: calculateModifier(creature.stats.agility || 10),
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
+            description: 'Dexterity and reflexes'
+          },
+          {
+            label: 'Constitution',
+            statName: 'constitution',
+            value: creature.stats.constitution || 10,
+            tooltip: true,
+            modifier: calculateModifier(creature.stats.constitution || 10),
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg',
+            description: 'Health and stamina'
+          },
+          {
+            label: 'Intelligence',
+            statName: 'intelligence',
+            value: creature.stats.intelligence || 10,
+            tooltip: true,
+            modifier: calculateModifier(creature.stats.intelligence || 10),
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
+            description: 'Reasoning and memory'
+          },
+          {
+            label: 'Spirit',
+            statName: 'spirit',
+            value: creature.stats.spirit || 10,
+            tooltip: true,
+            modifier: calculateModifier(creature.stats.spirit || 10),
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
+            description: 'Awareness and insight'
+          },
+          {
+            label: 'Charisma',
+            statName: 'charisma',
+            value: creature.stats.charisma || 10,
+            tooltip: true,
+            modifier: calculateModifier(creature.stats.charisma || 10),
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofwisdom.jpg',
+            description: 'Force of personality'
+          }
         ]
       },
       movement: {
@@ -622,14 +670,16 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   )}
                 </div>
               </div>
-              <span className="stat-value" style={stat.color ? { color: stat.color } : {}}>
-                {stat.value}
+              <div className="stat-value-container">
+                <span className="stat-value" style={stat.color ? { color: stat.color } : {}}>
+                  {stat.value}
+                </span>
                 {stat.modifier !== undefined && (
                   <span className="stat-modifier">
                     ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
                   </span>
                 )}
-              </span>
+              </div>
               {stat.tooltip && (
                 <div
                   className="tooltip-trigger"
@@ -1229,11 +1279,11 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               />
               <h3 className="pathfinder-section-title">Magical Items & Equipment</h3>
             </div>
-            <div className="pathfinder-items-grid">
+            <div className="loot-items-grid">
               {creature.lootTable.items.map((item, index) => (
                 <div
                   key={index}
-                  className="pathfinder-loot-item"
+                  className="loot-item-card"
                   onMouseEnter={(e) => {
                     setHoveredItem(item);
                     setTooltipPosition(calculateTooltipPosition(e));
@@ -1245,161 +1295,30 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   }}
                   onMouseLeave={() => setHoveredItem(null)}
                 >
-                  <div className="pathfinder-item-header">
-                    <div className="pathfinder-item-icon" style={{
-                      backgroundImage: `url(${getIconUrl(item.iconId || 'inv_misc_questionmark')})`,
-                      borderColor: getQualityColor(item.quality || item.rarity || 'common'),
-                      boxShadow: `0 0 8px ${getQualityColor(item.quality || item.rarity || 'common')}60`
-                    }}></div>
-                    <div className="pathfinder-item-title-area">
-                      <div className="pathfinder-item-name" style={{
-                        color: getQualityColor(item.quality || item.rarity || 'common'),
-                        textShadow: `0 0 4px ${getQualityColor(item.quality || item.rarity || 'common')}40`
-                      }}>
-                        {item.name || `Item #${index + 1}`}
-                      </div>
-                      <div className="pathfinder-item-type">
-                        {item.type === 'weapon' ? (
-                          <span>
-                            {item.weaponSlot === 'TWO_HANDED' ? 'Two-Handed' :
-                             item.weaponSlot === 'RANGED' ? 'Ranged' :
-                             item.weaponSlot === 'ONE_HANDED' && item.hand === 'OFF_HAND' ? 'Off Hand' :
-                             item.weaponSlot === 'ONE_HANDED' && item.hand === 'ONE_HAND' ? 'One Hand' :
-                             item.weaponSlot === 'ONE_HANDED' && item.hand === 'MAIN_HAND' ? 'Main Hand' :
-                             'Main Hand'} {item.subtype?.charAt(0).toUpperCase() + item.subtype?.slice(1).toLowerCase() || 'Weapon'}
-                          </span>
-                        ) : item.type === 'armor' ? (
-                          <span>
-                            {item.slots?.[0] === 'off_hand' ? 'Off Hand' :
-                             item.slots?.[0]?.split('_').map(word =>
-                                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                            ).join(' ') || 'Armor'} {item.subtype?.charAt(0).toUpperCase() + item.subtype?.slice(1).toLowerCase() || 'Armor'}
-                          </span>
-                        ) : (
-                          <span>
-                            {item.type && item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                            {item.subtype && ` • ${item.subtype.charAt(0).toUpperCase() + item.subtype.slice(1).toLowerCase()}`}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                  <div className="loot-item-icon">
+                    <img
+                      src={getIconUrl(item.iconId || 'inv_misc_questionmark')}
+                      alt={item.name}
+                      onError={(e) => {
+                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                      }}
+                    />
                   </div>
-                  <div className="pathfinder-item-stats">
-                    {/* Show weapon damage for weapons */}
-                    {item.type === 'weapon' && (
-                      <div className="pathfinder-item-stat">
-                        <span className="stat-label">Damage:</span>
-                        <span className="stat-value">
-                          {item.weaponStats?.baseDamage ? (
-                            <>
-                              {item.weaponStats.baseDamage.display?.base ||
-                                `${item.weaponStats.baseDamage.diceCount || 1}d${item.weaponStats.baseDamage.diceType || 6}`.replace('dd', 'd')}
-                              {item.weaponStats.baseDamage.bonusDamage > 0 && (
-                                <span> +{item.weaponStats.baseDamage.bonusDamage}</span>
-                              )}
-                              {item.weaponStats.baseDamage.damageType && (
-                                <span style={{
-                                  color: getDamageTypeColor(item.weaponStats.baseDamage.damageType.toLowerCase())
-                                }}> {item.weaponStats.baseDamage.damageType.toLowerCase()}</span>
-                              )}
-                            </>
-                          ) : item.damage ? (
-                            <>
-                              {typeof item.damage === 'string' ? item.damage :
-                               typeof item.damage === 'object' ?
-                                `${item.damage.diceCount || 1}d${item.damage.diceType || 6}${item.damage.bonus > 0 ? ` +${item.damage.bonus}` : ''}` :
-                                '1d6'}
-                              {item.damageType && (
-                                <span style={{
-                                  color: getDamageTypeColor(item.damageType.toLowerCase())
-                                }}> {item.damageType.toLowerCase()}</span>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              1d6 <span style={{ color: getDamageTypeColor('physical') }}>physical</span>
-                            </>
-                          )}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Show armor for armor */}
-                    {item.type === 'armor' && (
-                      <div className="pathfinder-item-stat">
-                        <span className="stat-label">Armor:</span>
-                        <span className="stat-value">
-                          {typeof item.armorClass === 'number' ? item.armorClass :
-                           typeof item.combatStats?.armorClass === 'number' ? item.combatStats.armorClass :
-                           typeof item.combatStats?.armorClass?.value === 'number' ? item.combatStats.armorClass.value :
-                           10}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Show a primary stat if available */}
-                    {item.baseStats && Object.keys(item.baseStats).length > 0 && (
-                      <div className="pathfinder-item-stat">
-                        <span className="stat-label">Bonus:</span>
-                        <span className="stat-value">
-                          {typeof Object.entries(item.baseStats)[0][1] === 'number' ? (
-                            <>
-                              {Object.entries(item.baseStats)[0][1] > 0 ? '+' : ''}
-                              {Object.entries(item.baseStats)[0][1]} {Object.entries(item.baseStats)[0][0].charAt(0).toUpperCase() + Object.entries(item.baseStats)[0][0].slice(1)}
-                            </>
-                          ) : (
-                            <>
-                              {Object.entries(item.baseStats)[0][1].value > 0 ? '+' : ''}
-                              {Object.entries(item.baseStats)[0][1].value} {Object.entries(item.baseStats)[0][0].charAt(0).toUpperCase() + Object.entries(item.baseStats)[0][0].slice(1)}
-                              {Object.entries(item.baseStats)[0][1].isPercentage ? '%' : ''}
-                            </>
-                          )}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Show value for all items */}
-                    <div className="pathfinder-item-stat">
-                      <span className="stat-label">Value:</span>
-                      <span className="stat-value pathfinder-item-value">
-                        {item.value ? (
-                          typeof item.value === 'object' ? (
-                            <>
-                              {item.value.gold > 0 && <span className="gold-value">{item.value.gold}g</span>}
-                              {item.value.silver > 0 && <span className="silver-value">{item.value.silver}s</span>}
-                              {item.value.copper > 0 && <span className="copper-value">{item.value.copper}c</span>}
-                              {(!item.value.gold && !item.value.silver && !item.value.copper) && <span className="copper-value">0c</span>}
-                            </>
-                          ) : (
-                            <span className="copper-value">{typeof item.value === 'string' || typeof item.value === 'number' ? item.value : '0c'}</span>
-                          )
-                        ) : <span className="copper-value">0c</span>}
-                      </span>
-                    </div>
+                  <div
+                    className="loot-item-name"
+                    style={{ color: getQualityColor(item.quality || item.rarity || 'common') }}
+                  >
+                    {item.name || `Item #${index + 1}`}
                   </div>
 
-                  <div className="pathfinder-item-footer">
-                    <div className="pathfinder-drop-info">
-                      <span className="drop-chance">
-                        <img
-                          src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_dice_02.jpg"
-                          alt="Drop Chance"
-                          className="drop-icon"
-                        />
-                        {item.dropChance || 100}% chance
-                      </span>
-                      <span className="drop-quantity">
-                        <img
-                          src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_08.jpg"
-                          alt="Quantity"
-                          className="quantity-icon"
-                        />
-                        {item.quantity?.min === item.quantity?.max
-                          ? `${item.quantity?.min || 1} item${(item.quantity?.min || 1) > 1 ? 's' : ''}`
-                          : `${item.quantity?.min || 1}-${item.quantity?.max || 1} items`
-                        }
-                      </span>
-                    </div>
+                  {/* Drop chance and quantity info */}
+                  <div className="loot-item-info">
+                    {item.dropChance !== undefined && (
+                      <div className="loot-drop-chance">{item.dropChance}%</div>
+                    )}
+                    {item.quantity && item.quantity > 1 && (
+                      <div className="loot-quantity">×{item.quantity}</div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -1474,7 +1393,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         {activeSection === 'statistics' ? (
           renderStatsSection()
         ) : (
-          <div className="creature-content-area">
+          <div className="creature-content-area-full">
             <div className="creature-section-header">
               <img
                 src={sections[activeSection].icon}

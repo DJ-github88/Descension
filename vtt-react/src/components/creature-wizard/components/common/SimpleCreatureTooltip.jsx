@@ -505,9 +505,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
                       <div style={{
                         fontSize: '11px',
                         fontWeight: '600',
-                        color: '#4caf50',
+                        color: '#1a5e20',
                         marginBottom: '6px',
-                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                        textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                       }}>
                         RESIST:
                       </div>
@@ -531,12 +531,12 @@ const SimpleCreatureTooltip = ({ creature }) => {
                           return (
                             <div key={type} style={{
                               fontSize: '11px',
-                              color: '#86efac',
+                              color: '#0f3a14',
                               background: 'rgba(34, 197, 94, 0.15)',
                               border: '1px solid rgba(34, 197, 94, 0.3)',
                               borderRadius: '6px',
                               padding: '6px 10px',
-                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                             }}>
                               • {thematicDesc}
                             </div>
@@ -552,9 +552,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
                       <div style={{
                         fontSize: '11px',
                         fontWeight: '600',
-                        color: '#ef4444',
+                        color: '#7f1d1d',
                         marginBottom: '6px',
-                        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                        textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                       }}>
                         VULN:
                       </div>
@@ -572,12 +572,12 @@ const SimpleCreatureTooltip = ({ creature }) => {
                           return (
                             <div key={type} style={{
                               fontSize: '11px',
-                              color: '#fca5a5',
+                              color: '#450a0a',
                               background: 'rgba(239, 68, 68, 0.15)',
                               border: '1px solid rgba(239, 68, 68, 0.3)',
                               borderRadius: '6px',
                               padding: '6px 10px',
-                              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                             }}>
                               • {thematicDesc}
                             </div>
@@ -599,10 +599,10 @@ const SimpleCreatureTooltip = ({ creature }) => {
             <div style={{
               fontSize: '13px',
               fontWeight: '700',
-              color: '#a78bfa',
+              color: '#4c1d95',
               marginBottom: '10px',
               textAlign: 'center',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)',
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)',
               borderBottom: '1px solid rgba(167, 139, 250, 0.3)',
               paddingBottom: '4px'
             }}>
@@ -622,17 +622,17 @@ const SimpleCreatureTooltip = ({ creature }) => {
                   <div style={{
                     fontSize: '12px',
                     fontWeight: '600',
-                    color: '#c4b5fd',
+                    color: '#3730a3',
                     marginBottom: '4px',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                   }}>
                     {ability.name}
                   </div>
                   <div style={{
                     fontSize: '11px',
-                    color: '#e0e7ff',
+                    color: '#1e1b4b',
                     lineHeight: '1.4',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)'
+                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                   }}>
                     {ability.description.length > 80 ? ability.description.substring(0, 80) + '...' : ability.description}
                   </div>
@@ -644,11 +644,11 @@ const SimpleCreatureTooltip = ({ creature }) => {
             {creature.abilities && creature.abilities.length > 2 && (
               <div style={{
                 fontSize: '10px',
-                color: '#9ca3af',
+                color: '#374151',
                 fontStyle: 'italic',
                 textAlign: 'center',
                 marginTop: '8px',
-                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
               }}>
                 +{creature.abilities.length - 2} more abilities
               </div>
@@ -663,10 +663,10 @@ const SimpleCreatureTooltip = ({ creature }) => {
             <div style={{
               fontSize: '13px',
               fontWeight: '700',
-              color: '#fbbf24',
+              color: '#92400e',
               marginBottom: '10px',
               textAlign: 'center',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)',
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)',
               borderBottom: '1px solid rgba(251, 191, 36, 0.3)',
               paddingBottom: '4px'
             }}>
@@ -679,9 +679,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
               borderRadius: '8px',
               padding: '10px 12px',
               fontSize: '11px',
-              color: '#fde68a',
+              color: '#451a03',
               lineHeight: '1.4',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               {lootPreview.slice(0, 3).join(', ')}
             </div>
@@ -695,10 +695,10 @@ const SimpleCreatureTooltip = ({ creature }) => {
             <div style={{
               fontSize: '13px',
               fontWeight: '700',
-              color: '#10b981',
+              color: '#064e3b',
               marginBottom: '10px',
               textAlign: 'center',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)',
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)',
               borderBottom: '1px solid rgba(16, 185, 129, 0.3)',
               paddingBottom: '4px'
             }}>
@@ -711,9 +711,9 @@ const SimpleCreatureTooltip = ({ creature }) => {
               borderRadius: '8px',
               padding: '10px 12px',
               fontSize: '11px',
-              color: '#6ee7b7',
+              color: '#022c22',
               lineHeight: '1.4',
-              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
               {creature.shopInventory?.shopName && (
                 <div style={{ fontWeight: '600', marginBottom: '4px' }}>
@@ -751,12 +751,12 @@ const SimpleCreatureTooltip = ({ creature }) => {
                   style={{
                     fontSize: '10px',
                     background: 'linear-gradient(135deg, rgba(139, 69, 19, 0.2) 0%, rgba(101, 67, 33, 0.15) 100%)',
-                    color: '#d4af37',
+                    color: '#78350f',
                     padding: '4px 8px',
                     borderRadius: '12px',
                     border: '1px solid rgba(139, 69, 19, 0.3)',
                     fontWeight: '500',
-                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                   }}
                 >
                   {tag}
@@ -765,10 +765,10 @@ const SimpleCreatureTooltip = ({ creature }) => {
               {creature.tags.length > 4 && (
                 <span style={{
                   fontSize: '10px',
-                  color: '#8b6914',
+                  color: '#451a03',
                   fontStyle: 'italic',
                   alignSelf: 'center',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)'
+                  textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
                 }}>
                   +{creature.tags.length - 4}
                 </span>

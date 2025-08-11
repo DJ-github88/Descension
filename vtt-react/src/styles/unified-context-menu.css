@@ -1,0 +1,246 @@
+/* Unified Context Menu - D&D/Pathfinder Theme */
+/* Based on creature token context menu styling */
+
+.unified-context-menu {
+  position: fixed;
+  width: 350px;
+  background-color: #f0e6d2; /* Parchment background */
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 99999999; /* Extremely high z-index to ensure it's above everything */
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  overflow: visible; /* Allow submenus to overflow */
+  user-select: none; /* Prevent text selection */
+  /* Add subtle parchment texture */
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(160, 140, 112, 0.05) 0%, transparent 50%);
+  animation: contextMenuFadeIn 0.2s ease-out;
+}
+
+@keyframes contextMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Compact Context Menu */
+.unified-context-menu.compact {
+  width: 350px; /* Wider for better readability */
+  min-width: 350px;
+}
+
+.unified-context-menu.small {
+  width: 200px;
+  min-width: 200px;
+}
+
+.context-menu-main {
+  padding: 4px 0;
+}
+
+.context-menu-group {
+  position: relative;
+  border-bottom: 1px solid #d5cbb0;
+}
+
+.context-menu-group:last-child {
+  border-bottom: none;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 12px;
+  font-weight: bold;
+  color: #7a3b2e;
+}
+
+.group-header:hover {
+  background-color: rgba(139, 69, 19, 0.15);
+}
+
+.group-header i:first-child {
+  width: 14px;
+  text-align: center;
+}
+
+.group-header .expand-icon {
+  margin-left: auto;
+  font-size: 10px;
+  transition: transform 0.2s ease;
+}
+
+.context-menu-group.expanded .group-header .expand-icon {
+  transform: rotate(90deg);
+}
+
+/* Submenu */
+.context-menu-group .submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 180px;
+  background-color: #f0e6d2 !important;
+  background: #f0e6d2 !important;
+  border: 2px solid #a08c70 !important;
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-10px);
+  transition: all 0.2s ease;
+  z-index: 100000000;
+  padding: 6px;
+}
+
+.context-menu-group:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.context-menu-section {
+  padding: 8px;
+  border-bottom: 1px solid #d5cbb0;
+  background-color: #f8f4e6;
+}
+
+.section-title {
+  font-size: 12px;
+  color: #7a3b2e;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.context-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  margin: 2px 0;
+  background-color: transparent !important;
+  border: none;
+  border-radius: 4px;
+  color: #3a3a3a;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.context-menu-button:hover:not(:disabled) {
+  background-color: rgba(139, 69, 19, 0.2);
+  color: #2d1810;
+  transform: translateX(2px);
+}
+
+.context-menu-button:disabled {
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.context-menu-button.active {
+  background-color: rgba(139, 69, 19, 0.3);
+  color: #7a3b2e;
+  font-weight: bold;
+}
+
+.context-menu-button.danger {
+  color: #a05a46;
+}
+
+.context-menu-button.danger:hover:not(:disabled) {
+  background-color: rgba(160, 90, 70, 0.2);
+  color: #8b3a2e;
+}
+
+/* Submenu button styling */
+.context-menu-group .submenu .context-menu-button {
+  background-color: rgba(240, 230, 210, 0.9) !important;
+  border: 1px solid rgba(160, 140, 112, 0.3) !important;
+  margin: 2px;
+  border-radius: 4px;
+  width: calc(100% - 4px);
+}
+
+.context-menu-group .submenu .context-menu-button:hover:not(:disabled) {
+  background-color: rgba(139, 69, 19, 0.25) !important;
+  border-color: rgba(139, 69, 19, 0.4) !important;
+}
+
+.context-menu-group .submenu .context-menu-button.active {
+  background-color: rgba(139, 69, 19, 0.4) !important;
+  border-color: rgba(139, 69, 19, 0.6) !important;
+}
+
+.context-menu-group .submenu .context-menu-button.danger:hover:not(:disabled) {
+  background-color: rgba(160, 90, 70, 0.3) !important;
+  border-color: rgba(160, 90, 70, 0.5) !important;
+}
+
+/* Icon styling */
+.context-menu-button i {
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Separator */
+.context-menu-separator {
+  height: 1px;
+  background-color: #d5cbb0;
+  margin: 4px 8px;
+}
+
+/* Simple context menu items (for social menus) */
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  margin: 2px 0;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #3a3a3a;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.context-menu-item:hover {
+  background-color: rgba(139, 69, 19, 0.2);
+  color: #2d1810;
+  transform: translateX(2px);
+}
+
+.context-menu-item.danger {
+  color: #a05a46;
+}
+
+.context-menu-item.danger:hover {
+  background-color: rgba(160, 90, 70, 0.2);
+  color: #8b3a2e;
+}

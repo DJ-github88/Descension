@@ -13,11 +13,7 @@ import { formatFormulaToPlainEnglish } from '../spellcrafting-wizard/components/
 // Pathfinder-themed styles are now imported globally in App.jsx
 import { clearAllSpellCache } from '../../utils/clearSpellCache';
 
-// Define simple icon components instead of using react-icons/fa
-const SearchIcon = () => <span style={{ fontSize: '12px' }}></span>;
-const FilterIcon = () => <span style={{ fontSize: '12px' }}></span>;
-const BookIcon = () => <span style={{ fontSize: '12px' }}></span>;
-const MagicIcon = () => <span style={{ fontSize: '12px' }}></span>;
+// Icons removed for cleaner tab design
 const BoltIcon = () => <span style={{ fontSize: '12px' }}></span>;
 const PlusIcon = () => <span style={{ fontSize: '12px' }}></span>;
 
@@ -155,22 +151,19 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
             className={`spellbook-tab ${activeTab === 'wizard' ? 'active' : ''}`}
             onClick={() => setActiveTab('wizard')}
           >
-            <MagicIcon />
-            Spell Wizard
+            <span>Spell Wizard</span>
           </button>
           <button
             className={`spellbook-tab ${activeTab === 'library' ? 'active' : ''}`}
             onClick={() => setActiveTab('library')}
           >
-            <BookIcon />
-            Spell Library
+            <span>Spell Library</span>
           </button>
           <button
             className={`spellbook-tab ${activeTab === 'collections' ? 'active' : ''}`}
             onClick={() => setActiveTab('collections')}
           >
-            <FilterIcon />
-            Collections
+            <span>Collections</span>
           </button>
         </div>
       }

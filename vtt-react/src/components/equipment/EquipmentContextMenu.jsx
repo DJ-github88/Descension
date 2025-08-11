@@ -1,7 +1,7 @@
 import React from 'react';
 import { getCompatibleSlots, getSlotDisplayName, validateEquipment } from '../../utils/equipmentUtils';
 import useCharacterStore from '../../store/characterStore';
-import '../../styles/context-menu.css';
+import '../../styles/unified-context-menu.css';
 
 /**
  * Context menu for equipping items from inventory
@@ -31,7 +31,7 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
 
         return (
             <div
-                className="equipment-context-menu"
+                className="unified-context-menu"
                 style={{
                     position: 'fixed',
                     left: x,
@@ -40,20 +40,24 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
                 }}
                 onClick={e => e.stopPropagation()}
             >
-                <div className="context-menu-header">
-                    <i className="fas fa-exclamation-triangle"></i>
-                    Cannot Equip
+                <div className="context-menu-main">
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            <span>Cannot Equip</span>
+                        </div>
+                        <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic' }}>
+                            {blockedReason}
+                        </div>
+                    </div>
+                    <button
+                        className="context-menu-button"
+                        onClick={onClose}
+                    >
+                        <i className="fas fa-times"></i>
+                        Close
+                    </button>
                 </div>
-                <div className="context-menu-message">
-                    {blockedReason}
-                </div>
-                <button
-                    className="context-menu-item"
-                    onClick={onClose}
-                >
-                    <i className="fas fa-times"></i>
-                    Close
-                </button>
             </div>
         );
     }
@@ -63,29 +67,31 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
         const slotName = validSlots[0];
         return (
             <div
-                className="equipment-context-menu"
+                className="unified-context-menu"
                 style={{
-                    position: 'fixed',
                     left: x,
-                    top: y,
-                    zIndex: 10001
+                    top: y
                 }}
                 onClick={e => e.stopPropagation()}
             >
-                <div className="context-menu-header">
-                    <i className="fas fa-exclamation-triangle"></i>
-                    Cannot Equip
+                <div className="context-menu-main">
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            <span>Cannot Equip</span>
+                        </div>
+                        <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic' }}>
+                            This item cannot be equipped to any slot.
+                        </div>
+                    </div>
+                    <button
+                        className="context-menu-button"
+                        onClick={onClose}
+                    >
+                        <i className="fas fa-times"></i>
+                        Close
+                    </button>
                 </div>
-                <div className="context-menu-message">
-                    This item cannot be equipped to any slot.
-                </div>
-                <button 
-                    className="context-menu-item"
-                    onClick={onClose}
-                >
-                    <i className="fas fa-times"></i>
-                    Close
-                </button>
             </div>
         );
     }
@@ -95,36 +101,41 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
         const slotName = compatibleSlots[0];
         return (
             <div
-                className="equipment-context-menu"
+                className="unified-context-menu"
                 style={{
-                    position: 'fixed',
                     left: x,
-                    top: y,
-                    zIndex: 10001
+                    top: y
                 }}
                 onClick={e => e.stopPropagation()}
             >
-                <div className="context-menu-header">
-                    <i className="fas fa-shield-alt"></i>
-                    Equip Item
+                <div className="context-menu-main">
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-shield-alt"></i>
+                            <span>Equipment Actions</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </div>
+                        <div className="submenu">
+                            <button
+                                className="context-menu-button"
+                                onClick={() => {
+                                    onEquip(slotName);
+                                    onClose();
+                                }}
+                            >
+                                <i className="fas fa-arrow-right"></i>
+                                Equip to {getSlotDisplayName(slotName)}
+                            </button>
+                            <button
+                                className="context-menu-button"
+                                onClick={onClose}
+                            >
+                                <i className="fas fa-times"></i>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <button 
-                    className="context-menu-item primary-action"
-                    onClick={() => {
-                        onEquip(slotName);
-                        onClose();
-                    }}
-                >
-                    <i className="fas fa-arrow-right"></i>
-                    Equip to {getSlotDisplayName(slotName)}
-                </button>
-                <button 
-                    className="context-menu-item"
-                    onClick={onClose}
-                >
-                    <i className="fas fa-times"></i>
-                    Cancel
-                </button>
             </div>
         );
     }
@@ -132,42 +143,44 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
     // Multiple compatible slots - show selection menu
     return (
         <div
-            className="equipment-context-menu"
+            className="unified-context-menu"
             style={{
-                position: 'fixed',
                 left: x,
-                top: y,
-                zIndex: 10001
+                top: y
             }}
             onClick={e => e.stopPropagation()}
         >
-            <div className="context-menu-header">
-                <i className="fas fa-shield-alt"></i>
-                Choose Equipment Slot
-            </div>
-            <div className="context-menu-section">
-                {validSlots.map(slotName => (
-                    <button 
-                        key={slotName}
-                        className="context-menu-item"
-                        onClick={() => {
-                            onEquip(slotName);
-                            onClose();
-                        }}
-                    >
-                        <i className="fas fa-arrow-right"></i>
-                        Equip to {getSlotDisplayName(slotName)}
-                    </button>
-                ))}
-            </div>
-            <div className="context-menu-section">
-                <button 
-                    className="context-menu-item"
-                    onClick={onClose}
-                >
-                    <i className="fas fa-times"></i>
-                    Cancel
-                </button>
+            <div className="context-menu-main">
+                <div className="context-menu-group">
+                    <div className="group-header">
+                        <i className="fas fa-shield-alt"></i>
+                        <span>Equipment Slots</span>
+                        <i className="fas fa-chevron-right"></i>
+                    </div>
+                    <div className="submenu">
+                        {validSlots.map(slotName => (
+                            <button
+                                key={slotName}
+                                className="context-menu-button"
+                                onClick={() => {
+                                    onEquip(slotName);
+                                    onClose();
+                                }}
+                            >
+                                <i className="fas fa-arrow-right"></i>
+                                Equip to {getSlotDisplayName(slotName)}
+                            </button>
+                        ))}
+                        <div className="context-menu-separator"></div>
+                        <button
+                            className="context-menu-button"
+                            onClick={onClose}
+                        >
+                            <i className="fas fa-times"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

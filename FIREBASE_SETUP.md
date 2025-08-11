@@ -93,11 +93,29 @@ service cloud.firestore {
       allow write: if false; // Only admins can write (we'll handle this separately)
     }
     
-    // Multiplayer rooms - users can read rooms they're in
+    // Multiplayer rooms - comprehensive room management
     match /rooms/{roomId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && 
-        (resource == null || request.auth.uid in resource.data.members);
+      // Allow reading rooms where user is GM or member
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.gmId ||
+         request.auth.uid in resource.data.members);
+
+      // Allow creating rooms (user becomes GM)
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.gmId;
+
+      // Allow GM to update room settings and game state
+      allow update: if request.auth != null &&
+        request.auth.uid == resource.data.gmId;
+
+      // Allow GM to delete rooms
+      allow delete: if request.auth != null &&
+        request.auth.uid == resource.data.gmId;
+    }
+
+    // Room sessions for active multiplayer sessions
+    match /roomSessions/{sessionId} {
+      allow read, write: if request.auth != null;
     }
   }
 }

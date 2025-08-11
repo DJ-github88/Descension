@@ -1182,7 +1182,7 @@
 }
 
 .party-action-button.invite {
-    background: linear-gradient(to bottom, #2196F3, #1976D2);
+    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 100%);
 }
 
 .party-action-button.leave {

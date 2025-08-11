@@ -1,6 +1,6 @@
 import React from 'react';
 import { getSlotDisplayName } from '../../utils/equipmentUtils';
-import '../../styles/context-menu.css';
+import '../../styles/unified-context-menu.css';
 
 /**
  * Context menu for unequipping items from equipment slots
@@ -10,39 +10,44 @@ const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip }) => {
 
     return (
         <div
-            className="equipment-context-menu"
+            className="unified-context-menu"
             style={{
-                position: 'fixed',
                 left: x,
-                top: y,
-                zIndex: 10001
+                top: y
             }}
             onClick={e => e.stopPropagation()}
         >
-            <div className="context-menu-header">
-                <i className="fas fa-shield-alt"></i>
-                {item.name}
+            <div className="context-menu-main">
+                <div className="context-menu-group">
+                    <div className="group-header">
+                        <i className="fas fa-shield-alt"></i>
+                        <span>Equipment Actions</span>
+                        <i className="fas fa-chevron-right"></i>
+                    </div>
+                    <div className="submenu">
+                        <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic', borderBottom: '1px solid #d5cbb0', marginBottom: '4px' }}>
+                            {item.name} - Currently equipped in {getSlotDisplayName(slotName)}
+                        </div>
+                        <button
+                            className="context-menu-button"
+                            onClick={() => {
+                                onUnequip(slotName);
+                                onClose();
+                            }}
+                        >
+                            <i className="fas fa-arrow-left"></i>
+                            Unequip to Inventory
+                        </button>
+                        <button
+                            className="context-menu-button"
+                            onClick={onClose}
+                        >
+                            <i className="fas fa-times"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className="context-menu-info">
-                Currently equipped in {getSlotDisplayName(slotName)}
-            </div>
-            <button 
-                className="context-menu-item primary-action"
-                onClick={() => {
-                    onUnequip(slotName);
-                    onClose();
-                }}
-            >
-                <i className="fas fa-arrow-left"></i>
-                Unequip to Inventory
-            </button>
-            <button 
-                className="context-menu-item"
-                onClick={onClose}
-            >
-                <i className="fas fa-times"></i>
-                Cancel
-            </button>
         </div>
     );
 };

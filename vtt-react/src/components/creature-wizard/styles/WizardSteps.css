@@ -836,9 +836,9 @@
 }
 
 .add-from-spell-library-btn {
-  background: linear-gradient(to bottom, #2196F3, #0b7dda);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  border: 2px solid #a08c70;
+  color: #3a3a3a;
   padding: 14px 28px;
   border-radius: 6px;
   cursor: pointer;
@@ -848,8 +848,9 @@
   gap: 12px;
   font-weight: 600;
   font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
   position: relative;
   overflow: hidden;
   margin: 20px auto;
@@ -865,34 +866,37 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
-  opacity: 0.5;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+  opacity: 0.6;
 }
 
 .add-from-spell-library-btn:hover {
-  background: linear-gradient(to bottom, #2196F3, #1976D2);
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 12px rgba(45, 24, 16, 0.3);
+  border-color: #7a3b2e;
+  color: #2d1810;
 }
 
 .add-from-spell-library-btn:active {
   transform: translateY(1px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.2);
 }
 
 .add-from-spell-library-btn i {
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.9);
+  color: #7a3b2e;
 }
 
 .no-abilities-message {
   text-align: center;
   padding: 30px;
-  background-color: #2d2d2d;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
   border-radius: 8px;
-  border: 1px solid #444;
-  color: #cccccc;
+  border: 2px solid #a08c70;
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
 }
 
 .ability-list {
@@ -902,10 +906,21 @@
 }
 
 .ability-item {
-  background-color: #2d2d2d;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
   border-radius: 8px;
-  border: 1px solid #444;
+  border: 2px solid #a08c70;
   padding: 15px;
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
+  transition: all 0.2s ease;
+}
+
+.ability-item:hover {
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  border-color: #7a3b2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
 }
 
 .ability-header {
@@ -1084,28 +1099,33 @@
 }
 
 .save-button:disabled {
-  background-color: #2d2d2d;
-  color: #666;
+  background: linear-gradient(135deg, #d5cbb0 0%, #c4a373 100%);
+  color: #8a6f47;
   cursor: not-allowed;
+  border-color: #a08c70;
+  opacity: 0.6;
 }
 
 /* Spell Library */
 .spell-library-container {
   padding: 20px;
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid #a08c70;
+  box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .spell-library-container h3 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #9c27b0;
+  color: #7a3b2e;
   font-size: 20px;
   font-weight: 600;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  border-bottom: 2px solid #a08c70;
   padding-bottom: 10px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .spell-search {
@@ -1115,18 +1135,19 @@
 .spell-search input {
   width: 100%;
   padding: 12px 15px;
-  background-color: #333;
-  border: 1px solid #444;
+  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%);
+  border: 2px solid #a08c70;
   border-radius: 4px;
-  color: #ffffff;
+  color: #3a3a3a;
   font-size: 14px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  box-shadow: inset 0 1px 3px rgba(45, 24, 16, 0.1);
 }
 
 .spell-search input:focus {
   outline: none;
-  border-color: #9c27b0;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(156, 39, 176, 0.2);
+  border-color: #7a3b2e;
+  box-shadow: inset 0 1px 3px rgba(45, 24, 16, 0.1), 0 0 0 2px rgba(122, 59, 46, 0.2);
 }
 
 .spell-list {
@@ -1141,13 +1162,18 @@
 }
 
 .spell-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: #e6dcc6;
   border-radius: 4px;
 }
 
 .spell-list::-webkit-scrollbar-thumb {
-  background: #9c27b0;
+  background: #a08c70;
   border-radius: 4px;
+  border: 1px solid #d5cbb0;
+}
+
+.spell-list::-webkit-scrollbar-thumb:hover {
+  background: #7a3b2e;
 }
 
 .spell-grid {
@@ -1157,18 +1183,22 @@
 }
 
 .spell-card {
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
-  border: 1px solid #444;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  border: 2px solid #a08c70;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  color: #3a3a3a;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
 }
 
 .spell-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-  border-color: #9c27b0;
+  box-shadow: 0 6px 12px rgba(45, 24, 16, 0.3);
+  border-color: #7a3b2e;
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
 }
 
 .spell-card-header {
@@ -1176,16 +1206,17 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 15px;
-  background: linear-gradient(to bottom, #333, #2a2a2a);
-  border-bottom: 1px solid #444;
+  background: linear-gradient(135deg, #d5cbb0 0%, #c4a373 100%);
+  border-bottom: 2px solid #a08c70;
 }
 
 .spell-card-header h4 {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #9c27b0;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  color: #7a3b2e;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .spell-type {
@@ -1194,9 +1225,10 @@
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;
-  color: #ffffff;
-  background: linear-gradient(to bottom, #9c27b0, #7b1fa2);
-  border: 1px solid #4a148c;
+  color: #f0e6d2;
+  background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 100%);
+  border: 1px solid #3a1e12;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .spell-card-content {
@@ -1206,22 +1238,25 @@
 .spell-card-content p {
   margin: 0;
   font-size: 14px;
-  color: #cccccc;
+  color: #3a3a3a;
   line-height: 1.5;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .no-spells-message {
   padding: 30px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
   border-radius: 8px;
-  border: 1px solid #444;
+  border: 2px solid #a08c70;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
 }
 
 .no-spells-message p {
   margin: 0;
-  color: #999;
+  color: #7a3b2e;
   font-size: 15px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .modal-actions {
@@ -1240,12 +1275,14 @@
 }
 
 .loot-section {
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
   border-radius: 8px;
   padding: 20px;
-  border: 1px solid #444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 2px solid #a08c70;
+  box-shadow: 0 4px 8px rgba(45, 24, 16, 0.2);
   margin-bottom: 20px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  color: #3a3a3a;
 }
 
 .loot-section h3 {
@@ -1325,12 +1362,16 @@
 }
 
 .item-library-button {
-  background: linear-gradient(to bottom, #2196F3, #1976D2);
-  border: 1px solid #0D47A1;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
+  border: 2px solid #a08c70;
+  color: #3a3a3a;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .item-library-button:hover {
-  background: linear-gradient(to bottom, #1E88E5, #1565C0);
+  background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
+  border-color: #7a3b2e;
+  color: #2d1810;
 }
 
 .sample-items-button {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
 import '../../styles/social-window.css';
+import '../../styles/chat-window.css';
 
 // Lazy load the ItemTooltip component
 const ItemTooltip = lazy(() => import('../item-generation/ItemTooltip'));
@@ -249,7 +250,25 @@ const ChatWindow = () => {
           <div className="friend-entry">
             <div className="friend-status" style={{ backgroundColor: '#c9323b' }}></div>
             <div className="friend-name">
-              <span>{notification.attacker} hit {notification.target}</span>
+              <span style={{
+                fontWeight: '800',
+                textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8)',
+                color: '#1a0f08',
+                fontSize: '16px',
+                fontFamily: "'Cinzel', serif"
+              }}>
+                {notification.attacker}
+              </span>
+              <span style={{ color: '#5a4a3a', margin: '0 6px', fontSize: '15px', fontWeight: '600' }}>hit</span>
+              <span style={{
+                fontWeight: '800',
+                textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8)',
+                color: '#1a0f08',
+                fontSize: '16px',
+                fontFamily: "'Cinzel', serif"
+              }}>
+                {notification.target}
+              </span>
             </div>
             <div className="friend-info">
               <div style={{ color: '#c9323b' }}>{notification.damage} damage</div>
@@ -263,7 +282,25 @@ const ChatWindow = () => {
           <div className="friend-entry">
             <div className="friend-status" style={{ backgroundColor: '#2dc937' }}></div>
             <div className="friend-name">
-              <span>{notification.healer} healed {notification.target}</span>
+              <span style={{
+                fontWeight: '800',
+                textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8)',
+                color: '#1a0f08',
+                fontSize: '16px',
+                fontFamily: "'Cinzel', serif"
+              }}>
+                {notification.healer}
+              </span>
+              <span style={{ color: '#5a4a3a', margin: '0 6px', fontSize: '15px', fontWeight: '600' }}>healed</span>
+              <span style={{
+                fontWeight: '800',
+                textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8)',
+                color: '#1a0f08',
+                fontSize: '16px',
+                fontFamily: "'Cinzel', serif"
+              }}>
+                {notification.target}
+              </span>
             </div>
             <div className="friend-info">
               <div style={{ color: '#2dc937' }}>{notification.healing} healing</div>
@@ -277,7 +314,16 @@ const ChatWindow = () => {
           <div className="friend-entry">
             <div className="friend-status" style={{ backgroundColor: '#ffd700' }}></div>
             <div className="friend-name">
-              <span>{notification.creature} rolled initiative</span>
+              <span style={{
+                fontWeight: '800',
+                textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8)',
+                color: '#1a0f08',
+                fontSize: '16px',
+                fontFamily: "'Cinzel', serif"
+              }}>
+                {notification.creature}
+              </span>
+              <span style={{ color: '#5a4a3a', margin: '0 6px', fontSize: '15px', fontWeight: '600' }}>rolled initiative</span>
             </div>
             <div className="friend-info">
               <div style={{ color: '#ffd700' }}>
@@ -298,7 +344,12 @@ const ChatWindow = () => {
                 style={{
                   color: notification.sender?.class ?
                     getClassColor(notification.sender.class) :
-                    '#ffffff'
+                    '#1a0f08',
+                  fontWeight: '800',
+                  textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8), 0 1px 0 rgba(255, 255, 255, 0.5)',
+                  fontSize: '18px',
+                  fontFamily: "'Cinzel', serif",
+                  letterSpacing: '0.5px'
                 }}
               >
                 {notification.sender?.name || 'System'}
@@ -348,10 +399,23 @@ const ChatWindow = () => {
 
     return (
       <div className="friends-list-container">
-        <div className="friends-section-header">
-          {activeTab === 'social' ? 'Social Messages' :
-           activeTab === 'combat' ? 'Combat Events' :
-           'Loot History'}
+        <div className="friends-list-header">
+          <div className="friends-list-title">
+            {activeTab === 'social' ? 'Social Messages' :
+             activeTab === 'combat' ? 'Combat Events' :
+             'Loot History'}
+          </div>
+          {tabNotifications.length > 0 && (
+            <div className="friends-list-actions">
+              <button
+                className="compact-action-btn utility"
+                onClick={() => clearNotifications(activeTab)}
+                title="Clear History"
+              >
+                <i className="fas fa-trash"></i>
+              </button>
+            </div>
+          )}
         </div>
         <div className="friends-list">
           {tabNotifications.map(notification => (
@@ -361,18 +425,6 @@ const ChatWindow = () => {
           ))}
           <div ref={messagesEndRef} />
         </div>
-
-        {/* Clear button */}
-        {tabNotifications.length > 0 && (
-          <div className="social-actions">
-            <button
-              className="social-button"
-              onClick={() => clearNotifications(activeTab)}
-            >
-              Clear History
-            </button>
-          </div>
-        )}
 
         {/* Item Tooltip */}
         {tooltipItem && createPortal(
@@ -402,31 +454,22 @@ const ChatWindow = () => {
       <div className="social-content">
         {renderContent()}
 
-        {/* Message Input (only for social tab) */}
+        {/* Message Input (only for social tab) - positioned at bottom */}
         {activeTab === 'social' && (
-          <div className="social-actions">
-            <form className="message-form" onSubmit={handleSendMessage} style={{ display: 'flex', width: '100%', gap: '8px' }}>
+          <div className="message-input-container">
+            <form className="message-form" onSubmit={handleSendMessage}>
               <input
                 type="text"
                 className="message-input"
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 placeholder="Type a message..."
-                style={{
-                  flex: 1,
-                  padding: '6px 10px',
-                  borderRadius: '3px',
-                  border: '1px solid #a08c70',
-                  backgroundColor: '#fff',
-                  color: '#3a3a3a',
-                  fontFamily: 'inherit'
-                }}
               />
               <button
                 type="submit"
-                className="social-button"
+                className="send-button"
               >
-                Send
+                <i className="fas fa-paper-plane"></i>
               </button>
             </form>
           </div>

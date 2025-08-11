@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cd vtt-react && npm start",
+    "start:memory": "cd vtt-react && NODE_OPTIONS=\"--max-old-space-size=8192\" npm start",
     "build": "cd vtt-react && npm run build",
     "test": "cd vtt-react && npm test",
     "install": "cd vtt-react && npm install",

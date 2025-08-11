@@ -1147,22 +1147,46 @@ export default function ItemTooltip({ item }) {
                 boxShadow: `0 4px 12px rgba(0, 0, 0, 0.4), 0 0 16px ${borderColor}80`
             }}
         >
-            {/* Item Name with dynamic font sizing */}
-            <div
-                className={`item-name quality-${qualityLower}`}
-                style={{
-                    fontSize: item.name && item.name.length > 20 ? '18px' : '22px',
-                    marginBottom: '10px',
-                    whiteSpace: 'nowrap',
+            {/* Item Header with Icon and Name */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                <div style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '4px',
                     overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    maxWidth: '100%',
-                    color: qualityColor, // Apply rarity color directly to the name
-                    textShadow: `0 0 5px ${qualityColor}80` // Add glow effect
-                }}
-                // Removed title attribute to prevent browser tooltip conflict
-            >
-                {item.name || 'Unknown Item'}
+                    border: `2px solid ${borderColor}`,
+                    boxShadow: `0 0 8px ${borderColor}60`,
+                    flexShrink: 0
+                }}>
+                    <img
+                        src={item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')}
+                        alt={item.name}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                        }}
+                        onError={(e) => {
+                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                        }}
+                    />
+                </div>
+                <div
+                    className={`item-name quality-${qualityLower}`}
+                    style={{
+                        fontSize: item.name && item.name.length > 20 ? '18px' : '22px',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '100%',
+                        color: qualityColor, // Apply rarity color directly to the name
+                        textShadow: `0 0 5px ${qualityColor}80`, // Add glow effect
+                        flex: 1
+                    }}
+                    // Removed title attribute to prevent browser tooltip conflict
+                >
+                    {item.name || 'Unknown Item'}
+                </div>
             </div>
 
             {/* Level Requirement - moved here from below */}

@@ -196,69 +196,72 @@ const WhoList = () => {
 
   return (
     <div className="friends-list-container">
-      {/* Search Form */}
-      <form className="who-search" onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={whoQuery}
-          onChange={(e) => setWhoQuery(e.target.value)}
-          placeholder="Search for players..."
-          className="who-input"
-        />
-        <button
-          type="submit"
-          className="social-button"
-        >
-          Search
-        </button>
-      </form>
+      {/* Who List Header with Search and Actions */}
+      <div className="friends-list-header">
+        <div className="friends-list-title">Who</div>
+        <div className="friends-list-actions">
+          <form className="who-search-compact" onSubmit={handleSearch}>
+            <input
+              type="text"
+              value={whoQuery}
+              onChange={(e) => setWhoQuery(e.target.value)}
+              placeholder="Search players..."
+              className="compact-search-input"
+            />
+            <button
+              type="submit"
+              className="compact-action-btn search"
+              title="Search"
+            >
+              <i className="fas fa-search"></i>
+            </button>
+          </form>
+          {selectedPlayer && (
+            <>
+              <button
+                className="compact-action-btn whisper"
+                onClick={() => handleWhisper(whoResults.find(p => p.id === selectedPlayer))}
+                title="Whisper"
+              >
+                <i className="fas fa-comment"></i>
+              </button>
+              <button
+                className="compact-action-btn invite"
+                onClick={() => handleInvite(whoResults.find(p => p.id === selectedPlayer))}
+                title="Invite to Party"
+              >
+                <i className="fas fa-user-plus"></i>
+              </button>
+              <button
+                className="compact-action-btn add-friend"
+                onClick={() => handleAddFriend(whoResults.find(p => p.id === selectedPlayer))}
+                title="Add Friend"
+              >
+                <i className="fas fa-heart"></i>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
 
-      {/* Who Results */}
-      <div className="who-results">
+      {/* Search Results */}
+      <div className="friends-list">
         {whoResults.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">
               <i className="fas fa-search"></i>
             </div>
-            <div className="empty-state-text">No results</div>
+            <div className="empty-state-text">No search results</div>
             <div className="empty-state-subtext">
-              Search for players to see them here
+              Use the search above to find players
             </div>
           </div>
         ) : (
           <>
-            <div className="friends-section-header">Search Results</div>
+            <div className="friends-section-header">Search Results ({whoResults.length})</div>
             {whoResults.map(renderPlayerEntry)}
           </>
         )}
-      </div>
-
-      {/* Content Spacer - pushes action buttons to bottom */}
-      <div style={{ flex: 1 }}></div>
-
-      {/* Action Buttons */}
-      <div className="social-actions">
-        <button
-          className="social-button"
-          onClick={() => selectedPlayer && handleWhisper(whoResults.find(p => p.id === selectedPlayer))}
-          disabled={!selectedPlayer}
-        >
-          Whisper
-        </button>
-        <button
-          className="social-button"
-          onClick={() => selectedPlayer && handleInvite(whoResults.find(p => p.id === selectedPlayer))}
-          disabled={!selectedPlayer}
-        >
-          Invite
-        </button>
-        <button
-          className="social-button"
-          onClick={() => selectedPlayer && handleAddFriend(whoResults.find(p => p.id === selectedPlayer))}
-          disabled={!selectedPlayer}
-        >
-          Add Friend
-        </button>
       </div>
 
       {/* Context Menu */}
