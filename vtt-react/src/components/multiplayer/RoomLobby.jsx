@@ -25,8 +25,6 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       ? 'https://descension-production.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
 
-  console.log('Socket URL:', SOCKET_URL, 'Environment:', process.env.NODE_ENV);
-
   useEffect(() => {
     // Check authentication status
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -120,11 +118,6 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   };
 
   const handleCreatePersistentRoom = async () => {
-    console.log('handleCreatePersistentRoom called');
-    console.log('isAuthenticated:', isAuthenticated);
-    console.log('Socket state:', socket ? 'connected' : 'not connected');
-    console.log('Socket connected:', socket?.connected);
-
     if (!isAuthenticated) {
       setError('Please sign in to create persistent rooms');
       return;
@@ -215,10 +208,6 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   };
 
   const handleCreateRoom = () => {
-    console.log('handleCreateRoom called');
-    console.log('Socket state:', socket ? 'connected' : 'not connected');
-    console.log('Socket connected:', socket?.connected);
-
     if (!playerName.trim() || !roomName.trim()) {
       setError('Please enter both your name and a room name');
       return;
