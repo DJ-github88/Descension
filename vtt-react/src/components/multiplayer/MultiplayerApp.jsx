@@ -29,7 +29,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [connectedPlayers, setConnectedPlayers] = useState([]);
 
   // Get stores for state synchronization
-  const { setIsGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
+  const { setGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
   const { updateCharacterInfo, setRoomName, clearRoomName } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
@@ -167,7 +167,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }
 
     // Update game store GM mode
-    setIsGMMode(isGameMaster);
+    setGMMode(isGameMaster);
 
     // Create/update party with multiplayer players
     const allPlayers = [room.gm, ...Array.from(room.players.values())];
@@ -254,7 +254,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setConnectedPlayers([]);
 
     // Reset GM mode and clear multiplayer state
-    setIsGMMode(true); // Default back to GM mode for single player
+    setGMMode(true); // Default back to GM mode for single player
     setMultiplayerState(false, null, null);
   };
 
