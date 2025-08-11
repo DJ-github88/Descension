@@ -132,13 +132,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const handleJoinRoom = (room, socketConnection, isGameMaster) => {
     console.log('handleJoinRoom called with:', { room, socketConnection, isGameMaster });
 
+    let currentPlayerData;
+
     try {
       setCurrentRoom(room);
       setSocket(socketConnection);
       setIsGM(isGameMaster);
 
       // Set current player info
-      let currentPlayerData;
       if (isGameMaster) {
         currentPlayerData = room.gm;
         setCurrentPlayer(room.gm);
@@ -152,6 +153,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.log('Current player data set:', currentPlayerData);
     } catch (error) {
       console.error('Error in handleJoinRoom:', error);
+      return; // Exit early if there's an error
     }
 
     // Update character name to match multiplayer player name and set room name

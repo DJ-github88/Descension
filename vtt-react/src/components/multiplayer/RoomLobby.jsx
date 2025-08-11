@@ -60,6 +60,12 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     newSocket.on('room_created', (data) => {
       console.log('Room created successfully:', data);
       setIsConnecting(false);
+
+      // Clear form
+      setRoomName('');
+      setRoomDescription('');
+      setRoomPassword('');
+
       onJoinRoom(data.room, newSocket, true); // true = isGM
     });
 
@@ -127,6 +133,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
+    if (!socket || !socket.connected) {
+      setError('Not connected to server');
+      return;
+    }
+
     setIsConnecting(true);
     setError('');
 
@@ -142,21 +153,25 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
 
       console.log('Persistent room created:', roomId);
 
+      // Also create socket server room for immediate multiplayer
+      const roomData = {
+        roomName: roomName.trim(),
+        gmName: playerName.trim(),
+        password: roomPassword.trim()
+      };
+
+      console.log('Creating socket room with data:', roomData);
+      socket.emit('create_room', roomData);
+
       // Refresh user rooms
       await loadUserRooms();
 
-      // Switch to my rooms tab
-      setActiveTab('my-rooms');
-
-      // Clear form
-      setRoomName('');
-      setRoomDescription('');
-      setRoomPassword('');
+      // Note: The socket will handle the response via 'room_created' event
+      // which will call onJoinRoom and clear the form
 
     } catch (error) {
       console.error('Failed to create persistent room:', error);
       setError('Failed to create room: ' + error.message);
-    } finally {
       setIsConnecting(false);
     }
   };
