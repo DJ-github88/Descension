@@ -60,16 +60,7 @@ app.get('/health', (req, res) => {
 
 // List public rooms endpoint
 app.get('/rooms', (req, res) => {
-  const publicRooms = Array.from(rooms.values())
-    .filter(room => !room.settings.isPrivate)
-    .map(room => ({
-      id: room.id,
-      name: room.name,
-      playerCount: room.players.size + 1, // +1 for GM
-      maxPlayers: room.settings.maxPlayers
-    }));
-
-  res.json(publicRooms);
+  res.json(getPublicRooms());
 });
 
 // Hybrid room system - in-memory for active sessions + Firebase for persistence
@@ -230,9 +221,10 @@ function leaveRoom(socketId) {
   }
 }
 
-// Helper function to get public room list
+// Helper function to get available room list
 function getPublicRooms() {
   return Array.from(rooms.values())
+    .filter(room => room.isActive !== false) // Only show active rooms
     .map(room => ({
       id: room.id,
       name: room.name,

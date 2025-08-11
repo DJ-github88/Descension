@@ -161,7 +161,7 @@ export default function App() {
     return (
         <GameProvider>
             <SpellLibraryProvider>
-                <Router>
+                <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                     <AppContent
                         isAuthenticated={isAuthenticated}
                         user={user}
