@@ -682,9 +682,10 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(`Mythrill server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`Socket.IO server initialized`);
-  console.log(`Server URL: http://localhost:${PORT}`);
-  console.log(`CORS Origins: ${JSON.stringify(allowedOrigins)}`);
+  console.log(`🚀 Mythrill server running on port ${PORT}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`⚡ Socket.IO server initialized`);
+  console.log(`🔗 Server URL: http://localhost:${PORT}`);
+  console.log(`🔒 CORS Origins: ${JSON.stringify(allowedOrigins)}`);
+  console.log(`📅 Server started at: ${new Date().toISOString()}`);
 });
