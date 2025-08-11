@@ -25,6 +25,8 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       ? 'https://descension-production.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
 
+  console.log('Socket URL:', SOCKET_URL, 'Environment:', process.env.NODE_ENV);
+
   useEffect(() => {
     // Check authentication status
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -118,6 +120,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   };
 
   const handleCreatePersistentRoom = async () => {
+    console.log('handleCreatePersistentRoom called');
+    console.log('isAuthenticated:', isAuthenticated);
+    console.log('Socket state:', socket ? 'connected' : 'not connected');
+    console.log('Socket connected:', socket?.connected);
+
     if (!isAuthenticated) {
       setError('Please sign in to create persistent rooms');
       return;
@@ -142,35 +149,45 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     setError('');
 
     try {
-      // Create persistent room in Firebase
-      const roomId = await createPersistentRoom({
-        name: roomName.trim(),
-        description: roomDescription.trim(),
-        password: roomPassword.trim(),
-        gmName: playerName.trim(),
-        maxPlayers: 6
-      });
+      // Try to create persistent room in Firebase first
+      let persistentRoomId = null;
+      try {
+        persistentRoomId = await createPersistentRoom({
+          name: roomName.trim(),
+          description: roomDescription.trim(),
+          password: roomPassword.trim(),
+          gmName: playerName.trim(),
+          maxPlayers: 6
+        });
+        console.log('Persistent room created:', persistentRoomId);
+      } catch (firebaseError) {
+        console.warn('Firebase room creation failed, creating socket room only:', firebaseError);
+        // Continue with socket room creation even if Firebase fails
+      }
 
-      console.log('Persistent room created:', roomId);
-
-      // Also create socket server room for immediate multiplayer
+      // Create socket server room for immediate multiplayer
       const roomData = {
         roomName: roomName.trim(),
         gmName: playerName.trim(),
-        password: roomPassword.trim()
+        password: roomPassword.trim(),
+        persistentRoomId: persistentRoomId // Include Firebase room ID if available
       };
 
       console.log('Creating socket room with data:', roomData);
       socket.emit('create_room', roomData);
 
-      // Refresh user rooms
-      await loadUserRooms();
+      // Try to refresh user rooms if Firebase is available
+      try {
+        await loadUserRooms();
+      } catch (error) {
+        console.warn('Failed to refresh user rooms:', error);
+      }
 
       // Note: The socket will handle the response via 'room_created' event
       // which will call onJoinRoom and clear the form
 
     } catch (error) {
-      console.error('Failed to create persistent room:', error);
+      console.error('Failed to create room:', error);
       setError('Failed to create room: ' + error.message);
       setIsConnecting(false);
     }
@@ -198,6 +215,10 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   };
 
   const handleCreateRoom = () => {
+    console.log('handleCreateRoom called');
+    console.log('Socket state:', socket ? 'connected' : 'not connected');
+    console.log('Socket connected:', socket?.connected);
+
     if (!playerName.trim() || !roomName.trim()) {
       setError('Please enter both your name and a room name');
       return;
@@ -210,6 +231,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
 
     if (!socket) {
       setError('Not connected to server');
+      return;
+    }
+
+    if (!socket.connected) {
+      setError('Socket not connected to server');
       return;
     }
 
