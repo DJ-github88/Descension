@@ -116,12 +116,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
 
   // Helper function to update token position with multiplayer sync
-  const updateTokenPositionWithSync = (tokenId, position) => {
+  const updateTokenPositionWithSync = (tokenId, position, sendToServer = true) => {
     // Update local position using creatureStore
     updateTokenPosition(tokenId, position);
 
-    // Send to server if in multiplayer
-    if (isInMultiplayer && multiplayerSocket && token) {
+    // Only send to server when explicitly requested (e.g., on drag end)
+    if (sendToServer && isInMultiplayer && multiplayerSocket && token) {
       multiplayerSocket.emit('token_moved', {
         tokenId: token.creatureId, // Use creatureId for multiplayer sync
         position: position

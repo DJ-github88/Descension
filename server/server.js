@@ -460,12 +460,13 @@ io.on('connection', (socket) => {
       lastMovedAt: new Date()
     };
 
-    // Persist to Firebase
-    try {
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-    } catch (error) {
-      console.error('Failed to persist token movement:', error);
-    }
+    // Skip Firebase persistence for token movement to improve performance
+    // Token positions will be persisted periodically or on room save
+    // try {
+    //   await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    // } catch (error) {
+    //   console.error('Failed to persist token movement:', error);
+    // }
 
     // Broadcast token movement to all other players in the room
     socket.to(player.roomId).emit('token_moved', {
