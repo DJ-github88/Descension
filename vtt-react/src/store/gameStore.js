@@ -722,17 +722,28 @@ const useGameStore = create(
                 },
                 setItem: (name, value) => {
                     try {
-                        // Exclude socket and other non-serializable objects from storage
-                        const { multiplayerSocket, onLeaveMultiplayer, ...serializableValue } = value;
-                        const jsonValue = JSON.stringify(serializableValue);
-                        localStorage.setItem(name, jsonValue);
+                        // Comprehensive exclusion of non-serializable objects
+                        const cleanValue = JSON.parse(JSON.stringify(value, (key, val) => {
+                            // Exclude socket objects, functions, and other non-serializable types
+                            if (key === 'multiplayerSocket' ||
+                                key === 'onLeaveMultiplayer' ||
+                                key === 'sendMultiplayerMessage' ||
+                                typeof val === 'function' ||
+                                (val && typeof val === 'object' && val.constructor &&
+                                 (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {
+                                return undefined;
+                            }
+                            return val;
+                        }));
+
+                        localStorage.setItem(name, JSON.stringify(cleanValue));
                     } catch (error) {
                         if (error.name === 'QuotaExceededError') {
                             console.error('localStorage quota exceeded in game store. Attempting to clean up...');
                             handleGameStoreQuotaExceeded(name, value);
                         } else {
                             console.error('Error writing to localStorage:', error);
-                            throw error;
+                            // Don't throw error to prevent app crashes
                         }
                     }
                 },

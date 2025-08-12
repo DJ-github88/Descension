@@ -221,11 +221,23 @@ const useChatStore = create(
         },
         setItem: (name, value) => {
           try {
-            // Exclude socket and function objects from storage
-            const { multiplayerSocket, sendMultiplayerMessage, ...serializableValue } = value;
-            localStorage.setItem(name, JSON.stringify(serializableValue));
+            // Comprehensive exclusion of non-serializable objects
+            const cleanValue = JSON.parse(JSON.stringify(value, (key, val) => {
+              // Exclude socket objects, functions, and other non-serializable types
+              if (key === 'multiplayerSocket' ||
+                  key === 'sendMultiplayerMessage' ||
+                  typeof val === 'function' ||
+                  (val && typeof val === 'object' && val.constructor &&
+                   (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {
+                  return undefined;
+              }
+              return val;
+            }));
+
+            localStorage.setItem(name, JSON.stringify(cleanValue));
           } catch (error) {
             console.error('Error writing to localStorage:', error);
+            // Don't throw error to prevent app crashes
           }
         },
         removeItem: (name) => localStorage.removeItem(name)
