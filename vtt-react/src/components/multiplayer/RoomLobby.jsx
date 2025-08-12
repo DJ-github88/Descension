@@ -61,22 +61,35 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       console.log('Room created successfully:', data);
       setIsConnecting(false);
 
+      // Store the room password for auto-join
+      const createdRoomPassword = roomPassword;
+
       // Clear form
       setRoomName('');
       setRoomDescription('');
       setRoomPassword('');
 
-      // Show success message instead of immediately joining
-      setError(''); // Clear any previous errors
-      // The room will appear in the available rooms list automatically
-      // User can then click "Join" to enter the game
-      fetchAvailableRooms(); // Refresh the room list
+      // Automatically join the room as GM
+      setTimeout(() => {
+        const joinData = {
+          roomId: data.room.id,
+          playerName: playerName.trim(),
+          password: createdRoomPassword.trim()
+        };
+
+        console.log('Auto-joining created room:', joinData);
+        newSocket.emit('join_room', joinData);
+      }, 100); // Small delay to ensure room is fully created
     });
 
     newSocket.on('room_joined', (data) => {
       console.log('Room joined successfully:', data);
       setIsConnecting(false);
-      onJoinRoom(data.room, newSocket, false); // false = not GM
+
+      // Check if this is a GM reconnect or if the player name matches the GM name
+      const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerName.trim());
+
+      onJoinRoom(data.room, newSocket, isGM);
     });
 
     newSocket.on('error', (data) => {
