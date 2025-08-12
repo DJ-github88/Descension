@@ -78,17 +78,24 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
         };
 
         console.log('Auto-joining created room:', joinData);
+        console.log('Socket connected:', newSocket.connected);
+        console.log('Socket ID:', newSocket.id);
         newSocket.emit('join_room', joinData);
       }, 100); // Small delay to ensure room is fully created
     });
 
     newSocket.on('room_joined', (data) => {
       console.log('Room joined successfully:', data);
+      console.log('Player name:', playerName.trim());
+      console.log('Room GM name:', data.room.gm?.name);
+      console.log('Is GM reconnect:', data.isGMReconnect);
       setIsConnecting(false);
 
       // Check if this is a GM reconnect or if the player name matches the GM name
       const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerName.trim());
+      console.log('Determined isGM:', isGM);
 
+      console.log('Calling onJoinRoom with:', { room: data.room, socket: newSocket, isGM });
       onJoinRoom(data.room, newSocket, isGM);
     });
 
