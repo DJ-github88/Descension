@@ -133,12 +133,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, persistToFireb
   };
 
   rooms.set(roomId, room);
-  players.set(gmSocketId, {
-    id: gmPlayerId,
-    name: gmName,
-    roomId: roomId,
-    isGM: true
-  });
+  // Don't automatically add GM to players map - let the join process handle it
 
   // Persist to Firebase if enabled
   if (persistToFirebase) {
@@ -172,9 +167,9 @@ function joinRoom(roomId, playerName, socketId, password) {
     return { error: 'Incorrect password' };
   }
 
-  // Check if this is the GM reconnecting to their own room
-  if (room.gm.name === playerName && !room.isActive) {
-    console.log('GM reconnecting to their room:', room.name);
+  // Check if this is the GM joining their own room
+  if (room.gm.name === playerName) {
+    console.log('GM joining their own room:', room.name);
     room.isActive = true;
     room.gmDisconnectedAt = null;
     players.set(socketId, {
@@ -330,13 +325,15 @@ io.on('connection', (socket) => {
     console.log('Available room IDs:', Array.from(rooms.keys()));
 
     const result = joinRoom(roomId, playerName, socket.id, password);
-    
+
     if (!result) {
+      console.log('❌ Room not found for join request:', roomId);
       socket.emit('error', { message: 'Room not found' });
       return;
     }
-    
+
     if (result.error) {
+      console.log('❌ Join room error:', result.error);
       socket.emit('error', { message: result.error });
       return;
     }
