@@ -172,6 +172,20 @@ function joinRoom(roomId, playerName, socketId, password) {
     return { error: 'Incorrect password' };
   }
 
+  // Check if this is the GM reconnecting to their own room
+  if (room.gm.name === playerName && !room.isActive) {
+    console.log('GM reconnecting to their room:', room.name);
+    room.isActive = true;
+    room.gmDisconnectedAt = null;
+    players.set(socketId, {
+      id: room.gm.id,
+      name: playerName,
+      roomId: roomId,
+      isGM: true
+    });
+    return { room, player: room.gm, isGMReconnect: true };
+  }
+
   if (room.players.size >= room.settings.maxPlayers) {
     console.log('Room is full:', room.players.size, '>=', room.settings.maxPlayers);
     return { error: 'Room is full' };
@@ -201,17 +215,28 @@ function joinRoom(roomId, playerName, socketId, password) {
 function leaveRoom(socketId) {
   const player = players.get(socketId);
   if (!player) return null;
-  
+
   const room = rooms.get(player.roomId);
   if (!room) return null;
-  
+
   if (player.isGM) {
-    // GM left - close the room
-    console.log(`GM left, closing room: ${room.name} (${room.id})`);
-    rooms.delete(player.roomId);
+    // GM left - mark room as temporarily inactive but don't delete it immediately
+    // This allows the GM to reconnect without losing the room
+    console.log(`GM temporarily left room: ${room.name} (${room.id})`);
+    room.isActive = false;
+    room.gmDisconnectedAt = Date.now();
     players.delete(socketId);
-    // Notify all players
-    return { type: 'room_closed', room };
+
+    // Set a timeout to close the room if GM doesn't reconnect within 5 minutes
+    setTimeout(() => {
+      const currentRoom = rooms.get(player.roomId);
+      if (currentRoom && !currentRoom.isActive && currentRoom.gmDisconnectedAt === room.gmDisconnectedAt) {
+        console.log(`GM didn't reconnect, closing room: ${currentRoom.name} (${currentRoom.id})`);
+        rooms.delete(player.roomId);
+      }
+    }, 5 * 60 * 1000); // 5 minutes
+
+    return { type: 'gm_disconnected', room };
   } else {
     // Regular player left
     console.log(`Player ${player.name} left room: ${room.name}`);
@@ -224,7 +249,10 @@ function leaveRoom(socketId) {
 // Helper function to get available room list
 function getPublicRooms() {
   return Array.from(rooms.values())
-    .filter(room => room.isActive !== false) // Only show active rooms
+    .filter(room => {
+      // Show active rooms and rooms where GM is temporarily disconnected (but not permanently closed)
+      return room.isActive !== false || (room.isActive === false && room.gmDisconnectedAt);
+    })
     .map(room => ({
       id: room.id,
       name: room.name,
@@ -232,7 +260,8 @@ function getPublicRooms() {
       maxPlayers: room.settings.maxPlayers + 1,
       gm: room.gm.name,
       createdAt: room.createdAt,
-      hasPassword: true // All rooms now have passwords
+      hasPassword: true, // All rooms now have passwords
+      gmOnline: room.isActive !== false // Indicate if GM is currently online
     }));
 }
 
@@ -312,32 +341,55 @@ io.on('connection', (socket) => {
       return;
     }
     
-    const { room, player } = result;
+    const { room, player, isGMReconnect } = result;
     socket.join(roomId);
-    
-    // Notify the new player
-    socket.emit('room_joined', {
-      room: {
-        id: room.id,
-        name: room.name,
-        gm: room.gm,
-        players: Array.from(room.players.values()),
-        settings: room.settings
-      },
-      player: player,
-      chatHistory: room.chatHistory
-    });
-    
-    // Notify other players in the room
-    socket.to(roomId).emit('player_joined', {
-      player: player,
-      playerCount: room.players.size + 1
-    });
+
+    if (isGMReconnect) {
+      // GM reconnected - notify all players
+      socket.emit('room_joined', {
+        room: {
+          id: room.id,
+          name: room.name,
+          gm: room.gm,
+          players: Array.from(room.players.values()),
+          settings: room.settings
+        },
+        player: player,
+        chatHistory: room.chatHistory,
+        isGMReconnect: true
+      });
+
+      // Notify other players that GM reconnected
+      socket.to(roomId).emit('gm_reconnected', {
+        message: 'The GM has reconnected!'
+      });
+
+      console.log(`GM ${playerName} reconnected to room: ${room.name}`);
+    } else {
+      // Regular player join
+      socket.emit('room_joined', {
+        room: {
+          id: room.id,
+          name: room.name,
+          gm: room.gm,
+          players: Array.from(room.players.values()),
+          settings: room.settings
+        },
+        player: player,
+        chatHistory: room.chatHistory
+      });
+
+      // Notify other players in the room
+      socket.to(roomId).emit('player_joined', {
+        player: player,
+        playerCount: room.players.size + 1
+      });
+
+      console.log(`${playerName} joined room: ${room.name}`);
+    }
 
     // Broadcast room list update to all connected clients
     io.emit('room_list_updated', getPublicRooms());
-
-    console.log(`${playerName} joined room: ${room.name}`);
   });
   
   // Handle chat messages
@@ -659,6 +711,13 @@ io.on('connection', (socket) => {
         }
 
         console.log(`Room closed: ${result.room.name}`);
+      } else if (result.type === 'gm_disconnected') {
+        // GM temporarily disconnected - notify players but keep room alive
+        socket.to(result.room.id).emit('gm_disconnected', {
+          message: 'The GM has temporarily disconnected. Waiting for reconnection...'
+        });
+
+        console.log(`GM temporarily disconnected from: ${result.room.name}`);
       } else if (result.type === 'player_left') {
         // Notify remaining players
         socket.to(result.room.id).emit('player_left', {

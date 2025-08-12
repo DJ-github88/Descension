@@ -66,7 +66,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       setRoomDescription('');
       setRoomPassword('');
 
-      onJoinRoom(data.room, newSocket, true); // true = isGM
+      // Show success message instead of immediately joining
+      setError(''); // Clear any previous errors
+      // The room will appear in the available rooms list automatically
+      // User can then click "Join" to enter the game
+      fetchAvailableRooms(); // Refresh the room list
     });
 
     newSocket.on('room_joined', (data) => {
@@ -393,7 +397,7 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
                     <div key={room.id} className="room-card">
                       <div className="room-info">
                         <h4>{room.name}</h4>
-                        <p>GM: {room.gm}</p>
+                        <p>GM: {room.gm} {room.gmOnline === false ? '(Offline)' : '(Online)'}</p>
                         <p>Players: {room.playerCount}/{room.maxPlayers}</p>
                         <p className="room-age">
                           Created: {new Date(room.createdAt).toLocaleTimeString()}
