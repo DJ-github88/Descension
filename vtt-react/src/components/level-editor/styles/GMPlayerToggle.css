@@ -59,8 +59,18 @@
     min-width: 50px;
 }
 
-.gm-player-toggle-button:hover {
+.gm-player-toggle-button:hover:not(.disabled) {
     background: rgba(139, 69, 19, 0.1);
+}
+
+.gm-player-toggle-button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.gm-player-toggle-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Mode-specific styling */

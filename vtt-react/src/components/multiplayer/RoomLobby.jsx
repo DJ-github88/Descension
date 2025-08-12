@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
@@ -18,6 +18,12 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('join'); // 'join', 'create', or 'my-rooms'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Use ref to store the callback to avoid recreating socket
+  const onJoinRoomRef = useRef(onJoinRoom);
+  useEffect(() => {
+    onJoinRoomRef.current = onJoinRoom;
+  }, [onJoinRoom]);
 
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
@@ -96,7 +102,7 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       console.log('Determined isGM:', isGM);
 
       console.log('Calling onJoinRoom with:', { room: data.room, socket: newSocket, isGM });
-      onJoinRoom(data.room, newSocket, isGM);
+      onJoinRoomRef.current(data.room, newSocket, isGM);
     });
 
     newSocket.on('error', (data) => {
@@ -116,9 +122,11 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     newSocket.connect();
 
     return () => {
-      newSocket.disconnect();
+      // Don't disconnect the socket here - let the parent component manage it
+      // This prevents disconnection when transitioning to the game
+      console.log('RoomLobby unmounting - socket will be managed by parent');
     };
-  }, [SOCKET_URL, onJoinRoom]);
+  }, [SOCKET_URL]); // Removed onJoinRoom from dependencies to prevent socket recreation
 
   const fetchAvailableRooms = async () => {
     try {

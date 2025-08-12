@@ -155,13 +155,30 @@ const useChatStore = create(
       sendMessage: (tab, content) => {
         const { addNotification, currentUser, multiplayerSocket, sendMultiplayerMessage } = get();
 
-        console.log('Chat sendMessage called:', { tab, content, hasSocket: !!multiplayerSocket, hasSendFunction: !!sendMultiplayerMessage });
+        console.log('Chat sendMessage called:', {
+          tab,
+          content,
+          hasSocket: !!multiplayerSocket,
+          socketConnected: multiplayerSocket?.connected,
+          hasSendFunction: !!sendMultiplayerMessage
+        });
 
         // If in multiplayer mode and sending to social tab, send through socket
-        if (tab === 'social' && multiplayerSocket && sendMultiplayerMessage) {
+        if (tab === 'social' && multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
           console.log('Sending message through multiplayer socket');
           sendMultiplayerMessage(content);
           return; // Don't add locally, it will come back through the socket
+        }
+
+        // If socket is disconnected but we're in multiplayer mode, show error
+        if (tab === 'social' && multiplayerSocket && !multiplayerSocket.connected) {
+          console.error('Cannot send message: socket disconnected');
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: 'Cannot send message: disconnected from server',
+            type: 'system'
+          });
+          return;
         }
 
         console.log('Sending message in single-player mode');

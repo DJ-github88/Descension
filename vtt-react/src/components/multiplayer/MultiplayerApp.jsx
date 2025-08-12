@@ -34,6 +34,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
 
+  // Cleanup effect for socket management
+  useEffect(() => {
+    return () => {
+      // Clean up socket when component unmounts
+      if (socket) {
+        console.log('MultiplayerApp unmounting - cleaning up socket');
+        socket.emit('leave_room');
+        socket.disconnect();
+      }
+    };
+  }, [socket]);
+
   useEffect(() => {
     if (!socket) return;
 
@@ -242,6 +254,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     try {
       if (socket) {
+        // Emit leave room event to server before disconnecting
+        socket.emit('leave_room');
+        // Disconnect the socket
         socket.disconnect();
       }
 
