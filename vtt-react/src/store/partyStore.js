@@ -215,8 +215,8 @@ const usePartyStore = create(
                                 mana: { current: 50, max: 50 },
                                 actionPoints: { current: 3, max: 3 }
                             }
-                        },
-                        maelisCharacterData
+                        }
+                        // Remove hardcoded placeholder member for multiplayer
                     ]
                 });
             },

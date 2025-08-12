@@ -95,6 +95,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for chat messages
     socket.on('chat_message', (message) => {
+      console.log('Received chat message:', message);
       // Add to chat system
       addNotification('social', {
         sender: {
@@ -174,9 +175,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setConnectedPlayers(allPlayers);
 
     // Integrate multiplayer players into party system
-    createParty(room.name, currentPlayerData?.name || 'Player');
+    // GM should always be the leader, regardless of who the current player is
+    const gmName = room.gm.name;
+    createParty(room.name, gmName);
 
-    // Add other players to party and chat (excluding current player)
+    // Add all players to party and chat
     allPlayers.forEach(player => {
       if (player.id !== currentPlayerData?.id) {
         addPartyMember({
@@ -202,9 +205,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Set GM leadership if current player is GM
-    if (isGameMaster) {
-      // Leadership is already set in createParty for current player
+    // Ensure GM is always the party leader
+    if (room.gm.name !== currentPlayerData?.name) {
+      // If current player is not GM, pass leadership to GM
+      const gmPlayer = allPlayers.find(p => p.name === room.gm.name);
+      if (gmPlayer) {
+        passLeadership(gmPlayer.id);
+      }
     }
 
     // Set multiplayer state in game store with socket
@@ -212,11 +219,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Set up chat integration for multiplayer
     const sendChatMessage = (message) => {
+      console.log('Sending chat message:', message);
+      console.log('Socket connected:', socketConnection?.connected);
       if (socketConnection) {
         socketConnection.emit('chat_message', {
           message: message,
           type: 'chat'
         });
+        console.log('Chat message emitted');
+      } else {
+        console.error('No socket connection for chat');
       }
     };
     setMultiplayerIntegration(socketConnection, sendChatMessage);
