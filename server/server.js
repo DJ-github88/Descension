@@ -126,7 +126,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
       id: gmPlayerId,
       name: gmName,
       socketId: gmSocketId,
-      color: playerColor
+      color: playerColor || '#d4af37' // Gold default for GM
     },
     players: new Map(),
     settings: {
@@ -215,8 +215,11 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     room.isActive = true;
     room.gmDisconnectedAt = null;
 
-    // Update the GM's socket ID
+    // Update the GM's socket ID and color if provided
     room.gm.socketId = socketId;
+    if (playerColor) {
+      room.gm.color = playerColor; // Update GM color if new one provided
+    }
 
     // Only add to players tracking if not already there
     if (!players.has(socketId)) {
@@ -225,8 +228,12 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
         name: playerName,
         roomId: roomId,
         isGM: true,
-        color: room.gm.color || playerColor
+        color: room.gm.color || playerColor || '#d4af37'
       });
+    } else {
+      // Update existing player tracking with latest color
+      const existingPlayer = players.get(socketId);
+      existingPlayer.color = room.gm.color || playerColor || '#d4af37';
     }
     return { room, player: room.gm, isGMReconnect: true };
   }
@@ -242,17 +249,17 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     name: playerName,
     socketId: socketId,
     isGM: false,
-    color: playerColor,
+    color: playerColor || '#4a90e2', // Ensure color is always set
     joinedAt: new Date()
   };
-  
+
   room.players.set(playerId, player);
   players.set(socketId, {
     id: playerId,
     name: playerName,
     roomId: roomId,
     isGM: false,
-    color: playerColor
+    color: playerColor || '#4a90e2' // Ensure color is always set
   });
 
   console.log(`Player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
@@ -486,26 +493,21 @@ io.on('connection', (socket) => {
 
     console.log('💬 Processing chat message from', player.name, 'in room', room.name);
 
-    // Get player color from room data
-    let playerColor = '#4a90e2'; // default
-    if (player.isGM && room.gm.color) {
-      playerColor = room.gm.color;
+    // Get player color with improved lookup logic
+    let playerColor = player.color || '#4a90e2'; // Use color from players tracking first
+
+    if (player.isGM) {
+      // For GM, use the color from room.gm or fallback to player tracking
+      playerColor = room.gm.color || player.color || '#d4af37'; // Gold default for GM
       console.log('💬 Using GM color:', playerColor);
     } else {
-      // Look for player in room.players Map by socket ID first, then by player ID
-      let roomPlayer = null;
-      for (const [socketId, p] of room.players.entries()) {
-        if (p.id === player.id || socketId === socket.id) {
-          roomPlayer = p;
-          break;
-        }
-      }
-
+      // For regular players, check room.players Map for most up-to-date color
+      const roomPlayer = room.players.get(player.id);
       if (roomPlayer && roomPlayer.color) {
         playerColor = roomPlayer.color;
-        console.log('💬 Using player color:', playerColor, 'for player:', player.name);
+        console.log('💬 Using room player color:', playerColor, 'for player:', player.name);
       } else {
-        console.log('💬 No color found for player:', player.name, 'using default:', playerColor);
+        console.log('💬 Using tracked player color:', playerColor, 'for player:', player.name);
       }
     }
 
@@ -556,36 +558,48 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update room game state
+    // Initialize tokens if needed
     if (!room.gameState.tokens) {
       room.gameState.tokens = {};
     }
 
-    room.gameState.tokens[data.tokenId] = {
-      ...room.gameState.tokens[data.tokenId],
-      position: data.position,
-      lastMovedBy: player.id,
-      lastMovedAt: new Date()
-    };
+    // Find token by either tokenId or creatureId for backward compatibility
+    let tokenKey = data.tokenId;
+    let existingToken = room.gameState.tokens[tokenKey];
 
-    // Skip Firebase persistence for token movement to improve performance
-    // Token positions will be persisted periodically or on room save
-    // try {
-    //   await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-    // } catch (error) {
-    //   console.error('Failed to persist token movement:', error);
-    // }
+    if (!existingToken) {
+      // Try to find by creatureId if direct lookup failed
+      tokenKey = Object.keys(room.gameState.tokens).find(key =>
+        room.gameState.tokens[key].creatureId === data.tokenId
+      );
+      existingToken = tokenKey ? room.gameState.tokens[tokenKey] : null;
+    }
 
-    // Broadcast token movement to all other players in the room
-    socket.to(player.roomId).emit('token_moved', {
-      tokenId: data.tokenId,
-      position: data.position,
-      playerId: player.id,
-      playerName: player.name,
-      timestamp: new Date()
-    });
+    if (existingToken) {
+      // Update existing token
+      room.gameState.tokens[tokenKey] = {
+        ...existingToken,
+        position: data.position,
+        lastMovedBy: player.id,
+        lastMovedByName: player.name,
+        lastMovedAt: new Date()
+      };
 
-    console.log(`Token ${data.tokenId} moved by ${player.name} to`, data.position);
+      // Broadcast token movement to all other players in the room
+      socket.to(player.roomId).emit('token_moved', {
+        tokenId: tokenKey,
+        creatureId: existingToken.creatureId,
+        position: data.position,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: new Date()
+      });
+
+      console.log(`🎯 Token ${tokenKey} (creature: ${existingToken.creatureId}) moved by ${player.name} to`, data.position);
+    } else {
+      console.warn(`⚠️ Token ${data.tokenId} not found in room ${room.name} for movement`);
+      socket.emit('error', { message: 'Token not found' });
+    }
   });
 
   // Handle character sheet updates
@@ -830,7 +844,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle item drops on grid
-  socket.on('item_dropped', (data) => {
+  socket.on('item_dropped', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -843,32 +857,50 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update room game state with new grid item
+    // Initialize grid items if needed
     if (!room.gameState.gridItems) {
       room.gameState.gridItems = {};
     }
 
-    room.gameState.gridItems[data.item.id] = {
+    // Create unique item ID to prevent conflicts
+    const gridItemId = data.item.id || `griditem_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+
+    // Store grid item with comprehensive data
+    const gridItemData = {
       ...data.item,
+      id: gridItemId,
       position: data.position,
+      gridPosition: data.gridPosition,
       droppedBy: player.id,
+      droppedByName: player.name,
       droppedAt: new Date()
     };
 
-    // Broadcast item drop to all OTHER players in the room (not the dropper)
-    socket.to(player.roomId).emit('item_dropped', {
-      item: data.item,
+    room.gameState.gridItems[gridItemId] = gridItemData;
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist item drop:', error);
+    }
+
+    // Broadcast item drop to ALL players in the room (including dropper for confirmation)
+    io.to(player.roomId).emit('item_dropped', {
+      item: { ...data.item, id: gridItemId },
       position: data.position,
+      gridPosition: data.gridPosition,
       playerId: player.id,
       playerName: player.name,
-      timestamp: new Date()
+      timestamp: new Date(),
+      isSync: false // Mark as new drop, not sync
     });
 
-    console.log(`📦 Item ${data.item.name} dropped by ${player.name} at`, data.position);
+    console.log(`📦 Item ${data.item.name} (${gridItemId}) dropped by ${player.name} at`, data.position);
   });
 
   // Handle token creation
-  socket.on('token_created', (data) => {
+  socket.on('token_created', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -881,29 +913,48 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update room game state with new token
+    // Initialize tokens object if it doesn't exist
     if (!room.gameState.tokens) {
       room.gameState.tokens = {};
     }
 
-    room.gameState.tokens[data.token.id] = {
-      ...data.token,
-      creature: data.creature, // Include creature data for sync
+    // Create a unique token ID to prevent conflicts
+    const tokenId = data.token.id || `token_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+
+    // Store token with comprehensive data
+    const tokenData = {
+      id: tokenId,
+      creatureId: data.creature.id,
+      position: data.position,
+      creature: data.creature, // Include full creature data for sync
       createdBy: player.id,
-      createdAt: new Date()
+      createdByName: player.name,
+      createdAt: new Date(),
+      lastMovedBy: null,
+      lastMovedAt: null
     };
 
-    // Broadcast token creation to all other players in the room
-    socket.to(player.roomId).emit('token_created', {
+    room.gameState.tokens[tokenId] = tokenData;
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist token creation:', error);
+    }
+
+    // Broadcast token creation to ALL players in the room (including creator for confirmation)
+    io.to(player.roomId).emit('token_created', {
       creature: data.creature,
-      token: data.token,
+      token: { ...data.token, id: tokenId },
       position: data.position,
       playerId: player.id,
       playerName: player.name,
-      timestamp: new Date()
+      timestamp: new Date(),
+      isSync: false // Mark as new creation, not sync
     });
 
-    console.log(`🎭 Token ${data.creature.name} created by ${player.name} at`, data.position);
+    console.log(`🎭 Token ${data.creature.name} (${tokenId}) created by ${player.name} at`, data.position);
   });
 
   // Handle item looting
@@ -920,16 +971,24 @@ io.on('connection', (socket) => {
       return;
     }
 
+    let itemRemoved = false;
+
     // Remove item from room game state if it was a grid item
     if (data.gridItemId && room.gameState.gridItems) {
-      console.log(`🎁 Removing looted item ${data.gridItemId} from server state`);
-      delete room.gameState.gridItems[data.gridItemId];
+      const gridItem = room.gameState.gridItems[data.gridItemId];
+      if (gridItem) {
+        console.log(`🎁 Removing looted item ${data.gridItemId} from server state`);
+        delete room.gameState.gridItems[data.gridItemId];
+        itemRemoved = true;
 
-      // Persist the removal to Firebase
-      try {
-        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-      } catch (error) {
-        console.error('Failed to persist item removal:', error);
+        // Persist the removal to Firebase
+        try {
+          await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+        } catch (error) {
+          console.error('Failed to persist item removal:', error);
+        }
+      } else {
+        console.warn(`⚠️ Grid item ${data.gridItemId} not found for looting`);
       }
     }
 
@@ -942,10 +1001,166 @@ io.on('connection', (socket) => {
       gridItemId: data.gridItemId,
       playerId: player.id,
       playerName: player.name,
+      timestamp: new Date(),
+      itemRemoved: itemRemoved // Indicate if item was successfully removed
+    });
+
+    console.log(`🎁 ${data.item.name} (x${data.quantity}) looted by ${player.name} from ${data.source}${itemRemoved ? ' (removed from grid)' : ''}`);
+  });
+
+  // Handle full game state synchronization request
+  socket.on('request_full_sync', () => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    console.log(`🔄 Full sync requested by ${player.name} in room ${room.name}`);
+
+    // Send complete game state to the requesting player
+    socket.emit('full_game_state_sync', {
+      tokens: room.gameState.tokens || {},
+      gridItems: room.gameState.gridItems || {},
+      characters: room.gameState.characters || {},
+      mapData: room.gameState.mapData || {},
+      combat: room.gameState.combat || {},
+      timestamp: new Date()
+    });
+  });
+
+  // Handle state conflict resolution
+  socket.on('resolve_state_conflict', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    console.log(`⚖️ State conflict resolution by ${player.name}:`, data.conflictType);
+
+    // Handle different types of conflicts
+    switch (data.conflictType) {
+      case 'token_position':
+        // GM or token owner has authority
+        if (player.isGM || data.tokenOwnerId === player.id) {
+          if (room.gameState.tokens[data.tokenId]) {
+            room.gameState.tokens[data.tokenId].position = data.resolvedPosition;
+            room.gameState.tokens[data.tokenId].lastMovedBy = player.id;
+            room.gameState.tokens[data.tokenId].lastMovedAt = new Date();
+
+            // Broadcast resolved position
+            io.to(player.roomId).emit('token_moved', {
+              tokenId: data.tokenId,
+              position: data.resolvedPosition,
+              playerId: player.id,
+              playerName: player.name,
+              timestamp: new Date(),
+              isResolution: true
+            });
+          }
+        }
+        break;
+
+      case 'item_existence':
+        // GM has authority over item existence
+        if (player.isGM) {
+          if (data.shouldExist && !room.gameState.gridItems[data.itemId]) {
+            room.gameState.gridItems[data.itemId] = data.itemData;
+          } else if (!data.shouldExist && room.gameState.gridItems[data.itemId]) {
+            delete room.gameState.gridItems[data.itemId];
+          }
+
+          // Broadcast resolution
+          io.to(player.roomId).emit('item_conflict_resolved', {
+            itemId: data.itemId,
+            shouldExist: data.shouldExist,
+            itemData: data.shouldExist ? data.itemData : null,
+            resolvedBy: player.name,
+            timestamp: new Date()
+          });
+        }
+        break;
+    }
+
+    // Persist resolved state
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist conflict resolution:', error);
+    }
+  });
+
+  // Handle player color updates
+  socket.on('update_player_color', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    const newColor = data.color || '#4a90e2';
+
+    // Update player tracking
+    player.color = newColor;
+
+    // Update room data
+    if (player.isGM) {
+      room.gm.color = newColor;
+    } else {
+      const roomPlayer = room.players.get(player.id);
+      if (roomPlayer) {
+        roomPlayer.color = newColor;
+      }
+    }
+
+    // Broadcast color update to all players in the room
+    io.to(player.roomId).emit('player_color_updated', {
+      playerId: player.id,
+      playerName: player.name,
+      color: newColor,
+      isGM: player.isGM,
       timestamp: new Date()
     });
 
-    console.log(`🎁 ${data.item.name} (x${data.quantity}) looted by ${player.name} from ${data.source}`);
+    console.log(`🎨 Player ${player.name} updated color to ${newColor}`);
+  });
+
+  // Handle heartbeat/ping for connection monitoring
+  socket.on('ping', () => {
+    socket.emit('pong', { timestamp: new Date() });
+  });
+
+  // Handle client health check
+  socket.on('health_check', () => {
+    const player = players.get(socket.id);
+    const room = player ? rooms.get(player.roomId) : null;
+
+    socket.emit('health_response', {
+      status: 'ok',
+      playerId: player?.id,
+      roomId: player?.roomId,
+      roomName: room?.name,
+      timestamp: new Date()
+    });
   });
 
   // Handle disconnection

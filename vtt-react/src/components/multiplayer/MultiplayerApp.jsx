@@ -208,31 +208,34 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('chat_message', (message) => {
       console.log('Received chat message:', message);
       console.log('Adding to chat system with current room:', currentRoom?.name);
-      // Add to chat system
+      // Add to chat system with proper color handling
       addNotification('social', {
         sender: {
           name: message.playerName,
           class: message.isGM ? 'GM' : 'Player',
           level: 1,
-          playerColor: message.playerColor // Include player color
+          playerColor: message.playerColor || (message.isGM ? '#d4af37' : '#4a90e2') // Fallback colors
         },
         content: message.content,
         type: 'message',
-        timestamp: message.timestamp
+        timestamp: message.timestamp,
+        playerId: message.playerId, // Include player ID for future reference
+        isGM: message.isGM
       });
     });
 
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
-      console.log('🎯 Token moved by another player:', data.playerName, 'token:', data.tokenId);
-      // Update token position locally (this should be smooth since it's only on drag end)
-      updateTokenPosition(data.tokenId, data.position);
+      console.log('🎯 Token moved by another player:', data.playerName, 'token:', data.tokenId, 'creature:', data.creatureId);
+      // Update token position locally using creature ID for compatibility
+      const targetId = data.creatureId || data.tokenId;
+      updateTokenPosition(targetId, data.position);
     });
 
     // Listen for item drops from other players
     socket.on('item_dropped', (data) => {
       const isSync = data.isSync;
-      console.log(isSync ? '🔄 Syncing grid item:' : '📦 Item dropped by another player:', data.playerName, 'item:', data.item.name);
+      console.log(isSync ? '🔄 Syncing grid item:' : '📦 Item dropped by player:', data.playerName, 'item:', data.item.name);
 
       // Import the grid item store dynamically to avoid circular dependencies
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
@@ -242,8 +245,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         console.log('📦 Adding item to grid from server:', data.item.name, 'ID:', data.item.id);
         addItemToGrid(data.item, data.position, false);
 
-        // Show notification in chat only for new drops, not syncs
-        if (!isSync) {
+        // Show notification in chat only for new drops from other players, not syncs or own drops
+        if (!isSync && data.playerId !== currentRoom?.gm?.id) {
           addNotification('social', {
             sender: { name: 'System', class: 'system', level: 0 },
             content: `${data.playerName} dropped ${data.item.name} on the grid`,
@@ -258,7 +261,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token creation from other players
     socket.on('token_created', (data) => {
-      console.log('🎭 Token created by another player:', data.playerName, 'creature:', data.creature.name);
+      const isSync = data.isSync;
+      console.log(isSync ? '🔄 Syncing token:' : '🎭 Token created by another player:', data.playerName, 'creature:', data.creature.name);
 
       // Import the creature store dynamically to avoid circular dependencies
       import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
@@ -268,15 +272,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addCreature(data.creature);
 
         // Then add the token without sending back to server (avoid infinite loop)
-        addToken(data.creature.id, data.position, false);
+        console.log('🎭 Adding token to local state:', data.creature.name, 'Token ID:', data.token.id);
+        addToken(data.creature.id, data.position, false, data.token.id);
 
-        // Show notification in chat
-        addNotification('social', {
-          sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.playerName} placed ${data.creature.name} on the grid`,
-          type: 'system',
-          timestamp: new Date().toISOString()
-        });
+        // Show notification in chat only for new creations, not syncs
+        if (!isSync) {
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${data.playerName} placed ${data.creature.name} on the grid`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }
       }).catch(error => {
         console.error('Failed to import creatureStore:', error);
       });
@@ -284,7 +291,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for loot events from other players
     socket.on('item_looted', (data) => {
-      console.log('🎁 Item looted by another player:', data.playerName, 'item:', data.item.name);
+      console.log('🎁 Item looted by player:', data.playerName, 'item:', data.item.name, 'removed:', data.itemRemoved);
 
       // Add loot notification to the loot tab
       addNotification('loot', {
@@ -296,16 +303,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         timestamp: data.timestamp
       });
 
-      // Also show in social chat
-      addNotification('social', {
-        sender: { name: 'System', class: 'system', level: 0 },
-        content: `${data.looter} looted ${data.item.name} (x${data.quantity}) from ${data.source}`,
-        type: 'system',
-        timestamp: new Date().toISOString()
-      });
+      // Show in social chat only if it's not our own loot action
+      if (data.playerId !== currentRoom?.gm?.id) {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `${data.looter} looted ${data.item.name} (x${data.quantity}) from ${data.source}`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
 
-      // Remove the item from grid for other players (if they have it)
-      if (data.gridItemId) {
+      // Remove the item from grid if it was successfully removed on server
+      if (data.gridItemId && data.itemRemoved) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { removeItemFromGrid } = useGridItemStore.getState();
           console.log('🎁 Removing looted item from grid:', data.gridItemId);
@@ -341,13 +350,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // Add each token without sending back to server
         Object.values(data.tokens).forEach(tokenData => {
+          console.log('🔄 Syncing token:', tokenData.id, 'creature:', tokenData.creatureId);
+
           // First ensure the creature exists (if we have creature data)
           if (tokenData.creature) {
             addCreature(tokenData.creature);
           }
 
-          // Then add the token
-          addToken(tokenData.creatureId, tokenData.position, false);
+          // Then add the token with the correct token ID
+          addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
         });
       }).catch(error => {
         console.error('Failed to import creatureStore for sync:', error);
@@ -370,6 +381,106 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Listen for player color updates
+    socket.on('player_color_updated', (data) => {
+      console.log('🎨 Player color updated:', data.playerName, 'to', data.color);
+
+      // Update connected players list with new color
+      setConnectedPlayers(prev =>
+        prev.map(player =>
+          player.id === data.playerId
+            ? { ...player, color: data.color }
+            : player
+        )
+      );
+
+      // Show notification in chat
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `${data.playerName} changed their chat color`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    // Handle full game state synchronization
+    socket.on('full_game_state_sync', (data) => {
+      console.log('🔄 Received full game state sync:', Object.keys(data));
+
+      // Sync tokens
+      if (data.tokens && Object.keys(data.tokens).length > 0) {
+        import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+          const { addCreature, addToken } = useCreatureStore.getState();
+
+          Object.values(data.tokens).forEach(tokenData => {
+            if (tokenData.creature) {
+              addCreature(tokenData.creature);
+            }
+            addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
+          });
+        });
+      }
+
+      // Sync grid items
+      if (data.gridItems && Object.keys(data.gridItems).length > 0) {
+        import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+          const { addItemToGrid } = useGridItemStore.getState();
+
+          Object.values(data.gridItems).forEach(gridItem => {
+            addItemToGrid(gridItem, gridItem.position, false);
+          });
+        });
+      }
+
+      console.log('✅ Full game state sync completed');
+    });
+
+    // Handle synchronization errors
+    socket.on('sync_error', (data) => {
+      console.error('❌ Synchronization error:', data);
+
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `Sync error: ${data.message}. Requesting full sync...`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+
+      // Request full sync to recover
+      setTimeout(() => {
+        socket.emit('request_full_sync');
+      }, 1000);
+    });
+
+    // Handle connection errors
+    socket.on('connect_error', (error) => {
+      console.error('❌ Connection error:', error);
+
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: 'Connection error. Attempting to reconnect...',
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    // Handle reconnection
+    socket.on('reconnect', (attemptNumber) => {
+      console.log('🔄 Reconnected after', attemptNumber, 'attempts');
+
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: 'Reconnected to server. Syncing game state...',
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+
+      // Request full sync after reconnection
+      setTimeout(() => {
+        socket.emit('request_full_sync');
+      }, 500);
+    });
+
     return () => {
       console.log('Cleaning up socket event listeners');
       socket.off('connect');
@@ -385,6 +496,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('sync_grid_items');
       socket.off('sync_tokens');
       socket.off('character_equipment_updated');
+      socket.off('player_color_updated');
+      socket.off('full_game_state_sync');
+      socket.off('sync_error');
+      socket.off('connect_error');
+      socket.off('reconnect');
     };
   }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
 

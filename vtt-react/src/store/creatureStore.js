@@ -284,8 +284,8 @@ const useCreatureStore = create(
       })),
 
       // Token actions
-      addToken: (creatureId, position, sendToServer = true) => set(state => {
-        console.log('🔍 addToken called with creatureId:', creatureId, 'type:', typeof creatureId);
+      addToken: (creatureId, position, sendToServer = true, tokenId = null) => set(state => {
+        console.log('🔍 addToken called with creatureId:', creatureId, 'tokenId:', tokenId, 'type:', typeof creatureId);
         console.log('📋 Available creatures in store:', state.creatures.map(c => ({ id: c.id, name: c.name, idType: typeof c.id })));
 
         // Try multiple approaches to find the creature
@@ -337,9 +337,9 @@ const useCreatureStore = create(
           };
         }
 
-        // Create a new token
+        // Create a new token with provided ID or generate new one
         const newToken = {
-          id: uuidv4(),
+          id: tokenId || uuidv4(),
           creatureId: creature.id,
           position,
           state: {
