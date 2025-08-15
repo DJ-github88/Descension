@@ -284,7 +284,7 @@ const useCreatureStore = create(
       })),
 
       // Token actions
-      addToken: (creatureId, position) => set(state => {
+      addToken: (creatureId, position, sendToServer = true) => set(state => {
         console.log('🔍 addToken called with creatureId:', creatureId, 'type:', typeof creatureId);
         console.log('📋 Available creatures in store:', state.creatures.map(c => ({ id: c.id, name: c.name, idType: typeof c.id })));
 
@@ -357,6 +357,25 @@ const useCreatureStore = create(
             newToken
           ]
         };
+
+        // Send to multiplayer server if enabled
+        if (sendToServer) {
+          // Import game store dynamically to avoid circular dependencies
+          import('./gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              console.log('🎭 Sending token creation to multiplayer server:', creature.name);
+              gameStore.multiplayerSocket.emit('token_created', {
+                creature: creature,
+                token: newToken,
+                position: position
+              });
+            }
+          }).catch(error => {
+            console.error('Failed to import gameStore for token sync:', error);
+          });
+        }
+
         return newState;
       }),
 

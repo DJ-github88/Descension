@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
+import useGameStore from './gameStore';
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
@@ -17,7 +18,7 @@ const useGridItemStore = create(
       lastUpdate: Date.now(), // Timestamp to help with re-renders
 
       // Actions
-      addItemToGrid: (item, position) => set((state) => {
+      addItemToGrid: (item, position, sendToServer = true) => set((state) => {
         // Check if we can stack this item with an existing one
         const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous';
         if (isStackableType && item.stackable !== false) {
@@ -177,6 +178,19 @@ const useGridItemStore = create(
           lastUpdate: Date.now()
         };
 
+        // Send to multiplayer server if enabled
+        if (sendToServer) {
+          const gameStore = useGameStore.getState();
+          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            console.log('📦 Sending item drop to multiplayer server:', gridItem.name);
+            gameStore.multiplayerSocket.emit('item_dropped', {
+              item: gridItem,
+              position: position,
+              gridPosition: position.gridPosition
+            });
+          }
+        }
+
         // Force a React re-render by dispatching a custom event
         setTimeout(() => {
           if (typeof window !== 'undefined') {
@@ -195,7 +209,7 @@ const useGridItemStore = create(
       })),
 
       // Loot an item from the grid and add it to inventory
-      lootItem: (gridItemId, characterId = 'default', looterName = 'Player') => {
+      lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
         const { gridItems } = get();
         const { removeItemFromGrid } = get();
         const chatStore = useChatStore.getState();
@@ -542,6 +556,21 @@ const useGridItemStore = create(
                 document.body.removeChild(notification);
               }, 500);
             }, 2000);
+          }
+        }
+
+        // Send to multiplayer server if enabled
+        if (sendToServer) {
+          const gameStore = useGameStore.getState();
+          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            console.log('🎁 Sending loot event to multiplayer server:', itemToUse.name, 'by', looterName);
+            gameStore.multiplayerSocket.emit('item_looted', {
+              item: itemToUse,
+              quantity: gridItem.quantity || 1,
+              source: 'Grid Item',
+              looter: looterName,
+              gridItemId: gridItemId
+            });
           }
         }
 

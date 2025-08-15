@@ -230,9 +230,157 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for item drops from other players
     socket.on('item_dropped', (data) => {
-      console.log('Item dropped by another player:', data);
-      // TODO: Add item to grid at specified position
-      // This would integrate with the grid items system
+      const isSync = data.isSync;
+      console.log(isSync ? '🔄 Syncing grid item:' : '📦 Item dropped by another player:', data.playerName, 'item:', data.item.name);
+
+      // Import the grid item store dynamically to avoid circular dependencies
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const { addItemToGrid } = useGridItemStore.getState();
+
+        // Add the item to the grid without sending back to server (avoid infinite loop)
+        addItemToGrid(data.item, data.position, false);
+
+        // Show notification in chat only for new drops, not syncs
+        if (!isSync) {
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${data.playerName} dropped ${data.item.name} on the grid`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }
+      }).catch(error => {
+        console.error('Failed to import gridItemStore:', error);
+      });
+    });
+
+    // Listen for token creation from other players
+    socket.on('token_created', (data) => {
+      console.log('🎭 Token created by another player:', data.playerName, 'creature:', data.creature.name);
+
+      // Import the creature store dynamically to avoid circular dependencies
+      import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+        const { addCreature, addToken } = useCreatureStore.getState();
+
+        // First ensure the creature exists in the store
+        addCreature(data.creature);
+
+        // Then add the token without sending back to server (avoid infinite loop)
+        addToken(data.creature.id, data.position, false);
+
+        // Show notification in chat
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `${data.playerName} placed ${data.creature.name} on the grid`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }).catch(error => {
+        console.error('Failed to import creatureStore:', error);
+      });
+    });
+
+    // Listen for loot events from other players
+    socket.on('item_looted', (data) => {
+      console.log('🎁 Item looted by another player:', data.playerName, 'item:', data.item.name);
+
+      // Add loot notification to the loot tab
+      addNotification('loot', {
+        type: 'item_looted',
+        item: data.item,
+        quantity: data.quantity,
+        source: data.source,
+        looter: data.looter,
+        timestamp: data.timestamp
+      });
+
+      // Also show in social chat
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `${data.looter} looted ${data.item.name} (x${data.quantity}) from ${data.source}`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+
+      // Remove the item from grid for other players (if they have it)
+      if (data.gridItemId) {
+        import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+          const { removeItemFromGrid } = useGridItemStore.getState();
+          removeItemFromGrid(data.gridItemId);
+        }).catch(error => {
+          console.error('Failed to import gridItemStore for loot removal:', error);
+        });
+      }
+    });
+
+    // Listen for grid item synchronization when joining a room
+    socket.on('sync_grid_items', (data) => {
+      console.log('📦 Syncing grid items from server:', Object.keys(data.gridItems).length, 'items');
+
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const { addItemToGrid } = useGridItemStore.getState();
+
+        // Add each grid item without sending back to server
+        Object.values(data.gridItems).forEach(gridItem => {
+          addItemToGrid(gridItem, gridItem.position, false);
+        });
+      }).catch(error => {
+        console.error('Failed to import gridItemStore for sync:', error);
+      });
+    });
+
+    // Listen for token synchronization when joining a room
+    socket.on('sync_tokens', (data) => {
+      console.log('🎭 Syncing tokens from server:', Object.keys(data.tokens).length, 'tokens');
+
+      import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+        const { addToken } = useCreatureStore.getState();
+
+        // Add each token without sending back to server
+        Object.values(data.tokens).forEach(token => {
+          addToken(token.creatureId, token.position, false);
+        });
+      }).catch(error => {
+        console.error('Failed to import creatureStore for sync:', error);
+      });
+    });
+
+    // Listen for grid item synchronization when joining a room
+    socket.on('sync_grid_items', (data) => {
+      console.log('📦 Syncing grid items from server:', Object.keys(data.gridItems).length, 'items');
+
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const { addItemToGrid } = useGridItemStore.getState();
+
+        // Add each grid item without sending back to server
+        Object.values(data.gridItems).forEach(gridItem => {
+          addItemToGrid(gridItem, gridItem.position, false);
+        });
+      }).catch(error => {
+        console.error('Failed to import gridItemStore for sync:', error);
+      });
+    });
+
+    // Listen for token synchronization when joining a room
+    socket.on('sync_tokens', (data) => {
+      console.log('🎭 Syncing tokens from server:', Object.keys(data.tokens).length, 'tokens');
+
+      import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+        const { addCreature, addToken } = useCreatureStore.getState();
+
+        // Add each token without sending back to server
+        Object.values(data.tokens).forEach(tokenData => {
+          // First ensure the creature exists (if we have creature data)
+          if (tokenData.creature) {
+            addCreature(tokenData.creature);
+          }
+
+          // Then add the token
+          addToken(tokenData.creatureId, tokenData.position, false);
+        });
+      }).catch(error => {
+        console.error('Failed to import creatureStore for sync:', error);
+      });
     });
 
     return () => {
@@ -245,6 +393,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('chat_message');
       socket.off('token_moved');
       socket.off('item_dropped');
+      socket.off('token_created');
+      socket.off('item_looted');
+      socket.off('sync_grid_items');
+      socket.off('sync_tokens');
     };
   }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
 

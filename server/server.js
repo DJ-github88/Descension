@@ -387,6 +387,43 @@ io.on('connection', (socket) => {
       console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${room.players.size + 1})`);
     }
 
+    // Send current grid items to the newly joined player
+    if (room.gameState.gridItems && Object.keys(room.gameState.gridItems).length > 0) {
+      console.log(`📦 Sending ${Object.keys(room.gameState.gridItems).length} grid items to ${playerName}`);
+      socket.emit('sync_grid_items', {
+        gridItems: room.gameState.gridItems
+      });
+    }
+
+    // Send current tokens to the newly joined player
+    if (room.gameState.tokens && Object.keys(room.gameState.tokens).length > 0) {
+      console.log(`🎭 Sending ${Object.keys(room.gameState.tokens).length} tokens to ${playerName}`);
+      socket.emit('sync_tokens', {
+        tokens: room.gameState.tokens
+      });
+    }
+    if (room.gameState.gridItems && Object.keys(room.gameState.gridItems).length > 0) {
+      console.log(`📦 Syncing ${Object.keys(room.gameState.gridItems).length} grid items to ${playerName}`);
+      Object.values(room.gameState.gridItems).forEach(gridItem => {
+        socket.emit('item_dropped', {
+          item: gridItem,
+          position: gridItem.position,
+          playerId: gridItem.droppedBy,
+          playerName: 'Previous Player',
+          timestamp: gridItem.droppedAt,
+          isSync: true // Flag to indicate this is a sync, not a new drop
+        });
+      });
+    }
+
+    // Send current tokens to the new player
+    if (room.gameState.tokens && Object.keys(room.gameState.tokens).length > 0) {
+      console.log(`🎭 Syncing ${Object.keys(room.gameState.tokens).length} tokens to ${playerName}`);
+      socket.emit('sync_tokens', {
+        tokens: room.gameState.tokens
+      });
+    }
+
     // Broadcast room list update to all connected clients
     io.emit('room_list_updated', getPublicRooms());
   });
@@ -685,6 +722,18 @@ io.on('connection', (socket) => {
       return;
     }
 
+    // Update room game state with new grid item
+    if (!room.gameState.gridItems) {
+      room.gameState.gridItems = {};
+    }
+
+    room.gameState.gridItems[data.item.id] = {
+      ...data.item,
+      position: data.position,
+      droppedBy: player.id,
+      droppedAt: new Date()
+    };
+
     // Broadcast item drop to all players in the room
     io.to(player.roomId).emit('item_dropped', {
       item: data.item,
@@ -694,7 +743,79 @@ io.on('connection', (socket) => {
       timestamp: new Date()
     });
 
-    console.log(`Item ${data.item.name} dropped by ${player.name} at`, data.position);
+    console.log(`📦 Item ${data.item.name} dropped by ${player.name} at`, data.position);
+  });
+
+  // Handle token creation
+  socket.on('token_created', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update room game state with new token
+    if (!room.gameState.tokens) {
+      room.gameState.tokens = {};
+    }
+
+    room.gameState.tokens[data.token.id] = {
+      ...data.token,
+      createdBy: player.id,
+      createdAt: new Date()
+    };
+
+    // Broadcast token creation to all other players in the room
+    socket.to(player.roomId).emit('token_created', {
+      creature: data.creature,
+      token: data.token,
+      position: data.position,
+      playerId: player.id,
+      playerName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🎭 Token ${data.creature.name} created by ${player.name} at`, data.position);
+  });
+
+  // Handle item looting
+  socket.on('item_looted', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Remove item from room game state if it was a grid item
+    if (data.gridItemId && room.gameState.gridItems) {
+      delete room.gameState.gridItems[data.gridItemId];
+    }
+
+    // Broadcast loot event to all players in the room
+    io.to(player.roomId).emit('item_looted', {
+      item: data.item,
+      quantity: data.quantity,
+      source: data.source,
+      looter: data.looter,
+      gridItemId: data.gridItemId,
+      playerId: player.id,
+      playerName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🎁 ${data.item.name} (x${data.quantity}) looted by ${player.name} from ${data.source}`);
   });
 
   // Handle disconnection

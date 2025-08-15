@@ -1509,7 +1509,7 @@ export default function Grid() {
                     delete cleanItem.gridPosition;
 
                     // Add the item to the grid with the clean position data
-                    addItemToGrid(cleanItem, positionCopy);
+                    addItemToGrid(cleanItem, positionCopy, true); // Send to server
                 } else {
                     // Item not found in store
                 }
@@ -1597,7 +1597,7 @@ export default function Grid() {
                     delete cleanItem.gridPosition;
 
                     // Add the item to the grid with the clean position data
-                    addItemToGrid(cleanItem, positionCopy);
+                    addItemToGrid(cleanItem, positionCopy, true); // Send to server
 
                     // Remove the item from inventory
                     inventoryStore.removeItem(itemId);
