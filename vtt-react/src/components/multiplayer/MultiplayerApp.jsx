@@ -47,6 +47,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   console.log('🌐 NODE_ENV:', process.env.NODE_ENV);
   console.log('🌐 REACT_APP_SOCKET_URL:', process.env.REACT_APP_SOCKET_URL);
   console.log('🌐 Final SOCKET_URL:', SOCKET_URL);
+  console.log('🎮 Current Player:', currentPlayer?.name, 'ID:', currentPlayer?.id);
+  console.log('🎮 Is GM:', isGM);
+  console.log('🎮 Connected Players:', connectedPlayers.map(p => `${p.name} (${p.id})`));
 
   // Initialize socket connection when component mounts
   useEffect(() => {
@@ -127,8 +130,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Update connected players list
       if (currentRoom) {
         setConnectedPlayers(prev => {
+          // Check if player already exists to avoid duplicates
+          const existingPlayer = prev.find(p => p.id === data.player.id);
+          if (existingPlayer) {
+            console.log('🎮 Player already in list, skipping duplicate:', data.player.name);
+            return prev;
+          }
           const updated = [...prev, data.player];
-          console.log('🎮 Updated connected players:', updated.length);
+          console.log('🎮 Updated connected players:', updated.map(p => p.name));
           return updated;
         });
 
@@ -226,10 +235,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
-      console.log('🎯 Token moved by another player:', data.playerName, 'token:', data.tokenId, 'creature:', data.creatureId);
-      // Update token position locally using creature ID for compatibility
-      const targetId = data.creatureId || data.tokenId;
-      updateTokenPosition(targetId, data.position);
+      console.log('🎯 Token moved by player:', data.playerName, 'token:', data.tokenId, 'creature:', data.creatureId);
+
+      // Only update if it's not our own movement (to avoid double updates)
+      if (data.playerId !== currentPlayer?.id) {
+        // Update token position locally using creature ID for compatibility
+        const targetId = data.creatureId || data.tokenId;
+        updateTokenPosition(targetId, data.position);
+        console.log('🎯 Updated token position for:', targetId);
+      } else {
+        console.log('🎯 Ignoring own token movement to avoid duplicate update');
+      }
     });
 
     // Listen for item drops from other players
@@ -237,56 +253,66 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const isSync = data.isSync;
       console.log(isSync ? '🔄 Syncing grid item:' : '📦 Item dropped by player:', data.playerName, 'item:', data.item.name);
 
-      // Import the grid item store dynamically to avoid circular dependencies
-      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-        const { addItemToGrid } = useGridItemStore.getState();
+      // Only add item if it's not our own drop (to avoid duplicates) or if it's a sync
+      if (data.playerId !== currentPlayer?.id || isSync) {
+        // Import the grid item store dynamically to avoid circular dependencies
+        import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+          const { addItemToGrid } = useGridItemStore.getState();
 
-        // Add the item to the grid without sending back to server (avoid infinite loop)
-        console.log('📦 Adding item to grid from server:', data.item.name, 'ID:', data.item.id);
-        addItemToGrid(data.item, data.position, false);
+          // Add the item to the grid without sending back to server (avoid infinite loop)
+          console.log('📦 Adding item to grid from server:', data.item.name, 'ID:', data.item.id);
+          addItemToGrid(data.item, data.position, false);
 
-        // Show notification in chat only for new drops from other players, not syncs or own drops
-        if (!isSync && data.playerId !== currentRoom?.gm?.id) {
-          addNotification('social', {
-            sender: { name: 'System', class: 'system', level: 0 },
-            content: `${data.playerName} dropped ${data.item.name} on the grid`,
-            type: 'system',
-            timestamp: new Date().toISOString()
-          });
-        }
-      }).catch(error => {
-        console.error('Failed to import gridItemStore:', error);
-      });
+          // Show notification in chat only for new drops from other players, not syncs or own drops
+          if (!isSync && data.playerId !== currentPlayer?.id) {
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `${data.playerName} dropped ${data.item.name} on the grid`,
+              type: 'system',
+              timestamp: new Date().toISOString()
+            });
+          }
+        }).catch(error => {
+          console.error('Failed to import gridItemStore:', error);
+        });
+      } else {
+        console.log('📦 Ignoring own item drop to avoid duplicate');
+      }
     });
 
     // Listen for token creation from other players
     socket.on('token_created', (data) => {
       const isSync = data.isSync;
-      console.log(isSync ? '🔄 Syncing token:' : '🎭 Token created by another player:', data.playerName, 'creature:', data.creature.name);
+      console.log(isSync ? '🔄 Syncing token:' : '🎭 Token created by player:', data.playerName, 'creature:', data.creature.name);
 
-      // Import the creature store dynamically to avoid circular dependencies
-      import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-        const { addCreature, addToken } = useCreatureStore.getState();
+      // Only add token if it's not our own creation (to avoid duplicates) or if it's a sync
+      if (data.playerId !== currentPlayer?.id || isSync) {
+        // Import the creature store dynamically to avoid circular dependencies
+        import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+          const { addCreature, addToken } = useCreatureStore.getState();
 
-        // First ensure the creature exists in the store
-        addCreature(data.creature);
+          // First ensure the creature exists in the store
+          addCreature(data.creature);
 
-        // Then add the token without sending back to server (avoid infinite loop)
-        console.log('🎭 Adding token to local state:', data.creature.name, 'Token ID:', data.token.id);
-        addToken(data.creature.id, data.position, false, data.token.id);
+          // Then add the token without sending back to server (avoid infinite loop)
+          console.log('🎭 Adding token to local state:', data.creature.name, 'Token ID:', data.token.id);
+          addToken(data.creature.id, data.position, false, data.token.id);
 
-        // Show notification in chat only for new creations, not syncs
-        if (!isSync) {
-          addNotification('social', {
-            sender: { name: 'System', class: 'system', level: 0 },
-            content: `${data.playerName} placed ${data.creature.name} on the grid`,
-            type: 'system',
-            timestamp: new Date().toISOString()
-          });
-        }
-      }).catch(error => {
-        console.error('Failed to import creatureStore:', error);
-      });
+          // Show notification in chat only for new creations from other players, not syncs or own creations
+          if (!isSync && data.playerId !== currentPlayer?.id) {
+            addNotification('social', {
+              sender: { name: 'System', class: 'system', level: 0 },
+              content: `${data.playerName} placed ${data.creature.name} on the grid`,
+              type: 'system',
+              timestamp: new Date().toISOString()
+            });
+          }
+        }).catch(error => {
+          console.error('Failed to import creatureStore:', error);
+        });
+      } else {
+        console.log('🎭 Ignoring own token creation to avoid duplicate');
+      }
     });
 
     // Listen for loot events from other players
@@ -304,7 +330,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
 
       // Show in social chat only if it's not our own loot action
-      if (data.playerId !== currentRoom?.gm?.id) {
+      if (data.playerId !== currentPlayer?.id) {
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
           content: `${data.looter} looted ${data.item.name} (x${data.quantity}) from ${data.source}`,
@@ -547,7 +573,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setGMMode(isGameMaster);
 
     // Create/update party with multiplayer players
-    const allPlayers = [room.gm, ...Array.from(room.players.values())];
+    // Include GM and all regular players
+    const allPlayers = [room.gm];
+    if (room.players && room.players.size > 0) {
+      allPlayers.push(...Array.from(room.players.values()));
+    }
+    console.log('🎮 Setting connected players:', allPlayers.map(p => p.name));
     setConnectedPlayers(allPlayers);
 
     // Integrate multiplayer players into party system
@@ -712,7 +743,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         </button>
         <div className="room-info">
           <span className="room-name">{currentRoom.name}</span>
-          <span className="player-count">{connectedPlayers.length + 1} players</span>
+          <span className="player-count">{connectedPlayers.length} players</span>
         </div>
       </div>
     </div>

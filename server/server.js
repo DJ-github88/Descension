@@ -585,8 +585,8 @@ io.on('connection', (socket) => {
         lastMovedAt: new Date()
       };
 
-      // Broadcast token movement to all other players in the room
-      socket.to(player.roomId).emit('token_moved', {
+      // Broadcast token movement to ALL players in the room (including mover for confirmation)
+      io.to(player.roomId).emit('token_moved', {
         tokenId: tokenKey,
         creatureId: existingToken.creatureId,
         position: data.position,
