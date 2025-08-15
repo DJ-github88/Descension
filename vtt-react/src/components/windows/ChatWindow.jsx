@@ -342,9 +342,8 @@ const ChatWindow = () => {
             <div className="friend-name">
               <span
                 style={{
-                  color: notification.sender?.class ?
-                    getClassColor(notification.sender.class) :
-                    '#1a0f08',
+                  color: notification.sender?.playerColor ||
+                    (notification.sender?.class ? getClassColor(notification.sender.class) : '#1a0f08'),
                   fontWeight: '800',
                   textShadow: '0 2px 4px rgba(255, 255, 255, 0.9), 0 0 2px rgba(255, 255, 255, 0.8), 0 1px 0 rgba(255, 255, 255, 0.5)',
                   fontSize: '18px',

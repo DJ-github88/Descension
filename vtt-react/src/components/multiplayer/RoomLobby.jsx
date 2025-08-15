@@ -6,6 +6,7 @@ import './styles/RoomLobby.css';
 
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [playerName, setPlayerName] = useState('');
+  const [playerColor, setPlayerColor] = useState('#4a90e2'); // Default blue color
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
   const [roomPassword, setRoomPassword] = useState('');
@@ -79,7 +80,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         const joinData = {
           roomId: data.room.id,
           playerName: playerName.trim(),
-          password: createdRoomPassword.trim()
+          password: createdRoomPassword.trim(),
+          playerColor: playerColor
         };
 
         console.log('Auto-joining created room:', joinData);
@@ -214,6 +216,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         roomName: roomName.trim(),
         gmName: playerName.trim(),
         password: roomPassword.trim(),
+        playerColor: playerColor,
         persistentRoomId: persistentRoomId // Include Firebase room ID if available
       };
 
@@ -251,7 +254,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const joinData = {
       roomId: room.id,
       playerName: playerName.trim(),
-      password: room.password || '' // This should be handled securely
+      password: room.password || '', // This should be handled securely
+      playerColor: playerColor
     };
 
     console.log('Joining persistent room:', joinData);
@@ -285,7 +289,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const roomData = {
       roomName: roomName.trim(),
       gmName: playerName.trim(),
-      password: roomPassword.trim()
+      password: roomPassword.trim(),
+      playerColor: playerColor
     };
 
     console.log('Creating room with data:', roomData);
@@ -317,7 +322,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const joinData = {
       roomId: finalRoomId.trim(),
       playerName: playerName.trim(),
-      password: finalPassword.trim()
+      password: finalPassword.trim(),
+      playerColor: playerColor
     };
 
     console.log('Joining room with data:', joinData);
@@ -356,16 +362,43 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         )}
 
         <div className="player-name-section">
-          <label htmlFor="playerName">Your Name:</label>
-          <input
-            id="playerName"
-            type="text"
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-            placeholder="Enter your display name"
-            disabled={isConnecting}
-            maxLength={20}
-          />
+          <div className="player-name-row">
+            <div className="name-input-group">
+              <label htmlFor="playerName">Your Name:</label>
+              <input
+                id="playerName"
+                type="text"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.target.value)}
+                placeholder="Enter your display name"
+                disabled={isConnecting}
+                maxLength={20}
+              />
+            </div>
+            <div className="color-input-group">
+              <label htmlFor="playerColor">Chat Color:</label>
+              <div className="color-picker-container">
+                <input
+                  id="playerColor"
+                  type="color"
+                  value={playerColor}
+                  onChange={(e) => setPlayerColor(e.target.value)}
+                  disabled={isConnecting}
+                  className="color-picker"
+                />
+                <div
+                  className="color-preview"
+                  style={{
+                    backgroundColor: playerColor,
+                    color: '#fff',
+                    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
+                  }}
+                >
+                  {playerName || 'Preview'}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="lobby-tabs">

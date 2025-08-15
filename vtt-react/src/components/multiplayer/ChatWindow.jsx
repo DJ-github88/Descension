@@ -131,7 +131,13 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
         {messages.map((message) => (
           <div key={message.id} className={getMessageClass(message)}>
             <div className="message-header">
-              <span className={`player-name ${message.isGM ? 'gm' : ''}`}>
+              <span
+                className={`player-name ${message.isGM ? 'gm' : ''}`}
+                style={{
+                  color: message.playerColor || (message.isGM ? '#d4af37' : '#f0e6d2'),
+                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
+                }}
+              >
                 {message.isGM && '👑 '}
                 {message.playerName}
               </span>

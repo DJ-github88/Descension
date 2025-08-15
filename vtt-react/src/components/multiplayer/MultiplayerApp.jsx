@@ -383,6 +383,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    // Listen for character equipment updates from other players
+    socket.on('character_equipment_updated', (data) => {
+      console.log('🎽 Received equipment update from server:', data);
+
+      // Only process updates from other players (not our own)
+      if (data.updatedBy !== currentRoom?.gm?.id && data.updatedByName !== currentRoom?.gm?.name) {
+        // Show notification in chat
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `${data.updatedByName} ${data.item ? 'equipped' : 'unequipped'} ${data.item?.name || 'an item'} ${data.item ? 'to' : 'from'} ${data.slot}`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
+    });
+
     return () => {
       console.log('Cleaning up socket event listeners');
       socket.off('connect');
@@ -397,6 +413,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('item_looted');
       socket.off('sync_grid_items');
       socket.off('sync_tokens');
+      socket.off('character_equipment_updated');
     };
   }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
 

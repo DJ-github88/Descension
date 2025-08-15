@@ -89,7 +89,7 @@ const loadPersistentRooms = async () => {
 loadPersistentRooms();
 
 // Room management functions
-async function createRoom(roomName, gmName, gmSocketId, password, persistToFirebase = true) {
+async function createRoom(roomName, gmName, gmSocketId, password, playerColor = '#4a90e2', persistToFirebase = true) {
   const roomId = uuidv4();
   const gmPlayerId = uuidv4();
 
@@ -100,7 +100,8 @@ async function createRoom(roomName, gmName, gmSocketId, password, persistToFireb
     gm: {
       id: gmPlayerId,
       name: gmName,
-      socketId: gmSocketId
+      socketId: gmSocketId,
+      color: playerColor
     },
     players: new Map(),
     settings: {
@@ -157,8 +158,8 @@ async function createRoom(roomName, gmName, gmSocketId, password, persistToFireb
   return room;
 }
 
-function joinRoom(roomId, playerName, socketId, password) {
-  console.log('joinRoom called with:', { roomId, playerName, socketId });
+function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2') {
+  console.log('joinRoom called with:', { roomId, playerName, socketId, playerColor });
   const room = rooms.get(roomId);
 
   if (!room) {
@@ -214,6 +215,7 @@ function joinRoom(roomId, playerName, socketId, password) {
     name: playerName,
     socketId: socketId,
     isGM: false,
+    color: playerColor,
     joinedAt: new Date()
   };
   
@@ -307,7 +309,7 @@ io.on('connection', (socket) => {
     }
 
     try {
-      const room = await createRoom(roomName, gmName, socket.id, password);
+      const room = await createRoom(roomName, gmName, socket.id, password, data.playerColor);
       socket.join(room.id);
 
       console.log('Room created successfully:', room.id, 'Total rooms:', rooms.size);
@@ -346,7 +348,7 @@ io.on('connection', (socket) => {
     console.log('Attempting to join room:', roomId, 'Total rooms available:', rooms.size);
     console.log('Available room IDs:', Array.from(rooms.keys()));
 
-    const result = joinRoom(roomId, playerName, socket.id, password);
+    const result = joinRoom(roomId, playerName, socket.id, password, data.playerColor);
 
     if (!result) {
       console.log('❌ Room not found for join request:', roomId);
@@ -456,10 +458,22 @@ io.on('connection', (socket) => {
 
     console.log('💬 Processing chat message from', player.name, 'in room', room.name);
 
+    // Get player color from room data
+    let playerColor = '#4a90e2'; // default
+    if (player.isGM && room.gm.color) {
+      playerColor = room.gm.color;
+    } else {
+      const roomPlayer = room.players.get(player.id);
+      if (roomPlayer && roomPlayer.color) {
+        playerColor = roomPlayer.color;
+      }
+    }
+
     const message = {
       id: uuidv4(),
       playerId: player.id,
       playerName: player.name,
+      playerColor: playerColor,
       isGM: player.isGM,
       content: data.message,
       timestamp: new Date(),
@@ -576,6 +590,64 @@ io.on('connection', (socket) => {
     });
 
     console.log(`Character ${data.characterId} updated by ${player.name}`);
+  });
+
+  // Handle character equipment updates
+  socket.on('character_equipment_updated', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update character equipment in room game state
+    if (!room.gameState.characters) {
+      room.gameState.characters = {};
+    }
+
+    // Update or create character data
+    if (!room.gameState.characters[data.characterId]) {
+      room.gameState.characters[data.characterId] = {};
+    }
+
+    room.gameState.characters[data.characterId] = {
+      ...room.gameState.characters[data.characterId],
+      equipment: data.equipment,
+      stats: data.stats,
+      lastEquipmentUpdate: {
+        slot: data.slot,
+        item: data.item,
+        updatedBy: player.id,
+        updatedAt: new Date()
+      }
+    };
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist equipment update:', error);
+    }
+
+    // Broadcast equipment update to all players in the room
+    io.to(player.roomId).emit('character_equipment_updated', {
+      characterId: data.characterId,
+      slot: data.slot,
+      item: data.item,
+      equipment: data.equipment,
+      stats: data.stats,
+      updatedBy: player.id,
+      updatedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`Equipment updated for character ${data.characterId} by ${player.name}: ${data.slot} -> ${data.item?.name || 'unequipped'}`);
   });
 
   // Handle map/background changes

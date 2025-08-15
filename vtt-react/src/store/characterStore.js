@@ -3,6 +3,7 @@ import { calculateEquipmentBonuses, calculateDerivedStats } from '../utils/chara
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../data/classResources';
 import { applyRacialModifiers, getFullRaceData, getRaceData } from '../data/raceData';
+import { useGameStore } from './gameStore';
 
 // Import test utilities for development
 if (process.env.NODE_ENV === 'development') {
@@ -351,6 +352,26 @@ const useCharacterStore = create((set, get) => ({
                 : state.stats;
             const encumbranceState = getEncumbranceState();
             const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses, {}, encumbranceState);
+
+            // Send equipment update to multiplayer if connected
+            const gameStore = useGameStore.getState();
+            if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                console.log('📦 Sending equipment update to multiplayer server');
+                gameStore.multiplayerSocket.emit('character_equipment_updated', {
+                    characterId: state.id || 'player-character',
+                    slot: slot,
+                    item: item,
+                    equipment: newEquipment,
+                    stats: {
+                        equipmentBonuses,
+                        derivedStats,
+                        health: state.health,
+                        mana: state.mana,
+                        actionPoints: state.actionPoints,
+                        classResource: state.classResource
+                    }
+                });
+            }
 
             // Check if any health/mana affecting bonuses changed
             const oldConBonus = oldEquipmentBonuses.con || 0;
