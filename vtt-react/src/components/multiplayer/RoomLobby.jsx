@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { auth } from '../../services/firebase';
-import { getUserRooms, createPersistentRoom } from '../../services/firebaseService';
+import { auth } from '../../config/firebase';
+import { getUserRooms, createPersistentRoom } from '../../services/roomService';
 import './styles/RoomLobby.css';
 
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
