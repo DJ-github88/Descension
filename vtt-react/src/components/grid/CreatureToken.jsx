@@ -250,6 +250,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           console.log('✅ MOVEMENT IS VALID - Auto-confirming');
           // Auto-confirm valid movement
           confirmMovement(tokenId, validation.additionalAPNeeded, totalDistance);
+        } else {
+          console.log('❌ MOVEMENT IS INVALID - Reverting');
+          // Revert to start position
+          updateTokenPositionWithSync(tokenId, dragStartPosition);
+          updateTempMovementDistance(tokenId, 0);
         }
       } else {
         // Not in combat - send final position update to multiplayer
@@ -260,12 +265,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             isDragging: false // Flag to indicate drag has ended
           });
         }
-      } else {
-          console.log('❌ MOVEMENT IS INVALID - Reverting');
-          // Revert to start position
-          updateTokenPositionWithSync(tokenId, dragStartPosition);
-          updateTempMovementDistance(tokenId, 0);
-        }
+      }
 
         // Clear movement visualization
         clearMovementVisualization();
