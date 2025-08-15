@@ -133,7 +133,14 @@ async function createRoom(roomName, gmName, gmSocketId, password, persistToFireb
   };
 
   rooms.set(roomId, room);
-  // Don't automatically add GM to players map - let the join process handle it
+
+  // Add GM to players tracking immediately when room is created
+  players.set(gmSocketId, {
+    id: gmPlayerId,
+    name: gmName,
+    roomId: roomId,
+    isGM: true
+  });
 
   // Persist to Firebase if enabled
   if (persistToFirebase) {
@@ -169,15 +176,30 @@ function joinRoom(roomId, playerName, socketId, password) {
 
   // Check if this is the GM joining their own room
   if (room.gm.name === playerName) {
-    console.log('GM joining their own room:', room.name);
+    console.log('GM attempting to join their own room:', room.name);
+
+    // Check if GM is already tracked (they should be from room creation)
+    const existingGMPlayer = players.get(socketId);
+    if (existingGMPlayer && existingGMPlayer.isGM) {
+      console.log('GM already tracked, skipping duplicate join');
+      return { room, player: room.gm, isGMReconnect: true };
+    }
+
     room.isActive = true;
     room.gmDisconnectedAt = null;
-    players.set(socketId, {
-      id: room.gm.id,
-      name: playerName,
-      roomId: roomId,
-      isGM: true
-    });
+
+    // Update the GM's socket ID
+    room.gm.socketId = socketId;
+
+    // Only add to players tracking if not already there
+    if (!players.has(socketId)) {
+      players.set(socketId, {
+        id: room.gm.id,
+        name: playerName,
+        roomId: roomId,
+        isGM: true
+      });
+    }
     return { room, player: room.gm, isGMReconnect: true };
   }
 
@@ -251,7 +273,7 @@ function getPublicRooms() {
     .map(room => ({
       id: room.id,
       name: room.name,
-      playerCount: room.players.size + 1, // +1 for GM
+      playerCount: room.players.size + (room.isActive !== false ? 1 : 0), // +1 for GM only if GM is online
       maxPlayers: room.settings.maxPlayers + 1,
       gm: room.gm.name,
       createdAt: room.createdAt,
@@ -381,7 +403,7 @@ io.on('connection', (socket) => {
       console.log(`📢 Current players in room before broadcast:`, Array.from(room.players.values()).map(p => p.name));
       socket.to(roomId).emit('player_joined', {
         player: player,
-        playerCount: room.players.size + 1
+        playerCount: room.players.size + (room.isActive !== false ? 1 : 0) // +1 for GM only if GM is online
       });
 
       console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${room.players.size + 1})`);
@@ -400,19 +422,6 @@ io.on('connection', (socket) => {
       console.log(`🎭 Sending ${Object.keys(room.gameState.tokens).length} tokens to ${playerName}`);
       socket.emit('sync_tokens', {
         tokens: room.gameState.tokens
-      });
-    }
-    if (room.gameState.gridItems && Object.keys(room.gameState.gridItems).length > 0) {
-      console.log(`📦 Syncing ${Object.keys(room.gameState.gridItems).length} grid items to ${playerName}`);
-      Object.values(room.gameState.gridItems).forEach(gridItem => {
-        socket.emit('item_dropped', {
-          item: gridItem,
-          position: gridItem.position,
-          playerId: gridItem.droppedBy,
-          playerName: 'Previous Player',
-          timestamp: gridItem.droppedAt,
-          isSync: true // Flag to indicate this is a sync, not a new drop
-        });
       });
     }
 
@@ -849,7 +858,7 @@ io.on('connection', (socket) => {
         // Notify remaining players
         socket.to(result.room.id).emit('player_left', {
           player: result.player,
-          playerCount: result.room.players.size + 1
+          playerCount: result.room.players.size + (result.room.isActive !== false ? 1 : 0) // +1 for GM only if GM is online
         });
 
         // Update room data in Firebase
