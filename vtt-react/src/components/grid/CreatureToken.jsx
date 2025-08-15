@@ -267,9 +267,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
       }
 
-        // Clear movement visualization
-        clearMovementVisualization();
-      }
+      // Clear movement visualization
+      clearMovementVisualization();
 
       // End dragging
       console.log('🖱️ Setting isDragging to false for token:', tokenId);
