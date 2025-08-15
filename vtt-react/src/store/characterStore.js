@@ -3,7 +3,7 @@ import { calculateEquipmentBonuses, calculateDerivedStats } from '../utils/chara
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../data/classResources';
 import { applyRacialModifiers, getFullRaceData, getRaceData } from '../data/raceData';
-import { useGameStore } from './gameStore';
+import useGameStore from './gameStore';
 
 // Import test utilities for development
 if (process.env.NODE_ENV === 'development') {
