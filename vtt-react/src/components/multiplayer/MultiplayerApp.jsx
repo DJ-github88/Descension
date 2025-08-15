@@ -329,21 +329,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-    // Listen for token synchronization when joining a room
-    socket.on('sync_tokens', (data) => {
-      console.log('🎭 Syncing tokens from server:', Object.keys(data.tokens).length, 'tokens');
 
-      import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-        const { addToken } = useCreatureStore.getState();
-
-        // Add each token without sending back to server
-        Object.values(data.tokens).forEach(token => {
-          addToken(token.creatureId, token.position, false);
-        });
-      }).catch(error => {
-        console.error('Failed to import creatureStore for sync:', error);
-      });
-    });
 
     // Listen for grid item synchronization when joining a room
     socket.on('sync_grid_items', (data) => {

@@ -571,11 +571,17 @@ const useGridItemStore = create(
               looter: looterName,
               gridItemId: gridItemId
             });
-          }
-        }
 
-        // Remove the item from the grid
-        removeItemFromGrid(gridItemId);
+            // In multiplayer, let the server handle the removal and broadcast back
+            // This prevents double removal for the looter
+          } else {
+            // In single player, remove the item locally
+            removeItemFromGrid(gridItemId);
+          }
+        } else {
+          // If not sending to server, remove locally
+          removeItemFromGrid(gridItemId);
+        }
 
         return true;
       },

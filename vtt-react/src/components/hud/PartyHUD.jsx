@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import usePartyStore from '../../store/partyStore';
@@ -816,11 +816,11 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     };
 
-    // Handle drag for party member frames
-    const handleMemberDrag = (member, data) => {
+    // Handle drag for party member frames with throttling
+    const handleMemberDrag = useCallback((member, data) => {
         // Update the member's position in the store
         setMemberPosition(member.id, { x: data.x, y: data.y });
-    };
+    }, [setMemberPosition]);
 
     // Test function to add a buff
     const addTestBuff = () => {

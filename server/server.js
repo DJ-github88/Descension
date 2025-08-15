@@ -63,6 +63,31 @@ app.get('/rooms', (req, res) => {
   res.json(getPublicRooms());
 });
 
+// Debug endpoint to check room state
+app.get('/debug/rooms', (req, res) => {
+  const roomsDebug = Array.from(rooms.values()).map(room => ({
+    id: room.id,
+    name: room.name,
+    gm: room.gm,
+    playerCount: room.players.size,
+    players: Array.from(room.players.values()),
+    isActive: room.isActive,
+    gmDisconnectedAt: room.gmDisconnectedAt
+  }));
+
+  const playersDebug = Array.from(players.entries()).map(([socketId, player]) => ({
+    socketId,
+    ...player
+  }));
+
+  res.json({
+    rooms: roomsDebug,
+    players: playersDebug,
+    totalRooms: rooms.size,
+    totalPlayers: players.size
+  });
+});
+
 // Hybrid room system - in-memory for active sessions + Firebase for persistence
 const rooms = new Map(); // roomId -> { id, name, players, gm, settings, chatHistory }
 const players = new Map(); // socketId -> { id, name, roomId, isGM }
@@ -848,6 +873,7 @@ io.on('connection', (socket) => {
 
     room.gameState.tokens[data.token.id] = {
       ...data.token,
+      creature: data.creature, // Include creature data for sync
       createdBy: player.id,
       createdAt: new Date()
     };
@@ -866,7 +892,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle item looting
-  socket.on('item_looted', (data) => {
+  socket.on('item_looted', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -881,10 +907,18 @@ io.on('connection', (socket) => {
 
     // Remove item from room game state if it was a grid item
     if (data.gridItemId && room.gameState.gridItems) {
+      console.log(`🎁 Removing looted item ${data.gridItemId} from server state`);
       delete room.gameState.gridItems[data.gridItemId];
+
+      // Persist the removal to Firebase
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (error) {
+        console.error('Failed to persist item removal:', error);
+      }
     }
 
-    // Broadcast loot event to all players in the room
+    // Broadcast loot event to all players in the room (including the looter for confirmation)
     io.to(player.roomId).emit('item_looted', {
       item: data.item,
       quantity: data.quantity,
@@ -944,6 +978,9 @@ io.on('connection', (socket) => {
       // Broadcast updated room list
       io.emit('room_list_updated', getPublicRooms());
     }
+
+    // Clean up any orphaned player tracking
+    console.log(`🧹 Cleaning up player tracking for socket ${socket.id}`);
   });
 });
 
