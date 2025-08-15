@@ -585,6 +585,16 @@ io.on('connection', (socket) => {
         lastMovedAt: new Date()
       };
 
+      // Only persist to Firebase on drag end (not during live dragging)
+      if (!data.isDragging) {
+        try {
+          await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+          console.log(`💾 Token position persisted to Firebase for ${tokenKey}`);
+        } catch (error) {
+          console.error('Failed to persist token position:', error);
+        }
+      }
+
       // Broadcast token movement to ALL players in the room (including mover for confirmation)
       io.to(player.roomId).emit('token_moved', {
         tokenId: tokenKey,
@@ -592,6 +602,7 @@ io.on('connection', (socket) => {
         position: data.position,
         playerId: player.id,
         playerName: player.name,
+        isDragging: data.isDragging || false, // Include drag state
         timestamp: new Date()
       });
 
@@ -600,6 +611,32 @@ io.on('connection', (socket) => {
       console.warn(`⚠️ Token ${data.tokenId} not found in room ${room.name} for movement`);
       socket.emit('error', { message: 'Token not found' });
     }
+  });
+
+  // Handle character movement synchronization
+  socket.on('character_moved', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Broadcast character movement to ALL players in the room (including mover for confirmation)
+    io.to(player.roomId).emit('character_moved', {
+      position: data.position,
+      playerId: player.id,
+      playerName: player.name,
+      isDragging: data.isDragging || false,
+      timestamp: new Date()
+    });
+
+    console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
   });
 
   // Handle character sheet updates

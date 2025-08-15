@@ -27,6 +27,9 @@ const CharacterToken = ({
     const contextMenuRef = useRef(null);
     const tooltipTimeoutRef = useRef(null);
 
+    // Throttle multiplayer updates during drag
+    const lastMoveUpdateRef = useRef(null);
+
     // Update local position when prop position changes (but not during dragging)
     useEffect(() => {
         if (!isDragging) {
@@ -177,6 +180,19 @@ const CharacterToken = ({
 
             // Update local position immediately for smooth visual feedback
             setLocalPosition({ x: worldPos.x, y: worldPos.y });
+
+            // Send real-time position updates to multiplayer server during drag
+            if (isInMultiplayer && multiplayerSocket) {
+                // Throttle updates to avoid overwhelming the server (every 50ms)
+                const now = Date.now();
+                if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 50) {
+                    multiplayerSocket.emit('character_moved', {
+                        position: worldPos,
+                        isDragging: true // Flag to indicate this is a live drag update
+                    });
+                    lastMoveUpdateRef.current = now;
+                }
+            }
         };
 
         const handleMouseUp = (e) => {

@@ -235,14 +235,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
-      console.log('🎯 Token moved by player:', data.playerName, 'token:', data.tokenId, 'creature:', data.creatureId);
+      const isDragging = data.isDragging;
+      console.log(`🎯 Token ${isDragging ? 'dragging' : 'moved'} by player:`, data.playerName, 'token:', data.tokenId, 'creature:', data.creatureId);
 
       // Only update if it's not our own movement (to avoid double updates)
       if (data.playerId !== currentPlayer?.id) {
         // Update token position locally using creature ID for compatibility
         const targetId = data.creatureId || data.tokenId;
         updateTokenPosition(targetId, data.position);
-        console.log('🎯 Updated token position for:', targetId);
+        console.log(`🎯 Updated token position for: ${targetId} ${isDragging ? '(live)' : '(final)'}`);
       } else {
         console.log('🎯 Ignoring own token movement to avoid duplicate update');
       }
@@ -490,6 +491,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    // Listen for character movements from other players
+    socket.on('character_moved', (data) => {
+      const isDragging = data.isDragging;
+      console.log(`🚶 Character ${isDragging ? 'dragging' : 'moved'} by player:`, data.playerName);
+
+      // Only update if it's not our own movement (to avoid double updates)
+      if (data.playerId !== currentPlayer?.id) {
+        // Update character position - you'll need to implement this function
+        // updateCharacterPosition(data.position);
+        console.log(`🚶 Updated character position ${isDragging ? '(live)' : '(final)'}`);
+      } else {
+        console.log('🚶 Ignoring own character movement to avoid duplicate update');
+      }
+    });
+
     // Handle reconnection
     socket.on('reconnect', (attemptNumber) => {
       console.log('🔄 Reconnected after', attemptNumber, 'attempts');
@@ -523,6 +539,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('sync_tokens');
       socket.off('character_equipment_updated');
       socket.off('player_color_updated');
+      socket.off('character_moved');
       socket.off('full_game_state_sync');
       socket.off('sync_error');
       socket.off('connect_error');

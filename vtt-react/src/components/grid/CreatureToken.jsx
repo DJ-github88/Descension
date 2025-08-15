@@ -111,6 +111,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Store previous token state for comparison
   const prevTokenStateRef = useRef(null);
 
+  // Throttle multiplayer updates during drag
+  const lastMoveUpdateRef = useRef(null);
+
   // Find the token and creature data
   const token = tokens.find(t => t.id === tokenId);
   const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
@@ -165,6 +168,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // Update local position immediately for smooth visual feedback
       setLocalPosition({ x: worldPos.x, y: worldPos.y });
+
+      // Send real-time position updates to multiplayer server during drag
+      if (isInMultiplayer && multiplayerSocket && token) {
+        // Throttle updates to avoid overwhelming the server (every 50ms)
+        const now = Date.now();
+        if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 50) {
+          multiplayerSocket.emit('token_moved', {
+            tokenId: token.creatureId,
+            position: worldPos,
+            isDragging: true // Flag to indicate this is a live drag update
+          });
+          lastMoveUpdateRef.current = now;
+        }
+      }
 
       // For combat features, we still need some real-time updates but less frequently
       if (isInCombat && dragStartPosition) {
@@ -233,7 +250,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           console.log('✅ MOVEMENT IS VALID - Auto-confirming');
           // Auto-confirm valid movement
           confirmMovement(tokenId, validation.additionalAPNeeded, totalDistance);
-        } else {
+        }
+      } else {
+        // Not in combat - send final position update to multiplayer
+        if (isInMultiplayer && multiplayerSocket && token) {
+          multiplayerSocket.emit('token_moved', {
+            tokenId: token.creatureId,
+            position: finalWorldPos,
+            isDragging: false // Flag to indicate drag has ended
+          });
+        }
+      } else {
           console.log('❌ MOVEMENT IS INVALID - Reverting');
           // Revert to start position
           updateTokenPositionWithSync(tokenId, dragStartPosition);
