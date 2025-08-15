@@ -178,10 +178,15 @@ const useGameStore = create(
             // Update token position
             updateTokenPosition: (creatureId, position) => {
                 const state = get();
+                console.log(`🎯 gameStore.updateTokenPosition called for creatureId: ${creatureId}`, 'Position:', position);
+                console.log(`🎯 Available tokens:`, state.tokens.map(t => ({ id: t.id, creatureId: t.creatureId, position: t.position })));
+
                 const token = state.tokens.find(t => t.creatureId === creatureId);
+                console.log(`🎯 Found token:`, token);
 
                 // Only update if position actually changed
                 if (token && (token.position.x !== position.x || token.position.y !== position.y)) {
+                    console.log(`🎯 Updating token position from`, token.position, 'to', position);
                     set(state => ({
                         tokens: state.tokens.map(t =>
                             t.creatureId === creatureId
@@ -189,6 +194,11 @@ const useGameStore = create(
                                 : t
                         )
                     }));
+                    console.log(`🎯 ✅ Token position updated successfully`);
+                } else if (!token) {
+                    console.warn(`🎯 ❌ Token not found for creatureId: ${creatureId}`);
+                } else {
+                    console.log(`🎯 ⏭️ Position unchanged, skipping update`);
                 }
             },
 

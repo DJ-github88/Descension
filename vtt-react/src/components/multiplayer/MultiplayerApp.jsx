@@ -242,8 +242,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.playerId !== currentPlayer?.id) {
         // Update token position locally using creature ID for compatibility
         const targetId = data.creatureId || data.tokenId;
-        updateTokenPosition(targetId, data.position);
-        console.log(`🎯 Updated token position for: ${targetId} ${isDragging ? '(live)' : '(final)'}`);
+        console.log(`🎯 Attempting to update token position for: ${targetId}`, 'Position:', data.position);
+
+        try {
+          // Try updating via gameStore first
+          updateTokenPosition(targetId, data.position);
+
+          // Also try updating via creatureStore for compatibility
+          import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+            const { updateTokenPosition: updateCreatureTokenPosition } = useCreatureStore.getState();
+            // For creatureStore, we need to find the token by creatureId and update by tokenId
+            const { tokens } = useCreatureStore.getState();
+            const token = tokens.find(t => t.creatureId === targetId);
+            if (token) {
+              console.log(`🎯 Also updating via creatureStore for tokenId: ${token.id}`);
+              updateCreatureTokenPosition(token.id, data.position);
+            }
+          });
+
+          console.log(`🎯 ✅ Successfully updated token position for: ${targetId} ${isDragging ? '(live)' : '(final)'}`);
+        } catch (error) {
+          console.error(`🎯 ❌ Failed to update token position for: ${targetId}`, error);
+        }
       } else {
         console.log('🎯 Ignoring own token movement to avoid duplicate update');
       }
@@ -595,7 +615,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     if (room.players && room.players.size > 0) {
       allPlayers.push(...Array.from(room.players.values()));
     }
-    console.log('🎮 Setting connected players:', allPlayers.map(p => p.name));
+    console.log('🎮 Setting connected players:', allPlayers.map(p => `${p.name} (${p.id})`));
+    console.log('🎮 Total player count:', allPlayers.length);
     setConnectedPlayers(allPlayers);
 
     // Integrate multiplayer players into party system
