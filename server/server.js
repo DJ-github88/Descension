@@ -165,7 +165,8 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
     id: gmPlayerId,
     name: gmName,
     roomId: roomId,
-    isGM: true
+    isGM: true,
+    color: playerColor
   });
 
   // Persist to Firebase if enabled
@@ -223,7 +224,8 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
         id: room.gm.id,
         name: playerName,
         roomId: roomId,
-        isGM: true
+        isGM: true,
+        color: room.gm.color || playerColor
       });
     }
     return { room, player: room.gm, isGMReconnect: true };
@@ -249,7 +251,8 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     id: playerId,
     name: playerName,
     roomId: roomId,
-    isGM: false
+    isGM: false,
+    color: playerColor
   });
 
   console.log(`Player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
@@ -487,10 +490,22 @@ io.on('connection', (socket) => {
     let playerColor = '#4a90e2'; // default
     if (player.isGM && room.gm.color) {
       playerColor = room.gm.color;
+      console.log('💬 Using GM color:', playerColor);
     } else {
-      const roomPlayer = room.players.get(player.id);
+      // Look for player in room.players Map by socket ID first, then by player ID
+      let roomPlayer = null;
+      for (const [socketId, p] of room.players.entries()) {
+        if (p.id === player.id || socketId === socket.id) {
+          roomPlayer = p;
+          break;
+        }
+      }
+
       if (roomPlayer && roomPlayer.color) {
         playerColor = roomPlayer.color;
+        console.log('💬 Using player color:', playerColor, 'for player:', player.name);
+      } else {
+        console.log('💬 No color found for player:', player.name, 'using default:', playerColor);
       }
     }
 
@@ -840,8 +855,8 @@ io.on('connection', (socket) => {
       droppedAt: new Date()
     };
 
-    // Broadcast item drop to all players in the room
-    io.to(player.roomId).emit('item_dropped', {
+    // Broadcast item drop to all OTHER players in the room (not the dropper)
+    socket.to(player.roomId).emit('item_dropped', {
       item: data.item,
       position: data.position,
       playerId: player.id,

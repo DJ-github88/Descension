@@ -213,7 +213,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         sender: {
           name: message.playerName,
           class: message.isGM ? 'GM' : 'Player',
-          level: 1
+          level: 1,
+          playerColor: message.playerColor // Include player color
         },
         content: message.content,
         type: 'message',
@@ -238,6 +239,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const { addItemToGrid } = useGridItemStore.getState();
 
         // Add the item to the grid without sending back to server (avoid infinite loop)
+        console.log('📦 Adding item to grid from server:', data.item.name, 'ID:', data.item.id);
         addItemToGrid(data.item, data.position, false);
 
         // Show notification in chat only for new drops, not syncs
@@ -306,30 +308,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.gridItemId) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { removeItemFromGrid } = useGridItemStore.getState();
+          console.log('🎁 Removing looted item from grid:', data.gridItemId);
           removeItemFromGrid(data.gridItemId);
         }).catch(error => {
           console.error('Failed to import gridItemStore for loot removal:', error);
         });
       }
     });
-
-    // Listen for grid item synchronization when joining a room
-    socket.on('sync_grid_items', (data) => {
-      console.log('📦 Syncing grid items from server:', Object.keys(data.gridItems).length, 'items');
-
-      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-        const { addItemToGrid } = useGridItemStore.getState();
-
-        // Add each grid item without sending back to server
-        Object.values(data.gridItems).forEach(gridItem => {
-          addItemToGrid(gridItem, gridItem.position, false);
-        });
-      }).catch(error => {
-        console.error('Failed to import gridItemStore for sync:', error);
-      });
-    });
-
-
 
     // Listen for grid item synchronization when joining a room
     socket.on('sync_grid_items', (data) => {
