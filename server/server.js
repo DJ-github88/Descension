@@ -377,12 +377,14 @@ io.on('connection', (socket) => {
       });
 
       // Notify other players in the room
+      console.log(`📢 Broadcasting player_joined event to room ${roomId} for player:`, player.name);
+      console.log(`📢 Current players in room before broadcast:`, Array.from(room.players.values()).map(p => p.name));
       socket.to(roomId).emit('player_joined', {
         player: player,
         playerCount: room.players.size + 1
       });
 
-      console.log(`${playerName} joined room: ${room.name}`);
+      console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${room.players.size + 1})`);
     }
 
     // Broadcast room list update to all connected clients
@@ -391,17 +393,22 @@ io.on('connection', (socket) => {
   
   // Handle chat messages
   socket.on('chat_message', async (data) => {
+    console.log('💬 Received chat message:', data, 'from socket:', socket.id);
     const player = players.get(socket.id);
     if (!player) {
+      console.log('❌ Chat message from player not in room');
       socket.emit('error', { message: 'You are not in a room' });
       return;
     }
 
     const room = rooms.get(player.roomId);
     if (!room) {
+      console.log('❌ Chat message but room not found');
       socket.emit('error', { message: 'Room not found' });
       return;
     }
+
+    console.log('💬 Processing chat message from', player.name, 'in room', room.name);
 
     const message = {
       id: uuidv4(),
@@ -429,9 +436,10 @@ io.on('connection', (socket) => {
     }
 
     // Broadcast to all players in the room
+    console.log(`📢 Broadcasting chat message to room ${player.roomId}:`, message.content);
     io.to(player.roomId).emit('chat_message', message);
 
-    console.log(`Chat message from ${player.name} in room ${room.name}: ${data.message}`);
+    console.log(`✅ Chat message from ${player.name} in room ${room.name}: ${data.message}`);
   });
 
   // Handle token movement synchronization

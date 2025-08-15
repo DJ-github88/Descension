@@ -9,10 +9,8 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-// Conditionally use StrictMode - disable in production to avoid potential drag/drop issues
-const AppWrapper = process.env.NODE_ENV === 'production' ?
-  ({ children }) => children :
-  React.StrictMode;
+// Temporarily disable StrictMode to prevent socket recreation issues in multiplayer
+const AppWrapper = ({ children }) => children;
 
 root.render(
   <AppWrapper>

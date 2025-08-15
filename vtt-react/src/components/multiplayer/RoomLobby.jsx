@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { auth } from '../../config/firebase';
-import { getUserRooms, createPersistentRoom } from '../../services/roomService';
+import { auth } from '../../services/firebase';
+import { getUserRooms, createPersistentRoom } from '../../services/firebaseService';
 import './styles/RoomLobby.css';
 
-const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
-  const [socket, setSocket] = useState(null);
+const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [playerName, setPlayerName] = useState('');
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
@@ -25,7 +24,7 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     onJoinRoomRef.current = onJoinRoom;
   }, [onJoinRoom]);
 
-  // Socket server URL - adjust based on environment
+  // Socket server URL for room fetching
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
     (process.env.NODE_ENV === 'production'
       ? 'https://descension-production.up.railway.app' // Your Railway URL
@@ -46,24 +45,24 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
     return () => unsubscribe();
   }, []);
 
+  // Set up socket event listeners when socket is available
   useEffect(() => {
-    // Initialize socket connection
-    const newSocket = io(SOCKET_URL, {
-      autoConnect: false
-    });
+    if (!socket) return;
+
+    console.log('Setting up RoomLobby socket event listeners');
 
     // Socket event listeners
-    newSocket.on('connect', () => {
-      console.log('Connected to server');
+    const handleConnect = () => {
+      console.log('Connected to server in RoomLobby');
       setIsConnecting(false);
       fetchAvailableRooms();
-    });
+    };
 
-    newSocket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
+    const handleDisconnect = () => {
+      console.log('Disconnected from server in RoomLobby');
+    };
 
-    newSocket.on('room_created', (data) => {
+    const handleRoomCreated = (data) => {
       console.log('Room created successfully:', data);
       setIsConnecting(false);
 
@@ -84,13 +83,13 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
         };
 
         console.log('Auto-joining created room:', joinData);
-        console.log('Socket connected:', newSocket.connected);
-        console.log('Socket ID:', newSocket.id);
-        newSocket.emit('join_room', joinData);
+        console.log('Socket connected:', socket.connected);
+        console.log('Socket ID:', socket.id);
+        socket.emit('join_room', joinData);
       }, 100); // Small delay to ensure room is fully created
-    });
+    };
 
-    newSocket.on('room_joined', (data) => {
+    const handleRoomJoined = (data) => {
       console.log('Room joined successfully:', data);
       console.log('Player name:', playerName.trim());
       console.log('Room GM name:', data.room.gm?.name);
@@ -101,32 +100,52 @@ const RoomLobby = ({ onJoinRoom, onReturnToLanding }) => {
       const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerName.trim());
       console.log('Determined isGM:', isGM);
 
-      console.log('Calling onJoinRoom with:', { room: data.room, socket: newSocket, isGM });
-      onJoinRoomRef.current(data.room, newSocket, isGM);
-    });
+      console.log('Calling onJoinRoom with:', { room: data.room, socket: socket, isGM });
+      onJoinRoomRef.current(data.room, socket, isGM);
+    };
 
-    newSocket.on('error', (data) => {
+    const handleError = (data) => {
       console.error('Socket error:', data);
-      setError(data.message);
+      setError(data.message || 'An unknown error occurred');
       setIsConnecting(false);
-    });
+    };
 
-    newSocket.on('room_list_updated', (rooms) => {
+    const handleConnectError = (error) => {
+      console.error('Socket connection error:', error);
+      setError('Failed to connect to server. Please check your connection and try again.');
+      setIsConnecting(false);
+    };
+
+    const handleRoomListUpdated = (rooms) => {
       console.log('Room list updated:', rooms);
       setAvailableRooms(rooms);
-    });
+    };
 
-    setSocket(newSocket);
+    // Add event listeners
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+    socket.on('room_created', handleRoomCreated);
+    socket.on('room_joined', handleRoomJoined);
+    socket.on('error', handleError);
+    socket.on('connect_error', handleConnectError);
+    socket.on('room_list_updated', handleRoomListUpdated);
 
-    // Connect to server
-    newSocket.connect();
+    // Fetch rooms if already connected
+    if (socket.connected) {
+      fetchAvailableRooms();
+    }
 
     return () => {
-      // Don't disconnect the socket here - let the parent component manage it
-      // This prevents disconnection when transitioning to the game
-      console.log('RoomLobby unmounting - socket will be managed by parent');
+      console.log('Cleaning up RoomLobby socket event listeners');
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
+      socket.off('room_created', handleRoomCreated);
+      socket.off('room_joined', handleRoomJoined);
+      socket.off('error', handleError);
+      socket.off('connect_error', handleConnectError);
+      socket.off('room_list_updated', handleRoomListUpdated);
     };
-  }, [SOCKET_URL]); // Removed onJoinRoom from dependencies to prevent socket recreation
+  }, [socket, playerName, roomPassword]); // Dependencies for the event handlers
 
   const fetchAvailableRooms = async () => {
     try {
