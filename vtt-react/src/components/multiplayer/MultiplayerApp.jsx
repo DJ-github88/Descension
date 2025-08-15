@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
+import EnvironmentDebug from '../debug/EnvironmentDebug';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -41,6 +42,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     (process.env.NODE_ENV === 'production'
       ? 'https://descension-production.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
+
+  console.log('🌐 Multiplayer Environment Check:');
+  console.log('🌐 NODE_ENV:', process.env.NODE_ENV);
+  console.log('🌐 REACT_APP_SOCKET_URL:', process.env.REACT_APP_SOCKET_URL);
+  console.log('🌐 Final SOCKET_URL:', SOCKET_URL);
 
   // Initialize socket connection when component mounts
   useEffect(() => {
@@ -418,6 +424,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Clean VTT interface with integrated multiplayer
   return (
     <div className="multiplayer-vtt">
+      {/* Environment Debug - only show in development or when needed */}
+      {(process.env.NODE_ENV === 'development' || window.location.search.includes('debug=true')) && (
+        <EnvironmentDebug />
+      )}
+
       {/* Full VTT Interface */}
       <div className="vtt-game-screen">
         <Grid />
