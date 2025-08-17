@@ -236,36 +236,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for token movements from other players
     socket.on('token_moved', (data) => {
       const isDragging = data.isDragging;
-      console.log(`🎯 Token ${isDragging ? 'dragging' : 'moved'} by player:`, data.playerName, 'token:', data.tokenId, 'creature:', data.creatureId);
 
       // Only update if it's not our own movement (to avoid double updates)
       if (data.playerId !== currentPlayer?.id) {
-        // Update token position locally using creature ID for compatibility
-        const targetId = data.creatureId || data.tokenId;
-        console.log(`🎯 Attempting to update token position for: ${targetId}`, 'Position:', data.position);
+        // Update token position locally using creatureStore only (avoid dual store updates)
+        import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
+          const { updateTokenPosition: updateCreatureTokenPosition } = useCreatureStore.getState();
+          const { tokens } = useCreatureStore.getState();
 
-        try {
-          // Try updating via gameStore first
-          updateTokenPosition(targetId, data.position);
+          // Find token by creatureId and update by tokenId
+          const targetId = data.creatureId || data.tokenId;
+          const token = tokens.find(t => t.creatureId === targetId);
 
-          // Also try updating via creatureStore for compatibility
-          import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-            const { updateTokenPosition: updateCreatureTokenPosition } = useCreatureStore.getState();
-            // For creatureStore, we need to find the token by creatureId and update by tokenId
-            const { tokens } = useCreatureStore.getState();
-            const token = tokens.find(t => t.creatureId === targetId);
-            if (token) {
-              console.log(`🎯 Also updating via creatureStore for tokenId: ${token.id}`);
-              updateCreatureTokenPosition(token.id, data.position);
-            }
-          });
-
-          console.log(`🎯 ✅ Successfully updated token position for: ${targetId} ${isDragging ? '(live)' : '(final)'}`);
-        } catch (error) {
-          console.error(`🎯 ❌ Failed to update token position for: ${targetId}`, error);
-        }
-      } else {
-        console.log('🎯 Ignoring own token movement to avoid duplicate update');
+          if (token) {
+            updateCreatureTokenPosition(token.id, data.position);
+          }
+        }).catch(error => {
+          console.error('Failed to update token position:', error);
+        });
       }
     });
 

@@ -120,7 +120,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Helper function to update token position with multiplayer sync
   const updateTokenPositionWithSync = (tokenId, position, sendToServer = true) => {
-    // Update local position using creatureStore
+    // Update local position using creatureStore only (avoid dual store updates)
     updateTokenPosition(tokenId, position);
 
     // Only send to server when explicitly requested (e.g., on drag end)
@@ -171,9 +171,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // Send real-time position updates to multiplayer server during drag
       if (isInMultiplayer && multiplayerSocket && token) {
-        // Throttle updates to avoid overwhelming the server (every 16ms ≈ 60fps)
+        // Throttle updates more aggressively to reduce lag (every 50ms ≈ 20fps)
         const now = Date.now();
-        if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 16) {
+        if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 50) {
           multiplayerSocket.emit('token_moved', {
             tokenId: token.creatureId,
             position: worldPos,
@@ -204,8 +204,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       e.preventDefault();
       e.stopPropagation();
 
-      console.log('🖱️ Mouse up event triggered for token:', tokenId, 'isDragging:', isDragging);
-
       // Calculate final position
       const screenX = e.clientX - dragOffset.x;
       const screenY = e.clientY - dragOffset.y;
@@ -220,8 +218,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Snap to grid center for proper alignment
       const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
       const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-
-      console.log('🖱️ Mouse up - rawWorldPos:', rawWorldPos, 'gridCoords:', gridCoords, 'finalWorldPos:', finalWorldPos);
 
       // Update token position to snapped grid center (with multiplayer sync)
       updateTokenPositionWithSync(tokenId, finalWorldPos);
@@ -271,21 +267,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       clearMovementVisualization();
 
       // End dragging
-      console.log('🖱️ Setting isDragging to false for token:', tokenId);
       setIsDragging(false);
       setDragStartPosition(null);
     };
 
     if (isDragging) {
-      console.log('🖱️ Adding mouse event listeners for token:', tokenId);
       document.addEventListener('mousemove', handleMouseMove, { passive: false });
       document.addEventListener('mouseup', handleMouseUp, { passive: false });
     }
 
     return () => {
-      if (isDragging) {
-        console.log('🖱️ Removing mouse event listeners for token:', tokenId);
-      }
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
@@ -405,8 +396,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleMouseEnter = (e) => {
     if (!tokenRef.current) return;
 
-    console.log('🖱️ Mouse entered creature token:', creature?.name);
-
     // Clear any existing timeout
     if (tooltipTimeoutRef.current) {
       clearTimeout(tooltipTimeoutRef.current);
@@ -448,7 +437,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Handle mouse leave (hide tooltip)
   const handleMouseLeave = () => {
-    console.log('🖱️ Mouse left creature token:', creature?.name);
     // Clear timeout and hide tooltip
     if (tooltipTimeoutRef.current) {
       clearTimeout(tooltipTimeoutRef.current);
@@ -765,7 +753,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       y: e.clientY - screenPosition.y
     });
 
-    console.log('🖱️ Starting drag for token:', tokenId);
     setIsDragging(true);
     setShowTooltip(false);
 
@@ -818,14 +805,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             : '0 2px 8px rgba(0, 0, 0, 0.3)'
         }}
         onContextMenu={handleContextMenu}
-        onMouseEnter={(e) => {
-          console.log('🖱️ MOUSE ENTER EVENT FIRED for:', creature?.name);
-          handleMouseEnter(e);
-        }}
-        onMouseLeave={(e) => {
-          console.log('🖱️ MOUSE LEAVE EVENT FIRED for:', creature?.name);
-          handleMouseLeave(e);
-        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onMouseDown={handleMouseDown}
       >
         <div
