@@ -7,6 +7,12 @@
   NODE_VERSION = "18"
   NODE_ENV = "production"
   GENERATE_SOURCEMAP = "false"
+  # Enable build optimizations
+  CI = "true"
+  # Increase memory for build process
+  NODE_OPTIONS = "--max-old-space-size=8192"
+  # Enable production optimizations
+  REACT_APP_BUILD_MODE = "production"
 
 [[headers]]
   for = "/*"

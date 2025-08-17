@@ -1,73 +1,88 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import Grid from "./components/Grid";
-import Navigation from "./components/Navigation";
 import GameProvider from "./components/GameProvider";
-import HUDContainer from "./components/hud/HUDContainer";
-import GridItemsManager from "./components/grid/GridItemsManager";
-import GMPlayerToggle from "./components/level-editor/GMPlayerToggle";
-import DynamicFogManager from "./components/level-editor/DynamicFogManager";
-import DynamicLightingManager from "./components/level-editor/DynamicLightingManager";
-import AtmosphericEffectsManager from "./components/level-editor/AtmosphericEffectsManager";
-
-import ActionBar from "./components/ui/ActionBar";
-import CombatSelectionWindow from "./components/combat/CombatSelectionOverlay";
-// import CombatTimeline from "./components/combat/CombatTimeline"; // Removed per user request
-import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
+import useAuthStore from "./store/authStore";
 
-// Multiplayer components
-import MultiplayerApp from "./components/multiplayer/MultiplayerApp";
-// Landing page
+// Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
-// Authentication components
 import AuthModal from "./components/auth/AuthModal";
 import UserProfile from "./components/auth/UserProfile";
-// Account management pages
-import AccountDashboard from "./components/account/AccountDashboard";
-import CharacterManagement from "./components/account/CharacterManagement";
-import CharacterCreationPage from "./components/account/CharacterCreationPage";
-import useAuthStore from "./store/authStore";
+
+// Lazy load heavy components to reduce initial bundle size
+const Grid = lazy(() => import("./components/Grid"));
+const Navigation = lazy(() => import("./components/Navigation"));
+const HUDContainer = lazy(() => import("./components/hud/HUDContainer"));
+const GridItemsManager = lazy(() => import("./components/grid/GridItemsManager"));
+const GMPlayerToggle = lazy(() => import("./components/level-editor/GMPlayerToggle"));
+const DynamicFogManager = lazy(() => import("./components/level-editor/DynamicFogManager"));
+const DynamicLightingManager = lazy(() => import("./components/level-editor/DynamicLightingManager"));
+const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/AtmosphericEffectsManager"));
+const ActionBar = lazy(() => import("./components/ui/ActionBar"));
+const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
+const FloatingCombatTextManager = lazy(() => import("./components/combat/FloatingCombatText").then(module => ({ default: module.FloatingCombatTextManager })));
+
+// Lazy load page components
+const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
+const AccountDashboard = lazy(() => import("./components/account/AccountDashboard"));
+const CharacterManagement = lazy(() => import("./components/account/CharacterManagement"));
+const CharacterCreationPage = lazy(() => import("./components/account/CharacterCreationPage"));
 
 
 import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
-// PRELOAD: Import Pathfinder spell wizard styles upfront to see their impact
-import './components/spellcrafting-wizard/styles/pathfinder/main.css';
-import './components/spellcrafting-wizard/styles/pathfinder/collections.css';
-// NUCLEAR OPTION: Complete character sheet isolation
-import './styles/character-sheet-isolation.css';
-// Player notification styles
-import './styles/player-notification.css';
-// Import WoW Classic tooltip styles
-import './styles/wow-classic-tooltip.css';
-// Import game screen styles
-import './styles/game-screen.css';
-// Import grid item styles
-import './styles/grid-item.css';
-// Import party HUD styles
-import './styles/party-hud.css';
-// Import creature and character token styles
-import './styles/creature-token.css';
 
+// Core styles that are always needed
+import './styles/player-notification.css';
+import './styles/wow-classic-tooltip.css';
+
+// Lazy load game-specific styles
+const loadGameStyles = () => {
+    import('./components/spellcrafting-wizard/styles/pathfinder/main.css');
+    import('./components/spellcrafting-wizard/styles/pathfinder/collections.css');
+    import('./styles/character-sheet-isolation.css');
+    import('./styles/game-screen.css');
+    import('./styles/grid-item.css');
+    import('./styles/party-hud.css');
+    import('./styles/creature-token.css');
+};
+
+
+// Loading fallback component
+const LoadingFallback = ({ message = "Loading..." }) => (
+    <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'var(--pf-gradient-parchment)',
+        color: 'var(--pf-text-primary)',
+        fontFamily: 'Cinzel, serif',
+        fontSize: '1.2rem'
+    }}>
+        {message}
+    </div>
+);
 
 function GameScreen() {
+    // Load game-specific styles when game screen is rendered
+    useEffect(() => {
+        loadGameStyles();
+    }, []);
+
     return (
         <div className="game-screen">
-            <Grid />
-            <GridItemsManager />
-            <HUDContainer />
-            <ActionBar />
-            <CombatSelectionWindow />
-            {/* <CombatTimeline /> */} {/* Removed per user request */}
-            <FloatingCombatTextManager />
-            {/* Dynamic Fog of War Manager - runs in background */}
-            <DynamicFogManager />
-            {/* Dynamic Lighting Manager - runs in background */}
-            <DynamicLightingManager />
-            {/* Atmospheric Effects Manager - weather and environmental effects */}
-            <AtmosphericEffectsManager />
-
+            <Suspense fallback={<LoadingFallback message="Loading game..." />}>
+                <Grid />
+                <GridItemsManager />
+                <HUDContainer />
+                <ActionBar />
+                <CombatSelectionWindow />
+                <FloatingCombatTextManager />
+                <DynamicFogManager />
+                <DynamicLightingManager />
+                <AtmosphericEffectsManager />
+            </Suspense>
         </div>
     );
 }
@@ -237,7 +252,9 @@ const AppContent = ({
                         {/* Account management routes */}
                         <Route path="/account" element={
                             isAuthenticated ? (
-                                <AccountDashboard user={user} />
+                                <Suspense fallback={<LoadingFallback message="Loading account..." />}>
+                                    <AccountDashboard user={user} />
+                                </Suspense>
                             ) : (
                                 <Navigate to="/" replace />
                             )
@@ -245,7 +262,9 @@ const AppContent = ({
 
                         <Route path="/account/characters" element={
                             isAuthenticated ? (
-                                <CharacterManagement user={user} />
+                                <Suspense fallback={<LoadingFallback message="Loading characters..." />}>
+                                    <CharacterManagement user={user} />
+                                </Suspense>
                             ) : (
                                 <Navigate to="/" replace />
                             )
@@ -253,7 +272,9 @@ const AppContent = ({
 
                         <Route path="/account/characters/create" element={
                             isAuthenticated ? (
-                                <CharacterCreationPage user={user} />
+                                <Suspense fallback={<LoadingFallback message="Loading character creation..." />}>
+                                    <CharacterCreationPage user={user} />
+                                </Suspense>
                             ) : (
                                 <Navigate to="/" replace />
                             )
@@ -261,7 +282,9 @@ const AppContent = ({
 
                         <Route path="/account/characters/edit/:characterId" element={
                             isAuthenticated ? (
-                                <CharacterCreationPage user={user} isEditing={true} />
+                                <Suspense fallback={<LoadingFallback message="Loading character editor..." />}>
+                                    <CharacterCreationPage user={user} isEditing={true} />
+                                </Suspense>
                             ) : (
                                 <Navigate to="/" replace />
                             )
@@ -271,25 +294,29 @@ const AppContent = ({
                         <Route path="/game" element={
                             <div className="spell-wizard-container">
                                 <GameScreen />
-                                <Navigation
-                                    onReturnToLanding={handleReturnToLandingWithNavigation}
+                                <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
+                                    <Navigation
+                                        onReturnToLanding={handleReturnToLandingWithNavigation}
+                                        onShowLogin={handleShowLogin}
+                                        onShowUserProfile={handleShowUserProfile}
+                                        isAuthenticated={isAuthenticated}
+                                        user={user}
+                                    />
+                                    <GMPlayerToggle />
+                                </Suspense>
+                            </div>
+                        } />
+
+                        <Route path="/multiplayer" element={
+                            <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
+                                <MultiplayerApp
+                                    onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
                                     onShowLogin={handleShowLogin}
                                     onShowUserProfile={handleShowUserProfile}
                                     isAuthenticated={isAuthenticated}
                                     user={user}
                                 />
-                                <GMPlayerToggle />
-                            </div>
-                        } />
-
-                        <Route path="/multiplayer" element={
-                            <MultiplayerApp
-                                onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                                onShowLogin={handleShowLogin}
-                                onShowUserProfile={handleShowUserProfile}
-                                isAuthenticated={isAuthenticated}
-                                user={user}
-                            />
+                            </Suspense>
                         } />
 
                         {/* Redirect unknown routes to home */}

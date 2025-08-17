@@ -4,7 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Virtual Tabletop Game" />
+    <meta name="description" content="Mythrill - The Ultimate Fantasy TTRPG Experience. Create characters, join parties, and experience tabletop gaming like never before." />
+
+    <!-- Resource hints for performance -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://wow.zamimg.com">
+    <link rel="dns-prefetch" href="https://mythrill-ff7c6.firebaseapp.com">
 
     <!-- Enhanced Process and Global polyfills - must be first -->
     <script>
@@ -117,10 +124,69 @@
       })();
     </script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Custom minimal FontAwesome CSS - only load icons we actually use -->
+    <style>
+      /* FontAwesome base styles */
+      .fas, .far, .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands";
+        font-weight: 900;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .far { font-weight: 400; }
+      .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+
+      /* Only the icons we actually use */
+      .fa-gem::before { content: "\f3a5"; }
+      .fa-dragon::before { content: "\f6d5"; }
+      .fa-dice-d20::before { content: "\f6cf"; }
+      .fa-magic::before { content: "\f0d0"; }
+      .fa-users::before { content: "\f0c0"; }
+      .fa-hammer::before { content: "\f6e3"; }
+      .fa-user-shield::before { content: "\f505"; }
+      .fa-google::before { content: "\f1a0"; }
+      .fa-shield-alt::before { content: "\f3ed"; }
+      .fa-cloud::before { content: "\f0c2"; }
+      .fa-sign-in-alt::before { content: "\f2f6"; }
+      .fa-info-circle::before { content: "\f05a"; }
+      .fa-home::before { content: "\f015"; }
+      .fa-crown::before { content: "\f521"; }
+      .fa-user-cog::before { content: "\f4fe"; }
+      .fa-chevron-up::before { content: "\f077"; }
+      .fa-store::before { content: "\f54e"; }
+      .fa-heart::before { content: "\f004"; }
+      .fa-tint::before { content: "\f043"; }
+      .fa-bolt::before { content: "\f0e7"; }
+      .fa-chart-bar::before { content: "\f080"; }
+      .fa-fire::before { content: "\f06d"; }
+      .fa-wand-sparkles::before { content: "\e2ca"; }
+      .fa-skull::before { content: "\f54c"; }
+      .fa-hand-sparkles::before { content: "\e05d"; }
+      .fa-plus::before { content: "\f067"; }
+      .fa-minus::before { content: "\f068"; }
+      .fa-trash::before { content: "\f1f8"; }
+      .fa-times::before { content: "\f00d"; }
+      .fa-leaf::before { content: "\f06c"; }
+      .fa-moon::before { content: "\f186"; }
+      .fa-sun::before { content: "\f185"; }
+      .fa-coins::before { content: "\f51e"; }
+      .fa-snowflake::before { content: "\f2dc"; }
+      .fa-hand-paper::before { content: "\f256"; }
+      .fa-ban::before { content: "\f05e"; }
+    </style>
+    <!-- Load FontAwesome fonts asynchronously -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Optimize Google Fonts loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load fonts asynchronously to prevent render blocking -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap"></noscript>
     <title>VTT Game</title>
     <!-- Force deployment refresh -->
   </head>

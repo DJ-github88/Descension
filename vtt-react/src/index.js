@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import './styles/currency-notification.css';
 import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -17,3 +18,6 @@ root.render(
     <App />
   </AppWrapper>
 );
+
+// Register service worker for caching and performance
+serviceWorkerRegistration.register();
