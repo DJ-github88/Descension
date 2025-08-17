@@ -57,15 +57,16 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
                 width: `${tokenSize}px`,
                 height: `${tokenSize}px`,
                 borderRadius: '50%',
-                border: `3px solid ${characterData.tokenSettings?.borderColor || '#4CAF50'}`,
+                border: `4px solid ${characterData.tokenSettings?.borderColor || '#FFD700'}`,
                 backgroundImage: `url(${getCharacterImage()})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 pointerEvents: 'none',
                 zIndex: 10000,
-                opacity: 0.8,
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
+                opacity: 0.9,
+                boxShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.5)',
+                animation: 'pulse 1.5s infinite'
             }}
         >
             {/* Character name label */}
@@ -558,8 +559,12 @@ export default function Grid() {
             const { character, isSelf } = event.detail;
             if (isSelf) {
                 console.log('🎭 Starting character token placement mode');
+                console.log('🎭 Current mouse position:', mousePosition);
                 // Start character token dragging mode - token will follow mouse until clicked
                 setIsDraggingCharacterToken(true);
+
+                // Show immediate feedback to user
+                console.log('🎭 Character token placement mode activated! Look for instructions at top of screen.');
             } else {
                 console.log('🎭 Not self character, ignoring token creation');
             }
@@ -567,7 +572,7 @@ export default function Grid() {
 
         window.addEventListener('createCharacterToken', handleCreateCharacterToken);
         return () => window.removeEventListener('createCharacterToken', handleCreateCharacterToken);
-    }, []);
+    }, [mousePosition]);
 
     // Listen for escape key to cancel character token placement
     useEffect(() => {
@@ -2360,6 +2365,17 @@ export default function Grid() {
             {/* Character Token Placement Preview */}
             {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}
 
+            {/* Character Token Placement Cursor Override */}
+            {isDraggingCharacterToken && (
+                <style>
+                    {`
+                        * {
+                            cursor: crosshair !important;
+                        }
+                    `}
+                </style>
+            )}
+
             {/* Character Token Placement Instructions */}
             {isDraggingCharacterToken && (
                 <div
@@ -2368,20 +2384,24 @@ export default function Grid() {
                         top: '20px',
                         left: '50%',
                         transform: 'translateX(-50%)',
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        color: 'white',
-                        padding: '10px 20px',
-                        borderRadius: '8px',
-                        fontSize: '14px',
+                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                        color: '#FFD700',
+                        padding: '15px 25px',
+                        borderRadius: '12px',
+                        fontSize: '16px',
                         fontWeight: 'bold',
                         zIndex: 10001,
                         textAlign: 'center',
-                        pointerEvents: 'none'
+                        pointerEvents: 'none',
+                        border: '2px solid #FFD700',
+                        boxShadow: '0 4px 20px rgba(255, 215, 0, 0.3)',
+                        animation: 'pulse 2s infinite'
                     }}
                 >
-                    🎭 Character Token Placement<br/>
-                    <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
-                        Left-click to place • Right-click or ESC to cancel
+                    🎭 CHARACTER TOKEN PLACEMENT MODE<br/>
+                    <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#FFF' }}>
+                        Left-click anywhere on the grid to place your token<br/>
+                        Right-click or press ESC to cancel
                     </span>
                 </div>
             )}
