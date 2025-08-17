@@ -1110,6 +1110,54 @@ io.on('connection', (socket) => {
     console.log(`🎭 Token ${data.creature.name} (${tokenId}) created by ${player.name} at`, data.position);
   });
 
+  // Handle character token creation
+  socket.on('character_token_created', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Store character token in room state
+    if (!room.gameState.characterTokens) {
+      room.gameState.characterTokens = {};
+    }
+
+    const characterToken = {
+      id: data.tokenId,
+      playerId: player.id,
+      playerName: player.name,
+      position: data.position,
+      createdAt: new Date()
+    };
+
+    room.gameState.characterTokens[data.tokenId] = characterToken;
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist character token creation:', error);
+    }
+
+    // Broadcast character token creation to ALL players in the room (including creator for confirmation)
+    io.to(player.roomId).emit('character_token_created', {
+      tokenId: data.tokenId,
+      position: data.position,
+      playerId: player.id,
+      playerName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`🎭 Character token ${data.tokenId} created by ${player.name} at`, data.position);
+  });
+
   // Handle item looting
   socket.on('item_looted', async (data) => {
     const player = players.get(socket.id);

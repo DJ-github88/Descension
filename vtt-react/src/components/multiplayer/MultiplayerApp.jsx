@@ -351,6 +351,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Listen for character movements from other players
+    socket.on('character_moved', (data) => {
+      // Only update if it's not our own movement (to avoid double updates)
+      if (data.playerId !== currentPlayer?.id) {
+        console.log(`👤 Character moved by ${data.playerName}:`, data.position);
+
+        // Update character position in character token store
+        const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+        // For now, we'll need to identify which character token this belongs to
+        // This might need enhancement based on how character tokens are identified
+        updateCharacterTokenPosition(data.playerId, data.position);
+      }
+    });
+
     // Listen for item drops from other players
     socket.on('item_dropped', (data) => {
       const isSync = data.isSync;
@@ -409,6 +423,37 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       } else {
         console.log('🎭 Ignoring own token creation to avoid duplicate');
       }
+    });
+
+    // Listen for character token creation from other players
+    socket.on('character_token_created', (data) => {
+      console.log(`🎭 Character token created by ${data.playerName}:`, data.position, 'Player ID:', data.playerId);
+
+      // Import character token store dynamically to avoid circular dependencies
+      import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+        const { addCharacterTokenFromServer } = useCharacterTokenStore.getState();
+
+        // Add character token directly from server data (bypasses multiplayer sending)
+        if (addCharacterTokenFromServer) {
+          addCharacterTokenFromServer(data.tokenId, data.position, data.playerId);
+        } else {
+          // Fallback to regular method but don't send to server
+          const { addCharacterToken } = useCharacterTokenStore.getState();
+          addCharacterToken(data.position, data.playerId, false); // false = don't send to server
+        }
+
+        // Show notification in chat only if it's not our own creation
+        if (data.playerId !== currentPlayer?.id) {
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${data.playerName} placed their character token on the grid`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }
+      }).catch(error => {
+        console.error('Failed to import characterTokenStore:', error);
+      });
     });
 
     // Listen for loot events from other players

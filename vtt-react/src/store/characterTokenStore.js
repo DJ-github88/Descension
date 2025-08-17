@@ -9,7 +9,7 @@ const useCharacterTokenStore = create(
             characterTokens: [],
 
             // Add a character token to the grid
-            addCharacterToken: (position, playerId = null) => set(state => {
+            addCharacterToken: (position, playerId = null, sendToServer = true) => set(state => {
                 console.log('🎭 addCharacterToken called with position:', position, 'playerId:', playerId);
                 console.log('🎭 Current character tokens:', state.characterTokens);
 
@@ -44,8 +44,8 @@ const useCharacterTokenStore = create(
 
                 console.log('🎭 Created new character token:', newToken);
 
-                // Send to multiplayer server if in multiplayer mode
-                if (playerId) {
+                // Send to multiplayer server if in multiplayer mode and sendToServer is true
+                if (playerId && sendToServer) {
                     import('../store/gameStore').then(({ default: useGameStore }) => {
                         const gameStore = useGameStore.getState();
                         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
@@ -60,6 +60,34 @@ const useCharacterTokenStore = create(
                     });
                 }
 
+                return {
+                    characterTokens: [
+                        ...state.characterTokens,
+                        newToken
+                    ]
+                };
+            }),
+
+            // Add character token from server (no multiplayer sending)
+            addCharacterTokenFromServer: (tokenId, position, playerId) => set(state => {
+                console.log('🎭 addCharacterTokenFromServer called with:', { tokenId, position, playerId });
+
+                // Check if token already exists
+                const existingToken = state.characterTokens.find(t => t.id === tokenId);
+                if (existingToken) {
+                    console.log('🎭 Character token already exists, skipping:', tokenId);
+                    return state;
+                }
+
+                const newToken = {
+                    id: tokenId,
+                    isPlayerToken: false, // Server tokens are not local player tokens
+                    playerId: playerId,
+                    position,
+                    createdAt: Date.now()
+                };
+
+                console.log('🎭 Added character token from server:', newToken);
                 return {
                     characterTokens: [
                         ...state.characterTokens,
