@@ -124,6 +124,28 @@ class EnhancedMultiplayerClient {
       this.emit('player_left', data);
     });
 
+    // Token movement events
+    this.socket.on('token_moved', (data) => {
+      this.handleTokenMoved(data);
+    });
+
+    this.socket.on('character_moved', (data) => {
+      this.handleCharacterMoved(data);
+    });
+
+    // Item and loot events
+    this.socket.on('item_dropped', (data) => {
+      this.handleItemDropped(data);
+    });
+
+    this.socket.on('item_looted', (data) => {
+      this.handleItemLooted(data);
+    });
+
+    this.socket.on('token_created', (data) => {
+      this.handleTokenCreated(data);
+    });
+
     this.socket.on('error', (error) => {
       console.error('🚨 Multiplayer error:', error);
       this.emit('error', error);
@@ -558,6 +580,84 @@ class EnhancedMultiplayerClient {
   handleInventoryChanged(data) {
     this.updateConfirmedState('inventories', data.playerId, data.inventory);
     this.emit('inventory_changed', data);
+  }
+
+  /**
+   * Handle character movement from server
+   */
+  handleCharacterMoved(data) {
+    console.log('👤 Character moved:', data);
+
+    // Update confirmed state
+    this.updateConfirmedState('characters', `character_${data.playerId}`, {
+      position: data.position,
+      lastMovedAt: data.timestamp
+    });
+
+    // Emit to game components
+    this.emit('character_moved', data);
+  }
+
+  /**
+   * Handle item dropped on grid
+   */
+  handleItemDropped(data) {
+    console.log('📦 Item dropped:', data);
+
+    // Update confirmed state
+    if (!this.confirmedState.gridItems) {
+      this.confirmedState.gridItems = {};
+    }
+
+    this.confirmedState.gridItems[data.item.id] = {
+      ...data.item,
+      position: data.position,
+      gridPosition: data.gridPosition,
+      droppedBy: data.playerId,
+      droppedByName: data.playerName,
+      droppedAt: data.timestamp
+    };
+
+    // Emit to game components
+    this.emit('item_dropped', data);
+  }
+
+  /**
+   * Handle item looted from grid
+   */
+  handleItemLooted(data) {
+    console.log('🎁 Item looted:', data);
+
+    // Remove item from confirmed state if it was removed
+    if (data.itemRemoved && data.gridItemId && this.confirmedState.gridItems) {
+      delete this.confirmedState.gridItems[data.gridItemId];
+    }
+
+    // Emit to game components
+    this.emit('item_looted', data);
+  }
+
+  /**
+   * Handle token created on grid
+   */
+  handleTokenCreated(data) {
+    console.log('🎭 Token created:', data);
+
+    // Update confirmed state
+    if (!this.confirmedState.tokens) {
+      this.confirmedState.tokens = {};
+    }
+
+    this.confirmedState.tokens[data.token.id] = {
+      ...data.token,
+      position: data.position,
+      createdBy: data.playerId,
+      createdByName: data.playerName,
+      createdAt: data.timestamp
+    };
+
+    // Emit to game components
+    this.emit('token_created', data);
   }
 
   // Utility methods

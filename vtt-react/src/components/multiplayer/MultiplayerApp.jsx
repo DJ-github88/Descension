@@ -2,6 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import EnvironmentDebug from '../debug/EnvironmentDebug';
+import enhancedMultiplayer from '../../services/enhancedMultiplayer';
+import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
+import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
+import enhancedMultiplayer from '../../services/enhancedMultiplayer';
+import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
+import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -41,6 +47,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
   const { addCharacterToken } = useCharacterTokenStore();
 
+  // Enhanced multiplayer hook for super-fluid performance
+  const {
+    isConnected: isEnhancedConnected,
+    connectionQuality,
+    networkMetrics,
+    performanceMetrics,
+    connect: enhancedConnect,
+    disconnect: enhancedDisconnect
+  } = useEnhancedMultiplayer();
+
   // Throttling for incoming token updates to prevent lag
   const tokenUpdateThrottleRef = useRef(new Map());
   const INCOMING_UPDATE_THROTTLE = 16; // ~60fps for smooth player experience
@@ -61,9 +77,76 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Initialize socket connection when component mounts
   useEffect(() => {
-    console.log('Initializing socket connection in MultiplayerApp');
+    console.log('🚀 Initializing enhanced multiplayer connection in MultiplayerApp');
     const newSocket = io(SOCKET_URL, {
       autoConnect: false
+    });
+
+    // Initialize enhanced multiplayer system
+    const initializeEnhancedMultiplayer = async () => {
+      try {
+        await enhancedConnect(SOCKET_URL);
+        console.log('🚀 Enhanced multiplayer system connected');
+      } catch (error) {
+        console.warn('⚠️ Enhanced multiplayer failed to connect, using fallback:', error);
+      }
+    };
+
+    initializeEnhancedMultiplayer();
+
+    // Enhanced multiplayer event listeners
+    enhancedMultiplayer.on('token_moved', (data) => {
+      console.log('🚀 Enhanced token moved:', data);
+      // Handle token movement from enhanced multiplayer
+      if (data.tokenId && data.position) {
+        updateTokenPosition(data.tokenId, data.position);
+      }
+    });
+
+    enhancedMultiplayer.on('character_moved', (data) => {
+      console.log('🚀 Enhanced character moved:', data);
+      // Handle character movement from enhanced multiplayer
+      if (data.position) {
+        // Update character token position
+        // This will be handled by the character token components
+      }
+    });
+
+    enhancedMultiplayer.on('item_dropped', (data) => {
+      console.log('🚀 Enhanced item dropped:', data);
+      // Handle item drops from enhanced multiplayer
+      const gridItemStore = require('../../store/gridItemStore').default;
+      if (data.item && data.position) {
+        gridItemStore.getState().addItemToGrid(data.item, data.position, false); // Don't send to server
+      }
+    });
+
+    enhancedMultiplayer.on('item_looted', (data) => {
+      console.log('🚀 Enhanced item looted:', data);
+      // Handle item looting from enhanced multiplayer
+      if (data.itemRemoved && data.gridItemId) {
+        const gridItemStore = require('../../store/gridItemStore').default;
+        gridItemStore.getState().removeItemFromGrid(data.gridItemId);
+      }
+
+      // Add loot notification
+      addNotification('loot', {
+        type: 'item_looted',
+        item: data.item,
+        quantity: data.quantity,
+        source: data.source,
+        looter: data.looter,
+        timestamp: data.timestamp
+      });
+    });
+
+    enhancedMultiplayer.on('token_created', (data) => {
+      console.log('🚀 Enhanced token created:', data);
+      // Handle token creation from enhanced multiplayer
+      if (data.creature && data.token && data.position) {
+        addCreature(data.creature);
+        addToken(data.token, data.position);
+      }
     });
 
     // Basic connection event listeners
@@ -771,6 +854,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <AtmosphericEffectsManager />
         <Navigation />
         <GMPlayerToggle />
+
+        {/* Enhanced Multiplayer Performance Monitor */}
+        <MultiplayerPerformanceMonitor
+          networkMetrics={networkMetrics}
+          performanceMetrics={performanceMetrics}
+          connectionQuality={connectionQuality}
+          isVisible={isEnhancedConnected}
+        />
       </div>
 
       {/* Multiplayer indicator with back button */}

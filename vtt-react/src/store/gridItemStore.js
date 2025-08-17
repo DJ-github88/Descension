@@ -4,6 +4,7 @@ import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
+import enhancedMultiplayer from '../services/enhancedMultiplayer';
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
@@ -181,13 +182,23 @@ const useGridItemStore = create(
         // Send to multiplayer server if enabled
         if (sendToServer) {
           const gameStore = useGameStore.getState();
-          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          if (gameStore.isInMultiplayer) {
             console.log('📦 Sending item drop to multiplayer server:', gridItem.name);
-            gameStore.multiplayerSocket.emit('item_dropped', {
-              item: gridItem,
-              position: position,
-              gridPosition: position.gridPosition
-            });
+
+            // Use enhanced multiplayer if available, otherwise fallback to old system
+            if (enhancedMultiplayer.isConnected && enhancedMultiplayer.socket) {
+              enhancedMultiplayer.socket.emit('item_dropped', {
+                item: gridItem,
+                position: position,
+                gridPosition: position.gridPosition
+              });
+            } else if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('item_dropped', {
+                item: gridItem,
+                position: position,
+                gridPosition: position.gridPosition
+              });
+            }
           }
         }
 
@@ -562,15 +573,27 @@ const useGridItemStore = create(
         // Send to multiplayer server if enabled
         if (sendToServer) {
           const gameStore = useGameStore.getState();
-          if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          if (gameStore.isInMultiplayer) {
             console.log('🎁 Sending loot event to multiplayer server:', itemToUse.name, 'by', looterName);
-            gameStore.multiplayerSocket.emit('item_looted', {
-              item: itemToUse,
-              quantity: gridItem.quantity || 1,
-              source: 'Grid Item',
-              looter: looterName,
-              gridItemId: gridItemId
-            });
+
+            // Use enhanced multiplayer if available, otherwise fallback to old system
+            if (enhancedMultiplayer.isConnected && enhancedMultiplayer.socket) {
+              enhancedMultiplayer.socket.emit('item_looted', {
+                item: itemToUse,
+                quantity: gridItem.quantity || 1,
+                source: 'Grid Item',
+                looter: looterName,
+                gridItemId: gridItemId
+              });
+            } else if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('item_looted', {
+                item: itemToUse,
+                quantity: gridItem.quantity || 1,
+                source: 'Grid Item',
+                looter: looterName,
+                gridItemId: gridItemId
+              });
+            }
 
             // In multiplayer, let the server handle the removal and broadcast back
             // This prevents double removal for the looter
