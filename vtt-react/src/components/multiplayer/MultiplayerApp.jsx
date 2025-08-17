@@ -5,9 +5,6 @@ import EnvironmentDebug from '../debug/EnvironmentDebug';
 import enhancedMultiplayer from '../../services/enhancedMultiplayer';
 import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
 import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
-import enhancedMultiplayer from '../../services/enhancedMultiplayer';
-import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
-import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
