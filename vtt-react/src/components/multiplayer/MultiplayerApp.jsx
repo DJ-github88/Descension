@@ -508,7 +508,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         content: 'Connection error. Attempting to reconnect...',
         type: 'system',
         timestamp: new Date().toISOString()
-      }
+      });
     });
 
     // Listen for character token creation from other players
