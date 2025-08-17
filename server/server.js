@@ -10,6 +10,14 @@ require('dotenv').config();
 // Firebase service for persistence
 const firebaseService = require('./services/firebaseService');
 
+// Enhanced multiplayer services for super-fluid performance
+const deltaSync = require('./services/deltaSync');
+const EventBatcher = require('./services/eventBatcher');
+const optimizedFirebase = require('./services/optimizedFirebase');
+const memoryManager = require('./services/memoryManager');
+const lagCompensation = require('./services/lagCompensation');
+const RealtimeSyncEngine = require('./services/realtimeSync');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -38,6 +46,11 @@ const io = socketIo(server, {
   },
   allowEIO3: true // Allow Engine.IO v3 clients
 });
+
+// Initialize enhanced multiplayer services
+const eventBatcher = new EventBatcher(io);
+const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
+console.log('🚀 Enhanced multiplayer services initialized');
 
 // Middleware
 app.use(cors({
@@ -160,6 +173,13 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
 
   rooms.set(roomId, room);
 
+  // Initialize enhanced multiplayer services for this room
+  deltaSync.initializeRoom(roomId, room.gameState);
+  eventBatcher.initializeRoom(roomId);
+  realtimeSync.initializeRoom(roomId, room.gameState);
+  memoryManager.trackObject(roomId, 'room', room, roomId);
+  lagCompensation.initializeClient(gmSocketId, roomId);
+
   // Add GM to players tracking immediately when room is created
   players.set(gmSocketId, {
     id: gmPlayerId,
@@ -169,18 +189,23 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
     color: playerColor
   });
 
-  // Persist to Firebase if enabled
+  // Track GM session
+  memoryManager.trackPlayerSession(gmSocketId, {
+    id: gmPlayerId,
+    name: gmName
+  }, roomId);
+
+  // Persist to optimized Firebase if enabled
   if (persistToFirebase) {
     try {
-      await firebaseService.saveRoomData(roomId, room);
-      await firebaseService.setRoomActiveStatus(roomId, true);
-      console.log(`💾 Room persisted to Firebase: ${roomName} (${roomId})`);
+      await optimizedFirebase.saveRoomData(roomId, room, 'high');
+      console.log(`💾 Room persisted to optimized Firebase: ${roomName} (${roomId})`);
     } catch (error) {
       console.error('❌ Failed to persist room to Firebase:', error);
     }
   }
 
-  console.log(`Room created: ${room.name} (${room.id}) - Total rooms: ${rooms.size}`);
+  console.log(`🚀 Enhanced room created: ${room.name} (${room.id}) - Total rooms: ${rooms.size}`);
   return room;
 }
 
@@ -262,7 +287,14 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     color: playerColor || '#4a90e2' // Ensure color is always set
   });
 
-  console.log(`Player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
+  // Initialize enhanced services for new player
+  lagCompensation.initializeClient(socketId, roomId);
+  memoryManager.trackPlayerSession(socketId, {
+    id: playerId,
+    name: playerName
+  }, roomId);
+
+  console.log(`🚀 Enhanced player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
   return { room, player };
 }
 
@@ -544,7 +576,7 @@ io.on('connection', (socket) => {
     console.log(`✅ Chat message from ${player.name} in room ${room.name}: ${data.message}`);
   });
 
-  // Handle token movement synchronization
+  // Enhanced token movement with lag compensation and delta sync
   socket.on('token_moved', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
@@ -557,6 +589,16 @@ io.on('connection', (socket) => {
       socket.emit('error', { message: 'Room not found' });
       return;
     }
+
+    // Update player activity for memory management
+    memoryManager.updatePlayerActivity(socket.id);
+
+    // Process input with lag compensation
+    const inputResult = lagCompensation.processClientInput(socket.id, {
+      type: 'token_move',
+      data: data,
+      timestamp: Date.now()
+    });
 
     // Initialize tokens if needed
     if (!room.gameState.tokens) {
@@ -576,39 +618,62 @@ io.on('connection', (socket) => {
     }
 
     if (existingToken) {
-      // Update existing token
-      room.gameState.tokens[tokenKey] = {
+      // Update existing token with enhanced data
+      const updatedToken = {
         ...existingToken,
         position: data.position,
         lastMovedBy: player.id,
         lastMovedByName: player.name,
-        lastMovedAt: new Date()
+        lastMovedAt: new Date(),
+        velocity: data.velocity || null, // For prediction
+        sequence: inputResult?.sequence || 0
       };
 
-      // Only persist to Firebase on drag end (not during live dragging)
+      room.gameState.tokens[tokenKey] = updatedToken;
+
+      // Create delta update for efficient synchronization
+      const deltaUpdate = await deltaSync.createStateUpdate(
+        player.roomId,
+        room.gameState,
+        {
+          type: 'token_movement',
+          tokenId: tokenKey,
+          playerId: player.id,
+          isDragging: data.isDragging
+        }
+      );
+
+      // Determine event priority based on movement type
+      const priority = data.isDragging ? 'high' : 'normal';
+
+      // Add to event batch for optimized network delivery
+      eventBatcher.addEvent(player.roomId, {
+        type: 'token_moved',
+        data: {
+          tokenId: tokenKey,
+          creatureId: existingToken.creatureId,
+          position: data.position,
+          playerId: player.id,
+          playerName: player.name,
+          isDragging: data.isDragging || false,
+          velocity: data.velocity,
+          sequence: inputResult?.sequence || 0,
+          serverTimestamp: Date.now()
+        },
+        deltaUpdate: deltaUpdate
+      }, priority);
+
+      // Persist to optimized Firebase (batched for performance)
       if (!data.isDragging) {
         try {
-          await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-          console.log(`💾 Token position persisted to Firebase for ${tokenKey}`);
+          await optimizedFirebase.updateGameState(player.roomId, room.gameState, deltaUpdate?.delta);
+          console.log(`💾 Token position persisted via optimized Firebase for ${tokenKey}`);
         } catch (error) {
           console.error('Failed to persist token position:', error);
         }
       }
 
-      // Broadcast token movement to ALL players in the room (including mover for confirmation)
-      // Use volatile for live dragging to prevent queuing up too many events
-      const emitMethod = data.isDragging ? io.to(player.roomId).volatile : io.to(player.roomId);
-      emitMethod.emit('token_moved', {
-        tokenId: tokenKey,
-        creatureId: existingToken.creatureId,
-        position: data.position,
-        playerId: player.id,
-        playerName: player.name,
-        isDragging: data.isDragging || false, // Include drag state
-        timestamp: new Date()
-      });
-
-      console.log(`🎯 Token ${tokenKey} (creature: ${existingToken.creatureId}) moved by ${player.name} to`, data.position);
+      console.log(`🚀 Enhanced token ${tokenKey} moved by ${player.name} with lag compensation`);
     } else {
       console.warn(`⚠️ Token ${data.tokenId} not found in room ${room.name} for movement`);
       socket.emit('error', { message: 'Token not found' });
@@ -1251,6 +1316,179 @@ io.on('connection', (socket) => {
     });
   });
 
+  // ========== ENHANCED MULTIPLAYER EVENT HANDLERS ==========
+
+  // Handle character sheet updates with real-time sync
+  socket.on('character_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update player activity
+    memoryManager.updatePlayerActivity(socket.id);
+
+    // Process with lag compensation
+    const inputResult = lagCompensation.processClientInput(socket.id, {
+      type: 'character_update',
+      data: data,
+      timestamp: Date.now()
+    });
+
+    // Update character via real-time sync
+    const success = realtimeSync.updateCharacter(
+      player.roomId,
+      data.characterId,
+      data.updates,
+      player.id
+    );
+
+    if (success) {
+      console.log(`👤 Character ${data.characterId} updated by ${player.name}`);
+    } else {
+      socket.emit('error', { message: 'Failed to update character' });
+    }
+  });
+
+  // Handle inventory updates with real-time sync
+  socket.on('inventory_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Update player activity
+    memoryManager.updatePlayerActivity(socket.id);
+
+    // Process with lag compensation
+    const inputResult = lagCompensation.processClientInput(socket.id, {
+      type: 'inventory_change',
+      data: data,
+      timestamp: Date.now()
+    });
+
+    // Update inventory via real-time sync
+    const success = realtimeSync.updateInventory(
+      player.roomId,
+      data.playerId || player.id,
+      data.inventoryData,
+      data.changeType || 'full'
+    );
+
+    if (success) {
+      console.log(`🎒 Inventory updated for ${player.name}: ${data.changeType}`);
+    } else {
+      socket.emit('error', { message: 'Failed to update inventory' });
+    }
+  });
+
+  // Handle combat state updates (GM only)
+  socket.on('combat_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Only GM can update combat state
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only GM can update combat state' });
+      return;
+    }
+
+    // Update combat via real-time sync
+    const success = realtimeSync.updateCombat(
+      player.roomId,
+      data.combatUpdates,
+      player.id
+    );
+
+    if (success) {
+      console.log(`⚔️ Combat updated by GM ${player.name}`);
+    } else {
+      socket.emit('error', { message: 'Failed to update combat state' });
+    }
+  });
+
+  // Handle map state updates (GM only)
+  socket.on('map_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Only GM can update map state
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only GM can update map state' });
+      return;
+    }
+
+    // Update map via real-time sync
+    const success = realtimeSync.updateMap(
+      player.roomId,
+      data.mapUpdates,
+      player.id
+    );
+
+    if (success) {
+      console.log(`🗺️ Map updated by GM ${player.name}`);
+    } else {
+      socket.emit('error', { message: 'Failed to update map state' });
+    }
+  });
+
+  // Handle UI state synchronization
+  socket.on('ui_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) return; // UI updates are optional
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Update UI via real-time sync
+    realtimeSync.updateUI(player.roomId, player.id, data.uiUpdates);
+  });
+
+  // Handle network metrics updates
+  socket.on('network_metrics', (metrics) => {
+    lagCompensation.updateNetworkMetrics(socket.id, metrics);
+    eventBatcher.updateClientMetrics(socket.id, metrics);
+  });
+
+  // Handle ping for latency measurement
+  socket.on('ping', (timestamp) => {
+    socket.emit('pong', timestamp);
+  });
+
+  // ========== END ENHANCED MULTIPLAYER HANDLERS ==========
+
   // Handle disconnection
   socket.on('disconnect', async () => {
     console.log(`Player disconnected: ${socket.id}`);
@@ -1297,8 +1535,12 @@ io.on('connection', (socket) => {
       io.emit('room_list_updated', getPublicRooms());
     }
 
-    // Clean up any orphaned player tracking
-    console.log(`🧹 Cleaning up player tracking for socket ${socket.id}`);
+    // Enhanced cleanup for all services
+    memoryManager.markPlayerDisconnected(socket.id);
+    lagCompensation.cleanupClient(socket.id);
+    eventBatcher.cleanupClient(socket.id);
+
+    console.log(`🧹 Enhanced cleanup completed for socket ${socket.id}`);
   });
 });
 
