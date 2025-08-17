@@ -183,9 +183,9 @@ const CharacterToken = ({
 
             // Send real-time position updates to multiplayer server during drag
             if (isInMultiplayer && multiplayerSocket) {
-                // Throttle updates to avoid overwhelming the server (every 50ms)
+                // Throttle updates to avoid overwhelming the server (every 16ms ≈ 60fps)
                 const now = Date.now();
-                if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 50) {
+                if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 16) {
                     multiplayerSocket.emit('character_moved', {
                         position: worldPos,
                         isDragging: true // Flag to indicate this is a live drag update

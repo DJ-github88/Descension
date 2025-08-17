@@ -508,6 +508,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         content: 'Connection error. Attempting to reconnect...',
         type: 'system',
         timestamp: new Date().toISOString()
+      }
+    });
+
+    // Listen for character token creation from other players
+    socket.on('character_token_created', (data) => {
+      console.log('🎭 Character token created by player:', data.playerName);
+
+      // Only add if it's not our own token
+      if (data.playerId !== currentPlayer?.id) {
+        import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+          const { addCharacterToken } = useCharacterTokenStore.getState();
+          addCharacterToken(data.position, data.playerId);
+          console.log('🎭 Added character token for player:', data.playerName);
+        });
+
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `${data.playerName} placed their character token`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
       });
     });
 
@@ -559,6 +580,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('sync_tokens');
       socket.off('character_equipment_updated');
       socket.off('player_color_updated');
+      socket.off('character_token_created');
       socket.off('character_moved');
       socket.off('full_game_state_sync');
       socket.off('sync_error');

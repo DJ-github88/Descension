@@ -1403,9 +1403,13 @@ export default function Grid() {
                 const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
                 console.log('🎭 World position for character token:', worldPos);
 
-                // Place the character token
-                addCharacterToken(worldPos);
-                console.log('🎭 Character token placed successfully');
+                // Get current player ID for multiplayer
+                const currentPlayer = isInMultiplayer ? getCurrentPlayer() : null;
+                const playerId = currentPlayer?.id;
+
+                // Place the character token with player ID for multiplayer uniqueness
+                addCharacterToken(worldPos, playerId);
+                console.log('🎭 Character token placed successfully for player:', playerId || 'local');
 
                 // Exit placement mode
                 setIsDraggingCharacterToken(false);

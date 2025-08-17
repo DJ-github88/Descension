@@ -9,17 +9,24 @@ const useCharacterTokenStore = create(
             characterTokens: [],
 
             // Add a character token to the grid
-            addCharacterToken: (position) => set(state => {
-                console.log('🎭 addCharacterToken called with position:', position);
+            addCharacterToken: (position, playerId = null) => set(state => {
+                console.log('🎭 addCharacterToken called with position:', position, 'playerId:', playerId);
                 console.log('🎭 Current character tokens:', state.characterTokens);
 
-                // Check if a character token already exists
-                const existingToken = state.characterTokens.find(t => t.isPlayerToken);
+                // In multiplayer, use playerId to make tokens unique per player
+                // In single player, use isPlayerToken for backward compatibility
+                const tokenIdentifier = playerId || 'local_player';
+
+                // Check if a character token already exists for this player
+                const existingToken = state.characterTokens.find(t =>
+                    playerId ? t.playerId === playerId : t.isPlayerToken
+                );
+
                 if (existingToken) {
-                    console.log('🎭 Character token already exists, updating position from', existingToken.position, 'to', position);
+                    console.log('🎭 Character token already exists for player', tokenIdentifier, ', updating position from', existingToken.position, 'to', position);
                     return {
                         characterTokens: state.characterTokens.map(t =>
-                            t.isPlayerToken
+                            (playerId ? t.playerId === playerId : t.isPlayerToken)
                                 ? { ...t, position }
                                 : t
                         )
@@ -29,12 +36,29 @@ const useCharacterTokenStore = create(
                 // Create a new character token
                 const newToken = {
                     id: uuidv4(),
-                    isPlayerToken: true,
+                    isPlayerToken: !playerId, // Only true for local single-player tokens
+                    playerId: playerId, // Store player ID for multiplayer
                     position,
                     createdAt: Date.now()
                 };
 
                 console.log('🎭 Created new character token:', newToken);
+
+                // Send to multiplayer server if in multiplayer mode
+                if (playerId) {
+                    import('../store/gameStore').then(({ default: useGameStore }) => {
+                        const gameStore = useGameStore.getState();
+                        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                            console.log('🎭 Sending character token creation to multiplayer server');
+                            gameStore.multiplayerSocket.emit('character_token_created', {
+                                tokenId: newToken.id,
+                                position: position
+                            });
+                        }
+                    }).catch(error => {
+                        console.error('Failed to import gameStore for character token sync:', error);
+                    });
+                }
 
                 return {
                     characterTokens: [

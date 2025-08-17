@@ -596,7 +596,9 @@ io.on('connection', (socket) => {
       }
 
       // Broadcast token movement to ALL players in the room (including mover for confirmation)
-      io.to(player.roomId).emit('token_moved', {
+      // Use volatile for live dragging to prevent queuing up too many events
+      const emitMethod = data.isDragging ? io.to(player.roomId).volatile : io.to(player.roomId);
+      emitMethod.emit('token_moved', {
         tokenId: tokenKey,
         creatureId: existingToken.creatureId,
         position: data.position,
@@ -637,6 +639,55 @@ io.on('connection', (socket) => {
     });
 
     console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
+  });
+
+  // Handle character token creation
+  socket.on('character_token_created', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Initialize character tokens if needed
+    if (!room.gameState.characterTokens) {
+      room.gameState.characterTokens = {};
+    }
+
+    // Create character token data
+    const characterTokenData = {
+      id: data.tokenId,
+      playerId: player.id,
+      playerName: player.name,
+      position: data.position,
+      createdAt: new Date()
+    };
+
+    room.gameState.characterTokens[player.id] = characterTokenData;
+
+    // Persist to Firebase
+    try {
+      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+    } catch (error) {
+      console.error('Failed to persist character token creation:', error);
+    }
+
+    // Broadcast character token creation to ALL players in the room
+    io.to(player.roomId).emit('character_token_created', {
+      tokenId: data.tokenId,
+      playerId: player.id,
+      playerName: player.name,
+      position: data.position,
+      timestamp: new Date()
+    });
+
+    console.log(`🎭 Character token created by ${player.name} at`, data.position);
   });
 
   // Handle character sheet updates
