@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import EnvironmentDebug from '../debug/EnvironmentDebug';
@@ -7,6 +7,8 @@ import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
+import useCreatureStore from '../../store/creatureStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import './styles/MultiplayerApp.css';
 
@@ -36,6 +38,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const { updateCharacterInfo, setRoomName, clearRoomName } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
+  const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
+  const { addCharacterToken } = useCharacterTokenStore();
+
+  // Throttling for incoming token updates to prevent lag
+  const tokenUpdateThrottleRef = useRef(new Map());
+  const INCOMING_UPDATE_THROTTLE = 33; // ~30fps for smoother player experience
 
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
@@ -239,21 +247,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only update if it's not our own movement (to avoid double updates)
       if (data.playerId !== currentPlayer?.id) {
-        // Update token position locally using creatureStore only (avoid dual store updates)
-        import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-          const { updateTokenPosition: updateCreatureTokenPosition } = useCreatureStore.getState();
-          const { tokens } = useCreatureStore.getState();
+        const targetId = data.creatureId || data.tokenId;
 
-          // Find token by creatureId and update by tokenId
-          const targetId = data.creatureId || data.tokenId;
+        // Throttle incoming updates to prevent lag on player side
+        const throttleKey = `${targetId}_${data.playerId}`;
+        const now = Date.now();
+        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
+
+        if (!lastUpdate || now - lastUpdate > INCOMING_UPDATE_THROTTLE) {
+          tokenUpdateThrottleRef.current.set(throttleKey, now);
+
+          // Find token by creatureId and update by tokenId (no dynamic import)
           const token = tokens.find(t => t.creatureId === targetId);
 
           if (token) {
             updateCreatureTokenPosition(token.id, data.position);
           }
-        }).catch(error => {
-          console.error('Failed to update token position:', error);
-        });
+        }
       }
     });
 
@@ -296,29 +306,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only add token if it's not our own creation (to avoid duplicates) or if it's a sync
       if (data.playerId !== currentPlayer?.id || isSync) {
-        // Import the creature store dynamically to avoid circular dependencies
-        import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-          const { addCreature, addToken } = useCreatureStore.getState();
+        // First ensure the creature exists in the store
+        addCreature(data.creature);
 
-          // First ensure the creature exists in the store
-          addCreature(data.creature);
+        // Then add the token without sending back to server (avoid infinite loop)
+        console.log('🎭 Adding token to local state:', data.creature.name, 'Token ID:', data.token.id);
+        addToken(data.creature.id, data.position, false, data.token.id);
 
-          // Then add the token without sending back to server (avoid infinite loop)
-          console.log('🎭 Adding token to local state:', data.creature.name, 'Token ID:', data.token.id);
-          addToken(data.creature.id, data.position, false, data.token.id);
-
-          // Show notification in chat only for new creations from other players, not syncs or own creations
-          if (!isSync && data.playerId !== currentPlayer?.id) {
-            addNotification('social', {
-              sender: { name: 'System', class: 'system', level: 0 },
-              content: `${data.playerName} placed ${data.creature.name} on the grid`,
-              type: 'system',
-              timestamp: new Date().toISOString()
-            });
-          }
-        }).catch(error => {
-          console.error('Failed to import creatureStore:', error);
-        });
+        // Show notification in chat only for new creations from other players, not syncs or own creations
+        if (!isSync && data.playerId !== currentPlayer?.id) {
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${data.playerName} placed ${data.creature.name} on the grid`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }
       } else {
         console.log('🎭 Ignoring own token creation to avoid duplicate');
       }
@@ -444,15 +447,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Sync tokens
       if (data.tokens && Object.keys(data.tokens).length > 0) {
-        import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-          const { addCreature, addToken } = useCreatureStore.getState();
-
-          Object.values(data.tokens).forEach(tokenData => {
-            if (tokenData.creature) {
-              addCreature(tokenData.creature);
-            }
-            addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
-          });
+        Object.values(data.tokens).forEach(tokenData => {
+          if (tokenData.creature) {
+            addCreature(tokenData.creature);
+          }
+          addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
         });
       }
 
@@ -505,11 +504,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only add if it's not our own token
       if (data.playerId !== currentPlayer?.id) {
-        import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
-          const { addCharacterToken } = useCharacterTokenStore.getState();
-          addCharacterToken(data.position, data.playerId);
-          console.log('🎭 Added character token for player:', data.playerName);
-        });
+        addCharacterToken(data.position, data.playerId);
+        console.log('🎭 Added character token for player:', data.playerName);
 
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
