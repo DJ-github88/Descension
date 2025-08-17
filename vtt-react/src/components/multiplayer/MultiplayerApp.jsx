@@ -529,7 +529,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           type: 'system',
           timestamp: new Date().toISOString()
         });
-      });
+      }
     });
 
     // Listen for character movements from other players
