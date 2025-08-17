@@ -43,7 +43,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Throttling for incoming token updates to prevent lag
   const tokenUpdateThrottleRef = useRef(new Map());
-  const INCOMING_UPDATE_THROTTLE = 33; // ~30fps for smoother player experience
+  const INCOMING_UPDATE_THROTTLE = 16; // ~60fps for smooth player experience
 
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
@@ -257,11 +257,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         if (!lastUpdate || now - lastUpdate > INCOMING_UPDATE_THROTTLE) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Find token by creatureId and update by tokenId (no dynamic import)
-          const token = tokens.find(t => t.creatureId === targetId);
+          // Get fresh token data from store to ensure we have latest state
+          const currentTokens = useCreatureStore.getState().tokens;
+          const token = currentTokens.find(t => t.creatureId === targetId);
 
           if (token) {
+            console.log(`🎯 Updating token ${token.id} for creature ${targetId} to position:`, data.position);
             updateCreatureTokenPosition(token.id, data.position);
+          } else {
+            console.warn(`🎯 Token not found for creature ${targetId}. Available tokens:`, currentTokens.map(t => ({ id: t.id, creatureId: t.creatureId })));
           }
         }
       }
@@ -383,23 +387,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('sync_tokens', (data) => {
       console.log('🎭 Syncing tokens from server:', Object.keys(data.tokens).length, 'tokens');
 
-      import('../../store/creatureStore').then(({ default: useCreatureStore }) => {
-        const { addCreature, addToken } = useCreatureStore.getState();
+      // Add each token without sending back to server
+      Object.values(data.tokens).forEach(tokenData => {
+        console.log('🔄 Syncing token:', tokenData.id, 'creature:', tokenData.creatureId);
 
-        // Add each token without sending back to server
-        Object.values(data.tokens).forEach(tokenData => {
-          console.log('🔄 Syncing token:', tokenData.id, 'creature:', tokenData.creatureId);
+        // First ensure the creature exists (if we have creature data)
+        if (tokenData.creature) {
+          addCreature(tokenData.creature);
+        }
 
-          // First ensure the creature exists (if we have creature data)
-          if (tokenData.creature) {
-            addCreature(tokenData.creature);
-          }
-
-          // Then add the token with the correct token ID
-          addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
-        });
-      }).catch(error => {
-        console.error('Failed to import creatureStore for sync:', error);
+        // Then add the token with the correct token ID
+        addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
       });
     });
 
