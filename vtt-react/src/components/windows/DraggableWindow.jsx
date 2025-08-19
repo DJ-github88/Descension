@@ -149,16 +149,14 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Handle drag with immediate visual feedback
+    // Handle drag with pure immediate feedback
     const handleDrag = useCallback((e, data) => {
         // Update position IMMEDIATELY for responsive visual feedback
         setPosition({ x: data.x, y: data.y });
 
-        // Use RAF only for expensive callback operations
+        // Call onDrag callback immediately as well
         if (onDrag && data && typeof data === 'object') {
-            requestAnimationFrame(() => {
-                onDrag(data);
-            });
+            onDrag(data);
         }
 
         // Only stop propagation if this is actually a window drag (from the handle)

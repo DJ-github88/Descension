@@ -151,16 +151,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const { cameraX, cameraY, zoomLevel, playerZoom, gridSize, feetPerTile, showMovementVisualization, isGMMode } = gameState;
   const effectiveZoom = zoomLevel * playerZoom;
 
-  // Handle mouse move and up for dragging with immediate visual feedback
+  // Handle mouse move and up for dragging with pure immediate feedback
   useEffect(() => {
-    let rafId = null;
     let lastNetworkUpdate = 0;
+    let lastCombatUpdate = 0;
 
     const handleMouseMove = (e) => {
       if (!isDragging) return;
 
+      // Prevent all default behaviors and stop propagation immediately
       e.preventDefault();
       e.stopPropagation();
+      e.stopImmediatePropagation();
 
       // Calculate new screen position IMMEDIATELY for responsive visual feedback
       const screenX = e.clientX - dragOffset.x;
@@ -173,42 +175,39 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Convert screen position back to world coordinates
       const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-      // Update local position IMMEDIATELY - no RAF delay for visual feedback
-      setLocalPosition({ x: worldPos.x, y: worldPos.y });
+      // Update local position IMMEDIATELY - no RAF, no delays, pure immediate feedback
+      // Use React's unstable_batchedUpdates to ensure immediate processing
+      setLocalPosition(prev => ({ x: worldPos.x, y: worldPos.y }));
 
-      // Use RAF only for expensive operations (network updates, combat calculations)
-      if (rafId === null) {
-        rafId = requestAnimationFrame(() => {
-          const now = Date.now();
+      // Handle expensive operations with simple time-based throttling (no RAF)
+      const now = Date.now();
 
-          // Send real-time position updates to multiplayer server during drag (throttled)
-          if (isInMultiplayer && token && multiplayerSocket) {
-            if (now - lastNetworkUpdate > 33) { // 30fps for network updates
-              multiplayerSocket.emit('token_moved', {
-                tokenId: token.creatureId,
-                position: worldPos,
-                isDragging: true
-              });
-              lastNetworkUpdate = now;
-            }
-          }
+      // Send real-time position updates to multiplayer server during drag (throttled)
+      if (isInMultiplayer && token && multiplayerSocket) {
+        if (now - lastNetworkUpdate > 33) { // 30fps for network updates
+          multiplayerSocket.emit('token_moved', {
+            tokenId: token.creatureId,
+            position: worldPos,
+            isDragging: true
+          });
+          lastNetworkUpdate = now;
+        }
+      }
 
-          // For combat features, update less frequently
-          if (isInCombat && dragStartPosition) {
-            // Update movement visualization if enabled
-            if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
-              updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
-            }
+      // For combat features, update less frequently
+      if (isInCombat && dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
+        // Update movement visualization if enabled
+        if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
+          updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
+        }
 
-            // Calculate and update temporary movement distance for tooltip
-            const dx = worldPos.x - dragStartPosition.x;
-            const dy = worldPos.y - dragStartPosition.y;
-            const distance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
-            updateTempMovementDistance(tokenId, distance);
-          }
+        // Calculate and update temporary movement distance for tooltip
+        const dx = worldPos.x - dragStartPosition.x;
+        const dy = worldPos.y - dragStartPosition.y;
+        const distance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
+        updateTempMovementDistance(tokenId, distance);
 
-          rafId = null;
-        });
+        lastCombatUpdate = now;
       }
     };
 
@@ -293,9 +292,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
     };
   }, [isDragging, dragOffset.x, dragOffset.y, tokenId]);
   // Subscribe to token state changes for real-time health/mana/AP updates

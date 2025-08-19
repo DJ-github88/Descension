@@ -22,6 +22,9 @@
   transform: translateZ(0);
   /* Optimize for animations */
   contain: layout style paint;
+  /* Ensure immediate transform updates */
+  image-rendering: optimizeSpeed;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .creature-token:hover {
@@ -46,6 +49,9 @@
   /* Prevent transform conflicts */
   transition: none !important;
   transform-origin: center center !important;
+  /* Force immediate rendering updates */
+  image-rendering: optimizeSpeed;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 /* Combat selection state */

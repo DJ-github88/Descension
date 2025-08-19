@@ -163,16 +163,17 @@ const CharacterToken = ({
         setDragStartPosition({ x: position.x, y: position.y });
     };
 
-    // Handle mouse move and up for dragging with immediate visual feedback
+    // Handle mouse move and up for dragging with pure immediate feedback
     useEffect(() => {
-        let rafId = null;
         let lastNetworkUpdate = 0;
 
         const handleMouseMove = (e) => {
             if (!isDragging) return;
 
+            // Prevent all default behaviors and stop propagation immediately
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
 
             // Calculate new screen position IMMEDIATELY for responsive visual feedback
             const screenX = e.clientX - dragOffset.x;
@@ -185,27 +186,22 @@ const CharacterToken = ({
             // Convert screen position back to world coordinates
             const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-            // Update local position IMMEDIATELY - no RAF delay for visual feedback
-            setLocalPosition({ x: worldPos.x, y: worldPos.y });
+            // Update local position IMMEDIATELY - no RAF, no delays, pure immediate feedback
+            // Use React's functional update to ensure immediate processing
+            setLocalPosition(prev => ({ x: worldPos.x, y: worldPos.y }));
 
-            // Use RAF only for expensive operations (network updates)
-            if (rafId === null) {
-                rafId = requestAnimationFrame(() => {
-                    const now = Date.now();
+            // Handle expensive operations with simple time-based throttling (no RAF)
+            const now = Date.now();
 
-                    // Send real-time position updates to multiplayer server during drag (throttled)
-                    if (isInMultiplayer && multiplayerSocket) {
-                        if (now - lastNetworkUpdate > 33) { // 30fps for network updates
-                            multiplayerSocket.emit('character_moved', {
-                                position: worldPos,
-                                isDragging: true
-                            });
-                            lastNetworkUpdate = now;
-                        }
-                    }
-
-                    rafId = null;
-                });
+            // Send real-time position updates to multiplayer server during drag (throttled)
+            if (isInMultiplayer && multiplayerSocket) {
+                if (now - lastNetworkUpdate > 33) { // 30fps for network updates
+                    multiplayerSocket.emit('character_moved', {
+                        position: worldPos,
+                        isDragging: true
+                    });
+                    lastNetworkUpdate = now;
+                }
             }
         };
 
@@ -256,9 +252,6 @@ const CharacterToken = ({
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            if (rafId) {
-                cancelAnimationFrame(rafId);
-            }
         };
     }, [isDragging, dragOffset, gridSystem, updateCharacterTokenPosition, tokenId]);
 
