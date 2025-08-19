@@ -51,6 +51,31 @@ export const rafThrottle = (func) => {
 };
 
 /**
+ * Enhanced RAF throttle with pending update batching for drag operations
+ * @param {Function} func - Function to throttle
+ * @returns {Function} Enhanced RAF-throttled function with batching
+ */
+export const rafThrottleWithBatching = (func) => {
+    let rafId = null;
+    let pendingUpdate = null;
+
+    return function(...args) {
+        // Store the latest update
+        pendingUpdate = args;
+
+        if (rafId === null) {
+            rafId = requestAnimationFrame(() => {
+                if (pendingUpdate) {
+                    func.apply(this, pendingUpdate);
+                    pendingUpdate = null;
+                }
+                rafId = null;
+            });
+        }
+    };
+};
+
+/**
  * Performance monitor for tracking render times
  */
 export class PerformanceMonitor {

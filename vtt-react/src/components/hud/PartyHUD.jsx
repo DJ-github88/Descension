@@ -816,10 +816,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     };
 
-    // Handle drag for party member frames with throttling
+    // Handle drag for party member frames with RAF optimization
     const handleMemberDrag = useCallback((member, data) => {
-        // Update the member's position in the store
-        setMemberPosition(member.id, { x: data.x, y: data.y });
+        // Use requestAnimationFrame for smooth 60fps updates
+        requestAnimationFrame(() => {
+            // Update the member's position in the store
+            setMemberPosition(member.id, { x: data.x, y: data.y });
+        });
     }, [setMemberPosition]);
 
     // Test function to add a buff

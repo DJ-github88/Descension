@@ -163,39 +163,56 @@ const CharacterToken = ({
         setDragStartPosition({ x: position.x, y: position.y });
     };
 
-    // Handle mouse move and up for dragging
+    // Handle mouse move and up for dragging with RAF optimization
     useEffect(() => {
+        let rafId = null;
+        let pendingUpdate = null;
+
         const handleMouseMove = (e) => {
             if (!isDragging) return;
 
             e.preventDefault();
             e.stopPropagation();
 
-            // Calculate new screen position
-            const screenX = e.clientX - dragOffset.x;
-            const screenY = e.clientY - dragOffset.y;
+            // Store the latest mouse position
+            pendingUpdate = {
+                clientX: e.clientX,
+                clientY: e.clientY
+            };
 
-            // Get viewport dimensions for proper coordinate conversion
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+            // Use requestAnimationFrame for smooth 60fps updates
+            if (rafId === null) {
+                rafId = requestAnimationFrame(() => {
+                    if (pendingUpdate && isDragging) {
+                        // Calculate new screen position
+                        const screenX = pendingUpdate.clientX - dragOffset.x;
+                        const screenY = pendingUpdate.clientY - dragOffset.y;
 
-            // Convert screen position back to world coordinates
-            const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+                        // Get viewport dimensions for proper coordinate conversion
+                        const viewportWidth = window.innerWidth;
+                        const viewportHeight = window.innerHeight;
 
-            // Update local position immediately for smooth visual feedback
-            setLocalPosition({ x: worldPos.x, y: worldPos.y });
+                        // Convert screen position back to world coordinates
+                        const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-            // Send real-time position updates to multiplayer server during drag
-            if (isInMultiplayer && multiplayerSocket) {
-                // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
-                const now = Date.now();
-                if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
-                    multiplayerSocket.emit('character_moved', {
-                        position: worldPos,
-                        isDragging: true
-                    });
-                    lastMoveUpdateRef.current = now;
-                }
+                        // Update local position immediately for smooth visual feedback
+                        setLocalPosition({ x: worldPos.x, y: worldPos.y });
+
+                        // Send real-time position updates to multiplayer server during drag
+                        if (isInMultiplayer && multiplayerSocket) {
+                            // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
+                            const now = Date.now();
+                            if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
+                                multiplayerSocket.emit('character_moved', {
+                                    position: worldPos,
+                                    isDragging: true
+                                });
+                                lastMoveUpdateRef.current = now;
+                            }
+                        }
+                    }
+                    rafId = null;
+                });
             }
         };
 
@@ -246,6 +263,9 @@ const CharacterToken = ({
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+            }
         };
     }, [isDragging, dragOffset, gridSystem, updateCharacterTokenPosition, tokenId]);
 

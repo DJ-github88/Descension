@@ -149,15 +149,18 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Handle drag with optimized performance
+    // Handle drag with RAF optimization for smooth performance
     const handleDrag = useCallback((e, data) => {
-        // Update position immediately for fluid dragging
-        setPosition({ x: data.x, y: data.y });
+        // Use requestAnimationFrame for smooth 60fps updates
+        requestAnimationFrame(() => {
+            // Update position immediately for fluid dragging
+            setPosition({ x: data.x, y: data.y });
 
-        // Call the onDrag callback during dragging for real-time updates
-        if (onDrag && data && typeof data === 'object') {
-            onDrag(data);
-        }
+            // Call the onDrag callback during dragging for real-time updates
+            if (onDrag && data && typeof data === 'object') {
+                onDrag(data);
+            }
+        });
 
         // Only stop propagation if this is actually a window drag (from the handle)
         if (e.target.closest(`.${handleClassName}`)) {

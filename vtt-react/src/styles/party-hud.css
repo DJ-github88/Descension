@@ -13,11 +13,27 @@
     z-index: 9000;
     min-width: 160px;
     backdrop-filter: blur(2px);
+
+    /* Performance optimizations */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    /* Force hardware acceleration */
+    transform: translateZ(0);
+    /* Optimize for animations */
+    contain: layout style paint;
 }
 
 .party-hud.dragging {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     z-index: 9001;
+
+    /* Additional performance optimizations during drag */
+    will-change: transform;
+    /* Force GPU acceleration during drag */
+    transform: translateZ(0);
+    /* Optimize rendering during drag */
+    contain: layout style paint;
 }
 
 .party-hud.compact {

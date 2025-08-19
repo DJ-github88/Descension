@@ -13,6 +13,15 @@
   user-select: none;
   touch-action: none;
   pointer-events: all; /* Ensure it can receive mouse events */
+
+  /* Performance optimizations */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  /* Force hardware acceleration */
+  transform: translateZ(0);
+  /* Optimize for animations */
+  contain: layout style paint;
 }
 
 .creature-token:hover {
@@ -27,6 +36,13 @@
   filter: brightness(0.9);
   z-index: 1000 !important; /* Very high z-index when dragging */
   opacity: 0.8;
+
+  /* Additional performance optimizations during drag */
+  will-change: transform;
+  /* Force GPU acceleration during drag */
+  transform: translateZ(0);
+  /* Optimize rendering during drag */
+  contain: layout style paint;
 }
 
 /* Combat selection state */

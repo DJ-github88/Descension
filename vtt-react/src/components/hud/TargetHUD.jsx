@@ -537,9 +537,12 @@ const TargetHUD = () => {
         setRefreshKey(prev => prev + 1);
     };
 
-    // Handle position changes from dragging
+    // Handle position changes from dragging with RAF optimization
     const handleDrag = (e, data) => {
-        setTargetHUDPosition({ x: data.x, y: data.y });
+        // Use requestAnimationFrame for smooth 60fps updates
+        requestAnimationFrame(() => {
+            setTargetHUDPosition({ x: data.x, y: data.y });
+        });
     };
 
     // Tooltip handlers

@@ -17,6 +17,10 @@
     will-change: transform;
     backface-visibility: hidden;
     transform-style: preserve-3d;
+    /* Force hardware acceleration */
+    transform: translateZ(0);
+    /* Optimize for animations */
+    contain: layout style paint;
 }
 
 /* Disable transition during dragging for performance */
@@ -25,6 +29,10 @@
     /* Additional performance optimizations during drag */
     will-change: transform;
     pointer-events: none; /* Prevent hover effects during drag */
+    /* Force GPU acceleration during drag */
+    transform: translateZ(0);
+    /* Optimize rendering during drag */
+    contain: layout style paint;
 }
 
 /* Re-enable pointer events for the drag handle */

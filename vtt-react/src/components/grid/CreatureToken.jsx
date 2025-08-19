@@ -151,54 +151,71 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const { cameraX, cameraY, zoomLevel, playerZoom, gridSize, feetPerTile, showMovementVisualization, isGMMode } = gameState;
   const effectiveZoom = zoomLevel * playerZoom;
 
-  // Handle mouse move and up for dragging
+  // Handle mouse move and up for dragging with RAF optimization
   useEffect(() => {
+    let rafId = null;
+    let pendingUpdate = null;
+
     const handleMouseMove = (e) => {
       if (!isDragging) return;
 
       e.preventDefault();
       e.stopPropagation();
 
-      // Calculate new screen position
-      const screenX = e.clientX - dragOffset.x;
-      const screenY = e.clientY - dragOffset.y;
+      // Store the latest mouse position
+      pendingUpdate = {
+        clientX: e.clientX,
+        clientY: e.clientY
+      };
 
-      // Get viewport dimensions for proper coordinate conversion
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
+      // Use requestAnimationFrame for smooth 60fps updates
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          if (pendingUpdate && isDragging) {
+            // Calculate new screen position
+            const screenX = pendingUpdate.clientX - dragOffset.x;
+            const screenY = pendingUpdate.clientY - dragOffset.y;
 
-      // Convert screen position back to world coordinates
-      const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+            // Get viewport dimensions for proper coordinate conversion
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
 
-      // Update local position immediately for smooth visual feedback
-      setLocalPosition({ x: worldPos.x, y: worldPos.y });
+            // Convert screen position back to world coordinates
+            const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-      // Send real-time position updates to multiplayer server during drag
-      if (isInMultiplayer && token && multiplayerSocket) {
-        // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
-        const now = Date.now();
-        if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
-          multiplayerSocket.emit('token_moved', {
-            tokenId: token.creatureId,
-            position: worldPos,
-            isDragging: true
-          });
-          lastMoveUpdateRef.current = now;
-        }
-      }
+            // Update local position immediately for smooth visual feedback
+            setLocalPosition({ x: worldPos.x, y: worldPos.y });
 
-      // For combat features, we still need some real-time updates but less frequently
-      if (isInCombat && dragStartPosition) {
-        // Update movement visualization if enabled
-        if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
-          updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
-        }
+            // Send real-time position updates to multiplayer server during drag
+            if (isInMultiplayer && token && multiplayerSocket) {
+              // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
+              const now = Date.now();
+              if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
+                multiplayerSocket.emit('token_moved', {
+                  tokenId: token.creatureId,
+                  position: worldPos,
+                  isDragging: true
+                });
+                lastMoveUpdateRef.current = now;
+              }
+            }
 
-        // Calculate and update temporary movement distance for tooltip
-        const dx = worldPos.x - dragStartPosition.x;
-        const dy = worldPos.y - dragStartPosition.y;
-        const distance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
-        updateTempMovementDistance(tokenId, distance);
+            // For combat features, we still need some real-time updates but less frequently
+            if (isInCombat && dragStartPosition) {
+              // Update movement visualization if enabled
+              if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
+                updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
+              }
+
+              // Calculate and update temporary movement distance for tooltip
+              const dx = worldPos.x - dragStartPosition.x;
+              const dy = worldPos.y - dragStartPosition.y;
+              const distance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
+              updateTempMovementDistance(tokenId, distance);
+            }
+          }
+          rafId = null;
+        });
       }
     };
 
@@ -283,6 +300,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [isDragging, dragOffset.x, dragOffset.y, tokenId]);
   // Subscribe to token state changes for real-time health/mana/AP updates
