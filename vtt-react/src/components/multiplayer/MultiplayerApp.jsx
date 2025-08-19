@@ -54,10 +54,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     disconnect: enhancedDisconnect
   } = useEnhancedMultiplayer();
 
-  // Aggressive throttling for incoming token updates to prevent player lag
+  // More aggressive throttling for incoming token updates to prevent player lag
   const tokenUpdateThrottleRef = useRef(new Map());
-  const INCOMING_UPDATE_THROTTLE = 50; // ~20fps for incoming updates to prevent lag
-  const INCOMING_DRAGGING_THROTTLE = 33; // ~30fps for dragging updates
+  const INCOMING_UPDATE_THROTTLE = 75; // Reduced to ~13fps for incoming updates to prevent lag
+  const INCOMING_DRAGGING_THROTTLE = 50; // Reduced to ~20fps for dragging updates
   const THROTTLE_CLEANUP_INTERVAL = 5000; // Clean up throttle map every 5 seconds
   const THROTTLE_ENTRY_LIFETIME = 10000; // Remove entries older than 10 seconds
 
@@ -94,13 +94,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       ? 'https://descension-production.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
 
-  console.log('🌐 Multiplayer Environment Check:');
-  console.log('🌐 NODE_ENV:', process.env.NODE_ENV);
-  console.log('🌐 REACT_APP_SOCKET_URL:', process.env.REACT_APP_SOCKET_URL);
-  console.log('🌐 Final SOCKET_URL:', SOCKET_URL);
-  console.log('🎮 Current Player:', currentPlayer?.name, 'ID:', currentPlayer?.id);
-  console.log('🎮 Is GM:', isGM);
-  console.log('🎮 Connected Players:', connectedPlayers.map(p => `${p.name} (${p.id})`));
+  // Environment check logs removed for performance
 
   // Initialize socket connection when component mounts
   useEffect(() => {
@@ -307,8 +301,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for chat messages
     socket.on('chat_message', (message) => {
-      console.log('Received chat message:', message);
-      console.log('Adding to chat system with current room:', currentRoom?.name);
       // Add to chat system with proper color handling
       addNotification('social', {
         sender: {
@@ -407,7 +399,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const { addItemToGrid } = useGridItemStore.getState();
 
           // Add the item to the grid without sending back to server (avoid infinite loop)
-          console.log('📦 Adding item to grid from server:', data.item.name, 'ID:', data.item.id);
           addItemToGrid(data.item, data.position, false);
 
           // Show notification in chat only for new drops from other players, not syncs or own drops
@@ -690,7 +681,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     return () => {
-      console.log('Cleaning up socket event listeners');
+      // Cleanup socket event listeners
       socket.off('connect');
       socket.off('disconnect');
       socket.off('player_joined');

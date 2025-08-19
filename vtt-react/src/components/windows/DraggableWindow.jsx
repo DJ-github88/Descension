@@ -104,8 +104,13 @@ const DraggableWindow = forwardRef(({
         }
     }, []);
 
-    // Manage transform through optimized DOM manipulation
+    // Manage transform through optimized DOM manipulation - use refs to avoid re-renders
+    const positionRef = useRef(position);
+    const scaleRef = useRef(windowScale);
+
     useEffect(() => {
+        positionRef.current = position;
+        scaleRef.current = windowScale;
         updateTransform(position.x, position.y, windowScale);
     }, [position.x, position.y, windowScale, updateTransform]);
 
@@ -149,10 +154,16 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Handle drag with pure immediate feedback
+    // Handle drag with pure immediate feedback - optimized to reduce re-renders
     const handleDrag = useCallback((e, data) => {
         // Update position IMMEDIATELY for responsive visual feedback
-        setPosition({ x: data.x, y: data.y });
+        // Use direct DOM manipulation during drag to avoid React re-renders
+        if (nodeRef.current && isDragging) {
+            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${scaleRef.current})`;
+            positionRef.current = { x: data.x, y: data.y };
+        } else {
+            setPosition({ x: data.x, y: data.y });
+        }
 
         // Call onDrag callback immediately as well
         if (onDrag && data && typeof data === 'object') {
@@ -163,7 +174,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, handleClassName]);
+    }, [onDrag, handleClassName, isDragging]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -176,8 +187,11 @@ const DraggableWindow = forwardRef(({
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
             // Re-apply scale after dragging ends to prevent flickering
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${windowScale})`;
+            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${scaleRef.current})`;
         }
+
+        // Update refs to match final position
+        positionRef.current = { x: data.x, y: data.y };
 
         // Call the onDrag callback if provided with valid data
         if (onDrag && data && typeof data === 'object') {
@@ -193,7 +207,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, onDragStop, zIndex, windowScale, handleClassName]);
+    }, [onDrag, onDragStop, zIndex, handleClassName]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {

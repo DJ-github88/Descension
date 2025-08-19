@@ -1033,7 +1033,9 @@ export default function Grid() {
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, []);
 
-    // Track item dragging to enable pointer events on grid overlay
+    // Track item dragging to enable pointer events on grid overlay - optimized with refs
+    const isDraggingItemRef = useRef(false);
+
     useEffect(() => {
         const handleDragStart = (e) => {
             // Check if this is an item drag by looking at the source element
@@ -1044,16 +1046,18 @@ export default function Grid() {
                               target.draggable;
 
             if (isItemDrag) {
+                isDraggingItemRef.current = true;
                 setIsDraggingItem(true);
             }
         };
 
         const handleDragEnd = (e) => {
+            isDraggingItemRef.current = false;
             setIsDraggingItem(false);
         };
 
-        document.addEventListener('dragstart', handleDragStart);
-        document.addEventListener('dragend', handleDragEnd);
+        document.addEventListener('dragstart', handleDragStart, { passive: true });
+        document.addEventListener('dragend', handleDragEnd, { passive: true });
 
         return () => {
             document.removeEventListener('dragstart', handleDragStart);

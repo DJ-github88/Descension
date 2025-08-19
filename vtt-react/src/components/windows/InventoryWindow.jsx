@@ -61,13 +61,13 @@ export default function InventoryWindow() {
             });
             return gridDimensions;
         }
-        console.log('📦 Using default grid size - no carrying capacity found');
+        // Using default grid size - no carrying capacity found (log removed for performance)
         return DEFAULT_GRID_SIZE;
     }, [derivedStats?.carryingCapacity, stats.strength]);
 
     // Force re-render when stats change
     useEffect(() => {
-        console.log('📦 Character stats changed, updating inventory grid');
+        // Character stats changed, updating inventory grid (log removed for performance)
         setRefreshKey(prev => prev + 1);
     }, [stats.strength, derivedStats?.carryingCapacity]);
 
@@ -906,12 +906,12 @@ export default function InventoryWindow() {
         // The highlight is managed in handleDragOver
     };
 
-    // Handle drag end
+    // Handle drag end - optimized to reduce DOM queries
     const handleDragEnd = () => {
-        // Clear all highlights
-        document.querySelectorAll('.inventory-cell').forEach(cell => {
-            cell.classList.remove('drag-over');
-            cell.classList.remove('drag-invalid');
+        // Clear all highlights using cached elements if available
+        const cells = document.querySelectorAll('.inventory-cell');
+        cells.forEach(cell => {
+            cell.classList.remove('drag-over', 'drag-invalid'); // Combined for performance
         });
         setDraggedItem(null);
     };
@@ -920,10 +920,10 @@ export default function InventoryWindow() {
     const handleDrop = (e, row, col) => {
         e.preventDefault();
 
-        // Clear all highlights
-        document.querySelectorAll('.inventory-cell').forEach(cell => {
-            cell.classList.remove('drag-over');
-            cell.classList.remove('drag-invalid');
+        // Clear all highlights - optimized
+        const cells = document.querySelectorAll('.inventory-cell');
+        cells.forEach(cell => {
+            cell.classList.remove('drag-over', 'drag-invalid'); // Combined for performance
         });
 
         try {

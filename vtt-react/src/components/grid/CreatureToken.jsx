@@ -175,19 +175,23 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Convert screen position back to world coordinates
       const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-      // Update local position IMMEDIATELY - no RAF, no delays, pure immediate feedback
-      // Use React's unstable_batchedUpdates to ensure immediate processing
+      // Update local position IMMEDIATELY - optimized for performance
+      // Use direct DOM manipulation during drag to avoid React re-renders
+      if (tokenRef.current) {
+        tokenRef.current.style.transform = `translate(${worldPos.x}px, ${worldPos.y}px)`;
+      }
+      // Also update React state for consistency (batched to reduce re-renders)
       setLocalPosition(prev => ({ x: worldPos.x, y: worldPos.y }));
 
       // Handle expensive operations with simple time-based throttling (no RAF)
       const now = Date.now();
 
-      // Send real-time position updates to multiplayer server during drag (throttled)
+      // Send real-time position updates to multiplayer server during drag (optimized throttling)
       if (isInMultiplayer && token && multiplayerSocket) {
-        if (now - lastNetworkUpdate > 33) { // 30fps for network updates
+        if (now - lastNetworkUpdate > 50) { // Reduced to 20fps for better performance
           multiplayerSocket.emit('token_moved', {
             tokenId: token.creatureId,
-            position: worldPos,
+            position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) }, // Round to reduce precision
             isDragging: true
           });
           lastNetworkUpdate = now;
@@ -285,8 +289,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     };
 
     if (isDragging) {
+      // Use passive: false only for mousemove to allow preventDefault, passive: true for mouseup for performance
       document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
-      document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
+      document.addEventListener('mouseup', handleMouseUp, { passive: true, capture: true });
     }
 
     return () => {

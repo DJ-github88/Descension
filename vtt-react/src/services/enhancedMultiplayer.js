@@ -67,7 +67,7 @@ class EnhancedMultiplayerClient {
     return new Promise((resolve, reject) => {
       this.socket.on('connect', () => {
         this.isConnected = true;
-        console.log('🔗 Enhanced multiplayer connected');
+        // Enhanced multiplayer connected (log removed for performance)
         resolve();
       });
 
@@ -622,7 +622,7 @@ class EnhancedMultiplayerClient {
    * Handle item dropped on grid
    */
   handleItemDropped(data) {
-    console.log('📦 Item dropped:', data);
+    // Item dropped (log removed for performance)
 
     // Update confirmed state
     if (!this.confirmedState.gridItems) {

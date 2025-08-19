@@ -643,12 +643,12 @@ io.on('connection', (socket) => {
         }
       );
 
-      // Throttle token movement broadcasts to prevent player lag
+      // Throttle token movement broadcasts to prevent player lag (more aggressive)
       const broadcastKey = `${player.roomId}_${tokenKey}`;
       const now = Date.now();
       if (!global.lastTokenBroadcast) global.lastTokenBroadcast = new Map();
       const lastBroadcast = global.lastTokenBroadcast.get(broadcastKey) || 0;
-      const throttleTime = data.isDragging ? 50 : 100; // 20fps for dragging, 10fps for final positions
+      const throttleTime = data.isDragging ? 75 : 150; // Reduced to ~13fps for dragging, ~7fps for final positions
 
       if (now - lastBroadcast > throttleTime) {
         global.lastTokenBroadcast.set(broadcastKey, now);
@@ -671,7 +671,7 @@ io.on('connection', (socket) => {
       if (!data.isDragging) {
         try {
           await optimizedFirebase.updateGameState(player.roomId, room.gameState, deltaUpdate?.delta);
-          console.log(`💾 Token position persisted via optimized Firebase for ${tokenKey}`);
+          // Token position persisted (log removed for performance)
         } catch (error) {
           console.error('Failed to persist token position:', error);
         }
@@ -698,12 +698,12 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Throttle character movement broadcasts to prevent player lag
+    // Throttle character movement broadcasts to prevent player lag (more aggressive)
     const broadcastKey = `${player.roomId}_character_${player.id}`;
     const now = Date.now();
     if (!global.lastCharacterBroadcast) global.lastCharacterBroadcast = new Map();
     const lastBroadcast = global.lastCharacterBroadcast.get(broadcastKey) || 0;
-    const throttleTime = data.isDragging ? 50 : 100; // 20fps for dragging, 10fps for final positions
+    const throttleTime = data.isDragging ? 75 : 150; // Reduced to ~13fps for dragging, ~7fps for final positions
 
     if (now - lastBroadcast > throttleTime) {
       global.lastCharacterBroadcast.set(broadcastKey, now);
