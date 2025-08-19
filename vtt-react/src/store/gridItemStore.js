@@ -185,14 +185,8 @@ const useGridItemStore = create(
           if (gameStore.isInMultiplayer) {
             console.log('📦 Sending item drop to multiplayer server:', gridItem.name);
 
-            // Use enhanced multiplayer if available, otherwise fallback to old system
-            if (enhancedMultiplayer.isConnected && enhancedMultiplayer.socket) {
-              enhancedMultiplayer.socket.emit('item_dropped', {
-                item: gridItem,
-                position: position,
-                gridPosition: position.gridPosition
-              });
-            } else if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            // Use regular socket system for item drops (server handles these properly)
+            if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
               gameStore.multiplayerSocket.emit('item_dropped', {
                 item: gridItem,
                 position: position,
@@ -576,16 +570,8 @@ const useGridItemStore = create(
           if (gameStore.isInMultiplayer) {
             console.log('🎁 Sending loot event to multiplayer server:', itemToUse.name, 'by', looterName);
 
-            // Use enhanced multiplayer if available, otherwise fallback to old system
-            if (enhancedMultiplayer.isConnected && enhancedMultiplayer.socket) {
-              enhancedMultiplayer.socket.emit('item_looted', {
-                item: itemToUse,
-                quantity: gridItem.quantity || 1,
-                source: 'Grid Item',
-                looter: looterName,
-                gridItemId: gridItemId
-              });
-            } else if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+            // Use regular socket system for item looting (server handles these properly)
+            if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
               gameStore.multiplayerSocket.emit('item_looted', {
                 item: itemToUse,
                 quantity: gridItem.quantity || 1,

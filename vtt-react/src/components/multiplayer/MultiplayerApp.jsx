@@ -109,33 +109,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    enhancedMultiplayer.on('item_dropped', (data) => {
-      console.log('🚀 Enhanced item dropped:', data);
-      // Handle item drops from enhanced multiplayer
-      const gridItemStore = require('../../store/gridItemStore').default;
-      if (data.item && data.position) {
-        gridItemStore.getState().addItemToGrid(data.item, data.position, false); // Don't send to server
-      }
-    });
-
-    enhancedMultiplayer.on('item_looted', (data) => {
-      console.log('🚀 Enhanced item looted:', data);
-      // Handle item looting from enhanced multiplayer
-      if (data.itemRemoved && data.gridItemId) {
-        const gridItemStore = require('../../store/gridItemStore').default;
-        gridItemStore.getState().removeItemFromGrid(data.gridItemId);
-      }
-
-      // Add loot notification
-      addNotification('loot', {
-        type: 'item_looted',
-        item: data.item,
-        quantity: data.quantity,
-        source: data.source,
-        looter: data.looter,
-        timestamp: data.timestamp
-      });
-    });
+    // Item events are handled by regular socket system since server has proper handlers for those
 
     enhancedMultiplayer.on('token_created', (data) => {
       console.log('🚀 Enhanced token created:', data);
@@ -730,10 +704,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       updateCharacterInfo('name', currentPlayerData.name);
     }
 
-    // Set room name for character name formatting
-    if (room?.name) {
-      setRoomName(room.name);
-    }
+    // Don't set room name for character formatting - players should see their character name without room suffix
 
     // Update game store GM mode
     setGMMode(isGameMaster);
@@ -845,8 +816,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.error('Error in handleLeaveRoom:', error);
     }
 
-    // Clear room name from character
-    clearRoomName();
+    // Room name is not set on character, so no need to clear
 
     setCurrentRoom(null);
     setSocket(null);
