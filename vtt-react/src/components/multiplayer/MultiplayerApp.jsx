@@ -58,6 +58,35 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const tokenUpdateThrottleRef = useRef(new Map());
   const INCOMING_UPDATE_THROTTLE = 50; // ~20fps for incoming updates to prevent lag
   const INCOMING_DRAGGING_THROTTLE = 33; // ~30fps for dragging updates
+  const THROTTLE_CLEANUP_INTERVAL = 5000; // Clean up throttle map every 5 seconds
+  const THROTTLE_ENTRY_LIFETIME = 10000; // Remove entries older than 10 seconds
+
+  // Cleanup function for throttling maps to prevent memory buildup
+  const cleanupThrottleMaps = useCallback(() => {
+    const now = Date.now();
+    const throttleMap = tokenUpdateThrottleRef.current;
+
+    // Remove old entries to prevent memory buildup
+    for (const [key, timestamp] of throttleMap.entries()) {
+      if (now - timestamp > THROTTLE_ENTRY_LIFETIME) {
+        throttleMap.delete(key);
+      }
+    }
+
+    // Log cleanup if map was getting large
+    if (throttleMap.size > 50) {
+      console.log(`🧹 Cleaned up throttle map, size: ${throttleMap.size}`);
+    }
+  }, []);
+
+  // Periodic cleanup of throttling maps to prevent memory buildup
+  useEffect(() => {
+    const cleanupInterval = setInterval(cleanupThrottleMaps, THROTTLE_CLEANUP_INTERVAL);
+
+    return () => {
+      clearInterval(cleanupInterval);
+    };
+  }, [cleanupThrottleMaps]);
 
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
@@ -324,6 +353,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             }
           });
         }
+
+        // Clean up throttle entry immediately when dragging stops
+        if (!isDragging) {
+          // Small delay to allow final position update, then clean up
+          setTimeout(() => {
+            tokenUpdateThrottleRef.current.delete(throttleKey);
+          }, 100);
+        }
       }
     });
 
@@ -346,6 +383,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
             updateCharacterTokenPosition(data.playerId, data.position);
           });
+        }
+
+        // Clean up throttle entry immediately when dragging stops
+        if (!data.isDragging) {
+          // Small delay to allow final position update, then clean up
+          setTimeout(() => {
+            tokenUpdateThrottleRef.current.delete(throttleKey);
+          }, 100);
         }
       }
     });

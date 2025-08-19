@@ -190,7 +190,7 @@ class EnhancedMultiplayerClient {
     });
 
     // Process events in chunks to prevent blocking the main thread
-    const CHUNK_SIZE = 5; // Process max 5 events per frame
+    const CHUNK_SIZE = 3; // Reduced to 3 events per frame for better performance
     let index = 0;
 
     const processChunk = () => {
@@ -205,6 +205,9 @@ class EnhancedMultiplayerClient {
       if (index < sortedEvents.length) {
         // Schedule next chunk for next frame
         requestAnimationFrame(processChunk);
+      } else {
+        // Clear processed events to prevent memory buildup
+        sortedEvents.length = 0;
       }
     };
 

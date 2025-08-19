@@ -646,12 +646,12 @@ io.on('connection', (socket) => {
       // Throttle token movement broadcasts to prevent player lag
       const broadcastKey = `${player.roomId}_${tokenKey}`;
       const now = Date.now();
-      const lastBroadcast = this.lastTokenBroadcast?.get(broadcastKey) || 0;
+      if (!global.lastTokenBroadcast) global.lastTokenBroadcast = new Map();
+      const lastBroadcast = global.lastTokenBroadcast.get(broadcastKey) || 0;
       const throttleTime = data.isDragging ? 50 : 100; // 20fps for dragging, 10fps for final positions
 
       if (now - lastBroadcast > throttleTime) {
-        if (!this.lastTokenBroadcast) this.lastTokenBroadcast = new Map();
-        this.lastTokenBroadcast.set(broadcastKey, now);
+        global.lastTokenBroadcast.set(broadcastKey, now);
 
         // Send token movement with throttling to prevent player lag
         io.to(player.roomId).emit('token_moved', {
@@ -701,12 +701,12 @@ io.on('connection', (socket) => {
     // Throttle character movement broadcasts to prevent player lag
     const broadcastKey = `${player.roomId}_character_${player.id}`;
     const now = Date.now();
-    const lastBroadcast = this.lastCharacterBroadcast?.get(broadcastKey) || 0;
+    if (!global.lastCharacterBroadcast) global.lastCharacterBroadcast = new Map();
+    const lastBroadcast = global.lastCharacterBroadcast.get(broadcastKey) || 0;
     const throttleTime = data.isDragging ? 50 : 100; // 20fps for dragging, 10fps for final positions
 
     if (now - lastBroadcast > throttleTime) {
-      if (!this.lastCharacterBroadcast) this.lastCharacterBroadcast = new Map();
-      this.lastCharacterBroadcast.set(broadcastKey, now);
+      global.lastCharacterBroadcast.set(broadcastKey, now);
 
       // Broadcast character movement to ALL players in the room (including mover for confirmation)
       io.to(player.roomId).emit('character_moved', {
@@ -1606,6 +1606,30 @@ io.on('connection', (socket) => {
     console.log(`🧹 Enhanced cleanup completed for socket ${socket.id}`);
   });
 });
+
+// Cleanup throttling maps periodically to prevent memory buildup
+setInterval(() => {
+  const now = Date.now();
+  const THROTTLE_ENTRY_LIFETIME = 30000; // 30 seconds
+
+  // Clean up token broadcast throttling
+  if (global.lastTokenBroadcast) {
+    for (const [key, timestamp] of global.lastTokenBroadcast.entries()) {
+      if (now - timestamp > THROTTLE_ENTRY_LIFETIME) {
+        global.lastTokenBroadcast.delete(key);
+      }
+    }
+  }
+
+  // Clean up character broadcast throttling
+  if (global.lastCharacterBroadcast) {
+    for (const [key, timestamp] of global.lastCharacterBroadcast.entries()) {
+      if (now - timestamp > THROTTLE_ENTRY_LIFETIME) {
+        global.lastCharacterBroadcast.delete(key);
+      }
+    }
+  }
+}, 10000); // Clean up every 10 seconds
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
