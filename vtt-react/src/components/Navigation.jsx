@@ -600,6 +600,9 @@ export default function Navigation({ onReturnToLanding }) {
     const buttons = getVisibleButtons();
 
     const handleButtonClick = useCallback((windowId) => {
+        console.log('🪟 Navigation button clicked:', windowId);
+        console.log('🪟 Current open windows:', Array.from(openWindows));
+
         // Special handling for level editor
         if (windowId === 'leveleditor') {
             setEditorMode(!isEditorMode);
@@ -623,10 +626,13 @@ export default function Navigation({ onReturnToLanding }) {
 
         const newOpenWindows = new Set(openWindows);
         if (openWindows.has(windowId)) {
+            console.log('🪟 Closing window:', windowId);
             newOpenWindows.delete(windowId);
         } else {
+            console.log('🪟 Opening window:', windowId);
             newOpenWindows.add(windowId);
         }
+        console.log('🪟 New open windows:', Array.from(newOpenWindows));
         setOpenWindows(newOpenWindows);
     }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode]);
 
@@ -718,9 +724,12 @@ export default function Navigation({ onReturnToLanding }) {
     };
 
     const getWindowContent = (button) => {
+        const shouldRender = openWindows.has(button.id);
+        console.log(`🪟 Rendering window content for ${button.id}:`, shouldRender);
+
         switch (button.id) {
             case 'character':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <CharacterSheetWindow
                         key={button.id}
                         isOpen={true}
@@ -728,7 +737,7 @@ export default function Navigation({ onReturnToLanding }) {
                     />
                 );
             case 'inventory':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <WowWindow
                         key={button.id}
                         title={button.title}

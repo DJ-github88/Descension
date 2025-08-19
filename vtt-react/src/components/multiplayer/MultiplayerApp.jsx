@@ -221,7 +221,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('player_joined', (data) => {
       console.log('🎮 Player joined event received:', data);
       console.log('🎮 Current room when player joined:', currentRoom?.name);
-      console.log('🎮 Current connected players:', connectedPlayers.length);
+      console.log('🎮 Current connected players before update:', connectedPlayers.length);
 
       // Update connected players list
       if (currentRoom) {
@@ -233,7 +233,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             return prev;
           }
           const updated = [...prev, data.player];
-          console.log('🎮 Updated connected players:', updated.map(p => p.name));
+          console.log('🎮 Updated connected players after join:', updated.map(p => `${p.name} (${p.id})`));
+          console.log('🎮 New total player count:', updated.length);
           return updated;
         });
 
@@ -338,6 +339,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                            data.playerId === socket.id ||
                            (window.multiplayerDragState && window.multiplayerDragState.has(`token_${targetId}`));
 
+      if (isOwnMovement) {
+        console.log('🚫 Blocking own token movement update for:', targetId, 'Player:', data.playerId);
+        return;
+      }
+
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
         // Aggressive throttling for incoming updates to prevent player lag
@@ -377,6 +383,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const isOwnMovement = data.playerId === currentPlayer?.id ||
                            data.playerId === socket.id ||
                            (window.multiplayerDragState && window.multiplayerDragState.has('character'));
+
+      if (isOwnMovement) {
+        console.log('🚫 Blocking own character movement update for player:', data.playerId);
+        return;
+      }
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
@@ -767,11 +778,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Create/update party with multiplayer players
     // Include GM and all regular players
     const allPlayers = [room.gm];
-    if (room.players && room.players.size > 0) {
-      allPlayers.push(...Array.from(room.players.values()));
+
+    // Handle different room.players formats (Map, Array, or Object)
+    if (room.players) {
+      if (room.players instanceof Map) {
+        allPlayers.push(...Array.from(room.players.values()));
+      } else if (Array.isArray(room.players)) {
+        allPlayers.push(...room.players);
+      } else if (typeof room.players === 'object') {
+        allPlayers.push(...Object.values(room.players));
+      }
     }
-    console.log('🎮 Setting connected players:', allPlayers.map(p => `${p.name} (${p.id})`));
-    console.log('🎮 Total player count:', allPlayers.length);
+
+    console.log('🎮 Setting connected players on room join:', allPlayers.map(p => `${p.name} (${p.id})`));
+    console.log('🎮 Total player count on room join:', allPlayers.length);
+    console.log('🎮 Room.players structure:', room.players);
     setConnectedPlayers(allPlayers);
 
     // Integrate multiplayer players into party system
