@@ -34,6 +34,9 @@
     transform: translateZ(0);
     /* Optimize rendering during drag */
     contain: layout style paint;
+    /* Prevent transform conflicts */
+    transition: none !important;
+    transform-origin: 0 0 !important;
 }
 
 .party-hud.compact {

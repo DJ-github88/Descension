@@ -163,10 +163,10 @@ const CharacterToken = ({
         setDragStartPosition({ x: position.x, y: position.y });
     };
 
-    // Handle mouse move and up for dragging with RAF optimization
+    // Handle mouse move and up for dragging with immediate visual feedback
     useEffect(() => {
         let rafId = null;
-        let pendingUpdate = null;
+        let lastNetworkUpdate = 0;
 
         const handleMouseMove = (e) => {
             if (!isDragging) return;
@@ -174,43 +174,36 @@ const CharacterToken = ({
             e.preventDefault();
             e.stopPropagation();
 
-            // Store the latest mouse position
-            pendingUpdate = {
-                clientX: e.clientX,
-                clientY: e.clientY
-            };
+            // Calculate new screen position IMMEDIATELY for responsive visual feedback
+            const screenX = e.clientX - dragOffset.x;
+            const screenY = e.clientY - dragOffset.y;
 
-            // Use requestAnimationFrame for smooth 60fps updates
+            // Get viewport dimensions for proper coordinate conversion
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Convert screen position back to world coordinates
+            const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+
+            // Update local position IMMEDIATELY - no RAF delay for visual feedback
+            setLocalPosition({ x: worldPos.x, y: worldPos.y });
+
+            // Use RAF only for expensive operations (network updates)
             if (rafId === null) {
                 rafId = requestAnimationFrame(() => {
-                    if (pendingUpdate && isDragging) {
-                        // Calculate new screen position
-                        const screenX = pendingUpdate.clientX - dragOffset.x;
-                        const screenY = pendingUpdate.clientY - dragOffset.y;
+                    const now = Date.now();
 
-                        // Get viewport dimensions for proper coordinate conversion
-                        const viewportWidth = window.innerWidth;
-                        const viewportHeight = window.innerHeight;
-
-                        // Convert screen position back to world coordinates
-                        const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
-
-                        // Update local position immediately for smooth visual feedback
-                        setLocalPosition({ x: worldPos.x, y: worldPos.y });
-
-                        // Send real-time position updates to multiplayer server during drag
-                        if (isInMultiplayer && multiplayerSocket) {
-                            // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
-                            const now = Date.now();
-                            if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
-                                multiplayerSocket.emit('character_moved', {
-                                    position: worldPos,
-                                    isDragging: true
-                                });
-                                lastMoveUpdateRef.current = now;
-                            }
+                    // Send real-time position updates to multiplayer server during drag (throttled)
+                    if (isInMultiplayer && multiplayerSocket) {
+                        if (now - lastNetworkUpdate > 33) { // 30fps for network updates
+                            multiplayerSocket.emit('character_moved', {
+                                position: worldPos,
+                                isDragging: true
+                            });
+                            lastNetworkUpdate = now;
                         }
                     }
+
                     rafId = null;
                 });
             }
@@ -256,8 +249,8 @@ const CharacterToken = ({
 
         if (isDragging) {
             // Add the event listeners to the document to ensure they work even if the cursor moves outside the token
-            document.addEventListener('mousemove', handleMouseMove, { passive: false });
-            document.addEventListener('mouseup', handleMouseUp, { passive: false });
+            document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
+            document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
         }
 
         return () => {

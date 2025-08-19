@@ -816,13 +816,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     };
 
-    // Handle drag for party member frames with RAF optimization
+    // Handle drag for party member frames with immediate visual feedback
     const handleMemberDrag = useCallback((member, data) => {
-        // Use requestAnimationFrame for smooth 60fps updates
-        requestAnimationFrame(() => {
-            // Update the member's position in the store
-            setMemberPosition(member.id, { x: data.x, y: data.y });
-        });
+        // Update the member's position IMMEDIATELY for responsive visual feedback
+        setMemberPosition(member.id, { x: data.x, y: data.y });
     }, [setMemberPosition]);
 
     // Test function to add a buff
@@ -955,6 +952,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             defaultPosition={{ x: 20, y: yOffset }}
                             nodeRef={memberNodeRef}
                             onDrag={(e, data) => handleMemberDrag(member, data)}
+                            enableUserSelectHack={false} // Disable user select hack for better performance
                         >
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame

@@ -537,12 +537,10 @@ const TargetHUD = () => {
         setRefreshKey(prev => prev + 1);
     };
 
-    // Handle position changes from dragging with RAF optimization
+    // Handle position changes from dragging with immediate visual feedback
     const handleDrag = (e, data) => {
-        // Use requestAnimationFrame for smooth 60fps updates
-        requestAnimationFrame(() => {
-            setTargetHUDPosition({ x: data.x, y: data.y });
-        });
+        // Update position IMMEDIATELY for responsive visual feedback
+        setTargetHUDPosition({ x: data.x, y: data.y });
     };
 
     // Tooltip handlers
@@ -689,6 +687,7 @@ const TargetHUD = () => {
                     position={targetHUDPosition}
                     onDrag={handleDrag}
                     nodeRef={nodeRef}
+                    enableUserSelectHack={false} // Disable user select hack for better performance
                 >
                     <div ref={nodeRef} className="target-frame" style={{ position: 'relative' }}>
                         <div
