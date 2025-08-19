@@ -643,25 +643,18 @@ io.on('connection', (socket) => {
         }
       );
 
-      // Determine event priority based on movement type
-      const priority = data.isDragging ? 'high' : 'normal';
-
-      // Add to event batch for optimized network delivery
-      eventBatcher.addEvent(player.roomId, {
-        type: 'token_moved',
-        data: {
-          tokenId: tokenKey,
-          creatureId: existingToken.creatureId,
-          position: data.position,
-          playerId: player.id,
-          playerName: player.name,
-          isDragging: data.isDragging || false,
-          velocity: data.velocity,
-          sequence: inputResult?.sequence || 0,
-          serverTimestamp: Date.now()
-        },
-        deltaUpdate: deltaUpdate
-      }, priority);
+      // Send token movement immediately for best responsiveness (bypass batching for movement)
+      io.to(player.roomId).emit('token_moved', {
+        tokenId: tokenKey,
+        creatureId: existingToken.creatureId,
+        position: data.position,
+        playerId: player.id,
+        playerName: player.name,
+        isDragging: data.isDragging || false,
+        velocity: data.velocity,
+        sequence: inputResult?.sequence || 0,
+        serverTimestamp: Date.now()
+      });
 
       // Persist to optimized Firebase (batched for performance)
       if (!data.isDragging) {
@@ -673,7 +666,7 @@ io.on('connection', (socket) => {
         }
       }
 
-      console.log(`🚀 Enhanced token ${tokenKey} moved by ${player.name} with lag compensation`);
+      // Token movement processed successfully
     } else {
       console.warn(`⚠️ Token ${data.tokenId} not found in room ${room.name} for movement`);
       socket.emit('error', { message: 'Token not found' });

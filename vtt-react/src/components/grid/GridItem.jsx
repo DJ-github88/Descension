@@ -14,20 +14,14 @@ const GridItem = ({ gridItem }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const itemRef = useRef(null);
 
-  // Debug when component is created
+  // Ensure component is interactive
   useEffect(() => {
-    console.log('GridItem component created/updated for:', gridItem.id, gridItem.name, {
-      itemId: gridItem.itemId,
-      type: gridItem.type,
-      hasOriginalItemStoreId: !!gridItem.originalItemStoreId
-    });
-
     // Force the component to be interactive
     if (itemRef.current) {
       itemRef.current.style.pointerEvents = 'all';
       itemRef.current.style.zIndex = '1000';
     }
-  }, [gridItem.id, gridItem.name, gridItem.itemId]);
+  }, [gridItem.id]);
 
   // Get current game state for reactive updates - use specific selectors to avoid unnecessary re-renders
   const cameraX = useGameStore(state => state.cameraX);
@@ -112,7 +106,7 @@ const GridItem = ({ gridItem }) => {
       const element = itemRef.current;
 
       const handleMouseEnterFallback = (e) => {
-        console.log('Fallback mouse enter:', gridItem.id, gridItem.name);
+        // Fallback mouse enter
         setShowTooltip(true);
         setTooltipPosition({
           x: e.clientX + 15,
@@ -141,7 +135,7 @@ const GridItem = ({ gridItem }) => {
 
   // Simple tooltip handlers
   const handleMouseEnter = (e) => {
-    console.log('GridItem mouse enter:', gridItem.id, gridItem.name);
+    // GridItem mouse enter
     setShowTooltip(true);
     setTooltipPosition({
       x: e.clientX + 15,
@@ -273,7 +267,7 @@ const GridItem = ({ gridItem }) => {
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
         onMouseDown={(e) => {
-          console.log('GridItem mouse down:', gridItem.id, gridItem.name);
+          // GridItem mouse down
           e.stopPropagation(); // Prevent event bubbling
         }}
       >

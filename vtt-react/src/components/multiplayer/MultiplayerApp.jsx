@@ -303,12 +303,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.playerId !== currentPlayer?.id) {
         const targetId = data.creatureId || data.tokenId;
 
-        // Throttle incoming updates to prevent lag on player side
+        // Optimized throttling - less aggressive for dragging, more for final positions
         const throttleKey = `${targetId}_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
+        const throttleTime = isDragging ? 16 : 8; // 60fps for dragging, 120fps for final positions
 
-        if (!lastUpdate || now - lastUpdate > INCOMING_UPDATE_THROTTLE) {
+        if (!lastUpdate || now - lastUpdate > throttleTime) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
           // Get fresh token data from store to ensure we have latest state
@@ -316,10 +317,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const token = currentTokens.find(t => t.creatureId === targetId);
 
           if (token) {
-            console.log(`🎯 Updating token ${token.id} for creature ${targetId} to position:`, data.position);
             updateCreatureTokenPosition(token.id, data.position);
-          } else {
-            console.warn(`🎯 Token not found for creature ${targetId}. Available tokens:`, currentTokens.map(t => ({ id: t.id, creatureId: t.creatureId })));
           }
         }
       }
@@ -329,13 +327,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_moved', (data) => {
       // Only update if it's not our own movement (to avoid double updates)
       if (data.playerId !== currentPlayer?.id) {
-        console.log(`👤 Character moved by ${data.playerName}:`, data.position);
+        // Throttle character movement updates for smooth performance
+        const throttleKey = `character_${data.playerId}`;
+        const now = Date.now();
+        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
+        const throttleTime = data.isDragging ? 16 : 8; // 60fps for dragging, 120fps for final positions
 
-        // Update character position in character token store
-        const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-        // For now, we'll need to identify which character token this belongs to
-        // This might need enhancement based on how character tokens are identified
-        updateCharacterTokenPosition(data.playerId, data.position);
+        if (!lastUpdate || now - lastUpdate > throttleTime) {
+          tokenUpdateThrottleRef.current.set(throttleKey, now);
+
+          // Update character position in character token store
+          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+          updateCharacterTokenPosition(data.playerId, data.position);
+        }
       }
     });
 

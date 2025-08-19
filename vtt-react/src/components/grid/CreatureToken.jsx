@@ -127,18 +127,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // Update local position using creatureStore only (avoid dual store updates)
     updateTokenPosition(tokenId, position);
 
-    // Use enhanced multiplayer system if connected, otherwise fall back to old system
-    if (sendToServer && isInMultiplayer) {
-      if (isEnhancedConnected && enhancedMoveToken) {
-        // Use enhanced multiplayer with client-side prediction
-        enhancedMoveToken(token?.creatureId || tokenId, position, false);
-      } else if (multiplayerSocket && token) {
-        // Fallback to old system
-        multiplayerSocket.emit('token_moved', {
-          tokenId: token.creatureId,
-          position: position
-        });
-      }
+    // Use regular socket system for token movement (server handles these properly)
+    if (sendToServer && isInMultiplayer && multiplayerSocket && token) {
+      multiplayerSocket.emit('token_moved', {
+        tokenId: token.creatureId,
+        position: position
+      });
     }
   };
 
@@ -180,21 +174,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       setLocalPosition({ x: worldPos.x, y: worldPos.y });
 
       // Send real-time position updates to multiplayer server during drag
-      if (isInMultiplayer && token) {
-        // Throttle updates more aggressively to reduce lag (every 50ms ≈ 20fps)
+      if (isInMultiplayer && token && multiplayerSocket) {
+        // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
         const now = Date.now();
-        if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 50) {
-          if (isEnhancedConnected && enhancedMoveToken) {
-            // Use enhanced multiplayer with client-side prediction for live dragging
-            enhancedMoveToken(token.creatureId, worldPos, true);
-          } else if (multiplayerSocket) {
-            // Fallback to old system
-            multiplayerSocket.emit('token_moved', {
-              tokenId: token.creatureId,
-              position: worldPos,
-              isDragging: true
-            });
-          }
+        if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
+          multiplayerSocket.emit('token_moved', {
+            tokenId: token.creatureId,
+            position: worldPos,
+            isDragging: true
+          });
           lastMoveUpdateRef.current = now;
         }
       }
@@ -244,13 +232,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         const dy = finalWorldPos.y - dragStartPosition.y;
         const totalDistance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
 
-        console.log('🏃 MOVEMENT DISTANCE:', Math.round(totalDistance), 'feet');
+        // Movement distance calculated
 
         // Validate movement and handle AP costs
         const validation = validateMovement(tokenId, dragStartPosition, finalWorldPos, [creature], feetPerTile);
 
         if (validation.needsConfirmation) {
-          console.log('⚠️ MOVEMENT REQUIRES CONFIRMATION');
+          // Movement requires confirmation
           setPendingMovementConfirmation({
             tokenId,
             startPosition: dragStartPosition,
@@ -259,7 +247,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             totalDistance: totalDistance
           });
         } else if (validation.isValid) {
-          console.log('✅ MOVEMENT IS VALID - Auto-confirming');
+          // Movement is valid - auto-confirming
           // Auto-confirm valid movement
           confirmMovement(tokenId, validation.additionalAPNeeded, totalDistance);
         } else {
@@ -270,18 +258,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
       } else {
         // Not in combat - send final position update to multiplayer
-        if (isInMultiplayer && token) {
-          if (isEnhancedConnected && enhancedMoveToken) {
-            // Use enhanced multiplayer for final position
-            enhancedMoveToken(token.creatureId, finalWorldPos, false);
-          } else if (multiplayerSocket) {
-            // Fallback to old system
-            multiplayerSocket.emit('token_moved', {
-              tokenId: token.creatureId,
-              position: finalWorldPos,
-              isDragging: false
-            });
-          }
+        if (isInMultiplayer && token && multiplayerSocket) {
+          multiplayerSocket.emit('token_moved', {
+            tokenId: token.creatureId,
+            position: finalWorldPos,
+            isDragging: false
+          });
         }
       }
 
@@ -1011,7 +993,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       {/* Character-style Tooltip */}
       {showTooltip && (() => {
-        console.log('🎯 Rendering tooltip for:', creature?.name, 'showTooltip:', showTooltip);
+        // Rendering tooltip
         return createPortal(
         <div
           className="pf-character-tooltip"

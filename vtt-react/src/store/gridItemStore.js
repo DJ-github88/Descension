@@ -183,7 +183,7 @@ const useGridItemStore = create(
         if (sendToServer) {
           const gameStore = useGameStore.getState();
           if (gameStore.isInMultiplayer) {
-            console.log('📦 Sending item drop to multiplayer server:', gridItem.name);
+            // Sending item drop to multiplayer server
 
             // Use regular socket system for item drops (server handles these properly)
             if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
@@ -568,7 +568,7 @@ const useGridItemStore = create(
         if (sendToServer) {
           const gameStore = useGameStore.getState();
           if (gameStore.isInMultiplayer) {
-            console.log('🎁 Sending loot event to multiplayer server:', itemToUse.name, 'by', looterName);
+            // Sending loot event to multiplayer server
 
             // Use regular socket system for item looting (server handles these properly)
             if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {

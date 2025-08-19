@@ -186,20 +186,14 @@ const CharacterToken = ({
             setLocalPosition({ x: worldPos.x, y: worldPos.y });
 
             // Send real-time position updates to multiplayer server during drag
-            if (isInMultiplayer) {
-                // Throttle updates more aggressively to reduce lag (every 50ms ≈ 20fps)
+            if (isInMultiplayer && multiplayerSocket) {
+                // Throttle updates for smooth performance (every 33ms ≈ 30fps for better responsiveness)
                 const now = Date.now();
-                if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 50) {
-                    if (isEnhancedConnected && enhancedMoveToken) {
-                        // Use enhanced multiplayer with client-side prediction for character movement
-                        enhancedMoveToken(`character_${tokenId}`, worldPos, true);
-                    } else if (multiplayerSocket) {
-                        // Fallback to old system
-                        multiplayerSocket.emit('character_moved', {
-                            position: worldPos,
-                            isDragging: true
-                        });
-                    }
+                if (!lastMoveUpdateRef.current || now - lastMoveUpdateRef.current > 33) {
+                    multiplayerSocket.emit('character_moved', {
+                        position: worldPos,
+                        isDragging: true
+                    });
                     lastMoveUpdateRef.current = now;
                 }
             }
@@ -232,17 +226,11 @@ const CharacterToken = ({
             updateCharacterTokenPosition(tokenId, { x: snappedWorldPos.x, y: snappedWorldPos.y });
 
             // Send final position to multiplayer
-            if (isInMultiplayer) {
-                if (isEnhancedConnected && enhancedMoveToken) {
-                    // Use enhanced multiplayer for final character position
-                    enhancedMoveToken(`character_${tokenId}`, snappedWorldPos, false);
-                } else if (multiplayerSocket) {
-                    // Fallback to old system
-                    multiplayerSocket.emit('character_moved', {
-                        position: snappedWorldPos,
-                        isDragging: false
-                    });
-                }
+            if (isInMultiplayer && multiplayerSocket) {
+                multiplayerSocket.emit('character_moved', {
+                    position: snappedWorldPos,
+                    isDragging: false
+                });
             }
 
             setIsDragging(false);
