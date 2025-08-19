@@ -139,9 +139,11 @@ const DraggableWindow = forwardRef(({
         setIsDragging(true);
 
         // Track window drag state globally to prevent multiplayer feedback loops
-        if (window.multiplayerDragState) {
-            window.multiplayerDragState.set(`window_${title || 'unknown'}`, true);
+        if (!window.multiplayerDragState) {
+            window.multiplayerDragState = new Map();
         }
+        window.multiplayerDragState.set(`window_${title || 'unknown'}`, true);
+        console.log('🎯 Started dragging window:', title, 'Drag state:', window.multiplayerDragState);
 
         // Increase z-index when dragging starts to bring window to front
         if (nodeRef.current) {
@@ -189,6 +191,7 @@ const DraggableWindow = forwardRef(({
         // Clear window drag state globally
         if (window.multiplayerDragState) {
             window.multiplayerDragState.delete(`window_${title || 'unknown'}`);
+            console.log('🎯 Stopped dragging window:', title, 'Drag state:', window.multiplayerDragState);
         }
 
         // Update state with final position (immediate, not throttled)

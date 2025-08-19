@@ -936,9 +936,15 @@ export default function Navigation({ onReturnToLanding }) {
                                     return (
                                         <button
                                             key={button.id}
-                                            onClick={() => handleButtonClick(button.id)}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                console.log('🪟 Button click event fired for:', button.id);
+                                                handleButtonClick(button.id);
+                                            }}
                                             className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
                                             title={`${button.title} (${button.shortcut})${button.premium ? ' - Premium Feature' : ''}`}
+                                            style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                                         >
                                         <svg
                                             viewBox="0 0 24 24"

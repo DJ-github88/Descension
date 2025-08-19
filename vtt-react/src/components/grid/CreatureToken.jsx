@@ -290,6 +290,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Clear drag state globally to allow network updates again
       if (window.multiplayerDragState) {
         window.multiplayerDragState.delete(`token_${token.creatureId}`);
+        console.log('🎯 Stopped dragging token:', token.creatureId, 'Drag state:', window.multiplayerDragState);
       }
     };
 
@@ -780,9 +781,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setShowTooltip(false);
 
     // Track drag state globally to prevent feedback loops in multiplayer
-    if (window.multiplayerDragState) {
-      window.multiplayerDragState.set(`token_${token.creatureId}`, true);
+    if (!window.multiplayerDragState) {
+      window.multiplayerDragState = new Map();
     }
+    window.multiplayerDragState.set(`token_${token.creatureId}`, true);
+    console.log('🎯 Started dragging token:', token.creatureId, 'Drag state:', window.multiplayerDragState);
 
     // Store the starting position for movement visualization
     setDragStartPosition({ x: position.x, y: position.y });
