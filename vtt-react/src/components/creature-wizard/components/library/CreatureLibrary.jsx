@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { v4 as generateUniqueId } from 'uuid';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
@@ -97,7 +97,7 @@ const CreatureLibrary = ({ onEdit }) => {
   // Component mounted - no logging needed for production
 
   // Filter and sort creatures - memoize to prevent recalculation on every render
-  const filteredCreatures = React.useMemo(() => {
+  const filteredCreatures = useMemo(() => {
     return sortCreatures(
       filterCreatures(library.creatures, library.filters),
       library.sortOrder

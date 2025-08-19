@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
@@ -302,7 +302,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   };
 
   // Apply filters and sorting to get displayed spells
-  const filteredSpells = React.useMemo(() => {
+  const filteredSpells = useMemo(() => {
     const filtered = filterSpells(library, library.filters);
     return sortSpells(filtered, library.sortOrder);
   }, [library.spells, library.filters, library.sortOrder]);

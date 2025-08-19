@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
@@ -51,7 +51,7 @@ const SpellLibraryPopup = ({
   }, [isOpen, onClose]);
 
   // Apply filters to the spells
-  const filteredSpells = React.useMemo(() => {
+  const filteredSpells = useMemo(() => {
     return library.spells.filter(spell => {
       // Search filter
       if (searchQuery && !spell.name.toLowerCase().includes(searchQuery.toLowerCase()) &&

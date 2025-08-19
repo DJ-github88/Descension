@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import WowWindow from './WowWindow';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
@@ -185,7 +185,7 @@ const SpellSelectionWindow = ({
   };
 
   // Apply filters to the spells
-  const filteredSpells = React.useMemo(() => {
+  const filteredSpells = useMemo(() => {
     return library.spells.filter(spell => {
       // Search filter
       if (searchQuery && !spell.name.toLowerCase().includes(searchQuery.toLowerCase()) &&

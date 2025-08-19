@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 import SimplifiedMechanicsConfig from '../mechanics/SimplifiedMechanicsConfig';
@@ -31,7 +31,7 @@ const Step7Mechanics = ({ stepNumber, totalSteps, onNext, onPrevious, isActive }
   const [errors, setErrors] = useState([]);
 
   // Get all configured effects from previous steps
-  const configuredEffects = React.useMemo(() => {
+  const configuredEffects = useMemo(() => {
     const effects = [];
 
     // Add damage effect if configured

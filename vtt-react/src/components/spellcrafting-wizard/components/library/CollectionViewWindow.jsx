@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import SpellContextMenu from './SpellContextMenu';
@@ -175,7 +175,7 @@ const CollectionViewWindow = ({
   const collection = library.categories.find(cat => cat.id === collectionId);
 
   // Get spells in the collection and remove duplicates
-  const collectionSpells = React.useMemo(() => {
+  const collectionSpells = useMemo(() => {
     const spellsInCollection = library.spells.filter(spell => {
       // Check if the spell belongs to this collection
       if (spell.categoryIds && spell.categoryIds.includes(collectionId)) {
