@@ -286,6 +286,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // End dragging
       setIsDragging(false);
       setDragStartPosition(null);
+
+      // Clear drag state globally to allow network updates again
+      if (window.multiplayerDragState) {
+        window.multiplayerDragState.delete(`token_${token.creatureId}`);
+      }
     };
 
     if (isDragging) {
@@ -773,6 +778,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     setIsDragging(true);
     setShowTooltip(false);
+
+    // Track drag state globally to prevent feedback loops in multiplayer
+    if (window.multiplayerDragState) {
+      window.multiplayerDragState.set(`token_${token.creatureId}`, true);
+    }
 
     // Store the starting position for movement visualization
     setDragStartPosition({ x: position.x, y: position.y });

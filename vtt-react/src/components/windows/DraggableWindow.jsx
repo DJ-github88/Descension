@@ -137,6 +137,12 @@ const DraggableWindow = forwardRef(({
     // Handle drag start
     const handleDragStart = useCallback((e, data) => {
         setIsDragging(true);
+
+        // Track window drag state globally to prevent multiplayer feedback loops
+        if (window.multiplayerDragState) {
+            window.multiplayerDragState.set(`window_${title || 'unknown'}`, true);
+        }
+
         // Increase z-index when dragging starts to bring window to front
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = (zIndex + 100).toString();
@@ -152,7 +158,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [zIndex, onDragStart, handleClassName]);
+    }, [zIndex, onDragStart, handleClassName, title]);
 
     // Handle drag with pure immediate feedback - optimized to reduce re-renders
     const handleDrag = useCallback((e, data) => {
@@ -179,6 +185,12 @@ const DraggableWindow = forwardRef(({
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
         setIsDragging(false);
+
+        // Clear window drag state globally
+        if (window.multiplayerDragState) {
+            window.multiplayerDragState.delete(`window_${title || 'unknown'}`);
+        }
+
         // Update state with final position (immediate, not throttled)
         setPosition({ x: data.x, y: data.y });
 
@@ -207,7 +219,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, onDragStop, zIndex, handleClassName]);
+    }, [onDrag, onDragStop, zIndex, handleClassName, title]);
 
     // Update position after initial render to ensure proper centering
     useEffect(() => {

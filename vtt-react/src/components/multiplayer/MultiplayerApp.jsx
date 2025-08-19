@@ -61,6 +61,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const THROTTLE_CLEANUP_INTERVAL = 5000; // Clean up throttle map every 5 seconds
   const THROTTLE_ENTRY_LIFETIME = 10000; // Remove entries older than 10 seconds
 
+  // Track player's own drag operations to prevent feedback loops
+  const playerDragStateRef = useRef(new Map()); // Track what the player is currently dragging
+
+  // Initialize global drag state tracker for cross-component communication
+  useEffect(() => {
+    if (!window.multiplayerDragState) {
+      window.multiplayerDragState = new Map();
+    }
+  }, []);
+
   // Cleanup function for throttling maps to prevent memory buildup
   const cleanupThrottleMaps = useCallback(() => {
     const now = Date.now();
@@ -321,10 +331,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('token_moved', (data) => {
       const isDragging = data.isDragging;
 
-      // Only update if it's not our own movement (to avoid double updates)
-      if (data.playerId !== currentPlayer?.id) {
-        const targetId = data.creatureId || data.tokenId;
+      const targetId = data.creatureId || data.tokenId;
 
+      // Enhanced check to prevent processing our own movements
+      const isOwnMovement = data.playerId === currentPlayer?.id ||
+                           data.playerId === socket.id ||
+                           (window.multiplayerDragState && window.multiplayerDragState.has(`token_${targetId}`));
+
+      // Only update if it's not our own movement (to avoid double updates and feedback loops)
+      if (!isOwnMovement) {
         // Aggressive throttling for incoming updates to prevent player lag
         const throttleKey = `${targetId}_${data.playerId}`;
         const now = Date.now();
@@ -347,7 +362,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
 
         // Clean up throttle entry immediately when dragging stops
-        if (!isDragging) {
+        if (!data.isDragging) {
           // Small delay to allow final position update, then clean up
           setTimeout(() => {
             tokenUpdateThrottleRef.current.delete(throttleKey);
@@ -358,8 +373,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character movements from other players
     socket.on('character_moved', (data) => {
-      // Only update if it's not our own movement (to avoid double updates)
-      if (data.playerId !== currentPlayer?.id) {
+      // Enhanced check to prevent processing our own movements
+      const isOwnMovement = data.playerId === currentPlayer?.id ||
+                           data.playerId === socket.id ||
+                           (window.multiplayerDragState && window.multiplayerDragState.has('character'));
+
+      // Only update if it's not our own movement (to avoid double updates and feedback loops)
+      if (!isOwnMovement) {
         // Aggressive throttling for character movement to prevent player lag
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();

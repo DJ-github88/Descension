@@ -159,6 +159,11 @@ const CharacterToken = ({
         setIsDragging(true);
         setShowTooltip(false);
 
+        // Track drag state globally to prevent feedback loops in multiplayer
+        if (window.multiplayerDragState) {
+            window.multiplayerDragState.set('character', true);
+        }
+
         // Store the starting position for movement
         setDragStartPosition({ x: position.x, y: position.y });
     };
@@ -245,6 +250,11 @@ const CharacterToken = ({
 
             setIsDragging(false);
             setDragStartPosition(null);
+
+            // Clear drag state globally to allow network updates again
+            if (window.multiplayerDragState) {
+                window.multiplayerDragState.delete('character');
+            }
         };
 
         if (isDragging) {
