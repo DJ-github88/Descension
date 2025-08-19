@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import EnvironmentDebug from '../debug/EnvironmentDebug';
