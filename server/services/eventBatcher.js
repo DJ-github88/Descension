@@ -17,10 +17,10 @@ class EventBatcher {
     this.clientMetrics = new Map(); // socketId -> network metrics
     this.batchIntervals = new Map(); // roomId -> interval ID
     
-    // Configuration
-    this.defaultBatchInterval = 16; // ~60fps
-    this.maxBatchSize = 50; // max events per batch
-    this.priorityThreshold = 5; // ms for high priority events
+    // Configuration - optimized for player performance
+    this.defaultBatchInterval = 50; // ~20fps to prevent player lag
+    this.maxBatchSize = 20; // reduced batch size to prevent overwhelming players
+    this.priorityThreshold = 10; // ms for high priority events
     this.adaptiveThresholds = {
       lowLatency: 10, // < 10ms
       mediumLatency: 50, // 10-50ms

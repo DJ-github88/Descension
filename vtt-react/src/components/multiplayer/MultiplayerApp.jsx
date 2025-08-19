@@ -54,9 +54,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     disconnect: enhancedDisconnect
   } = useEnhancedMultiplayer();
 
-  // Throttling for incoming token updates to prevent lag
+  // Aggressive throttling for incoming token updates to prevent player lag
   const tokenUpdateThrottleRef = useRef(new Map());
-  const INCOMING_UPDATE_THROTTLE = 16; // ~60fps for smooth player experience
+  const INCOMING_UPDATE_THROTTLE = 50; // ~20fps for incoming updates to prevent lag
+  const INCOMING_DRAGGING_THROTTLE = 33; // ~30fps for dragging updates
 
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
@@ -303,22 +304,25 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.playerId !== currentPlayer?.id) {
         const targetId = data.creatureId || data.tokenId;
 
-        // Optimized throttling - less aggressive for dragging, more for final positions
+        // Aggressive throttling for incoming updates to prevent player lag
         const throttleKey = `${targetId}_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
-        const throttleTime = isDragging ? 16 : 8; // 60fps for dragging, 120fps for final positions
+        const throttleTime = isDragging ? INCOMING_DRAGGING_THROTTLE : INCOMING_UPDATE_THROTTLE;
 
         if (!lastUpdate || now - lastUpdate > throttleTime) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Get fresh token data from store to ensure we have latest state
-          const currentTokens = useCreatureStore.getState().tokens;
-          const token = currentTokens.find(t => t.creatureId === targetId);
+          // Use RAF to prevent blocking the main thread
+          requestAnimationFrame(() => {
+            // Get fresh token data from store to ensure we have latest state
+            const currentTokens = useCreatureStore.getState().tokens;
+            const token = currentTokens.find(t => t.creatureId === targetId);
 
-          if (token) {
-            updateCreatureTokenPosition(token.id, data.position);
-          }
+            if (token) {
+              updateCreatureTokenPosition(token.id, data.position);
+            }
+          });
         }
       }
     });
@@ -327,18 +331,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_moved', (data) => {
       // Only update if it's not our own movement (to avoid double updates)
       if (data.playerId !== currentPlayer?.id) {
-        // Throttle character movement updates for smooth performance
+        // Aggressive throttling for character movement to prevent player lag
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
-        const throttleTime = data.isDragging ? 16 : 8; // 60fps for dragging, 120fps for final positions
+        const throttleTime = data.isDragging ? INCOMING_DRAGGING_THROTTLE : INCOMING_UPDATE_THROTTLE;
 
         if (!lastUpdate || now - lastUpdate > throttleTime) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Update character position in character token store
-          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-          updateCharacterTokenPosition(data.playerId, data.position);
+          // Use RAF to prevent blocking the main thread
+          requestAnimationFrame(() => {
+            // Update character position in character token store
+            const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+            updateCharacterTokenPosition(data.playerId, data.position);
+          });
         }
       }
     });
@@ -346,7 +353,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for item drops from other players
     socket.on('item_dropped', (data) => {
       const isSync = data.isSync;
-      console.log(isSync ? '🔄 Syncing grid item:' : '📦 Item dropped by player:', data.playerName, 'item:', data.item.name);
+      // Reduced console logging to prevent performance impact
 
       // Only add item if it's not our own drop (to avoid duplicates) or if it's a sync
       if (data.playerId !== currentPlayer?.id || isSync) {
@@ -617,20 +624,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Listen for character movements from other players
-    socket.on('character_moved', (data) => {
-      const isDragging = data.isDragging;
-      console.log(`🚶 Character ${isDragging ? 'dragging' : 'moved'} by player:`, data.playerName);
-
-      // Only update if it's not our own movement (to avoid double updates)
-      if (data.playerId !== currentPlayer?.id) {
-        // Update character position - you'll need to implement this function
-        // updateCharacterPosition(data.position);
-        console.log(`🚶 Updated character position ${isDragging ? '(live)' : '(final)'}`);
-      } else {
-        console.log('🚶 Ignoring own character movement to avoid duplicate update');
-      }
-    });
+    // Duplicate character movement handler disabled to prevent double processing
+    // The main character_moved handler above handles all character movements
 
     // Handle reconnection
     socket.on('reconnect', (attemptNumber) => {

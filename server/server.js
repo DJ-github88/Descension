@@ -643,18 +643,29 @@ io.on('connection', (socket) => {
         }
       );
 
-      // Send token movement immediately for best responsiveness (bypass batching for movement)
-      io.to(player.roomId).emit('token_moved', {
-        tokenId: tokenKey,
-        creatureId: existingToken.creatureId,
-        position: data.position,
-        playerId: player.id,
-        playerName: player.name,
-        isDragging: data.isDragging || false,
-        velocity: data.velocity,
-        sequence: inputResult?.sequence || 0,
-        serverTimestamp: Date.now()
-      });
+      // Throttle token movement broadcasts to prevent player lag
+      const broadcastKey = `${player.roomId}_${tokenKey}`;
+      const now = Date.now();
+      const lastBroadcast = this.lastTokenBroadcast?.get(broadcastKey) || 0;
+      const throttleTime = data.isDragging ? 50 : 100; // 20fps for dragging, 10fps for final positions
+
+      if (now - lastBroadcast > throttleTime) {
+        if (!this.lastTokenBroadcast) this.lastTokenBroadcast = new Map();
+        this.lastTokenBroadcast.set(broadcastKey, now);
+
+        // Send token movement with throttling to prevent player lag
+        io.to(player.roomId).emit('token_moved', {
+          tokenId: tokenKey,
+          creatureId: existingToken.creatureId,
+          position: data.position,
+          playerId: player.id,
+          playerName: player.name,
+          isDragging: data.isDragging || false,
+          velocity: data.velocity,
+          sequence: inputResult?.sequence || 0,
+          serverTimestamp: now
+        });
+      }
 
       // Persist to optimized Firebase (batched for performance)
       if (!data.isDragging) {
@@ -687,14 +698,25 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Broadcast character movement to ALL players in the room (including mover for confirmation)
-    io.to(player.roomId).emit('character_moved', {
-      position: data.position,
-      playerId: player.id,
-      playerName: player.name,
-      isDragging: data.isDragging || false,
-      timestamp: new Date()
-    });
+    // Throttle character movement broadcasts to prevent player lag
+    const broadcastKey = `${player.roomId}_character_${player.id}`;
+    const now = Date.now();
+    const lastBroadcast = this.lastCharacterBroadcast?.get(broadcastKey) || 0;
+    const throttleTime = data.isDragging ? 50 : 100; // 20fps for dragging, 10fps for final positions
+
+    if (now - lastBroadcast > throttleTime) {
+      if (!this.lastCharacterBroadcast) this.lastCharacterBroadcast = new Map();
+      this.lastCharacterBroadcast.set(broadcastKey, now);
+
+      // Broadcast character movement to ALL players in the room (including mover for confirmation)
+      io.to(player.roomId).emit('character_moved', {
+        position: data.position,
+        playerId: player.id,
+        playerName: player.name,
+        isDragging: data.isDragging || false,
+        timestamp: new Date()
+      });
+    }
 
     console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
   });

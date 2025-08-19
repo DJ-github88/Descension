@@ -174,7 +174,7 @@ class EnhancedMultiplayerClient {
   }
 
   /**
-   * Process individual events from batch
+   * Process individual events from batch with throttling to prevent player lag
    */
   processBatchEvents(events) {
     // Sort events by priority and timestamp
@@ -182,17 +182,34 @@ class EnhancedMultiplayerClient {
       const priorityOrder = { critical: 0, high: 1, normal: 2, low: 3 };
       const aPriority = priorityOrder[a.priority] || 2;
       const bPriority = priorityOrder[b.priority] || 2;
-      
+
       if (aPriority !== bPriority) {
         return aPriority - bPriority;
       }
       return a.timestamp - b.timestamp;
     });
 
-    // Process events in order
-    for (const event of sortedEvents) {
-      this.processEvent(event);
-    }
+    // Process events in chunks to prevent blocking the main thread
+    const CHUNK_SIZE = 5; // Process max 5 events per frame
+    let index = 0;
+
+    const processChunk = () => {
+      const endIndex = Math.min(index + CHUNK_SIZE, sortedEvents.length);
+
+      for (let i = index; i < endIndex; i++) {
+        this.processEvent(sortedEvents[i]);
+      }
+
+      index = endIndex;
+
+      if (index < sortedEvents.length) {
+        // Schedule next chunk for next frame
+        requestAnimationFrame(processChunk);
+      }
+    };
+
+    // Start processing
+    requestAnimationFrame(processChunk);
   }
 
   /**
