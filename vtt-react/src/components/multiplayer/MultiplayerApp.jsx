@@ -127,7 +127,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Enhanced multiplayer event listeners
     enhancedMultiplayer.on('token_moved', (data) => {
-      console.log('🚀 Enhanced token moved:', data);
       // Handle token movement from enhanced multiplayer
       if (data.tokenId && data.position) {
         updateTokenPosition(data.tokenId, data.position);
@@ -135,7 +134,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     enhancedMultiplayer.on('character_moved', (data) => {
-      console.log('🚀 Enhanced character moved:', data);
       // Handle character movement from enhanced multiplayer
       if (data.position) {
         // Update character token position
@@ -146,7 +144,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Item events are handled by regular socket system since server has proper handlers for those
 
     enhancedMultiplayer.on('token_created', (data) => {
-      console.log('🚀 Enhanced token created:', data);
       // Handle token creation from enhanced multiplayer
       if (data.creature && data.token && data.position) {
         addCreature(data.creature);
@@ -340,7 +337,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                            (window.multiplayerDragState && window.multiplayerDragState.has(`token_${targetId}`));
 
       if (isOwnMovement) {
-        console.log('🚫 Blocking own token movement update for:', targetId, 'Player:', data.playerId);
         return;
       }
 
@@ -385,7 +381,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                            (window.multiplayerDragState && window.multiplayerDragState.has('character'));
 
       if (isOwnMovement) {
-        console.log('🚫 Blocking own character movement update for player:', data.playerId);
         return;
       }
 
@@ -940,16 +935,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <DynamicFogManager />
         <DynamicLightingManager />
         <AtmosphericEffectsManager />
-        <Navigation />
+        <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
         <GMPlayerToggle />
 
-        {/* Enhanced Multiplayer Performance Monitor */}
-        <MultiplayerPerformanceMonitor
-          networkMetrics={networkMetrics}
-          performanceMetrics={performanceMetrics}
-          connectionQuality={connectionQuality}
-          isVisible={isEnhancedConnected}
-        />
+        {/* Enhanced Multiplayer Performance Monitor - Disabled for better performance */}
+        {false && (
+          <MultiplayerPerformanceMonitor
+            networkMetrics={networkMetrics}
+            performanceMetrics={performanceMetrics}
+            connectionQuality={connectionQuality}
+            isVisible={isEnhancedConnected}
+          />
+        )}
       </div>
 
       {/* Multiplayer indicator with back button */}

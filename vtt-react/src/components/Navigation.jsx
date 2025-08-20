@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment, useRef } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense, Fragment, useRef, useMemo } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useGameStore from '../store/gameStore';
@@ -548,9 +548,19 @@ export default function Navigation({ onReturnToLanding }) {
 
     // Filter buttons based on GM/Player mode
     const getVisibleButtons = () => {
+        // Ensure NAVIGATION_BUTTONS is valid
+        if (!NAVIGATION_BUTTONS || !Array.isArray(NAVIGATION_BUTTONS)) {
+            console.error('🚨 NAVIGATION_BUTTONS is not properly defined');
+            return [];
+        }
+
+        const validButtons = NAVIGATION_BUTTONS.filter(button =>
+            button && button.id && button.title && button.shortcut
+        );
+
         if (isGMMode) {
             // GM sees all buttons
-            return NAVIGATION_BUTTONS;
+            return validButtons;
         } else {
             // Player mode - hide GM-only features but keep settings
             const playerRestrictedButtons = [
@@ -561,7 +571,7 @@ export default function Navigation({ onReturnToLanding }) {
                 // Note: settings is now allowed in player mode
             ];
 
-            return NAVIGATION_BUTTONS.filter(button =>
+            return validButtons.filter(button =>
                 !playerRestrictedButtons.includes(button.id)
             );
         }
@@ -597,12 +607,10 @@ export default function Navigation({ onReturnToLanding }) {
 
 
 
-    const buttons = getVisibleButtons();
+    // Memoize buttons to prevent unnecessary re-renders
+    const buttons = useMemo(() => getVisibleButtons(), [isGMMode]);
 
     const handleButtonClick = useCallback((windowId) => {
-        console.log('🪟 Navigation button clicked:', windowId);
-        console.log('🪟 Current open windows:', Array.from(openWindows));
-
         // Special handling for level editor
         if (windowId === 'leveleditor') {
             setEditorMode(!isEditorMode);
@@ -626,13 +634,10 @@ export default function Navigation({ onReturnToLanding }) {
 
         const newOpenWindows = new Set(openWindows);
         if (openWindows.has(windowId)) {
-            console.log('🪟 Closing window:', windowId);
             newOpenWindows.delete(windowId);
         } else {
-            console.log('🪟 Opening window:', windowId);
             newOpenWindows.add(windowId);
         }
-        console.log('🪟 New open windows:', Array.from(newOpenWindows));
         setOpenWindows(newOpenWindows);
     }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode]);
 
@@ -724,8 +729,13 @@ export default function Navigation({ onReturnToLanding }) {
     };
 
     const getWindowContent = (button) => {
+        // Safety check to ensure button object is valid
+        if (!button || !button.id || !button.title) {
+            console.warn('🚨 Invalid button object passed to getWindowContent:', button);
+            return null;
+        }
+
         const shouldRender = openWindows.has(button.id);
-        console.log(`🪟 Rendering window content for ${button.id}:`, shouldRender);
 
         switch (button.id) {
             case 'character':
@@ -925,7 +935,7 @@ export default function Navigation({ onReturnToLanding }) {
                             height: size.height,
                         }}>
                             <div className="wow-nav-grid">
-                                {buttons.map(button => {
+                                {buttons.filter(button => button && button.id && button.title).map(button => {
                                     // Special handling for level editor and combat active states
                                     const isActive = button.id === 'leveleditor'
                                         ? isEditorMode
@@ -939,7 +949,6 @@ export default function Navigation({ onReturnToLanding }) {
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 e.stopPropagation();
-                                                console.log('🪟 Button click event fired for:', button.id);
                                                 handleButtonClick(button.id);
                                             }}
                                             className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
@@ -993,7 +1002,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </Resizable>
                 </div>
             </Draggable>
-            {buttons.map(button => (
+            {buttons.filter(button => button && button.id && button.title).map(button => (
                 <React.Fragment key={`window-${button.id}`}>
                     {getWindowContent(button)}
                 </React.Fragment>

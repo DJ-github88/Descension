@@ -22,6 +22,11 @@ const WowWindow = forwardRef(({
     onDrag = null,
     className = ""
 }, ref) => {
+    // Safety check for required props
+    if (!isOpen) {
+        return null;
+    }
+
     // Create refs for components (hooks must be called before early returns)
     const draggableRef = useRef(null);
     const windowElementRef = useRef(null);
@@ -164,7 +169,7 @@ const WowWindow = forwardRef(({
                                 </>
                             ) : (
                                 <>
-                                    <div className="window-title">{title}</div>
+                                    <div className="window-title">{title || 'Window'}</div>
 
                                     {/* Header tabs */}
                                     {headerTabs.length > 0 && (

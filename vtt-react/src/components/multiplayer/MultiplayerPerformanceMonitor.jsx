@@ -11,11 +11,11 @@
 import React, { useState, useEffect } from 'react';
 import './MultiplayerPerformanceMonitor.css';
 
-const MultiplayerPerformanceMonitor = ({ 
-  networkMetrics, 
-  performanceMetrics, 
+const MultiplayerPerformanceMonitor = ({
+  networkMetrics,
+  performanceMetrics,
   connectionQuality,
-  isVisible = false 
+  isVisible = false
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [historicalData, setHistoricalData] = useState({
@@ -24,16 +24,16 @@ const MultiplayerPerformanceMonitor = ({
     predictions: []
   });
 
-  // Update historical data
+  // Only update historical data when visible to save performance
   useEffect(() => {
-    if (networkMetrics) {
+    if (isVisible && networkMetrics) {
       setHistoricalData(prev => ({
         latency: [...prev.latency, networkMetrics.latency].slice(-20),
         bandwidth: [...prev.bandwidth, networkMetrics.bandwidth || 0].slice(-20),
-        predictions: [...prev.predictions, performanceMetrics.predictionsCorrect || 95].slice(-20)
+        predictions: [...prev.predictions, performanceMetrics?.predictionsCorrect || 95].slice(-20)
       }));
     }
-  }, [networkMetrics, performanceMetrics]);
+  }, [networkMetrics, performanceMetrics, isVisible]);
 
   if (!isVisible) return null;
 
