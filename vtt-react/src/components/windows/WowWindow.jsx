@@ -27,6 +27,9 @@ const WowWindow = forwardRef(({
         return null;
     }
 
+    // Ensure title is always defined
+    const safeTitle = title || 'Window';
+
     // Create refs for components (hooks must be called before early returns)
     const draggableRef = useRef(null);
     const windowElementRef = useRef(null);
@@ -169,7 +172,7 @@ const WowWindow = forwardRef(({
                                 </>
                             ) : (
                                 <>
-                                    <div className="window-title">{title || 'Window'}</div>
+                                    <div className="window-title">{safeTitle}</div>
 
                                     {/* Header tabs */}
                                     {headerTabs.length > 0 && (

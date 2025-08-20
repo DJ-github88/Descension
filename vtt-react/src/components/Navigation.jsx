@@ -500,6 +500,7 @@ function CharacterSheetWindow({ isOpen, onClose }) {
         <WowWindow
             isOpen={isOpen}
             onClose={onClose}
+            title="Character Sheet"
             defaultSize={{ width: 800, height: 600 }}
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
