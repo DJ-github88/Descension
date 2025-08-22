@@ -76,21 +76,30 @@ const DraggableWindow = forwardRef(({
         return pos;
     }, [centered, defaultPosition]);
 
-    // State for window position
-    const [position, setPosition] = useState(defaultPosition);
+    // State for window position - initialize with proper position
+    const [position, setPosition] = useState(() => {
+        if (centered && typeof window !== 'undefined') {
+            // For centered windows, calculate center position immediately
+            const windowWidth = 400; // Default width
+            const windowHeight = 600; // Default height
+            return {
+                x: Math.max(0, Math.floor((window.innerWidth - windowWidth) / 2)),
+                y: Math.max(0, Math.floor((window.innerHeight - windowHeight) / 2))
+            };
+        }
+        return defaultPosition;
+    });
 
     // Track dragging state to prevent conflicts
     const [isDragging, setIsDragging] = useState(false);
 
-    // Update position after initial render to ensure proper centering
+    // Update position after initial render to ensure proper centering with actual window size
     useEffect(() => {
         if (centered && windowRef.current) {
             // Short delay to ensure the window has rendered with its actual size
             const timer = setTimeout(() => {
                 const newPosition = getInitialPosition();
                 setPosition(newPosition);
-
-                // No need to force positioning - React will handle it through state
             }, 100);
             return () => clearTimeout(timer);
         }
@@ -211,20 +220,11 @@ const DraggableWindow = forwardRef(({
         }
     }, [onDrag, onDragStop, zIndex, handleClassName, title]);
 
-    // Update position after initial render to ensure proper centering
-    useEffect(() => {
-        if (centered && windowRef.current) {
-            // Short delay to ensure the window has rendered with its actual size
-            const timer = setTimeout(() => {
-                const newPosition = getInitialPosition();
-                setPosition(newPosition);
-            }, 100);
-            return () => clearTimeout(timer);
-        }
-    }, [centered, getInitialPosition]);
-
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
+
+    // Debug logging
+    console.log('🎯 DraggableWindow rendering:', { isOpen, position, defaultPosition, zIndex });
 
     return (
         <Draggable
@@ -247,8 +247,11 @@ const DraggableWindow = forwardRef(({
                     pointerEvents: 'auto',
                     top: 0,
                     left: 0,
-                    transformOrigin: 'top left' // Scale from top-left corner
+                    transformOrigin: 'top left', // Scale from top-left corner
                     // Transform is managed entirely through direct DOM manipulation
+                    // Temporary debugging - bright border to make windows visible
+                    border: '3px solid red',
+                    background: 'rgba(255, 0, 0, 0.1)'
                 }}
             >
                 <div ref={windowRef}>

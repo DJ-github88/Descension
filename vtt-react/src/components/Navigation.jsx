@@ -638,13 +638,10 @@ export default function Navigation({ onReturnToLanding }) {
         const newOpenWindows = new Set(openWindows);
         if (openWindows.has(windowId)) {
             newOpenWindows.delete(windowId);
-            console.log('🎯 Closing window:', windowId);
         } else {
             newOpenWindows.add(windowId);
-            console.log('🎯 Opening window:', windowId);
         }
         setOpenWindows(newOpenWindows);
-        console.log('🎯 New openWindows state:', Array.from(newOpenWindows));
     }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode]);
 
     const handleKeyPress = useCallback((e) => {
@@ -745,7 +742,6 @@ export default function Navigation({ onReturnToLanding }) {
         const safeTitle = button.title || button.id || 'Window';
 
         const shouldRender = openWindows.has(button.id);
-        console.log('🎯 getWindowContent called for:', button.id, 'shouldRender:', shouldRender, 'openWindows:', Array.from(openWindows));
 
         switch (button.id) {
             case 'character':
@@ -771,7 +767,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </WowWindow>
                 );
             case 'crafting':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <CraftingWindow
@@ -783,7 +779,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
             case 'spellbook':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <SpellLibraryProvider>
@@ -797,7 +793,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
             case 'quests':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <QuestLogWindowWrapper
@@ -809,7 +805,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
             case 'campaign':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <CampaignManagerWindow
@@ -821,7 +817,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
             case 'chat':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <ChatWindowWrapper
@@ -833,7 +829,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </ErrorBoundary>
                 );
             case 'social':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
                             <SocialWindowWrapper
@@ -850,7 +846,7 @@ export default function Navigation({ onReturnToLanding }) {
                 return null;
 
             case 'itemgen':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <ItemLibraryWindow
                         key={button.id}
                         isOpen={true}
@@ -862,7 +858,7 @@ export default function Navigation({ onReturnToLanding }) {
                 return null;
 
             case 'maplibrary':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <MapLibraryWindow
                         key={button.id}
                         isOpen={true}
@@ -871,7 +867,7 @@ export default function Navigation({ onReturnToLanding }) {
                 );
 
             case 'creatures':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <CreatureWindowWrapper
                         key={button.id}
                         isOpen={true}
@@ -879,7 +875,7 @@ export default function Navigation({ onReturnToLanding }) {
                     />
                 );
             case 'settings':
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <SettingsWindowWrapper
                         key={button.id}
                         isOpen={true}
@@ -890,7 +886,7 @@ export default function Navigation({ onReturnToLanding }) {
             default:
                 if (button.window) {
                     const Window = button.window;
-                    return openWindows.has(button.id) && (
+                    return shouldRender && (
                         <WowWindow
                             key={button.id}
                             title={safeTitle}
@@ -903,7 +899,7 @@ export default function Navigation({ onReturnToLanding }) {
                         </WowWindow>
                     );
                 }
-                return openWindows.has(button.id) && (
+                return shouldRender && (
                     <WowWindow
                         key={button.id}
                         title={safeTitle}
