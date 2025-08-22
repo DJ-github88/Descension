@@ -144,8 +144,7 @@ const DraggableWindow = forwardRef(({
         if (!window.multiplayerDragState) {
             window.multiplayerDragState = new Map();
         }
-        window.multiplayerDragState.set(`window_${title || 'unknown'}`, true);
-        console.log('🎯 Started dragging window:', title, 'Drag state:', window.multiplayerDragState);
+        window.multiplayerDragState.set(`window_${Date.now()}`, true);
 
         // Increase z-index when dragging starts to bring window to front
         if (nodeRef.current) {
@@ -162,7 +161,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [zIndex, onDragStart, handleClassName, title]);
+    }, [zIndex, onDragStart, handleClassName]);
 
     // Handle drag with pure immediate feedback - let react-draggable handle positioning
     const handleDrag = useCallback((e, data) => {
@@ -187,8 +186,7 @@ const DraggableWindow = forwardRef(({
 
         // Clear window drag state globally
         if (window.multiplayerDragState) {
-            window.multiplayerDragState.delete(`window_${title || 'unknown'}`);
-            console.log('🎯 Stopped dragging window:', title, 'Drag state:', window.multiplayerDragState);
+            window.multiplayerDragState.clear();
         }
 
         // Update state with final position (immediate, not throttled)
@@ -218,7 +216,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, onDragStop, zIndex, handleClassName, title]);
+    }, [onDrag, onDragStop, zIndex, handleClassName]);
 
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
