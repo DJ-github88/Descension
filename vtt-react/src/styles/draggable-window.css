@@ -17,8 +17,7 @@
     will-change: transform;
     backface-visibility: hidden;
     transform-style: preserve-3d;
-    /* Force hardware acceleration */
-    transform: translateZ(0);
+    /* Remove conflicting transform - let react-draggable handle positioning */
     /* Optimize for animations */
     contain: layout style paint;
 }
@@ -29,8 +28,7 @@
     /* Additional performance optimizations during drag */
     will-change: transform;
     pointer-events: none; /* Prevent hover effects during drag */
-    /* Force GPU acceleration during drag */
-    transform: translateZ(0);
+    /* Remove conflicting transform - let react-draggable handle positioning */
     /* Optimize rendering during drag */
     contain: layout style paint;
     /* Prevent transform conflicts */

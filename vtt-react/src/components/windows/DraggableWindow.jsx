@@ -96,23 +96,18 @@ const DraggableWindow = forwardRef(({
         }
     }, [centered, getInitialPosition]);
 
-    // Direct transform update for better performance and fluidity
-    const updateTransform = useCallback((x, y, scale) => {
-        if (nodeRef.current) {
-            // Always apply scale to maintain consistent window size
-            nodeRef.current.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-        }
-    }, []);
-
-    // Manage transform through optimized DOM manipulation - use refs to avoid re-renders
+    // Manage position and scale through refs to avoid re-renders
     const positionRef = useRef(position);
     const scaleRef = useRef(windowScale);
 
     useEffect(() => {
         positionRef.current = position;
         scaleRef.current = windowScale;
-        updateTransform(position.x, position.y, windowScale);
-    }, [position.x, position.y, windowScale, updateTransform]);
+        // Let react-draggable handle positioning, only apply scale via CSS
+        if (nodeRef.current) {
+            nodeRef.current.style.transform = `scale(${windowScale})`;
+        }
+    }, [position.x, position.y, windowScale]);
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
@@ -162,16 +157,11 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName, title]);
 
-    // Handle drag with pure immediate feedback - optimized to reduce re-renders
+    // Handle drag with pure immediate feedback - let react-draggable handle positioning
     const handleDrag = useCallback((e, data) => {
-        // Update position IMMEDIATELY for responsive visual feedback
-        // Use direct DOM manipulation during drag to avoid React re-renders
-        if (nodeRef.current && isDragging) {
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${scaleRef.current})`;
-            positionRef.current = { x: data.x, y: data.y };
-        } else {
-            setPosition({ x: data.x, y: data.y });
-        }
+        // Update position state for React consistency
+        setPosition({ x: data.x, y: data.y });
+        positionRef.current = { x: data.x, y: data.y };
 
         // Call onDrag callback immediately as well
         if (onDrag && data && typeof data === 'object') {
@@ -182,7 +172,7 @@ const DraggableWindow = forwardRef(({
         if (e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, handleClassName, isDragging]);
+    }, [onDrag, handleClassName]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -201,8 +191,8 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-            // Re-apply scale after dragging ends to prevent flickering
-            nodeRef.current.style.transform = `translate(${data.x}px, ${data.y}px) scale(${scaleRef.current})`;
+            // Only apply scale, let react-draggable handle positioning
+            nodeRef.current.style.transform = `scale(${scaleRef.current})`;
         }
 
         // Update refs to match final position
