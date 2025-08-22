@@ -2603,7 +2603,7 @@ export default function Grid() {
                 x={contextMenuPosition.x}
                 y={contextMenuPosition.y}
                 onClose={handleCloseContextMenu}
-                title={contextMenu ? `${contextMenu.type.name}` : null}
+                title={contextMenu?.type?.name || 'Context Menu'}
                 items={contextMenu ? [
                     {
                         icon: '✕',
