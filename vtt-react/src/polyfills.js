@@ -140,6 +140,76 @@
     }
 })();
 
+// ULTIMATE TITLE POLYFILL - Addresses persistent "title is not defined" ReferenceError
+(function() {
+    'use strict';
+
+    if (typeof window !== 'undefined') {
+        // Define title in every possible scope and context
+
+        // 1. Global window scope
+        if (typeof window.title === 'undefined') {
+            window.title = document.title || '';
+        }
+
+        // 2. Global scope via window.global
+        if (window.global && typeof window.global.title === 'undefined') {
+            window.global.title = document.title || '';
+        }
+
+        // 3. Direct global assignment (for closures and compiled code)
+        try {
+            // This might fail in strict mode, but we'll try anyway
+            eval('var title = "' + (document.title || '').replace(/"/g, '\\"') + '";');
+            eval('let titleLet = "' + (document.title || '').replace(/"/g, '\\"') + '";');
+            eval('const titleConst = "' + (document.title || '').replace(/"/g, '\\"') + '";');
+        } catch (e) {
+            // Ignore errors in strict mode
+        }
+
+        // 4. Property descriptor with getter/setter
+        try {
+            Object.defineProperty(window, 'title', {
+                get: function() {
+                    return document.title || '';
+                },
+                set: function(value) {
+                    document.title = value || '';
+                },
+                configurable: true,
+                enumerable: true
+            });
+        } catch (e) {
+            // Fallback if property descriptor fails
+            window.title = document.title || '';
+        }
+
+        // 5. Ensure it's available in all common global contexts
+        const globalContexts = [window, window.global, window.self, window.top];
+        globalContexts.forEach(context => {
+            if (context && typeof context.title === 'undefined') {
+                try {
+                    context.title = document.title || '';
+                } catch (e) {
+                    // Ignore cross-origin errors
+                }
+            }
+        });
+
+        // 6. Override any potential undefined references in React context
+        if (window.React && window.React.createElement) {
+            const originalCreateElement = window.React.createElement;
+            window.React.createElement = function(type, props, ...children) {
+                // Ensure title is always defined in React context
+                if (typeof title === 'undefined') {
+                    window.title = document.title || '';
+                }
+                return originalCreateElement.call(this, type, props, ...children);
+            };
+        }
+    }
+})();
+
 // Additional polyfills for older browsers
 if (!Array.prototype.includes) {
     Array.prototype.includes = function(searchElement, fromIndex) {

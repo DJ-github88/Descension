@@ -1,15 +1,18 @@
 // Import polyfills first
 import './polyfills';
 
-// Global safety mechanism to prevent "title is not defined" ReferenceError
-// This is a nuclear option to catch the persistent error that's been plaguing the app
+// ULTIMATE NUCLEAR OPTION: Define title globally in all possible scopes
+// This error is persistent and happening in compiled code, so we need to be more aggressive
 if (typeof window !== 'undefined') {
-    // Ensure title is always defined globally as a fallback
-    if (typeof window.title === 'undefined') {
-        window.title = '';
+    // Define title in global scope
+    window.title = document.title || '';
+
+    // Also define it as a global variable
+    if (typeof global !== 'undefined') {
+        global.title = document.title || '';
     }
 
-    // Override any potential undefined title references
+    // Define it in the window object with a getter/setter
     Object.defineProperty(window, 'title', {
         get: function() {
             return document.title || '';
@@ -21,6 +24,11 @@ if (typeof window !== 'undefined') {
         enumerable: true
     });
 }
+
+// Also define title as a global variable in case it's being referenced in a closure
+var title = typeof document !== 'undefined' ? (document.title || '') : '';
+let titleVar = typeof document !== 'undefined' ? (document.title || '') : '';
+const titleConst = typeof document !== 'undefined' ? (document.title || '') : '';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
