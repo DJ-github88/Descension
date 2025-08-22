@@ -103,10 +103,8 @@ const DraggableWindow = forwardRef(({
     useEffect(() => {
         positionRef.current = position;
         scaleRef.current = windowScale;
-        // Let react-draggable handle positioning, only apply scale via CSS
-        if (nodeRef.current) {
-            nodeRef.current.style.transform = `scale(${windowScale})`;
-        }
+        // Let react-draggable handle both positioning AND scaling
+        // Remove CSS transform to avoid double scaling
     }, [position.x, position.y, windowScale]);
 
     // Expose methods to parent component
@@ -191,8 +189,7 @@ const DraggableWindow = forwardRef(({
         if (nodeRef.current) {
             nodeRef.current.style.zIndex = zIndex.toString();
             nodeRef.current.classList.remove('dragging'); // Re-enable transition
-            // Only apply scale, let react-draggable handle positioning
-            nodeRef.current.style.transform = `scale(${scaleRef.current})`;
+            // Let react-draggable handle both positioning and scaling
         }
 
         // Update refs to match final position
