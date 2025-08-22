@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
 import useAuthStore from "./store/authStore";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -98,6 +99,25 @@ export default function App() {
 
     // Initialize authentication and stores
     useEffect(() => {
+        // Global safety check for undefined variables that might cause ReferenceError
+        if (typeof window !== 'undefined') {
+            // Add global error handler for ReferenceError
+            window.addEventListener('error', (event) => {
+                if (event.error && event.error.message && event.error.message.includes('title is not defined')) {
+                    console.error('🚨 CAUGHT TITLE REFERENCE ERROR:', {
+                        message: event.error.message,
+                        filename: event.filename,
+                        lineno: event.lineno,
+                        colno: event.colno,
+                        stack: event.error.stack
+                    });
+                    // Prevent the error from crashing the app
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        }
+
         initChatStore();
         initCreatureStore();
 
@@ -230,7 +250,7 @@ const AppContent = ({
     };
 
     return (
-        <>
+        <ErrorBoundary>
             <Routes>
                         {/* Landing page route */}
                         <Route path="/" element={
@@ -334,6 +354,6 @@ const AppContent = ({
                 isOpen={showUserProfile}
                 onClose={handleCloseUserProfile}
             />
-        </>
+        </ErrorBoundary>
     );
 };
