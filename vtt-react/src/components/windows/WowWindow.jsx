@@ -27,6 +27,9 @@ const WowWindow = forwardRef(({
         return null;
     }
 
+    // Temporary debugging
+    console.log('🎯 WowWindow rendering:', { title, isOpen, defaultPosition, defaultSize });
+
     // Ensure title is always defined
     const safeTitle = title || 'Window';
 
