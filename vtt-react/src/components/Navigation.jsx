@@ -748,6 +748,7 @@ export default function Navigation({ onReturnToLanding }) {
                         key={button.id}
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}
+                        title={safeTitle}
                     />
                 );
             case 'inventory':
