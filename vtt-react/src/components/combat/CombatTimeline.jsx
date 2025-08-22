@@ -105,19 +105,8 @@ const CombatTimeline = () => {
         setDraggedItem(null);
     };
 
-    // Debug logging
-    console.log('CombatTimeline render check:', {
-        isInCombat,
-        turnOrderLength: turnOrder.length,
-        currentTurnIndex,
-        round,
-        timelinePosition,
-        timelineSize
-    });
-
     // Don't render if not in combat
     if (!isInCombat) {
-        console.log('CombatTimeline: Not rendering - not in combat');
         return null;
     }
 

@@ -160,23 +160,10 @@ export default function InventoryWindow() {
     const [containerToUnlock, setContainerToUnlock] = useState(null);
     const [showCurrencyWithdrawModal, setShowCurrencyWithdrawModal] = useState(false);
 
-    // Function to force a refresh of the component
-    const forceRefresh = useCallback(() => {
-        console.log('Forcing inventory UI refresh');
-        setRefreshKey(prevKey => prevKey + 1);
-    }, []);
-
     // Refs
     const contextMenuRef = useRef(null);
 
-    // Debug hook to log when items array changes
-    useEffect(() => {
-        console.log('Inventory items changed:', items.length);
-        console.log('Items array reference changed');
-
-        // Force a refresh when items array changes
-        forceRefresh();
-    }, [items, forceRefresh]);
+    // Removed excessive re-rendering logic for better performance
 
     // Calculate item counts in each section
     useEffect(() => {
@@ -1167,7 +1154,7 @@ export default function InventoryWindow() {
     };
 
     return (
-        <div className="window-content inventory-window-content" key={`inventory-window-${refreshKey}`}>
+        <div className="window-content inventory-window-content">
             <div className="inventory-container">
 
 

@@ -556,7 +556,7 @@ export default function Navigation({ onReturnToLanding }) {
         }
 
         const validButtons = NAVIGATION_BUTTONS.filter(button =>
-            button && button.id && button.title && button.shortcut
+            button && button.id && button.shortcut
         );
 
         if (isGMMode) {
@@ -731,10 +731,13 @@ export default function Navigation({ onReturnToLanding }) {
 
     const getWindowContent = (button) => {
         // Safety check to ensure button object is valid
-        if (!button || !button.id || !button.title) {
+        if (!button || !button.id) {
             console.warn('🚨 Invalid button object passed to getWindowContent:', button);
             return null;
         }
+
+        // Ensure title is always defined with fallback
+        const safeTitle = button.title || button.id || 'Window';
 
         const shouldRender = openWindows.has(button.id);
 
@@ -751,7 +754,7 @@ export default function Navigation({ onReturnToLanding }) {
                 return shouldRender && (
                     <WowWindow
                         key={button.id}
-                        title={button.title}
+                        title={safeTitle}
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}
                         defaultSize={{ width: 845, height: 490 }}
@@ -883,7 +886,7 @@ export default function Navigation({ onReturnToLanding }) {
                     return openWindows.has(button.id) && (
                         <WowWindow
                             key={button.id}
-                            title={button.title}
+                            title={safeTitle}
                             isOpen={true}
                             onClose={() => handleButtonClick(button.id)}
                             defaultSize={{ width: 800, height: 600 }}
@@ -896,15 +899,15 @@ export default function Navigation({ onReturnToLanding }) {
                 return openWindows.has(button.id) && (
                     <WowWindow
                         key={button.id}
-                        title={button.title}
+                        title={safeTitle}
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}
                         defaultSize={{ width: 800, height: 600 }}
                         defaultPosition={{ x: 100, y: 100 }}
                     >
                         <div style={{ padding: '20px' }}>
-                            <h2 style={{ color: '#89dceb', marginBottom: '16px' }}>{button.title}</h2>
-                            <p>Content for {button.title} window coming soon...</p>
+                            <h2 style={{ color: '#89dceb', marginBottom: '16px' }}>{safeTitle}</h2>
+                            <p>Content for {safeTitle} window coming soon...</p>
                         </div>
                     </WowWindow>
                 );
@@ -936,7 +939,7 @@ export default function Navigation({ onReturnToLanding }) {
                             height: size.height,
                         }}>
                             <div className="wow-nav-grid">
-                                {buttons.filter(button => button && button.id && button.title).map(button => {
+                                {buttons.filter(button => button && button.id).map(button => {
                                     // Special handling for level editor and combat active states
                                     const isActive = button.id === 'leveleditor'
                                         ? isEditorMode
@@ -953,7 +956,7 @@ export default function Navigation({ onReturnToLanding }) {
                                                 handleButtonClick(button.id);
                                             }}
                                             className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
-                                            title={`${button.title} (${button.shortcut})${button.premium ? ' - Premium Feature' : ''}`}
+                                            title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
                                             style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                                         >
                                         <svg
@@ -1003,7 +1006,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </Resizable>
                 </div>
             </Draggable>
-            {buttons.filter(button => button && button.id && button.title).map(button => (
+            {buttons.filter(button => button && button.id).map(button => (
                 <React.Fragment key={`window-${button.id}`}>
                     {getWindowContent(button)}
                 </React.Fragment>

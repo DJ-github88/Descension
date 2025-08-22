@@ -5,6 +5,7 @@ import EnvironmentDebug from '../debug/EnvironmentDebug';
 import enhancedMultiplayer from '../../services/enhancedMultiplayer';
 import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
 import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
+import { debugLog, debugWarn, debugError, DEBUG_CATEGORIES } from '../../utils/debugUtils';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -85,7 +86,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Log cleanup if map was getting large
     if (throttleMap.size > 50) {
-      console.log(`🧹 Cleaned up throttle map, size: ${throttleMap.size}`);
+      debugLog(DEBUG_CATEGORIES.MULTIPLAYER, `🧹 Cleaned up throttle map, size: ${throttleMap.size}`);
     }
   }, []);
 
@@ -108,7 +109,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Initialize socket connection when component mounts
   useEffect(() => {
-    console.log('🚀 Initializing enhanced multiplayer connection in MultiplayerApp');
+    debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🚀 Initializing enhanced multiplayer connection in MultiplayerApp');
     const newSocket = io(SOCKET_URL, {
       autoConnect: false
     });
@@ -117,9 +118,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const initializeEnhancedMultiplayer = async () => {
       try {
         await enhancedConnect(SOCKET_URL);
-        console.log('🚀 Enhanced multiplayer system connected');
+        debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🚀 Enhanced multiplayer system connected');
       } catch (error) {
-        console.warn('⚠️ Enhanced multiplayer failed to connect, using fallback:', error);
+        debugWarn(DEBUG_CATEGORIES.MULTIPLAYER, '⚠️ Enhanced multiplayer failed to connect, using fallback:', error);
       }
     };
 
@@ -153,12 +154,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Basic connection event listeners
     newSocket.on('connect', () => {
-      console.log('Socket connected in MultiplayerApp:', newSocket.id);
+      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket connected in MultiplayerApp:', newSocket.id);
       setIsConnecting(false);
     });
 
     newSocket.on('disconnect', (reason) => {
-      console.log('Socket disconnected in MultiplayerApp:', reason);
+      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket disconnected in MultiplayerApp:', reason);
       setIsConnecting(false);
     });
 
@@ -191,7 +192,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     newSocket.connect();
 
     return () => {
-      console.log('MultiplayerApp unmounting - cleaning up socket');
+      debugLog(DEBUG_CATEGORIES.MULTIPLAYER, 'MultiplayerApp unmounting - cleaning up socket');
       if (newSocket) {
         newSocket.emit('leave_room');
         newSocket.disconnect();
@@ -202,23 +203,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     if (!socket) return;
 
-    console.log('Setting up socket event listeners for socket:', socket.id);
-    console.log('Socket connected:', socket.connected);
+    debugLog(DEBUG_CATEGORIES.SOCKET, 'Setting up socket event listeners for socket:', socket.id);
+    debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket connected:', socket.connected);
 
     // Monitor socket connection status
     socket.on('connect', () => {
-      console.log('Socket reconnected in MultiplayerApp');
+      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket reconnected in MultiplayerApp');
     });
 
     socket.on('disconnect', (reason) => {
-      console.log('Socket disconnected in MultiplayerApp:', reason);
+      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket disconnected in MultiplayerApp:', reason);
     });
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
-      console.log('🎮 Player joined event received:', data);
-      console.log('🎮 Current room when player joined:', currentRoom?.name);
-      console.log('🎮 Current connected players before update:', connectedPlayers.length);
+      debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🎮 Player joined event received:', data.player.name);
 
       // Update connected players list
       if (currentRoom) {
@@ -226,21 +225,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Check if player already exists to avoid duplicates
           const existingPlayer = prev.find(p => p.id === data.player.id);
           if (existingPlayer) {
-            console.log('🎮 Player already in list, skipping duplicate:', data.player.name);
             return prev;
           }
           const updated = [...prev, data.player];
-          console.log('🎮 Updated connected players after join:', updated.map(p => `${p.name} (${p.id})`));
-          console.log('🎮 New total player count:', updated.length);
+          debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🎮 New total player count:', updated.length);
           return updated;
         });
 
         // Show player join notification
-        console.log('🎮 Showing player join notification for:', data.player.name);
         showPlayerJoinNotification(data.player.name, currentRoom.name);
 
         // Add to party system
-        console.log('🎮 Adding player to party system:', data.player.name);
         addPartyMember({
           id: data.player.id,
           name: data.player.name,
@@ -254,7 +249,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
 
         // Add to chat system
-        console.log('🎮 Adding player to chat system:', data.player.name);
         addUser({
           id: data.player.id,
           name: data.player.name,
@@ -938,8 +932,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
         <GMPlayerToggle />
 
-        {/* Enhanced Multiplayer Performance Monitor - Disabled for better performance */}
-        {false && (
+        {/* Enhanced Multiplayer Performance Monitor - Available in development */}
+        {process.env.NODE_ENV === 'development' && (
           <MultiplayerPerformanceMonitor
             networkMetrics={networkMetrics}
             performanceMetrics={performanceMetrics}

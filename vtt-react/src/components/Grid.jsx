@@ -269,26 +269,12 @@ export default function Grid() {
         };
     }, [clearGridItems]);
 
-    // Debug grid items state
-    useEffect(() => {
-        console.log('Grid items changed:', gridItems.length, 'items');
-        gridItems.forEach((item, index) => {
-            console.log(`Grid item ${index}:`, {
-                id: item.id,
-                itemId: item.itemId,
-                name: item.name,
-                type: item.type,
-                hasOriginalItemStoreId: !!item.originalItemStoreId,
-                addedAt: item.addedAt
-            });
-        });
-    }, [gridItems]);
+    // Debug grid items state (removed for performance)
 
     // Force re-render when grid items are updated
     const [forceRenderKey, setForceRenderKey] = useState(0);
     useEffect(() => {
         const handleGridItemsUpdated = () => {
-            console.log('Force re-rendering Grid due to grid items update');
             setForceRenderKey(prev => prev + 1);
         };
 
@@ -555,24 +541,16 @@ export default function Grid() {
     // Listen for character token creation events
     useEffect(() => {
         const handleCreateCharacterToken = (event) => {
-            console.log('🎭 Received createCharacterToken event:', event.detail);
             const { character, isSelf } = event.detail;
             if (isSelf) {
-                console.log('🎭 Starting character token placement mode');
-                console.log('🎭 Current mouse position:', mousePosition);
                 // Start character token dragging mode - token will follow mouse until clicked
                 setIsDraggingCharacterToken(true);
-
-                // Show immediate feedback to user
-                console.log('🎭 Character token placement mode activated! Look for instructions at top of screen.');
-            } else {
-                console.log('🎭 Not self character, ignoring token creation');
             }
         };
 
         window.addEventListener('createCharacterToken', handleCreateCharacterToken);
         return () => window.removeEventListener('createCharacterToken', handleCreateCharacterToken);
-    }, [mousePosition]);
+    }, []);
 
     // Listen for escape key to cancel character token placement
     useEffect(() => {
@@ -642,7 +620,6 @@ export default function Grid() {
 
         // Check if the click is on a grid item - if so, ignore it here
         if (e.target.classList.contains('grid-item-orb')) {
-            console.log('Grid handleMouseDown: ignoring click on grid item');
             return; // Let the GridItem's own event handler deal with it
         }
 
@@ -651,7 +628,6 @@ export default function Grid() {
             e.target.classList.contains('character-token') ||
             e.target.closest('.creature-token') ||
             e.target.closest('.character-token')) {
-            console.log('Grid handleMouseDown: ignoring click on token');
             return; // Let the token's own event handler deal with it
         }
 
@@ -1366,7 +1342,6 @@ export default function Grid() {
 
                 const gmNotesObject = getGMNotesObjectAtPosition(screenX, screenY);
                 if (gmNotesObject) {
-                    console.log('🎯 Grid: Found GM notes object, letting ObjectSystem handle it');
                     // There's a GM notes object here, let the ObjectSystem handle it
                     // Don't prevent default - let the event bubble up to ObjectSystem
                     return;
@@ -1380,28 +1355,17 @@ export default function Grid() {
 
         // If we're in character token placement mode, place the token
         if (isDraggingCharacterToken) {
-            console.log('🎭 Character token placement mode - handling click:', {
-                eventType: e.type,
-                button: e.button,
-                tile: tile,
-                gridX: tile?.gridX,
-                gridY: tile?.gridY
-            });
-
             e.preventDefault();
             e.stopPropagation();
 
             // Right-click cancels placement
             if (e.button === 2) {
-                console.log('🎭 Canceling character token placement (right-click)');
                 setIsDraggingCharacterToken(false);
                 return;
             }
 
             // Left-click places the token
             if (e.button === 0) {
-                console.log('🎭 Placing character token (left-click)');
-
                 // Check if tile data is valid
                 if (!tile || tile.gridX === undefined || tile.gridY === undefined) {
                     console.error('🎭 Invalid tile data for character token placement:', tile);
@@ -1410,7 +1374,6 @@ export default function Grid() {
 
                 // Use the infinite grid system to get proper world coordinates
                 const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
-                console.log('🎭 World position for character token:', worldPos);
 
                 // Get current player ID for multiplayer
                 const currentPlayer = isInMultiplayer ? getCurrentPlayer() : null;
@@ -1418,7 +1381,6 @@ export default function Grid() {
 
                 // Place the character token with player ID for multiplayer uniqueness
                 addCharacterToken(worldPos, playerId);
-                console.log('🎭 Character token placed successfully for player:', playerId || 'local');
 
                 // Exit placement mode
                 setIsDraggingCharacterToken(false);
