@@ -19,6 +19,9 @@ import Lore from '../character-sheet/Lore';
 function CharacterSheetWindow({ isOpen, onClose, title }) {
     const [activeTab, setActiveTab] = useState('character');
 
+    // Ensure title is always defined with fallback
+    const safeTitle = title || 'Character Sheet';
+
     const renderContent = () => {
         switch (activeTab) {
             case 'character':
@@ -38,7 +41,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
         <WowWindow
             isOpen={isOpen}
             onClose={onClose}
-            title={title}
+            title={safeTitle}
             defaultSize={{ width: 800, height: 600 }}
             defaultPosition={{ x: 300, y: 150 }}
             centered={false}
@@ -162,7 +165,7 @@ const HUDContainer = () => {
                     <CharacterSheetWindow
                         isOpen={characterSheetOpen}
                         onClose={handleCloseCharacterSheet}
-                        title={`Inspect: ${inspectedCharacter.name || inspectedCharacter.character?.name || 'Unknown'}`}
+                        title={`Inspect: ${inspectedCharacter?.name || inspectedCharacter?.character?.name || 'Unknown Character'}`}
                     />
                 </InspectionProvider>
             )}
