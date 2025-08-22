@@ -221,6 +221,9 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
+    // Temporary debugging
+    console.log('🎯 DraggableWindow rendering:', { isOpen, position, defaultPosition, windowScale, zIndex });
+
     return (
         <Draggable
             handle={`.${handleClassName}`}
