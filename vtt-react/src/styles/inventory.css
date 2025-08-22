@@ -1,8 +1,8 @@
 /* Override window-content height for inventory window */
 .inventory-window-content {
-    height: auto !important;
-    min-height: fit-content !important;
-    flex: none !important;
+    height: auto;
+    min-height: fit-content;
+    flex: none;
 }
 
 .inventory-container {

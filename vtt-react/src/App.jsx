@@ -139,15 +139,25 @@ export default function App() {
     // Control body overflow based on game mode
     useEffect(() => {
         if (gameMode === 'single' || gameMode === 'multiplayer') {
-            // Prevent scrolling in game modes
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-            document.body.style.height = '100%';
+            // Reset scroll to top first to avoid positioning issues
+            window.scrollTo(0, 0);
+
+            // Small delay to ensure scroll has completed
+            setTimeout(() => {
+                // Prevent scrolling in game modes
+                document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.top = '0px';
+                document.body.style.left = '0px';
+                document.body.style.width = '100%';
+                document.body.style.height = '100%';
+            }, 10);
         } else {
             // Allow scrolling on landing page
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
+            document.body.style.top = 'auto';
+            document.body.style.left = 'auto';
             document.body.style.width = 'auto';
             document.body.style.height = 'auto';
         }
@@ -156,6 +166,8 @@ export default function App() {
         return () => {
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
+            document.body.style.top = 'auto';
+            document.body.style.left = 'auto';
             document.body.style.width = 'auto';
             document.body.style.height = 'auto';
         };

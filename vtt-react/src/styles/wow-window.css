@@ -6,12 +6,11 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    position: absolute;
+    position: relative; /* Changed from absolute to relative to avoid positioning conflicts */
     min-width: 200px;
     max-width: 1200px;
     min-height: 100px;
     padding: 0;
-    z-index: 99999; /* Ensure it appears on top of other content */
     box-sizing: border-box;
     /* Remove properties that cause blurry text */
     color: #3a3a3a;
@@ -191,13 +190,16 @@
 }
 
 /* Disable transitions during dragging for better performance */
-.draggable-window.dragging .wow-window,
 .draggable-window.dragging .window-header-tab,
 .draggable-window.dragging .tab-button,
 .draggable-window.dragging .spellbook-tab,
 .draggable-window.dragging .window-close {
     transition: none !important;
-    transform: none !important;
+}
+
+/* Disable transitions for wow-window but preserve transforms for react-draggable */
+.draggable-window.dragging .wow-window {
+    transition: none !important;
 }
 
 /* Prevent size flickering during drag */

@@ -7,10 +7,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    z-index: 10000;
     pointer-events: auto;
-    top: 0;
-    left: 0;
     /* Remove transition that can cause blurriness */
 
     /* Performance optimizations */
@@ -28,11 +25,10 @@
     /* Additional performance optimizations during drag */
     will-change: transform;
     pointer-events: none; /* Prevent hover effects during drag */
-    /* Remove conflicting transform - let react-draggable handle positioning */
     /* Optimize rendering during drag */
     contain: layout style paint;
-    /* Prevent transform conflicts */
-    transform-origin: 0 0 !important;
+    /* Maintain transform origin for scaling */
+    transform-origin: top left !important;
 }
 
 /* Re-enable pointer events for the drag handle */
@@ -54,6 +50,8 @@
     transition: none !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     z-index: 20000 !important; /* Ensure it's on top when dragging */
+    /* Maintain transform origin for proper scaling during drag */
+    transform-origin: top left !important;
 }
 
 /* Prevent text selection during drag */

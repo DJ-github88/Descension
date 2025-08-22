@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import Draggable from 'react-draggable';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
+import useGameStore from '../../store/gameStore';
 import LockSettingsModal from './LockSettingsModal';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -29,6 +30,15 @@ const ContainerWindow = ({ container, onClose }) => {
     const [itemContextMenu, setItemContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [position, setPosition] = useState({ x: 100, y: 100 });
 
+    // Get window scale from game store
+    const windowScale = useGameStore(state => state.windowScale);
+    const [forceRender, setForceRender] = useState(0);
+
+    // Debug: Log window scale changes
+    useEffect(() => {
+        console.log('ContainerWindow: Current window scale is', windowScale);
+    }, [windowScale]);
+
     // Get store functions
     const updateItem = useItemStore(state => state.updateItem);
     const addItemToInventory = useInventoryStore(state => state.addItemFromLibrary);
@@ -36,6 +46,17 @@ const ContainerWindow = ({ container, onClose }) => {
     const containerRef = useRef(null);
     const draggableRef = useRef(null);
     const itemContextMenuRef = useRef(null);
+
+    // Listen for window scale changes to force re-render
+    useEffect(() => {
+        const handleWindowScaleChange = (event) => {
+            console.log('ContainerWindow: Window scale changed to', event.detail?.scale || 'unknown');
+            setForceRender(prev => prev + 1);
+        };
+
+        window.addEventListener('windowScaleChanged', handleWindowScaleChange);
+        return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+    }, []);
 
     const defaultContainerProperties = {
         gridSize: { rows: 4, cols: 6 },
@@ -922,6 +943,7 @@ const ContainerWindow = ({ container, onClose }) => {
                 bounds="body"
                 onDrag={handleDrag}
                 nodeRef={draggableNodeRef}
+                scale={1}
             >
                 <div
                     className="container-window"
@@ -943,9 +965,11 @@ const ContainerWindow = ({ container, onClose }) => {
                         maxWidth: '90vw',
                         maxHeight: '90vh',
                         overflow: 'hidden',
-                        top: position.y,
-                        left: position.x,
-                        width: 'auto'
+                        top: 0,
+                        left: 0,
+                        width: 'auto',
+                        transformOrigin: 'top left',
+                        transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
                     }}
                 >
                     <div

@@ -626,7 +626,17 @@ const useGameStore = create(
             setWindowScale: (scale) => {
                 const state = get();
                 const clampedScale = Math.max(state.minWindowScale, Math.min(state.maxWindowScale, scale));
+                console.log('GameStore: Setting window scale from', state.windowScale, 'to', clampedScale);
                 set({ windowScale: clampedScale });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    console.log('GameStore: Dispatching windowScaleChanged event with scale', clampedScale);
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: clampedScale }
+                    }));
+                }, 50);
             },
 
             windowScaleUp: () => {
@@ -634,6 +644,14 @@ const useGameStore = create(
                 const newScale = state.windowScale * 1.1;
                 const clampedScale = Math.min(state.maxWindowScale, newScale);
                 set({ windowScale: clampedScale });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: clampedScale }
+                    }));
+                }, 50);
             },
 
             windowScaleDown: () => {
@@ -641,10 +659,26 @@ const useGameStore = create(
                 const newScale = state.windowScale / 1.1;
                 const clampedScale = Math.max(state.minWindowScale, newScale);
                 set({ windowScale: clampedScale });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: clampedScale }
+                    }));
+                }, 50);
             },
 
             resetWindowScale: () => {
                 set({ windowScale: 1.0 });
+
+                // Dispatch custom events to notify windows of scale changes
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    window.dispatchEvent(new CustomEvent('windowScaleChanged', {
+                        detail: { scale: 1.0 }
+                    }));
+                }, 50);
             },
 
             // Movement and distance settings

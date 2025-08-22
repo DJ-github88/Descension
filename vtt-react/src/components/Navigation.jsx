@@ -743,11 +743,6 @@ export default function Navigation({ onReturnToLanding }) {
 
         const shouldRender = openWindows.has(button.id);
 
-        // Temporary debugging
-        if (shouldRender) {
-            console.log('🎯 Rendering window for:', button.id, 'shouldRender:', shouldRender);
-        }
-
         switch (button.id) {
             case 'character':
                 return shouldRender && (

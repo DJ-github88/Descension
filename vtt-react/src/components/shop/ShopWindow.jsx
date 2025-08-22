@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useCreatureStore from '../../store/creatureStore';
+import useGameStore from '../../store/gameStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import './ShopWindow.css';
@@ -11,6 +12,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const { items: itemLibrary } = useItemStore();
   const { currency, updateCurrency, addItemFromLibrary, items: inventoryItems, removeItem } = useInventoryStore();
   const { updateCreature } = useCreatureStore();
+  const windowScale = useGameStore(state => state.windowScale);
 
   // Local state
   const [selectedItems, setSelectedItems] = useState({}); // Changed to object to track quantities
@@ -31,6 +33,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [forceRender, setForceRender] = useState(0);
   
   // Refs
   const windowRef = useRef(null);
@@ -710,6 +713,16 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     return <span className="currency-display">{parts}</span>;
   };
   
+  // Listen for window scale changes to force re-render
+  useEffect(() => {
+    const handleWindowScaleChange = () => {
+      setForceRender(prev => prev + 1);
+    };
+
+    window.addEventListener('windowScaleChanged', handleWindowScaleChange);
+    return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+  }, []);
+
   // Cleanup
   useEffect(() => {
     return () => {
@@ -729,7 +742,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         style={{
           left: position.x,
           top: position.y,
-          cursor: isDragging ? 'move' : 'default'
+          cursor: isDragging ? 'move' : 'default',
+          transformOrigin: 'top left',
+          transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
         }}
         onMouseDown={handleMouseDown}
       >

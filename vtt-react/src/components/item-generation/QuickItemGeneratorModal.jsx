@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import useGameStore from '../../store/gameStore';
 import EnhancedQuickItemWizard from './EnhancedQuickItemWizard';
 import '../../styles/quick-item-generator-modal.css';
 
 const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
+    const windowScale = useGameStore(state => state.windowScale);
     const [position, setPosition] = useState(null); // Start with null to use CSS centering
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [hasBeenDragged, setHasBeenDragged] = useState(false); // Track if modal has been dragged
+    const [forceRender, setForceRender] = useState(0);
     const [rarityInfo, setRarityInfo] = useState({
         rarity: 'uncommon',
         colors: { border: '#b8860b', text: '#daa520', glow: 'rgba(184, 134, 11, 0.3)' }
@@ -93,6 +96,16 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
         setRarityInfo(newRarityInfo);
     };
 
+    // Listen for window scale changes to force re-render
+    useEffect(() => {
+        const handleWindowScaleChange = () => {
+            setForceRender(prev => prev + 1);
+        };
+
+        window.addEventListener('windowScaleChanged', handleWindowScaleChange);
+        return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+    }, []);
+
     return createPortal(
         <div className="quick-item-generator-overlay" onClick={handleBackdropClick}>
             <div
@@ -102,8 +115,13 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
                 style={position ? {
                     position: 'absolute',
                     left: `${position.x}px`,
-                    top: `${position.y}px`
-                } : {}}
+                    top: `${position.y}px`,
+                    transformOrigin: 'top left',
+                    transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                } : {
+                    transformOrigin: 'center center',
+                    transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                }}
             >
                 <div className="modal-header" onMouseDown={handleHeaderMouseDown}>
                     <h2>Quick Item Generator</h2>

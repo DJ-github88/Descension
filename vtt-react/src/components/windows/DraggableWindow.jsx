@@ -25,6 +25,7 @@ const throttle = (func, limit) => {
  * @param {boolean} props.isOpen - Whether the window is open
  * @param {Function} props.onClose - Callback when the window is closed
  * @param {Object} props.defaultPosition - Default position of the window
+ * @param {Object} props.defaultSize - Default size of the window (width, height)
  * @param {string} props.className - Additional CSS class for the window
  * @param {string} props.handleClassName - CSS class for the drag handle
  * @param {boolean} props.centered - Whether to center the window on screen
@@ -36,6 +37,7 @@ const DraggableWindow = forwardRef(({
     isOpen,
     onClose,
     defaultPosition = { x: 100, y: 100 },
+    defaultSize = null,
     className = '',
     handleClassName = 'draggable-window-handle',
     centered = false,
@@ -47,6 +49,18 @@ const DraggableWindow = forwardRef(({
 }, ref) => {
     // Get window scale from store (hooks must be called before any early returns)
     const windowScale = useGameStore(state => state.windowScale);
+
+    // Debug: Log window scale changes
+    useEffect(() => {
+        console.log('DraggableWindow: Current window scale is', windowScale);
+
+        // Debug: Check if the transform is actually applied
+        if (nodeRef.current) {
+            const computedStyle = window.getComputedStyle(nodeRef.current);
+            console.log('DraggableWindow: Computed transform:', computedStyle.transform);
+            console.log('DraggableWindow: Element style transform:', nodeRef.current.style.transform);
+        }
+    }, [windowScale]);
 
     // Create refs for the draggable component
     const nodeRef = useRef(null);
@@ -104,6 +118,18 @@ const DraggableWindow = forwardRef(({
             return () => clearTimeout(timer);
         }
     }, [centered, getInitialPosition]);
+
+    // Listen for window scale changes and force re-render
+    useEffect(() => {
+        const handleWindowScaleChange = (event) => {
+            console.log('DraggableWindow: Received windowScaleChanged event with scale', event.detail?.scale || 'unknown');
+            // Force a re-render to apply the new scale
+            setPosition(prev => ({ ...prev }));
+        };
+
+        window.addEventListener('windowScaleChanged', handleWindowScaleChange);
+        return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+    }, []);
 
     // Manage position and scale through refs to avoid re-renders
     const positionRef = useRef(position);
@@ -221,8 +247,8 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
-    // Temporary debugging
-    console.log('🎯 DraggableWindow rendering:', { isOpen, position, defaultPosition, windowScale, zIndex });
+    // Debug: Log the transform that will be applied
+    console.log('DraggableWindow: About to render with transform scale(' + windowScale + ')');
 
     return (
         <Draggable
@@ -233,25 +259,27 @@ const DraggableWindow = forwardRef(({
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={windowScale} // Use window scale for consistent dragging
+            scale={windowScale} // Pass the window scale to react-draggable for proper drag handling
             enableUserSelectHack={false} // Disable user select hack for better performance
         >
             <div
                 ref={nodeRef}
                 className={`draggable-window ${className}`}
                 style={{
-                    zIndex,
-                    position: 'fixed', // Changed from absolute to fixed for better positioning
-                    pointerEvents: 'auto',
+                    zIndex: 99999,
+                    position: 'fixed',
                     top: 0,
                     left: 0,
-                    transformOrigin: 'top left', // Scale from top-left corner
-                    // Transform is managed entirely through direct DOM manipulation
-                    // Temporary debugging - make windows highly visible
-                    border: '5px solid red',
-                    background: 'rgba(255, 0, 0, 0.3)',
-                    minWidth: '200px',
-                    minHeight: '200px'
+                    pointerEvents: 'auto',
+                    transformOrigin: 'top left',
+                    // Apply visual scaling while keeping drag sensitivity normal
+                    transform: `scale(${windowScale})`,
+                    // Ensure scale is applied immediately to prevent flashing
+                    willChange: 'transform',
+                    ...(defaultSize && {
+                        width: defaultSize.width,
+                        height: defaultSize.height
+                    })
                 }}
             >
                 <div ref={windowRef}>

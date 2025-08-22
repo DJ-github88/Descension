@@ -74,9 +74,9 @@
 /* Tab Content */
 .settings-content {
     flex: 1;
-    padding: 20px;
+    padding: 0;
     overflow-y: auto;
-    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    background: transparent;
 
     /* Optimize scrolling performance */
     will-change: scroll-position;
@@ -85,6 +85,37 @@
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto !important;
     contain: layout style paint;
+}
+
+/* Settings Sections */
+.settings-section {
+    margin-bottom: 32px;
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+}
+
+.settings-section-header {
+    padding: 20px 24px 16px;
+    border-bottom: 2px solid #d5c4a0;
+    background: linear-gradient(135deg, rgba(122, 59, 46, 0.1) 0%, rgba(160, 140, 112, 0.05) 100%);
+    border-radius: 8px 8px 0 0;
+}
+
+.settings-section-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #7a3b2e;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.settings-section-header p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #5a4a3a;
+    line-height: 1.4;
 }
 
 .settings-tab-content {
@@ -135,6 +166,72 @@
 
 .settings-card-body {
     padding: 20px;
+}
+
+/* Settings Group Styles - Flatter Layout */
+.settings-group {
+    margin-bottom: 32px;
+    padding: 20px;
+    background: rgba(245, 240, 225, 0.6);
+    border: 1px solid #d5cbb0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.settings-group:hover {
+    background: rgba(245, 240, 225, 0.8);
+    border-color: #c4b896;
+}
+
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-group-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #7a3b2e;
+    margin: 0 0 8px 0;
+    font-family: 'Cinzel', serif;
+}
+
+.settings-group-description {
+    font-size: 14px;
+    color: #8b6f47;
+    margin: 0 0 20px 0;
+    font-style: italic;
+}
+
+/* Clean Settings Content - Full Width */
+.settings-content-clean {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.settings-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #7a3b2e;
+    margin: 0 0 8px 0;
+    font-family: 'Cinzel', serif;
+}
+
+.settings-description {
+    font-size: 14px;
+    color: #8b6f47;
+    margin: 0 0 24px 0;
+    font-style: italic;
+}
+
+/* Section-specific card styling */
+.settings-section .settings-card {
+    margin-bottom: 16px;
+}
+
+.settings-section .settings-card:last-child {
+    margin-bottom: 0;
 }
 
 /* Control Groups */
@@ -971,4 +1068,52 @@
     border-color: #a03535;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(199, 69, 69, 0.3);
+}
+
+/* Additional control styles for improved settings layout */
+.control-help {
+    margin-top: 8px;
+    padding: 12px;
+    background: rgba(122, 59, 46, 0.1);
+    border-radius: 6px;
+    border-left: 4px solid #7a3b2e;
+}
+
+.control-help p {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: #5a4a3a;
+    line-height: 1.4;
+}
+
+.control-help p:last-child {
+    margin-bottom: 0;
+}
+
+/* Range labels */
+.range-label {
+    font-size: 12px;
+    color: #7a3b2e;
+    font-weight: 500;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Info displays */
+.control-info {
+    padding: 8px 12px;
+    background: rgba(122, 59, 46, 0.05);
+    border: 1px solid rgba(122, 59, 46, 0.2);
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.room-name-display {
+    font-weight: 600;
+    color: #7a3b2e;
+}
+
+.role-display {
+    font-weight: 600;
+    color: #7a3b2e;
 }

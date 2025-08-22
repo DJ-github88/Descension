@@ -2,6 +2,7 @@ import React, { useRef, useState, forwardRef, useImperativeHandle, useEffect, us
 import { Resizable } from 'react-resizable';
 import { createPortal } from 'react-dom';
 import DraggableWindow from './DraggableWindow';
+import useGameStore from '../../store/gameStore';
 import '../../styles/wow-window.css';
 import '../../styles/draggable-window.css';
 import 'react-resizable/css/styles.css';
@@ -27,8 +28,7 @@ const WowWindow = forwardRef(({
         return null;
     }
 
-    // Temporary debugging
-    console.log('🎯 WowWindow rendering:', { title, isOpen, defaultPosition, defaultSize });
+
 
     // Ensure title is always defined
     const safeTitle = title || 'Window';
@@ -37,11 +37,38 @@ const WowWindow = forwardRef(({
     const draggableRef = useRef(null);
     const windowElementRef = useRef(null);
 
+    // Get window scale from store
+    const windowScale = useGameStore(state => state.windowScale);
+
     // State for window size
     const [windowSize, setWindowSize] = useState({
         width: defaultSize.width,
         height: defaultSize.height
     });
+
+    // Listen for window scale changes and apply immediately
+    useEffect(() => {
+        const handleWindowScaleChange = (event) => {
+            console.log('WowWindow: Window scale changed to', event.detail?.scale || 'unknown');
+            // Apply scale immediately without forcing re-render
+            if (windowElementRef.current) {
+                const newScale = event.detail?.scale || windowScale;
+                windowElementRef.current.style.transform = `scale(${newScale})`;
+                windowElementRef.current.style.transformOrigin = 'top left';
+                windowElementRef.current.style.willChange = 'transform';
+            }
+        };
+
+        // Apply initial scale immediately
+        if (windowElementRef.current) {
+            windowElementRef.current.style.transform = `scale(${windowScale})`;
+            windowElementRef.current.style.transformOrigin = 'top left';
+            windowElementRef.current.style.willChange = 'transform';
+        }
+
+        window.addEventListener('windowScaleChanged', handleWindowScaleChange);
+        return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+    }, [windowScale]);
 
     // Expose methods to parent component
     useImperativeHandle(ref, () => ({
@@ -85,6 +112,16 @@ const WowWindow = forwardRef(({
 
     // Track if window is being dragged to prevent resize conflicts
     const [isDragging, setIsDragging] = useState(false);
+    const [zIndex, setZIndex] = useState(10000);
+
+    // Handle window click to bring to front
+    const handleWindowClick = useCallback((e) => {
+        // Only bring to front if clicking on the window itself, not dragging
+        if (!isDragging) {
+            const newZIndex = Date.now(); // Use timestamp for unique z-index
+            setZIndex(newZIndex);
+        }
+    }, [isDragging]);
 
     // Handle resize - only when not dragging
     const handleResize = (event, { size }) => {
@@ -126,10 +163,11 @@ const WowWindow = forwardRef(({
             ref={draggableRef}
             isOpen={isOpen}
             defaultPosition={defaultPosition}
+            defaultSize={windowSize}
             centered={centered}
             bounds={bounds}
             handleClassName="window-header"
-            zIndex={10000}
+            zIndex={zIndex}
             onDragStart={handleDragStart}
             onDragStop={handleDragStop}
         >
@@ -148,6 +186,7 @@ const WowWindow = forwardRef(({
                         height: windowSize.height
                     }}
                     ref={windowElementRef}
+                    onClick={handleWindowClick}
                 >
                     <div className="window-header draggable-window-handle dnd-theme-header">
                         <div style={{ display: 'flex', alignItems: 'center', width: '100%', position: 'relative' }}>
