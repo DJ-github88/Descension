@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
 import useAuthStore from "./store/authStore";
-import ErrorBoundary from "./components/ErrorBoundary";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -250,7 +249,7 @@ const AppContent = ({
     };
 
     return (
-        <ErrorBoundary>
+        <>
             <Routes>
                         {/* Landing page route */}
                         <Route path="/" element={
@@ -354,6 +353,6 @@ const AppContent = ({
                 isOpen={showUserProfile}
                 onClose={handleCloseUserProfile}
             />
-        </ErrorBoundary>
+        </>
     );
 };
