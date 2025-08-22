@@ -612,6 +612,8 @@ export default function Navigation({ onReturnToLanding }) {
     const buttons = useMemo(() => getVisibleButtons(), [isGMMode]);
 
     const handleButtonClick = useCallback((windowId) => {
+        console.log('🎯 Navigation button clicked:', windowId, 'Current openWindows:', Array.from(openWindows));
+
         // Special handling for level editor
         if (windowId === 'leveleditor') {
             setEditorMode(!isEditorMode);
@@ -636,10 +638,13 @@ export default function Navigation({ onReturnToLanding }) {
         const newOpenWindows = new Set(openWindows);
         if (openWindows.has(windowId)) {
             newOpenWindows.delete(windowId);
+            console.log('🎯 Closing window:', windowId);
         } else {
             newOpenWindows.add(windowId);
+            console.log('🎯 Opening window:', windowId);
         }
         setOpenWindows(newOpenWindows);
+        console.log('🎯 New openWindows state:', Array.from(newOpenWindows));
     }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode]);
 
     const handleKeyPress = useCallback((e) => {
@@ -740,6 +745,7 @@ export default function Navigation({ onReturnToLanding }) {
         const safeTitle = button.title || button.id || 'Window';
 
         const shouldRender = openWindows.has(button.id);
+        console.log('🎯 getWindowContent called for:', button.id, 'shouldRender:', shouldRender, 'openWindows:', Array.from(openWindows));
 
         switch (button.id) {
             case 'character':
