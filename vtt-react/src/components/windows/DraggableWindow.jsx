@@ -223,9 +223,6 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
-    // Debug logging
-    console.log('🎯 DraggableWindow rendering:', { isOpen, position, defaultPosition, zIndex });
-
     return (
         <Draggable
             handle={`.${handleClassName}`}
@@ -247,11 +244,8 @@ const DraggableWindow = forwardRef(({
                     pointerEvents: 'auto',
                     top: 0,
                     left: 0,
-                    transformOrigin: 'top left', // Scale from top-left corner
+                    transformOrigin: 'top left' // Scale from top-left corner
                     // Transform is managed entirely through direct DOM manipulation
-                    // Temporary debugging - bright border to make windows visible
-                    border: '3px solid red',
-                    background: 'rgba(255, 0, 0, 0.1)'
                 }}
             >
                 <div ref={windowRef}>
