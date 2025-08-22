@@ -548,14 +548,14 @@ const ActionBar = () => {
                                     handleSpellMouseLeave();
                                 }
                             }}
-                            title={item && item.type !== 'consumable' ? `${item.name}${item.cooldown > 0 ? ` (${item.cooldown}s)` : ''}` : (item ? '' : 'Empty Slot')}
+                            title={item && item.type !== 'consumable' ? `${item.name || 'Unknown Item'}${(item.cooldown || 0) > 0 ? ` (${item.cooldown || 0}s)` : ''}` : (item ? '' : 'Empty Slot')}
                         >
                             {item && (
                                 <>
                                     <div className="action-bar-icon">
                                         <img
                                             src={getSlotIcon(item)}
-                                            alt={item.name}
+                                            alt={item.name || 'Action Item'}
                                             onLoad={() => console.log('Icon loaded:', getSlotIcon(item))}
                                             onError={(e) => {
                                                 console.log('Icon failed to load:', getSlotIcon(item));
