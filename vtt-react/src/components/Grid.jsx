@@ -677,6 +677,11 @@ export default function Grid() {
     }, [isGridAlignmentMode, isBackgroundManipulationMode, backgrounds, activeBackgroundId]);
 
     const handleMouseMove = useCallback((e) => {
+        // Check if any token is being dragged - if so, ignore this event
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            return;
+        }
+
         if (isGridAlignmentDragging) {
             // Update grid alignment end position
             const rect = gridRef.current?.getBoundingClientRect();
@@ -817,6 +822,11 @@ export default function Grid() {
     ]);
 
     const handleMouseUp = useCallback(() => {
+        // Check if any token is being dragged - if so, ignore this event
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            return;
+        }
+
         if (isGridAlignmentDragging) {
             // Calculate rectangle dimensions
             const width = Math.abs(gridAlignmentEnd.x - gridAlignmentStart.x);
