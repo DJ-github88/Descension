@@ -245,8 +245,13 @@ const DraggableWindow = forwardRef(({
                     pointerEvents: 'auto',
                     top: 0,
                     left: 0,
-                    transformOrigin: 'top left' // Scale from top-left corner
+                    transformOrigin: 'top left', // Scale from top-left corner
                     // Transform is managed entirely through direct DOM manipulation
+                    // Temporary debugging - make windows highly visible
+                    border: '5px solid red',
+                    background: 'rgba(255, 0, 0, 0.3)',
+                    minWidth: '200px',
+                    minHeight: '200px'
                 }}
             >
                 <div ref={windowRef}>
