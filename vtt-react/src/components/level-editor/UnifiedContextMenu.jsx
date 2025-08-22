@@ -90,8 +90,6 @@ const UnifiedContextMenu = ({
 
     const position = getMenuPosition();
 
-    console.log('🖱️ [CONTEXT MENU] Rendering menu at position:', position, 'with items:', items.length);
-
     return (
         <div
             ref={menuRef}
@@ -101,17 +99,18 @@ const UnifiedContextMenu = ({
                 top: position.top
             }}
             onClick={(e) => {
-                console.log('🖱️ [CONTEXT MENU] Menu container clicked');
                 e.stopPropagation();
             }}
-            onMouseEnter={() => console.log('🖱️ [CONTEXT MENU] Mouse entered menu')}
-            onMouseLeave={() => console.log('🖱️ [CONTEXT MENU] Mouse left menu')}
             onWheel={(e) => {
-                console.log('🖱️ [CONTEXT MENU] Wheel event on menu');
                 e.stopPropagation();
                 e.preventDefault();
             }}
         >
+            {title && (
+                <div className="context-menu-header">
+                    <span className="context-menu-title">{title}</span>
+                </div>
+            )}
                 <div className="context-menu-section">
                     {items.map((item, index) => (
                         <React.Fragment key={index}>
@@ -121,21 +120,11 @@ const UnifiedContextMenu = ({
                                 <button
                                     className={`context-menu-button ${item.className || ''} ${item.disabled ? 'disabled' : ''}`}
                                     style={{ pointerEvents: 'auto' }}
-                                    onMouseEnter={() => console.log('🖱️ [CONTEXT MENU] Mouse entered item:', item.label)}
-                                    onMouseLeave={() => console.log('🖱️ [CONTEXT MENU] Mouse left item:', item.label)}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         e.preventDefault();
-                                        console.log('🖱️ [CONTEXT MENU] Item clicked:', item.label);
-                                        console.log('🖱️ [CONTEXT MENU] Item details:', {
-                                            label: item.label,
-                                            disabled: item.disabled,
-                                            hasOnClick: !!item.onClick,
-                                            onClickType: typeof item.onClick
-                                        });
 
                                         if (!item.disabled && item.onClick) {
-                                            console.log('🔧 [CONTEXT MENU] Executing onClick handler for:', item.label);
 
                                             // Add visual feedback before executing action
                                             const button = e.currentTarget;
@@ -145,9 +134,7 @@ const UnifiedContextMenu = ({
                                             // Execute the action after a brief delay for visual feedback
                                             setTimeout(() => {
                                                 try {
-                                                    console.log('🔧 [CONTEXT MENU] Calling onClick function for:', item.label);
                                                     item.onClick();
-                                                    console.log('✅ [CONTEXT MENU] onClick completed successfully for:', item.label);
                                                 } catch (error) {
                                                     console.error('❌ [CONTEXT MENU] Error in onClick for:', item.label, error);
                                                 }
@@ -156,12 +143,6 @@ const UnifiedContextMenu = ({
                                                 button.style.transform = '';
                                                 button.style.opacity = '';
                                             }, 100);
-                                        } else {
-                                            if (item.disabled) {
-                                                console.log('⚠️ [CONTEXT MENU] Item is disabled:', item.label);
-                                            } else {
-                                                console.warn('⚠️ [CONTEXT MENU] No onClick handler for:', item.label);
-                                            }
                                         }
                                     }}
                                     disabled={item.disabled}
