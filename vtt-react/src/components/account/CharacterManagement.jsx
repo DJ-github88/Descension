@@ -124,7 +124,7 @@ const CharacterManagement = ({ user }) => {
           <div className="header-actions">
             <button onClick={handleCreateCharacter} className="btn btn-primary">
               <i className="fas fa-plus"></i>
-              Create New Character
+              Create Character
             </button>
           </div>
         </div>
@@ -133,12 +133,8 @@ const CharacterManagement = ({ user }) => {
       {/* Controls */}
       <div className="character-controls">
         <div className="controls-left">
-          <Link to="/account" className="back-button">
-            <i className="fas fa-arrow-left"></i>
-          </Link>
-          <h1 className="controls-title">CHARACTER MANAGEMENT</h1>
           <div className="sort-control">
-            <label>SORT BY:</label>
+            <label>Sort by:</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
               <option value="name">Name</option>
               <option value="class">Class</option>
@@ -147,21 +143,18 @@ const CharacterManagement = ({ user }) => {
             </select>
           </div>
           <div className="filter-control">
-            <label>FILTER BY CLASS:</label>
+            <label>Filter by class:</label>
             <select value={filterClass} onChange={(e) => setFilterClass(e.target.value)}>
-              <option value="all">ALL CLASSES</option>
+              <option value="all">All Classes</option>
               {availableClasses.map(className => (
-                <option key={className} value={className}>{className.toUpperCase()}</option>
+                <option key={className} value={className}>{className}</option>
               ))}
             </select>
           </div>
         </div>
         <div className="controls-right">
-          <button onClick={handleCreateCharacter} className="create-new-character-btn">
-            CREATE NEW CHARACTER
-          </button>
           <span className="character-count">
-            {filteredAndSortedCharacters.length} CHARACTER{filteredAndSortedCharacters.length !== 1 ? 'S' : ''}
+            {filteredAndSortedCharacters.length} character{filteredAndSortedCharacters.length !== 1 ? 's' : ''}
           </span>
         </div>
       </div>

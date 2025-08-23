@@ -114,122 +114,62 @@ const AccountDashboard = ({ user }) => {
       <main className="account-main">
         {activeTab === 'overview' && (
           <div className="dashboard-grid">
-          {/* Characters Section */}
-          <section className="dashboard-card characters-card">
-            <div className="card-header">
-              <h2>Your Characters</h2>
-            </div>
-            <div className="card-content">
-              {characters && characters.length > 0 ? (
-                <div className="characters-grid">
-                  {characters.slice(0, 3).map((character) => (
-                    <div key={character.id} className="character-preview">
-                      <div className="character-portrait">
-                        {character.image ? (
-                          <img src={character.image} alt={character.name} />
-                        ) : (
-                          <i className="fas fa-user-circle"></i>
-                        )}
-                      </div>
-                      <div className="character-info">
-                        <h3>{character.name}</h3>
-                        <p>{character.race} {character.class}</p>
-                      </div>
-                      <div className="character-actions">
-                        <button
-                          onClick={() => handleEnterGame(character.id)}
-                          className="btn btn-sm btn-primary"
-                        >
-                          Play
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  {characters.length > 3 && (
-                    <div className="character-preview more-characters">
-                      <div className="more-content">
-                        <i className="fas fa-ellipsis-h"></i>
-                        <p>+{characters.length - 3} more</p>
-                        <button onClick={handleManageCharacters} className="btn btn-sm">
-                          View All
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="empty-state">
-                  <h3>No Characters Yet</h3>
-                  <p>Create your first character to begin your adventure!</p>
-                  <button onClick={handleCreateCharacter} className="btn btn-primary">
-                    Create Character
-                  </button>
-                </div>
-              )}
-              <div className="card-footer">
-                <div className="footer-actions">
-                  {characters && characters.length > 0 && (
-                    <>
-                      <button onClick={handleCreateCharacter} className="btn btn-primary">
-                        Create Character
-                      </button>
-                      <button onClick={handleManageCharacters} className="btn btn-link">
-                        Manage All Characters →
-                      </button>
-                    </>
-                  )}
+            {/* Account Stats */}
+            <section className="dashboard-card stats-card">
+              <div className="card-header">
+                <h2>Account Stats</h2>
+              </div>
+              <div className="card-content">
+                <div className="stats-grid">
+                  <div className="stat-item">
+                    <span className="stat-value">{characters?.length || 0}</span>
+                    <span className="stat-label">Characters</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-value">0</span>
+                    <span className="stat-label">Play Time</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-value">0</span>
+                    <span className="stat-label">Achievements</span>
+                  </div>
+                  <div className="stat-item">
+                    <span className="stat-value">2025</span>
+                    <span className="stat-label">Member Since</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          {/* Game Actions */}
-          <section className="dashboard-card game-actions-card">
-            <div className="card-header">
-              <h2>Game Options</h2>
-            </div>
-            <div className="card-content">
-              <div className="action-buttons">
-                <Link to="/game" className="action-btn">
-                  <span>Single Player</span>
-                </Link>
-                <Link to="/multiplayer" className="action-btn">
-                  <span>Multiplayer</span>
-                </Link>
-                <Link to="/account/characters" className="action-btn">
-                  <span>Character Manager</span>
-                </Link>
+            {/* Membership */}
+            <section className="dashboard-card membership-card">
+              <div className="card-header">
+                <h2>Membership</h2>
               </div>
-            </div>
-          </section>
-
-          {/* Account Stats */}
-          <section className="dashboard-card stats-card">
-            <div className="card-header">
-              <h2>Account Stats</h2>
-            </div>
-            <div className="card-content">
-              <div className="stats-grid">
-                <div className="stat-item">
-                  <span className="stat-value">{characters?.length || 0}</span>
-                  <span className="stat-label">Characters</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-value">0</span>
-                  <span className="stat-label">Play Time</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-value">0</span>
-                  <span className="stat-label">Achievements</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-value">2025</span>
-                  <span className="stat-label">Member Since</span>
+              <div className="card-content">
+                <div className="membership-info">
+                  <div className="membership-tier">
+                    <div className="tier-badge">
+                      <span>Free Adventurer</span>
+                    </div>
+                    <p className="tier-description">
+                      Full access to all Mythrill features including character creation,
+                      multiplayer rooms, and cloud save functionality.
+                    </p>
+                  </div>
+                  <div className="membership-benefits">
+                    <h4>Your Benefits:</h4>
+                    <ul>
+                      <li>Unlimited characters</li>
+                      <li>Cloud synchronization</li>
+                      <li>Multiplayer access</li>
+                      <li>Character progression tracking</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-        </div>
+            </section>
+          </div>
         )}
 
         {activeTab === 'rooms' && (
