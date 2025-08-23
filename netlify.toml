@@ -13,6 +13,8 @@
   NODE_OPTIONS = "--max-old-space-size=8192"
   # Enable production optimizations
   REACT_APP_BUILD_MODE = "production"
+  # Force fresh build
+  BUILD_TIMESTAMP = "2025-01-23"
 
 [[headers]]
   for = "/*"
