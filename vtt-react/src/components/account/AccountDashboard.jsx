@@ -65,60 +65,65 @@ const AccountDashboard = ({ user }) => {
 
   return (
     <div className="account-dashboard">
-      {/* Header */}
-      <header className="account-header">
-        <div className="header-content">
-          <div className="user-info">
-            <div className="user-avatar">
-              {user?.photoURL ? (
-                <img src={user.photoURL} alt="Profile" />
-              ) : (
-                <i className="fas fa-user-circle"></i>
-              )}
-            </div>
-            <div className="user-details">
-              <h1>Welcome to Mythrill!</h1>
-              <p className="user-email">Your Adventure Awaits</p>
-              {isDevelopmentBypass && (
-                <div className="dev-mode-indicator">
-                  <i className="fas fa-code"></i>
-                  Development Preview Mode
-                </div>
-              )}
-            </div>
+      {/* New Header Layout */}
+      <header className="account-header-new">
+        {/* Left: Account Icon */}
+        <div className="account-icon-section">
+          <div className="account-avatar-large">
+            {user?.photoURL ? (
+              <img src={user.photoURL} alt="Account" />
+            ) : (
+              <i className="fas fa-user-circle"></i>
+            )}
           </div>
-          <div className="header-actions">
-            <Link to="/" className="btn btn-secondary">
-              Home
-            </Link>
-            <button onClick={handleSignOut} className="btn btn-outline">
-              {isDevelopmentBypass ? 'Exit Preview' : 'Sign Out'}
-            </button>
+          <div className="account-welcome">
+            <h2>Welcome to Mythrill!</h2>
+            <p>{user?.displayName || 'Adventurer'}</p>
+            {isDevelopmentBypass && (
+              <div className="dev-mode-badge">
+                <i className="fas fa-code"></i>
+                Preview Mode
+              </div>
+            )}
           </div>
         </div>
-      </header>
 
-      {/* Tab Navigation */}
-      <nav className="account-tabs">
-        <button
-          className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
-          onClick={() => setActiveTab('overview')}
-        >
-          Overview
-        </button>
-        <button
-          className={`tab-button ${activeTab === 'rooms' ? 'active' : ''}`}
-          onClick={() => setActiveTab('rooms')}
-        >
-          My Rooms
-        </button>
-        <button
-          className={`tab-button ${activeTab === 'characters' ? 'active' : ''}`}
-          onClick={() => setActiveTab('characters')}
-        >
-          Characters
-        </button>
-      </nav>
+        {/* Center: Fan-style Tab Navigation */}
+        <nav className="fan-tabs">
+          <div className="fan-container">
+            <button
+              className={`fan-tab ${activeTab === 'overview' ? 'active' : ''}`}
+              onClick={() => setActiveTab('overview')}
+            >
+              <span>Overview</span>
+            </button>
+            <button
+              className={`fan-tab ${activeTab === 'rooms' ? 'active' : ''}`}
+              onClick={() => setActiveTab('rooms')}
+            >
+              <span>My Rooms</span>
+            </button>
+            <button
+              className={`fan-tab ${activeTab === 'characters' ? 'active' : ''}`}
+              onClick={() => setActiveTab('characters')}
+            >
+              <span>Characters</span>
+            </button>
+          </div>
+        </nav>
+
+        {/* Right: Action Buttons */}
+        <div className="header-actions-new">
+          <Link to="/" className="action-btn home-btn">
+            <i className="fas fa-home"></i>
+            <span>Home</span>
+          </Link>
+          <button onClick={handleSignOut} className="action-btn logout-btn">
+            <i className={isDevelopmentBypass ? "fas fa-times" : "fas fa-sign-out-alt"}></i>
+            <span>{isDevelopmentBypass ? 'Exit Preview' : 'Sign Out'}</span>
+          </button>
+        </div>
+      </header>
 
       {/* Main Content */}
       <main className="account-main">

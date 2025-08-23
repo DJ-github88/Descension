@@ -6,6 +6,8 @@
   font-family: 'Cinzel', serif;
   background-image:
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  padding: 0;
+  margin: 0;
 }
 
 .account-dashboard.loading {
@@ -17,6 +19,217 @@
 .loading-spinner {
   text-align: center;
   color: #8b4513;
+  font-size: 1.2rem;
+}
+
+/* New Header Layout */
+.account-header-new {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 3rem;
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+  border-bottom: 3px solid #8b4513;
+  box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
+  backdrop-filter: blur(10px);
+  min-height: 120px;
+}
+
+/* Left: Account Icon Section */
+.account-icon-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 0 0 auto;
+}
+
+.account-avatar-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #8b4513;
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+  background: linear-gradient(135deg, #f4f1e8, #e8e0d0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.account-avatar-large:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
+}
+
+.account-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-avatar-large i {
+  font-size: 4rem;
+  color: #8b4513;
+}
+
+.account-welcome h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  color: #2d1810;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
+  font-weight: 600;
+}
+
+.account-welcome p {
+  margin: 0;
+  color: #8b4513;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.dev-mode-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #8b4513;
+  font-weight: 500;
+}
+
+/* Center: Fan-style Tab Navigation */
+.fan-tabs {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fan-container {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.fan-tab {
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
+  border: 2px solid #8b4513;
+  color: #2d1810;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  margin: 0 -5px;
+  clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+  min-width: 140px;
+  text-align: center;
+}
+
+.fan-tab:first-child {
+  margin-left: 0;
+  clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
+}
+
+.fan-tab:last-child {
+  margin-right: 0;
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.fan-tab:hover {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.1) 100%);
+  transform: translateY(-2px);
+  z-index: 2;
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+}
+
+.fan-tab.active {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.2) 0%, rgba(160, 82, 45, 0.2) 100%);
+  color: #2d1810;
+  transform: translateY(-3px);
+  z-index: 3;
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+  border-color: #a0522d;
+}
+
+.fan-tab span {
+  display: block;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+/* Right: Action Buttons */
+.header-actions-new {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  color: #2d1810;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.1);
+}
+
+.action-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.1) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+  color: #2d1810;
+  text-decoration: none;
+}
+
+.action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+}
+
+.action-btn i {
+  font-size: 1.1rem;
+}
+
+.home-btn {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
+  border-color: #4caf50;
+  color: #2d5016;
+}
+
+.home-btn:hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(56, 142, 60, 0.2) 100%);
+  color: #2d5016;
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(211, 47, 47, 0.1) 100%);
+  border-color: #f44336;
+  color: #5d1a1a;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(211, 47, 47, 0.2) 100%);
+  color: #5d1a1a;
 }
 
 .loading-spinner i {
@@ -105,43 +318,14 @@
   gap: 1rem;
 }
 
-/* Tab Navigation */
-.account-tabs {
-  display: flex;
-  background: rgba(139, 69, 19, 0.1);
-  border-bottom: 2px solid #8b4513;
-  padding: 0 20px;
-}
+/* Old tab navigation removed - using new fan-style tabs */
 
-.tab-button {
-  background: none;
-  border: none;
-  padding: 16px 24px;
-  font-family: 'Cinzel', serif;
-  font-weight: 600;
-  color: #8b4513;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-bottom: 3px solid transparent;
-  font-size: 14px;
-}
-
-.tab-button:hover {
-  background: rgba(139, 69, 19, 0.1);
-  color: #2d1810;
-}
-
-.tab-button.active {
-  background: rgba(139, 69, 19, 0.15);
-  color: #2d1810;
-  border-bottom-color: #8b4513;
-}
-
-/* Main Content */
+/* Main Content - Less Constrained */
 .account-main {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 3rem 2rem;
+  min-height: calc(100vh - 200px);
 }
 
 /* Tab Content */
@@ -152,43 +336,44 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 3rem;
   align-items: start;
 }
 
 .dashboard-card {
   background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
-  border: 2px solid #8b4513;
-  border-radius: 8px;
+  border: 3px solid #8b4513;
+  border-radius: 12px;
   overflow: visible;
-  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.2);
+  box-shadow: 0 6px 25px rgba(139, 69, 19, 0.15);
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(139, 69, 19, 0.2);
 }
 
 .card-header {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
-  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(160, 82, 45, 0.1) 100%);
+  padding: 2rem;
   border-bottom: 2px solid #8b4513;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  border-radius: 12px 12px 0 0;
 }
 
 .card-header h2 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #2d1810;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
+  font-weight: 600;
   text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
 }
 
 .card-content {
-  padding: 1.25rem;
+  padding: 2.5rem 2rem;
   color: #2d1810;
   flex: 1;
   display: flex;
@@ -417,14 +602,14 @@
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
+  gap: 2rem;
 }
 
 .stat-item {
   text-align: center;
-  padding: 0.75rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 241, 232, 0.9) 100%);
-  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
+  border-radius: 12px;
   border: 2px solid rgba(139, 69, 19, 0.3);
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
@@ -432,23 +617,24 @@
 
 .stat-item:hover {
   border-color: #8b4513;
-  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+  box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+  transform: translateY(-3px);
 }
 
 .stat-value {
   display: block;
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 3rem;
+  font-weight: 700;
   color: #8b4513;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.8rem;
   text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
 }
 
 .stat-label {
-  color: #5d4e37;
-  font-size: 0.8rem;
+  color: #2d1810;
+  font-size: 1.1rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   font-weight: 600;
 }
 
@@ -481,15 +667,16 @@
 }
 
 .tier-description {
-  color: #5d4037;
-  line-height: 1.6;
+  color: #2d1810;
+  line-height: 1.7;
   margin: 0;
+  font-size: 1rem;
 }
 
 .membership-benefits h4 {
   color: #8b4513;
-  margin: 0 0 0.75rem 0;
-  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
@@ -500,10 +687,11 @@
 }
 
 .membership-benefits li {
-  padding: 0.5rem 0;
-  color: #5d4037;
+  padding: 0.8rem 0;
+  color: #2d1810;
   position: relative;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
+  font-size: 1rem;
 }
 
 .membership-benefits li:before {
@@ -597,35 +785,50 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
+  .account-header-new {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+    min-height: auto;
   }
 
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
+  .account-icon-section {
+    justify-content: center;
     text-align: center;
   }
 
-  .characters-grid {
+  .fan-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .fan-tab {
+    clip-path: none;
+    margin: 0;
+    min-width: 200px;
+    border-radius: 8px;
+  }
+
+  .header-actions-new {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .dashboard-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .account-main {
     padding: 2rem 1rem;
   }
 
-  .header-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .action-buttons {
+  .stats-grid {
     grid-template-columns: 1fr;
   }
 
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .characters-grid {
+    grid-template-columns: 1fr;
   }
 }
 
