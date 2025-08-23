@@ -62,13 +62,11 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
     const tabs = [
         {
             id: 'library',
-            label: 'Library',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
+            label: 'Library'
         },
         {
             id: 'wizard',
-            label: 'Create New',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg'
+            label: 'Create New'
         }
     ];
 

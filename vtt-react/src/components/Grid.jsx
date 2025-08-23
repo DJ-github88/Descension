@@ -566,6 +566,24 @@ export default function Grid() {
         }
     }, [isDraggingCharacterToken]);
 
+    // Safety check: Reset character token dragging state if it gets stuck
+    useEffect(() => {
+        const handleGlobalClick = (event) => {
+            // If we're in character token dragging mode but the click is not on the grid,
+            // reset the state to prevent it from getting stuck
+            if (isDraggingCharacterToken) {
+                const gridElement = gridRef.current;
+                if (gridElement && !gridElement.contains(event.target)) {
+                    console.log('🎭 Resetting character token dragging state due to click outside grid');
+                    setIsDraggingCharacterToken(false);
+                }
+            }
+        };
+
+        document.addEventListener('click', handleGlobalClick, true);
+        return () => document.removeEventListener('click', handleGlobalClick, true);
+    }, [isDraggingCharacterToken]);
+
     // Background manipulation handlers
     const handleBackgroundMouseDown = useCallback((e, backgroundId) => {
         e.preventDefault();
@@ -1397,6 +1415,10 @@ export default function Grid() {
             }
             return;
         }
+
+        // If we're not in character token placement mode and this is a regular click,
+        // don't do anything - let the event bubble up normally
+        // This prevents unwanted token movement when clicking on empty grid cells
     };
 
     // Handle drop for grid tiles

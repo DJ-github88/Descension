@@ -197,24 +197,19 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Define sections for the header navigation (matching character sheet style)
   const sections = {
     statistics: {
-      title: 'Statistics',
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
+      title: 'Statistics'
     },
     abilities: {
-      title: 'Abilities & Spells',
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg'
+      title: 'Abilities & Spells'
     },
     skills: {
-      title: 'Skills',
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg'
+      title: 'Skills'
     },
     loot: {
-      title: 'Loot Table',
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_02.jpg'
+      title: 'Loot Table'
     },
     description: {
-      title: 'Description & Lore',
-      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_05.jpg'
+      title: 'Description & Lore'
     }
   };
 
