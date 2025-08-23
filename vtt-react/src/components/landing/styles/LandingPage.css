@@ -497,17 +497,7 @@
   margin-bottom: 16px;
 }
 
-/* Enhanced Account Card Styles */
-.account-main {
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.9), rgba(40, 40, 40, 0.9));
-  border: 2px solid #d4af37;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(212, 175, 55, 0.2);
-  text-align: center;
-  max-width: 500px;
-  margin: 0 auto;
-}
+/* Enhanced Account Card Styles - Removed conflicting .account-main rule */
 
 .account-hero {
   margin-bottom: 30px;

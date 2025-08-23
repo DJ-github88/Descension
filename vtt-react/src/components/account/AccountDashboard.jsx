@@ -128,59 +128,175 @@ const AccountDashboard = ({ user }) => {
       {/* Main Content */}
       <main className="account-main">
         {activeTab === 'overview' && (
-          <div className="dashboard-grid">
-            {/* Account Stats */}
-            <section className="dashboard-card stats-card">
-              <div className="card-header">
-                <h2>Account Stats</h2>
-              </div>
-              <div className="card-content">
-                <div className="stats-grid">
-                  <div className="stat-item">
-                    <span className="stat-value">{characters?.length || 0}</span>
-                    <span className="stat-label">Characters</span>
+          <div className="overview-layout">
+            {/* Hero Section */}
+            <section className="hero-section">
+              <div className="hero-content">
+                <div className="hero-text">
+                  <h1>Welcome to Your Adventure Hub</h1>
+                  <p>Manage your characters, track your campaigns, and embark on epic journeys in the world of Mythrill.</p>
+                  <div className="hero-actions">
+                    <button
+                      className="hero-btn primary"
+                      onClick={() => setActiveTab('characters')}
+                    >
+                      <i className="fas fa-user-plus"></i>
+                      Create Character
+                    </button>
+                    <button
+                      className="hero-btn secondary"
+                      onClick={() => setActiveTab('rooms')}
+                    >
+                      <i className="fas fa-dice-d20"></i>
+                      Join Adventure
+                    </button>
                   </div>
-                  <div className="stat-item">
-                    <span className="stat-value">0</span>
-                    <span className="stat-label">Play Time</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-value">0</span>
-                    <span className="stat-label">Achievements</span>
-                  </div>
-                  <div className="stat-item">
-                    <span className="stat-value">2025</span>
-                    <span className="stat-label">Member Since</span>
+                </div>
+                <div className="hero-visual">
+                  <div className="adventure-compass">
+                    <i className="fas fa-compass"></i>
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* Membership */}
-            <section className="dashboard-card membership-card">
+            {/* Stats Overview */}
+            <section className="stats-overview">
+              <div className="stats-header">
+                <h2>Your Adventure Statistics</h2>
+                <p>Track your progress across the realms</p>
+              </div>
+              <div className="stats-grid-enhanced">
+                <div className="stat-card characters">
+                  <div className="stat-icon">
+                    <i className="fas fa-users"></i>
+                  </div>
+                  <div className="stat-info">
+                    <span className="stat-number">{characters?.length || 0}</span>
+                    <span className="stat-title">Characters Created</span>
+                    <span className="stat-subtitle">Heroes ready for adventure</span>
+                  </div>
+                </div>
+                <div className="stat-card campaigns">
+                  <div className="stat-icon">
+                    <i className="fas fa-map"></i>
+                  </div>
+                  <div className="stat-info">
+                    <span className="stat-number">0</span>
+                    <span className="stat-title">Campaigns Joined</span>
+                    <span className="stat-subtitle">Epic stories in progress</span>
+                  </div>
+                </div>
+                <div className="stat-card achievements">
+                  <div className="stat-icon">
+                    <i className="fas fa-trophy"></i>
+                  </div>
+                  <div className="stat-info">
+                    <span className="stat-number">0</span>
+                    <span className="stat-title">Achievements</span>
+                    <span className="stat-subtitle">Legendary accomplishments</span>
+                  </div>
+                </div>
+                <div className="stat-card playtime">
+                  <div className="stat-icon">
+                    <i className="fas fa-clock"></i>
+                  </div>
+                  <div className="stat-info">
+                    <span className="stat-number">0h</span>
+                    <span className="stat-title">Adventure Time</span>
+                    <span className="stat-subtitle">Hours of epic gameplay</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Recent Characters */}
+            <section className="dashboard-card recent-characters">
               <div className="card-header">
-                <h2>Membership</h2>
+                <h3>Recent Characters</h3>
+                <button
+                  className="view-all-btn"
+                  onClick={() => setActiveTab('characters')}
+                >
+                  View All
+                </button>
               </div>
               <div className="card-content">
-                <div className="membership-info">
-                  <div className="membership-tier">
-                    <div className="tier-badge">
-                      <span>Free Adventurer</span>
-                    </div>
-                    <p className="tier-description">
-                      Full access to all Mythrill features including character creation,
-                      multiplayer rooms, and cloud save functionality.
-                    </p>
+                {characters && characters.length > 0 ? (
+                  <div className="character-preview-list">
+                    {characters.slice(0, 3).map((character) => (
+                      <div key={character.id} className="character-preview">
+                        <div className="character-avatar">
+                          {character.image ? (
+                            <img src={character.image} alt={character.name} />
+                          ) : (
+                            <i className="fas fa-user-circle"></i>
+                          )}
+                        </div>
+                        <div className="character-info">
+                          <h4>{character.name}</h4>
+                          <p>{character.race} {character.class}</p>
+                        </div>
+                        <div className="character-level">
+                          <span>Lvl {character.level || 1}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="membership-benefits">
-                    <h4>Your Benefits:</h4>
-                    <ul>
-                      <li>Unlimited characters</li>
-                      <li>Cloud synchronization</li>
-                      <li>Multiplayer access</li>
-                      <li>Character progression tracking</li>
-                    </ul>
+                ) : (
+                  <div className="empty-state">
+                    <i className="fas fa-user-plus"></i>
+                    <h4>No Characters Yet</h4>
+                    <p>Create your first character to begin your adventure!</p>
+                    <button
+                      className="create-first-btn"
+                      onClick={() => setActiveTab('characters')}
+                    >
+                      Create Character
+                    </button>
                   </div>
+                )}
+              </div>
+            </section>
+
+            {/* Membership & Features */}
+            <section className="dashboard-card features-card">
+              <div className="card-header">
+                <h3>Mythrill Features</h3>
+                <div className="membership-badge">
+                  <i className="fas fa-crown"></i>
+                  Free Adventurer
+                </div>
+              </div>
+              <div className="card-content">
+                <div className="features-grid">
+                  <div className="feature-item unlocked">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Unlimited Characters</span>
+                  </div>
+                  <div className="feature-item unlocked">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Cloud Save</span>
+                  </div>
+                  <div className="feature-item unlocked">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Multiplayer Rooms</span>
+                  </div>
+                  <div className="feature-item unlocked">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Character Tracking</span>
+                  </div>
+                  <div className="feature-item unlocked">
+                    <i className="fas fa-check-circle"></i>
+                    <span>Spell Crafting</span>
+                  </div>
+                  <div className="feature-item unlocked">
+                    <i className="fas fa-check-circle"></i>
+                    <span>World Builder</span>
+                  </div>
+                </div>
+                <div className="membership-footer">
+                  <p>Enjoying Mythrill? All features are free forever!</p>
                 </div>
               </div>
             </section>
