@@ -12,6 +12,7 @@ const useAuthStore = create(
       isLoading: false,
       isAuthenticated: false,
       error: null,
+      isDevelopmentBypass: false, // Development bypass flag
       
       // Actions
       setUser: (user) => {
@@ -181,6 +182,54 @@ const useAuthStore = create(
         } finally {
           set({ isLoading: false });
         }
+      },
+
+      // Development bypass functions
+      enableDevelopmentBypass: () => {
+        const mockUser = {
+          uid: 'dev-user-123',
+          email: 'dev@mythrill.com',
+          displayName: 'Development User',
+          photoURL: null,
+          emailVerified: true
+        };
+
+        const mockUserData = {
+          displayName: 'Development User',
+          email: 'dev@mythrill.com',
+          photoURL: null,
+          createdAt: new Date(),
+          lastLoginAt: new Date(),
+          characters: [],
+          preferences: {
+            theme: 'pathfinder',
+            notifications: true,
+            autoSave: true
+          },
+          gameData: {
+            unlockedSkills: [],
+            achievements: [],
+            totalPlayTime: 0
+          }
+        };
+
+        set({
+          user: mockUser,
+          userData: mockUserData,
+          isAuthenticated: true,
+          isDevelopmentBypass: true,
+          error: null
+        });
+      },
+
+      disableDevelopmentBypass: () => {
+        set({
+          user: null,
+          userData: null,
+          isAuthenticated: false,
+          isDevelopmentBypass: false,
+          error: null
+        });
       },
 
       // Initialize auth state listener

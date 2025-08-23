@@ -306,7 +306,7 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
                     />
                   ) : (
                     <div className="spell-icon-placeholder">
-                      <i className="fas fa-magic"></i>
+                      <i className="fas fa-wand-magic-sparkles"></i>
                     </div>
                   )}
                 </div>

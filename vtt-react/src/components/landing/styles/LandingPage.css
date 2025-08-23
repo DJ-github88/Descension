@@ -124,6 +124,26 @@
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
 }
 
+.dev-bypass-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #8B4513, #654321);
+  color: #f8f4e6;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dev-bypass-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+}
+
 /* Main Content */
 .landing-main {
   max-width: 1200px;

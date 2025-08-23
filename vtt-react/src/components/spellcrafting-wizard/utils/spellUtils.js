@@ -109,8 +109,8 @@ export const getEffectIcon = (effectType) => {
     case 'healing': return 'fa-heart';
     case 'buff': return 'fa-hand-sparkles';
     case 'debuff': return 'fa-skull';
-    case 'utility': return 'fa-wand-sparkles';
-    case 'control': return 'fa-staff-snake';
+    case 'utility': return 'fa-wand-magic-sparkles';
+    case 'control': return 'fa-snowflake';
     default: return 'fa-bolt';
   }
 };

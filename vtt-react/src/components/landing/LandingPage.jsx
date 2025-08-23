@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../store/authStore';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const navigate = useNavigate();
+  const { enableDevelopmentBypass } = useAuthStore();
+
+  // Development bypass handler
+  const handleDevelopmentBypass = () => {
+    enableDevelopmentBypass();
+    navigate('/account');
+  };
 
   // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
@@ -28,11 +38,11 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           <div className="title-section">
             <h1 className="game-title">Mythrill</h1>
             <div className="title-ornament">
-              <i className="fas fa-gem"></i>
+              <i className="fas fa-star"></i>
               <span className="ornament-line"></span>
-              <i className="fas fa-dragon"></i>
+              <i className="fas fa-bolt"></i>
               <span className="ornament-line"></span>
-              <i className="fas fa-gem"></i>
+              <i className="fas fa-star"></i>
             </div>
           </div>
 
@@ -44,11 +54,11 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
           <div className="game-highlights">
             <div className="highlight-item">
-              <i className="fas fa-dice-d20"></i>
+              <i className="fas fa-star"></i>
               <span>27 Unique Classes</span>
             </div>
             <div className="highlight-item">
-              <i className="fas fa-magic"></i>
+              <i className="fas fa-bolt"></i>
               <span>Dynamic Spellcrafting</span>
             </div>
             <div className="highlight-item">
@@ -72,7 +82,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               className="secondary-action-btn"
               onClick={onEnterSinglePlayer}
             >
-              <i className="fas fa-hammer"></i>
+              <i className="fas fa-map"></i>
               <span className="btn-text">
                 <span className="btn-title">World Builder</span>
                 <span className="btn-subtitle">Create maps & creatures</span>
@@ -108,12 +118,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         <h2>Core Features</h2>
         <div className="features-grid">
           <div className="feature-card">
-            <i className="fas fa-dice-d20"></i>
+            <i className="fas fa-fire"></i>
             <h3>Dynamic Combat</h3>
             <p>Tactical combat with advanced VTT system</p>
           </div>
           <div className="feature-card">
-            <i className="fas fa-magic"></i>
+            <i className="fas fa-bolt"></i>
             <h3>Spell Crafting</h3>
             <p>Create and customize unique spells</p>
           </div>
@@ -271,9 +281,9 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
   const navigation = [
     { id: 'home', label: 'Home', icon: 'fas fa-home' },
-    { id: 'game-info', label: 'Game Info', icon: 'fas fa-info-circle' },
-    { id: 'membership', label: 'Membership', icon: 'fas fa-crown' },
-    { id: 'account', label: 'Account', icon: 'fas fa-user-cog' }
+    { id: 'game-info', label: 'Game Info', icon: 'fas fa-info' },
+    { id: 'membership', label: 'Membership', icon: 'fas fa-star' },
+    { id: 'account', label: 'Account', icon: 'fas fa-user' }
   ];
 
   return (
@@ -299,8 +309,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           </nav>
           
           <div className="header-actions">
+            <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
+              <i className="fas fa-cog"></i>
+              Dev Preview
+            </button>
             <button className="login-btn" onClick={onShowLogin}>
-              <i className="fas fa-sign-in-alt"></i>
+              <i className="fas fa-user"></i>
               Login
             </button>
           </div>

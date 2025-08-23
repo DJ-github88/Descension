@@ -8,7 +8,7 @@ import './styles/AccountDashboard.css';
 
 const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
-  const { userData, signOut } = useAuthStore();
+  const { userData, signOut, isDevelopmentBypass, disableDevelopmentBypass } = useAuthStore();
   const { characters, loadCharacters } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
@@ -31,7 +31,11 @@ const AccountDashboard = ({ user }) => {
   }, [user, loadCharacters]);
 
   const handleSignOut = async () => {
-    await signOut();
+    if (isDevelopmentBypass) {
+      disableDevelopmentBypass();
+    } else {
+      await signOut();
+    }
     navigate('/');
   };
 
@@ -75,6 +79,12 @@ const AccountDashboard = ({ user }) => {
             <div className="user-details">
               <h1>Welcome to Mythrill!</h1>
               <p className="user-email">Your Adventure Awaits</p>
+              {isDevelopmentBypass && (
+                <div className="dev-mode-indicator">
+                  <i className="fas fa-code"></i>
+                  Development Preview Mode
+                </div>
+              )}
             </div>
           </div>
           <div className="header-actions">
@@ -82,7 +92,7 @@ const AccountDashboard = ({ user }) => {
               Home
             </Link>
             <button onClick={handleSignOut} className="btn btn-outline">
-              Sign Out
+              {isDevelopmentBypass ? 'Exit Preview' : 'Sign Out'}
             </button>
           </div>
         </div>
