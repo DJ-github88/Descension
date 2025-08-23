@@ -97,6 +97,43 @@ code {
   overflow-x: hidden;
   overflow-y: auto;
   background: var(--pf-gradient-parchment);
+  /* Ensure root is positioned for portals */
+  position: relative;
+}
+
+/* ===== PRODUCTION PORTAL FIXES ===== */
+
+/* Ensure portals render correctly in production */
+body {
+  position: relative;
+}
+
+/* Force portal containers to be visible */
+.wow-window,
+.draggable-window,
+.shop-window,
+.item-wizard-modal,
+.quick-item-generator-modal,
+.categorize-modal {
+  position: fixed !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure modal overlays work in production */
+.modal-backdrop,
+.shop-window-overlay,
+.quick-item-generator-overlay,
+.categorize-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9998 !important;
+  pointer-events: auto !important;
 }
 
 /* ===== PATHFINDER NOTIFICATIONS ===== */

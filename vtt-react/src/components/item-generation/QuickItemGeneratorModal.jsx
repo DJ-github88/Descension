@@ -106,6 +106,9 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
         return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
     }, []);
 
+    // Add safety check for document.body in production
+    const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+
     return createPortal(
         <div className="quick-item-generator-overlay" onClick={handleBackdropClick}>
             <div
@@ -138,7 +141,7 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
                 </div>
             </div>
         </div>,
-        document.body
+        portalTarget
     );
 };
 

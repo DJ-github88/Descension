@@ -158,6 +158,22 @@ const WowWindow = forwardRef(({
 
     // Use createPortal to render the window at the document body level
     // This ensures it's not constrained by any parent containers
+    // Add safety check for document.body in production
+    const portalTarget = (() => {
+        // Ensure DOM is ready
+        if (typeof document === 'undefined') return null;
+
+        // Try document.body first
+        if (document.body) return document.body;
+
+        // Fallback to root element
+        const root = document.getElementById('root');
+        if (root) return root;
+
+        // Last resort - document element
+        return document.documentElement;
+    })();
+
     return createPortal(
         <DraggableWindow
             ref={draggableRef}
@@ -265,7 +281,7 @@ const WowWindow = forwardRef(({
                 </div>
             </Resizable>
         </DraggableWindow>,
-        document.body
+        portalTarget
     );
 });
 

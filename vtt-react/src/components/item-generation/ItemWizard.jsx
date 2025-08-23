@@ -4234,6 +4234,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
     console.log('ItemWizard about to render, position:', position, 'currentStep:', currentStep);
 
+    // Add safety check for document.body in production
+    const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+
     return createPortal(
         <SpellLibraryProvider>
             <div className="modal-backdrop" />
@@ -4314,6 +4317,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 isOpen={true}
             />
         </SpellLibraryProvider>,
-        document.body
+        portalTarget
     );
 }

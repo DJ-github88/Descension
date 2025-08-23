@@ -734,6 +734,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   
   if (!isOpen) return null;
   
+  // Add safety check for document.body in production
+  const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+
   return createPortal(
     <div className="shop-window-overlay">
       <div
@@ -1113,7 +1116,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         )}
       </div>
     </div>,
-    document.body
+    portalTarget
   );
 };
 

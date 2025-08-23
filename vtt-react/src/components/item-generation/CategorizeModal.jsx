@@ -14,6 +14,9 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
         zIndex: 10000
     };
 
+    // Add safety check for document.body in production
+    const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+
     return createPortal(
         <>
             {/* Invisible overlay to catch clicks outside */}
@@ -67,7 +70,7 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
                 )}
             </div>
         </>,
-        document.body
+        portalTarget
     );
 };
 
