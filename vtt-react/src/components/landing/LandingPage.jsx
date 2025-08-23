@@ -253,7 +253,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
             <div className="account-actions">
               <button
                 className="primary-account-btn"
-                onClick={() => setShowAuthModal(true)}
+                onClick={onShowLogin}
               >
                 <i className="fas fa-sign-in-alt"></i>
                 Get Started
@@ -301,7 +301,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           </nav>
           
           <div className="header-actions">
-            <button className="login-btn">
+            <button className="login-btn" onClick={onShowLogin}>
               <i className="fas fa-sign-in-alt"></i>
               Login
             </button>
