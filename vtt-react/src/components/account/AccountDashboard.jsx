@@ -79,11 +79,9 @@ const AccountDashboard = ({ user }) => {
           </div>
           <div className="header-actions">
             <Link to="/" className="btn btn-secondary">
-              <i className="fas fa-home"></i>
               Home
             </Link>
             <button onClick={handleSignOut} className="btn btn-outline">
-              <i className="fas fa-sign-out-alt"></i>
               Sign Out
             </button>
           </div>
@@ -96,21 +94,18 @@ const AccountDashboard = ({ user }) => {
           className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          <i className="fas fa-home"></i>
           Overview
         </button>
         <button
           className={`tab-button ${activeTab === 'rooms' ? 'active' : ''}`}
           onClick={() => setActiveTab('rooms')}
         >
-          <i className="fas fa-dungeon"></i>
           My Rooms
         </button>
         <button
           className={`tab-button ${activeTab === 'characters' ? 'active' : ''}`}
           onClick={() => setActiveTab('characters')}
         >
-          <i className="fas fa-users"></i>
           Characters
         </button>
       </nav>
@@ -122,10 +117,7 @@ const AccountDashboard = ({ user }) => {
           {/* Characters Section */}
           <section className="dashboard-card characters-card">
             <div className="card-header">
-              <h2>
-                <i className="fas fa-users"></i>
-                Your Characters
-              </h2>
+              <h2>Your Characters</h2>
             </div>
             <div className="card-content">
               {characters && characters.length > 0 ? (
@@ -167,11 +159,9 @@ const AccountDashboard = ({ user }) => {
                 </div>
               ) : (
                 <div className="empty-state">
-                  <i className="fas fa-user-plus"></i>
                   <h3>No Characters Yet</h3>
                   <p>Create your first character to begin your adventure!</p>
                   <button onClick={handleCreateCharacter} className="btn btn-primary">
-                    <i className="fas fa-plus"></i>
                     Create Character
                   </button>
                 </div>
@@ -181,7 +171,6 @@ const AccountDashboard = ({ user }) => {
                   {characters && characters.length > 0 && (
                     <>
                       <button onClick={handleCreateCharacter} className="btn btn-primary">
-                        <i className="fas fa-plus"></i>
                         Create Character
                       </button>
                       <button onClick={handleManageCharacters} className="btn btn-link">
@@ -197,73 +186,19 @@ const AccountDashboard = ({ user }) => {
           {/* Game Actions */}
           <section className="dashboard-card game-actions-card">
             <div className="card-header">
-              <h2>
-                <i className="fas fa-dice-d20"></i>
-                Game Options
-              </h2>
+              <h2>Game Options</h2>
             </div>
             <div className="card-content">
               <div className="action-buttons">
                 <Link to="/game" className="action-btn">
-                  <i className="fas fa-dice-d20"></i>
                   <span>Single Player</span>
                 </Link>
                 <Link to="/multiplayer" className="action-btn">
-                  <i className="fas fa-users"></i>
                   <span>Multiplayer</span>
                 </Link>
                 <Link to="/account/characters" className="action-btn">
-                  <i className="fas fa-address-book"></i>
                   <span>Character Manager</span>
                 </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* Membership Info */}
-          <section className="dashboard-card membership-card">
-            <div className="card-header">
-              <h2>
-                <i className="fas fa-crown"></i>
-                Membership
-              </h2>
-            </div>
-            <div className="card-content">
-              <div className="membership-info">
-                <div className="membership-tier">
-                  <div className="tier-badge">
-                    <i className="fas fa-star"></i>
-                    <span>Free Adventurer</span>
-                  </div>
-                  <p className="tier-description">
-                    Full access to all Mythrill features including character creation,
-                    multiplayer rooms, and cloud save functionality.
-                  </p>
-                </div>
-                <div className="membership-benefits">
-                  <h4>Your Benefits:</h4>
-                  <ul>
-                    <li><i className="fas fa-check"></i> Unlimited characters</li>
-                    <li><i className="fas fa-check"></i> Cloud synchronization</li>
-                    <li><i className="fas fa-check"></i> Multiplayer access</li>
-                    <li><i className="fas fa-check"></i> Character progression tracking</li>
-                  </ul>
-                </div>
-                <div className="membership-since">
-                  <p>
-                    <i className="fas fa-calendar-alt"></i>
-                    Member since {userData?.createdAt ?
-                      new Date(userData.createdAt.seconds * 1000).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long'
-                      }) :
-                      new Date().toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long'
-                      })
-                    }
-                  </p>
-                </div>
               </div>
             </div>
           </section>
@@ -271,35 +206,30 @@ const AccountDashboard = ({ user }) => {
           {/* Account Stats */}
           <section className="dashboard-card stats-card">
             <div className="card-header">
-              <h2>
-                <i className="fas fa-chart-bar"></i>
-                Account Stats
-              </h2>
+              <h2>Account Stats</h2>
             </div>
             <div className="card-content">
               <div className="stats-grid">
                 <div className="stat-item">
-                  <div className="stat-value">{characters?.length || 0}</div>
-                  <div className="stat-label">Characters</div>
+                  <span className="stat-value">{characters?.length || 0}</span>
+                  <span className="stat-label">Characters</span>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value">{userData?.gameData?.totalPlayTime || 0}h</div>
-                  <div className="stat-label">Play Time</div>
+                  <span className="stat-value">0</span>
+                  <span className="stat-label">Play Time</span>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value">{userData?.gameData?.achievements?.length || 0}</div>
-                  <div className="stat-label">Achievements</div>
+                  <span className="stat-value">0</span>
+                  <span className="stat-label">Achievements</span>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-value">
-                    {userData?.createdAt ? new Date(userData.createdAt.seconds * 1000).getFullYear() : new Date().getFullYear()}
-                  </div>
-                  <div className="stat-label">Member Since</div>
+                  <span className="stat-value">2025</span>
+                  <span className="stat-label">Member Since</span>
                 </div>
               </div>
             </div>
           </section>
-          </div>
+        </div>
         )}
 
         {activeTab === 'rooms' && (
@@ -317,7 +247,6 @@ const AccountDashboard = ({ user }) => {
                   className="create-character-btn"
                   onClick={handleCreateCharacter}
                 >
-                  <i className="fas fa-plus"></i>
                   Create Character
                 </button>
               </div>
@@ -346,7 +275,6 @@ const AccountDashboard = ({ user }) => {
                           className="edit-btn"
                           onClick={() => navigate(`/account/characters/edit/${character.id}`)}
                         >
-                          <i className="fas fa-edit"></i>
                           Edit
                         </button>
                       </div>
@@ -355,14 +283,12 @@ const AccountDashboard = ({ user }) => {
                 </div>
               ) : (
                 <div className="no-characters">
-                  <i className="fas fa-user-plus"></i>
                   <h3>No Characters Yet</h3>
                   <p>Create your first character to begin your adventure!</p>
                   <button
                     className="create-first-character-btn"
                     onClick={handleCreateCharacter}
                   >
-                    <i className="fas fa-plus"></i>
                     Create Your First Character
                   </button>
                 </div>
