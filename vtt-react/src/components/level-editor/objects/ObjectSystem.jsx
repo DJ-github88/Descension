@@ -417,6 +417,12 @@ const ObjectSystem = () => {
             return; // Let the token's own event handler deal with it
         }
 
+        // Also check if any token is currently being dragged - if so, ignore all ObjectSystem interactions
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            console.log('ObjectSystem: ignoring interaction - token is being dragged');
+            return;
+        }
+
         // Only handle left clicks for dragging/selection
         if (e.button !== 0) return;
 
@@ -548,6 +554,11 @@ const ObjectSystem = () => {
     const handleMouseMove = useCallback((e) => {
         if (!isEditorMode) return;
 
+        // Don't handle mouse move if a token is being dragged
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            return;
+        }
+
         const mouseRect = canvasRef.current.getBoundingClientRect();
         const screenX = e.clientX - mouseRect.left;
         const screenY = e.clientY - mouseRect.top;
@@ -618,6 +629,11 @@ const ObjectSystem = () => {
     }, [isDragging, isResizing, resizeHandle, initialScale, initialMousePos, isEditorMode, screenToWorld, environmentalObjects, dragOffset, updateEnvironmentalObject, getResizeHandle]);
 
     const handleMouseUp = useCallback(() => {
+        // Don't handle mouse up if a token is being dragged
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            return;
+        }
+
         setIsDragging(false);
         setIsResizing(false);
         setResizeHandle(null);

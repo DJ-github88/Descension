@@ -18,8 +18,6 @@
   will-change: transform;
   backface-visibility: hidden;
   transform-style: preserve-3d;
-  /* Force hardware acceleration */
-  transform: translateZ(0);
   /* Optimize for animations */
   contain: layout style paint;
   /* Ensure immediate transform updates */
@@ -42,8 +40,6 @@
 
   /* Additional performance optimizations during drag */
   will-change: transform;
-  /* Force GPU acceleration during drag */
-  transform: translateZ(0);
   /* Optimize rendering during drag */
   contain: layout style paint;
   /* Prevent transform conflicts */

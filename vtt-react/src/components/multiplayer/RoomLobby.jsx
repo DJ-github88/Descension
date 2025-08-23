@@ -18,6 +18,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('join'); // 'join', 'create', or 'my-rooms'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [preselectedRoom, setPreselectedRoom] = useState(null);
 
   // Use ref to store the callback to avoid recreating socket
   const onJoinRoomRef = useRef(onJoinRoom);
@@ -32,12 +33,37 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       : 'http://localhost:3001');
 
   useEffect(() => {
+    // Check for preselected room from account dashboard
+    const selectedRoomId = localStorage.getItem('selectedRoomId');
+    const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
+
+    if (selectedRoomId && selectedRoomPassword) {
+      setPreselectedRoom({
+        id: selectedRoomId,
+        password: selectedRoomPassword
+      });
+      setRoomId(selectedRoomId);
+      setJoinPassword(selectedRoomPassword);
+      setActiveTab('join');
+
+      // Clear from localStorage after setting
+      localStorage.removeItem('selectedRoomId');
+      localStorage.removeItem('selectedRoomPassword');
+    }
+
     // Check authentication status
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setIsAuthenticated(!!user);
       if (user) {
         setPlayerName(user.displayName || user.email?.split('@')[0] || 'Player');
         loadUserRooms();
+
+        // Auto-join preselected room if user is authenticated
+        if (selectedRoomId && selectedRoomPassword) {
+          setTimeout(() => {
+            handleJoinRoom(selectedRoomId, selectedRoomPassword);
+          }, 1000); // Small delay to ensure everything is loaded
+        }
       } else {
         setUserRooms([]);
       }
@@ -426,6 +452,22 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
         {activeTab === 'join' && (
           <div className="join-room-section">
+            {preselectedRoom && (
+              <div className="preselected-room-notice">
+                <div className="notice-content">
+                  <i className="fas fa-info-circle"></i>
+                  <span>Room selected from your account dashboard</span>
+                  <button
+                    className="auto-join-btn"
+                    onClick={() => handleJoinRoom()}
+                    disabled={isConnecting || !playerName.trim()}
+                  >
+                    {isConnecting ? 'Joining...' : 'Join Selected Room'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="manual-join">
               <label htmlFor="roomId">Room ID:</label>
               <div className="room-input-group">

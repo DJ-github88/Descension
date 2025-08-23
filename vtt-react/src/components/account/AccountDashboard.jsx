@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
+import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
 
 const AccountDashboard = ({ user }) => {
@@ -10,6 +11,7 @@ const AccountDashboard = ({ user }) => {
   const { userData, signOut } = useAuthStore();
   const { characters, loadCharacters } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -88,9 +90,35 @@ const AccountDashboard = ({ user }) => {
         </div>
       </header>
 
+      {/* Tab Navigation */}
+      <nav className="account-tabs">
+        <button
+          className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
+          onClick={() => setActiveTab('overview')}
+        >
+          <i className="fas fa-home"></i>
+          Overview
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'rooms' ? 'active' : ''}`}
+          onClick={() => setActiveTab('rooms')}
+        >
+          <i className="fas fa-dungeon"></i>
+          My Rooms
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'characters' ? 'active' : ''}`}
+          onClick={() => setActiveTab('characters')}
+        >
+          <i className="fas fa-users"></i>
+          Characters
+        </button>
+      </nav>
+
       {/* Main Content */}
       <main className="account-main">
-        <div className="dashboard-grid">
+        {activeTab === 'overview' && (
+          <div className="dashboard-grid">
           {/* Characters Section */}
           <section className="dashboard-card characters-card">
             <div className="card-header">
@@ -271,7 +299,77 @@ const AccountDashboard = ({ user }) => {
               </div>
             </div>
           </section>
-        </div>
+          </div>
+        )}
+
+        {activeTab === 'rooms' && (
+          <div className="tab-content">
+            <RoomManager />
+          </div>
+        )}
+
+        {activeTab === 'characters' && (
+          <div className="tab-content">
+            <div className="characters-full-view">
+              <div className="characters-header">
+                <h2>Character Management</h2>
+                <button
+                  className="create-character-btn"
+                  onClick={handleCreateCharacter}
+                >
+                  <i className="fas fa-plus"></i>
+                  Create Character
+                </button>
+              </div>
+
+              {characters && characters.length > 0 ? (
+                <div className="characters-grid-full">
+                  {characters.map((character) => (
+                    <div key={character.id} className="character-card-full">
+                      <div className="character-portrait">
+                        {character.image ? (
+                          <img src={character.image} alt={character.name} />
+                        ) : (
+                          <i className="fas fa-user-circle"></i>
+                        )}
+                      </div>
+                      <div className="character-details">
+                        <h3>{character.name}</h3>
+                        <p>{character.race} {character.class}</p>
+                        <div className="character-stats">
+                          <span>Level {character.level || 1}</span>
+                          <span>HP: {character.hitPoints || 100}</span>
+                        </div>
+                      </div>
+                      <div className="character-actions">
+                        <button
+                          className="edit-btn"
+                          onClick={() => navigate(`/account/characters/edit/${character.id}`)}
+                        >
+                          <i className="fas fa-edit"></i>
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="no-characters">
+                  <i className="fas fa-user-plus"></i>
+                  <h3>No Characters Yet</h3>
+                  <p>Create your first character to begin your adventure!</p>
+                  <button
+                    className="create-first-character-btn"
+                    onClick={handleCreateCharacter}
+                  >
+                    <i className="fas fa-plus"></i>
+                    Create Your First Character
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

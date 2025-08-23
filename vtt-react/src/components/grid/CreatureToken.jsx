@@ -175,13 +175,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Convert screen position back to world coordinates
       const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-      // Update local position IMMEDIATELY - optimized for performance
-      // Use direct DOM manipulation during drag to avoid React re-renders
-      if (tokenRef.current) {
-        tokenRef.current.style.transform = `translate(${worldPos.x}px, ${worldPos.y}px)`;
-      }
-      // Also update React state for consistency (batched to reduce re-renders)
-      setLocalPosition(prev => ({ x: worldPos.x, y: worldPos.y }));
+      // Update local position for React state (this will trigger re-render with new position)
+      setLocalPosition({ x: worldPos.x, y: worldPos.y });
 
       // Handle expensive operations with simple time-based throttling (no RAF)
       const now = Date.now();

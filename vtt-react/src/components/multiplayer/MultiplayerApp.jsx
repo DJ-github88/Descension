@@ -6,6 +6,7 @@ import enhancedMultiplayer from '../../services/enhancedMultiplayer';
 import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
 import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
 import { debugLog, debugWarn, debugError, DEBUG_CATEGORIES } from '../../utils/debugUtils';
+import gameStateManager from '../../services/gameStateManager';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -854,6 +855,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
     setMultiplayerIntegration(socketConnection, sendChatMessage);
 
+    // Initialize game state manager for persistent room state
+    if (room.persistentRoomId || room.id) {
+      const roomId = room.persistentRoomId || room.id;
+      console.log('🎮 Initializing game state manager for room:', roomId);
+
+      // Initialize with auto-save enabled for GMs, disabled for players
+      gameStateManager.initialize(roomId, isGameMaster).then(() => {
+        console.log('✅ Game state manager initialized successfully');
+      }).catch((error) => {
+        console.error('❌ Failed to initialize game state manager:', error);
+      });
+    }
+
     console.log('Joined room:', room.name, 'as', isGameMaster ? 'GM' : 'Player');
     console.log('Character name set to:', currentPlayerData?.name);
     console.log('Final socket status after setup:', socketConnection?.connected);
@@ -863,6 +877,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     console.log('handleLeaveRoom called');
 
     try {
+      // Cleanup game state manager first (saves final state)
+      gameStateManager.cleanup().then(() => {
+        console.log('✅ Game state manager cleaned up successfully');
+      }).catch((error) => {
+        console.error('❌ Error cleaning up game state manager:', error);
+      });
+
       if (socket) {
         // Emit leave room event to server before disconnecting
         socket.emit('leave_room');

@@ -1,22 +1,23 @@
 // Room service for Firebase Firestore integration
-import { 
-  collection, 
-  doc, 
-  setDoc, 
-  getDoc, 
-  getDocs, 
-  updateDoc, 
-  deleteDoc, 
-  onSnapshot, 
-  query, 
-  where, 
-  orderBy, 
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  query,
+  where,
+  orderBy,
   limit,
   serverTimestamp,
   arrayUnion,
   arrayRemove
 } from 'firebase/firestore';
 import { db, auth } from '../config/firebase';
+import subscriptionService from './subscriptionService';
 
 // Room collection reference
 const ROOMS_COLLECTION = 'rooms';
@@ -32,8 +33,28 @@ export const createPersistentRoom = async (roomData) => {
     throw new Error('Firebase not initialized or user not authenticated');
   }
 
-  const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   const userId = auth.currentUser.uid;
+
+  // Check subscription limits
+  try {
+    const userRooms = await getUserRooms(userId);
+    const currentRoomCount = userRooms.filter(room => room.userRole === 'gm').length;
+
+    const roomLimitCheck = await subscriptionService.canCreateRoom(currentRoomCount, userId);
+
+    if (!roomLimitCheck.canCreate) {
+      const tier = roomLimitCheck.tier;
+      throw new Error(`Room limit reached. Your ${tier.name} plan allows ${tier.roomLimit} room${tier.roomLimit === 1 ? '' : 's'}. You currently have ${currentRoomCount} room${currentRoomCount === 1 ? '' : 's'}.`);
+    }
+  } catch (error) {
+    if (error.message.includes('Room limit reached')) {
+      throw error; // Re-throw subscription limit errors
+    }
+    console.warn('Could not check room limits:', error);
+    // Continue with room creation if limit check fails
+  }
+
+  const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   
   const room = {
     id: roomId,
@@ -55,7 +76,7 @@ export const createPersistentRoom = async (roomData) => {
       enableVideoChat: false
     },
     
-    // Game state
+    // Game state - comprehensive VTT data
     gameState: {
       currentMap: null,
       characters: {},
@@ -83,6 +104,28 @@ export const createPersistentRoom = async (roomData) => {
       lighting: {
         globalIllumination: 0.3,
         lightSources: []
+      },
+      // Level editor data
+      levelEditor: {
+        terrainData: [],
+        environmentalObjects: [],
+        wallData: [],
+        dndElements: [],
+        fogOfWarData: [],
+        drawingPaths: [],
+        drawingLayers: [],
+        lightSources: []
+      },
+      // Inventory and items
+      inventory: {
+        droppedItems: {},
+        lootBags: {}
+      },
+      // Notes and annotations
+      notes: {
+        gmNotes: [],
+        playerNotes: [],
+        sharedNotes: []
       }
     },
     
@@ -404,6 +447,135 @@ export const getPublicRooms = async (limitCount = 20) => {
   }
 };
 
+/**
+ * Save complete game state to room
+ * @param {string} roomId - Room ID
+ * @param {Object} gameState - Complete game state object
+ * @returns {Promise<void>}
+ */
+export const saveCompleteGameState = async (roomId, gameState) => {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
+  try {
+    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+    await updateDoc(roomRef, {
+      gameState: gameState,
+      lastModified: serverTimestamp(),
+      lastActivity: serverTimestamp()
+    });
+
+    console.log('✅ Complete game state saved for room:', roomId);
+  } catch (error) {
+    console.error('❌ Error saving complete game state:', error);
+    throw error;
+  }
+};
+
+/**
+ * Load complete game state from room
+ * @param {string} roomId - Room ID
+ * @returns {Promise<Object>} - Complete game state object
+ */
+export const loadCompleteGameState = async (roomId) => {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
+  try {
+    const roomData = await getRoomData(roomId);
+
+    if (!roomData) {
+      throw new Error('Room not found');
+    }
+
+    return roomData.gameState || {};
+  } catch (error) {
+    console.error('❌ Error loading complete game state:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update specific game state section
+ * @param {string} roomId - Room ID
+ * @param {string} section - Section name (e.g., 'tokens', 'levelEditor', 'combat')
+ * @param {Object} sectionData - Section data
+ * @returns {Promise<void>}
+ */
+export const updateGameStateSection = async (roomId, section, sectionData) => {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
+  try {
+    const roomRef = doc(db, ROOMS_COLLECTION, roomId);
+    const updateData = {};
+    updateData[`gameState.${section}`] = sectionData;
+    updateData.lastModified = serverTimestamp();
+    updateData.lastActivity = serverTimestamp();
+
+    await updateDoc(roomRef, updateData);
+
+    console.log(`✅ Game state section '${section}' updated for room:`, roomId);
+  } catch (error) {
+    console.error(`❌ Error updating game state section '${section}':`, error);
+    throw error;
+  }
+};
+
+/**
+ * Get room limits and usage for current user
+ * @param {string} userId - User ID (optional)
+ * @returns {Promise<Object>} - Room limit information
+ */
+export const getRoomLimits = async (userId = null) => {
+  const uid = userId || auth.currentUser?.uid;
+
+  if (!uid) {
+    // Not logged in - guest tier
+    return {
+      tier: await subscriptionService.getUserTier(null),
+      limit: 0,
+      used: 0,
+      remaining: 0,
+      canCreate: false
+    };
+  }
+
+  try {
+    const userRooms = await getUserRooms(uid);
+    const ownedRooms = userRooms.filter(room => room.userRole === 'gm');
+    const used = ownedRooms.length;
+
+    const tier = await subscriptionService.getUserTier(uid);
+    const limit = tier.roomLimit;
+    const remaining = Math.max(0, limit - used);
+
+    return {
+      tier: tier,
+      limit: limit,
+      used: used,
+      remaining: remaining,
+      canCreate: used < limit,
+      rooms: ownedRooms
+    };
+  } catch (error) {
+    console.error('Error getting room limits:', error);
+    // Fallback to basic info
+    const tier = await subscriptionService.getUserTier(uid);
+    return {
+      tier: tier,
+      limit: tier.roomLimit,
+      used: 0,
+      remaining: tier.roomLimit,
+      canCreate: tier.roomLimit > 0,
+      rooms: []
+    };
+  }
+};
+
 export default {
   createPersistentRoom,
   getRoomData,
@@ -414,5 +586,9 @@ export default {
   leaveRoom,
   deleteRoom,
   subscribeToRoom,
-  getPublicRooms
+  getPublicRooms,
+  getRoomLimits,
+  saveCompleteGameState,
+  loadCompleteGameState,
+  updateGameStateSection
 };
