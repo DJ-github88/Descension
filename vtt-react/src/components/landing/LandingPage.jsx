@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import AuthModal from '../auth/AuthModal';
 import './styles/LandingPage.css';
 
-const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
+const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
@@ -356,15 +354,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer }) => {
           <i className="fas fa-chevron-up"></i>
         </button>
       )}
-
-
-
-      {/* Authentication Modal */}
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        initialMode="register"
-      />
     </div>
   );
 };
