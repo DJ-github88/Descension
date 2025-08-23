@@ -6,6 +6,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useGameStore from '../../store/gameStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import { getSafePortalTarget } from '../../utils/portalUtils';
 import './ShopWindow.css';
 
 const ShopWindow = ({ isOpen, onClose, creature }) => {
@@ -734,8 +735,14 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   
   if (!isOpen) return null;
   
-  // Add safety check for document.body in production
-  const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+  // Get safe portal target
+  const portalTarget = getSafePortalTarget();
+
+  // Safety check - don't render if no portal target available
+  if (!portalTarget) {
+    console.error('ShopWindow: No portal target available, cannot render');
+    return null;
+  }
 
   return createPortal(
     <div className="shop-window-overlay">

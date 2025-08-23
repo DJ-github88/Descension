@@ -10,6 +10,7 @@ import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibra
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { CURRENCY_TYPES } from './itemConstants';
 import ExternalItemPreview from './ExternalItemPreview';
+import { getSafePortalTarget } from '../../utils/portalUtils';
 
 // Default image to show when item image fails to load
 const DEFAULT_ITEM_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
@@ -4234,8 +4235,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
     console.log('ItemWizard about to render, position:', position, 'currentStep:', currentStep);
 
-    // Add safety check for document.body in production
-    const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+    // Get safe portal target
+    const portalTarget = getSafePortalTarget();
+
+    // Safety check - don't render if no portal target available
+    if (!portalTarget) {
+        console.error('ItemWizard: No portal target available, cannot render');
+        return null;
+    }
 
     return createPortal(
         <SpellLibraryProvider>

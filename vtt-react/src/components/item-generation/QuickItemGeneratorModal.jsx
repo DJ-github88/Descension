@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useGameStore from '../../store/gameStore';
 import EnhancedQuickItemWizard from './EnhancedQuickItemWizard';
+import { getSafePortalTarget } from '../../utils/portalUtils';
 import '../../styles/quick-item-generator-modal.css';
 
 const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
@@ -106,8 +107,14 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
         return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
     }, []);
 
-    // Add safety check for document.body in production
-    const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+    // Get safe portal target
+    const portalTarget = getSafePortalTarget();
+
+    // Safety check - don't render if no portal target available
+    if (!portalTarget) {
+        console.error('QuickItemGeneratorModal: No portal target available, cannot render');
+        return null;
+    }
 
     return createPortal(
         <div className="quick-item-generator-overlay" onClick={handleBackdropClick}>

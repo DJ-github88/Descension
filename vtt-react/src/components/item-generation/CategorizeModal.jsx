@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { getSafePortalTarget } from '../../utils/portalUtils';
 import './CategorizeModal.css';
 
 const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onClose, x, y }) => {
@@ -14,8 +15,14 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
         zIndex: 10000
     };
 
-    // Add safety check for document.body in production
-    const portalTarget = document.body || document.getElementById('root') || document.documentElement;
+    // Get safe portal target
+    const portalTarget = getSafePortalTarget();
+
+    // Safety check - don't render if no portal target available
+    if (!portalTarget) {
+        console.error('CategorizeModal: No portal target available, cannot render');
+        return null;
+    }
 
     return createPortal(
         <>

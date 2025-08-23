@@ -31,10 +31,16 @@ const CharacterCreationPage = lazy(() => import("./components/account/CharacterC
 
 import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
+import { initializePortalSystem } from './utils/portalUtils';
+import PortalDebugger from './components/debug/PortalDebugger';
 
 // Core styles that are always needed
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';
+
+// Critical window styles - must be loaded immediately for production
+import './styles/wow-window.css';
+import './styles/draggable-window.css';
 
 // Lazy load game-specific styles
 const loadGameStyles = () => {
@@ -46,6 +52,8 @@ const loadGameStyles = () => {
     import('./styles/party-hud.css');
     import('./styles/creature-token.css');
 };
+
+
 
 
 // Loading fallback component
@@ -68,6 +76,7 @@ function GameScreen() {
     // Load game-specific styles when game screen is rendered
     useEffect(() => {
         loadGameStyles();
+        initializePortalSystem();
     }, []);
 
     return (
@@ -98,6 +107,9 @@ export default function App() {
 
     // Initialize authentication and stores
     useEffect(() => {
+        // Initialize portals for production
+        initializePortalSystem();
+
         // Global safety check for undefined variables that might cause ReferenceError
         if (typeof window !== 'undefined') {
             // Add global error handler for ReferenceError
@@ -365,6 +377,9 @@ const AppContent = ({
                 isOpen={showUserProfile}
                 onClose={handleCloseUserProfile}
             />
+
+            {/* Portal Debugger for production troubleshooting */}
+            <PortalDebugger />
         </>
     );
 };

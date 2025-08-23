@@ -3,6 +3,7 @@ import { Resizable } from 'react-resizable';
 import { createPortal } from 'react-dom';
 import DraggableWindow from './DraggableWindow';
 import useGameStore from '../../store/gameStore';
+import { getSafePortalTarget } from '../../utils/portalUtils';
 import '../../styles/wow-window.css';
 import '../../styles/draggable-window.css';
 import 'react-resizable/css/styles.css';
@@ -158,21 +159,13 @@ const WowWindow = forwardRef(({
 
     // Use createPortal to render the window at the document body level
     // This ensures it's not constrained by any parent containers
-    // Add safety check for document.body in production
-    const portalTarget = (() => {
-        // Ensure DOM is ready
-        if (typeof document === 'undefined') return null;
+    const portalTarget = getSafePortalTarget();
 
-        // Try document.body first
-        if (document.body) return document.body;
-
-        // Fallback to root element
-        const root = document.getElementById('root');
-        if (root) return root;
-
-        // Last resort - document element
-        return document.documentElement;
-    })();
+    // Safety check - don't render if no portal target available
+    if (!portalTarget) {
+        console.error('WowWindow: No portal target available, cannot render');
+        return null;
+    }
 
     return createPortal(
         <DraggableWindow
