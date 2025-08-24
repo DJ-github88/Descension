@@ -202,6 +202,10 @@
   margin-bottom: 1rem;
 }
 
+.title-ornament i {
+  font-size: 1.2rem;
+}
+
 .ornament-line {
   width: 60px;
   height: 2px;
@@ -286,6 +290,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 200px;
+}
+
+.primary-action-btn i,
+.secondary-action-btn i {
+  font-size: 1.5rem;
+  flex-shrink: 0;
 }
 
 .btn-text {
