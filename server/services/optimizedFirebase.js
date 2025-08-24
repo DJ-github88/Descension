@@ -215,41 +215,68 @@ class OptimizedFirebaseService {
   }
 
   /**
-   * Optimized room data retrieval with caching
+   * Optimized room data retrieval with caching and performance tracking
    */
   async getRoomData(roomId) {
+    const startTime = Date.now();
     const cacheKey = `room:${roomId}`;
-    
-    // Check cache first
-    const cached = this.getCache(cacheKey);
-    if (cached) {
-      console.log(`💾 Cache hit for room ${roomId}`);
-      return cached;
-    }
-
-    if (!this.isInitialized) {
-      console.warn('Firebase not initialized');
-      return null;
-    }
 
     try {
-      const doc = await this.retryOperation(() => 
+      // Check cache first
+      const cached = this.getCache(cacheKey);
+      if (cached) {
+        console.log(`💾 Cache hit for room ${roomId}`);
+        if (global.performanceMonitor) {
+          global.performanceMonitor.trackDatabaseQuery('getRoomData_cache', Date.now() - startTime, true);
+        }
+        return cached;
+      }
+
+      if (!this.isInitialized) {
+        console.warn('Firebase not initialized');
+        if (global.performanceMonitor) {
+          global.performanceMonitor.trackDatabaseQuery('getRoomData_not_init', Date.now() - startTime, false);
+        }
+        return null;
+      }
+
+      const doc = await this.retryOperation(() =>
         this.db.collection('rooms').doc(roomId).get()
       );
 
       if (doc.exists) {
         const data = { id: doc.id, ...doc.data() };
-        
+
         // Cache the result
         this.setCache(cacheKey, data, this.cacheDefaultTTL);
-        
+
         console.log(`🔥 Firebase hit for room ${roomId}`);
+        if (global.performanceMonitor) {
+          global.performanceMonitor.trackDatabaseQuery('getRoomData_firebase', Date.now() - startTime, true);
+        }
         return data;
       }
 
+      if (global.performanceMonitor) {
+        global.performanceMonitor.trackDatabaseQuery('getRoomData_not_found', Date.now() - startTime, true);
+      }
       return null;
+
     } catch (error) {
       console.error(`❌ Failed to get room data for ${roomId}:`, error);
+
+      // Handle error through centralized system if available
+      if (global.errorHandler) {
+        await global.errorHandler.handleError(error, {
+          operation: 'getRoomData',
+          roomId: roomId
+        });
+      }
+
+      if (global.performanceMonitor) {
+        global.performanceMonitor.trackDatabaseQuery('getRoomData_error', Date.now() - startTime, false);
+      }
+
       return null;
     }
   }

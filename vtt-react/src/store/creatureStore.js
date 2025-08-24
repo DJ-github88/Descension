@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { processCreatureLoot, processCreaturesLoot } from '../utils/lootItemUtils';
+import { createStorageConfig } from '../utils/storageUtils';
 
 // Creature types and sizes
 export const CREATURE_TYPES = {
@@ -464,20 +465,7 @@ const useCreatureStore = create(
         set({ windowSize: size });
       }
     }),
-    {
-      name: 'creature-store',
-      storage: {
-        getItem: (name) => {
-          const str = localStorage.getItem(name);
-          if (!str) return null;
-          return JSON.parse(str);
-        },
-        setItem: (name, value) => {
-          localStorage.setItem(name, JSON.stringify(value));
-        },
-        removeItem: (name) => localStorage.removeItem(name)
-      }
-    }
+    createStorageConfig('creature-store')
   )
 );
 

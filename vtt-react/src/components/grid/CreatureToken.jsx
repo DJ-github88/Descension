@@ -127,6 +127,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     // Update local position using creatureStore only (avoid dual store updates)
     updateTokenPosition(tokenId, position);
 
+    // Track local movement to prevent race conditions
+    if (sendToServer && token) {
+      window[`recent_move_${token.creatureId}`] = Date.now();
+    }
+
     // Use regular socket system for token movement (server handles these properly)
     if (sendToServer && isInMultiplayer && multiplayerSocket && token) {
       multiplayerSocket.emit('token_moved', {
@@ -267,6 +272,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       } else {
         // Not in combat - send final position update to multiplayer
         if (isInMultiplayer && token && multiplayerSocket) {
+          // Track local movement to prevent race conditions
+          window[`recent_move_${token.creatureId}`] = Date.now();
+
           multiplayerSocket.emit('token_moved', {
             tokenId: token.creatureId,
             position: finalWorldPos,
@@ -748,8 +756,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (e.button !== 0) return; // Only left mouse button
     if (showContextMenu) return; // Don't start dragging if context menu is open
 
+    // CRITICAL FIX: Ensure event is properly stopped to prevent grid click handling
     e.stopPropagation();
     e.preventDefault(); // Prevent text selection during drag
+
+    console.log('🎯 Token mousedown event - preventing grid click handling');
 
     // If in selection mode, toggle selection instead of dragging
     if (isSelectionMode) {
@@ -789,8 +800,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (showMovementVisualization && isInCombat) {
       startMovementVisualization(tokenId, { x: position.x, y: position.y });
     }
+  };
 
+  // Handle click events on the token (separate from mousedown for dragging)
+  const handleTokenClick = (e) => {
+    // CRITICAL FIX: Prevent click events from bubbling to grid
+    e.stopPropagation();
+    e.preventDefault();
 
+    console.log('🎯 Token click event - prevented from reaching grid');
+
+    // Only handle click if we're not dragging
+    if (!isDragging) {
+      // Handle any click-specific logic here if needed
+      // For now, just prevent the event from reaching the grid
+    }
   };
 
 
@@ -834,6 +858,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseDown={handleMouseDown}
+        onClick={handleTokenClick}
       >
         <div
           className="token-icon"

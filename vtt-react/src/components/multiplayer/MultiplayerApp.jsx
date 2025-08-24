@@ -326,12 +326,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       const targetId = data.creatureId || data.tokenId;
 
-      // Enhanced check to prevent processing our own movements
+      // Enhanced check to prevent processing our own movements with improved conflict detection
       const isOwnMovement = data.playerId === currentPlayer?.id ||
                            data.playerId === socket.id ||
                            (window.multiplayerDragState && window.multiplayerDragState.has(`token_${targetId}`));
 
-      if (isOwnMovement) {
+      // Additional check for recent local movements to prevent race conditions
+      const recentMovementKey = `recent_move_${targetId}`;
+      const recentMovementTime = window[recentMovementKey];
+      const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000;
+
+      if (isOwnMovement || hasRecentLocalMovement) {
+        if (hasRecentLocalMovement) {
+          console.log('🚫 Ignoring token movement - recent local movement detected for token:', targetId);
+        }
         return;
       }
 

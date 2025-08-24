@@ -253,6 +253,8 @@ const CanvasGridRenderer = ({
     
     // Handle mouse interactions on the interaction canvas
     const handleCanvasInteraction = useCallback((event) => {
+        // CRITICAL FIX: Enhanced checks to prevent unwanted token movement
+
         // Check if the event target is a grid item - if so, don't handle it here
         if (event.target && event.target.classList.contains('grid-item-orb')) {
             console.log('Canvas: ignoring event on grid item');
@@ -266,10 +268,27 @@ const CanvasGridRenderer = ({
             elementAtPoint.classList.contains('creature-token') ||
             elementAtPoint.classList.contains('character-token') ||
             elementAtPoint.closest('.creature-token') ||
-            elementAtPoint.closest('.character-token')
+            elementAtPoint.closest('.character-token') ||
+            elementAtPoint.closest('.grid-item-orb')
         )) {
             console.log('Canvas: interactive element found at mouse position, ignoring event');
             return;
+        }
+
+        // Additional safety check: if any token is currently being dragged, ignore canvas events
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            console.log('Canvas: token is being dragged, ignoring canvas interaction');
+            return;
+        }
+
+        // For click events, add extra validation to prevent unwanted actions
+        if (event.type === 'click' || event.type === 'mousedown') {
+            // Check if we're in any special mode that should handle clicks differently
+            if (!isDraggingItem && !isDraggingCharacterToken) {
+                // Not in any dragging mode, so this is a regular grid click
+                // Only proceed if we're sure this isn't interfering with token interactions
+                console.log('Canvas: processing grid click event');
+            }
         }
 
         // Prevent default for drag events to allow dropping
@@ -281,15 +300,15 @@ const CanvasGridRenderer = ({
 
         const canvas = interactionCanvasRef.current;
         if (!canvas) return;
-        
+
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
-        
+
         // Convert screen coordinates to grid coordinates using viewport-centered coordinate system
         const worldPos = gridSystem.screenToWorld(x, y, canvas.width, canvas.height);
         const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
-        
+
         // Create a tile-like object for compatibility
         const tileData = {
             gridX: gridCoords.x,
@@ -300,9 +319,9 @@ const CanvasGridRenderer = ({
             screenY: y,
             key: `${gridCoords.x},${gridCoords.y}`
         };
-        
+
         onGridInteraction(event, tileData);
-    }, [onGridInteraction, gridSystem]);
+    }, [onGridInteraction, gridSystem, isDraggingItem, isDraggingCharacterToken]);
     
     return (
         <>

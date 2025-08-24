@@ -18,6 +18,10 @@ const memoryManager = require('./services/memoryManager');
 const lagCompensation = require('./services/lagCompensation');
 const RealtimeSyncEngine = require('./services/realtimeSync');
 
+// New infrastructure services
+const ErrorHandler = require('./services/errorHandler');
+const PerformanceMonitor = require('./services/performanceMonitor');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -50,7 +54,17 @@ const io = socketIo(server, {
 // Initialize enhanced multiplayer services
 const eventBatcher = new EventBatcher(io);
 const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
-console.log('🚀 Enhanced multiplayer services initialized');
+
+// Initialize infrastructure services
+const errorHandler = new ErrorHandler();
+const performanceMonitor = new PerformanceMonitor();
+
+// Make services globally available
+global.errorHandler = errorHandler;
+global.performanceMonitor = performanceMonitor;
+global.memoryManager = memoryManager;
+
+console.log('🚀 Enhanced multiplayer and infrastructure services initialized');
 
 // Middleware
 app.use(cors({
@@ -61,14 +75,45 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-    corsOrigins: allowedOrigins
+// Performance tracking middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    const success = res.statusCode < 400;
+    performanceMonitor.trackRequest(req.path, duration, success);
   });
+
+  next();
+});
+
+// Enhanced health check endpoint with performance metrics
+app.get('/health', (req, res) => {
+  try {
+    const performanceSummary = performanceMonitor.getPerformanceSummary();
+    const errorStats = errorHandler.getErrorStats();
+
+    res.json({
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
+      corsOrigins: allowedOrigins,
+      performance: {
+        cpu: performanceSummary.cpu.latest?.usage || 0,
+        memory: performanceSummary.memory.latest?.systemPercent || 0,
+        eventLoop: performanceSummary.eventLoop.latest?.delay || 0
+      },
+      errors: {
+        total: errorStats.total,
+        byType: errorStats.byType
+      },
+      uptime: process.uptime()
+    });
+  } catch (error) {
+    console.error('Health check error:', error);
+    res.status(500).json({ status: 'ERROR', message: 'Health check failed' });
+  }
 });
 
 // List public rooms endpoint
@@ -360,22 +405,49 @@ app.get('/rooms', (req, res) => {
   res.json(getPublicRooms());
 });
 
+// Performance metrics endpoint (for monitoring/debugging)
+app.get('/metrics', (req, res) => {
+  try {
+    const summary = performanceMonitor.getPerformanceSummary();
+    const recommendations = performanceMonitor.getOptimizationRecommendations();
+    const errorStats = errorHandler.getErrorStats();
+
+    res.json({
+      performance: summary,
+      recommendations: recommendations,
+      errors: errorStats,
+      rooms: {
+        total: rooms.size,
+        active: Array.from(rooms.values()).filter(r => r.isActive).length
+      },
+      players: {
+        total: players.size
+      }
+    });
+  } catch (error) {
+    console.error('Metrics endpoint error:', error);
+    res.status(500).json({ error: 'Failed to retrieve metrics' });
+  }
+});
+
 // Socket.io connection handling
 io.on('connection', (socket) => {
   console.log(`Player connected: ${socket.id}`);
   
-  // Create a new room
+  // Create a new room with enhanced error handling
   socket.on('create_room', async (data) => {
-    console.log('🎮 Received create_room request:', data);
-    const { roomName, gmName, password } = data;
-
-    if (!roomName || !gmName || !password) {
-      console.log('❌ Missing required fields:', { roomName, gmName, password });
-      socket.emit('error', { message: 'Room name, GM name, and password are required' });
-      return;
-    }
+    const startTime = Date.now();
 
     try {
+      console.log('🎮 Received create_room request:', data);
+      const { roomName, gmName, password } = data;
+
+      if (!roomName || !gmName || !password) {
+        console.log('❌ Missing required fields:', { roomName, gmName, password });
+        socket.emit('error', { message: 'Room name, GM name, and password are required' });
+        return;
+      }
+
       const room = await createRoom(roomName, gmName, socket.id, password, data.playerColor);
       socket.join(room.id);
 
@@ -390,15 +462,33 @@ io.on('connection', (socket) => {
           settings: room.settings
         }
       });
+
+      // Broadcast room list update to all connected clients
+      const publicRooms = getPublicRooms();
+      console.log('Broadcasting room list update:', publicRooms);
+      io.emit('room_list_updated', publicRooms);
+
+      // Track performance
+      performanceMonitor.trackRequest('create_room', Date.now() - startTime, true);
+
     } catch (error) {
       console.error('Error creating room:', error);
-      socket.emit('error', { message: 'Failed to create room' });
-    }
 
-    // Broadcast room list update to all connected clients
-    const publicRooms = getPublicRooms();
-    console.log('Broadcasting room list update:', publicRooms);
-    io.emit('room_list_updated', publicRooms);
+      // Handle error through centralized system
+      const sanitizedError = await errorHandler.handleError(error, {
+        socketId: socket.id,
+        operation: 'create_room',
+        data: data
+      });
+
+      socket.emit('error', {
+        message: 'Failed to create room',
+        details: sanitizedError.message
+      });
+
+      // Track performance failure
+      performanceMonitor.trackRequest('create_room', Date.now() - startTime, false);
+    }
   });
   
   // Join an existing room
@@ -643,12 +733,26 @@ io.on('connection', (socket) => {
         }
       );
 
-      // Throttle token movement broadcasts to prevent player lag (more aggressive)
+      // Enhanced throttling with conflict detection
       const broadcastKey = `${player.roomId}_${tokenKey}`;
       const now = Date.now();
       if (!global.lastTokenBroadcast) global.lastTokenBroadcast = new Map();
+      if (!global.tokenMovementConflicts) global.tokenMovementConflicts = new Map();
+
       const lastBroadcast = global.lastTokenBroadcast.get(broadcastKey) || 0;
       const throttleTime = data.isDragging ? 75 : 150; // Reduced to ~13fps for dragging, ~7fps for final positions
+
+      // Check for potential conflicts (multiple rapid movements)
+      const conflictKey = `${tokenKey}_${player.id}`;
+      const lastMovement = global.tokenMovementConflicts.get(conflictKey) || 0;
+
+      if (now - lastMovement < 50) {
+        console.log(`🚫 Potential movement conflict detected for token ${tokenKey} by player ${player.name}`);
+        // Still process but don't broadcast immediately
+        return;
+      }
+
+      global.tokenMovementConflicts.set(conflictKey, now);
 
       if (now - lastBroadcast > throttleTime) {
         global.lastTokenBroadcast.set(broadcastKey, now);

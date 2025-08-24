@@ -139,8 +139,11 @@ const CharacterToken = ({
         if (e.button !== 0) return; // Only left mouse button
         if (showContextMenu) return; // Don't start dragging if context menu is open
 
+        // CRITICAL FIX: Ensure event is properly stopped to prevent grid click handling
         e.stopPropagation();
         e.preventDefault(); // Prevent text selection during drag
+
+        console.log('🎭 Character token mousedown event - preventing grid click handling');
 
         // If in combat and not this token's turn, prevent movement
         if (isInCombat && !isMyTurn) {
@@ -168,6 +171,21 @@ const CharacterToken = ({
 
         // Store the starting position for movement
         setDragStartPosition({ x: position.x, y: position.y });
+    };
+
+    // Handle click events on the character token (separate from mousedown for dragging)
+    const handleTokenClick = (e) => {
+        // CRITICAL FIX: Prevent click events from bubbling to grid
+        e.stopPropagation();
+        e.preventDefault();
+
+        console.log('🎭 Character token click event - prevented from reaching grid');
+
+        // Only handle click if we're not dragging
+        if (!isDragging) {
+            // Handle any click-specific logic here if needed
+            // For now, just prevent the event from reaching the grid
+        }
     };
 
     // Handle mouse move and up for dragging with pure immediate feedback
@@ -389,6 +407,7 @@ const CharacterToken = ({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onMouseDown={handleMouseDown}
+                onClick={handleTokenClick}
             >
                 {/* Health bar removed - health is visible in HUD and hover tooltip */}
 

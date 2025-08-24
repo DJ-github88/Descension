@@ -175,12 +175,8 @@ const useGameStore = create(
                 });
             },
 
-            // Update token position (deprecated - use creatureStore instead)
-            updateTokenPosition: (creatureId, position) => {
-                // This method is deprecated and no longer used to avoid dual store conflicts
-                // All token position updates should go through creatureStore
-                console.warn('🎯 gameStore.updateTokenPosition is deprecated - use creatureStore instead');
-            },
+            // REMOVED: updateTokenPosition - deprecated function removed
+            // All token position updates should go through creatureStore
 
             // Remove token
             removeToken: (creatureId) => {

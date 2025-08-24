@@ -133,14 +133,14 @@ export default function Grid() {
         clearGridAlignmentRectangles
     } = gameStore;
 
-    // Calculate effective zoom early (GM zoom * player zoom)
-    const effectiveZoom = zoomLevel * playerZoom;
+    // Calculate effective zoom early (GM zoom * player zoom) - memoized for performance
+    const effectiveZoom = useMemo(() => zoomLevel * playerZoom, [zoomLevel, playerZoom]);
 
     // Grid rendering mode - use canvas for better performance, especially at low zoom
     const [useCanvasGrid] = useState(true);
 
-    // Force canvas rendering at low zoom levels for better performance
-    const shouldUseCanvas = useCanvasGrid || effectiveZoom < 0.5;
+    // Force canvas rendering at low zoom levels for better performance - memoized
+    const shouldUseCanvas = useMemo(() => useCanvasGrid || effectiveZoom < 0.5, [useCanvasGrid, effectiveZoom]);
 
     // Smooth zoom state (removed unused variables)
     const zoomAnimationRef = useRef(null);
@@ -345,25 +345,18 @@ export default function Grid() {
         return () => clearTimeout(timeoutId);
     }, [cameraX, cameraY, effectiveZoom]);
 
-    // Throttled grid tile generation for better performance during movement
-    useEffect(() => {
-        if (!showGrid) {
-            setGridTiles([]);
-            return;
+    // Optimized grid tile generation with memoization
+    const gridTilesGeneration = useMemo(() => {
+        if (!showGrid || viewportSize.width === 0 || viewportSize.height === 0) {
+            return [];
         }
 
-        // Use debounced camera position for grid tile generation
-        const updateTiles = () => {
-            const tiles = gridSystem.generateGridTiles(viewportSize.width, viewportSize.height);
-            setGridTiles(tiles);
-        };
-
-        // Immediate update for non-camera changes, throttled for camera changes
-        const isViewportChange = viewportSize.width !== 0 && viewportSize.height !== 0;
-        if (isViewportChange) {
-            updateTiles();
+        // Only generate tiles if we're not using canvas rendering
+        if (shouldUseCanvas) {
+            return [];
         }
 
+        return gridSystem.generateGridTiles(viewportSize.width, viewportSize.height);
     }, [
         gridSystem,
         viewportSize.width,
@@ -375,8 +368,13 @@ export default function Grid() {
         gridOffsetX,
         gridOffsetY,
         showGrid,
-
+        shouldUseCanvas
     ]);
+
+    // Update grid tiles state only when memoized value changes
+    useEffect(() => {
+        setGridTiles(gridTilesGeneration);
+    }, [gridTilesGeneration]);
 
     // Generate wall decorations for grid tiles - walls are attached to tiles, not positioned independently
     const wallDecorations = useMemo(() => {
@@ -1358,6 +1356,32 @@ export default function Grid() {
 
     // Handle click for character token placement
     const handleGridClick = (e, tile) => {
+        // CRITICAL FIX: Check if the click is on a token or interactive element first
+        // This prevents unwanted token movement when clicking on tokens
+        if (e.target.classList.contains('creature-token') ||
+            e.target.classList.contains('character-token') ||
+            e.target.closest('.creature-token') ||
+            e.target.closest('.character-token') ||
+            e.target.classList.contains('grid-item-orb') ||
+            e.target.closest('.grid-item-orb')) {
+            // Let the token/item's own event handler deal with it
+            return;
+        }
+
+        // Additional safety check: if there's an interactive element at the click position
+        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+        if (elementAtPoint && (
+            elementAtPoint.classList.contains('creature-token') ||
+            elementAtPoint.classList.contains('character-token') ||
+            elementAtPoint.classList.contains('grid-item-orb') ||
+            elementAtPoint.closest('.creature-token') ||
+            elementAtPoint.closest('.character-token') ||
+            elementAtPoint.closest('.grid-item-orb')
+        )) {
+            console.log('🚫 Grid click ignored - interactive element detected at click position');
+            return;
+        }
+
         // For context menu events, check if there's a GM notes object at the clicked position
         if (e.type === 'contextmenu') {
             // Convert event coordinates to screen coordinates relative to the grid
@@ -1419,6 +1443,7 @@ export default function Grid() {
         // If we're not in character token placement mode and this is a regular click,
         // don't do anything - let the event bubble up normally
         // This prevents unwanted token movement when clicking on empty grid cells
+        console.log('🎯 Grid click processed - no action taken (normal behavior)');
     };
 
     // Handle drop for grid tiles
@@ -2335,30 +2360,26 @@ export default function Grid() {
                 return <GridItem key={uniqueKey} gridItem={gridItem} />;
             })}
 
-            {/* Render creature tokens */}
-            {tokens.map(token => {
-                return (
-                    <CreatureToken
-                        key={token.id}
-                        tokenId={token.id}
-                        position={token.position}
-                        onRemove={handleRemoveToken}
-                    />
-                );
-            })}
+            {/* Render creature tokens - memoized for performance */}
+            {useMemo(() => tokens.map(token => (
+                <CreatureToken
+                    key={token.id}
+                    tokenId={token.id}
+                    position={token.position}
+                    onRemove={handleRemoveToken}
+                />
+            )), [tokens, handleRemoveToken])}
 
-            {/* Render character tokens */}
-            {characterTokens.map(token => {
-                return (
-                    <CharacterToken
-                        key={token.id}
-                        tokenId={token.id}
-                        position={token.position}
-                        onRemove={handleRemoveCharacterToken}
-                        onInspect={handleCharacterTokenInspect}
-                    />
-                );
-            })}
+            {/* Render character tokens - memoized for performance */}
+            {useMemo(() => characterTokens.map(token => (
+                <CharacterToken
+                    key={token.id}
+                    tokenId={token.id}
+                    position={token.position}
+                    onRemove={handleRemoveCharacterToken}
+                    onInspect={handleCharacterTokenInspect}
+                />
+            )), [characterTokens, handleRemoveCharacterToken, handleCharacterTokenInspect])}
 
             {/* Character Token Placement Preview */}
             {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}
