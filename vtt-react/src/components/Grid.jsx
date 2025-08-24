@@ -1361,6 +1361,13 @@ export default function Grid() {
 
     // Handle click for character token placement
     const handleGridClick = (e, tile) => {
+        // CRITICAL FIX: Allow context menu events to pass through to tokens
+        if (e.type === 'contextmenu') {
+            console.log('🎯 Context menu event detected - allowing token context menus');
+            // Don't prevent context menu events - let them bubble to tokens
+            return;
+        }
+
         // CRITICAL FIX: Comprehensive check to prevent any token interaction
         console.log('🎯 Grid click detected, checking for token interference...');
 

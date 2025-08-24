@@ -218,6 +218,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const handleMouseUp = (e) => {
       if (!isDragging) return;
 
+      // CRITICAL FIX: Only handle left mouse button releases for dragging
+      // Right-clicks should not end dragging or move tokens
+      if (e.button !== 0) {
+        console.log('🚫 Ignoring non-left mouse button release for token dragging');
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
 
