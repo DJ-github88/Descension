@@ -894,7 +894,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             currency: ['inv_misc_coin_01', 'inv_misc_coin_02', 'inv_misc_coin_16']
         };
 
-        const icons = iconMaps[type] || ['inv_misc_questionmark'];
+        const icons = iconMaps[type] || ['inv_misc_gem_01'];
         return icons[getRandomInt(0, icons.length - 1)];
     };
 
@@ -1795,11 +1795,11 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                         <div className="icon-selection-container">
                             <div className="current-icon-display" onClick={() => setShowIconSelector(true)}>
                                 <img
-                                    src={getIconUrl(selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_questionmark')}
+                                    src={getIconUrl(selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_gem_01')}
                                     alt="Item Icon"
                                     className="current-icon-image"
                                     onError={(e) => {
-                                        e.target.src = getIconUrl('inv_misc_questionmark');
+                                        e.target.src = getIconUrl('inv_misc_gem_01');
                                     }}
                                 />
                                 <div className="icon-change-overlay">
@@ -3057,7 +3057,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                         setShowIconSelector(false);
                     }}
                     onClose={() => setShowIconSelector(false)}
-                    currentIcon={selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_questionmark'}
+                    currentIcon={selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_gem_01'}
                     itemType={type}
                 />
             )}

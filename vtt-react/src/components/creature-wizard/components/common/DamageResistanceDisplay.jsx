@@ -27,7 +27,7 @@ const DamageResistanceDisplay = ({ resistances = {}, vulnerabilities = {} }) => 
       'piercing': 'https://wow.zamimg.com/images/wow/icons/medium/ability_backstab.jpg',
       'slashing': 'https://wow.zamimg.com/images/wow/icons/medium/ability_warrior_cleave.jpg'
     };
-    return iconMap[damageTypeId] || 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg';
+    return iconMap[damageTypeId] || 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_gem_01.jpg';
   };
 
   // Combine resistances and vulnerabilities into a single object for easier processing

@@ -131,7 +131,7 @@ const QuestReward = ({ reward, type, onRemove }) => {
               className="quest-reward-item-icon"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = `${WOW_ICON_BASE_URL}inv_misc_questionmark.jpg`;
+                e.target.src = `${WOW_ICON_BASE_URL}inv_misc_gem_01.jpg`;
               }}
             />
             {reward.count > 1 && (

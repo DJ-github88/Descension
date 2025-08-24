@@ -622,7 +622,7 @@ const getItemIcon = (type, subtype) => {
     }
 
     // Otherwise, fall back to the default icon for the type
-    return ITEM_TYPES[type]?.icon || 'inv_misc_questionmark';
+    return ITEM_TYPES[type]?.icon || 'inv_misc_gem_01';
 };
 
 // Generate a basic item for container contents

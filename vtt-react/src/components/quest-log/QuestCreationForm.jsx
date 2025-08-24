@@ -88,7 +88,7 @@ const CompactItemDisplay = ({ item, onRemove }) => {
 
   const qualityLower = (item.quality || item.rarity || 'common').toLowerCase();
   const qualityColor = getQualityColor(qualityLower);
-  const iconId = item.iconId || 'inv_misc_questionmark';
+  const iconId = item.iconId || 'inv_misc_gem_01';
   const imageUrl = item.imageUrl || `https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg`;
 
   // Handle mouse enter for item tooltip
@@ -131,7 +131,7 @@ const CompactItemDisplay = ({ item, onRemove }) => {
             className="quest-reward-item-icon"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = `https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg`;
+              e.target.src = `https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_01.jpg`;
             }}
           />
           {item.count > 1 && (

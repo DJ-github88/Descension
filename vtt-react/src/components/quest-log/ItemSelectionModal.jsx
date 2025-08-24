@@ -196,7 +196,7 @@ const ItemSelectionModal = ({ isOpen, onClose, onSelectItem }) => {
                   <div
                     className="item-icon-only"
                     style={{
-                      backgroundImage: `url(${WOW_ICON_BASE_URL}${item.iconId || 'inv_misc_questionmark'}.jpg)`,
+                      backgroundImage: `url(${WOW_ICON_BASE_URL}${item.iconId || 'inv_misc_gem_01'}.jpg)`,
                       borderColor: qualityColor
                     }}
                   />

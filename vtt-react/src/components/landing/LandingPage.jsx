@@ -38,41 +38,25 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           <div className="title-section">
             <h1 className="game-title">Mythrill</h1>
             <div className="title-ornament">
-              <i className="fas fa-star"></i>
+              <i className="fas fa-dragon"></i>
               <span className="ornament-line"></span>
-              <i className="fas fa-bolt"></i>
+              <i className="fas fa-gem"></i>
               <span className="ornament-line"></span>
-              <i className="fas fa-star"></i>
+              <i className="fas fa-dragon"></i>
             </div>
           </div>
 
           <p className="game-subtitle">The Ultimate Fantasy TTRPG Experience</p>
           <p className="game-description">
             Embark on epic adventures in a world of magic, mystery, and endless possibilities.
-            Create your character, join parties, and experience tabletop gaming like never before.
           </p>
-
-          <div className="game-highlights">
-            <div className="highlight-item">
-              <i className="fas fa-star"></i>
-              <span>27 Unique Classes</span>
-            </div>
-            <div className="highlight-item">
-              <i className="fas fa-bolt"></i>
-              <span>Dynamic Spellcrafting</span>
-            </div>
-            <div className="highlight-item">
-              <i className="fas fa-users"></i>
-              <span>Real-time Multiplayer</span>
-            </div>
-          </div>
 
           <div className="action-buttons">
             <button
               className="primary-action-btn"
               onClick={onEnterMultiplayer}
             >
-              <i className="fas fa-users"></i>
+              <i className="fas fa-dragon"></i>
               <span className="btn-text">
                 <span className="btn-title">Play Online</span>
                 <span className="btn-subtitle">Adventure with friends</span>
@@ -82,55 +66,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               className="secondary-action-btn"
               onClick={onEnterSinglePlayer}
             >
-              <i className="fas fa-map"></i>
+              <i className="fas fa-hammer"></i>
               <span className="btn-text">
                 <span className="btn-title">World Builder</span>
                 <span className="btn-subtitle">Create maps & creatures</span>
               </span>
             </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Start Guide */}
-      <div className="quick-start-section">
-        <h2>Getting Started is Easy</h2>
-        <div className="quick-start-grid">
-          <div className="start-step">
-            <div className="step-number">1</div>
-            <h3>Create Your Character</h3>
-            <p>Choose from 27 unique classes and customize your hero's abilities - completely free!</p>
-          </div>
-          <div className="start-step">
-            <div className="step-number">2</div>
-            <h3>Join or Create a Room</h3>
-            <p>Play with up to 2 friends for free, or upgrade for larger parties</p>
-          </div>
-          <div className="start-step">
-            <div className="step-number">3</div>
-            <h3>Adventure Together</h3>
-            <p>Explore worlds, craft spells, and engage in epic multiplayer battles</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="features-preview">
-        <h2>Core Features</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <i className="fas fa-fire"></i>
-            <h3>Dynamic Combat</h3>
-            <p>Tactical combat with advanced VTT system</p>
-          </div>
-          <div className="feature-card">
-            <i className="fas fa-bolt"></i>
-            <h3>Spell Crafting</h3>
-            <p>Create and customize unique spells</p>
-          </div>
-          <div className="feature-card">
-            <i className="fas fa-users"></i>
-            <h3>Real-time Multiplayer</h3>
-            <p>Adventure with friends online</p>
           </div>
         </div>
       </div>
@@ -188,7 +129,17 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <li>✓ Complete spell crafting system</li>
               <li>✓ Basic VTT features</li>
             </ul>
-            <button className="pricing-btn">Current Plan</button>
+            <button
+              className="pricing-btn primary-account-btn"
+              onClick={onShowLogin}
+            >
+              <i className="fas fa-sign-in-alt"></i>
+              Get Started
+            </button>
+            <p className="account-note">
+              <i className="fas fa-info-circle"></i>
+              Free account • No credit card required
+            </p>
           </div>
 
           <div className="pricing-card premium">
@@ -221,69 +172,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     </div>
   );
 
-  const renderAccountSection = () => (
-    <div className="landing-section">
-      <div className="account-content">
-        <h2>Create Your Account</h2>
-        <div className="account-grid">
-          <div className="account-card account-main">
-            <div className="account-hero">
-              <div className="account-icon">
-                <i className="fas fa-user-shield"></i>
-              </div>
-              <h3>Join the Adventure</h3>
-              <p>Create your Mythrill account to unlock character creation, cloud saves, and multiplayer features</p>
-            </div>
 
-            <div className="account-benefits">
-              <div className="benefit-row">
-                <div className="benefit-item">
-                  <i className="fab fa-google"></i>
-                  <span>Google Sign-In</span>
-                </div>
-                <div className="benefit-item">
-                  <i className="fas fa-shield-alt"></i>
-                  <span>Secure & Private</span>
-                </div>
-              </div>
-              <div className="benefit-row">
-                <div className="benefit-item">
-                  <i className="fas fa-cloud"></i>
-                  <span>Cloud Storage</span>
-                </div>
-                <div className="benefit-item">
-                  <i className="fas fa-users"></i>
-                  <span>Multiplayer Ready</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="account-actions">
-              <button
-                className="primary-account-btn"
-                onClick={onShowLogin}
-              >
-                <i className="fas fa-sign-in-alt"></i>
-                Get Started
-              </button>
-              <p className="account-note">
-                <i className="fas fa-info-circle"></i>
-                Free account • No credit card required
-              </p>
-            </div>
-          </div>
-          
-
-        </div>
-      </div>
-    </div>
-  );
 
   const navigation = [
     { id: 'home', label: 'Home', icon: 'fas fa-home' },
     { id: 'game-info', label: 'Game Info', icon: 'fas fa-info' },
-    { id: 'membership', label: 'Membership', icon: 'fas fa-star' },
-    { id: 'account', label: 'Account', icon: 'fas fa-user' }
+    { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
   ];
 
   return (
@@ -325,7 +219,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         {activeSection === 'home' && renderHomeSection()}
         {activeSection === 'game-info' && renderGameInfoSection()}
         {activeSection === 'membership' && renderMembershipSection()}
-        {activeSection === 'account' && renderAccountSection()}
       </main>
 
       <footer className="landing-footer">
