@@ -78,7 +78,13 @@ const AccountDashboard = ({ user }) => {
           </div>
           <div className="account-welcome">
             <h2>Welcome to Mythrill!</h2>
-            <p>{user?.displayName || 'Adventurer'}</p>
+            <div className="user-info-with-badge">
+              <p>{user?.displayName || 'Adventurer'}</p>
+              <span className="membership-tag">
+                <i className="fas fa-crown"></i>
+                Free Adventurer
+              </span>
+            </div>
             {isDevelopmentBypass && (
               <div className="dev-mode-badge">
                 <i className="fas fa-code"></i>
@@ -210,96 +216,9 @@ const AccountDashboard = ({ user }) => {
               </div>
             </section>
 
-            {/* Recent Characters */}
-            <section className="dashboard-card recent-characters">
-              <div className="card-header">
-                <h3>Recent Characters</h3>
-                <button
-                  className="view-all-btn"
-                  onClick={() => setActiveTab('characters')}
-                >
-                  View All
-                </button>
-              </div>
-              <div className="card-content">
-                {characters && characters.length > 0 ? (
-                  <div className="character-preview-list">
-                    {characters.slice(0, 3).map((character) => (
-                      <div key={character.id} className="character-preview">
-                        <div className="character-avatar">
-                          {character.image ? (
-                            <img src={character.image} alt={character.name} />
-                          ) : (
-                            <i className="fas fa-user-circle"></i>
-                          )}
-                        </div>
-                        <div className="character-info">
-                          <h4>{character.name}</h4>
-                          <p>{character.race} {character.class}</p>
-                        </div>
-                        <div className="character-level">
-                          <span>Lvl {character.level || 1}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="empty-state">
-                    <i className="fas fa-user-plus"></i>
-                    <h4>No Characters Yet</h4>
-                    <p>Create your first character to begin your adventure!</p>
-                    <button
-                      className="create-first-btn"
-                      onClick={() => setActiveTab('characters')}
-                    >
-                      Create Character
-                    </button>
-                  </div>
-                )}
-              </div>
-            </section>
 
-            {/* Membership & Features */}
-            <section className="dashboard-card features-card">
-              <div className="card-header">
-                <h3>Mythrill Features</h3>
-                <div className="membership-badge">
-                  <i className="fas fa-crown"></i>
-                  Free Adventurer
-                </div>
-              </div>
-              <div className="card-content">
-                <div className="features-grid">
-                  <div className="feature-item unlocked">
-                    <i className="fas fa-check-circle"></i>
-                    <span>Unlimited Characters</span>
-                  </div>
-                  <div className="feature-item unlocked">
-                    <i className="fas fa-check-circle"></i>
-                    <span>Cloud Save</span>
-                  </div>
-                  <div className="feature-item unlocked">
-                    <i className="fas fa-check-circle"></i>
-                    <span>Multiplayer Rooms</span>
-                  </div>
-                  <div className="feature-item unlocked">
-                    <i className="fas fa-check-circle"></i>
-                    <span>Character Tracking</span>
-                  </div>
-                  <div className="feature-item unlocked">
-                    <i className="fas fa-check-circle"></i>
-                    <span>Spell Crafting</span>
-                  </div>
-                  <div className="feature-item unlocked">
-                    <i className="fas fa-check-circle"></i>
-                    <span>World Builder</span>
-                  </div>
-                </div>
-                <div className="membership-footer">
-                  <p>Enjoying Mythrill? All features are free forever!</p>
-                </div>
-              </div>
-            </section>
+
+
           </div>
         )}
 
@@ -326,28 +245,41 @@ const AccountDashboard = ({ user }) => {
                 <div className="characters-grid-full">
                   {characters.map((character) => (
                     <div key={character.id} className="character-card-full">
-                      <div className="character-portrait">
-                        {character.image ? (
-                          <img src={character.image} alt={character.name} />
-                        ) : (
-                          <i className="fas fa-user-circle"></i>
-                        )}
-                      </div>
-                      <div className="character-details">
-                        <h3>{character.name}</h3>
-                        <p>{character.race} {character.class}</p>
-                        <div className="character-stats">
-                          <span>Level {character.level || 1}</span>
-                          <span>HP: {character.hitPoints || 100}</span>
+                      <div className="character-card-header">
+                        <div className="character-portrait">
+                          {character.image ? (
+                            <img src={character.image} alt={character.name} />
+                          ) : (
+                            <i className="fas fa-user-circle"></i>
+                          )}
+                        </div>
+                        <div className="character-header-info">
+                          <div className="character-details">
+                            <h3>{character.name}</h3>
+                            <p>{character.race} {character.class}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="character-actions">
-                        <button
-                          className="edit-btn"
-                          onClick={() => navigate(`/account/characters/edit/${character.id}`)}
-                        >
-                          Edit
-                        </button>
+                      <div className="character-card-body">
+                        <div className="character-stats">
+                          <div className="stat-item">
+                            <span className="stat-label">Level</span>
+                            <span className="stat-value">{character.level || 1}</span>
+                          </div>
+                          <div className="stat-item">
+                            <span className="stat-label">Hit Points</span>
+                            <span className="stat-value">{character.hitPoints || 100}</span>
+                          </div>
+                        </div>
+                        <div className="character-actions">
+                          <button
+                            className="edit-btn"
+                            onClick={() => navigate(`/account/characters/edit/${character.id}`)}
+                          >
+                            <i className="fas fa-edit"></i>
+                            Edit Character
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
