@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import './FloatingCombatText.css';
+// REMOVED: import './FloatingCombatText.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 /**
  * Floating Combat Text Component

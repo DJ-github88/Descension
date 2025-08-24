@@ -10,9 +10,9 @@ import useDebuffStore from '../../store/debuffStore';
 import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import TooltipPortal from '../tooltips/TooltipPortal';
-import 'react-resizable/css/styles.css';
-import '../../styles/party-hud.css';
-import './styles/ClassResourceBar.css';
+// REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
+// REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
+// REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu }) => {
     const frameRef = useRef(null);

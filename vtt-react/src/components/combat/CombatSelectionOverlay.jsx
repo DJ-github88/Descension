@@ -3,7 +3,7 @@ import WowWindow from '../windows/WowWindow';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useChatStore from '../../store/chatStore';
-import './CombatSelectionOverlay.css';
+// REMOVED: import './CombatSelectionOverlay.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 const CombatSelectionWindow = () => {
     const {

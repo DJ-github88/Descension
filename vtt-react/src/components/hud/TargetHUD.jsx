@@ -10,8 +10,8 @@ import useDebuffStore from '../../store/debuffStore';
 import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
-import '../../styles/party-hud.css';
-import '../../styles/buff-container.css';
+// REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
+// REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
 import './styles/ClassResourceBar.css';
 
 const TargetHUD = () => {

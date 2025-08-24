@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useState, useRef, useEffect } from 'react';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
-import '../spellcrafting-wizard/styles/pathfinder/main.css';
+// REMOVED: import '../spellcrafting-wizard/styles/pathfinder/main.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 // Import spell library data
 import { LIBRARY_SPELLS, LIBRARY_COLLECTIONS } from '../../data/spellLibraryData';

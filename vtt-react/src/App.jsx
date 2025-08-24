@@ -34,6 +34,9 @@ import initCreatureStore from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
 import PortalDebugger from './components/debug/PortalDebugger';
 
+// Preload roomService to prevent chunk loading issues
+import './services/roomService';
+
 // Core styles that are always needed
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';
@@ -42,15 +45,102 @@ import './styles/wow-classic-tooltip.css';
 import './styles/wow-window.css';
 import './styles/draggable-window.css';
 
-// Lazy load game-specific styles
+// Track dynamically loaded stylesheets for cleanup
+let gameStylesheets = [];
+
+// Lazy load game-specific styles with cleanup tracking
 const loadGameStyles = () => {
-    import('./components/spellcrafting-wizard/styles/pathfinder/main.css');
-    import('./components/spellcrafting-wizard/styles/pathfinder/collections.css');
-    import('./styles/character-sheet-isolation.css');
-    import('./styles/game-screen.css');
-    import('./styles/grid-item.css');
-    import('./styles/party-hud.css');
-    import('./styles/creature-token.css');
+    // Only load if not already loaded
+    if (gameStylesheets.length > 0) return;
+
+    // Load essential game styles that are properly scoped or necessary for functionality
+    // Exclude problematic CSS files that contain global selectors
+    const stylePromises = [
+        // DISABLED - contains global * selector that pollutes landing page:
+        // import('./components/spellcrafting-wizard/styles/pathfinder/main.css'),
+        // import('./components/spellcrafting-wizard/styles/pathfinder/collections.css'),
+
+        // Load essential CSS files that were removed from components to prevent pollution
+        import('./styles/Grid.css'), // Essential for grid functionality
+        import('./styles/character-sheet-isolation.css'),
+        import('./styles/game-screen.css'),
+        import('./styles/grid-item.css'),
+        import('./styles/party-hud.css'),
+        import('./styles/creature-token.css'),
+
+        // Load component-specific CSS that was causing pollution
+        import('./components/creature-wizard/styles/CreatureWindow.css'),
+
+        // Load HUD-related CSS files that were removed from components
+        import('./components/hud/styles/ClassResourceBar.css'),
+        import('./styles/buff-container.css'),
+
+        // Load UI component CSS files that were removed from components
+        import('./components/ui/ActionBar.css'),
+        import('./components/combat/CombatSelectionOverlay.css'),
+        import('./components/combat/FloatingCombatText.css'),
+        import('./styles/combat-selection-window.css'),
+        import('./styles/combat-system.css'),
+
+        // Load icon-related CSS files that might be needed for proper icon display
+        import('./styles/item-icon-selector.css'),
+        import('./styles/dropdown-fix.css'),
+        import('./components/spellcrafting-wizard/styles/IconSelector.css'),
+        import('./styles/inventory.css'),
+
+        // Load react-resizable styles (needed for Navigation and HUD components)
+        import('react-resizable/css/styles.css')
+    ];
+
+    // Track the loaded stylesheets for potential cleanup
+    Promise.all(stylePromises).then(() => {
+        // Find the newly added stylesheets
+        const allStylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'));
+        gameStylesheets = allStylesheets.filter(sheet =>
+            sheet.href && (
+                sheet.href.includes('Grid.css') ||
+                sheet.href.includes('character-sheet-isolation.css') ||
+                sheet.href.includes('game-screen.css') ||
+                sheet.href.includes('grid-item.css') ||
+                sheet.href.includes('party-hud.css') ||
+                sheet.href.includes('creature-token.css') ||
+                sheet.href.includes('CreatureWindow.css') ||
+                sheet.href.includes('ClassResourceBar.css') ||
+                sheet.href.includes('buff-container.css') ||
+                sheet.href.includes('ActionBar.css') ||
+                sheet.href.includes('CombatSelectionOverlay.css') ||
+                sheet.href.includes('FloatingCombatText.css') ||
+                sheet.href.includes('combat-selection-window.css') ||
+                sheet.href.includes('combat-system.css') ||
+                sheet.href.includes('item-icon-selector.css') ||
+                sheet.href.includes('dropdown-fix.css') ||
+                sheet.href.includes('IconSelector.css') ||
+                sheet.href.includes('inventory.css') ||
+                sheet.href.includes('react-resizable')
+            )
+        );
+    });
+};
+
+// Clean up game-specific styles when leaving game mode
+const cleanupGameStyles = () => {
+    // Remove game mode class and add landing mode class
+    document.body.classList.remove('game-mode');
+    document.body.classList.add('landing-mode');
+
+    // Force reset any global styles that might have been applied
+    // Remove any dynamically added style elements that might contain global rules
+    const dynamicStyles = document.querySelectorAll('style[data-styled], style[data-emotion]');
+    dynamicStyles.forEach(style => {
+        if (style.textContent && style.textContent.includes('*')) {
+            // Remove styles that contain global selectors
+            style.remove();
+        }
+    });
+
+    // Reset any box-sizing that might have been globally applied
+    document.documentElement.style.boxSizing = '';
+    document.body.style.boxSizing = '';
 };
 
 
@@ -78,6 +168,14 @@ function GameScreen() {
         loadGameStyles();
         initializePortalSystem();
 
+        // Add game-mode class to body for CSS scoping
+        document.body.classList.add('game-mode');
+        document.body.classList.remove('landing-mode');
+
+        // Cleanup when component unmounts
+        return () => {
+            cleanupGameStyles();
+        };
     }, []);
 
     return (
@@ -133,6 +231,10 @@ export default function App() {
 
         initChatStore();
         initCreatureStore();
+
+        // Set initial landing mode class
+        document.body.classList.add('landing-mode');
+        document.body.classList.remove('game-mode');
 
         // Initialize Firebase auth state listener (only if Firebase is configured)
         let unsubscribe = null;

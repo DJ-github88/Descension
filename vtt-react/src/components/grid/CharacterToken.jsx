@@ -18,9 +18,14 @@ const CharacterToken = ({
 }) => {
     const tokenRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
+    const [isMouseDown, setIsMouseDown] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
     const [dragStartPosition, setDragStartPosition] = useState(null);
+    const [mouseDownPosition, setMouseDownPosition] = useState(null);
     const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
+
+    // Drag threshold in pixels - token must move this distance before dragging starts
+    const DRAG_THRESHOLD = 8;
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
@@ -152,6 +157,11 @@ const CharacterToken = ({
             return;
         }
 
+        // Set mouse down state and store initial mouse position
+        setIsMouseDown(true);
+        setMouseDownPosition({ x: e.clientX, y: e.clientY });
+        setShowTooltip(false);
+
         // Calculate the offset from the cursor to the token's current screen position
         // This is the key to making the token follow the cursor correctly
         setDragOffset({
@@ -159,18 +169,10 @@ const CharacterToken = ({
             y: e.clientY - screenPosition.y
         });
 
-        setIsDragging(true);
-        setShowTooltip(false);
-
-        // Track drag state globally to prevent feedback loops in multiplayer
-        if (!window.multiplayerDragState) {
-            window.multiplayerDragState = new Map();
-        }
-        window.multiplayerDragState.set('character', true);
-        console.log('🎯 Started dragging character, Drag state:', window.multiplayerDragState);
-
-        // Store the starting position for movement
+        // Store the starting position for potential movement
         setDragStartPosition({ x: position.x, y: position.y });
+
+        console.log('🎭 Mouse down on character token - waiting for drag threshold');
     };
 
     // Handle click events on the character token (separate from mousedown for dragging)
@@ -193,6 +195,37 @@ const CharacterToken = ({
         let lastNetworkUpdate = 0;
 
         const handleMouseMove = (e) => {
+            // Check if mouse is down but not yet dragging (threshold check)
+            if (isMouseDown && !isDragging && mouseDownPosition) {
+                const deltaX = e.clientX - mouseDownPosition.x;
+                const deltaY = e.clientY - mouseDownPosition.y;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                // Only start dragging if we've moved beyond the threshold
+                if (distance >= DRAG_THRESHOLD) {
+                    console.log('🎭 Drag threshold exceeded, starting character drag operation');
+                    setIsDragging(true);
+
+                    // Recalculate drag offset based on current mouse position and token's current screen position
+                    // This ensures the token doesn't jump when dragging starts
+                    const currentScreenPos = gridSystem.worldToScreen(position.x, position.y, window.innerWidth, window.innerHeight);
+                    setDragOffset({
+                        x: e.clientX - currentScreenPos.x,
+                        y: e.clientY - currentScreenPos.y
+                    });
+
+                    // Track drag state globally to prevent feedback loops in multiplayer
+                    if (!window.multiplayerDragState) {
+                        window.multiplayerDragState = new Map();
+                    }
+                    window.multiplayerDragState.set('character', true);
+                    console.log('🎯 Started dragging character, Drag state:', window.multiplayerDragState);
+                } else {
+                    // Still within threshold, don't start dragging yet
+                    return;
+                }
+            }
+
             if (!isDragging) return;
 
             // Prevent all default behaviors and stop propagation immediately
@@ -211,13 +244,8 @@ const CharacterToken = ({
             // Convert screen position back to world coordinates
             const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-            // Update local position IMMEDIATELY - optimized for performance
-            // Use direct DOM manipulation during drag to avoid React re-renders
-            if (tokenRef.current) {
-                tokenRef.current.style.transform = `translate(${worldPos.x}px, ${worldPos.y}px)`;
-            }
-            // Also update React state for consistency (batched to reduce re-renders)
-            setLocalPosition(prev => ({ x: worldPos.x, y: worldPos.y }));
+            // Update local position for React state (this will trigger re-render with new position)
+            setLocalPosition({ x: worldPos.x, y: worldPos.y });
 
             // Handle expensive operations with simple time-based throttling (no RAF)
             const now = Date.now();
@@ -235,12 +263,26 @@ const CharacterToken = ({
         };
 
         const handleMouseUp = (e) => {
-            if (!isDragging) return;
+            console.log('🎭 Character mouse up event triggered', { button: e.button, isDragging, isMouseDown });
 
-            // CRITICAL FIX: Only handle left mouse button releases for dragging
-            // Right-clicks should not end dragging or move tokens
-            if (e.button !== 0) {
-                console.log('🚫 Ignoring non-left mouse button release for character token dragging');
+            // Handle mouse up for both dragging and non-dragging cases
+            if (e.button !== 0) return; // Only handle left mouse button
+
+            // If we were just mouse down but never started dragging, this is a simple click
+            if (isMouseDown && !isDragging) {
+                console.log('🎭 Simple click detected on character token - no movement');
+                setIsMouseDown(false);
+                setMouseDownPosition(null);
+                setDragStartPosition(null);
+                return;
+            }
+
+            // If we're not dragging, nothing to do
+            if (!isDragging) {
+                console.log('🎭 Character mouse up but not dragging - resetting mouse down state');
+                setIsMouseDown(false);
+                setMouseDownPosition(null);
+                setDragStartPosition(null);
                 return;
             }
 
@@ -275,7 +317,10 @@ const CharacterToken = ({
                 });
             }
 
+            // End dragging and reset all states
             setIsDragging(false);
+            setIsMouseDown(false);
+            setMouseDownPosition(null);
             setDragStartPosition(null);
 
             // Clear drag state globally to allow network updates again
@@ -285,18 +330,22 @@ const CharacterToken = ({
             }
         };
 
-        if (isDragging) {
+        if (isDragging || isMouseDown) {
             // Add the event listeners to the document to ensure they work even if the cursor moves outside the token
             // Use passive: false only for mousemove to allow preventDefault, passive: true for mouseup for performance
             document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
             document.addEventListener('mouseup', handleMouseUp, { passive: true, capture: true });
+
+            // Also add a fallback mouseup listener without capture to ensure we catch it
+            document.addEventListener('mouseup', handleMouseUp, { passive: true });
         }
 
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('mouseup', handleMouseUp, true); // Remove capture listener
+            document.removeEventListener('mouseup', handleMouseUp); // Remove non-capture listener
         };
-    }, [isDragging, dragOffset, gridSystem, updateCharacterTokenPosition, tokenId]);
+    }, [isDragging, isMouseDown]);
 
     // Handle context menu
     const handleContextMenu = (e) => {

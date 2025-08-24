@@ -19,6 +19,9 @@ module.exports = {
       // Fix chunk loading issues by ensuring correct public path
       if (env === 'development') {
         webpackConfig.output.publicPath = '/';
+
+        // Completely disable code splitting in development to prevent chunk loading issues
+        webpackConfig.optimization.splitChunks = false;
       }
       if (env === 'production') {
         // Configure CSS minification with safer settings
@@ -56,6 +59,14 @@ module.exports = {
               name: 'vendors',
               chunks: 'all',
               priority: 10,
+            },
+            // Prevent roomService from being split into separate chunk
+            services: {
+              test: /[\\/]src[\\/]services[\\/]/,
+              name: 'services',
+              chunks: 'all',
+              priority: 8,
+              enforce: true,
             },
             common: {
               name: 'common',

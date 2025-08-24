@@ -1,5 +1,68 @@
 /* Mythrill Landing Page - Pathfinder Theme */
 
+/* Ensure landing page styles are properly applied when returning from game mode */
+body.landing-mode {
+  /* Reset any game-mode specific styles */
+  overflow: auto !important;
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+/* CRITICAL: Protect landing page from global CSS pollution */
+body.landing-mode *,
+body.landing-mode *::before,
+body.landing-mode *::after {
+  /* Reset any global box-sizing that might have been applied */
+  box-sizing: border-box !important;
+}
+
+/* Ensure landing page elements maintain their intended styling */
+body.landing-mode .landing-page,
+body.landing-mode .landing-header,
+body.landing-mode .header-content,
+body.landing-mode .main-nav,
+body.landing-mode .nav-item,
+body.landing-mode .login-btn,
+body.landing-mode .dev-bypass-btn {
+  /* Force landing page styles to take precedence */
+  font-family: 'Cinzel', serif !important;
+  box-sizing: border-box !important;
+}
+
+/* CRITICAL: Ensure FontAwesome icons work properly in both modes */
+body .fas,
+body .far,
+body .fab,
+body .fa {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "Font Awesome 6 Pro" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+body .far {
+  font-weight: 400 !important;
+}
+
+body .fab {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+/* Ensure React Icons work properly */
+body svg[data-icon] {
+  display: inline-block !important;
+  font-size: inherit !important;
+  height: 1em !important;
+  overflow: visible !important;
+  vertical-align: -0.125em !important;
+}
+
 /* Custom Scrollbar */
 .landing-page::-webkit-scrollbar {
   width: 12px;

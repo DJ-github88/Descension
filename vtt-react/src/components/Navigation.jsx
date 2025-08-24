@@ -24,12 +24,12 @@ import useCombatStore from '../store/combatStore';
 import useChatStore from '../store/chatStore';
 import useCreatureStore from '../store/creatureStore';
 import ErrorBoundary from './ErrorBoundary';
-import './creature-wizard/styles/CreatureWindow.css';
+// REMOVED: import './creature-wizard/styles/CreatureWindow.css'; // CAUSES CSS POLLUTION
+// REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION
 
 import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
 import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
 import ExternalLivePreview from './spellcrafting-wizard/ExternalLivePreview';
-import 'react-resizable/css/styles.css';
 
 // Pre-load these components instead of lazy loading for better development experience
 import SpellbookWindow from './windows/SpellbookWindow';

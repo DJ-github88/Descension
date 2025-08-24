@@ -8,7 +8,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
-import './ActionBar.css';
+// REMOVED: import './ActionBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
 const ActionBar = () => {
     const [actionSlots, setActionSlots] = useState(Array(10).fill(null));

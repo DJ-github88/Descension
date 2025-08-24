@@ -57,9 +57,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState(null);
+  const [mouseDownPosition, setMouseDownPosition] = useState(null);
   const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
+
+  // Drag threshold in pixels - token must move this distance before dragging starts
+  const DRAG_THRESHOLD = 8;
+
+  // Refs to track current state in event handlers
+  const isDraggingRef = useRef(false);
+  const isMouseDownRef = useRef(false);
   // Remove local state - use global store state instead
 
   const contextMenuRef = useRef(null);
@@ -162,7 +171,45 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     let lastCombatUpdate = 0;
 
     const handleMouseMove = (e) => {
-      if (!isDragging) return;
+      console.log('🎯 Mouse move event', {
+        isMouseDown: isMouseDownRef.current,
+        isDragging: isDraggingRef.current,
+        hasMouseDownPosition: !!mouseDownPosition
+      });
+
+      // Check if mouse is down but not yet dragging (threshold check)
+      if (isMouseDownRef.current && !isDraggingRef.current && mouseDownPosition) {
+        const deltaX = e.clientX - mouseDownPosition.x;
+        const deltaY = e.clientY - mouseDownPosition.y;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // Only start dragging if we've moved beyond the threshold
+        if (distance >= DRAG_THRESHOLD) {
+          console.log('🎯 Drag threshold exceeded, starting drag operation');
+          setIsDragging(true);
+          isDraggingRef.current = true;
+
+          // Use the drag offset that was already calculated in handleMouseDown
+          // Don't recalculate it here to prevent any jumps or misalignment
+
+          // Track drag state globally to prevent feedback loops in multiplayer
+          if (!window.multiplayerDragState) {
+            window.multiplayerDragState = new Map();
+          }
+          window.multiplayerDragState.set(`token_${token.creatureId}`, true);
+          console.log('🎯 Started dragging token:', token.creatureId, 'Drag state:', window.multiplayerDragState);
+
+          // Start movement visualization if enabled and in combat
+          if (showMovementVisualization && isInCombat) {
+            startMovementVisualization(tokenId, { x: position.x, y: position.y });
+          }
+        } else {
+          // Still within threshold, don't start dragging yet
+          return;
+        }
+      }
+
+      if (!isDraggingRef.current) return;
 
       // Prevent all default behaviors and stop propagation immediately
       e.preventDefault();
@@ -216,12 +263,32 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     };
 
     const handleMouseUp = (e) => {
-      if (!isDragging) return;
+      console.log('🎯 Mouse up event triggered', {
+        button: e.button,
+        isDragging: isDraggingRef.current,
+        isMouseDown: isMouseDownRef.current
+      });
 
-      // CRITICAL FIX: Only handle left mouse button releases for dragging
-      // Right-clicks should not end dragging or move tokens
-      if (e.button !== 0) {
-        console.log('🚫 Ignoring non-left mouse button release for token dragging');
+      // Handle mouse up for both dragging and non-dragging cases
+      if (e.button !== 0) return; // Only handle left mouse button
+
+      // If we were just mouse down but never started dragging, this is a simple click
+      if (isMouseDownRef.current && !isDraggingRef.current) {
+        console.log('🎯 Simple click detected - no token movement');
+        setIsMouseDown(false);
+        isMouseDownRef.current = false;
+        setMouseDownPosition(null);
+        setDragStartPosition(null);
+        return;
+      }
+
+      // If we're not dragging, nothing to do
+      if (!isDraggingRef.current) {
+        console.log('🎯 Mouse up but not dragging - resetting mouse down state');
+        setIsMouseDown(false);
+        isMouseDownRef.current = false;
+        setMouseDownPosition(null);
+        setDragStartPosition(null);
         return;
       }
 
@@ -242,6 +309,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Snap to grid center for proper alignment
       const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
       const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+      console.log('🎯 Final position calculation:', {
+        mousePos: { x: e.clientX, y: e.clientY },
+        dragOffset,
+        calculatedScreenPos: { x: screenX, y: screenY },
+        rawWorldPos,
+        gridCoords,
+        finalWorldPos,
+        originalPos: position
+      });
 
       // Update token position to snapped grid center (with multiplayer sync)
       updateTokenPositionWithSync(tokenId, finalWorldPos);
@@ -293,8 +370,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Clear movement visualization
       clearMovementVisualization();
 
-      // End dragging
+      // End dragging and reset all states
+      console.log('🎯 Resetting all drag states for token:', token.creatureId);
       setIsDragging(false);
+      isDraggingRef.current = false;
+      setIsMouseDown(false);
+      isMouseDownRef.current = false;
+      setMouseDownPosition(null);
       setDragStartPosition(null);
 
       // Clear drag state globally to allow network updates again
@@ -304,17 +386,22 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       }
     };
 
-    if (isDragging) {
+    if (isDragging || isMouseDown) {
       // Use passive: false only for mousemove to allow preventDefault, passive: true for mouseup for performance
       document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
       document.addEventListener('mouseup', handleMouseUp, { passive: true, capture: true });
+
+      // Also add a fallback mouseup listener without capture to ensure we catch it
+      document.addEventListener('mouseup', handleMouseUp, { passive: true });
     }
 
     return () => {
+      console.log('🎯 Cleaning up event listeners for token:', token?.creatureId);
       document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mouseup', handleMouseUp, true); // Remove capture listener
+      document.removeEventListener('mouseup', handleMouseUp); // Remove non-capture listener
     };
-  }, [isDragging, dragOffset.x, dragOffset.y, tokenId]);
+  }, [isDragging, isMouseDown]);
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(
@@ -783,30 +870,33 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       return;
     }
 
-    // Calculate the offset from the cursor to the token's current screen position
-    // This is the key to making the token follow the cursor correctly
-    setDragOffset({
-      x: e.clientX - screenPosition.x,
-      y: e.clientY - screenPosition.y
-    });
-
-    setIsDragging(true);
+    // Set mouse down state and store initial mouse position
+    setIsMouseDown(true);
+    isMouseDownRef.current = true;
+    setMouseDownPosition({ x: e.clientX, y: e.clientY });
     setShowTooltip(false);
 
-    // Track drag state globally to prevent feedback loops in multiplayer
-    if (!window.multiplayerDragState) {
-      window.multiplayerDragState = new Map();
-    }
-    window.multiplayerDragState.set(`token_${token.creatureId}`, true);
-    console.log('🎯 Started dragging token:', token.creatureId, 'Drag state:', window.multiplayerDragState);
+    // Calculate the offset from the cursor to the token's current screen position
+    // This is the key to making the token follow the cursor correctly
+    // Note: screenPosition is the center of the token (due to transform: translate(-50%, -50%))
+    const calculatedOffset = {
+      x: e.clientX - screenPosition.x,
+      y: e.clientY - screenPosition.y
+    };
 
-    // Store the starting position for movement visualization
+    console.log('🎯 Drag offset calculation:', {
+      mousePos: { x: e.clientX, y: e.clientY },
+      tokenScreenPos: screenPosition,
+      calculatedOffset,
+      tokenWorldPos: position
+    });
+
+    setDragOffset(calculatedOffset);
+
+    // Store the starting position for potential movement
     setDragStartPosition({ x: position.x, y: position.y });
 
-    // Start movement visualization if enabled and in combat
-    if (showMovementVisualization && isInCombat) {
-      startMovementVisualization(tokenId, { x: position.x, y: position.y });
-    }
+    console.log('🎯 Mouse down on token - waiting for drag threshold');
   };
 
   // Handle click events on the token (separate from mousedown for dragging)

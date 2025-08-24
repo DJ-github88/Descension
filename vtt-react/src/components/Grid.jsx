@@ -28,7 +28,7 @@ import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
 // Removed unused imports: throttle, rafThrottle
 
-import '../styles/Grid.css';
+// REMOVED: import '../styles/Grid.css'; // CAUSES CSS POLLUTION - will be loaded conditionally
 
 // Character Token Preview Component
 const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
