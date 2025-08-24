@@ -1369,6 +1369,22 @@ export default function Grid() {
         }
 
         // CRITICAL FIX: COMPLETELY DISABLE LEFT-CLICK GRID HANDLING
+        // Check global token interaction flag first (for production build compatibility)
+        if (window.tokenInteractionActive) {
+            console.log('🚫 Grid click ignored - token interaction active (global flag)');
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
+        // Check if token interaction happened very recently (production build safety)
+        if (window.tokenInteractionTimestamp && (Date.now() - window.tokenInteractionTimestamp) < 100) {
+            console.log('🚫 Grid click ignored - recent token interaction detected');
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
         // Only allow grid clicks for character token placement mode
         if (e.button === 0) { // Left click
             if (!isDraggingCharacterToken) {

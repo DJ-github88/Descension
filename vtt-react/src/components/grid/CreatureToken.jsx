@@ -379,6 +379,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       setMouseDownPosition(null);
       setDragStartPosition(null);
 
+      // CRITICAL FIX: Clear global token interaction flag
+      window.tokenInteractionActive = false;
+      window.tokenInteractionTimestamp = null;
+
       // Clear drag state globally to allow network updates again
       if (window.multiplayerDragState) {
         window.multiplayerDragState.delete(`token_${token.creatureId}`);
@@ -850,6 +854,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (e.button !== 0) return; // Only left mouse button
     if (showContextMenu) return; // Don't start dragging if context menu is open
 
+    // CRITICAL FIX: Set global flag to prevent grid click handling in production builds
+    window.tokenInteractionActive = true;
+    window.tokenInteractionTimestamp = Date.now();
+
     // CRITICAL FIX: Ensure event is properly stopped to prevent grid click handling
     e.stopPropagation();
     e.preventDefault(); // Prevent text selection during drag
@@ -901,6 +909,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Handle click events on the token (separate from mousedown for dragging)
   const handleTokenClick = (e) => {
+    // CRITICAL FIX: Set global flag to prevent grid click handling (production build safety)
+    window.tokenInteractionActive = true;
+    window.tokenInteractionTimestamp = Date.now();
+
     // CRITICAL FIX: Prevent click events from bubbling to grid
     e.stopPropagation();
     e.preventDefault();
@@ -912,6 +924,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Handle any click-specific logic here if needed
       // For now, just prevent the event from reaching the grid
     }
+
+    // Clear the flag after a short delay to allow normal grid interactions
+    setTimeout(() => {
+      window.tokenInteractionActive = false;
+      window.tokenInteractionTimestamp = null;
+    }, 100);
   };
 
 

@@ -144,6 +144,10 @@ const CharacterToken = ({
         if (e.button !== 0) return; // Only left mouse button
         if (showContextMenu) return; // Don't start dragging if context menu is open
 
+        // CRITICAL FIX: Set global flag to prevent grid click handling in production builds
+        window.tokenInteractionActive = true;
+        window.tokenInteractionTimestamp = Date.now();
+
         // CRITICAL FIX: Ensure event is properly stopped to prevent grid click handling
         e.stopPropagation();
         e.preventDefault(); // Prevent text selection during drag
@@ -322,6 +326,10 @@ const CharacterToken = ({
             setIsMouseDown(false);
             setMouseDownPosition(null);
             setDragStartPosition(null);
+
+            // CRITICAL FIX: Clear global token interaction flag
+            window.tokenInteractionActive = false;
+            window.tokenInteractionTimestamp = null;
 
             // Clear drag state globally to allow network updates again
             if (window.multiplayerDragState) {
