@@ -381,6 +381,85 @@
   padding: 0;
 }
 
+/* Home Layout */
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: none;
+}
+
+.account-stats-section {
+  background: linear-gradient(135deg, rgba(248, 245, 240, 0.95) 0%, rgba(240, 234, 214, 0.95) 100%);
+  border: 2px solid rgba(139, 69, 19, 0.2);
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: 0 6px 24px rgba(139, 69, 19, 0.1);
+}
+
+.quick-actions-section {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.quick-actions-section h3 {
+  font-size: 1.5rem;
+  color: #2d1810;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.quick-actions-grid {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.quick-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border: 2px solid;
+  border-radius: 10px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.quick-action-btn.play-online {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border-color: #d4af37;
+  color: #2d1810;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.quick-action-btn.play-online:hover {
+  background: linear-gradient(135deg, #e6c547 0%, #d4af37 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+.quick-action-btn.world-builder {
+  background: linear-gradient(135deg, #8b4513 0%, #6d3410 100%);
+  border-color: #8b4513;
+  color: #f0e6d2;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+}
+
+.quick-action-btn.world-builder:hover {
+  background: linear-gradient(135deg, #a0501a 0%, #8b4513 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.4);
+}
+
+.quick-action-btn i {
+  font-size: 1.2rem;
+}
+
 /* Overview Layout */
 .overview-layout {
   display: flex;
@@ -1420,6 +1499,25 @@
 
   .characters-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Home section responsive */
+  .account-stats-section {
+    padding: 2rem;
+    margin: 0 1rem;
+  }
+
+  .quick-actions-grid {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .quick-action-btn {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+    padding: 1rem 1.5rem;
   }
 
   .card-header {
