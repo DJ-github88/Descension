@@ -42,7 +42,7 @@
     "start-legacy": "set NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=8192 && craco start",
     "start-port-3001": "set PORT=3001 && set NODE_OPTIONS=--max-old-space-size=8192 && craco start",
     "build": "set NODE_OPTIONS=--max-old-space-size=8192 && craco build",
-    "build:netlify": "set GENERATE_SOURCEMAP=false && set CI=true && set NODE_OPTIONS=--max-old-space-size=8192 && set REACT_APP_BUILD_MODE=production && rmdir /s /q build 2>nul && craco build",
+    "build:netlify": "set GENERATE_SOURCEMAP=false && set CI=true && set NODE_OPTIONS=--max-old-space-size=8192 && set REACT_APP_BUILD_MODE=production && rmdir /s /q build 2>nul && npm run build",
     "build-original": "react-scripts build",
     "serve:production": "npx serve -s build -l 3000",
     "netlify:local": "npm run build:netlify && npm run serve:production",

@@ -5,11 +5,18 @@
     'use strict';
 
     // Create a comprehensive process polyfill
+    // Use webpack's DefinePlugin injected environment variables
     const processPolyfill = {
         env: {
-            NODE_ENV: 'development',
-            PUBLIC_URL: '',
-            REACT_APP_OPENAI_API_KEY: '',
+            NODE_ENV: typeof process !== 'undefined' && process.env && process.env.NODE_ENV
+                ? process.env.NODE_ENV
+                : (typeof __NODE_ENV__ !== 'undefined' ? __NODE_ENV__ : 'development'),
+            PUBLIC_URL: typeof process !== 'undefined' && process.env && process.env.PUBLIC_URL
+                ? process.env.PUBLIC_URL
+                : '',
+            REACT_APP_OPENAI_API_KEY: typeof process !== 'undefined' && process.env && process.env.REACT_APP_OPENAI_API_KEY
+                ? process.env.REACT_APP_OPENAI_API_KEY
+                : '',
             BROWSER: true
         },
         browser: true,

@@ -114,12 +114,8 @@ const AccountDashboard = ({ user }) => {
 
         {/* Right: Action Buttons */}
         <div className="header-actions-new">
-          <Link to="/" className="action-btn home-btn">
-            <i className="fas fa-home"></i>
-            <span>Home</span>
-          </Link>
-          <button onClick={handleSignOut} className="action-btn logout-btn">
-            <i className={isDevelopmentBypass ? "fas fa-times" : "fas fa-sign-out-alt"}></i>
+          <button onClick={handleSignOut} className={`action-btn ${isDevelopmentBypass ? 'exit-preview-btn' : 'logout-btn'}`}>
+            <i className={isDevelopmentBypass ? "fas fa-times-circle" : "fas fa-sign-out-alt"}></i>
             <span>{isDevelopmentBypass ? 'Exit Preview' : 'Sign Out'}</span>
           </button>
         </div>

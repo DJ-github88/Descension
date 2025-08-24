@@ -258,16 +258,7 @@
   font-size: 1.1rem;
 }
 
-.home-btn {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
-  border-color: #4caf50;
-  color: #2d5016;
-}
 
-.home-btn:hover {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(56, 142, 60, 0.2) 100%);
-  color: #2d5016;
-}
 
 .logout-btn {
   background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(211, 47, 47, 0.1) 100%);
@@ -278,6 +269,37 @@
 .logout-btn:hover {
   background: linear-gradient(135deg, rgba(244, 67, 54, 0.2) 0%, rgba(211, 47, 47, 0.2) 100%);
   color: #5d1a1a;
+}
+
+.exit-preview-btn {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.15) 100%);
+  border-color: #ffc107;
+  color: #8b4513;
+  position: relative;
+  overflow: hidden;
+}
+
+.exit-preview-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.25) 0%, rgba(255, 152, 0, 0.25) 100%);
+  color: #6d3410;
+  border-color: #ff9800;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.exit-preview-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.exit-preview-btn:hover::before {
+  left: 100%;
 }
 
 .loading-spinner i {

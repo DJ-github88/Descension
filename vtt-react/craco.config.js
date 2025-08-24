@@ -56,6 +56,21 @@ module.exports = {
         plugin => plugin.constructor.name !== 'ESLintWebpackPlugin'
       );
 
+      // Disable React Refresh in production to avoid Babel errors
+      if (env === 'production') {
+        webpackConfig.plugins = webpackConfig.plugins.filter(
+          plugin => plugin.constructor.name !== 'ReactRefreshWebpackPlugin'
+        );
+      }
+
+      // Add DefinePlugin to inject environment variables globally
+      webpackConfig.plugins.push(
+        new webpack.DefinePlugin({
+          __NODE_ENV__: JSON.stringify(env),
+          __PUBLIC_URL__: JSON.stringify(process.env.PUBLIC_URL || ''),
+        })
+      );
+
       return webpackConfig;
     },
   },

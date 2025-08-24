@@ -29,11 +29,9 @@
           }
 
           // Enhanced process polyfill - create it even if it exists to ensure consistency
+          // Let the JavaScript polyfill handle environment variables properly
           const processPolyfill = {
             env: {
-              NODE_ENV: 'development',
-              PUBLIC_URL: '',
-              REACT_APP_OPENAI_API_KEY: '',
               BROWSER: true
             },
               browser: true,
