@@ -1368,17 +1368,19 @@ export default function Grid() {
             return;
         }
 
+        // CRITICAL FIX: COMPLETELY DISABLE LEFT-CLICK GRID HANDLING
+        // Only allow grid clicks for character token placement mode
+        if (e.button === 0) { // Left click
+            if (!isDraggingCharacterToken) {
+                console.log('🚫 Left-click on grid ignored - only drag and drop should move tokens');
+                e.stopPropagation();
+                e.preventDefault();
+                return;
+            }
+        }
+
         // CRITICAL FIX: Comprehensive check to prevent any token interaction
         console.log('🎯 Grid click detected, checking for token interference...');
-
-        // ULTIMATE SAFETY: If we're not in character token placement mode, ignore all grid clicks
-        // This prevents any accidental token movements
-        if (!isDraggingCharacterToken) {
-            console.log('🚫 Grid click ignored - not in character token placement mode');
-            e.stopPropagation();
-            e.preventDefault();
-            return;
-        }
 
         // Check if the click is on a token or interactive element first
         if (e.target.classList.contains('creature-token') ||

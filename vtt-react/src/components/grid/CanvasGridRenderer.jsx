@@ -283,6 +283,12 @@ const CanvasGridRenderer = ({
 
         // For click events, add extra validation to prevent unwanted actions
         if (event.type === 'click' || event.type === 'mousedown') {
+            // CRITICAL FIX: Completely disable left-click handling when not in special modes
+            if (event.button === 0 && !isDraggingItem && !isDraggingCharacterToken) {
+                console.log('Canvas: Left-click ignored - only drag and drop should move tokens');
+                return; // Don't process left-clicks when not in special modes
+            }
+
             // Check if we're in any special mode that should handle clicks differently
             if (!isDraggingItem && !isDraggingCharacterToken) {
                 // Not in any dragging mode, so this is a regular grid click
