@@ -11,7 +11,7 @@ const AccountDashboard = ({ user }) => {
   const { userData, signOut, isDevelopmentBypass, disableDevelopmentBypass } = useAuthStore();
   const { characters, loadCharacters } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState('rooms');
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -98,16 +98,10 @@ const AccountDashboard = ({ user }) => {
         <nav className="fan-tabs">
           <div className="fan-container">
             <button
-              className={`fan-tab ${activeTab === 'home' ? 'active' : ''}`}
-              onClick={() => setActiveTab('home')}
+              className={`fan-tab ${activeTab === 'rooms' ? 'active' : ''}`}
+              onClick={() => setActiveTab('rooms')}
             >
-              <span>Home</span>
-            </button>
-            <button
-              className={`fan-tab ${activeTab === 'overview' ? 'active' : ''}`}
-              onClick={() => setActiveTab('overview')}
-            >
-              <span>My Rooms</span>
+              <span>Rooms</span>
             </button>
             <button
               className={`fan-tab ${activeTab === 'characters' ? 'active' : ''}`}
@@ -133,86 +127,7 @@ const AccountDashboard = ({ user }) => {
 
       {/* Main Content */}
       <main className="account-main">
-        {activeTab === 'home' && (
-          <div className="home-layout">
-            {/* Account Stats Overview */}
-            <section className="account-stats-section">
-              <div className="stats-header">
-                <h2>Account Overview</h2>
-                <p>Your adventure statistics and membership details</p>
-              </div>
-
-              <div className="stats-grid-enhanced">
-                <div className="stat-card characters">
-                  <div className="stat-icon">
-                    <i className="fas fa-users"></i>
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">{characters?.length || 0}</span>
-                    <span className="stat-title">Characters Created</span>
-                    <span className="stat-subtitle">Heroes ready for adventure</span>
-                  </div>
-                </div>
-
-                <div className="stat-card campaigns">
-                  <div className="stat-icon">
-                    <i className="fas fa-map"></i>
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">0</span>
-                    <span className="stat-title">Active Campaigns</span>
-                    <span className="stat-subtitle">Ongoing adventures</span>
-                  </div>
-                </div>
-
-                <div className="stat-card sessions">
-                  <div className="stat-icon">
-                    <i className="fas fa-dice-d20"></i>
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">0</span>
-                    <span className="stat-title">Sessions Played</span>
-                    <span className="stat-subtitle">Epic moments shared</span>
-                  </div>
-                </div>
-
-                <div className="stat-card membership">
-                  <div className="stat-icon">
-                    <i className="fas fa-crown"></i>
-                  </div>
-                  <div className="stat-info">
-                    <span className="stat-number">Free</span>
-                    <span className="stat-title">Membership</span>
-                    <span className="stat-subtitle">Adventurer tier</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick Actions */}
-              <div className="quick-actions-section">
-                <h3>Quick Actions</h3>
-                <div className="quick-actions-grid">
-                  <button
-                    className="quick-action-btn play-online"
-                    onClick={() => navigate('/multiplayer')}
-                  >
-                    <i className="fas fa-dragon"></i>
-                    <span>Play Online</span>
-                  </button>
-                  <button
-                    className="quick-action-btn world-builder"
-                    onClick={() => navigate('/game')}
-                  >
-                    <i className="fas fa-hammer"></i>
-                    <span>World Builder</span>
-                  </button>
-                </div>
-              </div>
-            </section>
-          </div>
-        )}
-
-        {activeTab === 'overview' && (
+        {activeTab === 'rooms' && (
           <div className="tab-content">
             <RoomManager />
           </div>
