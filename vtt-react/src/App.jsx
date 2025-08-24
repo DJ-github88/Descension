@@ -14,7 +14,7 @@ const Grid = lazy(() => import("./components/Grid"));
 const Navigation = lazy(() => import("./components/Navigation"));
 const HUDContainer = lazy(() => import("./components/hud/HUDContainer"));
 const GridItemsManager = lazy(() => import("./components/grid/GridItemsManager"));
-const GMPlayerToggle = lazy(() => import("./components/level-editor/GMPlayerToggle"));
+
 const DynamicFogManager = lazy(() => import("./components/level-editor/DynamicFogManager"));
 const DynamicLightingManager = lazy(() => import("./components/level-editor/DynamicLightingManager"));
 const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/AtmosphericEffectsManager"));
@@ -77,6 +77,7 @@ function GameScreen() {
     useEffect(() => {
         loadGameStyles();
         initializePortalSystem();
+
     }, []);
 
     return (
@@ -92,6 +93,7 @@ function GameScreen() {
                 <DynamicLightingManager />
                 <AtmosphericEffectsManager />
             </Suspense>
+
         </div>
     );
 }
@@ -345,7 +347,6 @@ const AppContent = ({
                                         isAuthenticated={isAuthenticated}
                                         user={user}
                                     />
-                                    <GMPlayerToggle />
                                 </Suspense>
                             </div>
                         } />
