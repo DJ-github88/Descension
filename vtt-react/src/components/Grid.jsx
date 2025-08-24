@@ -1356,15 +1356,28 @@ export default function Grid() {
 
     // Handle click for character token placement
     const handleGridClick = (e, tile) => {
-        // CRITICAL FIX: Check if the click is on a token or interactive element first
-        // This prevents unwanted token movement when clicking on tokens
+        // CRITICAL FIX: Comprehensive check to prevent any token interaction
+        console.log('🎯 Grid click detected, checking for token interference...');
+
+        // ULTIMATE SAFETY: If we're not in character token placement mode, ignore all grid clicks
+        // This prevents any accidental token movements
+        if (!isDraggingCharacterToken) {
+            console.log('🚫 Grid click ignored - not in character token placement mode');
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
+        // Check if the click is on a token or interactive element first
         if (e.target.classList.contains('creature-token') ||
             e.target.classList.contains('character-token') ||
             e.target.closest('.creature-token') ||
             e.target.closest('.character-token') ||
             e.target.classList.contains('grid-item-orb') ||
             e.target.closest('.grid-item-orb')) {
-            // Let the token/item's own event handler deal with it
+            console.log('🚫 Grid click ignored - clicked on token/item directly');
+            e.stopPropagation();
+            e.preventDefault();
             return;
         }
 
@@ -1379,6 +1392,25 @@ export default function Grid() {
             elementAtPoint.closest('.grid-item-orb')
         )) {
             console.log('🚫 Grid click ignored - interactive element detected at click position');
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
+        // Check if any token is currently being dragged
+        if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
+            console.log('🚫 Grid click ignored - token is being dragged');
+            e.stopPropagation();
+            e.preventDefault();
+            return;
+        }
+
+        // Additional check for any active token interactions
+        const activeTokenInteraction = document.querySelector('.creature-token.dragging, .character-token.dragging');
+        if (activeTokenInteraction) {
+            console.log('🚫 Grid click ignored - token interaction in progress');
+            e.stopPropagation();
+            e.preventDefault();
             return;
         }
 

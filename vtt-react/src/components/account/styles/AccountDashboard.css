@@ -1318,8 +1318,8 @@
   text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
 }
 
-/* Buttons */
-.btn {
+/* Buttons - Scoped to account dashboard */
+.account-dashboard .btn {
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
@@ -1337,7 +1337,7 @@
   overflow: hidden;
 }
 
-.btn-primary {
+.account-dashboard .btn-primary {
   background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
   color: #f4f1e8;
   border: 2px solid #8b4513;
@@ -1345,42 +1345,42 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.btn-primary:hover {
+.account-dashboard .btn-primary:hover {
   background: linear-gradient(135deg, #a0522d 0%, #cd853f 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(139, 69, 19, 0.4);
   border-color: #a0522d;
 }
 
-.btn-secondary {
+.account-dashboard .btn-secondary {
   background: transparent;
   color: #8b4513;
   border: 2px solid #8b4513;
 }
 
-.btn-secondary:hover {
+.account-dashboard .btn-secondary:hover {
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.1) 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
 }
 
-.btn-outline {
+.account-dashboard .btn-outline {
   background: transparent;
   color: #8b4513;
   border: 2px solid #8b4513;
 }
 
-.btn-outline:hover {
+.account-dashboard .btn-outline:hover {
   background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
   color: #f4f1e8;
 }
 
-.btn-sm {
+.account-dashboard .btn-sm {
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
 }
 
-.btn-link {
+.account-dashboard .btn-link {
   background: none;
   color: #8b4513;
   border: none;
@@ -1388,13 +1388,13 @@
   padding: 0.5rem;
 }
 
-.btn-link:hover {
+.account-dashboard .btn-link:hover {
   color: #a0522d;
   text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
 }
 
 /* Character Creation Button Icon Adjustment */
-.btn .fas.fa-plus {
+.account-dashboard .btn .fas.fa-plus {
   margin-right: 0.5rem;
   transform: translateY(1px);
 }
