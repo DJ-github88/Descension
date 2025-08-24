@@ -326,16 +326,14 @@ const useCreatureStore = create(
           console.log('✅ Successfully found creature:', creature.name);
         }
 
+        // CRITICAL FIX: Don't move existing tokens when addToken is called
         // Check if a token for this creature already exists
         const existingToken = state.tokens.find(t => t.creatureId === creature.id);
         if (existingToken) {
-          return {
-            tokens: state.tokens.map(t =>
-              t.creatureId === creature.id
-                ? { ...t, position }
-                : t
-            )
-          };
+          console.log('🚫 Token already exists for creature:', creature.name, '- NOT moving existing token');
+          console.log('🚫 Existing token position:', existingToken.position, 'Requested position:', position);
+          // Return the state unchanged - do NOT move existing tokens
+          return state;
         }
 
         // Create a new token with provided ID or generate new one
