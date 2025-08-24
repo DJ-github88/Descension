@@ -43,13 +43,31 @@ const QuestLogWindow = lazy(() =>
 const SocialWindow = lazy(() =>
     import('./windows/SocialWindow').catch(err => {
         console.error('Failed to load SocialWindow:', err);
-        return { default: () => <div>Error loading Social Window</div> };
+        // Return a more user-friendly error component
+        return {
+            default: () => (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
+                    <h3>🚫 Social Window Unavailable</h3>
+                    <p>The social features are temporarily unavailable.</p>
+                    <p>Please try refreshing the page.</p>
+                </div>
+            )
+        };
     })
 );
 const CraftingWindow = lazy(() =>
     import('./windows/CraftingWindow').catch(err => {
         console.error('Failed to load CraftingWindow:', err);
-        return { default: () => <div>Error loading Crafting Window</div> };
+        // Return a more user-friendly error component
+        return {
+            default: () => (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
+                    <h3>🔨 Crafting Window Unavailable</h3>
+                    <p>The crafting system is temporarily unavailable.</p>
+                    <p>Please try refreshing the page.</p>
+                </div>
+            )
+        };
     })
 );
 
@@ -292,7 +310,16 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
 const ChatWindow = lazy(() =>
     import('./windows/ChatWindow').catch(err => {
         console.error('Failed to load ChatWindow:', err);
-        return { default: () => <div>Error loading Chat Window</div> };
+        // Return a more user-friendly error component
+        return {
+            default: () => (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
+                    <h3>💬 Chat Window Unavailable</h3>
+                    <p>The chat system is temporarily unavailable.</p>
+                    <p>Please try refreshing the page.</p>
+                </div>
+            )
+        };
     })
 );
 

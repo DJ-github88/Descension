@@ -1,8 +1,25 @@
 const webpack = require('webpack');
 
 module.exports = {
+  devServer: {
+    port: 3000,
+    host: 'localhost',
+    // Ensure chunks are served from the correct port
+    devMiddleware: {
+      publicPath: '/',
+    },
+    // Fix for chunk loading issues
+    allowedHosts: 'all',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  },
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
+      // Fix chunk loading issues by ensuring correct public path
+      if (env === 'development') {
+        webpackConfig.output.publicPath = '/';
+      }
       if (env === 'production') {
         // Configure CSS minification with safer settings
         const miniCssExtractPlugin = webpackConfig.plugins.find(
