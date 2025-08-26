@@ -471,6 +471,13 @@ const useGridItemStore = create(
               preserveProperties: true // Add a flag to ensure all properties are preserved
             });
 
+            // Check if the item was successfully added
+            if (newInventoryItemId === null) {
+              // Item could not be added (inventory full) - don't remove from grid
+              console.log(`Could not loot ${itemToUse.name} - inventory full`);
+              return false;
+            }
+
             // Don't try to immediately verify the item in inventory
             // State updates are asynchronous, so the item might not be immediately available
 

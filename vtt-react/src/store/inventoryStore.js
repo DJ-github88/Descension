@@ -257,53 +257,60 @@ const useInventoryStore = create(persist((set, get) => ({
             if (emptyPosition) {
                 newItem.position = emptyPosition;
             } else {
-                // No empty position found with current dimensions
+                // No empty position found - inventory is full for this item size
+                console.warn(`No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
 
-                // Try with smaller dimensions as a fallback
-                const fallbackPosition = findEmptyPosition(
-                    state.items,
-                    currentGridSize,
-                    1, // Minimum width
-                    1, // Minimum height
-                    0  // No rotation
-                );
+                // Show "no room" notification
+                if (typeof window !== 'undefined') {
+                    const notification = document.createElement('div');
+                    notification.className = 'inventory-full-notification';
+                    notification.textContent = `No room in inventory for ${newItem.name}`;
+                    notification.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(139, 69, 19, 0.95);
+                        color: white;
+                        padding: 12px 20px;
+                        border-radius: 8px;
+                        border: 2px solid #8b4513;
+                        font-family: 'Cinzel', serif;
+                        font-size: 16px;
+                        font-weight: 600;
+                        z-index: 10000;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+                        animation: fadeInOut 3s ease-in-out forwards;
+                    `;
 
-                if (fallbackPosition) {
-                    newItem.position = fallbackPosition;
-                    // Adjust dimensions to fit
-                    newItem.width = 1;
-                    newItem.height = 1;
-                    newItem.rotation = 0;
-                } else {
-                    // Truly no space available
-
-                    // Create a notification to inform the user
-                    if (typeof window !== 'undefined') {
-                        const notification = document.createElement('div');
-                        notification.className = 'inventory-full-notification';
-                        notification.innerHTML = `
-                            <div class="inventory-full-notification-content">
-                                <span>Inventory is full! Could not add ${newItem.name}.</span>
-                            </div>
+                    // Add CSS animation if not already present
+                    if (!document.querySelector('#inventory-notification-styles')) {
+                        const style = document.createElement('style');
+                        style.id = 'inventory-notification-styles';
+                        style.textContent = `
+                            @keyframes fadeInOut {
+                                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                                20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                                80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                            }
                         `;
-                        document.body.appendChild(notification);
-
-                        // Add animation class after a small delay to trigger the animation
-                        setTimeout(() => {
-                            notification.classList.add('show');
-                        }, 10);
-
-                        // Remove the notification after animation completes
-                        setTimeout(() => {
-                            notification.classList.remove('show');
-                            setTimeout(() => {
-                                document.body.removeChild(notification);
-                            }, 500);
-                        }, 3000);
+                        document.head.appendChild(style);
                     }
 
-                    return { items: state.items };
+                    document.body.appendChild(notification);
+
+                    // Remove notification after animation
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 3000);
                 }
+
+                // Return state unchanged - item was not added
+                return { items: state.items };
+            }
             }
         } else {
             // If position is provided, verify it's valid
@@ -334,25 +341,44 @@ const useInventoryStore = create(persist((set, get) => ({
                 if (emptyPosition) {
                     newItem.position = emptyPosition;
                 } else {
-                    // No valid position found, try with smaller dimensions
+                    // No valid position found - inventory is full for this item size
+                    console.warn(`No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
 
-                    const fallbackPosition = findEmptyPosition(
-                        state.items,
-                        currentGridSize,
-                        1, // Minimum width
-                        1, // Minimum height
-                        0  // No rotation
-                    );
+                    // Show "no room" notification
+                    if (typeof window !== 'undefined') {
+                        const notification = document.createElement('div');
+                        notification.className = 'inventory-full-notification';
+                        notification.textContent = `No room in inventory for ${newItem.name}`;
+                        notification.style.cssText = `
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: rgba(139, 69, 19, 0.95);
+                            color: white;
+                            padding: 12px 20px;
+                            border-radius: 8px;
+                            border: 2px solid #8b4513;
+                            font-family: 'Cinzel', serif;
+                            font-size: 16px;
+                            font-weight: 600;
+                            z-index: 10000;
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+                            animation: fadeInOut 3s ease-in-out forwards;
+                        `;
 
-                    if (fallbackPosition) {
-                        newItem.position = fallbackPosition;
-                        newItem.width = 1;
-                        newItem.height = 1;
-                        newItem.rotation = 0;
-                    } else {
-                        // Truly no space available
-                        return { items: state.items };
+                        document.body.appendChild(notification);
+
+                        // Remove notification after animation
+                        setTimeout(() => {
+                            if (document.body.contains(notification)) {
+                                document.body.removeChild(notification);
+                            }
+                        }, 3000);
                     }
+
+                    // Return state unchanged - item was not added
+                    return { items: state.items };
                 }
             }
         }
@@ -360,7 +386,7 @@ const useInventoryStore = create(persist((set, get) => ({
         // Update encumbrance after adding item
         setTimeout(() => get().updateEncumbranceState(), 0);
 
-        return { items: [...state.items, newItem] };
+        return { items: [...state.items, newItem], itemAdded: true };
     }),
 
     // Add item from library
@@ -541,10 +567,18 @@ const useInventoryStore = create(persist((set, get) => ({
             }
         }
 
-        // Inventory item ID after conversion
-
+        // Try to add the item to inventory
+        const initialItemCount = store.items.length;
         store.addItem(inventoryItem);
-        return inventoryItem.id; // Return the new ID for reference
+        const finalItemCount = store.items.length;
+
+        // Check if the item was actually added
+        if (finalItemCount > initialItemCount) {
+            return inventoryItem.id; // Return the new ID for reference
+        } else {
+            // Item was not added (inventory full)
+            return null;
+        }
     },
 
     // Remove item with quantity support
