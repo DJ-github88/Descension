@@ -516,8 +516,24 @@ const useGridItemStore = create(
 
             // Handle item removal from grid FIRST, before any other logic
             const gameStore = useGameStore.getState();
+
+            // FORCE IMMEDIATE REMOVAL - Remove locally first, then handle multiplayer
+            console.log(`🎯 IMMEDIATE REMOVAL: Removing loot orb ${gridItemId} locally`);
+            removeItemFromGrid(gridItemId);
+
+            // Force a state update to ensure UI reflects the change
+            setTimeout(() => {
+              const currentItems = get().gridItems;
+              if (currentItems.has(gridItemId)) {
+                console.log(`🎯 BACKUP REMOVAL: Loot orb ${gridItemId} still exists, forcing removal`);
+                set(state => ({
+                  gridItems: new Map([...state.gridItems].filter(([id]) => id !== gridItemId))
+                }));
+              }
+            }, 100);
+
             if (sendToServer && gameStore.isInMultiplayer) {
-              // In multiplayer, send to server and let server handle removal
+              // In multiplayer, also send to server
               if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
                 gameStore.multiplayerSocket.emit('item_looted', {
                   item: itemToUse,
@@ -526,15 +542,8 @@ const useGridItemStore = create(
                   looter: looterName,
                   gridItemId: gridItemId
                 });
-
-                // Remove item locally immediately to prevent persistence
-                console.log(`🎁 Removing looted item ${gridItemId} locally (multiplayer)`);
-                removeItemFromGrid(gridItemId);
+                console.log(`🎁 Sent loot notification to server for ${gridItemId}`);
               }
-            } else {
-              // In single player or when not sending to server, remove locally
-              console.log(`🎯 SINGLE PLAYER: Removing loot orb ${gridItemId} locally`);
-              removeItemFromGrid(gridItemId);
             }
 
             // Check if the item was successfully added (for notifications only)
