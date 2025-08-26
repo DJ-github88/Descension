@@ -1237,7 +1237,7 @@ export default function InventoryWindow() {
                         position: 'fixed',
                         top: contextMenu.y,
                         left: contextMenu.x,
-                        zIndex: 10000 /* Increased z-index to match tooltip */
+                        zIndex: 100000 /* Higher than DraggableWindow z-index */
                     }}
                 >
                     <ul>
