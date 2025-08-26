@@ -1,0 +1,25 @@
+[phases.setup]
+nixPkgs = ['nodejs-18_x', 'npm-9_x']
+
+[phases.install]
+cmds = [
+  'cd vtt-react',
+  'npm ci --force'
+]
+
+[phases.build]
+cmds = [
+  'cd vtt-react',
+  'export NODE_OPTIONS="--max-old-space-size=8192"',
+  'export NODE_ENV="production"',
+  'export GENERATE_SOURCEMAP="false"',
+  'export CI="true"',
+  'export REACT_APP_BUILD_MODE="production"',
+  'export REACT_APP_ENV="production"',
+  'export INLINE_RUNTIME_CHUNK="false"',
+  'export BROWSERSLIST_ENV="production"',
+  'npm run build'
+]
+
+[start]
+cmd = 'cd vtt-react && npx serve -s build -l $PORT'
