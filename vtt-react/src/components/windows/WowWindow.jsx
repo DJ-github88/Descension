@@ -47,25 +47,12 @@ const WowWindow = forwardRef(({
         height: defaultSize.height
     });
 
-    // Listen for window scale changes and apply immediately
+    // Listen for window scale changes - DraggableWindow now handles scaling properly
     useEffect(() => {
         const handleWindowScaleChange = (event) => {
             console.log('WowWindow: Window scale changed to', event.detail?.scale || 'unknown');
-            // Apply scale immediately without forcing re-render
-            if (windowElementRef.current) {
-                const newScale = event.detail?.scale || windowScale;
-                windowElementRef.current.style.transform = `scale(${newScale})`;
-                windowElementRef.current.style.transformOrigin = 'top left';
-                windowElementRef.current.style.willChange = 'transform';
-            }
+            // DraggableWindow handles all scaling with proper hit detection
         };
-
-        // Apply initial scale immediately
-        if (windowElementRef.current) {
-            windowElementRef.current.style.transform = `scale(${windowScale})`;
-            windowElementRef.current.style.transformOrigin = 'top left';
-            windowElementRef.current.style.willChange = 'transform';
-        }
 
         window.addEventListener('windowScaleChanged', handleWindowScaleChange);
         return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);

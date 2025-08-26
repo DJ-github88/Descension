@@ -17,6 +17,10 @@
     /* Remove conflicting transform - let react-draggable handle positioning */
     /* Optimize for animations */
     contain: layout style paint;
+
+    /* Fix hit detection for scaled windows */
+    /* When scaled down, clip pointer events to the visible area */
+    overflow: hidden;
 }
 
 /* Disable transition during dragging for performance */

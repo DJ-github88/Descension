@@ -262,28 +262,38 @@ const DraggableWindow = forwardRef(({
             scale={windowScale} // Pass the window scale to react-draggable for proper drag handling
             enableUserSelectHack={false} // Disable user select hack for better performance
         >
+            {/* Scaling container that properly handles hit detection */}
             <div
-                ref={nodeRef}
-                className={`draggable-window ${className}`}
                 style={{
-                    zIndex: 99999,
                     position: 'fixed',
                     top: 0,
                     left: 0,
-                    pointerEvents: 'auto',
                     transformOrigin: 'top left',
-                    // Apply visual scaling while keeping drag sensitivity normal
                     transform: `scale(${windowScale})`,
-                    // Ensure scale is applied immediately to prevent flashing
-                    willChange: 'transform',
+                    pointerEvents: 'auto',
+                    zIndex: 99999,
+                    // Ensure the container doesn't interfere with layout
+                    width: 'fit-content',
+                    height: 'fit-content',
+                }}
+            >
+                <div
+                    ref={nodeRef}
+                    className={`draggable-window ${className}`}
+                    style={{
+                        position: 'relative',
+                        transformOrigin: 'top left',
+                        willChange: 'transform',
+                        pointerEvents: 'auto',
                     ...(defaultSize && {
                         width: defaultSize.width,
                         height: defaultSize.height
                     })
                 }}
             >
-                <div ref={windowRef}>
-                    {children}
+                    <div ref={windowRef}>
+                        {children}
+                    </div>
                 </div>
             </div>
         </Draggable>

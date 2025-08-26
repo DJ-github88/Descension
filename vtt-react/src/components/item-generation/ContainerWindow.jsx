@@ -968,8 +968,8 @@ const ContainerWindow = ({ container, onClose }) => {
                         top: 0,
                         left: 0,
                         width: 'auto',
-                        transformOrigin: 'top left',
-                        transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                        transformOrigin: 'top left'
+                        // DraggableWindow now handles scaling with proper hit detection
                     }}
                 >
                     <div
