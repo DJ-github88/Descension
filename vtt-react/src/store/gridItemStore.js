@@ -208,10 +208,15 @@ const useGridItemStore = create(
         return newState;
       }),
 
-      removeItemFromGrid: (gridItemId) => set((state) => ({
-        gridItems: state.gridItems.filter(item => item.id !== gridItemId),
-        lastUpdate: Date.now()
-      })),
+      removeItemFromGrid: (gridItemId) => set((state) => {
+        console.log(`🗑️ REMOVING LOOT ORB: ${gridItemId} from grid (had ${state.gridItems.length} items)`);
+        const newItems = state.gridItems.filter(item => item.id !== gridItemId);
+        console.log(`🗑️ AFTER REMOVAL: ${newItems.length} items remaining`);
+        return {
+          gridItems: newItems,
+          lastUpdate: Date.now()
+        };
+      }),
 
       // Loot an item from the grid and add it to inventory
       lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
@@ -488,6 +493,7 @@ const useGridItemStore = create(
             }
 
             // Item was successfully added to inventory - now handle removal and notifications
+            console.log(`✅ LOOT SUCCESS: Item ${itemToUse.name} added to inventory, now removing orb ${gridItemId}`);
 
             // Add notification to chat window
             chatStore.addItemLootedNotification(
@@ -532,6 +538,7 @@ const useGridItemStore = create(
               }
             } else {
               // In single player or when not sending to server, remove locally
+              console.log(`🎯 SINGLE PLAYER: Removing loot orb ${gridItemId} locally`);
               removeItemFromGrid(gridItemId);
             }
 
