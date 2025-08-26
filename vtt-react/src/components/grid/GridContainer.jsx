@@ -138,21 +138,24 @@ const GridContainer = ({ gridItem }) => {
     setShowContextMenu(false);
   };
 
-  // Convert grid coordinates to screen coordinates using the same system as GridItem
+  // Convert grid coordinates to screen coordinates using the same system as CreatureToken
   const screenPosition = useMemo(() => {
     if (!gridItem.gridPosition || !originalItem) return { x: 0, y: 0 };
 
     try {
-      // Use the same coordinate system as GridItem and GM notes
+      // Convert grid position to world coordinates first
       const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
-      const viewport = gridSystem.getViewportDimensions();
-      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewport.width, viewport.height);
+
+      // Use the same coordinate conversion as CreatureToken for consistency
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
 
       return screenPos;
     } catch (error) {
-      // Fallback calculation using simplified grid positioning
-      const worldX = (gridItem.gridPosition.col * gridSize) + (gridSize / 2);
-      const worldY = (gridItem.gridPosition.row * gridSize) + (gridSize / 2);
+      // Simplified fallback that matches the grid system behavior
+      const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
+      const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
 
       return {
         x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
@@ -165,10 +168,10 @@ const GridContainer = ({ gridItem }) => {
     gridSystem,
     cameraX,
     cameraY,
-    zoomLevel,
-    playerZoom,
     effectiveZoom,
     gridSize,
+    gridOffsetX,
+    gridOffsetY,
     originalItem
   ]);
 

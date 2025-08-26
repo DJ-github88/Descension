@@ -531,11 +531,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // Remove the item from grid if it was successfully removed on server
-      if (data.gridItemId && data.itemRemoved) {
+      // Only remove if this is from another player (our own removals are handled immediately)
+      if (data.gridItemId && data.itemRemoved && data.playerId !== currentPlayer?.id) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
-          const { removeItemFromGrid } = useGridItemStore.getState();
-          console.log('🎁 Removing looted item from grid:', data.gridItemId);
-          removeItemFromGrid(data.gridItemId);
+          const { removeItemFromGrid, gridItems } = useGridItemStore.getState();
+
+          // Check if item still exists before trying to remove it
+          const itemExists = gridItems.find(item => item.id === data.gridItemId);
+          if (itemExists) {
+            console.log('🎁 Removing looted item from grid (other player):', data.gridItemId);
+            removeItemFromGrid(data.gridItemId);
+          }
         }).catch(error => {
           console.error('Failed to import gridItemStore for loot removal:', error);
         });

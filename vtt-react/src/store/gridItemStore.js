@@ -475,6 +475,15 @@ const useGridItemStore = create(
             if (newInventoryItemId === null) {
               // Item could not be added (inventory full) - don't remove from grid
               console.log(`Could not loot ${itemToUse.name} - inventory full`);
+
+              // Add a notification to chat about inventory being full
+              chatStore.addItemLootedNotification(
+                itemToUse,
+                gridItem.quantity || 1,
+                'Inventory Full',
+                `${looterName} - No room in inventory!`
+              );
+
               return false;
             }
 
@@ -515,6 +524,11 @@ const useGridItemStore = create(
                   looter: looterName,
                   gridItemId: gridItemId
                 });
+
+                // CRITICAL FIX: Remove item locally immediately to prevent persistence
+                // The server will confirm removal, but we need immediate visual feedback
+                console.log(`🎁 Removing looted item ${gridItemId} locally (multiplayer)`);
+                removeItemFromGrid(gridItemId);
               }
             } else {
               // In single player or when not sending to server, remove locally

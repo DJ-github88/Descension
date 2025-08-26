@@ -49,38 +49,47 @@ const GridItem = ({ gridItem }) => {
 
 
 
-  // Convert grid coordinates to screen coordinates
+  // Convert coordinates to screen coordinates using the same system as CreatureToken
   const screenPosition = useMemo(() => {
-    if (!gridItem.gridPosition) {
-      return { x: 0, y: 0 };
+    // Use world coordinates if available (like creature tokens), otherwise fall back to grid coordinates
+    if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
+      // Use world coordinates directly (same as CreatureToken)
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const screenPos = gridSystem.worldToScreen(gridItem.position.x, gridItem.position.y, viewportWidth, viewportHeight);
+      return screenPos;
+    } else if (gridItem.gridPosition) {
+      // Fallback to grid coordinates
+      try {
+        const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+        return screenPos;
+      } catch (error) {
+        // Final fallback
+        const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
+        const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
+        return {
+          x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
+          y: (worldY - cameraY) * effectiveZoom + window.innerHeight / 2
+        };
+      }
     }
 
-    try {
-      const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
-      const viewport = gridSystem.getViewportDimensions();
-      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewport.width, viewport.height);
-      return screenPos;
-    } catch (error) {
-      const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
-      const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
-      return {
-        x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
-        y: (worldY - cameraY) * effectiveZoom + window.innerHeight / 2
-      };
-    }
+    return { x: 0, y: 0 };
   }, [
+    gridItem.position?.x,
+    gridItem.position?.y,
     gridItem.gridPosition?.col,
     gridItem.gridPosition?.row,
     gridSystem,
     cameraX,
     cameraY,
-    zoomLevel,
-    playerZoom,
     effectiveZoom,
     gridSize,
     gridOffsetX,
-    gridOffsetY,
-    gridMovesWithBackground
+    gridOffsetY
   ]);
 
   // Calculate orb size based on grid size and zoom

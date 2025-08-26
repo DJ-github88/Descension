@@ -182,10 +182,12 @@
     flex-direction: column;
     gap: 0px;
     background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
-    padding: 8px;
+    padding: 12px;
     border-radius: 8px;
     border: 2px solid #8b7355;
     box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
+    min-height: fit-content;
+    padding-bottom: 16px; /* Add extra space at the bottom */
 }
 
 .inventory-section-headers {
@@ -248,8 +250,8 @@
 }
 
 .inventory-cell {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     transition: all 0.2s ease;
     border: 1px solid #8b7355;
     position: relative;
@@ -436,9 +438,9 @@
 }
 
 .item-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Maintain aspect ratio and center the icon */
+    width: 95%;
+    height: 95%;
+    object-fit: cover; /* Fill the entire space while maintaining aspect ratio */
     object-position: center; /* Ensure the icon is centered */
     border-radius: 2px;
     transition: all 0.2s ease;
@@ -446,6 +448,7 @@
     box-sizing: border-box;
     display: block;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin: auto; /* Center the icon within its container */
 }
 
 .multi-cell .item-icon {

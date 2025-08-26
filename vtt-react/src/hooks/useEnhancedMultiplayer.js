@@ -253,15 +253,11 @@ export const useEnhancedMultiplayer = () => {
   const handleItemLooted = useCallback((data) => {
     console.log('🎁 Enhanced multiplayer item looted:', data);
 
-    // Remove item from grid if it was successfully removed on server
-    if (data.gridItemId && data.itemRemoved) {
-      import('../store/gridItemStore').then(({ default: useGridItemStore }) => {
-        const { removeItemFromGrid } = useGridItemStore.getState();
-        console.log('🎁 Removing looted item from grid via enhanced multiplayer:', data.gridItemId);
-        removeItemFromGrid(data.gridItemId);
-      }).catch(error => {
-        console.error('Failed to import gridItemStore for enhanced multiplayer loot removal:', error);
-      });
+    // Enhanced multiplayer should not handle grid item removal
+    // This is handled by the main MultiplayerApp to avoid conflicts
+    // Just update the confirmed state for synchronization
+    if (data.itemRemoved && data.gridItemId && this.confirmedState?.gridItems) {
+      delete this.confirmedState.gridItems[data.gridItemId];
     }
   }, []);
 
