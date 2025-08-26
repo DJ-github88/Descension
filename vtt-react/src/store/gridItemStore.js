@@ -5,7 +5,6 @@ import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
 import enhancedMultiplayer from '../services/enhancedMultiplayer';
-import { safeGet, ensureArray, safeLog, safeExecute } from '../utils/prodDevParity';
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
@@ -210,11 +209,11 @@ const useGridItemStore = create(
       }),
 
       removeItemFromGrid: (gridItemId) => set((state) => {
-        const currentItems = ensureArray(state.gridItems);
-        safeLog('log', `🗑️ REMOVING LOOT ORB: ${gridItemId} from grid (had ${currentItems.length} items)`);
+        const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
+        console.log(`🗑️ REMOVING LOOT ORB: ${gridItemId} from grid (had ${currentItems.length} items)`);
 
-        const newItems = currentItems.filter(item => safeGet(item, 'id') !== gridItemId);
-        safeLog('log', `🗑️ AFTER REMOVAL: ${newItems.length} items remaining`);
+        const newItems = currentItems.filter(item => item?.id !== gridItemId);
+        console.log(`🗑️ AFTER REMOVAL: ${newItems.length} items remaining`);
 
         return {
           gridItems: newItems,
@@ -224,24 +223,24 @@ const useGridItemStore = create(
 
       // Loot an item from the grid and add it to inventory
       lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
-        return safeExecute(() => {
-          safeLog('log', `🎁 LOOT ITEM CALLED: ${gridItemId} by ${looterName}`);
+        try {
+          console.log(`🎁 LOOT ITEM CALLED: ${gridItemId} by ${looterName}`);
 
           const { gridItems } = get();
           const { removeItemFromGrid } = get();
           const chatStore = useChatStore.getState();
 
-          const currentItems = ensureArray(gridItems);
-          safeLog('log', `🎁 Current grid items count: ${currentItems.length}`);
-          safeLog('log', `🎁 Looking for grid item: ${gridItemId}`);
+          const currentItems = Array.isArray(gridItems) ? gridItems : [];
+          console.log(`🎁 Current grid items count: ${currentItems.length}`);
+          console.log(`🎁 Looking for grid item: ${gridItemId}`);
 
           // Find the grid item
-          const gridItem = currentItems.find(item => safeGet(item, 'id') === gridItemId);
+          const gridItem = currentItems.find(item => item?.id === gridItemId);
           if (!gridItem) {
-            safeLog('log', `🎁 ERROR: Grid item ${gridItemId} not found!`);
-            safeLog('log', `🎁 Available grid items:`, currentItems.map(item => ({
-              id: safeGet(item, 'id'),
-              name: safeGet(item, 'name')
+            console.log(`🎁 ERROR: Grid item ${gridItemId} not found!`);
+            console.log(`🎁 Available grid items:`, currentItems.map(item => ({
+              id: item?.id,
+              name: item?.name
             })));
             return false;
           }
@@ -521,52 +520,52 @@ const useGridItemStore = create(
 
             // CRITICAL FIX: Always remove the loot orb, even if inventory detection fails
             // The inventory detection has bugs but items are actually being added
-            safeLog('log', `🎯 FORCING LOOT ORB REMOVAL: ${gridItemId} (inventory result: ${newInventoryItemId})`);
-            safeLog('log', `🎯 DEBUG: Current environment: ${safeGet(window, 'location.hostname', 'unknown')}`);
+            console.log(`🎯 FORCING LOOT ORB REMOVAL: ${gridItemId} (inventory result: ${newInventoryItemId})`);
+            console.log(`🎯 DEBUG: Current environment: ${window?.location?.hostname || 'unknown'}`);
 
-            const currentGridItems = ensureArray(get().gridItems);
-            safeLog('log', `🎯 DEBUG: Grid items before removal:`, currentGridItems.length);
+            const currentGridItems = Array.isArray(get().gridItems) ? get().gridItems : [];
+            console.log(`🎯 DEBUG: Grid items before removal:`, currentGridItems.length);
 
             // Handle item removal from grid FIRST, before any other logic
             const gameStore = useGameStore.getState();
 
             // FORCE IMMEDIATE REMOVAL - Remove locally first, then handle multiplayer
-            safeLog('log', `🎯 IMMEDIATE REMOVAL: Removing loot orb ${gridItemId} locally`);
+            console.log(`🎯 IMMEDIATE REMOVAL: Removing loot orb ${gridItemId} locally`);
             removeItemFromGrid(gridItemId);
 
-            const afterRemovalItems = ensureArray(get().gridItems);
-            safeLog('log', `🎯 DEBUG: Grid items after removal:`, afterRemovalItems.length);
+            const afterRemovalItems = Array.isArray(get().gridItems) ? get().gridItems : [];
+            console.log(`🎯 DEBUG: Grid items after removal:`, afterRemovalItems.length);
 
             // Force a state update to ensure UI reflects the change
             setTimeout(() => {
-              const currentItems = ensureArray(get().gridItems);
-              safeLog('log', `🎯 DEBUG: Grid items in timeout:`, currentItems.length);
-              const itemStillExists = currentItems.find(item => safeGet(item, 'id') === gridItemId);
+              const currentItems = Array.isArray(get().gridItems) ? get().gridItems : [];
+              console.log(`🎯 DEBUG: Grid items in timeout:`, currentItems.length);
+              const itemStillExists = currentItems.find(item => item?.id === gridItemId);
               if (itemStillExists) {
-                safeLog('log', `🎯 BACKUP REMOVAL: Loot orb ${gridItemId} still exists, forcing removal`);
+                console.log(`🎯 BACKUP REMOVAL: Loot orb ${gridItemId} still exists, forcing removal`);
                 set(state => ({
-                  gridItems: ensureArray(state.gridItems).filter(item => safeGet(item, 'id') !== gridItemId),
+                  gridItems: (Array.isArray(state.gridItems) ? state.gridItems : []).filter(item => item?.id !== gridItemId),
                   lastUpdate: Date.now()
                 }));
-                const finalItems = ensureArray(get().gridItems);
-                safeLog('log', `🎯 DEBUG: Grid items after backup removal:`, finalItems.length);
+                const finalItems = Array.isArray(get().gridItems) ? get().gridItems : [];
+                console.log(`🎯 DEBUG: Grid items after backup removal:`, finalItems.length);
               } else {
-                safeLog('log', `🎯 SUCCESS: Loot orb ${gridItemId} successfully removed`);
+                console.log(`🎯 SUCCESS: Loot orb ${gridItemId} successfully removed`);
               }
             }, 100);
 
             // Additional aggressive removal attempts for production
-            const hostname = safeGet(window, 'location.hostname', '');
+            const hostname = window?.location?.hostname || '';
             if (hostname.includes('netlify') || hostname.includes('vercel')) {
-              safeLog('log', `🎯 PRODUCTION DETECTED: Adding extra removal attempts`);
+              console.log(`🎯 PRODUCTION DETECTED: Adding extra removal attempts`);
               [200, 500, 1000].forEach(delay => {
                 setTimeout(() => {
-                  const items = ensureArray(get().gridItems);
-                  const itemStillExists = items.find(item => safeGet(item, 'id') === gridItemId);
+                  const items = Array.isArray(get().gridItems) ? get().gridItems : [];
+                  const itemStillExists = items.find(item => item?.id === gridItemId);
                   if (itemStillExists) {
-                    safeLog('log', `🎯 PRODUCTION CLEANUP ${delay}ms: Removing persistent loot orb ${gridItemId}`);
+                    console.log(`🎯 PRODUCTION CLEANUP ${delay}ms: Removing persistent loot orb ${gridItemId}`);
                     set(state => ({
-                      gridItems: ensureArray(state.gridItems).filter(item => safeGet(item, 'id') !== gridItemId),
+                      gridItems: (Array.isArray(state.gridItems) ? state.gridItems : []).filter(item => item?.id !== gridItemId),
                       lastUpdate: Date.now()
                     }));
                   }
@@ -716,7 +715,10 @@ const useGridItemStore = create(
         // Removal logic has been moved earlier in the function after successful inventory addition
 
         return true;
-        }, false, 'lootItem'); // Close safeExecute wrapper
+        } catch (error) {
+          console.error('Loot item failed:', error);
+          return false;
+        }
       },
 
       // Get all items at a specific grid position
