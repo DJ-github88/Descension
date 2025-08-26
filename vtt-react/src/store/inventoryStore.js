@@ -311,7 +311,6 @@ const useInventoryStore = create(persist((set, get) => ({
                 // Return state unchanged - item was not added
                 return { items: state.items };
             }
-            }
         } else {
             // If position is provided, verify it's valid
 
