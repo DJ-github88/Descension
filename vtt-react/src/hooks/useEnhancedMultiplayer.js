@@ -81,6 +81,7 @@ export const useEnhancedMultiplayer = () => {
         enhancedMultiplayer.on('inventory_changed', handleInventoryChanged);
         enhancedMultiplayer.on('combat_updated', handleCombatUpdated);
         enhancedMultiplayer.on('chat_message', handleChatMessage);
+        enhancedMultiplayer.on('item_looted', handleItemLooted);
         enhancedMultiplayer.on('error', handleError);
 
         console.log('🚀 Enhanced multiplayer hook initialized');
@@ -107,6 +108,7 @@ export const useEnhancedMultiplayer = () => {
       enhancedMultiplayer.off('inventory_changed', handleInventoryChanged);
       enhancedMultiplayer.off('combat_updated', handleCombatUpdated);
       enhancedMultiplayer.off('chat_message', handleChatMessage);
+      enhancedMultiplayer.off('item_looted', handleItemLooted);
       enhancedMultiplayer.off('error', handleError);
     };
   }, []);
@@ -246,6 +248,21 @@ export const useEnhancedMultiplayer = () => {
         messages: [...prev.chat.messages, data.message].slice(-100) // Keep last 100 messages
       }
     }));
+  }, []);
+
+  const handleItemLooted = useCallback((data) => {
+    console.log('🎁 Enhanced multiplayer item looted:', data);
+
+    // Remove item from grid if it was successfully removed on server
+    if (data.gridItemId && data.itemRemoved) {
+      import('../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const { removeItemFromGrid } = useGridItemStore.getState();
+        console.log('🎁 Removing looted item from grid via enhanced multiplayer:', data.gridItemId);
+        removeItemFromGrid(data.gridItemId);
+      }).catch(error => {
+        console.error('Failed to import gridItemStore for enhanced multiplayer loot removal:', error);
+      });
+    }
   }, []);
 
   const handleError = useCallback((error) => {

@@ -490,83 +490,7 @@
   max-width: none;
 }
 
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(139, 69, 19, 0.05) 100%);
-  border: 2px solid rgba(212, 175, 55, 0.3);
-  border-radius: 20px;
-  padding: 3rem;
-  box-shadow: 0 8px 32px rgba(139, 69, 19, 0.1);
-}
-
-.hero-content {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
-  align-items: center;
-}
-
-.hero-text h1 {
-  font-size: 3rem;
-  color: #2d1810;
-  margin: 0 0 1rem 0;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.hero-text p {
-  font-size: 1.2rem;
-  color: #5d4e37;
-  margin: 0 0 2rem 0;
-  line-height: 1.6;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.hero-btn {
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: 'Cinzel', serif;
-}
-
-.hero-btn.primary {
-  background: linear-gradient(135deg, #d4af37, #b8941f);
-  color: white;
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
-}
-
-.hero-btn.primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-}
-
-.hero-btn.secondary {
-  background: rgba(139, 69, 19, 0.1);
-  color: #8b4513;
-  border: 2px solid rgba(139, 69, 19, 0.3);
-}
-
-.hero-btn.secondary:hover {
-  background: rgba(139, 69, 19, 0.2);
-  transform: translateY(-2px);
-}
-
-.hero-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* Hero Section styles removed - not used in AccountDashboard component */
 
 .adventure-compass {
   width: 150px;
@@ -1434,24 +1358,7 @@
     gap: 2rem;
   }
 
-  .hero-section {
-    padding: 2rem;
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    text-align: center;
-  }
-
-  .hero-text h1 {
-    font-size: 2.2rem;
-  }
-
-  .hero-actions {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  /* Hero section mobile styles removed - not used in AccountDashboard component */
 
   .adventure-compass {
     width: 120px;
