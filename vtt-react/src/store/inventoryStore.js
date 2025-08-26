@@ -193,6 +193,8 @@ const useInventoryStore = create(persist((set, get) => ({
 
     // Add item with stacking support
     addItem: (itemData) => set((state) => {
+        console.log(`🔧 ADD ITEM CALLED with:`, itemData);
+
         // Generate a unique ID if not provided
         const newItem = {
             ...itemData,
@@ -203,14 +205,20 @@ const useInventoryStore = create(persist((set, get) => ({
             rotation: itemData.rotation || 0
         };
 
+        console.log(`🔧 New item created:`, newItem);
+
         // Check if the item is stackable and if we already have it
         // Only allow stacking for consumable and miscellaneous items
         const isStackableType = newItem.type === 'consumable' || newItem.type === 'miscellaneous';
+        console.log(`🔧 Item type: ${newItem.type}, isStackableType: ${isStackableType}, stackable: ${itemData.stackable}`);
+
         if (itemData.stackable !== false && isStackableType) {
+            console.log(`🔧 Checking for existing stackable item...`);
             const existingItemIndex = state.items.findIndex(item =>
                 item.name === newItem.name &&
                 item.type === newItem.type
             );
+            console.log(`🔧 Existing item index: ${existingItemIndex}`);
 
             if (existingItemIndex >= 0) {
                 // Stack with existing item, but preserve properties from new item
@@ -566,17 +574,59 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         // Try to add the item to inventory
-        const initialItemCount = store.items.length;
-        store.addItem(inventoryItem);
-        const finalItemCount = store.items.length;
+        // For stackable items, we need to check if the total quantity increased, not just item count
+        const initialItems = [...store.items];
+        const initialTotalQuantity = initialItems.reduce((total, item) => {
+            if (item.name === inventoryItem.name && item.type === inventoryItem.type) {
+                return total + (item.quantity || 1);
+            }
+            return total;
+        }, 0);
 
-        // Check if the item was actually added
-        if (finalItemCount > initialItemCount) {
-            console.log(`✅ INVENTORY FIX: Item ${inventoryItem.name} successfully added to inventory`);
+        console.log(`🔍 INVENTORY DEBUG: Before adding ${inventoryItem.name}`);
+        console.log(`🔍 Initial items count: ${initialItems.length}`);
+        console.log(`🔍 Initial total quantity for ${inventoryItem.name}: ${initialTotalQuantity}`);
+        console.log(`🔍 Item to add:`, inventoryItem);
+
+        store.addItem(inventoryItem);
+
+        const finalItems = store.items;
+        const finalItemCount = finalItems.length;
+        const finalTotalQuantity = finalItems.reduce((total, item) => {
+            if (item.name === inventoryItem.name && item.type === inventoryItem.type) {
+                return total + (item.quantity || 1);
+            }
+            return total;
+        }, 0);
+
+        console.log(`🔍 INVENTORY DEBUG: After adding ${inventoryItem.name}`);
+        console.log(`🔍 Final items count: ${finalItemCount}`);
+        console.log(`🔍 Final total quantity for ${inventoryItem.name}: ${finalTotalQuantity}`);
+        console.log(`🔍 Final items:`, finalItems.filter(item => item.name === inventoryItem.name));
+
+        // Check if the item was actually added (either new item or stacked)
+        const itemCountIncreased = finalItemCount > initialItems.length;
+        const quantityIncreased = finalTotalQuantity > initialTotalQuantity;
+
+        console.log(`🔍 Item count increased: ${itemCountIncreased} (${initialItems.length} → ${finalItemCount})`);
+        console.log(`🔍 Quantity increased: ${quantityIncreased} (${initialTotalQuantity} → ${finalTotalQuantity})`);
+
+        if (itemCountIncreased || quantityIncreased) {
+            console.log(`✅ INVENTORY FIX: Item ${inventoryItem.name} successfully added to inventory (count: ${itemCountIncreased ? 'new item' : 'stacked'}, quantity: ${initialTotalQuantity} → ${finalTotalQuantity})`);
+
+            // For stacked items, return the ID of the existing stack
+            if (!itemCountIncreased && quantityIncreased) {
+                const existingItem = finalItems.find(item =>
+                    item.name === inventoryItem.name && item.type === inventoryItem.type
+                );
+                return existingItem ? existingItem.id : inventoryItem.id;
+            }
+
             return inventoryItem.id; // Return the new ID for reference
         } else {
             // Item was not added (inventory full)
             console.log(`🚫 INVENTORY FIX: Item ${inventoryItem.name} was NOT added - inventory full`);
+            console.log(`🚫 No change detected: count ${initialItems.length}→${finalItemCount}, quantity ${initialTotalQuantity}→${finalTotalQuantity}`);
             return null;
         }
     },
@@ -770,6 +820,15 @@ const useInventoryStore = create(persist((set, get) => ({
         // Updated item
 
         return { items: updatedItems };
+    }),
+
+    // Clear all items from inventory
+    clearInventory: () => set(() => {
+        console.log('🗑️ Clearing all items from inventory');
+        return {
+            items: [],
+            encumbranceState: 'normal'
+        };
     })
 }), { name: 'inventory' }));
 

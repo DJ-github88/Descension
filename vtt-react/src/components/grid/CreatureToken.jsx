@@ -169,6 +169,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   useEffect(() => {
     let lastNetworkUpdate = 0;
     let lastCombatUpdate = 0;
+    let dragTimeoutId = null;
 
     const handleMouseMove = (e) => {
       console.log('🎯 Mouse move event', {
@@ -397,15 +398,30 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // Also add a fallback mouseup listener without capture to ensure we catch it
       document.addEventListener('mouseup', handleMouseUp, { passive: true });
+
+      // Safety timeout to reset dragging state if mouse up is missed
+      dragTimeoutId = setTimeout(() => {
+        console.log('🎯 Drag timeout - forcing reset of creature dragging state');
+        setIsDragging(false);
+        setIsMouseDown(false);
+        if (window.multiplayerDragState && token) {
+          window.multiplayerDragState.delete(`token_${token.creatureId}`);
+        }
+        window.tokenInteractionActive = false;
+        window.tokenInteractionTimestamp = null;
+      }, 5000); // 5 second timeout
     }
 
     return () => {
       console.log('🎯 Cleaning up event listeners for token:', token?.creatureId);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp, true); // Remove capture listener
-      document.removeEventListener('mouseup', handleMouseUp); // Remove non-capture listener
+      document.removeEventListener('mousemove', handleMouseMove, { capture: true });
+      document.removeEventListener('mouseup', handleMouseUp, { capture: true });
+      document.removeEventListener('mouseup', handleMouseUp);
+      if (dragTimeoutId) {
+        clearTimeout(dragTimeoutId);
+      }
     };
-  }, [isDragging, isMouseDown]);
+  }, [isDragging, isMouseDown, isInMultiplayer, multiplayerSocket, token, isInCombat, dragStartPosition, showMovementVisualization, tokenId, position]);
   // Subscribe to token state changes for real-time health/mana/AP updates
   useEffect(() => {
     const unsubscribe = useCreatureStore.subscribe(

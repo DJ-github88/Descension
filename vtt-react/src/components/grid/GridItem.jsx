@@ -166,9 +166,18 @@ const GridItem = ({ gridItem }) => {
   };
 
   // Handle click to loot the item
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log(`🎯 GRID ITEM CLICKED: ${gridItem.id} (${gridItem.name || 'Unknown'})`);
+    console.log(`🎯 Grid item data:`, gridItem);
+
     const currentUser = useInventoryStore.getState().characterName || 'Player';
-    lootItem(gridItem.id, 'default', currentUser);
+    console.log(`🎯 Current user: ${currentUser}`);
+
+    const result = lootItem(gridItem.id, 'default', currentUser);
+    console.log(`🎯 Loot result: ${result}`);
 
     setTimeout(() => {
       const currentState = useInventoryStore.getState();

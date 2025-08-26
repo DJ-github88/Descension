@@ -306,10 +306,10 @@
 /* Item wrapper that doesn't rotate */
 .item-wrapper {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
     z-index: 5;
     box-sizing: border-box;
 }
@@ -317,10 +317,10 @@
 /* Non-rotating border and blue indicator */
 .item-border {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 1px;
+    left: 1px;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
@@ -421,27 +421,28 @@
 }
 
 .item-content {
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 0; /* Remove padding to ensure perfect centering */
+    padding: 2px; /* Small padding to ensure icons don't touch edges */
     overflow: visible;
     z-index: 25; /* Ensure content is above the rotation indicator but below selected highlight */
     cursor: pointer; /* Make sure the cursor is a pointer for better UX */
     font-family: 'Bookman Old Style', 'Garamond', serif;
     color: #3a2f1a;
     text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
+    margin: 1px; /* Center within the wrapper */
 }
 
 .item-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Show the full icon without cropping */
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    object-fit: cover; /* Fill the space properly */
     object-position: center; /* Ensure the icon is centered */
     border-radius: 2px;
     transition: all 0.2s ease;
@@ -495,6 +496,39 @@
     border-radius: 6px;
     border: 1px solid rgba(139, 115, 85, 0.3);
     margin-top: 10px;
+}
+
+.inventory-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.clear-inventory-btn {
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%);
+    color: white;
+    border: 2px solid #654321;
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.clear-inventory-btn:hover {
+    background: linear-gradient(135deg, #a52a2a 0%, #dc143c 50%, #a52a2a 100%);
+    border-color: #8b4513;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.clear-inventory-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .encumbrance-text {

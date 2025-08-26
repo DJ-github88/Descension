@@ -785,7 +785,7 @@ export default function Navigation({ onReturnToLanding }) {
                         title={safeTitle}
                         isOpen={true}
                         onClose={() => handleButtonClick(button.id)}
-                        defaultSize={{ width: 845, height: 490 }}
+                        defaultSize={{ width: 900, height: 550 }}
                         defaultPosition={{ x: 150, y: 150 }}
                     >
                         <InventoryWindow />

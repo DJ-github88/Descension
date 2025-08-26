@@ -61,7 +61,7 @@ const CharacterToken = ({
 
     // Get grid and combat state
     const gridSystem = getGridSystem();
-    const { gridSize, zoomLevel, playerZoom, cameraX, cameraY } = useGameStore();
+    const { gridSize, zoomLevel, playerZoom, cameraX, cameraY, isInMultiplayer, multiplayerSocket } = useGameStore();
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = gridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
@@ -197,6 +197,7 @@ const CharacterToken = ({
     // Handle mouse move and up for dragging with pure immediate feedback
     useEffect(() => {
         let lastNetworkUpdate = 0;
+        let dragTimeoutId = null;
 
         const handleMouseMove = (e) => {
             // Check if mouse is down but not yet dragging (threshold check)
@@ -336,6 +337,12 @@ const CharacterToken = ({
                 window.multiplayerDragState.delete('character');
                 console.log('🎯 Stopped dragging character, Drag state:', window.multiplayerDragState);
             }
+
+            // Clear the drag timeout since we successfully handled mouse up
+            if (dragTimeoutId) {
+                clearTimeout(dragTimeoutId);
+                dragTimeoutId = null;
+            }
         };
 
         if (isDragging || isMouseDown) {
@@ -346,14 +353,31 @@ const CharacterToken = ({
 
             // Also add a fallback mouseup listener without capture to ensure we catch it
             document.addEventListener('mouseup', handleMouseUp, { passive: true });
+
+            // Safety timeout to reset dragging state if mouse up is missed (e.g., cursor leaves window)
+            dragTimeoutId = setTimeout(() => {
+                console.log('🎭 Drag timeout - forcing reset of character dragging state');
+                setIsDragging(false);
+                setIsMouseDown(false);
+                setMouseDownPosition(null);
+                setDragStartPosition(null);
+                if (window.multiplayerDragState) {
+                    window.multiplayerDragState.delete('character');
+                }
+                window.tokenInteractionActive = false;
+                window.tokenInteractionTimestamp = null;
+            }, 5000); // 5 second timeout
         }
 
         return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp, true); // Remove capture listener
-            document.removeEventListener('mouseup', handleMouseUp); // Remove non-capture listener
+            document.removeEventListener('mousemove', handleMouseMove, { capture: true });
+            document.removeEventListener('mouseup', handleMouseUp, { capture: true });
+            document.removeEventListener('mouseup', handleMouseUp);
+            if (dragTimeoutId) {
+                clearTimeout(dragTimeoutId);
+            }
         };
-    }, [isDragging, isMouseDown]);
+    }, [isDragging, isMouseDown, isInMultiplayer, multiplayerSocket, position, dragOffset, mouseDownPosition, gridSystem, tokenId]);
 
     // Handle context menu
     const handleContextMenu = (e) => {

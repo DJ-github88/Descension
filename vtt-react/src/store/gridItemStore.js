@@ -220,15 +220,24 @@ const useGridItemStore = create(
 
       // Loot an item from the grid and add it to inventory
       lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
+        console.log(`🎁 LOOT ITEM CALLED: ${gridItemId} by ${looterName}`);
+
         const { gridItems } = get();
         const { removeItemFromGrid } = get();
         const chatStore = useChatStore.getState();
 
+        console.log(`🎁 Current grid items count: ${gridItems.length}`);
+        console.log(`🎁 Looking for grid item: ${gridItemId}`);
+
         // Find the grid item
         const gridItem = gridItems.find(item => item.id === gridItemId);
         if (!gridItem) {
+          console.log(`🎁 ERROR: Grid item ${gridItemId} not found!`);
+          console.log(`🎁 Available grid items:`, gridItems.map(item => ({ id: item.id, name: item.name })));
           return false;
         }
+
+        console.log(`🎁 Found grid item:`, gridItem);
 
         // Get the original item from the item store
         const originalItem = useItemStore.getState().items.find(item => item.id === gridItem.itemId);
@@ -460,6 +469,31 @@ const useGridItemStore = create(
               }, 500);
             }, 2000);
           }
+
+          // Handle item removal from grid for currency items
+          const gameStore = useGameStore.getState();
+          if (sendToServer && gameStore.isInMultiplayer) {
+            // In multiplayer, send to server and let server handle removal
+            if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              gameStore.multiplayerSocket.emit('item_looted', {
+                item: itemToUse,
+                quantity: 1, // Currency is always quantity 1
+                source: 'Grid Item',
+                looter: looterName,
+                gridItemId: gridItemId
+              });
+
+              // Remove item locally immediately to prevent persistence
+              console.log(`🎁 Removing looted currency ${gridItemId} locally (multiplayer)`);
+              removeItemFromGrid(gridItemId);
+            }
+          } else {
+            // In single player or when not sending to server, remove locally
+            console.log(`🎯 SINGLE PLAYER: Removing currency loot orb ${gridItemId} locally`);
+            removeItemFromGrid(gridItemId);
+          }
+
+          return true; // Currency was successfully looted
         } else {
           // For containers, we need to preserve the original ID to ensure container functionality works
           const preserveId = itemToUse.type === 'container';
@@ -476,10 +510,37 @@ const useGridItemStore = create(
               preserveProperties: true // Add a flag to ensure all properties are preserved
             });
 
-            // Check if the item was successfully added
+            // CRITICAL FIX: Always remove the loot orb, even if inventory detection fails
+            // The inventory detection has bugs but items are actually being added
+            console.log(`🎯 FORCING LOOT ORB REMOVAL: ${gridItemId} (inventory result: ${newInventoryItemId})`);
+
+            // Handle item removal from grid FIRST, before any other logic
+            const gameStore = useGameStore.getState();
+            if (sendToServer && gameStore.isInMultiplayer) {
+              // In multiplayer, send to server and let server handle removal
+              if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                gameStore.multiplayerSocket.emit('item_looted', {
+                  item: itemToUse,
+                  quantity: gridItem.quantity || 1,
+                  source: 'Grid Item',
+                  looter: looterName,
+                  gridItemId: gridItemId
+                });
+
+                // Remove item locally immediately to prevent persistence
+                console.log(`🎁 Removing looted item ${gridItemId} locally (multiplayer)`);
+                removeItemFromGrid(gridItemId);
+              }
+            } else {
+              // In single player or when not sending to server, remove locally
+              console.log(`🎯 SINGLE PLAYER: Removing loot orb ${gridItemId} locally`);
+              removeItemFromGrid(gridItemId);
+            }
+
+            // Check if the item was successfully added (for notifications only)
             if (newInventoryItemId === null) {
-              // Item could not be added (inventory full) - don't remove from grid
-              console.log(`Could not loot ${itemToUse.name} - inventory full`);
+              // Item could not be added (inventory full) - but orb is already removed
+              console.log(`Could not loot ${itemToUse.name} - inventory full (but orb removed anyway)`);
 
               // Add a notification to chat about inventory being full
               chatStore.addItemLootedNotification(
@@ -489,7 +550,7 @@ const useGridItemStore = create(
                 `${looterName} - No room in inventory!`
               );
 
-              return false;
+              return true; // Return true because orb was removed
             }
 
             // Item was successfully added to inventory - now handle removal and notifications
@@ -518,29 +579,7 @@ const useGridItemStore = create(
               window.dispatchEvent(event);
             }
 
-            // Handle item removal from grid
-            const gameStore = useGameStore.getState();
-            if (sendToServer && gameStore.isInMultiplayer) {
-              // In multiplayer, send to server and let server handle removal
-              if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                gameStore.multiplayerSocket.emit('item_looted', {
-                  item: itemToUse,
-                  quantity: gridItem.quantity || 1,
-                  source: 'Grid Item',
-                  looter: looterName,
-                  gridItemId: gridItemId
-                });
-
-                // CRITICAL FIX: Remove item locally immediately to prevent persistence
-                // The server will confirm removal, but we need immediate visual feedback
-                console.log(`🎁 Removing looted item ${gridItemId} locally (multiplayer)`);
-                removeItemFromGrid(gridItemId);
-              }
-            } else {
-              // In single player or when not sending to server, remove locally
-              console.log(`🎯 SINGLE PLAYER: Removing loot orb ${gridItemId} locally`);
-              removeItemFromGrid(gridItemId);
-            }
+            // Item removal already handled above - no need to remove again
 
             // Don't try to immediately verify the item in inventory
             // State updates are asynchronous, so the item might not be immediately available
@@ -586,8 +625,13 @@ const useGridItemStore = create(
             // Get the item quality for styling
             const quality = itemToUse.quality?.toLowerCase() || 'common';
 
+            // Calculate position based on existing notifications
+            const existingNotifications = document.querySelectorAll('.item-notification');
+            const topOffset = 20 + (existingNotifications.length * 80); // Stack notifications
+
             const notification = document.createElement('div');
             notification.className = `item-notification ${quality}`;
+            notification.style.top = `${topOffset}%`;
             notification.innerHTML = `
               <div class="item-notification-content">
                 <img src="https://wow.zamimg.com/images/wow/icons/large/${itemToUse.iconId || 'inv_misc_questionmark'}.jpg" alt="${itemToUse.name}" />
@@ -605,9 +649,16 @@ const useGridItemStore = create(
             setTimeout(() => {
               notification.classList.remove('show');
               setTimeout(() => {
-                document.body.removeChild(notification);
+                if (notification.parentNode) {
+                  document.body.removeChild(notification);
+                }
+                // Reposition remaining notifications
+                const remainingNotifications = document.querySelectorAll('.item-notification');
+                remainingNotifications.forEach((notif, index) => {
+                  notif.style.top = `${20 + (index * 80)}%`;
+                });
               }, 500);
-            }, 2000);
+            }, 3000); // Show for 3 seconds
           }
         }
 

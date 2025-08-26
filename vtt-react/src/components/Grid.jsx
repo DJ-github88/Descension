@@ -1490,8 +1490,9 @@ export default function Grid() {
                 const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
 
                 // Get current player ID for multiplayer
-                const currentPlayer = isInMultiplayer ? getCurrentPlayer() : null;
-                const playerId = currentPlayer?.id;
+                // In multiplayer, use character name as player ID since getCurrentPlayer is not available globally
+                const characterName = useCharacterStore.getState().name;
+                const playerId = useGameStore.getState().isInMultiplayer ? characterName : null;
 
                 // Place the character token with player ID for multiplayer uniqueness
                 addCharacterToken(worldPos, playerId);
