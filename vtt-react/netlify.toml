@@ -1,10 +1,26 @@
 [build]
   publish = "build"
-  command = "npm run build"
+  command = "rm -rf node_modules && rm -rf build && rm -rf .cache && npm ci --force && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_VERSION = "9"
+  NODE_ENV = "production"
+  GENERATE_SOURCEMAP = "false"
+  CI = "true"
+  NODE_OPTIONS = "--max-old-space-size=8192"
+  REACT_APP_BUILD_MODE = "production"
+  REACT_APP_ENV = "production"
+  INLINE_RUNTIME_CHUNK = "false"
+  BROWSERSLIST_ENV = "production"
+  REACT_APP_SOCKET_URL = "https://descension-production.up.railway.app"
+  REACT_APP_FIREBASE_API_KEY = "AIzaSyDs9SSWy1J_aSX3LvHUBbI9fwi68cuaX7A"
+  REACT_APP_FIREBASE_AUTH_DOMAIN = "mythrill-ff7c6.firebaseapp.com"
+  REACT_APP_FIREBASE_PROJECT_ID = "mythrill-ff7c6"
+  REACT_APP_FIREBASE_STORAGE_BUCKET = "mythrill-ff7c6.firebasestorage.app"
+  REACT_APP_FIREBASE_MESSAGING_SENDER_ID = "715658408409"
+  REACT_APP_FIREBASE_APP_ID = "1:715658408409:web:3a926eba858e529d66a9c8"
+  REACT_APP_FIREBASE_MEASUREMENT_ID = "G-WL4DX5LRYX"
+  BUILD_TIMESTAMP = "2025-01-26-token-fixes-v2"
 
 # Redirect all routes to index.html for React Router
 [[redirects]]
@@ -27,6 +43,4 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Environment variables for production
-# These should be set in Netlify dashboard:
-# REACT_APP_SOCKET_URL = "https://descension-production.up.railway.app"
+# All environment variables are configured above in [build.environment]
