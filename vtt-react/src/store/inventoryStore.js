@@ -256,7 +256,7 @@ const useInventoryStore = create(persist((set, get) => ({
 
             if (!emptyPosition) {
                 // No empty position found - inventory is full for this item size
-                console.warn(`No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                console.warn(`🚫 INVENTORY FULL FIX ACTIVE: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
 
                 // Show "no room" notification
                 if (typeof window !== 'undefined') {
@@ -572,9 +572,11 @@ const useInventoryStore = create(persist((set, get) => ({
 
         // Check if the item was actually added
         if (finalItemCount > initialItemCount) {
+            console.log(`✅ INVENTORY FIX: Item ${inventoryItem.name} successfully added to inventory`);
             return inventoryItem.id; // Return the new ID for reference
         } else {
             // Item was not added (inventory full)
+            console.log(`🚫 INVENTORY FIX: Item ${inventoryItem.name} was NOT added - inventory full`);
             return null;
         }
     },

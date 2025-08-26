@@ -1,4 +1,5 @@
 /* Override window-content height for inventory window */
+/* CACHE BUST: Updated icon sizing to use full space - v2.1 */
 .inventory-window-content {
     height: auto;
     min-height: fit-content;
