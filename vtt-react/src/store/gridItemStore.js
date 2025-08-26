@@ -478,6 +478,49 @@ const useGridItemStore = create(
               return false;
             }
 
+            // Item was successfully added to inventory - now handle removal and notifications
+
+            // Add notification to chat window
+            chatStore.addItemLootedNotification(
+              itemToUse,
+              gridItem.quantity || 1,
+              gridItem.source || 'world',
+              looterName
+            );
+
+            // Force a state update to trigger a re-render of the inventory UI
+            const currentState = useInventoryStore.getState();
+            useInventoryStore.setState({
+              ...currentState,
+              items: [...currentState.items] // Create a new array reference to trigger re-render
+            });
+
+            // Dispatch a custom event that the InventoryWindow can listen for
+            if (typeof window !== 'undefined') {
+              const event = new CustomEvent('inventory-updated', {
+                detail: { itemId: newInventoryItemId }
+              });
+              window.dispatchEvent(event);
+            }
+
+            // Handle item removal from grid
+            const gameStore = useGameStore.getState();
+            if (sendToServer && gameStore.isInMultiplayer) {
+              // In multiplayer, send to server and let server handle removal
+              if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                gameStore.multiplayerSocket.emit('item_looted', {
+                  item: itemToUse,
+                  quantity: gridItem.quantity || 1,
+                  source: 'Grid Item',
+                  looter: looterName,
+                  gridItemId: gridItemId
+                });
+              }
+            } else {
+              // In single player or when not sending to server, remove locally
+              removeItemFromGrid(gridItemId);
+            }
+
             // Don't try to immediately verify the item in inventory
             // State updates are asynchronous, so the item might not be immediately available
 
@@ -488,31 +531,7 @@ const useGridItemStore = create(
               const addedItem = currentInventoryItems.find(item => item.id === newInventoryItemId);
 
               if (addedItem) {
-
-                // Force a state update to trigger a re-render of the inventory UI
-                // This is a workaround for the issue where the UI doesn't update
-                // despite the item being successfully added to the inventory store
-                const currentState = useInventoryStore.getState();
-                useInventoryStore.setState({
-                  ...currentState,
-                  items: [...currentState.items] // Create a new array reference to trigger re-render
-                });
-
-                // Dispatch a custom event that the InventoryWindow can listen for
-                if (typeof window !== 'undefined') {
-                  const event = new CustomEvent('inventory-updated', {
-                    detail: { itemId: newInventoryItemId }
-                  });
-                  window.dispatchEvent(event);
-                }
-
-                // Add notification to chat window
-                chatStore.addItemLootedNotification(
-                  itemToUse,
-                  gridItem.quantity || 1,
-                  gridItem.source || 'world',
-                  looterName
-                );
+                // Item verified in inventory - already handled above
               } else if (attempt < maxAttempts) {
                 // Try again with exponential backoff
                 setTimeout(() => verifyAndRefresh(attempt + 1, maxAttempts), 100 * attempt);
@@ -571,33 +590,7 @@ const useGridItemStore = create(
           }
         }
 
-        // Send to multiplayer server if enabled
-        if (sendToServer) {
-          const gameStore = useGameStore.getState();
-          if (gameStore.isInMultiplayer) {
-            // Sending loot event to multiplayer server
-
-            // Use regular socket system for item looting (server handles these properly)
-            if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-              gameStore.multiplayerSocket.emit('item_looted', {
-                item: itemToUse,
-                quantity: gridItem.quantity || 1,
-                source: 'Grid Item',
-                looter: looterName,
-                gridItemId: gridItemId
-              });
-            }
-
-            // In multiplayer, let the server handle the removal and broadcast back
-            // This prevents double removal for the looter
-          } else {
-            // In single player, remove the item locally
-            removeItemFromGrid(gridItemId);
-          }
-        } else {
-          // If not sending to server, remove locally
-          removeItemFromGrid(gridItemId);
-        }
+        // Removal logic has been moved earlier in the function after successful inventory addition
 
         return true;
       },
