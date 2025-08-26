@@ -33,6 +33,7 @@ import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
 import PortalDebugger from './components/debug/PortalDebugger';
+import ProductionDebugger from './components/debug/ProductionDebugger';
 
 // Preload roomService to prevent chunk loading issues
 import './services/roomService';
@@ -180,6 +181,7 @@ function GameScreen() {
 
     return (
         <div className="game-screen">
+            <ProductionDebugger />
             <Suspense fallback={<LoadingFallback message="Loading game..." />}>
                 <Grid />
                 <GridItemsManager />

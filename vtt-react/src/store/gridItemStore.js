@@ -513,6 +513,8 @@ const useGridItemStore = create(
             // CRITICAL FIX: Always remove the loot orb, even if inventory detection fails
             // The inventory detection has bugs but items are actually being added
             console.log(`🎯 FORCING LOOT ORB REMOVAL: ${gridItemId} (inventory result: ${newInventoryItemId})`);
+            console.log(`🎯 DEBUG: Current environment: ${window.location.hostname}`);
+            console.log(`🎯 DEBUG: Grid items before removal:`, get().gridItems.size);
 
             // Handle item removal from grid FIRST, before any other logic
             const gameStore = useGameStore.getState();
@@ -520,17 +522,38 @@ const useGridItemStore = create(
             // FORCE IMMEDIATE REMOVAL - Remove locally first, then handle multiplayer
             console.log(`🎯 IMMEDIATE REMOVAL: Removing loot orb ${gridItemId} locally`);
             removeItemFromGrid(gridItemId);
+            console.log(`🎯 DEBUG: Grid items after removal:`, get().gridItems.size);
 
             // Force a state update to ensure UI reflects the change
             setTimeout(() => {
               const currentItems = get().gridItems;
+              console.log(`🎯 DEBUG: Grid items in timeout:`, currentItems.size);
               if (currentItems.has(gridItemId)) {
                 console.log(`🎯 BACKUP REMOVAL: Loot orb ${gridItemId} still exists, forcing removal`);
                 set(state => ({
                   gridItems: new Map([...state.gridItems].filter(([id]) => id !== gridItemId))
                 }));
+                console.log(`🎯 DEBUG: Grid items after backup removal:`, get().gridItems.size);
+              } else {
+                console.log(`🎯 SUCCESS: Loot orb ${gridItemId} successfully removed`);
               }
             }, 100);
+
+            // Additional aggressive removal attempts for production
+            if (window.location.hostname.includes('netlify')) {
+              console.log(`🎯 NETLIFY DETECTED: Adding extra removal attempts`);
+              [200, 500, 1000].forEach(delay => {
+                setTimeout(() => {
+                  const items = get().gridItems;
+                  if (items.has(gridItemId)) {
+                    console.log(`🎯 NETLIFY CLEANUP ${delay}ms: Removing persistent loot orb ${gridItemId}`);
+                    set(state => ({
+                      gridItems: new Map([...state.gridItems].filter(([id]) => id !== gridItemId))
+                    }));
+                  }
+                }, delay);
+              });
+            }
 
             if (sendToServer && gameStore.isInMultiplayer) {
               // In multiplayer, also send to server

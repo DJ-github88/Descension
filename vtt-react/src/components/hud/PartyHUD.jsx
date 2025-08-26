@@ -619,6 +619,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Context menu handlers
     const handleContextMenu = (e, member) => {
+        console.log(`🎯 HUD CONTEXT MENU: Opening at ${e.clientX}, ${e.clientY} on ${window.location.hostname}`);
         setContextMenuPosition({ x: e.clientX, y: e.clientY });
         setContextMenuMember(member);
         setShowContextMenu(true);
