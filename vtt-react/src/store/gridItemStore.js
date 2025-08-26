@@ -514,7 +514,7 @@ const useGridItemStore = create(
             // The inventory detection has bugs but items are actually being added
             console.log(`🎯 FORCING LOOT ORB REMOVAL: ${gridItemId} (inventory result: ${newInventoryItemId})`);
             console.log(`🎯 DEBUG: Current environment: ${window.location.hostname}`);
-            console.log(`🎯 DEBUG: Grid items before removal:`, get().gridItems.size);
+            console.log(`🎯 DEBUG: Grid items before removal:`, get().gridItems.length);
 
             // Handle item removal from grid FIRST, before any other logic
             const gameStore = useGameStore.getState();
@@ -522,18 +522,20 @@ const useGridItemStore = create(
             // FORCE IMMEDIATE REMOVAL - Remove locally first, then handle multiplayer
             console.log(`🎯 IMMEDIATE REMOVAL: Removing loot orb ${gridItemId} locally`);
             removeItemFromGrid(gridItemId);
-            console.log(`🎯 DEBUG: Grid items after removal:`, get().gridItems.size);
+            console.log(`🎯 DEBUG: Grid items after removal:`, get().gridItems.length);
 
             // Force a state update to ensure UI reflects the change
             setTimeout(() => {
               const currentItems = get().gridItems;
-              console.log(`🎯 DEBUG: Grid items in timeout:`, currentItems.size);
-              if (currentItems.has(gridItemId)) {
+              console.log(`🎯 DEBUG: Grid items in timeout:`, currentItems.length);
+              const itemStillExists = currentItems.find(item => item.id === gridItemId);
+              if (itemStillExists) {
                 console.log(`🎯 BACKUP REMOVAL: Loot orb ${gridItemId} still exists, forcing removal`);
                 set(state => ({
-                  gridItems: new Map([...state.gridItems].filter(([id]) => id !== gridItemId))
+                  gridItems: state.gridItems.filter(item => item.id !== gridItemId),
+                  lastUpdate: Date.now()
                 }));
-                console.log(`🎯 DEBUG: Grid items after backup removal:`, get().gridItems.size);
+                console.log(`🎯 DEBUG: Grid items after backup removal:`, get().gridItems.length);
               } else {
                 console.log(`🎯 SUCCESS: Loot orb ${gridItemId} successfully removed`);
               }
@@ -545,10 +547,12 @@ const useGridItemStore = create(
               [200, 500, 1000].forEach(delay => {
                 setTimeout(() => {
                   const items = get().gridItems;
-                  if (items.has(gridItemId)) {
+                  const itemStillExists = items.find(item => item.id === gridItemId);
+                  if (itemStillExists) {
                     console.log(`🎯 NETLIFY CLEANUP ${delay}ms: Removing persistent loot orb ${gridItemId}`);
                     set(state => ({
-                      gridItems: new Map([...state.gridItems].filter(([id]) => id !== gridItemId))
+                      gridItems: state.gridItems.filter(item => item.id !== gridItemId),
+                      lastUpdate: Date.now()
                     }));
                   }
                 }, delay);

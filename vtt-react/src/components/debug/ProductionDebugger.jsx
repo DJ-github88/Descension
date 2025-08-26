@@ -21,11 +21,17 @@ const ProductionDebugger = () => {
             // Add global debug logging
             window.debugLootOrb = (gridItemId) => {
                 console.log(`🎯 MANUAL DEBUG: Checking loot orb ${gridItemId}`);
-                const gridStore = window.useGridItemStore?.getState?.();
-                if (gridStore) {
-                    console.log(`🎯 Grid items:`, gridStore.gridItems.size);
-                    console.log(`🎯 Has item:`, gridStore.gridItems.has(gridItemId));
-                }
+                // Import the store dynamically
+                import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+                    const gridStore = useGridItemStore.getState();
+                    console.log(`🎯 Grid items count:`, gridStore.gridItems.length);
+                    console.log(`🎯 All grid items:`, gridStore.gridItems.map(item => ({ id: item.id, name: item.name })));
+                    const hasItem = gridStore.gridItems.find(item => item.id === gridItemId);
+                    console.log(`🎯 Has item ${gridItemId}:`, !!hasItem);
+                    if (hasItem) {
+                        console.log(`🎯 Item details:`, hasItem);
+                    }
+                });
             };
 
             window.debugContextMenu = () => {
