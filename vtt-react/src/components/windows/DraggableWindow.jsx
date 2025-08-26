@@ -53,13 +53,6 @@ const DraggableWindow = forwardRef(({
     // Debug: Log window scale changes
     useEffect(() => {
         console.log('DraggableWindow: Current window scale is', windowScale);
-
-        // Debug: Check if the transform is actually applied
-        if (nodeRef.current) {
-            const computedStyle = window.getComputedStyle(nodeRef.current);
-            console.log('DraggableWindow: Computed transform:', computedStyle.transform);
-            console.log('DraggableWindow: Element style transform:', nodeRef.current.style.transform);
-        }
     }, [windowScale]);
 
     // Create refs for the draggable component
@@ -262,27 +255,22 @@ const DraggableWindow = forwardRef(({
             scale={windowScale} // Pass the window scale to react-draggable for proper drag handling
             enableUserSelectHack={false} // Disable user select hack for better performance
         >
-            {/* Scaling container that properly handles hit detection */}
             <div
+                ref={nodeRef}
                 style={{
                     position: 'fixed',
                     top: 0,
                     left: 0,
-                    transformOrigin: 'top left',
-                    transform: `scale(${windowScale})`,
-                    pointerEvents: 'auto',
                     zIndex: 99999,
-                    // Ensure the container doesn't interfere with layout
-                    width: 'fit-content',
-                    height: 'fit-content',
+                    transformOrigin: 'top left',
+                    pointerEvents: 'auto',
                 }}
             >
                 <div
-                    ref={nodeRef}
                     className={`draggable-window ${className}`}
                     style={{
-                        position: 'relative',
                         transformOrigin: 'top left',
+                        transform: `scale(${windowScale})`,
                         willChange: 'transform',
                         pointerEvents: 'auto',
                     ...(defaultSize && {
