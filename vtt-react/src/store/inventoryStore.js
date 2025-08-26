@@ -254,9 +254,7 @@ const useInventoryStore = create(persist((set, get) => ({
                 newItem.rotation
             );
 
-            if (emptyPosition) {
-                newItem.position = emptyPosition;
-            } else {
+            if (!emptyPosition) {
                 // No empty position found - inventory is full for this item size
                 console.warn(`No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
 
@@ -311,10 +309,11 @@ const useInventoryStore = create(persist((set, get) => ({
                 // Return state unchanged - item was not added
                 return { items: state.items };
             }
+
+            // Position found, assign it
+            newItem.position = emptyPosition;
         } else {
             // If position is provided, verify it's valid
-
-            // Check if the position is valid
             const isValid = isValidPosition(
                 state.items,
                 newItem.position.row,
@@ -325,9 +324,7 @@ const useInventoryStore = create(persist((set, get) => ({
             );
 
             if (!isValid) {
-                // Provided position is invalid, finding a new position
-
-                // Find a new position
+                // Provided position is invalid, try to find a new position
                 const currentGridSize = getCurrentGridSize();
                 const emptyPosition = findEmptyPosition(
                     state.items,
@@ -337,9 +334,7 @@ const useInventoryStore = create(persist((set, get) => ({
                     newItem.rotation
                 );
 
-                if (emptyPosition) {
-                    newItem.position = emptyPosition;
-                } else {
+                if (!emptyPosition) {
                     // No valid position found - inventory is full for this item size
                     console.warn(`No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
 
@@ -379,9 +374,13 @@ const useInventoryStore = create(persist((set, get) => ({
                     // Return state unchanged - item was not added
                     return { items: state.items };
                 }
+
+                // Position found, assign it
+                newItem.position = emptyPosition;
             }
         }
 
+        // If we reach here, the item has a valid position and can be added
         // Update encumbrance after adding item
         setTimeout(() => get().updateEncumbranceState(), 0);
 
