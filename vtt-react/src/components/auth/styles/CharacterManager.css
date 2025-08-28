@@ -82,8 +82,8 @@
 /* Character Grid */
 .character-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
   margin-bottom: 24px;
 }
 
@@ -393,4 +393,342 @@
   .form-actions {
     flex-direction: column;
   }
+}
+
+/* Enhanced Character Cards */
+.character-card-enhanced {
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  border-radius: 12px;
+  padding: 0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(212, 175, 55, 0.1);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.character-card-enhanced:hover {
+  border-color: #d4af37;
+  transform: translateY(-3px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    0 4px 15px rgba(212, 175, 55, 0.2);
+  background: linear-gradient(135deg, rgba(244, 241, 232, 1) 0%, rgba(232, 224, 208, 1) 100%);
+}
+
+.character-card-enhanced.selected {
+  border-color: #d4af37;
+  border-width: 3px;
+  box-shadow:
+    0 0 20px rgba(212, 175, 55, 0.5),
+    0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Character Card Header */
+.character-card-enhanced .character-card-header {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.3) 100%);
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.character-card-enhanced .character-card-body {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.character-card-enhanced .character-portrait {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 228, 166, 0.2) 100%);
+  position: relative;
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.character-card-enhanced .character-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.character-card-enhanced:hover .character-portrait img {
+  transform: scale(1.05);
+}
+
+.character-card-enhanced .character-portrait i {
+  font-size: 2.5rem;
+  color: #d4af37;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.character-card-enhanced .character-level {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #d4af37, #f4e4a6);
+  color: #8b4513;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border: 2px solid rgba(244, 241, 232, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Cinzel', serif;
+}
+
+.character-card-enhanced .character-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.character-card-enhanced .character-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c2416;
+  margin: 0 0 0.25rem 0;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.character-card-enhanced .character-title {
+  font-size: 1rem;
+  color: #8b4513;
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+}
+
+.character-card-enhanced .character-subrace {
+  font-size: 0.85rem;
+  color: #a0522d;
+  margin: 0 0 0.5rem 0;
+  font-style: italic;
+}
+
+.character-card-enhanced .character-class-icons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.character-card-enhanced .race-icon,
+.character-card-enhanced .class-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.character-card-enhanced .race-icon:hover,
+.character-card-enhanced .class-icon:hover {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: rgba(212, 175, 55, 0.6);
+  transform: scale(1.1);
+}
+
+/* Primary Stats */
+.character-card-enhanced .character-primary-stats {
+  margin-bottom: 1rem;
+}
+
+.character-card-enhanced .stat-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.character-card-enhanced .stat-item {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.character-card-enhanced .stat-item:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-1px);
+}
+
+.character-card-enhanced .stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #8b4513;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.character-card-enhanced .stat-value {
+  font-size: 1rem;
+  color: #2c2416;
+  font-weight: 700;
+  font-family: 'Cinzel', serif;
+}
+
+/* Ability Scores */
+.character-card-enhanced .character-abilities {
+  margin-bottom: 1rem;
+}
+
+.character-card-enhanced .abilities-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+}
+
+.character-card-enhanced .ability-score {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.character-card-enhanced .ability-score:hover {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-1px);
+}
+
+.character-card-enhanced .ability-score i {
+  font-size: 0.8rem;
+  color: #d4af37;
+}
+
+.character-card-enhanced .ability-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2c2416;
+  font-family: 'Cinzel', serif;
+}
+
+.character-card-enhanced .ability-modifier {
+  font-size: 0.7rem;
+  color: #666;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+}
+
+/* Character Actions */
+.character-card-enhanced .character-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.character-card-enhanced .btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.character-card-enhanced .btn i {
+  font-size: 0.7rem;
+}
+
+.character-card-enhanced .btn-primary {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+}
+
+.character-card-enhanced .btn-primary:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+}
+
+.character-card-enhanced .btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+.character-card-enhanced .btn-secondary:hover {
+  background: linear-gradient(135deg, #5a6268, #343a40);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.4);
+}
+
+.character-card-enhanced .btn-danger {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.character-card-enhanced .btn-danger:hover {
+  background: linear-gradient(135deg, #c82333, #bd2130);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+}
+
+/* Character Meta */
+.character-card-enhanced .character-meta {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  text-align: center;
+}
+
+.character-card-enhanced .character-meta small {
+  color: #8b4513;
+  font-size: 0.7rem;
+  font-style: italic;
 }

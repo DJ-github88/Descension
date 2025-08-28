@@ -23,7 +23,9 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
         setIsLoading(true);
         try {
           await loadCharacters();
-          const character = characters.find(c => c.id === characterId);
+          // Get fresh characters from the store after loading
+          const freshCharacters = useCharacterStore.getState().characters;
+          const character = freshCharacters.find(c => c.id === characterId);
           if (character) {
             setExistingCharacter(character);
           } else {
@@ -39,7 +41,7 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
     };
 
     loadExistingCharacter();
-  }, [isEditing, characterId, characters, loadCharacters]);
+  }, [isEditing, characterId, loadCharacters]);
 
   const handleCharacterCreationComplete = async (characterData) => {
     setIsCreating(true);
@@ -57,10 +59,11 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
         const savedCharacter = await updateCharacter(characterId, updatedCharacterData);
         console.log('Character updated successfully:', savedCharacter);
 
-        navigate('/account/characters', {
+        navigate('/account', {
           state: {
             message: `${characterData.name} has been updated successfully!`,
-            updatedCharacterId: characterId
+            updatedCharacterId: characterId,
+            activeTab: 'characters'
           }
         });
       } else {
@@ -78,10 +81,10 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
           // Add default stats if not provided
           stats: characterData.stats || {
             strength: 10,
-            dexterity: 10,
+            agility: 10,
             constitution: 10,
             intelligence: 10,
-            wisdom: 10,
+            spirit: 10,
             charisma: 10
           },
           // Add empty inventory and equipment
@@ -105,10 +108,11 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
         const savedCharacter = await createCharacter(completeCharacterData);
         console.log('Character created successfully:', savedCharacter);
 
-        navigate('/account/characters', {
+        navigate('/account', {
           state: {
             message: `${characterData.name} has been created successfully!`,
-            newCharacterId: savedCharacter.id
+            newCharacterId: savedCharacter.id,
+            activeTab: 'characters'
           }
         });
       }

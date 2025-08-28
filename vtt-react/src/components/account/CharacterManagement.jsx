@@ -179,13 +179,32 @@ const CharacterManagement = ({ user }) => {
                   </div>
 
                   <div className="character-header-info">
-                    <h3 className="character-name">{character.name}</h3>
-                    <p className="character-title">
-                      {character.race} {character.class}
-                    </p>
-                    {character.subrace && (
-                      <p className="character-subrace">{character.subrace}</p>
-                    )}
+                    <div className="character-name-section">
+                      <h3 className="character-name">{character.name}</h3>
+                      <p className="character-title">
+                        {character.race} {character.class}
+                      </p>
+                      {character.subrace && (
+                        <p className="character-subrace">{character.subrace}</p>
+                      )}
+                    </div>
+
+                    {/* Primary Stats in Header */}
+                    <div className="character-header-stats">
+                      <div className="header-stat-item">
+                        <i className="fas fa-heart" title="Health"></i>
+                        <span className="header-stat-value">{character.hitPoints || 100}/{character.maxHitPoints || 100}</span>
+                      </div>
+                      <div className="header-stat-item">
+                        <i className="fas fa-tint" title="Mana"></i>
+                        <span className="header-stat-value">{character.mana || 50}/{character.maxMana || 50}</span>
+                      </div>
+                      <div className="header-stat-item">
+                        <i className="fas fa-zap" title="Action Points"></i>
+                        <span className="header-stat-value">{character.actionPoints || 3}</span>
+                      </div>
+                    </div>
+
                     <div className="character-class-icons">
                       <div className="race-icon" title={character.race}>
                         {getRaceIcon(character.race)}
@@ -199,34 +218,23 @@ const CharacterManagement = ({ user }) => {
 
                 {/* Character Body */}
                 <div className="character-card-body">
-                  {/* Primary Stats */}
-                  <div className="character-primary-stats">
-                    <div className="stat-group">
-                      <div className="stat-item">
-                        <span className="stat-label">Health</span>
-                        <span className="stat-value">{character.hitPoints || 100}</span>
-                      </div>
-                      <div className="stat-item">
-                        <span className="stat-label">Armor</span>
-                        <span className="stat-value">{character.armorClass || 10}</span>
-                      </div>
-                      <div className="stat-item">
-                        <span className="stat-label">Speed</span>
-                        <span className="stat-value">{character.speed || 30}ft</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Ability Scores */}
-                  <div className="character-abilities">
-                    <h4 className="section-title">Ability Scores</h4>
-                    <div className="abilities-grid">
-                      {['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'].map(ability => {
-                        const score = character[ability] || 10;
+                  {/* Ability Scores - Compact Layout */}
+                  <div className="character-abilities-compact">
+                    <div className="abilities-grid-compact">
+                      {[
+                        { key: 'strength', name: 'STR', icon: 'fas fa-fist-raised' },
+                        { key: 'agility', name: 'AGI', icon: 'fas fa-running' },
+                        { key: 'constitution', name: 'CON', icon: 'fas fa-heart' },
+                        { key: 'intelligence', name: 'INT', icon: 'fas fa-brain' },
+                        { key: 'spirit', name: 'SPI', icon: 'fas fa-dove' },
+                        { key: 'charisma', name: 'CHA', icon: 'fas fa-comments' }
+                      ].map(ability => {
+                        const score = character.stats?.[ability.key] || character[ability.key] || 10;
                         const modifier = Math.floor((score - 10) / 2);
                         return (
-                          <div key={ability} className="ability-score">
-                            <div className="ability-name">{ability.substring(0, 3).toUpperCase()}</div>
+                          <div key={ability.key} className="ability-score">
+                            <i className={ability.icon} title={ability.name}></i>
+                            <div className="ability-name">{ability.name}</div>
                             <div className="ability-value">{score}</div>
                             <div className="ability-modifier">
                               {modifier >= 0 ? '+' : ''}{modifier}
@@ -235,6 +243,31 @@ const CharacterManagement = ({ user }) => {
                         );
                       })}
                     </div>
+                  </div>
+
+                  {/* Additional Character Info */}
+                  <div className="character-additional-info">
+                    <div className="character-secondary-stats">
+                      <div className="secondary-stat-item">
+                        <i className="fas fa-shield-alt" title="Armor Class"></i>
+                        <span>AC {character.armorClass || 10}</span>
+                      </div>
+                      <div className="secondary-stat-item">
+                        <i className="fas fa-running" title="Speed"></i>
+                        <span>{character.speed || 30}ft</span>
+                      </div>
+                      <div className="secondary-stat-item">
+                        <i className="fas fa-star" title="Experience"></i>
+                        <span>XP {character.experience || 0}</span>
+                      </div>
+                    </div>
+
+                    {character.background && (
+                      <div className="character-background">
+                        <i className="fas fa-scroll"></i>
+                        <span>{character.background}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Equipment Preview */}

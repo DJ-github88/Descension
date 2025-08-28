@@ -11,6 +11,7 @@ export const RACE_DATA = {
         id: 'nordmark',
         name: 'Nordmark',
         description: 'Iron-willed descendants of the frozen northlands',
+        icon: 'fas fa-mountain',
         baseTraits: {
             languages: ['Common', 'Old Nord'],
             lifespan: 120,
@@ -89,6 +90,7 @@ export const RACE_DATA = {
         id: 'corvani',
         name: 'Corvani',
         description: 'Raven-marked people from mist-shrouded highlands',
+        icon: 'fas fa-crow',
         baseTraits: {
             languages: ['Common', 'Corvid'],
             lifespan: 100,
@@ -167,6 +169,7 @@ export const RACE_DATA = {
         id: 'grimheart',
         name: 'Grimheart',
         description: 'Stone-souled miners who delved too deep',
+        icon: 'fas fa-hammer',
         baseTraits: {
             languages: ['Common', 'Terran'],
             lifespan: 200,
@@ -245,6 +248,7 @@ export const RACE_DATA = {
         id: 'veilborn',
         name: 'Veilborn',
         description: 'Pale folk from borderlands where reality grows thin',
+        icon: 'fas fa-ghost',
         baseTraits: {
             languages: ['Common', 'Ethereal'],
             lifespan: 150,
@@ -323,6 +327,7 @@ export const RACE_DATA = {
         id: 'mirrorkin',
         name: 'Mirrorkin',
         description: 'Shapeshifters who lost their original forms',
+        icon: 'fas fa-mask',
         baseTraits: {
             languages: ['Common', 'Changeling'],
             lifespan: 80,
@@ -401,6 +406,7 @@ export const RACE_DATA = {
         id: 'thornkin',
         name: 'Thornkin',
         description: 'Fae-touched beings bound by ancient pacts',
+        icon: 'fas fa-leaf',
         baseTraits: {
             languages: ['Common', 'Sylvan'],
             lifespan: 300,
@@ -447,6 +453,7 @@ export const RACE_DATA = {
         id: 'wildkin',
         name: 'Wildkin',
         description: 'Antlered forest dwellers bonded with primal wilderness',
+        icon: 'fas fa-tree',
         baseTraits: {
             languages: ['Common', 'Druidic'],
             lifespan: 200,

@@ -184,6 +184,12 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
     return raceData?.subraces.find(subrace => subrace.id === selectedSubrace);
   };
 
+  const getRacialStatModifier = (statName) => {
+    if (!selectedRace || !selectedSubrace) return 0;
+    const subraceData = getSelectedSubraceData();
+    return subraceData?.statModifiers?.[statName] || 0;
+  };
+
   const getAllClasses = () => {
     const allClasses = [];
     Object.entries(characterClasses).forEach(([pathName, classes]) => {
@@ -248,12 +254,29 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
             <button
               onClick={() => {
                 if (characterName && selectedRace && selectedClass) {
+                  // Calculate final stats with racial modifiers
+                  const baseStats = {
+                    strength: 10,
+                    agility: 10,
+                    constitution: 10,
+                    intelligence: 10,
+                    spirit: 10,
+                    charisma: 10
+                  };
+
+                  const finalStats = {};
+                  Object.keys(baseStats).forEach(statKey => {
+                    const racialModifier = getRacialStatModifier(statKey);
+                    finalStats[statKey] = baseStats[statKey] + racialModifier;
+                  });
+
                   const characterData = {
                     name: characterName,
                     race: selectedRace,
                     subrace: selectedSubrace,
                     class: selectedClass,
-                    gender: selectedGender
+                    gender: selectedGender,
+                    stats: finalStats
                   };
                   onComplete(characterData);
                 }
@@ -325,7 +348,6 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
                       <i className={classInfo.icon}></i>
                     </div>
                     <div className="card-title">{classInfo.name}</div>
-                    <div className="card-subtitle">{pathName}</div>
                   </div>
                 ))
               )}
@@ -385,18 +407,142 @@ const CharacterCreation = ({ onComplete, onCancel, existingCharacter, isEditing 
 
           <div className="preview-stats">
             <h3>Character Summary</h3>
-            <div className="stat-summary">
-              <div className="stat-item">
-                <div className="stat-label">Race</div>
-                <div className="stat-value">{selectedRace ? getSelectedRaceData()?.name : '—'}</div>
+            <div className="character-summary-cards">
+              {/* Race Card */}
+              <div className={`summary-card race-summary ${selectedRace ? 'has-selection' : 'no-selection'}`}>
+                <div className="summary-card-header">
+                  <div className="summary-card-icon">
+                    <i className={selectedRace ? getSelectedRaceData()?.icon || 'fas fa-user' : 'fas fa-question'}></i>
+                  </div>
+                  <div className="summary-card-title">
+                    <span className="summary-label">Race</span>
+                    <span className="summary-value">{selectedRace ? getSelectedRaceData()?.name : 'Choose Race'}</span>
+                  </div>
+                </div>
+                {selectedRace && (
+                  <div className="summary-card-content">
+                    <p className="summary-description">{getSelectedRaceData()?.description}</p>
+                  </div>
+                )}
               </div>
-              <div className="stat-item">
-                <div className="stat-label">Subrace</div>
-                <div className="stat-value">{selectedSubrace ? getSelectedSubraceData()?.name : '—'}</div>
+
+              {/* Subrace Card */}
+              <div className={`summary-card subrace-summary ${selectedSubrace ? 'has-selection' : 'no-selection'}`}>
+                <div className="summary-card-header">
+                  <div className="summary-card-icon">
+                    <i className={selectedSubrace ? 'fas fa-star' : 'fas fa-question'}></i>
+                  </div>
+                  <div className="summary-card-title">
+                    <span className="summary-label">Subrace</span>
+                    <span className="summary-value">{selectedSubrace ? getSelectedSubraceData()?.name : 'Choose Subrace'}</span>
+                  </div>
+                </div>
+                {selectedSubrace && (
+                  <div className="summary-card-content">
+                    <p className="summary-description">{getSelectedSubraceData()?.description}</p>
+                    {getSelectedSubraceData()?.traits && getSelectedSubraceData().traits.length > 0 && (
+                      <div className="summary-traits">
+                        <span className="traits-label">Key Traits:</span>
+                        <div className="traits-list">
+                          {getSelectedSubraceData().traits.slice(0, 2).map((trait, index) => (
+                            <span key={index} className="trait-tag">{trait.name}</span>
+                          ))}
+                          {getSelectedSubraceData().traits.length > 2 && (
+                            <span className="trait-tag more">+{getSelectedSubraceData().traits.length - 2} more</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-              <div className="stat-item">
-                <div className="stat-label">Class</div>
-                <div className="stat-value">{selectedClass ? selectedClass : '—'}</div>
+
+              {/* Class Card */}
+              <div className={`summary-card class-summary ${selectedClass ? 'has-selection' : 'no-selection'}`}>
+                <div className="summary-card-header">
+                  <div className="summary-card-icon">
+                    <i className={selectedClass ? 'fas fa-sword' : 'fas fa-question'}></i>
+                  </div>
+                  <div className="summary-card-title">
+                    <span className="summary-label">Class</span>
+                    <span className="summary-value">{selectedClass ? selectedClass : 'Choose Class'}</span>
+                  </div>
+                </div>
+                {selectedClass && (
+                  <div className="summary-card-content">
+                    {(() => {
+                      const classData = Object.values(characterClasses).flat().find(c => c.name === selectedClass);
+                      return (
+                        <>
+                          <p className="summary-description">{classData?.description || 'A powerful class with unique abilities.'}</p>
+                          <div className="class-details">
+                            <span className="class-theme">Theme: {classData?.theme || 'Versatile'}</span>
+                            <span className="class-path">Path: {Object.keys(characterClasses).find(path =>
+                              characterClasses[path].some(c => c.name === selectedClass)
+                            )}</span>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
+              </div>
+
+              {/* Stats Card */}
+              <div className="summary-card stats-summary">
+                <div className="summary-card-header">
+                  <div className="summary-card-icon">
+                    <i className="fas fa-chart-bar"></i>
+                  </div>
+                  <div className="summary-card-title">
+                    <span className="summary-label">Ability Scores</span>
+                    <span className="summary-value">{selectedRace && selectedSubrace ? 'With Racial Modifiers' : 'Base Stats'}</span>
+                  </div>
+                </div>
+                <div className="summary-card-content">
+                  <div className="stats-grid">
+                    {[
+                      { key: 'strength', name: 'Strength', icon: 'fas fa-fist-raised', base: 10 },
+                      { key: 'agility', name: 'Agility', icon: 'fas fa-running', base: 10 },
+                      { key: 'constitution', name: 'Constitution', icon: 'fas fa-heart', base: 10 },
+                      { key: 'intelligence', name: 'Intelligence', icon: 'fas fa-brain', base: 10 },
+                      { key: 'spirit', name: 'Spirit', icon: 'fas fa-dove', base: 10 },
+                      { key: 'charisma', name: 'Charisma', icon: 'fas fa-comments', base: 10 }
+                    ].map(stat => {
+                      const racialModifier = getRacialStatModifier(stat.key);
+                      const finalValue = stat.base + racialModifier;
+                      const modifier = Math.floor((finalValue - 10) / 2);
+
+                      return (
+                        <div key={stat.key} className="stat-item">
+                          <div className="stat-icon">
+                            <i className={stat.icon}></i>
+                          </div>
+                          <div className="stat-details">
+                            <span className="stat-name">{stat.name}</span>
+                            <div className="stat-values">
+                              <span className="stat-final">{finalValue}</span>
+                              {racialModifier !== 0 && (
+                                <span className={`stat-modifier ${racialModifier > 0 ? 'positive' : 'negative'}`}>
+                                  ({racialModifier > 0 ? '+' : ''}{racialModifier})
+                                </span>
+                              )}
+                              <span className="stat-bonus">
+                                {modifier >= 0 ? '+' : ''}{modifier}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {selectedRace && selectedSubrace && (
+                    <div className="stats-note">
+                      <i className="fas fa-info-circle"></i>
+                      <span>Final scores include racial modifiers from {getSelectedSubraceData()?.name}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

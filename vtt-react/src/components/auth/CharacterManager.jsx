@@ -67,10 +67,10 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
       createdAt: new Date(),
       stats: {
         strength: 10,
-        dexterity: 10,
+        agility: 10,
         constitution: 10,
         intelligence: 10,
-        wisdom: 10,
+        spirit: 10,
         charisma: 10
       },
       health: { current: 100, max: 100 },
@@ -140,32 +140,130 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                 {characters.map((character) => (
                   <div
                     key={character.id}
-                    className={`character-slot ${selectedCharacter?.id === character.id ? 'selected' : ''}`}
+                    className={`character-card-enhanced ${selectedCharacter?.id === character.id ? 'selected' : ''}`}
                     onClick={() => handleSelectCharacter(character)}
                   >
-                    <div className="character-portrait">
-                      <div className="character-icon">
-                        {classIcons[character.class] || '⚔️'}
+                    {/* Character Header */}
+                    <div className="character-card-header">
+                      <div className="character-portrait">
+                        {character.image ? (
+                          <img src={character.image} alt={character.name} />
+                        ) : (
+                          <i className="fas fa-user-circle"></i>
+                        )}
+                        <div className="character-level">
+                          {character.level || 1}
+                        </div>
                       </div>
-                      <div className="character-race-icon">
-                        {raceIcons[character.race] || '👤'}
+
+                      <div className="character-header-info">
+                        <h3 className="character-name">{character.name}</h3>
+                        <p className="character-title">
+                          {character.race} {character.class}
+                        </p>
+                        {character.subrace && (
+                          <p className="character-subrace">{character.subrace}</p>
+                        )}
+                        <div className="character-class-icons">
+                          <div className="race-icon" title={character.race}>
+                            {raceIcons[character.race] || '👤'}
+                          </div>
+                          <div className="class-icon" title={character.class}>
+                            {classIcons[character.class] || '⚔️'}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="character-info">
-                      <h3>{character.name}</h3>
-                      <p>{character.race} {character.class}</p>
-                      <p>Level {character.level}</p>
+
+                    {/* Character Body */}
+                    <div className="character-card-body">
+                      {/* Primary Stats */}
+                      <div className="character-primary-stats">
+                        <div className="stat-group">
+                          <div className="stat-item">
+                            <span className="stat-label">Health</span>
+                            <span className="stat-value">{character.hitPoints || 100}</span>
+                          </div>
+                          <div className="stat-item">
+                            <span className="stat-label">Armor</span>
+                            <span className="stat-value">{character.armorClass || 10}</span>
+                          </div>
+                          <div className="stat-item">
+                            <span className="stat-label">Speed</span>
+                            <span className="stat-value">{character.speed || 30}ft</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Ability Scores */}
+                      <div className="character-abilities">
+                        <div className="abilities-grid">
+                          {[
+                            { key: 'strength', name: 'STR', icon: 'fas fa-fist-raised' },
+                            { key: 'agility', name: 'AGI', icon: 'fas fa-running' },
+                            { key: 'constitution', name: 'CON', icon: 'fas fa-heart' },
+                            { key: 'intelligence', name: 'INT', icon: 'fas fa-brain' },
+                            { key: 'spirit', name: 'SPI', icon: 'fas fa-dove' },
+                            { key: 'charisma', name: 'CHA', icon: 'fas fa-comments' }
+                          ].map(ability => {
+                            const value = character.stats?.[ability.key] || character[ability.key] || 10;
+                            const modifier = Math.floor((value - 10) / 2);
+                            return (
+                              <div key={ability.key} className="ability-score">
+                                <i className={ability.icon} title={ability.name}></i>
+                                <span className="ability-value">{value}</span>
+                                <span className="ability-modifier">
+                                  {modifier >= 0 ? '+' : ''}{modifier}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Character Actions */}
+                      <div className="character-actions">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Handle play character
+                          }}
+                          className="btn btn-primary"
+                          title="Play this character"
+                        >
+                          <i className="fas fa-play"></i>
+                          Play
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Handle edit character
+                          }}
+                          className="btn btn-secondary"
+                          title="Edit character"
+                        >
+                          <i className="fas fa-edit"></i>
+                          Edit
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteCharacter(character.id);
+                          }}
+                          className="btn btn-danger"
+                          title="Delete character"
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      </div>
+
+                      {/* Character Meta */}
+                      {character.createdAt && (
+                        <div className="character-meta">
+                          <small>Created: {new Date(character.createdAt).toLocaleDateString()}</small>
+                        </div>
+                      )}
                     </div>
-                    <button
-                      className="delete-character-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteCharacter(character.id);
-                      }}
-                      title="Delete Character"
-                    >
-                      <i className="fas fa-trash"></i>
-                    </button>
                   </div>
                 ))}
 
