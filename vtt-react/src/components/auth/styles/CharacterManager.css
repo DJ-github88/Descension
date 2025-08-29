@@ -80,7 +80,7 @@
 }
 
 /* Character Grid */
-.character-grid {
+.character-manager-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1.5rem;
@@ -371,7 +371,7 @@
     max-width: none;
   }
   
-  .character-grid {
+  .character-manager-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 16px;
   }

@@ -8,11 +8,13 @@
 export function isTwoHandedWeapon(item) {
     if (!item || item.type?.toLowerCase() !== 'weapon') return false;
 
-    const weaponSlot = item.weaponSlot?.toLowerCase();
+    const weaponSlot = item.weaponSlot;
+    const weaponSlotLower = weaponSlot?.toLowerCase();
     const subtype = item.subtype?.toLowerCase();
 
-    // Check explicit two-handed designation
-    if (weaponSlot === 'two_handed' || weaponSlot === 'twohanded' || weaponSlot === 'two-handed' || weaponSlot === 'TWO_HANDED') {
+    // Check explicit two-handed designation (handle both uppercase and lowercase)
+    if (weaponSlot === 'TWO_HANDED' || weaponSlotLower === 'two_handed' ||
+        weaponSlotLower === 'twohanded' || weaponSlotLower === 'two-handed') {
         return true;
     }
 
@@ -47,7 +49,8 @@ export function getCompatibleSlots(item) {
 
     const itemType = item.type?.toLowerCase();
     const subtype = item.subtype?.toLowerCase();
-    const weaponSlot = item.weaponSlot?.toLowerCase();
+    const weaponSlot = item.weaponSlot; // Don't convert to lowercase - keep original case
+    const hand = item.hand; // Don't convert to lowercase - keep original case
 
     // Handle weapons
     if (itemType === 'weapon') {
@@ -56,26 +59,40 @@ export function getCompatibleSlots(item) {
             return ['mainHand'];
         }
 
-        // Check explicit weapon slot specification
-        if (weaponSlot === 'main_hand' || weaponSlot === 'mainhand') {
+        // Check explicit weapon slot specification (handle both cases)
+        const weaponSlotLower = weaponSlot?.toLowerCase();
+
+        // Handle TWO_HANDED weapons
+        if (weaponSlot === 'TWO_HANDED' || weaponSlotLower === 'two_handed' || weaponSlotLower === 'twohanded') {
             return ['mainHand'];
-        } else if (weaponSlot === 'off_hand' || weaponSlot === 'offhand') {
-            return ['offHand'];
-        } else if (weaponSlot === 'ranged') {
+        }
+
+        // Handle RANGED weapons
+        if (weaponSlot === 'RANGED' || weaponSlotLower === 'ranged') {
             return ['ranged'];
-        } else if (weaponSlot === 'two_handed' || weaponSlot === 'twohanded') {
-            return ['mainHand'];
-        } else if (weaponSlot === 'one_handed' || weaponSlot === 'onehanded') {
+        }
+
+        // Handle ONE_HANDED weapons - check hand preference
+        if (weaponSlot === 'ONE_HANDED' || weaponSlotLower === 'one_handed' || weaponSlotLower === 'onehanded') {
             // Check hand preference for one-handed weapons
-            const hand = item.hand?.toLowerCase();
-            if (hand === 'main_hand' || hand === 'mainhand') {
+            if (hand === 'MAIN_HAND' || hand?.toLowerCase() === 'main_hand' || hand?.toLowerCase() === 'mainhand') {
                 return ['mainHand'];
-            } else if (hand === 'off_hand' || hand === 'offhand') {
+            } else if (hand === 'OFF_HAND' || hand?.toLowerCase() === 'off_hand' || hand?.toLowerCase() === 'offhand') {
                 return ['offHand'];
-            } else {
+            } else if (hand === 'ONE_HAND' || hand?.toLowerCase() === 'one_hand') {
                 // Can go in either hand
                 return ['mainHand', 'offHand'];
+            } else {
+                // Default for one-handed weapons without specific hand preference
+                return ['mainHand', 'offHand'];
             }
+        }
+
+        // Handle explicit main/off hand specifications
+        if (weaponSlotLower === 'main_hand' || weaponSlotLower === 'mainhand') {
+            return ['mainHand'];
+        } else if (weaponSlotLower === 'off_hand' || weaponSlotLower === 'offhand') {
+            return ['offHand'];
         }
 
         // Default weapon slot logic based on subtype
@@ -229,8 +246,25 @@ export function getSlotDisplayName(slotName) {
         offHand: 'Off Hand',
         ranged: 'Ranged'
     };
-    
+
     return slotNames[slotName] || slotName;
+}
+
+/**
+ * Gets the display name for an equipment slot when equipping a specific item
+ * For two-handed weapons going to main hand, shows "Two-Handed" instead of "Main Hand"
+ * @param {string} slotName - The slot name
+ * @param {Object} item - The item being equipped
+ * @returns {string} Human-readable slot name
+ */
+export function getEquipSlotDisplayName(slotName, item) {
+    // For two-handed weapons going to main hand, show "Two-Handed"
+    if (slotName === 'mainHand' && item && isTwoHandedWeapon(item)) {
+        return 'Two-Handed';
+    }
+
+    // For all other cases, use the standard slot display name
+    return getSlotDisplayName(slotName);
 }
 
 /**

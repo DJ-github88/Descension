@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCompatibleSlots, getSlotDisplayName, validateEquipment } from '../../utils/equipmentUtils';
+import { getCompatibleSlots, getSlotDisplayName, getEquipSlotDisplayName, validateEquipment } from '../../utils/equipmentUtils';
 import useCharacterStore from '../../store/characterStore';
 import '../../styles/unified-context-menu.css';
 
@@ -124,7 +124,7 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
                                 }}
                             >
                                 <i className="fas fa-arrow-right"></i>
-                                Equip to {getSlotDisplayName(slotName)}
+                                Equip to {getEquipSlotDisplayName(slotName, item)}
                             </button>
                             <button
                                 className="context-menu-button"
@@ -168,7 +168,7 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
                                 }}
                             >
                                 <i className="fas fa-arrow-right"></i>
-                                Equip to {getSlotDisplayName(slotName)}
+                                Equip to {getEquipSlotDisplayName(slotName, item)}
                             </button>
                         ))}
                         <div className="context-menu-separator"></div>

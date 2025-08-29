@@ -49,7 +49,9 @@ const COMPREHENSIVE_ITEMS = [
     iconId: 'inv_sword_04',
     value: { gold: 0, silver: 74, copper: 83 },
     weight: 2,
-    slots: ['mainHand'],
+    slots: ['mainHand', 'offHand'],
+    weaponSlot: 'ONE_HANDED',
+    hand: 'ONE_HAND',
     weaponStats: {
       baseDamage: {
         diceCount: 1,
@@ -117,7 +119,9 @@ const COMPREHENSIVE_ITEMS = [
     iconId: 'inv_sword_04',
     value: { gold: 7, silver: 64, copper: 29 },
     weight: 3,
-    slots: ['mainHand'],
+    slots: ['mainHand', 'offHand'],
+    weaponSlot: 'ONE_HANDED',
+    hand: 'ONE_HAND',
     weaponStats: {
       baseDamage: {
         diceCount: 1,
@@ -190,13 +194,14 @@ const COMPREHENSIVE_ITEMS = [
     id: 'flamberge-of-valor',
     name: 'Flamberge of Valor',
     type: 'weapon',
-    subtype: 'SWORD',
+    subtype: 'GREATSWORD',
     quality: 'rare',
     description: 'A magnificent two-handed sword with a wavy blade that seems to burn with inner fire. The crossguard is shaped like phoenix wings.',
     iconId: 'inv_sword_27',
     value: { gold: 83, silver: 74, copper: 26 },
     weight: 6,
-    slots: ['mainHand', 'offHand'],
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
     weaponStats: {
       baseDamage: {
         diceCount: 2,
@@ -305,7 +310,8 @@ const COMPREHENSIVE_ITEMS = [
     iconId: 'inv_axe_09',
     value: { gold: 34, silver: 18, copper: 67 },
     weight: 8,
-    slots: ['mainHand', 'offHand'],
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
     weaponStats: {
       baseDamage: {
         diceCount: 1,
@@ -853,6 +859,88 @@ const COMPREHENSIVE_ITEMS = [
     }
   },
 
+  // === EXAMPLE WEAPONS FOR TESTING HANDEDNESS ===
+
+  {
+    id: 'main-hand-rapier',
+    name: 'Dueling Rapier',
+    type: 'weapon',
+    subtype: 'SWORD',
+    quality: 'uncommon',
+    description: 'An elegant rapier designed specifically for the main hand. Its balance and grip make it unsuitable for off-hand use.',
+    iconId: 'inv_sword_15',
+    value: { gold: 12, silver: 0, copper: 0 },
+    weight: 2,
+    slots: ['mainHand'],
+    weaponSlot: 'ONE_HANDED',
+    hand: 'MAIN_HAND',
+    weaponStats: {
+      baseDamage: {
+        diceCount: 1,
+        diceType: 8,
+        damageType: 'piercing'
+      }
+    },
+    baseStats: {
+      agility: { value: 3, isPercentage: false }
+    },
+    width: 1,
+    height: 3
+  },
+
+  {
+    id: 'off-hand-parrying-dagger',
+    name: 'Parrying Dagger',
+    type: 'weapon',
+    subtype: 'DAGGER',
+    quality: 'uncommon',
+    description: 'A specialized dagger designed for parrying and off-hand combat. Its unique guard makes it perfect for defensive maneuvers.',
+    iconId: 'inv_weapon_shortblade_21',
+    value: { gold: 8, silver: 0, copper: 0 },
+    weight: 1,
+    slots: ['offHand'],
+    weaponSlot: 'ONE_HANDED',
+    hand: 'OFF_HAND',
+    weaponStats: {
+      baseDamage: {
+        diceCount: 1,
+        diceType: 4,
+        damageType: 'piercing'
+      }
+    },
+    combatStats: {
+      armorClass: { value: 1, isPercentage: false }
+    },
+    width: 1,
+    height: 2
+  },
+
+  {
+    id: 'two-handed-greatsword',
+    name: 'Massive Greatsword',
+    type: 'weapon',
+    subtype: 'GREATSWORD',
+    quality: 'rare',
+    description: 'A colossal two-handed sword that requires both hands to wield effectively. Its massive blade can cleave through multiple enemies.',
+    iconId: 'inv_sword_34',
+    value: { gold: 25, silver: 0, copper: 0 },
+    weight: 8,
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
+    weaponStats: {
+      baseDamage: {
+        diceCount: 2,
+        diceType: 6,
+        damageType: 'slashing'
+      }
+    },
+    baseStats: {
+      strength: { value: 4, isPercentage: false }
+    },
+    width: 1,
+    height: 4
+  },
+
   // === STAVES & WANDS ===
 
   {
@@ -865,7 +953,8 @@ const COMPREHENSIVE_ITEMS = [
     iconId: 'inv_staff_01',
     value: { gold: 6, silver: 0, copper: 0 },
     weight: 3,
-    slots: ['mainHand', 'offHand'],
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
     weaponStats: {
       baseDamage: {
         diceCount: 1,
@@ -2469,7 +2558,8 @@ const COMPREHENSIVE_ITEMS = [
     iconId: 'inv_sword_50',
     value: { gold: 75, silver: 0, copper: 0 },
     weight: 8,
-    slots: ['mainHand', 'offHand'],
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
     weaponStats: {
       baseDamage: {
         diceCount: 2,
@@ -2503,6 +2593,7 @@ const COMPREHENSIVE_ITEMS = [
     value: { gold: 100, silver: 0, copper: 0 },
     weight: 4,
     slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
     weaponStats: {
       baseDamage: {
         diceCount: 1,

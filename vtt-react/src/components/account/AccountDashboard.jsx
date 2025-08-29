@@ -5,6 +5,7 @@ import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
+import './styles/AccountDashboardIsolation.css';
 
 const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
@@ -265,7 +266,7 @@ const AccountDashboard = ({ user }) => {
                           </div>
                         </div>
 
-                        {/* Character Stats - Compact Grid */}
+                        {/* Character Stats - Two Rows for Better Visibility */}
                         <div className="character-stats">
                           <div className="stats-grid">
                             <div className="stat-box">
@@ -283,6 +284,8 @@ const AccountDashboard = ({ user }) => {
                               <span className="stat-value">{stats.constitution}</span>
                               <span className="stat-mod">{formatModifier(getModifier(stats.constitution))}</span>
                             </div>
+                          </div>
+                          <div className="stats-grid">
                             <div className="stat-box">
                               <span className="stat-name">INT</span>
                               <span className="stat-value">{stats.intelligence}</span>

@@ -218,13 +218,64 @@ const CharacterManagement = ({ user }) => {
 
                 {/* Character Body */}
                 <div className="character-card-body">
-                  {/* Ability Scores - Compact Layout */}
+                  {/* Primary Resources - Most Important Info */}
+                  <div className="character-resources">
+                    <div className="resource-bar">
+                      <div className="resource-label">
+                        <i className="fas fa-heart"></i>
+                        <span>Health</span>
+                      </div>
+                      <div className="resource-value">
+                        <span className="current">{character.currentHealth || character.maxHealth || 100}</span>
+                        <span className="separator">/</span>
+                        <span className="max">{character.maxHealth || 100}</span>
+                      </div>
+                    </div>
+                    <div className="resource-bar">
+                      <div className="resource-label">
+                        <i className="fas fa-magic"></i>
+                        <span>Mana</span>
+                      </div>
+                      <div className="resource-value">
+                        <span className="current">{character.currentMana || character.maxMana || 50}</span>
+                        <span className="separator">/</span>
+                        <span className="max">{character.maxMana || 50}</span>
+                      </div>
+                    </div>
+                    <div className="resource-bar">
+                      <div className="resource-label">
+                        <i className="fas fa-zap"></i>
+                        <span>Action Points</span>
+                      </div>
+                      <div className="resource-value">
+                        <span className="current">{character.actionPoints || 3}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Ability Scores - Two Rows for Better Visibility */}
                   <div className="character-abilities-compact">
                     <div className="abilities-grid-compact">
                       {[
                         { key: 'strength', name: 'STR', icon: 'fas fa-fist-raised' },
                         { key: 'agility', name: 'AGI', icon: 'fas fa-running' },
-                        { key: 'constitution', name: 'CON', icon: 'fas fa-heart' },
+                        { key: 'constitution', name: 'CON', icon: 'fas fa-heart' }
+                      ].map(ability => {
+                        const score = character.stats?.[ability.key] || character[ability.key] || 10;
+                        const modifier = Math.floor((score - 10) / 2);
+                        return (
+                          <div key={ability.key} className="ability-score">
+                            <div className="ability-name">{ability.name}</div>
+                            <div className="ability-value">{score}</div>
+                            <div className="ability-modifier">
+                              {modifier >= 0 ? '+' : ''}{modifier}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="abilities-grid-compact">
+                      {[
                         { key: 'intelligence', name: 'INT', icon: 'fas fa-brain' },
                         { key: 'spirit', name: 'SPI', icon: 'fas fa-dove' },
                         { key: 'charisma', name: 'CHA', icon: 'fas fa-comments' }
@@ -233,7 +284,6 @@ const CharacterManagement = ({ user }) => {
                         const modifier = Math.floor((score - 10) / 2);
                         return (
                           <div key={ability.key} className="ability-score">
-                            <i className={ability.icon} title={ability.name}></i>
                             <div className="ability-name">{ability.name}</div>
                             <div className="ability-value">{score}</div>
                             <div className="ability-modifier">
@@ -245,36 +295,54 @@ const CharacterManagement = ({ user }) => {
                     </div>
                   </div>
 
-                  {/* Additional Character Info */}
-                  <div className="character-additional-info">
-                    <div className="character-secondary-stats">
-                      <div className="secondary-stat-item">
-                        <i className="fas fa-shield-alt" title="Armor Class"></i>
-                        <span>AC {character.armorClass || 10}</span>
+                  {/* Combat & Secondary Stats */}
+                  <div className="character-combat-stats">
+                    <div className="combat-stat-group">
+                      <div className="combat-stat">
+                        <i className="fas fa-shield-alt"></i>
+                        <span className="stat-label">AC</span>
+                        <span className="stat-value">{character.armorClass || 10}</span>
                       </div>
-                      <div className="secondary-stat-item">
-                        <i className="fas fa-running" title="Speed"></i>
-                        <span>{character.speed || 30}ft</span>
+                      <div className="combat-stat">
+                        <i className="fas fa-running"></i>
+                        <span className="stat-label">Speed</span>
+                        <span className="stat-value">{character.speed || 30}ft</span>
                       </div>
-                      <div className="secondary-stat-item">
-                        <i className="fas fa-star" title="Experience"></i>
-                        <span>XP {character.experience || 0}</span>
+                      <div className="combat-stat">
+                        <i className="fas fa-star"></i>
+                        <span className="stat-label">XP</span>
+                        <span className="stat-value">{character.experience || 0}</span>
                       </div>
                     </div>
+                    <div className="combat-stat-group">
+                      <div className="combat-stat">
+                        <i className="fas fa-coins"></i>
+                        <span className="stat-label">Gold</span>
+                        <span className="stat-value">{character.gold || 0}</span>
+                      </div>
+                      <div className="combat-stat">
+                        <i className="fas fa-dice-d20"></i>
+                        <span className="stat-label">Initiative</span>
+                        <span className="stat-value">{character.initiative || Math.floor(((character.stats?.agility || character.agility || 10) - 10) / 2)}</span>
+                      </div>
+                      <div className="combat-stat">
+                        <i className="fas fa-eye"></i>
+                        <span className="stat-label">Perception</span>
+                        <span className="stat-value">{character.perception || Math.floor(((character.stats?.spirit || character.spirit || 10) - 10) / 2)}</span>
+                      </div>
+                    </div>
+                  </div>
 
+                  {/* Equipment & Background - Condensed */}
+                  <div className="character-extras">
                     {character.background && (
                       <div className="character-background">
                         <i className="fas fa-scroll"></i>
                         <span>{character.background}</span>
                       </div>
                     )}
-                  </div>
-
-                  {/* Equipment Preview */}
-                  {(character.equippedWeapon || character.equippedArmor) && (
-                    <div className="character-equipment">
-                      <h4 className="section-title">Equipment</h4>
-                      <div className="equipment-preview">
+                    {(character.equippedWeapon || character.equippedArmor) && (
+                      <div className="character-equipment-preview">
                         {character.equippedWeapon && (
                           <div className="equipment-item">
                             <i className="fas fa-sword"></i>
@@ -288,8 +356,8 @@ const CharacterManagement = ({ user }) => {
                           </div>
                         )}
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   {/* Character Actions */}
                   <div className="character-actions">

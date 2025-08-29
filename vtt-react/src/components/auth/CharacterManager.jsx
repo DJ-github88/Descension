@@ -136,7 +136,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
           {!showCreateForm ? (
             <>
               {/* Character List */}
-              <div className="character-grid">
+              <div className="character-manager-grid">
                 {characters.map((character) => (
                   <div
                     key={character.id}

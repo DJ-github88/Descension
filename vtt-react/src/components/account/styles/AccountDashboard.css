@@ -271,49 +271,55 @@
   color: #5d1a1a;
 }
 
+/* High specificity to override game styles */
+.account-header .header-actions-new .exit-preview-btn,
 .exit-preview-btn {
-  background: linear-gradient(135deg, #d32f2f 0%, #f44336 50%, #ff5722 100%);
-  border: 2px solid #d32f2f;
-  color: #ffffff;
-  position: relative;
-  overflow: hidden;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #d32f2f 0%, #f44336 50%, #ff5722 100%) !important;
+  border: 2px solid #d32f2f !important;
+  color: #ffffff !important;
+  position: relative !important;
+  overflow: hidden !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
   box-shadow:
     0 4px 12px rgba(211, 47, 47, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
+.account-header .header-actions-new .exit-preview-btn:hover,
 .exit-preview-btn:hover {
-  background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 50%, #f44336 100%);
-  color: #ffffff;
-  border-color: #b71c1c;
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 50%, #f44336 100%) !important;
+  color: #ffffff !important;
+  border-color: #b71c1c !important;
+  transform: translateY(-2px) !important;
   box-shadow:
     0 6px 20px rgba(211, 47, 47, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
+.account-header .header-actions-new .exit-preview-btn:active,
 .exit-preview-btn:active {
-  transform: translateY(0);
+  transform: translateY(0) !important;
   box-shadow:
     0 2px 8px rgba(211, 47, 47, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
+.account-header .header-actions-new .exit-preview-btn::before,
 .exit-preview-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.6s ease;
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+  transition: left 0.6s ease !important;
 }
 
+.account-header .header-actions-new .exit-preview-btn:hover::before,
 .exit-preview-btn:hover::before {
-  left: 100%;
+  left: 100% !important;
 }
 
 .loading-spinner i {
@@ -1617,8 +1623,8 @@
 
 .characters-grid-full {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 2rem;
   padding: 1rem 0;
 }
 
@@ -1627,14 +1633,16 @@
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.95) 0%, rgba(240, 234, 214, 0.95) 100%);
   border: 2px solid rgba(212, 175, 55, 0.4);
   border-radius: 12px;
-  padding: 0;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
   box-shadow: 0 6px 18px rgba(139, 69, 19, 0.15);
   overflow: hidden;
   position: relative;
-  height: 240px; /* Fixed height for consistency */
+  min-width: 360px;
+  width: 100%;
+
 }
 
 .character-card-compact:hover {
@@ -1643,15 +1651,13 @@
   border-color: rgba(212, 175, 55, 0.6);
 }
 
-/* Character Header - Single Row Layout */
+/* Character Header - Compact Integrated Layout */
 .character-card-compact .character-header {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(244, 228, 166, 0.12) 100%);
   padding: 0.6rem;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  min-height: 70px;
+
 }
 
 .character-card-compact .character-portrait {
@@ -1718,12 +1724,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0;
+  gap: 0.4rem;
+  min-width: 120px;
+  max-width: 200px;
 }
 
 .character-card-compact .character-name {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   margin: 0;
   color: #1a1a1a;
@@ -1742,97 +1749,100 @@
 
 .character-card-compact .race-tag,
 .character-card-compact .class-tag {
-  font-size: 0.6rem;
-  padding: 0.1rem 0.3rem;
-  border-radius: 3px;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
   font-weight: 600;
   font-family: 'Cinzel', serif;
   white-space: nowrap;
   line-height: 1.2;
+  border: 1px solid;
 }
 
 .character-card-compact .race-tag {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(139, 195, 74, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(139, 195, 74, 0.2) 100%);
   color: #2c5530;
-  border-left: 2px solid #4CAF50;
+  border-color: #4CAF50;
 }
 
 .character-card-compact .class-tag {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(160, 82, 45, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.2) 0%, rgba(160, 82, 45, 0.2) 100%);
   color: #5d4037;
-  border-left: 2px solid #8B4513;
+  border-color: #8B4513;
 }
 
-/* Character Resources Section */
+/* Character Resources Section - Integrated Design */
 .character-card-compact .character-resources {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-width: 100px;
+  display: block;
 }
 
 .character-card-compact .resource-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.4rem;
+  gap: 0.2rem;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 0.15rem 0.3rem;
+  border-radius: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  font-size: 0.6rem;
+  white-space: nowrap;
 }
 
 .character-card-compact .resource-label {
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   font-weight: 700;
-  color: #666666;
+  color: #5d4037;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
-  min-width: 18px;
+  letter-spacing: 0.1px;
   line-height: 1;
 }
 
 .character-card-compact .resource-value {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: #2c2416;
   font-family: 'Cinzel', serif;
-  background: rgba(212, 175, 55, 0.08);
-  padding: 0.08rem 0.25rem;
-  border-radius: 3px;
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .character-card-compact .ap-dots {
   display: flex;
-  gap: 0.1rem;
+  gap: 0.15rem;
+  align-items: center;
 }
 
 .character-card-compact .ap-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  border: 1px solid rgba(156, 39, 176, 0.25);
+  border: 1px solid rgba(156, 39, 176, 0.4);
   transition: all 0.2s ease;
 }
 
 .character-card-compact .ap-dot.filled {
   background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
   border-color: #9C27B0;
-  box-shadow: 0 0 3px rgba(156, 39, 176, 0.4);
+  box-shadow: 0 0 4px rgba(156, 39, 176, 0.5);
 }
 
 .character-card-compact .ap-dot.empty {
-  background: rgba(156, 39, 176, 0.1);
+  background: rgba(156, 39, 176, 0.15);
+  border-color: rgba(156, 39, 176, 0.3);
 }
 
 /* Character Stats Section */
 .character-card-compact .character-stats {
   padding: 0.4rem 0.5rem;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .character-card-compact .stats-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 0.2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.3rem;
 }
 
 .character-card-compact .stat-box {
@@ -1892,17 +1902,17 @@
 
 .character-card-compact .action-btn {
   flex: 1;
-  padding: 0.35rem 0.5rem;
-  border-radius: 4px;
+  padding: 0.25rem 0.3rem;
+  border-radius: 3px;
   font-weight: 600;
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   transition: all 0.2s ease;
   border: 1px solid;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: 0.15rem;
   text-decoration: none;
   font-family: 'Cinzel', serif;
   background: none;
@@ -1910,39 +1920,39 @@
 }
 
 .character-card-compact .play-btn {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-  color: white;
-  border-color: #4CAF50;
+  background: linear-gradient(135deg, #6b7c32 0%, #5a6b2a 100%);
+  color: #f4f1e8;
+  border-color: #6b7c32;
 }
 
 .character-card-compact .play-btn:hover {
-  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  background: linear-gradient(135deg, #5a6b2a 0%, #4a5722 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 3px 6px rgba(107, 124, 50, 0.3);
 }
 
 .character-card-compact .edit-btn {
-  background: linear-gradient(135deg, #FF9800 0%, #f57c00 100%);
-  color: white;
-  border-color: #FF9800;
+  background: linear-gradient(135deg, #8b7355 0%, #7a6449 100%);
+  color: #f4f1e8;
+  border-color: #8b7355;
 }
 
 .character-card-compact .edit-btn:hover {
-  background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+  background: linear-gradient(135deg, #7a6449 0%, #6b5540 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+  box-shadow: 0 3px 6px rgba(139, 115, 85, 0.3);
 }
 
 .character-card-compact .view-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-  color: white;
-  border-color: #2196F3;
+  background: linear-gradient(135deg, #5d4e37 0%, #4a3f2a 100%);
+  color: #f4f1e8;
+  border-color: #5d4e37;
 }
 
 .character-card-compact .view-btn:hover {
-  background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+  background: linear-gradient(135deg, #4a3f2a 0%, #3d3421 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+  box-shadow: 0 3px 6px rgba(93, 78, 55, 0.3);
 }
 
 
@@ -2057,7 +2067,7 @@
 /* Responsive Design for Character Cards */
 @media (max-width: 1200px) {
   .characters-grid-full {
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   }
 }
 
@@ -2115,7 +2125,6 @@
 
 .character-stats {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   margin-bottom: 1rem;
 }

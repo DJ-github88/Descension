@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSlotDisplayName } from '../../utils/equipmentUtils';
+import { getSlotDisplayName, getEquipSlotDisplayName } from '../../utils/equipmentUtils';
 import '../../styles/unified-context-menu.css';
 
 /**
@@ -26,7 +26,7 @@ const UnequipContextMenu = ({ x, y, item, slotName, onClose, onUnequip }) => {
                     </div>
                     <div className="submenu">
                         <div style={{ padding: '8px 16px', color: '#666', fontSize: '12px', fontStyle: 'italic', borderBottom: '1px solid #d5cbb0', marginBottom: '4px' }}>
-                            {item.name} - Currently equipped in {getSlotDisplayName(slotName)}
+                            {item.name} - Currently equipped in {getEquipSlotDisplayName(slotName, item)}
                         </div>
                         <button
                             className="context-menu-button"

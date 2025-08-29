@@ -46,6 +46,26 @@ import './styles/wow-classic-tooltip.css';
 import './styles/wow-window.css';
 import './styles/draggable-window.css';
 
+// Preload game styles to prevent layout shifts when creating rooms
+import './styles/Grid.css';
+import './styles/character-sheet-isolation.css';
+import './styles/character-sheet.css';
+import './styles/game-screen.css';
+import './styles/grid-item.css';
+import './styles/party-hud.css';
+import './styles/creature-token.css';
+// NOTE: item-wizard.css moved to loadGameStyles() to prevent global input pollution
+
+// Preload multiplayer styles to prevent layout shifts when creating rooms
+import './components/multiplayer/styles/MultiplayerApp.css';
+import './components/multiplayer/styles/RoomLobby.css';
+import './components/multiplayer/styles/ChatWindow.css';
+import './components/account/styles/RoomManager.css';
+import './styles/multiplayer-button.css';
+
+// Preload account dashboard isolation to override game styles
+import './components/account/styles/AccountDashboardIsolation.css';
+
 // Track dynamically loaded stylesheets for cleanup
 let gameStylesheets = [];
 
@@ -61,13 +81,11 @@ const loadGameStyles = () => {
         // import('./components/spellcrafting-wizard/styles/pathfinder/main.css'),
         // import('./components/spellcrafting-wizard/styles/pathfinder/collections.css'),
 
-        // Load essential CSS files that were removed from components to prevent pollution
-        import('./styles/Grid.css'), // Essential for grid functionality
-        import('./styles/character-sheet-isolation.css'),
-        import('./styles/game-screen.css'),
-        import('./styles/grid-item.css'),
-        import('./styles/party-hud.css'),
-        import('./styles/creature-token.css'),
+        // Note: Grid.css, character-sheet-isolation.css, character-sheet.css,
+        // game-screen.css, grid-item.css, party-hud.css, creature-token.css,
+        // item-wizard.css, MultiplayerApp.css, RoomLobby.css, ChatWindow.css,
+        // RoomManager.css, multiplayer-button.css, and AccountDashboardIsolation.css
+        // are now preloaded above to prevent layout shifts
 
         // Load component-specific CSS that was causing pollution
         import('./components/creature-wizard/styles/CreatureWindow.css'),
@@ -89,22 +107,19 @@ const loadGameStyles = () => {
         import('./components/spellcrafting-wizard/styles/IconSelector.css'),
         import('./styles/inventory.css'),
 
+        // Load item wizard CSS only when in game mode to prevent global input pollution
+        import('./styles/item-wizard.css'),
+
         // Load react-resizable styles (needed for Navigation and HUD components)
         import('react-resizable/css/styles.css')
     ];
 
     // Track the loaded stylesheets for potential cleanup
     Promise.all(stylePromises).then(() => {
-        // Find the newly added stylesheets
+        // Find the newly added stylesheets (excluding preloaded ones)
         const allStylesheets = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'));
         gameStylesheets = allStylesheets.filter(sheet =>
             sheet.href && (
-                sheet.href.includes('Grid.css') ||
-                sheet.href.includes('character-sheet-isolation.css') ||
-                sheet.href.includes('game-screen.css') ||
-                sheet.href.includes('grid-item.css') ||
-                sheet.href.includes('party-hud.css') ||
-                sheet.href.includes('creature-token.css') ||
                 sheet.href.includes('CreatureWindow.css') ||
                 sheet.href.includes('ClassResourceBar.css') ||
                 sheet.href.includes('buff-container.css') ||
