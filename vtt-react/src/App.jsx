@@ -63,6 +63,9 @@ import './components/multiplayer/styles/ChatWindow.css';
 import './components/account/styles/RoomManager.css';
 import './styles/multiplayer-button.css';
 
+// Preload ActionBar CSS to ensure it's available for both single-player and multiplayer
+import './components/ui/ActionBar.css';
+
 // Preload account dashboard isolation to override game styles
 import './components/account/styles/AccountDashboardIsolation.css';
 
@@ -104,7 +107,7 @@ const loadGameStyles = () => {
         import('./styles/buff-container.css'),
 
         // Load UI component CSS files that were removed from components
-        import('./components/ui/ActionBar.css'),
+        // NOTE: ActionBar.css is now preloaded above to prevent multiplayer timing issues
         import('./components/combat/CombatSelectionOverlay.css'),
         import('./components/combat/FloatingCombatText.css'),
         import('./styles/combat-selection-window.css'),
