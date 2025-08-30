@@ -70,6 +70,11 @@ import './components/account/styles/AccountDashboardIsolation.css';
 import { versionInfo, logVersionInfo } from './utils/versionInfo';
 import VersionDisplay from './components/debug/VersionDisplay';
 
+// Force version info to be available globally for debugging
+if (typeof window !== 'undefined') {
+  window.versionInfo = versionInfo.getDeploymentInfo();
+}
+
 // Track dynamically loaded stylesheets for cleanup
 let gameStylesheets = [];
 

@@ -5,6 +5,14 @@ import './VersionDisplay.css';
 const VersionDisplay = ({ position = 'bottom-right', showDetails = false }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const deploymentInfo = versionInfo.getDeploymentInfo();
+
+  // Debug logging to help identify loading issues
+  console.log('🔍 VersionDisplay rendering:', {
+    position,
+    showDetails,
+    deploymentInfo,
+    environment: deploymentInfo.environment
+  });
   
   const getEnvironmentColor = () => {
     switch (deploymentInfo.environment) {
@@ -26,15 +34,32 @@ const VersionDisplay = ({ position = 'bottom-right', showDetails = false }) => {
     }
   };
 
-  if (!showDetails && versionInfo.isProduction()) {
-    return null; // Hide in production unless explicitly shown
-  }
+  // Always show version display for deployment tracking
+  // Removed production hiding to ensure visibility on Netlify
 
   return (
-    <div 
+    <div
       className={`version-display ${position} ${isExpanded ? 'expanded' : ''}`}
       onClick={() => setIsExpanded(!isExpanded)}
-      style={{ '--env-color': getEnvironmentColor() }}
+      style={{
+        '--env-color': getEnvironmentColor(),
+        // Ensure visibility with fallback styles
+        position: 'fixed',
+        zIndex: 10000,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        color: 'white',
+        padding: '8px 12px',
+        borderRadius: '8px',
+        fontSize: '12px',
+        fontFamily: 'monospace',
+        cursor: 'pointer',
+        border: `2px solid ${getEnvironmentColor()}`,
+        // Position based on prop
+        ...(position === 'bottom-right' && { bottom: '20px', right: '20px' }),
+        ...(position === 'bottom-left' && { bottom: '20px', left: '20px' }),
+        ...(position === 'top-right' && { top: '20px', right: '20px' }),
+        ...(position === 'top-left' && { top: '20px', left: '20px' })
+      }}
     >
       {/* Compact View */}
       <div className="version-compact">
