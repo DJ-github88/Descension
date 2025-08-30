@@ -3,6 +3,22 @@
 /* Import spell tooltip styles */
 @import './styles/spell-tooltip.css';
 
+/* Global styles to prevent text selection */
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Allow text selection for input fields and text areas */
+input, textarea, [contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
 /* Game Screen Specific Styles - Prevent scrolling during gameplay */
 .spell-wizard-container {
   width: 100vw;

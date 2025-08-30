@@ -22,7 +22,7 @@ import Grid from "../Grid";
 import Navigation from "../Navigation";
 import HUDContainer from "../hud/HUDContainer";
 import GridItemsManager from "../grid/GridItemsManager";
-import GMPlayerToggle from "../level-editor/GMPlayerToggle";
+
 import DynamicFogManager from "../level-editor/DynamicFogManager";
 import DynamicLightingManager from "../level-editor/DynamicLightingManager";
 import AtmosphericEffectsManager from "../level-editor/AtmosphericEffectsManager";
@@ -965,7 +965,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <DynamicLightingManager />
         <AtmosphericEffectsManager />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
-        <GMPlayerToggle />
 
         {/* Enhanced Multiplayer Performance Monitor - Available in development */}
         {process.env.NODE_ENV === 'development' && (

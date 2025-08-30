@@ -2052,6 +2052,10 @@ export default function Grid() {
                            isBackgroundManipulationMode ? 'move' :
                            (isDraggingCamera ? 'grabbing' : 'grab'),
                     touchAction: 'none', // Prevent touch scrolling
+                    userSelect: 'none', // Prevent text selection
+                    WebkitUserSelect: 'none', // Prevent text selection on webkit browsers
+                    MozUserSelect: 'none', // Prevent text selection on Firefox
+                    msUserSelect: 'none', // Prevent text selection on IE/Edge
                     ...getLegacyBackgroundStyle()
                 }}
             >
