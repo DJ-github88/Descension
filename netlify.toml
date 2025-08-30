@@ -1,6 +1,6 @@
 [build]
   base = "vtt-react"
-  command = "rm -rf node_modules && rm -rf build && rm -rf .cache && npm ci --force && npm run build"
+  command = "rm -rf node_modules && rm -rf build && rm -rf .cache && npm ci --force && npm run build:netlify"
   publish = "build"
 
 [build.environment]
