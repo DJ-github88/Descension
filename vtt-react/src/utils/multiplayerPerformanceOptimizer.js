@@ -71,18 +71,23 @@ class MultiplayerPerformanceOptimizer {
    */
   adjustPerformanceSettings(fps) {
     const settings = this.performanceMetrics.adaptiveSettings;
-    
-    if (fps < 30) {
-      // Low FPS - reduce load
-      settings.throttleRate = Math.min(100, settings.throttleRate + 10);
-      settings.batchSize = Math.max(1, settings.batchSize - 1);
-      settings.maxQueueSize = Math.max(50, settings.maxQueueSize - 10);
-      console.log('🐌 Performance: Reducing load due to low FPS:', fps);
-    } else if (fps > 55) {
-      // High FPS - can increase performance
-      settings.throttleRate = Math.max(30, settings.throttleRate - 5);
-      settings.batchSize = Math.min(5, settings.batchSize + 1);
-      settings.maxQueueSize = Math.min(200, settings.maxQueueSize + 10);
+
+    // Only adjust if FPS is critically low (< 15) to prevent over-optimization
+    if (fps < 15) {
+      // Low FPS - reduce load more gradually
+      settings.throttleRate = Math.min(80, settings.throttleRate + 5);
+      settings.batchSize = Math.max(2, settings.batchSize - 1);
+      settings.maxQueueSize = Math.max(75, settings.maxQueueSize - 5);
+
+      // Only log in development to reduce production overhead
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🐌 Performance: Reducing load due to critically low FPS:', fps);
+      }
+    } else if (fps > 45) {
+      // High FPS - can increase performance gradually
+      settings.throttleRate = Math.max(40, settings.throttleRate - 2);
+      settings.batchSize = Math.min(4, settings.batchSize + 1);
+      settings.maxQueueSize = Math.min(150, settings.maxQueueSize + 5);
     }
   }
 

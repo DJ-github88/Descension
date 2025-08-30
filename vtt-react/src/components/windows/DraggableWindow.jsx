@@ -50,9 +50,11 @@ const DraggableWindow = forwardRef(({
     // Get window scale from store (hooks must be called before any early returns)
     const windowScale = useGameStore(state => state.windowScale);
 
-    // Debug: Log window scale changes
+    // Debug: Log window scale changes (development only)
     useEffect(() => {
-        console.log('DraggableWindow: Current window scale is', windowScale);
+        if (process.env.NODE_ENV === 'development') {
+            console.log('DraggableWindow: Current window scale is', windowScale);
+        }
     }, [windowScale]);
 
     // Create refs for the draggable component
@@ -240,8 +242,10 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
-    // Debug: Log the transform that will be applied
-    console.log('DraggableWindow: About to render with transform scale(' + windowScale + ')');
+    // Debug: Log the transform that will be applied (development only)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('DraggableWindow: About to render with transform scale(' + windowScale + ')');
+    }
 
     return (
         <Draggable
