@@ -6,10 +6,11 @@
  */
 
 const https = require('https');
+const http = require('http');
 const { execSync } = require('child_process');
 
 // Configuration
-const SITE_URL = process.env.SITE_URL || 'https://abcdfasdsad.netlify.app';
+const SITE_URL = process.argv.includes('--local') ? 'http://localhost:6872' : (process.env.SITE_URL || 'https://abcdfasdsad.netlify.app');
 const CHECK_INTERVAL = 30; // seconds
 const MAX_WAIT_TIME = 600; // 10 minutes
 const HEALTH_CHECK_TIMEOUT = 10000; // 10 seconds
@@ -46,7 +47,9 @@ function showUsage() {
 
 function makeRequest(url, timeout = HEALTH_CHECK_TIMEOUT) {
   return new Promise((resolve, reject) => {
-    const request = https.get(url, { timeout }, (response) => {
+    const isHttps = url.startsWith('https:');
+    const requestModule = isHttps ? https : http;
+    const request = requestModule.get(url, { timeout }, (response) => {
       let data = '';
       
       response.on('data', (chunk) => {
@@ -109,15 +112,40 @@ async function checkSiteHealth(url) {
   }
 }
 
-function extractVersionInfo(html) {
+async function extractVersionInfo(html) {
   if (!html) return {};
-  
-  // Extract version info from HTML content
-  const commitMatch = html.match(/REACT_APP_COMMIT_SHA['"]\s*:\s*['"]([^'"]+)['"]/);
-  const branchMatch = html.match(/REACT_APP_BRANCH['"]\s*:\s*['"]([^'"]+)['"]/);
-  const versionMatch = html.match(/REACT_APP_VERSION['"]\s*:\s*['"]([^'"]+)['"]/);
-  const buildTimeMatch = html.match(/REACT_APP_BUILD_TIME['"]\s*:\s*['"]([^'"]+)['"]/);
-  
+
+  // First try to extract from HTML content
+  let commitMatch = html.match(/REACT_APP_COMMIT_SHA['"]\s*:\s*['"]([^'"]+)['"]/);
+  let branchMatch = html.match(/REACT_APP_BRANCH['"]\s*:\s*['"]([^'"]+)['"]/);
+  let versionMatch = html.match(/REACT_APP_VERSION['"]\s*:\s*['"]([^'"]+)['"]/);
+  let buildTimeMatch = html.match(/REACT_APP_BUILD_TIME['"]\s*:\s*['"]([^'"]+)['"]/);
+
+  // If not found in HTML, try to find JavaScript files and check them
+  if (!commitMatch || !branchMatch || !versionMatch || !buildTimeMatch) {
+    const jsFileMatches = html.match(/src="([^"]*\.js)"/g);
+    if (jsFileMatches) {
+      for (const match of jsFileMatches) {
+        const jsPath = match.match(/src="([^"]*)"/)[1];
+        const jsUrl = jsPath.startsWith('http') ? jsPath : new URL(jsPath, SITE_URL).href;
+
+        try {
+          const jsContent = await makeRequest(jsUrl);
+          if (!commitMatch) commitMatch = jsContent.match(/REACT_APP_COMMIT_SHA['"]\s*:\s*['"]([^'"]+)['"]/);
+          if (!branchMatch) branchMatch = jsContent.match(/REACT_APP_BRANCH['"]\s*:\s*['"]([^'"]+)['"]/);
+          if (!versionMatch) versionMatch = jsContent.match(/REACT_APP_VERSION['"]\s*:\s*['"]([^'"]+)['"]/);
+          if (!buildTimeMatch) buildTimeMatch = jsContent.match(/REACT_APP_BUILD_TIME['"]\s*:\s*['"]([^'"]+)['"]/);
+
+          // If we found all values, break early
+          if (commitMatch && branchMatch && versionMatch && buildTimeMatch) break;
+        } catch (error) {
+          // Continue to next JS file if this one fails
+          continue;
+        }
+      }
+    }
+  }
+
   return {
     commit: commitMatch ? commitMatch[1] : 'unknown',
     branch: branchMatch ? branchMatch[1] : 'unknown',
@@ -161,7 +189,7 @@ async function monitorDeployment(url, interval, maxWait, once) {
     
     if (healthResult.healthy) {
       // Extract deployment info
-      const deploymentInfo = extractVersionInfo(healthResult.data);
+      const deploymentInfo = await extractVersionInfo(healthResult.data);
       
       log('📊 Deployed Version:', 'blue');
       log(`      Version: ${deploymentInfo.version}`, 'yellow');

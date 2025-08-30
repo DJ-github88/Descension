@@ -9,6 +9,8 @@ on:
 
 env:
   NODE_VERSION: '18'
+  # These secrets must be configured in GitHub repository settings:
+  # Settings > Secrets and variables > Actions
   NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
@@ -92,6 +94,7 @@ jobs:
         with:
           args: deploy --prod --dir=build --message="Deploy ${{ github.sha }} from GitHub Actions"
         env:
+          # Repository secrets - configure in GitHub Settings
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       

@@ -7,6 +7,7 @@ import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
 import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
 import { debugLog, debugWarn, debugError, DEBUG_CATEGORIES } from '../../utils/debugUtils';
 import gameStateManager from '../../services/gameStateManager';
+import multiplayerPerformanceOptimizer from '../../utils/multiplayerPerformanceOptimizer';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -56,10 +57,35 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     disconnect: enhancedDisconnect
   } = useEnhancedMultiplayer();
 
-  // More aggressive throttling for incoming token updates to prevent player lag
+  // Adaptive throttling for incoming token updates to prevent player lag
   const tokenUpdateThrottleRef = useRef(new Map());
-  const INCOMING_UPDATE_THROTTLE = 75; // Reduced to ~13fps for incoming updates to prevent lag
-  const INCOMING_DRAGGING_THROTTLE = 50; // Reduced to ~20fps for dragging updates
+  const performanceMetricsRef = useRef({ frameDrops: 0, lastCheck: Date.now() });
+
+  // Dynamic throttling based on performance
+  const getAdaptiveThrottling = useCallback(() => {
+    const metrics = performanceMetricsRef.current;
+    const now = Date.now();
+
+    // Check performance every 3 seconds
+    if (now - metrics.lastCheck > 3000) {
+      const isLowPerformance = metrics.frameDrops > 5;
+      metrics.frameDrops = 0;
+      metrics.lastCheck = now;
+
+      if (isLowPerformance) {
+        return {
+          INCOMING_UPDATE_THROTTLE: 100, // ~10fps for low performance
+          INCOMING_DRAGGING_THROTTLE: 75  // ~13fps for dragging
+        };
+      }
+    }
+
+    return {
+      INCOMING_UPDATE_THROTTLE: 75,  // ~13fps for normal performance
+      INCOMING_DRAGGING_THROTTLE: 50 // ~20fps for dragging
+    };
+  }, []);
+
   const THROTTLE_CLEANUP_INTERVAL = 5000; // Clean up throttle map every 5 seconds
   const THROTTLE_ENTRY_LIFETIME = 10000; // Remove entries older than 10 seconds
 
@@ -120,6 +146,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       try {
         await enhancedConnect(SOCKET_URL);
         debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🚀 Enhanced multiplayer system connected');
+
+        // Monitor network quality and optimize performance
+        if (networkMetrics) {
+          multiplayerPerformanceOptimizer.optimizeNetworkUpdates(
+            networkMetrics.latency,
+            networkMetrics.packetLoss
+          );
+        }
       } catch (error) {
         debugWarn(DEBUG_CATEGORIES.MULTIPLAYER, '⚠️ Enhanced multiplayer failed to connect, using fallback:', error);
       }
@@ -198,6 +232,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         newSocket.emit('leave_room');
         newSocket.disconnect();
       }
+
+      // Cleanup performance optimizer
+      multiplayerPerformanceOptimizer.performMemoryCleanup();
     };
   }, [SOCKET_URL]);
 
@@ -345,26 +382,36 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
-        // Aggressive throttling for incoming updates to prevent player lag
+        // Adaptive throttling for incoming updates to prevent player lag
         const throttleKey = `${targetId}_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
-        const throttleTime = isDragging ? INCOMING_DRAGGING_THROTTLE : INCOMING_UPDATE_THROTTLE;
+        const adaptiveThrottling = getAdaptiveThrottling();
+        const throttleTime = isDragging ? adaptiveThrottling.INCOMING_DRAGGING_THROTTLE : adaptiveThrottling.INCOMING_UPDATE_THROTTLE;
 
-        if (!lastUpdate || now - lastUpdate > throttleTime) {
-          tokenUpdateThrottleRef.current.set(throttleKey, now);
+        // Use performance optimizer for adaptive throttling and batching
+        multiplayerPerformanceOptimizer.adaptiveThrottle(
+          throttleKey,
+          () => {
+            // Batch token updates for better performance
+            multiplayerPerformanceOptimizer.batchUpdate(
+              'token_movement',
+              targetId,
+              { tokenId: targetId, position: data.position, playerId: data.playerId },
+              (updates) => {
+                // Process the latest update from the batch (most recent position)
+                const latestUpdate = updates[updates.length - 1];
+                const currentTokens = useCreatureStore.getState().tokens;
+                const token = currentTokens.find(t => t.creatureId === latestUpdate.tokenId);
 
-          // Use RAF to prevent blocking the main thread
-          requestAnimationFrame(() => {
-            // Get fresh token data from store to ensure we have latest state
-            const currentTokens = useCreatureStore.getState().tokens;
-            const token = currentTokens.find(t => t.creatureId === targetId);
-
-            if (token) {
-              updateCreatureTokenPosition(token.id, data.position);
-            }
-          });
-        }
+                if (token) {
+                  updateCreatureTokenPosition(token.id, latestUpdate.position);
+                }
+              }
+            );
+          },
+          throttleTime
+        );
 
         // Clean up throttle entry immediately when dragging stops
         if (!data.isDragging) {
@@ -389,22 +436,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
-        // Aggressive throttling for character movement to prevent player lag
+        // Adaptive throttling for character movement to prevent player lag
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
-        const throttleTime = data.isDragging ? INCOMING_DRAGGING_THROTTLE : INCOMING_UPDATE_THROTTLE;
+        const adaptiveThrottling = getAdaptiveThrottling();
+        const throttleTime = data.isDragging ? adaptiveThrottling.INCOMING_DRAGGING_THROTTLE : adaptiveThrottling.INCOMING_UPDATE_THROTTLE;
 
-        if (!lastUpdate || now - lastUpdate > throttleTime) {
-          tokenUpdateThrottleRef.current.set(throttleKey, now);
-
-          // Use RAF to prevent blocking the main thread
-          requestAnimationFrame(() => {
-            // Update character position in character token store
-            const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-            updateCharacterTokenPosition(data.playerId, data.position);
-          });
-        }
+        // Use performance optimizer for adaptive throttling and batching
+        multiplayerPerformanceOptimizer.adaptiveThrottle(
+          throttleKey,
+          () => {
+            // Batch character updates for better performance
+            multiplayerPerformanceOptimizer.batchUpdate(
+              'character_movement',
+              data.playerId,
+              { playerId: data.playerId, position: data.position },
+              (updates) => {
+                // Process the latest update from the batch (most recent position)
+                const latestUpdate = updates[updates.length - 1];
+                const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+                updateCharacterTokenPosition(latestUpdate.playerId, latestUpdate.position);
+              }
+            );
+          },
+          throttleTime
+        );
 
         // Clean up throttle entry immediately when dragging stops
         if (!data.isDragging) {

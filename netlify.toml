@@ -1,6 +1,6 @@
 [build]
   base = "vtt-react"
-  command = "rm -rf node_modules && rm -rf build && rm -rf .cache && npm ci --force && npm run build:netlify"
+  command = "rm -rf node_modules && rm -rf build && rm -rf .cache && npm ci --force && node scripts/build-with-version.js"
   publish = "build"
 
 [build.environment]
@@ -14,11 +14,11 @@
   # Enable production optimizations
   REACT_APP_BUILD_MODE = "production"
   REACT_APP_ENV = "production"
-  # Version tracking
+  # Version tracking - using Netlify's built-in variables
   REACT_APP_VERSION = "0.1.3"
   REACT_APP_COMMIT_SHA = "$COMMIT_REF"
   REACT_APP_BRANCH = "$BRANCH"
-  REACT_APP_BUILD_TIME = "$BUILD_ID"
+  REACT_APP_BUILD_TIME = "$DEPLOY_ID"
   # Optimize bundle size
   INLINE_RUNTIME_CHUNK = "false"
   # Browser compatibility

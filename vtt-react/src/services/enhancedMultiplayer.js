@@ -33,11 +33,12 @@ class EnhancedMultiplayerClient {
       lastPing: Date.now()
     };
     
-    // Performance optimization
+    // Performance optimization - adaptive frame rate based on device performance
     this.updateQueue = [];
     this.isProcessingUpdates = false;
-    this.frameRate = 60;
+    this.frameRate = this.detectOptimalFrameRate();
     this.lastFrameTime = 0;
+    this.adaptiveThrottling = true;
     
     // Event handlers
     this.eventHandlers = new Map();
@@ -417,15 +418,59 @@ class EnhancedMultiplayerClient {
   }
 
   /**
-   * Start update processing loop
+   * Detect optimal frame rate based on device performance
+   */
+  detectOptimalFrameRate() {
+    // Check device performance indicators
+    const isLowEndDevice = navigator.hardwareConcurrency <= 2 ||
+                          navigator.deviceMemory <= 2 ||
+                          /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // Adaptive frame rate based on device capabilities
+    if (isLowEndDevice) {
+      return 30; // 30fps for low-end devices
+    } else if (navigator.hardwareConcurrency >= 8) {
+      return 60; // 60fps for high-end devices
+    } else {
+      return 45; // 45fps for mid-range devices
+    }
+  }
+
+  /**
+   * Start update processing loop with adaptive performance
    */
   startUpdateLoop() {
+    let frameDropCount = 0;
+    let lastPerformanceCheck = Date.now();
+
     const processFrame = (timestamp) => {
-      if (timestamp - this.lastFrameTime >= 1000 / this.frameRate) {
+      const frameTime = timestamp - this.lastFrameTime;
+      const targetFrameTime = 1000 / this.frameRate;
+
+      // Adaptive throttling based on performance
+      if (frameTime >= targetFrameTime) {
         this.processUpdateQueue();
         this.lastFrameTime = timestamp;
+
+        // Monitor frame drops and adapt
+        if (this.adaptiveThrottling && frameTime > targetFrameTime * 1.5) {
+          frameDropCount++;
+
+          // Check performance every 5 seconds
+          if (Date.now() - lastPerformanceCheck > 5000) {
+            if (frameDropCount > 10 && this.frameRate > 20) {
+              this.frameRate = Math.max(20, this.frameRate - 5);
+              console.log(`🎯 Adaptive performance: Reduced frame rate to ${this.frameRate}fps`);
+            } else if (frameDropCount < 2 && this.frameRate < 60) {
+              this.frameRate = Math.min(60, this.frameRate + 5);
+              console.log(`🚀 Adaptive performance: Increased frame rate to ${this.frameRate}fps`);
+            }
+            frameDropCount = 0;
+            lastPerformanceCheck = Date.now();
+          }
+        }
       }
-      
+
       if (this.isConnected) {
         requestAnimationFrame(processFrame);
       }
