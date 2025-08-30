@@ -47,6 +47,8 @@
     "serve:production": "npx serve -s build -l 3000",
     "netlify:local": "npm run build:netlify && npm run serve:production",
     "verify:deployment": "node ../scripts/verify-deployment.js",
+    "monitor:deployment": "node ../scripts/monitor-deployment.js",
+    "monitor:once": "node ../scripts/monitor-deployment.js --once",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

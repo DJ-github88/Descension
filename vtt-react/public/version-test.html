@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Version Display Test</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: #2a2a2a;
+            border: 1px solid #00ff00;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .success { color: #00ff00; }
+        .warning { color: #ffaa00; }
+        .error { color: #ff0000; }
+        .info { color: #00aaff; }
+        pre {
+            background: #000;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #00aa00;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 Version Display System Test</h1>
+        
+        <div class="test-section">
+            <h2>Environment Detection</h2>
+            <div id="environment-info">
+                <p><strong>Current URL:</strong> <span id="current-url"></span></p>
+                <p><strong>Hostname:</strong> <span id="hostname"></span></p>
+                <p><strong>Environment:</strong> <span id="environment"></span></p>
+                <p><strong>Is Development:</strong> <span id="is-dev"></span></p>
+                <p><strong>Is Production:</strong> <span id="is-prod"></span></p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Version Information</h2>
+            <div id="version-info">
+                <p><strong>Package Version:</strong> <span id="package-version"></span></p>
+                <p><strong>Build Mode:</strong> <span id="build-mode"></span></p>
+                <p><strong>Commit SHA:</strong> <span id="commit-sha"></span></p>
+                <p><strong>Branch:</strong> <span id="branch"></span></p>
+                <p><strong>Build Time:</strong> <span id="build-time"></span></p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Version Display Component Test</h2>
+            <p>The version display component should be visible in the bottom-right corner of this page.</p>
+            <p>If you don't see it, there may be an issue with the component integration.</p>
+            
+            <button onclick="testVersionDisplay()">Test Version Display</button>
+            <button onclick="logVersionInfo()">Log Version Info</button>
+            <button onclick="checkForComponent()">Check Component</button>
+            
+            <div id="test-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Environment Variables</h2>
+            <pre id="env-vars"></pre>
+        </div>
+
+        <div class="test-section">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Check if you can see a version display component in the bottom-right corner</li>
+                <li>Click the component to expand it and see detailed version information</li>
+                <li>Compare the information shown here with what's in the component</li>
+                <li>Test on both localhost and Netlify to verify environment detection</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Environment detection (simplified version of versionInfo.js)
+        function getDeploymentEnvironment() {
+            const hostname = window.location.hostname;
+            
+            if (hostname.includes('localhost') || hostname.includes('127.0.0.1')) {
+                return 'development';
+            } else if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
+                return 'netlify-production';
+            } else if (hostname.includes('railway.app')) {
+                return 'railway-production';
+            } else {
+                return 'production';
+            }
+        }
+
+        function updateEnvironmentInfo() {
+            const env = getDeploymentEnvironment();
+            
+            document.getElementById('current-url').textContent = window.location.href;
+            document.getElementById('hostname').textContent = window.location.hostname;
+            document.getElementById('environment').textContent = env;
+            document.getElementById('is-dev').textContent = env === 'development' ? 'Yes' : 'No';
+            document.getElementById('is-prod').textContent = env !== 'development' ? 'Yes' : 'No';
+        }
+
+        function updateVersionInfo() {
+            // Try to get version info from environment variables
+            const packageVersion = 'Unknown'; // Would be injected at build time
+            const buildMode = 'Unknown';
+            const commitSha = 'Unknown';
+            const branch = 'Unknown';
+            const buildTime = 'Unknown';
+            
+            document.getElementById('package-version').textContent = packageVersion;
+            document.getElementById('build-mode').textContent = buildMode;
+            document.getElementById('commit-sha').textContent = commitSha;
+            document.getElementById('branch').textContent = branch;
+            document.getElementById('build-time').textContent = buildTime;
+        }
+
+        function updateEnvVars() {
+            const envVars = {
+                'NODE_ENV': 'Unknown',
+                'REACT_APP_VERSION': 'Unknown',
+                'REACT_APP_COMMIT_SHA': 'Unknown',
+                'REACT_APP_BRANCH': 'Unknown',
+                'REACT_APP_BUILD_TIME': 'Unknown',
+                'REACT_APP_BUILD_MODE': 'Unknown'
+            };
+            
+            document.getElementById('env-vars').textContent = JSON.stringify(envVars, null, 2);
+        }
+
+        function testVersionDisplay() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Test Results:</h3>';
+            
+            // Check if version display component exists
+            const versionDisplay = document.querySelector('.version-display');
+            if (versionDisplay) {
+                results.innerHTML += '<p class="success">✅ Version display component found!</p>';
+                results.innerHTML += '<p class="info">Component classes: ' + versionDisplay.className + '</p>';
+            } else {
+                results.innerHTML += '<p class="error">❌ Version display component not found!</p>';
+                results.innerHTML += '<p class="warning">The component may not be loaded or may have different CSS classes.</p>';
+            }
+            
+            // Check if versionInfo is available globally
+            if (typeof window.versionInfo !== 'undefined') {
+                results.innerHTML += '<p class="success">✅ Global versionInfo found!</p>';
+                results.innerHTML += '<pre>' + JSON.stringify(window.versionInfo, null, 2) + '</pre>';
+            } else {
+                results.innerHTML += '<p class="warning">⚠️ Global versionInfo not found (this is normal).</p>';
+            }
+        }
+
+        function logVersionInfo() {
+            console.log('🔍 Version Display Test - Manual Check');
+            console.log('Environment:', getDeploymentEnvironment());
+            console.log('URL:', window.location.href);
+            console.log('Timestamp:', new Date().toISOString());
+            
+            if (typeof window.versionInfo !== 'undefined') {
+                console.log('Version Info:', window.versionInfo);
+            } else {
+                console.log('Version Info: Not available globally');
+            }
+            
+            alert('Version information logged to console. Check browser developer tools.');
+        }
+
+        function checkForComponent() {
+            const components = document.querySelectorAll('[class*="version"]');
+            const results = document.getElementById('test-results');
+            
+            results.innerHTML = '<h3>Component Search Results:</h3>';
+            
+            if (components.length > 0) {
+                results.innerHTML += '<p class="info">Found ' + components.length + ' elements with "version" in class name:</p>';
+                components.forEach((comp, index) => {
+                    results.innerHTML += '<p>Element ' + (index + 1) + ': ' + comp.tagName + ' with classes: ' + comp.className + '</p>';
+                });
+            } else {
+                results.innerHTML += '<p class="warning">No elements found with "version" in class name.</p>';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateEnvironmentInfo();
+            updateVersionInfo();
+            updateEnvVars();
+            
+            // Auto-run component check after a short delay
+            setTimeout(checkForComponent, 1000);
+        });
+    </script>
+</body>
+</html>
