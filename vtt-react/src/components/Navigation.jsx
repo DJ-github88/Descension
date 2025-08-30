@@ -588,17 +588,20 @@ export default function Navigation({ onReturnToLanding }) {
             // GM sees all buttons
             return validButtons;
         } else {
-            // Player mode - hide GM-only features but keep settings
-            const playerRestrictedButtons = [
-                'leveleditor',    // Level Editor
-                'creatures',      // Creature Library
-                'maplibrary',     // Map Library
-                'campaign'        // Campaign Manager (Premium GM Feature)
-                // Note: settings is now allowed in player mode
-            ];
+            // Player mode - use pre-filtered buttons for better performance
+            // Cache the restricted button set to avoid recreating on every render
+            if (!this.playerRestrictedButtonsSet) {
+                this.playerRestrictedButtonsSet = new Set([
+                    'leveleditor',    // Level Editor
+                    'creatures',      // Creature Library
+                    'maplibrary',     // Map Library
+                    'campaign'        // Campaign Manager (Premium GM Feature)
+                    // Note: settings is now allowed in player mode
+                ]);
+            }
 
             return validButtons.filter(button =>
-                !playerRestrictedButtons.includes(button.id)
+                !this.playerRestrictedButtonsSet.has(button.id)
             );
         }
     };

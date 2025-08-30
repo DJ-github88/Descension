@@ -154,6 +154,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             networkMetrics.packetLoss
           );
         }
+
+        // Disable aggressive optimization for players to prevent lag
+        if (!isGM) {
+          console.log('🎮 Player mode detected: Disabling aggressive performance optimization');
+          multiplayerPerformanceOptimizer.disableOptimization = true;
+        }
       } catch (error) {
         debugWarn(DEBUG_CATEGORIES.MULTIPLAYER, '⚠️ Enhanced multiplayer failed to connect, using fallback:', error);
       }

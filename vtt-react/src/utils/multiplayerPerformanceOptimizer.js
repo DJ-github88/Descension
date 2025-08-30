@@ -18,11 +18,12 @@ class MultiplayerPerformanceOptimizer {
         maxQueueSize: 100
       }
     };
-    
+
     this.updateQueue = new Map();
     this.throttleTimers = new Map();
     this.memoryCleanupInterval = null;
-    
+    this.disableOptimization = false; // Flag to disable optimization for players
+
     this.initializePerformanceMonitoring();
   }
 
@@ -70,10 +71,15 @@ class MultiplayerPerformanceOptimizer {
    * Adjust performance settings based on current FPS
    */
   adjustPerformanceSettings(fps) {
+    // TEMPORARY: Disable aggressive performance optimization to prevent player lag
+    // The performance issues are caused by Firebase permission errors, not actual performance
+    // Once Firebase permissions are fixed, this can be re-enabled
+    return;
+
     const settings = this.performanceMetrics.adaptiveSettings;
 
-    // Only adjust if FPS is critically low (< 15) to prevent over-optimization
-    if (fps < 15) {
+    // Only adjust if FPS is critically low (< 10) to prevent over-optimization
+    if (fps < 10) {
       // Low FPS - reduce load more gradually
       settings.throttleRate = Math.min(80, settings.throttleRate + 5);
       settings.batchSize = Math.max(2, settings.batchSize - 1);
@@ -83,7 +89,7 @@ class MultiplayerPerformanceOptimizer {
       if (process.env.NODE_ENV === 'development') {
         console.log('🐌 Performance: Reducing load due to critically low FPS:', fps);
       }
-    } else if (fps > 45) {
+    } else if (fps > 50) {
       // High FPS - can increase performance gradually
       settings.throttleRate = Math.max(40, settings.throttleRate - 2);
       settings.batchSize = Math.min(4, settings.batchSize + 1);
@@ -142,11 +148,27 @@ class MultiplayerPerformanceOptimizer {
    */
   adaptiveThrottle(key, callback, baseDelay = 50) {
     const now = Date.now();
+
+    // If optimization is disabled (for players), use minimal throttling
+    if (this.disableOptimization) {
+      const existingTimer = this.throttleTimers.get(key);
+      const minDelay = Math.max(baseDelay, 30); // Minimal throttling for players
+
+      if (!existingTimer || now - existingTimer.lastCall >= minDelay) {
+        callback();
+        this.throttleTimers.set(key, {
+          lastCall: now,
+          created: existingTimer?.created || now
+        });
+      }
+      return;
+    }
+
     const settings = this.performanceMetrics.adaptiveSettings;
     const adaptiveDelay = Math.max(baseDelay, settings.throttleRate);
-    
+
     const existingTimer = this.throttleTimers.get(key);
-    
+
     if (!existingTimer || now - existingTimer.lastCall >= adaptiveDelay) {
       callback();
       this.throttleTimers.set(key, {

@@ -954,6 +954,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             nodeRef={memberNodeRef}
                             onDrag={(e, data) => handleMemberDrag(member, data)}
                             enableUserSelectHack={false} // Disable user select hack for better performance
+                            disabled={false} // Ensure dragging is always enabled
+                            scale={1} // Fixed scale to prevent transform calculations
                         >
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame

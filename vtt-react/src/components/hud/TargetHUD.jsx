@@ -688,6 +688,8 @@ const TargetHUD = () => {
                     onDrag={handleDrag}
                     nodeRef={nodeRef}
                     enableUserSelectHack={false} // Disable user select hack for better performance
+                    scale={1} // Fixed scale to prevent transform calculations
+                    disabled={false} // Ensure dragging is always enabled
                 >
                     <div ref={nodeRef} className="target-frame" style={{ position: 'relative' }}>
                         <div
