@@ -29,7 +29,7 @@
   REACT_APP_FIREBASE_APP_ID = "1:715658408409:web:3a926eba858e529d66a9c8"
   REACT_APP_FIREBASE_MEASUREMENT_ID = "G-WL4DX5LRYX"
   # Force fresh build
-  BUILD_TIMESTAMP = "2025-01-26-token-fixes"
+  BUILD_TIMESTAMP = "2025-01-30-weapon-handedness-fixes"
 
 [[headers]]
   for = "/*"

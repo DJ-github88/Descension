@@ -5,7 +5,6 @@ import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
-import './styles/AccountDashboardIsolation.css';
 
 const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
