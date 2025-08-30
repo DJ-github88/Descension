@@ -9,7 +9,7 @@ const https = require('https');
 const { execSync } = require('child_process');
 
 // Configuration
-const SITE_URL = process.env.SITE_URL || 'https://windtunnel.netlify.app';
+const SITE_URL = process.env.SITE_URL || 'https://abcdfasdsad.netlify.app';
 const TIMEOUT = 30000; // 30 seconds
 
 // Colors for console output

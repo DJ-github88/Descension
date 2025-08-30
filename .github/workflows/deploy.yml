@@ -99,7 +99,7 @@ jobs:
         id: netlify-deploy
         run: |
           echo "🌐 Deployment completed!"
-          echo "📍 Site URL: https://windtunnel.netlify.app"
+          echo "📍 Site URL: https://abcdfasdsad.netlify.app"
           echo "🔍 Commit: ${{ github.sha }}"
           echo "🕐 Time: $(date)"
 
@@ -115,7 +115,7 @@ jobs:
         run: |
           echo "🏥 Running deployment health checks..."
           # Add your site URL here
-          curl -f https://windtunnel.netlify.app || exit 1
+          curl -f https://abcdfasdsad.netlify.app || exit 1
           echo "✅ Site is responding"
       
       - name: 📝 Deployment Summary

@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Configuration
-SITE_URL="${SITE_URL:-https://windtunnel.netlify.app}"
+SITE_URL="${SITE_URL:-https://abcdfasdsad.netlify.app}"
 CHECK_INTERVAL=30  # seconds
 MAX_WAIT_TIME=600  # 10 minutes
 HEALTH_CHECK_TIMEOUT=10
