@@ -10,7 +10,7 @@ const http = require('http');
 const { execSync } = require('child_process');
 
 // Configuration
-const SITE_URL = process.argv.includes('--local') ? 'http://localhost:6872' : (process.env.SITE_URL || 'https://abcdfasdsad.netlify.app');
+const SITE_URL = process.argv.includes('--local') ? 'http://localhost:6872' : (process.env.SITE_URL || 'https://mythrill.netlify.app');
 const CHECK_INTERVAL = 30; // seconds
 const MAX_WAIT_TIME = 600; // 10 minutes
 const HEALTH_CHECK_TIMEOUT = 10000; // 10 seconds

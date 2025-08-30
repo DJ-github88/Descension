@@ -102,7 +102,7 @@ jobs:
         id: netlify-deploy
         run: |
           echo "🌐 Deployment completed!"
-          echo "📍 Site URL: https://abcdfasdsad.netlify.app"
+          echo "📍 Site URL: https://mythrill.netlify.app"
           echo "🔍 Commit: ${{ github.sha }}"
           echo "🕐 Time: $(date)"
 
@@ -117,8 +117,8 @@ jobs:
       - name: 🔍 Health Check
         run: |
           echo "🏥 Running deployment health checks..."
-          # Add your site URL here
-          curl -f https://abcdfasdsad.netlify.app || exit 1
+          # Health check for mythrill.netlify.app
+          curl -f https://mythrill.netlify.app || exit 1
           echo "✅ Site is responding"
       
       - name: 📝 Deployment Summary
