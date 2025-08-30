@@ -63,7 +63,8 @@ import './components/multiplayer/styles/ChatWindow.css';
 import './components/account/styles/RoomManager.css';
 import './styles/multiplayer-button.css';
 
-// Account dashboard styles are loaded directly in AccountDashboard.jsx
+// Preload account dashboard isolation to override game styles
+import './components/account/styles/AccountDashboardIsolation.css';
 
 // Track dynamically loaded stylesheets for cleanup
 let gameStylesheets = [];
@@ -83,7 +84,7 @@ const loadGameStyles = () => {
         // Note: Grid.css, character-sheet-isolation.css, character-sheet.css,
         // game-screen.css, grid-item.css, party-hud.css, creature-token.css,
         // item-wizard.css, MultiplayerApp.css, RoomLobby.css, ChatWindow.css,
-        // RoomManager.css, and multiplayer-button.css
+        // RoomManager.css, multiplayer-button.css, and AccountDashboardIsolation.css
         // are now preloaded above to prevent layout shifts
 
         // Load component-specific CSS that was causing pollution
