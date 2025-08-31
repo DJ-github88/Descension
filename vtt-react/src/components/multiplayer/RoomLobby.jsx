@@ -561,8 +561,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             )}
 
             <div className="manual-join">
-              <label htmlFor="roomId">Room ID:</label>
-              <div className="room-input-group">
+              <div className="form-input-group">
+                <label htmlFor="roomId">Room ID:</label>
                 <input
                   id="roomId"
                   type="text"
@@ -570,26 +570,30 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   onChange={(e) => setRoomId(e.target.value)}
                   placeholder="Enter room ID"
                   disabled={isConnecting}
+                  className="form-input"
                 />
               </div>
 
-              <label htmlFor="joinPassword">Room Password:</label>
-              <div className="room-input-group">
-                <input
-                  id="joinPassword"
-                  type="password"
-                  value={joinPassword}
-                  onChange={(e) => setJoinPassword(e.target.value)}
-                  placeholder="Enter room password"
-                  disabled={isConnecting}
-                />
-                <button
-                  onClick={() => handleJoinRoom()}
-                  disabled={isConnecting || !playerName.trim() || !roomId.trim() || !joinPassword.trim()}
-                  className="join-button"
-                >
-                  {isConnecting ? 'Joining...' : 'Join'}
-                </button>
+              <div className="form-input-group">
+                <label htmlFor="joinPassword">Room Password:</label>
+                <div className="password-input-with-button">
+                  <input
+                    id="joinPassword"
+                    type="password"
+                    value={joinPassword}
+                    onChange={(e) => setJoinPassword(e.target.value)}
+                    placeholder="Enter room password"
+                    disabled={isConnecting}
+                    className="form-input"
+                  />
+                  <button
+                    onClick={() => handleJoinRoom()}
+                    disabled={isConnecting || !playerName.trim() || !roomId.trim() || !joinPassword.trim()}
+                    className="join-button"
+                  >
+                    {isConnecting ? 'Joining...' : 'Join'}
+                  </button>
+                </div>
               </div>
             </div>
 

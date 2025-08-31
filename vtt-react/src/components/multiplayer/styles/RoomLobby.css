@@ -266,26 +266,7 @@
   font-size: 1.1rem;
 }
 
-.room-input-group {
-  display: flex;
-  gap: 10px;
-}
-
-.room-input-group input {
-  flex: 1;
-  padding: 12px;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #f0e6d2;
-  font-size: 1rem;
-}
-
-.room-input-group input:focus {
-  outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-}
+/* Legacy room-input-group styles removed - now using form-input-group for consistency */
 
 .join-button,
 .create-button,
@@ -435,6 +416,24 @@
 .create-room-section .form-input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Password input with button layout */
+.password-input-with-button {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.password-input-with-button .form-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.password-input-with-button .join-button {
+  flex-shrink: 0;
+  margin-bottom: 0;
+  height: 48px; /* Match input height */
 }
 
 /* Legacy support for existing styles */
@@ -793,8 +792,14 @@
     font-size: 2rem;
   }
 
-  .room-input-group {
+  .password-input-with-button {
     flex-direction: column;
+    gap: 15px;
+  }
+
+  .password-input-with-button .join-button {
+    height: auto;
+    padding: 12px 20px;
   }
 
   .room-card {
