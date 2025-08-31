@@ -26,11 +26,24 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     onJoinRoomRef.current = onJoinRoom;
   }, [onJoinRoom]);
 
-  // Socket server URL for room fetching
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
-    (process.env.NODE_ENV === 'production'
-      ? 'https://descension-production.up.railway.app' // Your Railway URL
-      : 'http://localhost:3001');
+  // Socket server URL for room fetching with fallback options
+  const getSocketURL = () => {
+    // Try environment variable first
+    if (process.env.REACT_APP_SOCKET_URL) {
+      return process.env.REACT_APP_SOCKET_URL;
+    }
+
+    // Production fallbacks
+    if (process.env.NODE_ENV === 'production') {
+      // Try multiple potential server URLs
+      return 'https://descension-production.up.railway.app';
+    }
+
+    // Development fallback
+    return 'http://localhost:3001';
+  };
+
+  const SOCKET_URL = getSocketURL();
 
   console.log('🔌 Socket URL:', SOCKET_URL);
   console.log('🌍 Environment:', process.env.NODE_ENV);
@@ -198,8 +211,37 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     };
   }, [socket, playerName, roomPassword]); // Dependencies for the event handlers
 
+  const checkServerStatus = async () => {
+    try {
+      const response = await fetch(`${SOCKET_URL}/health`, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000) // 5 second timeout for health check
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Server health check passed:', data);
+        return true;
+      } else {
+        console.warn('⚠️ Server health check failed:', response.status, response.statusText);
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ Server health check error:', error);
+      return false;
+    }
+  };
+
   const fetchAvailableRooms = async () => {
     try {
+      // First check if server is available
+      const serverAvailable = await checkServerStatus();
+      if (!serverAvailable) {
+        setError('Server is currently unavailable. Please try again later or contact support.');
+        setAvailableRooms([]);
+        return;
+      }
+
       const response = await fetch(`${SOCKET_URL}/rooms`, {
         method: 'GET',
         headers: {
@@ -215,6 +257,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
       const rooms = await response.json();
       setAvailableRooms(rooms);
+      setError(''); // Clear any previous errors
     } catch (error) {
       console.error('Failed to fetch rooms:', error);
       if (error.name === 'AbortError') {
@@ -224,6 +267,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       } else {
         setError(`Failed to load rooms: ${error.message}`);
       }
+      setAvailableRooms([]);
     }
   };
 
@@ -426,6 +470,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         {error && (
           <div className="error-message">
             {error}
+            {error.includes('server') && (
+              <div style={{ marginTop: '10px', fontSize: '0.9em', opacity: 0.8 }}>
+                💡 <strong>Tip:</strong> The multiplayer server may be starting up or under maintenance.
+                You can still use the app in single-player mode.
+              </div>
+            )}
           </div>
         )}
 
