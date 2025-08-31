@@ -29,6 +29,7 @@ const server = http.createServer(app);
 const allowedOrigins = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT
   ? [
       "https://windtunnel.netlify.app",
+      "https://mythrill.netlify.app",
       "https://your-custom-domain.com"
     ]
   : [
@@ -40,10 +41,10 @@ console.log('CORS Origins:', allowedOrigins);
 console.log('Environment:', process.env.NODE_ENV);
 console.log('Railway Environment:', process.env.RAILWAY_ENVIRONMENT);
 
-// Configure CORS for Socket.io with more permissive settings
+// Configure CORS for Socket.io with proper origins
 const io = socketIo(server, {
   cors: {
-    origin: "*", // Temporarily allow all origins for debugging
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
@@ -68,7 +69,7 @@ console.log('🚀 Enhanced multiplayer and infrastructure services initialized')
 
 // Middleware
 app.use(cors({
-  origin: "*", // Temporarily allow all origins for debugging
+  origin: allowedOrigins,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]

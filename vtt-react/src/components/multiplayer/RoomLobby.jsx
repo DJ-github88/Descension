@@ -32,6 +32,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       ? 'https://descension-production.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
 
+  console.log('🔌 Socket URL:', SOCKET_URL);
+  console.log('🌍 Environment:', process.env.NODE_ENV);
+
   useEffect(() => {
     // Check for preselected room from account dashboard
     const selectedRoomId = localStorage.getItem('selectedRoomId');
@@ -80,13 +83,35 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     // Socket event listeners
     const handleConnect = () => {
-      console.log('Connected to server in RoomLobby');
+      console.log('✅ Connected to server in RoomLobby');
       setIsConnecting(false);
+      setError(''); // Clear any connection errors
       fetchAvailableRooms();
     };
 
-    const handleDisconnect = () => {
-      console.log('Disconnected from server in RoomLobby');
+    const handleDisconnect = (reason) => {
+      console.log('❌ Disconnected from server in RoomLobby:', reason);
+      if (reason === 'io server disconnect') {
+        // Server initiated disconnect, try to reconnect
+        setError('Connection lost. Attempting to reconnect...');
+      }
+    };
+
+    const handleConnectError = (error) => {
+      console.error('❌ Socket connection error:', error);
+      setIsConnecting(false);
+      setError(`Connection failed: ${error.message || 'Unable to connect to server'}`);
+    };
+
+    const handleReconnect = (attemptNumber) => {
+      console.log(`🔄 Reconnected after ${attemptNumber} attempts`);
+      setError('');
+      fetchAvailableRooms();
+    };
+
+    const handleReconnectError = (error) => {
+      console.error('❌ Reconnection failed:', error);
+      setError('Reconnection failed. Please refresh the page.');
     };
 
     const handleRoomCreated = (data) => {
@@ -138,12 +163,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       setIsConnecting(false);
     };
 
-    const handleConnectError = (error) => {
-      console.error('Socket connection error:', error);
-      setError('Failed to connect to server. Please check your connection and try again.');
-      setIsConnecting(false);
-    };
-
     const handleRoomListUpdated = (rooms) => {
       console.log('Room list updated:', rooms);
       setAvailableRooms(rooms);
@@ -152,10 +171,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // Add event listeners
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
+    socket.on('connect_error', handleConnectError);
+    socket.on('reconnect', handleReconnect);
+    socket.on('reconnect_error', handleReconnectError);
     socket.on('room_created', handleRoomCreated);
     socket.on('room_joined', handleRoomJoined);
     socket.on('error', handleError);
-    socket.on('connect_error', handleConnectError);
     socket.on('room_list_updated', handleRoomListUpdated);
 
     // Fetch rooms if already connected
@@ -167,21 +188,42 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       console.log('Cleaning up RoomLobby socket event listeners');
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
+      socket.off('connect_error', handleConnectError);
+      socket.off('reconnect', handleReconnect);
+      socket.off('reconnect_error', handleReconnectError);
       socket.off('room_created', handleRoomCreated);
       socket.off('room_joined', handleRoomJoined);
       socket.off('error', handleError);
-      socket.off('connect_error', handleConnectError);
       socket.off('room_list_updated', handleRoomListUpdated);
     };
   }, [socket, playerName, roomPassword]); // Dependencies for the event handlers
 
   const fetchAvailableRooms = async () => {
     try {
-      const response = await fetch(`${SOCKET_URL}/rooms`);
+      const response = await fetch(`${SOCKET_URL}/rooms`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Add timeout
+        signal: AbortSignal.timeout(10000) // 10 second timeout
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const rooms = await response.json();
       setAvailableRooms(rooms);
     } catch (error) {
       console.error('Failed to fetch rooms:', error);
+      if (error.name === 'AbortError') {
+        setError('Request timeout - server may be unavailable');
+      } else if (error.message.includes('Failed to fetch')) {
+        setError('Cannot connect to server - please check your internet connection');
+      } else {
+        setError(`Failed to load rooms: ${error.message}`);
+      }
     }
   };
 
@@ -542,38 +584,47 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
         {activeTab === 'create' && (
           <div className="create-room-section">
-            <label htmlFor="roomName">Room Name:</label>
-            <input
-              id="roomName"
-              type="text"
-              value={roomName}
-              onChange={(e) => setRoomName(e.target.value)}
-              placeholder="Enter room name"
-              disabled={isConnecting}
-              maxLength={30}
-            />
+            <div className="form-input-group">
+              <label htmlFor="roomName">Room Name:</label>
+              <input
+                id="roomName"
+                type="text"
+                value={roomName}
+                onChange={(e) => setRoomName(e.target.value)}
+                placeholder="Enter room name"
+                disabled={isConnecting}
+                maxLength={30}
+                className="form-input"
+              />
+            </div>
 
-            <label htmlFor="roomDescription">Description (Optional):</label>
-            <textarea
-              id="roomDescription"
-              value={roomDescription}
-              onChange={(e) => setRoomDescription(e.target.value)}
-              placeholder="Describe your campaign or session"
-              disabled={isConnecting}
-              maxLength={200}
-              rows={3}
-            />
+            <div className="form-input-group">
+              <label htmlFor="roomDescription">Description (Optional):</label>
+              <textarea
+                id="roomDescription"
+                value={roomDescription}
+                onChange={(e) => setRoomDescription(e.target.value)}
+                placeholder="Describe your campaign or session"
+                disabled={isConnecting}
+                maxLength={200}
+                rows={3}
+                className="form-input"
+              />
+            </div>
 
-            <label htmlFor="roomPassword">Room Password:</label>
-            <input
-              id="roomPassword"
-              type="password"
-              value={roomPassword}
-              onChange={(e) => setRoomPassword(e.target.value)}
-              placeholder="Enter a password for your room"
-              disabled={isConnecting}
-              maxLength={50}
-            />
+            <div className="form-input-group">
+              <label htmlFor="roomPassword">Room Password:</label>
+              <input
+                id="roomPassword"
+                type="password"
+                value={roomPassword}
+                onChange={(e) => setRoomPassword(e.target.value)}
+                placeholder="Enter a password for your room"
+                disabled={isConnecting}
+                maxLength={50}
+                className="form-input"
+              />
+            </div>
 
             <div className="create-buttons">
               <button

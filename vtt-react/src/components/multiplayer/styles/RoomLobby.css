@@ -391,6 +391,53 @@
   font-size: 0.8rem !important;
 }
 
+/* Form input groups for consistent styling */
+.form-input-group {
+  margin-bottom: 20px;
+}
+
+.form-input-group label {
+  display: block;
+  color: #d4af37;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.form-input-group .form-input,
+.create-room-section .form-input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #f0e6d2;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input-group textarea.form-input {
+  min-height: 80px;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.form-input-group .form-input:focus,
+.create-room-section .form-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.form-input-group .form-input:disabled,
+.create-room-section .form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Legacy support for existing styles */
 .create-room-section label {
   display: block;
   color: #d4af37;
@@ -399,8 +446,8 @@
   font-size: 1.1rem;
 }
 
-.create-room-section input,
-.create-room-section textarea {
+.create-room-section input:not(.form-input),
+.create-room-section textarea:not(.form-input) {
   width: 100%;
   padding: 12px;
   border: 2px solid #8b4513;
@@ -413,13 +460,13 @@
   font-family: inherit;
 }
 
-.create-room-section textarea {
+.create-room-section textarea:not(.form-input) {
   min-height: 80px;
   line-height: 1.4;
 }
 
-.create-room-section input:focus,
-.create-room-section textarea:focus {
+.create-room-section input:not(.form-input):focus,
+.create-room-section textarea:not(.form-input):focus {
   outline: none;
   border-color: #d4af37;
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
