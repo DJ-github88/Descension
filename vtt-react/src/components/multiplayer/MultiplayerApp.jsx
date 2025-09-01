@@ -2,12 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import EnvironmentDebug from '../debug/EnvironmentDebug';
-import enhancedMultiplayer from '../../services/enhancedMultiplayer';
-import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
-import MultiplayerPerformanceMonitor from './MultiplayerPerformanceMonitor';
-import { debugLog, debugWarn, debugError, DEBUG_CATEGORIES } from '../../utils/debugUtils';
+import { debugWarn, debugError, DEBUG_CATEGORIES } from '../../utils/debugUtils';
 import gameStateManager from '../../services/gameStateManager';
-import multiplayerPerformanceOptimizer from '../../utils/multiplayerPerformanceOptimizer';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -47,44 +43,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
   const { addCharacterToken } = useCharacterTokenStore();
 
-  // Enhanced multiplayer hook for super-fluid performance
-  const {
-    isConnected: isEnhancedConnected,
-    connectionQuality,
-    networkMetrics,
-    performanceMetrics,
-    connect: enhancedConnect,
-    disconnect: enhancedDisconnect
-  } = useEnhancedMultiplayer();
+  // Remove enhanced multiplayer - causes conflicts with main system
 
-  // Adaptive throttling for incoming token updates to prevent player lag
+  // Simple throttling for incoming updates - 60fps target
   const tokenUpdateThrottleRef = useRef(new Map());
-  const performanceMetricsRef = useRef({ frameDrops: 0, lastCheck: Date.now() });
-
-  // Dynamic throttling based on performance
-  const getAdaptiveThrottling = useCallback(() => {
-    const metrics = performanceMetricsRef.current;
-    const now = Date.now();
-
-    // Check performance every 3 seconds
-    if (now - metrics.lastCheck > 3000) {
-      const isLowPerformance = metrics.frameDrops > 5;
-      metrics.frameDrops = 0;
-      metrics.lastCheck = now;
-
-      if (isLowPerformance) {
-        return {
-          INCOMING_UPDATE_THROTTLE: 100, // ~10fps for low performance
-          INCOMING_DRAGGING_THROTTLE: 75  // ~13fps for dragging
-        };
-      }
-    }
-
-    return {
-      INCOMING_UPDATE_THROTTLE: 75,  // ~13fps for normal performance
-      INCOMING_DRAGGING_THROTTLE: 50 // ~20fps for dragging
-    };
-  }, []);
+  const SIMPLE_THROTTLE_MS = 16; // ~60fps
 
   const THROTTLE_CLEANUP_INTERVAL = 5000; // Clean up throttle map every 5 seconds
   const THROTTLE_ENTRY_LIFETIME = 10000; // Remove entries older than 10 seconds
@@ -113,7 +76,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Log cleanup if map was getting large
     if (throttleMap.size > 50) {
-      debugLog(DEBUG_CATEGORIES.MULTIPLAYER, `🧹 Cleaned up throttle map, size: ${throttleMap.size}`);
+      // Throttle map cleaned up
     }
   }, []);
 
@@ -136,54 +99,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Initialize socket connection when component mounts
   useEffect(() => {
-    debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🚀 Initializing enhanced multiplayer connection in MultiplayerApp');
     const newSocket = io(SOCKET_URL, {
       autoConnect: false
     });
 
-    // Initialize enhanced multiplayer system
-    const initializeEnhancedMultiplayer = async () => {
-      try {
-        await enhancedConnect(SOCKET_URL);
-        debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🚀 Enhanced multiplayer system connected');
-
-        // Monitor network quality and optimize performance
-        if (networkMetrics) {
-          multiplayerPerformanceOptimizer.optimizeNetworkUpdates(
-            networkMetrics.latency,
-            networkMetrics.packetLoss
-          );
-        }
-
-        // Disable aggressive optimization for players to prevent lag
-        if (!isGM) {
-          console.log('🎮 Player mode detected: Disabling aggressive performance optimization');
-          multiplayerPerformanceOptimizer.disableOptimization = true;
-        }
-      } catch (error) {
-        debugWarn(DEBUG_CATEGORIES.MULTIPLAYER, '⚠️ Enhanced multiplayer failed to connect, using fallback:', error);
-      }
-    };
-
-    initializeEnhancedMultiplayer();
-
-    // Enhanced multiplayer event listeners
-    enhancedMultiplayer.on('token_moved', (data) => {
-      // Handle token movement from enhanced multiplayer
-      if (data.tokenId && data.position) {
-        updateTokenPosition(data.tokenId, data.position);
-      }
-    });
-
-    enhancedMultiplayer.on('character_moved', (data) => {
-      // Handle character movement from enhanced multiplayer
-      if (data.position) {
-        // Update character token position
-        // This will be handled by the character token components
-      }
-    });
-
-    // Item events are handled by regular socket system since server has proper handlers for those
+    // Removed enhanced multiplayer system - was causing conflicts
 
     enhancedMultiplayer.on('token_created', (data) => {
       // Handle token creation from enhanced multiplayer
@@ -195,12 +115,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Basic connection event listeners
     newSocket.on('connect', () => {
-      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket connected in MultiplayerApp:', newSocket.id);
       setIsConnecting(false);
     });
 
     newSocket.on('disconnect', (reason) => {
-      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket disconnected in MultiplayerApp:', reason);
       setIsConnecting(false);
     });
 
@@ -233,35 +151,29 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     newSocket.connect();
 
     return () => {
-      debugLog(DEBUG_CATEGORIES.MULTIPLAYER, 'MultiplayerApp unmounting - cleaning up socket');
       if (newSocket) {
         newSocket.emit('leave_room');
         newSocket.disconnect();
       }
 
-      // Cleanup performance optimizer
-      multiplayerPerformanceOptimizer.performMemoryCleanup();
+      // Performance optimizer removed - was causing conflicts
     };
   }, [SOCKET_URL]);
 
   useEffect(() => {
     if (!socket) return;
 
-    debugLog(DEBUG_CATEGORIES.SOCKET, 'Setting up socket event listeners for socket:', socket.id);
-    debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket connected:', socket.connected);
-
     // Monitor socket connection status
     socket.on('connect', () => {
-      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket reconnected in MultiplayerApp');
+      // Socket reconnected
     });
 
     socket.on('disconnect', (reason) => {
-      debugLog(DEBUG_CATEGORIES.SOCKET, 'Socket disconnected in MultiplayerApp:', reason);
+      // Socket disconnected
     });
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
-      debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🎮 Player joined event received:', data.player.name);
 
       // Update connected players list
       if (currentRoom) {
@@ -272,7 +184,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             return prev;
           }
           const updated = [...prev, data.player];
-          debugLog(DEBUG_CATEGORIES.MULTIPLAYER, '🎮 New total player count:', updated.length);
           return updated;
         });
 
@@ -314,10 +225,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('player_left', (data) => {
-      console.log('🚪 Player left event received:', data);
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
-        console.log('🚪 Updated connected players after leave:', updated.length);
         return updated;
       });
 
@@ -340,7 +249,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('room_closed', (data) => {
-      console.log('Room closed:', data);
       alert(data.message);
       handleLeaveRoom();
     });
@@ -380,44 +288,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000;
 
       if (isOwnMovement || hasRecentLocalMovement) {
-        if (hasRecentLocalMovement) {
-          console.log('🚫 Ignoring token movement - recent local movement detected for token:', targetId);
-        }
         return;
       }
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
-        // Adaptive throttling for incoming updates to prevent player lag
+        // Simple throttling - 60fps target
         const throttleKey = `${targetId}_${data.playerId}`;
         const now = Date.now();
-        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
-        const adaptiveThrottling = getAdaptiveThrottling();
-        const throttleTime = isDragging ? adaptiveThrottling.INCOMING_DRAGGING_THROTTLE : adaptiveThrottling.INCOMING_UPDATE_THROTTLE;
+        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
 
-        // Use performance optimizer for adaptive throttling and batching
-        multiplayerPerformanceOptimizer.adaptiveThrottle(
-          throttleKey,
-          () => {
-            // Batch token updates for better performance
-            multiplayerPerformanceOptimizer.batchUpdate(
-              'token_movement',
-              targetId,
-              { tokenId: targetId, position: data.position, playerId: data.playerId },
-              (updates) => {
-                // Process the latest update from the batch (most recent position)
-                const latestUpdate = updates[updates.length - 1];
-                const currentTokens = useCreatureStore.getState().tokens;
-                const token = currentTokens.find(t => t.creatureId === latestUpdate.tokenId);
+        if (now - lastUpdate >= SIMPLE_THROTTLE_MS) {
+          tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-                if (token) {
-                  updateCreatureTokenPosition(token.id, latestUpdate.position);
-                }
-              }
-            );
-          },
-          throttleTime
-        );
+          // Direct update without complex batching
+          const currentTokens = useCreatureStore.getState().tokens;
+          const token = currentTokens.find(t => t.creatureId === targetId);
+
+          if (token) {
+            updateCreatureTokenPosition(token.id, data.position);
+          }
+        }
 
         // Clean up throttle entry immediately when dragging stops
         if (!data.isDragging) {
@@ -442,32 +333,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
-        // Adaptive throttling for character movement to prevent player lag
+        // Simple throttling - 60fps target
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();
-        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey);
-        const adaptiveThrottling = getAdaptiveThrottling();
-        const throttleTime = data.isDragging ? adaptiveThrottling.INCOMING_DRAGGING_THROTTLE : adaptiveThrottling.INCOMING_UPDATE_THROTTLE;
+        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
 
-        // Use performance optimizer for adaptive throttling and batching
-        multiplayerPerformanceOptimizer.adaptiveThrottle(
-          throttleKey,
-          () => {
-            // Batch character updates for better performance
-            multiplayerPerformanceOptimizer.batchUpdate(
-              'character_movement',
-              data.playerId,
-              { playerId: data.playerId, position: data.position },
-              (updates) => {
-                // Process the latest update from the batch (most recent position)
-                const latestUpdate = updates[updates.length - 1];
-                const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-                updateCharacterTokenPosition(latestUpdate.playerId, latestUpdate.position);
-              }
-            );
-          },
-          throttleTime
-        );
+        if (now - lastUpdate >= SIMPLE_THROTTLE_MS) {
+          tokenUpdateThrottleRef.current.set(throttleKey, now);
+
+          // Direct update without complex batching
+          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+          updateCharacterTokenPosition(data.playerId, data.position);
+        }
 
         // Clean up throttle entry immediately when dragging stops
         if (!data.isDragging) {
@@ -505,15 +382,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }).catch(error => {
           console.error('Failed to import gridItemStore:', error);
         });
-      } else {
-        console.log('📦 Ignoring own item drop to avoid duplicate');
       }
     });
 
     // Listen for token creation from other players
     socket.on('token_created', (data) => {
       const isSync = data.isSync;
-      console.log(isSync ? '🔄 Syncing token:' : '🎭 Token created by player:', data.playerName, 'creature:', data.creature.name);
 
       // Only add token if it's not our own creation (to avoid duplicates) or if it's a sync
       if (data.playerId !== currentPlayer?.id || isSync) {
@@ -521,7 +395,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addCreature(data.creature);
 
         // Then add the token without sending back to server (avoid infinite loop)
-        console.log('🎭 Adding token to local state:', data.creature.name, 'Token ID:', data.token.id);
         addToken(data.creature.id, data.position, false, data.token.id);
 
         // Show notification in chat only for new creations from other players, not syncs or own creations
@@ -533,14 +406,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             timestamp: new Date().toISOString()
           });
         }
-      } else {
-        console.log('🎭 Ignoring own token creation to avoid duplicate');
       }
     });
 
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
-      console.log(`🎭 Character token created by ${data.playerName}:`, data.position, 'Player ID:', data.playerId);
 
       // Import character token store dynamically to avoid circular dependencies
       import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
@@ -571,7 +441,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for loot events from other players
     socket.on('item_looted', (data) => {
-      console.log('🎁 Item looted by player:', data.playerName, 'item:', data.item.name, 'removed:', data.itemRemoved);
 
       // Add loot notification to the loot tab
       addNotification('loot', {
@@ -602,7 +471,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Check if item still exists before trying to remove it
           const itemExists = gridItems.find(item => item.id === data.gridItemId);
           if (itemExists) {
-            console.log('🎁 Removing looted item from grid (other player):', data.gridItemId);
             removeItemFromGrid(data.gridItemId);
           }
         }).catch(error => {
@@ -613,7 +481,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for grid item synchronization when joining a room
     socket.on('sync_grid_items', (data) => {
-      console.log('📦 Syncing grid items from server:', Object.keys(data.gridItems).length, 'items');
 
       import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
         const { addItemToGrid } = useGridItemStore.getState();
@@ -629,11 +496,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for token synchronization when joining a room
     socket.on('sync_tokens', (data) => {
-      console.log('🎭 Syncing tokens from server:', Object.keys(data.tokens).length, 'tokens');
 
       // Add each token without sending back to server
       Object.values(data.tokens).forEach(tokenData => {
-        console.log('🔄 Syncing token:', tokenData.id, 'creature:', tokenData.creatureId);
 
         // First ensure the creature exists (if we have creature data)
         if (tokenData.creature) {
@@ -647,7 +512,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character equipment updates from other players
     socket.on('character_equipment_updated', (data) => {
-      console.log('🎽 Received equipment update from server:', data);
 
       // Only process updates from other players (not our own)
       if (data.updatedBy !== currentRoom?.gm?.id && data.updatedByName !== currentRoom?.gm?.name) {
@@ -663,7 +527,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player color updates
     socket.on('player_color_updated', (data) => {
-      console.log('🎨 Player color updated:', data.playerName, 'to', data.color);
 
       // Update connected players list with new color
       setConnectedPlayers(prev =>
@@ -685,7 +548,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle full game state synchronization
     socket.on('full_game_state_sync', (data) => {
-      console.log('🔄 Received full game state sync:', Object.keys(data));
 
       // Sync tokens
       if (data.tokens && Object.keys(data.tokens).length > 0) {
@@ -707,8 +569,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           });
         });
       }
-
-      console.log('✅ Full game state sync completed');
     });
 
     // Handle synchronization errors
@@ -742,12 +602,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
-      console.log('🎭 Character token created by player:', data.playerName);
 
       // Only add if it's not our own token
       if (data.playerId !== currentPlayer?.id) {
         addCharacterToken(data.position, data.playerId);
-        console.log('🎭 Added character token for player:', data.playerName);
 
         addNotification('social', {
           sender: { name: 'System', class: 'system', level: 0 },
@@ -763,7 +621,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle reconnection
     socket.on('reconnect', (attemptNumber) => {
-      console.log('🔄 Reconnected after', attemptNumber, 'attempts');
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -804,9 +661,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
 
   const handleJoinRoom = (room, socketConnection, isGameMaster) => {
-    console.log('handleJoinRoom called with:', { room, socketConnection, isGameMaster });
-    console.log('Socket connection status:', socketConnection?.connected);
-    console.log('Socket ID:', socketConnection?.id);
 
     let currentPlayerData;
 
@@ -825,8 +679,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         currentPlayerData = players[players.length - 1]; // Last joined player
         setCurrentPlayer(currentPlayerData);
       }
-
-      console.log('Current player data set:', currentPlayerData);
     } catch (error) {
       console.error('Error in handleJoinRoom:', error);
       return; // Exit early if there's an error
@@ -857,9 +709,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     }
 
-    console.log('🎮 Setting connected players on room join:', allPlayers.map(p => `${p.name} (${p.id})`));
-    console.log('🎮 Total player count on room join:', allPlayers.length);
-    console.log('🎮 Room.players structure:', room.players);
     setConnectedPlayers(allPlayers);
 
     // Integrate multiplayer players into party system
@@ -907,18 +756,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Set up chat integration for multiplayer
     const sendChatMessage = (message) => {
-      console.log('Sending chat message:', message);
-      console.log('Socket connected:', socketConnection?.connected);
-      console.log('Socket ID:', socketConnection?.id);
-      console.log('Current room:', currentRoom?.name);
-      console.log('Current player:', currentPlayerData?.name);
-
       if (socketConnection && socketConnection.connected) {
         socketConnection.emit('chat_message', {
           message: message,
           type: 'chat'
         });
-        console.log('Chat message emitted successfully');
       } else {
         console.error('No socket connection for chat or socket disconnected');
         // Show error to user
@@ -935,28 +777,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Initialize game state manager for persistent room state
     if (room.persistentRoomId || room.id) {
       const roomId = room.persistentRoomId || room.id;
-      console.log('🎮 Initializing game state manager for room:', roomId);
 
       // Initialize with auto-save enabled for GMs, disabled for players
       gameStateManager.initialize(roomId, isGameMaster).then(() => {
-        console.log('✅ Game state manager initialized successfully');
+        // Game state manager initialized successfully
       }).catch((error) => {
         console.error('❌ Failed to initialize game state manager:', error);
       });
     }
-
-    console.log('Joined room:', room.name, 'as', isGameMaster ? 'GM' : 'Player');
-    console.log('Character name set to:', currentPlayerData?.name);
-    console.log('Final socket status after setup:', socketConnection?.connected);
   };
 
   const handleLeaveRoom = () => {
-    console.log('handleLeaveRoom called');
-
     try {
       // Cleanup game state manager first (saves final state)
       gameStateManager.cleanup().then(() => {
-        console.log('✅ Game state manager cleaned up successfully');
+        // Game state manager cleaned up successfully
       }).catch((error) => {
         console.error('❌ Error cleaning up game state manager:', error);
       });
@@ -1029,15 +864,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <AtmosphericEffectsManager />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
 
-        {/* Enhanced Multiplayer Performance Monitor - Available in development */}
-        {process.env.NODE_ENV === 'development' && (
-          <MultiplayerPerformanceMonitor
-            networkMetrics={networkMetrics}
-            performanceMetrics={performanceMetrics}
-            connectionQuality={connectionQuality}
-            isVisible={isEnhancedConnected}
-          />
-        )}
+        {/* Performance monitor removed - was causing overhead */}
       </div>
 
       {/* Multiplayer indicator with back button */}

@@ -5,7 +5,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
-import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
+// Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import '../../styles/unified-context-menu.css';
 
@@ -67,8 +67,7 @@ const CharacterToken = ({
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
     const { isInCombat, currentTurn } = useCombatStore();
 
-    // Enhanced multiplayer hook
-    const { moveToken: enhancedMoveToken, isConnected: isEnhancedConnected } = useEnhancedMultiplayer();
+    // Removed enhanced multiplayer hook - was causing conflicts
 
     // Calculate screen position from grid position (use local position during dragging)
     const screenPosition = useMemo(() => {

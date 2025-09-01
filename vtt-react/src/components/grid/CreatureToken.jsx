@@ -6,7 +6,7 @@ import useGameStore from '../../store/gameStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
-import { useEnhancedMultiplayer } from '../../hooks/useEnhancedMultiplayer';
+// Removed useEnhancedMultiplayer import - hook was removed
 import TurnTimer from '../combat/TurnTimer';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementVisualization from './MovementVisualization';
@@ -100,8 +100,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     initializeStore
   } = useCombatStore();
 
-  // Enhanced multiplayer hook
-  const { moveToken: enhancedMoveToken, isConnected: isEnhancedConnected } = useEnhancedMultiplayer();
+  // Removed enhanced multiplayer hook - was causing conflicts
 
   // Ensure store is properly initialized
   React.useEffect(() => {

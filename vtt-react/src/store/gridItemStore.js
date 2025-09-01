@@ -4,7 +4,7 @@ import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
-import enhancedMultiplayer from '../services/enhancedMultiplayer';
+// Removed enhancedMultiplayer import - service was removed
 import '../styles/item-notification.css';
 
 // Helper to generate a unique ID
