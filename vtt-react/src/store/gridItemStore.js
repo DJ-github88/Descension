@@ -4,7 +4,7 @@ import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
 import useGameStore from './gameStore';
-import { ensureArray, safeLog } from '../utils/prodDevParity';
+import { ensureArray, safeLog, safeGet } from '../utils/prodDevParity';
 // Removed enhancedMultiplayer import - service was removed
 import '../styles/item-notification.css';
 
