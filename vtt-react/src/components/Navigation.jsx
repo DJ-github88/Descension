@@ -572,6 +572,15 @@ export default function Navigation({ onReturnToLanding }) {
         clearCombatStorage
     } = useCombatStore();
 
+    // Player restricted buttons set - cached outside component to avoid recreation
+    const playerRestrictedButtonsSet = new Set([
+        'leveleditor',    // Level Editor
+        'creatures',      // Creature Library
+        'maplibrary',     // Map Library
+        'campaign'        // Campaign Manager (Premium GM Feature)
+        // Note: settings is now allowed in player mode
+    ]);
+
     // Filter buttons based on GM/Player mode
     const getVisibleButtons = () => {
         // Ensure NAVIGATION_BUTTONS is valid
@@ -588,20 +597,9 @@ export default function Navigation({ onReturnToLanding }) {
             // GM sees all buttons
             return validButtons;
         } else {
-            // Player mode - use pre-filtered buttons for better performance
-            // Cache the restricted button set to avoid recreating on every render
-            if (!this.playerRestrictedButtonsSet) {
-                this.playerRestrictedButtonsSet = new Set([
-                    'leveleditor',    // Level Editor
-                    'creatures',      // Creature Library
-                    'maplibrary',     // Map Library
-                    'campaign'        // Campaign Manager (Premium GM Feature)
-                    // Note: settings is now allowed in player mode
-                ]);
-            }
-
+            // Player mode - filter out restricted buttons
             return validButtons.filter(button =>
-                !this.playerRestrictedButtonsSet.has(button.id)
+                !playerRestrictedButtonsSet.has(button.id)
             );
         }
     };
