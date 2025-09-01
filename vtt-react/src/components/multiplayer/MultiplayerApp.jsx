@@ -105,14 +105,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Removed enhanced multiplayer system - was causing conflicts
 
-    enhancedMultiplayer.on('token_created', (data) => {
-      // Handle token creation from enhanced multiplayer
-      if (data.creature && data.token && data.position) {
-        addCreature(data.creature);
-        addToken(data.token, data.position);
-      }
-    });
-
     // Basic connection event listeners
     newSocket.on('connect', () => {
       setIsConnecting(false);
