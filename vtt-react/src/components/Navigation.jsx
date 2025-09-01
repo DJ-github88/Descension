@@ -573,6 +573,7 @@ export default function Navigation({ onReturnToLanding }) {
     } = useCombatStore();
 
     // Player restricted buttons set - cached outside component to avoid recreation
+    // Fixed: Moved from this.playerRestrictedButtonsSet to proper const declaration
     const playerRestrictedButtonsSet = new Set([
         'leveleditor',    // Level Editor
         'creatures',      // Creature Library
