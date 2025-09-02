@@ -254,9 +254,9 @@ const CharacterToken = ({
             // Handle expensive operations with simple time-based throttling (no RAF)
             const now = Date.now();
 
-            // Send real-time position updates to multiplayer server during drag (optimized throttling)
+            // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
             if (isInMultiplayer && multiplayerSocket) {
-                if (now - lastNetworkUpdate > 50) { // Reduced to 20fps for better performance
+                if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
                     multiplayerSocket.emit('character_moved', {
                         position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) }, // Round to reduce precision
                         isDragging: true

@@ -10,17 +10,17 @@ require('dotenv').config();
 // Firebase service for persistence
 const firebaseService = require('./services/firebaseService');
 
-// Enhanced multiplayer services for super-fluid performance
-const deltaSync = require('./services/deltaSync');
-const EventBatcher = require('./services/eventBatcher');
-const optimizedFirebase = require('./services/optimizedFirebase');
-const memoryManager = require('./services/memoryManager');
-const lagCompensation = require('./services/lagCompensation');
-const RealtimeSyncEngine = require('./services/realtimeSync');
+// DISABLED: Enhanced multiplayer services causing socket errors and lag
+// const deltaSync = require('./services/deltaSync');
+// const EventBatcher = require('./services/eventBatcher');
+// const optimizedFirebase = require('./services/optimizedFirebase');
+// const memoryManager = require('./services/memoryManager');
+// const lagCompensation = require('./services/lagCompensation');
+// const RealtimeSyncEngine = require('./services/realtimeSync');
 
-// New infrastructure services
-const ErrorHandler = require('./services/errorHandler');
-const PerformanceMonitor = require('./services/performanceMonitor');
+// DISABLED: Infrastructure services causing performance issues
+// const ErrorHandler = require('./services/errorHandler');
+// const PerformanceMonitor = require('./services/performanceMonitor');
 
 const app = express();
 const server = http.createServer(app);
@@ -52,20 +52,36 @@ const io = socketIo(server, {
   allowEIO3: true // Allow Engine.IO v3 clients
 });
 
-// Initialize enhanced multiplayer services
-const eventBatcher = new EventBatcher(io);
-const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
+// DISABLED: Enhanced multiplayer services causing lag and socket errors
+// const eventBatcher = new EventBatcher(io);
+// const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
 
-// Initialize infrastructure services
-const errorHandler = new ErrorHandler();
-const performanceMonitor = new PerformanceMonitor();
+// DISABLED: Infrastructure services causing performance issues
+// const errorHandler = new ErrorHandler();
+// const performanceMonitor = new PerformanceMonitor();
 
-// Make services globally available
+// Minimal error handling only
+const errorHandler = {
+  handleError: async (error, context) => {
+    console.error('Error:', error.message, context);
+    return { message: error.message };
+  }
+};
+
+// Minimal performance tracking only
+const performanceMonitor = {
+  trackRequest: () => {}, // No-op
+  trackWebSocketEvent: () => {}, // No-op
+  getPerformanceSummary: () => ({ status: 'disabled' }),
+  getOptimizationRecommendations: () => []
+};
+
+// Make minimal services globally available
 global.errorHandler = errorHandler;
 global.performanceMonitor = performanceMonitor;
-global.memoryManager = memoryManager;
+// global.memoryManager = memoryManager; // DISABLED
 
-console.log('🚀 Enhanced multiplayer and infrastructure services initialized');
+console.log('🚀 Basic multiplayer services initialized (enhanced services disabled for performance)');
 
 // Middleware
 app.use(cors({
@@ -219,19 +235,18 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
 
   rooms.set(roomId, room);
 
-  // Initialize enhanced multiplayer services for this room (optimized)
-  try {
-    deltaSync.initializeRoom(roomId, room.gameState);
-    eventBatcher.initializeRoom(roomId);
-    // Only initialize realtimeSync for rooms with more than 1 player to reduce overhead
-    if (room.players.size > 0) {
-      realtimeSync.initializeRoom(roomId, room.gameState);
-    }
-    memoryManager.trackObject(roomId, 'room', room, roomId);
-    lagCompensation.initializeClient(gmSocketId, roomId);
-  } catch (error) {
-    console.warn('⚠️ Enhanced services initialization failed, continuing with basic functionality:', error);
-  }
+  // DISABLED: Enhanced multiplayer services causing lag and socket errors
+  // try {
+  //   deltaSync.initializeRoom(roomId, room.gameState);
+  //   eventBatcher.initializeRoom(roomId);
+  //   if (room.players.size > 0) {
+  //     realtimeSync.initializeRoom(roomId, room.gameState);
+  //   }
+  //   memoryManager.trackObject(roomId, 'room', room, roomId);
+  //   lagCompensation.initializeClient(gmSocketId, roomId);
+  // } catch (error) {
+  //   console.warn('⚠️ Enhanced services initialization failed, continuing with basic functionality:', error);
+  // }
 
   // Add GM to players tracking immediately when room is created
   players.set(gmSocketId, {
@@ -242,21 +257,21 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
     color: playerColor
   });
 
-  // Track GM session
-  memoryManager.trackPlayerSession(gmSocketId, {
-    id: gmPlayerId,
-    name: gmName
-  }, roomId);
+  // DISABLED: Enhanced services causing lag
+  // memoryManager.trackPlayerSession(gmSocketId, {
+  //   id: gmPlayerId,
+  //   name: gmName
+  // }, roomId);
 
-  // Persist to optimized Firebase if enabled
-  if (persistToFirebase) {
-    try {
-      await optimizedFirebase.saveRoomData(roomId, room, 'high');
-      console.log(`💾 Room persisted to optimized Firebase: ${roomName} (${roomId})`);
-    } catch (error) {
-      console.error('❌ Failed to persist room to Firebase:', error);
-    }
-  }
+  // DISABLED: Optimized Firebase causing performance issues
+  // if (persistToFirebase) {
+  //   try {
+  //     await optimizedFirebase.saveRoomData(roomId, room, 'high');
+  //     console.log(`💾 Room persisted to optimized Firebase: ${roomName} (${roomId})`);
+  //   } catch (error) {
+  //     console.error('❌ Failed to persist room to Firebase:', error);
+  //   }
+  // }
 
   console.log(`🚀 Enhanced room created: ${room.name} (${room.id}) - Total rooms: ${rooms.size}`);
   return room;
@@ -340,21 +355,19 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     color: playerColor || '#4a90e2' // Ensure color is always set
   });
 
-  // Initialize enhanced services for new player (optimized)
-  try {
-    lagCompensation.initializeClient(socketId, roomId);
-    memoryManager.trackPlayerSession(socketId, {
-      id: playerId,
-      name: playerName
-    }, roomId);
-
-    // Initialize realtimeSync for the room if this is the first player joining
-    if (room.players.size === 1 && !realtimeSync.isRoomInitialized(roomId)) {
-      realtimeSync.initializeRoom(roomId, room.gameState);
-    }
-  } catch (error) {
-    console.warn('⚠️ Enhanced services initialization failed for player, continuing with basic functionality:', error);
-  }
+  // DISABLED: Enhanced services causing lag and socket errors
+  // try {
+  //   lagCompensation.initializeClient(socketId, roomId);
+  //   memoryManager.trackPlayerSession(socketId, {
+  //     id: playerId,
+  //     name: playerName
+  //   }, roomId);
+  //   if (room.players.size === 1 && !realtimeSync.isRoomInitialized(roomId)) {
+  //     realtimeSync.initializeRoom(roomId, room.gameState);
+  //   }
+  // } catch (error) {
+  //   console.warn('⚠️ Enhanced services initialization failed for player, continuing with basic functionality:', error);
+  // }
 
   // Add player to Firebase room members if this is a persistent room
   if (room.persistentRoomId) {
@@ -433,24 +446,21 @@ app.get('/rooms', (req, res) => {
   res.json(getPublicRooms());
 });
 
-// Performance metrics endpoint (for monitoring/debugging)
+// Performance metrics endpoint (simplified - enhanced services disabled)
 app.get('/metrics', (req, res) => {
   try {
-    const summary = performanceMonitor.getPerformanceSummary();
-    const recommendations = performanceMonitor.getOptimizationRecommendations();
-    const errorStats = errorHandler.getErrorStats();
-
     res.json({
-      performance: summary,
-      recommendations: recommendations,
-      errors: errorStats,
+      performance: { status: 'enhanced services disabled for performance' },
+      recommendations: [],
+      errors: { status: 'basic error handling only' },
       rooms: {
         total: rooms.size,
         active: Array.from(rooms.values()).filter(r => r.isActive).length
       },
       players: {
         total: players.size
-      }
+      },
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Metrics endpoint error:', error);
@@ -496,26 +506,20 @@ io.on('connection', (socket) => {
       console.log('Broadcasting room list update:', publicRooms);
       io.emit('room_list_updated', publicRooms);
 
-      // Track performance
-      performanceMonitor.trackRequest('create_room', Date.now() - startTime, true);
+      // Performance tracking disabled
 
     } catch (error) {
       console.error('Error creating room:', error);
 
-      // Handle error through centralized system
-      const sanitizedError = await errorHandler.handleError(error, {
-        socketId: socket.id,
-        operation: 'create_room',
-        data: data
-      });
+      // Basic error handling only
+      console.error('Create room error details:', error);
 
       socket.emit('error', {
         message: 'Failed to create room',
-        details: sanitizedError.message
+        details: error.message || 'Unknown error'
       });
 
-      // Track performance failure
-      performanceMonitor.trackRequest('create_room', Date.now() - startTime, false);
+      // Performance tracking disabled
     }
   });
   
@@ -768,7 +772,7 @@ io.on('connection', (socket) => {
       if (!global.tokenMovementConflicts) global.tokenMovementConflicts = new Map();
 
       const lastBroadcast = global.lastTokenBroadcast.get(broadcastKey) || 0;
-      const throttleTime = data.isDragging ? 75 : 150; // Reduced to ~13fps for dragging, ~7fps for final positions
+      const throttleTime = data.isDragging ? 33 : 100; // Increased to ~30fps for dragging, ~10fps for final positions
 
       // Check for potential conflicts (multiple rapid movements)
       const conflictKey = `${tokenKey}_${player.id}`;
@@ -799,15 +803,15 @@ io.on('connection', (socket) => {
         });
       }
 
-      // Persist to optimized Firebase (batched for performance)
-      if (!data.isDragging) {
-        try {
-          await optimizedFirebase.updateGameState(player.roomId, room.gameState, deltaUpdate?.delta);
-          // Token position persisted (log removed for performance)
-        } catch (error) {
-          console.error('Failed to persist token position:', error);
-        }
-      }
+      // DISABLED: Optimized Firebase causing performance issues
+      // if (!data.isDragging) {
+      //   try {
+      //     await optimizedFirebase.updateGameState(player.roomId, room.gameState, deltaUpdate?.delta);
+      //     // Token position persisted (log removed for performance)
+      //   } catch (error) {
+      //     console.error('Failed to persist token position:', error);
+      //   }
+      // }
 
       // Token movement processed successfully
     } else {
@@ -1527,23 +1531,23 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update player activity
-    memoryManager.updatePlayerActivity(socket.id);
+    // DISABLED: Enhanced services causing lag
+    // memoryManager.updatePlayerActivity(socket.id);
 
-    // Process with lag compensation
-    const inputResult = lagCompensation.processClientInput(socket.id, {
-      type: 'character_update',
-      data: data,
-      timestamp: Date.now()
-    });
+    // DISABLED: Lag compensation causing performance issues
+    // const inputResult = lagCompensation.processClientInput(socket.id, {
+    //   type: 'character_update',
+    //   data: data,
+    //   timestamp: Date.now()
+    // });
 
-    // Update character via real-time sync
-    const success = realtimeSync.updateCharacter(
-      player.roomId,
-      data.characterId,
-      data.updates,
-      player.id
-    );
+    // DISABLED: Real-time sync causing socket errors
+    // const success = realtimeSync.updateCharacter(
+    //   player.roomId,
+    //   data.characterId,
+    //   data.updates,
+    //   player.id
+    // );
 
     if (success) {
       console.log(`👤 Character ${data.characterId} updated by ${player.name}`);
@@ -1667,14 +1671,15 @@ io.on('connection', (socket) => {
     const room = rooms.get(player.roomId);
     if (!room) return;
 
-    // Update UI via real-time sync
-    realtimeSync.updateUI(player.roomId, player.id, data.uiUpdates);
+    // DISABLED: Real-time sync causing socket errors
+    // realtimeSync.updateUI(player.roomId, player.id, data.uiUpdates);
   });
 
-  // Handle network metrics updates
+  // DISABLED: Enhanced services causing lag
   socket.on('network_metrics', (metrics) => {
-    lagCompensation.updateNetworkMetrics(socket.id, metrics);
-    eventBatcher.updateClientMetrics(socket.id, metrics);
+    // lagCompensation.updateNetworkMetrics(socket.id, metrics);
+    // eventBatcher.updateClientMetrics(socket.id, metrics);
+    // No-op - enhanced services disabled
   });
 
   // Handle ping for latency measurement

@@ -45,9 +45,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
-  // Simple throttling for incoming updates - 60fps target
+  // Simple throttling for incoming updates - 30fps target for better performance
   const tokenUpdateThrottleRef = useRef(new Map());
-  const SIMPLE_THROTTLE_MS = 16; // ~60fps
+  const SIMPLE_THROTTLE_MS = 33; // ~30fps (reduced from 60fps to prevent lag spikes)
 
   const THROTTLE_CLEANUP_INTERVAL = 30000; // Clean up throttle map every 30 seconds (reduced from 5s)
   const THROTTLE_ENTRY_LIFETIME = 60000; // Remove entries older than 60 seconds (increased from 10s)
