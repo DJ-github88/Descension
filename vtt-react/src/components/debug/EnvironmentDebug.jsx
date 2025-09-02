@@ -12,7 +12,7 @@ const EnvironmentDebug = () => {
 
   const socketUrl = process.env.REACT_APP_SOCKET_URL ||
     (process.env.NODE_ENV === 'production'
-      ? 'https://descension-production.up.railway.app'
+      ? 'https://descension-mythrill.up.railway.app'
       : 'http://localhost:3001');
 
   return (

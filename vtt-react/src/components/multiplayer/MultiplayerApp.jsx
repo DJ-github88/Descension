@@ -92,7 +92,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Socket server URL - adjust based on environment
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
     (process.env.NODE_ENV === 'production'
-      ? 'https://descension-production.up.railway.app' // Your Railway URL
+      ? 'https://descension-mythrill.up.railway.app' // Your Railway URL
       : 'http://localhost:3001');
 
   // Environment check logs removed for performance

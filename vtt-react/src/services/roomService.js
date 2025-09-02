@@ -177,6 +177,13 @@ export const getRoomData = async (roomId) => {
     }
     return null;
   } catch (error) {
+    // Check if this is a permission error and handle gracefully
+    if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+      console.warn(`⚠️ Firebase permission denied for room ${roomId}. User may not be in room members array.`);
+      // Return null instead of throwing to prevent repeated errors
+      return null;
+    }
+
     console.error('❌ Error fetching room data:', error);
     throw error;
   }
@@ -492,6 +499,13 @@ export const loadCompleteGameState = async (roomId) => {
 
     return roomData.gameState || {};
   } catch (error) {
+    // Check if this is a permission error and handle gracefully
+    if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+      console.warn('⚠️ Firebase permission denied for room data access. User may not be in room members array.');
+      // Return empty game state instead of throwing to prevent repeated errors
+      return {};
+    }
+
     console.error('❌ Error loading complete game state:', error);
     throw error;
   }

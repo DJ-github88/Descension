@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read/write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users can read/write their own characters
+    match /users/{userId}/characters/{characterId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Public game data (items, spells, etc.) - read only
+    match /gameData/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // Multiplayer rooms - UPDATED RULES for better compatibility
+    match /rooms/{roomId} {
+      // Allow reading any room for authenticated users (they still need password to join)
+      allow read: if request.auth != null;
+
+      // Allow creating rooms (user becomes GM)
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.gmId;
+
+      // Allow GM to update room settings and game state
+      // Also allow any authenticated user to update gameState for multiplayer sync
+      allow update: if request.auth != null &&
+        (request.auth.uid == resource.data.gmId ||
+         ('gameState' in request.resource.data && 
+          request.resource.data.keys().hasOnly(['gameState', 'lastActivity'])));
+
+      // Allow GM to delete rooms
+      allow delete: if request.auth != null &&
+        request.auth.uid == resource.data.gmId;
+    }
+
+    // Room sessions for active multiplayer sessions
+    match /roomSessions/{sessionId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

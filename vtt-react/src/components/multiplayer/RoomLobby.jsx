@@ -20,11 +20,22 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [preselectedRoom, setPreselectedRoom] = useState(null);
 
-  // Use ref to store the callback to avoid recreating socket
+  // Use refs to store current values and avoid recreating socket listeners
   const onJoinRoomRef = useRef(onJoinRoom);
+  const playerNameRef = useRef(playerName);
+  const roomPasswordRef = useRef(roomPassword);
+
   useEffect(() => {
     onJoinRoomRef.current = onJoinRoom;
   }, [onJoinRoom]);
+
+  useEffect(() => {
+    playerNameRef.current = playerName;
+  }, [playerName]);
+
+  useEffect(() => {
+    roomPasswordRef.current = roomPassword;
+  }, [roomPassword]);
 
   // Socket server URL for room fetching with fallback options
   const getSocketURL = () => {
@@ -36,7 +47,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // Production fallbacks
     if (process.env.NODE_ENV === 'production') {
       // Try multiple potential server URLs
-      return 'https://descension-production.up.railway.app';
+      return 'https://descension-mythrill.up.railway.app';
     }
 
     // Development fallback
@@ -143,7 +154,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       setTimeout(() => {
         const joinData = {
           roomId: data.room.id,
-          playerName: playerName.trim(),
+          playerName: playerNameRef.current.trim(),
           password: createdRoomPassword.trim(),
           playerColor: playerColor
         };
@@ -157,13 +168,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const handleRoomJoined = (data) => {
       console.log('Room joined successfully:', data);
-      console.log('Player name:', playerName.trim());
+      console.log('Player name:', playerNameRef.current.trim());
       console.log('Room GM name:', data.room.gm?.name);
       console.log('Is GM reconnect:', data.isGMReconnect);
       setIsConnecting(false);
 
       // Check if this is a GM reconnect or if the player name matches the GM name
-      const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerName.trim());
+      const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerNameRef.current.trim());
       console.log('Determined isGM:', isGM);
 
       console.log('Calling onJoinRoom with:', { room: data.room, socket: socket, isGM });
@@ -209,7 +220,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       socket.off('error', handleError);
       socket.off('room_list_updated', handleRoomListUpdated);
     };
-  }, [socket, playerName, roomPassword]); // Dependencies for the event handlers
+  }, [socket]); // Only depend on socket to prevent unnecessary re-setup
 
   const checkServerStatus = async () => {
     try {
@@ -293,7 +304,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
-    if (!roomPassword.trim()) {
+    if (!roomPasswordRef.current.trim()) {
       setError('Please enter a password for your room');
       return;
     }
@@ -313,8 +324,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         persistentRoomId = await createPersistentRoom({
           name: roomName.trim(),
           description: roomDescription.trim(),
-          password: roomPassword.trim(),
-          gmName: playerName.trim(),
+          password: roomPasswordRef.current.trim(),
+          gmName: playerNameRef.current.trim(),
           maxPlayers: 6
         });
         console.log('Persistent room created:', persistentRoomId);
@@ -326,8 +337,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       // Create socket server room for immediate multiplayer
       const roomData = {
         roomName: roomName.trim(),
-        gmName: playerName.trim(),
-        password: roomPassword.trim(),
+        gmName: playerNameRef.current.trim(),
+        password: roomPasswordRef.current.trim(),
         playerColor: playerColor,
         persistentRoomId: persistentRoomId // Include Firebase room ID if available
       };
@@ -365,7 +376,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // The room password is already known since the user is a member
     const joinData = {
       roomId: room.id,
-      playerName: playerName.trim(),
+      playerName: playerNameRef.current.trim(),
       password: room.password || '', // This should be handled securely
       playerColor: playerColor
     };
@@ -375,12 +386,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   };
 
   const handleCreateRoom = () => {
-    if (!playerName.trim() || !roomName.trim()) {
+    if (!playerNameRef.current.trim() || !roomName.trim()) {
       setError('Please enter both your name and a room name');
       return;
     }
 
-    if (!roomPassword.trim()) {
+    if (!roomPasswordRef.current.trim()) {
       setError('Please enter a password for your room');
       return;
     }
@@ -400,8 +411,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const roomData = {
       roomName: roomName.trim(),
-      gmName: playerName.trim(),
-      password: roomPassword.trim(),
+      gmName: playerNameRef.current.trim(),
+      password: roomPasswordRef.current.trim(),
       playerColor: playerColor
     };
 
@@ -413,7 +424,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const finalRoomId = targetRoomId || roomId;
     const finalPassword = targetPassword || joinPassword;
 
-    if (!playerName.trim() || !finalRoomId.trim()) {
+    if (!playerNameRef.current.trim() || !finalRoomId.trim()) {
       setError('Please enter your name and a room ID');
       return;
     }
@@ -433,7 +444,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const joinData = {
       roomId: finalRoomId.trim(),
-      playerName: playerName.trim(),
+      playerName: playerNameRef.current.trim(),
       password: finalPassword.trim(),
       playerColor: playerColor
     };
@@ -552,7 +563,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   <button
                     className="auto-join-btn"
                     onClick={() => handleJoinRoom()}
-                    disabled={isConnecting || !playerName.trim()}
+                    disabled={isConnecting || !playerNameRef.current.trim()}
                   >
                     {isConnecting ? 'Joining...' : 'Join Selected Room'}
                   </button>
@@ -588,7 +599,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   />
                   <button
                     onClick={() => handleJoinRoom()}
-                    disabled={isConnecting || !playerName.trim() || !roomId.trim() || !joinPassword.trim()}
+                    disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim() || !joinPassword.trim()}
                     className="join-button"
                   >
                     {isConnecting ? 'Joining...' : 'Join'}
@@ -623,7 +634,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                       </div>
                       <button 
                         onClick={() => handleQuickJoin(room)}
-                        disabled={isConnecting || !playerName.trim() || room.playerCount >= room.maxPlayers}
+                        disabled={isConnecting || !playerNameRef.current.trim() || room.playerCount >= room.maxPlayers}
                         className="quick-join-button"
                       >
                         {room.playerCount >= room.maxPlayers ? 'Full' : 'Join'}
@@ -683,7 +694,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             <div className="create-buttons">
               <button
                 onClick={handleCreateRoom}
-                disabled={isConnecting || !playerName.trim() || !roomName.trim() || !roomPassword.trim()}
+                disabled={isConnecting || !playerNameRef.current.trim() || !roomName.trim() || !roomPasswordRef.current.trim()}
                 className="create-button"
               >
                 {isConnecting ? 'Creating...' : 'Create Temporary Room'}
@@ -692,7 +703,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               {isAuthenticated && (
                 <button
                   onClick={handleCreatePersistentRoom}
-                  disabled={isConnecting || !roomName.trim() || !roomPassword.trim()}
+                  disabled={isConnecting || !roomName.trim() || !roomPasswordRef.current.trim()}
                   className="create-button persistent"
                 >
                   {isConnecting ? 'Creating...' : 'Create Persistent Room'}

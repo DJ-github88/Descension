@@ -35,6 +35,7 @@ class EventBatcher {
    */
   initializeRoom(roomId) {
     if (this.roomBatches.has(roomId)) {
+      console.log(`📦 Room ${roomId} already has event batching initialized`);
       return; // Already initialized
     }
 
@@ -58,7 +59,10 @@ class EventBatcher {
     }, this.defaultBatchInterval);
 
     this.batchIntervals.set(roomId, intervalId);
-    console.log(`📦 Event batching initialized for room ${roomId}`);
+    // Reduce logging frequency to prevent spam
+    if (this.roomBatches.size % 3 === 0) {
+      console.log(`📦 Event batching: ${this.roomBatches.size} rooms tracked`);
+    }
   }
 
   /**

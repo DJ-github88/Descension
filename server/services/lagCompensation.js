@@ -55,7 +55,10 @@ class LagCompensationSystem {
       lastMeasurement: Date.now()
     });
 
-    console.log(`⚡ Lag compensation initialized for client ${socketId}`);
+    // Reduce logging to prevent spam - only log every 5th client
+    if (this.clientStates.size % 5 === 0) {
+      console.log(`⚡ Lag compensation: ${this.clientStates.size} clients tracked`);
+    }
   }
 
   /**

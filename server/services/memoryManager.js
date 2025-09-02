@@ -37,22 +37,44 @@ class MemoryManager {
    */
   startMonitoring() {
     // Regular cleanup cycle
-    setInterval(() => {
+    this.cleanupIntervalId = setInterval(() => {
       this.performCleanupCycle();
     }, this.cleanupInterval);
 
     // Memory usage monitoring
-    setInterval(() => {
+    this.memoryCheckIntervalId = setInterval(() => {
       this.checkMemoryUsage();
     }, this.memoryCheckInterval);
 
     // Garbage collection hint
-    setInterval(() => {
+    this.gcIntervalId = setInterval(() => {
       if (global.gc) {
         global.gc();
         console.log('🗑️ Manual garbage collection triggered');
       }
     }, 5 * 60 * 1000); // Every 5 minutes
+  }
+
+  /**
+   * Stop memory monitoring and cleanup
+   */
+  stopMonitoring() {
+    if (this.cleanupIntervalId) {
+      clearInterval(this.cleanupIntervalId);
+      this.cleanupIntervalId = null;
+    }
+
+    if (this.memoryCheckIntervalId) {
+      clearInterval(this.memoryCheckIntervalId);
+      this.memoryCheckIntervalId = null;
+    }
+
+    if (this.gcIntervalId) {
+      clearInterval(this.gcIntervalId);
+      this.gcIntervalId = null;
+    }
+
+    console.log('🛑 Memory monitoring stopped');
   }
 
   /**
@@ -77,7 +99,10 @@ class MemoryManager {
       this.updateRoomMemoryUsage(roomId, metadata.size, 'add');
     }
 
-    console.log(`📊 Tracking object ${objectId} (${type}): ${metadata.size} bytes`);
+    // Reduce logging frequency to prevent spam
+    if (this.trackedObjects.size % 10 === 0) {
+      console.log(`📊 Memory tracking: ${this.trackedObjects.size} objects tracked`);
+    }
     return metadata;
   }
 

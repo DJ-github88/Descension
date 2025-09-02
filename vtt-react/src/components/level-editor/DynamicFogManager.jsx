@@ -135,10 +135,26 @@ const DynamicFogManager = () => {
         lightInteractsWithFog
     ]);
 
-    // Update fog when tokens move
+    // Update fog when tokens move (with dependency tracking to prevent infinite loops)
+    const [lastUpdateHash, setLastUpdateHash] = useState('');
+
     useEffect(() => {
-        updateFogVisibility();
-    }, [updateFogVisibility]);
+        // Create a hash of critical dependencies to prevent infinite loops
+        const currentHash = JSON.stringify({
+            dynamicFogEnabled,
+            tokensLength: tokens?.length || 0,
+            creaturesLength: creatures?.length || 0,
+            wallDataLength: wallData?.length || 0,
+            lightingEnabled,
+            lightInteractsWithFog
+        });
+
+        // Only update if dependencies actually changed
+        if (currentHash !== lastUpdateHash) {
+            setLastUpdateHash(currentHash);
+            updateFogVisibility();
+        }
+    }, [updateFogVisibility, dynamicFogEnabled, tokens?.length, creatures?.length, wallData?.length, lightingEnabled, lightInteractsWithFog, lastUpdateHash]);
 
     // Set up interval for periodic updates (in case of missed updates)
     useEffect(() => {

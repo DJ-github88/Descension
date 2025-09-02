@@ -44,9 +44,21 @@ class RealtimeSyncEngine {
   }
 
   /**
+   * Check if room is already initialized
+   */
+  isRoomInitialized(roomId) {
+    return this.roomStates.has(roomId);
+  }
+
+  /**
    * Initialize synchronization for a room
    */
   initializeRoom(roomId, initialState = {}) {
+    // Prevent duplicate initialization
+    if (this.isRoomInitialized(roomId)) {
+      console.log(`🔄 Room ${roomId} already initialized for real-time sync`);
+      return this.roomStates.get(roomId);
+    }
     const completeState = {
       // Character data
       characters: initialState.characters || {},

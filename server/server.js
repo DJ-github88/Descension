@@ -219,12 +219,19 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
 
   rooms.set(roomId, room);
 
-  // Initialize enhanced multiplayer services for this room
-  deltaSync.initializeRoom(roomId, room.gameState);
-  eventBatcher.initializeRoom(roomId);
-  realtimeSync.initializeRoom(roomId, room.gameState);
-  memoryManager.trackObject(roomId, 'room', room, roomId);
-  lagCompensation.initializeClient(gmSocketId, roomId);
+  // Initialize enhanced multiplayer services for this room (optimized)
+  try {
+    deltaSync.initializeRoom(roomId, room.gameState);
+    eventBatcher.initializeRoom(roomId);
+    // Only initialize realtimeSync for rooms with more than 1 player to reduce overhead
+    if (room.players.size > 0) {
+      realtimeSync.initializeRoom(roomId, room.gameState);
+    }
+    memoryManager.trackObject(roomId, 'room', room, roomId);
+    lagCompensation.initializeClient(gmSocketId, roomId);
+  } catch (error) {
+    console.warn('⚠️ Enhanced services initialization failed, continuing with basic functionality:', error);
+  }
 
   // Add GM to players tracking immediately when room is created
   players.set(gmSocketId, {
@@ -333,12 +340,32 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     color: playerColor || '#4a90e2' // Ensure color is always set
   });
 
-  // Initialize enhanced services for new player
-  lagCompensation.initializeClient(socketId, roomId);
-  memoryManager.trackPlayerSession(socketId, {
-    id: playerId,
-    name: playerName
-  }, roomId);
+  // Initialize enhanced services for new player (optimized)
+  try {
+    lagCompensation.initializeClient(socketId, roomId);
+    memoryManager.trackPlayerSession(socketId, {
+      id: playerId,
+      name: playerName
+    }, roomId);
+
+    // Initialize realtimeSync for the room if this is the first player joining
+    if (room.players.size === 1 && !realtimeSync.isRoomInitialized(roomId)) {
+      realtimeSync.initializeRoom(roomId, room.gameState);
+    }
+  } catch (error) {
+    console.warn('⚠️ Enhanced services initialization failed for player, continuing with basic functionality:', error);
+  }
+
+  // Add player to Firebase room members if this is a persistent room
+  if (room.persistentRoomId) {
+    try {
+      // Note: This would require user authentication, but for now we'll handle it differently
+      // The client-side should handle Firebase room membership when authenticated
+      console.log(`📝 Player ${playerName} should be added to Firebase room ${room.persistentRoomId} members`);
+    } catch (error) {
+      console.warn('Failed to add player to Firebase room members:', error);
+    }
+  }
 
   console.log(`🚀 Enhanced player ${playerName} joined room: ${room.name} - Room players: ${room.players.size + 1}`);
   return { room, player };
@@ -1713,7 +1740,7 @@ io.on('connection', (socket) => {
 });
 
 // Cleanup throttling maps periodically to prevent memory buildup
-setInterval(() => {
+const throttleCleanupInterval = setInterval(() => {
   const now = Date.now();
   const THROTTLE_ENTRY_LIFETIME = 30000; // 30 seconds
 
@@ -1735,6 +1762,9 @@ setInterval(() => {
     }
   }
 }, 10000); // Clean up every 10 seconds
+
+// Store interval ID for proper cleanup on server shutdown
+global.throttleCleanupInterval = throttleCleanupInterval;
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {

@@ -559,8 +559,12 @@ const useGridItemStore = create(
             const hostname = window?.location?.hostname || '';
             if (hostname.includes('netlify') || hostname.includes('vercel')) {
               console.log(`🎯 PRODUCTION DETECTED: Adding extra removal attempts`);
+
+              // Store timeout IDs for potential cleanup
+              const timeoutIds = [];
+
               [200, 500, 1000].forEach(delay => {
-                setTimeout(() => {
+                const timeoutId = setTimeout(() => {
                   const items = Array.isArray(get().gridItems) ? get().gridItems : [];
                   const itemStillExists = items.find(item => item?.id === gridItemId);
                   if (itemStillExists) {
@@ -571,7 +575,15 @@ const useGridItemStore = create(
                     }));
                   }
                 }, delay);
+
+                timeoutIds.push(timeoutId);
               });
+
+              // Store timeout IDs for potential cleanup (though they're short-lived)
+              if (!window.gridItemCleanupTimeouts) {
+                window.gridItemCleanupTimeouts = new Set();
+              }
+              timeoutIds.forEach(id => window.gridItemCleanupTimeouts.add(id));
             }
 
             if (sendToServer && gameStore.isInMultiplayer) {

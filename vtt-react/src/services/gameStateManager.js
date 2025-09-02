@@ -113,7 +113,7 @@ class GameStateManager {
 
     try {
       const gameState = await loadCompleteGameState(this.currentRoomId);
-      
+
       if (gameState && Object.keys(gameState).length > 0) {
         await this.applyGameStateToStores(gameState);
         console.log('✅ Game state loaded and applied successfully');
@@ -121,6 +121,13 @@ class GameStateManager {
         console.log('📝 No existing game state found, starting fresh');
       }
     } catch (error) {
+      // Check if this is a permission error
+      if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+        console.warn('⚠️ Firebase permission denied for game state loading. This is expected for socket-only room joins. Continuing with empty state.');
+        // Don't retry permission errors to prevent spam
+        return;
+      }
+
       console.error('❌ Error loading game state:', error);
       // Continue with empty state rather than failing
     } finally {
