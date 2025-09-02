@@ -549,12 +549,23 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                          ((isZoneSpell || targetingType === 'self_centered') && movementBehavior !== 'static');
 
     if (shouldAnimate) {
-      // Start animation loop
+      // Start animation loop - OPTIMIZED for performance
       let lastTime = 0;
+      let lastUpdate = 0;
+      const ANIMATION_THROTTLE = 50; // 20fps instead of 60fps
+
       const animate = (time) => {
         if (lastTime === 0) lastTime = time;
+
+        // Throttle animation updates for better performance
+        if (time - lastUpdate < ANIMATION_THROTTLE) {
+          animationRef.current = requestAnimationFrame(animate);
+          return;
+        }
+
         const deltaTime = time - lastTime;
         lastTime = time;
+        lastUpdate = time;
 
         // Update animation time (used for animated effects)
         setAnimationTime(prevTime => prevTime + deltaTime / 1000);

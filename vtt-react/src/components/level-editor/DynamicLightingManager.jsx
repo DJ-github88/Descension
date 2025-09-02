@@ -129,30 +129,41 @@ const DynamicLightingManager = () => {
         updateLighting();
     }, [updateLighting]);
 
-    // Set up animation frame loop for flickering lights
+    // Set up animation frame loop for flickering lights - OPTIMIZED for performance
     useEffect(() => {
         if (!lightingEnabled) return;
 
         let animationId;
-        
-        const animate = () => {
+        let lastFlickerUpdate = 0;
+        const FLICKER_THROTTLE = 100; // Limit flicker updates to 10fps instead of 60fps
+
+        const animate = (currentTime) => {
+            // Throttle flicker updates for better performance
+            if (currentTime - lastFlickerUpdate < FLICKER_THROTTLE) {
+                animationId = requestAnimationFrame(animate);
+                return;
+            }
+
             // Check if any lights are flickering
-            const hasFlickeringLights = Object.values(lightSources).some(light => 
+            const hasFlickeringLights = Object.values(lightSources).some(light =>
                 light.enabled && light.flickering
             );
-            
+
             if (hasFlickeringLights) {
                 updateLighting();
+                lastFlickerUpdate = currentTime;
+                animationId = requestAnimationFrame(animate);
+            } else {
+                // Stop animation loop if no flickering lights
+                animationId = null;
             }
-            
-            animationId = requestAnimationFrame(animate);
         };
 
         // Only start animation loop if there are flickering lights
-        const hasFlickeringLights = Object.values(lightSources).some(light => 
+        const hasFlickeringLights = Object.values(lightSources).some(light =>
             light.enabled && light.flickering
         );
-        
+
         if (hasFlickeringLights) {
             animationId = requestAnimationFrame(animate);
         }

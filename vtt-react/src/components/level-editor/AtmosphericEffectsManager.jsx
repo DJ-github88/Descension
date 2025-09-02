@@ -161,9 +161,14 @@ const AtmosphericEffectsManager = () => {
         });
     }, []);
 
-    // Animation loop
+    // Animation loop - OPTIMIZED for performance
     const animate = useCallback(() => {
         if (!atmosphericEffects || !weatherEffects.enabled || weatherEffects.type === 'none') {
+            // Stop animation if effects are disabled
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+                animationRef.current = null;
+            }
             return;
         }
 
@@ -172,7 +177,15 @@ const AtmosphericEffectsManager = () => {
 
         const ctx = canvas.getContext('2d');
         const now = Date.now();
-        const deltaTime = 16; // Assume 60fps
+
+        // Throttle to 30fps instead of 60fps for better performance
+        if (now - (animationRef.lastUpdate || 0) < 33) {
+            animationRef.current = requestAnimationFrame(animate);
+            return;
+        }
+        animationRef.lastUpdate = now;
+
+        const deltaTime = 33; // 30fps
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);

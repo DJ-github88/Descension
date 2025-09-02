@@ -49,8 +49,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const tokenUpdateThrottleRef = useRef(new Map());
   const SIMPLE_THROTTLE_MS = 16; // ~60fps
 
-  const THROTTLE_CLEANUP_INTERVAL = 5000; // Clean up throttle map every 5 seconds
-  const THROTTLE_ENTRY_LIFETIME = 10000; // Remove entries older than 10 seconds
+  const THROTTLE_CLEANUP_INTERVAL = 30000; // Clean up throttle map every 30 seconds (reduced from 5s)
+  const THROTTLE_ENTRY_LIFETIME = 60000; // Remove entries older than 60 seconds (increased from 10s)
 
   // Track player's own drag operations to prevent feedback loops
   const playerDragStateRef = useRef(new Map()); // Track what the player is currently dragging

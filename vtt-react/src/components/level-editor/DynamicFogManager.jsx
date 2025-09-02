@@ -156,16 +156,17 @@ const DynamicFogManager = () => {
         }
     }, [updateFogVisibility, dynamicFogEnabled, tokens?.length, creatures?.length, wallData?.length, lightingEnabled, lightInteractsWithFog, lastUpdateHash]);
 
-    // Set up interval for periodic updates (in case of missed updates)
-    useEffect(() => {
-        if (!dynamicFogEnabled) return;
+    // Set up interval for periodic updates (in case of missed updates) - DISABLED for performance
+    // This was causing continuous 1fps updates even when nothing changed
+    // useEffect(() => {
+    //     if (!dynamicFogEnabled) return;
 
-        const interval = setInterval(() => {
-            updateFogVisibility();
-        }, 1000); // Update every second
+    //     const interval = setInterval(() => {
+    //         updateFogVisibility();
+    //     }, 1000); // Update every second
 
-        return () => clearInterval(interval);
-    }, [dynamicFogEnabled, updateFogVisibility]);
+    //     return () => clearInterval(interval);
+    // }, [dynamicFogEnabled, updateFogVisibility]);
 
     // Debug information for GM
     useEffect(() => {

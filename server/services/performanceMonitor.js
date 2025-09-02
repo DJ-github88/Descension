@@ -30,8 +30,9 @@ class PerformanceMonitor {
     this.alertCooldown = 60000; // 1 minute between alerts
     this.lastAlerts = new Map();
 
-    this.startMonitoring();
-    console.log('📊 Performance Monitor initialized');
+    // Performance monitoring disabled for better multiplayer performance
+    // this.startMonitoring();
+    console.log('📊 Performance Monitor initialized (monitoring disabled for performance)');
   }
 
   /**

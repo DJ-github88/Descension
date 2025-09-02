@@ -7,7 +7,7 @@ const TurnTimer = ({ tokenId, compact = false }) => {
     const [displayTime, setDisplayTime] = useState({ current: 0, total: 0 });
 
     useEffect(() => {
-        if (!isInCombat) {
+        if (!isInCombat || !tokenId) {
             setDisplayTime({ current: 0, total: 0 });
             return;
         }
@@ -24,8 +24,11 @@ const TurnTimer = ({ tokenId, compact = false }) => {
         // Update immediately
         updateTimer();
 
-        // Update every 100ms for smooth display
-        const interval = setInterval(updateTimer, 100);
+        // Only update frequently if this timer is active, otherwise update less frequently
+        const timerInfo = getTimerInfo(tokenId);
+        const updateInterval = timerInfo.isActive ? 100 : 1000; // 10fps for active, 1fps for inactive
+
+        const interval = setInterval(updateTimer, updateInterval);
 
         return () => clearInterval(interval);
     }, [isInCombat, tokenId, getTimerInfo]);
