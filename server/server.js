@@ -105,33 +105,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// Enhanced health check endpoint with performance metrics
-app.get('/health', (req, res) => {
-  try {
-    const performanceSummary = performanceMonitor.getPerformanceSummary();
-    const errorStats = errorHandler.getErrorStats();
-
-    res.json({
-      status: 'OK',
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'development',
-      corsOrigins: allowedOrigins,
-      performance: {
-        cpu: performanceSummary.cpu.latest?.usage || 0,
-        memory: performanceSummary.memory.latest?.systemPercent || 0,
-        eventLoop: performanceSummary.eventLoop.latest?.delay || 0
-      },
-      errors: {
-        total: errorStats.total,
-        byType: errorStats.byType
-      },
-      uptime: process.uptime()
-    });
-  } catch (error) {
-    console.error('Health check error:', error);
-    res.status(500).json({ status: 'ERROR', message: 'Health check failed' });
-  }
-});
+// DISABLED: Enhanced health check causing 500 errors
+// app.get('/health', (req, res) => {
+//   try {
+//     const performanceSummary = performanceMonitor.getPerformanceSummary();
+//     const errorStats = errorHandler.getErrorStats();
+//     res.json({
+//       status: 'OK',
+//       timestamp: new Date().toISOString(),
+//       environment: process.env.NODE_ENV || 'development',
+//       corsOrigins: allowedOrigins,
+//       performance: {
+//         cpu: performanceSummary.cpu.latest?.usage || 0,
+//         memory: performanceSummary.memory.latest?.systemPercent || 0,
+//         eventLoop: performanceSummary.eventLoop.latest?.delay || 0
+//       },
+//       errors: {
+//         total: errorStats.total,
+//         byType: errorStats.byType
+//       },
+//       uptime: process.uptime()
+//     });
+//   } catch (error) {
+//     console.error('Health check error:', error);
+//     res.status(500).json({ status: 'ERROR', message: 'Health check failed' });
+//   }
+// });
 
 // List public rooms endpoint
 app.get('/rooms', (req, res) => {
