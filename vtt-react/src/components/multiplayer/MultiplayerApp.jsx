@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import EnvironmentDebug from '../debug/EnvironmentDebug';
@@ -55,12 +55,45 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Track player's own drag operations to prevent feedback loops
   const playerDragStateRef = useRef(new Map()); // Track what the player is currently dragging
 
+  // Refs for values used in socket event handlers to prevent dependency issues
+  const currentRoomRef = useRef(currentRoom);
+  const addPartyMemberRef = useRef(addPartyMember);
+  const removePartyMemberRef = useRef(removePartyMember);
+  const addUserRef = useRef(addUser);
+  const removeUserRef = useRef(removeUser);
+  const addNotificationRef = useRef(addNotification);
+
   // Initialize global drag state tracker for cross-component communication
   useEffect(() => {
     if (!window.multiplayerDragState) {
       window.multiplayerDragState = new Map();
     }
   }, []);
+
+  // Update refs when values change to prevent socket event handler recreation
+  useEffect(() => {
+    currentRoomRef.current = currentRoom;
+  }, [currentRoom]);
+
+  useEffect(() => {
+    addPartyMemberRef.current = addPartyMember;
+  }, [addPartyMember]);
+
+  useEffect(() => {
+    removePartyMemberRef.current = removePartyMember;
+  }, [removePartyMember]);
+
+  useEffect(() => {
+    addUserRef.current = addUser;
+  }, [addUser]);
+
+  useEffect(() => {
+    removeUserRef.current = removeUser;
+  }, [removeUser]);
+
+  useEffect(() => {
+    addNotificationRef.current = addNotification;
+  }, [addNotification]);
 
   // Cleanup function for throttling maps to prevent memory buildup
   const cleanupThrottleMaps = useCallback(() => {
@@ -89,11 +122,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [cleanupThrottleMaps]);
 
-  // Socket server URL - adjust based on environment
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL ||
-    (process.env.NODE_ENV === 'production'
-      ? 'https://descension-mythrill.up.railway.app' // Your Railway URL
-      : 'http://localhost:3001');
+  // Socket server URL - adjust based on environment (memoized to prevent recreation)
+  const SOCKET_URL = useMemo(() => {
+    return process.env.REACT_APP_SOCKET_URL ||
+      (process.env.NODE_ENV === 'production'
+        ? 'https://descension-mythrill.up.railway.app' // Your Railway URL
+        : 'http://localhost:3001');
+  }, []); // Empty dependency array since environment variables don't change
 
   // Environment check logs removed for performance
 
@@ -118,7 +153,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.error('Socket error in MultiplayerApp:', error);
       setIsConnecting(false);
       // Show error notification to user
-      addNotification('social', {
+      addNotificationRef.current('social', {
         sender: { name: 'System', class: 'system', level: 0 },
         content: `Connection error: ${error.message || 'Unknown error'}`,
         type: 'system',
@@ -130,7 +165,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.error('Socket connection error:', error);
       setIsConnecting(false);
       // Show connection error to user
-      addNotification('social', {
+      addNotificationRef.current('social', {
         sender: { name: 'System', class: 'system', level: 0 },
         content: 'Failed to connect to server. Please check your connection.',
         type: 'system',
@@ -650,7 +685,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('connect_error');
       socket.off('reconnect');
     };
-  }, [socket, currentRoom, addPartyMember, removePartyMember, addUser, removeUser, addNotification]);
+  }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
   const handleJoinRoom = (room, socketConnection, isGameMaster) => {
 

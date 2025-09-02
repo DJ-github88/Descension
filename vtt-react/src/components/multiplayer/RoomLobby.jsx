@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { io } from 'socket.io-client';
 import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
@@ -37,8 +37,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     roomPasswordRef.current = roomPassword;
   }, [roomPassword]);
 
-  // Socket server URL for room fetching with fallback options
-  const getSocketURL = () => {
+  // Socket server URL for room fetching with fallback options (memoized to prevent recreation)
+  const SOCKET_URL = useMemo(() => {
     // Try environment variable first
     if (process.env.REACT_APP_SOCKET_URL) {
       return process.env.REACT_APP_SOCKET_URL;
@@ -52,12 +52,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     // Development fallback
     return 'http://localhost:3001';
-  };
+  }, []); // Empty dependency array since environment variables don't change
 
-  const SOCKET_URL = getSocketURL();
-
-  console.log('🔌 Socket URL:', SOCKET_URL);
-  console.log('🌍 Environment:', process.env.NODE_ENV);
+  // Reduced logging for production performance
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔌 Socket URL:', SOCKET_URL);
+    console.log('🌍 Environment:', process.env.NODE_ENV);
+  }
 
   useEffect(() => {
     // Check for preselected room from account dashboard
@@ -103,7 +104,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   useEffect(() => {
     if (!socket) return;
 
-    console.log('Setting up RoomLobby socket event listeners');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Setting up RoomLobby socket event listeners');
+    }
 
     // Socket event listeners
     const handleConnect = () => {
@@ -209,7 +212,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     return () => {
-      console.log('Cleaning up RoomLobby socket event listeners');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Cleaning up RoomLobby socket event listeners');
+      }
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);
