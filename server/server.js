@@ -527,9 +527,27 @@ io.on('connection', (socket) => {
     console.log('🚪 Received join_room request:', data);
     const { roomId, playerName, password } = data;
 
+    // Enhanced parameter validation with detailed logging
     if (!roomId || !playerName || !password) {
-      console.log('❌ Missing required fields for join:', { roomId, playerName, password });
+      console.log('❌ Missing required fields for join:', {
+        roomId: roomId || 'MISSING',
+        playerName: playerName || 'MISSING',
+        password: password ? '[HIDDEN]' : 'MISSING',
+        socketId: socket.id
+      });
       socket.emit('error', { message: 'Room ID, player name, and password are required' });
+      return;
+    }
+
+    // Additional validation for empty strings
+    if (!roomId.trim() || !playerName.trim() || !password.trim()) {
+      console.log('❌ Empty required fields for join:', {
+        roomId: roomId.trim() || 'EMPTY',
+        playerName: playerName.trim() || 'EMPTY',
+        password: password.trim() ? '[HIDDEN]' : 'EMPTY',
+        socketId: socket.id
+      });
+      socket.emit('error', { message: 'Room ID, player name, and password cannot be empty' });
       return;
     }
 

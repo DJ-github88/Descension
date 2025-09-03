@@ -145,8 +145,20 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       console.log('Room created successfully:', data);
       setIsConnecting(false);
 
-      // Store the room password for auto-join
+      // Store the room password and player name for auto-join BEFORE clearing form
       const createdRoomPassword = roomPassword;
+      const createdPlayerName = playerNameRef.current.trim();
+
+      // Validate parameters before proceeding
+      if (!data.room?.id || !createdPlayerName || !createdRoomPassword) {
+        console.error('❌ Missing required parameters for auto-join:', {
+          roomId: data.room?.id,
+          playerName: createdPlayerName,
+          password: createdRoomPassword ? '[HIDDEN]' : 'MISSING'
+        });
+        setError('Failed to auto-join created room. Please join manually.');
+        return;
+      }
 
       // Clear form
       setRoomName('');
@@ -157,7 +169,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       setTimeout(() => {
         const joinData = {
           roomId: data.room.id,
-          playerName: playerNameRef.current.trim(),
+          playerName: createdPlayerName,
           password: createdRoomPassword.trim(),
           playerColor: playerColor
         };
