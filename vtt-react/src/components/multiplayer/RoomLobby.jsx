@@ -146,7 +146,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       setIsConnecting(false);
 
       // Store the room password and player name for auto-join BEFORE clearing form
-      const createdRoomPassword = roomPassword;
+      const createdRoomPassword = roomPasswordRef.current.trim();
       const createdPlayerName = playerNameRef.current.trim();
 
       // Validate parameters before proceeding
@@ -170,7 +170,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         const joinData = {
           roomId: data.room.id,
           playerName: createdPlayerName,
-          password: createdRoomPassword.trim(),
+          password: createdRoomPassword,
           playerColor: playerColor
         };
 
