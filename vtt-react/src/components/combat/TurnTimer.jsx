@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import useCombatStore from '../../store/combatStore';
 import '../../styles/turn-timer.css';
 
 const TurnTimer = ({ tokenId, compact = false }) => {
     const { isInCombat, getTimerInfo } = useCombatStore();
     const [displayTime, setDisplayTime] = useState({ current: 0, total: 0 });
+    const intervalRef = useRef(null);
+    const animationFrameRef = useRef(null);
+
+    // Optimized update function with reduced frequency
+    const updateTimer = useCallback(() => {
+        if (!isInCombat || !tokenId) {
+            setDisplayTime({ current: 0, total: 0 });
+            return;
+        }
+
+        const timerInfo = getTimerInfo(tokenId);
+        setDisplayTime({
+            current: timerInfo.currentTime,
+            total: timerInfo.totalTime + timerInfo.currentTime,
+            isActive: timerInfo.isActive
+        });
+    }, [isInCombat, tokenId, getTimerInfo]);
 
     useEffect(() => {
         if (!isInCombat || !tokenId) {
@@ -12,26 +29,27 @@ const TurnTimer = ({ tokenId, compact = false }) => {
             return;
         }
 
-        const updateTimer = () => {
-            const timerInfo = getTimerInfo(tokenId);
-            setDisplayTime({
-                current: timerInfo.currentTime,
-                total: timerInfo.totalTime + timerInfo.currentTime,
-                isActive: timerInfo.isActive
-            });
-        };
-
         // Update immediately
         updateTimer();
 
-        // Only update frequently if this timer is active, otherwise update less frequently
+        // Use very infrequent updates to prevent performance issues
+        // Only update every 1000ms (1fps) instead of 500ms (2fps)
         const timerInfo = getTimerInfo(tokenId);
-        const updateInterval = timerInfo.isActive ? 100 : 1000; // 10fps for active, 1fps for inactive
+        const updateInterval = timerInfo.isActive ? 1000 : 3000; // 1fps for active, 0.33fps for inactive
 
-        const interval = setInterval(updateTimer, updateInterval);
+        intervalRef.current = setInterval(updateTimer, updateInterval);
 
-        return () => clearInterval(interval);
-    }, [isInCombat, tokenId, getTimerInfo]);
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+            if (animationFrameRef.current) {
+                cancelAnimationFrame(animationFrameRef.current);
+                animationFrameRef.current = null;
+            }
+        };
+    }, [isInCombat, tokenId, updateTimer]);
 
     // Don't render if not in combat
     if (!isInCombat) return null;

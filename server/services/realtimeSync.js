@@ -16,23 +16,23 @@ class RealtimeSyncEngine {
     this.deltaSync = deltaSync;
     this.optimizedFirebase = optimizedFirebase;
     
-    // Sync categories with different priorities and update rates
+    // Sync categories with different priorities and update rates (reduced for player performance)
     this.syncCategories = {
-      // Critical - immediate sync
-      combat: { priority: 'critical', updateRate: 60, persistent: true },
-      tokens: { priority: 'high', updateRate: 60, persistent: true },
-      
-      // High priority - fast sync
-      characters: { priority: 'high', updateRate: 30, persistent: true },
-      inventory: { priority: 'high', updateRate: 20, persistent: true },
-      
-      // Normal priority - regular sync
-      map: { priority: 'normal', updateRate: 10, persistent: true },
-      ui: { priority: 'normal', updateRate: 15, persistent: false },
-      
-      // Low priority - slow sync
-      chat: { priority: 'low', updateRate: 5, persistent: true },
-      settings: { priority: 'low', updateRate: 2, persistent: true }
+      // Critical - reduced sync rate to prevent lag
+      combat: { priority: 'critical', updateRate: 10, persistent: true },
+      tokens: { priority: 'high', updateRate: 10, persistent: true },
+
+      // High priority - much slower sync
+      characters: { priority: 'high', updateRate: 5, persistent: true },
+      inventory: { priority: 'high', updateRate: 3, persistent: true },
+
+      // Normal priority - slow sync
+      map: { priority: 'normal', updateRate: 2, persistent: true },
+      ui: { priority: 'normal', updateRate: 2, persistent: false },
+
+      // Low priority - very slow sync
+      chat: { priority: 'low', updateRate: 1, persistent: true },
+      settings: { priority: 'low', updateRate: 1, persistent: true }
     };
 
     // Room sync states

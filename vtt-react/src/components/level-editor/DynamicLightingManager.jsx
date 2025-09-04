@@ -175,16 +175,17 @@ const DynamicLightingManager = () => {
         };
     }, [lightingEnabled, lightSources, updateLighting]);
 
-    // Periodic update for performance monitoring
-    useEffect(() => {
-        if (!lightingEnabled) return;
+    // DISABLED: Periodic update for performance monitoring - causing performance issues
+    // The lighting system already updates based on dependencies, this redundant interval was causing freezing
+    // useEffect(() => {
+    //     if (!lightingEnabled) return;
 
-        const interval = setInterval(() => {
-            updateLighting();
-        }, 1000); // Update every second
+    //     const interval = setInterval(() => {
+    //         updateLighting();
+    //     }, 1000); // Update every second
 
-        return () => clearInterval(interval);
-    }, [lightingEnabled, updateLighting]);
+    //     return () => clearInterval(interval);
+    // }, [lightingEnabled, updateLighting]);
 
     // Expose lighting data globally for other components to use
     useEffect(() => {

@@ -755,6 +755,13 @@ const useGridItemStore = create(
             const value = localStorage.getItem(name);
             if (!value) return null;
 
+            // Check if value is already an object (corrupted state)
+            if (typeof value === 'object') {
+              safeLog('warn', 'Corrupted localStorage detected, clearing grid items store');
+              localStorage.removeItem(name);
+              return null;
+            }
+
             const parsed = JSON.parse(value);
             // Ensure gridItems is always an array
             if (parsed && parsed.state && parsed.state.gridItems) {
@@ -762,7 +769,13 @@ const useGridItemStore = create(
             }
             return value; // Return original string for Zustand to parse
           } catch (error) {
-            safeLog('error', 'Error retrieving grid items from localStorage:', error);
+            safeLog('error', 'Error retrieving grid items from localStorage, clearing corrupted data:', error);
+            // Clear corrupted data to prevent repeated errors
+            try {
+              localStorage.removeItem(name);
+            } catch (clearError) {
+              safeLog('error', 'Failed to clear corrupted localStorage:', clearError);
+            }
             return null;
           }
         },

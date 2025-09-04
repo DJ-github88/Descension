@@ -171,11 +171,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     let dragTimeoutId = null;
 
     const handleMouseMove = (e) => {
-      console.log('🎯 Mouse move event', {
-        isMouseDown: isMouseDownRef.current,
-        isDragging: isDraggingRef.current,
-        hasMouseDownPosition: !!mouseDownPosition
-      });
+      // Removed excessive logging for performance
 
       // Check if mouse is down but not yet dragging (threshold check)
       if (isMouseDownRef.current && !isDraggingRef.current && mouseDownPosition) {
@@ -185,7 +181,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         // Only start dragging if we've moved beyond the threshold
         if (distance >= DRAG_THRESHOLD) {
-          console.log('🎯 Drag threshold exceeded, starting drag operation');
+          // Removed excessive logging for performance
           setIsDragging(true);
           isDraggingRef.current = true;
 
@@ -197,7 +193,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             window.multiplayerDragState = new Map();
           }
           window.multiplayerDragState.set(`token_${token.creatureId}`, true);
-          console.log('🎯 Started dragging token:', token.creatureId, 'Drag state:', window.multiplayerDragState);
+          // Removed excessive logging for performance
 
           // Start movement visualization if enabled and in combat
           if (showMovementVisualization && isInCombat) {
@@ -236,9 +232,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
       if (isInMultiplayer && token && multiplayerSocket) {
         if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
+          // Snap to grid during drag to ensure consistency with final position
+          const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+          const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
           multiplayerSocket.emit('token_moved', {
             tokenId: token.creatureId,
-            position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) }, // Round to reduce precision
+            position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
             isDragging: true
           });
           lastNetworkUpdate = now;
@@ -263,18 +263,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     };
 
     const handleMouseUp = (e) => {
-      console.log('🎯 Mouse up event triggered', {
-        button: e.button,
-        isDragging: isDraggingRef.current,
-        isMouseDown: isMouseDownRef.current
-      });
+      // Removed excessive logging for performance
 
       // Handle mouse up for both dragging and non-dragging cases
       if (e.button !== 0) return; // Only handle left mouse button
 
       // If we were just mouse down but never started dragging, this is a simple click
       if (isMouseDownRef.current && !isDraggingRef.current) {
-        console.log('🎯 Simple click detected - no token movement');
+        // Removed excessive logging for performance
         setIsMouseDown(false);
         isMouseDownRef.current = false;
         setMouseDownPosition(null);
@@ -284,7 +280,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // If we're not dragging, nothing to do
       if (!isDraggingRef.current) {
-        console.log('🎯 Mouse up but not dragging - resetting mouse down state');
+        // Removed excessive logging for performance
         setIsMouseDown(false);
         isMouseDownRef.current = false;
         setMouseDownPosition(null);
@@ -310,15 +306,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       const gridCoords = gridSystem.worldToGrid(rawWorldPos.x, rawWorldPos.y);
       const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-      console.log('🎯 Final position calculation:', {
-        mousePos: { x: e.clientX, y: e.clientY },
-        dragOffset,
-        calculatedScreenPos: { x: screenX, y: screenY },
-        rawWorldPos,
-        gridCoords,
-        finalWorldPos,
-        originalPos: position
-      });
+      // Removed excessive logging for performance
 
       // Update token position to snapped grid center (with multiplayer sync)
       updateTokenPositionWithSync(tokenId, finalWorldPos);
@@ -371,7 +359,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       clearMovementVisualization();
 
       // End dragging and reset all states
-      console.log('🎯 Resetting all drag states for token:', token.creatureId);
+      // Removed excessive logging for performance
       setIsDragging(false);
       isDraggingRef.current = false;
       setIsMouseDown(false);
@@ -386,21 +374,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Clear drag state globally to allow network updates again
       if (window.multiplayerDragState) {
         window.multiplayerDragState.delete(`token_${token.creatureId}`);
-        console.log('🎯 Stopped dragging token:', token.creatureId, 'Drag state:', window.multiplayerDragState);
+        // Removed excessive logging for performance
       }
     };
 
     if (isDragging || isMouseDown) {
-      // Use passive: false only for mousemove to allow preventDefault, passive: true for mouseup for performance
+      // Use passive: false for both mousemove and mouseup to allow preventDefault
       document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
-      document.addEventListener('mouseup', handleMouseUp, { passive: true, capture: true });
+      document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
 
       // Also add a fallback mouseup listener without capture to ensure we catch it
-      document.addEventListener('mouseup', handleMouseUp, { passive: true });
+      document.addEventListener('mouseup', handleMouseUp, { passive: false });
 
       // Safety timeout to reset dragging state if mouse up is missed
       dragTimeoutId = setTimeout(() => {
-        console.log('🎯 Drag timeout - forcing reset of creature dragging state');
+        // Removed excessive logging for performance
         setIsDragging(false);
         setIsMouseDown(false);
         if (window.multiplayerDragState && token) {
@@ -412,7 +400,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     }
 
     return () => {
-      console.log('🎯 Cleaning up event listeners for token:', token?.creatureId);
+      // Removed excessive logging for performance
       document.removeEventListener('mousemove', handleMouseMove, { capture: true });
       document.removeEventListener('mouseup', handleMouseUp, { capture: true });
       document.removeEventListener('mouseup', handleMouseUp);
@@ -566,11 +554,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     setTooltipPosition({ x, y });
 
-    console.log('📍 Tooltip position set:', { x, y });
+    // Removed excessive logging for performance
 
     // Show tooltip after 0.5 second delay (reduced for testing)
     tooltipTimeoutRef.current = setTimeout(() => {
-      console.log('✨ Showing tooltip for:', creature?.name);
+      // Removed excessive logging for performance
       setShowTooltip(true);
     }, 500);
   };
@@ -877,7 +865,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     e.stopPropagation();
     e.preventDefault(); // Prevent text selection during drag
 
-    console.log('🎯 Token mousedown event - preventing grid click handling');
+    // Removed excessive logging for performance
 
     // If in selection mode, toggle selection instead of dragging
     if (isSelectionMode) {
@@ -907,19 +895,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       y: e.clientY - screenPosition.y
     };
 
-    console.log('🎯 Drag offset calculation:', {
-      mousePos: { x: e.clientX, y: e.clientY },
-      tokenScreenPos: screenPosition,
-      calculatedOffset,
-      tokenWorldPos: position
-    });
+    // Removed excessive logging for performance
 
     setDragOffset(calculatedOffset);
 
     // Store the starting position for potential movement
     setDragStartPosition({ x: position.x, y: position.y });
 
-    console.log('🎯 Mouse down on token - waiting for drag threshold');
+    // Removed excessive logging for performance
   };
 
   // Handle click events on the token (separate from mousedown for dragging)
@@ -932,7 +915,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     e.stopPropagation();
     e.preventDefault();
 
-    console.log('🎯 Token click event - prevented from reaching grid');
+    // Removed excessive logging for performance
 
     // Only handle click if we're not dragging
     if (!isDragging) {

@@ -10,13 +10,13 @@ require('dotenv').config();
 // Firebase service for persistence
 const firebaseService = require('./services/firebaseService');
 
-// DISABLED: Enhanced multiplayer services causing socket errors and lag
-// const deltaSync = require('./services/deltaSync');
-// const EventBatcher = require('./services/eventBatcher');
-// const optimizedFirebase = require('./services/optimizedFirebase');
-// const memoryManager = require('./services/memoryManager');
-// const lagCompensation = require('./services/lagCompensation');
-// const RealtimeSyncEngine = require('./services/realtimeSync');
+// Smart Enhanced Services: Initialize but use conditionally
+const deltaSync = require('./services/deltaSync');
+const EventBatcher = require('./services/eventBatcher');
+const optimizedFirebase = require('./services/optimizedFirebase');
+const memoryManager = require('./services/memoryManager');
+const lagCompensation = require('./services/lagCompensation');
+const RealtimeSyncEngine = require('./services/realtimeSync');
 
 // DISABLED: Infrastructure services causing performance issues
 // const ErrorHandler = require('./services/errorHandler');
@@ -81,7 +81,11 @@ global.errorHandler = errorHandler;
 global.performanceMonitor = performanceMonitor;
 // global.memoryManager = memoryManager; // DISABLED
 
-console.log('🚀 Basic multiplayer services initialized (enhanced services disabled for performance)');
+// Initialize enhanced services
+const eventBatcher = new EventBatcher(io);
+const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
+
+console.log('🚀 Smart enhanced multiplayer services initialized (role-aware optimization)');
 
 // Middleware
 app.use(cors({
@@ -234,18 +238,22 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
 
   rooms.set(roomId, room);
 
-  // DISABLED: Enhanced multiplayer services causing lag and socket errors
-  // try {
-  //   deltaSync.initializeRoom(roomId, room.gameState);
-  //   eventBatcher.initializeRoom(roomId);
-  //   if (room.players.size > 0) {
-  //     realtimeSync.initializeRoom(roomId, room.gameState);
-  //   }
-  //   memoryManager.trackObject(roomId, 'room', room, roomId);
-  //   lagCompensation.initializeClient(gmSocketId, roomId);
-  // } catch (error) {
-  //   console.warn('⚠️ Enhanced services initialization failed, continuing with basic functionality:', error);
-  // }
+  // SMART ENHANCED SERVICES: GM-optimized, player-friendly
+  try {
+    // Initialize core services for room management
+    deltaSync.initializeRoom(roomId, room.gameState);
+    eventBatcher.initializeRoom(roomId);
+
+    // Only initialize heavy services for GM optimization
+    if (room.gm) {
+      realtimeSync.initializeRoom(roomId, room.gameState);
+      memoryManager.trackObject(roomId, 'room', room, roomId);
+      lagCompensation.initializeClient(gmSocketId, roomId);
+      console.log('🎯 Enhanced services initialized for GM optimization');
+    }
+  } catch (error) {
+    console.warn('⚠️ Enhanced services initialization failed, continuing with basic functionality:', error);
+  }
 
   // Add GM to players tracking immediately when room is created
   players.set(gmSocketId, {
@@ -715,7 +723,7 @@ io.on('connection', (socket) => {
     console.log(`✅ Chat message from ${player.name} in room ${room.name}: ${data.message}`);
   });
 
-  // Enhanced token movement with lag compensation and delta sync
+  // Smart token movement with role-aware optimization
   socket.on('token_moved', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
@@ -729,15 +737,19 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // Update player activity for memory management
-    memoryManager.updatePlayerActivity(socket.id);
+    // Only apply enhanced services for GMs to prevent player lag
+    let inputResult = null;
+    if (player.isGM) {
+      // Update player activity for memory management (GM only)
+      memoryManager.updatePlayerActivity(socket.id);
 
-    // Process input with lag compensation
-    const inputResult = lagCompensation.processClientInput(socket.id, {
-      type: 'token_move',
-      data: data,
-      timestamp: Date.now()
-    });
+      // Process input with lag compensation (GM only)
+      inputResult = lagCompensation.processClientInput(socket.id, {
+        type: 'token_move',
+        data: data,
+        timestamp: Date.now()
+      });
+    }
 
     // Initialize tokens if needed
     if (!room.gameState.tokens) {
@@ -770,17 +782,20 @@ io.on('connection', (socket) => {
 
       room.gameState.tokens[tokenKey] = updatedToken;
 
-      // Create delta update for efficient synchronization
-      const deltaUpdate = await deltaSync.createStateUpdate(
-        player.roomId,
-        room.gameState,
-        {
-          type: 'token_movement',
-          tokenId: tokenKey,
-          playerId: player.id,
-          isDragging: data.isDragging
-        }
-      );
+      // Create delta update for efficient synchronization (GM optimization only)
+      let deltaUpdate = null;
+      if (player.isGM) {
+        deltaUpdate = await deltaSync.createStateUpdate(
+          player.roomId,
+          room.gameState,
+          {
+            type: 'token_movement',
+            tokenId: tokenKey,
+            playerId: player.id,
+            isDragging: data.isDragging
+          }
+        );
+      }
 
       // Enhanced throttling with conflict detection
       const broadcastKey = `${player.roomId}_${tokenKey}`;
@@ -806,18 +821,27 @@ io.on('connection', (socket) => {
       if (now - lastBroadcast > throttleTime) {
         global.lastTokenBroadcast.set(broadcastKey, now);
 
-        // Send token movement with throttling to prevent player lag
-        io.to(player.roomId).emit('token_moved', {
+        // Send token movement with optimized data for players
+        const tokenMoveData = {
           tokenId: tokenKey,
           creatureId: existingToken.creatureId,
           position: data.position,
           playerId: player.id,
           playerName: player.name,
           isDragging: data.isDragging || false,
-          velocity: data.velocity,
-          sequence: inputResult?.sequence || 0,
           serverTimestamp: now
-        });
+        };
+
+        // Add enhanced data only for GM optimization
+        if (player.isGM && inputResult) {
+          tokenMoveData.velocity = data.velocity;
+          tokenMoveData.sequence = inputResult.sequence;
+        }
+
+        io.to(player.roomId).emit('token_moved', tokenMoveData);
+
+        // Also emit to the sender for confirmation (prevents desync)
+        socket.emit('token_moved', tokenMoveData);
       }
 
       // DISABLED: Optimized Firebase causing performance issues
@@ -839,17 +863,25 @@ io.on('connection', (socket) => {
 
   // Handle character movement synchronization
   socket.on('character_moved', async (data) => {
-    const player = players.get(socket.id);
-    if (!player) {
-      socket.emit('error', { message: 'You are not in a room' });
-      return;
-    }
+    try {
+      const player = players.get(socket.id);
+      if (!player) {
+        socket.emit('error', { message: 'You are not in a room' });
+        return;
+      }
 
-    const room = rooms.get(player.roomId);
-    if (!room) {
-      socket.emit('error', { message: 'Room not found' });
-      return;
-    }
+      const room = rooms.get(player.roomId);
+      if (!room) {
+        socket.emit('error', { message: 'Room not found' });
+        return;
+      }
+
+      // Validate data
+      if (!data || !data.position || typeof data.position.x !== 'number' || typeof data.position.y !== 'number') {
+        console.error('Invalid character movement data:', data);
+        socket.emit('error', { message: 'Invalid movement data' });
+        return;
+      }
 
     // Throttle character movement broadcasts to prevent player lag (more aggressive)
     const broadcastKey = `${player.roomId}_character_${player.id}`;
@@ -862,16 +894,26 @@ io.on('connection', (socket) => {
       global.lastCharacterBroadcast.set(broadcastKey, now);
 
       // Broadcast character movement to ALL players in the room (including mover for confirmation)
-      io.to(player.roomId).emit('character_moved', {
+      const movementData = {
         position: data.position,
         playerId: player.id,
         playerName: player.name,
         isDragging: data.isDragging || false,
-        timestamp: new Date()
-      });
+        timestamp: new Date(),
+        serverTimestamp: now
+      };
+
+      io.to(player.roomId).emit('character_moved', movementData);
+
+      // Also emit to the sender for confirmation (prevents desync)
+      socket.emit('character_moved', movementData);
     }
 
-    console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
+      console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
+    } catch (error) {
+      console.error('Error handling character movement:', error);
+      socket.emit('error', { message: 'Failed to process character movement' });
+    }
   });
 
   // Handle character token creation
@@ -1278,53 +1320,7 @@ io.on('connection', (socket) => {
     console.log(`🎭 Token ${data.creature.name} (${tokenId}) created by ${player.name} at`, data.position);
   });
 
-  // Handle character token creation
-  socket.on('character_token_created', async (data) => {
-    const player = players.get(socket.id);
-    if (!player) {
-      socket.emit('error', { message: 'You are not in a room' });
-      return;
-    }
-
-    const room = rooms.get(player.roomId);
-    if (!room) {
-      socket.emit('error', { message: 'Room not found' });
-      return;
-    }
-
-    // Store character token in room state
-    if (!room.gameState.characterTokens) {
-      room.gameState.characterTokens = {};
-    }
-
-    const characterToken = {
-      id: data.tokenId,
-      playerId: player.id,
-      playerName: player.name,
-      position: data.position,
-      createdAt: new Date()
-    };
-
-    room.gameState.characterTokens[data.tokenId] = characterToken;
-
-    // Persist to Firebase
-    try {
-      await firebaseService.updateRoomGameState(player.roomId, room.gameState);
-    } catch (error) {
-      console.error('Failed to persist character token creation:', error);
-    }
-
-    // Broadcast character token creation to ALL players in the room (including creator for confirmation)
-    io.to(player.roomId).emit('character_token_created', {
-      tokenId: data.tokenId,
-      position: data.position,
-      playerId: player.id,
-      playerName: player.name,
-      timestamp: new Date()
-    });
-
-    console.log(`🎭 Character token ${data.tokenId} created by ${player.name} at`, data.position);
-  });
+  // REMOVED: Duplicate character_token_created handler - handled above
 
   // Handle item looting
   socket.on('item_looted', async (data) => {

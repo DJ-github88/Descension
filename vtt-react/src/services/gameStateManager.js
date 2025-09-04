@@ -21,10 +21,10 @@ class GameStateManager {
   /**
    * Initialize game state manager for a room
    * @param {string} roomId - Room ID
-   * @param {boolean} enableAutoSave - Whether to enable auto-save
+   * @param {boolean} enableAutoSave - Whether to enable auto-save (GM only)
    */
   async initialize(roomId, enableAutoSave = true) {
-    console.log('🎮 Initializing GameStateManager for room:', roomId);
+    console.log('🎮 Initializing GameStateManager for room:', roomId, 'Auto-save:', enableAutoSave);
 
     this.currentRoomId = roomId;
     this.isAutoSaveEnabled = enableAutoSave;
@@ -33,13 +33,15 @@ class GameStateManager {
       clearInterval(this.autoSaveTimer);
     }
 
-    // Load existing game state
-    await this.loadGameState();
+    // Only load game state for GMs to prevent permission errors for players
+    if (enableAutoSave) {
+      await this.loadGameState();
 
-    // Set up store change listeners for auto-save triggers
-    if (this.isAutoSaveEnabled) {
+      // Set up store change listeners for auto-save triggers (GM only)
       this.setupStoreListeners();
       this.startAutoSave();
+    } else {
+      console.log('📝 Player mode: Skipping Firebase operations to prevent permission errors');
     }
   }
 
@@ -314,11 +316,12 @@ class GameStateManager {
   }
 
   /**
-   * Save current game state to Firebase
+   * Save current game state to Firebase (GM only)
    * @param {boolean} force - Force save even if no changes detected
    */
   async saveGameState(force = false) {
-    if (!this.currentRoomId || this.isSaving) return;
+    // Skip saving for players to prevent permission errors
+    if (!this.isAutoSaveEnabled || !this.currentRoomId || this.isSaving) return;
 
     if (!force && this.pendingChanges.size === 0) {
       return; // No changes to save
@@ -330,11 +333,19 @@ class GameStateManager {
     try {
       const gameState = this.collectGameStateFromStores();
       await saveCompleteGameState(this.currentRoomId, gameState);
-      
+
       this.lastSaveTime = Date.now();
       this.pendingChanges.clear();
       console.log('✅ Game state saved successfully');
     } catch (error) {
+      // Check if this is a permission error for players
+      if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+        console.warn('⚠️ Firebase permission denied for game state saving. Disabling auto-save for this session.');
+        this.isAutoSaveEnabled = false;
+        this.stopAutoSave();
+        return;
+      }
+
       console.error('❌ Error saving game state:', error);
     } finally {
       this.isSaving = false;

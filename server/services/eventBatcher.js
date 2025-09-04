@@ -17,9 +17,9 @@ class EventBatcher {
     this.clientMetrics = new Map(); // socketId -> network metrics
     this.batchIntervals = new Map(); // roomId -> interval ID
     
-    // Configuration - optimized for player performance
-    this.defaultBatchInterval = 50; // ~20fps to prevent player lag
-    this.maxBatchSize = 20; // reduced batch size to prevent overwhelming players
+    // Configuration - optimized for player performance (reduced frequency)
+    this.defaultBatchInterval = 200; // ~5fps to prevent player lag spikes
+    this.maxBatchSize = 10; // further reduced batch size to prevent overwhelming players
     this.priorityThreshold = 10; // ms for high priority events
     this.adaptiveThresholds = {
       lowLatency: 10, // < 10ms
@@ -176,7 +176,7 @@ class EventBatcher {
   }
 
   /**
-   * Send batch to room with adaptive delivery
+   * Send batch to room with role-aware adaptive delivery
    */
   sendBatchToRoom(roomId, batchPacket) {
     const room = this.io.sockets.adapter.rooms.get(roomId);
@@ -185,11 +185,26 @@ class EventBatcher {
     // Get all sockets in room
     const sockets = Array.from(room).map(socketId => this.io.sockets.sockets.get(socketId)).filter(Boolean);
 
+    // Get player data to determine roles
+    const players = global.players || new Map();
+
+    // Send to each socket with role-aware adaptation
     for (const socket of sockets) {
+      const player = players.get(socket.id);
       const clientMetrics = this.getClientMetrics(socket.id);
-      const adaptedPacket = this.adaptBatchForClient(batchPacket, clientMetrics);
-      
-      socket.emit('batch_update', adaptedPacket);
+
+      // Optimize batch based on player role
+      let finalBatch = batchPacket;
+
+      if (player && !player.isGM) {
+        // For players: Send simplified batch to reduce processing overhead
+        finalBatch = this.simplifyBatchForPlayer(batchPacket);
+      } else {
+        // For GMs: Use full adaptive batching
+        finalBatch = this.adaptBatchForClient(batchPacket, clientMetrics);
+      }
+
+      socket.emit('batch_update', finalBatch);
     }
   }
 
@@ -225,6 +240,32 @@ class EventBatcher {
     }
 
     return batchPacket;
+  }
+
+  /**
+   * Simplify batch for player clients to reduce processing overhead
+   */
+  simplifyBatchForPlayer(batchPacket) {
+    // For players: Remove unnecessary metadata and keep only essential events
+    const simplifiedEvents = batchPacket.events.filter(event => {
+      // Keep only essential events for players
+      return event.priority === 'critical' ||
+             event.type === 'token_moved' ||
+             event.type === 'character_moved' ||
+             event.type === 'chat_message';
+    });
+
+    return {
+      id: batchPacket.id,
+      timestamp: batchPacket.timestamp,
+      roomId: batchPacket.roomId,
+      eventCount: simplifiedEvents.length,
+      events: simplifiedEvents,
+      metadata: {
+        simplified: true,
+        originalEventCount: batchPacket.eventCount
+      }
+    };
   }
 
   /**

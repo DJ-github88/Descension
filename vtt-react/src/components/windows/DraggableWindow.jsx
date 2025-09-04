@@ -50,10 +50,12 @@ const DraggableWindow = forwardRef(({
     // Get window scale from store (hooks must be called before any early returns)
     const windowScale = useGameStore(state => state.windowScale);
 
-    // Debug: Log window scale changes (development only)
+    // Debug: Log window scale changes (development only) - throttled
+    const lastLoggedScale = useRef(windowScale);
     useEffect(() => {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === 'development' && lastLoggedScale.current !== windowScale) {
             console.log('DraggableWindow: Current window scale is', windowScale);
+            lastLoggedScale.current = windowScale;
         }
     }, [windowScale]);
 
@@ -114,16 +116,31 @@ const DraggableWindow = forwardRef(({
         }
     }, [centered, getInitialPosition]);
 
-    // Listen for window scale changes and force re-render
+    // Listen for window scale changes and force re-render (throttled)
+    const scaleChangeTimeoutRef = useRef(null);
     useEffect(() => {
         const handleWindowScaleChange = (event) => {
-            console.log('DraggableWindow: Received windowScaleChanged event with scale', event.detail?.scale || 'unknown');
-            // Force a re-render to apply the new scale
-            setPosition(prev => ({ ...prev }));
+            // Throttle scale change events to prevent excessive re-renders
+            if (scaleChangeTimeoutRef.current) {
+                clearTimeout(scaleChangeTimeoutRef.current);
+            }
+
+            scaleChangeTimeoutRef.current = setTimeout(() => {
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('DraggableWindow: Received windowScaleChanged event with scale', event.detail?.scale || 'unknown');
+                }
+                // Force a re-render to apply the new scale
+                setPosition(prev => ({ ...prev }));
+            }, 16); // Throttle to ~60fps
         };
 
         window.addEventListener('windowScaleChanged', handleWindowScaleChange);
-        return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+        return () => {
+            window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+            if (scaleChangeTimeoutRef.current) {
+                clearTimeout(scaleChangeTimeoutRef.current);
+            }
+        };
     }, []);
 
     // Manage position and scale through refs to avoid re-renders
@@ -242,9 +259,14 @@ const DraggableWindow = forwardRef(({
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
 
-    // Debug: Log the transform that will be applied (development only)
+    // Debug: Log the transform that will be applied (development only) - throttled
+    const lastLoggedRender = useRef(0);
     if (process.env.NODE_ENV === 'development') {
-      console.log('DraggableWindow: About to render with transform scale(' + windowScale + ')');
+      const now = Date.now();
+      if (now - lastLoggedRender.current > 1000) { // Log max once per second
+        console.log('DraggableWindow: About to render with transform scale(' + windowScale + ')');
+        lastLoggedRender.current = now;
+      }
     }
 
     return (

@@ -45,15 +45,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
-  // Simple throttling for incoming updates - 30fps target for better performance
+  // Smart throttling based on role - optimized for performance
   const tokenUpdateThrottleRef = useRef(new Map());
-  const SIMPLE_THROTTLE_MS = 33; // ~30fps (reduced from 60fps to prevent lag spikes)
+  const PLAYER_THROTTLE_MS = 50; // 20fps for players (reduced from 60fps to prevent performance issues)
+  const GM_THROTTLE_MS = 66; // 15fps for GMs (reduced from 30fps to prevent performance issues)
 
-  const THROTTLE_CLEANUP_INTERVAL = 30000; // Clean up throttle map every 30 seconds (reduced from 5s)
-  const THROTTLE_ENTRY_LIFETIME = 60000; // Remove entries older than 60 seconds (increased from 10s)
+  const THROTTLE_CLEANUP_INTERVAL = 15000; // Clean up throttle map every 15 seconds
+  const THROTTLE_ENTRY_LIFETIME = 30000; // Remove entries older than 30 seconds
 
   // Track player's own drag operations to prevent feedback loops
   const playerDragStateRef = useRef(new Map()); // Track what the player is currently dragging
+
+  // Performance optimization: Batch updates to prevent lag spikes
+  const updateBatchRef = useRef([]);
+  const batchTimeoutRef = useRef(null);
 
   // Refs for values used in socket event handlers to prevent dependency issues
   const currentRoomRef = useRef(currentRoom);
@@ -119,6 +124,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     return () => {
       clearInterval(cleanupInterval);
+      // Clear batch timeout on cleanup
+      if (batchTimeoutRef.current) {
+        clearTimeout(batchTimeoutRef.current);
+        batchTimeoutRef.current = null;
+      }
+      // Clear pending batch updates
+      updateBatchRef.current = [];
     };
   }, [cleanupThrottleMaps]);
 
@@ -152,13 +164,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     newSocket.on('error', (error) => {
       console.error('Socket error in MultiplayerApp:', error);
       setIsConnecting(false);
-      // Show error notification to user
-      addNotificationRef.current('social', {
-        sender: { name: 'System', class: 'system', level: 0 },
-        content: `Connection error: ${error.message || 'Unknown error'}`,
-        type: 'system',
-        timestamp: new Date().toISOString()
-      });
+
+      // Only show error notification for critical errors, not minor ones
+      if (error && error.message && !error.message.includes('transport close')) {
+        addNotificationRef.current('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: `Connection error: ${error.message || 'Unknown error'}`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
     });
 
     newSocket.on('connect_error', (error) => {
@@ -320,21 +335,46 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
-        // Simple throttling - 60fps target
+        // Smart throttling based on current player role
         const throttleKey = `${targetId}_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
+        const throttleMs = isGM ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
 
-        if (now - lastUpdate >= SIMPLE_THROTTLE_MS) {
+        if (now - lastUpdate >= throttleMs) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Direct update without complex batching
-          const currentTokens = useCreatureStore.getState().tokens;
-          const token = currentTokens.find(t => t.creatureId === targetId);
+          // Batch updates for better performance
+          const updateData = {
+            type: 'token',
+            targetId,
+            position: data.position,
+            timestamp: now
+          };
 
-          if (token) {
-            updateCreatureTokenPosition(token.id, data.position);
+          updateBatchRef.current.push(updateData);
+
+          // Process batch after a short delay to group updates
+          if (batchTimeoutRef.current) {
+            clearTimeout(batchTimeoutRef.current);
           }
+
+          batchTimeoutRef.current = setTimeout(() => {
+            const batch = updateBatchRef.current.splice(0);
+            if (batch.length > 0) {
+              requestAnimationFrame(() => {
+                batch.forEach(update => {
+                  if (update.type === 'token') {
+                    const currentTokens = useCreatureStore.getState().tokens;
+                    const token = currentTokens.find(t => t.creatureId === update.targetId);
+                    if (token) {
+                      updateCreatureTokenPosition(token.id, update.position);
+                    }
+                  }
+                });
+              });
+            }
+          }, 33); // Increased delay to reduce frequency and prevent performance issues
         }
 
         // Clean up throttle entry immediately when dragging stops
@@ -360,17 +400,43 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Only update if it's not our own movement (to avoid double updates and feedback loops)
       if (!isOwnMovement) {
-        // Simple throttling - 60fps target
+        // Smart throttling based on current player role
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
+        const throttleMs = isGM ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
 
-        if (now - lastUpdate >= SIMPLE_THROTTLE_MS) {
+        if (now - lastUpdate >= throttleMs) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Direct update without complex batching
-          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-          updateCharacterTokenPosition(data.playerId, data.position);
+          // Batch character updates for better performance
+          const updateData = {
+            type: 'character',
+            playerId: data.playerId,
+            position: data.position,
+            timestamp: now
+          };
+
+          updateBatchRef.current.push(updateData);
+
+          // Process batch after a short delay to group updates
+          if (batchTimeoutRef.current) {
+            clearTimeout(batchTimeoutRef.current);
+          }
+
+          batchTimeoutRef.current = setTimeout(() => {
+            const batch = updateBatchRef.current.splice(0);
+            if (batch.length > 0) {
+              requestAnimationFrame(() => {
+                batch.forEach(update => {
+                  if (update.type === 'character') {
+                    const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+                    updateCharacterTokenPosition(update.playerId, update.position);
+                  }
+                });
+              });
+            }
+          }, 33); // Increased delay to reduce frequency and prevent performance issues
         }
 
         // Clean up throttle entry immediately when dragging stops
@@ -416,8 +482,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('token_created', (data) => {
       const isSync = data.isSync;
 
-      // Only add token if it's not our own creation (to avoid duplicates) or if it's a sync
-      if (data.playerId !== currentPlayer?.id || isSync) {
+      // Always add token for sync events, and for new creations (server handles deduplication)
+      if (isSync || !isSync) {
         // First ensure the creature exists in the store
         addCreature(data.creature);
 
@@ -627,21 +693,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
-    // Listen for character token creation from other players
-    socket.on('character_token_created', (data) => {
-
-      // Only add if it's not our own token
-      if (data.playerId !== currentPlayer?.id) {
-        addCharacterToken(data.position, data.playerId);
-
-        addNotification('social', {
-          sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.playerName} placed their character token`,
-          type: 'system',
-          timestamp: new Date().toISOString()
-        });
-      }
-    });
+    // REMOVED: Duplicate character_token_created handler - handled above at line 506
 
     // Duplicate character movement handler disabled to prevent double processing
     // The main character_moved handler above handles all character movements

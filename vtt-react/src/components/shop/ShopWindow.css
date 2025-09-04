@@ -124,18 +124,30 @@
 }
 
 .close-button {
-  background: none;
-  border: none;
-  color: #f0e6d2;
+  background: rgba(220, 53, 69, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
   font-size: 16px;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 3px;
-  transition: background-color 0.2s;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  z-index: 1001;
+  position: relative;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
 }
 
 .close-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(220, 53, 69, 1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Shop Header */
@@ -259,14 +271,18 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
-  padding: 6px;
-  border-radius: 6px;
-  border: 2px solid #8b7355;
-  box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
+  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 30%, #d4c4a0 70%, #c4b490 100%);
+  padding: 8px;
+  border-radius: 8px;
+  border: 3px solid #8b7355;
+  box-shadow:
+    0 6px 16px rgba(139, 115, 85, 0.5),
+    inset 0 0 20px rgba(139, 115, 85, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
   overflow: hidden;
-  margin-top: 2px; /* Small gap after filters */
-  max-height: calc(100vh - 300px); /* Dynamically calculate max height to stop before footer */
+  margin-top: 4px;
+  max-height: calc(100vh - 300px);
+  position: relative;
 }
 
 /* Shop Filters */
@@ -449,16 +465,19 @@
 
 .items-grid {
   display: grid;
-  grid-auto-rows: 50px;
-  gap: 1px;
+  grid-auto-rows: 52px;
+  gap: 3px;
   justify-content: start;
   align-content: start;
   position: relative;
   flex: 1;
-  padding: 6px;
+  padding: 8px;
   overflow-y: auto;
   width: 100%;
   height: 100%;
+  background: linear-gradient(135deg, rgba(240, 230, 210, 0.3) 0%, rgba(232, 220, 192, 0.3) 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
 }
 
 /* Filter highlighting */
@@ -480,54 +499,65 @@
 }
 
 .merchant-grid {
-  grid-template-columns: repeat(9, 50px);
-  grid-auto-rows: 50px;
-  min-height: 300px;
-  max-height: 100%; /* Use full available height from container */
+  grid-template-columns: repeat(9, 52px);
+  grid-auto-rows: 52px;
+  min-height: 320px;
+  max-height: 100%;
   justify-content: start;
   width: 100%;
-  gap: 1px;
-  padding: 8px;
+  gap: 3px;
+  padding: 10px;
   overflow-y: auto;
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(139, 115, 85, 0.05) 100%);
+  border-radius: 4px;
 }
 
 .shop-window .items-grid.inventory-grid {
   display: grid !important;
   flex-direction: unset !important;
-  grid-template-columns: repeat(6, 50px) !important;
-  grid-auto-rows: 50px;
-  grid-auto-flow: row dense; /* Allow items to fill gaps efficiently */
-  min-height: 300px;
-  max-height: 100%; /* Use full available height from container */
-  justify-content: center; /* Center the grid to eliminate empty space */
+  grid-template-columns: repeat(6, 52px) !important;
+  grid-auto-rows: 52px;
+  grid-auto-flow: row dense;
+  min-height: 320px;
+  max-height: 100%;
+  justify-content: start;
   width: 100%;
-  gap: 1px;
-  padding: 8px;
+  gap: 3px;
+  padding: 10px;
   overflow-y: auto;
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.1) 0%, rgba(139, 115, 85, 0.05) 100%);
+  border-radius: 4px;
 }
 
 /* Item Slots */
 .item-slot {
-  width: 100%; /* Fill the grid cell completely */
-  height: 100%; /* Fill the grid cell completely */
-  min-width: 50px;
-  min-height: 50px;
-  background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
-  border: 1px solid #8b7355;
-  border-radius: 2px;
+  width: 100%;
+  height: 100%;
+  min-width: 52px;
+  min-height: 52px;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
+  border: 2px solid #8b7355;
+  border-radius: 6px;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 4px rgba(139, 115, 85, 0.3);
+  box-shadow:
+    0 2px 4px rgba(139, 115, 85, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    inset 0 0 8px rgba(139, 115, 85, 0.1);
   box-sizing: border-box;
 }
 
 .item-slot:hover {
   border-color: #6b5010;
-  box-shadow: inset 0 0 6px rgba(139, 115, 85, 0.4);
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(139, 115, 85, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 0 10px rgba(139, 115, 85, 0.2);
 }
 
 .item-slot.selected {
@@ -541,16 +571,23 @@
 }
 
 .item-slot.empty {
-  background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 100%);
-  border-color: #8b7355;
+  background: linear-gradient(135deg, #c4b490 0%, #b4a480 50%, #a49470 100%);
+  border-color: rgba(139, 115, 85, 0.6);
   cursor: default;
-  box-shadow: inset 0 0 4px rgba(139, 115, 85, 0.2);
+  box-shadow:
+    inset 0 2px 4px rgba(139, 115, 85, 0.3),
+    inset 0 0 8px rgba(139, 115, 85, 0.2);
+  opacity: 0.7;
 }
 
 .item-slot.empty:hover {
-  border-color: #8b7355;
-  background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 100%);
-  box-shadow: inset 0 0 4px rgba(139, 115, 85, 0.2);
+  border-color: rgba(139, 115, 85, 0.6);
+  background: linear-gradient(135deg, #c4b490 0%, #b4a480 50%, #a49470 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(139, 115, 85, 0.3),
+    inset 0 0 8px rgba(139, 115, 85, 0.2);
+  transform: none;
+  opacity: 0.7;
 }
 
 .shop-window .item-icon {
@@ -881,7 +918,7 @@
   .shop-window .items-grid.inventory-grid {
     display: grid !important;
     flex-direction: unset !important;
-    grid-template-columns: repeat(6, 50px) !important;
+    grid-template-columns: repeat(6, 52px) !important;
     grid-auto-flow: row dense !important;
   }
 }
@@ -904,7 +941,7 @@
   .shop-window .items-grid.inventory-grid {
     display: grid !important;
     flex-direction: unset !important;
-    grid-template-columns: repeat(4, 50px) !important;
+    grid-template-columns: repeat(4, 52px) !important;
     grid-auto-flow: row dense !important;
   }
 

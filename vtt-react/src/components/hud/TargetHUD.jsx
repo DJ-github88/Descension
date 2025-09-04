@@ -39,11 +39,11 @@ const TargetHUD = () => {
     // Force re-render when tokens change for creature targets - use reactive subscription
     const tokens = useCreatureStore(state => state.tokens);
 
-    // Real-time updates for condition timers
+    // Real-time updates for condition timers - reduced frequency for performance
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(Date.now());
-        }, 1000); // Update every second
+        }, 2000); // Update every 2 seconds instead of 1 second for better performance
 
         return () => clearInterval(interval);
     }, []);

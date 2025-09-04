@@ -101,7 +101,7 @@ const CharacterToken = ({
     const handleMouseEnter = (e) => {
         if (!tokenRef.current) return;
 
-        console.log('🖱️ Mouse entered character token:', characterData.name);
+        // Removed excessive logging for performance
 
         // Clear any existing timeout
         if (tooltipTimeoutRef.current) {
@@ -119,18 +119,18 @@ const CharacterToken = ({
 
         setTooltipPosition({ x: adjustedX, y: adjustedY });
 
-        console.log('📍 Tooltip position set:', { x: adjustedX, y: adjustedY });
+        // Removed excessive logging for performance
 
         // Show tooltip after 0.5 second delay
         tooltipTimeoutRef.current = setTimeout(() => {
-            console.log('✨ Showing tooltip for:', characterData.name);
+            // Removed excessive logging for performance
             setShowTooltip(true);
         }, 500);
     };
 
     // Handle mouse leave (hide tooltip)
     const handleMouseLeave = () => {
-        console.log('🖱️ Mouse left character token:', characterData.name);
+        // Removed excessive logging for performance
         // Clear timeout and hide tooltip
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
@@ -151,7 +151,7 @@ const CharacterToken = ({
         e.stopPropagation();
         e.preventDefault(); // Prevent text selection during drag
 
-        console.log('🎭 Character token mousedown event - preventing grid click handling');
+        // Removed excessive logging for performance
 
         // If in combat and not this token's turn, prevent movement
         if (isInCombat && !isMyTurn) {
@@ -175,7 +175,7 @@ const CharacterToken = ({
         // Store the starting position for potential movement
         setDragStartPosition({ x: position.x, y: position.y });
 
-        console.log('🎭 Mouse down on character token - waiting for drag threshold');
+        // Removed excessive logging for performance
     };
 
     // Handle click events on the character token (separate from mousedown for dragging)
@@ -184,7 +184,7 @@ const CharacterToken = ({
         e.stopPropagation();
         e.preventDefault();
 
-        console.log('🎭 Character token click event - prevented from reaching grid');
+        // Removed excessive logging for performance
 
         // Only handle click if we're not dragging
         if (!isDragging) {
@@ -207,7 +207,7 @@ const CharacterToken = ({
 
                 // Only start dragging if we've moved beyond the threshold
                 if (distance >= DRAG_THRESHOLD) {
-                    console.log('🎭 Drag threshold exceeded, starting character drag operation');
+                    // Removed excessive logging for performance
                     setIsDragging(true);
 
                     // Recalculate drag offset based on current mouse position and token's current screen position
@@ -223,7 +223,7 @@ const CharacterToken = ({
                         window.multiplayerDragState = new Map();
                     }
                     window.multiplayerDragState.set('character', true);
-                    console.log('🎯 Started dragging character, Drag state:', window.multiplayerDragState);
+                    // Removed excessive logging for performance
                 } else {
                     // Still within threshold, don't start dragging yet
                     return;
@@ -257,8 +257,12 @@ const CharacterToken = ({
             // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
             if (isInMultiplayer && multiplayerSocket) {
                 if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
+                    // Snap to grid during drag to ensure consistency with final position
+                    const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+                    const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
                     multiplayerSocket.emit('character_moved', {
-                        position: { x: Math.round(worldPos.x), y: Math.round(worldPos.y) }, // Round to reduce precision
+                        position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
                         isDragging: true
                     });
                     lastNetworkUpdate = now;
@@ -267,14 +271,14 @@ const CharacterToken = ({
         };
 
         const handleMouseUp = (e) => {
-            console.log('🎭 Character mouse up event triggered', { button: e.button, isDragging, isMouseDown });
+            // Removed excessive logging for performance
 
             // Handle mouse up for both dragging and non-dragging cases
             if (e.button !== 0) return; // Only handle left mouse button
 
             // If we were just mouse down but never started dragging, this is a simple click
             if (isMouseDown && !isDragging) {
-                console.log('🎭 Simple click detected on character token - no movement');
+                // Removed excessive logging for performance
                 setIsMouseDown(false);
                 setMouseDownPosition(null);
                 setDragStartPosition(null);
@@ -283,7 +287,7 @@ const CharacterToken = ({
 
             // If we're not dragging, nothing to do
             if (!isDragging) {
-                console.log('🎭 Character mouse up but not dragging - resetting mouse down state');
+                // Removed excessive logging for performance
                 setIsMouseDown(false);
                 setMouseDownPosition(null);
                 setDragStartPosition(null);
@@ -334,7 +338,7 @@ const CharacterToken = ({
             // Clear drag state globally to allow network updates again
             if (window.multiplayerDragState) {
                 window.multiplayerDragState.delete('character');
-                console.log('🎯 Stopped dragging character, Drag state:', window.multiplayerDragState);
+                // Removed excessive logging for performance
             }
 
             // Clear the drag timeout since we successfully handled mouse up
@@ -346,16 +350,16 @@ const CharacterToken = ({
 
         if (isDragging || isMouseDown) {
             // Add the event listeners to the document to ensure they work even if the cursor moves outside the token
-            // Use passive: false only for mousemove to allow preventDefault, passive: true for mouseup for performance
+            // Use passive: false for both mousemove and mouseup to allow preventDefault
             document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
-            document.addEventListener('mouseup', handleMouseUp, { passive: true, capture: true });
+            document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
 
             // Also add a fallback mouseup listener without capture to ensure we catch it
-            document.addEventListener('mouseup', handleMouseUp, { passive: true });
+            document.addEventListener('mouseup', handleMouseUp, { passive: false });
 
             // Safety timeout to reset dragging state if mouse up is missed (e.g., cursor leaves window)
             dragTimeoutId = setTimeout(() => {
-                console.log('🎭 Drag timeout - forcing reset of character dragging state');
+                // Removed excessive logging for performance
                 setIsDragging(false);
                 setIsMouseDown(false);
                 setMouseDownPosition(null);

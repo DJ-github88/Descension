@@ -54,11 +54,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     return 'http://localhost:3001';
   }, []); // Empty dependency array since environment variables don't change
 
-  // Reduced logging for production performance
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🔌 Socket URL:', SOCKET_URL);
-    console.log('🌍 Environment:', process.env.NODE_ENV);
-  }
+  // Reduced logging for production performance - only log once
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔌 Socket URL:', SOCKET_URL);
+      console.log('🌍 Environment:', process.env.NODE_ENV);
+    }
+  }, []); // Only log once on mount
 
   useEffect(() => {
     // Check for preselected room from account dashboard
@@ -110,14 +112,18 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     // Socket event listeners
     const handleConnect = () => {
-      console.log('✅ Connected to server in RoomLobby');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('✅ Connected to server in RoomLobby');
+      }
       setIsConnecting(false);
       setError(''); // Clear any connection errors
       fetchAvailableRooms();
     };
 
     const handleDisconnect = (reason) => {
-      console.log('❌ Disconnected from server in RoomLobby:', reason);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('❌ Disconnected from server in RoomLobby:', reason);
+      }
       if (reason === 'io server disconnect') {
         // Server initiated disconnect, try to reconnect
         setError('Connection lost. Attempting to reconnect...');
@@ -125,19 +131,25 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     };
 
     const handleConnectError = (error) => {
-      console.error('❌ Socket connection error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ Socket connection error:', error);
+      }
       setIsConnecting(false);
       setError(`Connection failed: ${error.message || 'Unable to connect to server'}`);
     };
 
     const handleReconnect = (attemptNumber) => {
-      console.log(`🔄 Reconnected after ${attemptNumber} attempts`);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`🔄 Reconnected after ${attemptNumber} attempts`);
+      }
       setError('');
       fetchAvailableRooms();
     };
 
     const handleReconnectError = (error) => {
-      console.error('❌ Reconnection failed:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ Reconnection failed:', error);
+      }
       setError('Reconnection failed. Please refresh the page.');
     };
 
