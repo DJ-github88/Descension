@@ -400,7 +400,9 @@
   padding: var(--pf-space-3);
 }
 
-.items-grid {
+.spell-wizard .items-grid,
+.pf-spellbook .items-grid,
+.spell-crafting-wizard .items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--pf-space-3);

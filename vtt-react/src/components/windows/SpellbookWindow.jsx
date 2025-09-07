@@ -7,6 +7,7 @@ import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from 
 import CollectionContextMenu from '../spellcrafting-wizard/components/library/CollectionContextMenu';
 import CollectionViewWindow from '../spellcrafting-wizard/components/library/CollectionViewWindow';
 import SpellLibrary from '../spellcrafting-wizard/components/library/SpellLibrary';
+import CommunitySpellsTab from '../spellcrafting-wizard/components/library/CommunitySpellsTab';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { formatFormulaToPlainEnglish } from '../spellcrafting-wizard/components/common/SpellCardUtils';
 
@@ -85,7 +86,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
           <SpellLibraryTab />
         </div>
         <div style={{ display: activeTab === 'collections' ? 'block' : 'none', width: '100%', height: '100%' }}>
-          <SpellCollectionTab />
+          <CommunitySpellsTab />
         </div>
       </>
     );
@@ -100,14 +101,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
     );
   };
 
-  // Spell Collection Tab Component
-  const SpellCollectionTab = () => {
-    return (
-      <div style={{ width: '100%', height: '100%' }}>
-        <SpellLibrary />
-      </div>
-    );
-  };
+
 
   // Create a ref for the window
   const windowRef = useRef(null);
@@ -163,7 +157,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
             className={`spellbook-tab ${activeTab === 'collections' ? 'active' : ''}`}
             onClick={() => setActiveTab('collections')}
           >
-            <span>Collections</span>
+            <span>Community</span>
           </button>
         </div>
       }

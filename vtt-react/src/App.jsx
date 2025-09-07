@@ -32,6 +32,7 @@ const CharacterCreationPage = lazy(() => import("./components/account/CharacterC
 import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
+import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
 import PortalDebugger from './components/debug/PortalDebugger';
 import ProductionDebugger from './components/debug/ProductionDebugger';
 
@@ -260,6 +261,12 @@ export default function App() {
 
         initChatStore();
         initCreatureStore();
+
+        // Clear old hardcoded spells from library
+        initializeCleanSpellLibrary();
+
+        // Force clear all spell data immediately for transition to user-only system
+        clearSpellLibraryNow();
 
         // Set initial landing mode class
         document.body.classList.add('landing-mode');

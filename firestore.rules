@@ -42,5 +42,23 @@ service cloud.firestore {
     match /roomSessions/{sessionId} {
       allow read, write: if request.auth != null;
     }
+
+    // Community spells - allow public read access
+    match /community_spells/{spellId} {
+      allow read: if resource.data.isPublic == true;
+      allow write: if request.auth != null;
+    }
+
+    // Spell categories - allow public read access
+    match /spell_categories/{categoryId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Spell ratings - allow users to manage their own ratings
+    match /spell_ratings/{ratingId} {
+      allow read, write: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
+    }
   }
 }

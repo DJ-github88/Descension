@@ -11,9 +11,10 @@ const SampleSpellsLoader = () => {
   const dispatch = useSpellLibraryDispatch();
 
   useEffect(() => {
-    // Only load sample spells if the library is empty
-    if (library.spells.length === 0) {
-      console.log('Loading sample spells into the library...');
+    // Disabled: No longer auto-loading sample spells
+    // Users should create their own spells or download from community
+    if (false && library.spells.length === 0) {
+      console.log('Auto-loading sample spells is disabled');
 
       // Add each sample spell to the library
       LIBRARY_SPELLS.forEach(spell => {

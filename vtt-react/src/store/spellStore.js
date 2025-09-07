@@ -130,8 +130,8 @@ const SAMPLE_SPELLS = [
 const useSpellStore = create(
   persist(
     (set, get) => ({
-      // Spell Library state
-      spells: [...SAMPLE_SPELLS],
+      // Spell Library state - empty for user-only system
+      spells: [], // No longer loading SAMPLE_SPELLS - users create their own
       selectedSpell: null,
       
       // Filters

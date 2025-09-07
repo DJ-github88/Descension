@@ -71,7 +71,7 @@ export function loadLibraryFromStorage() {
     const data = localStorage.getItem(LIBRARY_STORAGE_KEY);
 
     if (!data) {
-      console.log('No library found in storage, returning default library');
+      console.log('No library found in storage, returning empty library');
       return getDefaultLibrary();
     }
 
@@ -548,13 +548,10 @@ export function getCategoryStats(library) {
  * Get the default library structure
  */
 export function getDefaultLibrary() {
-  // Import the LIBRARY_SPELLS from the data file
-  // We don't import at the top level to avoid circular dependencies
-  const { LIBRARY_SPELLS } = require('../../../../data/spellLibraryData');
-
-  // Create a default library with all the spells loaded immediately
+  // No longer auto-loading spells - users create their own
+  // Create an empty default library
   return {
-    spells: LIBRARY_SPELLS || [], // Load all spells immediately
+    spells: [], // Empty - users will populate with their own spells
     categories: createDefaultCategories(),
     filters: {
       query: '',

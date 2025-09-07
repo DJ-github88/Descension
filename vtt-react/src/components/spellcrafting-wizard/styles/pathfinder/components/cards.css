@@ -1655,8 +1655,8 @@
 .unified-spell-card.library,
 .unified-spell-card.collection,
 .unified-spell-card.wizard {
-  max-width: 520px;
-  min-width: 450px;
+  max-width: 580px;
+  min-width: 520px;
   min-height: 280px;
   /* Remove max-height to allow content to stretch */
 }

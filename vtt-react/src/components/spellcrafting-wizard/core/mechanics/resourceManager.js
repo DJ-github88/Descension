@@ -133,6 +133,17 @@ import {
       baseMana = spellConfig.effectTypes.length * 5;
     }
 
+    // Enhanced calculation for spell library spells with detailed configurations
+    if (spellConfig.damageConfig && spellConfig.damageConfig.formula) {
+      const damageValue = estimateFormulaValue(spellConfig.damageConfig.formula);
+      baseMana += Math.floor(damageValue * 1.5); // 1.5 mana per average damage
+    }
+
+    if (spellConfig.healingConfig && spellConfig.healingConfig.formula) {
+      const healingValue = estimateFormulaValue(spellConfig.healingConfig.formula);
+      baseMana += Math.floor(healingValue * 2); // 2 mana per average healing (more expensive)
+    }
+
     // Effect type specific costs
     for (const effectType of spellConfig.effectTypes) {
       switch (effectType) {
@@ -157,6 +168,31 @@ import {
           break;
 
         case 'buff':
+          // Enhanced buff cost calculation
+          let buffCost = 5;
+          if (spellConfig.buffConfig) {
+            // Cost based on stat modifiers
+            if (spellConfig.buffConfig.buffs) {
+              spellConfig.buffConfig.buffs.forEach(buff => {
+                if (buff.effects && buff.effects.statModifiers) {
+                  Object.values(buff.effects.statModifiers).forEach(value => {
+                    buffCost += Math.abs(value) * 3; // 3 mana per stat point
+                  });
+                }
+                if (buff.effects && buff.effects.spellPowerBonus) {
+                  buffCost += Math.floor(buff.effects.spellPowerBonus / 5); // 1 mana per 5 spell power
+                }
+              });
+            }
+            // Duration scaling
+            if (spellConfig.durationConfig && spellConfig.durationConfig.durationType !== 'instant') {
+              const durationMultiplier = getDurationMultiplier(spellConfig.durationConfig);
+              buffCost *= durationMultiplier;
+            }
+          }
+          baseMana += buffCost;
+          break;
+
         case 'debuff':
           // Status effects scale with duration
           if (spellConfig.durationConfig && spellConfig.durationConfig.durationType !== 'instant') {
@@ -168,6 +204,20 @@ import {
           break;
 
         case 'utility':
+          // Enhanced utility cost calculation
+          let utilityCost = 10;
+          if (spellConfig.utilityConfig) {
+            if (spellConfig.utilityConfig.enhancementValue) {
+              utilityCost += Math.floor(spellConfig.utilityConfig.enhancementValue / 5); // 1 mana per 5 enhancement
+            }
+            if (spellConfig.utilityConfig.duration) {
+              const durationMinutes = spellConfig.utilityConfig.duration / 60; // Convert seconds to minutes
+              utilityCost += Math.floor(durationMinutes / 2); // 1 mana per 2 minutes
+            }
+          }
+          baseMana += utilityCost;
+          break;
+
         case 'control':
         case 'summoning':
         case 'transformation':
@@ -252,6 +302,33 @@ import {
     }
 
     return Math.max(1, Math.floor(baseMana));
+  }
+
+  /**
+   * Estimate the average value of a damage/healing formula
+   */
+  function estimateFormulaValue(formula) {
+    if (!formula || typeof formula !== 'string') return 0;
+
+    // Handle simple formulas like "2d6 + 4", "3d8", "1d4 + 1"
+    const diceMatch = formula.match(/(\d+)d(\d+)(?:\s*\+\s*(\d+))?/i);
+    if (diceMatch) {
+      const numDice = parseInt(diceMatch[1]);
+      const dieSize = parseInt(diceMatch[2]);
+      const bonus = diceMatch[3] ? parseInt(diceMatch[3]) : 0;
+
+      // Calculate average: (numDice * (dieSize + 1) / 2) + bonus
+      return (numDice * (dieSize + 1) / 2) + bonus;
+    }
+
+    // Handle flat numbers
+    const numberMatch = formula.match(/^\d+$/);
+    if (numberMatch) {
+      return parseInt(formula);
+    }
+
+    // Default fallback
+    return 10;
   }
 
   /**

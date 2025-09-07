@@ -193,17 +193,26 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
   // Handle item selection for shopping cart
   const handleItemSelection = (shopItemIndex) => {
+    const shopItem = shopItems[shopItemIndex];
+    if (!shopItem) return;
+
     const newSelectedItems = { ...selectedItems };
+    const currentSelected = newSelectedItems[shopItemIndex] || 0;
+    const availableQuantity = shopItem.quantity;
 
-    if (newSelectedItems[shopItemIndex]) {
-      // Increase quantity if already selected
-      newSelectedItems[shopItemIndex]++;
+    if (currentSelected < availableQuantity) {
+      if (newSelectedItems[shopItemIndex]) {
+        // Increase quantity if already selected and under limit
+        newSelectedItems[shopItemIndex]++;
+      } else {
+        // Add new item with quantity 1
+        newSelectedItems[shopItemIndex] = 1;
+      }
+      setSelectedItems(newSelectedItems);
     } else {
-      // Add new item with quantity 1
-      newSelectedItems[shopItemIndex] = 1;
+      // Show notification when trying to select more than available
+      showNotification(`Only ${availableQuantity} available!`, 'error');
     }
-
-    setSelectedItems(newSelectedItems);
   };
 
   // Remove item from selection or decrease quantity
@@ -792,11 +801,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             </div>
           </div>
 
-          {/* Global Filters */}
+          {/* Global Filters - Centered */}
           <div className="header-filters">
             <input
               type="text"
-              placeholder="Search all items..."
+              placeholder="Search..."
               value={globalFilters.searchQuery}
               onChange={(e) => setGlobalFilters(prev => ({ ...prev, searchQuery: e.target.value }))}
               className="header-filter-input"
@@ -843,11 +852,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
               {/* Merchant Items Grid */}
               <div className="merchant-items">
                 <div className="merchant-header">Merchant Inventory</div>
-
-
-
-                <div className="merchant-grid-container">
-                  <div className="items-grid merchant-grid">
+                <div className="merchant-grid">
                     {shopItems.map((shopItem, index) => {
                       const item = getItemById(shopItem.itemId);
                       if (!item) return null;
@@ -864,8 +869,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                           style={{
                             gridColumn: `span ${itemWidth}`,
                             gridRow: `span ${itemHeight}`,
-                            width: `${itemWidth * 50 + (itemWidth - 1) * 1}px`,
-                            height: `${itemHeight * 50 + (itemHeight - 1) * 1}px`
+                            width: `${itemWidth * 56 + (itemWidth - 1) * 2}px`,
+                            height: `${itemHeight * 56 + (itemHeight - 1) * 2}px`
                           }}
                           onClick={(e) => {
                             if (e.ctrlKey || e.metaKey) {
@@ -893,22 +898,17 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                         </div>
                       );
                     })}
-                    {/* Fill remaining grid space with empty slots - increased to fill 9x8 grid (72 slots) */}
-                    {Array.from({ length: Math.max(0, 72 - shopItems.length) }).map((_, index) => (
+                    {/* Fill remaining grid space with empty slots - 8x8 grid (64 slots) */}
+                    {Array.from({ length: Math.max(0, 64 - shopItems.length) }).map((_, index) => (
                       <div key={`empty-${index}`} className="item-slot empty"></div>
                     ))}
-                  </div>
                 </div>
               </div>
 
               {/* Player Inventory for Selling */}
               <div className="player-inventory">
                 <div className="inventory-header">Your Items</div>
-
-
-
-                <div className="inventory-grid-container">
-                  <div className="items-grid inventory-grid">
+                <div className="items-grid inventory-grid">
                     {inventoryItems.map((item, index) => {
                       const matchesFilter = doesItemMatchFilter(item, globalFilters);
 
@@ -917,8 +917,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                           key={item.id}
                           className={`item-slot ${selectedSellItems[item.id] ? 'selected' : ''} ${!matchesFilter ? 'filtered-out' : 'filtered-in'}`}
                           style={{
-                            gridColumnEnd: `span ${item.width || 1}`,
-                            gridRowEnd: `span ${item.height || 1}`
+                            gridColumn: `span ${item.width || 1}`,
+                            gridRow: `span ${item.height || 1}`,
+                            width: `${(item.width || 1) * 56 + ((item.width || 1) - 1) * 2}px`,
+                            height: `${(item.height || 1) * 56 + ((item.height || 1) - 1) * 2}px`
                           }}
                           onClick={(e) => {
                             if (e.ctrlKey || e.metaKey) {
@@ -946,154 +948,54 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                         </div>
                       );
                     })}
-                    {/* Fill remaining grid space with empty slots - increased to fill 6x8 grid (48 slots) */}
-                    {Array.from({ length: Math.max(0, 48 - inventoryItems.length) }).map((_, index) => (
+                    {/* Fill remaining grid space with empty slots - 8x8 grid (64 slots) */}
+                    {Array.from({ length: Math.max(0, 64 - inventoryItems.length) }).map((_, index) => (
                       <div key={`empty-inv-${index}`} className="item-slot empty"></div>
                     ))}
-                  </div>
                 </div>
               </div>
           </div>
         </div>
 
-        {/* Bottom Panel */}
-        <div className="shop-bottom-panel">
-          {/* Player Currency */}
-          <div className="player-currency">
-            <div className="currency-display-simple">
-              <div className="currency-coin">
-                <img
-                  src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
-                  alt="Gold"
-                  className="coin-icon"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ffd700"/></svg>';
-                  }}
-                />
-                <span className="currency-number">{currency.gold}</span>
-              </div>
-              <div className="currency-coin">
-                <img
-                  src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_03.jpg"
-                  alt="Silver"
-                  className="coin-icon"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23c0c0c0"/></svg>';
-                  }}
-                />
-                <span className="currency-number">{currency.silver}</span>
-              </div>
-              <div className="currency-coin">
-                <img
-                  src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_05.jpg"
-                  alt="Copper"
-                  className="coin-icon"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
-                  }}
-                />
-                <span className="currency-number">{currency.copper}</span>
-              </div>
+        {/* Player Currency Display */}
+        <div className="player-currency-display">
+          <div className="currency-display-simple">
+            <div className="currency-coin">
+              <img
+                src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
+                alt="Gold"
+                className="coin-icon"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ffd700"/></svg>';
+                }}
+              />
+              <span className="currency-number">{currency.gold}</span>
             </div>
-          </div>
-
-          {/* Shopping Cart Summary */}
-          {Object.keys(selectedItems).length > 0 && (
-            <div className="shopping-cart-summary">
-              <div className="cart-header">Shopping Cart</div>
-              <div className="cart-items">
-                {Object.entries(selectedItems).map(([shopItemIndex, quantity]) => {
-                  const shopItem = shopItems[parseInt(shopItemIndex)];
-                  const item = getItemById(shopItem?.itemId);
-                  if (!item) return null;
-
-                  const totalItemPrice = {
-                    gold: Math.floor(calculateTotalCopper(shopItem.customPrice) * quantity / 10000),
-                    silver: Math.floor((calculateTotalCopper(shopItem.customPrice) * quantity % 10000) / 100),
-                    copper: (calculateTotalCopper(shopItem.customPrice) * quantity) % 100
-                  };
-
-                  return (
-                    <div key={shopItemIndex} className="cart-item">
-                      <span className="cart-item-name">{quantity}x {item.name}</span>
-                      <span className="cart-item-price">{formatCurrency(totalItemPrice)}</span>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="cart-total">
-                <strong>Total: {formatCurrency(calculateTotalCost())}</strong>
-              </div>
+            <div className="currency-coin">
+              <img
+                src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_03.jpg"
+                alt="Silver"
+                className="coin-icon"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23c0c0c0"/></svg>';
+                }}
+              />
+              <span className="currency-number">{currency.silver}</span>
             </div>
-          )}
-
-          {/* Sell Summary */}
-          {Object.keys(selectedSellItems).length > 0 && (
-            <div className="sell-summary">
-              <div className="cart-header">Sell Items</div>
-              <div className="cart-items">
-                {Object.entries(selectedSellItems).map(([itemId, quantity]) => {
-                  const item = inventoryItems.find(invItem => invItem.id === itemId);
-                  if (!item) return null;
-
-                  const sellPrice = calculateSellPrice(item);
-
-                  return (
-                    <div key={itemId} className="cart-item">
-                      <span className="cart-item-name">{quantity}x {item.name}</span>
-                      <span className="cart-item-price sell-price">{formatCurrency({
-                        gold: Math.floor(calculateTotalCopper(sellPrice) * quantity / 10000),
-                        silver: Math.floor((calculateTotalCopper(sellPrice) * quantity % 10000) / 100),
-                        copper: (calculateTotalCopper(sellPrice) * quantity) % 100
-                      })}</span>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="cart-total">
-                <strong>Total: {formatCurrency(calculateTotalSellValue())}</strong>
-              </div>
+            <div className="currency-coin">
+              <img
+                src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_05.jpg"
+                alt="Copper"
+                className="coin-icon"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
+                }}
+              />
+              <span className="currency-number">{currency.copper}</span>
             </div>
-          )}
-
-          {/* Action Buttons */}
-          <div className="action-buttons">
-            {Object.keys(selectedItems).length > 0 && (
-              <>
-                <button
-                  className="buy-all-button"
-                  onClick={handlePurchaseAll}
-                  disabled={!canAffordSelection()}
-                >
-                  Buy All ({Object.keys(selectedItems).length} items)
-                </button>
-                <button
-                  className="clear-cart-button"
-                  onClick={() => setSelectedItems({})}
-                >
-                  Clear Cart
-                </button>
-              </>
-            )}
-            {Object.keys(selectedSellItems).length > 0 && (
-              <>
-                <button
-                  className="sell-all-button"
-                  onClick={handleSellAll}
-                >
-                  Sell All ({Object.keys(selectedSellItems).length} items)
-                </button>
-                <button
-                  className="clear-sell-button"
-                  onClick={() => setSelectedSellItems({})}
-                >
-                  Clear Selection
-                </button>
-              </>
-            )}
           </div>
         </div>
         
@@ -1122,6 +1024,100 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
           </TooltipPortal>
         )}
       </div>
+
+      {/* External Shopping Cart */}
+      {Object.keys(selectedItems).length > 0 && (
+        <div className="external-shopping-cart">
+          <div className="cart-header">
+            <i className="fas fa-shopping-cart"></i>
+            Shopping Cart
+          </div>
+          <div className="cart-items">
+            {Object.entries(selectedItems).map(([shopItemIndex, quantity]) => {
+              const shopItem = shopItems[parseInt(shopItemIndex)];
+              const item = getItemById(shopItem?.itemId);
+              if (!item) return null;
+
+              const totalItemPrice = {
+                gold: Math.floor(calculateTotalCopper(shopItem.customPrice) * quantity / 10000),
+                silver: Math.floor((calculateTotalCopper(shopItem.customPrice) * quantity % 10000) / 100),
+                copper: (calculateTotalCopper(shopItem.customPrice) * quantity) % 100
+              };
+
+              return (
+                <div key={shopItemIndex} className="cart-item">
+                  <span className="cart-item-name">{quantity}x {item.name}</span>
+                  <span className="cart-item-price">{formatCurrency(totalItemPrice)}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="cart-total">
+            <strong>Total: {formatCurrency(calculateTotalCost())}</strong>
+          </div>
+          <div className="cart-actions">
+            <button
+              className="buy-all-button"
+              onClick={handlePurchaseAll}
+              disabled={!canAffordSelection()}
+            >
+              Buy All ({Object.keys(selectedItems).length} items)
+            </button>
+            <button
+              className="clear-cart-button"
+              onClick={() => setSelectedItems({})}
+            >
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* External Sell Cart */}
+      {Object.keys(selectedSellItems).length > 0 && (
+        <div className="external-sell-cart">
+          <div className="cart-header">
+            <i className="fas fa-coins"></i>
+            Sell Items
+          </div>
+          <div className="cart-items">
+            {Object.entries(selectedSellItems).map(([itemId, quantity]) => {
+              const item = inventoryItems.find(invItem => invItem.id === itemId);
+              if (!item) return null;
+
+              const sellPrice = calculateSellPrice(item);
+
+              return (
+                <div key={itemId} className="cart-item">
+                  <span className="cart-item-name">{quantity}x {item.name}</span>
+                  <span className="cart-item-price sell-price">{formatCurrency({
+                    gold: Math.floor(calculateTotalCopper(sellPrice) * quantity / 10000),
+                    silver: Math.floor((calculateTotalCopper(sellPrice) * quantity % 10000) / 100),
+                    copper: (calculateTotalCopper(sellPrice) * quantity) % 100
+                  })}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div className="cart-total">
+            <strong>Total: {formatCurrency(calculateTotalSellValue())}</strong>
+          </div>
+          <div className="cart-actions">
+            <button
+              className="sell-all-button"
+              onClick={handleSellAll}
+            >
+              Sell All ({Object.keys(selectedSellItems).length} items)
+            </button>
+            <button
+              className="clear-sell-button"
+              onClick={() => setSelectedSellItems({})}
+            >
+              Clear Selection
+            </button>
+          </div>
+        </div>
+      )}
     </div>,
     portalTarget
   );

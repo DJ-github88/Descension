@@ -25,9 +25,10 @@ const AllSpellsLoader = () => {
     console.log(`AllSpellsLoader: Current spells in library: ${library.spells.length}`);
     console.log(`AllSpellsLoader: Available clean spells: ${CLEAN_SPELLS.length}`);
 
-    // Check if we need to load spells (only load our 9 clean spells)
-    if (library.spells.length < CLEAN_SPELLS.length) {
-      console.log('Loading ONLY clean spells into the library...');
+    // Disabled: No longer auto-loading spells for creature wizard
+    // Users should create their own spells or download from community
+    if (false && library.spells.length < CLEAN_SPELLS.length) {
+      console.log('Auto-loading spells is disabled for creature wizard');
       console.log(`Current spells: ${library.spells.length}, Clean spells: ${CLEAN_SPELLS.length}`);
 
       // Create a map of existing spell IDs for quick lookup

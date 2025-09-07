@@ -12,6 +12,7 @@ import RollableTableSummary from './RollableTableSummary';
 import { formatRollableTableForCard } from '../../core/utils/spellCardTransformer';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import SpellTooltip from './SpellTooltip';
+import { calculateManaCost } from '../../core/mechanics/resourceManager';
 import '../../../../styles/item-tooltip.css';
 
 /**
@@ -1257,6 +1258,33 @@ const UnifiedSpellCard = ({
             });
           }
         }
+      });
+    }
+
+    // Check for enhanced spell library format (resourceCost.mana.baseAmount)
+    if (spell.resourceCost && spell.resourceCost.mana && !resources.some(r => r.type === 'mana')) {
+      let manaAmount = spell.resourceCost.mana.baseAmount || spell.resourceCost.mana;
+
+      // If the mana cost is a generic 25, try to calculate a more appropriate cost
+      if (manaAmount === 25 && spell.effectTypes && spell.effectTypes.length > 0) {
+        try {
+          const calculatedCost = calculateManaCost(spell);
+          // Only use calculated cost if it's significantly different and reasonable
+          if (calculatedCost !== 25 && calculatedCost >= 5 && calculatedCost <= 100) {
+            manaAmount = calculatedCost;
+          }
+        } catch (error) {
+          // Fall back to original cost if calculation fails
+          console.warn('Failed to calculate mana cost for spell:', spell.name, error);
+        }
+      }
+
+      resources.push({
+        type: 'mana',
+        amount: manaAmount,
+        name: 'Mana',
+        icon: getResourceIcon('mana'),
+        color: getResourceColor('mana')
       });
     }
 
@@ -3079,6 +3107,54 @@ const UnifiedSpellCard = ({
         effects.push({
           name: effectName,
           description: effect.description || '',
+          mechanicsText: mechanicsText
+        });
+      });
+    }
+
+    // Handle buffConfig.buffs array (used by enhanced spell library spells)
+    if (buffConfig.buffs && buffConfig.buffs.length > 0) {
+      buffConfig.buffs.forEach(buff => {
+        const buffName = buff.name || 'Buff Effect';
+        const buffDescription = buff.description || '';
+        let mechanicsText = '';
+        const mechanicsParts = [];
+
+        // Handle stat modifiers within the buff
+        if (buff.effects && buff.effects.statModifiers) {
+          Object.entries(buff.effects.statModifiers).forEach(([stat, value]) => {
+            const sign = value >= 0 ? '+' : '';
+            mechanicsParts.push(`${stat.charAt(0).toUpperCase() + stat.slice(1)}: ${sign}${value}`);
+          });
+        }
+
+        // Handle special effects
+        if (buff.effects) {
+          if (buff.effects.spellPowerBonus) {
+            mechanicsParts.push(`Spell Power: +${buff.effects.spellPowerBonus}`);
+          }
+          if (buff.effects.initiativeBonus) {
+            mechanicsParts.push(`Initiative: +${buff.effects.initiativeBonus}`);
+          }
+          if (buff.effects.surpriseImmunity) {
+            mechanicsParts.push('Immune to surprise');
+          }
+          if (buff.effects.perceptionBonus) {
+            mechanicsParts.push(`Perception: +${buff.effects.perceptionBonus}`);
+          }
+          if (buff.effects.insightBonus) {
+            mechanicsParts.push(`Insight: +${buff.effects.insightBonus}`);
+          }
+          if (buff.effects.advantage && Array.isArray(buff.effects.advantage)) {
+            mechanicsParts.push(`Advantage on ${buff.effects.advantage.join(', ')} checks`);
+          }
+        }
+
+        mechanicsText = mechanicsParts.join(', ');
+
+        effects.push({
+          name: buffName,
+          description: buffDescription,
           mechanicsText: mechanicsText
         });
       });
@@ -5400,26 +5476,72 @@ const UnifiedSpellCard = ({
                       <div className="utility-formula-container">
                         {(() => {
                           const effects = spell.utilityConfig?.selectedEffects || [];
-                          return effects.length > 0 ? (
-                            <div className="utility-formula-line">
-                              <div className="utility-effects-list">
-                                {effects.map((effect, index) => (
-                                  <div key={`utility-${index}`} className="utility-effect-item">
-                                    <div className="utility-effect">
-                                      <span className="utility-effect-name">{effect.name || effect}</span>
-                                      {effect.description && (
-                                        <span className="utility-effect-description"> - {effect.description}</span>
-                                      )}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="utility-formula-line">
-                              <span className="utility-formula-value">Configure utility effects in the spellcrafting wizard</span>
-                            </div>
+                          const utilityConfig = spell.utilityConfig;
+
+                          // Check for enhanced spell library format utility effects
+                          const hasEnhancedUtilityConfig = utilityConfig && (
+                            utilityConfig.enhancementType ||
+                            utilityConfig.enhancementValue ||
+                            utilityConfig.utilityType
                           );
+
+                          if (effects.length > 0) {
+                            return (
+                              <div className="utility-formula-line">
+                                <div className="utility-effects-list">
+                                  {effects.map((effect, index) => (
+                                    <div key={`utility-${index}`} className="utility-effect-item">
+                                      <div className="utility-effect">
+                                        <span className="utility-effect-name">{effect.name || effect}</span>
+                                        {effect.description && (
+                                          <span className="utility-effect-description"> - {effect.description}</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          } else if (hasEnhancedUtilityConfig) {
+                            // Display enhanced spell library utility effects
+                            const utilityEffects = [];
+
+                            if (utilityConfig.enhancementType && utilityConfig.enhancementValue) {
+                              const enhancementName = utilityConfig.enhancementType.replace(/_/g, ' ')
+                                .split(' ')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
+                              utilityEffects.push(`${enhancementName}: +${utilityConfig.enhancementValue}`);
+                            }
+
+                            if (utilityConfig.utilityType && !utilityConfig.enhancementType) {
+                              const utilityName = utilityConfig.utilityType.replace(/_/g, ' ')
+                                .split(' ')
+                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                .join(' ');
+                              utilityEffects.push(utilityName);
+                            }
+
+                            return (
+                              <div className="utility-formula-line">
+                                <div className="utility-effects-list">
+                                  {utilityEffects.map((effect, index) => (
+                                    <div key={`utility-enhanced-${index}`} className="utility-effect-item">
+                                      <div className="utility-effect">
+                                        <span className="utility-effect-name">{effect}</span>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          } else {
+                            return (
+                              <div className="utility-formula-line">
+                                <span className="utility-formula-value">Configure utility effects in the spellcrafting wizard</span>
+                              </div>
+                            );
+                          }
                         })()}
                       </div>
                     </div>

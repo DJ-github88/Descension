@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
-import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
+
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
@@ -10,7 +10,7 @@ import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import '../../styles/pathfinder/main.css';
 
 import SpellContextMenu from './SpellContextMenu';
-import SpellLibraryFormatter from './SpellLibraryFormatter';
+
 
 // Add compact header styling
 const compactHeaderStyles = `
@@ -88,7 +88,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // State for context menu
   const [contextMenu, setContextMenu] = useState(null);
-  const [showFormatter, setShowFormatter] = useState(false);
+
 
   // Get library state and dispatch from context
   const library = useSpellLibrary();
@@ -526,17 +526,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     URL.revokeObjectURL(url);
   };
 
-  const handleLoadEnhancedSpells = () => {
-    // Clear existing spells
-    dispatch(libraryActionCreators.clearLibrary());
 
-    // Add all enhanced spells
-    LIBRARY_SPELLS.forEach(spell => {
-      dispatch(libraryActionCreators.addSpell(spell));
-    });
-
-    alert(`Successfully loaded ${LIBRARY_SPELLS.length} enhanced spells!\n\nNew spells include:\n• Ethereal Flame Manifestation\n• Crystalline Frost Convergence\n• Fate Weaver's Paradigm\n• Serendipity Cascade\n• And many more original spells!`);
-  };
 
 
 
@@ -568,9 +558,22 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           color: '#654321',
           fontFamily: 'Cinzel, serif',
           fontSize: '16px',
+          marginBottom: '16px',
+          textAlign: 'center',
+          lineHeight: '1.5'
+        }}>Your personal spell library is now clean and ready for your creations!</p>
+        <p style={{
+          color: '#8B4513',
+          fontFamily: 'Crimson Text, serif',
+          fontSize: '14px',
           marginBottom: '24px',
-          textAlign: 'center'
-        }}>Create your first spell to get started!</p>
+          textAlign: 'center',
+          lineHeight: '1.4'
+        }}>
+          • Create spells using the <strong>Spell Wizard</strong><br/>
+          • Download spells from the <strong>Community</strong> tab<br/>
+          • Import spells from JSON files
+        </p>
         <button
           className="primary-button"
           onClick={handleNewSpell}
@@ -632,27 +635,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               <i className="fas fa-file-export"></i> Export
             </button>
 
-            <button
-              className="secondary-button"
-              onClick={() => setShowFormatter(true)}
-              title="Format and validate all spells for UnifiedSpellCard compatibility"
-            >
-              <i className="fas fa-magic"></i> Format
-            </button>
 
-            <button
-              className="primary-button"
-              onClick={handleLoadEnhancedSpells}
-              title="Load the enhanced spell library with 50+ original spells"
-              style={{
-                background: 'linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%)',
-                border: '2px solid #654321',
-                color: 'white',
-                fontWeight: 'bold'
-              }}
-            >
-              <i className="fas fa-magic"></i> Enhanced
-            </button>
 
 
 
@@ -916,10 +899,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         </div>
       )}
 
-      {/* Spell Library Formatter */}
-      {showFormatter && (
-        <SpellLibraryFormatter onClose={() => setShowFormatter(false)} />
-      )}
+
     </div>
   );
 };

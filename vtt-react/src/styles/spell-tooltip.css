@@ -70,9 +70,9 @@
 div[class*="spell-tooltip"] .wow-spell-card,
 div[class*="spell-tooltip"] .pf-spell-card {
   margin: 0;
-  width: 100%;
+  width: 580px !important; /* Set explicit width to ensure enough space for text */
   max-width: none !important; /* Allow spell card to use its natural max-width (580px) */
-  min-width: auto !important; /* Allow spell card to use its natural min-width (520px) */
+  min-width: 580px !important; /* Ensure minimum width for proper text layout */
   min-height: auto !important; /* Remove fixed height constraint */
   max-height: none !important; /* Remove any max height constraints */
   height: auto !important; /* Allow natural height */
@@ -210,13 +210,19 @@ div[class*="spell-tooltip"] .pf-spell-card {
 
 /* Readable description text - no height restrictions */
 .spell-tooltip-content .pf-spell-description,
-.spell-tooltip-content .spell-description {
+.spell-tooltip-content .spell-description,
+.spell-tooltip-content .item-description {
   padding: 4px 6px !important;
   font-size: 10px !important;
   line-height: 1.4 !important;
   height: auto !important;
   max-height: none !important;
+  min-height: auto !important;
   overflow: visible !important;
+  word-wrap: break-word !important;
+  white-space: normal !important;
+  width: auto !important;
+  max-width: 100% !important;
 }
 
 /* Show all sections in tooltips - no hiding */
@@ -233,13 +239,17 @@ div[class*="spell-tooltip"] .pf-spell-card {
 .spell-tooltip-content .wow-spell-card .spell-card-content,
 .spell-tooltip-content .pf-spell-card .spell-card-content,
 .spell-tooltip-content .wow-spell-card .pf-spell-card-body,
-.spell-tooltip-content .pf-spell-card .pf-spell-card-body {
+.spell-tooltip-content .pf-spell-card .pf-spell-card-body,
+.spell-tooltip-content .unified-spell-card,
+.spell-tooltip-content .pf-spell-card {
   padding: 2px !important;
   margin: 0 !important;
   height: auto !important;
   min-height: auto !important;
   max-height: none !important;
   overflow: visible !important;
+  width: auto !important;
+  max-width: none !important;
 }
 
 /* Very compact damage/healing sections */
@@ -475,8 +485,9 @@ div[class*="spell-tooltip"] .pf-spell-card {
 .tooltip .pf-spell-card {
   transform: scale(0.75) !important;
   transform-origin: top left !important;
+  width: 580px !important;
   max-width: none !important;
-  min-width: auto !important;
+  min-width: 580px !important;
   max-height: none !important;
   height: auto !important;
   overflow: visible !important;

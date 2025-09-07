@@ -12,7 +12,7 @@ const SpellTooltip = ({
 }) => {
   if (!spell || !position) return null;
 
-  // Calculate position to keep tooltip on screen - wider spell card with no scrolling
+  // Calculate position to keep tooltip on screen - prioritize right side positioning
   const padding = 20;
   const cursorOffset = 15;
 
@@ -21,42 +21,49 @@ const SpellTooltip = ({
   // Set reasonable max height to enable scrolling when needed
   const maxTooltipHeight = Math.min(500, window.innerHeight - padding * 2); // Max 500px or available height
 
-  // Start with cursor positioning
-  let x = position.x + cursorOffset;
-  let y = position.y - 10;
+  // Smart positioning strategy: prioritize right side, then left, then above/below
+  let x, y;
 
-  // Check if tooltip goes off right edge
+  // Try positioning to the right first (preferred for spell library)
+  x = position.x + cursorOffset;
+  y = position.y - 10;
+
+  // If tooltip would go off right edge, try left side
   if (x + tooltipWidth > window.innerWidth - padding) {
     x = position.x - tooltipWidth - cursorOffset;
+
+    // If left side also doesn't fit, center it and position above/below
+    if (x < padding) {
+      // Center horizontally and position above or below
+      x = Math.max(padding, Math.min(
+        window.innerWidth - tooltipWidth - padding,
+        position.x - tooltipWidth / 2
+      ));
+
+      // Position above if in bottom half of screen, below if in top half
+      if (position.y > window.innerHeight / 2) {
+        y = position.y - maxTooltipHeight - cursorOffset; // Above
+      } else {
+        y = position.y + cursorOffset; // Below
+      }
+    }
   }
 
-  // Smart positioning to keep tooltip on screen
-  // For action bar (bottom of screen), always show tooltip above
+  // Special handling for action bar area (bottom 300px of screen)
   if (position.y > window.innerHeight - 300) {
-    // Action bar area - show tooltip well above cursor
-    y = position.y - 200; // Position well above cursor to avoid action bar
-  } else if (y > window.innerHeight / 2) {
-    // If cursor is in bottom half, show tooltip above cursor
-    y = position.y - 50; // Position above cursor with offset
+    // Always show tooltip above for action bar
+    y = Math.max(padding, position.y - maxTooltipHeight - cursorOffset);
+
+    // Keep horizontal positioning but ensure it fits
+    x = Math.max(padding, Math.min(
+      window.innerWidth - tooltipWidth - padding,
+      position.x + cursorOffset
+    ));
   }
 
-  // Check if tooltip goes off top edge
-  if (y < padding) {
-    y = padding;
-  }
-
-  // Check if tooltip goes off left edge
-  if (x < padding) {
-    x = padding;
-  }
-
-  // Final bounds check - ensure tooltip fits entirely on screen
-  if (x + tooltipWidth > window.innerWidth - padding) {
-    x = window.innerWidth - tooltipWidth - padding;
-  }
-  if (y < padding) {
-    y = padding;
-  }
+  // Final bounds check to ensure tooltip stays on screen
+  x = Math.max(padding, Math.min(x, window.innerWidth - tooltipWidth - padding));
+  y = Math.max(padding, Math.min(y, window.innerHeight - maxTooltipHeight - padding));
 
   // Create tooltip content
   const tooltipContent = (
