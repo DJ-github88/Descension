@@ -592,6 +592,54 @@ async function simpleSetupCategories() {
   return results;
 }
 
+// Test function to check what we have
+async function testCommunityData() {
+  console.log('🔍 Testing community data...');
+
+  if (!db) {
+    console.error('❌ Database not available');
+    return;
+  }
+
+  try {
+    const { collection, getDocs } = await import('firebase/firestore');
+
+    // Check categories
+    const categoriesRef = collection(db, 'spell_categories');
+    const categoriesSnapshot = await getDocs(categoriesRef);
+
+    console.log(`📚 Found ${categoriesSnapshot.size} categories:`);
+    categoriesSnapshot.forEach(doc => {
+      console.log(`  - ${doc.id}:`, doc.data());
+    });
+
+    // Check spells
+    const spellsRef = collection(db, 'community_spells');
+    const spellsSnapshot = await getDocs(spellsRef);
+
+    console.log(`✨ Found ${spellsSnapshot.size} community spells:`);
+    spellsSnapshot.forEach(doc => {
+      console.log(`  - ${doc.id}:`, doc.data().name);
+    });
+
+    return {
+      categories: categoriesSnapshot.size,
+      spells: spellsSnapshot.size
+    };
+  } catch (error) {
+    console.error('❌ Test failed:', error);
+    return { error: error.message };
+  }
+}
+
+// Make functions available globally for testing
+if (typeof window !== 'undefined') {
+  window.setupSpellCategories = setupSpellCategories;
+  window.simpleSetupCategories = simpleSetupCategories;
+  window.debugFirebaseStatus = debugFirebaseStatus;
+  window.testCommunityData = testCommunityData;
+}
+
 // Make setup function available globally for easy access
 if (typeof window !== 'undefined') {
   window.setupSpellCategories = setupSpellCategories;
