@@ -14,9 +14,10 @@ const getQualityColor = (quality) => {
 const formatCurrency = (value) => {
     if (!value) return '0c';
 
-    const { gold = 0, silver = 0, copper = 0 } = value;
+    const { platinum = 0, gold = 0, silver = 0, copper = 0 } = value;
     const parts = [];
 
+    if (platinum > 0) parts.push(`${platinum}p`);
     if (gold > 0) parts.push(`${gold}g`);
     if (silver > 0) parts.push(`${silver}s`);
     if (copper > 0) parts.push(`${copper}c`);
@@ -849,6 +850,16 @@ export default function ItemTooltip({ item }) {
                 <div style={{ marginBottom: '12px' }}>
                     {typeof item.currencyValue === 'object' ? (
                         <>
+                            {item.currencyValue.platinum > 0 && (
+                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
+                                    <img
+                                        src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_04.jpg"
+                                        alt="Platinum"
+                                        style={{ width: '20px', height: '20px', marginRight: '8px', borderRadius: '50%', border: '1px solid rgba(229, 228, 226, 0.5)' }}
+                                    />
+                                    <span style={{ color: '#e5e4e2' }}>{item.currencyValue.platinum} Platinum</span>
+                                </div>
+                            )}
                             {item.currencyValue.gold > 0 && (
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
                                     <img

@@ -718,9 +718,10 @@ export default function InventoryWindow() {
         if (amount <= 0) return;
 
         const rates = {
-            copper: { silver: 0.01, gold: 0.0001 },
-            silver: { copper: 100, gold: 0.01 },
-            gold: { copper: 10000, silver: 100 }
+            copper: { silver: 0.01, gold: 0.0001, platinum: 0.000001 },
+            silver: { copper: 100, gold: 0.01, platinum: 0.0001 },
+            gold: { copper: 10000, silver: 100, platinum: 0.01 },
+            platinum: { copper: 1000000, silver: 10000, gold: 100 }
         };
 
         const fromValue = currency[from];
@@ -1182,6 +1183,22 @@ export default function InventoryWindow() {
 
                 <div className="inventory-bottom-bar">
                     <div className="currency-display-simple">
+                        <div
+                            className="currency-coin clickable-coin"
+                            onClick={() => setShowCurrencyWithdrawModal(true)}
+                            title="Click to withdraw platinum"
+                        >
+                            <img
+                                src={`${WOW_ICON_BASE_URL}inv_misc_coin_04.jpg`}
+                                alt="Platinum"
+                                className="coin-icon"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23e5e4e2"/></svg>';
+                                }}
+                            />
+                            <span className="currency-number">{currency.platinum}</span>
+                        </div>
                         <div
                             className="currency-coin clickable-coin"
                             onClick={() => setShowCurrencyWithdrawModal(true)}

@@ -335,6 +335,9 @@ const useGridItemStore = create(
             const updatedCurrency = { ...currentCurrency };
 
             // Add each currency type, ensuring we handle all denominations
+            if (currencyValue.platinum) {
+              updatedCurrency.platinum = (updatedCurrency.platinum || 0) + currencyValue.platinum;
+            }
             if (currencyValue.gold) {
               updatedCurrency.gold = (updatedCurrency.gold || 0) + currencyValue.gold;
             }
@@ -367,8 +370,9 @@ const useGridItemStore = create(
 
           // Add notification to chat window
           if (typeof currencyValue === 'object') {
-            // For mixed currency (gold, silver, copper)
+            // For mixed currency (platinum, gold, silver, copper)
             chatStore.addCurrencyLootedNotification(
+              currencyValue.platinum || 0,
               currencyValue.gold || 0,
               currencyValue.silver || 0,
               currencyValue.copper || 0,
@@ -379,12 +383,14 @@ const useGridItemStore = create(
             // For simple currency
             const currencyType = itemToUse.currencyType || 'gold';
             const currencyMap = {
-              'gold': { gold: currencyValue, silver: 0, copper: 0 },
-              'silver': { gold: 0, silver: currencyValue, copper: 0 },
-              'copper': { gold: 0, silver: 0, copper: currencyValue }
+              'platinum': { platinum: currencyValue, gold: 0, silver: 0, copper: 0 },
+              'gold': { platinum: 0, gold: currencyValue, silver: 0, copper: 0 },
+              'silver': { platinum: 0, gold: 0, silver: currencyValue, copper: 0 },
+              'copper': { platinum: 0, gold: 0, silver: 0, copper: currencyValue }
             };
 
             chatStore.addCurrencyLootedNotification(
+              currencyMap[currencyType].platinum,
               currencyMap[currencyType].gold,
               currencyMap[currencyType].silver,
               currencyMap[currencyType].copper,
@@ -402,7 +408,9 @@ const useGridItemStore = create(
             let iconId = itemToUse.iconId;
             if (!iconId) {
               if (typeof currencyValue === 'object') {
-                if (currencyValue.gold > 0) {
+                if (currencyValue.platinum > 0) {
+                  iconId = 'inv_misc_coin_04';
+                } else if (currencyValue.gold > 0) {
                   iconId = 'inv_misc_coin_01';
                 } else if (currencyValue.silver > 0) {
                   iconId = 'inv_misc_coin_03';
@@ -420,6 +428,10 @@ const useGridItemStore = create(
               // For combined currency with enhanced formatting
               let notificationHTML = '';
               const parts = [];
+
+              if (currencyValue.platinum) {
+                parts.push(`<span style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">+${currencyValue.platinum}</span><span style="color: #e5e4e2; font-weight: 700; margin-left: 2px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Platinum</span>`);
+              }
 
               if (currencyValue.gold) {
                 parts.push(`<span style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">+${currencyValue.gold}</span><span style="color: #ffd700; font-weight: 700; margin-left: 2px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Gold</span>`);
@@ -445,6 +457,7 @@ const useGridItemStore = create(
               // For simple currency with enhanced formatting
               const currencyType = itemToUse.currencyType || 'gold';
               const currencyColors = {
+                'platinum': '#e5e4e2',
                 'gold': '#ffd700',
                 'silver': '#c0c0c0',
                 'copper': '#cd7f32'
@@ -482,7 +495,7 @@ const useGridItemStore = create(
           // Handle item removal from grid for currency items
           const gameStore = useGameStore.getState();
           if (sendToServer && gameStore.isInMultiplayer) {
-            // In multiplayer, send to server and let server handle removal
+            // In multiplayer, send to server and let server handle authoritative removal
             if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
               gameStore.multiplayerSocket.emit('item_looted', {
                 item: itemToUse,
@@ -492,9 +505,8 @@ const useGridItemStore = create(
                 gridItemId: gridItemId
               });
 
-              // Remove item locally immediately to prevent persistence
-              console.log(`🎁 Removing looted currency ${gridItemId} locally (multiplayer)`);
-              removeItemFromGrid(gridItemId);
+              // For currency, we rely on server confirmation for removal to prevent desync
+              console.log(`🎁 Sent currency loot ${gridItemId} to server, waiting for confirmation`);
             }
           } else {
             // In single player or when not sending to server, remove locally

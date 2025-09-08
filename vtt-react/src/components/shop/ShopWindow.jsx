@@ -139,7 +139,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   
   // Calculate total price in copper
   const calculateTotalCopper = (price) => {
-    return (price.gold || 0) * 10000 + (price.silver || 0) * 100 + (price.copper || 0);
+    return (price.platinum || 0) * 1000000 + (price.gold || 0) * 10000 + (price.silver || 0) * 100 + (price.copper || 0);
   };
   
   // Calculate player's total copper
@@ -185,7 +185,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     const merchantCopper = Math.floor(totalCopper * (markupPercent / 100));
 
     return {
-      gold: Math.floor(merchantCopper / 10000),
+      platinum: Math.floor(merchantCopper / 1000000),
+      gold: Math.floor((merchantCopper % 1000000) / 10000),
       silver: Math.floor((merchantCopper % 10000) / 100),
       copper: merchantCopper % 100
     };
@@ -240,7 +241,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     });
 
     return {
-      gold: Math.floor(totalCopper / 10000),
+      platinum: Math.floor(totalCopper / 1000000),
+      gold: Math.floor((totalCopper % 1000000) / 10000),
       silver: Math.floor((totalCopper % 10000) / 100),
       copper: totalCopper % 100
     };
@@ -295,7 +297,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     });
 
     return {
-      gold: Math.floor(totalCopper / 10000),
+      platinum: Math.floor(totalCopper / 1000000),
+      gold: Math.floor((totalCopper % 1000000) / 10000),
       silver: Math.floor((totalCopper % 10000) / 100),
       copper: totalCopper % 100
     };
@@ -321,7 +324,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     let totalPlayerCopper = calculateTotalCopper(newCurrency);
     totalPlayerCopper -= remainingCost;
 
-    // Convert back to gold/silver/copper
+    // Convert back to platinum/gold/silver/copper
+    newCurrency.platinum = Math.floor(totalPlayerCopper / 1000000);
+    totalPlayerCopper %= 1000000;
     newCurrency.gold = Math.floor(totalPlayerCopper / 10000);
     totalPlayerCopper %= 10000;
     newCurrency.silver = Math.floor(totalPlayerCopper / 100);
@@ -383,9 +388,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     let totalPlayerCopper = calculateTotalCopper(currency);
     totalPlayerCopper -= calculateTotalCopper(totalCost);
 
-    // Convert back to gold/silver/copper
+    // Convert back to platinum/gold/silver/copper
     const newCurrency = {
-      gold: Math.floor(totalPlayerCopper / 10000),
+      platinum: Math.floor(totalPlayerCopper / 1000000),
+      gold: Math.floor((totalPlayerCopper % 1000000) / 10000),
       silver: Math.floor((totalPlayerCopper % 10000) / 100),
       copper: totalPlayerCopper % 100
     };
@@ -453,7 +459,9 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     let totalPlayerCopper = calculateTotalCopper(newCurrency);
     totalPlayerCopper += totalEarnings;
 
-    // Convert back to gold/silver/copper
+    // Convert back to platinum/gold/silver/copper
+    newCurrency.platinum = Math.floor(totalPlayerCopper / 1000000);
+    totalPlayerCopper %= 1000000;
     newCurrency.gold = Math.floor(totalPlayerCopper / 10000);
     totalPlayerCopper %= 10000;
     newCurrency.silver = Math.floor(totalPlayerCopper / 100);
@@ -536,9 +544,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     let totalPlayerCopper = calculateTotalCopper(currency);
     totalPlayerCopper += calculateTotalCopper(totalValue);
 
-    // Convert back to gold/silver/copper
+    // Convert back to platinum/gold/silver/copper
     const newCurrency = {
-      gold: Math.floor(totalPlayerCopper / 10000),
+      platinum: Math.floor(totalPlayerCopper / 1000000),
+      gold: Math.floor((totalPlayerCopper % 1000000) / 10000),
       silver: Math.floor((totalPlayerCopper % 10000) / 100),
       copper: totalPlayerCopper % 100
     };
@@ -654,6 +663,22 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   // Format currency display with coin images
   const formatCurrency = (price) => {
     const parts = [];
+    if (price.platinum > 0) {
+      parts.push(
+        <span key="platinum" className="currency-part">
+          <span className="currency-number">{price.platinum}</span>
+          <img
+            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_04.jpg"
+            alt="Platinum"
+            className="currency-coin-small"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23e5e4e2"/></svg>';
+            }}
+          />
+        </span>
+      );
+    }
     if (price.gold > 0) {
       parts.push(
         <span key="gold" className="currency-part">
@@ -962,6 +987,18 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
           <div className="currency-display-simple">
             <div className="currency-coin">
               <img
+                src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_04.jpg"
+                alt="Platinum"
+                className="coin-icon"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23e5e4e2"/></svg>';
+                }}
+              />
+              <span className="currency-number">{currency.platinum}</span>
+            </div>
+            <div className="currency-coin">
+              <img
                 src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
                 alt="Gold"
                 className="coin-icon"
@@ -1039,7 +1076,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
               if (!item) return null;
 
               const totalItemPrice = {
-                gold: Math.floor(calculateTotalCopper(shopItem.customPrice) * quantity / 10000),
+                platinum: Math.floor(calculateTotalCopper(shopItem.customPrice) * quantity / 1000000),
+                gold: Math.floor((calculateTotalCopper(shopItem.customPrice) * quantity % 1000000) / 10000),
                 silver: Math.floor((calculateTotalCopper(shopItem.customPrice) * quantity % 10000) / 100),
                 copper: (calculateTotalCopper(shopItem.customPrice) * quantity) % 100
               };
@@ -1091,7 +1129,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                 <div key={itemId} className="cart-item">
                   <span className="cart-item-name">{quantity}x {item.name}</span>
                   <span className="cart-item-price sell-price">{formatCurrency({
-                    gold: Math.floor(calculateTotalCopper(sellPrice) * quantity / 10000),
+                    platinum: Math.floor(calculateTotalCopper(sellPrice) * quantity / 1000000),
+                    gold: Math.floor((calculateTotalCopper(sellPrice) * quantity % 1000000) / 10000),
                     silver: Math.floor((calculateTotalCopper(sellPrice) * quantity % 10000) / 100),
                     copper: (calculateTotalCopper(sellPrice) * quantity) % 100
                   })}</span>

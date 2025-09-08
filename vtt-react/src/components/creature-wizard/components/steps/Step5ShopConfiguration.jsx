@@ -243,6 +243,7 @@ const Step5ShopConfiguration = () => {
   // Format currency display
   const formatCurrency = (price) => {
     const parts = [];
+    if (price.platinum > 0) parts.push(`${price.platinum}p`);
     if (price.gold > 0) parts.push(`${price.gold}g`);
     if (price.silver > 0) parts.push(`${price.silver}s`);
     if (price.copper > 0) parts.push(`${price.copper}c`);

@@ -157,15 +157,47 @@ const calculateEncumbranceState = (items) => {
 const useInventoryStore = create(persist((set, get) => ({
     items: [],
     currency: {
+        platinum: 0,
         gold: 0,
         silver: 0,
         copper: 0
     },
     encumbranceState: 'normal', // normal, encumbered, overencumbered
 
-    updateCurrency: (currencyData) => set((state) => ({
-        currency: { ...state.currency, ...currencyData }
-    })),
+    // Automatic currency conversion function
+    convertCurrencyUpward: (currency) => {
+        let { platinum = 0, gold = 0, silver = 0, copper = 0 } = currency;
+
+        // Convert copper to silver (100 copper = 1 silver)
+        if (copper >= 100) {
+            const newSilver = Math.floor(copper / 100);
+            silver += newSilver;
+            copper = copper % 100;
+        }
+
+        // Convert silver to gold (100 silver = 1 gold)
+        if (silver >= 100) {
+            const newGold = Math.floor(silver / 100);
+            gold += newGold;
+            silver = silver % 100;
+        }
+
+        // Convert gold to platinum (100 gold = 1 platinum)
+        if (gold >= 100) {
+            const newPlatinum = Math.floor(gold / 100);
+            platinum += newPlatinum;
+            gold = gold % 100;
+        }
+
+        return { platinum, gold, silver, copper };
+    },
+
+    updateCurrency: (currencyData) => set((state) => {
+        const newCurrency = { ...state.currency, ...currencyData };
+        // Apply automatic conversion
+        const convertedCurrency = get().convertCurrencyUpward(newCurrency);
+        return { currency: convertedCurrency };
+    }),
 
     // Update encumbrance state based on item positions
     updateEncumbranceState: () => set((state) => {

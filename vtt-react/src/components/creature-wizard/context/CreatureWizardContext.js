@@ -86,6 +86,7 @@ const initialState = {
   // Loot table
   lootTable: {
     currency: {
+      platinum: { min: 0, max: 0 },
       gold: { min: 0, max: 0 },
       silver: { min: 0, max: 0 },
       copper: { min: 0, max: 0 }
@@ -96,7 +97,7 @@ const initialState = {
   // Shopkeeper properties
   isShopkeeper: false,
   shopInventory: {
-    items: [], // Array of { itemId, customPrice: { gold: 0, silver: 0, copper: 0 }, quantity: 1 }
+    items: [], // Array of { itemId, customPrice: { platinum: 0, gold: 0, silver: 0, copper: 0 }, quantity: 1 }
     restockOnLongRest: false,
     shopName: '',
     shopDescription: '',

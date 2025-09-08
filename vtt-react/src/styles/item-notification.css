@@ -185,6 +185,14 @@
   letter-spacing: 0.3px !important;
 }
 
+.currency-type-platinum {
+  color: #e5e4e2 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  margin-left: 3px !important;
+  letter-spacing: 0.2px !important;
+}
+
 .currency-type-gold {
   color: #ffd700 !important;
   font-weight: 600 !important;

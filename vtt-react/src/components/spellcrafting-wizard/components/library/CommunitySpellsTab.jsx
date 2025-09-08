@@ -177,8 +177,7 @@ const CommunitySpellsTab = () => {
                 className="category-card"
                 onClick={() => selectCategory(category.id)}
                 style={{
-                  '--category-color': category.color,
-                  borderColor: category.color
+                  '--category-color': category.color
                 }}
               >
                 <div className="category-icon">

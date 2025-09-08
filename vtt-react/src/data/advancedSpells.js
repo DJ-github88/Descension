@@ -12,7 +12,7 @@ export const ADVANCED_SPELLS = [
     id: 'fortunes-gambit',
     name: 'Fortune\'s Gambit',
     description: 'You flip mystical coins to determine the fate of your enemies. The more heads you flip, the more devastating the attack becomes.',
-    icon: 'inv_misc_coin_02',
+    icon: 'inv_misc_coin_04',
 
     spellType: 'ACTION',
     tags: ['damage', 'force', 'coin-based', 'gambling', 'variable'],

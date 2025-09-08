@@ -31,8 +31,8 @@ export const ITEM_TYPES = {
     },
     currency: {
         name: 'Currency',
-        icon: 'inv_misc_coin_01',
-        description: 'Gold, silver, and copper coins for trade'
+        icon: 'inv_misc_coin_04',
+        description: 'Platinum, gold, silver, and copper coins for trade'
     }
 };
 
@@ -133,7 +133,7 @@ export const CURRENCY_TYPES = {
     },
     NOBLE_PAYMENT: {
         name: 'Noble\'s Payment',
-        icon: 'inv_misc_coin_02',
+        icon: 'inv_misc_coin_01',
         description: 'A generous payment worthy of a noble\'s service',
         value: 5,
         type: 'gold',

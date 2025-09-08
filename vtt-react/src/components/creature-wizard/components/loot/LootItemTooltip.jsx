@@ -115,6 +115,12 @@ const formatItemValue = (value) => {
 
   if (typeof value === 'object') {
     const parts = [];
+    if (value.platinum > 0) parts.push(
+      <span key="platinum">
+        <span style={{ color: '#ffffff' }}>{value.platinum}</span>
+        <span style={{ color: '#e5e4e2' }}>p</span>
+      </span>
+    );
     if (value.gold > 0) parts.push(
       <span key="gold">
         <span style={{ color: '#ffffff' }}>{value.gold}</span>

@@ -556,14 +556,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // Remove the item from grid if it was successfully removed on server
-      // Only remove if this is from another player (our own removals are handled immediately)
-      if (data.gridItemId && data.itemRemoved && data.playerId !== currentPlayer?.id) {
+      // For currency items, also process our own removals to ensure synchronization
+      // For other items, only remove if this is from another player (our own removals are handled immediately)
+      const shouldRemove = data.gridItemId && data.itemRemoved && (
+        data.playerId !== currentPlayer?.id || // Other player's loot
+        (data.item && data.item.type === 'currency') // Our own currency loot (needs server confirmation)
+      );
+
+      if (shouldRemove) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { removeItemFromGrid, gridItems } = useGridItemStore.getState();
 
           // Check if item still exists before trying to remove it
           const itemExists = gridItems.find(item => item.id === data.gridItemId);
           if (itemExists) {
+            console.log(`🎁 Removing looted item ${data.gridItemId} from grid (server confirmation)`);
             removeItemFromGrid(data.gridItemId);
           }
         }).catch(error => {

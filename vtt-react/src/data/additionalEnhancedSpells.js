@@ -17,7 +17,7 @@ export const FORTUNE_SPELLS = [
     damageTypes: [],
     tags: ['fortune', 'buff', 'utility', 'coins', 'luck'],
     visualTheme: 'arcane',
-    icon: 'inv_misc_coin_02',
+    icon: 'inv_misc_coin_04',
     
     buffConfig: {
       buffs: [

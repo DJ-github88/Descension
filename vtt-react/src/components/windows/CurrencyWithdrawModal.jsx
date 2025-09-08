@@ -16,6 +16,8 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
     // Get currency icon and label
     const getCurrencyIcon = () => {
         switch (currencyType) {
+            case 'platinum':
+                return 'inv_misc_coin_04';
             case 'gold':
                 return 'inv_misc_coin_01';
             case 'silver':
@@ -109,7 +111,7 @@ const CurrencyWithdrawModal = ({ currencyType, onClose }) => {
         const currencyInfo = CURRENCY_TYPES[currencyKey] || CURRENCY_TYPES.HANDFUL_OF_COINS;
 
         // Create a value object with the appropriate currency type
-        const valueObj = { gold: 0, silver: 0, copper: 0 };
+        const valueObj = { platinum: 0, gold: 0, silver: 0, copper: 0 };
         valueObj[type] = value;
 
         console.log("Creating currency item:", {

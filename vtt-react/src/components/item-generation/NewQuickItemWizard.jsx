@@ -609,7 +609,7 @@ const ITEM_ICON_MAPPINGS = {
         CRAFTING: ['inv_misc_leatherscrap_01', 'inv_ingot_03', 'inv_fabric_wool_01', 'inv_misc_gem_01', 'inv_misc_gem_03'],
         TRADE_GOODS: ['inv_misc_gem_variety_01', 'inv_misc_pelt_wolf_01', 'inv_misc_bone_01', 'inv_misc_coin_08'],
         KEY: ['inv_misc_key_01', 'inv_misc_key_02', 'inv_misc_key_03', 'inv_misc_key_10', 'inv_misc_key_13'],
-        JUNK: ['inv_misc_bone_01', 'inv_misc_dust_02', 'inv_misc_coin_02', 'inv_misc_food_19', 'inv_misc_gem_bloodstone_01']
+        JUNK: ['inv_misc_bone_01', 'inv_misc_dust_02', 'inv_misc_coin_05', 'inv_misc_food_19', 'inv_misc_gem_bloodstone_01']
     }
 };
 

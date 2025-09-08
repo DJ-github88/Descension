@@ -56,10 +56,10 @@ const ItemIconSelector = ({ onSelect, onClose, currentIcon, itemType = 'weapon' 
         ];
       case 'currency':
         return [
+          { id: 'inv_misc_coin_04', name: 'Platinum Coin' },
           { id: 'inv_misc_coin_01', name: 'Gold Coin' },
-          { id: 'inv_misc_coin_02', name: 'Silver Coin' },
-          { id: 'inv_misc_coin_03', name: 'Copper Coin' },
-          { id: 'inv_misc_coin_05', name: 'Coin Pouch' },
+          { id: 'inv_misc_coin_03', name: 'Silver Coin' },
+          { id: 'inv_misc_coin_05', name: 'Copper Coin' },
           { id: 'inv_misc_coin_06', name: 'Heavy Purse' },
         ];
       case 'all':

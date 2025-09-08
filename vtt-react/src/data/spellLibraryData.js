@@ -17,7 +17,7 @@ export const LIBRARY_COLLECTIONS = [
     description: 'Spells that deal damage to enemies',
     icon: 'spell_fire_fireball02',
     spells: [],
-    color: '#FF4500'
+    color: '#8B4513'
   },
   {
     id: 'healing-spells',
@@ -25,7 +25,7 @@ export const LIBRARY_COLLECTIONS = [
     description: 'Spells that restore health',
     icon: 'spell_holy_heal',
     spells: [],
-    color: '#32CD32'
+    color: '#2d5016'
   },
   {
     id: 'utility-spells',
@@ -33,7 +33,7 @@ export const LIBRARY_COLLECTIONS = [
     description: 'Spells that provide various utility effects',
     icon: 'spell_arcane_teleportundercity',
     spells: [],
-    color: '#4169E1'
+    color: '#5a1e12'
   },
   {
     id: 'control-spells',

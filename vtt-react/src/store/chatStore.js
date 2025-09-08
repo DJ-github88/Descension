@@ -139,10 +139,11 @@ const useChatStore = create(
       },
 
       // Add a notification for currency looted
-      addCurrencyLootedNotification: (gold = 0, silver = 0, copper = 0, source = '', looter = 'Player') => {
+      addCurrencyLootedNotification: (platinum = 0, gold = 0, silver = 0, copper = 0, source = '', looter = 'Player') => {
         const { addNotification } = get();
         addNotification('loot', {
           type: 'currency_looted',
+          platinum,
           gold,
           silver,
           copper,

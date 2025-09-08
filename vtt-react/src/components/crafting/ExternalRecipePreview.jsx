@@ -46,9 +46,10 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
   const formatCurrency = (value) => {
     if (!value) return '0c';
 
-    const { gold = 0, silver = 0, copper = 0 } = value;
+    const { platinum = 0, gold = 0, silver = 0, copper = 0 } = value;
     const parts = [];
 
+    if (platinum > 0) parts.push(`${platinum}p`);
     if (gold > 0) parts.push(`${gold}g`);
     if (silver > 0) parts.push(`${silver}s`);
     if (copper > 0) parts.push(`${copper}c`);

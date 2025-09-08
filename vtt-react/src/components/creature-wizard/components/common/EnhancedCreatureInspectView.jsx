@@ -1150,7 +1150,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         <div className="pathfinder-loot-header">
           <div className="loot-header-content">
             <img
-              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_02.jpg"
+              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_04.jpg"
               alt="Treasure"
               className="loot-header-icon"
             />

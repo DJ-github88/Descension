@@ -392,6 +392,23 @@
 
 /* CURRENCY-SPECIFIC STYLING WITH METALLIC EFFECTS */
 
+/* Platinum currency - Lustrous platinum metallic */
+.grid-item-orb[data-currency="platinum"] {
+  --orb-color: #e5e4e2;
+  --orb-color-mid: #d3d2d0;
+  --orb-color-dark: #b8b7b5;
+  --glow-color: rgba(229, 228, 226, 0.7);
+
+  /* Metallic platinum appearance */
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 30%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(229, 228, 226, 0.4) 0%, transparent 40%),
+    linear-gradient(135deg, #e5e4e2 0%, #d3d2d0 50%, #b8b7b5 100%);
+
+  border: calc(var(--orb-size, 20px) * 0.04) solid rgba(229, 228, 226, 0.9);
+  animation: orbFloat 4s ease-in-out infinite, orbPlatinumShine 3.5s ease-in-out infinite;
+}
+
 /* Gold currency - Brilliant golden metallic */
 .grid-item-orb[data-currency="gold"] {
   --orb-color: #ffd700;
@@ -444,6 +461,15 @@
 }
 
 /* CURRENCY ANIMATIONS */
+@keyframes orbPlatinumShine {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    filter: brightness(1.25) saturate(1.3);
+  }
+}
+
 @keyframes orbGoldShine {
   0%, 100% {
     filter: brightness(1) saturate(1);

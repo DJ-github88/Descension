@@ -201,9 +201,10 @@ const Step4LootTable = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
 
-  // Parse currency string into gold, silver, copper values
+  // Parse currency string into platinum, gold, silver, copper values
   const parseCurrencyString = (currencyStr) => {
     // Default values
+    let platinum = 0;
     let gold = 0;
     let silver = 0;
     let copper = 0;
@@ -211,21 +212,24 @@ const Step4LootTable = () => {
     // Remove all spaces and make lowercase
     const cleanStr = currencyStr.toLowerCase().replace(/\s+/g, '');
 
-    // Match patterns like "1g", "5s", "42c"
+    // Match patterns like "1p", "5g", "10s", "42c"
+    const platinumMatch = cleanStr.match(/(\d+)p/);
     const goldMatch = cleanStr.match(/(\d+)g/);
     const silverMatch = cleanStr.match(/(\d+)s/);
     const copperMatch = cleanStr.match(/(\d+)c/);
 
+    if (platinumMatch) platinum = parseInt(platinumMatch[1], 10) || 0;
     if (goldMatch) gold = parseInt(goldMatch[1], 10) || 0;
     if (silverMatch) silver = parseInt(silverMatch[1], 10) || 0;
     if (copperMatch) copper = parseInt(copperMatch[1], 10) || 0;
 
-    return { gold, silver, copper };
+    return { platinum, gold, silver, copper };
   };
 
-  // Format currency values into a string like "3g 4s 52c"
-  const formatCurrency = (gold, silver, copper) => {
+  // Format currency values into a string like "1p 3g 4s 52c"
+  const formatCurrency = (platinum, gold, silver, copper) => {
     let result = '';
+    if (platinum > 0) result += `${platinum}p `;
     if (gold > 0) result += `${gold}g `;
     if (silver > 0) result += `${silver}s `;
     if (copper > 0) result += `${copper}c`;
@@ -237,12 +241,16 @@ const Step4LootTable = () => {
   // Handle currency change
   const handleCurrencyChange = (field, value) => {
     // Parse the currency string
-    const { gold, silver, copper } = parseCurrencyString(value);
+    const { platinum, gold, silver, copper } = parseCurrencyString(value);
 
     dispatch(wizardActionCreators.setLootTable({
       ...wizardState.lootTable,
       currency: {
         ...wizardState.lootTable.currency,
+        platinum: {
+          ...wizardState.lootTable.currency.platinum,
+          [field]: platinum
+        },
         gold: {
           ...wizardState.lootTable.currency.gold,
           [field]: gold
@@ -569,7 +577,7 @@ const Step4LootTable = () => {
           <div className="currency-inputs">
             <div className="currency-input-group">
               <label>Currency Range</label>
-              <p className="currency-help">Format: "3g 4s 52c" (gold, silver, copper)</p>
+              <p className="currency-help">Format: "1p 3g 4s 52c" (platinum, gold, silver, copper)</p>
               <div className="range-inputs">
                 <div className="range-input">
                   <span>Min:</span>
@@ -577,6 +585,7 @@ const Step4LootTable = () => {
                     type="text"
                     placeholder="0c"
                     value={formatCurrency(
+                      wizardState.lootTable.currency.platinum.min,
                       wizardState.lootTable.currency.gold.min,
                       wizardState.lootTable.currency.silver.min,
                       wizardState.lootTable.currency.copper.min
@@ -590,6 +599,7 @@ const Step4LootTable = () => {
                     type="text"
                     placeholder="0c"
                     value={formatCurrency(
+                      wizardState.lootTable.currency.platinum.max,
                       wizardState.lootTable.currency.gold.max,
                       wizardState.lootTable.currency.silver.max,
                       wizardState.lootTable.currency.copper.max

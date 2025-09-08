@@ -25,42 +25,42 @@ const spellCategories = {
     name: "Damage Spells",
     description: "Offensive spells that deal damage to enemies",
     icon: "spell_fire_fireball02",
-    color: "#FF4500",
+    color: "#8B4513",
     spellCount: 0
   },
   healing: {
     name: "Healing Spells",
     description: "Restorative spells that heal wounds and cure ailments",
     icon: "spell_holy_heal",
-    color: "#32CD32",
+    color: "#2d5016",
     spellCount: 0
   },
   utility: {
     name: "Utility Spells",
     description: "Versatile spells for exploration and problem-solving",
     icon: "spell_arcane_teleportundercity",
-    color: "#4169E1",
+    color: "#5a1e12",
     spellCount: 0
   },
   protection: {
     name: "Protection Spells",
     description: "Defensive spells that shield and protect",
     icon: "spell_holy_devotionaura",
-    color: "#FFD700",
+    color: "#b8860b",
     spellCount: 0
   },
   illusion: {
     name: "Illusion Spells",
     description: "Deceptive spells that manipulate perception",
     icon: "spell_shadow_charm",
-    color: "#9370DB",
+    color: "#8b7355",
     spellCount: 0
   },
   elemental: {
     name: "Elemental Spells",
     description: "Spells that harness the power of the elements",
     icon: "spell_nature_lightning",
-    color: "#00CED1",
+    color: "#a08c70",
     spellCount: 0
   }
 };

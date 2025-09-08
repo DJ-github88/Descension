@@ -891,7 +891,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             accessory: ['inv_jewelry_ring_01', 'inv_jewelry_necklace_01', 'inv_misc_gem_01'],
             consumable: ['inv_potion_54', 'inv_potion_81', 'inv_scroll_03', 'inv_misc_food_15'],
             miscellaneous: ['inv_misc_herb_01', 'inv_misc_gem_variety_01', 'inv_misc_key_01'],
-            currency: ['inv_misc_coin_01', 'inv_misc_coin_02', 'inv_misc_coin_16']
+            currency: ['inv_misc_coin_04', 'inv_misc_coin_01', 'inv_misc_coin_03', 'inv_misc_coin_05']
         };
 
         const icons = iconMaps[type] || ['inv_misc_gem_01'];

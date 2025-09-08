@@ -7,7 +7,7 @@ import '../../styles/currency-withdraw-modal.css';
 const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
     const modalRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
-    const [parsedValues, setParsedValues] = useState({ gold: 0, silver: 0, copper: 0 });
+    const [parsedValues, setParsedValues] = useState({ platinum: 0, gold: 0, silver: 0, copper: 0 });
     const [error, setError] = useState('');
     const [isValid, setIsValid] = useState(false);
 
@@ -28,7 +28,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
     // Parse the input value into gold, silver, and copper
     useEffect(() => {
         if (!inputValue.trim()) {
-            setParsedValues({ gold: 0, silver: 0, copper: 0 });
+            setParsedValues({ platinum: 0, gold: 0, silver: 0, copper: 0 });
             setIsValid(false);
             setError('');
             return;
@@ -36,48 +36,53 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
 
         try {
             // Parse the input using regex
+            const platinumMatch = inputValue.match(/(\d+)p/i);
             const goldMatch = inputValue.match(/(\d+)g/i);
             const silverMatch = inputValue.match(/(\d+)s/i);
             const copperMatch = inputValue.match(/(\d+)c/i);
 
+            const platinum = platinumMatch ? parseInt(platinumMatch[1]) : 0;
             const gold = goldMatch ? parseInt(goldMatch[1]) : 0;
             const silver = silverMatch ? parseInt(silverMatch[1]) : 0;
             const copper = copperMatch ? parseInt(copperMatch[1]) : 0;
 
             // Set reasonable maximum limits
+            const MAX_PLATINUM = 999999;
             const MAX_GOLD = 999999;
             const MAX_SILVER = 999999;
             const MAX_COPPER = 999999;
 
             // Validate the values
-            if (gold < 0 || silver < 0 || copper < 0) {
+            if (platinum < 0 || gold < 0 || silver < 0 || copper < 0) {
                 setError('Values cannot be negative');
                 setIsValid(false);
                 return;
             }
 
-            if (gold > MAX_GOLD || silver > MAX_SILVER || copper > MAX_COPPER) {
-                setError(`Maximum values: ${MAX_GOLD}g ${MAX_SILVER}s ${MAX_COPPER}c`);
+            if (platinum > MAX_PLATINUM || gold > MAX_GOLD || silver > MAX_SILVER || copper > MAX_COPPER) {
+                setError(`Maximum values: ${MAX_PLATINUM}p ${MAX_GOLD}g ${MAX_SILVER}s ${MAX_COPPER}c`);
                 setIsValid(false);
                 return;
             }
 
-            if (gold === 0 && silver === 0 && copper === 0) {
-                setError('Please enter at least one currency value (format: 1g 5s 20c)');
+            if (platinum === 0 && gold === 0 && silver === 0 && copper === 0) {
+                setError('Please enter at least one currency value (format: 1p 5g 10s 20c)');
                 setIsValid(false);
                 return;
             }
 
             // Check for invalid format (numbers without currency letters)
-            const hasNumbersWithoutCurrency = /\d+(?![gsc])/i.test(inputValue.replace(/\s/g, ''));
-            if (hasNumbersWithoutCurrency) {
-                setError('Use format: 1g 5s 20c (numbers must be followed by g, s, or c)');
+            // This regex looks for numbers that are not part of a valid currency pattern
+            const cleanInput = inputValue.replace(/\s/g, '');
+            const validPattern = /^(\d+[pgsc])*$/i;
+            if (!validPattern.test(cleanInput)) {
+                setError('Use format: 1p 5g 10s 20c (numbers must be followed by p, g, s, or c)');
                 setIsValid(false);
                 return;
             }
 
             // Set the parsed values
-            setParsedValues({ gold, silver, copper });
+            setParsedValues({ platinum, gold, silver, copper });
             setIsValid(true);
             setError('');
         } catch (error) {
@@ -91,8 +96,8 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
     const handleInputChange = (e) => {
         const value = e.target.value;
 
-        // Only allow digits, letters g/s/c (case insensitive), and spaces
-        const sanitizedValue = value.replace(/[^0-9gscGSC\s]/g, '');
+        // Only allow digits, letters p/g/s/c (case insensitive), and spaces
+        const sanitizedValue = value.replace(/[^0-9pgscPGSC\s]/g, '');
 
         setInputValue(sanitizedValue);
     };
@@ -103,13 +108,16 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
             return;
         }
 
-        const { gold, silver, copper } = parsedValues;
+        const { platinum, gold, silver, copper } = parsedValues;
 
         // Create a single combined currency item
-        if (gold > 0 || silver > 0 || copper > 0) {
+        if (platinum > 0 || gold > 0 || silver > 0 || copper > 0) {
             // Determine which icon to use based on the highest denomination
             let iconId, primaryType;
-            if (gold > 0) {
+            if (platinum > 0) {
+                iconId = 'inv_misc_coin_04';
+                primaryType = 'platinum';
+            } else if (gold > 0) {
                 iconId = 'inv_misc_coin_01';
                 primaryType = 'gold';
             } else if (silver > 0) {
@@ -122,6 +130,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
 
             // Create a display name that shows all denominations
             let displayName = '';
+            if (platinum > 0) displayName += `${platinum}p `;
             if (gold > 0) displayName += `${gold}g `;
             if (silver > 0) displayName += `${silver}s `;
             if (copper > 0) displayName += `${copper}c`;
@@ -129,6 +138,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
 
             // Create the combined currency item
             const currencyValue = {
+                platinum: platinum,
                 gold: gold,
                 silver: silver,
                 copper: copper
@@ -172,7 +182,7 @@ const ManualCoinGenerationModal = ({ onClose, onComplete }) => {
                             type="text"
                             value={inputValue}
                             onChange={handleInputChange}
-                            placeholder="Format: 1g 5s 20c (max: 999999 each)"
+                            placeholder="Format: 1p 5g 10s 20c (max: 999999 each)"
                             className="pf-currency-text-input"
                             autoComplete="off"
                             autoCorrect="off"

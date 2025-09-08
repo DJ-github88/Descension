@@ -691,7 +691,7 @@ export const SPELL_CATEGORIES = [
     description: 'Spells that deal direct damage to enemies',
     icon: 'spell_fire_fireball02',
     spells: ['fireball-001', 'lightning-bolt-001', 'magic-missile-001'],
-    color: '#ef4444'
+    color: '#8B4513'
   },
   {
     id: 'healing-spells',
@@ -699,7 +699,7 @@ export const SPELL_CATEGORIES = [
     description: 'Spells that restore health and vitality',
     icon: 'spell_holy_heal',
     spells: ['healing-light-001', 'regeneration-001'],
-    color: '#22c55e'
+    color: '#2d5016'
   },
   {
     id: 'buff-spells',
@@ -707,6 +707,6 @@ export const SPELL_CATEGORIES = [
     description: 'Spells that enhance allies with beneficial effects',
     icon: 'spell_holy_devotion',
     spells: ['shield-of-faith-001'],
-    color: '#3b82f6'
+    color: '#5a1e12'
   }
 ];

@@ -178,7 +178,21 @@ const ChatWindow = () => {
         const formatCurrencyText = () => {
           const parts = [];
 
+          if (notification.platinum > 0) {
+            parts.push(
+              <span key="platinum">
+                <span className="currency-amount-white">
+                  {notification.platinum}
+                </span>
+                <span className="currency-type-platinum">
+                  Platinum
+                </span>
+              </span>
+            );
+          }
+
           if (notification.gold > 0) {
+            if (parts.length > 0) parts.push(<span key="platinum-space" style={{ margin: '0 4px' }}> </span>);
             parts.push(
               <span key="gold">
                 <span className="currency-amount-white">
