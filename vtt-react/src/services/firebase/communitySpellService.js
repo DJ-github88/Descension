@@ -537,6 +537,21 @@ async function simpleSetupCategories() {
     return ['❌ Database not available'];
   }
 
+  // Try to authenticate first
+  try {
+    const { getAuth, signInAnonymously } = await import('firebase/auth');
+    const auth = getAuth();
+
+    if (!auth.currentUser) {
+      console.log('🔐 Signing in anonymously...');
+      await signInAnonymously(auth);
+      console.log('✅ Authenticated successfully');
+    }
+  } catch (authError) {
+    console.warn('⚠️ Authentication failed, trying without auth:', authError.message);
+    return ['❌ Authentication failed. Please enable Anonymous authentication in Firebase Console.'];
+  }
+
   const categories = {
     damage: {
       name: "Damage Spells",
