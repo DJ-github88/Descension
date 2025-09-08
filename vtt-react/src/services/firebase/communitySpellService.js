@@ -509,7 +509,77 @@ export async function setupSpellCategories() {
   }
 }
 
+// Debug function to check Firebase status
+export function debugFirebaseStatus() {
+  console.log('=== Firebase Debug Info ===');
+  console.log('DB available:', !!db);
+  console.log('Firebase available:', typeof window !== 'undefined' && !!window.firebase);
+  console.log('checkFirebaseAvailable():', checkFirebaseAvailable());
+
+  if (db) {
+    console.log('Database instance:', db);
+    console.log('App:', db.app);
+  }
+
+  return {
+    dbAvailable: !!db,
+    firebaseAvailable: typeof window !== 'undefined' && !!window.firebase,
+    checkResult: checkFirebaseAvailable()
+  };
+}
+
+// Simple setup function that works directly
+async function simpleSetupCategories() {
+  console.log('🔥 Starting simple category setup...');
+
+  if (!db) {
+    console.error('❌ Database not available');
+    return ['❌ Database not available'];
+  }
+
+  const categories = {
+    damage: {
+      name: "Damage Spells",
+      description: "Offensive spells that deal damage to enemies",
+      icon: "spell_fire_fireball02",
+      color: "#FF4500",
+      spellCount: 0
+    },
+    healing: {
+      name: "Healing Spells",
+      description: "Restorative spells that heal wounds and cure ailments",
+      icon: "spell_holy_heal",
+      color: "#32CD32",
+      spellCount: 0
+    },
+    utility: {
+      name: "Utility Spells",
+      description: "Versatile spells for exploration and problem-solving",
+      icon: "spell_arcane_teleportundercity",
+      color: "#4169E1",
+      spellCount: 0
+    }
+  };
+
+  const results = [];
+  for (const [categoryId, categoryData] of Object.entries(categories)) {
+    try {
+      const categoryRef = doc(db, 'spell_categories', categoryId);
+      await setDoc(categoryRef, categoryData);
+      results.push(`✅ Created: ${categoryData.name}`);
+      console.log(`✅ Created: ${categoryData.name}`);
+    } catch (error) {
+      results.push(`❌ Failed: ${categoryData.name} - ${error.message}`);
+      console.error(`❌ Failed: ${categoryData.name}`, error);
+    }
+  }
+
+  return results;
+}
+
 // Make setup function available globally for easy access
 if (typeof window !== 'undefined') {
   window.setupSpellCategories = setupSpellCategories;
+  window.debugFirebaseStatus = debugFirebaseStatus;
+  window.simpleSetupCategories = simpleSetupCategories;
 }
