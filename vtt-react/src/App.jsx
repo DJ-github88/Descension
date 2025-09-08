@@ -70,14 +70,7 @@ import './components/ui/ActionBar.css';
 // Preload account dashboard isolation to override game styles
 import './components/account/styles/AccountDashboardIsolation.css';
 
-// Version tracking and deployment monitoring
-import { versionInfo, logVersionInfo } from './utils/versionInfo';
-import VersionDisplay from './components/debug/VersionDisplay';
 
-// Force version info to be available globally for debugging
-if (typeof window !== 'undefined') {
-  window.versionInfo = versionInfo.getDeploymentInfo();
-}
 
 // Track dynamically loaded stylesheets for cleanup
 let gameStylesheets = [];
@@ -519,9 +512,6 @@ const AppContent = ({
 
             {/* Portal Debugger for production troubleshooting */}
             <PortalDebugger />
-
-            {/* Version Display for deployment tracking */}
-            <VersionDisplay position="bottom-right" showDetails={true} />
         </>
     );
 };
