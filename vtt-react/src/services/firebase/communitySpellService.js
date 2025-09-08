@@ -10,19 +10,20 @@
  * - Download spells to local library
  */
 
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  where, 
-  orderBy, 
+import {
+  collection,
+  doc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
   limit,
   startAfter,
-  getDoc
+  getDoc,
+  setDoc
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 

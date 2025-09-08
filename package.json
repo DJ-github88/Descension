@@ -12,5 +12,8 @@
     "test": "cd vtt-react && npm test",
     "install": "cd vtt-react && npm install",
     "dev": "cd vtt-react && npm start"
+  },
+  "dependencies": {
+    "firebase": "^12.2.1"
   }
 }
