@@ -11,7 +11,7 @@ const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userData, signOut, isDevelopmentBypass, disableDevelopmentBypass } = useAuthStore();
-  const { characters, loadCharacters } = useCharacterStore();
+  const { characters, loadCharacters, currentCharacterId } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('rooms');
 
@@ -56,9 +56,15 @@ const AccountDashboard = ({ user }) => {
     navigate('/account/characters/create');
   };
 
-  const handleEnterGame = (characterId) => {
-    // Set active character and navigate to game
-    navigate('/game', { state: { characterId } });
+  const handleSelectCharacter = (characterId) => {
+    // Toggle this character as active (don't navigate)
+    const { setActiveCharacter } = useCharacterStore.getState();
+    const character = setActiveCharacter(characterId);
+    if (character) {
+      console.log(`🎮 Selected character: ${character.name}`);
+    } else {
+      console.error(`❌ Failed to select character: ${characterId}`);
+    }
   };
 
   if (isLoading) {
@@ -210,7 +216,7 @@ const AccountDashboard = ({ user }) => {
                     const actionPoints = character.actionPoints || { current: 3, max: 3 };
 
                     return (
-                      <div key={character.id} className="character-card-compact">
+                      <div key={character.id} className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}>
                         {/* Character Header - Single Row */}
                         <div className="character-header">
                           <div className="character-portrait">
@@ -307,12 +313,12 @@ const AccountDashboard = ({ user }) => {
                         {/* Character Actions - Compact */}
                         <div className="character-actions">
                           <button
-                            className="action-btn play-btn"
-                            onClick={() => handleEnterGame(character.id)}
-                            title="Enter game with this character"
+                            className={`action-btn ${currentCharacterId === character.id ? 'active-btn' : 'play-btn'}`}
+                            onClick={() => handleSelectCharacter(character.id)}
+                            title={currentCharacterId === character.id ? 'Active character' : 'Select this character as active'}
                           >
-                            <i className="fas fa-play"></i>
-                            Play
+                            <i className={`fas ${currentCharacterId === character.id ? 'fa-check' : 'fa-play'}`}></i>
+                            {currentCharacterId === character.id ? 'Active' : 'Select'}
                           </button>
                           <button
                             className="action-btn edit-btn"

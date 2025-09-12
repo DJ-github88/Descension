@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import WowWindow from '../../../windows/WowWindow';
-import LootItemTooltip from '../loot/LootItemTooltip';
+import ItemTooltip from '../../../item-generation/ItemTooltip';
 import TooltipPortal from '../../../tooltips/TooltipPortal';
 import StatTooltip from '../../../tooltips/StatTooltip';
 import GeneralStatTooltip from '../../../tooltips/GeneralStatTooltip';
@@ -10,6 +10,11 @@ import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageType
 import { WOW_ICON_BASE_URL } from '../../../item-generation/wowIcons';
 import { getQualityColor } from '../../../../constants/itemConstants';
 import useCreatureStore from '../../../../store/creatureStore';
+import useGridItemStore from '../../../../store/gridItemStore';
+import useGameStore from '../../../../store/gameStore';
+import useChatStore from '../../../../store/chatStore';
+import useInventoryStore from '../../../../store/inventoryStore';
+import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import './EnhancedCreatureInspectView.css';
 
@@ -102,36 +107,54 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   const [statTooltipPosition, setStatTooltipPosition] = useState({ x: 0, y: 0 });
   const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
 
+  // Store hooks for loot drop functionality
+  const { addItemToGrid } = useGridItemStore();
+  const { tokens } = useCreatureStore();
+  const gridSystem = getGridSystem();
+
   // Process the creature's loot items
   const creature = processCreatureLoot(initialCreature);
 
-  // Helper function to calculate tooltip position
+  // Helper function to calculate tooltip position with improved logic
   const calculateTooltipPosition = (e) => {
     // Get window dimensions
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    // Default position
-    let x = e.clientX + 15;
-    let y = e.clientY - 10;
-
-    // Adjust if tooltip would go off screen (assuming tooltip width ~300px and height ~400px)
+    // Tooltip dimensions
     const tooltipWidth = 300;
     const tooltipHeight = 400;
+    const padding = 20;
+    const cursorOffset = 15;
 
-    // Check right edge
-    if (x + tooltipWidth > windowWidth - 20) {
-      x = e.clientX - tooltipWidth - 15;
+    // Try positioning to the right first (preferred for creature window)
+    let x = e.clientX + cursorOffset;
+    let y = e.clientY - 10;
+
+    // If tooltip would go off right edge, try left side
+    if (x + tooltipWidth > windowWidth - padding) {
+      x = e.clientX - tooltipWidth - cursorOffset;
+
+      // If left side also doesn't fit, center it and position above/below
+      if (x < padding) {
+        // Center horizontally and position above or below
+        x = Math.max(padding, Math.min(
+          windowWidth - tooltipWidth - padding,
+          e.clientX - tooltipWidth / 2
+        ));
+
+        // Position above if in bottom half of screen, below if in top half
+        if (e.clientY > windowHeight / 2) {
+          y = e.clientY - tooltipHeight - cursorOffset; // Above
+        } else {
+          y = e.clientY + cursorOffset; // Below
+        }
+      }
     }
 
-    // Check bottom edge
-    if (y + tooltipHeight > windowHeight - 20) {
-      y = windowHeight - tooltipHeight - 20;
-    }
-
-    // Ensure tooltip is not positioned off-screen
-    x = Math.max(20, x);
-    y = Math.max(20, y);
+    // Final bounds check to ensure tooltip stays on screen
+    x = Math.max(padding, Math.min(x, windowWidth - tooltipWidth - padding));
+    y = Math.max(padding, Math.min(y, windowHeight - tooltipHeight - padding));
 
     return { x, y };
   };
@@ -1109,15 +1132,186 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     );
   };
 
+  // Helper function to get adjacent tiles to a token
+  const getAdjacentTiles = (tokenPosition) => {
+    if (!tokenPosition || !gridSystem) return [];
+
+    // Convert token world position to grid coordinates
+    const gridCoords = gridSystem.worldToGrid(tokenPosition.x, tokenPosition.y);
+
+    // Get all 8 adjacent tiles (including diagonals)
+    const adjacentOffsets = [
+      { x: -1, y: -1 }, { x: 0, y: -1 }, { x: 1, y: -1 },
+      { x: -1, y: 0 },                   { x: 1, y: 0 },
+      { x: -1, y: 1 },  { x: 0, y: 1 },  { x: 1, y: 1 }
+    ];
+
+    return adjacentOffsets.map(offset => ({
+      gridX: gridCoords.x + offset.x,
+      gridY: gridCoords.y + offset.y,
+      worldPos: gridSystem.gridToWorld(gridCoords.x + offset.x, gridCoords.y + offset.y)
+    }));
+  };
+
+  // Helper function to check if a tile is empty (no existing grid items)
+  const isTileEmpty = (gridX, gridY) => {
+    const { gridItems } = useGridItemStore.getState();
+    return !gridItems.some(item =>
+      item.gridPosition &&
+      item.gridPosition.col === gridX &&
+      item.gridPosition.row === gridY
+    );
+  };
+
   // Handle loot drop functionality
   const handleDropLoot = () => {
-    // TODO: Implement actual loot drop mechanics
-    // This could involve:
-    // 1. Rolling for each item based on drop chance
-    // 2. Rolling currency amounts within min/max ranges
-    // 3. Creating loot items on the game grid
-    // 4. Notifying players of dropped loot
-    alert(`Loot dropped for ${creature.name}! (Feature coming soon)`);
+    if (!creature.lootTable || !token) {
+      console.log(`${creature.name} has no loot to drop.`);
+      return;
+    }
+
+    // Find the token for this creature
+    const creatureToken = tokens.find(t => t.creatureId === creature.id);
+    if (!creatureToken || !creatureToken.position) {
+      console.log(`Cannot find ${creature.name}'s position on the grid.`);
+      return;
+    }
+
+    // Get adjacent tiles
+    const adjacentTiles = getAdjacentTiles(creatureToken.position);
+    const emptyTiles = adjacentTiles.filter(tile => isTileEmpty(tile.gridX, tile.gridY));
+
+    if (emptyTiles.length === 0) {
+      console.log(`No empty tiles around ${creature.name} to drop loot.`);
+      return;
+    }
+
+    let droppedItems = [];
+    let usedTiles = [];
+    const currentUser = useInventoryStore.getState().characterName || 'Player';
+
+    // Roll for currency
+    if (creature.lootTable.currency) {
+      const { gold, silver, copper } = creature.lootTable.currency;
+
+      if (gold && gold.max > 0) {
+        const goldAmount = Math.floor(Math.random() * (gold.max - gold.min + 1)) + gold.min;
+        if (goldAmount > 0 && usedTiles.length < emptyTiles.length) {
+          const tile = emptyTiles[usedTiles.length];
+          const goldItem = {
+            id: `gold_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+            name: `${goldAmount} Gold`,
+            type: 'currency',
+            subtype: 'gold',
+            iconId: 'inv_misc_coin_01',
+            quantity: 1, // Currency orbs are always quantity 1
+            quality: 'poor',
+            value: goldAmount,
+            description: `${goldAmount} gold pieces`,
+            source: `Dropped by ${creature.name}`,
+            isCurrency: true,
+            currencyType: 'gold',
+            currencyValue: goldAmount
+          };
+
+          addItemToGrid(goldItem, {
+            x: tile.worldPos.x,
+            y: tile.worldPos.y,
+            gridPosition: { row: tile.gridY, col: tile.gridX }
+          }, true);
+
+          // Note: Currency will be added to inventory when player clicks the loot orb
+          // The loot orb system handles currency addition automatically
+
+          droppedItems.push(`${goldAmount} Gold`);
+          usedTiles.push(tile);
+        }
+      }
+
+      if (silver && silver.max > 0) {
+        const silverAmount = Math.floor(Math.random() * (silver.max - silver.min + 1)) + silver.min;
+        if (silverAmount > 0 && usedTiles.length < emptyTiles.length) {
+          const tile = emptyTiles[usedTiles.length];
+          const silverItem = {
+            id: `silver_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+            name: `${silverAmount} Silver`,
+            type: 'currency',
+            subtype: 'silver',
+            iconId: 'inv_misc_coin_02',
+            quantity: 1, // Currency orbs are always quantity 1
+            quality: 'poor',
+            value: silverAmount * 0.1,
+            description: `${silverAmount} silver pieces`,
+            source: `Dropped by ${creature.name}`,
+            isCurrency: true,
+            currencyType: 'silver',
+            currencyValue: silverAmount
+          };
+
+          addItemToGrid(silverItem, {
+            x: tile.worldPos.x,
+            y: tile.worldPos.y,
+            gridPosition: { row: tile.gridY, col: tile.gridX }
+          }, true);
+
+          // Note: Currency will be added to inventory when player clicks the loot orb
+          // The loot orb system handles currency addition automatically
+
+          droppedItems.push(`${silverAmount} Silver`);
+          usedTiles.push(tile);
+        }
+      }
+    }
+
+    // Roll for items
+    if (creature.lootTable.items && creature.lootTable.items.length > 0) {
+      creature.lootTable.items.forEach(item => {
+        if (usedTiles.length >= emptyTiles.length) return; // No more empty tiles
+
+        // Roll for drop chance - this is the key fix!
+        const roll = Math.random() * 100;
+        const dropChance = item.dropChance || 100;
+
+        console.log(`🎲 Rolling for ${item.name}: ${roll.toFixed(1)}% vs ${dropChance}% drop chance`);
+
+        if (roll <= dropChance) {
+          const tile = emptyTiles[usedTiles.length];
+
+          // Create a copy of the item with unique ID and ensure proper formatting
+          const droppedItem = {
+            ...item,
+            id: `loot_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+            source: `Dropped by ${creature.name}`,
+            // Ensure essential properties are present
+            width: item.width || 1,
+            height: item.height || 1,
+            stackable: item.stackable || (item.type === 'miscellaneous' || item.type === 'consumable'),
+            maxStackSize: item.maxStackSize || (item.stackable ? 5 : 1),
+            weight: item.weight || 1
+          };
+
+          console.log(`✅ ${item.name} dropped! (${roll.toFixed(1)}% <= ${dropChance}%)`);
+
+          addItemToGrid(droppedItem, {
+            x: tile.worldPos.x,
+            y: tile.worldPos.y,
+            gridPosition: { row: tile.gridY, col: tile.gridX }
+          }, true);
+
+          droppedItems.push(item.name);
+          usedTiles.push(tile);
+        } else {
+          console.log(`❌ ${item.name} not dropped (${roll.toFixed(1)}% > ${dropChance}%)`);
+        }
+      });
+    }
+
+    // Summary notification
+    if (droppedItems.length > 0) {
+      console.log(`${creature.name} dropped: ${droppedItems.join(', ')}`);
+    } else {
+      console.log(`${creature.name} dropped no loot this time.`);
+    }
   };
 
   // Render the Loot section
@@ -1164,7 +1358,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           <button
             className="pathfinder-drop-loot-button"
             onClick={handleDropLoot}
-            title="Roll for loot from this creature's treasure hoard"
+            title="Roll for loot from this creature's treasure hoard and drop items on adjacent tiles"
           >
             <img
               src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_dice_02.jpg"
@@ -1369,11 +1563,11 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       zIndex={20000} // Increased z-index to ensure it's above all other elements including the grid
       bounds="body"
       customHeader={
-        <div className="spellbook-tab-headers">
+        <div className="spellbook-tab-container">
           {Object.entries(sections).map(([key, section]) => (
             <button
               key={key}
-              className={`spellbook-tab ${activeSection === key ? 'active' : ''}`}
+              className={`spellbook-tab-button ${activeSection === key ? 'active' : ''}`}
               onClick={() => setActiveSection(key)}
             >
               <img src={section.icon} alt="" className="tab-icon-img" />
@@ -1404,24 +1598,23 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           </div>
         )}
 
-        {/* Item Tooltip */}
-        {hoveredItem && createPortal(
-          <div
-            className="loot-item-tooltip-wrapper"
-            style={{
-              position: 'fixed',
-              left: tooltipPosition.x,
-              top: tooltipPosition.y,
-              zIndex: 10002, // Higher than the window
-              pointerEvents: 'none'
-            }}
-          >
-            <LootItemTooltip
-              item={hoveredItem}
-              dropChance={hoveredItem.dropChance || 100}
-            />
-          </div>,
-          document.body
+        {/* Item Tooltip - Using TooltipPortal for highest z-index */}
+        {hoveredItem && (
+          <TooltipPortal>
+            <div
+              className="loot-item-tooltip-wrapper"
+              style={{
+                position: 'fixed',
+                left: tooltipPosition.x,
+                top: tooltipPosition.y,
+                pointerEvents: 'none'
+              }}
+            >
+              <ItemTooltip
+                item={hoveredItem}
+              />
+            </div>
+          </TooltipPortal>
         )}
       </div>
     </WowWindow>,

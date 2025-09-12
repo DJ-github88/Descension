@@ -1173,3 +1173,35 @@
     font-size: 0.7rem;
   }
 }
+
+/* Active Character Styles */
+.character-card.active-character {
+  border: 3px solid #28a745 !important;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3) !important;
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(40, 167, 69, 0.1) 100%) !important;
+}
+
+.character-card.active-character::before {
+  content: "ACTIVE";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #28a745;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.btn-success {
+  background: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+.btn-success:hover {
+  background: #218838 !important;
+  border-color: #1e7e34 !important;
+}

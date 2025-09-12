@@ -92,10 +92,20 @@ const getStepInfo = (step, itemType) => {
 };
 
 const WEAPON_SLOTS = {
+    MAIN_HAND: {
+        name: 'Main Hand',
+        icon: 'ability_warrior_savageblow',
+        description: 'Weapons that can only be wielded in the main hand'
+    },
+    OFF_HAND: {
+        name: 'Off Hand',
+        icon: 'ability_warrior_challange',
+        description: 'Weapons that can only be wielded in the off hand'
+    },
     ONE_HANDED: {
         name: 'One-Handed',
         icon: 'inv_sword_04',
-        description: 'Weapons that can be wielded in one hand'
+        description: 'Weapons that can be wielded in either hand'
     },
     TWO_HANDED: {
         name: 'Two-Handed',
@@ -152,6 +162,46 @@ const WEAPON_SUBTYPES = {
         icon: 'inv_wand_11',
         slot: 'RANGED',
         description: 'Magic channeling device for spellcasters'
+    },
+
+    // Main Hand Only Weapons
+    RAPIER: {
+        name: 'Rapier',
+        icon: 'inv_sword_30',
+        slot: 'MAIN_HAND',
+        description: 'Elegant thrusting sword requiring precise main hand control'
+    },
+    KATANA: {
+        name: 'Katana',
+        icon: 'inv_sword_62',
+        slot: 'MAIN_HAND',
+        description: 'Curved blade requiring main hand mastery'
+    },
+    MAIN_HAND_MACE: {
+        name: 'War Mace',
+        icon: 'inv_mace_21',
+        slot: 'MAIN_HAND',
+        description: 'Heavy mace designed for main hand wielding'
+    },
+
+    // Off Hand Only Weapons
+    PARRYING_DAGGER: {
+        name: 'Parrying Dagger',
+        icon: 'inv_weapon_shortblade_16',
+        slot: 'OFF_HAND',
+        description: 'Defensive blade designed for off-hand parrying'
+    },
+    BUCKLER: {
+        name: 'Buckler',
+        icon: 'inv_shield_04',
+        slot: 'OFF_HAND',
+        description: 'Small shield for off-hand defense'
+    },
+    OFF_HAND_BLADE: {
+        name: 'Off-Hand Blade',
+        icon: 'inv_weapon_shortblade_25',
+        slot: 'OFF_HAND',
+        description: 'Light blade optimized for off-hand combat'
     },
 
     // One-Handed Weapons
@@ -937,6 +987,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     function getWeaponSlotDisplay(slot, hand) {
         if (!slot) return '';
 
+        if (slot === 'MAIN_HAND') return 'Main Hand';
+        if (slot === 'OFF_HAND') return 'Off Hand';
         if (slot === 'ONE_HANDED') {
             if (hand === 'MAIN_HAND') return 'Main Hand';
             if (hand === 'OFF_HAND') return 'Off Hand';
@@ -1368,7 +1420,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 )}
 
-                                {itemData.weaponSlot && (itemData.weaponSlot !== 'ONE_HANDED' || itemData.hand) && (
+                                {itemData.weaponSlot && (itemData.weaponSlot === 'MAIN_HAND' || itemData.weaponSlot === 'OFF_HAND' || itemData.weaponSlot === 'TWO_HANDED' || itemData.weaponSlot === 'RANGED' || (itemData.weaponSlot === 'ONE_HANDED' && itemData.hand)) && (
                                     <div className="subtype-selection">
                                         <h4>Weapon Subtype</h4>
                                         <div className="subtype-options">

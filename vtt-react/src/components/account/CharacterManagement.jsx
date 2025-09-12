@@ -6,7 +6,7 @@ import './styles/CharacterManagement.css';
 
 const CharacterManagement = ({ user }) => {
   const navigate = useNavigate();
-  const { characters, loadCharacters, deleteCharacter } = useCharacterStore();
+  const { characters, loadCharacters, deleteCharacter, setActiveCharacter, getActiveCharacter, currentCharacterId } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -58,7 +58,13 @@ const CharacterManagement = ({ user }) => {
   };
 
   const handlePlayCharacter = (characterId) => {
-    navigate('/game', { state: { characterId } });
+    // Toggle this character as active (don't navigate)
+    const character = setActiveCharacter(characterId);
+    if (character) {
+      console.log(`🎮 Selected character: ${character.name}`);
+    } else {
+      console.error(`❌ Failed to select character: ${characterId}`);
+    }
   };
 
   const handleDeleteCharacter = async () => {
@@ -164,7 +170,7 @@ const CharacterManagement = ({ user }) => {
         {filteredAndSortedCharacters.length > 0 ? (
           <div className="characters-grid">
             {filteredAndSortedCharacters.map((character) => (
-              <div key={character.id} className="character-card">
+              <div key={character.id} className={`character-card ${currentCharacterId === character.id ? 'active-character' : ''}`}>
                 {/* Character Header */}
                 <div className="character-card-header">
                   <div className="character-portrait">
@@ -363,11 +369,11 @@ const CharacterManagement = ({ user }) => {
                   <div className="character-actions">
                     <button
                       onClick={() => handlePlayCharacter(character.id)}
-                      className="btn btn-primary"
-                      title="Play this character"
+                      className={`btn ${currentCharacterId === character.id ? 'btn-success' : 'btn-primary'}`}
+                      title={currentCharacterId === character.id ? 'Active character' : 'Select this character'}
                     >
-                      <i className="fas fa-play"></i>
-                      Play
+                      <i className={`fas ${currentCharacterId === character.id ? 'fa-check' : 'fa-play'}`}></i>
+                      {currentCharacterId === character.id ? 'Active' : 'Select'}
                     </button>
                     <button
                       onClick={() => handleEditCharacter(character.id)}

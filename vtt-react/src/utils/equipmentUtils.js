@@ -72,6 +72,16 @@ export function getCompatibleSlots(item) {
             return ['ranged'];
         }
 
+        // Handle MAIN_HAND weapons (new direct slot type)
+        if (weaponSlot === 'MAIN_HAND' || weaponSlotLower === 'main_hand' || weaponSlotLower === 'mainhand') {
+            return ['mainHand'];
+        }
+
+        // Handle OFF_HAND weapons (new direct slot type)
+        if (weaponSlot === 'OFF_HAND' || weaponSlotLower === 'off_hand' || weaponSlotLower === 'offhand') {
+            return ['offHand'];
+        }
+
         // Handle ONE_HANDED weapons - check hand preference
         if (weaponSlot === 'ONE_HANDED' || weaponSlotLower === 'one_handed' || weaponSlotLower === 'onehanded') {
             // Check hand preference for one-handed weapons
@@ -86,13 +96,6 @@ export function getCompatibleSlots(item) {
                 // Default for one-handed weapons without specific hand preference
                 return ['mainHand', 'offHand'];
             }
-        }
-
-        // Handle explicit main/off hand specifications
-        if (weaponSlotLower === 'main_hand' || weaponSlotLower === 'mainhand') {
-            return ['mainHand'];
-        } else if (weaponSlotLower === 'off_hand' || weaponSlotLower === 'offhand') {
-            return ['offHand'];
         }
 
         // Default weapon slot logic based on subtype

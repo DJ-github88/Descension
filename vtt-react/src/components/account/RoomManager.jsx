@@ -4,12 +4,38 @@ import { useNavigate } from 'react-router-dom';
 import { getUserRooms, deleteRoom, getRoomLimits } from '../../services/roomService';
 import subscriptionService from '../../services/subscriptionService';
 import useAuthStore from '../../store/authStore';
+import useCharacterStore from '../../store/characterStore';
 import './styles/RoomManager.css';
 
 const RoomManager = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const [rooms, setRooms] = useState([]);
+  const { getActiveCharacter } = useCharacterStore();
+
+  // Initialize with a test room to ensure it always shows
+  const activeCharacter = getActiveCharacter();
+  const initialTestRoom = {
+    id: 'test-room-local',
+    name: 'Local Test Room',
+    description: 'Local test room for character testing',
+    userRole: 'gm',
+    gmName: 'Game Master',
+    members: ['test-user'],
+    isTestRoom: true,
+    settings: {
+      maxPlayers: 6,
+      isPrivate: false
+    },
+    lastActivity: {
+      seconds: Math.floor(Date.now() / 1000)
+    },
+    createdAt: {
+      seconds: Math.floor(Date.now() / 1000)
+    },
+    isTestRoom: true
+  };
+
+  const [rooms, setRooms] = useState([initialTestRoom]);
   const [roomLimits, setRoomLimits] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -22,6 +48,37 @@ const RoomManager = () => {
 
   const loadRoomData = async () => {
     if (!user) {
+      // Even without user, create a test room for development
+      const activeCharacter = getActiveCharacter();
+      const testRoom = {
+        id: 'test-room-local',
+        name: `${activeCharacter?.name || 'Test'} - Local Test Room`,
+        description: 'Local test room for character testing',
+        userRole: 'gm',
+        gmName: 'Game Master',
+        members: ['test-user'],
+        isTestRoom: true,
+        settings: {
+          maxPlayers: 6,
+          isPrivate: false
+        },
+        lastActivity: {
+          seconds: Math.floor(Date.now() / 1000)
+        },
+        createdAt: {
+          seconds: Math.floor(Date.now() / 1000)
+        },
+        isTestRoom: true
+      };
+
+
+      setRooms([testRoom]);
+      setRoomLimits({
+        tier: { name: 'Development' },
+        used: 1,
+        limit: 999,
+        canCreate: true
+      });
       setIsLoading(false);
       return;
     }
@@ -29,17 +86,51 @@ const RoomManager = () => {
     setIsLoading(true);
     setError('');
 
+    // Create test room regardless of Firebase status
+    const activeCharacter = getActiveCharacter();
+    const testRoom = {
+      id: 'test-room-local',
+      name: 'Local Test Room',
+      description: 'Local test room for character testing',
+      userRole: 'gm',
+      gmName: user?.displayName || 'Game Master',
+      members: [user?.uid],
+      isTestRoom: true,
+      settings: {
+        maxPlayers: 6,
+        isPrivate: false
+      },
+      lastActivity: {
+        seconds: Math.floor(Date.now() / 1000)
+      },
+      createdAt: {
+        seconds: Math.floor(Date.now() / 1000)
+      },
+      isTestRoom: true // Mark as test room
+    };
+
     try {
       const [userRooms, limits] = await Promise.all([
         getUserRooms(user.uid),
         getRoomLimits(user.uid)
       ]);
 
-      setRooms(userRooms);
+      // Add test room to the beginning of the list
+      const roomsWithTest = [testRoom, ...userRooms];
+
+      setRooms(roomsWithTest);
       setRoomLimits(limits);
     } catch (err) {
       console.error('Error loading room data:', err);
-      setError('Failed to load room data. Please try again.');
+      setError('Failed to load room data from Firebase. Showing test room only.');
+
+      // Even if Firebase fails, keep the existing test room (don't overwrite)
+      setRoomLimits({
+        tier: { name: 'Development' },
+        used: 1,
+        limit: 999,
+        canCreate: true
+      });
     } finally {
       setIsLoading(false);
     }
@@ -50,10 +141,19 @@ const RoomManager = () => {
   };
 
   const handleJoinRoom = (room) => {
-    // Store room selection and navigate to multiplayer
-    localStorage.setItem('selectedRoomId', room.id);
-    localStorage.setItem('selectedRoomPassword', room.password || '');
-    navigate('/multiplayer');
+    if (room.isTestRoom) {
+      // For test room, navigate directly to game with test room setup
+      localStorage.setItem('selectedRoomId', room.id);
+      localStorage.setItem('selectedRoomPassword', 'test123');
+      localStorage.setItem('isTestRoom', 'true');
+      navigate('/multiplayer');
+    } else {
+      // Store room selection and navigate to multiplayer
+      localStorage.setItem('selectedRoomId', room.id);
+      localStorage.setItem('selectedRoomPassword', room.password || '');
+      localStorage.removeItem('isTestRoom');
+      navigate('/multiplayer');
+    }
   };
 
   const handleDeleteRoom = async (room) => {
@@ -102,13 +202,146 @@ const RoomManager = () => {
     return role === 'gm' ? '#d4af37' : '#7a3b2e';
   };
 
+
+
+  // Show test room even without user for testing
   if (!user) {
     return (
       <div className="room-manager">
-        <div className="auth-required">
-          <i className="fas fa-sign-in-alt"></i>
-          <h3>Sign In Required</h3>
-          <p>You need to be signed in to manage persistent rooms.</p>
+        <div className="room-manager-header">
+          <h2>
+            <i className="fas fa-dungeon"></i>
+            My Campaign Rooms (Test Mode)
+          </h2>
+
+        </div>
+
+        <div className="rooms-list">
+          {rooms.length === 0 ? (
+            <div className="no-rooms">
+              <i className="fas fa-dungeon"></i>
+              <h3>No Test Rooms Available</h3>
+              <p>Test room should appear here. Check console for debugging info.</p>
+            </div>
+          ) : (
+            rooms.map(room => (
+              <div
+                key={room.id}
+                className={`room-card ${room.isTestRoom ? 'test-room' : ''}`}
+                style={room.isTestRoom ? {
+                  border: '2px solid #e5e7eb',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f9fafb 100%)',
+                  padding: '20px 28px',
+                  borderRadius: '16px',
+                  minHeight: '72px',
+                  gap: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)',
+                  transition: 'all 0.3s ease',
+                  fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif"
+                } : {}}
+              >
+                <div className="room-header" style={room.isTestRoom ? {
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  gap: '20px'
+                } : {}}>
+                  <div className="room-title" style={room.isTestRoom ? {
+                    flex: '1',
+                    minWidth: '0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                  } : {}}>
+                    <h3 style={room.isTestRoom ? {
+                      fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif",
+                      fontSize: '19px',
+                      fontWeight: '500',
+                      lineHeight: '1.3',
+                      letterSpacing: '-0.01em',
+                      color: '#1f2937',
+                      margin: '0 0 8px 0'
+                    } : {}}>
+                      {room.name}
+                    </h3>
+                    <div className="room-role" style={room.isTestRoom ? {
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      fontSize: '14px',
+                      color: '#6b7280',
+                      fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif"
+                    } : {}}>
+                      <span style={{
+                        color: '#d4af37',
+                        fontSize: '14px',
+                        fontWeight: 'bold'
+                      }}>👑</span>
+                      <span>Game Master</span>
+                    </div>
+                  </div>
+                  <div className="room-actions-menu" style={room.isTestRoom ? {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                  } : {}}>
+                    <button
+                      className="join-btn"
+                      onClick={() => handleJoinRoom(room)}
+                      style={room.isTestRoom ? {
+                        background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+                        border: 'none',
+                        borderRadius: '14px',
+                        color: 'white',
+                        fontFamily: "'Segoe UI', system-ui, -apple-system, sans-serif",
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        padding: '12px 20px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)',
+                        minWidth: 'auto',
+                        whiteSpace: 'nowrap'
+                      } : {}}
+                      onMouseEnter={room.isTestRoom ? (e) => {
+                        e.target.style.background = 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)';
+                        e.target.style.transform = 'translateY(-1px)';
+                        e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.4)';
+                      } : undefined}
+                      onMouseLeave={room.isTestRoom ? (e) => {
+                        e.target.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 2px 8px rgba(59, 130, 246, 0.3)';
+                      } : undefined}
+                    >
+                      <i className="fas fa-play"></i>
+                      Join
+                    </button>
+                  </div>
+                </div>
+
+                {room.description && (
+                  <p className="room-description">{room.description}</p>
+                )}
+
+                <div className="room-stats">
+                  <div className="stat">
+                    <i className="fas fa-users"></i>
+                    <span>1/7 members</span>
+                  </div>
+                  <div className="stat">
+                    <i className="fas fa-clock"></i>
+                    <span>Just created</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     );
@@ -132,11 +365,12 @@ const RoomManager = () => {
           <i className="fas fa-dungeon"></i>
           My Campaign Rooms
         </h2>
+
         
         {roomLimits && (
           <div className="room-limits">
             <div className="tier-info">
-              <span className="tier-badge">
+              <span className={`tier-badge ${roomLimits.tier.name.toLowerCase() === 'development' ? 'development' : ''}`}>
                 <i className="fas fa-star"></i>
                 {roomLimits.tier.name}
               </span>
@@ -193,10 +427,12 @@ const RoomManager = () => {
           </div>
         ) : (
           rooms.map(room => (
-            <div key={room.id} className="room-card">
+            <div key={room.id} className={`room-card ${room.isTestRoom ? 'test-room' : ''}`}>
               <div className="room-header">
                 <div className="room-title">
-                  <h3>{room.name}</h3>
+                  <h3>
+                    {room.name}
+                  </h3>
                   <div className="room-role">
                     <i 
                       className={getRoleIcon(room.userRole)}
@@ -206,12 +442,12 @@ const RoomManager = () => {
                   </div>
                 </div>
                 <div className="room-actions-menu">
-                  <button 
+                  <button
                     className="join-btn"
                     onClick={() => handleJoinRoom(room)}
                   >
                     <i className="fas fa-play"></i>
-                    Enter Room
+                    Join
                   </button>
                   {room.userRole === 'gm' && (
                     <button 

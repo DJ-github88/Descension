@@ -10,6 +10,7 @@ import CharacterPanel from './character-sheet/Equipment';
 import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from './creature-wizard/components/library/CreatureLibrary';
+import CommunityCreaturesTab from './creature-wizard/components/library/CommunityCreaturesTab';
 
 // Pre-load the wizard components for better development experience
 import CreatureWizardApp from './creature-wizard/CreatureWizardApp';
@@ -23,6 +24,7 @@ import MapLibraryWindow from './windows/MapLibraryWindow';
 import useCombatStore from '../store/combatStore';
 import useChatStore from '../store/chatStore';
 import useCreatureStore from '../store/creatureStore';
+import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './ErrorBoundary';
 // REMOVED: import './creature-wizard/styles/CreatureWindow.css'; // CAUSES CSS POLLUTION
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION
@@ -85,6 +87,10 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
         {
             id: 'wizard',
             label: 'Create New'
+        },
+        {
+            id: 'community',
+            label: 'Community'
         }
     ];
 
@@ -137,17 +143,17 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             isOpen={isOpen}
             onClose={onClose}
             title="Creature Library"
-            defaultSize={{ width: 1200, height: 800 }}
+            defaultSize={activeView === 'community' ? { width: 1300, height: 850 } : { width: 1200, height: 800 }}
             defaultPosition={getDefaultPosition()}
             centered={false}
             onDrag={handleWindowDrag}
             onResize={handleWindowResize}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
-                            className={`spellbook-tab ${activeView === tab.id ? 'active' : ''}`}
+                            className={`spellbook-tab-button ${activeView === tab.id ? 'active' : ''}`}
                             onClick={() => tab.id === 'wizard' ? handleCreateNewCreature() : setActiveView(tab.id)}
                         >
                             <span>{tab.label}</span>
@@ -160,7 +166,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             <div className="creature-window">
                 <CreatureLibraryProvider>
                     <CreatureWizardProvider>
-                        {/* Main content area - always render both components for pre-loading */}
+                        {/* Main content area - always render components for pre-loading */}
                         <div className="creature-window-content">
                             <div style={{ display: activeView === 'library' ? 'block' : 'none' }}>
                                 <CreatureLibrary onEdit={handleEditCreature} />
@@ -173,6 +179,9 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                                     onCancel={handleBackToLibrary}
                                     activeView={activeView}
                                 />
+                            </div>
+                            <div style={{ display: activeView === 'community' ? 'block' : 'none' }}>
+                                <CommunityCreaturesTab />
                             </div>
                         </div>
                     </CreatureWizardProvider>
@@ -212,11 +221,11 @@ function SocialWindowWrapper({ isOpen, onClose }) {
             defaultSize={{ width: 400, height: 600 }}
             defaultPosition={{ x: 200, y: 150 }}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
-                            className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
+                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
                             <span>{tab.label}</span>
@@ -290,11 +299,11 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
             defaultSize={{ width: 800, height: 600 }}
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
-                            className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
+                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
                             <span>{tab.label}</span>
@@ -331,6 +340,12 @@ function ChatWindowWrapper({ isOpen, onClose }) {
         unreadCounts: state.unreadCounts
     }));
 
+    const tabs = [
+        { id: 'social', label: 'Social' },
+        { id: 'combat', label: 'Combat' },
+        { id: 'loot', label: 'Loot' }
+    ];
+
     return (
         <WowWindow
             isOpen={isOpen}
@@ -339,28 +354,17 @@ function ChatWindowWrapper({ isOpen, onClose }) {
             defaultSize={{ width: 500, height: 600 }}
             defaultPosition={{ x: 200, y: 150 }}
             customHeader={
-                <div className="spellbook-tab-headers">
-                    <button
-                        className={`spellbook-tab ${activeTab === 'social' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('social')}
-                        data-unread={unreadCounts.social}
-                    >
-                        <span>Social</span>
-                    </button>
-                    <button
-                        className={`spellbook-tab ${activeTab === 'combat' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('combat')}
-                        data-unread={unreadCounts.combat}
-                    >
-                        <span>Combat</span>
-                    </button>
-                    <button
-                        className={`spellbook-tab ${activeTab === 'loot' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('loot')}
-                        data-unread={unreadCounts.loot}
-                    >
-                        <span>Loot</span>
-                    </button>
+                <div className="spellbook-tab-container">
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.id}
+                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                            onClick={() => setActiveTab(tab.id)}
+                            data-unread={unreadCounts[tab.id]}
+                        >
+                            <span>{tab.label}</span>
+                        </button>
+                    ))}
                 </div>
             }
         >
@@ -489,7 +493,7 @@ function CharacterSheetWindow({ isOpen, onClose }) {
     // Define character sheet sections with icons
     const characterSections = {
         character: {
-            title: 'Character Sheet',
+            title: 'Info',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
         },
         stats: {
@@ -529,11 +533,11 @@ function CharacterSheetWindow({ isOpen, onClose }) {
             defaultSize={{ width: 800, height: 600 }}
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     {Object.entries(characterSections).map(([key, section]) => (
                         <button
                             key={key}
-                            className={`spellbook-tab ${activeTab === key ? 'active' : ''}`}
+                            className={`spellbook-tab-button ${activeTab === key ? 'active' : ''}`}
                             onClick={() => setActiveTab(key)}
                         >
                             <span>{section.title}</span>
@@ -550,6 +554,139 @@ function CharacterSheetWindow({ isOpen, onClose }) {
         </WowWindow>
     );
 }
+
+// Inventory Header Button Component
+const InventoryHeaderButton = () => {
+    const [showClearConfirmModal, setShowClearConfirmModal] = useState(false);
+    const { clearInventory } = useInventoryStore(state => ({
+        clearInventory: state.clearInventory
+    }));
+
+    const handleClearInventory = (e) => {
+        e.stopPropagation(); // Prevent window dragging
+        setShowClearConfirmModal(true);
+    };
+
+    const confirmClearInventory = () => {
+        clearInventory();
+        setShowClearConfirmModal(false);
+        console.log('✅ Inventory cleared successfully');
+    };
+
+    const cancelClearInventory = () => {
+        setShowClearConfirmModal(false);
+    };
+
+    return (
+        <>
+            <button
+                className="inventory-header-clear-btn"
+                onClick={handleClearInventory}
+                title="Clear all items from inventory (irreversible)"
+                style={{
+                    padding: '4px 8px',
+                    background: 'linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%)',
+                    color: 'white',
+                    border: '1px solid #654321',
+                    borderRadius: '3px',
+                    fontSize: '11px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                    textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
+                    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+                    transition: 'all 0.2s ease',
+                    marginRight: '8px'
+                }}
+                onMouseEnter={(e) => {
+                    e.target.style.background = 'linear-gradient(135deg, #a52a2a 0%, #dc143c 50%, #a52a2a 100%)';
+                    e.target.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                    e.target.style.background = 'linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%)';
+                    e.target.style.transform = 'translateY(0)';
+                }}
+            >
+                Clear
+            </button>
+
+            {/* Clear Inventory Confirmation Modal */}
+            {showClearConfirmModal && (
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 100000
+                    }}
+                    onClick={cancelClearInventory}
+                >
+                    <div
+                        className="clear-confirm-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '3px solid #8b7355',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            maxWidth: '400px',
+                            textAlign: 'center',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#3a2f1a',
+                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', color: '#8b0000' }}>Clear Inventory</h3>
+                        <p style={{ margin: '0 0 20px 0', lineHeight: '1.4' }}>
+                            Are you sure you want to clear ALL items from your inventory?
+                            <br />
+                            <strong style={{ color: '#8b0000' }}>This action is IRREVERSIBLE!</strong>
+                            <br />
+                            All items will be permanently lost.
+                        </p>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                onClick={cancelClearInventory}
+                                style={{
+                                    padding: '8px 16px',
+                                    backgroundColor: '#4a5d23',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontFamily: 'inherit'
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmClearInventory}
+                                style={{
+                                    padding: '8px 16px',
+                                    backgroundColor: '#8b0000',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontFamily: 'inherit'
+                                }}
+                            >
+                                Clear All Items
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+};
 
 export default function Navigation({ onReturnToLanding }) {
     const [openWindows, setOpenWindows] = useState(new Set());
@@ -789,6 +926,12 @@ export default function Navigation({ onReturnToLanding }) {
                         onClose={() => handleButtonClick(button.id)}
                         defaultSize={{ width: 900, height: 550 }}
                         defaultPosition={{ x: 150, y: 150 }}
+                        customHeader={
+                            <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                <div className="window-title" style={{ flex: 1 }}>{safeTitle}</div>
+                                <InventoryHeaderButton />
+                            </div>
+                        }
                     >
                         <InventoryWindow />
                     </WowWindow>

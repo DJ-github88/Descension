@@ -7,80 +7,84 @@ import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
     const { selectedProfession, setSelectedProfession } = useCraftingStore();
-    const [activeTab, setActiveTab] = useState('professions');
+    const [activeTab, setActiveTab] = useState('overview');
 
     const handleProfessionSelect = (professionId) => {
         setSelectedProfession(professionId);
-        setActiveTab('crafting');
-    };
-
-    const handleBackToProfessions = () => {
-        setSelectedProfession(null);
-        setActiveTab('professions');
+        // Stay on overview tab when selecting a profession
     };
 
     const renderContent = () => {
-        if (!selectedProfession || activeTab === 'professions') {
-            return (
-                <ProfessionSelection 
-                    onProfessionSelect={handleProfessionSelect}
-                    selectedProfession={selectedProfession}
-                />
-            );
-        }
-
-        // Render specific profession interface
-        switch (selectedProfession) {
-            case 'alchemy':
+        switch (activeTab) {
+            case 'overview':
                 return (
-                    <AlchemyInterface 
-                        onBack={handleBackToProfessions}
+                    <ProfessionSelection
+                        onProfessionSelect={handleProfessionSelect}
+                        selectedProfession={selectedProfession}
                     />
+                );
+            case 'queue':
+                return (
+                    <div className="crafting-queue">
+                        <div className="queue-header">
+                            <h3>Crafting Queue</h3>
+                            <p>Items currently being crafted or queued for crafting</p>
+                        </div>
+                        <div className="queue-content">
+                            <div className="queue-empty">
+                                <p>No items in crafting queue</p>
+                                <p>Select a profession from the Overview tab to start crafting</p>
+                            </div>
+                        </div>
+                    </div>
                 );
             default:
                 return (
-                    <div className="profession-not-implemented">
-                        <div className="not-implemented-content">
-                            <div className="not-implemented-icon">
-                                <img 
-                                    src={`https://wow.zamimg.com/images/wow/icons/large/${PROFESSIONS[selectedProfession]?.icon || 'inv_misc_questionmark'}.jpg`}
-                                    alt={PROFESSIONS[selectedProfession]?.name}
-                                    onError={(e) => {
-                                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-                                    }}
-                                />
-                            </div>
-                            <h3>{PROFESSIONS[selectedProfession]?.name}</h3>
-                            <p>This profession is not yet implemented.</p>
-                            <p>Check back later for updates!</p>
-                            <button 
-                                className="wow-button"
-                                onClick={handleBackToProfessions}
-                            >
-                                Back to Professions
-                            </button>
-                        </div>
-                    </div>
+                    <ProfessionSelection
+                        onProfessionSelect={handleProfessionSelect}
+                        selectedProfession={selectedProfession}
+                    />
                 );
         }
     };
 
-    const getWindowTitle = () => {
-        if (selectedProfession && activeTab === 'crafting') {
-            const profession = Object.values(PROFESSIONS).find(p => p.id === selectedProfession);
-            return `${profession?.name || 'Unknown'} - Crafting`;
+
+
+    // Simplified tabs - just Overview and Queue
+    const tabs = [
+        { id: 'overview', label: 'Overview' },
+        { id: 'queue', label: 'Queue' }
+    ];
+
+    const handleTabChange = (tabId) => {
+        setActiveTab(tabId);
+        // Reset profession selection when switching tabs
+        if (tabId === 'overview') {
+            setSelectedProfession(null);
         }
-        return 'Crafting';
     };
 
     return (
         <WowWindow
-            title={getWindowTitle()}
+            title="Crafting"
             isOpen={isOpen}
             onClose={onClose}
             defaultSize={{ width: 1000, height: 700 }}
             defaultPosition={{ x: 200, y: 100 }}
             className="crafting-window"
+            customHeader={
+                <div className="spellbook-tab-container">
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.id}
+                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                            onClick={() => handleTabChange(tab.id)}
+                        >
+                            <span>{tab.label}</span>
+                        </button>
+                    ))}
+                </div>
+            }
         >
             <div className="crafting-window-content">
                 {renderContent()}

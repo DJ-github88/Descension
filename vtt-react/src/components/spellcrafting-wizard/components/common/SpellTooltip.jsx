@@ -73,7 +73,7 @@ const SpellTooltip = ({
         position: 'fixed',
         left: x,
         top: y,
-        zIndex: 99999, // Much higher z-index to appear above collection windows
+        zIndex: 2147483647, // Maximum z-index value to ensure tooltips always appear above windows
         pointerEvents: 'auto',
         // Set size for scaled spell card - scrolling handled by inner container
         width: 'auto', // Let content determine width

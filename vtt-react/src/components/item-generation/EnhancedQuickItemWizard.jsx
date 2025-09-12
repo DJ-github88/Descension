@@ -8,9 +8,17 @@ import '../../styles/enhanced-quick-item-wizard.css';
 
 // Weapon slots and hand options
 const WEAPON_SLOTS = {
+    MAIN_HAND: {
+        name: 'Main Hand',
+        description: 'Weapons that can only be wielded in the main hand'
+    },
+    OFF_HAND: {
+        name: 'Off Hand',
+        description: 'Weapons that can only be wielded in the off hand'
+    },
     ONE_HANDED: {
         name: 'One-Handed',
-        description: 'Weapons that can be wielded in one hand'
+        description: 'Weapons that can be wielded in either hand'
     },
     TWO_HANDED: {
         name: 'Two-Handed',

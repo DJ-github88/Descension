@@ -15,12 +15,39 @@ const ClassResourceBar = ({
     // Get class configuration
     const config = getClassResourceConfig(characterClass);
 
-    if (!config || !classResource) {
+    // If no config exists, create a default one for unknown classes
+    const defaultConfig = {
+        id: 'classResource',
+        name: 'Class Resource',
+        shortName: 'CR',
+        type: 'default',
+        description: 'Class-specific resource',
+        visual: {
+            type: 'progress-bar',
+            baseColor: '#4A4A4A',
+            activeColor: '#888888',
+            glowColor: '#AAAAAA',
+            icon: '⚡'
+        },
+        mechanics: {
+            max: 5,
+            current: 0
+        },
+        tooltip: {
+            title: 'Class Resource: {current}/{max}',
+            description: 'Class-specific resource for special abilities'
+        }
+    };
+
+    const finalConfig = config || defaultConfig;
+    const finalClassResource = classResource || { current: 0, max: 5 };
+
+    if (!finalConfig) {
         return null;
     }
 
     // Calculate percentage for progress bars
-    const percentage = classResource.max > 0 ? (classResource.current / classResource.max) * 100 : 0;
+    const percentage = finalClassResource.max > 0 ? (finalClassResource.current / finalClassResource.max) * 100 : 0;
 
     // Handle mouse events for tooltip (following item tooltip pattern)
     const handleMouseEnter = (e) => {
@@ -48,13 +75,13 @@ const ClassResourceBar = ({
     const handleClick = (e) => {
         if (isGMMode && onResourceClick) {
             e.stopPropagation();
-            onResourceClick(classResource.type);
+            onResourceClick(finalClassResource.type || finalConfig.id);
         }
     };
 
     // Render different resource types
     const renderResourceDisplay = () => {
-        switch (config.visual.type) {
+        switch (finalConfig.visual.type) {
             case 'orbs':
                 return renderOrbs();
             case 'staff':
@@ -79,6 +106,8 @@ const ClassResourceBar = ({
                 return renderPhylactery();
             case 'scythe':
                 return renderScythe();
+            case 'progress-bar':
+                return renderProgressBar();
             default:
                 return renderProgressBar();
         }
@@ -88,39 +117,39 @@ const ClassResourceBar = ({
     const renderProgressBar = () => (
         <div className={`class-resource-bar progress-bar ${size}`}>
             <div className="bar-background">
-                <div 
+                <div
                     className="bar-fill"
                     style={{
                         width: `${percentage}%`,
-                        backgroundColor: config.visual.activeColor,
-                        boxShadow: `0 0 8px ${config.visual.glowColor}`
+                        backgroundColor: finalConfig.visual.activeColor,
+                        boxShadow: `0 0 8px ${finalConfig.visual.glowColor}`
                     }}
                 />
                 <div className="bar-text">
-                    {classResource.current}/{classResource.max} {config.shortName}
+                    {finalClassResource.current}/{finalClassResource.max} {finalConfig.shortName}
                 </div>
             </div>
         </div>
     );
 
-    // Orbs display (Pyrofiend)
+    // Orbs display (legacy - now using progress bar)
     const renderOrbs = () => (
         <div className={`class-resource-bar orbs-display ${size}`}>
             <div className="orbs-container">
-                {Array.from({ length: config.visual.count }, (_, i) => (
-                    <div 
+                {Array.from({ length: finalConfig.visual.count }, (_, i) => (
+                    <div
                         key={i}
-                        className={`orb ${i <= classResource.current ? 'active' : 'inactive'}`}
+                        className={`orb ${i <= finalClassResource.current ? 'active' : 'inactive'}`}
                         style={{
-                            backgroundColor: i <= classResource.current ? config.visual.activeColor : config.visual.baseColor,
-                            boxShadow: i <= classResource.current ? `0 0 6px ${config.visual.glowColor}` : 'none'
+                            backgroundColor: i <= finalClassResource.current ? finalConfig.visual.activeColor : finalConfig.visual.baseColor,
+                            boxShadow: i <= finalClassResource.current ? `0 0 6px ${finalConfig.visual.glowColor}` : 'none'
                         }}
                     >
-                        <span className="orb-icon">{config.visual.icon}</span>
+                        <span className="orb-icon">{finalConfig.visual.icon}</span>
                     </div>
                 ))}
             </div>
-            <div className="resource-label">{config.shortName}: {classResource.current}</div>
+            <div className="resource-label">{finalConfig.shortName}: {finalClassResource.current}</div>
         </div>
     );
 
@@ -356,14 +385,14 @@ const ClassResourceBar = ({
 
     // Render tooltip (following item tooltip pattern)
     const renderTooltip = () => {
-        if (!showTooltip || !config.tooltip) return null;
+        if (!showTooltip || !finalConfig.tooltip) return null;
 
-        const tooltipTitle = config.tooltip.title
-            .replace('{current}', classResource.current)
-            .replace('{max}', classResource.max)
-            .replace('{stacks}', classResource.stacks?.length || 0)
-            .replace('{risk}', classResource.risk || 0)
-            .replace('{volatility}', classResource.volatility || 0);
+        const tooltipTitle = finalConfig.tooltip.title
+            .replace('{current}', finalClassResource.current)
+            .replace('{max}', finalClassResource.max)
+            .replace('{stacks}', finalClassResource.stacks?.length || 0)
+            .replace('{risk}', finalClassResource.risk || 0)
+            .replace('{volatility}', finalClassResource.volatility || 0);
 
         return (
             <TooltipPortal>
@@ -381,25 +410,25 @@ const ClassResourceBar = ({
                     <div className="tooltip-header">
                         <span className="tooltip-title">{tooltipTitle}</span>
                     </div>
-                    <div className="tooltip-description">{config.tooltip.description}</div>
-                    {config.stages && classResource.current < config.stages.length && (
+                    <div className="tooltip-description">{finalConfig.tooltip.description}</div>
+                    {finalConfig.stages && finalClassResource.current < finalConfig.stages.length && (
                         <div className="tooltip-stage-info">
-                            <div className="stage-name">{config.stages[classResource.current].name}</div>
-                            {config.stages[classResource.current].bonuses.length > 0 && (
+                            <div className="stage-name">{finalConfig.stages[finalClassResource.current].name}</div>
+                            {finalConfig.stages[finalClassResource.current].bonuses.length > 0 && (
                                 <div className="stage-bonuses">
                                     <strong>Bonuses:</strong>
                                     <ul>
-                                        {config.stages[classResource.current].bonuses.map((bonus, i) => (
+                                        {finalConfig.stages[finalClassResource.current].bonuses.map((bonus, i) => (
                                             <li key={i}>{bonus}</li>
                                         ))}
                                     </ul>
                                 </div>
                             )}
-                            {config.stages[classResource.current].drawbacks.length > 0 && (
+                            {finalConfig.stages[finalClassResource.current].drawbacks.length > 0 && (
                                 <div className="stage-drawbacks">
                                     <strong>Drawbacks:</strong>
                                     <ul>
-                                        {config.stages[classResource.current].drawbacks.map((drawback, i) => (
+                                        {finalConfig.stages[finalClassResource.current].drawbacks.map((drawback, i) => (
                                             <li key={i}>{drawback}</li>
                                         ))}
                                     </ul>
@@ -407,13 +436,13 @@ const ClassResourceBar = ({
                             )}
                         </div>
                     )}
-                    {config.thresholds && (
+                    {finalConfig.thresholds && (
                         <div className="tooltip-thresholds">
                             <strong>Thresholds:</strong>
-                            {config.thresholds.map((threshold, i) => (
+                            {finalConfig.thresholds.map((threshold, i) => (
                                 <div
                                     key={i}
-                                    className={`threshold-info ${classResource.current >= threshold.value ? 'achieved' : 'pending'}`}
+                                    className={`threshold-info ${finalClassResource.current >= threshold.value ? 'achieved' : 'pending'}`}
                                 >
                                     <span className="threshold-value">{threshold.value}:</span>
                                     <span className="threshold-name">{threshold.name}</span>

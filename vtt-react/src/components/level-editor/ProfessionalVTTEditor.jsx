@@ -1047,11 +1047,11 @@ const ProfessionalVTTEditor = () => {
                 defaultSize={{ width: 1200, height: 800 }}
                 defaultPosition={{ x: 50, y: 50 }}
                 customHeader={
-                    <div className="spellbook-tab-headers">
+                    <div className="spellbook-tab-container">
                         {Object.entries(vttTools).map(([key, category]) => (
                             <button
                                 key={key}
-                                className={`spellbook-tab ${activeTab === key ? 'active' : ''}`}
+                                className={`spellbook-tab-button ${activeTab === key ? 'active' : ''}`}
                                 onClick={() => handleTabChange(key)}
                                 title={`${category.name} - Professional tools for map creation`}
                             >

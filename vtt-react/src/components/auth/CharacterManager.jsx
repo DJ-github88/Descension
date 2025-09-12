@@ -6,7 +6,7 @@ import './styles/CharacterManager.css';
 
 const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
   const { user, userData, updateUserData } = useAuthStore();
-  const { characterInfo } = useCharacterStore();
+  const { characterInfo, setActiveCharacter, currentCharacterId } = useCharacterStore();
   const [characters, setCharacters] = useState([]);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -140,7 +140,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                 {characters.map((character) => (
                   <div
                     key={character.id}
-                    className={`character-card-enhanced ${selectedCharacter?.id === character.id ? 'selected' : ''}`}
+                    className={`character-card-enhanced ${selectedCharacter?.id === character.id ? 'selected' : ''} ${currentCharacterId === character.id ? 'active-character' : ''}`}
                     onClick={() => handleSelectCharacter(character)}
                   >
                     {/* Character Header */}
@@ -226,13 +226,19 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Handle play character
+                            // Set this character as active (don't close modal)
+                            const activeCharacter = setActiveCharacter(character.id);
+                            if (activeCharacter) {
+                              console.log(`🎮 Selected character: ${activeCharacter.name}`);
+                            } else {
+                              console.error(`❌ Failed to select character: ${character.id}`);
+                            }
                           }}
-                          className="btn btn-primary"
-                          title="Play this character"
+                          className={`btn ${currentCharacterId === character.id ? 'btn-success' : 'btn-primary'}`}
+                          title={currentCharacterId === character.id ? 'Active character' : 'Select this character'}
                         >
-                          <i className="fas fa-play"></i>
-                          Play
+                          <i className={`fas ${currentCharacterId === character.id ? 'fa-check' : 'fa-play'}`}></i>
+                          {currentCharacterId === character.id ? 'Active' : 'Select'}
                         </button>
                         <button
                           onClick={(e) => {
@@ -288,8 +294,15 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                   <button
                     className="enter-world-btn"
                     onClick={() => {
-                      handleSelectCharacter(selectedCharacter);
-                      onClose();
+                      // Set this character as active and close modal
+                      const activeCharacter = setActiveCharacter(selectedCharacter.id);
+                      if (activeCharacter) {
+                        console.log(`🎮 Selected character: ${activeCharacter.name}`);
+                        handleSelectCharacter(selectedCharacter);
+                        onClose();
+                      } else {
+                        console.error(`❌ Failed to select character: ${selectedCharacter.id}`);
+                      }
                     }}
                   >
                     <i className="fas fa-play"></i>

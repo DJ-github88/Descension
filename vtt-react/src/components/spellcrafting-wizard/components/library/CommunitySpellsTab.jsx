@@ -6,9 +6,12 @@
  */
 
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import { useCommunitySpells } from '../../../../hooks/useCommunitySpells';
 import { useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
+import SpellTooltip from '../common/SpellTooltip';
+import '../../../../styles/community-tabs-shared.css';
 import '../../styles/pathfinder/main.css';
 import './CommunitySpellsTab.css';
 
@@ -33,11 +36,39 @@ const CommunitySpellsTab = () => {
   const [searchInput, setSearchInput] = useState('');
   const [downloadingSpells, setDownloadingSpells] = useState(new Set());
 
+  // Tooltip state
+  const [hoveredSpell, setHoveredSpell] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchInput.trim()) {
       search(searchInput.trim());
     }
+  };
+
+  // Tooltip handlers
+  const handleMouseEnter = (spell, e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.right + 10,
+      y: rect.top
+    });
+    setHoveredSpell(spell);
+  };
+
+  const handleMouseMove = (e) => {
+    if (hoveredSpell) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setTooltipPosition({
+        x: rect.right + 10,
+        y: rect.top
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredSpell(null);
   };
 
   const handleDownloadSpell = async (spell) => {
@@ -71,43 +102,61 @@ const CommunitySpellsTab = () => {
     }
   };
 
-  const renderSpellCard = (spell) => (
-    <div key={spell.id} className="community-spell-card-wrapper">
-      <UnifiedSpellCard
-        spell={spell}
-        variant="library"
-        showActions={false}
-        showDescription={true}
-        showStats={true}
-        showTags={true}
-      />
-      <div className="community-spell-actions">
-        <div className="spell-stats">
-          <span className="download-count">
-            <i className="fas fa-download"></i> {spell.downloadCount || 0}
-          </span>
-          <span className="rating">
-            <i className="fas fa-star"></i> {spell.rating || 0} ({spell.ratingCount || 0})
-          </span>
+  const renderSpellCard = (spell) => {
+    // Ensure complete spell data structure for proper tooltip display
+    const completeSpell = {
+      ...spell,
+      // Add community-specific metadata
+      downloadCount: spell.downloadCount || 0,
+      rating: spell.rating || 0,
+      ratingCount: spell.ratingCount || 0,
+      source: 'community'
+    };
+
+    return (
+      <div
+        key={spell.id}
+        className="community-card-wrapper community-spell-card-wrapper"
+        onMouseEnter={(e) => handleMouseEnter(completeSpell, e)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <UnifiedSpellCard
+          spell={completeSpell}
+          variant="library"
+          showActions={false}
+          showDescription={true}
+          showStats={true}
+          showTags={true}
+        />
+        <div className="community-card-actions community-spell-actions">
+          <div className="community-card-stats spell-stats">
+            <span className="download-count">
+              <i className="fas fa-download"></i> {spell.downloadCount || 0}
+            </span>
+            <span className="rating">
+              <i className="fas fa-star"></i> {spell.rating || 0} ({spell.ratingCount || 0})
+            </span>
+          </div>
+          <button
+            className="community-download-btn download-spell-btn"
+            onClick={() => handleDownloadSpell(spell)}
+            disabled={downloadingSpells.has(spell.id)}
+          >
+            {downloadingSpells.has(spell.id) ? (
+              <>
+                <i className="fas fa-spinner fa-spin"></i> Downloading...
+              </>
+            ) : (
+              <>
+                <i className="fas fa-download"></i> Download
+              </>
+            )}
+          </button>
         </div>
-        <button
-          className="download-spell-btn"
-          onClick={() => handleDownloadSpell(spell)}
-          disabled={downloadingSpells.has(spell.id)}
-        >
-          {downloadingSpells.has(spell.id) ? (
-            <>
-              <i className="fas fa-spinner fa-spin"></i> Downloading...
-            </>
-          ) : (
-            <>
-              <i className="fas fa-download"></i> Download
-            </>
-          )}
-        </button>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="community-spells-container">
@@ -120,21 +169,23 @@ const CommunitySpellsTab = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="community-search">
-        <form onSubmit={handleSearch} className="search-form">
-          <input
-            type="text"
-            placeholder="Search community spells..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            className="search-input"
-          />
-          <button type="submit" className="search-btn">
-            <i className="fas fa-search"></i>
-          </button>
+      <div className="community-tab-search-section community-search">
+        <form onSubmit={handleSearch} className="community-tab-search-form search-form">
+          <div className="community-tab-search-input-group">
+            <input
+              type="text"
+              placeholder="Search community spells..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              className="community-tab-search-input search-input"
+            />
+            <button type="submit" className="community-tab-search-btn search-btn">
+              <i className="fas fa-search"></i>
+            </button>
+          </div>
         </form>
         {(selectedCategory || searchTerm) && (
-          <button onClick={clearSelection} className="clear-search-btn">
+          <button onClick={clearSelection} className="community-tab-clear-btn clear-search-btn">
             <i className="fas fa-times"></i> Clear
           </button>
         )}
@@ -275,6 +326,23 @@ const CommunitySpellsTab = () => {
           <i className="fas fa-wifi"></i>
           <p>You're offline. Community spells require an internet connection.</p>
         </div>
+      )}
+
+      {/* Tooltip Portal */}
+      {hoveredSpell && ReactDOM.createPortal(
+        <SpellTooltip
+          spell={hoveredSpell}
+          position={tooltipPosition}
+          onMouseEnter={() => {
+            // Keep tooltip visible when hovering over it
+            setHoveredSpell(hoveredSpell);
+          }}
+          onMouseLeave={() => {
+            // Hide tooltip when leaving it
+            setHoveredSpell(null);
+          }}
+        />,
+        document.body
       )}
     </div>
   );

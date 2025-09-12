@@ -46,27 +46,27 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
             defaultPosition={{ x: 300, y: 150 }}
             centered={false}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     <button
-                        className={`spellbook-tab ${activeTab === 'character' ? 'active' : ''}`}
+                        className={`spellbook-tab-button ${activeTab === 'character' ? 'active' : ''}`}
                         onClick={() => setActiveTab('character')}
                     >
                         <span>Character Sheet</span>
                     </button>
                     <button
-                        className={`spellbook-tab ${activeTab === 'stats' ? 'active' : ''}`}
+                        className={`spellbook-tab-button ${activeTab === 'stats' ? 'active' : ''}`}
                         onClick={() => setActiveTab('stats')}
                     >
                         <span>Stats</span>
                     </button>
                     <button
-                        className={`spellbook-tab ${activeTab === 'skills' ? 'active' : ''}`}
+                        className={`spellbook-tab-button ${activeTab === 'skills' ? 'active' : ''}`}
                         onClick={() => setActiveTab('skills')}
                     >
                         <span>Skills</span>
                     </button>
                     <button
-                        className={`spellbook-tab ${activeTab === 'lore' ? 'active' : ''}`}
+                        className={`spellbook-tab-button ${activeTab === 'lore' ? 'active' : ''}`}
                         onClick={() => setActiveTab('lore')}
                     >
                         <span>Lore</span>

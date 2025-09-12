@@ -56,6 +56,33 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
 }
 
+/* Special styling for window headers containing spellbook tab containers */
+.window-header:has(.spellbook-tab-container) {
+    padding: 0 !important; /* Remove padding when containing spellbook tabs */
+    height: auto !important; /* Allow height to be determined by tab container */
+    background: none !important; /* Let tab container handle background */
+    border-bottom: none !important; /* Let tab container handle border */
+    box-shadow: none !important; /* Let tab container handle shadow */
+}
+
+/* Ensure the spellbook tab container fills the header properly */
+.window-header .spellbook-tab-container {
+    margin: 0 !important;
+    width: 100% !important;
+    height: 48px !important; /* Set consistent height */
+}
+
+/* Adjust close button positioning when inside spellbook tab container header */
+.window-header:has(.spellbook-tab-container) .window-close {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 20 !important; /* Higher z-index to appear above tabs */
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(240, 230, 210, 0.5) !important;
+}
+
 .window-title {
     color: #f0e6d2 !important; /* Parchment color */
     font-size: 14px !important;
@@ -223,89 +250,7 @@
     background: transparent !important;
 }
 
-/* Simplified Tab styles - D&D/Pathfinder Theme */
-.tab-container.dnd-theme {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    border-bottom: 2px solid #a08c70;
-}
-
-.tab-container.dnd-theme .tab-button {
-    background: rgba(240, 230, 210, 0.1);
-    border: 1px solid rgba(160, 140, 112, 0.4);
-    border-bottom: none;
-    color: #f0e6d2;
-    padding: 8px 20px;
-    margin: 0 2px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    border-radius: 4px 4px 0 0;
-}
-
-.tab-container.dnd-theme .tab-button:hover {
-    color: #fff;
-    background: rgba(240, 230, 210, 0.2);
-    border-color: rgba(240, 230, 210, 0.6);
-}
-
-.tab-container.dnd-theme .tab-button.active {
-    background: rgba(240, 230, 210, 0.3);
-    color: #fff;
-    font-weight: 700;
-    border-color: #f0e6d2;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-/* Simplified tab styles */
-.tab-container {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    border-bottom: 2px solid #a08c70;
-}
-
-.tab-button {
-    background: transparent;
-    border: 1px solid rgba(160, 140, 112, 0.4);
-    border-bottom: none;
-    color: #f0e6d2;
-    padding: 8px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    margin: 0 2px;
-    border-radius: 4px 4px 0 0;
-}
-
-.tab-button:hover {
-    color: #fff;
-    background: rgba(240, 230, 210, 0.1);
-    border-color: rgba(240, 230, 210, 0.5);
-}
-
-.tab-button.active {
-    color: #fff;
-    background: rgba(240, 230, 210, 0.2);
-    border-color: #f0e6d2;
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-}
+/* Legacy tab styles removed - all windows now use unified spellbook-tab-container system */
 
 /* ===== SPELLBOOK LAYOUT STYLES ===== */
 .spellbook-layout {
@@ -394,9 +339,9 @@
     border-left: 1px solid rgba(139, 115, 85, 0.6);
     border-right: 1px solid rgba(139, 115, 85, 0.6);
     color: #f0e6d2;
-    padding: 8px 16px;
+    padding: 10px 18px;
     margin: 4px 1px 0 1px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -413,9 +358,13 @@
         inset 0 1px 0 rgba(240, 230, 210, 0.2),
         0 2px 4px rgba(0, 0, 0, 0.2);
     text-transform: uppercase;
-    min-width: 140px;
-    flex: 1;
-    max-width: 200px;
+    /* FIXED: Remove max-width to allow proper flex distribution */
+    min-width: 0; /* Allow flex to shrink below content width */
+    flex: 1; /* Distribute width evenly among tabs */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2; /* Improve text positioning */
 }
 
 .spellbook-tab-button:first-child {
@@ -440,9 +389,11 @@
     transform: translateY(-2px);
     box-shadow:
         inset 0 1px 0 rgba(240, 230, 210, 0.4),
-        0 4px 8px rgba(0, 0, 0, 0.3);
-    border-top: 2px solid rgba(240, 230, 210, 0.6);
+        0 4px 12px rgba(0, 0, 0, 0.4);
+    border-top: 2px solid rgba(240, 230, 210, 0.7);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+    /* Add subtle glow effect */
+    filter: brightness(1.1);
 }
 
 .spellbook-tab-button.active {
@@ -482,48 +433,41 @@
     );
     border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    /* Add subtle pulse animation */
+    animation: tabGlow 2s ease-in-out infinite alternate;
 }
 
-/* ===== RESPONSIVE SPELLBOOK HEADER STYLES ===== */
-@media (max-width: 1024px) {
-    .spellbook-tab-button {
-        padding: 10px 16px;
-        font-size: 13px;
-        min-width: 120px;
+/* Subtle glow animation for active tab indicator */
+@keyframes tabGlow {
+    0% {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+    100% {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 12px rgba(212, 175, 55, 0.5);
     }
 }
 
+/* ===== RESPONSIVE SPELLBOOK HEADER STYLES ===== */
 @media (max-width: 768px) {
     .spellbook-tab-container {
-        padding: 0 4px;
-        gap: 2px;
+        padding: 0 2px;
+        gap: 1px;
     }
 
     .spellbook-tab-button {
         padding: 8px 12px;
-        font-size: 12px;
-        min-width: 100px;
-        max-width: 150px;
-    }
-
-    .spellbook-tab-button svg {
-        width: 14px !important;
-        height: 14px !important;
-        margin-right: 6px !important;
+        font-size: 13px;
+        /* Keep flex: 1 for proper distribution on mobile */
+        min-width: 0;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
     .spellbook-tab-button {
         padding: 6px 8px;
-        font-size: 11px;
-        min-width: 80px;
-        letter-spacing: 0.2px;
-    }
-
-    .spellbook-tab-button svg {
-        width: 12px !important;
-        height: 12px !important;
-        margin-right: 4px !important;
+        font-size: 12px;
+        /* Allow text to wrap on very small screens */
+        white-space: normal;
+        line-height: 1.1;
     }
 }

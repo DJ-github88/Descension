@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
+import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
+import useCharacterStore from '../../../../store/characterStore';
 
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
@@ -84,15 +86,43 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     return 'compact';
   });
 
-
-
   // State for context menu
   const [contextMenu, setContextMenu] = useState(null);
 
+  // State for active category
+  const [activeCategory, setActiveCategory] = useState(null);
 
   // Get library state and dispatch from context
   const library = useSpellLibrary();
   const dispatch = useSpellLibraryDispatch();
+
+  // Get class-based spell library
+  const {
+    spellCategories,
+    characterClass,
+    activeCharacter,
+    isLoading: classSpellsLoading,
+    error: classSpellsError,
+    getAllSpells,
+    getSpellsByCategory,
+    getCategoryInfo,
+    addCustomSpell,
+    hasActiveCharacter,
+    hasClassSpells
+  } = useClassSpellLibrary();
+
+  // Debug: Log spell library state changes
+  useEffect(() => {
+    console.log('🎭 SpellLibrary Debug:', {
+      hasActiveCharacter,
+      hasClassSpells,
+      characterClass,
+      activeCharacter: activeCharacter ? { id: activeCharacter.id, name: activeCharacter.name, class: activeCharacter.class } : null,
+      spellCategoriesCount: spellCategories.length,
+      classSpellsLoading,
+      classSpellsError
+    });
+  }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories.length, classSpellsLoading, classSpellsError]);
 
   // Unified mapping function (same as Step10Review and ExternalLivePreview)
   const mapSpellToUnifiedFormat = (spell) => {
@@ -303,9 +333,40 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Apply filters and sorting to get displayed spells
   const filteredSpells = useMemo(() => {
-    const filtered = filterSpells(library, library.filters);
+    // Use class-based spells if available, otherwise fall back to library spells
+    let spellsToFilter = [];
+
+    if (hasActiveCharacter && hasClassSpells) {
+      // If we have an active category, show only spells from that category
+      if (activeCategory) {
+        spellsToFilter = getSpellsByCategory(activeCategory);
+      } else {
+        // Show all spells from all categories
+        spellsToFilter = getAllSpells();
+      }
+    } else {
+      // Fall back to traditional library spells
+      spellsToFilter = library.spells;
+    }
+
+    // Create a temporary library object for filtering
+    const tempLibrary = {
+      ...library,
+      spells: spellsToFilter
+    };
+
+    const filtered = filterSpells(tempLibrary, library.filters);
     return sortSpells(filtered, library.sortOrder);
-  }, [library.spells, library.filters, library.sortOrder]);
+  }, [
+    library.spells,
+    library.filters,
+    library.sortOrder,
+    hasActiveCharacter,
+    hasClassSpells,
+    activeCategory,
+    getSpellsByCategory,
+    getAllSpells
+  ]);
 
   // Save view preferences to localStorage (but keep compact as default)
   useEffect(() => {
@@ -531,7 +592,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
 
   // Render empty state when no spells exist
-  if (library.spells.length === 0) {
+  // Check both class-based spells and traditional library spells
+  const shouldShowEmptyState = !hasActiveCharacter && library.spells.length === 0;
+
+  if (shouldShowEmptyState) {
     return (
       <div className="spell-library-empty" style={{
         display: 'flex',
@@ -635,6 +699,57 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               <i className="fas fa-file-export"></i> Export
             </button>
 
+            {/* Character Activation Controls */}
+            {!hasActiveCharacter && (() => {
+              const characters = useCharacterStore(state => state.characters);
+              const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);
+
+              if (characters.length > 0) {
+                return (
+                  <div className="character-activation-controls" style={{
+                    display: 'flex',
+                    gap: '8px',
+                    marginLeft: '16px',
+                    alignItems: 'center'
+                  }}>
+                    <span style={{
+                      fontSize: '12px',
+                      color: '#F0E6D2',
+                      fontFamily: 'Cinzel, serif',
+                      opacity: 0.9
+                    }}>
+                      Activate:
+                    </span>
+                    {characters.map(char => (
+                      <button
+                        key={char.id}
+                        onClick={() => {
+                          console.log(`🎮 Activating character: ${char.name} (${char.class})`);
+                          setActiveCharacter(char.id);
+                        }}
+                        className="character-activation-btn"
+                        style={{
+                          background: 'linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #2E8B57 100%)',
+                          border: '1px solid #228B22',
+                          borderRadius: '4px',
+                          padding: '4px 8px',
+                          color: 'white',
+                          fontSize: '11px',
+                          cursor: 'pointer',
+                          fontFamily: 'Cinzel, serif',
+                          transition: 'all 0.2s ease'
+                        }}
+                        title={`Activate ${char.name} (${char.class})`}
+                      >
+                        {char.name}
+                      </button>
+                    ))}
+                  </div>
+                );
+              }
+              return null;
+            })()}
+
 
 
 
@@ -671,6 +786,97 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         </div>
       )}
 
+      {/* Category Selection - Light Theme */}
+      {hasActiveCharacter && spellCategories.length > 0 && (
+        <div className="spell-categories-container" style={{
+          background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
+          border: '2px solid #8B4513',
+          borderRadius: '8px',
+          padding: '12px 16px',
+          marginBottom: '16px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <div className="spell-categories" style={{
+            display: 'flex',
+            gap: '8px',
+            flexWrap: 'wrap',
+            alignItems: 'center'
+          }}>
+            <button
+              onClick={() => setActiveCategory(null)}
+              style={{
+                background: !activeCategory ? '#8B4513' : 'transparent',
+                border: '2px solid #8B4513',
+                borderRadius: '6px',
+                padding: '8px 16px',
+                color: !activeCategory ? '#F0E6D2' : '#8B4513',
+                fontSize: '13px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                fontFamily: 'Cinzel, serif',
+                transition: 'all 0.2s ease',
+                textShadow: !activeCategory ? '1px 1px 2px rgba(0,0,0,0.5)' : 'none'
+              }}
+            >
+              All Spells
+            </button>
+            {spellCategories.map(category => (
+              <button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                style={{
+                  background: activeCategory === category.id ? category.color : 'transparent',
+                  border: `2px solid ${category.color}`,
+                  borderRadius: '6px',
+                  padding: '8px 16px',
+                  color: activeCategory === category.id ? '#F0E6D2' : category.color,
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontFamily: 'Cinzel, serif',
+                  transition: 'all 0.2s ease',
+                  textShadow: activeCategory === category.id ? '1px 1px 2px rgba(0,0,0,0.5)' : 'none'
+                }}
+                title={category.description}
+              >
+                {category.name} ({category.spells?.length || 0})
+              </button>
+            ))}
+          </div>
+
+          {classSpellsError && (
+            <div style={{
+              color: '#D2691E',
+              fontSize: '12px',
+              marginTop: '8px',
+              fontFamily: 'Cinzel, serif'
+            }}>
+              {classSpellsError}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* No Character Selected Message */}
+      {!hasActiveCharacter && (
+        <div className="no-character-message" style={{
+          background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
+          border: '2px solid #8B4513',
+          borderRadius: '8px',
+          padding: '20px',
+          marginBottom: '16px',
+          textAlign: 'center',
+          color: '#8B4513',
+          fontFamily: 'Cinzel, serif',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>No Character Selected</h4>
+          <p style={{ margin: 0, fontSize: '14px', opacity: 0.8 }}>
+            Select a character from the Character Management page or use the "Activate" buttons above to view class-specific spells.
+          </p>
+        </div>
+      )}
+
       {/* Main content area */}
       <div className="library-content">
         {/* Main content area with spell cards */}
@@ -688,7 +894,18 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           ) : (
             <>
               <div className="spell-count-info">
-                Showing {filteredSpells.length} of {library.spells.length} spells
+                {hasActiveCharacter && hasClassSpells ? (
+                  <>
+                    Showing {filteredSpells.length} of {getAllSpells().length} spells
+                    {activeCategory && (
+                      <span style={{ marginLeft: '8px', opacity: 0.8 }}>
+                        (from {getCategoryInfo(activeCategory)?.name || 'category'})
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  `Showing ${filteredSpells.length} of ${library.spells.length} spells`
+                )}
               </div>
 
               <div className="spell-cards-container">

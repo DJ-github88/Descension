@@ -1,7 +1,7 @@
 /* Tile Tooltip - Simple Clean Style */
 .tile-tooltip {
     position: fixed;
-    z-index: 10000;
+    z-index: 2147483647; /* Maximum z-index value to ensure tooltips always appear above windows */
     max-width: 300px;
     min-width: 200px;
     background: #ffffff;

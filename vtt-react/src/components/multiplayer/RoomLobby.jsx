@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { io } from 'socket.io-client';
 import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
+import useCharacterStore from '../../store/characterStore';
 import './styles/RoomLobby.css';
 
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
+  const { getActiveCharacter } = useCharacterStore();
   const [playerName, setPlayerName] = useState('');
   const [playerColor, setPlayerColor] = useState('#4a90e2'); // Default blue color
   const [roomName, setRoomName] = useState('');
@@ -36,6 +38,27 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   useEffect(() => {
     roomPasswordRef.current = roomPassword;
   }, [roomPassword]);
+
+  // Set room name based on active character when component mounts or tab changes to create
+  useEffect(() => {
+    if (activeTab === 'create') {
+      const activeCharacter = getActiveCharacter();
+      if (activeCharacter && !roomName) {
+        setRoomName(`${activeCharacter.name}'s Campaign`);
+      }
+    }
+  }, [activeTab, getActiveCharacter]);
+
+  // Function to refresh names based on active character
+  const refreshCharacterNames = () => {
+    const activeCharacter = getActiveCharacter();
+    if (activeCharacter) {
+      setPlayerName(activeCharacter.name);
+      if (activeTab === 'create') {
+        setRoomName(`${activeCharacter.name}'s Campaign`);
+      }
+    }
+  };
 
   // Socket server URL for room fetching with fallback options (memoized to prevent recreation)
   const SOCKET_URL = useMemo(() => {
@@ -85,7 +108,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setIsAuthenticated(!!user);
       if (user) {
-        setPlayerName(user.displayName || user.email?.split('@')[0] || 'Player');
+        // Try to use active character name first, then fall back to user name
+        const activeCharacter = getActiveCharacter();
+        const characterName = activeCharacter?.name;
+        const userName = user.displayName || user.email?.split('@')[0] || 'Player';
+        setPlayerName(characterName || userName);
         loadUserRooms();
 
         // Auto-join preselected room if user is authenticated
@@ -679,7 +706,18 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         {activeTab === 'create' && (
           <div className="create-room-section">
             <div className="form-input-group">
-              <label htmlFor="roomName">Room Name:</label>
+              <label htmlFor="roomName">
+                Room Name:
+                <button
+                  type="button"
+                  onClick={refreshCharacterNames}
+                  className="refresh-character-btn"
+                  title="Use active character name"
+                  disabled={isConnecting}
+                >
+                  <i className="fas fa-sync-alt"></i>
+                </button>
+              </label>
               <input
                 id="roomName"
                 type="text"

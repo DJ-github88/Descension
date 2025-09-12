@@ -1,8 +1,9 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
 import useAuthStore from "./store/authStore";
+import useCharacterStore from "./store/characterStore";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -185,6 +186,9 @@ const LoadingFallback = ({ message = "Loading..." }) => (
 );
 
 function GameScreen() {
+    const location = useLocation();
+    const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
+
     // Load game-specific styles when game screen is rendered
     useEffect(() => {
         loadGameStyles();
@@ -199,6 +203,42 @@ function GameScreen() {
             cleanupGameStyles();
         };
     }, []);
+
+    // Handle character loading when entering the game
+    useEffect(() => {
+        const initializeCharacter = async () => {
+            try {
+                // Check if a specific character was passed via navigation state
+                const characterId = location.state?.characterId;
+
+                if (characterId) {
+                    // Set this character as active
+                    console.log(`🎮 Loading character from navigation: ${characterId}`);
+                    const character = setActiveCharacter(characterId);
+                    if (character) {
+                        console.log(`✅ Character loaded: ${character.name}`);
+                    } else {
+                        console.error(`❌ Failed to load character: ${characterId}`);
+                        // Fall back to loading any active character
+                        await loadActiveCharacter();
+                    }
+                } else {
+                    // No specific character passed, load the active character
+                    console.log('🔄 Loading active character...');
+                    const activeCharacter = await loadActiveCharacter();
+                    if (activeCharacter) {
+                        console.log(`✅ Active character loaded: ${activeCharacter.name}`);
+                    } else {
+                        console.log('ℹ️ No active character found');
+                    }
+                }
+            } catch (error) {
+                console.error('Error initializing character:', error);
+            }
+        };
+
+        initializeCharacter();
+    }, [location.state?.characterId, setActiveCharacter, loadActiveCharacter]);
 
     return (
         <div className="game-screen">

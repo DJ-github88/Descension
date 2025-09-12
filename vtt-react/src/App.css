@@ -1336,7 +1336,8 @@ textarea:focus {
 
 /* Simple protection: Character sheet uses its own specific classes */
 
-.spellbook-tabs {
+/* Scope spellbook tab styles to only apply within spellbook containers */
+.spellbook-layout .spellbook-tabs {
   display: flex;
   gap: var(--pf-space-2);
   padding: var(--pf-space-4);
@@ -1344,7 +1345,7 @@ textarea:focus {
   background: linear-gradient(180deg, var(--pf-parchment-light), var(--pf-parchment));
 }
 
-.spellbook-tab {
+.spellbook-layout .spellbook-tab {
   display: flex;
   align-items: center;
   gap: var(--pf-space-2);
@@ -1362,13 +1363,13 @@ textarea:focus {
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.spellbook-tab svg {
+.spellbook-layout .spellbook-tab svg {
   width: 20px;
   height: 20px;
   stroke: var(--pf-text-secondary);
 }
 
-.spellbook-tab.active {
+.spellbook-layout .spellbook-tab.active {
   background: linear-gradient(180deg, var(--pf-gold-light), var(--pf-gold));
   color: var(--pf-brown-darkest);
   border-color: var(--pf-gold-dark);
@@ -1377,11 +1378,11 @@ textarea:focus {
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-.spellbook-tab.active svg {
+.spellbook-layout .spellbook-tab.active svg {
   stroke: var(--pf-brown-darkest);
 }
 
-.spellbook-tab:hover:not(.active) {
+.spellbook-layout .spellbook-tab:hover:not(.active) {
   background: linear-gradient(180deg, var(--pf-parchment), var(--pf-parchment-dark));
   border-color: var(--pf-brown-medium);
   color: var(--pf-text-primary);

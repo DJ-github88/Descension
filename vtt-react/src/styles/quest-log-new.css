@@ -33,37 +33,7 @@
   100% { opacity: 0.6; }
 }
 
-/* Header Tabs */
-.quest-log-header {
-  display: flex;
-  background: linear-gradient(to bottom, #7a3b2e, #5e2e23); /* Rustic red gradient */
-  border-bottom: 1px solid #3a3a3a;
-  padding: 0;
-  margin: 0;
-}
-
-.quest-log-tab {
-  padding: 8px 16px;
-  background: transparent;
-  border: none;
-  border-right: 1px solid #3a3a3a;
-  color: #f0e6d2; /* Parchment color */
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.quest-log-tab:hover {
-  background-color: rgba(240, 230, 210, 0.2);
-}
-
-.quest-log-tab.active {
-  background: linear-gradient(to bottom, #8a4b3e, #7a3b2e);
-  color: #f0e6d2;
-  border-bottom: 1px solid #f0e6d2;
-  font-weight: bold;
-}
+/* Legacy quest log tab styles removed - now using unified spellbook-tab-container system */
 
 /* Main Content Area */
 .quest-log-content {

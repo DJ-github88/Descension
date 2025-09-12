@@ -153,6 +153,15 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
     setSelectedQuest(questId);
   }, []);
 
+  // Define tabs for consistent formatting
+  const tabs = [
+    { id: 'active', label: 'Active Quests' },
+    { id: 'completed', label: 'Completed Quests' },
+    { id: 'failed', label: 'Failed Quests' },
+    { id: 'all', label: 'All Quests' },
+    { id: 'create', label: 'Create Quest' }
+  ];
+
   // Context menu handlers (memoized)
   const handleQuestRightClick = useCallback((e, quest) => {
     e.preventDefault();
@@ -403,40 +412,6 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
   // Content to render
   const questContent = (
     <div className="quest-log-container">
-      {!contentOnly && (
-        <div className="quest-log-header">
-          <button
-            className={`quest-log-tab ${activeTab === 'active' ? 'active' : ''}`}
-            onClick={() => handleTabChange('active')}
-          >
-            Active Quests
-          </button>
-          <button
-            className={`quest-log-tab ${activeTab === 'completed' ? 'active' : ''}`}
-            onClick={() => handleTabChange('completed')}
-          >
-            Completed Quests
-          </button>
-          <button
-            className={`quest-log-tab ${activeTab === 'failed' ? 'active' : ''}`}
-            onClick={() => handleTabChange('failed')}
-          >
-            Failed Quests
-          </button>
-          <button
-            className={`quest-log-tab ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => handleTabChange('all')}
-          >
-            All Quests
-          </button>
-          <button
-            className={`quest-log-tab ${activeTab === 'create' ? 'active' : ''}`}
-            onClick={() => handleTabChange('create')}
-          >
-            Create Quest
-          </button>
-        </div>
-      )}
       {renderContent()}
     </div>
   );
@@ -452,6 +427,19 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
           title="Quest Log"
           centered={false} // Handle centering manually (exactly like spellbook)
           onDrag={handleWindowDrag}
+          customHeader={
+            <div className="spellbook-tab-container">
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => handleTabChange(tab.id)}
+                >
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          }
         >
           {questContent}
         </WowWindow>

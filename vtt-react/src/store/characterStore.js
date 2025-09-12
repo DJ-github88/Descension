@@ -99,9 +99,9 @@ const useCharacterStore = create((set, get) => ({
 
     // Class-specific resource system
     classResource: {
-        type: null, // Will be set based on selected class
+        type: 'classResource', // Default type for unknown classes
         current: 0,
-        max: 0,
+        max: 5, // Default max value
         // Additional properties for complex resource types
         stacks: [], // For multi-stack systems like Chaos Weaver dice
         phase: null, // For phase-based systems like Lunarch
@@ -618,9 +618,55 @@ const useCharacterStore = create((set, get) => ({
                     level: state.level
                 });
 
+                // If no specific class resource config exists, provide a default
                 if (classResource) {
                     newState.classResource = classResource;
+                } else {
+                    // Default class resource for unknown classes
+                    newState.classResource = {
+                        type: 'classResource',
+                        current: 0,
+                        max: 5,
+                        stacks: [],
+                        phase: null,
+                        threshold: 0,
+                        slots: [],
+                        charges: 0,
+                        volatility: 0,
+                        strain: 0,
+                        risk: 0,
+                        flourish: 0,
+                        stance: null,
+                        wardTokens: 0,
+                        precision: 0,
+                        activeEffects: [],
+                        lastUpdate: Date.now()
+                    };
                 }
+            }
+
+            // If we have an active character and we're updating a field that should sync,
+            // also update the active character in the characters array
+            if (state.currentCharacterId) {
+                const updatedCharacters = state.characters.map(char => {
+                    if (char.id === state.currentCharacterId) {
+                        return {
+                            ...char,
+                            [field]: value,
+                            updatedAt: new Date().toISOString()
+                        };
+                    }
+                    return char;
+                });
+
+                // Save updated characters to localStorage
+                try {
+                    localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+                } catch (error) {
+                    console.error('Error saving characters to localStorage:', error);
+                }
+
+                newState.characters = updatedCharacters;
             }
 
             // If race is being changed, clear subrace and update display name
@@ -697,13 +743,11 @@ const useCharacterStore = create((set, get) => ({
 
     updateResource: (resource, current, max) => {
         set(state => {
-            const oldResource = state[resource];
+            const oldResource = state[resource] || { current: 0, max: 0 };
             const newResource = {
-                current: current !== undefined ? Math.min(max || state[resource].max, Math.max(0, current)) : state[resource].current,
-                max: max !== undefined ? Math.max(0, max) : state[resource].max
+                current: current !== undefined ? Math.min(max || oldResource.max, Math.max(0, current)) : oldResource.current,
+                max: max !== undefined ? Math.max(0, max) : oldResource.max
             };
-
-
 
             return {
                 [resource]: newResource
@@ -1113,6 +1157,67 @@ const useCharacterStore = create((set, get) => ({
         }
 
         return null;
+    },
+
+    // Set active character and persist the selection
+    setActiveCharacter: (characterId) => {
+        const state = get();
+        const character = state.characters.find(char => char.id === characterId);
+
+        if (character) {
+            // Load the character data
+            get().loadCharacter(characterId);
+
+            // Persist active character selection
+            localStorage.setItem('mythrill-active-character', characterId);
+
+            console.log(`✅ Active character set to: ${character.name} (${characterId})`);
+            return character;
+        } else {
+            console.error(`❌ Character not found: ${characterId}`);
+            return null;
+        }
+    },
+
+    // Get the currently active character
+    getActiveCharacter: () => {
+        const state = get();
+        if (state.currentCharacterId) {
+            return state.characters.find(char => char.id === state.currentCharacterId);
+        }
+        return null;
+    },
+
+    // Load active character from localStorage on app initialization
+    loadActiveCharacter: async () => {
+        try {
+            // First ensure characters are loaded
+            await get().loadCharacters();
+
+            // Then check for active character
+            const activeCharacterId = localStorage.getItem('mythrill-active-character');
+            if (activeCharacterId) {
+                const character = get().setActiveCharacter(activeCharacterId);
+                if (character) {
+                    console.log(`🔄 Restored active character: ${character.name}`);
+                    return character;
+                } else {
+                    // Character not found, clear the stored ID
+                    localStorage.removeItem('mythrill-active-character');
+                    console.warn('⚠️ Stored active character not found, cleared selection');
+                }
+            }
+        } catch (error) {
+            console.error('Error loading active character:', error);
+        }
+        return null;
+    },
+
+    // Clear active character selection
+    clearActiveCharacter: () => {
+        localStorage.removeItem('mythrill-active-character');
+        set({ currentCharacterId: null });
+        console.log('🗑️ Active character cleared');
     },
 
     saveCurrentCharacter: () => {

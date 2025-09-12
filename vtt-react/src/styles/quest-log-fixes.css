@@ -81,40 +81,7 @@
     opacity: 0.8;
 }
 
-/* Quest log header tabs */
-.quest-log-header {
-    display: flex;
-    background: linear-gradient(to bottom, #7a3b2e, #5e2e23);
-    border-bottom: 2px solid #8b7355;
-    padding: 0;
-}
-
-.quest-log-tab {
-    flex: 1;
-    padding: 12px 8px;
-    background: transparent;
-    border: none;
-    color: #f0e6d2;
-    font-family: 'Bookman Old Style', serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-right: 1px solid rgba(139, 115, 85, 0.3);
-}
-
-.quest-log-tab:last-child {
-    border-right: none;
-}
-
-.quest-log-tab:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.quest-log-tab.active {
-    background: rgba(240, 230, 210, 0.2);
-    color: #d4af37;
-    font-weight: bold;
-}
+/* Legacy quest log tab styles removed - now using unified spellbook-tab-container system */
 
 /* Ensure quest log maintains position */
 .wow-window .quest-log-container {

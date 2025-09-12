@@ -60,7 +60,7 @@ const SimplifiedSpellCard = ({ spell }) => {
           top: tooltipPosition.y,
           left: tooltipPosition.x,
           position: 'fixed',
-          zIndex: 99999,
+          zIndex: 2147483647, // Maximum z-index value to ensure tooltips always appear above windows
           maxWidth: '420px',
           maxHeight: '500px',
           overflow: 'auto'

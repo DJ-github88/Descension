@@ -37,7 +37,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
   // Get stores for state synchronization
   const { setGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
-  const { updateCharacterInfo, setRoomName, clearRoomName } = useCharacterStore();
+  const { updateCharacterInfo, setRoomName, clearRoomName, getActiveCharacter, loadActiveCharacter } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
   const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
@@ -534,6 +534,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for loot events from other players
     socket.on('item_looted', (data) => {
+      console.log(`🎁 Received item_looted event:`, data);
 
       // Add loot notification to the loot tab
       addNotification('loot', {
@@ -563,19 +564,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         (data.item && data.item.type === 'currency') // Our own currency loot (needs server confirmation)
       );
 
+      console.log(`🎁 Should remove item ${data.gridItemId}? ${shouldRemove}`);
+      console.log(`🎁 Conditions: gridItemId=${!!data.gridItemId}, itemRemoved=${data.itemRemoved}, isOtherPlayer=${data.playerId !== currentPlayer?.id}, isCurrency=${data.item && data.item.type === 'currency'}`);
+
       if (shouldRemove) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { removeItemFromGrid, gridItems } = useGridItemStore.getState();
 
           // Check if item still exists before trying to remove it
           const itemExists = gridItems.find(item => item.id === data.gridItemId);
+          console.log(`🎁 Item ${data.gridItemId} exists in grid: ${!!itemExists}`);
           if (itemExists) {
             console.log(`🎁 Removing looted item ${data.gridItemId} from grid (server confirmation)`);
             removeItemFromGrid(data.gridItemId);
+          } else {
+            console.log(`🎁 Item ${data.gridItemId} not found in grid, already removed`);
           }
         }).catch(error => {
           console.error('Failed to import gridItemStore for loot removal:', error);
         });
+      } else {
+        console.log(`🎁 Not removing item ${data.gridItemId} - conditions not met`);
       }
     });
 
@@ -608,6 +617,39 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Then add the token with the correct token ID
         addToken(tokenData.creatureId, tokenData.position, false, tokenData.id);
       });
+    });
+
+    // Listen for character updates from other players
+    socket.on('character_updated', (data) => {
+      // Only process updates from other players (not our own)
+      if (data.character?.playerId && data.character.playerId !== currentPlayer?.id) {
+        console.log(`📊 Received character update from ${data.character.name}`);
+
+        // Update party member with new character data
+        const updatedCharacterData = {
+          class: data.character.class || 'Unknown',
+          level: data.character.level || 1,
+          health: data.character.health || { current: 100, max: 100 },
+          mana: data.character.mana || { current: 50, max: 50 },
+          actionPoints: data.character.actionPoints || { current: 3, max: 3 }
+        };
+
+        // Update party member data
+        addPartyMember({
+          id: data.character.playerId,
+          name: data.character.name,
+          character: updatedCharacterData
+        });
+
+        // Update chat user data
+        addUser({
+          id: data.character.playerId,
+          name: data.character.name,
+          class: updatedCharacterData.class,
+          level: updatedCharacterData.level,
+          status: 'online'
+        });
+      }
     });
 
     // Listen for character equipment updates from other players
@@ -746,7 +788,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
-  const handleJoinRoom = (room, socketConnection, isGameMaster) => {
+  const handleJoinRoom = async (room, socketConnection, isGameMaster) => {
 
     let currentPlayerData;
 
@@ -770,12 +812,57 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       return; // Exit early if there's an error
     }
 
-    // Update character name to match multiplayer player name and set room name
-    if (currentPlayerData?.name) {
-      updateCharacterInfo('name', currentPlayerData.name);
-    }
+    // Load active character data when joining multiplayer room
+    try {
+      let activeCharacter = getActiveCharacter();
 
-    // Don't set room name for character formatting - players should see their character name without room suffix
+      // If no active character is loaded, try to load from storage
+      if (!activeCharacter) {
+        console.log('🔄 No active character found, attempting to load from storage...');
+        activeCharacter = await loadActiveCharacter();
+      }
+
+      if (activeCharacter) {
+        console.log(`🎮 Loading active character into multiplayer: ${activeCharacter.name}`);
+
+        // Set room name for multiplayer context (this will format the display name)
+        setRoomName(room.name);
+
+        // Send character data to server for synchronization
+        if (socketConnection && socketConnection.connected) {
+          socketConnection.emit('character_updated', {
+            characterId: activeCharacter.id,
+            character: {
+              name: activeCharacter.name,
+              class: activeCharacter.class,
+              race: activeCharacter.race,
+              subrace: activeCharacter.subrace,
+              level: activeCharacter.level,
+              stats: activeCharacter.stats,
+              health: activeCharacter.health,
+              mana: activeCharacter.mana,
+              actionPoints: activeCharacter.actionPoints,
+              equipment: activeCharacter.equipment,
+              inventory: activeCharacter.inventory,
+              playerId: currentPlayerData?.id
+            }
+          });
+          console.log('📤 Character data sent to server');
+        }
+      } else {
+        console.warn('⚠️ No active character found for multiplayer session');
+        // Fall back to updating character name to match player name
+        if (currentPlayerData?.name) {
+          updateCharacterInfo('name', currentPlayerData.name);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading active character for multiplayer:', error);
+      // Fall back to updating character name to match player name
+      if (currentPlayerData?.name) {
+        updateCharacterInfo('name', currentPlayerData.name);
+      }
+    }
 
     // Update game store GM mode
     setGMMode(isGameMaster);
@@ -802,27 +889,49 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const gmName = room.gm.name;
     createParty(room.name, gmName);
 
+    // Get active character data for current player
+    const activeCharacter = getActiveCharacter();
+
     // Add all players to party and chat
     allPlayers.forEach(player => {
-      if (player.id !== currentPlayerData?.id) {
+      // Determine if this is the current player and if we have their character data
+      const isCurrentPlayer = player.id === currentPlayerData?.id;
+      const characterData = isCurrentPlayer && activeCharacter ? {
+        class: activeCharacter.class || 'Unknown',
+        level: activeCharacter.level || 1,
+        health: activeCharacter.health || { current: 100, max: 100 },
+        mana: activeCharacter.mana || { current: 50, max: 50 },
+        actionPoints: activeCharacter.actionPoints || { current: 3, max: 3 }
+      } : {
+        class: 'Unknown',
+        level: 1,
+        health: { current: 100, max: 100 },
+        mana: { current: 50, max: 50 },
+        actionPoints: { current: 3, max: 3 }
+      };
+
+      if (!isCurrentPlayer) {
         addPartyMember({
           id: player.id,
           name: player.name,
-          character: {
-            class: 'Unknown',
-            level: 1,
-            health: { current: 100, max: 100 },
-            mana: { current: 50, max: 50 },
-            actionPoints: { current: 3, max: 3 }
-          }
+          character: characterData
         });
 
         // Add to chat system
         addUser({
           id: player.id,
           name: player.name,
-          class: 'Unknown',
-          level: 1,
+          class: characterData.class,
+          level: characterData.level,
+          status: 'online'
+        });
+      } else {
+        // Add current player to chat system with their character data
+        addUser({
+          id: player.id,
+          name: player.name,
+          class: characterData.class,
+          level: characterData.level,
           status: 'online'
         });
       }

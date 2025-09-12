@@ -2,6 +2,7 @@
 // Utility functions for processing loot items in creature loot tables
 
 import { getLootItemById } from '../data/lootItemsData';
+import useItemStore from '../store/itemStore';
 
 /**
  * Process a creature's loot table to replace itemId references with actual item data
@@ -27,9 +28,21 @@ export const processCreatureLoot = (creature) => {
 
       // If the item has an itemId, look up the item data
       if (item.itemId) {
+        // First try the main item store (the authoritative source)
+        const itemStore = useItemStore.getState();
+        const mainLibraryItem = itemStore.items.find(i => i.id === item.itemId);
+
+        if (mainLibraryItem) {
+          return {
+            ...mainLibraryItem,
+            id: mainLibraryItem.id,
+            dropChance: item.dropChance || 100,
+            quantity: item.quantity || { min: 1, max: 1 }
+          };
+        }
+
+        // Fallback to loot items data for backwards compatibility
         const lootItem = getLootItemById(item.itemId);
-        
-        // If the item is found, merge it with the loot table item
         if (lootItem) {
           return {
             ...lootItem,

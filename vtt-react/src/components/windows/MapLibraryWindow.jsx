@@ -44,6 +44,16 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const setBackgroundImage = useGameStore(state => state.setBackgroundImage);
     const setBackgroundImageUrl = useGameStore(state => state.setBackgroundImageUrl);
 
+    // Define tabs for consistent formatting
+    const tabs = [
+        {
+            id: 'current',
+            label: `Current Map: ${maps.find(m => m.id === currentMapId)?.name || 'None'}`
+        },
+        { id: 'library', label: 'Map Library' },
+        { id: 'create', label: '+ Create New Map' }
+    ];
+
     // Handle map switching request (shows confirmation dialog)
     const handleMapSwitchRequest = (mapId) => {
         if (mapId === currentMapId) return;
@@ -426,25 +436,22 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 defaultSize={{ width: 900, height: 700 }}
                 defaultPosition={{ x: 100, y: 100 }}
                 customHeader={
-                    <div className="spellbook-tab-headers">
-                        <button
-                            className={`spellbook-tab ${activeTab === 'current' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('current')}
-                        >
-                            <span>Current Map: {maps.find(m => m.id === currentMapId)?.name || 'None'}</span>
-                        </button>
-                        <button
-                            className={`spellbook-tab ${activeTab === 'library' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('library')}
-                        >
-                            <span>Map Library</span>
-                        </button>
-                        <button
-                            className="spellbook-tab create-map-tab"
-                            onClick={openMapCreationWizard}
-                        >
-                            <span>+ Create New Map</span>
-                        </button>
+                    <div className="spellbook-tab-container">
+                        {tabs.map(tab => (
+                            <button
+                                key={tab.id}
+                                className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+                                onClick={() => {
+                                    if (tab.id === 'create') {
+                                        openMapCreationWizard();
+                                    } else {
+                                        setActiveTab(tab.id);
+                                    }
+                                }}
+                            >
+                                <span>{tab.label}</span>
+                            </button>
+                        ))}
                     </div>
                 }
             >

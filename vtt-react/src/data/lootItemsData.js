@@ -216,6 +216,10 @@ export const LOOT_ITEMS = [
     iconId: 'inv_axe_09',
     description: 'A massive, crude axe wielded by an orc warlord. Despite its rough appearance, it is surprisingly well-balanced.',
     value: { gold: 4, silver: 25 },
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
+    width: 2,
+    height: 4,
     weaponStats: {
       baseDamage: {
         diceCount: 1,
@@ -237,6 +241,9 @@ export const LOOT_ITEMS = [
     iconId: 'inv_jewelry_necklace_19',
     description: 'A necklace made from the teeth and small bones of defeated enemies.',
     value: { gold: 1, silver: 50 },
+    slots: ['neck'],
+    width: 1,
+    height: 1,
     baseStats: {
       strength: 1,
       charisma: -1

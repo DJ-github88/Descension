@@ -1144,7 +1144,7 @@ const ContainerWindow = ({ container, onClose }) => {
                             top: showItemTooltip.y,
                             transform: 'translate(10px, -50%)',
                             pointerEvents: 'none',
-                            zIndex: 999999999
+                            zIndex: 2147483647 // Maximum z-index value to ensure tooltips always appear above windows
                         }}
                     >
                         {(() => {

@@ -2245,6 +2245,370 @@ const COMPREHENSIVE_ITEMS = [
     width: 1,
     height: 1
   },
+
+  // === CREATURE LOOT ITEMS ===
+  // Items that are dropped by creatures - moved from lootItemsData.js to main item store
+
+  {
+    id: 'orcish-greataxe',
+    name: 'Orcish Greataxe',
+    type: 'weapon',
+    subtype: 'AXE',
+    quality: 'uncommon',
+    description: 'A massive, crude axe wielded by an orc warlord. Despite its rough appearance, it is surprisingly well-balanced.',
+    iconId: 'inv_axe_09',
+    value: { gold: 4, silver: 25, copper: 0 },
+    weight: 8,
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
+    width: 2,
+    height: 4,
+    weaponStats: {
+      baseDamage: {
+        diceCount: 1,
+        diceType: 12,
+        damageType: 'slashing',
+        bonusDamage: 3
+      }
+    },
+    baseStats: {
+      strength: { value: 2, isPercentage: false }
+    }
+  },
+  {
+    id: 'warlord-trophy-necklace',
+    name: 'Warlord Trophy Necklace',
+    type: 'accessory',
+    subtype: 'NECKLACE',
+    quality: 'uncommon',
+    description: 'A necklace made from the teeth and small bones of defeated enemies.',
+    iconId: 'inv_jewelry_necklace_19',
+    value: { gold: 1, silver: 50, copper: 0 },
+    weight: 0.2,
+    slots: ['neck'],
+    width: 1,
+    height: 1,
+    baseStats: {
+      strength: { value: 1, isPercentage: false },
+      charisma: { value: -1, isPercentage: false }
+    }
+  },
+
+  // === GOBLIN LOOT ITEMS ===
+  {
+    id: 'rusty-dagger',
+    name: 'Rusty Dagger',
+    type: 'weapon',
+    subtype: 'DAGGER',
+    quality: 'poor',
+    description: 'A crude, rusty dagger used by goblins. The blade is dull and pitted.',
+    iconId: 'inv_weapon_shortblade_01',
+    value: { gold: 0, silver: 2, copper: 50 },
+    weight: 1,
+    slots: ['mainHand', 'offHand'],
+    weaponSlot: 'ONE_HANDED',
+    width: 1,
+    height: 2,
+    weaponStats: {
+      baseDamage: {
+        diceCount: 1,
+        diceType: 4,
+        damageType: 'piercing',
+        bonusDamage: 0
+      }
+    }
+  },
+  {
+    id: 'goblin-ear',
+    name: 'Goblin Ear',
+    type: 'miscellaneous',
+    subtype: 'JUNK',
+    quality: 'common',
+    description: 'A severed goblin ear. Some bounty collectors pay for these as proof of kills.',
+    iconId: 'inv_misc_ear_human_01',
+    value: { gold: 0, silver: 1, copper: 0 },
+    weight: 0.1,
+    stackable: true,
+    maxStackSize: 10,
+    width: 1,
+    height: 1
+  },
+
+  // === WOLF LOOT ITEMS ===
+  {
+    id: 'wolf-pelt',
+    name: 'Wolf Pelt',
+    type: 'miscellaneous',
+    subtype: 'TRADE_GOODS',
+    quality: 'common',
+    description: 'A thick wolf pelt that could be used for crafting warm clothing or armor.',
+    iconId: 'inv_misc_pelt_wolf_01',
+    value: { gold: 0, silver: 15, copper: 0 },
+    weight: 2,
+    stackable: true,
+    maxStackSize: 5,
+    width: 2,
+    height: 2
+  },
+  {
+    id: 'wolf-fang',
+    name: 'Wolf Fang',
+    type: 'miscellaneous',
+    subtype: 'CRAFTING',
+    quality: 'common',
+    description: 'A sharp wolf fang that could be used in crafting or as a trophy.',
+    iconId: 'inv_misc_bone_01',
+    value: { gold: 0, silver: 3, copper: 0 },
+    weight: 0.1,
+    stackable: true,
+    maxStackSize: 10,
+    width: 1,
+    height: 1
+  },
+
+  // === FIRE ELEMENTAL LOOT ITEMS ===
+  {
+    id: 'essence-of-fire',
+    name: 'Essence of Fire',
+    type: 'miscellaneous',
+    subtype: 'REAGENT',
+    quality: 'uncommon',
+    description: 'A swirling essence of pure fire magic, warm to the touch and glowing with inner flame.',
+    iconId: 'spell_fire_flamebolt',
+    value: { gold: 0, silver: 8, copper: 0 },
+    weight: 0.1,
+    stackable: true,
+    maxStackSize: 10,
+    width: 1,
+    height: 1,
+    magicType: 'fire',
+    requiredFor: 'Fire magic and enchantments'
+  },
+  {
+    id: 'fire-crystal',
+    name: 'Fire Crystal',
+    type: 'miscellaneous',
+    subtype: 'REAGENT',
+    quality: 'rare',
+    description: 'A crystallized fragment of elemental fire, radiating intense heat and magical energy.',
+    iconId: 'inv_misc_gem_flame_01',
+    value: { gold: 2, silver: 0, copper: 0 },
+    weight: 0.5,
+    stackable: true,
+    maxStackSize: 5,
+    width: 1,
+    height: 1,
+    magicType: 'fire',
+    requiredFor: 'Advanced fire magic and weapon enchantments'
+  },
+
+  // === TREANT LOOT ITEMS ===
+  {
+    id: 'ancient-heartwood',
+    name: 'Ancient Heartwood',
+    type: 'miscellaneous',
+    subtype: 'CRAFTING',
+    quality: 'rare',
+    description: 'Wood from the heart of an ancient treant, prized by craftsmen for its durability and magical properties.',
+    iconId: 'inv_misc_herb_01',
+    value: { gold: 1, silver: 0, copper: 0 },
+    weight: 1,
+    stackable: true,
+    maxStackSize: 5,
+    width: 1,
+    height: 2,
+    gatheringMethod: 'harvesting'
+  },
+  {
+    id: 'thornroot-seed',
+    name: 'Thornroot Seed',
+    type: 'miscellaneous',
+    subtype: 'QUEST',
+    quality: 'epic',
+    description: 'A seed from an ancient treant that pulses with natural energy. Could grow into a new treant if planted in the right conditions.',
+    iconId: 'inv_misc_food_wheat_01',
+    value: { gold: 5, silver: 0, copper: 0 },
+    weight: 0.1,
+    width: 1,
+    height: 1,
+    questGiver: 'Druid Circle',
+    questObjectives: 'Plant this seed in sacred ground to restore the forest.',
+    requiredLevel: 10
+  },
+
+  // === MERCHANT LOOT ITEMS ===
+  {
+    id: 'smithing-hammer',
+    name: 'Smithing Hammer',
+    type: 'miscellaneous',
+    subtype: 'TOOL',
+    quality: 'common',
+    description: 'A well-used smithing hammer with a worn wooden handle. Essential for metalworking.',
+    iconId: 'inv_hammer_01',
+    value: { gold: 2, silver: 0, copper: 0 },
+    weight: 3,
+    width: 1,
+    height: 2
+  },
+  {
+    id: 'merchant-ledger',
+    name: 'Merchant Ledger',
+    type: 'miscellaneous',
+    subtype: 'QUEST',
+    quality: 'common',
+    description: 'A leather-bound ledger containing detailed records of merchant transactions and trade routes.',
+    iconId: 'inv_misc_book_02',
+    value: { gold: 0, silver: 50, copper: 0 },
+    weight: 1,
+    width: 1,
+    height: 1,
+    questGiver: 'Merchant Guild',
+    questObjectives: 'Return this ledger to the Merchant Guild for a reward.',
+    requiredLevel: 1
+  },
+  {
+    id: 'gold-ring',
+    name: 'Gold Ring',
+    type: 'miscellaneous',
+    subtype: 'TRADE_GOODS',
+    quality: 'uncommon',
+    description: 'A simple but elegant gold ring. Could be valuable to the right buyer.',
+    iconId: 'inv_jewelry_ring_01',
+    value: { gold: 3, silver: 0, copper: 0 },
+    weight: 0.1,
+    stackable: true,
+    maxStackSize: 5,
+    width: 1,
+    height: 1
+  },
+
+  // === BANDIT LOOT ITEMS ===
+  {
+    id: 'stolen-purse',
+    name: 'Stolen Purse',
+    type: 'miscellaneous',
+    subtype: 'QUEST',
+    quality: 'common',
+    description: 'A leather purse that appears to have been stolen. Someone might be looking for this.',
+    iconId: 'inv_misc_bag_10',
+    value: { gold: 0, silver: 25, copper: 0 },
+    weight: 0.5,
+    width: 1,
+    height: 1,
+    questGiver: 'Town Guard',
+    questObjectives: 'Return this stolen purse to the authorities.',
+    requiredLevel: 1
+  },
+  {
+    id: 'bandit-mask',
+    name: 'Bandit Mask',
+    type: 'miscellaneous',
+    subtype: 'JUNK',
+    quality: 'poor',
+    description: 'A crude cloth mask used to conceal identity. Smells of sweat and desperation.',
+    iconId: 'inv_mask_01',
+    value: { gold: 0, silver: 0, copper: 50 },
+    weight: 0.1,
+    stackable: true,
+    maxStackSize: 10,
+    width: 1,
+    height: 1
+  },
+
+  // === DWARVEN LOOT ITEMS ===
+  {
+    id: 'dwarven-hammer',
+    name: 'Dwarven War Hammer',
+    type: 'weapon',
+    subtype: 'HAMMER',
+    quality: 'uncommon',
+    description: 'A finely crafted dwarven war hammer with runes etched into the head.',
+    iconId: 'inv_hammer_16',
+    value: { gold: 3, silver: 50, copper: 0 },
+    weight: 4,
+    slots: ['mainHand'],
+    weaponSlot: 'ONE_HANDED',
+    width: 1,
+    height: 3,
+    weaponStats: {
+      baseDamage: {
+        diceCount: 1,
+        diceType: 8,
+        damageType: 'bludgeoning',
+        bonusDamage: 2
+      }
+    },
+    baseStats: {
+      strength: { value: 1, isPercentage: false }
+    }
+  },
+  {
+    id: 'dwarven-ale',
+    name: 'Dwarven Ale',
+    type: 'consumable',
+    subtype: 'DRINK',
+    quality: 'uncommon',
+    description: 'A potent brew that grants temporary courage and strength.',
+    iconId: 'inv_drink_08',
+    value: { gold: 0, silver: 25, copper: 0 },
+    weight: 1,
+    stackable: true,
+    maxStackSize: 5,
+    width: 1,
+    height: 1,
+    combatStats: {
+      courage: { value: 2, isPercentage: false, duration: 1800 }
+    },
+    baseStats: {
+      strength: { value: 1, isPercentage: false, duration: 1800 }
+    }
+  },
+
+  // === ARCHMAGE LOOT ITEMS ===
+  {
+    id: 'staff-of-the-archmage',
+    name: 'Staff of the Archmage',
+    type: 'weapon',
+    subtype: 'STAFF',
+    quality: 'epic',
+    description: 'An ancient staff crackling with arcane energy, passed down through generations of elven archmages.',
+    iconId: 'inv_staff_13',
+    value: { gold: 10, silver: 0, copper: 0 },
+    weight: 2,
+    slots: ['mainHand'],
+    weaponSlot: 'TWO_HANDED',
+    width: 1,
+    height: 4,
+    weaponStats: {
+      baseDamage: {
+        diceCount: 1,
+        diceType: 6,
+        damageType: 'arcane',
+        bonusDamage: 0
+      }
+    },
+    baseStats: {
+      intelligence: { value: 3, isPercentage: false },
+      spirit: { value: 2, isPercentage: false }
+    }
+  },
+  {
+    id: 'archmages-spellbook',
+    name: "Archmage's Spellbook",
+    type: 'miscellaneous',
+    subtype: 'QUEST',
+    quality: 'rare',
+    description: 'A leather-bound spellbook containing powerful arcane knowledge. The pages shimmer with magical energy.',
+    iconId: 'inv_misc_book_09',
+    value: { gold: 5, silver: 0, copper: 0 },
+    weight: 2,
+    width: 1,
+    height: 1,
+    questGiver: 'Mage Guild',
+    questObjectives: 'Return this spellbook to the Mage Guild for study.',
+    requiredLevel: 5
+  },
+
   {
     id: 'amulet-of-the-void',
     name: 'Amulet of the Void',

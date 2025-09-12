@@ -67,6 +67,13 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Define tabs for consistent formatting
+  const tabs = [
+    { id: 'wizard', label: 'Spell Wizard' },
+    { id: 'library', label: 'Spell Library' },
+    { id: 'collections', label: 'Community' }
+  ];
+
   const renderContent = () => {
     if (!isLoaded) {
       return (
@@ -140,25 +147,16 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
       centered={false} // Handle centering manually
       onDrag={handleWindowDrag}
       customHeader={
-        <div className="spellbook-tab-headers">
-          <button
-            className={`spellbook-tab ${activeTab === 'wizard' ? 'active' : ''}`}
-            onClick={() => setActiveTab('wizard')}
-          >
-            <span>Spell Wizard</span>
-          </button>
-          <button
-            className={`spellbook-tab ${activeTab === 'library' ? 'active' : ''}`}
-            onClick={() => setActiveTab('library')}
-          >
-            <span>Spell Library</span>
-          </button>
-          <button
-            className={`spellbook-tab ${activeTab === 'collections' ? 'active' : ''}`}
-            onClick={() => setActiveTab('collections')}
-          >
-            <span>Community</span>
-          </button>
+        <div className="spellbook-tab-container">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              <span>{tab.label}</span>
+            </button>
+          ))}
         </div>
       }
     >

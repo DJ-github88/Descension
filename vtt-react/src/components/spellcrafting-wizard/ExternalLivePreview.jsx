@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellWizardState } from './context/spellWizardContext';
 import { useSpellLibrary } from './context/SpellLibraryContext';
+import { useClassSpellLibrary } from '../../hooks/useClassSpellLibrary';
 import UnifiedSpellCard from './components/common/UnifiedSpellCard';
 import SpellCardWithProcs from './components/common/SpellCardWithProcs';
 import useSpellbookStore from '../../store/spellbookStore';
@@ -11,13 +12,69 @@ import useGameStore from '../../store/gameStore';
 const ExternalLivePreview = () => {
   const state = useSpellWizardState();
   const library = useSpellLibrary();
+  const { addCustomSpell } = useClassSpellLibrary();
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
   const windowScale = useGameStore(state => state.windowScale);
+
+  // State for completion feedback
+  const [isCompleting, setIsCompleting] = useState(false);
+  const [completionMessage, setCompletionMessage] = useState('');
 
   // Only show when the wizard tab is active
   if (activeTab !== 'wizard') {
     return null;
   }
+
+  // Handle spell completion
+  const handleCompleteSpell = async () => {
+    if (!state.name || state.name.trim() === '') {
+      setCompletionMessage('Please enter a spell name before completing.');
+      setTimeout(() => setCompletionMessage(''), 3000);
+      return;
+    }
+
+    setIsCompleting(true);
+    setCompletionMessage('');
+
+    try {
+      // Create spell data from wizard state
+      const spellData = {
+        ...state,
+        id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        source: 'wizard',
+        isCustom: true,
+        dateCreated: new Date().toISOString(),
+        lastModified: new Date().toISOString(),
+        // Ensure we have all necessary properties
+        icon: state.icon || 'inv_misc_questionmark',
+        effectType: state.effectTypes && state.effectTypes.length > 0 ? state.effectTypes[0] : 'utility',
+        effectTypes: state.effectTypes || [],
+        damageTypes: state.damageTypes || [],
+        tags: [
+          ...(state.typeConfig?.tags || []),
+          ...(state.effectTypes || []),
+          ...(state.tags || []),
+          'custom'
+        ].filter(Boolean)
+      };
+
+      // Add to custom spells
+      addCustomSpell(spellData);
+
+      // Show success message
+      setCompletionMessage('✓ Spell completed and added to Custom Spells!');
+
+      // Clear the message after 3 seconds
+      setTimeout(() => setCompletionMessage(''), 3000);
+
+    } catch (error) {
+      console.error('Error completing spell:', error);
+      setCompletionMessage('✗ Failed to complete spell. Please try again.');
+      setTimeout(() => setCompletionMessage(''), 3000);
+    } finally {
+      setIsCompleting(false);
+    }
+  };
 
   // Calculate position with fallback values and live updates - REACTIVE
   const spellbookWidth = (windowSize?.width || 1000) * windowScale;
@@ -404,6 +461,71 @@ const ExternalLivePreview = () => {
           outline: 'none !important'
         }}
       />
+
+      {/* Completion Button */}
+      <div style={{
+        marginTop: '12px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px'
+      }}>
+        <button
+          onClick={handleCompleteSpell}
+          disabled={isCompleting}
+          style={{
+            background: isCompleting
+              ? 'linear-gradient(135deg, #666 0%, #888 50%, #666 100%)'
+              : 'linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #2E8B57 100%)',
+            border: '2px solid #228B22',
+            borderRadius: '6px',
+            padding: '10px 16px',
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: '600',
+            fontFamily: 'Cinzel, serif',
+            cursor: isCompleting ? 'not-allowed' : 'pointer',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+            boxShadow: '0 3px 6px rgba(0,0,0,0.3)',
+            transition: 'all 0.2s ease',
+            width: '100%'
+          }}
+          onMouseOver={(e) => {
+            if (!isCompleting) {
+              e.target.style.transform = 'translateY(-1px)';
+              e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.4)';
+            }
+          }}
+          onMouseOut={(e) => {
+            if (!isCompleting) {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 3px 6px rgba(0,0,0,0.3)';
+            }
+          }}
+        >
+          {isCompleting ? 'Completing Spell...' : '✓ Complete Spell'}
+        </button>
+
+        {/* Completion Message */}
+        {completionMessage && (
+          <div style={{
+            padding: '8px 12px',
+            borderRadius: '4px',
+            fontSize: '12px',
+            fontFamily: 'Cinzel, serif',
+            textAlign: 'center',
+            background: completionMessage.includes('✓')
+              ? 'rgba(46, 139, 87, 0.9)'
+              : 'rgba(220, 20, 60, 0.9)',
+            color: 'white',
+            border: completionMessage.includes('✓')
+              ? '1px solid #2E8B57'
+              : '1px solid #DC143C',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.7)'
+          }}>
+            {completionMessage}
+          </div>
+        )}
+      </div>
     </div>,
     document.body
   );

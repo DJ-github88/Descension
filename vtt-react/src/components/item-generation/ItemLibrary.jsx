@@ -13,6 +13,7 @@ import CategoryContextMenu from './CategoryContextMenu';
 import CategorizeModal from './CategorizeModal';
 import QuickItemGeneratorModal from './QuickItemGeneratorModal';
 import ContainerWizard from './ContainerWizard';
+import CommunityItemsTab from './CommunityItemsTab';
 import ContainerWindow from './ContainerWindow';
 import ItemGeneration from './ItemGeneration';
 import RecipeWizard from '../crafting/RecipeWizard';
@@ -602,7 +603,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const renderContent = () => (
         <div
             ref={containerRef}
-            className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : 'library-mode'}`}
+            className={`item-library-container ${activeTab === 'designer' ? 'designer-mode' : activeTab === 'community' ? 'community-mode' : 'library-mode'}`}
         >
             <div className="item-library-content">
                 {/* Tab Content */}
@@ -915,11 +916,15 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                             </div>
                         </div>
                     </div>
-                ) : (
+                ) : activeTab === 'designer' ? (
                     <div className="item-designer-container">
                         <ItemGeneration onContainerCreate={handleContainerCreate} />
                     </div>
-                )}
+                ) : activeTab === 'community' ? (
+                    <div className="community-items-container">
+                        <CommunityItemsTab />
+                    </div>
+                ) : null}
             </div>
         </div>
     );
@@ -938,6 +943,11 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             id: 'designer',
             label: 'Designer',
             icon: '/icons/hammer.png'
+        },
+        {
+            id: 'community',
+            label: 'Community',
+            icon: '/icons/globe.png'
         }
     ];
 
@@ -946,15 +956,15 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             isOpen={true}
             onClose={onClose}
             defaultPosition={position}
-            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : { width: 1000, height: 700 }}
+            defaultSize={activeTab === 'designer' ? { width: 1200, height: 800 } : activeTab === 'community' ? { width: 1100, height: 750 } : { width: 1000, height: 700 }}
             title="Item Library"
             zIndex={1000}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
-                            className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
+                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
                             <span>{tab.label}</span>

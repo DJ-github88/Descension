@@ -129,6 +129,33 @@ const UnifiedSpellCard = ({
     return cleanedFormula;
   };
 
+  // Enhanced formula display with damage type integration and better formatting
+  const enhanceFormulaDisplay = (formula, elementType) => {
+    if (!formula) return '';
+
+    const cleanedFormula = cleanFormula(formula);
+
+    // Add damage type context for better readability
+    if (elementType && elementType !== 'force') {
+      const elementName = elementType.charAt(0).toUpperCase() + elementType.slice(1);
+      return `${cleanedFormula} ${elementName} damage`;
+    }
+
+    // For basic formulas, add more descriptive text
+    if (cleanedFormula.match(/^\d+d\d+(\s*\+\s*\d+)?$/)) {
+      return `${cleanedFormula} damage`;
+    }
+
+    // For formulas with stats, make them more readable
+    if (cleanedFormula.includes('intelligence') || cleanedFormula.includes('strength') ||
+        cleanedFormula.includes('agility') || cleanedFormula.includes('constitution') ||
+        cleanedFormula.includes('spirit') || cleanedFormula.includes('charisma')) {
+      return `${cleanedFormula} damage`;
+    }
+
+    return cleanedFormula;
+  };
+
   // Debug logging for resolution method changes (commented out to avoid browser issues)
   // if (spell?.name && spell?.resolution) {
   //   console.log('UnifiedSpellCard - Resolution Method:', {
@@ -1238,6 +1265,24 @@ const UnifiedSpellCard = ({
             color: getResourceColor(type),
             isFormula: useFormula
           });
+        }
+      });
+    }
+
+    // Check for class spell resource costs (simple format: { mana: 25, health: 0, stamina: 0, focus: 0 })
+    if (spell.resourceCost && spell.source === 'class') {
+      Object.entries(spell.resourceCost).forEach(([type, amount]) => {
+        if (amount > 0 && type !== 'components' && type !== 'materialComponents' && type !== 'verbalText' && type !== 'somaticText' && type !== 'resourceValues' && type !== 'resourceTypes' && type !== 'resourceFormulas' && type !== 'useFormulas' && type !== 'actionPointsSelected' && type !== 'primaryResourceType' && type !== 'classResourceCost') {
+          // Don't add if already added from resourceValues
+          if (!resources.some(r => r.type === type.toLowerCase().replace(/\s+/g, '-'))) {
+            resources.push({
+              type: type.toLowerCase().replace(/\s+/g, '-'),
+              amount: amount,
+              name: formatResourceName(type),
+              icon: getResourceIcon(type),
+              color: getResourceColor(type)
+            });
+          }
         }
       });
     }
@@ -2383,21 +2428,6 @@ const UnifiedSpellCard = ({
   const formatDamage = () => {
     if (!spell || !spell.damageConfig) return null;
 
-    // Debug logging for external preview (commented out to avoid browser issues)
-    // if (variant === 'wizard') {
-    //   console.log('UnifiedSpellCard formatDamage:', {
-    //     spellName: spell.name,
-    //     resolution: spell.resolution,
-    //     cardConfig: spell.cardConfig,
-    //     coinConfig: spell.coinConfig,
-    //     damageConfig: spell.damageConfig,
-    //     effectTypes: spell.effectTypes,
-    //     tags: spell.tags
-    //   });
-    // }
-
-
-
     let damageText = '';
     let dotText = '';
 
@@ -2425,8 +2455,10 @@ const UnifiedSpellCard = ({
           damageText = `Flip ${flipCount} coins: ${cleanedFormula}`;
       } else if (spell.resolution === 'DICE' && (spell.diceConfig?.formula || spell.damageConfig?.formula)) {
           const formula = spell.diceConfig?.formula || spell.damageConfig?.formula || '1d6 + intelligence';
-          // Just clean up spacing and formatting, don't convert to readable text
-          damageText = cleanFormula(formula);
+
+          // Enhanced formula formatting for better readability
+          const enhancedFormula = enhanceFormulaDisplay(formula, spell.damageConfig?.elementType);
+          damageText = enhancedFormula;
       } else if (spell.damageConfig?.formula) {
           // Just clean up spacing and formatting, don't convert to readable text
           damageText = cleanFormula(spell.damageConfig.formula);
@@ -2940,6 +2972,21 @@ const UnifiedSpellCard = ({
 
     const { buffConfig } = spell;
     const effects = [];
+
+    // Handle class spell format with statBonuses
+    if (buffConfig.statBonuses && buffConfig.statBonuses.length > 0) {
+      buffConfig.statBonuses.forEach(bonus => {
+        const statName = bonus.stat.charAt(0).toUpperCase() + bonus.stat.slice(1);
+        const sign = bonus.amount >= 0 ? '+' : '';
+        const typeText = bonus.type === 'percentage' ? '%' : '';
+        effects.push({
+          name: `${statName} Enhancement`,
+          description: `${sign}${bonus.amount}${typeText} ${statName}`,
+          mechanicsText: `Increases ${statName} by ${bonus.amount}${typeText}`,
+          class: 'stat-bonus'
+        });
+      });
+    }
 
     // Format stat modifiers with special handling for resistance and absorption
     if (buffConfig.statModifiers && buffConfig.statModifiers.length > 0) {

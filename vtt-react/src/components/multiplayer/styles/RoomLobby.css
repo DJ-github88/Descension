@@ -829,3 +829,38 @@
     font-size: 1rem;
   }
 }
+
+/* Character Name Refresh Button */
+.refresh-character-btn {
+  background: #17a2b8;
+  border: 1px solid #138496;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+}
+
+.refresh-character-btn:hover {
+  background: #138496;
+  border-color: #117a8b;
+  transform: scale(1.05);
+}
+
+.refresh-character-btn:disabled {
+  background: #6c757d;
+  border-color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.refresh-character-btn i {
+  font-size: 0.7rem;
+}

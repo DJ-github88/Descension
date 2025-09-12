@@ -106,8 +106,7 @@ export default function InventoryWindow() {
         addItemFromLibrary,
         removeItem,
         splitStack,
-        rotateItem,
-        clearInventory
+        rotateItem
     } = useInventoryStore(state => ({
         currency: state.currency,
         items: state.items,
@@ -117,8 +116,7 @@ export default function InventoryWindow() {
         addItemFromLibrary: state.addItemFromLibrary,
         removeItem: state.removeItem,
         splitStack: state.splitStack,
-        rotateItem: state.rotateItem,
-        clearInventory: state.clearInventory
+        rotateItem: state.rotateItem
     }));
 
     const { items: itemStoreItems } = useItemStore(state => ({
@@ -161,7 +159,7 @@ export default function InventoryWindow() {
     const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [containerToUnlock, setContainerToUnlock] = useState(null);
     const [showCurrencyWithdrawModal, setShowCurrencyWithdrawModal] = useState(false);
-    const [showClearConfirmModal, setShowClearConfirmModal] = useState(false);
+
 
     // Refs
     const contextMenuRef = useRef(null);
@@ -736,23 +734,6 @@ export default function InventoryWindow() {
         });
     };
 
-    // Handle clear inventory with confirmation
-    const handleClearInventory = () => {
-        setShowClearConfirmModal(true);
-    };
-
-    const confirmClearInventory = () => {
-        clearInventory();
-        setShowClearConfirmModal(false);
-        console.log('✅ Inventory cleared successfully');
-    };
-
-    const cancelClearInventory = () => {
-        setShowClearConfirmModal(false);
-    };
-
-
-
     // Helper functions for inventory management
     const isValidPosition = (items, row, col, width, height, rotation, itemId = null) => {
         // Calculate effective dimensions based on rotation
@@ -1249,16 +1230,6 @@ export default function InventoryWindow() {
                         </div>
                     </div>
 
-                    <div className="inventory-actions">
-                        <button
-                            className="clear-inventory-btn"
-                            onClick={handleClearInventory}
-                            title="Clear all items from inventory (irreversible)"
-                        >
-                            🗑️ Clear Inventory
-                        </button>
-                    </div>
-
                     <div className={`encumbrance-text ${encumbranceState}`}>
                         {encumbranceState.charAt(0).toUpperCase() + encumbranceState.slice(1)}
                         {encumbranceState !== 'normal' && (
@@ -1659,73 +1630,7 @@ export default function InventoryWindow() {
                 />
             )}
 
-            {/* Clear Inventory Confirmation Modal */}
-            {showClearConfirmModal && ReactDOM.createPortal(
-                <div className="modal-overlay" style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 100000
-                }}>
-                    <div className="clear-confirm-modal" style={{
-                        backgroundColor: '#f0e6d2',
-                        border: '3px solid #8b7355',
-                        borderRadius: '8px',
-                        padding: '20px',
-                        maxWidth: '400px',
-                        textAlign: 'center',
-                        fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                        color: '#3a2f1a',
-                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
-                    }}>
-                        <h3 style={{ margin: '0 0 15px 0', color: '#8b0000' }}>⚠️ Clear Inventory</h3>
-                        <p style={{ margin: '0 0 20px 0', lineHeight: '1.4' }}>
-                            Are you sure you want to clear ALL items from your inventory?
-                            <br />
-                            <strong style={{ color: '#8b0000' }}>This action is IRREVERSIBLE!</strong>
-                            <br />
-                            All items will be permanently lost.
-                        </p>
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                            <button
-                                onClick={cancelClearInventory}
-                                style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#4a5d23',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
-                                }}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={confirmClearInventory}
-                                style={{
-                                    padding: '8px 16px',
-                                    backgroundColor: '#8b0000',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontFamily: 'inherit'
-                                }}
-                            >
-                                🗑️ Clear All Items
-                            </button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
+
         </div>
     );
 }

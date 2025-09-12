@@ -21,6 +21,10 @@
     /* Size handled by WowWindow */
 }
 
+.item-library-container.community-mode {
+    /* Size handled by WowWindow */
+}
+
 /* Header is now handled by WowWindow - this is for tab styling only */
 .item-library-header {
     display: none; /* Hide the old header since WowWindow provides it */
@@ -82,66 +86,7 @@
     margin: 0;
 }
 
-/* Beautiful character sheet style tabs for ALL windows */
-.spellbook-tab-headers {
-  display: flex;
-  /* Remove background and borders - let the red header show through */
-  padding: 4px 8px;
-  gap: 6px;
-  flex-shrink: 0;
-  align-items: center;
-  height: 100%; /* Fit within header height */
-  max-height: 50px; /* Prevent overflow */
-  width: 100%; /* Stretch across full width */
-  padding-right: 40px; /* Make room for close button */
-
-  /* Character sheet font styling */
-  font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-  color: #f0e6d2; /* Light text for red header */
-}
-
-.spellbook-tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  background: rgba(0, 0, 0, 0.2); /* Subtle dark background for red header */
-  border: 1px solid rgba(240, 230, 210, 0.3);
-  border-radius: 4px;
-  color: #f0e6d2; /* Light text for red header */
-  font-family: 'Cinzel', serif;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: left;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  flex: 1;
-  height: 32px; /* Fixed height for consistency */
-}
-
-.spellbook-tab:hover:not(.active) {
-  background: rgba(240, 230, 210, 0.2); /* Much lighter hover */
-  border-color: rgba(240, 230, 210, 0.6);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.spellbook-tab.active {
-  background: rgba(240, 230, 210, 0.9); /* Light background when active */
-  border-color: #f0e6d2;
-  color: #5a1e12; /* Dark text when active */
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-/* Tab icons removed for cleaner look */
-
-.spellbook-tab span {
-  flex: 1;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-}
+/* Tab styling now handled by wow-window.css - removed conflicting styles */
 
 /* Item Library Main Container - No sidebar, full width */
 .item-library-main-container {
@@ -248,6 +193,16 @@
     min-height: 0;
     height: 100%;
     background-color: #f0e6d2; /* Parchment background */
+}
+
+/* Community Items Container */
+.community-items-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: transparent;
 }
 
 
@@ -1299,31 +1254,41 @@
 .item-designer-container {
     display: flex;
     flex-direction: column;
-    padding: 16px;
+    padding: 20px;
     background: linear-gradient(to bottom, #f0e6d2, #e6dcc8);
-    align-items: flex-start;
+    align-items: center;
+    justify-content: flex-start;
     height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
     flex: 1;
+    min-height: 500px;
+    box-sizing: border-box;
 }
 
 /* Ensure ItemGeneration component styles work properly within the designer */
 .item-designer-container .item-generation {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .item-designer-container .controls {
     display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding: 8px;
-    background: rgba(213, 203, 176, 0.3);
-    border-radius: 4px;
-    border: 1px solid #a08c70;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: rgba(213, 203, 176, 0.4);
+    border-radius: 8px;
+    border: 2px solid #a08c70;
     flex-shrink: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Override tool-button styles specifically for the item designer */

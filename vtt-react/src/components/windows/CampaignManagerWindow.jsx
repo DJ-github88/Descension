@@ -524,14 +524,13 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             defaultSize={{ width: 1000, height: 700 }}
             defaultPosition={{ x: 100, y: 100 }}
             customHeader={
-                <div className="spellbook-tab-headers">
+                <div className="spellbook-tab-container">
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
-                            className={`spellbook-tab ${activeTab === tab.id ? 'active' : ''}`}
+                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
-                            <i className={tab.icon}></i>
                             <span>{tab.label}</span>
                         </button>
                     ))}

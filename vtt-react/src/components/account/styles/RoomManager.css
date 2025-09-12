@@ -49,6 +49,14 @@
   border: 1px solid #8B4513;
 }
 
+/* Development tier styling */
+.tier-info .tier-badge.development {
+  background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+  color: white;
+  border: 1px solid #17a2b8;
+  box-shadow: 0 2px 4px rgba(23, 162, 184, 0.3);
+}
+
 .usage-info {
   display: flex;
   flex-direction: column;
@@ -154,40 +162,45 @@
 }
 
 .room-card {
-  background: rgba(255, 255, 255, 0.6);
-  border: 2px solid #8B4513;
-  border-radius: 8px;
-  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .room-card:hover {
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #d1d5db;
 }
 
 .room-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .room-title h3 {
-  margin: 0 0 6px 0;
-  font-size: 18px;
-  color: #5a1e12;
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .room-role {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
 }
 
 .room-actions-menu {
@@ -196,69 +209,75 @@
 }
 
 .join-btn {
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  background: #3b82f6;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-family: 'Cinzel', serif;
-  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 0.2s ease;
-  font-size: 12px;
 }
 
 .join-btn:hover {
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  background: #2563eb;
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  background: #ef4444;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 12px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .delete-btn:hover {
-  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  background: #dc2626;
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .room-description {
-  margin: 0 0 12px 0;
+  margin: 0 0 16px 0;
   font-size: 14px;
-  color: #5a1e12;
-  font-style: italic;
-  line-height: 1.4;
+  color: #6b7280;
+  line-height: 1.5;
 }
 
 .room-stats {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
 }
 
 .stat {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #5a1e12;
+  gap: 8px;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 .stat i {
-  color: #8B4513;
-  width: 14px;
+  color: #9ca3af;
+  width: 16px;
+  font-size: 14px;
 }
 
 /* Delete Confirmation Modal */
@@ -368,3 +387,173 @@
     gap: 8px;
   }
 }
+
+/* Test Room Styles - Improved Layout with Higher Specificity */
+.room-manager .rooms-list .room-card.test-room {
+  border: 2px solid #e5e7eb !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%) !important;
+  background-color: #ffffff !important;
+  background-image: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  color: inherit !important;
+  padding: 20px 28px !important;
+  border-radius: 16px !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 72px !important;
+  position: relative !important;
+  gap: 20px !important;
+}
+
+.room-manager .rooms-list .room-card.test-room:hover {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.18) !important;
+  transform: translateY(-3px) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  background-color: #ffffff !important;
+  background-image: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+.test-badge {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Test Room Content - Clean Single Row Layout */
+.room-manager .rooms-list .room-card.test-room .room-header {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 0 !important;
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  flex: 1 !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .room-title {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .room-title h3 {
+  color: #1f2937 !important;
+  font-size: 19px !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.3 !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .room-role {
+  color: #6b7280 !important;
+  background: rgba(107, 114, 128, 0.08) !important;
+  background-color: rgba(107, 114, 128, 0.08) !important;
+  background-image: none !important;
+  border: none !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 0.02em !important;
+  margin-left: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Hide description and stats for test room to keep it clean */
+.room-manager .rooms-list .room-card.test-room .room-description {
+  display: none !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .room-stats {
+  display: none !important;
+}
+
+/* Test Room Actions - Hide Delete Button and Style Join Button */
+.room-manager .rooms-list .room-card.test-room .room-actions-menu {
+  display: flex !important;
+  gap: 12px !important;
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-left: auto !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* Hide delete button for test rooms */
+.room-manager .rooms-list .room-card.test-room .delete-btn {
+  display: none !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .join-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  background-color: #3b82f6 !important;
+  background-image: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 12px !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.25) !important;
+  text-transform: none !important;
+  letter-spacing: -0.01em !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  white-space: nowrap !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  min-width: 90px !important;
+  justify-content: center !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .join-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  background-color: #2563eb !important;
+  background-image: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+.room-manager .rooms-list .room-card.test-room .join-btn i {
+  font-size: 14px !important;
+  opacity: 0.9 !important;
+}
+
+
+
+

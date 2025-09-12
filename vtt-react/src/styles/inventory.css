@@ -503,38 +503,7 @@
     margin-top: 10px;
 }
 
-.inventory-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
 
-.clear-inventory-btn {
-    padding: 6px 12px;
-    background: linear-gradient(135deg, #8b0000 0%, #a52a2a 50%, #8b0000 100%);
-    color: white;
-    border: 2px solid #654321;
-    border-radius: 4px;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-.clear-inventory-btn:hover {
-    background: linear-gradient(135deg, #a52a2a 0%, #dc143c 50%, #a52a2a 100%);
-    border-color: #8b4513;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.clear-inventory-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.2);
-}
 
 .encumbrance-text {
     color: #2d4a1e;

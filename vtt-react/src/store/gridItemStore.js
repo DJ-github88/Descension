@@ -494,9 +494,19 @@ const useGridItemStore = create(
 
           // Handle item removal from grid for currency items
           const gameStore = useGameStore.getState();
+          console.log(`🎁 Currency loot handling: sendToServer=${sendToServer}, isInMultiplayer=${gameStore.isInMultiplayer}, socketConnected=${gameStore.multiplayerSocket?.connected}`);
+
           if (sendToServer && gameStore.isInMultiplayer) {
             // In multiplayer, send to server and let server handle authoritative removal
             if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+              console.log(`🎁 Sending currency loot to server:`, {
+                item: itemToUse,
+                quantity: 1,
+                source: 'Grid Item',
+                looter: looterName,
+                gridItemId: gridItemId
+              });
+
               gameStore.multiplayerSocket.emit('item_looted', {
                 item: itemToUse,
                 quantity: 1, // Currency is always quantity 1
@@ -507,6 +517,19 @@ const useGridItemStore = create(
 
               // For currency, we rely on server confirmation for removal to prevent desync
               console.log(`🎁 Sent currency loot ${gridItemId} to server, waiting for confirmation`);
+
+              // Add a fallback timeout to remove the item if server doesn't respond within 5 seconds
+              setTimeout(() => {
+                const currentItems = get().gridItems;
+                const itemStillExists = currentItems.find(item => item.id === gridItemId);
+                if (itemStillExists) {
+                  console.warn(`🎁 Server confirmation timeout for ${gridItemId}, removing locally as fallback`);
+                  removeItemFromGrid(gridItemId);
+                }
+              }, 5000);
+            } else {
+              console.warn(`🎁 Socket not connected, removing currency ${gridItemId} locally`);
+              removeItemFromGrid(gridItemId);
             }
           } else {
             // In single player or when not sending to server, remove locally
@@ -519,103 +542,82 @@ const useGridItemStore = create(
           // For containers, we need to preserve the original ID to ensure container functionality works
           const preserveId = itemToUse.type === 'container';
 
-
           // Add the item to inventory, preserving all properties
-
           try {
             // Add the item to inventory with the correct quantity
-            const quantity = gridItem.quantity || 1;
+            let quantity = gridItem.quantity || 1;
+
+            // Handle quantity objects (e.g., {min: 1, max: 1}) by extracting a number
+            if (typeof quantity === 'object' && quantity !== null) {
+              if (quantity.min !== undefined && quantity.max !== undefined) {
+                // For range objects, use a random value between min and max
+                quantity = Math.floor(Math.random() * (quantity.max - quantity.min + 1)) + quantity.min;
+              } else if (quantity.value !== undefined) {
+                // For objects with a value property
+                quantity = quantity.value;
+              } else {
+                // Default to 1 if we can't determine the quantity
+                quantity = 1;
+              }
+            }
+
+            // Ensure quantity is a positive number
+            quantity = Math.max(1, parseInt(quantity) || 1);
+
+            console.log(`🎁 ATTEMPTING TO ADD ITEM TO INVENTORY: ${itemToUse.name} (quantity: ${quantity})`);
+            console.log(`🎁 Grid item quantity was:`, gridItem.quantity);
+            console.log(`🎁 Item data:`, itemToUse);
+
             const newInventoryItemId = inventoryStore.addItemFromLibrary(itemToUse, {
               quantity: quantity,
               preserveId: preserveId,
               preserveProperties: true // Add a flag to ensure all properties are preserved
             });
 
-            // CRITICAL FIX: Always remove the loot orb, even if inventory detection fails
-            // The inventory detection has bugs but items are actually being added
-            console.log(`🎯 FORCING LOOT ORB REMOVAL: ${gridItemId} (inventory result: ${newInventoryItemId})`);
-            console.log(`🎯 DEBUG: Current environment: ${window?.location?.hostname || 'unknown'}`);
+            console.log(`🎁 INVENTORY ADD RESULT: ${newInventoryItemId}`);
 
-            const currentGridItems = Array.isArray(get().gridItems) ? get().gridItems : [];
-            console.log(`🎯 DEBUG: Grid items before removal:`, currentGridItems.length);
+            // Only remove the loot orb if the item was successfully added to inventory
+            if (newInventoryItemId !== null) {
+              console.log(`✅ ITEM SUCCESSFULLY ADDED TO INVENTORY: Removing loot orb ${gridItemId}`);
 
-            // Handle item removal from grid FIRST, before any other logic
-            const gameStore = useGameStore.getState();
+              const gameStore = useGameStore.getState();
 
-            // FORCE IMMEDIATE REMOVAL - Remove locally first, then handle multiplayer
-            console.log(`🎯 IMMEDIATE REMOVAL: Removing loot orb ${gridItemId} locally`);
-            removeItemFromGrid(gridItemId);
+              // Remove the loot orb from the grid
+              removeItemFromGrid(gridItemId);
 
-            const afterRemovalItems = Array.isArray(get().gridItems) ? get().gridItems : [];
-            console.log(`🎯 DEBUG: Grid items after removal:`, afterRemovalItems.length);
-
-            // Force a state update to ensure UI reflects the change
-            setTimeout(() => {
-              const currentItems = Array.isArray(get().gridItems) ? get().gridItems : [];
-              console.log(`🎯 DEBUG: Grid items in timeout:`, currentItems.length);
-              const itemStillExists = currentItems.find(item => item?.id === gridItemId);
-              if (itemStillExists) {
-                console.log(`🎯 BACKUP REMOVAL: Loot orb ${gridItemId} still exists, forcing removal`);
-                set(state => ({
-                  gridItems: (Array.isArray(state.gridItems) ? state.gridItems : []).filter(item => item?.id !== gridItemId),
-                  lastUpdate: Date.now()
-                }));
-                const finalItems = Array.isArray(get().gridItems) ? get().gridItems : [];
-                console.log(`🎯 DEBUG: Grid items after backup removal:`, finalItems.length);
-              } else {
-                console.log(`🎯 SUCCESS: Loot orb ${gridItemId} successfully removed`);
+              // Send to multiplayer server if needed
+              if (sendToServer && gameStore.isInMultiplayer) {
+                if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                  gameStore.multiplayerSocket.emit('item_looted', {
+                    item: itemToUse,
+                    quantity: gridItem.quantity || 1,
+                    source: 'Grid Item',
+                    looter: looterName,
+                    gridItemId: gridItemId
+                  });
+                  console.log(`🎁 Sent loot notification to server for ${gridItemId}`);
+                }
               }
-            }, 100);
 
-            // Additional aggressive removal attempts for production
-            const hostname = window?.location?.hostname || '';
-            if (hostname.includes('netlify') || hostname.includes('vercel')) {
-              console.log(`🎯 PRODUCTION DETECTED: Adding extra removal attempts`);
+              // Add notification to chat window
+              chatStore.addItemLootedNotification(
+                itemToUse,
+                gridItem.quantity || 1,
+                gridItem.source || 'world',
+                looterName
+              );
 
-              // Store timeout IDs for potential cleanup
-              const timeoutIds = [];
-
-              [200, 500, 1000].forEach(delay => {
-                const timeoutId = setTimeout(() => {
-                  const items = Array.isArray(get().gridItems) ? get().gridItems : [];
-                  const itemStillExists = items.find(item => item?.id === gridItemId);
-                  if (itemStillExists) {
-                    console.log(`🎯 PRODUCTION CLEANUP ${delay}ms: Removing persistent loot orb ${gridItemId}`);
-                    set(state => ({
-                      gridItems: (Array.isArray(state.gridItems) ? state.gridItems : []).filter(item => item?.id !== gridItemId),
-                      lastUpdate: Date.now()
-                    }));
-                  }
-                }, delay);
-
-                timeoutIds.push(timeoutId);
+              // Force a state update to trigger a re-render of the inventory UI
+              const currentState = useInventoryStore.getState();
+              useInventoryStore.setState({
+                ...currentState,
+                items: [...currentState.items] // Create a new array reference to trigger re-render
               });
 
-              // Store timeout IDs for potential cleanup (though they're short-lived)
-              if (!window.gridItemCleanupTimeouts) {
-                window.gridItemCleanupTimeouts = new Set();
-              }
-              timeoutIds.forEach(id => window.gridItemCleanupTimeouts.add(id));
-            }
-
-            if (sendToServer && gameStore.isInMultiplayer) {
-              // In multiplayer, also send to server
-              if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                gameStore.multiplayerSocket.emit('item_looted', {
-                  item: itemToUse,
-                  quantity: gridItem.quantity || 1,
-                  source: 'Grid Item',
-                  looter: looterName,
-                  gridItemId: gridItemId
-                });
-                console.log(`🎁 Sent loot notification to server for ${gridItemId}`);
-              }
-            }
-
-            // Check if the item was successfully added (for notifications only)
-            if (newInventoryItemId === null) {
-              // Item could not be added (inventory full) - but orb is already removed
-              console.log(`Could not loot ${itemToUse.name} - inventory full (but orb removed anyway)`);
+              return true;
+            } else {
+              // Item could not be added (inventory full) - keep the orb
+              console.log(`🚫 INVENTORY FULL: Could not loot ${itemToUse.name} - keeping loot orb`);
 
               // Add a notification to chat about inventory being full
               chatStore.addItemLootedNotification(
@@ -625,121 +627,13 @@ const useGridItemStore = create(
                 `${looterName} - No room in inventory!`
               );
 
-              return true; // Return true because orb was removed
+              return false; // Return false because orb was not removed
             }
-
-            // Item was successfully added to inventory - now handle removal and notifications
-            console.log(`✅ LOOT SUCCESS: Item ${itemToUse.name} added to inventory, now removing orb ${gridItemId}`);
-
-            // Add notification to chat window
-            chatStore.addItemLootedNotification(
-              itemToUse,
-              gridItem.quantity || 1,
-              gridItem.source || 'world',
-              looterName
-            );
-
-            // Force a state update to trigger a re-render of the inventory UI
-            const currentState = useInventoryStore.getState();
-            useInventoryStore.setState({
-              ...currentState,
-              items: [...currentState.items] // Create a new array reference to trigger re-render
-            });
-
-            // Dispatch a custom event that the InventoryWindow can listen for
-            if (typeof window !== 'undefined') {
-              const event = new CustomEvent('inventory-updated', {
-                detail: { itemId: newInventoryItemId }
-              });
-              window.dispatchEvent(event);
-            }
-
-            // Item removal already handled above - no need to remove again
-
-            // Don't try to immediately verify the item in inventory
-            // State updates are asynchronous, so the item might not be immediately available
-
-            // Instead, schedule multiple verification checks with increasing delays
-            // This gives the state time to update and ensures the UI refreshes
-            const verifyAndRefresh = (attempt = 1, maxAttempts = 3) => {
-              const currentInventoryItems = useInventoryStore.getState().items;
-              const addedItem = currentInventoryItems.find(item => item.id === newInventoryItemId);
-
-              if (addedItem) {
-                // Item verified in inventory - already handled above
-              } else if (attempt < maxAttempts) {
-                // Try again with exponential backoff
-                setTimeout(() => verifyAndRefresh(attempt + 1, maxAttempts), 100 * attempt);
-              } else {
-
-                // Try to force a state update anyway
-                const currentState = useInventoryStore.getState();
-                useInventoryStore.setState({
-                  ...currentState,
-                  items: [...currentState.items] // Create a new array reference to trigger re-render
-                });
-
-                // Dispatch the event anyway as a last resort
-                if (typeof window !== 'undefined') {
-                  const event = new CustomEvent('inventory-updated', {
-                    detail: { itemId: null, forceRefresh: true }
-                  });
-                  window.dispatchEvent(event);
-                }
-              }
-            };
-
-            // Start the verification process
-            setTimeout(() => verifyAndRefresh(), 100);
           } catch (error) {
             console.error('Error adding item to inventory:', error);
-          }
-
-          // Show a notification for the looted item
-          if (typeof window !== 'undefined') {
-            // Get the item quality for styling
-            const quality = itemToUse.quality?.toLowerCase() || 'common';
-
-            // Calculate position based on existing notifications
-            const existingNotifications = document.querySelectorAll('.item-notification');
-            const topOffset = 20 + (existingNotifications.length * 80); // Stack notifications
-
-            const notification = document.createElement('div');
-            notification.className = `item-notification ${quality}`;
-            notification.style.top = `${topOffset}%`;
-            notification.innerHTML = `
-              <div class="item-notification-content">
-                <img src="https://wow.zamimg.com/images/wow/icons/large/${itemToUse.iconId || 'inv_misc_questionmark'}.jpg" alt="${itemToUse.name}" />
-                <span class="${quality}">Looted: ${itemToUse.name}</span>
-              </div>
-            `;
-            document.body.appendChild(notification);
-
-            // Add animation class after a small delay to trigger the animation
-            setTimeout(() => {
-              notification.classList.add('show');
-            }, 10);
-
-            // Remove the notification after animation completes
-            setTimeout(() => {
-              notification.classList.remove('show');
-              setTimeout(() => {
-                if (notification.parentNode) {
-                  document.body.removeChild(notification);
-                }
-                // Reposition remaining notifications
-                const remainingNotifications = document.querySelectorAll('.item-notification');
-                remainingNotifications.forEach((notif, index) => {
-                  notif.style.top = `${20 + (index * 80)}%`;
-                });
-              }, 500);
-            }, 3000); // Show for 3 seconds
+            return false;
           }
         }
-
-        // Removal logic has been moved earlier in the function after successful inventory addition
-
-        return true;
         } catch (error) {
           console.error('Loot item failed:', error);
           return false;
@@ -758,6 +652,37 @@ const useGridItemStore = create(
 
       // Clear all items from the grid
       clearGrid: () => set({ gridItems: [] }),
+
+      // Update item position on the grid
+      updateItemPosition: (gridItemId, newPosition) => set((state) => {
+        const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
+        const itemIndex = currentItems.findIndex(item => item?.id === gridItemId);
+
+        if (itemIndex === -1) {
+          console.warn(`Item with id ${gridItemId} not found in grid`);
+          return state;
+        }
+
+        const updatedItems = [...currentItems];
+        updatedItems[itemIndex] = {
+          ...updatedItems[itemIndex],
+          position: {
+            x: newPosition.x,
+            y: newPosition.y
+          },
+          gridPosition: {
+            row: newPosition.gridPosition.row,
+            col: newPosition.gridPosition.col
+          }
+        };
+
+        console.log(`🎯 Updated item ${gridItemId} position to grid (${newPosition.gridPosition.col}, ${newPosition.gridPosition.row})`);
+
+        return {
+          gridItems: updatedItems,
+          lastUpdate: Date.now()
+        };
+      }),
     }),
     {
       name: 'grid-items-storage',

@@ -378,7 +378,7 @@ const TargetHUD = () => {
                 const maxValue = currentResource.max;
                 const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
 
-                updateResource(resourceType, newValue);
+                updateResource(resourceType, newValue, maxValue);
 
                 // Show floating combat text for current player at Target HUD position
                 if (window.showFloatingCombatText) {

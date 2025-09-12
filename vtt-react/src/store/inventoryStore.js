@@ -57,14 +57,19 @@ const findEmptyPosition = (items, gridSize, width = 1, height = 1, rotation = 0)
     const effectiveWidth = rotation === 1 ? height : width;
     const effectiveHeight = rotation === 1 ? width : height;
 
+    console.log(`🔍 FIND EMPTY POSITION: Looking for ${effectiveWidth}x${effectiveHeight} space in ${gridSize.WIDTH}x${gridSize.HEIGHT} grid`);
+
     for (let row = 0; row < gridSize.HEIGHT - effectiveHeight + 1; row++) {
         for (let col = 0; col < gridSize.WIDTH - effectiveWidth + 1; col++) {
-            if (isValidPosition(items, row, col, width, height, rotation)) {
+            const isValid = isValidPosition(items, row, col, width, height, rotation);
+            if (isValid) {
+                console.log(`🔍 FOUND VALID POSITION: row ${row}, col ${col}`);
                 return { row, col };
             }
         }
     }
 
+    console.log(`🔍 NO VALID POSITION FOUND for ${effectiveWidth}x${effectiveHeight} item`);
     // If no valid position found, return null
     return null;
 };
@@ -257,13 +262,21 @@ const useInventoryStore = create(persist((set, get) => ({
                 const updatedItems = [...state.items];
                 const existingItem = updatedItems[existingItemIndex];
 
+                console.log(`🔧 STACKING: Found existing item at index ${existingItemIndex}`);
+                console.log(`🔧 Existing item:`, existingItem);
+                console.log(`🔧 New item to stack:`, newItem);
+                console.log(`🔧 Existing quantity: ${existingItem.quantity || 1}, Adding: ${newItem.quantity || 1}`);
+
+                const newQuantity = (existingItem.quantity || 1) + (newItem.quantity || 1);
+                console.log(`🔧 Calculated new quantity: ${newQuantity}`);
+
                 // Merge properties from new item to ensure we have all properties
                 // This is important for items that might have been added before property preservation was fixed
                 updatedItems[existingItemIndex] = {
                     ...existingItem,
                     ...newItem, // Merge new item properties
                     id: existingItem.id, // Keep the existing ID
-                    quantity: (existingItem.quantity || 1) + (newItem.quantity || 1), // Add quantities
+                    quantity: newQuantity, // Add quantities
                     position: existingItem.position, // Keep existing position
                     rotation: existingItem.rotation, // Keep existing rotation
 
@@ -276,16 +289,30 @@ const useInventoryStore = create(persist((set, get) => ({
                     merchantNotes: newItem.merchantNotes || existingItem.merchantNotes
                 };
 
+                console.log(`🔧 STACKING SUCCESS: Updated item:`, updatedItems[existingItemIndex]);
+                console.log(`🔧 Final quantity after stacking: ${updatedItems[existingItemIndex].quantity}`);
+
                 // Update encumbrance after adding item
                 setTimeout(() => get().updateEncumbranceState(), 0);
 
-                return { items: updatedItems };
+                // Return the existing item's ID to indicate success
+                return { items: updatedItems, addedItemId: existingItem.id };
             }
         }
 
         // Find an empty position for the new item
         if (!newItem.position) {
             const currentGridSize = getCurrentGridSize();
+            console.log(`🔍 INVENTORY SPACE CHECK: Looking for space for ${newItem.name} (${newItem.width}x${newItem.height})`);
+            console.log(`🔍 Current grid size:`, currentGridSize);
+            console.log(`🔍 Current items in inventory:`, state.items.length);
+            console.log(`🔍 Current items:`, state.items.map(item => ({
+                name: item.name,
+                position: item.position,
+                width: item.width || 1,
+                height: item.height || 1
+            })));
+
             const emptyPosition = findEmptyPosition(
                 state.items,
                 currentGridSize,
@@ -294,9 +321,12 @@ const useInventoryStore = create(persist((set, get) => ({
                 newItem.rotation
             );
 
+            console.log(`🔍 Found empty position:`, emptyPosition);
+
             if (!emptyPosition) {
                 // No empty position found - inventory is full for this item size
-                console.warn(`🚫 INVENTORY FULL FIX ACTIVE: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                console.warn(`🚫 INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                console.warn(`🚫 Grid size: ${currentGridSize.WIDTH}x${currentGridSize.HEIGHT}, Total cells: ${currentGridSize.WIDTH * currentGridSize.HEIGHT}`);
 
                 // Show "no room" notification
                 if (typeof window !== 'undefined') {
@@ -610,7 +640,8 @@ const useInventoryStore = create(persist((set, get) => ({
         const initialItems = [...store.items];
         const initialTotalQuantity = initialItems.reduce((total, item) => {
             if (item.name === inventoryItem.name && item.type === inventoryItem.type) {
-                return total + (item.quantity || 1);
+                const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
+                return total + quantity;
             }
             return total;
         }, 0);
@@ -620,13 +651,16 @@ const useInventoryStore = create(persist((set, get) => ({
         console.log(`🔍 Initial total quantity for ${inventoryItem.name}: ${initialTotalQuantity}`);
         console.log(`🔍 Item to add:`, inventoryItem);
 
-        store.addItem(inventoryItem);
+        // Call addItem and capture the result
+        const addResult = store.addItem(inventoryItem);
+        console.log(`🔍 AddItem result:`, addResult);
 
         const finalItems = store.items;
         const finalItemCount = finalItems.length;
         const finalTotalQuantity = finalItems.reduce((total, item) => {
             if (item.name === inventoryItem.name && item.type === inventoryItem.type) {
-                return total + (item.quantity || 1);
+                const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
+                return total + quantity;
             }
             return total;
         }, 0);
@@ -644,7 +678,7 @@ const useInventoryStore = create(persist((set, get) => ({
         console.log(`🔍 Quantity increased: ${quantityIncreased} (${initialTotalQuantity} → ${finalTotalQuantity})`);
 
         if (itemCountIncreased || quantityIncreased) {
-            console.log(`✅ INVENTORY FIX: Item ${inventoryItem.name} successfully added to inventory (count: ${itemCountIncreased ? 'new item' : 'stacked'}, quantity: ${initialTotalQuantity} → ${finalTotalQuantity})`);
+            console.log(`✅ INVENTORY SUCCESS: Item ${inventoryItem.name} successfully added to inventory (count: ${itemCountIncreased ? 'new item' : 'stacked'}, quantity: ${initialTotalQuantity} → ${finalTotalQuantity})`);
 
             // For stacked items, return the ID of the existing stack
             if (!itemCountIncreased && quantityIncreased) {
@@ -657,7 +691,7 @@ const useInventoryStore = create(persist((set, get) => ({
             return inventoryItem.id; // Return the new ID for reference
         } else {
             // Item was not added (inventory full)
-            console.log(`🚫 INVENTORY FIX: Item ${inventoryItem.name} was NOT added - inventory full`);
+            console.log(`🚫 INVENTORY FULL: Item ${inventoryItem.name} was NOT added - inventory full`);
             console.log(`🚫 No change detected: count ${initialItems.length}→${finalItemCount}, quantity ${initialTotalQuantity}→${finalTotalQuantity}`);
             return null;
         }
@@ -665,16 +699,22 @@ const useInventoryStore = create(persist((set, get) => ({
 
     // Remove item with quantity support
     removeItem: (itemId, quantity = 0) => set((state) => {
+        console.log(`🗑️ REMOVING ITEM FROM INVENTORY: ${itemId} (quantity: ${quantity})`);
+        console.log(`🗑️ Current inventory items before removal:`, state.items.length);
+
         const itemIndex = state.items.findIndex(item => item.id === itemId);
 
         if (itemIndex === -1) {
+            console.log(`🗑️ Item ${itemId} not found in inventory`);
             return { items: state.items };
         }
 
         const item = state.items[itemIndex];
+        console.log(`🗑️ Found item to remove:`, item.name);
 
         // If quantity is specified and less than total quantity, reduce quantity
         if (quantity > 0 && item.quantity > quantity) {
+            console.log(`🗑️ Reducing quantity: ${item.quantity} -> ${item.quantity - quantity}`);
             const updatedItems = [...state.items];
             updatedItems[itemIndex] = {
                 ...item,
@@ -688,7 +728,9 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         // Otherwise remove the item completely
+        console.log(`🗑️ Removing entire item: ${item.name}`);
         const updatedItems = state.items.filter(item => item.id !== itemId);
+        console.log(`🗑️ Inventory items after removal: ${updatedItems.length} (was ${state.items.length})`);
 
         // Update encumbrance after removing item
         setTimeout(() => get().updateEncumbranceState(), 0);

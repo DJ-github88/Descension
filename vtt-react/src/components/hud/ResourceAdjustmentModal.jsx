@@ -155,7 +155,7 @@ const ResourceAdjustmentModal = ({
 
     return createPortal(
         <div className="resource-adjustment-modal" ref={modalRef} style={modalStyle}>
-            <div className="modal-header" style={{ borderColor: getResourceColor() }}>
+            <div className="modal-header">
                 <h4>
                     <span className="resource-icon">{getResourceIcon()}</span>
                     Adjust {formatResourceName()}

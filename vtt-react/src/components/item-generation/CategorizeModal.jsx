@@ -12,7 +12,7 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
         position: 'fixed',
         left: Math.min(x, window.innerWidth - 320), // Ensure it doesn't go off right edge
         top: Math.min(y, window.innerHeight - 200), // Ensure it doesn't go off bottom edge
-        zIndex: 10000
+        zIndex: 100000 // High but below tooltips
     };
 
     // Get safe portal target

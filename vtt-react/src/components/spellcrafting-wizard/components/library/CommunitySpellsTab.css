@@ -93,7 +93,6 @@
   display: flex;
   flex: 1;
   max-width: 700px;
-  min-height: 56px;
   border-radius: var(--pf-border-radius-lg, 12px);
   overflow: hidden;
   position: relative;
@@ -490,7 +489,7 @@
 .community-spell-card-wrapper {
   position: relative;
   border-radius: var(--pf-border-radius-lg, 12px);
-  overflow: hidden;
+  overflow: visible; /* Allow tooltips to show */
   background: var(--pf-gradient-parchment-light, linear-gradient(145deg, #faf7f0 0%, #f0ead6 50%, #ede4d3 100%));
   box-shadow: 0 4px 8px rgba(139, 69, 19, 0.15);
   border: 2px solid var(--pf-brown-light, #a08c70);

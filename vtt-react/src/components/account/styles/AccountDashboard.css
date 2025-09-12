@@ -2249,3 +2249,35 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Active Character Styles */
+.character-card-compact.active-character {
+  border: 3px solid #28a745 !important;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3) !important;
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(40, 167, 69, 0.1) 100%) !important;
+}
+
+.character-card-compact.active-character::before {
+  content: "ACTIVE";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #28a745;
+  color: white;
+  padding: 3px 6px;
+  border-radius: 10px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.action-btn.active-btn {
+  background: #28a745 !important;
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+.action-btn.active-btn:hover {
+  background: #218838 !important;
+  border-color: #1e7e34 !important;
+}

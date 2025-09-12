@@ -12,7 +12,14 @@ import '../../styles/grid-item.css';
 const GridItem = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [dragPosition, setDragPosition] = useState(null);
+  const [dragStartPos, setDragStartPos] = useState(null);
   const itemRef = useRef(null);
+  const isDraggingRef = useRef(false);
+
+  const DRAG_THRESHOLD = 5; // Minimum pixels to move before starting drag
 
   // Ensure component is interactive
   useEffect(() => {
@@ -98,8 +105,9 @@ const GridItem = ({ gridItem }) => {
     return baseSize * effectiveZoom;
   }, [gridSize, zoomLevel, playerZoom, effectiveZoom]);
 
-  // Get the loot function from the grid item store
+  // Get functions from the grid item store
   const lootItem = useGridItemStore(state => state.lootItem);
+  const updateItemPosition = useGridItemStore(state => state.updateItemPosition);
 
   // Force re-render when gridItem changes to ensure proper event handling
   // This is the key fix for the interaction issue
@@ -142,18 +150,110 @@ const GridItem = ({ gridItem }) => {
     }
   }, [gridItem.id, gridItem.itemId, gridItem.name, gridItem.type, originalItem]);
 
-  // Simple tooltip handlers
+  // Handle global mouse events for dragging
+  useEffect(() => {
+    const handleGlobalMouseMove = (e) => {
+      // Check if we should start dragging based on threshold
+      if (!isDraggingRef.current && dragStartPos) {
+        const distance = Math.sqrt(
+          Math.pow(e.clientX - dragStartPos.x, 2) +
+          Math.pow(e.clientY - dragStartPos.y, 2)
+        );
+
+        if (distance >= DRAG_THRESHOLD) {
+          setIsDragging(true);
+          isDraggingRef.current = true;
+        } else {
+          return; // Don't start dragging yet
+        }
+      }
+
+      if (!isDraggingRef.current) return;
+
+      e.preventDefault();
+
+      // Calculate new position with drag offset
+      const newX = e.clientX - dragOffset.x;
+      const newY = e.clientY - dragOffset.y;
+
+      // Convert screen position to world coordinates
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const worldPos = gridSystem.screenToWorld(newX, newY, viewportWidth, viewportHeight);
+
+      // Convert to grid coordinates and snap to grid center
+      const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+      const snappedWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+      // Convert back to screen coordinates for visual positioning
+      const snappedScreenPos = gridSystem.worldToScreen(snappedWorldPos.x, snappedWorldPos.y, viewportWidth, viewportHeight);
+
+      // Update drag position to snapped position
+      setDragPosition({
+        x: snappedScreenPos.x,
+        y: snappedScreenPos.y,
+        gridX: gridCoords.x,
+        gridY: gridCoords.y,
+        worldX: snappedWorldPos.x,
+        worldY: snappedWorldPos.y
+      });
+    };
+
+    const handleGlobalMouseUp = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Clear drag start position
+      setDragStartPos(null);
+
+      if (!isDraggingRef.current) return;
+
+      setIsDragging(false);
+      isDraggingRef.current = false;
+
+      // If we have a valid drag position, update the item's position
+      if (dragPosition && dragPosition.gridX !== undefined && dragPosition.gridY !== undefined) {
+        const newPosition = {
+          x: dragPosition.worldX,
+          y: dragPosition.worldY,
+          gridPosition: {
+            row: dragPosition.gridY,
+            col: dragPosition.gridX
+          }
+        };
+
+        // Update the item position in the store
+        updateItemPosition(gridItem.id, newPosition);
+      }
+
+      // Clear drag position
+      setDragPosition(null);
+    };
+
+    if (isDragging || dragStartPos) {
+      document.addEventListener('mousemove', handleGlobalMouseMove);
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+
+      return () => {
+        document.removeEventListener('mousemove', handleGlobalMouseMove);
+        document.removeEventListener('mouseup', handleGlobalMouseUp);
+      };
+    }
+  }, [isDragging, dragStartPos, dragOffset, gridSystem, gridItem.id, updateItemPosition, dragPosition, DRAG_THRESHOLD]);
+
+  // Mouse event handlers for dragging and tooltips
   const handleMouseEnter = (e) => {
-    // GridItem mouse enter
-    setShowTooltip(true);
-    setTooltipPosition({
-      x: e.clientX + 15,
-      y: e.clientY - 10
-    });
+    if (!isDragging) {
+      setShowTooltip(true);
+      setTooltipPosition({
+        x: e.clientX + 15,
+        y: e.clientY - 10
+      });
+    }
   };
 
   const handleMouseMove = (e) => {
-    if (showTooltip) {
+    if (showTooltip && !isDragging) {
       setTooltipPosition({
         x: e.clientX + 15,
         y: e.clientY - 10
@@ -162,11 +262,40 @@ const GridItem = ({ gridItem }) => {
   };
 
   const handleMouseLeave = () => {
-    setShowTooltip(false);
+    if (!isDragging) {
+      setShowTooltip(false);
+    }
+  };
+
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return; // Only handle left mouse button
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    setShowTooltip(false); // Hide tooltip when mouse down
+
+    // Store initial mouse position for drag threshold
+    setDragStartPos({ x: e.clientX, y: e.clientY });
+
+    // Calculate drag offset from the center of the orb
+    const rect = itemRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    setDragOffset({
+      x: e.clientX - centerX,
+      y: e.clientY - centerY
+    });
   };
 
   // Handle click to loot the item
   const handleClick = (e) => {
+    // Don't loot if we were dragging
+    if (isDraggingRef.current) {
+      return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -179,13 +308,20 @@ const GridItem = ({ gridItem }) => {
     const result = lootItem(gridItem.id, 'default', currentUser);
     console.log(`🎯 Loot result: ${result}`);
 
+    if (result) {
+      console.log(`✅ LOOT SUCCESS: Item successfully looted and added to inventory`);
+    } else {
+      console.log(`❌ LOOT FAILED: Item could not be looted (inventory full or other error)`);
+    }
+
+    // Force inventory UI refresh
     setTimeout(() => {
       const currentState = useInventoryStore.getState();
       useInventoryStore.setState({
         ...currentState,
         items: [...currentState.items]
       });
-    }, 200);
+    }, 100);
   };
 
   // Helper function to get icon based on item type
@@ -253,16 +389,21 @@ const GridItem = ({ gridItem }) => {
         data-currency={itemForTooltip.type === 'currency' ? (itemForTooltip.currencyType || 'gold') : undefined}
         style={{
           position: 'absolute',
-          left: screenPosition.x,
-          top: screenPosition.y,
+          left: isDragging && dragPosition ? dragPosition.x : screenPosition.x,
+          top: isDragging && dragPosition ? dragPosition.y : screenPosition.y,
           width: `${orbSize}px`,
           height: `${orbSize}px`,
           transform: 'translate(-50%, -50%)',
-          cursor: 'pointer',
-          zIndex: 1000, // Increased z-index significantly
+          cursor: isDragging ? 'grabbing' : 'grab',
+          zIndex: isDragging ? 10000 : 1000, // Higher z-index when dragging
           pointerEvents: 'all',
           boxSizing: 'border-box',
           borderRadius: '50%',
+          opacity: isDragging ? 0.9 : 1, // Slightly less transparent when dragging
+          boxShadow: isDragging
+            ? '0 8px 16px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8)'
+            : '0 2px 4px rgba(0, 0, 0, 0.2)',
+          transition: isDragging ? 'none' : 'all 0.2s ease', // No transition while dragging
           // Conditionally add background image for the item icon
           ...(imageLoaded && !imageError ? {
             backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg)`,
@@ -284,10 +425,7 @@ const GridItem = ({ gridItem }) => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
-        onMouseDown={(e) => {
-          // GridItem mouse down
-          e.stopPropagation(); // Prevent event bubbling
-        }}
+        onMouseDown={handleMouseDown}
       >
         {/* Quantity display for stacked items */}
         {(itemForTooltip.quantity && itemForTooltip.quantity > 1) && (

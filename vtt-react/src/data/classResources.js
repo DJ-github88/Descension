@@ -10,13 +10,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'stages',
         description: 'Ascension through demonic stages, each granting power but increasing corruption',
         visual: {
-            type: 'orbs',
+            type: 'progress-bar',
             count: 10,
             arrangement: 'horizontal',
-            baseColor: '#8B0000',
+            baseColor: '#4A0000',
             activeColor: '#FF4500',
             glowColor: '#FF6347',
-            icon: '',
+            icon: '🔥',
             effects: ['fire', 'infernal']
         },
         mechanics: {
@@ -53,13 +53,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'notes',
         description: 'Musical notes that can be combined into powerful chord combinations',
         visual: {
-            type: 'staff',
+            type: 'progress-bar',
             count: 7,
-            arrangement: 'staff',
-            baseColor: '#4169E1',
+            arrangement: 'horizontal',
+            baseColor: '#1E3A8A',
             activeColor: '#FFD700',
             glowColor: '#FFA500',
-            icon: '',
+            icon: '🎵',
             effects: ['musical', 'harmony']
         },
         mechanics: {
@@ -93,13 +93,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'gauge',
         description: 'Temporal energy that builds to unlock time manipulation effects',
         visual: {
-            type: 'gauge',
+            type: 'progress-bar',
             count: 1,
-            arrangement: 'single',
-            baseColor: '#483D8B',
+            arrangement: 'horizontal',
+            baseColor: '#2D1B69',
             activeColor: '#9370DB',
             glowColor: '#DDA0DD',
-            icon: '',
+            icon: '⏰',
             effects: ['temporal', 'clockwork']
         },
         mechanics: {
@@ -125,22 +125,22 @@ export const CLASS_RESOURCE_TYPES = {
     // TRICKSTER PATH
     'Chaos Weaver': {
         id: 'entropyPoints',
-        name: 'Entropy Points & Chaos Dice',
+        name: 'Entropy Points',
         shortName: 'EP',
         type: 'entropy',
-        description: 'Chaotic energy and reality-bending dice that fuel unpredictable magic',
+        description: 'Chaotic energy that fuels unpredictable reality-bending magic',
         visual: {
-            type: 'vortex',
+            type: 'progress-bar', // Use standard horizontal bar like health/mana/AP
             count: 'variable',
-            arrangement: 'swirling',
-            baseColor: '#800080',
-            activeColor: '#FF00FF',
-            glowColor: '#DA70D6',
-            icon: '',
+            arrangement: 'horizontal',
+            baseColor: '#4A0E4E', // Dark purple base
+            activeColor: '#9932CC', // Bright purple fill
+            glowColor: '#DA70D6', // Light purple glow
+            icon: '🌀',
             effects: ['chaos', 'reality-distortion']
         },
         mechanics: {
-            max: 'calculated', // INT mod + level/5
+            max: 'calculated', // INT mod + level/5, minimum 5
             current: 0,
             regen: 0,
             consumeVerb: 'weave',
@@ -148,7 +148,7 @@ export const CLASS_RESOURCE_TYPES = {
         },
         tooltip: {
             title: 'Entropy Points: {current}/{max}',
-            description: 'Chaotic energy for reality manipulation',
+            description: 'Chaotic energy for reality manipulation and unpredictable magic effects',
             showDice: true,
             showChaos: true
         },
@@ -162,13 +162,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'cards',
         description: 'Mystical cards that reveal and manipulate destiny',
         visual: {
-            type: 'deck',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'deck',
-            baseColor: '#2F4F4F',
+            arrangement: 'horizontal',
+            baseColor: '#1F2F2F',
             activeColor: '#FFD700',
             glowColor: '#FFA500',
-            icon: '',
+            icon: '🃏',
             effects: ['mystical', 'fate']
         },
         mechanics: {
@@ -188,19 +188,19 @@ export const CLASS_RESOURCE_TYPES = {
 
     'Gambler': {
         id: 'luckPoints',
-        name: 'Luck Points & Risk',
+        name: 'Luck Points',
         shortName: 'LP',
         type: 'gambling',
         description: 'Luck points for gambling with fate, balanced against mounting risk',
         visual: {
-            type: 'casino',
-            count: 2, // Luck + Risk meters
-            arrangement: 'dual',
-            baseColor: '#DAA520',
+            type: 'progress-bar',
+            count: 2,
+            arrangement: 'horizontal',
+            baseColor: '#8B6914',
             activeColor: '#FFD700',
             glowColor: '#FFA500',
             riskColor: '#DC143C',
-            icon: '',
+            icon: '🎲',
             effects: ['luck', 'risk']
         },
         mechanics: {
@@ -221,18 +221,18 @@ export const CLASS_RESOURCE_TYPES = {
     // ZEALOT PATH
     'Martyr': {
         id: 'painCharges',
-        name: 'Pain Charges & Blood Thresholds',
+        name: 'Pain Charges',
         shortName: 'PC',
         type: 'sacrifice',
         description: 'Pain charges earned through sacrifice, with blood vow thresholds',
         visual: {
-            type: 'stigmata',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'wounds',
-            baseColor: '#8B0000',
+            arrangement: 'horizontal',
+            baseColor: '#4A0000',
             activeColor: '#FFD700',
             glowColor: '#FFF8DC',
-            icon: '',
+            icon: '✝️',
             effects: ['holy', 'sacrifice']
         },
         mechanics: {
@@ -252,18 +252,18 @@ export const CLASS_RESOURCE_TYPES = {
 
     'False Prophet': {
         id: 'heresyPoints',
-        name: 'Lies (Heresy Points)',
+        name: 'Heresy Points',
         shortName: 'HP',
         type: 'corruption',
         description: 'Heretical energy gained through deception and false prophecy',
         visual: {
-            type: 'corrupted-halo',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'twisted',
-            baseColor: '#2F4F4F',
+            arrangement: 'horizontal',
+            baseColor: '#1F2F2F',
             activeColor: '#8B008B',
             glowColor: '#9932CC',
-            icon: '',
+            icon: '👁️',
             effects: ['corruption', 'deception']
         },
         mechanics: {
@@ -288,13 +288,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'holy',
         description: 'Holy charges earned through banishing evil spirits',
         visual: {
-            type: 'medallion',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'gems',
-            baseColor: '#FFD700',
+            arrangement: 'horizontal',
+            baseColor: '#B8860B',
             activeColor: '#FFFFFF',
             glowColor: '#F0F8FF',
-            icon: '',
+            icon: '🕊️',
             effects: ['holy', 'banishment']
         },
         mechanics: {
@@ -320,13 +320,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'disease',
         description: 'Disease stacks spread among enemies, growing in power',
         visual: {
-            type: 'vials',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'collection',
-            baseColor: '#556B2F',
+            arrangement: 'horizontal',
+            baseColor: '#2D4A17',
             activeColor: '#9ACD32',
             glowColor: '#ADFF2F',
-            icon: '',
+            icon: '🦠',
             effects: ['disease', 'contagion']
         },
         mechanics: {
@@ -346,18 +346,18 @@ export const CLASS_RESOURCE_TYPES = {
 
     'Lichborne': {
         id: 'phylacteryCore',
-        name: 'Phylactery Core & Essence Echoes',
-        shortName: 'PE',
+        name: 'Essence Echoes',
+        shortName: 'EE',
         type: 'undead',
         description: 'Soul fragments stored in phylactery for undead power',
         visual: {
-            type: 'phylactery',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'wisps',
-            baseColor: '#483D8B',
+            arrangement: 'horizontal',
+            baseColor: '#2D1B69',
             activeColor: '#9370DB',
             glowColor: '#DDA0DD',
-            icon: '',
+            icon: '💀',
             effects: ['necrotic', 'souls']
         },
         mechanics: {
@@ -382,13 +382,13 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'necromancy',
         description: 'Harvested souls that fuel necromantic magic',
         visual: {
-            type: 'scythe',
+            type: 'progress-bar',
             count: 'variable',
-            arrangement: 'orbs',
-            baseColor: '#2F2F2F',
+            arrangement: 'horizontal',
+            baseColor: '#1F1F1F',
             activeColor: '#8A2BE2',
             glowColor: '#9932CC',
-            icon: '',
+            icon: '⚰️',
             effects: ['necromantic', 'souls']
         },
         mechanics: {
@@ -447,7 +447,7 @@ export const initializeClassResource = (className, characterStats) => {
 
         switch (className) {
             case 'Chaos Weaver':
-                baseResource.max = Math.max(1, intMod + Math.floor(level / 5));
+                baseResource.max = Math.max(5, intMod + Math.floor(level / 5));
                 break;
             case 'Gambler':
             case 'False Prophet':
@@ -516,13 +516,13 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
     type: 'protection',
     description: 'Protective ward layers that absorb magical damage',
     visual: {
-        type: 'shield',
+        type: 'progress-bar',
         count: 'variable',
-        arrangement: 'layers',
-        baseColor: '#4169E1',
+        arrangement: 'horizontal',
+        baseColor: '#1E3A8A',
         activeColor: '#87CEEB',
         glowColor: '#E0E6FF',
-        icon: '',
+        icon: '🛡️',
         effects: ['abjuration', 'protection']
     },
     mechanics: {
@@ -542,18 +542,18 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
 
 CLASS_RESOURCE_TYPES['Inscriptor'] = {
     id: 'glyphSlots',
-    name: 'Glyph Slots & Rune Charges',
+    name: 'Glyph Slots',
     shortName: 'GS',
     type: 'runic',
     description: 'Runic glyphs that can be inscribed and connected in magical circuits',
     visual: {
-        type: 'runic-circle',
-        count: 'calculated', // 3 + INT mod
-        arrangement: 'circle',
-        baseColor: '#8B4513',
+        type: 'progress-bar',
+        count: 'calculated',
+        arrangement: 'horizontal',
+        baseColor: '#4A2C0A',
         activeColor: '#FFD700',
         glowColor: '#FFA500',
-        icon: '',
+        icon: '🔮',
         effects: ['runic', 'inscription']
     },
     mechanics: {
@@ -573,19 +573,19 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
 
 CLASS_RESOURCE_TYPES['Arcanoneer'] = {
     id: 'elementSlots',
-    name: 'Element Slots & Volatility',
+    name: 'Element Slots',
     shortName: 'ES',
     type: 'elemental',
     description: 'Elemental runes loaded into cannon chamber with volatility risk',
     visual: {
-        type: 'cannon-chamber',
-        count: 6, // F, W, I, L, E, A
-        arrangement: 'chamber',
-        baseColor: '#2F4F4F',
+        type: 'progress-bar',
+        count: 6,
+        arrangement: 'horizontal',
+        baseColor: '#1F2F2F',
         activeColor: '#FF6347',
         glowColor: '#FFA500',
         volatilityColor: '#DC143C',
-        icon: '',
+        icon: '💥',
         effects: ['elemental', 'volatility']
     },
     mechanics: {
@@ -607,18 +607,18 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
 // HEXER PATH
 CLASS_RESOURCE_TYPES['Witch Doctor'] = {
     id: 'voodooEssence',
-    name: 'Voodoo Essence & Invocation Slots',
+    name: 'Voodoo Essence',
     shortName: 'VE',
     type: 'spiritual',
     description: 'Spiritual essence for invoking loa spirits and voodoo magic',
     visual: {
-        type: 'voodoo-mask',
-        count: 'calculated', // 5 + SPIR mod
-        arrangement: 'tribal',
-        baseColor: '#8B4513',
+        type: 'progress-bar',
+        count: 'calculated',
+        arrangement: 'horizontal',
+        baseColor: '#4A2C0A',
         activeColor: '#32CD32',
         glowColor: '#ADFF2F',
-        icon: '',
+        icon: '🎭',
         effects: ['spiritual', 'tribal']
     },
     mechanics: {
@@ -638,18 +638,18 @@ CLASS_RESOURCE_TYPES['Witch Doctor'] = {
 
 CLASS_RESOURCE_TYPES['Formbender'] = {
     id: 'wildInstinct',
-    name: 'Wild Instinct & Form Tracker',
+    name: 'Wild Instinct',
     shortName: 'WI',
     type: 'primal',
     description: 'Primal instinct energy for shapeshifting and wild abilities',
     visual: {
-        type: 'shapeshifter',
+        type: 'progress-bar',
         count: 5,
-        arrangement: 'primal',
-        baseColor: '#228B22',
+        arrangement: 'horizontal',
+        baseColor: '#0F4B0F',
         activeColor: '#32CD32',
         glowColor: '#90EE90',
-        icon: '',
+        icon: '🐺',
         effects: ['primal', 'transformation']
     },
     mechanics: {
@@ -674,13 +674,13 @@ CLASS_RESOURCE_TYPES['Primalist'] = {
     type: 'elemental',
     description: 'Elemental resonance connecting to active totems',
     visual: {
-        type: 'totem',
+        type: 'progress-bar',
         count: 6,
-        arrangement: 'elemental',
-        baseColor: '#8B4513',
+        arrangement: 'horizontal',
+        baseColor: '#4A2C0A',
         activeColor: '#FF6347',
         glowColor: '#FFA500',
-        icon: '',
+        icon: '🗿',
         effects: ['elemental', 'totemic']
     },
     mechanics: {
@@ -701,18 +701,18 @@ CLASS_RESOURCE_TYPES['Primalist'] = {
 // REAVER PATH
 CLASS_RESOURCE_TYPES['Berserker'] = {
     id: 'furyPoints',
-    name: 'Fury Points & Momentum Thresholds',
+    name: 'Fury Points',
     shortName: 'FP',
     type: 'rage',
     description: 'Fury that builds through combat with threshold bonuses',
     visual: {
-        type: 'rage-meter',
+        type: 'progress-bar',
         count: 15,
-        arrangement: 'thresholds',
-        baseColor: '#8B0000',
+        arrangement: 'horizontal',
+        baseColor: '#4A0000',
         activeColor: '#FF4500',
         glowColor: '#FF6347',
-        icon: '',
+        icon: '⚔️',
         effects: ['rage', 'fury']
     },
     mechanics: {
@@ -737,18 +737,18 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
 
 CLASS_RESOURCE_TYPES['Dreadnaught'] = {
     id: 'guardPoints',
-    name: 'Guard Points & Siege Stacks',
+    name: 'Guard Points',
     shortName: 'GP',
     type: 'fortress',
     description: 'Defensive guard points and siege weapon stacks',
     visual: {
-        type: 'fortress-shield',
-        count: 'calculated', // 5 + CON mod
-        arrangement: 'fortress',
-        baseColor: '#2F4F4F',
+        type: 'progress-bar',
+        count: 'calculated',
+        arrangement: 'horizontal',
+        baseColor: '#1F2F2F',
         activeColor: '#708090',
         glowColor: '#C0C0C0',
-        icon: '',
+        icon: '🏰',
         effects: ['fortress', 'siege']
     },
     mechanics: {
@@ -768,19 +768,19 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
 
 CLASS_RESOURCE_TYPES['Titan'] = {
     id: 'gravitasGauge',
-    name: 'Gravitas Gauge & Strain Points',
+    name: 'Gravitas Gauge',
     shortName: 'GG',
     type: 'gravity',
     description: 'Gravitational energy with strain overload risk',
     visual: {
-        type: 'gravity-meter',
+        type: 'progress-bar',
         count: 15,
-        arrangement: 'gauge',
-        baseColor: '#483D8B',
+        arrangement: 'horizontal',
+        baseColor: '#2D1B69',
         activeColor: '#6A5ACD',
         glowColor: '#9370DB',
         strainColor: '#DC143C',
-        icon: '',
+        icon: '🌌',
         effects: ['gravity', 'strain']
     },
     mechanics: {
@@ -807,13 +807,13 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
     type: 'alchemy',
     description: 'Alchemical vials and reagents for poison crafting',
     visual: {
-        type: 'bandolier',
-        count: 'calculated', // INT + 3
-        arrangement: 'vials',
-        baseColor: '#556B2F',
+        type: 'progress-bar',
+        count: 'calculated',
+        arrangement: 'horizontal',
+        baseColor: '#2D4A17',
         activeColor: '#9ACD32',
         glowColor: '#ADFF2F',
-        icon: '',
+        icon: '🧪',
         effects: ['alchemy', 'poison']
     },
     mechanics: {
@@ -833,18 +833,18 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
 
 CLASS_RESOURCE_TYPES['Covenbane'] = {
     id: 'sealTokens',
-    name: 'Seal Tokens, Dispel Gauge & Ward Slots',
+    name: 'Seal Tokens',
     shortName: 'ST',
     type: 'anti-magic',
     description: 'Anti-magic seals and dispel energy for witch hunting',
     visual: {
-        type: 'witch-hunter',
+        type: 'progress-bar',
         count: 'variable',
-        arrangement: 'toolkit',
-        baseColor: '#4169E1',
+        arrangement: 'horizontal',
+        baseColor: '#1E3A8A',
         activeColor: '#87CEEB',
         glowColor: '#E0E6FF',
-        icon: '',
+        icon: '🔒',
         effects: ['anti-magic', 'dispel']
     },
     mechanics: {
@@ -864,18 +864,18 @@ CLASS_RESOURCE_TYPES['Covenbane'] = {
 
 CLASS_RESOURCE_TYPES['Bladedancer'] = {
     id: 'edgeFlourish',
-    name: 'Edge, Flourish Tokens & Stance',
+    name: 'Edge & Flourish',
     shortName: 'EF',
     type: 'finesse',
     description: 'Combat edge and flourish tokens with stance bonuses',
     visual: {
-        type: 'elegant-blade',
+        type: 'progress-bar',
         count: 10,
-        arrangement: 'flowing',
-        baseColor: '#C0C0C0',
+        arrangement: 'horizontal',
+        baseColor: '#606060',
         activeColor: '#FFD700',
         glowColor: '#FFA500',
-        icon: '',
+        icon: '⚡',
         effects: ['finesse', 'grace']
     },
     mechanics: {
@@ -899,18 +899,18 @@ CLASS_RESOURCE_TYPES['Bladedancer'] = {
 // SENTINEL PATH
 CLASS_RESOURCE_TYPES['Lunarch'] = {
     id: 'lunarCharge',
-    name: 'Lunar Charge & Phase System',
+    name: 'Lunar Charge',
     shortName: 'LC',
     type: 'lunar',
     description: 'Lunar energy that changes with moon phases',
     visual: {
-        type: 'moon-dial',
+        type: 'progress-bar',
         count: 'variable',
-        arrangement: 'phases',
-        baseColor: '#2F2F4F',
+        arrangement: 'horizontal',
+        baseColor: '#1F1F2F',
         activeColor: '#E6E6FA',
         glowColor: '#F8F8FF',
-        icon: '',
+        icon: '🌙',
         effects: ['lunar', 'celestial']
     },
     mechanics: {
@@ -931,18 +931,18 @@ CLASS_RESOURCE_TYPES['Lunarch'] = {
 
 CLASS_RESOURCE_TYPES['Huntress'] = {
     id: 'quarryTracking',
-    name: 'Quarry Tracking & Precision Stacks',
+    name: 'Quarry Tracking',
     shortName: 'QT',
     type: 'hunter',
     description: 'Quarry marks and precision stacks for enhanced hunting',
     visual: {
-        type: 'crosshair',
+        type: 'progress-bar',
         count: 'variable',
-        arrangement: 'targeting',
-        baseColor: '#8B4513',
+        arrangement: 'horizontal',
+        baseColor: '#4A2C0A',
         activeColor: '#FF6347',
         glowColor: '#FFA500',
-        icon: '',
+        icon: '🎯',
         effects: ['tracking', 'precision']
     },
     mechanics: {
@@ -990,18 +990,18 @@ export const getResourceDisplayText = (classResource, config) => {
 
 CLASS_RESOURCE_TYPES['Warden'] = {
     id: 'bulwarkMeter',
-    name: 'Bulwark Meter & Ward Tokens',
+    name: 'Bulwark Meter',
     shortName: 'BM',
     type: 'protection',
     description: 'Protective barrier strength with ward token rewards',
     visual: {
-        type: 'barrier-generator',
+        type: 'progress-bar',
         count: 12,
-        arrangement: 'protective',
-        baseColor: '#4169E1',
+        arrangement: 'horizontal',
+        baseColor: '#1E3A8A',
         activeColor: '#87CEEB',
         glowColor: '#E0E6FF',
-        icon: '',
+        icon: '🛡️',
         effects: ['protection', 'barriers']
     },
     mechanics: {

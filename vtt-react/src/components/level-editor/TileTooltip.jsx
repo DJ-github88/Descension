@@ -138,7 +138,7 @@ const TileTooltip = ({ gridX, gridY, mouseX, mouseY, visible }) => {
         left: mouseX + offsetX,
         top: mouseY + offsetY,
         transform: (mouseX + offsetX < 0) ? 'translateX(0)' : 'none', // Adjust if going off left edge
-        zIndex: tooltipData.fogOfWar ? 10001 : 1000 // Same z-index as before
+        zIndex: 2147483647 // Maximum z-index value to ensure tooltips always appear above windows
     };
 
     return (
