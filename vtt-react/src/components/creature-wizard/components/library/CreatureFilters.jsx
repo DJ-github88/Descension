@@ -83,18 +83,18 @@ const CreatureFilters = () => {
         {/* Type filters */}
         <div className="filter-section">
           <h3>Creature Type</h3>
-          <div className="filter-options">
+          <div className="creature-filter-options">
             {Object.values(CREATURE_TYPES).map(type => (
               <label
                 key={type}
-                className={`filter-checkbox ${library.filters.types.includes(type) ? 'checked' : ''}`}
+                className={`creature-filter-checkbox ${library.filters.types.includes(type) ? 'checked' : ''}`}
               >
                 <input
                   type="checkbox"
                   checked={library.filters.types.includes(type)}
                   onChange={() => handleTypeChange(type)}
                 />
-                <span className="checkbox-label">{formatTypeName(type)}</span>
+                <span className="creature-checkbox-label">{formatTypeName(type)}</span>
               </label>
             ))}
           </div>
@@ -103,18 +103,18 @@ const CreatureFilters = () => {
         {/* Size filters */}
         <div className="filter-section">
           <h3>Size</h3>
-          <div className="filter-options">
+          <div className="creature-filter-options">
             {Object.values(CREATURE_SIZES).map(size => (
               <label
                 key={size}
-                className={`filter-checkbox ${library.filters.sizes.includes(size) ? 'checked' : ''}`}
+                className={`creature-filter-checkbox ${library.filters.sizes.includes(size) ? 'checked' : ''}`}
               >
                 <input
                   type="checkbox"
                   checked={library.filters.sizes.includes(size)}
                   onChange={() => handleSizeChange(size)}
                 />
-                <span className="checkbox-label">{formatSizeName(size)}</span>
+                <span className="creature-checkbox-label">{formatSizeName(size)}</span>
               </label>
             ))}
           </div>

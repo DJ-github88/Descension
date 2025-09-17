@@ -61,13 +61,13 @@
   padding-bottom: 4px;
 }
 
-.filter-options {
+.creature-filter-options {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.filter-checkbox {
+.creature-filter-checkbox {
   position: relative;
   display: flex;
   align-items: center;
@@ -84,14 +84,14 @@
   box-sizing: border-box;
 }
 
-.filter-checkbox:hover {
+.creature-filter-checkbox:hover {
   background: rgba(213, 203, 176, 0.5);
   border-color: rgba(139, 115, 85, 0.6);
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.filter-checkbox input[type="checkbox"] {
+.creature-filter-checkbox input[type="checkbox"] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -99,7 +99,7 @@
 }
 
 /* Custom checkbox design - D&D theme */
-.filter-checkbox::before {
+.creature-filter-checkbox::before {
   content: '';
   width: 16px;
   height: 16px;
@@ -113,13 +113,13 @@
   align-self: center; /* Ensure checkbox is vertically centered */
 }
 
-.filter-checkbox.checked::before {
+.creature-filter-checkbox.checked::before {
   background: #7a3b2e; /* Rustic red */
   border-color: #5e2e23;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-.filter-checkbox.checked::after {
+.creature-filter-checkbox.checked::after {
   content: '✓';
   position: absolute;
   left: 15px; /* Fine-tuned to center within the checkbox */
@@ -133,7 +133,7 @@
   pointer-events: none;
 }
 
-.checkbox-label {
+.creature-checkbox-label {
   font-size: 13px;
   color: #3a3a3a; /* Dark gray for good contrast on light background */
   font-weight: 500;
@@ -220,12 +220,12 @@
 }
 
 /* Enhanced checkbox states */
-.filter-checkbox.checked {
+.creature-filter-checkbox.checked {
   border-color: #7a3b2e;
   background: rgba(122, 59, 46, 0.1);
 }
 
-.filter-checkbox.checked:hover {
+.creature-filter-checkbox.checked:hover {
   border-color: #5e2e23;
   background: rgba(122, 59, 46, 0.15);
 }
