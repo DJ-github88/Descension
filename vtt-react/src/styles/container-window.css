@@ -318,45 +318,57 @@
 }
 
 .context-menu {
-    background-color: rgb(30, 30, 35);
-    border: 1px solid rgb(60, 60, 60);
-    border-radius: 4px;
-    padding: 6px;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.7);
+    overflow: hidden;
     min-width: 180px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-    z-index: 10001;
+    z-index: 99999;
+    position: fixed;
+    backdrop-filter: blur(4px);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    transform: translateZ(0);
 }
 
 .context-menu-item {
+    padding: 0.6rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #3a2f1a;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 4px;
+    letter-spacing: 0.3px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    color: #ddd;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.2s ease;
-    font-size: 14px;
+    gap: 0.75rem;
 }
 
 .context-menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    color: #3a2f1a;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
 }
 
 .context-menu-item i {
     width: 16px;
     text-align: center;
-    color: #999;
+    color: #8b7355;
 }
 
-.context-menu-item:hover i {
-    color: #ffaa00;
+.context-menu-item:last-child {
+    border-bottom: none;
 }
 
 /* Delete item styling */
 .delete-item {
-    color: #ff4a4a;
+    color: #7a3b2e;
+}
+
+.delete-item:hover {
+    background: linear-gradient(135deg, #f0d0d0 0%, #e8c0c0 100%);
 }
 
 .delete-item:hover {

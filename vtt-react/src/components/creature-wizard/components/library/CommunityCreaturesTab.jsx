@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useCommunityCreatures } from '../../../../hooks/useCommunityCreatures';
 import { useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
+import useCreatureStore from '../../../../store/creatureStore';
 import CompactCreatureCard from '../common/CompactCreatureCard';
 import SimpleCreatureTooltip from '../common/SimpleCreatureTooltip';
 import '../../../../styles/community-tabs-shared.css';
@@ -32,6 +33,7 @@ const CommunityCreaturesTab = () => {
   } = useCommunityCreatures();
 
   const libraryDispatch = useCreatureLibraryDispatch();
+  const creatureStore = useCreatureStore();
   const [searchInput, setSearchInput] = useState('');
   const [downloadingCreatures, setDownloadingCreatures] = useState(new Set());
 
@@ -92,9 +94,12 @@ const CommunityCreaturesTab = () => {
         categoryIds: [downloadedCreature.categoryId]
       };
 
+      // Add to creature store first to ensure immediate availability for token placement
+      creatureStore.addCreature(localCreature);
+
       // Add to creature library using the context
       libraryDispatch(libraryActionCreators.addCreature(localCreature));
-      
+
       console.log('Creature downloaded and added to library:', localCreature.name);
     } catch (error) {
       console.error('Failed to download creature:', error);
@@ -328,7 +333,7 @@ const CommunityCreaturesTab = () => {
             position: 'fixed',
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
-            zIndex: 999999999
+            zIndex: 2147483647 // Maximum z-index to ensure tooltips always appear above windows
           }}
           onWheel={(e) => {
             // Stop propagation to prevent background scrolling when scrolling tooltip

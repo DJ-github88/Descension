@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../../../styles/unified-context-menu.css';
+import UnifiedContextMenu from '../../../level-editor/UnifiedContextMenu';
 
 /**
  * CollectionContextMenu - Context menu for spell collections
@@ -20,36 +20,34 @@ const CollectionContextMenu = ({
     onClose();
   };
 
+  const menuItems = [
+    {
+      icon: <i className="fas fa-book-open"></i>,
+      label: 'Open Collection',
+      onClick: () => handleItemClick(onOpen)
+    },
+    {
+      icon: <i className="fas fa-edit"></i>,
+      label: 'Edit Collection',
+      onClick: () => handleItemClick(onEdit)
+    },
+    { type: 'separator' },
+    {
+      icon: <i className="fas fa-trash"></i>,
+      label: 'Delete Collection',
+      onClick: () => handleItemClick(onDelete),
+      className: 'danger'
+    }
+  ];
+
   return (
-    <div
-      className="unified-context-menu"
-      style={{ left: x, top: y }}
-      onClick={e => e.stopPropagation()}
-    >
-      <button
-        className="context-menu-button"
-        onClick={() => handleItemClick(onOpen)}
-      >
-        <i className="fas fa-book-open"></i>
-        Open Collection
-      </button>
-
-      <button
-        className="context-menu-button"
-        onClick={() => handleItemClick(onEdit)}
-      >
-        <i className="fas fa-edit"></i>
-        Edit Collection
-      </button>
-
-      <button
-        className="context-menu-button danger"
-        onClick={() => handleItemClick(onDelete)}
-      >
-        <i className="fas fa-trash"></i>
-        Delete Collection
-      </button>
-    </div>
+    <UnifiedContextMenu
+      visible={true}
+      x={x}
+      y={y}
+      onClose={onClose}
+      items={menuItems}
+    />
   );
 };
 

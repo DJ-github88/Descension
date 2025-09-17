@@ -47,7 +47,7 @@
 .draggable-window.react-draggable-dragging {
     transition: none !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    z-index: 20000 !important; /* Ensure it's on top when dragging */
+    z-index: 15000 !important; /* Ensure it's on top when dragging but below tooltips */
     /* Maintain transform origin for proper scaling during drag */
     transform-origin: top left !important;
 }

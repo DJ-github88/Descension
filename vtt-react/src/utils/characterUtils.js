@@ -370,20 +370,41 @@ export function debounce(func, delay) {
 
 // Calculate carrying capacity based on strength and equipment bonuses
 // Base: 5x5 (25 slots) for each section (normal, encumbered, overencumbered)
-// Strength modifier adds/subtracts rows to each section (can go below 5 rows with negative modifiers)
+// Custom inventory progression: +/-1 row every 2 strength points from base 10-11
+// 8-9 str = 4 rows, 10-11 str = 5 rows, 12-13 str = 6 rows, 14-15 str = 7 rows, etc.
 export function calculateCarryingCapacity(strength, equipmentBonus = 0) {
-    const strModifier = Math.floor((strength - 10) / 2);
-    const baseRowsPerSection = 5;
-    const additionalRows = strModifier; // Allow both positive and negative modifiers
+    const baseRowsPerSection = 5; // Base for strength 10-11
 
-    // Minimum of 1 row per section, even with very negative strength
+    // Custom progression: strength 10-11 = base (5 rows)
+    // Every 2 points above 11 adds 1 row, every 2 points below 10 removes 1 row
+    let additionalRows = 0;
+
+    if (strength >= 12) {
+        // 12-13 = +1, 14-15 = +2, etc.
+        additionalRows = Math.floor((strength - 10) / 2);
+    } else if (strength <= 9) {
+        // 8-9 = -1, 6-7 = -2, etc.
+        additionalRows = Math.floor((strength - 10) / 2); // This will be negative
+    }
+    // strength 10-11 gets additionalRows = 0
+
+    // Minimum of 1 row per section, even with very low strength
     const rowsPerSection = Math.max(1, baseRowsPerSection + additionalRows);
     const slotsPerRow = 5;
     const sectionsCount = 3; // normal, encumbered, overencumbered
 
     const totalSlots = rowsPerSection * slotsPerRow * sectionsCount;
 
-
+    console.log('🎒 Carrying capacity calculation:', {
+        strength,
+        baseRowsPerSection,
+        additionalRows,
+        rowsPerSection,
+        totalSlots,
+        equipmentBonus,
+        finalCapacity: totalSlots + equipmentBonus,
+        expectedGrid: `${rowsPerSection}x15`
+    });
 
     // Add equipment bonus (individual slots)
     return totalSlots + equipmentBonus;
@@ -402,7 +423,13 @@ export function getInventoryGridDimensions(carryingCapacity) {
     // Calculate rows per section (minimum 5 rows, then add based on strength)
     const rowsPerSection = Math.ceil(slotsPerSection / slotsPerRow);
 
-
+    console.log('📐 Grid dimensions calculation:', {
+        carryingCapacity,
+        slotsPerSection,
+        rowsPerSection,
+        totalColumns,
+        finalDimensions: `${rowsPerSection}x${totalColumns}`
+    });
 
     return {
         WIDTH: totalColumns, // Always 15 columns (5 normal + 5 encumbered + 5 overencumbered)

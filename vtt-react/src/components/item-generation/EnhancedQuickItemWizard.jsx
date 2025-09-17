@@ -1336,8 +1336,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                     copper: copper || (gold === 0 && silver === 0 ? 1 : 0) // Ensure at least 1 copper if no other value
                 };
             })(),
-            // Add stackable property for consumables and miscellaneous items
-            ...(type === 'consumable' || type === 'miscellaneous' ? {
+            // Add stackable property for consumables, miscellaneous, and material items
+            ...(type === 'consumable' || type === 'miscellaneous' || type === 'material' ? {
                 stackable: true,
                 maxStackSize: 5
             } : {}),

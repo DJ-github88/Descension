@@ -106,10 +106,11 @@ const WowWindow = forwardRef(({
     const handleWindowClick = useCallback((e) => {
         // Only bring to front if clicking on the window itself, not dragging
         if (!isDragging) {
-            const newZIndex = Date.now(); // Use timestamp for unique z-index
+            // Use a simple incrementing z-index that stays well below dragged windows
+            const newZIndex = Math.min(zIndex + 1, 14000);
             setZIndex(newZIndex);
         }
-    }, [isDragging]);
+    }, [isDragging, zIndex]);
 
     // Handle resize - only when not dragging
     const handleResize = (event, { size }) => {

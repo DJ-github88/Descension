@@ -846,13 +846,13 @@ const generateBasicItem = (type, subtype, quality, powerScale) => {
         height: dimensions.height,
         rotation: 0,
 
-        // Add stackable property for consumables and miscellaneous items only
-        ...((type === 'consumable' || type === 'miscellaneous') && {
+        // Add stackable property for consumables, miscellaneous, and material items only
+        ...((type === 'consumable' || type === 'miscellaneous' || type === 'material') && {
             stackable: true,
             maxStackSize: 5
         }),
         // Explicitly set other items as non-stackable
-        ...((type !== 'consumable' && type !== 'miscellaneous') && {
+        ...((type !== 'consumable' && type !== 'miscellaneous' && type !== 'material') && {
             stackable: false
         })
     };
@@ -1486,8 +1486,8 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             height: dimensions.height,
             rotation: 0,
 
-            // Add stackable property for consumables and miscellaneous items only
-            ...((type === 'consumable' || type === 'miscellaneous') && {
+            // Add stackable property for consumables, miscellaneous, and material items only
+            ...((type === 'consumable' || type === 'miscellaneous' || type === 'material') && {
                 stackable: true,
                 maxStackSize: 5
             }),

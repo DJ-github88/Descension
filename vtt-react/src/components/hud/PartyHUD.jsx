@@ -10,6 +10,7 @@ import useDebuffStore from '../../store/debuffStore';
 import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -972,80 +973,77 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             </div>
 
             {/* Context Menu - Outside draggable containers */}
-            {showContextMenu && (
-                <>
-                    <div
-                        className="context-menu-overlay"
-                        onClick={() => setShowContextMenu(false)}
+            {showContextMenu && (() => {
+                const menuItems = [];
+
+                // Target/Clear Target
+                menuItems.push({
+                    icon: <i className="fas fa-crosshairs"></i>,
+                    label: currentTarget?.id === contextMenuMember?.id ? 'Clear Target' : 'Target',
+                    onClick: handleTargetMember
+                });
+
+                // Inspect
+                menuItems.push({
+                    icon: <i className="fas fa-search"></i>,
+                    label: 'Inspect',
+                    onClick: handleInspectMember
+                });
+
+                // Only show create token for current player
+                if (contextMenuMember?.name === currentPlayerData.name || contextMenuMember?.id === 'current-player') {
+                    menuItems.push({
+                        icon: <i className="fas fa-plus-circle"></i>,
+                        label: 'Create Token',
+                        onClick: handleCreateToken
+                    });
+                }
+
+                // Only show uninvite for other party members, not yourself
+                if (contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
+                    menuItems.push({
+                        icon: <i className="fas fa-user-minus"></i>,
+                        label: 'Uninvite',
+                        onClick: handleUninviteMember,
+                        className: 'danger'
+                    });
+                }
+
+                // Only show pass leadership if current player is leader and target is not current player
+                if (isPartyLeader() && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
+                    menuItems.push({
+                        icon: <i className="fas fa-crown"></i>,
+                        label: 'Pass Leadership',
+                        onClick: handlePassLeadership
+                    });
+                }
+
+                return (
+                    <UnifiedContextMenu
+                        visible={true}
+                        x={contextMenuPosition.x}
+                        y={contextMenuPosition.y}
+                        onClose={() => setShowContextMenu(false)}
+                        items={menuItems}
                     />
-                    <div
-                        className="party-context-menu"
-                        style={{
-                            position: 'fixed',
-                            left: contextMenuPosition.x,
-                            top: contextMenuPosition.y,
-                            zIndex: 10000,
-                            pointerEvents: 'auto'
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button className="context-menu-button" onClick={handleTargetMember}>
-                            <i className="fas fa-crosshairs"></i> {currentTarget?.id === contextMenuMember?.id ? 'Clear Target' : 'Target'}
-                        </button>
-                        <button className="context-menu-button" onClick={handleInspectMember}>
-                            <i className="fas fa-search"></i> Inspect
-                        </button>
-                        {/* Only show create token for current player */}
-                        {(contextMenuMember?.name === currentPlayerData.name || contextMenuMember?.id === 'current-player') && (
-                            <button className="context-menu-button" onClick={handleCreateToken}>
-                                <i className="fas fa-plus-circle"></i> Create Token
-                            </button>
-                        )}
-                        <button
-                            className={`context-menu-button ${currentTarget?.id === contextMenuMember?.id ? 'active' : ''}`}
-                            onClick={handleTargetMember}
-                        >
-                            <i className="fas fa-crosshairs"></i> {currentTarget?.id === contextMenuMember?.id ? 'Clear Target' : 'Target'}
-                        </button>
-                        {/* Only show uninvite for other party members, not yourself */}
-                        {contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player' && (
-                            <button className="context-menu-button uninvite" onClick={handleUninviteMember}>
-                                <i className="fas fa-user-minus"></i> Uninvite
-                            </button>
-                        )}
-                        {/* Only show pass leadership if current player is leader and target is not current player */}
-                        {isPartyLeader() && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player' && (
-                            <button className="context-menu-button" onClick={handlePassLeadership}>
-                                <i className="fas fa-crown"></i> Pass Leadership
-                            </button>
-                        )}
-                    </div>
-                </>
-            )}
+                );
+            })()}
 
             {/* Buff Context Menu - Outside draggable containers */}
             {showBuffContextMenu && (
-                <>
-                    <div
-                        className="context-menu-overlay"
-                        onClick={() => setShowBuffContextMenu(false)}
-                    />
-                    <div
-                        className="party-context-menu"
-                        style={{
-                            position: 'fixed',
-                            left: buffContextMenuPosition.x,
-                            top: buffContextMenuPosition.y,
-                            zIndex: 10000,
-                            pointerEvents: 'auto'
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button className="context-menu-button" onClick={handleDismissBuff}>
-                            <i className="fas fa-times"></i> Dismiss Buff
-                        </button>
-                    </div>
-                </>
+                <UnifiedContextMenu
+                    visible={true}
+                    x={buffContextMenuPosition.x}
+                    y={buffContextMenuPosition.y}
+                    onClose={() => setShowBuffContextMenu(false)}
+                    items={[
+                        {
+                            icon: <i className="fas fa-times"></i>,
+                            label: 'Dismiss Buff',
+                            onClick: handleDismissBuff
+                        }
+                    ]}
+                />
             )}
         </>
     );

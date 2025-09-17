@@ -10,11 +10,13 @@ import useDebuffStore from '../../store/debuffStore';
 import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
+import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
 import './styles/ClassResourceBar.css';
 
-const TargetHUD = () => {
+const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const nodeRef = useRef(null);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
@@ -27,12 +29,18 @@ const TargetHUD = () => {
     const [forceUpdate, setForceUpdate] = useState(0);
     const [showDurationModal, setShowDurationModal] = useState(false);
     const [durationModalCondition, setDurationModalCondition] = useState(null);
+    const [showCreatureInspect, setShowCreatureInspect] = useState(false);
+    const [inspectCreatureData, setInspectCreatureData] = useState(null);
+    const [inspectToken, setInspectToken] = useState(null);
 
     const { currentTarget, targetType, clearTarget, targetHUDPosition, setTargetHUDPosition, getTargetHUDPosition } = useTargetingStore();
     const { isGMMode } = useGameStore();
     const { updatePartyMember } = usePartyStore();
-    const { updateResource } = useCharacterStore();
-    const { updateTokenState } = useCreatureStore();
+    const { updateResource, activeCharacter } = useCharacterStore();
+    const { updateTokenState, getCreature } = useCreatureStore();
+
+    // Get current player data for comparison
+    const currentPlayerData = activeCharacter;
     const { getBuffsForTarget, getRemainingTime } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime } = useDebuffStore();
 
@@ -57,7 +65,7 @@ const TargetHUD = () => {
     // Watch for token changes specifically for creature targets
     useEffect(() => {
         if (targetType === 'creature' && currentTarget?.id) {
-            const targetToken = tokens.find(t => t.creatureId === currentTarget.id);
+            const targetToken = tokens.find(t => t.id === currentTarget.id);
             // Always force refresh when tokens array changes for creature targets
             setForceUpdate(prev => prev + 1);
         }
@@ -99,7 +107,7 @@ const TargetHUD = () => {
                 (state) => state.tokens,
                 (tokens) => {
                     // Check if our target token was updated
-                    const targetToken = tokens.find(t => t.creatureId === currentTarget?.id);
+                    const targetToken = tokens.find(t => t.id === currentTarget?.id);
                     if (targetToken) {
                         setForceUpdate(prev => prev + 1);
                     }
@@ -200,7 +208,8 @@ const TargetHUD = () => {
             // For creatures, get current values from token state if available
             // Get fresh token data from store to ensure we have the latest state
             const freshTokens = useCreatureStore.getState().tokens;
-            const token = freshTokens.find(t => t.creatureId === currentTarget.id);
+            // Now we target by tokenId, so find the token directly
+            const token = freshTokens.find(t => t.id === currentTarget.id);
 
             let health, mana, actionPoints;
 
@@ -257,9 +266,13 @@ const TargetHUD = () => {
 
     // Don't render if no target
     if (!currentTarget) {
+        console.log('🎯 TargetHUD: No current target, hiding component');
         return null;
     }
-    if (!targetData) return null;
+    if (!targetData) {
+        console.log('🎯 TargetHUD: No target data, hiding component');
+        return null;
+    }
 
     // Ensure resource data is properly structured
     const safeHealth = (targetData.health && typeof targetData.health === 'object' &&
@@ -282,9 +295,8 @@ const TargetHUD = () => {
         if (targetType === 'party_member' || targetType === 'player') {
             return currentTarget.id;
         } else if (targetType === 'creature') {
-            // For creatures, use the token ID if available, otherwise creature ID
-            const token = tokens.find(t => t.creatureId === currentTarget.id);
-            return token ? token.id : currentTarget.id;
+            // For creatures, we now target by tokenId directly
+            return currentTarget.id;
         }
         return null;
     };
@@ -308,17 +320,69 @@ const TargetHUD = () => {
     const handleRightClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        // Use nativeEvent for stopImmediatePropagation if available
+        if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
+            e.nativeEvent.stopImmediatePropagation();
+        }
+        console.log('🎯 TargetHUD: Right-click detected at', e.clientX, e.clientY);
         setContextMenuPosition({ x: e.clientX, y: e.clientY });
         setShowContextMenu(true);
+        console.log('🎯 TargetHUD: Context menu state set to true');
     };
 
     const handleClearTarget = () => {
+        console.log('🎯 TargetHUD: Clear Target clicked!');
         clearTarget();
         setShowContextMenu(false);
+        // Force immediate re-render to ensure component disappears
+        setForceUpdate(prev => prev + 1);
+        console.log('🎯 TargetHUD: Target cleared, forced update triggered');
     };
 
     const handleInspectTarget = () => {
-        // Inspect target functionality can be added here
+        console.log('🎯 TargetHUD: Inspect Target clicked!');
+
+        if (!currentTarget || !targetData) {
+            console.log('🎯 TargetHUD: No target to inspect');
+            setShowContextMenu(false);
+            return;
+        }
+
+        // Check if inspecting a party member or creature
+        if (targetType === 'party_member') {
+            // For party members, open their character sheet
+            const isSelf = targetData.name === currentPlayerData?.name || targetData.id === 'current-player';
+
+            // Use the same logic as PartyHUD inspect
+            if (onOpenCharacterSheet) {
+                onOpenCharacterSheet(targetData, isSelf);
+                console.log('🎯 TargetHUD: Opening character sheet for:', targetData.name);
+            } else {
+                console.log('🎯 TargetHUD: Character sheet opener not available');
+            }
+        } else if (targetType === 'creature') {
+            // For creatures, fetch the full creature data from the store and open the inspection window
+            console.log('🎯 TargetHUD: Opening creature inspection for:', targetData.name);
+            console.log('🎯 TargetHUD: Fetching full creature data for token ID:', currentTarget.id);
+
+            // Get the token first, then get the creature data
+            const token = tokens.find(t => t.id === currentTarget.id);
+            if (token) {
+                const fullCreatureData = getCreature(token.creatureId);
+                if (fullCreatureData) {
+                    console.log('🎯 TargetHUD: Full creature data found:', fullCreatureData.name);
+                    console.log('🎯 TargetHUD: Creature has stats:', !!fullCreatureData.stats);
+                    setInspectCreatureData(fullCreatureData);
+                    setInspectToken(token);
+                    setShowCreatureInspect(true);
+                } else {
+                    console.error('🎯 TargetHUD: Could not find full creature data for creature ID:', token.creatureId);
+                }
+            } else {
+                console.error('🎯 TargetHUD: Could not find token with ID:', currentTarget.id);
+            }
+        }
+
         setShowContextMenu(false);
     };
 
@@ -915,29 +979,34 @@ const TargetHUD = () => {
 
             {/* Context Menu - Outside draggable container */}
             {showContextMenu && (
-                <>
-                    <div
-                        className="context-menu-overlay"
-                        onClick={() => setShowContextMenu(false)}
-                    />
-                    <div
-                        className="party-context-menu"
-                        style={{
-                            position: 'fixed',
-                            left: contextMenuPosition.x,
-                            top: contextMenuPosition.y,
-                            zIndex: 10000
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button className="context-menu-button" onClick={handleInspectTarget}>
-                            <i className="fas fa-search"></i> Inspect
-                        </button>
-                        <button className="context-menu-button" onClick={handleClearTarget}>
-                            <i className="fas fa-times"></i> Clear Target
-                        </button>
-                    </div>
-                </>
+                <UnifiedContextMenu
+                    visible={true}
+                    x={contextMenuPosition.x}
+                    y={contextMenuPosition.y}
+                    onClose={() => setShowContextMenu(false)}
+                    items={[
+                        {
+                            icon: <i className="fas fa-search"></i>,
+                            label: 'Inspect',
+                            onClick: (e) => {
+                                console.log('🎯 TargetHUD: Inspect clicked');
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleInspectTarget();
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-times"></i>,
+                            label: 'Clear Target',
+                            onClick: (e) => {
+                                console.log('🎯 TargetHUD: Clear Target clicked');
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleClearTarget();
+                            }
+                        }
+                    ]}
+                />
             )}
 
             {/* Resource Adjustment Modal */}
@@ -1030,6 +1099,20 @@ const TargetHUD = () => {
                         </div>
                     </div>
                 </>
+            )}
+
+            {/* Creature Inspection Window */}
+            {showCreatureInspect && targetType === 'creature' && inspectCreatureData && (
+                <EnhancedCreatureInspectView
+                    creature={inspectCreatureData}
+                    token={inspectToken}
+                    isOpen={showCreatureInspect}
+                    onClose={() => {
+                        setShowCreatureInspect(false);
+                        setInspectCreatureData(null);
+                        setInspectToken(null);
+                    }}
+                />
             )}
         </>
     );

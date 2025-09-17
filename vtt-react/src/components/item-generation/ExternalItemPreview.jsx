@@ -12,25 +12,20 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
     return null;
   }
 
-  // Calculate position relative to the wizard window with live updates - REACTIVE
-  const wizardWidth = (windowSize?.width || 800) * windowScale;
+  // Simple positioning - tooltip right next to wizard window
+  const tooltipWidth = 550;
+  const tooltipHeight = 500;
+  const wizardWidth = windowSize?.width || 800;
   const wizardX = windowPosition?.x || 150;
   const wizardY = windowPosition?.y || 50;
-  const tooltipWidth = 350;
 
-  // Position the tooltip with a larger gap from the wizard window to avoid overlap
-  let tooltipX = wizardX + wizardWidth + 25; // Larger gap from wizard to prevent overlap
-  const tooltipY = wizardY + 60; // Aligned with content area
+  // Account for window scaling - tooltip should be right next to the scaled outer frame
+  const scaledWizardWidth = wizardWidth * windowScale;
 
-  // Check if tooltip would go off screen, if so position to the left of wizard with proper spacing
-  if (tooltipX + tooltipWidth > window.innerWidth - 20) {
-    tooltipX = wizardX - tooltipWidth - 25; // Position to the left with proper spacing
-  }
-
-  // Ensure tooltip doesn't go off the left edge either
-  if (tooltipX < 20) {
-    tooltipX = 20; // Minimum distance from left edge
-  }
+  // Position tooltip right next to the window with minimal gap
+  const gap = 10; // Small gap between window and tooltip
+  const tooltipX = wizardX + scaledWizardWidth + gap;
+  const tooltipY = wizardY; // Align with wizard top
 
   const position = {
     left: `${tooltipX}px`,
@@ -38,6 +33,7 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
     position: 'fixed',
     zIndex: 99999,
     width: `${tooltipWidth}px`,
+    height: `${tooltipHeight}px`,
     maxHeight: 'none',
     overflow: 'visible'
   };
@@ -150,7 +146,7 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
       }),
 
       // Value
-      value: itemData.value || { gold: 0, silver: 0, copper: 0 },
+      value: itemData.value || { platinum: 0, gold: 0, silver: 0, copper: 0 },
       
       // Appearance
       iconId: itemData.iconId || '',

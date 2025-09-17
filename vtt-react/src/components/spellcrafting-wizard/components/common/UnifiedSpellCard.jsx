@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -3834,7 +3834,8 @@ const UnifiedSpellCard = ({
         icon: spell.icon || 'spell_holy_holybolt',
         cooldown: spell.cooldown || 0,
         level: spell.level || 1,
-        spellType: spell.spellType || 'ACTION'
+        spellType: spell.spellType || 'ACTION',
+        type: 'spell' // Ensure action bar identifies this as a spell for tooltip handling
       };
       e.dataTransfer.setData('application/json', JSON.stringify(spellData));
       e.dataTransfer.effectAllowed = 'copy';
@@ -3854,39 +3855,67 @@ const UnifiedSpellCard = ({
       hideTimeoutRef.current = null;
     }
 
+    // Store the current mouse position for initial tooltip placement
+    const currentMouseX = e.clientX;
+    const currentMouseY = e.clientY;
+
     // Set show timeout
     hoverTimeoutRef.current = setTimeout(() => {
-      if (itemRef.current) {
-        const rect = itemRef.current.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+      // Use mouse position for tooltip placement - this follows the cursor
+      // and works correctly regardless of window position or scroll
+      const tooltipX = currentMouseX + 15;
+      const tooltipY = currentMouseY - 10;
 
-        // Calculate tooltip position
-        let x = rect.right + 10; // Default to right side
-        let y = rect.top;
-
-        // If tooltip would go off right edge, show on left
-        if (x + 400 > viewportWidth) {
-          x = rect.left - 410;
-        }
-
-        // If tooltip would go off bottom, adjust upward
-        if (y + 500 > viewportHeight) {
-          y = viewportHeight - 510;
-        }
-
-        // Ensure tooltip doesn't go off top
-        if (y < 10) {
-          y = 10;
-        }
-
-        setTooltipPosition({ x, y });
-        setShowTooltip(true);
-      }
+      console.log('Spell tooltip position:', {
+        x: tooltipX,
+        y: tooltipY,
+        mouseX: currentMouseX,
+        mouseY: currentMouseY,
+        elementId: spell?.id,
+        elementName: spell?.name
+      }); // Debug log
+      setTooltipPosition({ x: tooltipX, y: tooltipY });
+      setShowTooltip(true);
     }, 300); // 300ms delay before showing tooltip
   }, [variant]);
 
-  // Handle mouse leave with delay
+  // Handle mouse move to update tooltip position
+  const handleMouseMove = useCallback((e) => {
+    if (variant !== 'compact' || !showTooltip) return;
+
+    // Update tooltip position to follow the mouse cursor
+    // This ensures the tooltip stays with the cursor even when windows move
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    // Position tooltip relative to mouse cursor
+    const tooltipX = mouseX + 15;
+    const tooltipY = mouseY - 10;
+
+    setTooltipPosition({ x: tooltipX, y: tooltipY });
+  }, [variant, showTooltip]);
+
+  // Add effect to handle window movement and ensure tooltip stays visible
+  useEffect(() => {
+    if (!showTooltip) return;
+
+    // Listen for window movement events to update tooltip position
+    const handleWindowMove = () => {
+      // Force a re-render of the tooltip to ensure it stays on top
+      setTooltipPosition(prev => ({ ...prev }));
+    };
+
+    // Listen for various events that might affect window positioning
+    window.addEventListener('resize', handleWindowMove);
+    document.addEventListener('scroll', handleWindowMove, true);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowMove);
+      document.removeEventListener('scroll', handleWindowMove, true);
+    };
+  }, [showTooltip]);
+
+  // Handle mouse leave with immediate hide (unless moving to tooltip)
   const handleMouseLeave = useCallback(() => {
     if (variant !== 'compact') return;
 
@@ -3896,10 +3925,10 @@ const UnifiedSpellCard = ({
       hoverTimeoutRef.current = null;
     }
 
-    // Set hide timeout
+    // Hide tooltip immediately when leaving the spell
     hideTimeoutRef.current = setTimeout(() => {
       setShowTooltip(false);
-    }, 100); // 100ms delay before hiding tooltip
+    }, 50); // Very short delay to allow moving to tooltip
   }, [variant]);
 
   // Cleanup timeouts on unmount
@@ -3928,6 +3957,7 @@ const UnifiedSpellCard = ({
           onContextMenu={onContextMenu}
           onDragStart={handleDragStart}
           onMouseEnter={handleMouseEnter}
+          onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           draggable={isDraggable}
           tabIndex={onClick || onSelect ? "0" : undefined}
@@ -3935,6 +3965,13 @@ const UnifiedSpellCard = ({
           aria-selected={isSelected}
           data-spell-id={spell?.id}
           title="Drag to action bar to add spell"
+          style={{
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none',
+            cursor: isDraggable ? 'grab' : 'pointer'
+          }}
           {...props}
         >
         {/* Spell Icon */}

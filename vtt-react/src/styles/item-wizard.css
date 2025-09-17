@@ -360,9 +360,9 @@
   color: var(--pf-text-primary, #2d1810) !important;
   overflow: hidden !important;
   width: 800px !important;
-  max-height: 85vh !important;
-  min-height: 500px !important;
-  height: auto !important;
+  max-height: 90vh !important;
+  min-height: 700px !important;
+  height: 700px !important;
 }
 
 /* ===== SINGLE COLUMN LAYOUT (Preview is now external) ===== */
@@ -418,8 +418,10 @@
   overflow-y: auto !important;
   overflow-x: hidden !important;
   padding: var(--pf-space-4, 16px) !important;
+  padding-bottom: var(--pf-space-4, 16px) !important; /* Normal padding */
   background: transparent !important;
   min-height: 0 !important; /* Important for flex scrolling */
+  max-height: calc(100% - 160px) !important; /* Account for header and footer */
 }
 
 /* Custom scrollbar for main content */
@@ -598,11 +600,22 @@
 
 .item-wizard-modal .wizard-step {
   background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
-  border: none !important;
+  border: 2px solid var(--pf-brown-light) !important;
+  border-radius: 12px !important;
   padding: var(--pf-space-6, 24px) !important;
   margin: 0 !important;
+  margin-bottom: 16px !important;
   flex: 1 !important;
-  overflow-y: auto !important;
+  overflow-y: visible !important; /* Allow content to flow naturally */
+  overflow-x: hidden !important;
+  min-height: 400px !important; /* Ensure minimum height for content */
+  max-height: none !important; /* Remove height restrictions */
+  height: auto !important; /* Allow natural height expansion */
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-shadow: 0 4px 8px rgba(139, 69, 19, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 .item-wizard-modal .wizard-step h3 {
@@ -844,6 +857,7 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
     max-height: calc(90vh - 120px) !important;
+    padding-bottom: var(--pf-space-4, 16px) !important; /* Normal padding */
     scrollbar-width: thin !important;
     scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light) !important;
 }
@@ -938,7 +952,8 @@
   overflow: hidden !important;
   width: 800px !important;
   max-height: 90vh !important;
-  min-height: 600px !important;
+  min-height: 700px !important;
+  height: 700px !important;
   display: flex !important;
   flex-direction: column !important;
   position: fixed !important;
@@ -960,6 +975,7 @@
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
+  min-height: 0 !important;
 }
 
 .item-wizard-modal .spell-wizard-step-content {
@@ -967,13 +983,42 @@
   display: flex !important;
   flex-direction: column !important;
   overflow-y: auto !important;
+  overflow-x: hidden !important;
   padding: var(--pf-space-4, 16px) !important;
+  padding-bottom: 150px !important; /* Much more space at bottom for scrolling past description */
+  min-height: 0 !important;
+  max-height: 100% !important; /* Ensure content can scroll within its container */
 }
 
 .item-wizard-modal .spell-wizard-form {
   flex: 1 !important;
   display: flex !important;
   flex-direction: column !important;
+  overflow-y: visible !important; /* Allow natural content flow */
+  overflow-x: hidden !important;
+  min-height: 0 !important;
+  padding-bottom: var(--pf-space-4, 16px) !important; /* Normal padding */
+  max-height: none !important; /* Remove height restrictions to allow natural expansion */
+}
+
+/* Custom scrollbar for spell-wizard-form */
+.item-wizard-modal .spell-wizard-form::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.item-wizard-modal .spell-wizard-form::-webkit-scrollbar-track {
+  background: var(--pf-parchment-dark, #e8dcc6) !important;
+  border-radius: 4px !important;
+}
+
+.item-wizard-modal .spell-wizard-form::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-light, #a08c70) !important;
+  border-radius: 4px !important;
+  transition: background 0.3s ease !important;
+}
+
+.item-wizard-modal .spell-wizard-form::-webkit-scrollbar-thumb:hover {
+  background: var(--pf-brown-medium, #8B4513) !important;
 }
 
 .item-wizard-modal::before {
@@ -1104,6 +1149,7 @@
 
 .wizard-content {
     padding: 20px;
+    padding-bottom: 120px; /* Extra space to scroll past footer */
     max-height: calc(100vh - 200px);
     overflow-y: auto;
     background: var(--pf-gradient-parchment);
@@ -1111,20 +1157,7 @@
     z-index: 2;
 }
 
-.item-wizard-modal .wizard-step {
-    position: relative;
-    padding: 24px;
-    border-radius: 12px;
-    background: var(--pf-gradient-parchment);
-    border: 2px solid var(--pf-brown-light);
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-    box-shadow:
-        0 4px 8px rgba(139, 69, 19, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    margin-bottom: 16px;
-}
+/* Removed duplicate wizard-step rule - consolidated above */
 
 .wizard-step::before {
     display: none !important;
@@ -1685,6 +1718,7 @@
 
 .wizard-content {
     padding: var(--pf-space-6, 24px) !important;
+    padding-bottom: var(--pf-space-6, 24px) !important; /* Normal padding */
     background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
     flex: 1 !important;
     overflow-y: auto !important;
@@ -1853,7 +1887,8 @@
 .item-wizard-modal {
     width: 800px;
     max-height: 90vh;
-    min-height: 600px;
+    min-height: 700px;
+    height: 700px;
     background: var(--pf-gradient-parchment) !important;
     border: 3px solid var(--pf-brown-medium) !important;
     border-radius: 12px !important;
@@ -2070,6 +2105,7 @@
     overflow-y: auto;
     overflow-x: hidden !important;
     padding: 16px;
+    padding-bottom: 120px; /* Extra space to scroll past footer */
     scrollbar-width: thin;
     scrollbar-color: var(--pf-brown-medium) var(--pf-brown-light) !important;
     transition: all 0.3s ease;
@@ -2115,6 +2151,31 @@
   gap: var(--pf-space-4, 16px) !important;
   max-width: 100% !important;
   padding: 0 var(--pf-space-6, 24px) !important;
+}
+
+.item-wizard-modal .wizard-progress-container {
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 var(--pf-space-3, 12px) !important;
+  max-width: 400px !important; /* Increased from 300px to 400px */
+}
+
+/* Compact progress bar for wizard footer */
+.item-wizard-modal .wizard-progress-container .wow-progress-bar {
+  height: 44px !important; /* Increased from 36px to 44px */
+  max-width: 380px !important; /* Increased from 280px to 380px */
+  margin: 0 !important;
+}
+
+.item-wizard-modal .wizard-progress-container .step-icon {
+  width: 30px !important; /* Increased from 24px to 30px */
+  height: 30px !important; /* Increased from 24px to 30px */
+}
+
+.item-wizard-modal .wizard-progress-container .step-tooltip {
+  bottom: 35px !important;
 }
 
 .item-wizard-modal .wizard-nav-btn {
@@ -2333,11 +2394,7 @@
 .item-wizard[data-quality="legendary"] .quality-text { color: #ff8000; }
 .item-wizard[data-quality="artifact"] .quality-text { color: #e6cc80; }
 
-.item-wizard-modal .wizard-step {
-    position: relative;
-    z-index: 1;
-    padding: 20px;
-}
+/* Removed duplicate wizard-step rule - consolidated above */
 
 /* WoW Classic Text Styles */
 .wow-text {
@@ -2426,6 +2483,9 @@ textarea.item-description,
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),
         0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    display: block !important; /* Ensure textarea is visible */
+    visibility: visible !important; /* Ensure textarea is visible */
+    opacity: 1 !important; /* Ensure textarea is visible */
 }
 
 /* Description field focus state */
@@ -2444,6 +2504,40 @@ textarea.item-description:focus,
     color: var(--pf-text-muted, #6c5a47) !important;
     font-style: italic !important;
     opacity: 0.8 !important;
+}
+
+/* Ensure description textarea is always visible in item wizard */
+.item-wizard-modal .form-group textarea.item-description {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    min-height: 80px !important;
+    max-height: none !important;
+    z-index: 10 !important;
+}
+
+/* Ensure the form-group containing description is visible */
+.item-wizard-modal .wizard-step .form-group:has(textarea.item-description),
+.item-wizard-modal .wizard-step .form-group:last-child {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-bottom: var(--pf-space-8, 32px) !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Additional specific rule for description form group in BASIC_INFO step */
+.item-wizard-modal .wizard-step .form-group:nth-child(4) {
+    display: block !important;
+    visibility: visible !important;
+    margin-bottom: 40px !important;
+}
+
+/* Ensure wizard step has normal bottom space */
+.item-wizard-modal .wizard-step {
+    padding-bottom: var(--pf-space-4, 16px) !important; /* Normal bottom padding */
 }
 
 /* Stats and Properties */
@@ -2642,6 +2736,7 @@ textarea.item-description:focus,
 .wizard-content {
     flex: 1;
     padding: 16px;
+    padding-bottom: 16px; /* Normal padding */
     background: var(--pf-gradient-parchment) !important;
     border-radius: 8px;
     overflow-y: auto;
@@ -3559,10 +3654,7 @@ button:disabled {
 
 /* ===== IMPROVED SPACING AND LAYOUT ===== */
 
-.item-wizard-modal .wizard-step {
-    padding: var(--pf-space-6, 24px) !important;
-    background: var(--pf-gradient-parchment) !important;
-}
+/* Removed duplicate wizard-step rule - consolidated above */
 
 .item-wizard-modal .form-group {
     margin-bottom: var(--pf-space-5, 20px) !important;
@@ -3612,12 +3704,23 @@ button:disabled {
     }
 
     .item-wizard-modal .currency-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: var(--pf-space-3, 12px) !important;
     }
 
     .item-wizard-modal .currency-item {
         padding: var(--pf-space-3, 12px) !important;
+    }
+
+    .item-wizard-modal .randomize-button {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 10px !important;
+    }
+
+    .item-wizard-modal .randomize-all-button {
+        font-size: 12px !important;
+        padding: var(--pf-space-1, 4px) var(--pf-space-3, 12px) !important;
     }
 
     .item-wizard-modal .currency-icon {
@@ -4333,23 +4436,26 @@ button:disabled {
 
 .item-wizard-modal .currency-grid {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: var(--pf-space-4, 16px) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: var(--pf-space-2, 8px) !important;
     width: 100% !important;
+    max-width: 100% !important;
 }
 
 .item-wizard-modal .currency-item {
     background: var(--pf-gradient-parchment) !important;
     border: 2px solid var(--pf-brown-medium) !important;
-    border-radius: 10px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    border-radius: 8px !important;
+    padding: var(--pf-space-2, 8px) !important;
     box-shadow:
         0 3px 6px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
     transition: all 0.2s ease !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-3, 12px) !important;
+    gap: var(--pf-space-2, 8px) !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
 }
 
 .item-wizard-modal .currency-item:hover {
@@ -4371,9 +4477,9 @@ button:disabled {
 }
 
 .item-wizard-modal .currency-icon {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 8px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
     border: 2px solid var(--pf-brown-light) !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     transition: all 0.2s ease !important;
@@ -4386,12 +4492,12 @@ button:disabled {
 
 .item-wizard-modal .currency-label {
     font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-base) !important;
+    font-size: 11px !important;
     font-weight: var(--pf-font-bold) !important;
     color: var(--pf-text-primary) !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.3px !important;
     margin: 0 !important;
 }
 
@@ -4414,11 +4520,12 @@ button:disabled {
     border-radius: 4px !important;
     color: var(--pf-text-primary) !important;
     font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-base) !important;
+    font-size: 12px !important;
     font-weight: var(--pf-font-bold) !important;
     text-align: center !important;
-    padding: var(--pf-space-2, 8px) !important;
-    min-width: 60px !important;
+    padding: var(--pf-space-1, 4px) !important;
+    min-width: 40px !important;
+    max-width: 50px !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
@@ -4434,13 +4541,13 @@ button:disabled {
 .item-wizard-modal .currency-item .stat-button {
     background: var(--pf-gradient-button) !important;
     border: 2px solid var(--pf-brown-medium) !important;
-    border-radius: 6px !important;
+    border-radius: 4px !important;
     color: #000000 !important;
     font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-lg) !important;
+    font-size: 14px !important;
     font-weight: var(--pf-font-bold) !important;
-    width: 32px !important;
-    height: 32px !important;
+    width: 24px !important;
+    height: 24px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -4475,6 +4582,85 @@ button:disabled {
     transform: translateY(0) !important;
     box-shadow:
         0 1px 2px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ===== RANDOMIZER BUTTONS ===== */
+
+.item-wizard-modal .randomize-button {
+    background: var(--pf-gradient-button) !important;
+    border: 2px solid var(--pf-brown-medium) !important;
+    border-radius: 4px !important;
+    color: #000000 !important;
+    font-size: 12px !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    margin-top: var(--pf-space-1, 4px) !important;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.item-wizard-modal .randomize-button:hover {
+    background: var(--pf-gradient-button-hover) !important;
+    border-color: var(--pf-brown-dark) !important;
+    transform: translateY(-1px) !important;
+    box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+.item-wizard-modal .randomize-button:active {
+    transform: translateY(0) !important;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.item-wizard-modal .randomize-all-section {
+    display: flex !important;
+    justify-content: center !important;
+    margin: var(--pf-space-4, 16px) 0 !important;
+}
+
+.item-wizard-modal .randomize-all-button {
+    background: var(--pf-gradient-button) !important;
+    border: 2px solid var(--pf-brown-medium) !important;
+    border-radius: 8px !important;
+    color: #000000 !important;
+    font-family: var(--pf-font-display) !important;
+    font-size: 14px !important;
+    font-weight: var(--pf-font-bold) !important;
+    padding: var(--pf-space-2, 8px) var(--pf-space-4, 16px) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--pf-space-2, 8px) !important;
+}
+
+.item-wizard-modal .randomize-all-button:hover {
+    background: var(--pf-gradient-button-hover) !important;
+    border-color: var(--pf-brown-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+.item-wizard-modal .randomize-all-button:active {
+    transform: translateY(0) !important;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
         inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -4815,7 +5001,7 @@ button:disabled {
 
 .tooltip-container {
     flex: 0 0 auto;
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
     padding-right: 10px;
     scrollbar-width: thin;

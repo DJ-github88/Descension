@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import WowWindow from '../../../windows/WowWindow';
 import ItemTooltip from '../../../item-generation/ItemTooltip';
@@ -14,6 +14,7 @@ import useGridItemStore from '../../../../store/gridItemStore';
 import useGameStore from '../../../../store/gameStore';
 import useChatStore from '../../../../store/chatStore';
 import useInventoryStore from '../../../../store/inventoryStore';
+import useItemStore from '../../../../store/itemStore';
 import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import './EnhancedCreatureInspectView.css';
@@ -111,9 +112,16 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   const { addItemToGrid } = useGridItemStore();
   const { tokens } = useCreatureStore();
   const gridSystem = getGridSystem();
+  const itemStore = useItemStore(state => ({ items: state.items }));
 
-  // Process the creature's loot items
-  const creature = processCreatureLoot(initialCreature);
+  // Process the creature's loot items - use useMemo to avoid reprocessing on every render
+  const creature = useMemo(() => {
+    // Only process if we have items in the store (avoid timing issues)
+    if (!itemStore.items || itemStore.items.length === 0) {
+      return initialCreature; // Return unprocessed creature if store isn't ready
+    }
+    return processCreatureLoot(initialCreature, itemStore);
+  }, [initialCreature, itemStore.items]);
 
   // Helper function to calculate tooltip position with improved logic
   const calculateTooltipPosition = (e) => {
@@ -159,22 +167,19 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     return { x, y };
   };
 
-  // Debug logging for component lifecycle
+  // Component lifecycle management
   useEffect(() => {
     if (isOpen && creature) {
-      console.log('EnhancedCreatureInspectView opened for:', creature.name);
       setMounted(true);
     }
-
-    return () => {
-      if (isOpen && creature) {
-        console.log('EnhancedCreatureInspectView closing for:', creature.name);
-      }
-    };
   }, [isOpen, creature]);
 
   // Early return if no creature or not open
   if (!creature || !isOpen) return null;
+
+  // Process creature loot to ensure itemId references are resolved
+  // Note: creature is already processed at line 118, so we use it directly
+  const processedCreature = creature;
 
   // Handle section change
   const handleSectionChange = (sectionId) => {
@@ -716,7 +721,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                       top: statTooltipPosition.y,
                       transform: 'translate(10px, -50%)',
                       pointerEvents: 'none',
-                      zIndex: 99999999
+                      zIndex: 2147483647 // Maximum z-index to ensure tooltips always appear above windows
                     }}
                   >
                     {stat.resistanceLevel ? (
@@ -877,7 +882,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                         top: statTooltipPosition.y,
                         transform: 'translate(10px, -50%)',
                         pointerEvents: 'none',
-                        zIndex: 99999999
+                        zIndex: 2147483647 // Maximum z-index to ensure tooltips always appear above windows
                       }}
                     >
                       <GeneralStatTooltip
@@ -1165,15 +1170,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Handle loot drop functionality
   const handleDropLoot = () => {
-    if (!creature.lootTable || !token) {
-      console.log(`${creature.name} has no loot to drop.`);
+    if (!processedCreature.lootTable || !token) {
       return;
     }
 
     // Find the token for this creature
     const creatureToken = tokens.find(t => t.creatureId === creature.id);
     if (!creatureToken || !creatureToken.position) {
-      console.log(`Cannot find ${creature.name}'s position on the grid.`);
       return;
     }
 
@@ -1191,8 +1194,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     const currentUser = useInventoryStore.getState().characterName || 'Player';
 
     // Roll for currency
-    if (creature.lootTable.currency) {
-      const { gold, silver, copper } = creature.lootTable.currency;
+    if (processedCreature.lootTable.currency) {
+      const { gold, silver, copper } = processedCreature.lootTable.currency;
 
       if (gold && gold.max > 0) {
         const goldAmount = Math.floor(Math.random() * (gold.max - gold.min + 1)) + gold.min;
@@ -1264,23 +1267,23 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     }
 
     // Roll for items
-    if (creature.lootTable.items && creature.lootTable.items.length > 0) {
-      creature.lootTable.items.forEach(item => {
+    if (processedCreature.lootTable.items && processedCreature.lootTable.items.length > 0) {
+      processedCreature.lootTable.items.forEach(item => {
         if (usedTiles.length >= emptyTiles.length) return; // No more empty tiles
 
-        // Roll for drop chance - this is the key fix!
+        // Roll for drop chance
         const roll = Math.random() * 100;
         const dropChance = item.dropChance || 100;
-
-        console.log(`🎲 Rolling for ${item.name}: ${roll.toFixed(1)}% vs ${dropChance}% drop chance`);
 
         if (roll <= dropChance) {
           const tile = emptyTiles[usedTiles.length];
 
-          // Create a copy of the item with unique ID and ensure proper formatting
+          // Create a copy of the item preserving the original ID for item store lookup
+          // The grid system will generate its own unique grid item ID
           const droppedItem = {
             ...item,
-            id: `loot_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
+            // IMPORTANT: Keep the original item ID so the grid system can find it in the item store
+            // The grid system will create its own unique grid item ID internally
             source: `Dropped by ${creature.name}`,
             // Ensure essential properties are present
             width: item.width || 1,
@@ -1290,8 +1293,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             weight: item.weight || 1
           };
 
-          console.log(`✅ ${item.name} dropped! (${roll.toFixed(1)}% <= ${dropChance}%)`);
-
           addItemToGrid(droppedItem, {
             x: tile.worldPos.x,
             y: tile.worldPos.y,
@@ -1300,23 +1301,15 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
           droppedItems.push(item.name);
           usedTiles.push(tile);
-        } else {
-          console.log(`❌ ${item.name} not dropped (${roll.toFixed(1)}% > ${dropChance}%)`);
         }
       });
     }
 
-    // Summary notification
-    if (droppedItems.length > 0) {
-      console.log(`${creature.name} dropped: ${droppedItems.join(', ')}`);
-    } else {
-      console.log(`${creature.name} dropped no loot this time.`);
-    }
   };
 
   // Render the Loot section
   const renderLootSection = () => {
-    if (!creature.lootTable) {
+    if (!processedCreature.lootTable) {
       return (
         <div className="creature-inspect-section empty-section">
           <p>This creature has no loot.</p>
@@ -1324,11 +1317,11 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       );
     }
 
-    const hasCurrency = creature.lootTable.currency?.gold?.max > 0 ||
-                        creature.lootTable.currency?.silver?.max > 0 ||
-                        creature.lootTable.currency?.copper?.max > 0;
+    const hasCurrency = processedCreature.lootTable.currency?.gold?.max > 0 ||
+                        processedCreature.lootTable.currency?.silver?.max > 0 ||
+                        processedCreature.lootTable.currency?.copper?.max > 0;
 
-    const hasItems = creature.lootTable.items && creature.lootTable.items.length > 0;
+    const hasItems = processedCreature.lootTable.items && processedCreature.lootTable.items.length > 0;
 
     if (!hasCurrency && !hasItems) {
       return (
@@ -1381,7 +1374,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               <h3 className="pathfinder-section-title">Currency</h3>
             </div>
             <div className="pathfinder-currency-grid">
-              {creature.lootTable.currency.gold?.max > 0 && (
+              {processedCreature.lootTable.currency.gold?.max > 0 && (
                 <div className="pathfinder-currency-item">
                   <div className="currency-icon-container">
                     <img
@@ -1397,15 +1390,15 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   <div className="currency-details">
                     <span className="currency-type">Gold Pieces</span>
                     <span className="currency-amount">
-                      {creature.lootTable.currency.gold.min === creature.lootTable.currency.gold.max
-                        ? creature.lootTable.currency.gold.min
-                        : `${creature.lootTable.currency.gold.min}-${creature.lootTable.currency.gold.max}`
+                      {processedCreature.lootTable.currency.gold.min === processedCreature.lootTable.currency.gold.max
+                        ? processedCreature.lootTable.currency.gold.min
+                        : `${processedCreature.lootTable.currency.gold.min}-${processedCreature.lootTable.currency.gold.max}`
                       }
                     </span>
                   </div>
                 </div>
               )}
-              {creature.lootTable.currency.silver?.max > 0 && (
+              {processedCreature.lootTable.currency.silver?.max > 0 && (
                 <div className="pathfinder-currency-item">
                   <div className="currency-icon-container">
                     <img
@@ -1421,15 +1414,15 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   <div className="currency-details">
                     <span className="currency-type">Silver Pieces</span>
                     <span className="currency-amount">
-                      {creature.lootTable.currency.silver.min === creature.lootTable.currency.silver.max
-                        ? creature.lootTable.currency.silver.min
-                        : `${creature.lootTable.currency.silver.min}-${creature.lootTable.currency.silver.max}`
+                      {processedCreature.lootTable.currency.silver.min === processedCreature.lootTable.currency.silver.max
+                        ? processedCreature.lootTable.currency.silver.min
+                        : `${processedCreature.lootTable.currency.silver.min}-${processedCreature.lootTable.currency.silver.max}`
                       }
                     </span>
                   </div>
                 </div>
               )}
-              {creature.lootTable.currency.copper?.max > 0 && (
+              {processedCreature.lootTable.currency.copper?.max > 0 && (
                 <div className="pathfinder-currency-item">
                   <div className="currency-icon-container">
                     <img
@@ -1445,9 +1438,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                   <div className="currency-details">
                     <span className="currency-type">Copper Pieces</span>
                     <span className="currency-amount">
-                      {creature.lootTable.currency.copper.min === creature.lootTable.currency.copper.max
-                        ? creature.lootTable.currency.copper.min
-                        : `${creature.lootTable.currency.copper.min}-${creature.lootTable.currency.copper.max}`
+                      {processedCreature.lootTable.currency.copper.min === processedCreature.lootTable.currency.copper.max
+                        ? processedCreature.lootTable.currency.copper.min
+                        : `${processedCreature.lootTable.currency.copper.min}-${processedCreature.lootTable.currency.copper.max}`
                       }
                     </span>
                   </div>
@@ -1469,7 +1462,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               <h3 className="pathfinder-section-title">Magical Items & Equipment</h3>
             </div>
             <div className="loot-items-grid">
-              {creature.lootTable.items.map((item, index) => (
+              {processedCreature.lootTable.items.map((item, index) => (
                 <div
                   key={index}
                   className="loot-item-card"

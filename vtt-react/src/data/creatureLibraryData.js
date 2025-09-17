@@ -253,7 +253,7 @@ export const LIBRARY_CREATURES = [
       },
       items: [
         {
-          itemId: 'rusty-dagger',
+          itemId: 'goblin-rusty-dagger',
           dropChance: 75,
           quantity: { min: 1, max: 1 }
         },
@@ -1941,7 +1941,7 @@ export const LIBRARY_CREATURES = [
       },
       items: [
         {
-          itemId: 'rusty-dagger',
+          itemId: 'goblin-rusty-dagger',
           dropChance: 75,
           quantity: { min: 1, max: 1 }
         },

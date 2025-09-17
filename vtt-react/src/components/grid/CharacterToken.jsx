@@ -5,8 +5,12 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
+import useBuffStore from '../../store/buffStore';
+import useDebuffStore from '../../store/debuffStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import ConditionsWindow from '../conditions/ConditionsWindow';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/unified-context-menu.css';
 
 const CharacterToken = ({
@@ -61,11 +65,13 @@ const CharacterToken = ({
 
     // Get grid and combat state
     const gridSystem = getGridSystem();
-    const { gridSize, zoomLevel, playerZoom, cameraX, cameraY, isInMultiplayer, multiplayerSocket } = useGameStore();
+    const { gridSize, zoomLevel, playerZoom, cameraX, cameraY, isInMultiplayer, multiplayerSocket, isGMMode } = useGameStore();
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = gridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
     const { isInCombat, currentTurn } = useCombatStore();
+    const { addBuff } = useBuffStore();
+    const { addDebuff } = useDebuffStore();
 
     // Removed enhanced multiplayer hook - was causing conflicts
 
@@ -81,8 +87,8 @@ const CharacterToken = ({
         return gridSystem.worldToScreen(currentPos.x, currentPos.y, viewportWidth, viewportHeight);
     }, [position, localPosition, isDragging, cameraX, cameraY, effectiveZoom]);
 
-    // Check if this token is targeted
-    const isTargeted = currentTarget?.id === tokenId && currentTarget?.type === 'player';
+    // Check if this token is targeted (use consistent ID for current player)
+    const isTargeted = currentTarget?.id === 'current-player' && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
     const isMyTurn = isInCombat && currentTurn === tokenId;
 
     // Get character image or use default
@@ -422,16 +428,30 @@ const CharacterToken = ({
         if (isTargeted) {
             clearTarget();
         } else {
+            // Use the same structure as PartyHUD for consistency
             const targetData = {
-                id: tokenId,
+                id: 'current-player', // Use consistent ID for current player
                 name: characterData.name,
-                type: 'player',
-                data: characterData,
-                health: characterData.health,
-                mana: characterData.mana,
-                actionPoints: characterData.actionPoints
+                type: 'party_member', // Use party_member type for consistency
+                data: {
+                    id: 'current-player',
+                    name: characterData.name,
+                    role: 'member',
+                    status: 'online',
+                    character: {
+                        level: characterData.level,
+                        race: characterData.race,
+                        class: characterData.class,
+                        alignment: characterData.alignment || 'Neutral',
+                        exhaustionLevel: characterData.exhaustionLevel || 0,
+                        health: characterData.health,
+                        mana: characterData.mana,
+                        actionPoints: characterData.actionPoints,
+                        classResource: characterData.classResource
+                    }
+                }
             };
-            setTarget(targetData, TARGET_TYPES.PLAYER);
+            setTarget(targetData, 'party_member');
         }
         setShowContextMenu(false);
     };
@@ -449,6 +469,83 @@ const CharacterToken = ({
         if (onRemove) {
             onRemove(tokenId);
         }
+        setShowContextMenu(false);
+    };
+
+    // Handle duplicate token
+    const handleDuplicateToken = () => {
+        console.log('Duplicating character token:', tokenId);
+        // For character tokens, we might want to create a new token at a nearby position
+        // This would need to be implemented in the character token store
+        setShowContextMenu(false);
+    };
+
+    // Handle damage token
+    const handleDamageToken = (amount) => {
+        const currentHp = characterData.health.current;
+        const newHp = Math.max(0, currentHp - amount);
+
+        console.log('💥 DAMAGE CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            amount,
+            currentHp,
+            newHp,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Update character health through character store
+        useCharacterStore.getState().updateResource('health', { current: newHp });
+
+        // Show floating combat text at token's screen position
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                amount.toString(),
+                'damage',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+
+        setShowContextMenu(false);
+    };
+
+    // Handle heal token
+    const handleHealToken = (amount) => {
+        const currentHp = characterData.health.current;
+        const maxHp = characterData.health.max;
+        const newHp = Math.min(maxHp, currentHp + amount);
+
+        console.log('💚 HEAL CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            amount,
+            currentHp,
+            maxHp,
+            newHp,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Update character health through character store
+        useCharacterStore.getState().updateResource('health', { current: newHp });
+
+        // Show floating combat text at token's screen position
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                amount.toString(),
+                'heal',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+
+        setShowContextMenu(false);
+    };
+
+    // State for conditions window
+    const [showConditionsWindow, setShowConditionsWindow] = useState(false);
+
+    // Handle opening conditions window
+    const handleOpenConditions = () => {
+        setShowConditionsWindow(true);
         setShowContextMenu(false);
     };
 
@@ -518,7 +615,7 @@ const CharacterToken = ({
                 </div>
             </div>
 
-            {/* Context Menu */}
+            {/* Advanced Context Menu */}
             {showContextMenu && createPortal(
                 <div
                     ref={contextMenuRef}
@@ -528,24 +625,64 @@ const CharacterToken = ({
                         top: contextMenuPosition.y
                     }}
                 >
-                    <div className="context-menu-main">
-                        <div className="context-menu-group">
-                            <div className="context-menu-section">
-                                <button className="context-menu-button" onClick={handleInspectCharacter}>
-                                    <i className="fas fa-search"></i> Inspect Character
-                                </button>
+                    {/* Main Actions */}
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-cog"></i>
+                            <span>Token Actions</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </div>
+                        <div className="submenu">
+                            <button className="context-menu-button" onClick={handleInspectCharacter}>
+                                <i className="fas fa-search"></i> Inspect
+                            </button>
+                            <button
+                                className={`context-menu-button ${isTargeted ? 'active' : ''}`}
+                                onClick={handleTarget}
+                            >
+                                <i className="fas fa-crosshairs"></i> {isTargeted ? 'Clear Target' : 'Target'}
+                            </button>
+                            <button className="context-menu-button" onClick={handleDuplicateToken}>
+                                <i className="fas fa-copy"></i> Duplicate
+                            </button>
+                            <button className="context-menu-button danger" onClick={handleRemoveToken}>
+                                <i className="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
 
-                                <button
-                                    className={`context-menu-button ${isTargeted ? 'active' : ''}`}
-                                    onClick={handleTarget}
-                                >
-                                    <i className="fas fa-crosshairs"></i> {isTargeted ? 'Clear Target' : 'Target'}
-                                </button>
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-fist-raised"></i>
+                            <span>Combat</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </div>
+                        <div className="submenu">
+                            <button className="context-menu-button" onClick={() => handleDamageToken(5)}>
+                                <i className="fas fa-minus-circle"></i> Damage (5)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleDamageToken(10)}>
+                                <i className="fas fa-minus-circle"></i> Damage (10)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleHealToken(5)}>
+                                <i className="fas fa-plus-circle"></i> Heal (5)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleHealToken(10)}>
+                                <i className="fas fa-plus-circle"></i> Heal (10)
+                            </button>
+                        </div>
+                    </div>
 
-                                <button className="context-menu-button danger" onClick={handleRemoveToken}>
-                                    <i className="fas fa-trash"></i> Remove Token
-                                </button>
-                            </div>
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-magic"></i>
+                            <span>Status</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </div>
+                        <div className="submenu">
+                            <button className="context-menu-button" onClick={handleOpenConditions}>
+                                <i className="fas fa-bolt"></i> Conditions
+                            </button>
                         </div>
                     </div>
                 </div>,
@@ -659,6 +796,21 @@ const CharacterToken = ({
                 </div>,
                 document.body
             )}
+
+            {/* Conditions Window */}
+            <ConditionsWindow
+                isOpen={showConditionsWindow}
+                onClose={() => setShowConditionsWindow(false)}
+                tokenId={tokenId}
+                creature={{
+                    name: characterData.name,
+                    stats: {
+                        maxHp: characterData.health.max,
+                        maxMana: characterData.mana.max,
+                        maxActionPoints: characterData.actionPoints.max
+                    }
+                }}
+            />
         </>
     );
 };

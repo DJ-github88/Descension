@@ -17,12 +17,13 @@ const useGridItemStore = create(
     (set, get) => ({
       // State
       gridItems: [], // Items placed on the grid
+      temporaryItems: new Map(), // Store temporary items (like creature loot) by ID
       lastUpdate: Date.now(), // Timestamp to help with re-renders
 
       // Actions
       addItemToGrid: (item, position, sendToServer = true) => set((state) => {
         // Check if we can stack this item with an existing one
-        const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous';
+        const isStackableType = item.type === 'consumable' || item.type === 'miscellaneous' || item.type === 'material';
         if (isStackableType && item.stackable !== false) {
           const existingItemIndex = state.gridItems.findIndex(gridItem =>
             gridItem.name === item.name &&
@@ -47,6 +48,25 @@ const useGridItemStore = create(
         }
 
         // Adding item to grid
+
+        // Store temporary items (like creature loot) so they can be found later
+        // Check if this item has a temporary ID (starts with inline_, gold_, silver_, etc.)
+        const isTemporaryItem = item.id && (
+          item.id.startsWith('inline_') ||
+          item.id.startsWith('gold_') ||
+          item.id.startsWith('silver_') ||
+          item.id.startsWith('copper_') ||
+          item.id.startsWith('platinum_')
+        );
+
+        if (isTemporaryItem) {
+          // Store the complete item data so it can be found later
+          set((state) => {
+            const newTemporaryItems = new Map(state.temporaryItems);
+            newTemporaryItems.set(item.id, item);
+            return { temporaryItems: newTemporaryItems };
+          });
+        }
 
         // IMPORTANT: Force currency properties if type is currency
         if (item.type === 'currency') {
@@ -211,13 +231,22 @@ const useGridItemStore = create(
 
       removeItemFromGrid: (gridItemId) => set((state) => {
         const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];
-        console.log(`🗑️ REMOVING LOOT ORB: ${gridItemId} from grid (had ${currentItems.length} items)`);
+
+        // Find the item being removed to check if it's a temporary item
+        const itemBeingRemoved = currentItems.find(item => item?.id === gridItemId);
+
+        // Clean up temporary items
+        let newTemporaryItems = state.temporaryItems;
+        if (itemBeingRemoved?.itemId && state.temporaryItems.has(itemBeingRemoved.itemId)) {
+          newTemporaryItems = new Map(state.temporaryItems);
+          newTemporaryItems.delete(itemBeingRemoved.itemId);
+        }
 
         const newItems = currentItems.filter(item => item?.id !== gridItemId);
-        console.log(`🗑️ AFTER REMOVAL: ${newItems.length} items remaining`);
 
         return {
           gridItems: newItems,
+          temporaryItems: newTemporaryItems,
           lastUpdate: Date.now()
         };
       }),
@@ -225,28 +254,17 @@ const useGridItemStore = create(
       // Loot an item from the grid and add it to inventory
       lootItem: (gridItemId, characterId = 'default', looterName = 'Player', sendToServer = true) => {
         try {
-          console.log(`🎁 LOOT ITEM CALLED: ${gridItemId} by ${looterName}`);
-
           const { gridItems } = get();
           const { removeItemFromGrid } = get();
           const chatStore = useChatStore.getState();
 
           const currentItems = Array.isArray(gridItems) ? gridItems : [];
-          console.log(`🎁 Current grid items count: ${currentItems.length}`);
-          console.log(`🎁 Looking for grid item: ${gridItemId}`);
 
           // Find the grid item
           const gridItem = currentItems.find(item => item?.id === gridItemId);
           if (!gridItem) {
-            console.log(`🎁 ERROR: Grid item ${gridItemId} not found!`);
-            console.log(`🎁 Available grid items:`, currentItems.map(item => ({
-              id: item?.id,
-              name: item?.name
-            })));
             return false;
           }
-
-        console.log(`🎁 Found grid item:`, gridItem);
 
         // Get the original item from the item store
         const originalItem = useItemStore.getState().items.find(item => item.id === gridItem.itemId);
@@ -257,10 +275,14 @@ const useGridItemStore = create(
           originalItemFromStoreId = useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId);
         }
 
+        // Check temporary items store for creature loot and other temporary items
+        const temporaryItem = get().temporaryItems.get(gridItem.itemId);
+
         // If the original item doesn't exist, we can still use the grid item's properties
         // This handles items created directly in inventory (like test items or currency)
         // Use ALL properties from the grid item to ensure nothing is lost
-        const itemToUse = originalItem || originalItemFromStoreId || {
+        // Priority: main item store → temporary items → originalItemStoreId → grid item fallback
+        const itemToUse = originalItem || temporaryItem || originalItemFromStoreId || {
           // Start with ALL properties from the grid item
           ...gridItem,
 
@@ -564,22 +586,14 @@ const useGridItemStore = create(
             // Ensure quantity is a positive number
             quantity = Math.max(1, parseInt(quantity) || 1);
 
-            console.log(`🎁 ATTEMPTING TO ADD ITEM TO INVENTORY: ${itemToUse.name} (quantity: ${quantity})`);
-            console.log(`🎁 Grid item quantity was:`, gridItem.quantity);
-            console.log(`🎁 Item data:`, itemToUse);
-
             const newInventoryItemId = inventoryStore.addItemFromLibrary(itemToUse, {
               quantity: quantity,
               preserveId: preserveId,
               preserveProperties: true // Add a flag to ensure all properties are preserved
             });
 
-            console.log(`🎁 INVENTORY ADD RESULT: ${newInventoryItemId}`);
-
             // Only remove the loot orb if the item was successfully added to inventory
             if (newInventoryItemId !== null) {
-              console.log(`✅ ITEM SUCCESSFULLY ADDED TO INVENTORY: Removing loot orb ${gridItemId}`);
-
               const gameStore = useGameStore.getState();
 
               // Remove the loot orb from the grid
@@ -595,7 +609,6 @@ const useGridItemStore = create(
                     looter: looterName,
                     gridItemId: gridItemId
                   });
-                  console.log(`🎁 Sent loot notification to server for ${gridItemId}`);
                 }
               }
 
@@ -607,6 +620,9 @@ const useGridItemStore = create(
                 looterName
               );
 
+              // Remove the grid item (this will also clean up temporary items)
+              removeItemFromGrid(gridItemId);
+
               // Force a state update to trigger a re-render of the inventory UI
               const currentState = useInventoryStore.getState();
               useInventoryStore.setState({
@@ -617,8 +633,6 @@ const useGridItemStore = create(
               return true;
             } else {
               // Item could not be added (inventory full) - keep the orb
-              console.log(`🚫 INVENTORY FULL: Could not loot ${itemToUse.name} - keeping loot orb`);
-
               // Add a notification to chat about inventory being full
               chatStore.addItemLootedNotification(
                 itemToUse,
@@ -733,12 +747,20 @@ const useGridItemStore = create(
       },
       // Add these options to ensure proper persistence
       partialize: (state) => ({
-        gridItems: state.gridItems
+        gridItems: state.gridItems,
+        temporaryItems: Array.from(state.temporaryItems.entries()) // Convert Map to Array for persistence
       }),
       onRehydrateStorage: (state) => {
         return (rehydratedState, error) => {
           if (error) {
             console.error('Error rehydrating grid items store:', error);
+          } else if (rehydratedState) {
+            // Convert temporaryItems Array back to Map
+            if (Array.isArray(rehydratedState.temporaryItems)) {
+              rehydratedState.temporaryItems = new Map(rehydratedState.temporaryItems);
+            } else if (!rehydratedState.temporaryItems) {
+              rehydratedState.temporaryItems = new Map();
+            }
           }
         };
       }

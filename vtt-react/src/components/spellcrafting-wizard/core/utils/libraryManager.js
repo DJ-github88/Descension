@@ -274,11 +274,30 @@ export function generateUniqueId(prefix = 'spell_') {
 
 /**
  * Determine appropriate categories for a spell based on its properties
- * Updated to only use the 6 essential categories
+ * Updated to only use the 6 essential categories + general actions
  */
 export function categorizeSpell(spell) {
   const categories = ['uncategorized']; // Start with uncategorized as default
-  const validCategories = ['uncategorized', 'favorites', 'offensive', 'defensive', 'utility', 'healing'];
+  const validCategories = ['uncategorized', 'favorites', 'offensive', 'defensive', 'utility', 'healing', 'general_actions', 'general_reactions', 'general_skills', 'general_enhancements'];
+
+  // Handle general spells first
+  if (spell.source === 'general' || (spell.tags && spell.tags.includes('general'))) {
+    // Remove uncategorized for general spells
+    categories.splice(0, 1);
+
+    // Categorize based on spell type and tags
+    if (spell.spellType === 'REACTION') {
+      categories.push('general_reactions');
+    } else if (spell.tags && spell.tags.includes('skill')) {
+      categories.push('general_skills');
+    } else if (spell.tags && spell.tags.includes('enhancement')) {
+      categories.push('general_enhancements');
+    } else {
+      categories.push('general_actions');
+    }
+
+    return categories;
+  }
 
   // Check for damage types - all damage types now go to 'offensive'
   if (spell.damageTypes && spell.damageTypes.length > 0) {
@@ -571,7 +590,7 @@ export function getDefaultLibrary() {
 
 /**
  * Create default categories
- * Reduced to 6 essential categories as requested by the user
+ * Includes essential categories + general spell categories
  */
 export function createDefaultCategories() {
   return [
@@ -616,6 +635,35 @@ export function createDefaultCategories() {
       color: '#00FF7F',
       icon: 'spell_holy_flashheal',
       description: 'Healing and restoration spells'
+    },
+    // General spell categories
+    {
+      id: 'general_actions',
+      name: 'General Actions',
+      color: '#8B4513',
+      icon: 'ability_warrior_battleshout',
+      description: 'Basic actions available to all characters'
+    },
+    {
+      id: 'general_reactions',
+      name: 'General Reactions',
+      color: '#CD853F',
+      icon: 'ability_rogue_evasion',
+      description: 'Reactive abilities available to all characters'
+    },
+    {
+      id: 'general_skills',
+      name: 'Skill Actions',
+      color: '#DEB887',
+      icon: 'spell_holy_blessingofstrength',
+      description: 'Actions based on character skills'
+    },
+    {
+      id: 'general_enhancements',
+      name: 'Enhancements',
+      color: '#F4A460',
+      icon: 'spell_holy_innerfire',
+      description: 'Enhancement abilities for character improvement'
     }
   ];
 }

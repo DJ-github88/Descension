@@ -1,5 +1,22 @@
 /* Spell Tooltip Styling - Wider spell cards with no scrolling */
 
+/*
+ * Z-INDEX STRATEGY (FINAL):
+ * - Tooltips: 2147483647 (maximum z-index, in dedicated portal)
+ * - Windows when dragged: 15000
+ * - Regular windows: 10000-14000 range
+ * - Regular UI: < 10000
+ *
+ * Tooltips use a dedicated portal container to avoid stacking context issues
+ */
+
+/* Spell tooltip always on top - overrides any window z-index */
+.spell-tooltip-always-on-top {
+  z-index: 2147483647 !important; /* Maximum z-index with !important to override dragging windows */
+  position: fixed !important;
+  isolation: isolate !important; /* Create new stacking context to ensure tooltip stays on top */
+}
+
 /* Spell tooltip container - transparent wrapper to avoid double frame */
 .spell-tooltip-overlay {
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
@@ -14,8 +31,9 @@
   height: auto;
   max-height: none; /* Remove height constraint - let scaled content determine height */
   overflow: visible; /* No scrolling - show full scaled content */
-  z-index: 99999 !important; /* Ensure tooltip appears above everything */
+  z-index: 2147483647 !important; /* Ensure tooltip appears above everything */
   position: fixed !important;
+  isolation: isolate !important; /* Create new stacking context to ensure tooltip stays on top */
   /* Improved text readability */
   color: var(--pf-text-primary, #2d1810);
 }

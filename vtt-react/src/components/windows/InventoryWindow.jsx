@@ -18,6 +18,15 @@ import EquipmentContextMenu from '../equipment/EquipmentContextMenu';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getCompatibleSlots } from '../../utils/equipmentUtils';
 import { getInventoryGridDimensions } from '../../utils/characterUtils';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import {
+    convertLegacyItemToShape,
+    getShapeBounds,
+    isCellOccupied as isShapeCellOccupied,
+    createRectangularShape,
+    getOccupiedCells,
+    rotateShape
+} from '../../utils/itemShapeUtils';
 
 // Default grid size as fallback
 const DEFAULT_GRID_SIZE = {
@@ -54,22 +63,24 @@ export default function InventoryWindow() {
             console.log('📦 Inventory grid dimensions calculated:', {
                 carryingCapacity: derivedStats.carryingCapacity,
                 strength: stats.strength,
-                strModifier: Math.floor((stats.strength - 10) / 2),
+                equipmentBonuses: equipmentBonuses,
+                totalStrength: (stats.strength || 0) + (equipmentBonuses?.str || 0),
+                strModifier: Math.floor(((stats.strength || 0) + (equipmentBonuses?.str || 0) - 10) / 2),
                 gridDimensions,
                 actualGridSize: `${gridDimensions.HEIGHT}x${gridDimensions.WIDTH}`,
-                expectedForStrength: `Should be ${5 + Math.max(0, Math.floor((stats.strength - 10) / 2))}x15`
+                expectedForStrength: `Should be ${5 + Math.max(0, Math.floor(((stats.strength || 0) + (equipmentBonuses?.str || 0) - 10) / 2))}x15`
             });
             return gridDimensions;
         }
         // Using default grid size - no carrying capacity found (log removed for performance)
         return DEFAULT_GRID_SIZE;
-    }, [derivedStats?.carryingCapacity, stats.strength]);
+    }, [derivedStats?.carryingCapacity, stats.strength, equipmentBonuses?.str]);
 
     // Force re-render when stats change
     useEffect(() => {
         // Character stats changed, updating inventory grid (log removed for performance)
         setRefreshKey(prev => prev + 1);
-    }, [stats.strength, derivedStats?.carryingCapacity]);
+    }, [stats.strength, derivedStats?.carryingCapacity, equipmentBonuses?.str]);
 
     // Listen for inventory updates
     useEffect(() => {
@@ -734,64 +745,101 @@ export default function InventoryWindow() {
         });
     };
 
-    // Helper functions for inventory management
-    const isValidPosition = (items, row, col, width, height, rotation, itemId = null) => {
-        // Calculate effective dimensions based on rotation
-        const effectiveWidth = rotation === 1 ? height : width;
-        const effectiveHeight = rotation === 1 ? width : height;
-
-        // Check if the item would go out of bounds
-        if (row < 0 || col < 0 || row + effectiveHeight > GRID_SIZE.HEIGHT || col + effectiveWidth > GRID_SIZE.WIDTH) {
-            return false;
+    // Helper functions for inventory management with shape support
+    const isValidPosition = (items, row, col, itemToPlace, itemId = null) => {
+        // Get the shape for the item to place
+        let shape = itemToPlace.shape;
+        if (!shape) {
+            // Legacy item - convert to shape
+            const width = itemToPlace.width || 1;
+            const height = itemToPlace.height || 1;
+            shape = createRectangularShape(width, height);
         }
 
-        // Check if any cell the item would occupy is already occupied by another item
-        for (let r = 0; r < effectiveHeight; r++) {
-            for (let c = 0; c < effectiveWidth; c++) {
-                const cellRow = row + r;
-                const cellCol = col + c;
+        // Apply rotation if needed
+        if (itemToPlace.rotation === 1) {
+            // Use the rotateShape function for both rectangular and custom shapes
+            shape = rotateShape(shape);
+        }
 
-                const isOccupied = items.some(item => {
-                    // Skip checking against itself
-                    if (itemId && item.id === itemId) {
-                        return false;
-                    }
+        // Get all occupied cells for this shape
+        const occupiedCells = getOccupiedCells(shape);
 
-                    // Calculate item dimensions based on rotation
-                    const otherEffectiveWidth = item.rotation === 1 ?
-                        (item.height || 1) : (item.width || 1);
-                    const otherEffectiveHeight = item.rotation === 1 ?
-                        (item.width || 1) : (item.height || 1);
+        // Check if any occupied cell would go out of bounds or collide
+        for (const cell of occupiedCells) {
+            const cellRow = row + cell.row;
+            const cellCol = col + cell.col;
 
-                    // Check if this cell is within the bounds of the other item
-                    return cellRow >= item.position.row &&
-                           cellRow < item.position.row + otherEffectiveHeight &&
-                           cellCol >= item.position.col &&
-                           cellCol < item.position.col + otherEffectiveWidth;
-                });
+            // Check bounds
+            if (cellRow < 0 || cellCol < 0 || cellRow >= GRID_SIZE.HEIGHT || cellCol >= GRID_SIZE.WIDTH) {
+                return false;
+            }
 
-                if (isOccupied) {
+            // Check collision with other items
+            const isOccupied = items.some(item => {
+                // Skip checking against itself
+                if (itemId && item.id === itemId) {
                     return false;
                 }
+
+                // Get the other item's shape
+                let otherShape = item.shape;
+                if (!otherShape) {
+                    // Legacy item - convert to shape
+                    const width = item.width || 1;
+                    const height = item.height || 1;
+                    otherShape = createRectangularShape(width, height);
+                }
+
+                // Apply rotation to other item if needed
+                if (item.rotation === 1) {
+                    otherShape = rotateShape(otherShape);
+                }
+
+                // Check if this cell collides with any cell of the other item
+                const otherOccupiedCells = getOccupiedCells(otherShape);
+                return otherOccupiedCells.some(otherCell => {
+                    const otherCellRow = item.position.row + otherCell.row;
+                    const otherCellCol = item.position.col + otherCell.col;
+                    return cellRow === otherCellRow && cellCol === otherCellCol;
+                });
+            });
+
+            if (isOccupied) {
+                return false;
             }
         }
 
         return true;
     };
 
-    // Helper function to get all cells that would be occupied by an item
-    const getOccupiedCells = (row, col, width, height, rotation) => {
+    // Helper function to get all cells that would be occupied by an item with shape support
+    const getItemOccupiedCells = (item) => {
         const cells = [];
 
-        // Calculate effective dimensions based on rotation
-        const effectiveWidth = rotation === 1 ? height : width;
-        const effectiveHeight = rotation === 1 ? width : height;
-
-        for (let r = 0; r < effectiveHeight; r++) {
-            for (let c = 0; c < effectiveWidth; c++) {
-                cells.push(`${row + r}-${col + c}`);
-            }
+        // Get the item's shape
+        let shape = item.shape;
+        if (!shape) {
+            // Legacy item - convert to shape
+            const width = item.width || 1;
+            const height = item.height || 1;
+            shape = createRectangularShape(width, height);
         }
+
+        // Apply rotation if needed
+        if (item.rotation === 1) {
+            shape = rotateShape(shape);
+        }
+
+        // Get all occupied cells for this shape
+        const occupiedCells = getOccupiedCells(shape);
+
+        // Convert to absolute grid positions
+        occupiedCells.forEach(cell => {
+            const cellRow = item.position.row + cell.row;
+            const cellCol = item.position.col + cell.col;
+            cells.push(`${cellRow}-${cellCol}`);
+        });
 
         return cells;
     };
@@ -864,13 +912,13 @@ export default function InventoryWindow() {
             items.filter(i => i.id !== draggedItem.id),
             row,
             col,
-            width,
-            height,
-            rotation
+            draggedItem,
+            draggedItem.id
         );
 
         // Get all cells that would be occupied
-        const occupiedCells = getOccupiedCells(row, col, width, height, rotation);
+        const tempItem = { ...draggedItem, position: { row, col } };
+        const occupiedCells = getItemOccupiedCells(tempItem);
 
         // Remove highlight from all cells
         document.querySelectorAll('.inventory-cell').forEach(cell => {
@@ -921,6 +969,29 @@ export default function InventoryWindow() {
                 const item = items.find(item => item.id === id);
 
                 if (item) {
+                    // Check if there's an item at the target position
+                    const targetItem = items.find(i =>
+                        i.id !== id &&
+                        i.position &&
+                        i.position.row === row &&
+                        i.position.col === col
+                    );
+
+                    if (targetItem) {
+                        // Check if we can merge stacks
+                        const canStack = item.name === targetItem.name &&
+                                        item.type === targetItem.type &&
+                                        item.quality === targetItem.quality &&
+                                        item.stackable !== false &&
+                                        targetItem.stackable !== false;
+
+                        if (canStack) {
+                            // Attempt to merge stacks
+                            useInventoryStore.getState().mergeStacks(id, targetItem.id);
+                            return;
+                        }
+                    }
+
                     // Get item dimensions
                     const width = item.width || 1;
                     const height = item.height || 1;
@@ -931,9 +1002,8 @@ export default function InventoryWindow() {
                         items.filter(i => i.id !== id),
                         row,
                         col,
-                        width,
-                        height,
-                        rotation
+                        item,
+                        id
                     );
 
                     if (isValid) {
@@ -945,6 +1015,81 @@ export default function InventoryWindow() {
                 const { item, containerId } = data;
 
                 if (item) {
+                    // Check if there's an item at the target position that we can stack with
+                    const targetItem = items.find(i =>
+                        i.position &&
+                        i.position.row === row &&
+                        i.position.col === col
+                    );
+
+                    if (targetItem) {
+                        // Check if we can merge stacks
+                        const canStack = item.name === targetItem.name &&
+                                        item.type === targetItem.type &&
+                                        item.quality === targetItem.quality &&
+                                        item.stackable !== false &&
+                                        targetItem.stackable !== false;
+
+                        if (canStack) {
+                            // Calculate merge amounts
+                            const sourceQuantity = item.quantity || 1;
+                            const targetQuantity = targetItem.quantity || 1;
+                            const maxStackSize = targetItem.maxStackSize || 99;
+                            const availableSpace = maxStackSize - targetQuantity;
+                            const amountToMerge = Math.min(sourceQuantity, availableSpace);
+
+                            if (amountToMerge > 0) {
+                                // Update target item quantity
+                                useInventoryStore.getState().updateItem(targetItem.id, {
+                                    quantity: targetQuantity + amountToMerge
+                                });
+
+                                // Remove from container or update container item quantity
+                                const container = items.find(i => i.id === containerId) ||
+                                                 itemStoreItems.find(i => i.id === containerId);
+
+                                if (container && container.containerProperties) {
+                                    const containerItems = container.containerProperties.items;
+                                    const itemIndex = containerItems.findIndex(i => i.id === item.id);
+
+                                    if (itemIndex !== -1) {
+                                        let updatedItems;
+
+                                        if (sourceQuantity > amountToMerge) {
+                                            // Update quantity in container
+                                            updatedItems = [...containerItems];
+                                            updatedItems[itemIndex] = {
+                                                ...updatedItems[itemIndex],
+                                                quantity: sourceQuantity - amountToMerge
+                                            };
+                                        } else {
+                                            // Remove item completely from container
+                                            updatedItems = containerItems.filter(i => i.id !== item.id);
+                                        }
+
+                                        // Update the container
+                                        if (items.find(i => i.id === containerId)) {
+                                            useInventoryStore.getState().updateItem(containerId, {
+                                                containerProperties: {
+                                                    ...container.containerProperties,
+                                                    items: updatedItems
+                                                }
+                                            });
+                                        } else {
+                                            useItemStore.getState().updateItem(containerId, {
+                                                containerProperties: {
+                                                    ...container.containerProperties,
+                                                    items: updatedItems
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                                return;
+                            }
+                        }
+                    }
+
                     // Get item dimensions
                     const width = item.width || 1;
                     const height = item.height || 1;
@@ -955,9 +1100,7 @@ export default function InventoryWindow() {
                         items,
                         row,
                         col,
-                        width,
-                        height,
-                        rotation
+                        item
                     );
 
                     if (isValid) {
@@ -999,6 +1142,69 @@ export default function InventoryWindow() {
                         }
                     }
                 }
+            } else if (data.type === 'item') {
+                // Handle items dragged from item library
+                const { id } = data;
+                const libraryItem = itemStoreItems.find(item => item.id === id);
+
+                if (libraryItem) {
+                    // Check if there's an item at the target position that we can stack with
+                    const targetItem = items.find(i =>
+                        i.position &&
+                        i.position.row === row &&
+                        i.position.col === col
+                    );
+
+                    if (targetItem) {
+                        // Check if we can merge stacks
+                        const canStack = libraryItem.name === targetItem.name &&
+                                        libraryItem.type === targetItem.type &&
+                                        libraryItem.quality === targetItem.quality &&
+                                        libraryItem.stackable !== false &&
+                                        targetItem.stackable !== false;
+
+                        if (canStack) {
+                            // Calculate merge amounts
+                            const sourceQuantity = 1; // Library items are added with quantity 1
+                            const targetQuantity = targetItem.quantity || 1;
+                            const maxStackSize = targetItem.maxStackSize || 99;
+                            const availableSpace = maxStackSize - targetQuantity;
+
+                            if (availableSpace > 0) {
+                                // Update target item quantity
+                                useInventoryStore.getState().updateItem(targetItem.id, {
+                                    quantity: targetQuantity + sourceQuantity
+                                });
+                                return;
+                            }
+                        }
+                    }
+
+                    // Get item dimensions
+                    const width = libraryItem.width || 1;
+                    const height = libraryItem.height || 1;
+                    const rotation = 0;
+
+                    // Check if the position is valid
+                    const tempItem = { ...libraryItem, width, height, rotation: 0 };
+                    const isValid = isValidPosition(
+                        items,
+                        row,
+                        col,
+                        tempItem
+                    );
+
+                    if (isValid) {
+                        // Add the item to inventory with the specified position
+                        const itemWithPosition = {
+                            ...libraryItem,
+                            position: { row, col }
+                        };
+
+                        // Add to inventory
+                        addItemFromLibrary(itemWithPosition);
+                    }
+                }
             }
         } catch (error) {
             console.error('Error handling drop:', error);
@@ -1033,19 +1239,29 @@ export default function InventoryWindow() {
                     cellType = 'overencumbered';
                 }
 
-                // Find an item that occupies this cell
+                // Find an item that occupies this cell (with custom shape support)
                 const item = items.find(item => {
-                    // Calculate effective dimensions based on rotation
-                    const effectiveWidth = item.rotation === 1 ?
-                        (item.height || 1) : (item.width || 1);
-                    const effectiveHeight = item.rotation === 1 ?
-                        (item.width || 1) : (item.height || 1);
+                    // Get the item's shape
+                    let shape = item.shape;
+                    if (!shape) {
+                        // Legacy item - convert to shape
+                        const width = item.width || 1;
+                        const height = item.height || 1;
+                        shape = createRectangularShape(width, height);
+                    }
 
-                    // Check if this cell is within the bounds of the item
-                    return row >= item.position.row &&
-                           row < item.position.row + effectiveHeight &&
-                           col >= item.position.col &&
-                           col < item.position.col + effectiveWidth;
+                    // Apply rotation if needed
+                    if (item.rotation === 1) {
+                        shape = rotateShape(shape);
+                    }
+
+                    // Calculate relative position within the item's shape
+                    const relativeRow = row - item.position.row;
+                    const relativeCol = col - item.position.col;
+
+                    // Check if this cell is occupied by the item's shape
+                    return relativeRow >= 0 && relativeCol >= 0 &&
+                           isShapeCellOccupied(shape, relativeRow, relativeCol);
                 });
 
                 // Check if this is the top-left cell of the item (for rendering)
@@ -1063,45 +1279,155 @@ export default function InventoryWindow() {
                         onClick={() => setSelectedItemId(null)}
                     >
 
-                        {item && isItemOrigin && (
-                            <div className="item-wrapper" style={{
-                                width: `${item.rotation === 1 ? item.height * 100 : item.width * 100}%`,
-                                height: `${item.rotation === 1 ? item.width * 100 : item.height * 100}%`,
-                                boxShadow: `0 0 8px ${getQualityColor(item.quality, item.rarity)}80`,
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                overflow: 'visible'
-                            }}>
-                                {/* Non-rotating border with quality color */}
-                                <div
-                                    className={`item-border ${selectedItemId === item.id ? 'selected' : ''}`}
-                                    style={{
-                                        borderColor: getQualityColor(item.quality, item.rarity)
-                                    }}
-                                />
+                        {item && isItemOrigin && (() => {
+                            // Get the item's shape and bounds
+                            let shape = item.shape;
+                            if (!shape) {
+                                // Legacy item - convert to shape
+                                const width = item.width || 1;
+                                const height = item.height || 1;
+                                shape = createRectangularShape(width, height);
+                            }
 
-                                {/* Blue indicator removed - rotation functionality preserved */}
+                            // Apply rotation if needed
+                            if (item.rotation === 1) {
+                                shape = rotateShape(shape);
+                            }
 
-                                {/* Container for item - no visual rotation */}
-                                <div
-                                    className={`inventory-item ${item.width > 1 || item.height > 1 ? 'multi-cell' : ''}`}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%'
-                                    }}
-                                    draggable
-                                    onDragStart={(e) => handleDragStart(e, item)}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    {/* Item content */}
+                            const bounds = getShapeBounds(shape);
+                            const isMultiCell = bounds.width > 1 || bounds.height > 1;
+
+
+
+                            // Determine if this is a simple rectangular shape or a complex custom shape
+                            let isSimpleRectangle = false;
+                            let iconCellRow = 0, iconCellCol = 0;
+
+                            if (shape.type === 'rectangular') {
+                                isSimpleRectangle = true;
+                            } else if (shape.type === 'custom') {
+                                // Check if the custom shape is actually a filled rectangle
+                                let totalCells = bounds.width * bounds.height;
+                                let occupiedCells = 0;
+                                let firstOccupiedRow = -1, firstOccupiedCol = -1;
+
+                                shape.cells.forEach((shapeRow, rowIndex) => {
+                                    shapeRow.forEach((isOccupied, colIndex) => {
+                                        if (isOccupied) {
+                                            occupiedCells++;
+                                            if (firstOccupiedRow === -1) {
+                                                firstOccupiedRow = rowIndex;
+                                                firstOccupiedCol = colIndex;
+                                            }
+                                        }
+                                    });
+                                });
+
+                                // If all cells in the bounds are occupied, it's a simple rectangle
+                                isSimpleRectangle = (occupiedCells === totalCells);
+
+                                // For complex shapes, use the first occupied cell for icon placement
+                                if (!isSimpleRectangle) {
+                                    iconCellRow = firstOccupiedRow;
+                                    iconCellCol = firstOccupiedCol;
+                                }
+                            }
+
+                            return (
+                                <div className="item-wrapper" style={{
+                                    width: `${bounds.width * 100}%`,
+                                    height: `${bounds.height * 100}%`,
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    overflow: 'visible'
+                                }}>
+                                    {/* Render custom shape cells */}
+                                    {shape.type === 'custom' ? (
+                                        shape.cells.map((shapeRow, shapeRowIndex) =>
+                                            shapeRow.map((isOccupied, shapeColIndex) => {
+                                                if (!isOccupied) return null;
+
+                                                return (
+                                                    <div
+                                                        key={`${shapeRowIndex}-${shapeColIndex}`}
+                                                        className={`item-shape-cell ${selectedItemId === item.id ? 'selected' : ''}`}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            left: `${(shapeColIndex / bounds.width) * 100}%`,
+                                                            top: `${(shapeRowIndex / bounds.height) * 100}%`,
+                                                            width: `${(1 / bounds.width) * 100}%`,
+                                                            height: `${(1 / bounds.height) * 100}%`,
+                                                            borderColor: getQualityColor(item.quality, item.rarity),
+                                                            border: `2px solid ${getQualityColor(item.quality, item.rarity)}`,
+                                                            boxShadow: `0 0 8px ${getQualityColor(item.quality, item.rarity)}80`,
+                                                            backgroundColor: 'transparent', // Remove dark overlay
+                                                            borderRadius: '4px'
+                                                        }}
+                                                        onContextMenu={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            handleItemContextMenu(e, item.id);
+                                                        }}
+                                                        onClick={(e) => {
+                                                            // Single click to select
+                                                            setSelectedItemId(item.id);
+
+                                                            // Double click to rotate
+                                                            if (e.detail === 2) {
+                                                                rotateItem(item.id);
+                                                            }
+                                                        }}
+                                                    />
+                                                );
+                                            })
+                                        )
+                                    ) : (
+                                        /* Rectangular shape - use traditional border */
+                                        <div
+                                            className={`item-border ${selectedItemId === item.id ? 'selected' : ''}`}
+                                            style={{
+                                                borderColor: getQualityColor(item.quality, item.rarity),
+                                                boxShadow: `0 0 8px ${getQualityColor(item.quality, item.rarity)}80`
+                                            }}
+                                            onContextMenu={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleItemContextMenu(e, item.id);
+                                            }}
+                                            onClick={(e) => {
+                                                // Single click to select
+                                                setSelectedItemId(item.id);
+
+                                                // Double click to rotate
+                                                if (e.detail === 2) {
+                                                    rotateItem(item.id);
+                                                }
+                                            }}
+                                        />
+                                    )}
+
+                                    {/* Invisible overlay for context menu and interactions - covers entire item bounds */}
                                     <div
-                                        className="item-content"
+                                        className="item-interaction-overlay"
                                         style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
                                             width: '100%',
-                                            height: '100%'
+                                            height: '100%',
+                                            zIndex: 5,
+                                            backgroundColor: 'transparent',
+                                            cursor: 'move'
                                         }}
-                                        onContextMenu={(e) => handleItemContextMenu(e, item.id)}
+                                        draggable
+                                        onDragStart={(e) => handleDragStart(e, item)}
+                                        onDragEnd={handleDragEnd}
+                                        onContextMenu={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleItemContextMenu(e, item.id);
+                                        }}
                                         onMouseEnter={(e) => handleItemMouseEnter(e, item.id)}
                                         onMouseMove={(e) => handleItemMouseMove(e, item.id)}
                                         onMouseLeave={handleItemMouseLeave}
@@ -1113,6 +1439,35 @@ export default function InventoryWindow() {
                                             if (e.detail === 2) {
                                                 rotateItem(item.id);
                                             }
+                                        }}
+                                    />
+
+                                    {/* Container for item - no visual rotation */}
+                                    <div
+                                        className={`inventory-item ${isMultiCell ? 'multi-cell' : ''}`}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            pointerEvents: 'none' // Let the overlay handle interactions
+                                        }}
+                                    >
+                                    {/* Item content */}
+                                    <div
+                                        className="item-content"
+                                        style={isSimpleRectangle ? {
+                                            // Simple rectangle - use full bounds like normal
+                                            width: '100%',
+                                            height: '100%'
+                                        } : {
+                                            // Complex custom shape - position icon in a single cell
+                                            position: 'absolute',
+                                            left: `${(iconCellCol / bounds.width) * 100}%`,
+                                            top: `${(iconCellRow / bounds.height) * 100}%`,
+                                            width: `${(1 / bounds.width) * 100}%`,
+                                            height: `${(1 / bounds.height) * 100}%`,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
                                     >
                                         {item.iconId ? (
@@ -1134,7 +1489,8 @@ export default function InventoryWindow() {
                                     </div>
                                 </div>
                             </div>
-                        )}
+                        );
+                        })()}
                     </div>
                 );
             }
@@ -1246,266 +1602,292 @@ export default function InventoryWindow() {
             </div>
 
             {/* Item Context Menu - Render at document level for proper positioning */}
-            {contextMenu.visible && ReactDOM.createPortal(
-                <div
-                    ref={contextMenuRef}
-                    className="item-context-menu"
-                    style={{
-                        position: 'fixed',
-                        top: contextMenu.y,
-                        left: contextMenu.x,
-                        zIndex: 100000 /* Higher than DraggableWindow z-index */
-                    }}
-                >
-                    <ul>
-                        {(() => {
-                            const item = items.find(i => i.id === contextMenu.itemId);
-                            const isContainer = item?.type === 'container';
-                            const isLocked = item?.containerProperties?.isLocked || false;
+            {contextMenu.visible && ReactDOM.createPortal((() => {
+                const item = items.find(i => i.id === contextMenu.itemId);
+                const isContainer = item?.type === 'container';
+                const isLocked = item?.containerProperties?.isLocked || false;
 
-                            return (
-                                <>
-                                    <li onClick={() => {
-                                        rotateItem(contextMenu.itemId);
-                                        setContextMenu({ visible: false });
-                                    }}>Rotate</li>
+                if (!item) return null;
 
-                                    {item && item.quantity > 1 && (
-                                        <li onClick={() => {
-                                            splitStack(contextMenu.itemId, Math.ceil(item.quantity / 2));
-                                            setContextMenu({ visible: false });
-                                        }}>Split Stack</li>
-                                    )}
+                const menuItems = [];
 
-                                    {/* Equip/Use option - show based on item type */}
-                                    {(() => {
-                                        const item = items.find(i => i.id === contextMenu.itemId);
+                // Rotate option
+                menuItems.push({
+                    icon: <i className="fas fa-redo"></i>,
+                    label: 'Rotate',
+                    onClick: () => {
+                        rotateItem(contextMenu.itemId);
+                        setContextMenu({ visible: false });
+                    }
+                });
 
-                                        // Show "Use" for consumable items and recipe scrolls
-                                        if (item?.type === 'consumable' || item?.subtype === 'recipe') {
-                                            const actionText = item?.subtype === 'recipe' ? 'Learn' : 'Use';
-                                            return (
-                                                <li onClick={() => {
-                                                    handleUseConsumable(item);
-                                                    setContextMenu({ visible: false });
-                                                }}>{actionText}</li>
-                                            );
-                                        }
+                // Split Stack option
+                if (item.quantity > 1) {
+                    menuItems.push({
+                        icon: <i className="fas fa-cut"></i>,
+                        label: 'Split Stack',
+                        onClick: () => {
+                            splitStack(contextMenu.itemId, Math.ceil(item.quantity / 2));
+                            setContextMenu({ visible: false });
+                        }
+                    });
+                }
 
-                                        // Show "Equip" for equippable items
-                                        const compatibleSlots = getCompatibleSlots(item);
-                                        if (compatibleSlots.length === 0) {
-                                            return null; // Not equippable or consumable
-                                        }
+                                // Equip/Use option - show based on item type
+                // Show "Use" for consumable items and recipe scrolls
+                if (item?.type === 'consumable' || item?.subtype === 'recipe') {
+                    const actionText = item?.subtype === 'recipe' ? 'Learn' : 'Use';
+                    menuItems.push({
+                        icon: <i className="fas fa-hand-paper"></i>,
+                        label: actionText,
+                        onClick: () => {
+                            handleUseConsumable(item);
+                            setContextMenu({ visible: false });
+                        }
+                    });
+                }
 
-                                        // Auto-equip logic for items with obvious slots
-                                        const shouldAutoEquip = () => {
-                                            // Two-handed weapons always go to main hand
-                                            const weaponSlot = item.weaponSlot?.toLowerCase();
-                                            if (weaponSlot === 'two_handed' || weaponSlot === 'twohanded' || weaponSlot === 'two-handed') {
-                                                return 'mainHand';
-                                            }
+                // Show "Equip" for equippable items
+                const compatibleSlots = getCompatibleSlots(item);
+                if (compatibleSlots.length > 0) {
 
-                                            // Items with only one compatible slot
-                                            if (compatibleSlots.length === 1) {
-                                                return compatibleSlots[0];
-                                            }
+                                    // Auto-equip logic for items with obvious slots
+                    const shouldAutoEquip = () => {
+                        // Items with only one compatible slot should auto-equip
+                        if (compatibleSlots.length === 1) {
+                            return compatibleSlots[0];
+                        }
 
-                                            // Items that should auto-equip to specific slots
-                                            const itemType = item.type?.toLowerCase();
-                                            const subtype = item.subtype?.toLowerCase();
+                        // Check if this item should show expanded context menu
+                        // These items have multiple slots and user should choose:
+                        // - One-handed weapons (mainHand/offHand)
+                        // - Rings (ring1/ring2)
+                        // - Trinkets (trinket1/trinket2)
+                        const itemType = item.type?.toLowerCase();
+                        const subtype = item.subtype?.toLowerCase();
+                        const weaponSlot = item.weaponSlot?.toLowerCase();
 
-                                            // Armor pieces with obvious slots
-                                            if (itemType === 'armor') {
-                                                if (subtype?.includes('helmet') || subtype?.includes('head')) return 'head';
-                                                if (subtype?.includes('chest') || subtype?.includes('breastplate') || subtype?.includes('robe')) return 'chest';
-                                                if (subtype?.includes('leg') || subtype?.includes('pants')) return 'legs';
-                                                if (subtype?.includes('boot') || subtype?.includes('feet')) return 'feet';
-                                                if (subtype?.includes('glove') || subtype?.includes('gauntlet')) return 'gloves';
-                                                if (subtype?.includes('belt') || subtype?.includes('waist')) return 'waist';
-                                                if (subtype?.includes('shoulder') || subtype?.includes('pauldron')) return 'shoulders';
-                                                if (subtype?.includes('cloak') || subtype?.includes('cape') || subtype?.includes('back')) return 'back';
-                                                if (subtype?.includes('bracer') || subtype?.includes('wrist')) return 'wrists';
-                                                if (subtype?.includes('neck') || subtype?.includes('necklace') || subtype?.includes('amulet')) return 'neck';
-                                            }
+                        // One-handed weapons that can go in either hand
+                        if (itemType === 'weapon' &&
+                            (weaponSlot === 'one_handed' || weaponSlot === 'onehanded' || weaponSlot === 'one-handed') &&
+                            compatibleSlots.includes('mainHand') && compatibleSlots.includes('offHand')) {
+                            return null; // Show expanded context menu
+                        }
 
-                                            // Accessories with obvious slots
-                                            if (itemType === 'accessory') {
-                                                if (subtype?.includes('neck') || subtype?.includes('necklace') || subtype?.includes('amulet')) return 'neck';
-                                            }
+                        // Rings - always show expanded menu
+                        if (itemType === 'accessory' && subtype?.includes('ring')) {
+                            return null; // Show expanded context menu
+                        }
 
-                                            // Clothing
-                                            if (itemType === 'clothing') {
-                                                if (subtype?.includes('shirt')) return 'shirt';
-                                                if (subtype?.includes('tabard')) return 'tabard';
-                                            }
+                        // Trinkets - always show expanded menu
+                        if (itemType === 'accessory' && (subtype?.includes('trinket') || subtype?.includes('charm'))) {
+                            return null; // Show expanded context menu
+                        }
 
-                                            // Ranged weapons
-                                            if (item.weaponSlot?.toLowerCase() === 'ranged') {
-                                                return 'ranged';
-                                            }
+                        // For all other multi-slot items, auto-equip to first available slot
+                        // This handles cases like armor that might fit multiple slots but has a preferred slot
+                        if (compatibleSlots.length > 1) {
+                            return compatibleSlots[0];
+                        }
 
-                                            return null; // Show context menu for multi-slot items
-                                        };
+                        return null; // Fallback - show context menu
+                    };
 
-                                        const autoEquipSlot = shouldAutoEquip();
+                    const autoEquipSlot = shouldAutoEquip();
 
-                                        if (autoEquipSlot) {
-                                            // Auto-equip directly
-                                            return (
-                                                <li onClick={() => {
-                                                    handleEquipItem(autoEquipSlot, item);
-                                                    setContextMenu({ visible: false });
-                                                }}>Equip</li>
-                                            );
-                                        } else {
-                                            // Show equipment context menu for multi-slot items
-                                            return (
-                                                <li onClick={(e) => {
-                                                    handleEquipmentContextMenu(e, item);
-                                                    setContextMenu({ visible: false });
-                                                }}>Equip</li>
-                                            );
-                                        }
-                                    })()}
+                    if (autoEquipSlot) {
+                        // Auto-equip directly
+                        menuItems.push({
+                            icon: <i className="fas fa-shield-alt"></i>,
+                            label: 'Equip',
+                            onClick: () => {
+                                handleEquipItem(autoEquipSlot, item);
+                                setContextMenu({ visible: false });
+                            }
+                        });
+                    } else {
+                        // Show equipment context menu for multi-slot items
+                        menuItems.push({
+                            icon: <i className="fas fa-shield-alt"></i>,
+                            label: 'Equip',
+                            onClick: () => {
+                                // Create a mock event object for handleEquipmentContextMenu
+                                const mockEvent = {
+                                    preventDefault: () => {},
+                                    stopPropagation: () => {},
+                                    clientX: contextMenu.x,
+                                    clientY: contextMenu.y
+                                };
+                                handleEquipmentContextMenu(mockEvent, item);
+                                setContextMenu({ visible: false });
+                            }
+                        });
+                    }
+                }
 
 
 
-                                    {isContainer && (
-                                        <>
-                                            <li onClick={() => {
-                                                if (!isLocked) {
-                                                    // Force container type to be 'container' if it's not already
-                                                    if (item.type !== 'container') {
-                                                        item.type = 'container';
+                                // Container options
+                if (isContainer) {
+                    const containerOpenHandler = () => {
+                        if (!isLocked) {
+                            // Force container type to be 'container' if it's not already
+                            if (item.type !== 'container') {
+                                item.type = 'container';
 
-                                                        // Update the type in the inventory store
-                                                        useInventoryStore.getState().updateItem(item.id, {
-                                                            type: 'container'
-                                                        });
-                                                    }
+                                // Update the type in the inventory store
+                                useInventoryStore.getState().updateItem(item.id, {
+                                    type: 'container'
+                                });
+                            }
 
-                                                    // Check if container properties exist
-                                                    if (!item.containerProperties) {
-                                                        // Initialize container properties if missing
-                                                        item.containerProperties = {
-                                                            gridSize: { rows: 4, cols: 6 },
-                                                            items: [],
-                                                            isLocked: false,
-                                                            lockType: 'none',
-                                                            lockDC: 0,
-                                                            lockCode: '',
-                                                            flavorText: '',
-                                                            maxAttempts: 3,
-                                                            failureAction: 'none',
-                                                            failureActionDetails: {
-                                                                removeItems: false,
-                                                                removePercentage: 50,
-                                                                destroyContainer: false,
-                                                                triggerTrap: false,
-                                                                trapDetails: '',
-                                                                transformIntoCreature: false,
-                                                                creatureType: ''
-                                                            }
-                                                        };
+                            // Check if container properties exist
+                            if (!item.containerProperties) {
+                                // Initialize container properties if missing
+                                item.containerProperties = {
+                                    gridSize: { rows: 4, cols: 6 },
+                                    items: [],
+                                    isLocked: false,
+                                    lockType: 'none',
+                                    lockDC: 0,
+                                    lockCode: '',
+                                    flavorText: '',
+                                    maxAttempts: 3,
+                                    failureAction: 'none',
+                                    failureActionDetails: {
+                                        removeItems: false,
+                                        removePercentage: 50,
+                                        destroyContainer: false,
+                                        triggerTrap: false,
+                                        trapDetails: '',
+                                        transformIntoCreature: false,
+                                        creatureType: ''
+                                    }
+                                };
 
-                                                        // Update the container properties in the inventory store
-                                                        useInventoryStore.getState().updateItem(item.id, {
-                                                            type: 'container',
-                                                            containerProperties: item.containerProperties
-                                                        });
-                                                    }
+                                // Update the container properties in the inventory store
+                                useInventoryStore.getState().updateItem(item.id, {
+                                    type: 'container',
+                                    containerProperties: item.containerProperties
+                                });
+                            }
 
-                                                    // Update the item store's openContainers set for consistency
-                                                    try {
-                                                        const itemStoreOpenContainers = useItemStore.getState().openContainers;
-                                                        const newItemStoreOpenContainers = new Set(
-                                                            itemStoreOpenContainers instanceof Set
-                                                                ? itemStoreOpenContainers
-                                                                : new Set(Array.isArray(itemStoreOpenContainers) ? itemStoreOpenContainers : [])
-                                                        );
+                            // Update the item store's openContainers set for consistency
+                            try {
+                                const itemStoreOpenContainers = useItemStore.getState().openContainers;
+                                const newItemStoreOpenContainers = new Set(
+                                    itemStoreOpenContainers instanceof Set
+                                        ? itemStoreOpenContainers
+                                        : new Set(Array.isArray(itemStoreOpenContainers) ? itemStoreOpenContainers : [])
+                                );
 
-                                                        newItemStoreOpenContainers.add(item.id);
-                                                        useItemStore.setState({ openContainers: newItemStoreOpenContainers });
-                                                    } catch (error) {
-                                                        // Silent error handling
-                                                    }
+                                newItemStoreOpenContainers.add(item.id);
+                                useItemStore.setState({ openContainers: newItemStoreOpenContainers });
+                            } catch (error) {
+                                // Silent error handling
+                            }
 
-                                                    // Toggle the container open state in the local state
-                                                    toggleContainerOpen(item.id);
-                                                } else {
-                                                    // Show unlock modal for locked containers
-                                                    setContainerToUnlock(item);
-                                                    setShowUnlockModal(true);
-                                                }
-                                                setContextMenu({ visible: false });
-                                            }}>{isLocked ? 'Unlock Container' : 'Open Container'}</li>
+                            // Toggle the container open state in the local state
+                            toggleContainerOpen(item.id);
+                        } else {
+                            // Show unlock modal for locked containers
+                            setContainerToUnlock(item);
+                            setShowUnlockModal(true);
+                        }
+                        setContextMenu({ visible: false });
+                    };
 
-                                            <li style={{ color: 'orange' }} onClick={() => {
-                                                // Debug function to manually create a container window
-                                                console.log('DEBUG: Manually creating container window for:', item.name, item.id);
+                    menuItems.push({
+                        icon: isLocked ? <i className="fas fa-unlock"></i> : <i className="fas fa-box-open"></i>,
+                        label: isLocked ? 'Unlock Container' : 'Open Container',
+                        onClick: containerOpenHandler
+                    });
 
-                                                // Force container type to be 'container'
-                                                item.type = 'container';
+                                    // Debug container option
+                    menuItems.push({
+                        icon: <i className="fas fa-bug"></i>,
+                        label: 'DEBUG: Force Open Container',
+                        onClick: () => {
+                            // Debug function to manually create a container window
+                            console.log('DEBUG: Manually creating container window for:', item.name, item.id);
 
-                                                // Ensure container properties exist
-                                                if (!item.containerProperties) {
-                                                    item.containerProperties = {
-                                                        gridSize: { rows: 4, cols: 6 },
-                                                        items: [],
-                                                        isLocked: false,
-                                                        lockType: 'none',
-                                                        lockDC: 0,
-                                                        lockCode: '',
-                                                        flavorText: '',
-                                                        maxAttempts: 3,
-                                                        failureAction: 'none',
-                                                        failureActionDetails: {
-                                                            removeItems: false,
-                                                            removePercentage: 50,
-                                                            destroyContainer: false,
-                                                            triggerTrap: false,
-                                                            trapDetails: '',
-                                                            transformIntoCreature: false,
-                                                            creatureType: ''
-                                                        }
-                                                    };
-                                                }
+                            // Force container type to be 'container'
+                            item.type = 'container';
 
-                                                // Update the container in the inventory store
-                                                useInventoryStore.getState().updateItem(item.id, {
-                                                    type: 'container',
-                                                    containerProperties: item.containerProperties
-                                                });
+                            // Ensure container properties exist
+                            if (!item.containerProperties) {
+                                item.containerProperties = {
+                                    gridSize: { rows: 4, cols: 6 },
+                                    items: [],
+                                    isLocked: false,
+                                    lockType: 'none',
+                                    lockDC: 0,
+                                    lockCode: '',
+                                    flavorText: '',
+                                    maxAttempts: 3,
+                                    failureAction: 'none',
+                                    failureActionDetails: {
+                                        removeItems: false,
+                                        removePercentage: 50,
+                                        destroyContainer: false,
+                                        triggerTrap: false,
+                                        trapDetails: '',
+                                        transformIntoCreature: false,
+                                        creatureType: ''
+                                    }
+                                };
+                            }
 
-                                                // Add to localOpenContainers
-                                                setLocalOpenContainers(prev => {
-                                                    const newSet = new Set(prev);
-                                                    newSet.add(item.id);
-                                                    return newSet;
-                                                });
+                            // Update the container in the inventory store
+                            useInventoryStore.getState().updateItem(item.id, {
+                                type: 'container',
+                                containerProperties: item.containerProperties
+                            });
 
-                                                // Also update itemStore openContainers
-                                                const newItemStoreOpenContainers = new Set(
-                                                    Array.from(useItemStore.getState().openContainers || [])
-                                                );
-                                                newItemStoreOpenContainers.add(item.id);
-                                                useItemStore.setState({ openContainers: newItemStoreOpenContainers });
+                            // Add to localOpenContainers
+                            setLocalOpenContainers(prev => {
+                                const newSet = new Set(prev);
+                                newSet.add(item.id);
+                                return newSet;
+                            });
 
-                                                setContextMenu({ visible: false });
-                                            }}>DEBUG: Force Open Container</li>
-                                        </>
-                                    )}
-
-                                    <li onClick={() => {
-                                        removeItem(contextMenu.itemId);
-                                        setContextMenu({ visible: false });
-                                    }}>Delete</li>
-                                </>
+                            // Also update itemStore openContainers
+                            const newItemStoreOpenContainers = new Set(
+                                Array.from(useItemStore.getState().openContainers || [])
                             );
-                        })()}
-                    </ul>
-                </div>,
+                            newItemStoreOpenContainers.add(item.id);
+                            useItemStore.setState({ openContainers: newItemStoreOpenContainers });
+
+                            setContextMenu({ visible: false });
+                        },
+                        className: 'debug'
+                    });
+                }
+
+                // Delete option
+                menuItems.push(
+                    { type: 'separator' },
+                    {
+                        icon: <i className="fas fa-trash"></i>,
+                        label: 'Delete',
+                        onClick: () => {
+                            removeItem(contextMenu.itemId);
+                            setContextMenu({ visible: false });
+                        },
+                        className: 'danger'
+                    }
+                );
+
+                return (
+                    <UnifiedContextMenu
+                        visible={true}
+                        x={contextMenu.x}
+                        y={contextMenu.y}
+                        onClose={() => setContextMenu({ visible: false })}
+                        items={menuItems}
+                    />
+                );
+            })(),
                 document.body
             )}
 

@@ -1301,15 +1301,13 @@ export default function Grid() {
 
     // Handle character inspection from token
     const handleCharacterTokenInspect = (characterData, isSelf) => {
-        // Dispatch event to open character sheet
-        const event = new KeyboardEvent('keydown', {
-            key: 'C',
-            code: 'KeyC',
-            keyCode: 67,
-            which: 67,
-            bubbles: true
+        console.log('🔍 Grid: Character token inspect requested:', { characterData, isSelf });
+
+        // Dispatch a custom event that HUDContainer can listen for
+        const inspectEvent = new CustomEvent('openCharacterSheet', {
+            detail: { character: characterData, isSelf }
         });
-        window.dispatchEvent(event);
+        window.dispatchEvent(inspectEvent);
     };
 
     // Helper function to check if there's a GM notes object at the clicked position

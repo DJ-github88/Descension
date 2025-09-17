@@ -45,7 +45,7 @@
 }
 
 .context-menu-main {
-  padding: 4px 0;
+  padding: 8px;
 }
 
 .context-menu-group {
@@ -113,6 +113,19 @@
   transform: translateX(0);
 }
 
+/* Simple context menus - always show submenu without hover */
+.context-menu-main > .context-menu-group > .submenu {
+  position: static !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  width: auto !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 .context-menu-section {
   padding: 8px;
   border-bottom: 1px solid #d5cbb0;
@@ -163,13 +176,24 @@
   font-weight: bold;
 }
 
-.context-menu-button.danger {
+.context-menu-button.danger,
+.context-menu-button.danger-action {
   color: #a05a46;
 }
 
-.context-menu-button.danger:hover:not(:disabled) {
+.context-menu-button.danger:hover:not(:disabled),
+.context-menu-button.danger-action:hover:not(:disabled) {
   background-color: rgba(160, 90, 70, 0.2);
   color: #8b3a2e;
+}
+
+.context-menu-button.debug {
+  color: #ff8c00;
+}
+
+.context-menu-button.debug:hover:not(:disabled) {
+  background-color: rgba(255, 140, 0, 0.2);
+  color: #ff6600;
 }
 
 /* Submenu button styling */

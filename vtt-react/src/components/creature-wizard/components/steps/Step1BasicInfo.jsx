@@ -105,13 +105,13 @@ const Step1BasicInfo = () => {
     'inv_misc_organ_06',
 
     // Insects and Arachnids
-    'ability_hunter_pet_spider',
-    'ability_hunter_pet_scorpid',
     'inv_misc_monstertail_03',
     'inv_misc_monstertail_04',
     'inv_misc_monsterhorn_03',
     'inv_misc_monsterhorn_04',
     'inv_misc_monsterhorn_05',
+    'inv_misc_wing_01',
+    'inv_misc_wing_02',
 
     // Aquatic Creatures
     'inv_misc_fish_02',
@@ -119,7 +119,7 @@ const Step1BasicInfo = () => {
     'inv_misc_fish_04',
     'inv_misc_fish_05',
     'ability_hunter_pet_turtle',
-    'spell_frost_summonwaterelemental',
+    'spell_frost_frostarmor',
 
     // Slimes and Oozes
     'inv_misc_slime_01',

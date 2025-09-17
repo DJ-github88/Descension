@@ -45,9 +45,9 @@ const CategoryTree = ({ categories, selectedCategory, onSelect, onAddSubcategory
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // Use pageX and pageY for absolute positioning
-        const x = e.pageX;
-        const y = e.pageY;
+        // Use clientX and clientY for fixed positioning (like creature token)
+        const x = e.clientX;
+        const y = e.clientY;
 
         // Default menu dimensions
         const menuWidth = 200;
@@ -332,9 +332,10 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
 
-            // Use pageX and pageY for absolute positioning
-            const x = e.pageX;
-            const y = e.pageY;
+            // Use clientX and clientY for fixed positioning
+            // Note: No need to adjust for window scale since context menu is rendered at document level
+            const x = e.clientX;
+            const y = e.clientY;
 
             // Default menu dimensions
             const menuWidth = 200;
@@ -1036,7 +1037,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 />
             )}
 
-            {contextMenu?.type === 'item' && (
+            {contextMenu?.type === 'item' && createPortal(
                 <ItemContextMenu
                     x={contextMenu.x}
                     y={contextMenu.y}
@@ -1048,7 +1049,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     item={contextMenu.validatedItem || items.find(item => item.id === contextMenu.itemId)}
                     onEdit={handleEditItem}
                     onShowCategorizeModal={handleShowCategorizeModal}
-                />
+                />,
+                document.body
             )}
 
             {/* Container Windows - Each ContainerWindow component uses its own React Portal */}

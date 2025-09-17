@@ -6,79 +6,15 @@
  * These items are used in creature loot tables with the itemId property
  */
 export const LOOT_ITEMS = [
-  // Goblin Warrior items
-  {
-    id: 'rusty-dagger',
-    name: 'Rusty Dagger',
-    type: 'weapon',
-    subtype: 'dagger',
-    quality: 'poor',
-    iconId: 'inv_weapon_shortblade_01',
-    description: 'A crude, rusty dagger used by goblins. The blade is dull and pitted.',
-    value: { silver: 2, copper: 50 },
-    weaponStats: {
-      baseDamage: {
-        diceCount: 1,
-        diceType: 4,
-        damageType: 'piercing',
-        bonusDamage: 0
-      }
-    }
-  },
-  {
-    id: 'goblin-ear',
-    name: 'Goblin Ear',
-    type: 'miscellaneous',
-    subtype: 'trophy',
-    quality: 'common',
-    iconId: 'inv_misc_ear_human_01',
-    description: 'A severed goblin ear. Some bounty collectors pay for these as proof of kills.',
-    value: { silver: 1 }
-  },
+  // Goblin Warrior items - MOVED TO MAIN ITEM STORE
+  // rusty-dagger and goblin-ear are now in the main item store with proper inventory properties
 
-  // Dire Wolf items
-  {
-    id: 'wolf-pelt',
-    name: 'Wolf Pelt',
-    type: 'material',
-    subtype: 'hide',
-    quality: 'common',
-    iconId: 'inv_misc_pelt_wolf_01',
-    description: 'A thick wolf pelt that could be used for crafting warm clothing or armor.',
-    value: { silver: 15 }
-  },
-  {
-    id: 'wolf-fang',
-    name: 'Wolf Fang',
-    type: 'material',
-    subtype: 'bone',
-    quality: 'common',
-    iconId: 'inv_misc_bone_01',
-    description: 'A sharp wolf fang that could be used for crafting jewelry or as a component in certain rituals.',
-    value: { silver: 5 }
-  },
+  // Dire Wolf items - MOVED TO MAIN ITEM STORE
+  // wolf-pelt and wolf-fang are now in the main item store with proper inventory properties
 
-  // Fire Elemental items
-  {
-    id: 'essence-of-fire',
-    name: 'Essence of Fire',
-    type: 'material',
-    subtype: 'elemental',
-    quality: 'uncommon',
-    iconId: 'spell_fire_volcano',
-    description: 'A swirling essence of pure fire energy, used in crafting fire-based items and fire damage enchantments.',
-    value: { silver: 50 }
-  },
-  {
-    id: 'fire-crystal',
-    name: 'Fire Crystal',
-    type: 'material',
-    subtype: 'gem',
-    quality: 'rare',
-    iconId: 'inv_misc_gem_ruby_01',
-    description: 'A crystal that pulses with the energy of fire. Highly sought after by enchanters for powerful fire-based magical items.',
-    value: { gold: 5 }
-  },
+  // Fire Elemental items - MOVED TO MAIN ITEM STORE
+  // essence-of-fire is now in the main item store with proper inventory properties
+  // fire-crystal is now in the main item store with proper inventory properties
 
   // Staff of the Archmage
   {

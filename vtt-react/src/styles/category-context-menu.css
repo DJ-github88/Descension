@@ -1,12 +1,15 @@
 .category-context-menu {
     position: fixed;
-    background-color: #1a1a1a;
-    border: 1px solid #4a4a4a;
-    border-radius: 4px;
-    padding: 4px 0;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.7);
+    overflow: hidden;
     min-width: 180px;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    backdrop-filter: blur(4px);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    transform: translateZ(0);
 }
 
 .category-context-menu.edit-mode,
@@ -20,41 +23,47 @@
 }
 
 .menu-header {
-    color: #ffd100;
+    color: #3a2f1a;
     font-size: 14px;
     font-weight: bold;
     padding: 4px 12px;
-    border-bottom: 1px solid #4a4a4a;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.2);
     margin-bottom: 8px;
 }
 
 .menu-content {
-    padding: 8px;
+    padding: 0.5rem;
 }
 
 .menu-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
     width: 100%;
-    padding: 8px 12px;
+    padding: 0.6rem 0.75rem;
     background: none;
     border: none;
-    color: #ffffff;
+    color: #3a2f1a;
     text-align: left;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 4px;
+    letter-spacing: 0.3px;
 }
 
 .menu-item:hover {
-    background-color: #4a4a4a;
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    color: #3a2f1a;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
 }
 
 .menu-item i {
     width: 16px;
     text-align: center;
-    color: #ffd100;
+    color: #8b7355;
 }
 
 .edit-input {
@@ -62,16 +71,18 @@
     width: 100%;
     margin-bottom: 8px;
     padding: 8px;
-    background-color: #2a2a2a;
-    border: 1px solid #4a4a4a;
+    background-color: #f8f4e6;
+    border: 2px solid #8b7355;
     border-radius: 4px;
-    color: #ffffff;
+    color: #3a2f1a;
     font-size: 14px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .edit-input:focus {
     outline: none;
-    border-color: #ffd100;
+    border-color: #7a3b2e;
+    box-shadow: 0 0 5px rgba(139, 115, 85, 0.3);
 }
 
 .icon-preview {
@@ -83,7 +94,7 @@
 .icon-preview img {
     width: 36px;
     height: 36px;
-    border: 1px solid #4a4a4a;
+    border: 2px solid #8b7355;
     border-radius: 4px;
 }
 
@@ -96,34 +107,38 @@
 .button-group button {
     flex: 1;
     padding: 8px;
-    border: none;
+    border: 2px solid #8b7355;
     border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 500;
 }
 
 .save-button {
-    background-color: #1a9c1a;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     color: #ffffff;
 }
 
 .save-button:hover {
-    background-color: #147814;
+    background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+    transform: translateY(-1px);
 }
 
 .cancel-button {
-    background-color: #4a4a4a;
-    color: #ffffff;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    color: #3a2f1a;
 }
 
 .cancel-button:hover {
-    background-color: #3a3a3a;
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+    transform: translateY(-1px);
 }
 
 .menu-separator {
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(139, 115, 85, 0.2);
     margin: 4px 0;
 }
 
@@ -135,21 +150,22 @@
     position: absolute;
     left: 100%;
     top: 0;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
+    background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+    border: 2px solid #8b7355;
     border-radius: 4px;
     min-width: 150px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.7);
 }
 
 .submenu > div {
     padding: 8px 12px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    color: #3a2f1a;
 }
 
 .submenu > div:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
 }
 
 .lock-options {

@@ -2,66 +2,108 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { getInventoryGridDimensions } from '../utils/characterUtils';
+import {
+    convertLegacyItemToShape,
+    getShapeBounds,
+    createRectangularShape,
+    isCellOccupied,
+    getOccupiedCells,
+    rotateShape
+} from '../utils/itemShapeUtils';
 
-// Helper function to check if a position is valid for an item with given dimensions
-const isValidPosition = (items, row, col, width, height, rotation, itemId = null) => {
-    // If rotated, swap width and height for collision detection
-    const effectiveWidth = rotation === 1 ? height : width;
-    const effectiveHeight = rotation === 1 ? width : height;
-
+// Helper function to check if a position is valid for an item with custom shape support
+const isValidPosition = (items, row, col, itemToPlace, itemId = null) => {
     // Get current grid size dynamically
     const GRID_SIZE = getCurrentGridSize();
 
-    // Check if the item would go out of bounds
-    if (row < 0 || col < 0 || row + effectiveHeight > GRID_SIZE.HEIGHT || col + effectiveWidth > GRID_SIZE.WIDTH) {
-        return false;
+    // Get the shape for the item to place
+    let shape = itemToPlace.shape;
+    if (!shape) {
+        // Legacy item - convert to shape
+        const width = itemToPlace.width || 1;
+        const height = itemToPlace.height || 1;
+        shape = createRectangularShape(width, height);
     }
 
-    // Check if any cell the item would occupy is already occupied by another item
-    for (let r = 0; r < effectiveHeight; r++) {
-        for (let c = 0; c < effectiveWidth; c++) {
-            const cellRow = row + r;
-            const cellCol = col + c;
+    // Apply rotation if needed
+    if (itemToPlace.rotation === 1) {
+        // Use the new rotateShape function for both rectangular and custom shapes
+        shape = rotateShape(shape);
+    }
 
-            const isOccupied = items.some(item => {
-                // Skip checking against itself
-                if (itemId && item.id === itemId) {
-                    return false;
-                }
+    // Get all occupied cells for this shape
+    const occupiedCells = getOccupiedCells(shape);
 
-                // Calculate item dimensions based on rotation
-                const otherEffectiveWidth = item.rotation === 1 ?
-                    (item.height || 1) : (item.width || 1);
-                const otherEffectiveHeight = item.rotation === 1 ?
-                    (item.width || 1) : (item.height || 1);
+    // Check if any occupied cell would go out of bounds or collide
+    for (const cell of occupiedCells) {
+        const cellRow = row + cell.row;
+        const cellCol = col + cell.col;
 
-                // Check if this cell is within the bounds of the other item
-                return cellRow >= item.position.row &&
-                       cellRow < item.position.row + otherEffectiveHeight &&
-                       cellCol >= item.position.col &&
-                       cellCol < item.position.col + otherEffectiveWidth;
-            });
+        // Check bounds
+        if (cellRow < 0 || cellCol < 0 || cellRow >= GRID_SIZE.HEIGHT || cellCol >= GRID_SIZE.WIDTH) {
+            return false;
+        }
 
-            if (isOccupied) {
+        // Check collision with other items
+        const isOccupied = items.some(item => {
+            // Skip checking against itself
+            if (itemId && item.id === itemId) {
                 return false;
             }
+
+            // Get the other item's shape
+            let otherShape = item.shape;
+            if (!otherShape) {
+                // Legacy item - convert to shape
+                const width = item.width || 1;
+                const height = item.height || 1;
+                otherShape = createRectangularShape(width, height);
+            }
+
+            // Apply rotation to other item if needed
+            if (item.rotation === 1) {
+                otherShape = rotateShape(otherShape);
+            }
+
+            // Check if this cell collides with any cell of the other item
+            const otherOccupiedCells = getOccupiedCells(otherShape);
+            return otherOccupiedCells.some(otherCell => {
+                const otherCellRow = item.position.row + otherCell.row;
+                const otherCellCol = item.position.col + otherCell.col;
+                return cellRow === otherCellRow && cellCol === otherCellCol;
+            });
+        });
+
+        if (isOccupied) {
+            return false;
         }
     }
 
     return true;
 };
 
-// Helper function to find first valid position for an item with given dimensions
-const findEmptyPosition = (items, gridSize, width = 1, height = 1, rotation = 0) => {
-    // Calculate effective dimensions based on rotation
-    const effectiveWidth = rotation === 1 ? height : width;
-    const effectiveHeight = rotation === 1 ? width : height;
+// Helper function to find first valid position for an item with custom shape support
+const findEmptyPosition = (items, gridSize, itemToPlace) => {
+    // Get the shape for the item
+    let shape = itemToPlace.shape;
+    if (!shape) {
+        // Legacy item - convert to shape
+        const width = itemToPlace.width || 1;
+        const height = itemToPlace.height || 1;
+        shape = createRectangularShape(width, height);
+    }
 
-    console.log(`🔍 FIND EMPTY POSITION: Looking for ${effectiveWidth}x${effectiveHeight} space in ${gridSize.WIDTH}x${gridSize.HEIGHT} grid`);
+    // Apply rotation if needed
+    if (itemToPlace.rotation === 1) {
+        shape = rotateShape(shape);
+    }
 
-    for (let row = 0; row < gridSize.HEIGHT - effectiveHeight + 1; row++) {
-        for (let col = 0; col < gridSize.WIDTH - effectiveWidth + 1; col++) {
-            const isValid = isValidPosition(items, row, col, width, height, rotation);
+    const bounds = getShapeBounds(shape);
+    console.log(`🔍 FIND EMPTY POSITION: Looking for ${bounds.width}x${bounds.height} space in ${gridSize.WIDTH}x${gridSize.HEIGHT} grid`);
+
+    for (let row = 0; row <= gridSize.HEIGHT - bounds.height; row++) {
+        for (let col = 0; col <= gridSize.WIDTH - bounds.width; col++) {
+            const isValid = isValidPosition(items, row, col, itemToPlace);
             if (isValid) {
                 console.log(`🔍 FOUND VALID POSITION: row ${row}, col ${col}`);
                 return { row, col };
@@ -69,7 +111,7 @@ const findEmptyPosition = (items, gridSize, width = 1, height = 1, rotation = 0)
         }
     }
 
-    console.log(`🔍 NO VALID POSITION FOUND for ${effectiveWidth}x${effectiveHeight} item`);
+    console.log(`🔍 NO VALID POSITION FOUND for ${bounds.width}x${bounds.height} item`);
     // If no valid position found, return null
     return null;
 };
@@ -124,29 +166,38 @@ const calculateEncumbranceState = (items) => {
             return;
         }
 
-        // Calculate effective dimensions based on rotation
-        const effectiveWidth = item.rotation === 1 ?
-            (item.height || 1) : (item.width || 1);
-        const effectiveHeight = item.rotation === 1 ?
-            (item.width || 1) : (item.height || 1);
+        // Get the item's shape and apply rotation
+        let shape = item.shape;
+        if (!shape) {
+            // Legacy item - convert to shape
+            const width = item.width || 1;
+            const height = item.height || 1;
+            shape = createRectangularShape(width, height);
+        }
+
+        // Apply rotation if needed
+        if (item.rotation === 1) {
+            shape = rotateShape(shape);
+        }
+
+        // Get all occupied cells for this shape
+        const occupiedCells = getOccupiedCells(shape);
 
         // Check each cell the item occupies
-        for (let r = 0; r < effectiveHeight; r++) {
-            for (let c = 0; c < effectiveWidth; c++) {
-                const cellCol = item.position.col + c;
+        for (const cell of occupiedCells) {
+            const cellCol = item.position.col + cell.col;
 
-                // Check if any part of the item is in the overencumbered section
-                if (cellCol >= GRID_SIZE.NORMAL_SECTION + GRID_SIZE.ENCUMBERED_SECTION) {
-                    isOverencumbered = true;
-                    break;
-                }
-                // Check if any part of the item is in the encumbered section
-                else if (cellCol >= GRID_SIZE.NORMAL_SECTION) {
-                    isEncumbered = true;
-                }
+            // Check if any part of the item is in the overencumbered section
+            if (cellCol >= GRID_SIZE.NORMAL_SECTION + GRID_SIZE.ENCUMBERED_SECTION) {
+                isOverencumbered = true;
+                break;
             }
-            if (isOverencumbered) break; // No need to check further if already overencumbered
+            // Check if any part of the item is in the encumbered section
+            else if (cellCol >= GRID_SIZE.NORMAL_SECTION) {
+                isEncumbered = true;
+            }
         }
+        if (isOverencumbered) return; // No need to check further items if already overencumbered
     });
 
     // Determine encumbrance state based on item placement
@@ -229,46 +280,69 @@ const useInventoryStore = create(persist((set, get) => ({
     }),
 
     // Add item with stacking support
-    addItem: (itemData) => set((state) => {
-        console.log(`🔧 ADD ITEM CALLED with:`, itemData);
+    addItem: (itemData) => {
+        const currentState = get();
+        const updateResult = get().processAddItem(currentState, itemData);
 
+        if (updateResult.result.success) {
+            set(updateResult.newState);
+        }
+
+        return updateResult.result;
+    },
+
+    // Process add item logic
+    processAddItem: (state, itemData) => {
         // Generate a unique ID if not provided
         const newItem = {
             ...itemData,
             id: itemData.id || uuidv4(),
             quantity: itemData.quantity || 1,
-            width: itemData.width || 1,
-            height: itemData.height || 1,
             rotation: itemData.rotation || 0
         };
 
-        console.log(`🔧 New item created:`, newItem);
+        // Handle shape data - convert legacy items or ensure shape exists
+        if (!newItem.shape) {
+            // Legacy item - convert width/height to shape
+            const width = itemData.width || 1;
+            const height = itemData.height || 1;
+            newItem.shape = createRectangularShape(width, height);
+        }
+
+        // Ensure width/height are set for backward compatibility
+        const bounds = getShapeBounds(newItem.shape);
+        newItem.width = bounds.width;
+        newItem.height = bounds.height;
 
         // Check if the item is stackable and if we already have it
-        // Only allow stacking for consumable and miscellaneous items
-        const isStackableType = newItem.type === 'consumable' || newItem.type === 'miscellaneous';
-        console.log(`🔧 Item type: ${newItem.type}, isStackableType: ${isStackableType}, stackable: ${itemData.stackable}`);
+        // Allow stacking for consumable, miscellaneous, and material items
+        const isStackableType = newItem.type === 'consumable' || newItem.type === 'miscellaneous' || newItem.type === 'material';
 
-        if (itemData.stackable !== false && isStackableType) {
-            console.log(`🔧 Checking for existing stackable item...`);
+        // For stackable types, default to stackable unless explicitly set to false
+        // If stackable is undefined for stackable types, treat as true
+        let effectiveStackable = itemData.stackable;
+        if (isStackableType && itemData.stackable === undefined) {
+            effectiveStackable = true;
+            newItem.stackable = true;
+        }
+
+        const isStackable = isStackableType && (effectiveStackable !== false);
+
+        if (isStackable) {
             const existingItemIndex = state.items.findIndex(item =>
                 item.name === newItem.name &&
                 item.type === newItem.type
             );
-            console.log(`🔧 Existing item index: ${existingItemIndex}`);
 
             if (existingItemIndex >= 0) {
                 // Stack with existing item, but preserve properties from new item
                 const updatedItems = [...state.items];
                 const existingItem = updatedItems[existingItemIndex];
 
-                console.log(`🔧 STACKING: Found existing item at index ${existingItemIndex}`);
-                console.log(`🔧 Existing item:`, existingItem);
-                console.log(`🔧 New item to stack:`, newItem);
-                console.log(`🔧 Existing quantity: ${existingItem.quantity || 1}, Adding: ${newItem.quantity || 1}`);
-
-                const newQuantity = (existingItem.quantity || 1) + (newItem.quantity || 1);
-                console.log(`🔧 Calculated new quantity: ${newQuantity}`);
+                // Ensure quantities are numbers, not objects
+                const existingQuantity = typeof existingItem.quantity === 'number' ? existingItem.quantity : 1;
+                const addingQuantity = typeof newItem.quantity === 'number' ? newItem.quantity : 1;
+                const newQuantity = existingQuantity + addingQuantity;
 
                 // Merge properties from new item to ensure we have all properties
                 // This is important for items that might have been added before property preservation was fixed
@@ -289,44 +363,30 @@ const useInventoryStore = create(persist((set, get) => ({
                     merchantNotes: newItem.merchantNotes || existingItem.merchantNotes
                 };
 
-                console.log(`🔧 STACKING SUCCESS: Updated item:`, updatedItems[existingItemIndex]);
-                console.log(`🔧 Final quantity after stacking: ${updatedItems[existingItemIndex].quantity}`);
-
                 // Update encumbrance after adding item
                 setTimeout(() => get().updateEncumbranceState(), 0);
 
                 // Return the existing item's ID to indicate success
-                return { items: updatedItems, addedItemId: existingItem.id };
+                return {
+                    newState: { items: updatedItems },
+                    result: { success: true, addedItemId: existingItem.id }
+                };
             }
         }
 
         // Find an empty position for the new item
         if (!newItem.position) {
             const currentGridSize = getCurrentGridSize();
-            console.log(`🔍 INVENTORY SPACE CHECK: Looking for space for ${newItem.name} (${newItem.width}x${newItem.height})`);
-            console.log(`🔍 Current grid size:`, currentGridSize);
-            console.log(`🔍 Current items in inventory:`, state.items.length);
-            console.log(`🔍 Current items:`, state.items.map(item => ({
-                name: item.name,
-                position: item.position,
-                width: item.width || 1,
-                height: item.height || 1
-            })));
-
             const emptyPosition = findEmptyPosition(
                 state.items,
                 currentGridSize,
-                newItem.width,
-                newItem.height,
-                newItem.rotation
+                newItem
             );
-
-            console.log(`🔍 Found empty position:`, emptyPosition);
 
             if (!emptyPosition) {
                 // No empty position found - inventory is full for this item size
                 console.warn(`🚫 INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
-                console.warn(`🚫 Grid size: ${currentGridSize.WIDTH}x${currentGridSize.HEIGHT}, Total cells: ${currentGridSize.WIDTH * currentGridSize.HEIGHT}`);
+                console.warn(`🚫 Grid size: ${currentGridSize.width}x${currentGridSize.height}, Total cells: ${currentGridSize.width * currentGridSize.height}`);
 
                 // Show "no room" notification
                 if (typeof window !== 'undefined') {
@@ -388,9 +448,7 @@ const useInventoryStore = create(persist((set, get) => ({
                 state.items,
                 newItem.position.row,
                 newItem.position.col,
-                newItem.width,
-                newItem.height,
-                newItem.rotation
+                newItem
             );
 
             if (!isValid) {
@@ -399,14 +457,13 @@ const useInventoryStore = create(persist((set, get) => ({
                 const emptyPosition = findEmptyPosition(
                     state.items,
                     currentGridSize,
-                    newItem.width,
-                    newItem.height,
-                    newItem.rotation
+                    newItem
                 );
 
                 if (!emptyPosition) {
                     // No valid position found - inventory is full for this item size
-                    console.warn(`No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                    console.warn(`🚫 INVENTORY FULL: No room in inventory for item: ${newItem.name} (${newItem.width}x${newItem.height})`);
+                    console.warn(`🚫 Current inventory has ${state.items.length} items`);
 
                     // Show "no room" notification
                     if (typeof window !== 'undefined') {
@@ -442,7 +499,10 @@ const useInventoryStore = create(persist((set, get) => ({
                     }
 
                     // Return state unchanged - item was not added
-                    return { items: state.items };
+                    return {
+                        newState: { items: state.items },
+                        result: { success: false, reason: 'inventory_full' }
+                    };
                 }
 
                 // Position found, assign it
@@ -454,8 +514,11 @@ const useInventoryStore = create(persist((set, get) => ({
         // Update encumbrance after adding item
         setTimeout(() => get().updateEncumbranceState(), 0);
 
-        return { items: [...state.items, newItem], itemAdded: true };
-    }),
+        return {
+            newState: { items: [...state.items, newItem] },
+            result: { success: true, addedItemId: newItem.id }
+        };
+    },
 
     // Add item from library
     addItemFromLibrary: (libraryItem, options = {}) => {
@@ -467,52 +530,86 @@ const useInventoryStore = create(persist((set, get) => ({
 
         // If dimensions aren't explicitly set, determine them based on item type
         if (!libraryItem.width || !libraryItem.height) {
+            console.log(`🔧 DIMENSIONS: Setting default dimensions for ${libraryItem.name} (type: ${libraryItem.type}, subtype: ${libraryItem.subtype})`);
+
             if (libraryItem.type === 'weapon') {
-                if (libraryItem.subtype === 'GREATSWORD' || libraryItem.subtype === 'GREATAXE' ||
-                    libraryItem.subtype === 'MAUL' || libraryItem.subtype === 'POLEARM') {
+                const subtype = (libraryItem.subtype || '').toLowerCase();
+                if (subtype === 'greatsword' || subtype === 'greataxe' ||
+                    subtype === 'maul' || subtype === 'polearm') {
                     // Two-handed weapons are longer and wider
                     width = 2;
                     height = 4;
-                } else if (libraryItem.subtype === 'STAFF') {
+                } else if (subtype === 'staff') {
                     // Staves are long but thin
                     width = 1;
                     height = 4;
-                } else if (libraryItem.subtype === 'SWORD' || libraryItem.subtype === 'AXE' || libraryItem.subtype === 'MACE') {
+                } else if (subtype === 'sword' || subtype === 'axe' || subtype === 'mace') {
                     // One-handed weapons are medium length
                     width = 1;
                     height = 2;
-                } else if (libraryItem.subtype === 'DAGGER') {
+                } else if (subtype === 'dagger') {
                     // Daggers are small
                     width = 1;
                     height = 1;
-                } else if (libraryItem.subtype === 'BOW' || libraryItem.subtype === 'CROSSBOW') {
+                } else if (subtype === 'bow' || subtype === 'crossbow') {
                     // Bows are wider
                     width = 2;
                     height = 3;
+                } else {
+                    // Default weapon size
+                    width = 1;
+                    height = 2;
                 }
             } else if (libraryItem.type === 'armor') {
-                if (libraryItem.subtype === 'PLATE') {
+                const subtype = (libraryItem.subtype || '').toLowerCase();
+                if (subtype === 'plate') {
                     // Plate armor takes more space
                     width = 2;
                     height = 2;
-                } else if (libraryItem.subtype === 'MAIL') {
+                } else if (subtype === 'mail') {
                     // Mail armor is slightly smaller
                     width = 2;
                     height = 2;
-                } else if (libraryItem.subtype === 'LEATHER') {
+                } else if (subtype === 'leather') {
                     // Leather armor is more compact
                     width = 1;
                     height = 2;
-                } else if (libraryItem.subtype === 'CLOTH') {
+                } else if (subtype === 'cloth') {
                     // Cloth armor is the most compact
                     width = 1;
                     height = 1;
+                } else {
+                    // Default armor size
+                    width = 1;
+                    height = 2;
                 }
             } else if (libraryItem.type === 'container') {
                 // Containers are larger
                 width = 2;
                 height = 2;
+            } else if (libraryItem.type === 'material') {
+                // Materials are usually small
+                width = 1;
+                height = 1;
+            } else if (libraryItem.type === 'consumable') {
+                // Consumables are usually small
+                width = 1;
+                height = 1;
+            } else if (libraryItem.type === 'accessory') {
+                // Accessories are usually small
+                width = 1;
+                height = 1;
+            } else if (libraryItem.type === 'quest') {
+                // Quest items vary, default to medium
+                width = 1;
+                height = 2;
+            } else {
+                // Default size for unknown types
+                width = 1;
+                height = 1;
             }
+
+            console.log(`🔧 DIMENSIONS: Set ${libraryItem.name} to ${width}x${height} (type: ${libraryItem.type}, subtype: ${libraryItem.subtype})`);
         }
 
         // For containers, we want to preserve the original ID to maintain container functionality
@@ -636,63 +733,12 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         // Try to add the item to inventory
-        // For stackable items, we need to check if the total quantity increased, not just item count
-        const initialItems = [...store.items];
-        const initialTotalQuantity = initialItems.reduce((total, item) => {
-            if (item.name === inventoryItem.name && item.type === inventoryItem.type) {
-                const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
-                return total + quantity;
-            }
-            return total;
-        }, 0);
-
-        console.log(`🔍 INVENTORY DEBUG: Before adding ${inventoryItem.name}`);
-        console.log(`🔍 Initial items count: ${initialItems.length}`);
-        console.log(`🔍 Initial total quantity for ${inventoryItem.name}: ${initialTotalQuantity}`);
-        console.log(`🔍 Item to add:`, inventoryItem);
-
-        // Call addItem and capture the result
         const addResult = store.addItem(inventoryItem);
-        console.log(`🔍 AddItem result:`, addResult);
 
-        const finalItems = store.items;
-        const finalItemCount = finalItems.length;
-        const finalTotalQuantity = finalItems.reduce((total, item) => {
-            if (item.name === inventoryItem.name && item.type === inventoryItem.type) {
-                const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
-                return total + quantity;
-            }
-            return total;
-        }, 0);
-
-        console.log(`🔍 INVENTORY DEBUG: After adding ${inventoryItem.name}`);
-        console.log(`🔍 Final items count: ${finalItemCount}`);
-        console.log(`🔍 Final total quantity for ${inventoryItem.name}: ${finalTotalQuantity}`);
-        console.log(`🔍 Final items:`, finalItems.filter(item => item.name === inventoryItem.name));
-
-        // Check if the item was actually added (either new item or stacked)
-        const itemCountIncreased = finalItemCount > initialItems.length;
-        const quantityIncreased = finalTotalQuantity > initialTotalQuantity;
-
-        console.log(`🔍 Item count increased: ${itemCountIncreased} (${initialItems.length} → ${finalItemCount})`);
-        console.log(`🔍 Quantity increased: ${quantityIncreased} (${initialTotalQuantity} → ${finalTotalQuantity})`);
-
-        if (itemCountIncreased || quantityIncreased) {
-            console.log(`✅ INVENTORY SUCCESS: Item ${inventoryItem.name} successfully added to inventory (count: ${itemCountIncreased ? 'new item' : 'stacked'}, quantity: ${initialTotalQuantity} → ${finalTotalQuantity})`);
-
-            // For stacked items, return the ID of the existing stack
-            if (!itemCountIncreased && quantityIncreased) {
-                const existingItem = finalItems.find(item =>
-                    item.name === inventoryItem.name && item.type === inventoryItem.type
-                );
-                return existingItem ? existingItem.id : inventoryItem.id;
-            }
-
-            return inventoryItem.id; // Return the new ID for reference
+        // Check the result from addItem
+        if (addResult && addResult.success) {
+            return addResult.addedItemId;
         } else {
-            // Item was not added (inventory full)
-            console.log(`🚫 INVENTORY FULL: Item ${inventoryItem.name} was NOT added - inventory full`);
-            console.log(`🚫 No change detected: count ${initialItems.length}→${finalItemCount}, quantity ${initialTotalQuantity}→${finalTotalQuantity}`);
             return null;
         }
     },
@@ -748,7 +794,7 @@ const useInventoryStore = create(persist((set, get) => ({
         const height = item.height || 1;
         const rotation = item.rotation || 0;
 
-        if (!isValidPosition(state.items, newPosition.row, newPosition.col, width, height, rotation, itemId)) {
+        if (!isValidPosition(state.items, newPosition.row, newPosition.col, item, itemId)) {
             return { items: state.items };
         }
 
@@ -773,12 +819,20 @@ const useInventoryStore = create(persist((set, get) => ({
         const currentRotation = item.rotation || 0;
         const newRotation = currentRotation === 0 ? 1 : 0;
 
-        const width = item.width || 1;
-        const height = item.height || 1;
-        const isSquare = width === height;
+        // Get the item's shape
+        let shape = item.shape;
+        if (!shape) {
+            const width = item.width || 1;
+            const height = item.height || 1;
+            shape = createRectangularShape(width, height);
+        }
 
-        // For square items, just rotate in place without any checks
-        if (isSquare) {
+        // Check if the shape is rotationally symmetric (same when rotated)
+        const rotatedShape = rotateShape(shape);
+        const isRotationallySymmetric = JSON.stringify(shape.cells) === JSON.stringify(rotatedShape.cells);
+
+        // For rotationally symmetric items, just rotate in place without any checks
+        if (isRotationallySymmetric) {
             const updatedItems = state.items.map(i =>
                 i.id === itemId
                     ? { ...i, rotation: newRotation }
@@ -796,13 +850,13 @@ const useInventoryStore = create(persist((set, get) => ({
 
         // For simplicity and predictability, we'll just check if the item can rotate in place
         // This avoids issues with items jumping around the grid
+        // Create a temporary item with the new rotation for validation
+        const tempItem = { ...item, rotation: newRotation };
         if (!isValidPosition(
             state.items.filter(i => i.id !== itemId),
             row,
             col,
-            width,
-            height,
-            newRotation,
+            tempItem,
             itemId
         )) {
             // If rotation in place isn't valid, don't rotate
@@ -850,7 +904,7 @@ const useInventoryStore = create(persist((set, get) => ({
         const rotation = item.rotation || 0;
 
         const currentGridSize = getCurrentGridSize();
-        const emptyPosition = findEmptyPosition(state.items, currentGridSize, width, height, rotation);
+        const emptyPosition = findEmptyPosition(state.items, currentGridSize, item);
         if (!emptyPosition) {
             // Inventory is full, cannot split stack
             return { items: state.items };
@@ -892,6 +946,68 @@ const useInventoryStore = create(persist((set, get) => ({
         };
 
         // Updated item
+
+        return { items: updatedItems };
+    }),
+
+    // Merge two stacks of the same item
+    mergeStacks: (sourceItemId, targetItemId) => set((state) => {
+        const sourceIndex = state.items.findIndex(item => item.id === sourceItemId);
+        const targetIndex = state.items.findIndex(item => item.id === targetItemId);
+
+        if (sourceIndex === -1 || targetIndex === -1) {
+            return { items: state.items };
+        }
+
+        const sourceItem = state.items[sourceIndex];
+        const targetItem = state.items[targetIndex];
+
+        // Check if items can be stacked
+        const canStack = sourceItem.name === targetItem.name &&
+                        sourceItem.type === targetItem.type &&
+                        sourceItem.quality === targetItem.quality &&
+                        sourceItem.stackable !== false &&
+                        targetItem.stackable !== false;
+
+        if (!canStack) {
+            return { items: state.items };
+        }
+
+        const sourceQuantity = sourceItem.quantity || 1;
+        const targetQuantity = targetItem.quantity || 1;
+        const maxStackSize = targetItem.maxStackSize || 99;
+
+        // Calculate how much can be merged
+        const availableSpace = maxStackSize - targetQuantity;
+        const amountToMerge = Math.min(sourceQuantity, availableSpace);
+
+        if (amountToMerge <= 0) {
+            // Target stack is full
+            return { items: state.items };
+        }
+
+        const updatedItems = [...state.items];
+
+        // Update target item quantity
+        updatedItems[targetIndex] = {
+            ...targetItem,
+            quantity: targetQuantity + amountToMerge
+        };
+
+        // Update or remove source item
+        if (sourceQuantity > amountToMerge) {
+            // Source still has items left
+            updatedItems[sourceIndex] = {
+                ...sourceItem,
+                quantity: sourceQuantity - amountToMerge
+            };
+        } else {
+            // Source is completely merged, remove it
+            updatedItems.splice(sourceIndex, 1);
+        }
+
+        // Update encumbrance after merging
+        setTimeout(() => get().updateEncumbranceState(), 0);
 
         return { items: updatedItems };
     }),

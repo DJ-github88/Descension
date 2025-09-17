@@ -446,12 +446,18 @@ const useCreatureStore = create(
       getCreature: (id) => {
         const creature = get().creatures.find(c => c.id === id);
         if (!creature) return null;
-        return processCreatureLoot(creature);
+        // Import item store dynamically to avoid circular dependencies
+        const useItemStore = require('../store/itemStore').default;
+        const itemStore = useItemStore.getState();
+        return processCreatureLoot(creature, itemStore);
       },
 
       // Get all creatures with processed loot items
       getAllCreatures: () => {
-        return processCreaturesLoot(get().creatures);
+        // Import item store dynamically to avoid circular dependencies
+        const useItemStore = require('../store/itemStore').default;
+        const itemStore = useItemStore.getState();
+        return processCreaturesLoot(get().creatures, itemStore);
       },
 
       // Window position management for external preview
@@ -471,23 +477,18 @@ const useCreatureStore = create(
 const initializeStore = async () => {
   const state = useCreatureStore.getState();
 
-  // Force clear the store for development purposes
-  // This ensures we always load the latest creatures from the data files
-  if (state.creatures.length > 0) {
-    const existingCreatures = [...state.creatures];
-    existingCreatures.forEach(creature => {
-      state.deleteCreature(creature.id);
-    });
-  }
-
   try {
     // Import sample creatures from data file using dynamic import
     const creatureData = await import('../data/creatureLibraryData');
     const LIBRARY_CREATURES = creatureData.LIBRARY_CREATURES;
 
-    // Add each creature to the store
+    // Only add library creatures that don't already exist
+    // This preserves custom creatures while ensuring library creatures are available
     LIBRARY_CREATURES.forEach(creature => {
-      state.addCreature(creature);
+      const existingCreature = state.creatures.find(c => c.id === creature.id);
+      if (!existingCreature) {
+        state.addCreature(creature);
+      }
     });
   } catch (error) {
     console.error('Error loading creature library data:', error);

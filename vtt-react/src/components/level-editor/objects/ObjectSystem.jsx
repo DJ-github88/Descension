@@ -405,16 +405,20 @@ const ObjectSystem = () => {
         // Allow mouse interactions in editor mode OR for GM notes objects when in GM mode
         if (!isEditorMode && !isGMMode) return;
 
-        // Check if the click is on a token - if so, ignore it here
+        // Check if the click is on a token or HUD element - if so, ignore it here
         const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
         if (elementAtPoint && (
             elementAtPoint.classList.contains('creature-token') ||
             elementAtPoint.classList.contains('character-token') ||
             elementAtPoint.closest('.creature-token') ||
-            elementAtPoint.closest('.character-token')
+            elementAtPoint.closest('.character-token') ||
+            elementAtPoint.closest('.target-hud-frame') ||
+            elementAtPoint.closest('.party-hud-frame') ||
+            elementAtPoint.closest('.target-frame') ||
+            elementAtPoint.closest('.party-member-frame')
         )) {
-            console.log('ObjectSystem: ignoring click on token');
-            return; // Let the token's own event handler deal with it
+            console.log('ObjectSystem: ignoring click on token or HUD element');
+            return; // Let the token's or HUD's own event handler deal with it
         }
 
         // Also check if any token is currently being dragged - if so, ignore all ObjectSystem interactions
@@ -488,16 +492,20 @@ const ObjectSystem = () => {
             return;
         }
 
-        // Check if the right-click is on a token - if so, ignore it here
+        // Check if the right-click is on a token or HUD element - if so, ignore it here
         const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
         if (elementAtPoint && (
             elementAtPoint.classList.contains('creature-token') ||
             elementAtPoint.classList.contains('character-token') ||
             elementAtPoint.closest('.creature-token') ||
-            elementAtPoint.closest('.character-token')
+            elementAtPoint.closest('.character-token') ||
+            elementAtPoint.closest('.target-hud-frame') ||
+            elementAtPoint.closest('.party-hud-frame') ||
+            elementAtPoint.closest('.target-frame') ||
+            elementAtPoint.closest('.party-member-frame')
         )) {
-            console.log('ObjectSystem: ignoring right-click on token');
-            return; // Let the token's own event handler deal with it
+            console.log('ObjectSystem: ignoring right-click on token or HUD element');
+            return; // Let the token's or HUD's own event handler deal with it
         }
 
         e.preventDefault();

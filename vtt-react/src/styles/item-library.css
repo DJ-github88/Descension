@@ -506,10 +506,10 @@
 .item-grid {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 70px));
+    grid-template-columns: repeat(auto-fill, minmax(76px, 76px));
     grid-auto-rows: max-content;
-    gap: 6px;
-    padding: 8px;
+    gap: 8px;
+    padding: 10px;
     flex: 1;
     overflow-y: scroll !important;
     overflow-x: hidden;
@@ -548,7 +548,7 @@
     border: none;
     border-radius: 0;
     padding: 4px;
-    width: 70px;
+    width: 76px;
     height: auto;
     cursor: grab;
     cursor: -webkit-grab; /* Safari fallback */
@@ -579,8 +579,14 @@
 }
 
 .item-card:hover {
-    transform: none;
+    transform: translateY(-1px);
     z-index: 999999;
+    box-shadow: 0 2px 8px rgba(122, 59, 46, 0.15);
+}
+
+.item-card:hover .item-icon {
+    border-color: rgba(122, 59, 46, 0.5);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .item-card.selected {
@@ -596,18 +602,18 @@
 
 
 .item-icon {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     border-radius: 4px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
+    margin: 0 0 2px 0;
     position: relative;
     box-sizing: border-box;
-    border: none;
-    background: transparent;
+    border: 1px solid rgba(160, 140, 112, 0.3);
+    background: rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
 }
 
@@ -627,8 +633,8 @@
 }
 
 .item-name {
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;

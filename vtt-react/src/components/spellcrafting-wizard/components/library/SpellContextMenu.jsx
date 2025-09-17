@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../../../styles/unified-context-menu.css';
+import UnifiedContextMenu from '../../../level-editor/UnifiedContextMenu';
 
 /**
  * SpellContextMenu - Context menu for spells in the library or collections
@@ -17,74 +17,66 @@ const SpellContextMenu = ({
   onDelete,
   onAddToCollection
 }) => {
-  return (
-    <div
-      className="unified-context-menu"
-      style={{
-        left: x,
-        top: y
-      }}
-      onClick={e => e.stopPropagation()}
-    >
+  const menuItems = [];
 
-      <button
-        className="context-menu-button"
-        onClick={() => {
-          onDuplicate(spell.id);
-          onClose();
-        }}
-      >
-        <i className="fas fa-copy"></i>
-        Duplicate Spell
-      </button>
+  // Duplicate option
+  menuItems.push({
+    icon: <i className="fas fa-copy"></i>,
+    label: 'Duplicate Spell',
+    onClick: () => {
+      onDuplicate(spell.id);
+      onClose();
+    }
+  });
 
-      {inCollection ? (
-        <button
-          className="context-menu-button danger"
-          onClick={() => {
-            onDelete(spell.id);
+  if (inCollection) {
+    // Remove from collection option
+    menuItems.push({
+      icon: <i className="fas fa-minus-circle"></i>,
+      label: 'Remove from Collection',
+      onClick: () => {
+        onDelete(spell.id);
+        onClose();
+      },
+      className: 'danger'
+    });
+  } else {
+    // Add to collection options
+    if (collections.length > 0) {
+      menuItems.push({ type: 'separator' });
+      collections.forEach(collection => {
+        menuItems.push({
+          icon: <i className="fas fa-book"></i>,
+          label: collection.name,
+          onClick: () => {
+            onAddToCollection(spell.id, collection.id);
             onClose();
-          }}
-        >
-          <i className="fas fa-minus-circle"></i>
-          Remove from Collection
-        </button>
-      ) : (
-        <>
-          {collections.length > 0 && (
-            <div className="context-menu-section">
-              <div className="context-menu-header">Add to Collection</div>
-              <div className="context-menu-items">
-                {collections.map(collection => (
-                  <div
-                    key={collection.id}
-                    className="context-menu-button"
-                    onClick={() => {
-                      onAddToCollection(spell.id, collection.id);
-                      onClose();
-                    }}
-                  >
-                    <i className="fas fa-book"></i>
-                    {collection.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          }
+        });
+      });
+      menuItems.push({ type: 'separator' });
+    }
 
-          <button
-            className="context-menu-button danger"
-            onClick={() => {
-              onDelete(spell.id);
-              onClose();
-            }}
-          >
-            <i className="fas fa-trash"></i>
-            Delete Spell
-          </button>
-        </>
-      )}
-    </div>
+    // Delete spell option
+    menuItems.push({
+      icon: <i className="fas fa-trash"></i>,
+      label: 'Delete Spell',
+      onClick: () => {
+        onDelete(spell.id);
+        onClose();
+      },
+      className: 'danger'
+    });
+  }
+
+  return (
+    <UnifiedContextMenu
+      visible={true}
+      x={x}
+      y={y}
+      onClose={onClose}
+      items={menuItems}
+    />
   );
 };
 

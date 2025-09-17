@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../../styles/unified-context-menu.css';
+import UnifiedContextMenu from '../../../level-editor/UnifiedContextMenu';
 
 const CreatureContextMenu = ({
   x,
@@ -53,52 +53,56 @@ const CreatureContextMenu = ({
     onClose();
   };
 
-  return (
-    <div
-      className="unified-context-menu"
-      style={{ left: `${x}px`, top: `${y}px` }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="context-menu-button" onClick={handleInspect}>
-        <i className="fas fa-search"></i>
-        Inspect
-      </div>
-      <div className="context-menu-button" onClick={handleEdit}>
-        <i className="fas fa-edit"></i>
-        Edit
-      </div>
-      <div className="context-menu-button" onClick={handleDuplicate}>
-        <i className="fas fa-copy"></i>
-        Duplicate
-      </div>
-      <div className="context-menu-button danger" onClick={handleDelete}>
-        <i className="fas fa-trash-alt"></i>
-        Delete
-      </div>
+  const menuItems = [];
 
-      {/* Add to category submenu */}
-      {categories.length > 0 && (
-        <div className="context-menu-group">
-          <div className="group-header">
-            <i className="fas fa-folder-plus"></i>
-            Add to Category
-            <i className="fas fa-caret-right expand-icon"></i>
-          </div>
-          <div className="submenu">
-            {categories.map(category => (
-              <div
-                key={category.id}
-                className="context-menu-button"
-                onClick={(e) => handleAddToCategory(e, category.id)}
-              >
-                <i className="fas fa-folder"></i>
-                {category.name}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+  // Main actions
+  menuItems.push(
+    {
+      icon: <i className="fas fa-search"></i>,
+      label: 'Inspect',
+      onClick: handleInspect
+    },
+    {
+      icon: <i className="fas fa-edit"></i>,
+      label: 'Edit',
+      onClick: handleEdit
+    },
+    {
+      icon: <i className="fas fa-copy"></i>,
+      label: 'Duplicate',
+      onClick: handleDuplicate
+    }
+  );
+
+  // Add to category options
+  if (categories.length > 0) {
+    menuItems.push({ type: 'separator' });
+    categories.forEach(category => {
+      menuItems.push({
+        icon: <i className="fas fa-folder"></i>,
+        label: `Add to ${category.name}`,
+        onClick: (e) => handleAddToCategory(e, category.id)
+      });
+    });
+    menuItems.push({ type: 'separator' });
+  }
+
+  // Delete action
+  menuItems.push({
+    icon: <i className="fas fa-trash-alt"></i>,
+    label: 'Delete',
+    onClick: handleDelete,
+    className: 'danger'
+  });
+
+  return (
+    <UnifiedContextMenu
+      visible={true}
+      x={x}
+      y={y}
+      onClose={onClose}
+      items={menuItems}
+    />
   );
 };
 

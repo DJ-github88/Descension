@@ -156,7 +156,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
 
     // Edit Item
     menuItems.push({
-        icon: '✏️',
+        icon: <i className="fas fa-edit"></i>,
         label: 'Edit Item',
         onClick: () => {
             onEdit(itemId);
@@ -167,7 +167,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
     // Container actions
     if (isContainer) {
         menuItems.push({
-            icon: isLocked ? '🔓' : (isOpen ? '📂' : '📁'),
+            icon: <i className={`fas ${isLocked ? 'fa-unlock' : (isOpen ? 'fa-folder-open' : 'fa-folder')}`}></i>,
             label: isLocked ? 'Unlock Container' : (isOpen ? 'Close Container' : 'Open Container'),
             onClick: handleOpen
         });
@@ -176,7 +176,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
     // Categorize option
     if (categories && categories.length > 0) {
         menuItems.push({
-            icon: '📁',
+            icon: <i className="fas fa-folder"></i>,
             label: 'Categorize',
             onClick: () => {
                 onShowCategorizeModal(itemId, currentCategoryId, x, y);
@@ -189,10 +189,10 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
     menuItems.push(
         { type: 'separator' },
         {
-            icon: '🗑️',
+            icon: <i className="fas fa-trash"></i>,
             label: 'Delete Item',
             onClick: handleDelete,
-            className: 'danger-action'
+            className: 'danger'
         }
     );
 
@@ -206,13 +206,13 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                 onClose={onClose}
                 items={[
                     {
-                        icon: '⚠️',
+                        icon: <i className="fas fa-exclamation-triangle"></i>,
                         label: error,
                         disabled: true
                     },
                     { type: 'separator' },
                     {
-                        icon: '✕',
+                        icon: <i className="fas fa-times"></i>,
                         label: 'Close',
                         onClick: onClose
                     }
@@ -246,8 +246,6 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                     onClose={() => setShowUnlockModal(false)}
                 />
             )}
-
-
         </>
     );
 };

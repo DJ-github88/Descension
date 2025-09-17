@@ -131,8 +131,8 @@
     height: 100%;
     flex: 1;
     align-items: center;
-    --tile-size: 32px;
-    --tile-gap: 2px;
+    --tile-size: 24px;
+    --tile-gap: 1px;
 }
 
 .designer-header {
@@ -255,7 +255,7 @@
     gap: var(--tile-gap);
     align-self: center;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(20, 20, 30, 0.3) 100%);
-    padding: clamp(8px, 2vw, 20px);
+    padding: clamp(6px, 1.5vw, 12px);
     border-radius: 12px;
     border: 2px solid rgba(160, 140, 112, 0.3);
     box-shadow:

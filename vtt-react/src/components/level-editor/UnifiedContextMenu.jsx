@@ -93,7 +93,7 @@ const UnifiedContextMenu = ({
     return (
         <div
             ref={menuRef}
-            className="unified-context-menu"
+            className="unified-context-menu compact"
             style={{
                 left: position.left,
                 top: position.top
@@ -111,49 +111,53 @@ const UnifiedContextMenu = ({
                     <span className="context-menu-title">{title}</span>
                 </div>
             )}
-                <div className="context-menu-section">
-                    {items.map((item, index) => (
-                        <React.Fragment key={index}>
-                            {item.type === 'separator' ? (
-                                <div className="context-menu-separator" />
-                            ) : (
-                                <button
-                                    className={`context-menu-button ${item.className || ''} ${item.disabled ? 'disabled' : ''}`}
-                                    style={{ pointerEvents: 'auto' }}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        e.preventDefault();
+            <div className="context-menu-main">
+                <div className="context-menu-group">
+                    <div className="submenu">
+                        {items.map((item, index) => (
+                            <React.Fragment key={index}>
+                                {item.type === 'separator' ? (
+                                    <div className="context-menu-separator" />
+                                ) : (
+                                    <button
+                                        className={`context-menu-button ${item.className || ''} ${item.disabled ? 'disabled' : ''}`}
+                                        style={{ pointerEvents: 'auto' }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
 
-                                        if (!item.disabled && item.onClick) {
+                                            if (!item.disabled && item.onClick) {
 
-                                            // Add visual feedback before executing action
-                                            const button = e.currentTarget;
-                                            button.style.transform = 'scale(0.95)';
-                                            button.style.opacity = '0.7';
+                                                // Add visual feedback before executing action
+                                                const button = e.currentTarget;
+                                                button.style.transform = 'scale(0.95)';
+                                                button.style.opacity = '0.7';
 
-                                            // Execute the action after a brief delay for visual feedback
-                                            setTimeout(() => {
-                                                try {
-                                                    item.onClick();
-                                                } catch (error) {
-                                                    console.error('❌ [CONTEXT MENU] Error in onClick for:', item.label, error);
-                                                }
+                                                // Execute the action after a brief delay for visual feedback
+                                                setTimeout(() => {
+                                                    try {
+                                                        item.onClick();
+                                                    } catch (error) {
+                                                        console.error('❌ [CONTEXT MENU] Error in onClick for:', item.label, error);
+                                                    }
 
-                                                // Reset button appearance
-                                                button.style.transform = '';
-                                                button.style.opacity = '';
-                                            }, 100);
-                                        }
-                                    }}
-                                    disabled={item.disabled}
-                                    title={item.tooltip}
-                                >
-                                    {item.icon} {item.label}
-                                </button>
-                            )}
-                        </React.Fragment>
-                    ))}
+                                                    // Reset button appearance
+                                                    button.style.transform = '';
+                                                    button.style.opacity = '';
+                                                }, 100);
+                                            }
+                                        }}
+                                        disabled={item.disabled}
+                                        title={item.tooltip}
+                                    >
+                                        {item.icon} {item.label}
+                                    </button>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </div>
                 </div>
+            </div>
         </div>
     );
 };

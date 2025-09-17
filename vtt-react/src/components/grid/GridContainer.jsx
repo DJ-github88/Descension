@@ -9,6 +9,7 @@ import ContainerWindow from '../item-generation/ContainerWindow';
 import UnlockContainerModal from '../item-generation/UnlockContainerModal';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/grid-container.css';
 
 const GridContainer = ({ gridItem }) => {
@@ -263,23 +264,25 @@ const GridContainer = ({ gridItem }) => {
       )}
 
       {showContextMenu && createPortal(
-        <div
-          ref={contextMenuRef}
-          className="context-menu"
-          style={{
-            position: 'fixed',
-            left: contextMenuPosition.x,
-            top: contextMenuPosition.y,
-            zIndex: 10000
-          }}
-        >
-          <div className="context-menu-item" onClick={handleOpenContainer}>
-            <i className="fas fa-box-open"></i> {originalItem.containerProperties?.isLocked ? 'Unlock Container' : 'Open Container'}
-          </div>
-          <div className="context-menu-item" onClick={handleRemoveContainer}>
-            <i className="fas fa-trash-alt"></i> Remove Container
-          </div>
-        </div>,
+        <UnifiedContextMenu
+          visible={true}
+          x={contextMenuPosition.x}
+          y={contextMenuPosition.y}
+          onClose={() => setShowContextMenu(false)}
+          items={[
+            {
+              icon: <i className="fas fa-box-open"></i>,
+              label: originalItem.containerProperties?.isLocked ? 'Unlock Container' : 'Open Container',
+              onClick: handleOpenContainer
+            },
+            {
+              icon: <i className="fas fa-trash-alt"></i>,
+              label: 'Remove Container',
+              onClick: handleRemoveContainer,
+              className: 'danger'
+            }
+          ]}
+        />,
         document.body
       )}
 

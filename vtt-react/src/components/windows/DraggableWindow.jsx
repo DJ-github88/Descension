@@ -185,8 +185,10 @@ const DraggableWindow = forwardRef(({
         window.multiplayerDragState.set(`window_${Date.now()}`, true);
 
         // Increase z-index when dragging starts to bring window to front
+        // Keep dragged windows below the CSS dragging z-index
         if (nodeRef.current) {
-            nodeRef.current.style.zIndex = (zIndex + 100).toString();
+            const dragZIndex = Math.min(zIndex + 10, 14500);
+            nodeRef.current.style.zIndex = dragZIndex.toString();
             nodeRef.current.classList.add('dragging'); // Disable transition during drag
         }
 

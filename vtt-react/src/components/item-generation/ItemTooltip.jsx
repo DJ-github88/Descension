@@ -1715,6 +1715,12 @@ export default function ItemTooltip({ item }) {
                     Value: {' '}
                     {typeof item.value === 'object' ? (
                         <>
+                            {(parseInt(item.value.platinum) || 0) > 0 && (
+                                <span>
+                                    <span style={{ color: '#ffffff' }}>{parseInt(item.value.platinum) || 0}</span>
+                                    <span style={{ color: '#e5e4e2' }}>p </span>
+                                </span>
+                            )}
                             {(parseInt(item.value.gold) || 0) > 0 && (
                                 <span>
                                     <span style={{ color: '#ffffff' }}>{parseInt(item.value.gold) || 0}</span>
@@ -1733,7 +1739,7 @@ export default function ItemTooltip({ item }) {
                                     <span style={{ color: '#cd7f32' }}>c</span>
                                 </span>
                             )}
-                            {(!(parseInt(item.value.gold) || 0) && !(parseInt(item.value.silver) || 0) && !(parseInt(item.value.copper) || 0)) && (
+                            {(!(parseInt(item.value.platinum) || 0) && !(parseInt(item.value.gold) || 0) && !(parseInt(item.value.silver) || 0) && !(parseInt(item.value.copper) || 0)) && (
                                 <span>
                                     <span style={{ color: '#ffffff' }}>0</span>
                                     <span style={{ color: '#cd7f32' }}>c</span>

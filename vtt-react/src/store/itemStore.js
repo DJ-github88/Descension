@@ -32,7 +32,7 @@ export const ITEM_RARITIES = {
 };
 
 // Version for comprehensive items (increment when items change)
-const COMPREHENSIVE_ITEMS_VERSION = 1;
+const COMPREHENSIVE_ITEMS_VERSION = 2;
 
 // Comprehensive Pathfinder/D&D-themed item library
 const COMPREHENSIVE_ITEMS = [
@@ -609,6 +609,26 @@ const COMPREHENSIVE_ITEMS = [
     slots: ['chest'],
     combatStats: {
       armorClass: { value: 3, isPercentage: false }
+    },
+    baseStats: {
+      agility: { value: 1, isPercentage: false }
+    },
+    width: 2,
+    height: 2
+  },
+  {
+    id: 'studded-leather-armor',
+    name: 'Studded Leather Armor',
+    type: 'armor',
+    subtype: 'LEATHER',
+    quality: 'common',
+    description: 'Leather armor reinforced with metal studs for additional protection without sacrificing mobility.',
+    iconId: 'inv_chest_leather_08',
+    value: { gold: 8, silver: 0, copper: 0 },
+    weight: 5,
+    slots: ['chest'],
+    combatStats: {
+      armorClass: { value: 4, isPercentage: false }
     },
     baseStats: {
       agility: { value: 1, isPercentage: false }
@@ -2296,8 +2316,8 @@ const COMPREHENSIVE_ITEMS = [
 
   // === GOBLIN LOOT ITEMS ===
   {
-    id: 'rusty-dagger',
-    name: 'Rusty Dagger',
+    id: 'goblin-rusty-dagger',
+    name: 'Goblin Rusty Dagger',
     type: 'weapon',
     subtype: 'DAGGER',
     quality: 'poor',
@@ -2330,6 +2350,21 @@ const COMPREHENSIVE_ITEMS = [
     weight: 0.1,
     stackable: true,
     maxStackSize: 10,
+    width: 1,
+    height: 1
+  },
+  {
+    id: 'leather-scraps',
+    name: 'Leather Scraps',
+    type: 'material',
+    subtype: 'CRAFTING',
+    quality: 'common',
+    description: 'Scraps of leather that could be used for crafting.',
+    iconId: 'inv_misc_leatherscrap_07',
+    value: { gold: 0, silver: 0, copper: 25 },
+    weight: 0.5,
+    stackable: true,
+    maxStackSize: 20,
     width: 1,
     height: 1
   },

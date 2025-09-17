@@ -10,7 +10,12 @@ import { SpellLibraryProvider } from '../spellcrafting-wizard/context/SpellLibra
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { CURRENCY_TYPES } from './itemConstants';
 import ExternalItemPreview from './ExternalItemPreview';
+import {
+    createRectangularShape,
+    convertLegacyItemToShape
+} from '../../utils/itemShapeUtils';
 import { getSafePortalTarget } from '../../utils/portalUtils';
+import useGameStore from '../../store/gameStore';
 
 // Default image to show when item image fails to load
 const DEFAULT_ITEM_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
@@ -43,6 +48,7 @@ const STEP_INFO = {
         icon: 'inv_misc_desecrated_platehelm',
         description: 'Determine where this item is worn or held. The right placement can mean the difference between a useful tool and a masterpiece.'
     },
+
     [STEPS.STATS]: {
         // We'll dynamically change this based on item type
         getMiscInfo: () => ({
@@ -92,16 +98,6 @@ const getStepInfo = (step, itemType) => {
 };
 
 const WEAPON_SLOTS = {
-    MAIN_HAND: {
-        name: 'Main Hand',
-        icon: 'ability_warrior_savageblow',
-        description: 'Weapons that can only be wielded in the main hand'
-    },
-    OFF_HAND: {
-        name: 'Off Hand',
-        icon: 'ability_warrior_challange',
-        description: 'Weapons that can only be wielded in the off hand'
-    },
     ONE_HANDED: {
         name: 'One-Handed',
         icon: 'inv_sword_04',
@@ -867,9 +863,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     stackable: (itemData.type === 'consumable' || itemData.type === 'miscellaneous'),
                     maxStackSize: (itemData.type === 'consumable' || itemData.type === 'miscellaneous') ? 5 : undefined,
 
-                    // Preserve dimensions if they were provided in initialData
+                    // Preserve dimensions and shape if they were provided in initialData
                     width: initialData.width || itemData.width || 1,
                     height: initialData.height || itemData.height || 1,
+                    shape: initialData.shape || itemData.shape,
 
 // Currency item properties
 ...(itemData.type === 'currency' && {
@@ -1171,12 +1168,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 special: ''
             },
             value: {
+                platinum: 0,
                 gold: 0,
                 silver: 0,
                 copper: 0
             },
             image: null,
             slots: [],
+            // Shape data will be set by ItemGeneration component
             weaponCategory: '',
             weaponStats: {
                 baseDamage: {
@@ -1642,6 +1641,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         )}
                     </div>
                 );
+
 
             case STEPS.STATS:
                 if (itemData.type === 'currency') {
@@ -3933,6 +3933,54 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 <div className="currency-item">
                                     <div className="currency-header">
                                         <img
+                                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_04.jpg"
+                                            alt="Platinum"
+                                            className="currency-icon"
+                                        />
+                                        <label className="currency-label wow-text">Platinum</label>
+                                    </div>
+                                    <div className="stat-input-group">
+                                        <button
+                                            className="stat-button"
+                                            onClick={() => updateItemData({
+                                                value: { ...itemData.value, platinum: Math.max(0, (itemData.value.platinum || 0) - 1) }
+                                            })}
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value={itemData.value.platinum || 0}
+                                            onChange={(e) => updateItemData({
+                                                value: { ...itemData.value, platinum: Math.max(0, parseInt(e.target.value) || 0) }
+                                            })}
+                                            className="stat-input wow-input"
+                                            placeholder="0"
+                                        />
+                                        <button
+                                            className="stat-button"
+                                            onClick={() => updateItemData({
+                                                value: { ...itemData.value, platinum: (itemData.value.platinum || 0) + 1 }
+                                            })}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <button
+                                        className="randomize-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, platinum: Math.floor(Math.random() * 99) + 1 }
+                                        })}
+                                        title="Randomize Platinum (1-99)"
+                                    >
+                                        🎲
+                                    </button>
+                                </div>
+
+                                <div className="currency-item">
+                                    <div className="currency-header">
+                                        <img
                                             src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
                                             alt="Gold"
                                             className="currency-icon"
@@ -3967,6 +4015,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                             +
                                         </button>
                                     </div>
+                                    <button
+                                        className="randomize-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, gold: Math.floor(Math.random() * 99) + 1 }
+                                        })}
+                                        title="Randomize Gold (1-99)"
+                                    >
+                                        🎲
+                                    </button>
                                 </div>
 
                                 <div className="currency-item">
@@ -4007,6 +4064,15 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                             +
                                         </button>
                                     </div>
+                                    <button
+                                        className="randomize-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, silver: Math.floor(Math.random() * 99) + 1 }
+                                        })}
+                                        title="Randomize Silver (1-99)"
+                                    >
+                                        🎲
+                                    </button>
                                 </div>
 
                                 <div className="currency-item">
@@ -4047,11 +4113,43 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                             +
                                         </button>
                                     </div>
+                                    <button
+                                        className="randomize-button"
+                                        onClick={() => updateItemData({
+                                            value: { ...itemData.value, copper: Math.floor(Math.random() * 99) + 1 }
+                                        })}
+                                        title="Randomize Copper (1-99)"
+                                    >
+                                        🎲
+                                    </button>
                                 </div>
+                            </div>
+                            <div className="randomize-all-section">
+                                <button
+                                    className="randomize-all-button"
+                                    onClick={() => updateItemData({
+                                        value: {
+                                            ...itemData.value,
+                                            platinum: Math.floor(Math.random() * 99) + 1,
+                                            gold: Math.floor(Math.random() * 99) + 1,
+                                            silver: Math.floor(Math.random() * 99) + 1,
+                                            copper: Math.floor(Math.random() * 99) + 1
+                                        }
+                                    })}
+                                    title="Randomize All Currencies (1-99 each)"
+                                >
+                                    🎲 Randomize All
+                                </button>
                             </div>
                             <div className="value-total">
                                 <span className="total-label">Total Value:</span>
                                 <span className="currency-display">
+                                    {(itemData.value.platinum || 0) > 0 && (
+                                        <>
+                                            <span className="platinum-amount">{itemData.value.platinum}</span>
+                                            <span className="platinum-symbol">p</span>
+                                        </>
+                                    )}
                                     <span className="gold-amount">{itemData.value.gold || 0}</span>
                                     <span className="gold-symbol">g</span>
                                     <span className="silver-amount">{itemData.value.silver || 0}</span>
@@ -4158,6 +4256,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
 
 
+    // Get window scale from game store
+    const windowScale = useGameStore(state => state.windowScale);
+
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState(() => ({
         x: Math.max(50, (window.innerWidth - 800) / 2),
@@ -4174,7 +4275,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     const [windowSize, setWindowSize] = useState({ width: 800, height: 600 });
 
     const handleMouseDown = (e) => {
-        if (e.target.closest('.wizard-header')) {
+        // Allow dragging from anywhere on the window, but not from interactive elements
+        if (!e.target.closest('button, input, select, textarea, .wizard-nav-controls, .close-button')) {
             setIsDragging(true);
             const rect = modalRef.current.getBoundingClientRect();
             setDragOffset({
@@ -4183,6 +4285,18 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             });
         }
     };
+
+    // Listen for window scale changes
+    useEffect(() => {
+        const handleWindowScaleChange = (event) => {
+            console.log('ItemWizard: Window scale changed to', event.detail?.scale || 'unknown');
+            // Force a re-render to apply the new scale
+            setPosition(prev => ({ ...prev }));
+        };
+
+        window.addEventListener('windowScaleChanged', handleWindowScaleChange);
+        return () => window.removeEventListener('windowScaleChanged', handleWindowScaleChange);
+    }, [windowScale]);
 
     useEffect(() => {
         const handleMouseMove = (e) => {
@@ -4307,7 +4421,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     position: 'fixed',
                     left: `${position.x}px`,
                     top: `${position.y}px`,
-                    cursor: isDragging ? 'grabbing' : 'default'
+                    width: '800px',
+                    height: '700px',
+                    cursor: isDragging ? 'grabbing' : 'default',
+                    transformOrigin: 'top left',
+                    transform: `scale(${windowScale})`,
+                    willChange: 'transform',
+                    zIndex: 10000 // Above item library (1000) but below container wizard (10001)
                 }}
                 onMouseDown={handleMouseDown}
             >
@@ -4340,6 +4460,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 >
                                     Previous
                                 </button>
+                                <div className="wizard-progress-container">
+                                    {renderProgressBar()}
+                                </div>
                                 <button
                                     className="wizard-nav-btn wizard-nav-create"
                                     onClick={() => handleClose(itemData)}
@@ -4356,6 +4479,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 >
                                     Previous
                                 </button>
+                                <div className="wizard-progress-container">
+                                    {renderProgressBar()}
+                                </div>
                                 <button
                                     className="wizard-nav-btn"
                                     onClick={nextStep}

@@ -2,11 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
+import { useWeaponEnhancedSpells } from '../../../../hooks/useWeaponEnhancedSpells';
 import useCharacterStore from '../../../../store/characterStore';
 
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
+import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import '../../styles/pathfinder/main.css';
@@ -110,6 +112,33 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     hasActiveCharacter,
     hasClassSpells
   } = useClassSpellLibrary();
+
+  // Get general spells with weapon integration
+  const {
+    enhancedSpells: generalSpells,
+    hasWeaponsEquipped,
+    weaponSummary
+  } = useWeaponEnhancedSpells();
+
+  // Combine spell categories with general categories
+  const allSpellCategories = useMemo(() => {
+    const combined = [...spellCategories];
+
+    // Add general categories with spell counts
+    GENERAL_CATEGORIES.forEach(generalCategory => {
+      const categorySpells = generalSpells.filter(spell =>
+        spell.categoryIds && spell.categoryIds.includes(generalCategory.id)
+      );
+
+      combined.push({
+        ...generalCategory,
+        spells: categorySpells,
+        isGeneral: true
+      });
+    });
+
+    return combined;
+  }, [spellCategories, generalSpells]);
 
   // Debug: Log spell library state changes
   useEffect(() => {
@@ -339,14 +368,26 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     if (hasActiveCharacter && hasClassSpells) {
       // If we have an active category, show only spells from that category
       if (activeCategory) {
-        spellsToFilter = getSpellsByCategory(activeCategory);
+        // Check if this is a general category
+        const isGeneralCategory = GENERAL_CATEGORIES.some(cat => cat.id === activeCategory);
+
+        if (isGeneralCategory) {
+          // Filter general spells by category
+          spellsToFilter = generalSpells.filter(spell =>
+            spell.categoryIds && spell.categoryIds.includes(activeCategory)
+          );
+        } else {
+          // Use class-based category
+          spellsToFilter = getSpellsByCategory(activeCategory);
+        }
       } else {
-        // Show all spells from all categories
-        spellsToFilter = getAllSpells();
+        // Show all spells from all categories (class + general)
+        const classSpells = getAllSpells();
+        spellsToFilter = [...classSpells, ...generalSpells];
       }
     } else {
-      // Fall back to traditional library spells
-      spellsToFilter = library.spells;
+      // Fall back to traditional library spells + general spells
+      spellsToFilter = [...library.spells, ...generalSpells];
     }
 
     // Create a temporary library object for filtering
@@ -365,7 +406,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     hasClassSpells,
     activeCategory,
     getSpellsByCategory,
-    getAllSpells
+    getAllSpells,
+    generalSpells
   ]);
 
   // Save view preferences to localStorage (but keep compact as default)
@@ -787,7 +829,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       )}
 
       {/* Category Selection - Light Theme */}
-      {hasActiveCharacter && spellCategories.length > 0 && (
+      {hasActiveCharacter && allSpellCategories.length > 0 && (
         <div className="spell-categories-container" style={{
           background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
           border: '2px solid #8B4513',
@@ -820,7 +862,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             >
               All Spells
             </button>
-            {spellCategories.map(category => (
+            {allSpellCategories.map(category => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}

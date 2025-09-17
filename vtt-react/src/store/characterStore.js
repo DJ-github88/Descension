@@ -295,8 +295,26 @@ const useCharacterStore = create((set, get) => ({
                 ? applyRacialModifiers(newStats, state.race, state.subrace)
                 : newStats;
             const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
+
+            // Apply equipment bonuses to stats before calculating derived stats
+            const totalStats = { ...effectiveStats };
+            const statMapping = {
+                str: 'strength',
+                con: 'constitution',
+                agi: 'agility',
+                int: 'intelligence',
+                spir: 'spirit',
+                cha: 'charisma'
+            };
+
+            Object.entries(statMapping).forEach(([shortName, fullName]) => {
+                if (equipmentBonuses[shortName]) {
+                    totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+                }
+            });
+
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses, {}, encumbranceState);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
             // Update health and mana max values when constitution or intelligence change
             let newHealth = { ...state.health };
@@ -350,8 +368,26 @@ const useCharacterStore = create((set, get) => ({
             const effectiveStats = state.race && state.subrace
                 ? applyRacialModifiers(state.stats, state.race, state.subrace)
                 : state.stats;
+
+            // Apply equipment bonuses to stats before calculating derived stats
+            const totalStats = { ...effectiveStats };
+            const statMapping = {
+                str: 'strength',
+                con: 'constitution',
+                agi: 'agility',
+                int: 'intelligence',
+                spir: 'spirit',
+                cha: 'charisma'
+            };
+
+            Object.entries(statMapping).forEach(([shortName, fullName]) => {
+                if (equipmentBonuses[shortName]) {
+                    totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+                }
+            });
+
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses, {}, encumbranceState);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
             // Send equipment update to multiplayer if connected
             const gameStore = useGameStore.getState();
@@ -867,7 +903,25 @@ const useCharacterStore = create((set, get) => ({
         const effectiveStats = state.race && state.subrace
             ? applyRacialModifiers(state.stats, state.race, state.subrace)
             : state.stats;
-        const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses);
+
+        // Apply equipment bonuses to stats before calculating derived stats
+        const totalStats = { ...effectiveStats };
+        const statMapping = {
+            str: 'strength',
+            con: 'constitution',
+            agi: 'agility',
+            int: 'intelligence',
+            spir: 'spirit',
+            cha: 'charisma'
+        };
+
+        Object.entries(statMapping).forEach(([shortName, fullName]) => {
+            if (equipmentBonuses[shortName]) {
+                totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+            }
+        });
+
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses);
 
         // Update health and mana max values based on derived stats
         const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -998,7 +1052,25 @@ const useCharacterStore = create((set, get) => ({
         const effectiveStats = state.race && state.subrace
             ? applyRacialModifiers(state.stats, state.race, state.subrace)
             : state.stats;
-        const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses, {}, encumbranceState);
+
+        // Apply equipment bonuses to stats before calculating derived stats
+        const totalStats = { ...effectiveStats };
+        const statMapping = {
+            str: 'strength',
+            con: 'constitution',
+            agi: 'agility',
+            int: 'intelligence',
+            spir: 'spirit',
+            cha: 'charisma'
+        };
+
+        Object.entries(statMapping).forEach(([shortName, fullName]) => {
+            if (equipmentBonuses[shortName]) {
+                totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+            }
+        });
+
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
         // Update health and mana max values based on new derived stats
         const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -1261,7 +1333,25 @@ const initializeCharacterStore = () => {
     const effectiveStats = state.race && state.subrace
         ? applyRacialModifiers(state.stats, state.race, state.subrace)
         : state.stats;
-    const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses, {}, encumbranceState);
+
+    // Apply equipment bonuses to stats before calculating derived stats
+    const totalStats = { ...effectiveStats };
+    const statMapping = {
+        str: 'strength',
+        con: 'constitution',
+        agi: 'agility',
+        int: 'intelligence',
+        spir: 'spirit',
+        cha: 'charisma'
+    };
+
+    Object.entries(statMapping).forEach(([shortName, fullName]) => {
+        if (equipmentBonuses[shortName]) {
+            totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+        }
+    });
+
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
     // Update health and mana max values based on derived stats
     const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -1300,7 +1390,25 @@ window.recalculateCharacterStats = () => {
     const effectiveStats = state.race && state.subrace
         ? applyRacialModifiers(state.stats, state.race, state.subrace)
         : state.stats;
-    const derivedStats = calculateDerivedStats(effectiveStats, equipmentBonuses, {}, encumbranceState);
+
+    // Apply equipment bonuses to stats before calculating derived stats
+    const totalStats = { ...effectiveStats };
+    const statMapping = {
+        str: 'strength',
+        con: 'constitution',
+        agi: 'agility',
+        int: 'intelligence',
+        spir: 'spirit',
+        cha: 'charisma'
+    };
+
+    Object.entries(statMapping).forEach(([shortName, fullName]) => {
+        if (equipmentBonuses[shortName]) {
+            totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+        }
+    });
+
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
     // Update health and mana max values based on derived stats
     const newMaxHealth = Math.round(derivedStats.maxHealth);

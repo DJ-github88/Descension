@@ -418,7 +418,11 @@ const ActionBar = () => {
 
     // Spell tooltip handlers
     const handleSpellMouseEnter = (e, item) => {
-        if (!item || item.type !== 'spell' || !spellLibrary) return;
+        console.log('Action bar spell hover:', item); // Debug log
+        if (!item || item.type !== 'spell' || !spellLibrary) {
+            console.log('Spell hover failed:', { item, hasLibrary: !!spellLibrary }); // Debug log
+            return;
+        }
 
         // Clear any existing timeouts
         if (spellHoverTimeoutRef.current) {
@@ -431,7 +435,41 @@ const ActionBar = () => {
 
         // Find the spell in the library
         const spell = spellLibrary?.spells?.find(s => s.id === item.id);
-        if (!spell) return;
+        console.log('Found spell in library:', spell); // Debug log
+        if (!spell) {
+            // If not found in library, use the item data directly for tooltip
+            console.log('Using item data directly for tooltip');
+            const spellData = {
+                ...item,
+                // Ensure we have the required fields for tooltip display
+                name: item.name || 'Unknown Spell',
+                icon: item.icon || 'spell_holy_holybolt',
+                description: item.description || 'No description available',
+                effectType: item.effectType || 'action'
+            };
+
+            // Store the element reference to avoid null reference errors
+            const targetElement = e.currentTarget;
+            if (!targetElement) return;
+
+            // Set hover timeout
+            spellHoverTimeoutRef.current = setTimeout(() => {
+                // Check if element still exists
+                if (!targetElement || !document.contains(targetElement)) return;
+
+                // Get the action slot element's position for better tooltip placement
+                const rect = targetElement.getBoundingClientRect();
+
+                // Position tooltip above the action slot, centered horizontally
+                const tooltipX = rect.left + (rect.width / 2);
+                const tooltipY = rect.top - 10; // Position above the slot
+
+                setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
+                setTooltipSpell(spellData);
+                setShowSpellTooltip(true);
+            }, 300); // 300ms delay before showing tooltip
+            return;
+        }
 
         // Store the element reference to avoid null reference errors
         const targetElement = e.currentTarget;
@@ -442,30 +480,21 @@ const ActionBar = () => {
             // Check if element still exists
             if (!targetElement || !document.contains(targetElement)) return;
 
+            // Get the action slot element's position for better tooltip placement
             const rect = targetElement.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
 
-            // Calculate tooltip position
-            let x = rect.right + 10; // Default to right side
-            let y = rect.top;
+            // Position tooltip above the action slot, centered horizontally
+            const tooltipX = rect.left + (rect.width / 2);
+            const tooltipY = rect.top - 10; // Position above the slot
 
-            // If tooltip would go off right edge, show on left
-            if (x + 300 > viewportWidth) {
-                x = rect.left - 310;
-            }
-
-            // If tooltip would go off bottom, adjust upward
-            if (y + 400 > viewportHeight) {
-                y = viewportHeight - 410;
-            }
-
-            // Ensure tooltip doesn't go off top
-            if (y < 10) {
-                y = 10;
-            }
-
-            setSpellTooltipPosition({ x, y });
+            console.log('Action bar spell tooltip position:', {
+              x: tooltipX,
+              y: tooltipY,
+              slotRect: rect,
+              spellName: spell?.name,
+              actionBarFixed: true
+            }); // Debug log
+            setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
             setTooltipSpell(spell);
             setShowSpellTooltip(true);
         }, 300); // 300ms delay before showing tooltip
@@ -478,11 +507,11 @@ const ActionBar = () => {
             spellHoverTimeoutRef.current = null;
         }
 
-        // Set hide timeout
+        // Hide tooltip immediately when leaving the spell
         spellHideTimeoutRef.current = setTimeout(() => {
             setShowSpellTooltip(false);
             setTooltipSpell(null);
-        }, 100); // Small delay to allow moving to tooltip
+        }, 50); // Very short delay to allow moving to tooltip
     };
 
     const handleSpellTooltipMouseEnter = () => {
@@ -494,6 +523,7 @@ const ActionBar = () => {
     };
 
     const handleSpellTooltipMouseLeave = () => {
+        // Hide tooltip immediately when leaving the tooltip
         setShowSpellTooltip(false);
         setTooltipSpell(null);
     };
@@ -523,7 +553,13 @@ const ActionBar = () => {
                             } ${
                                 dragOverSlot.current === index ? 'drag-over' : ''
                             }`}
-                            style={rarityBorderColor ? { borderColor: rarityBorderColor } : {}}
+                            style={{
+                                ...(rarityBorderColor ? { borderColor: rarityBorderColor } : {}),
+                                userSelect: 'none',
+                                WebkitUserSelect: 'none',
+                                MozUserSelect: 'none',
+                                msUserSelect: 'none'
+                            }}
                             onDragOver={(e) => handleDragOver(e, index)}
                             onDragLeave={handleDragLeave}
                             onDrop={(e) => handleDrop(e, index)}
@@ -610,6 +646,7 @@ const ActionBar = () => {
                     position={spellTooltipPosition}
                     onMouseEnter={handleSpellTooltipMouseEnter}
                     onMouseLeave={handleSpellTooltipMouseLeave}
+                    smartPositioning={true} // Enable smart positioning for action bar tooltips
                 />
             )}
         </div>

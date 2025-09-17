@@ -9,6 +9,7 @@ import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import DraggableWindow from '../windows/DraggableWindow';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/container-window.css';
 import '../../styles/draggable-window.css';
 
@@ -119,7 +120,7 @@ const ContainerWindow = ({ container, onClose }) => {
                 setShowContextMenu(false);
             }
 
-            if (itemContextMenu.visible && !e.target.closest('.item-context-menu')) {
+            if (itemContextMenu.visible && !e.target.closest('.unified-context-menu')) {
                 setItemContextMenu({ ...itemContextMenu, visible: false });
             }
         };
@@ -1055,81 +1056,67 @@ const ContainerWindow = ({ container, onClose }) => {
 
 
             {/* Item Context Menu */}
-            {itemContextMenu.visible && (
-                <div
-                    ref={itemContextMenuRef}
-                    className="item-context-menu"
-                    style={{
-                        position: 'fixed',
-                        top: itemContextMenu.y,
-                        left: itemContextMenu.x,
-                        zIndex: 10001,
-                        backgroundColor: '#1a1a1a',
-                        border: '1px solid #333',
-                        borderRadius: '4px',
-                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.7)',
-                        minWidth: '180px',
-                        padding: '4px 0'
-                    }}
-                >
-                    <ul style={{
-                        listStyle: 'none',
-                        margin: 0,
-                        padding: 0
-                    }}>
-                        {(() => {
-                            const item = container.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
-                            if (!item) return null;
+            {itemContextMenu.visible && (() => {
+                const item = container.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
+                if (!item) return null;
 
-                            return (
-                                <>
-                                    <li className="context-menu-item" onClick={() => {
-                                        console.log('Move to Inventory clicked for item:', itemContextMenu.itemId);
+                const menuItems = [
+                    {
+                        icon: <i className="fas fa-arrow-right"></i>,
+                        label: 'Move to Inventory',
+                        onClick: () => {
+                            console.log('Move to Inventory clicked for item:', itemContextMenu.itemId);
 
-                                        // Move to inventory
-                                        const removedItem = removeItemFromContainer(itemContextMenu.itemId);
+                            // Move to inventory
+                            const removedItem = removeItemFromContainer(itemContextMenu.itemId);
 
-                                        if (removedItem) {
-                                            console.log('Item removed from container, adding to inventory:', removedItem);
+                            if (removedItem) {
+                                console.log('Item removed from container, adding to inventory:', removedItem);
 
-                                            // Add to inventory
-                                            addItemToInventory(removedItem);
+                                // Add to inventory
+                                addItemToInventory(removedItem);
 
-                                            // Force a re-render
-                                            const updatedProps = { ...container.containerProperties };
-                                            container.containerProperties = updatedProps;
-                                        } else {
-                                            console.error('Failed to remove item from container');
-                                        }
+                                // Force a re-render
+                                const updatedProps = { ...container.containerProperties };
+                                container.containerProperties = updatedProps;
+                            } else {
+                                console.error('Failed to remove item from container');
+                            }
 
-                                        // Close the context menu
-                                        setItemContextMenu({ ...itemContextMenu, visible: false });
-                                    }}>
-                                        <i className="fas fa-arrow-right"></i>
-                                        Move to Inventory
-                                    </li>
-                                    <li className="context-menu-item delete-item" onClick={() => {
-                                        console.log('Delete clicked for item:', itemContextMenu.itemId);
+                            // Close the context menu
+                            setItemContextMenu({ ...itemContextMenu, visible: false });
+                        }
+                    },
+                    {
+                        icon: <i className="fas fa-trash-alt"></i>,
+                        label: 'Delete',
+                        onClick: () => {
+                            console.log('Delete clicked for item:', itemContextMenu.itemId);
 
-                                        // Remove from container without adding to inventory
-                                        removeItemFromContainer(itemContextMenu.itemId);
+                            // Remove from container without adding to inventory
+                            removeItemFromContainer(itemContextMenu.itemId);
 
-                                        // Force a re-render
-                                        const updatedProps = { ...container.containerProperties };
-                                        container.containerProperties = updatedProps;
+                            // Force a re-render
+                            const updatedProps = { ...container.containerProperties };
+                            container.containerProperties = updatedProps;
 
-                                        // Close the context menu
-                                        setItemContextMenu({ ...itemContextMenu, visible: false });
-                                    }}>
-                                        <i className="fas fa-trash-alt"></i>
-                                        Delete
-                                    </li>
-                                </>
-                            );
-                        })()}
-                    </ul>
-                </div>
-            )}
+                            // Close the context menu
+                            setItemContextMenu({ ...itemContextMenu, visible: false });
+                        },
+                        className: 'danger'
+                    }
+                ];
+
+                return (
+                    <UnifiedContextMenu
+                        visible={true}
+                        x={itemContextMenu.x}
+                        y={itemContextMenu.y}
+                        onClose={() => setItemContextMenu({ ...itemContextMenu, visible: false })}
+                        items={menuItems}
+                    />
+                );
+            })()}
                 </>,
                 document.body
             )}

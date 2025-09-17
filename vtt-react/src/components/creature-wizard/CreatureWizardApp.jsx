@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as generateUniqueId } from 'uuid';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from './context/CreatureWizardContext';
 import { useCreatureLibrary, useCreatureLibraryDispatch, libraryActionCreators } from './context/CreatureLibraryContext';
 import useCreatureStore from '../../store/creatureStore';
@@ -93,21 +94,21 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
 
         console.log('Updated creature:', wizardState.originalCreatureId);
       } else {
-        // Add new creature to library
-        libraryDispatch(libraryActionCreators.addCreature(creatureData));
+        // Generate a unique ID for the new creature to ensure consistency between library and store
+        const newCreatureId = generateUniqueId();
+        const creatureWithId = {
+          ...creatureData,
+          id: newCreatureId,
+          dateCreated: new Date().toISOString(),
+          lastModified: new Date().toISOString()
+        };
 
-        // Add to creature store after a brief delay to ensure library state is updated
-        setTimeout(() => {
-          // Find the newly created creature in the library by matching the most recent one with the same name
-          const newCreature = library.creatures
-            .filter(c => c.name === creatureData.name)
-            .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated))[0];
+        // Add new creature to library with the generated ID
+        libraryDispatch(libraryActionCreators.addCreature(creatureWithId));
 
-          if (newCreature && !creatureStore.creatures.find(c => c.id === newCreature.id)) {
-            console.log('🔄 Adding new creature to store:', newCreature.name, newCreature.id);
-            creatureStore.addCreature(newCreature);
-          }
-        }, 100);
+        // Add the same creature directly to the store to ensure immediate availability for token placement
+        console.log('🔄 Adding new creature to store:', creatureWithId.name, creatureWithId.id);
+        creatureStore.addCreature(creatureWithId);
 
         console.log('Added new creature to library:', creatureData.name);
       }

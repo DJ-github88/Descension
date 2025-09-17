@@ -299,20 +299,8 @@ const GridItem = ({ gridItem }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log(`🎯 GRID ITEM CLICKED: ${gridItem.id} (${gridItem.name || 'Unknown'})`);
-    console.log(`🎯 Grid item data:`, gridItem);
-
     const currentUser = useInventoryStore.getState().characterName || 'Player';
-    console.log(`🎯 Current user: ${currentUser}`);
-
     const result = lootItem(gridItem.id, 'default', currentUser);
-    console.log(`🎯 Loot result: ${result}`);
-
-    if (result) {
-      console.log(`✅ LOOT SUCCESS: Item successfully looted and added to inventory`);
-    } else {
-      console.log(`❌ LOOT FAILED: Item could not be looted (inventory full or other error)`);
-    }
 
     // Force inventory UI refresh
     setTimeout(() => {

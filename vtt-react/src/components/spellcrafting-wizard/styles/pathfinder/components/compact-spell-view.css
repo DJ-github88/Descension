@@ -16,10 +16,19 @@
   min-height: 90px;
   width: 80px;
   text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .compact-spell-item:hover {
   transform: scale(1.05);
+}
+
+.compact-spell-item:active {
+  cursor: grabbing;
+  transform: scale(0.95);
 }
 
 .compact-spell-item.selected {

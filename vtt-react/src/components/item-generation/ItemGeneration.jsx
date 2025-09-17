@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import useItemStore from '../../store/itemStore';
 import ItemWizard from './ItemWizard';
 import ManualCoinGenerationModal from './ManualCoinGenerationModal';
+import { createCustomShape } from '../../utils/itemShapeUtils';
 import '../../styles/item-generation.css';
 
 // Base grid size - will be adjusted based on available space
 const BASE_GRID_SIZE = {
-    ROWS: 8,
-    COLS: 20
+    ROWS: 6,
+    COLS: 10
 };
 
 export default function ItemGeneration({ onContainerCreate }) {
@@ -114,15 +115,20 @@ export default function ItemGeneration({ onContainerCreate }) {
 
         if (editMode) {
             if (selectedTiles.includes(tileKey)) {
-                const dimensions = calculateDimensions();
+                const { shape, dimensions } = createShapeFromSelectedTiles();
+                console.log('Creating item with shape:', shape);
+                console.log('Shape type:', shape?.type);
+                console.log('Shape cells:', shape?.cells);
                 setEditingItem({
                     name: 'New Item',
                     quality: 'common',
                     stats: {},
                     description: '',
-                    // Set width and height directly from dimensions
+                    // Set width and height for backward compatibility
                     width: dimensions.width,
-                    height: dimensions.height
+                    height: dimensions.height,
+                    // Set shape data for custom shapes
+                    shape: shape
                 });
             }
             return;
@@ -144,7 +150,9 @@ export default function ItemGeneration({ onContainerCreate }) {
         setIsDrawing(false);
     };
 
-    const calculateDimensions = () => {
+    const createShapeFromSelectedTiles = () => {
+        if (selectedTiles.length === 0) return null;
+
         const positions = selectedTiles.map(tile => {
             const [r, c] = tile.split('-').map(Number);
             return { row: r, col: c };
@@ -155,9 +163,22 @@ export default function ItemGeneration({ onContainerCreate }) {
         const minRow = Math.min(...positions.map(p => p.row));
         const maxRow = Math.max(...positions.map(p => p.row));
 
+        const width = maxCol - minCol + 1;
+        const height = maxRow - minRow + 1;
+
+        // Create 2D array for the shape
+        const cells = Array(height).fill(null).map(() => Array(width).fill(false));
+
+        // Mark occupied cells
+        positions.forEach(pos => {
+            const relativeRow = pos.row - minRow;
+            const relativeCol = pos.col - minCol;
+            cells[relativeRow][relativeCol] = true;
+        });
+
         return {
-            width: maxCol - minCol + 1,
-            height: maxRow - minRow + 1
+            shape: createCustomShape(cells),
+            dimensions: { width, height }
         };
     };
 
@@ -170,21 +191,16 @@ export default function ItemGeneration({ onContainerCreate }) {
 
     const handleSaveItem = (item) => {
         if (item) {
-            // Ensure dimensions are preserved
-            const dimensions = calculateDimensions();
-            const itemWithDimensions = {
-                ...item,
-                width: item.width || dimensions.width,
-                height: item.height || dimensions.height
-            };
-
-            console.log('Saving item with dimensions:', {
-                width: itemWithDimensions.width,
-                height: itemWithDimensions.height
+            console.log('Saving item with shape data:', {
+                width: item.width,
+                height: item.height,
+                shape: item.shape,
+                shapeType: item.shape?.type,
+                shapeCells: item.shape?.cells
             });
 
-            setPreviewItem(itemWithDimensions);
-            generateItem(itemWithDimensions);
+            setPreviewItem(item);
+            generateItem(item);
         }
         setEditingItem(null);
         setEditMode(false);

@@ -6,6 +6,7 @@ import QuestCreationForm from '../quest-log/QuestCreationForm';
 import QuestObjective from '../quest-log/QuestObjective';
 import QuestReward from '../quest-log/QuestReward';
 import QuestCard from '../quest-log/QuestCard';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/quest-log-new.css';
 import '../../styles/quest-log-fixes.css';
 import '../../styles/party-hud.css'; // For context menu styles
@@ -447,30 +448,25 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
 
       {/* Context Menu */}
       {showContextMenu && createPortal(
-        <div
-          ref={contextMenuRef}
-          className="character-hud-context-menu"
-          style={{
-            position: 'fixed',
-            left: contextMenuPosition.x,
-            top: contextMenuPosition.y,
-            zIndex: 999999
-          }}
-        >
-          <div className="context-menu-header">
-            <div className="character-name">{contextMenuQuest?.title}</div>
-            <div className="character-details">Failed Quest</div>
-          </div>
-
-          <div className="context-menu-section">
-            <button className="context-menu-button" onClick={handleReactivateQuest}>
-              <i className="fas fa-redo"></i> Reactivate Quest
-            </button>
-            <button className="context-menu-button" onClick={handleRemoveQuest}>
-              <i className="fas fa-trash"></i> Remove Quest
-            </button>
-          </div>
-        </div>,
+        <UnifiedContextMenu
+          visible={true}
+          x={contextMenuPosition.x}
+          y={contextMenuPosition.y}
+          onClose={() => setShowContextMenu(false)}
+          items={[
+            {
+              icon: <i className="fas fa-redo"></i>,
+              label: 'Reactivate Quest',
+              onClick: handleReactivateQuest
+            },
+            {
+              icon: <i className="fas fa-trash"></i>,
+              label: 'Remove Quest',
+              onClick: handleRemoveQuest,
+              className: 'danger'
+            }
+          ]}
+        />,
         document.body
       )}
     </>

@@ -485,7 +485,7 @@ const CreatureLibrary = ({ onEdit }) => {
             position: 'fixed',
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
-            zIndex: 999999999
+            zIndex: 2147483647
           }}
           onWheel={(e) => {
             // Stop propagation to prevent background scrolling when scrolling tooltip

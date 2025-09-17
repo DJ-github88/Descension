@@ -18,6 +18,7 @@ import CreatureWindow from '../windows/CreatureWindow';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
+import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import ShopWindow from '../shop/ShopWindow';
 
 
@@ -640,6 +641,92 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     console.log('Opening creature editor for:', creature.name);
   };
 
+  // Handle rename token
+  const [showRenameInput, setShowRenameInput] = useState(false);
+  const [newName, setNewName] = useState('');
+  const renameInputRef = useRef(null);
+
+  // Handle change icon
+  const [showIconEditor, setShowIconEditor] = useState(false);
+  const [newIconUrl, setNewIconUrl] = useState('');
+  const [iconPosition, setIconPosition] = useState({ x: 50, y: 50 }); // Center position as percentage
+  const [iconScale, setIconScale] = useState(100); // Scale as percentage
+  const fileInputRef = useRef(null);
+
+  const handleRenameToken = () => {
+    const currentName = token.state.customName || creature.name;
+    setNewName(currentName);
+    setShowRenameInput(true);
+    setShowContextMenu(false);
+
+    // Focus the input after it renders
+    setTimeout(() => {
+      if (renameInputRef.current) {
+        renameInputRef.current.focus();
+        renameInputRef.current.select();
+      }
+    }, 10);
+  };
+
+  const handleConfirmRename = () => {
+    if (newName.trim()) {
+      updateTokenState(tokenId, {
+        customName: newName.trim()
+      });
+    }
+    setShowRenameInput(false);
+    setNewName('');
+  };
+
+  const handleCancelRename = () => {
+    setShowRenameInput(false);
+    setNewName('');
+  };
+
+  // Handle change icon
+  const handleChangeIcon = () => {
+    const currentIcon = token.state.customIcon || creature.tokenIcon;
+    setNewIconUrl(currentIcon);
+    setIconPosition(token.state.iconPosition || { x: 50, y: 50 });
+    setIconScale(token.state.iconScale || 100);
+    setShowIconEditor(true);
+    setShowContextMenu(false);
+  };
+
+  const handleConfirmIconChange = () => {
+    updateTokenState(tokenId, {
+      customIcon: newIconUrl,
+      iconPosition: iconPosition,
+      iconScale: iconScale
+    });
+    setShowIconEditor(false);
+    setNewIconUrl('');
+    setIconPosition({ x: 50, y: 50 });
+    setIconScale(100);
+  };
+
+  const handleCancelIconChange = () => {
+    setShowIconEditor(false);
+    setNewIconUrl('');
+    setIconPosition({ x: 50, y: 50 });
+    setIconScale(100);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewIconUrl(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileUpload = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleCloseCreatureEditor = () => {
     setShowCreatureEditor(false);
     console.log('Closing creature editor');
@@ -649,11 +736,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleTargetCreature = () => {
     if (!creature) return;
 
-    // Create minimal target data - only store IDs and basic info, not current stats
+    // Create minimal target data - use tokenId to target specific token instance
     // The Target HUD will fetch current stats from the store in real-time
+    const displayName = token.state.customName || creature.name;
     const targetData = {
-      id: creature.id,
-      name: creature.name,
+      id: tokenId, // Use tokenId to target specific token, not creature type
+      name: displayName,
       type: creature.type,
       size: creature.size,
       level: creature.level || 1,
@@ -680,8 +768,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setShowContextMenu(false);
   };
 
-  // Check if this creature is currently targeted
-  const isTargeted = currentTarget?.id === creature?.id;
+  // Check if this specific token is currently targeted (not just the creature type)
+  const isTargeted = currentTarget?.id === tokenId;
 
   // Check if this token is selected for combat
   const isSelectedForCombat = selectedTokens.has(tokenId);
@@ -956,6 +1044,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
           position: 'absolute',
           transform: 'translate(-50%, -50%)',
+          pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
           borderRadius: '50%',
           border: `3px solid ${isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder}`,
           overflow: 'hidden',
@@ -968,19 +1057,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             : '0 2px 8px rgba(0, 0, 0, 0.3)'
         }}
         onContextMenu={handleContextMenu}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onMouseDown={handleMouseDown}
-        onClick={handleTokenClick}
+        onMouseEnter={showRenameInput ? undefined : handleMouseEnter}
+        onMouseLeave={showRenameInput ? undefined : handleMouseLeave}
+        onMouseDown={showRenameInput ? undefined : handleMouseDown}
+        onClick={showRenameInput ? undefined : handleTokenClick}
       >
         <div
           className="token-icon"
           style={{
-            backgroundImage: `url(${getIconUrl(creature.tokenIcon)})`,
+            backgroundImage: `url(${token.state.customIcon || getIconUrl(creature.tokenIcon)})`,
             width: '100%',
             height: '100%',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundSize: `${token.state.iconScale || 100}%`,
+            backgroundPosition: `${token.state.iconPosition?.x || 50}% ${token.state.iconPosition?.y || 50}%`,
             borderRadius: '50%'
           }}
         ></div>
@@ -1011,14 +1100,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           }}
         >
           {/* Main Actions - Header removed, creature info available in hover tooltip */}
-          <div className="context-menu-main">
-            <div className="context-menu-group">
-              <div className="group-header">
-                <i className="fas fa-cog"></i>
-                <span>Token Actions</span>
-                <i className="fas fa-chevron-right"></i>
-              </div>
-              <div className="submenu">
+          <div className="context-menu-group">
+            <div className="group-header">
+              <i className="fas fa-cog"></i>
+              <span>Token Actions</span>
+              <i className="fas fa-chevron-right"></i>
+            </div>
+            <div className="submenu">
                 <button className="context-menu-button" onClick={handleViewDetails}>
                   <i className="fas fa-search"></i> Inspect
                 </button>
@@ -1035,6 +1123,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 </button>
                 <button className="context-menu-button" onClick={handleDuplicateToken}>
                   <i className="fas fa-copy"></i> Duplicate
+                </button>
+                <button className="context-menu-button" onClick={handleRenameToken}>
+                  <i className="fas fa-tag"></i> Rename
+                </button>
+                <button className="context-menu-button" onClick={handleChangeIcon}>
+                  <i className="fas fa-image"></i> Change Icon
                 </button>
                 <button className="context-menu-button" onClick={handleEditCreature}>
                   <i className="fas fa-edit"></i> Edit
@@ -1146,7 +1240,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 </button>
               </div>
             </div>
-          </div>
         </div>,
         document.body
       )}
@@ -1198,7 +1291,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             />
             <div>
               <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
-                {creature.name}
+                {token.state.customName || creature.name}
               </div>
               <div style={{ fontSize: '10px', opacity: 0.7 }}>
                 {creature.race && `${creature.race} `}
@@ -1378,6 +1471,536 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           onClose={() => setShowShopWindow(false)}
           creature={creature}
         />
+      )}
+
+      {/* Inline Rename Input */}
+      {showRenameInput && (
+        <div
+          className="token-rename-input"
+          style={{
+            position: 'absolute',
+            left: screenPosition.x,
+            top: screenPosition.y - 80, // Position further above the token to avoid overlap
+            transform: 'translateX(-50%)',
+            zIndex: 2000,
+            pointerEvents: 'auto', // Ensure this element can receive pointer events
+            background: 'linear-gradient(135deg, #f4e4bc 0%, #e8d5a6 100%)',
+            border: '2px solid #8b4513',
+            borderRadius: '6px',
+            padding: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+          }}
+        >
+          <input
+            ref={renameInputRef}
+            type="text"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleConfirmRename();
+              } else if (e.key === 'Escape') {
+                handleCancelRename();
+              }
+            }}
+            onBlur={(e) => {
+              // Don't cancel if clicking on buttons
+              if (!e.relatedTarget || !e.relatedTarget.closest('.token-rename-input')) {
+                handleCancelRename();
+              }
+            }}
+            style={{
+              background: '#fff8e7',
+              border: '1px solid #8b4513',
+              borderRadius: '3px',
+              color: '#2c1810',
+              padding: '4px 6px',
+              fontSize: '12px',
+              width: '120px',
+              outline: 'none',
+              fontFamily: 'serif'
+            }}
+            placeholder="Enter name..."
+          />
+          <button
+            onMouseDown={(e) => {
+              e.preventDefault(); // Prevent input blur
+              handleConfirmRename();
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #6b8e23 0%, #556b2f 100%)',
+              border: '1px solid #2f4f2f',
+              borderRadius: '3px',
+              color: '#fff',
+              padding: '4px 6px',
+              fontSize: '10px',
+              cursor: 'pointer',
+              minWidth: '20px',
+              fontWeight: 'bold',
+              textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
+              boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+            }}
+            title="Confirm"
+          >
+            ✓
+          </button>
+          <button
+            onMouseDown={(e) => {
+              e.preventDefault(); // Prevent input blur
+              handleCancelRename();
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #8b4513 0%, #654321 100%)',
+              border: '1px solid #4a2c17',
+              borderRadius: '3px',
+              color: '#fff',
+              padding: '4px 6px',
+              fontSize: '10px',
+              cursor: 'pointer',
+              minWidth: '20px',
+              fontWeight: 'bold',
+              textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
+              boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+            }}
+            title="Cancel"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Icon Editor Modal */}
+      {showIconEditor && createPortal(
+        <div className="modal-overlay" onClick={handleCancelIconChange}>
+          <div
+            className="modal-content icon-editor-modal"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: 'linear-gradient(135deg, #f4e4bc 0%, #e8d5a6 100%)',
+              border: '3px solid #8b4513',
+              borderRadius: '8px',
+              padding: '20px',
+              maxWidth: '500px',
+              width: '90%',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+            }}
+          >
+            <div className="modal-header" style={{
+              marginBottom: '20px',
+              textAlign: 'center',
+              position: 'relative',
+              paddingBottom: '10px',
+              borderBottom: '2px solid #8b4513'
+            }}>
+              <h3 style={{
+                color: '#2c1810',
+                fontFamily: 'serif',
+                fontSize: '20px',
+                margin: '0',
+                textShadow: '0 1px 2px rgba(255, 255, 255, 0.5)',
+                fontWeight: 'bold'
+              }}>
+                Change Token Icon
+              </h3>
+              <button
+                className="modal-close"
+                onClick={handleCancelIconChange}
+                style={{
+                  position: 'absolute',
+                  top: '-5px',
+                  right: '-5px',
+                  background: 'linear-gradient(135deg, #8b4513 0%, #654321 100%)',
+                  border: '1px solid #4a2c17',
+                  borderRadius: '50%',
+                  width: '28px',
+                  height: '28px',
+                  fontSize: '14px',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div className="modal-body">
+              {/* URL Input Section */}
+              <div className="form-section" style={{
+                marginBottom: '20px',
+                padding: '15px',
+                background: 'rgba(255, 248, 231, 0.5)',
+                border: '1px solid #d4b896',
+                borderRadius: '6px'
+              }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '8px',
+                  color: '#2c1810',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  fontFamily: 'serif'
+                }}>
+                  <i className="fas fa-link" style={{ marginRight: '6px', color: '#8b4513' }}></i>
+                  Image URL:
+                </label>
+                <input
+                  type="text"
+                  value={newIconUrl}
+                  onChange={(e) => setNewIconUrl(e.target.value)}
+                  placeholder="Paste image URL here..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    border: '2px solid #8b4513',
+                    borderRadius: '6px',
+                    background: '#fff',
+                    color: '#2c1810',
+                    fontSize: '13px',
+                    fontFamily: 'serif',
+                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)',
+                    transition: 'border-color 0.2s ease',
+                    outline: 'none'
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = '#6b8e23'}
+                  onBlur={(e) => e.target.style.borderColor = '#8b4513'}
+                />
+              </div>
+
+              {/* File Upload Section */}
+              <div className="form-section" style={{
+                marginBottom: '20px',
+                padding: '15px',
+                background: 'rgba(255, 248, 231, 0.5)',
+                border: '1px solid #d4b896',
+                borderRadius: '6px',
+                textAlign: 'center'
+              }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  color: '#2c1810',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  fontFamily: 'serif'
+                }}>
+                  <i className="fas fa-upload" style={{ marginRight: '6px', color: '#8b4513' }}></i>
+                  Or Upload File:
+                </label>
+                <button
+                  onClick={triggerFileUpload}
+                  style={{
+                    background: 'linear-gradient(135deg, #6b8e23 0%, #556b2f 100%)',
+                    border: '2px solid #2f4f2f',
+                    borderRadius: '6px',
+                    color: '#fff',
+                    padding: '10px 20px',
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                    transition: 'all 0.2s ease',
+                    fontFamily: 'serif'
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.transform = 'translateY(-1px)';
+                    e.target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                  }}
+                >
+                  <i className="fas fa-upload" style={{ marginRight: '8px' }}></i>
+                  Choose Image File
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  style={{ display: 'none' }}
+                />
+              </div>
+
+              {/* Preview Section */}
+              {newIconUrl && (
+                <div className="preview-section" style={{
+                  background: 'linear-gradient(135deg, #f5f0e8 0%, #e8dcc6 100%)',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  marginBottom: '20px',
+                  border: '2px solid #8b4513',
+                  boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)'
+                }}>
+                  <h4 style={{
+                    color: '#2c1810',
+                    margin: '0 0 15px 0',
+                    textAlign: 'center',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    fontFamily: 'serif',
+                    textShadow: '0 1px 2px rgba(255, 255, 255, 0.5)'
+                  }}>
+                    <i className="fas fa-eye" style={{ marginRight: '8px', color: '#8b4513' }}></i>
+                    Preview
+                  </h4>
+
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '25px',
+                    background: 'rgba(255, 255, 255, 0.3)',
+                    padding: '15px',
+                    borderRadius: '6px',
+                    border: '1px solid #d4b896'
+                  }}>
+                    {/* Token Preview */}
+                    <div
+                      style={{
+                        width: '90px',
+                        height: '90px',
+                        borderRadius: '50%',
+                        border: '3px solid #8b4513',
+                        backgroundImage: `url(${newIconUrl})`,
+                        backgroundSize: `${iconScale}%`,
+                        backgroundPosition: `${iconPosition.x}% ${iconPosition.y}%`,
+                        backgroundRepeat: 'no-repeat',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.3)',
+                        flexShrink: 0
+                      }}
+                    />
+
+                    {/* Controls */}
+                    <div style={{ flex: 1 }}>
+                      {/* Position Controls */}
+                      <div style={{ marginBottom: '20px' }}>
+                        <label style={{
+                          color: '#2c1810',
+                          fontSize: '14px',
+                          fontWeight: 'bold',
+                          display: 'block',
+                          marginBottom: '10px',
+                          fontFamily: 'serif'
+                        }}>
+                          <i className="fas fa-arrows-alt" style={{ marginRight: '6px', color: '#8b4513' }}></i>
+                          Position:
+                        </label>
+
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          marginBottom: '8px',
+                          padding: '8px',
+                          background: 'rgba(255, 255, 255, 0.5)',
+                          borderRadius: '4px'
+                        }}>
+                          <span style={{
+                            color: '#2c1810',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            width: '20px',
+                            fontFamily: 'serif'
+                          }}>X:</span>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={iconPosition.x}
+                            onChange={(e) => setIconPosition(prev => ({ ...prev, x: parseInt(e.target.value) }))}
+                            style={{
+                              flex: 1,
+                              height: '6px',
+                              background: '#d4b896',
+                              borderRadius: '3px',
+                              outline: 'none',
+                              cursor: 'pointer'
+                            }}
+                          />
+                          <span style={{
+                            color: '#8b4513',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            width: '35px',
+                            textAlign: 'right',
+                            fontFamily: 'serif'
+                          }}>{iconPosition.x}%</span>
+                        </div>
+
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          padding: '8px',
+                          background: 'rgba(255, 255, 255, 0.5)',
+                          borderRadius: '4px'
+                        }}>
+                          <span style={{
+                            color: '#2c1810',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            width: '20px',
+                            fontFamily: 'serif'
+                          }}>Y:</span>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={iconPosition.y}
+                            onChange={(e) => setIconPosition(prev => ({ ...prev, y: parseInt(e.target.value) }))}
+                            style={{
+                              flex: 1,
+                              height: '6px',
+                              background: '#d4b896',
+                              borderRadius: '3px',
+                              outline: 'none',
+                              cursor: 'pointer'
+                            }}
+                          />
+                          <span style={{
+                            color: '#8b4513',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            width: '35px',
+                            textAlign: 'right',
+                            fontFamily: 'serif'
+                          }}>{iconPosition.y}%</span>
+                        </div>
+                      </div>
+
+                      {/* Scale Control */}
+                      <div>
+                        <label style={{
+                          color: '#2c1810',
+                          fontSize: '14px',
+                          fontWeight: 'bold',
+                          display: 'block',
+                          marginBottom: '10px',
+                          fontFamily: 'serif'
+                        }}>
+                          <i className="fas fa-expand-arrows-alt" style={{ marginRight: '6px', color: '#8b4513' }}></i>
+                          Scale:
+                        </label>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          padding: '8px',
+                          background: 'rgba(255, 255, 255, 0.5)',
+                          borderRadius: '4px'
+                        }}>
+                          <input
+                            type="range"
+                            min="50"
+                            max="200"
+                            value={iconScale}
+                            onChange={(e) => setIconScale(parseInt(e.target.value))}
+                            style={{
+                              flex: 1,
+                              height: '6px',
+                              background: '#d4b896',
+                              borderRadius: '3px',
+                              outline: 'none',
+                              cursor: 'pointer'
+                            }}
+                          />
+                          <span style={{
+                            color: '#8b4513',
+                            fontSize: '12px',
+                            fontWeight: 'bold',
+                            width: '45px',
+                            textAlign: 'right',
+                            fontFamily: 'serif'
+                          }}>{iconScale}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="modal-footer" style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '15px',
+              marginTop: '25px',
+              paddingTop: '20px',
+              borderTop: '2px solid #8b4513'
+            }}>
+              <button
+                onClick={handleCancelIconChange}
+                style={{
+                  background: 'linear-gradient(135deg, #8b4513 0%, #654321 100%)',
+                  border: '2px solid #4a2c17',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '12px 24px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  transition: 'all 0.2s ease',
+                  fontFamily: 'serif',
+                  minWidth: '120px'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+              >
+                <i className="fas fa-times" style={{ marginRight: '8px' }}></i>
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmIconChange}
+                style={{
+                  background: 'linear-gradient(135deg, #6b8e23 0%, #556b2f 100%)',
+                  border: '2px solid #2f4f2f',
+                  borderRadius: '6px',
+                  color: '#fff',
+                  padding: '12px 24px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  transition: 'all 0.2s ease',
+                  fontFamily: 'serif',
+                  minWidth: '120px'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+              >
+                <i className="fas fa-check" style={{ marginRight: '8px' }}></i>
+                Apply Changes
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
       )}
     </>
   );

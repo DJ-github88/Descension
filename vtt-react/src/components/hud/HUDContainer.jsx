@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PartyHUD from './PartyHUD';
 import TargetHUD from './TargetHUD';
 import usePartyStore from '../../store/partyStore';
@@ -91,6 +91,18 @@ const HUDContainer = () => {
     // Store data
     const { hudSettings } = usePartyStore();
     const { currentTarget } = useTargetingStore();
+
+    // Listen for character sheet open events from tokens
+    useEffect(() => {
+        const handleOpenCharacterSheetEvent = (event) => {
+            const { character, isSelf } = event.detail;
+            console.log('🔍 HUDContainer: Received character sheet open event:', { character, isSelf });
+            handleOpenCharacterSheet(character, isSelf);
+        };
+
+        window.addEventListener('openCharacterSheet', handleOpenCharacterSheetEvent);
+        return () => window.removeEventListener('openCharacterSheet', handleOpenCharacterSheetEvent);
+    }, []);
 
     // Handle opening character sheet for inspection
     const handleOpenCharacterSheet = (character, isSelf = false) => {
