@@ -10,6 +10,7 @@ import LibraryStyleCreatureCard from '../common/LibraryStyleCreatureCard';
 import SimpleCreatureTooltip from '../common/SimpleCreatureTooltip';
 import CompactCreatureCard from '../common/CompactCreatureCard';
 import EnhancedCreatureInspectView from '../common/EnhancedCreatureInspectView';
+import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
 import '../../styles/CreatureLibrary.css';
 
 // Helper function to filter creatures based on filters
@@ -93,6 +94,8 @@ const CreatureLibrary = ({ onEdit }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const libraryRef = useRef(null);
   const [inspectingCreature, setInspectingCreature] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [creatureToDelete, setCreatureToDelete] = useState(null);
 
   // Component mounted - no logging needed for production
 
@@ -153,13 +156,27 @@ const CreatureLibrary = ({ onEdit }) => {
 
   // Handle creature deletion
   const handleDeleteCreature = (creatureId, creatureName) => {
-    if (window.confirm(`Are you sure you want to delete "${creatureName}"?`)) {
+    setCreatureToDelete({ id: creatureId, name: creatureName });
+    setShowDeleteConfirmation(true);
+  };
+
+  // Confirm creature deletion
+  const confirmDeleteCreature = () => {
+    if (creatureToDelete) {
       // First update the store
-      creatureStore.deleteCreature(creatureId);
+      creatureStore.deleteCreature(creatureToDelete.id);
 
       // Then update the library
-      dispatch(libraryActionCreators.deleteCreature(creatureId));
+      dispatch(libraryActionCreators.deleteCreature(creatureToDelete.id));
     }
+    setShowDeleteConfirmation(false);
+    setCreatureToDelete(null);
+  };
+
+  // Cancel creature deletion
+  const cancelDeleteCreature = () => {
+    setShowDeleteConfirmation(false);
+    setCreatureToDelete(null);
   };
 
   // Handle creature duplication
@@ -503,6 +520,15 @@ const CreatureLibrary = ({ onEdit }) => {
           <SimpleCreatureTooltip creature={hoveredCreature} />
         </div>,
         document.body
+      )}
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteConfirmation && creatureToDelete && (
+        <ConfirmationDialog
+          message={`Are you sure you want to delete "${creatureToDelete.name}"? This action cannot be undone.`}
+          onConfirm={confirmDeleteCreature}
+          onCancel={cancelDeleteCreature}
+        />
       )}
     </div>
   );
