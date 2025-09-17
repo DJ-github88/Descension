@@ -79,90 +79,98 @@ const CreatureFilters = () => {
     <div className="creature-filters">
       <h2>Filters</h2>
 
-      {/* Type filters */}
-      <div className="filter-section">
-        <h3>Creature Type</h3>
-        <div className="filter-options">
-          {Object.values(CREATURE_TYPES).map(type => (
-            <label key={type} className="filter-checkbox">
-              <input
-                type="checkbox"
-                checked={library.filters.types.includes(type)}
-                onChange={() => handleTypeChange(type)}
-              />
-              <span className="checkbox-label">{formatTypeName(type)}</span>
-            </label>
-          ))}
+      <div className="creature-filters-content">
+        {/* Type filters */}
+        <div className="filter-section">
+          <h3>Creature Type</h3>
+          <div className="filter-options">
+            {Object.values(CREATURE_TYPES).map(type => (
+              <label
+                key={type}
+                className={`filter-checkbox ${library.filters.types.includes(type) ? 'checked' : ''}`}
+              >
+                <input
+                  type="checkbox"
+                  checked={library.filters.types.includes(type)}
+                  onChange={() => handleTypeChange(type)}
+                />
+                <span className="checkbox-label">{formatTypeName(type)}</span>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Size filters */}
-      <div className="filter-section">
-        <h3>Size</h3>
-        <div className="filter-options">
-          {Object.values(CREATURE_SIZES).map(size => (
-            <label key={size} className="filter-checkbox">
-              <input
-                type="checkbox"
-                checked={library.filters.sizes.includes(size)}
-                onChange={() => handleSizeChange(size)}
-              />
-              <span className="checkbox-label">{formatSizeName(size)}</span>
-            </label>
-          ))}
+        {/* Size filters */}
+        <div className="filter-section">
+          <h3>Size</h3>
+          <div className="filter-options">
+            {Object.values(CREATURE_SIZES).map(size => (
+              <label
+                key={size}
+                className={`filter-checkbox ${library.filters.sizes.includes(size) ? 'checked' : ''}`}
+              >
+                <input
+                  type="checkbox"
+                  checked={library.filters.sizes.includes(size)}
+                  onChange={() => handleSizeChange(size)}
+                />
+                <span className="checkbox-label">{formatSizeName(size)}</span>
+              </label>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Sort options */}
-      <div className="filter-section">
-        <h3>Sort By</h3>
-        <div className="sort-options">
-          <button
-            className={`sort-button ${library.sortOrder.field === 'name' ? 'active' : ''}`}
-            onClick={() => handleSortChange('name')}
-          >
-            Name
-            {library.sortOrder.field === 'name' && (
-              <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
-            )}
-          </button>
-          <button
-            className={`sort-button ${library.sortOrder.field === 'type' ? 'active' : ''}`}
-            onClick={() => handleSortChange('type')}
-          >
-            Type
-            {library.sortOrder.field === 'type' && (
-              <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
-            )}
-          </button>
-          <button
-            className={`sort-button ${library.sortOrder.field === 'size' ? 'active' : ''}`}
-            onClick={() => handleSortChange('size')}
-          >
-            Size
-            {library.sortOrder.field === 'size' && (
-              <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
-            )}
-          </button>
-          <button
-            className={`sort-button ${library.sortOrder.field === 'dateCreated' ? 'active' : ''}`}
-            onClick={() => handleSortChange('dateCreated')}
-          >
-            Date Created
-            {library.sortOrder.field === 'dateCreated' && (
-              <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
-            )}
-          </button>
+        {/* Sort options */}
+        <div className="filter-section">
+          <h3>Sort By</h3>
+          <div className="sort-options">
+            <button
+              className={`sort-button ${library.sortOrder.field === 'name' ? 'active' : ''}`}
+              onClick={() => handleSortChange('name')}
+            >
+              Name
+              {library.sortOrder.field === 'name' && (
+                <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
+              )}
+            </button>
+            <button
+              className={`sort-button ${library.sortOrder.field === 'type' ? 'active' : ''}`}
+              onClick={() => handleSortChange('type')}
+            >
+              Type
+              {library.sortOrder.field === 'type' && (
+                <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
+              )}
+            </button>
+            <button
+              className={`sort-button ${library.sortOrder.field === 'size' ? 'active' : ''}`}
+              onClick={() => handleSortChange('size')}
+            >
+              Size
+              {library.sortOrder.field === 'size' && (
+                <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
+              )}
+            </button>
+            <button
+              className={`sort-button ${library.sortOrder.field === 'dateCreated' ? 'active' : ''}`}
+              onClick={() => handleSortChange('dateCreated')}
+            >
+              Date Created
+              {library.sortOrder.field === 'dateCreated' && (
+                <i className={`fas fa-sort-${library.sortOrder.direction === 'asc' ? 'up' : 'down'}`}></i>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Clear filters button */}
-      <button
-        className="clear-filters-button"
-        onClick={() => dispatch(libraryActionCreators.clearFilters())}
-      >
-        Clear All Filters
-      </button>
+        {/* Clear filters button */}
+        <button
+          className="clear-filters-button"
+          onClick={() => dispatch(libraryActionCreators.clearFilters())}
+        >
+          Clear All Filters
+        </button>
+      </div>
     </div>
   );
 };

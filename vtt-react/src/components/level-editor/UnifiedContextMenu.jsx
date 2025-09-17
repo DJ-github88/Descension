@@ -136,7 +136,7 @@ const UnifiedContextMenu = ({
                                                 // Execute the action after a brief delay for visual feedback
                                                 setTimeout(() => {
                                                     try {
-                                                        item.onClick();
+                                                        item.onClick(e);
                                                     } catch (error) {
                                                         console.error('❌ [CONTEXT MENU] Error in onClick for:', item.label, error);
                                                     }
