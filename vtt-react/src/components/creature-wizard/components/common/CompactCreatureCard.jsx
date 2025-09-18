@@ -80,7 +80,9 @@ const CompactCreatureCard = ({ creature }) => {
       {/* Main stats (HP, AC, Initiative) */}
       <div className="compact-creature-main-stats">
         <div className="compact-main-stat">
-          <div className="compact-main-stat-value">{creature.stats.maxHp}</div>
+          <div className="compact-main-stat-value">
+            {creature.stats.currentHp || creature.stats.maxHp}/{creature.stats.maxHp}
+          </div>
           <div className="compact-main-stat-label">HP</div>
         </div>
         <div className="compact-main-stat">

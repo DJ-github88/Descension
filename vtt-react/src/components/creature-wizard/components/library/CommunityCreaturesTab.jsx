@@ -5,7 +5,7 @@
  * Users can browse creatures by category, search, and download creatures to their local library.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { useCommunityCreatures } from '../../../../hooks/useCommunityCreatures';
 import { useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
@@ -40,6 +40,7 @@ const CommunityCreaturesTab = () => {
   // Tooltip state
   const [hoveredCreature, setHoveredCreature] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const tooltipRef = useRef(null);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -328,6 +329,7 @@ const CommunityCreaturesTab = () => {
       {/* Tooltip Portal */}
       {hoveredCreature && ReactDOM.createPortal(
         <div
+          ref={tooltipRef}
           className="creature-card-hover-preview-portal"
           style={{
             position: 'fixed',

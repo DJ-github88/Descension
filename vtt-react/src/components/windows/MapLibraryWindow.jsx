@@ -12,7 +12,6 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const [showSwitchConfirm, setShowSwitchConfirm] = useState(false);
     const [pendingMapSwitch, setPendingMapSwitch] = useState(null);
     const [showBackgroundAssignment, setShowBackgroundAssignment] = useState(null);
-    const [activeTab, setActiveTab] = useState('library');
     const fileInputRef = useRef(null);
     const backgroundFileInputRef = useRef(null);
 
@@ -44,15 +43,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const setBackgroundImage = useGameStore(state => state.setBackgroundImage);
     const setBackgroundImageUrl = useGameStore(state => state.setBackgroundImageUrl);
 
-    // Define tabs for consistent formatting
-    const tabs = [
-        {
-            id: 'current',
-            label: `Current Map: ${maps.find(m => m.id === currentMapId)?.name || 'None'}`
-        },
-        { id: 'library', label: 'Map Library' },
-        { id: 'create', label: '+ Create New Map' }
-    ];
+
 
     // Handle map switching request (shows confirmation dialog)
     const handleMapSwitchRequest = (mapId) => {
@@ -435,39 +426,21 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 onClose={onClose}
                 defaultSize={{ width: 900, height: 700 }}
                 defaultPosition={{ x: 100, y: 100 }}
-                customHeader={
-                    <div className="spellbook-tab-container">
-                        {tabs.map(tab => (
-                            <button
-                                key={tab.id}
-                                className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                                onClick={() => {
-                                    if (tab.id === 'create') {
-                                        openMapCreationWizard();
-                                    } else {
-                                        setActiveTab(tab.id);
-                                    }
-                                }}
-                            >
-                                <span>{tab.label}</span>
-                            </button>
-                        ))}
-                    </div>
-                }
             >
                 <div className="map-library-window">
-                    {/* Render content based on active tab */}
-                    {activeTab === 'current' && (
-                        <div className="current-map-view">
-                            <div className="current-map-details">
-                                <h2>Current Map: {maps.find(m => m.id === currentMapId)?.name || 'None'}</h2>
-                                <p>This is where current map details and controls would go.</p>
-                            </div>
-                        </div>
-                    )}
+                    {/* Header with Create New Map button */}
+                    <div className="map-library-header">
+                        <h2>Map Library</h2>
+                        <button
+                            className="create-map-button"
+                            onClick={openMapCreationWizard}
+                        >
+                            + Create New Map
+                        </button>
+                    </div>
 
-                    {activeTab === 'library' && (
-                        <div className="map-grid">
+                    {/* Map Grid */}
+                    <div className="map-grid">
                             {maps.map(map => (
                             <div
                                 key={map.id}
@@ -557,8 +530,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                 </div>
                             </div>
                         ))}
-                        </div>
-                    )}
+                    </div>
                 </div>
             </WowWindow>
 

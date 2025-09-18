@@ -10,164 +10,8 @@ import ItemTooltip from '../../../../components/item-generation/ItemTooltip';
 import TooltipPortal from '../../../tooltips/TooltipPortal';
 import ClutterLootGenerator from '../loot/ClutterLootGenerator';
 
-// Sample items for the loot table
-const SAMPLE_ITEMS = [
-  {
-    id: 'item1',
-    name: 'Rusty Sword',
-    type: 'weapon',
-    subtype: 'sword',
-    rarity: 'common',
-    quality: 'common',
-    dropChance: 20,
-    iconId: 'inv_sword_04',
-    baseStats: { strength: 1 },
-    value: { silver: 5 },
-    description: 'A rusty old sword that has seen better days.',
-    weaponStats: {
-      baseDamage: {
-        diceCount: 1,
-        diceType: 6,
-        damageType: 'slashing',
-        bonusDamage: 0,
-        bonusDamageType: null
-      }
-    }
-  },
-  {
-    id: 'item2',
-    name: 'Leather Scraps',
-    type: 'material',
-    rarity: 'common',
-    quality: 'common',
-    dropChance: 40,
-    iconId: 'inv_misc_leatherscrap_07',
-    value: { copper: 25 },
-    description: 'Scraps of leather that could be used for crafting.'
-  },
-  {
-    id: 'item3',
-    name: 'Health Potion',
-    type: 'consumable',
-    subtype: 'potion',
-    rarity: 'common',
-    quality: 'common',
-    dropChance: 30,
-    iconId: 'inv_potion_51',
-    combatStats: { healthRestore: 10 },
-    value: { silver: 1 },
-    description: 'A small potion that restores health.'
-  },
-  {
-    id: 'item4',
-    name: 'Magic Amulet',
-    type: 'accessory',
-    rarity: 'uncommon',
-    quality: 'uncommon',
-    dropChance: 10,
-    iconId: 'inv_jewelry_necklace_07',
-    baseStats: { intelligence: 2 },
-    value: { gold: 1, silver: 50 },
-    description: 'An amulet that glows with a faint magical energy.'
-  },
-  {
-    id: 'item5',
-    name: 'Enchanted Dagger',
-    type: 'weapon',
-    subtype: 'dagger',
-    rarity: 'uncommon',
-    quality: 'uncommon',
-    dropChance: 15,
-    iconId: 'inv_weapon_shortblade_05',
-    baseStats: { agility: 2 },
-    weaponStats: {
-      baseDamage: {
-        diceCount: 1,
-        diceType: 4,
-        damageType: 'piercing',
-        bonusDamage: 1
-      }
-    },
-    value: { gold: 2 },
-    description: 'A dagger with a faint magical glow.'
-  },
-  {
-    id: 'item6',
-    name: 'Mana Crystal',
-    type: 'material',
-    rarity: 'uncommon',
-    quality: 'uncommon',
-    dropChance: 25,
-    iconId: 'inv_misc_gem_sapphire_02',
-    value: { silver: 75 },
-    description: 'A crystal that pulses with magical energy.'
-  },
-  {
-    id: 'item7',
-    name: 'Elixir of Strength',
-    type: 'consumable',
-    subtype: 'elixir',
-    rarity: 'rare',
-    quality: 'rare',
-    dropChance: 5,
-    iconId: 'inv_potion_91',
-    baseStats: { strength: 3 },
-    utilityStats: { duration: { value: 3, type: 'ROUNDS' } },
-    value: { gold: 5 },
-    description: 'A powerful elixir that temporarily increases strength.'
-  },
-  {
-    id: 'item8',
-    name: 'Ancient Tome',
-    type: 'quest',
-    rarity: 'rare',
-    quality: 'rare',
-    dropChance: 8,
-    iconId: 'inv_misc_book_09',
-    value: { gold: 3 },
-    description: 'An ancient tome filled with forgotten knowledge.'
-  },
-  {
-    id: 'item9',
-    name: 'Legendary Sword',
-    type: 'weapon',
-    subtype: 'sword',
-    rarity: 'epic',
-    quality: 'epic',
-    dropChance: 2,
-    iconId: 'inv_sword_39',
-    baseStats: { strength: 4, agility: 2 },
-    weaponStats: {
-      baseDamage: {
-        diceCount: 2,
-        diceType: 6,
-        damageType: 'slashing',
-        bonusDamage: 2,
-        bonusDamageType: 'fire'
-      }
-    },
-    combatStats: {
-      spellDamage: {
-        types: {
-          fire: { value: 3 }
-        }
-      }
-    },
-    value: { gold: 25 },
-    description: 'A legendary sword that burns with magical fire.'
-  },
-  {
-    id: 'item10',
-    name: 'Dragon Scale',
-    type: 'material',
-    rarity: 'epic',
-    quality: 'epic',
-    dropChance: 3,
-    iconId: 'inv_misc_monsterscales_17',
-    value: { gold: 15 },
-    description: 'A scale from a powerful dragon, highly valued by crafters.'
-  }
-];
+
+
 
 // Default loot item
 const DEFAULT_LOOT_ITEM = {
@@ -185,7 +29,7 @@ const Step4LootTable = () => {
   const [editingItemIndex, setEditingItemIndex] = useState(null);
   const [currentItem, setCurrentItem] = useState({ ...DEFAULT_LOOT_ITEM });
   const [showItemForm, setShowItemForm] = useState(false);
-  const [showSampleItems, setShowSampleItems] = useState(false);
+
   const [showItemLibrary, setShowItemLibrary] = useState(false);
   const [itemSearchQuery, setItemSearchQuery] = useState('');
   const [tooltipItem, setTooltipItem] = useState(null);
@@ -267,12 +111,51 @@ const Step4LootTable = () => {
     }));
   };
 
+  // Currency randomizer presets - 5 tiers for more granular control
+  const currencyPresets = {
+    minimal: {
+      min: { platinum: 0, gold: 0, silver: 0, copper: Math.floor(Math.random() * 20) + 5 },
+      max: { platinum: 0, gold: 0, silver: 0, copper: Math.floor(Math.random() * 30) + 25 }
+    },
+    low: {
+      min: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 3) + 1, copper: Math.floor(Math.random() * 50) + 10 },
+      max: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 8) + 3, copper: Math.floor(Math.random() * 50) + 50 }
+    },
+    moderate: {
+      min: { platinum: 0, gold: Math.floor(Math.random() * 2) + 1, silver: Math.floor(Math.random() * 10) + 5, copper: Math.floor(Math.random() * 50) },
+      max: { platinum: 0, gold: Math.floor(Math.random() * 5) + 2, silver: Math.floor(Math.random() * 20) + 10, copper: Math.floor(Math.random() * 100) + 50 }
+    },
+    high: {
+      min: { platinum: 0, gold: Math.floor(Math.random() * 8) + 3, silver: Math.floor(Math.random() * 30) + 15, copper: Math.floor(Math.random() * 100) },
+      max: { platinum: Math.floor(Math.random() * 2) + 1, gold: Math.floor(Math.random() * 15) + 8, silver: Math.floor(Math.random() * 50) + 25, copper: Math.floor(Math.random() * 150) + 100 }
+    },
+    epic: {
+      min: { platinum: Math.floor(Math.random() * 3) + 2, gold: Math.floor(Math.random() * 20) + 10, silver: Math.floor(Math.random() * 50) + 25, copper: Math.floor(Math.random() * 100) },
+      max: { platinum: Math.floor(Math.random() * 8) + 5, gold: Math.floor(Math.random() * 40) + 25, silver: Math.floor(Math.random() * 100) + 50, copper: Math.floor(Math.random() * 200) + 150 }
+    }
+  };
+
+  // Handle currency preset randomization
+  const handleCurrencyRandomize = (preset) => {
+    const { min, max } = currencyPresets[preset];
+
+    dispatch(wizardActionCreators.setLootTable({
+      ...wizardState.lootTable,
+      currency: {
+        platinum: { min: min.platinum, max: max.platinum },
+        gold: { min: min.gold, max: max.gold },
+        silver: { min: min.silver, max: max.silver },
+        copper: { min: min.copper, max: max.copper }
+      }
+    }));
+  };
+
   // Handle editing an existing loot item
   const handleEditItem = (index) => {
     setEditingItemIndex(index);
     setCurrentItem({ ...wizardState.lootTable.items[index] });
     setShowItemForm(true);
-    setShowSampleItems(false);
+
   };
 
   // Handle removing a loot item
@@ -313,13 +196,7 @@ const Step4LootTable = () => {
     });
   };
 
-  // Handle adding a sample item
-  const handleAddSampleItem = (item) => {
-    dispatch(wizardActionCreators.addLootItem({
-      ...item,
-      id: `item-${Date.now()}`
-    }));
-  };
+
 
   // Get items from the store
   const itemStore = useItemStore();
@@ -578,6 +455,49 @@ const Step4LootTable = () => {
             <div className="currency-input-group">
               <label>Currency Range</label>
               <p className="currency-help">Format: "1p 3g 4s 52c" (platinum, gold, silver, copper)</p>
+
+              {/* Currency Randomizer Buttons */}
+              <div className="currency-randomizers">
+                <label>Quick Randomize:</label>
+                <div className="randomizer-buttons">
+                  <button
+                    className="randomizer-button minimal"
+                    onClick={() => handleCurrencyRandomize('minimal')}
+                    title="Minimal value (5-55 copper only)"
+                  >
+                    Minimal
+                  </button>
+                  <button
+                    className="randomizer-button low"
+                    onClick={() => handleCurrencyRandomize('low')}
+                    title="Low value (1-11 silver, some copper)"
+                  >
+                    Low
+                  </button>
+                  <button
+                    className="randomizer-button moderate"
+                    onClick={() => handleCurrencyRandomize('moderate')}
+                    title="Moderate value (1-7 gold, silver mix)"
+                  >
+                    Moderate
+                  </button>
+                  <button
+                    className="randomizer-button high"
+                    onClick={() => handleCurrencyRandomize('high')}
+                    title="High value (3-23 gold, some platinum)"
+                  >
+                    High
+                  </button>
+                  <button
+                    className="randomizer-button epic"
+                    onClick={() => handleCurrencyRandomize('epic')}
+                    title="Epic value (2-13 platinum, lots of gold)"
+                  >
+                    Epic
+                  </button>
+                </div>
+              </div>
+
               <div className="range-inputs">
                 <div className="range-input">
                   <span>Min:</span>
@@ -624,17 +544,6 @@ const Step4LootTable = () => {
             >
               <i className="fas fa-plus"></i> Add Item
             </button>
-            <button
-              type="button"
-              className="sample-items-button"
-              onClick={() => {
-                setShowSampleItems(!showSampleItems);
-                setShowItemLibrary(false);
-              }}
-            >
-              <i className={`fas fa-${showSampleItems ? 'times' : 'list'}`}></i>
-              {showSampleItems ? 'Hide Sample Items' : 'Show Sample Items'}
-            </button>
           </div>
 
           {/* Clutter Loot Generator */}
@@ -642,34 +551,9 @@ const Step4LootTable = () => {
 
 
 
-          {showSampleItems && (
-            <div className="sample-items-list wow-style-card">
-              <h4>Sample Items</h4>
-              <p>Click an item to add it to the loot table.</p>
-
-              <div className="sample-items-grid">
-                {SAMPLE_ITEMS.map(item => (
-                  <div
-                    key={item.id}
-                    className="sample-item wow-style-card"
-                    onClick={() => handleAddSampleItem(item)}
-                  >
-                    <div className="sample-item-name" style={{ color: getRarityColor(item.rarity) }}>
-                      {item.name}
-                    </div>
-                    <div className="sample-item-details">
-                      <span className="sample-item-type">{item.type}</span>
-                      <span className="sample-item-chance">{item.dropChance}%</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {wizardState.lootTable.items.length === 0 ? (
             <div className="no-items-message">
-              <p>No items added yet. Use the Item Library or Sample Items to add items to the loot table.</p>
+              <p>No items added yet. Use the Item Library or Quick Clutter to add items to the loot table.</p>
             </div>
           ) : (
             <div className="loot-items-list">

@@ -183,26 +183,26 @@ const getThematicResistanceDescription = (resistanceLevel, damageType) => {
          resistanceLevel;
 };
 
-// Format resistance value with thematic description
-const formatResistanceValue = (value) => {
+// Format resistance value using exact wizard dropdown descriptions
+const formatResistanceValue = (value, damageType) => {
   if (typeof value === 'number') {
-    // Convert percentage to resistance level
-    if (value === -200) return getThematicResistanceDescription('vampiric', 'damage');
-    if (value === -100) return getThematicResistanceDescription('absorbing', 'damage');
-    if (value === -50) return getThematicResistanceDescription('draining', 'damage');
-    if (value === -25) return getThematicResistanceDescription('siphoning', 'damage');
-    if (value === 0) return getThematicResistanceDescription('immune', 'damage');
-    if (value === 25) return getThematicResistanceDescription('slight_reduction', 'damage');
-    if (value === 50) return getThematicResistanceDescription('resistant', 'damage');
-    if (value === 75) return getThematicResistanceDescription('guarded', 'damage');
-    if (value === 100) return getThematicResistanceDescription('nullified', 'damage');
-    if (value === 125) return getThematicResistanceDescription('susceptible', 'damage');
-    if (value === 150) return getThematicResistanceDescription('exposed', 'damage');
-    if (value === 200) return getThematicResistanceDescription('vulnerable', 'damage');
+    // Use exact descriptions from the creature wizard dropdown
+    if (value === -200) return `Vampiric (Heals for 200% of damage taken)`;
+    if (value === -100) return `Absorbing (Heals for 100% of damage taken)`;
+    if (value === -50) return `Draining (Heals for 50% of damage taken)`;
+    if (value === -25) return `Siphoning (Heals for 25% of damage taken)`;
+    if (value === 0) return `Immune (Takes no damage)`;
+    if (value === 25) return `Highly Resistant (Takes 25% damage)`;
+    if (value === 50) return `Resistant (Takes 50% damage)`;
+    if (value === 75) return `Guarded (Takes 75% damage)`;
+    if (value === 100) return `Normal (Takes normal damage)`;
+    if (value === 125) return `Susceptible (Takes 125% damage)`;
+    if (value === 150) return `Exposed (Takes 150% damage)`;
+    if (value === 200) return `Vulnerable (Takes 200% damage)`;
 
     // Fallback to percentage
     const sign = value >= 0 ? '+' : '';
-    return `${sign}${value}%`;
+    return `${sign}${value}% damage modifier`;
   }
   return value;
 };
@@ -223,16 +223,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
     return size.charAt(0).toUpperCase() + size.slice(1);
   };
 
-  // Format resistance/vulnerability values
-  const formatResistanceValue = (value) => {
-    if (typeof value === 'string') {
-      return value === 'resistant' ? '50%' :
-             value === 'immune' ? '100%' :
-             value === 'vulnerable' ? '+50%' :
-             value === 'exposed' ? '+100%' : value;
-    }
-    return `${value}%`;
-  };
+
 
 
 
@@ -338,7 +329,12 @@ const SimpleCreatureTooltip = ({ creature }) => {
               textAlign: 'justify',
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)',
               position: 'relative',
-              fontWeight: '600'
+              fontWeight: '600',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              whiteSpace: 'normal',
+              maxWidth: '100%',
+              boxSizing: 'border-box'
             }}
           >
             {/* Decorative quote marks */}
@@ -363,8 +359,14 @@ const SimpleCreatureTooltip = ({ creature }) => {
               "
             </div>
 
-            <div style={{ padding: '0 10px' }}>
-              {creature.description.length > 140 ? creature.description.substring(0, 140) + '...' : creature.description}
+            <div style={{
+              padding: '0 10px',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              hyphens: 'auto',
+              whiteSpace: 'normal'
+            }}>
+              {creature.description}
             </div>
           </div>
         )}
@@ -402,7 +404,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
               fontWeight: 'bold',
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
             }}>
-              {creature.stats.maxHp}
+              {creature.stats.currentHp || creature.stats.maxHp}/{creature.stats.maxHp}
             </div>
           </div>
 
@@ -463,7 +465,79 @@ const SimpleCreatureTooltip = ({ creature }) => {
           </div>
         </div>
 
-        {/* Enhanced Resistances and Vulnerabilities */}
+        {/* Secondary Combat Stats - Mana and Action Points */}
+        {(creature.stats.maxMana > 0 || creature.stats.maxActionPoints > 0) && (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: creature.stats.maxMana > 0 && creature.stats.maxActionPoints > 0 ? 'repeat(2, 1fr)' : '1fr',
+              gap: '8px',
+              marginBottom: '14px'
+            }}
+          >
+            {/* Mana */}
+            {creature.stats.maxMana > 0 && (
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(13, 110, 253, 0.25) 0%, rgba(0, 86, 179, 0.15) 100%)',
+                border: '2px solid rgba(13, 110, 253, 0.4)',
+                borderRadius: '8px',
+                padding: '8px 6px',
+                textAlign: 'center',
+                position: 'relative'
+              }}>
+                <div style={{
+                  fontSize: '11px',
+                  color: '#000000',
+                  fontWeight: '700',
+                  marginBottom: '4px',
+                  textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
+                }}>
+                  MANA
+                </div>
+                <div style={{
+                  fontSize: '16px',
+                  color: '#000000',
+                  fontWeight: 'bold',
+                  textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
+                }}>
+                  {creature.stats.currentMana || creature.stats.maxMana}/{creature.stats.maxMana}
+                </div>
+              </div>
+            )}
+
+            {/* Action Points */}
+            {creature.stats.maxActionPoints > 0 && (
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(25, 135, 84, 0.25) 0%, rgba(20, 108, 67, 0.15) 100%)',
+                border: '2px solid rgba(25, 135, 84, 0.4)',
+                borderRadius: '8px',
+                padding: '8px 6px',
+                textAlign: 'center',
+                position: 'relative'
+              }}>
+                <div style={{
+                  fontSize: '11px',
+                  color: '#000000',
+                  fontWeight: '700',
+                  marginBottom: '4px',
+                  textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
+                }}>
+                  AP
+                </div>
+                <div style={{
+                  fontSize: '16px',
+                  color: '#000000',
+                  fontWeight: 'bold',
+                  textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
+                }}>
+                  {creature.stats.currentActionPoints || creature.stats.maxActionPoints}/{creature.stats.maxActionPoints}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Improved Resistances and Vulnerabilities */}
         {(creature.resistances && Object.keys(creature.resistances).length > 0) ||
          (creature.vulnerabilities && Object.keys(creature.vulnerabilities).length > 0) ? (
           <div style={{ marginBottom: '16px' }}>
@@ -472,123 +546,72 @@ const SimpleCreatureTooltip = ({ creature }) => {
               fontSize: '13px',
               fontWeight: '700',
               color: '#d4af37',
-              marginBottom: '10px',
+              marginBottom: '12px',
               textAlign: 'center',
               textShadow: '1px 1px 2px rgba(0, 0, 0, 0.6)',
               borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
-              paddingBottom: '4px'
+              paddingBottom: '6px'
             }}>
               RESISTANCES & VULNERABILITIES
             </div>
 
-            {/* Resistances and Vulnerabilities from single resistances object */}
-            {creature.resistances && Object.keys(creature.resistances).length > 0 && (() => {
-              // Separate resistances and vulnerabilities from the single resistances object
-              const resistances = {};
-              const vulnerabilities = {};
+            {/* Detailed Resistances and Vulnerabilities Display */}
+            <div style={{
+              padding: '12px',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 230, 210, 0.7) 100%)',
+              border: '2px solid rgba(139, 115, 85, 0.4)',
+              borderRadius: '8px',
+              boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)'
+            }}>
+              {Object.entries(creature.resistances || {}).map(([type, value]) => {
+                // Get detailed thematic description using the formatResistanceValue function
+                const description = formatResistanceValue(value, type);
 
-              Object.entries(creature.resistances).forEach(([type, value]) => {
+                // Determine color based on resistance level
+                let color;
                 if (typeof value === 'number') {
-                  if (value <= 100) {
-                    resistances[type] = value;
+                  if (value <= -100) {
+                    color = '#ff0080'; // Vampiric/Absorbing
+                  } else if (value <= -25) {
+                    color = '#ff8080'; // Draining/Siphoning
+                  } else if (value === 0) {
+                    color = '#059669'; // Immune
+                  } else if (value <= 50) {
+                    color = '#0d9488'; // Resistant
+                  } else if (value <= 100) {
+                    color = '#6b7280'; // Normal
+                  } else if (value <= 150) {
+                    color = '#dc2626'; // Vulnerable
                   } else {
-                    vulnerabilities[type] = value;
+                    color = '#991b1b'; // Weak
                   }
+                } else {
+                  color = '#6b7280';
                 }
-              });
 
-              return (
-                <>
-                  {/* Resistances */}
-                  {Object.keys(resistances).length > 0 && (
-                    <div style={{ marginBottom: '8px' }}>
-                      <div style={{
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        color: '#1a5e20',
-                        marginBottom: '6px',
-                        textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
-                      }}>
-                        RESIST:
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        {Object.entries(resistances).slice(0, 3).map(([type, value]) => {
-                          // Convert value to resistance level
-                          let resistanceLevel = 'resistant';
-                          if (typeof value === 'number') {
-                            if (value === -200) resistanceLevel = 'vampiric';
-                            else if (value === -100) resistanceLevel = 'absorbing';
-                            else if (value === -50) resistanceLevel = 'draining';
-                            else if (value === -25) resistanceLevel = 'siphoning';
-                            else if (value === 0) resistanceLevel = 'immune';
-                            else if (value === 25) resistanceLevel = 'highly_resistant';
-                            else if (value === 50) resistanceLevel = 'resistant';
-                            else if (value === 75) resistanceLevel = 'guarded';
-                            else if (value === 100) resistanceLevel = 'normal';
-                          }
+                // Format damage type name
+                const typeName = type.charAt(0).toUpperCase() + type.slice(1);
 
-                          const thematicDesc = getThematicResistanceDescription(resistanceLevel, type);
-                          return (
-                            <div key={type} style={{
-                              fontSize: '11px',
-                              color: '#0f3a14',
-                              background: 'rgba(34, 197, 94, 0.15)',
-                              border: '1px solid rgba(34, 197, 94, 0.3)',
-                              borderRadius: '6px',
-                              padding: '6px 10px',
-                              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
-                            }}>
-                              • {thematicDesc}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Vulnerabilities */}
-                  {Object.keys(vulnerabilities).length > 0 && (
-                    <div style={{ marginBottom: '8px' }}>
-                      <div style={{
-                        fontSize: '11px',
-                        fontWeight: '600',
-                        color: '#7f1d1d',
-                        marginBottom: '6px',
-                        textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
-                      }}>
-                        VULN:
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        {Object.entries(vulnerabilities).slice(0, 3).map(([type, value]) => {
-                          // Convert value to vulnerability level
-                          let vulnerabilityLevel = 'vulnerable';
-                          if (typeof value === 'number') {
-                            if (value === 125) vulnerabilityLevel = 'susceptible';
-                            else if (value === 150) vulnerabilityLevel = 'exposed';
-                            else if (value === 200) vulnerabilityLevel = 'vulnerable';
-                          }
-
-                          const thematicDesc = getThematicResistanceDescription(vulnerabilityLevel, type);
-                          return (
-                            <div key={type} style={{
-                              fontSize: '11px',
-                              color: '#450a0a',
-                              background: 'rgba(239, 68, 68, 0.15)',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              borderRadius: '6px',
-                              padding: '6px 10px',
-                              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.8)'
-                            }}>
-                              • {thematicDesc}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </>
-              );
-            })()}
+                return (
+                  <div key={type} style={{
+                    display: 'block',
+                    margin: '4px 0',
+                    padding: '6px 10px',
+                    background: `${color}20`,
+                    border: `1px solid ${color}60`,
+                    borderRadius: '6px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    color: color,
+                    textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
+                    lineHeight: '1.3',
+                    wordWrap: 'break-word'
+                  }}>
+                    <strong>{typeName}:</strong> {description}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : null}
 

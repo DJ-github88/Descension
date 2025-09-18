@@ -7,8 +7,8 @@ import '../../styles/item-generation.css';
 
 // Base grid size - will be adjusted based on available space
 const BASE_GRID_SIZE = {
-    ROWS: 6,
-    COLS: 10
+    ROWS: 4,
+    COLS: 6
 };
 
 export default function ItemGeneration({ onContainerCreate }) {
@@ -65,8 +65,8 @@ export default function ItemGeneration({ onContainerCreate }) {
             const maxRows = Math.floor((availableHeight + tileGap) / tileWithGap);
 
             // Ensure minimum usable grid size
-            const cols = Math.max(maxCols, 6); // Minimum 6 columns
-            const rows = Math.max(maxRows, 4); // Minimum 4 rows
+            const cols = Math.max(maxCols, 4); // Minimum 4 columns
+            const rows = Math.max(maxRows, 3); // Minimum 3 rows
 
             console.log('Grid calculation:', {
                 containerSize: { width: containerRect.width, height: containerRect.height },

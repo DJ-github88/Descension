@@ -92,10 +92,42 @@ const CreatureLibrary = ({ onEdit }) => {
   const [viewMode, setViewMode] = useState('grid');
   const [hoveredCreature, setHoveredCreature] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const tooltipRef = useRef(null);
   const libraryRef = useRef(null);
   const [inspectingCreature, setInspectingCreature] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);
+
+  // Recalculate tooltip position when tooltip content changes
+  useEffect(() => {
+    if (hoveredCreature && tooltipRef.current) {
+      // Small delay to ensure tooltip is fully rendered and measured
+      const timeoutId = setTimeout(() => {
+        // Trigger a position update with the last known mouse event
+        if (window.lastTooltipEvent) {
+          updateTooltipPosition(window.lastTooltipEvent);
+        }
+      }, 50); // Increased delay to ensure proper measurement
+
+      // Set up ResizeObserver to watch for size changes
+      let resizeObserver;
+      if (window.ResizeObserver && tooltipRef.current) {
+        resizeObserver = new ResizeObserver(() => {
+          if (window.lastTooltipEvent) {
+            updateTooltipPosition(window.lastTooltipEvent);
+          }
+        });
+        resizeObserver.observe(tooltipRef.current);
+      }
+
+      return () => {
+        clearTimeout(timeoutId);
+        if (resizeObserver) {
+          resizeObserver.disconnect();
+        }
+      };
+    }
+  }, [hoveredCreature]);
 
   // Component mounted - no logging needed for production
 
@@ -210,6 +242,7 @@ const CreatureLibrary = ({ onEdit }) => {
 
   // Handle mouse enter for tooltip
   const handleMouseEnter = (creature, event) => {
+    window.lastTooltipEvent = event; // Store for position recalculation
     setHoveredCreature(creature);
     updateTooltipPosition(event);
   };
@@ -217,6 +250,7 @@ const CreatureLibrary = ({ onEdit }) => {
   // Handle mouse move for tooltip
   const handleMouseMove = (event) => {
     if (hoveredCreature) {
+      window.lastTooltipEvent = event; // Store for position recalculation
       updateTooltipPosition(event);
     }
   };
@@ -232,9 +266,17 @@ const CreatureLibrary = ({ onEdit }) => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Tooltip dimensions (approximate)
+    // Tooltip dimensions
     const tooltipWidth = 320; // From CSS
-    const tooltipHeight = 450; // Estimated full content height
+    let tooltipHeight = 450; // Default estimated height
+
+    // Try to get actual tooltip height if it's rendered
+    if (tooltipRef.current) {
+      const rect = tooltipRef.current.getBoundingClientRect();
+      if (rect.height > 0) {
+        tooltipHeight = rect.height;
+      }
+    }
 
     const margin = 15; // Smaller margin for closer positioning
 
@@ -245,7 +287,18 @@ const CreatureLibrary = ({ onEdit }) => {
 
     // Position tooltip to the right of the actual window
     let x = actualWindowX + actualWindowWidth + margin;
-    let y = Math.max(margin, Math.min(event.clientY - 100, viewportHeight - tooltipHeight - margin));
+
+    // For Y position, use a safer approach - start from top and ensure it fits
+    let y = Math.max(margin, event.clientY - 100);
+
+    // If tooltip would extend beyond bottom of screen, move it up
+    const maxY = viewportHeight - tooltipHeight - margin;
+    if (y > maxY) {
+      y = maxY;
+    }
+
+    // Ensure minimum Y position
+    y = Math.max(margin, y);
 
     // If tooltip would go off screen on the right, position to the left of window
     if (x + tooltipWidth > viewportWidth - margin) {
@@ -497,12 +550,15 @@ const CreatureLibrary = ({ onEdit }) => {
       {/* Tooltip rendered at document level using createPortal */}
       {hoveredCreature && ReactDOM.createPortal(
         <div
+          ref={tooltipRef}
           className="creature-card-hover-preview-portal"
           style={{
             position: 'fixed',
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
-            zIndex: 2147483647
+            zIndex: 2147483647,
+            // Ensure tooltip is visible during measurement
+            visibility: tooltipPosition.x === 0 && tooltipPosition.y === 0 ? 'hidden' : 'visible'
           }}
           onWheel={(e) => {
             // Stop propagation to prevent background scrolling when scrolling tooltip
@@ -515,6 +571,12 @@ const CreatureLibrary = ({ onEdit }) => {
           onMouseLeave={() => {
             // Hide tooltip when leaving it
             setHoveredCreature(null);
+          }}
+          onLoad={() => {
+            // Recalculate position after content is loaded
+            if (window.lastTooltipEvent) {
+              setTimeout(() => updateTooltipPosition(window.lastTooltipEvent), 10);
+            }
           }}
         >
           <SimpleCreatureTooltip creature={hoveredCreature} />

@@ -1,0 +1,248 @@
+/**
+ * Character Creation Wizard - Main Component
+ * 
+ * Multi-step character creation wizard with background selection and stat allocation
+ */
+
+import React from 'react';
+import { CharacterWizardProvider, useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators, WIZARD_STEPS, STEP_INFO } from './context/CharacterWizardContext';
+
+// Import wizard steps
+import Step1BasicInfo from './steps/Step1BasicInfo';
+import Step2RaceSelection from './steps/Step2RaceSelection';
+import Step3ClassSelection from './steps/Step3ClassSelection';
+import Step4BackgroundSelection from './steps/Step4BackgroundSelection';
+import Step5StatAllocation from './steps/Step5StatAllocation';
+import Step6CharacterSummary from './steps/Step6CharacterSummary';
+
+// Import styles
+import './styles/CharacterCreationWizard.css';
+
+const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, existingCharacter, isEditing }) => {
+    const state = useCharacterWizardState();
+    const dispatch = useCharacterWizardDispatch();
+
+    // Render the current step
+    const renderStep = () => {
+        switch (state.currentStep) {
+            case WIZARD_STEPS.BASIC_INFO:
+                return <Step1BasicInfo />;
+            case WIZARD_STEPS.RACE_SELECTION:
+                return <Step2RaceSelection />;
+            case WIZARD_STEPS.CLASS_SELECTION:
+                return <Step3ClassSelection />;
+            case WIZARD_STEPS.BACKGROUND_SELECTION:
+                return <Step4BackgroundSelection />;
+            case WIZARD_STEPS.STAT_ALLOCATION:
+                return <Step5StatAllocation />;
+            case WIZARD_STEPS.CHARACTER_SUMMARY:
+                return <Step6CharacterSummary />;
+            default:
+                return <Step1BasicInfo />;
+        }
+    };
+
+    // Handle navigation
+    const handleNext = () => {
+        if (state.isValid) {
+            dispatch(wizardActionCreators.markStepCompleted(state.currentStep));
+            dispatch(wizardActionCreators.nextStep());
+        }
+    };
+
+    const handlePrevious = () => {
+        dispatch(wizardActionCreators.prevStep());
+    };
+
+    const handleStepClick = (stepNumber) => {
+        // Allow navigation to completed steps or the next step
+        if (state.completedSteps.includes(stepNumber) || stepNumber === state.currentStep + 1) {
+            dispatch(wizardActionCreators.setCurrentStep(stepNumber));
+        }
+    };
+
+    const handleComplete = () => {
+        if (state.isValid && onComplete) {
+            // Prepare character data for creation
+            const characterData = {
+                name: state.characterData.name,
+                gender: state.characterData.gender,
+                race: state.characterData.race,
+                subrace: state.characterData.subrace,
+                class: state.characterData.class,
+                background: state.characterData.background,
+                stats: state.characterData.finalStats,
+                characterImage: state.characterData.characterImage
+            };
+            onComplete(characterData);
+        }
+    };
+
+    const handleCancel = () => {
+        dispatch(wizardActionCreators.resetWizard());
+        if (onCancel) {
+            onCancel();
+        }
+    };
+
+    // Get step status for progress indicator
+    const getStepStatus = (stepNumber) => {
+        if (state.completedSteps.includes(stepNumber)) return 'completed';
+        if (stepNumber === state.currentStep) return 'active';
+        return 'pending';
+    };
+
+    const isFirstStep = state.currentStep === 1;
+    const isLastStep = state.currentStep === state.totalSteps;
+    const canProceed = state.isValid;
+
+    return (
+        <div className="character-wizard-container">
+            {/* Top Header with Exit, Progress, and User Info */}
+            <div className="wizard-top-header">
+                <div className="header-left">
+                    <button
+                        className="exit-wizard-btn"
+                        onClick={handleCancel}
+                        title="Exit Character Creation"
+                    >
+                        <i className="fas fa-arrow-left"></i>
+                    </button>
+                    <div className="wizard-title-section">
+                        <h1 className="wizard-title">Character Creation</h1>
+                        <p className="wizard-subtitle">{STEP_INFO[state.currentStep]?.description}</p>
+                    </div>
+                </div>
+
+                <div className="header-center">
+                    <div className="progress-steps-horizontal">
+                        {Object.values(WIZARD_STEPS).map((stepNumber) => {
+                            const stepInfo = STEP_INFO[stepNumber];
+                            const status = getStepStatus(stepNumber);
+                            const isLast = stepNumber === state.totalSteps;
+
+                            return (
+                                <React.Fragment key={stepNumber}>
+                                    <div
+                                        className={`progress-step-horizontal ${status}`}
+                                        onClick={() => handleStepClick(stepNumber)}
+                                    >
+                                        <div className="step-circle-horizontal">
+                                            {status === 'completed' ? (
+                                                <i className="fas fa-check"></i>
+                                            ) : (
+                                                <span className="step-number">{stepNumber}</span>
+                                            )}
+                                        </div>
+                                        <span className="step-name-horizontal">{stepInfo.name}</span>
+                                    </div>
+                                    {!isLast && <div className="step-connector"></div>}
+                                </React.Fragment>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="header-right">
+                    <div className="user-info">
+                        <i className="fas fa-user"></i>
+                        <span>Creating Character</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main content area */}
+            <div className="wizard-content">
+                <div className="wizard-step-container">
+                    {renderStep()}
+                </div>
+            </div>
+
+            {/* Footer with navigation */}
+            <div className="wizard-footer">
+                <div className="wizard-navigation">
+                    <div className="nav-left">
+                        {!isFirstStep && (
+                            <button
+                                type="button"
+                                className="wizard-btn wizard-btn-secondary"
+                                onClick={handlePrevious}
+                                disabled={isLoading}
+                            >
+                                <i className="fas fa-arrow-left"></i>
+                                Previous
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="nav-center">
+                        <button
+                            type="button"
+                            className="wizard-btn wizard-btn-cancel"
+                            onClick={handleCancel}
+                            disabled={isLoading}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+
+                    <div className="nav-right">
+                        {isLastStep ? (
+                            <button
+                                type="button"
+                                className="wizard-btn wizard-btn-primary"
+                                onClick={handleComplete}
+                                disabled={!canProceed || isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <i className="fas fa-spinner fa-spin"></i>
+                                        Creating...
+                                    </>
+                                ) : (
+                                    <>
+                                        <i className="fas fa-check"></i>
+                                        Create Character
+                                    </>
+                                )}
+                            </button>
+                        ) : (
+                            <button
+                                type="button"
+                                className="wizard-btn wizard-btn-primary"
+                                onClick={handleNext}
+                                disabled={!canProceed || isLoading}
+                            >
+                                Next
+                                <i className="fas fa-arrow-right"></i>
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* Validation errors */}
+                {Object.keys(state.validationErrors).length > 0 && (
+                    <div className="wizard-errors">
+                        {Object.values(state.validationErrors).map((error, index) => (
+                            <div key={index} className="error-message">
+                                <i className="fas fa-exclamation-triangle"></i>
+                                {error}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+// Main wrapper component with provider
+const CharacterCreationWizard = (props) => {
+    return (
+        <CharacterWizardProvider>
+            <CharacterCreationWizardContent {...props} />
+        </CharacterWizardProvider>
+    );
+};
+
+export default CharacterCreationWizard;

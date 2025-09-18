@@ -12,9 +12,15 @@
   font-size: 13px;
   min-width: 280px;
   max-width: 350px;
-  max-height: 500px;
-  overflow: hidden;
+  max-height: 70vh; /* Reduced to 70% to ensure more margin */
+  overflow: visible; /* Allow content to be visible */
+  height: auto; /* Let height expand based on content */
+  width: auto; /* Let width expand based on content */
   position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  box-sizing: border-box;
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
@@ -86,10 +92,14 @@
 /* Tooltip Content - Enhanced scrolling and readability */
 .creature-tooltip-content {
   padding: 16px 20px;
-  max-height: 350px;
+  max-height: calc(70vh - 120px); /* Account for header and footer space */
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #8b7355 rgba(240, 230, 210, 0.3);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  box-sizing: border-box;
   /* Enhanced scroll responsiveness */
   scroll-behavior: auto !important;
   overscroll-behavior: contain;

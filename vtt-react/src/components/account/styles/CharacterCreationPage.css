@@ -1,26 +1,24 @@
-/* Character Creation Page Styles - Parchment Theme */
+/* Character Creation Page Styles - Updated for Wizard */
 .character-creation-page {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #2c2416 0%, #3d3426 50%, #4a3f2a 100%);
-  color: #f4f1e8;
+  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
+  color: #2c2416;
   font-family: 'Cinzel', serif;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  gap: 0;
+  display: flex;
+  flex-direction: column;
   z-index: 1000;
-  background-image:
-    radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
 }
 
-/* Page Header - Hidden for fullscreen character creation */
-.page-header {
-  display: none;
+/* Main content area for wizard */
+.creation-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 

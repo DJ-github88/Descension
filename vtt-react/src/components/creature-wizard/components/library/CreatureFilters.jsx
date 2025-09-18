@@ -87,14 +87,14 @@ const CreatureFilters = () => {
             {Object.values(CREATURE_TYPES).map(type => (
               <label
                 key={type}
-                className={`creature-filter-checkbox ${library.filters.types.includes(type) ? 'checked' : ''}`}
+                className={`pf-checkbox-container creature-checkbox-container ${library.filters.types.includes(type) ? 'checked' : ''}`}
               >
                 <input
                   type="checkbox"
                   checked={library.filters.types.includes(type)}
                   onChange={() => handleTypeChange(type)}
                 />
-                <span className="creature-checkbox-label">{formatTypeName(type)}</span>
+                <span className="pf-checkbox-label">{formatTypeName(type)}</span>
               </label>
             ))}
           </div>
@@ -107,14 +107,14 @@ const CreatureFilters = () => {
             {Object.values(CREATURE_SIZES).map(size => (
               <label
                 key={size}
-                className={`creature-filter-checkbox ${library.filters.sizes.includes(size) ? 'checked' : ''}`}
+                className={`pf-checkbox-container creature-checkbox-container ${library.filters.sizes.includes(size) ? 'checked' : ''}`}
               >
                 <input
                   type="checkbox"
                   checked={library.filters.sizes.includes(size)}
                   onChange={() => handleSizeChange(size)}
                 />
-                <span className="creature-checkbox-label">{formatSizeName(size)}</span>
+                <span className="pf-checkbox-label">{formatSizeName(size)}</span>
               </label>
             ))}
           </div>

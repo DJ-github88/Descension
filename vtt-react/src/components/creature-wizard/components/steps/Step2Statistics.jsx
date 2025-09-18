@@ -52,6 +52,24 @@ const Step2Statistics = () => {
     }));
   };
 
+  // Handle skill bonus change
+  const handleSkillChange = (skillId, value) => {
+    const numValue = parseInt(value, 10) || 0;
+    const updatedSkills = {
+      ...(wizardState.stats.skills || {})
+    };
+
+    if (numValue === 0) {
+      delete updatedSkills[skillId];
+    } else {
+      updatedSkills[skillId] = numValue;
+    }
+
+    dispatch(wizardActionCreators.setStats({
+      skills: updatedSkills
+    }));
+  };
+
   // Handle damage resistance change
   const handleResistanceChange = (damageType, value) => {
     const updatedResistances = { ...wizardState.resistances };
@@ -130,23 +148,7 @@ const Step2Statistics = () => {
     }));
   };
 
-  // Handle skill bonus change
-  const handleSkillChange = (skillId, value) => {
-    const numValue = parseInt(value, 10) || 0;
-    const updatedSkills = {
-      ...(wizardState.stats.skills || {})
-    };
 
-    if (numValue === 0) {
-      delete updatedSkills[skillId];
-    } else {
-      updatedSkills[skillId] = numValue;
-    }
-
-    dispatch(wizardActionCreators.setStats({
-      skills: updatedSkills
-    }));
-  };
 
   // Handle challenge rating change
   const handleChallengeRatingChange = (value) => {
@@ -855,6 +857,7 @@ const Step2Statistics = () => {
           <i className="fas fa-tools"></i>
           Skills
         </button>
+
       </div>
 
       {/* Tab Content */}

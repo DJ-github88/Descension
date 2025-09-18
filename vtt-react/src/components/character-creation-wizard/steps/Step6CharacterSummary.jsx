@@ -1,0 +1,208 @@
+/**
+ * Step 6: Character Summary & Finalization
+ * 
+ * Final review of character before creation
+ */
+
+import React from 'react';
+import { useCharacterWizardState } from '../context/CharacterWizardContext';
+import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
+import { getCustomBackgroundData, getCustomBackgroundStatModifiers } from '../../../data/customBackgroundData';
+import { applyRacialModifiers } from '../../../data/raceData';
+
+const Step6CharacterSummary = () => {
+    const state = useCharacterWizardState();
+    const { characterData } = state;
+
+    // Get modifiers for stat breakdown
+    const backgroundModifiers = characterData.background ? getCustomBackgroundStatModifiers(characterData.background) : {};
+    const racialModifiers = characterData.race && characterData.subrace ? applyRacialModifiers({}, characterData.race, characterData.subrace) : {};
+    const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, backgroundModifiers);
+
+    // Get background data for display
+    const backgroundData = characterData.background ? getCustomBackgroundData(characterData.background) : null;
+
+    return (
+        <div className="wizard-step-content">
+            <div className="step-body">
+                <div className="character-summary-layout">
+                    {/* Left side - Character details */}
+                    <div className="summary-details">
+                        {/* Basic Information */}
+                        <div className="summary-section">
+                            <h3 className="section-title">
+                                <i className="fas fa-user"></i>
+                                Basic Information
+                            </h3>
+                            <div className="detail-grid">
+                                <div className="detail-item">
+                                    <span className="detail-label">Name:</span>
+                                    <span className="detail-value">{characterData.name}</span>
+                                </div>
+                                <div className="detail-item">
+                                    <span className="detail-label">Gender:</span>
+                                    <span className="detail-value">{characterData.gender}</span>
+                                </div>
+                                <div className="detail-item">
+                                    <span className="detail-label">Race:</span>
+                                    <span className="detail-value">{characterData.race}</span>
+                                </div>
+                                <div className="detail-item">
+                                    <span className="detail-label">Subrace:</span>
+                                    <span className="detail-value">{characterData.subrace}</span>
+                                </div>
+                                <div className="detail-item">
+                                    <span className="detail-label">Class:</span>
+                                    <span className="detail-value">{characterData.class}</span>
+                                </div>
+                                <div className="detail-item">
+                                    <span className="detail-label">Background:</span>
+                                    <span className="detail-value">{characterData.background}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Ability Scores */}
+                        <div className="summary-section">
+                            <h3 className="section-title">
+                                <i className="fas fa-chart-bar"></i>
+                                Ability Scores
+                            </h3>
+                            <div className="abilities-grid">
+                                {ABILITY_SCORES.map((ability) => {
+                                    const breakdown = statBreakdown[ability.id];
+                                    return (
+                                        <div key={ability.id} className="ability-summary">
+                                            <div className="ability-header">
+                                                <i className={ability.icon}></i>
+                                                <span className="ability-name">{ability.name}</span>
+                                            </div>
+                                            <div className="ability-value">
+                                                <span className="final-score">{breakdown.final}</span>
+                                                <span className="modifier">
+                                                    ({breakdown.modifier >= 0 ? '+' : ''}{breakdown.modifier})
+                                                </span>
+                                            </div>
+                                            <div className="ability-breakdown">
+                                                <span className="base">Base: {breakdown.base}</span>
+                                                {breakdown.racial !== 0 && (
+                                                    <span className="racial">
+                                                        Racial: {breakdown.racial >= 0 ? '+' : ''}{breakdown.racial}
+                                                    </span>
+                                                )}
+                                                {breakdown.background !== 0 && (
+                                                    <span className="background">
+                                                        Background: {breakdown.background >= 0 ? '+' : ''}{breakdown.background}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Background Benefits */}
+                        {backgroundData && (
+                            <div className="summary-section">
+                                <h3 className="section-title">
+                                    <i className="fas fa-book"></i>
+                                    Background Benefits
+                                </h3>
+                                <div className="background-benefits">
+                                    <div className="benefit-group">
+                                        <h4>Skill Proficiencies</h4>
+                                        <div className="skill-tags">
+                                            {backgroundData.skillProficiencies.map((skill, index) => (
+                                                <span key={index} className="skill-tag">{skill}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    
+                                    {backgroundData.toolProficiencies && (
+                                        <div className="benefit-group">
+                                            <h4>Tool Proficiencies</h4>
+                                            <div className="tool-tags">
+                                                {backgroundData.toolProficiencies.map((tool, index) => (
+                                                    <span key={index} className="tool-tag">{tool}</span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className="benefit-group">
+                                        <h4>Special Feature</h4>
+                                        <div className="feature-display">
+                                            <h5>{backgroundData.feature.name}</h5>
+                                            <p>{backgroundData.feature.description}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="benefit-group">
+                                        <h4>Starting Equipment</h4>
+                                        <ul className="equipment-list">
+                                            {backgroundData.startingEquipment.map((item, index) => (
+                                                <li key={index}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Right side - Character portrait and final stats */}
+                    <div className="summary-preview">
+                        <div className="character-portrait-section">
+                            <h3>Character Portrait</h3>
+                            <div className="portrait-display">
+                                {characterData.characterImage ? (
+                                    <img 
+                                        src={characterData.characterImage} 
+                                        alt={characterData.name} 
+                                        className="character-portrait"
+                                    />
+                                ) : (
+                                    <div className="portrait-placeholder">
+                                        <i className="fas fa-user"></i>
+                                        <span>No portrait</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="quick-stats">
+                            <h3>Quick Stats</h3>
+                            <div className="quick-stats-grid">
+                                {ABILITY_SCORES.map((ability) => {
+                                    const breakdown = statBreakdown[ability.id];
+                                    return (
+                                        <div key={ability.id} className="quick-stat">
+                                            <span className="stat-name">{ability.shortName}</span>
+                                            <span className="stat-value">{breakdown.final}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div className="step-footer">
+                    <div className="step-hints">
+                        <div className="hint">
+                            <i className="fas fa-check-circle"></i>
+                            <span>Review all details carefully - you can go back to previous steps to make changes</span>
+                        </div>
+                        <div className="hint">
+                            <i className="fas fa-save"></i>
+                            <span>Click "Create Character" to finalize and save your character</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    );
+};
+
+export default Step6CharacterSummary;

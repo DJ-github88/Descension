@@ -42,7 +42,7 @@
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(139, 115, 85, 0.4);
   border-radius: 6px;
-  padding: 12px;
+  padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -54,7 +54,7 @@
 .filter-section h3 {
   font-size: 14px;
   font-weight: 600;
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   color: #5e2e23; /* Darker rustic red for better contrast */
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(139, 115, 85, 0.4);
@@ -64,86 +64,11 @@
 .creature-filter-options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
-.creature-filter-checkbox {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  padding: 10px 12px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(139, 115, 85, 0.3);
-  user-select: none;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  min-height: 38px; /* Slightly increased for better vertical centering */
-  box-sizing: border-box;
-}
-
-.creature-filter-checkbox:hover {
-  background: rgba(213, 203, 176, 0.5);
-  border-color: rgba(139, 115, 85, 0.6);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.creature-filter-checkbox input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* Custom checkbox design - D&D theme */
-.creature-filter-checkbox::before {
-  content: '';
-  width: 16px;
-  height: 16px;
-  border: 2px solid #a08c70;
-  border-radius: 3px;
-  background: #f0e6d2; /* Parchment background */
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  display: block;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  align-self: center; /* Ensure checkbox is vertically centered */
-}
-
-.creature-filter-checkbox.checked::before {
-  background: #7a3b2e; /* Rustic red */
-  border-color: #5e2e23;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.creature-filter-checkbox.checked::after {
-  content: '✓';
-  position: absolute;
-  left: 15px; /* Fine-tuned to center within the checkbox */
-  top: 50%;
-  transform: translateY(-50%);
-  color: #f0e6d2; /* Parchment color */
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-}
-
-.creature-checkbox-label {
-  font-size: 13px;
-  color: #3a3a3a; /* Dark gray for good contrast on light background */
-  font-weight: 500;
-  flex: 1;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-  line-height: 1.3;
-  margin: 0;
-  align-self: center; /* Ensure text is vertically centered */
-}
+/* Creature-specific checkbox styling now handled by unified system in index.css */
+/* Using .pf-checkbox-container and .creature-checkbox-container classes */
 
 .sort-options {
   display: flex;
@@ -219,13 +144,4 @@
   box-shadow: 0 2px 4px rgba(122, 59, 46, 0.3);
 }
 
-/* Enhanced checkbox states */
-.creature-filter-checkbox.checked {
-  border-color: #7a3b2e;
-  background: rgba(122, 59, 46, 0.1);
-}
-
-.creature-filter-checkbox.checked:hover {
-  border-color: #5e2e23;
-  background: rgba(122, 59, 46, 0.15);
-}
+/* Enhanced checkbox states now handled by unified system */

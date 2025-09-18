@@ -1,5 +1,15 @@
 /* Statistics Step Styling - D&D/Pathfinder Theme with Tabs */
 
+/* Ensure no gaps in wizard step */
+.wizard-step {
+  margin: 0;
+  padding: 0;
+}
+
+.wizard-step .step-title {
+  margin-bottom: 20px;
+}
+
 /* Tab Navigation */
 .stats-tabs {
   display: flex;
@@ -9,6 +19,7 @@
   border-bottom: none;
   overflow: hidden;
   margin-bottom: 0;
+  margin-top: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 0;
 }
@@ -65,6 +76,8 @@
   display: block !important;
   flex-direction: unset !important;
   gap: unset !important;
+  margin-top: 0 !important;
+  border-top: none !important;
 }
 
 .tab-content {
@@ -441,18 +454,22 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Skills Tab */
-.skills-container {
+/* Skills Tab - Scoped to creature wizard only */
+.creature-wizard .skills-container {
   display: flex;
+  flex-direction: column;
   gap: 25px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-.skills-header {
+.creature-wizard .skills-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.skills-header h3 {
+.creature-wizard .skills-header h3 {
   font-size: 24px;
   font-weight: 700;
   color: #7a3b2e;
@@ -462,7 +479,7 @@
   letter-spacing: 2px;
 }
 
-.skills-description {
+.creature-wizard .skills-description {
   font-size: 16px;
   color: #5a1e12;
   margin: 0;
@@ -470,10 +487,13 @@
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
-.skills-grid {
+.creature-wizard .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 15px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .skill-card {
@@ -638,8 +658,8 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
-  .skills-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  .creature-wizard .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 
@@ -679,13 +699,13 @@
     grid-template-columns: 1fr;
   }
 
-  .skills-grid {
-    grid-template-columns: 1fr;
+  .creature-wizard .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
   .stats-header h3,
   .resistances-header h3,
-  .skills-header h3 {
+  .creature-wizard .skills-header h3 {
     font-size: 20px;
   }
 

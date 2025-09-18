@@ -1,7 +1,7 @@
 // Character creation page - wrapper for character creation with routing
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import CharacterCreation from '../character-creation/CharacterCreation';
+import CharacterCreationWizard from '../character-creation-wizard/CharacterCreationWizard';
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';
 import './styles/CharacterCreationPage.css';
@@ -131,23 +131,6 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
 
   return (
     <div className="character-creation-page">
-      {/* Header */}
-      <header className="page-header">
-        <div className="header-content">
-          <div className="header-title">
-            <Link to="/account" className="back-link">
-              <i className="fas fa-arrow-left"></i>
-            </Link>
-            <h1>{isEditing ? 'Edit Character' : 'Character Creation'}</h1>
-          </div>
-          <div className="header-info">
-            <span className="user-name">
-              <i className="fas fa-user"></i>
-              {userData?.displayName || user?.displayName || 'Adventurer'}
-            </span>
-          </div>
-        </div>
-      </header>
 
       {/* Error Message */}
       {error && (
@@ -174,17 +157,15 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
 
 
 
-      {/* Character Creation Component */}
+      {/* Character Creation Wizard */}
       <main className="creation-main">
-        <div className="creation-container">
-          <CharacterCreation
-            onComplete={handleCharacterCreationComplete}
-            onCancel={handleCharacterCreationCancel}
-            isLoading={isCreating}
-            existingCharacter={existingCharacter}
-            isEditing={isEditing}
-          />
-        </div>
+        <CharacterCreationWizard
+          onComplete={handleCharacterCreationComplete}
+          onCancel={handleCharacterCreationCancel}
+          isLoading={isCreating}
+          existingCharacter={existingCharacter}
+          isEditing={isEditing}
+        />
       </main>
     </div>
   );

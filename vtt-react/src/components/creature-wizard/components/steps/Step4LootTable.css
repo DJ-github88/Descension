@@ -113,6 +113,117 @@
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
+/* Currency randomizers */
+.currency-randomizers {
+  margin: 15px 0;
+}
+
+.currency-randomizers label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #7a3b2e;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.randomizer-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.randomizer-button {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  border: 2px solid #8b6914;
+  border-radius: 8px;
+  color: #f0e6d2;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(45, 24, 16, 0.2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  min-width: 65px;
+  flex: 1;
+  max-width: 85px;
+}
+
+.randomizer-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+  border-color: #d4af37;
+}
+
+.randomizer-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(45, 24, 16, 0.2);
+  transition: all 0.1s ease;
+}
+
+.randomizer-button.minimal {
+  background: linear-gradient(135deg, #654321 0%, #4a2c17 100%);
+  border-color: #3d1f0f;
+}
+
+.randomizer-button.minimal:hover {
+  background: linear-gradient(135deg, #7a5025 0%, #654321 100%);
+  border-color: #654321;
+}
+
+.randomizer-button.low {
+  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
+  border-color: #5a3a1a;
+}
+
+.randomizer-button.low:hover {
+  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
+  border-color: #8b4513;
+}
+
+.randomizer-button.moderate {
+  background: linear-gradient(135deg, #cd853f 0%, #a0522d 100%);
+  border-color: #8b4513;
+}
+
+.randomizer-button.moderate:hover {
+  background: linear-gradient(135deg, #deb887 0%, #cd853f 100%);
+  border-color: #cd853f;
+}
+
+.randomizer-button.high {
+  background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
+  border-color: #8b6914;
+}
+
+.randomizer-button.high:hover {
+  background: linear-gradient(135deg, #f4d03f 0%, #daa520 100%);
+  border-color: #daa520;
+}
+
+.randomizer-button.epic {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border-color: #daa520;
+  color: #2d1810;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.randomizer-button.epic:hover {
+  background: linear-gradient(135deg, #ffed4e 0%, #ffffff 100%);
+  border-color: #ffd700;
+  color: #1a0f08;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
+}
+
 .range-inputs {
   display: flex;
   gap: 15px;
