@@ -485,7 +485,14 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
-    if (!finalPassword.trim()) {
+    // Check if this is a test room in localhost development
+    const isTestRoom = localStorage.getItem('isTestRoom') === 'true';
+    const isLocalhost = window.location.hostname === 'localhost';
+
+    if (isTestRoom && isLocalhost) {
+      // Bypass password validation for test rooms in localhost
+      console.log('🧪 Test room detected in localhost - bypassing password validation');
+    } else if (!finalPassword.trim()) {
       setError('Please enter the room password');
       return;
     }
@@ -501,7 +508,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const joinData = {
       roomId: finalRoomId.trim(),
       playerName: playerNameRef.current.trim(),
-      password: finalPassword.trim(),
+      password: (isTestRoom && isLocalhost) ? 'test123' : finalPassword.trim(),
       playerColor: playerColor
     };
 
@@ -615,7 +622,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               <div className="preselected-room-notice">
                 <div className="notice-content">
                   <i className="fas fa-info-circle"></i>
-                  <span>Room selected from your account dashboard</span>
+                  <span>
+                    {localStorage.getItem('isTestRoom') === 'true'
+                      ? 'Test room selected - password bypass enabled for localhost'
+                      : 'Room selected from your account dashboard'
+                    }
+                  </span>
                   <button
                     className="auto-join-btn"
                     onClick={() => handleJoinRoom()}

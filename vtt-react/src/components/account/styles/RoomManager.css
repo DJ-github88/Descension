@@ -30,6 +30,34 @@
   color: #d4af37;
 }
 
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.refresh-status-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s;
+}
+
+.refresh-status-btn:hover {
+  background: #357abd;
+}
+
+.refresh-status-btn i {
+  font-size: 12px;
+}
+
 .room-limits {
   display: flex;
   align-items: center;
@@ -201,6 +229,27 @@
   font-size: 13px;
   font-weight: 500;
   color: #6b7280;
+}
+
+.room-status {
+  margin-top: 8px;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-indicator i {
+  font-size: 10px;
+}
+
+.status-indicator span {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .room-actions-menu {

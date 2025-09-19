@@ -41,10 +41,63 @@ const RoomManager = () => {
   const [error, setError] = useState('');
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [roomStatuses, setRoomStatuses] = useState(new Map());
 
   useEffect(() => {
     loadRoomData();
   }, [user]);
+
+  // Function to check if a room is currently live on the server
+  const checkRoomStatus = async (roomId) => {
+    try {
+      // Skip status check for test rooms
+      if (roomId === 'test-room-local') {
+        return 'test';
+      }
+
+      // Check if server is available and room is live
+      const serverUrl = process.env.REACT_APP_SOCKET_URL ||
+                       (process.env.NODE_ENV === 'production' ?
+                        'https://descension-mythrill.up.railway.app' :
+                        'http://localhost:3001');
+
+      const response = await fetch(`${serverUrl}/rooms`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(5000) // 5 second timeout
+      });
+
+      if (response.ok) {
+        const liveRooms = await response.json();
+        const isLive = liveRooms.some(room => room.id === roomId);
+        return isLive ? 'live' : 'offline';
+      } else {
+        return 'unknown';
+      }
+    } catch (error) {
+      console.warn(`Failed to check status for room ${roomId}:`, error);
+      return 'unknown';
+    }
+  };
+
+  // Check status for all rooms
+  const checkAllRoomStatuses = async () => {
+    const statusMap = new Map();
+
+    for (const room of rooms) {
+      const status = await checkRoomStatus(room.id);
+      statusMap.set(room.id, status);
+    }
+
+    setRoomStatuses(statusMap);
+  };
+
+  // Check room statuses when rooms change
+  useEffect(() => {
+    if (rooms.length > 0) {
+      checkAllRoomStatuses();
+    }
+  }, [rooms]);
 
   const loadRoomData = async () => {
     if (!user) {
@@ -148,11 +201,19 @@ const RoomManager = () => {
       localStorage.setItem('isTestRoom', 'true');
       navigate('/multiplayer');
     } else {
-      // Store room selection and navigate to multiplayer
-      localStorage.setItem('selectedRoomId', room.id);
-      localStorage.setItem('selectedRoomPassword', room.password || '');
-      localStorage.removeItem('isTestRoom');
-      navigate('/multiplayer');
+      // For campaign rooms, prompt for password
+      const password = prompt(`Enter password for "${room.name}":`);
+      if (password !== null && password.trim()) {
+        // Store room selection and navigate to multiplayer
+        localStorage.setItem('selectedRoomId', room.id);
+        localStorage.setItem('selectedRoomPassword', password.trim());
+        localStorage.removeItem('isTestRoom');
+        navigate('/multiplayer');
+      } else if (password !== null) {
+        // User entered empty password
+        alert('Password cannot be empty');
+      }
+      // If password is null, user cancelled - do nothing
     }
   };
 
@@ -200,6 +261,41 @@ const RoomManager = () => {
 
   const getRoleColor = (role) => {
     return role === 'gm' ? '#d4af37' : '#7a3b2e';
+  };
+
+  const getRoomStatusIndicator = (roomId) => {
+    const status = roomStatuses.get(roomId);
+
+    switch (status) {
+      case 'live':
+        return {
+          icon: 'fas fa-circle',
+          color: '#4CAF50',
+          text: 'Live',
+          title: 'Room is currently active'
+        };
+      case 'offline':
+        return {
+          icon: 'fas fa-circle',
+          color: '#757575',
+          text: 'Offline',
+          title: 'Room is not currently active'
+        };
+      case 'test':
+        return {
+          icon: 'fas fa-flask',
+          color: '#FF9800',
+          text: 'Test',
+          title: 'Local test room'
+        };
+      default:
+        return {
+          icon: 'fas fa-question-circle',
+          color: '#9E9E9E',
+          text: 'Unknown',
+          title: 'Unable to determine room status'
+        };
+    }
   };
 
 
@@ -366,7 +462,17 @@ const RoomManager = () => {
           My Campaign Rooms
         </h2>
 
-        
+        <div className="header-actions">
+          <button
+            className="refresh-status-btn"
+            onClick={checkAllRoomStatuses}
+            title="Refresh room status"
+          >
+            <i className="fas fa-sync-alt"></i>
+            Refresh Status
+          </button>
+        </div>
+
         {roomLimits && (
           <div className="room-limits">
             <div className="tier-info">
@@ -434,11 +540,27 @@ const RoomManager = () => {
                     {room.name}
                   </h3>
                   <div className="room-role">
-                    <i 
+                    <i
                       className={getRoleIcon(room.userRole)}
                       style={{ color: getRoleColor(room.userRole) }}
                     />
                     <span>{room.userRole === 'gm' ? 'Game Master' : 'Player'}</span>
+                  </div>
+                  <div className="room-status">
+                    {(() => {
+                      const statusInfo = getRoomStatusIndicator(room.id);
+                      return (
+                        <div className="status-indicator" title={statusInfo.title}>
+                          <i
+                            className={statusInfo.icon}
+                            style={{ color: statusInfo.color }}
+                          />
+                          <span style={{ color: statusInfo.color }}>
+                            {statusInfo.text}
+                          </span>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </div>
                 <div className="room-actions-menu">
