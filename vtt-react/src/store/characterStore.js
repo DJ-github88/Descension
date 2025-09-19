@@ -9,6 +9,7 @@ import useGameStore from './gameStore';
 import characterPersistenceService from '../services/firebase/characterPersistenceService';
 import characterSessionService from '../services/firebase/characterSessionService';
 import characterMigrationService from '../services/firebase/characterMigrationService';
+import localStorageManager from '../utils/localStorageManager';
 
 // Import test utilities for development
 if (process.env.NODE_ENV === 'development') {
@@ -30,12 +31,21 @@ const getEncumbranceState = () => {
     }
 };
 
-// Helper function to get current user ID
+// Helper function to get current user ID with enhanced debugging
 const getCurrentUserId = () => {
     try {
         // Import auth store dynamically to avoid circular dependencies
         const authStore = require('./authStore').default;
         const state = authStore.getState();
+
+        console.log('🔍 Auth Debug Info:', {
+            hasUser: !!state.user,
+            userId: state.user?.uid || 'none',
+            isAuthenticated: state.isAuthenticated,
+            isDevelopmentBypass: state.isDevelopmentBypass,
+            userEmail: state.user?.email || 'none'
+        });
+
         return state.user?.uid || null;
     } catch (error) {
         console.warn('Could not get current user ID:', error);
@@ -714,9 +724,12 @@ const useCharacterStore = create((set, get) => ({
                     return char;
                 });
 
-                // Save updated characters to localStorage
+                // Save updated characters to localStorage with quota management
                 try {
-                    localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+                    const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+                    if (!result.success) {
+                        console.error('Error saving characters to localStorage:', result.error);
+                    }
                 } catch (error) {
                     console.error('Error saving characters to localStorage:', error);
                 }
@@ -1118,8 +1131,10 @@ const useCharacterStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const userId = getCurrentUserId();
+            console.log('🔄 Loading characters...', { userId: userId || 'none' });
 
             if (userId) {
+                console.log('👤 User authenticated, attempting Firebase load...');
                 // Check if migration is needed
                 if (characterMigrationService.isMigrationNeeded()) {
                     console.log('🔄 Character migration needed, starting migration...');
@@ -1144,14 +1159,18 @@ const useCharacterStore = create((set, get) => ({
 
                 // Load from Firebase if user is authenticated
                 try {
+                    console.log('🔥 Attempting to load characters from Firebase...');
                     const characters = await characterPersistenceService.loadUserCharacters(userId);
                     set({ characters, isLoading: false });
                     console.log(`✅ Loaded ${characters.length} characters from Firebase`);
                     return characters;
                 } catch (firebaseError) {
+                    console.error('❌ Error loading user characters:', firebaseError);
                     console.warn('Failed to load from Firebase, falling back to localStorage:', firebaseError);
                     // Fall back to localStorage if Firebase fails
                 }
+            } else {
+                console.log('👤 No authenticated user found, using localStorage');
             }
 
             // Fallback to localStorage (for offline mode or when Firebase fails)
@@ -1171,6 +1190,10 @@ const useCharacterStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const userId = getCurrentUserId();
+            console.log('🔄 Creating character...', {
+                characterName: characterData.name,
+                userId: userId || 'none'
+            });
 
             // Prepare character data with proper structure
             const newCharacter = {
@@ -1202,20 +1225,28 @@ const useCharacterStore = create((set, get) => ({
             if (userId) {
                 // Save to Firebase if user is authenticated
                 try {
+                    console.log('🔥 Attempting to create character in Firebase...');
                     const characterId = await characterPersistenceService.createCharacter(newCharacter, userId);
                     newCharacter.id = characterId;
                     console.log(`✅ Character created in Firebase: ${newCharacter.name} (${characterId})`);
                 } catch (firebaseError) {
+                    console.error('❌ Error creating character:', firebaseError);
                     console.warn('Failed to save to Firebase, saving locally:', firebaseError);
                     // Continue with local save if Firebase fails
                 }
+            } else {
+                console.log('👤 No authenticated user, saving character locally only');
             }
 
             const state = get();
             const updatedCharacters = [...state.characters, newCharacter];
 
-            // Always save to localStorage as backup
-            localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            // Always save to localStorage as backup with quota management
+            const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            if (!result.success) {
+                console.error('Failed to save characters to localStorage:', result.error);
+                // Still continue with the operation, just log the error
+            }
 
             set({
                 characters: updatedCharacters,
@@ -1255,8 +1286,12 @@ const useCharacterStore = create((set, get) => ({
                 }
             }
 
-            // Always save to localStorage as backup
-            localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            // Always save to localStorage as backup with quota management
+            const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            if (!result.success) {
+                console.error('Failed to save characters to localStorage:', result.error);
+                // Still continue with the operation, just log the error
+            }
 
             set({
                 characters: updatedCharacters,
@@ -1290,8 +1325,12 @@ const useCharacterStore = create((set, get) => ({
 
             const updatedCharacters = state.characters.filter(char => char.id !== characterId);
 
-            // Save to localStorage
-            localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            // Save to localStorage with quota management
+            const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            if (!result.success) {
+                console.error('Failed to save characters to localStorage:', result.error);
+                // Still continue with the operation, just log the error
+            }
 
             set({
                 characters: updatedCharacters,

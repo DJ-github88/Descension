@@ -370,7 +370,7 @@
     margin-top: 0.5rem;
 }
 
-.character-count {
+.character-wizard-container .character-count {
     font-size: 0.75rem;
     color: #8b4513;
 }
@@ -769,7 +769,7 @@
     position: relative;
 }
 
-.character-portrait-container {
+.character-wizard-container .character-portrait-container {
     width: 220px;
     height: 220px;
     border-radius: 50%;
@@ -789,7 +789,7 @@
     justify-content: center;
 }
 
-.character-portrait-container:hover {
+.character-wizard-container .character-portrait-container:hover {
     transform: scale(1.05) translateY(-3px);
     box-shadow:
         0 20px 50px rgba(212, 175, 55, 0.6),
@@ -797,7 +797,7 @@
         0 0 0 2px rgba(255, 255, 255, 0.9);
 }
 
-.character-portrait {
+.character-wizard-container .character-portrait {
     position: absolute;
     top: 0;
     left: 0;
@@ -811,7 +811,7 @@
     min-height: 100%;
 }
 
-.portrait-edit-overlay {
+.character-wizard-container .portrait-edit-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -826,11 +826,11 @@
     border-radius: 50%;
 }
 
-.character-portrait-container:hover .portrait-edit-overlay {
+.character-wizard-container .character-portrait-container:hover .portrait-edit-overlay {
     opacity: 1;
 }
 
-.edit-portrait-btn {
+.character-wizard-container .edit-portrait-btn {
     background: rgba(212, 175, 55, 0.9);
     border: none;
     border-radius: 50%;
@@ -845,7 +845,7 @@
     justify-content: center;
 }
 
-.edit-portrait-btn:hover {
+.character-wizard-container .edit-portrait-btn:hover {
     background: #d4af37;
     transform: scale(1.1);
 }
@@ -1087,7 +1087,7 @@
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
-.placeholder-portrait {
+.character-wizard-container .placeholder-portrait {
     width: 220px;
     height: 220px;
     border-radius: 50%;
@@ -1106,7 +1106,7 @@
     z-index: 2;
 }
 
-.placeholder-portrait::before {
+.character-wizard-container .placeholder-portrait::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1117,14 +1117,14 @@
     pointer-events: none;
 }
 
-.placeholder-portrait:hover {
+.character-wizard-container .placeholder-portrait:hover {
     border-color: #b8941f;
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.18) 0%, rgba(248, 245, 235, 0.3) 100%);
     transform: scale(1.05) translateY(-3px);
     box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
 }
 
-.placeholder-portrait i {
+.character-wizard-container .placeholder-portrait i {
     font-size: 4rem;
     margin-bottom: 1rem;
     position: relative;
@@ -1133,7 +1133,7 @@
     color: #d4af37;
 }
 
-.placeholder-portrait span {
+.character-wizard-container .placeholder-portrait span {
     font-size: 1rem;
     font-weight: 600;
     position: relative;
@@ -1265,12 +1265,12 @@
         top: auto;
     }
 
-    .character-portrait-container {
+    .character-wizard-container .character-portrait-container {
         width: 180px;
         height: 180px;
     }
 
-    .placeholder-portrait {
+    .character-wizard-container .placeholder-portrait {
         width: 160px;
         height: 160px;
     }
@@ -1848,7 +1848,7 @@
     font-weight: 700 !important;
 }
 
-.character-summary-panel {
+.character-wizard-container .character-summary-panel {
     display: flex;
     flex-direction: column;
 }
@@ -1992,7 +1992,7 @@
 }
 
 /* Step 6 - Character Summary specific styles */
-.character-summary-layout {
+.character-wizard-container .character-summary-layout {
     display: grid;
     grid-template-columns: 1fr 400px;
     gap: 2rem;
@@ -2211,14 +2211,14 @@
 
 
 
-.portrait-display {
+.character-wizard-container .portrait-display {
     display: flex;
     justify-content: center;
 }
 
 
 
-.portrait-placeholder {
+.character-wizard-container .portrait-placeholder {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -2231,12 +2231,12 @@
     color: #8b4513;
 }
 
-.portrait-placeholder i {
+.character-wizard-container .portrait-placeholder i {
     font-size: 3rem;
     margin-bottom: 0.5rem;
 }
 
-.portrait-placeholder span {
+.character-wizard-container .portrait-placeholder span {
     font-size: 0.8rem;
 }
 

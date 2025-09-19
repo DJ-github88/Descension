@@ -206,20 +206,27 @@ class CharacterPersistenceService {
 
       // Use transaction to ensure consistency
       const result = await runTransaction(db, async (transaction) => {
+        // IMPORTANT: All reads must come before all writes in Firestore transactions
+
+        // First, read the user document to check if it exists
+        const userRef = doc(db, COLLECTIONS.USERS, userId);
+        const userDoc = await transaction.get(userRef);
+
+        // Now perform all writes
         // Create character document
         const characterRef = doc(db, COLLECTIONS.CHARACTERS, characterId);
         transaction.set(characterRef, firestoreData);
 
         // Update user's character list
-        const userRef = doc(db, COLLECTIONS.USERS, userId);
-        const userDoc = await transaction.get(userRef);
-        
         if (userDoc.exists()) {
           const userData = userDoc.data();
           const characters = userData.characters || [];
           if (!characters.includes(characterId)) {
             characters.push(characterId);
-            transaction.update(userRef, { characters });
+            transaction.update(userRef, {
+              characters,
+              updatedAt: serverTimestamp()
+            });
           }
         } else {
           // Create user document if it doesn't exist

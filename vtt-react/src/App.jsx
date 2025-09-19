@@ -34,6 +34,7 @@ import initChatStore from './utils/initChatStore';
 import initCreatureStore from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
+import firebaseAuthDebugger from './utils/debugFirebaseAuth';
 import PortalDebugger from './components/debug/PortalDebugger';
 import ProductionDebugger from './components/debug/ProductionDebugger';
 
@@ -309,6 +310,13 @@ export default function App() {
         let unsubscribe = null;
         try {
             unsubscribe = initializeAuth();
+
+            // Initialize Firebase debugging in development
+            if (process.env.NODE_ENV === 'development') {
+                setTimeout(() => {
+                    firebaseAuthDebugger.getAuthDebugInfo();
+                }, 1000); // Give auth time to initialize
+            }
         } catch (error) {
             console.warn('Authentication initialization failed:', error);
         }
