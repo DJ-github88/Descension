@@ -53,10 +53,14 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const refreshCharacterNames = () => {
     const activeCharacter = getActiveCharacter();
     if (activeCharacter) {
-      setPlayerName(activeCharacter.name);
+      const characterName = activeCharacter.name || activeCharacter.baseName;
+      setPlayerName(characterName);
       if (activeTab === 'create') {
-        setRoomName(`${activeCharacter.name}'s Campaign`);
+        setRoomName(`${characterName}'s Campaign`);
       }
+      console.log(`🎮 Using active character: ${characterName}`);
+    } else {
+      console.log('⚠️ No active character found');
     }
   };
 
@@ -110,9 +114,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       if (user) {
         // Try to use active character name first, then fall back to user name
         const activeCharacter = getActiveCharacter();
-        const characterName = activeCharacter?.name;
+        const characterName = activeCharacter?.name || activeCharacter?.baseName;
         const userName = user.displayName || user.email?.split('@')[0] || 'Player';
-        setPlayerName(characterName || userName);
+        const finalName = characterName || userName;
+        setPlayerName(finalName);
+        console.log(`🎮 Player name set to: ${finalName} (character: ${!!characterName})`);
         loadUserRooms();
 
         // Auto-join preselected room if user is authenticated
@@ -442,8 +448,17 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   };
 
   const handleCreateRoom = () => {
-    if (!playerNameRef.current.trim() || !roomName.trim()) {
-      setError('Please enter both your name and a room name');
+    // Get active character name - this should be the primary player name
+    const activeCharacter = getActiveCharacter();
+    const characterName = activeCharacter?.name || activeCharacter?.baseName;
+    const finalPlayerName = characterName || playerNameRef.current.trim();
+
+    if (!finalPlayerName || !roomName.trim()) {
+      if (!finalPlayerName) {
+        setError('No character selected. Please select a character from your account first.');
+      } else {
+        setError('Please enter a room name');
+      }
       return;
     }
 
@@ -467,7 +482,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const roomData = {
       roomName: roomName.trim(),
-      gmName: playerNameRef.current.trim(),
+      gmName: finalPlayerName,
       password: roomPasswordRef.current.trim(),
       playerColor: playerColor
     };
@@ -480,8 +495,17 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const finalRoomId = targetRoomId || roomId;
     const finalPassword = targetPassword || joinPassword;
 
-    if (!playerNameRef.current.trim() || !finalRoomId.trim()) {
-      setError('Please enter your name and a room ID');
+    // Get active character name - this should be the primary player name
+    const activeCharacter = getActiveCharacter();
+    const characterName = activeCharacter?.name || activeCharacter?.baseName;
+    const finalPlayerName = characterName || playerNameRef.current.trim();
+
+    if (!finalPlayerName || !finalRoomId.trim()) {
+      if (!finalPlayerName) {
+        setError('No character selected. Please select a character from your account first.');
+      } else {
+        setError('Please enter a room ID');
+      }
       return;
     }
 
@@ -507,12 +531,16 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const joinData = {
       roomId: finalRoomId.trim(),
-      playerName: playerNameRef.current.trim(),
+      playerName: finalPlayerName,
       password: (isTestRoom && isLocalhost) ? 'test123' : finalPassword.trim(),
       playerColor: playerColor
     };
 
-    console.log('Joining room with data:', joinData);
+    console.log('🎮 Joining room with character:', {
+      characterName: activeCharacter?.name,
+      playerName: finalPlayerName,
+      roomId: finalRoomId
+    });
     socket.emit('join_room', joinData);
   };
 
@@ -557,15 +585,35 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           <div className="player-name-row">
             <div className="name-input-group">
               <label htmlFor="playerName">Your Name:</label>
-              <input
-                id="playerName"
-                type="text"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-                placeholder="Enter your display name"
-                disabled={isConnecting}
-                maxLength={20}
-              />
+              <div className="player-name-container">
+                <input
+                  id="playerName"
+                  type="text"
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                  placeholder="Enter your display name"
+                  disabled={isConnecting}
+                  maxLength={20}
+                />
+                {(() => {
+                  const activeCharacter = getActiveCharacter();
+                  if (activeCharacter) {
+                    return (
+                      <div className="character-selected-notice">
+                        <i className="fas fa-user-check"></i>
+                        <span>Using character: {activeCharacter.name}</span>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="no-character-notice">
+                        <i className="fas fa-exclamation-triangle"></i>
+                        <span>No character selected. Go to Account → Characters to select one.</span>
+                      </div>
+                    );
+                  }
+                })()}
+              </div>
             </div>
             <div className="color-input-group">
               <label htmlFor="playerColor">Chat Color:</label>
