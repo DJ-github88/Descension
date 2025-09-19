@@ -137,18 +137,18 @@ class LocalStorageManager {
     } catch (error) {
       if (error.name === 'QuotaExceededError') {
         console.error('❌ localStorage quota exceeded, attempting emergency cleanup...');
-        
-        // Emergency cleanup
-        this.performCleanup();
-        
+
+        // Emergency cleanup - more aggressive
+        this.performEmergencyCleanup();
+
         try {
           localStorage.setItem(key, value);
           return { success: true };
         } catch (retryError) {
           console.error('❌ Failed to store data even after cleanup:', retryError);
-          return { 
-            success: false, 
-            error: 'Storage quota exceeded. Please clear some browser data.' 
+          return {
+            success: false,
+            error: 'Storage quota exceeded. Please clear some browser data.'
           };
         }
       } else {
@@ -156,6 +156,33 @@ class LocalStorageManager {
         return { success: false, error: error.message };
       }
     }
+  }
+
+  /**
+   * Emergency cleanup - more aggressive than regular cleanup
+   */
+  performEmergencyCleanup() {
+    console.log('🚨 Performing emergency localStorage cleanup...');
+
+    // Remove all backup data
+    const keysToRemove = [];
+    for (let key in localStorage) {
+      if (key.startsWith('mythrill-backup-') ||
+          key.startsWith('mythrill-temp-') ||
+          key.startsWith('mythrill-cache-') ||
+          key.includes('spell') ||
+          key.includes('item') ||
+          key.includes('creature')) {
+        keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+    });
+
+    console.log(`🧹 Emergency cleanup removed ${keysToRemove.length} items`);
+    return keysToRemove.length;
   }
 
   /**
@@ -180,7 +207,7 @@ class LocalStorageManager {
   getStorageStats() {
     const usage = this.getCurrentUsage();
     const percentage = this.getUsagePercentage();
-    
+
     let characterCount = 0;
     let backupCount = 0;
     let tempCount = 0;
@@ -200,9 +227,36 @@ class LocalStorageManager {
       isApproachingQuota: this.isApproachingQuota()
     };
   }
+
+  /**
+   * Clear all localStorage data (for development/testing)
+   */
+  clearAllData() {
+    if (process.env.NODE_ENV === 'development') {
+      const keysToRemove = [];
+      for (let key in localStorage) {
+        if (key.startsWith('mythrill-')) {
+          keysToRemove.push(key);
+        }
+      }
+
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      console.log(`🧹 Cleared ${keysToRemove.length} localStorage items`);
+      return keysToRemove.length;
+    } else {
+      console.warn('clearAllData only available in development mode');
+      return 0;
+    }
+  }
 }
 
 // Create singleton instance
 const localStorageManager = new LocalStorageManager();
+
+// Expose to window for development debugging
+if (process.env.NODE_ENV === 'development') {
+  window.localStorageManager = localStorageManager;
+  console.log('🔧 LocalStorage manager available at window.localStorageManager');
+}
 
 export default localStorageManager;

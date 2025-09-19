@@ -53,6 +53,19 @@ const getCurrentUserId = () => {
     }
 };
 
+// Helper function to check if we should use Firebase or localStorage only
+const shouldUseFirebase = () => {
+    // In development on localhost, disable Firebase to avoid permission issues
+    if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
+        console.log('🔧 Development mode detected - using localStorage only');
+        return false;
+    }
+
+    // Check if Firebase is properly configured and user is authenticated
+    const userId = getCurrentUserId();
+    return !!(userId && characterPersistenceService.isConfigured);
+};
+
 const useCharacterStore = create((set, get) => ({
     // Character management for account system
     characters: [], // Array of all user's characters
@@ -1131,12 +1144,17 @@ const useCharacterStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const userId = getCurrentUserId();
-            console.log('🔄 Loading characters...', { userId: userId || 'none' });
+            const useFirebase = shouldUseFirebase();
+            console.log('🔄 Loading characters...', {
+                userId: userId || 'none',
+                useFirebase,
+                hostname: window.location.hostname
+            });
 
-            if (userId) {
+            if (userId && useFirebase) {
                 console.log('👤 User authenticated, attempting Firebase load...');
-                // Check if migration is needed
-                if (characterMigrationService.isMigrationNeeded()) {
+                // Skip migration in development mode to avoid Firebase permission issues
+                if (process.env.NODE_ENV !== 'development' && characterMigrationService.isMigrationNeeded()) {
                     console.log('🔄 Character migration needed, starting migration...');
 
                     try {
@@ -1155,6 +1173,8 @@ const useCharacterStore = create((set, get) => ({
                         console.error('Migration failed:', migrationError);
                         // Continue loading even if migration fails
                     }
+                } else if (process.env.NODE_ENV === 'development') {
+                    console.log('🔧 Skipping migration in development mode');
                 }
 
                 // Load from Firebase if user is authenticated
@@ -1170,7 +1190,7 @@ const useCharacterStore = create((set, get) => ({
                     // Fall back to localStorage if Firebase fails
                 }
             } else {
-                console.log('👤 No authenticated user found, using localStorage');
+                console.log('👤 Using localStorage only (development mode or no auth)');
             }
 
             // Fallback to localStorage (for offline mode or when Firebase fails)
@@ -1222,8 +1242,10 @@ const useCharacterStore = create((set, get) => ({
                 experience: characterData.experience || 0
             };
 
-            if (userId) {
-                // Save to Firebase if user is authenticated
+            const useFirebase = shouldUseFirebase();
+
+            if (userId && useFirebase) {
+                // Save to Firebase if user is authenticated and Firebase is enabled
                 try {
                     console.log('🔥 Attempting to create character in Firebase...');
                     const characterId = await characterPersistenceService.createCharacter(newCharacter, userId);
@@ -1235,7 +1257,7 @@ const useCharacterStore = create((set, get) => ({
                     // Continue with local save if Firebase fails
                 }
             } else {
-                console.log('👤 No authenticated user, saving character locally only');
+                console.log('👤 Saving character locally only (development mode or no auth)');
             }
 
             const state = get();
