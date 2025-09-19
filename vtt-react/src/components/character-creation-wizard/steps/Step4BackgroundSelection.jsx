@@ -182,23 +182,8 @@ const Step4BackgroundSelection = () => {
                         )}
                     </div>
                 </div>
-                </div>
 
-                <div className="step-footer">
-                    <div className="step-hints">
-                        <div className="hint">
-                            <i className="fas fa-lightbulb"></i>
-                            <span>Each background provides different stat bonuses and extra points for allocation</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-magic"></i>
-                            <span>Special features give unique abilities that can be used during gameplay</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-users"></i>
-                            <span>Consider how your background fits with your chosen race and class</span>
-                        </div>
-                    </div>
+
                 </div>
             </div>
     );

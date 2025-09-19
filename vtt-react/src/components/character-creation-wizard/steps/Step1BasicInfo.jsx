@@ -6,11 +6,19 @@
 
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
+import ImageEditor from '../components/ImageEditor';
 
 const Step1BasicInfo = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const [imagePreview, setImagePreview] = useState(null);
+    const [showImageEditor, setShowImageEditor] = useState(false);
+    const [imageTransformations, setImageTransformations] = useState({
+        scale: 1.2,
+        rotation: 0,
+        positionX: 0,
+        positionY: 0
+    });
 
     const { characterData, validationErrors } = state;
 
@@ -48,8 +56,19 @@ const Step1BasicInfo = () => {
             reader.onload = (event) => {
                 const imageData = event.target.result;
                 setImagePreview(imageData);
+
+                // Set better default transformations for uploaded images
+                const defaultTransforms = {
+                    scale: 1.5,
+                    rotation: 0,
+                    positionX: 0,
+                    positionY: 0
+                };
+                setImageTransformations(defaultTransforms);
+
                 dispatch(wizardActionCreators.updateBasicInfo({
-                    characterImage: imageData
+                    characterImage: imageData,
+                    imageTransformations: defaultTransforms
                 }));
             };
             reader.readAsDataURL(file);
@@ -59,14 +78,44 @@ const Step1BasicInfo = () => {
     // Remove image
     const handleRemoveImage = () => {
         setImagePreview(null);
+        setImageTransformations({
+            scale: 1,
+            rotation: 0,
+            positionX: 0,
+            positionY: 0
+        });
         dispatch(wizardActionCreators.updateBasicInfo({
-            characterImage: null
+            characterImage: null,
+            imageTransformations: null
         }));
         // Clear the file input
         const fileInput = document.getElementById('character-image-upload');
         if (fileInput) {
             fileInput.value = '';
         }
+    };
+
+    // Open image editor
+    const handleEditImage = () => {
+        if (imagePreview || characterData.characterImage) {
+            setShowImageEditor(true);
+        }
+    };
+
+    // Apply image transformations
+    const handleApplyTransformations = (transformations) => {
+        setImageTransformations(transformations);
+        dispatch(wizardActionCreators.updateBasicInfo({
+            imageTransformations: transformations
+        }));
+    };
+
+    // Get current image style based on transformations
+    const getImageStyle = () => {
+        const transforms = characterData.imageTransformations || imageTransformations;
+        return {
+            transform: `scale(${transforms.scale}) rotate(${transforms.rotation}deg) translate(${transforms.positionX}px, ${transforms.positionY}px)`
+        };
     };
 
     const genderOptions = [
@@ -172,59 +221,66 @@ const Step1BasicInfo = () => {
                     </div>
 
                     {/* Right side - Character preview */}
-                    <div className="character-preview">
-                        <div className="preview-card">
-                            <div className="preview-header">
-                                <h3>Character Preview</h3>
+                    <div className="preview-card">
+                        <div className="preview-header">
+                            <div className="preview-icon">
+                                <i className="fas fa-user"></i>
                             </div>
-                            <div className="preview-content">
-                                <div className="preview-image-container">
-                                    {imagePreview || characterData.characterImage ? (
-                                        <img 
-                                            src={imagePreview || characterData.characterImage} 
-                                            alt="Character" 
+                            <h3 className="preview-title">Character Preview</h3>
+                        </div>
+                        <div className="preview-content">
+                            <div className="preview-image-container">
+                                {imagePreview || characterData.characterImage ? (
+                                    <div className="character-portrait-container" onClick={handleEditImage}>
+                                        <img
+                                            src={imagePreview || characterData.characterImage}
+                                            alt="Character"
                                             className="character-portrait"
+                                            style={getImageStyle()}
                                         />
-                                    ) : (
-                                        <div className="placeholder-portrait">
-                                            <i className="fas fa-user"></i>
-                                            <span>No image</span>
+                                        <div className="portrait-edit-overlay">
+                                            <button className="edit-portrait-btn" type="button">
+                                                <i className="fas fa-edit"></i>
+                                            </button>
                                         </div>
-                                    )}
+                                    </div>
+                                ) : (
+                                    <div className="placeholder-portrait">
+                                        <i className="fas fa-user"></i>
+                                        <span>No image</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="preview-details">
+                                <div className="detail-row">
+                                    <span className="detail-label">Name:</span>
+                                    <span className="detail-value">
+                                        {characterData.name || 'Unnamed Character'}
+                                    </span>
                                 </div>
-                                
-                                <div className="preview-details">
-                                    <div className="detail-row">
-                                        <span className="detail-label">Name:</span>
-                                        <span className="detail-value">
-                                            {characterData.name || 'Unnamed Character'}
-                                        </span>
-                                    </div>
-                                    <div className="detail-row">
-                                        <span className="detail-label">Gender:</span>
-                                        <span className="detail-value">
-                                            {genderOptions.find(g => g.id === characterData.gender)?.name || 'Male'}
-                                        </span>
-                                    </div>
+                                <div className="detail-row">
+                                    <span className="detail-label">Gender:</span>
+                                    <span className="detail-value">
+                                        {genderOptions.find(g => g.id === characterData.gender)?.name || 'Male'}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
 
-                <div className="step-footer">
-                    <div className="step-hints">
-                        <div className="hint">
-                            <i className="fas fa-lightbulb"></i>
-                            <span>Choose a name that fits your character's personality and background</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-image"></i>
-                            <span>Character portraits help bring your character to life in multiplayer sessions</span>
-                        </div>
-                    </div>
+
                 </div>
+
+                {/* Image Editor Modal */}
+                <ImageEditor
+                    isOpen={showImageEditor}
+                    onClose={() => setShowImageEditor(false)}
+                    imageUrl={imagePreview || characterData.characterImage}
+                    onApply={handleApplyTransformations}
+                    initialTransformations={characterData.imageTransformations || imageTransformations}
+                />
             </div>
     );
 };

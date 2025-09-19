@@ -5,6 +5,11 @@ import { initializeClassResource, updateClassResourceMax } from '../data/classRe
 import { applyRacialModifiers, getFullRaceData, getRaceData } from '../data/raceData';
 import useGameStore from './gameStore';
 
+// Import Firebase services for character persistence
+import characterPersistenceService from '../services/firebase/characterPersistenceService';
+import characterSessionService from '../services/firebase/characterSessionService';
+import characterMigrationService from '../services/firebase/characterMigrationService';
+
 // Import test utilities for development
 if (process.env.NODE_ENV === 'development') {
     import('../utils/classResourceUtils').then(module => {
@@ -22,6 +27,19 @@ const getEncumbranceState = () => {
     } catch (error) {
         console.warn('Could not get encumbrance state, using normal:', error);
         return 'normal';
+    }
+};
+
+// Helper function to get current user ID
+const getCurrentUserId = () => {
+    try {
+        // Import auth store dynamically to avoid circular dependencies
+        const authStore = require('./authStore').default;
+        const state = authStore.getState();
+        return state.user?.uid || null;
+    } catch (error) {
+        console.warn('Could not get current user ID:', error);
+        return null;
     }
 };
 
@@ -64,7 +82,8 @@ const useCharacterStore = create((set, get) => ({
         enemies: '',
         organizations: '',
         notes: '',
-        characterImage: null
+        characterImage: null,
+        imageTransformations: null
     },
 
     // Token appearance settings
@@ -1098,11 +1117,48 @@ const useCharacterStore = create((set, get) => ({
     loadCharacters: async () => {
         set({ isLoading: true, error: null });
         try {
-            // For now, load from localStorage
-            // In the future, this would load from Firebase/database
+            const userId = getCurrentUserId();
+
+            if (userId) {
+                // Check if migration is needed
+                if (characterMigrationService.isMigrationNeeded()) {
+                    console.log('🔄 Character migration needed, starting migration...');
+
+                    try {
+                        // Create backup before migration
+                        characterMigrationService.createBackup();
+
+                        // Perform migration
+                        const migrationResult = await characterMigrationService.migrateAllCharacters(userId);
+
+                        if (migrationResult.success) {
+                            console.log(`✅ Migration completed: ${migrationResult.migrated} characters migrated`);
+                        } else {
+                            console.warn(`⚠️ Migration completed with errors: ${migrationResult.failed} failed`);
+                        }
+                    } catch (migrationError) {
+                        console.error('Migration failed:', migrationError);
+                        // Continue loading even if migration fails
+                    }
+                }
+
+                // Load from Firebase if user is authenticated
+                try {
+                    const characters = await characterPersistenceService.loadUserCharacters(userId);
+                    set({ characters, isLoading: false });
+                    console.log(`✅ Loaded ${characters.length} characters from Firebase`);
+                    return characters;
+                } catch (firebaseError) {
+                    console.warn('Failed to load from Firebase, falling back to localStorage:', firebaseError);
+                    // Fall back to localStorage if Firebase fails
+                }
+            }
+
+            // Fallback to localStorage (for offline mode or when Firebase fails)
             const savedCharacters = localStorage.getItem('mythrill-characters');
             const characters = savedCharacters ? JSON.parse(savedCharacters) : [];
             set({ characters, isLoading: false });
+            console.log(`✅ Loaded ${characters.length} characters from localStorage`);
             return characters;
         } catch (error) {
             console.error('Error loading characters:', error);
@@ -1114,17 +1170,51 @@ const useCharacterStore = create((set, get) => ({
     createCharacter: async (characterData) => {
         set({ isLoading: true, error: null });
         try {
+            const userId = getCurrentUserId();
+
+            // Prepare character data with proper structure
             const newCharacter = {
                 id: `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 ...characterData,
                 createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
+                updatedAt: new Date().toISOString(),
+                // Ensure required fields exist
+                resources: characterData.resources || {
+                    health: { current: 100, max: 100 },
+                    mana: { current: 50, max: 50 },
+                    actionPoints: { current: 3, max: 3 }
+                },
+                inventory: characterData.inventory || {
+                    items: [],
+                    currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+                    encumbranceState: 'normal'
+                },
+                equipment: characterData.equipment || {
+                    weapon: null,
+                    armor: null,
+                    shield: null,
+                    accessories: []
+                },
+                spells: characterData.spells || [],
+                experience: characterData.experience || 0
             };
+
+            if (userId) {
+                // Save to Firebase if user is authenticated
+                try {
+                    const characterId = await characterPersistenceService.createCharacter(newCharacter, userId);
+                    newCharacter.id = characterId;
+                    console.log(`✅ Character created in Firebase: ${newCharacter.name} (${characterId})`);
+                } catch (firebaseError) {
+                    console.warn('Failed to save to Firebase, saving locally:', firebaseError);
+                    // Continue with local save if Firebase fails
+                }
+            }
 
             const state = get();
             const updatedCharacters = [...state.characters, newCharacter];
 
-            // Save to localStorage
+            // Always save to localStorage as backup
             localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
 
             set({
@@ -1143,14 +1233,29 @@ const useCharacterStore = create((set, get) => ({
     updateCharacter: async (characterId, updates) => {
         set({ isLoading: true, error: null });
         try {
+            const userId = getCurrentUserId();
             const state = get();
+
             const updatedCharacters = state.characters.map(char =>
                 char.id === characterId
                     ? { ...char, ...updates, updatedAt: new Date().toISOString() }
                     : char
             );
 
-            // Save to localStorage
+            const updatedCharacter = updatedCharacters.find(char => char.id === characterId);
+
+            if (userId && updatedCharacter) {
+                // Save to Firebase if user is authenticated
+                try {
+                    await characterPersistenceService.saveCharacter(updatedCharacter, userId);
+                    console.log(`✅ Character updated in Firebase: ${updatedCharacter.name} (${characterId})`);
+                } catch (firebaseError) {
+                    console.warn('Failed to save to Firebase, saving locally:', firebaseError);
+                    // Continue with local save if Firebase fails
+                }
+            }
+
+            // Always save to localStorage as backup
             localStorage.setItem('mythrill-characters', JSON.stringify(updatedCharacters));
 
             set({
@@ -1158,7 +1263,7 @@ const useCharacterStore = create((set, get) => ({
                 isLoading: false
             });
 
-            return updatedCharacters.find(char => char.id === characterId);
+            return updatedCharacter;
         } catch (error) {
             console.error('Error updating character:', error);
             set({ error: 'Failed to update character', isLoading: false });
@@ -1169,7 +1274,20 @@ const useCharacterStore = create((set, get) => ({
     deleteCharacter: async (characterId) => {
         set({ isLoading: true, error: null });
         try {
+            const userId = getCurrentUserId();
             const state = get();
+
+            if (userId) {
+                // Delete from Firebase if user is authenticated
+                try {
+                    await characterPersistenceService.deleteCharacter(characterId, userId);
+                    console.log(`✅ Character deleted from Firebase: ${characterId}`);
+                } catch (firebaseError) {
+                    console.warn('Failed to delete from Firebase, deleting locally:', firebaseError);
+                    // Continue with local delete if Firebase fails
+                }
+            }
+
             const updatedCharacters = state.characters.filter(char => char.id !== characterId);
 
             // Save to localStorage
@@ -1319,7 +1437,161 @@ const useCharacterStore = create((set, get) => ({
         get().updateCharacter(state.currentCharacterId, characterData);
     },
 
-    clearError: () => set({ error: null })
+    clearError: () => set({ error: null }),
+
+    // Character Session Management for Multiplayer
+    startCharacterSession: async (characterId, roomId = null) => {
+        try {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                console.warn('No user authenticated, cannot start character session');
+                return null;
+            }
+
+            const sessionId = await characterSessionService.startSession(characterId, userId, roomId);
+            console.log(`✅ Character session started: ${sessionId} for character ${characterId}`);
+            return sessionId;
+        } catch (error) {
+            console.error('Error starting character session:', error);
+            return null;
+        }
+    },
+
+    endCharacterSession: async (characterId) => {
+        try {
+            const userId = getCurrentUserId();
+            if (!userId) {
+                console.warn('No user authenticated, cannot end character session');
+                return false;
+            }
+
+            const success = await characterSessionService.endSession(characterId, userId);
+            if (success) {
+                console.log(`✅ Character session ended for character ${characterId}`);
+                // Reload character data to reflect session changes
+                await get().loadCharacters();
+            }
+            return success;
+        } catch (error) {
+            console.error('Error ending character session:', error);
+            return false;
+        }
+    },
+
+    recordCharacterChange: async (characterId, changeType, changeData) => {
+        try {
+            const success = await characterSessionService.recordChange(characterId, changeType, changeData);
+            if (success) {
+                console.log(`📝 Recorded ${changeType} change for character ${characterId}`);
+            }
+            return success;
+        } catch (error) {
+            console.error('Error recording character change:', error);
+            return false;
+        }
+    },
+
+    // Resource management with character persistence
+    updateHealth: (newHealth) => {
+        set(state => {
+            const updatedHealth = { ...state.health, ...newHealth };
+
+            // Record character change for persistence
+            if (state.currentCharacterId) {
+                get().recordCharacterChange(state.currentCharacterId, 'resource_change', {
+                    type: 'health',
+                    value: updatedHealth,
+                    timestamp: new Date()
+                });
+            }
+
+            return { health: updatedHealth };
+        });
+    },
+
+    updateMana: (newMana) => {
+        set(state => {
+            const updatedMana = { ...state.mana, ...newMana };
+
+            // Record character change for persistence
+            if (state.currentCharacterId) {
+                get().recordCharacterChange(state.currentCharacterId, 'resource_change', {
+                    type: 'mana',
+                    value: updatedMana,
+                    timestamp: new Date()
+                });
+            }
+
+            return { mana: updatedMana };
+        });
+    },
+
+    updateActionPoints: (newActionPoints) => {
+        set(state => {
+            const updatedActionPoints = { ...state.actionPoints, ...newActionPoints };
+
+            // Record character change for persistence
+            if (state.currentCharacterId) {
+                get().recordCharacterChange(state.currentCharacterId, 'resource_change', {
+                    type: 'actionPoints',
+                    value: updatedActionPoints,
+                    timestamp: new Date()
+                });
+            }
+
+            return { actionPoints: updatedActionPoints };
+        });
+    },
+
+    // Level and experience management with persistence
+    updateExperience: (newExperience) => {
+        set(state => {
+            const experienceGained = newExperience - (state.experience || 0);
+
+            // Record character change for persistence
+            if (state.currentCharacterId && experienceGained > 0) {
+                get().recordCharacterChange(state.currentCharacterId, 'experience_gain', {
+                    amount: experienceGained,
+                    newTotal: newExperience,
+                    timestamp: new Date()
+                });
+            }
+
+            return { experience: newExperience };
+        });
+    },
+
+    updateLevel: (newLevel) => {
+        set(state => {
+            // Record character change for persistence
+            if (state.currentCharacterId && newLevel !== state.level) {
+                get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                    stat: 'level',
+                    value: newLevel,
+                    previousValue: state.level,
+                    timestamp: new Date()
+                });
+            }
+
+            return { level: newLevel };
+        });
+    },
+
+    updateExhaustionLevel: (newExhaustionLevel) => {
+        set(state => {
+            // Record character change for persistence
+            if (state.currentCharacterId && newExhaustionLevel !== state.exhaustionLevel) {
+                get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                    stat: 'exhaustionLevel',
+                    value: newExhaustionLevel,
+                    previousValue: state.exhaustionLevel,
+                    timestamp: new Date()
+                });
+            }
+
+            return { exhaustionLevel: newExhaustionLevel };
+        });
+    }
 }));
 
 // Initialize the character store with derived stats

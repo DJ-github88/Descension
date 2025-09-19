@@ -264,23 +264,8 @@ const Step2RaceSelection = () => {
                         )}
                     </div>
                 </div>
-                </div>
 
-                <div className="step-footer">
-                    <div className="step-hints">
-                        <div className="hint">
-                            <i className="fas fa-lightbulb"></i>
-                            <span>Each race has unique subraces with different stat bonuses and abilities</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-balance-scale"></i>
-                            <span>Consider how racial traits complement your chosen background and class</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-star"></i>
-                            <span>Racial stat modifiers are applied automatically to your final ability scores</span>
-                        </div>
-                    </div>
+
                 </div>
             </div>
     );

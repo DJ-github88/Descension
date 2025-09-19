@@ -151,56 +151,60 @@ const Step6CharacterSummary = () => {
                         )}
                     </div>
 
-                    {/* Right side - Character portrait and final stats */}
+                    {/* Right side - Character summary preview */}
                     <div className="summary-preview">
-                        <div className="character-portrait-section">
-                            <h3>Character Portrait</h3>
-                            <div className="portrait-display">
-                                {characterData.characterImage ? (
-                                    <img 
-                                        src={characterData.characterImage} 
-                                        alt={characterData.name} 
-                                        className="character-portrait"
-                                    />
-                                ) : (
-                                    <div className="portrait-placeholder">
-                                        <i className="fas fa-user"></i>
-                                        <span>No portrait</span>
-                                    </div>
-                                )}
+                        <div className="preview-card">
+                            <div className="preview-header">
+                                <div className="preview-icon">
+                                    <i className="fas fa-scroll"></i>
+                                </div>
+                                <h3 className="preview-title">Character Summary</h3>
                             </div>
-                        </div>
+                            <div className="preview-content">
+                                <div className="preview-section">
+                                    <h4>Character Portrait</h4>
+                                    <div className="portrait-display">
+                                        {characterData.characterImage ? (
+                                            <div className="character-portrait-container">
+                                                <img
+                                                    src={characterData.characterImage}
+                                                    alt={characterData.name}
+                                                    className="character-portrait"
+                                                    style={characterData.imageTransformations ? {
+                                                        transform: `scale(${characterData.imageTransformations.scale}) rotate(${characterData.imageTransformations.rotation}deg) translate(${characterData.imageTransformations.positionX}px, ${characterData.imageTransformations.positionY}px)`
+                                                    } : {}}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="portrait-placeholder">
+                                                <i className="fas fa-user"></i>
+                                                <span>No portrait</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
 
-                        <div className="quick-stats">
-                            <h3>Quick Stats</h3>
-                            <div className="quick-stats-grid">
-                                {ABILITY_SCORES.map((ability) => {
-                                    const breakdown = statBreakdown[ability.id];
-                                    return (
-                                        <div key={ability.id} className="quick-stat">
-                                            <span className="stat-name">{ability.shortName}</span>
-                                            <span className="stat-value">{breakdown.final}</span>
-                                        </div>
-                                    );
-                                })}
+                                <div className="preview-section">
+                                    <h4>Final Stats</h4>
+                                    <div className="quick-stats-grid">
+                                        {ABILITY_SCORES.map((ability) => {
+                                            const breakdown = statBreakdown[ability.id];
+                                            return (
+                                                <div key={ability.id} className="quick-stat">
+                                                    <span className="stat-name">{ability.shortName}</span>
+                                                    <span className="stat-value">{breakdown.final}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-                <div className="step-footer">
-                    <div className="step-hints">
-                        <div className="hint">
-                            <i className="fas fa-check-circle"></i>
-                            <span>Review all details carefully - you can go back to previous steps to make changes</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-save"></i>
-                            <span>Click "Create Character" to finalize and save your character</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
     );
 };

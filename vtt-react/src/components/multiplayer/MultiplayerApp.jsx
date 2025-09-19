@@ -825,8 +825,43 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (activeCharacter) {
         console.log(`🎮 Loading active character into multiplayer: ${activeCharacter.name}`);
 
+        // Start character session for tracking changes during multiplayer
+        const sessionId = await startCharacterSession(activeCharacter.id, room.id);
+        if (sessionId) {
+          console.log(`✅ Character session started: ${sessionId}`);
+        }
+
         // Set room name for multiplayer context (this will format the display name)
         setRoomName(room.name);
+
+        // Sync character inventory with inventory store
+        try {
+          import('../../store/inventoryStore').then(({ default: useInventoryStore }) => {
+            const inventoryStore = useInventoryStore.getState();
+
+            // Load character's inventory into the inventory store
+            if (activeCharacter.inventory) {
+              // Clear current inventory
+              inventoryStore.clearInventory();
+
+              // Load character's items
+              if (activeCharacter.inventory.items) {
+                activeCharacter.inventory.items.forEach(item => {
+                  inventoryStore.addItem(item);
+                });
+              }
+
+              // Load character's currency
+              if (activeCharacter.inventory.currency) {
+                inventoryStore.updateCurrency(activeCharacter.inventory.currency);
+              }
+
+              console.log(`✅ Character inventory synced: ${activeCharacter.inventory.items?.length || 0} items`);
+            }
+          });
+        } catch (inventoryError) {
+          console.warn('Failed to sync character inventory:', inventoryError);
+        }
 
         // Send character data to server for synchronization
         if (socketConnection && socketConnection.connected) {
@@ -844,6 +879,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               actionPoints: activeCharacter.actionPoints,
               equipment: activeCharacter.equipment,
               inventory: activeCharacter.inventory,
+              experience: activeCharacter.experience,
+              exhaustionLevel: activeCharacter.exhaustionLevel,
               playerId: currentPlayerData?.id
             }
           });
@@ -982,8 +1019,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     }
   };
 
-  const handleLeaveRoom = () => {
+  const handleLeaveRoom = async () => {
     try {
+      // End character session to save all changes
+      const activeCharacter = getActiveCharacter();
+      if (activeCharacter) {
+        console.log(`🔄 Ending character session for: ${activeCharacter.name}`);
+        const sessionEnded = await endCharacterSession(activeCharacter.id);
+        if (sessionEnded) {
+          console.log(`✅ Character session ended and changes saved`);
+        } else {
+          console.warn('⚠️ Failed to end character session properly');
+        }
+      }
+
       // Cleanup game state manager first (saves final state)
       gameStateManager.cleanup().then(() => {
         // Game state manager cleaned up successfully

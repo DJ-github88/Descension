@@ -44,10 +44,11 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
     // Handle navigation
     const handleNext = () => {
+        // Mark current step as completed if valid, but allow navigation regardless
         if (state.isValid) {
             dispatch(wizardActionCreators.markStepCompleted(state.currentStep));
-            dispatch(wizardActionCreators.nextStep());
         }
+        dispatch(wizardActionCreators.nextStep());
     };
 
     const handlePrevious = () => {
@@ -55,10 +56,8 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
     };
 
     const handleStepClick = (stepNumber) => {
-        // Allow navigation to completed steps or the next step
-        if (state.completedSteps.includes(stepNumber) || stepNumber === state.currentStep + 1) {
-            dispatch(wizardActionCreators.setCurrentStep(stepNumber));
-        }
+        // Allow navigation to any step
+        dispatch(wizardActionCreators.setCurrentStep(stepNumber));
     };
 
     const handleComplete = () => {
@@ -72,7 +71,8 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 class: state.characterData.class,
                 background: state.characterData.background,
                 stats: state.characterData.finalStats,
-                characterImage: state.characterData.characterImage
+                characterImage: state.characterData.characterImage,
+                imageTransformations: state.characterData.imageTransformations
             };
             onComplete(characterData);
         }
@@ -94,7 +94,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
 
     const isFirstStep = state.currentStep === 1;
     const isLastStep = state.currentStep === state.totalSteps;
-    const canProceed = state.isValid;
+    const canProceed = true; // Always allow navigation between steps
 
     return (
         <div className="character-wizard-container">
@@ -192,7 +192,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                                 type="button"
                                 className="wizard-btn wizard-btn-primary"
                                 onClick={handleComplete}
-                                disabled={!canProceed || isLoading}
+                                disabled={!state.isValid || isLoading}
                             >
                                 {isLoading ? (
                                     <>
@@ -211,7 +211,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                                 type="button"
                                 className="wizard-btn wizard-btn-primary"
                                 onClick={handleNext}
-                                disabled={!canProceed || isLoading}
+                                disabled={isLoading}
                             >
                                 Next
                                 <i className="fas fa-arrow-right"></i>
@@ -219,18 +219,6 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                         )}
                     </div>
                 </div>
-
-                {/* Validation errors */}
-                {Object.keys(state.validationErrors).length > 0 && (
-                    <div className="wizard-errors">
-                        {Object.values(state.validationErrors).map((error, index) => (
-                            <div key={index} className="error-message">
-                                <i className="fas fa-exclamation-triangle"></i>
-                                {error}
-                            </div>
-                        ))}
-                    </div>
-                )}
             </div>
         </div>
     );

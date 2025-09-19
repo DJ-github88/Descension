@@ -66,20 +66,21 @@ const initialState = {
         name: '',
         gender: 'male',
         characterImage: null,
-        
+        imageTransformations: null,
+
         // Race and subrace
         race: '',
         subrace: '',
-        
+
         // Class
         class: '',
-        
+
         // Background
         background: '',
-        
+
         // Stats (point-buy allocation)
         baseStats: getDefaultStats(),
-        
+
         // Calculated final stats (with all modifiers)
         finalStats: getDefaultStats()
     },
@@ -292,8 +293,8 @@ const validateCurrentStep = (state) => {
         case WIZARD_STEPS.RACE_SELECTION:
             if (!characterData.race) {
                 errors.race = 'Please select a race';
-            }
-            if (!characterData.subrace) {
+            } else if (!characterData.subrace) {
+                // Only require subrace if a race is selected
                 errors.subrace = 'Please select a subrace';
             }
             break;

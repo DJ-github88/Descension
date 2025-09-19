@@ -583,10 +583,7 @@ const CharacterToken = ({
                         : isTargeted
                         ? '0 0 15px rgba(255, 152, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : '0 2px 8px rgba(0, 0, 0, 0.3)',
-                    backgroundImage: `url(${getCharacterImage()})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
                     pointerEvents: 'all', // Ensure it can receive mouse events
                     userSelect: 'none',
                     touchAction: 'none'
@@ -597,6 +594,27 @@ const CharacterToken = ({
                 onMouseDown={handleMouseDown}
                 onClick={handleTokenClick}
             >
+                {/* Character Image with Transformations */}
+                <div
+                    className="token-icon"
+                    style={{
+                        backgroundImage: `url(${getCharacterImage()})`,
+                        width: '100%',
+                        height: '100%',
+                        backgroundSize: characterData.lore.imageTransformations
+                            ? `${(characterData.lore.imageTransformations.scale || 1) * 100}%`
+                            : 'cover',
+                        backgroundPosition: characterData.lore.imageTransformations
+                            ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 4}% ${50 + (characterData.lore.imageTransformations.positionY || 0) / 4}%`
+                            : 'center center',
+                        backgroundRepeat: 'no-repeat',
+                        borderRadius: '50%',
+                        transform: characterData.lore.imageTransformations
+                            ? `rotate(${characterData.lore.imageTransformations.rotation || 0}deg)`
+                            : 'none'
+                    }}
+                ></div>
+
                 {/* Health bar removed - health is visible in HUD and hover tooltip */}
 
                 {/* Character Name Label */}

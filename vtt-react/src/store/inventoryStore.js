@@ -11,6 +11,22 @@ import {
     rotateShape
 } from '../utils/itemShapeUtils';
 
+// Helper function to get current character and record changes
+const recordCharacterChange = (changeType, changeData) => {
+    try {
+        // Import character store dynamically to avoid circular dependencies
+        const characterStore = require('./characterStore').default;
+        const state = characterStore.getState();
+
+        if (state.currentCharacterId) {
+            // Record the change asynchronously
+            state.recordCharacterChange(state.currentCharacterId, changeType, changeData);
+        }
+    } catch (error) {
+        console.warn('Could not record character change:', error);
+    }
+};
+
 // Helper function to check if a position is valid for an item with custom shape support
 const isValidPosition = (items, row, col, itemToPlace, itemId = null) => {
     // Get current grid size dynamically
@@ -249,9 +265,33 @@ const useInventoryStore = create(persist((set, get) => ({
     },
 
     updateCurrency: (currencyData) => set((state) => {
+        const oldCurrency = { ...state.currency };
         const newCurrency = { ...state.currency, ...currencyData };
         // Apply automatic conversion
         const convertedCurrency = get().convertCurrencyUpward(newCurrency);
+
+        // Calculate the difference to determine if currency was gained or spent
+        const currencyDiff = {};
+        let hasGains = false;
+        let hasSpending = false;
+
+        Object.keys(convertedCurrency).forEach(currencyType => {
+            const diff = convertedCurrency[currencyType] - oldCurrency[currencyType];
+            if (diff !== 0) {
+                currencyDiff[currencyType] = Math.abs(diff);
+                if (diff > 0) hasGains = true;
+                if (diff < 0) hasSpending = true;
+            }
+        });
+
+        // Record character change for persistence
+        if (hasGains) {
+            recordCharacterChange('currency_gain', currencyDiff);
+        }
+        if (hasSpending) {
+            recordCharacterChange('currency_spend', currencyDiff);
+        }
+
         return { currency: convertedCurrency };
     }),
 
@@ -286,6 +326,13 @@ const useInventoryStore = create(persist((set, get) => ({
 
         if (updateResult.result.success) {
             set(updateResult.newState);
+
+            // Record character change for persistence
+            recordCharacterChange('inventory_add', {
+                item: itemData,
+                addedItemId: updateResult.result.addedItemId,
+                timestamp: new Date()
+            });
         }
 
         return updateResult.result;
@@ -767,6 +814,14 @@ const useInventoryStore = create(persist((set, get) => ({
                 quantity: item.quantity - quantity
             };
 
+            // Record character change for persistence
+            recordCharacterChange('inventory_modify', {
+                itemId: itemId,
+                changes: { quantity: item.quantity - quantity },
+                previousQuantity: item.quantity,
+                timestamp: new Date()
+            });
+
             // Update encumbrance after removing item
             setTimeout(() => get().updateEncumbranceState(), 0);
 
@@ -777,6 +832,13 @@ const useInventoryStore = create(persist((set, get) => ({
         console.log(`🗑️ Removing entire item: ${item.name}`);
         const updatedItems = state.items.filter(item => item.id !== itemId);
         console.log(`🗑️ Inventory items after removal: ${updatedItems.length} (was ${state.items.length})`);
+
+        // Record character change for persistence
+        recordCharacterChange('inventory_remove', {
+            itemId: itemId,
+            item: item,
+            timestamp: new Date()
+        });
 
         // Update encumbrance after removing item
         setTimeout(() => get().updateEncumbranceState(), 0);

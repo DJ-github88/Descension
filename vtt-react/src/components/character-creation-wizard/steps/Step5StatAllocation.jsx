@@ -179,32 +179,37 @@ const Step5StatAllocation = () => {
 
                     {/* Right side - Character summary */}
                     <div className="character-summary-panel">
-                        <div className="summary-card">
-                            <div className="summary-header">
-                                <h3>Character Summary</h3>
+                        <div className="preview-card">
+                            <div className="preview-header">
+                                <div className="preview-icon">
+                                    <i className="fas fa-dice-d20"></i>
+                                </div>
+                                <h3 className="preview-title">Stat Allocation</h3>
                             </div>
-                            <div className="summary-content">
-                                <div className="summary-section">
+                            <div className="preview-content">
+                                <div className="preview-section">
                                     <h4>Basic Information</h4>
-                                    <div className="summary-row">
-                                        <span>Name:</span>
-                                        <span>{characterData.name}</span>
-                                    </div>
-                                    <div className="summary-row">
-                                        <span>Race:</span>
-                                        <span>{race} ({subrace})</span>
-                                    </div>
-                                    <div className="summary-row">
-                                        <span>Class:</span>
-                                        <span>{characterData.class}</span>
-                                    </div>
-                                    <div className="summary-row">
-                                        <span>Background:</span>
-                                        <span>{background}</span>
+                                    <div className="detail-grid">
+                                        <div className="detail-item">
+                                            <span className="detail-label">Name:</span>
+                                            <span className="detail-value">{characterData.name}</span>
+                                        </div>
+                                        <div className="detail-item">
+                                            <span className="detail-label">Race:</span>
+                                            <span className="detail-value">{race} ({subrace})</span>
+                                        </div>
+                                        <div className="detail-item">
+                                            <span className="detail-label">Class:</span>
+                                            <span className="detail-value">{characterData.class}</span>
+                                        </div>
+                                        <div className="detail-item">
+                                            <span className="detail-label">Background:</span>
+                                            <span className="detail-value">{background}</span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="summary-section">
+                                <div className="preview-section">
                                     <h4>Final Ability Scores</h4>
                                     <div className="final-stats-grid">
                                         {ABILITY_SCORES.map((ability) => {
@@ -227,20 +232,20 @@ const Step5StatAllocation = () => {
                                     </div>
                                 </div>
 
-                                <div className="summary-section">
+                                <div className="preview-section">
                                     <h4>Point Allocation</h4>
-                                    <div className="allocation-summary">
-                                        <div className="allocation-row">
-                                            <span>Total Points:</span>
-                                            <span>{totalPoints}</span>
+                                    <div className="detail-grid">
+                                        <div className="detail-item">
+                                            <span className="detail-label">Total Points:</span>
+                                            <span className="detail-value">{totalPoints}</span>
                                         </div>
-                                        <div className="allocation-row">
-                                            <span>Points Used:</span>
-                                            <span>{totalPoints - availablePoints}</span>
+                                        <div className="detail-item">
+                                            <span className="detail-label">Points Used:</span>
+                                            <span className="detail-value">{totalPoints - availablePoints}</span>
                                         </div>
-                                        <div className="allocation-row remaining">
-                                            <span>Points Remaining:</span>
-                                            <span>{availablePoints}</span>
+                                        <div className="detail-item remaining">
+                                            <span className="detail-label">Points Remaining:</span>
+                                            <span className="detail-value">{availablePoints}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -248,24 +253,9 @@ const Step5StatAllocation = () => {
                         </div>
                     </div>
                 </div>
-            </div>
 
-                <div className="step-footer">
-                    <div className="step-hints">
-                        <div className="hint">
-                            <i className="fas fa-calculator"></i>
-                            <span>Higher ability scores cost more points (14 costs 7 points, 15 costs 9 points)</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-plus"></i>
-                            <span>Racial and background modifiers are applied automatically to your base scores</span>
-                        </div>
-                        <div className="hint">
-                            <i className="fas fa-balance-scale"></i>
-                            <span>Consider your class when allocating points - fighters need Strength, wizards need Intelligence</span>
-                        </div>
-                    </div>
-                </div>
+
+            </div>
             </div>
     );
 };
