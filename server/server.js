@@ -618,17 +618,23 @@ io.on('connection', (socket) => {
         chatHistory: room.chatHistory
       });
 
-      // Notify other players in the room
+      // Notify ALL players in the room (including the one who just joined)
       console.log(`📢 Broadcasting player_joined event to room ${roomId} for player:`, player.name);
       console.log(`📢 Current players in room before broadcast:`, Array.from(room.players.values()).map(p => p.name));
 
       // Calculate accurate player count: GM + regular players
       const totalPlayerCount = room.players.size + 1; // +1 for GM
 
-      socket.to(roomId).emit('player_joined', {
+      // Broadcast to ALL players in the room (including the new player)
+      io.to(roomId).emit('player_joined', {
         player: player,
         playerCount: totalPlayerCount,
         playerName: player.name
+      });
+
+      // Also send a separate player count update to ensure all clients have the correct count
+      io.to(roomId).emit('player_count_updated', {
+        playerCount: totalPlayerCount
       });
 
       console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${totalPlayerCount})`);
@@ -1777,11 +1783,16 @@ io.on('connection', (socket) => {
         // Calculate accurate player count: GM + remaining regular players
         const totalPlayerCount = result.room.players.size + 1; // +1 for GM
 
-        // Notify remaining players
-        socket.to(result.room.id).emit('player_left', {
+        // Notify ALL remaining players in the room
+        io.to(result.room.id).emit('player_left', {
           player: result.player,
           playerCount: totalPlayerCount,
           playerName: result.player.name
+        });
+
+        // Also send a separate player count update
+        io.to(result.room.id).emit('player_count_updated', {
+          playerCount: totalPlayerCount
         });
 
         // Update room data in Firebase

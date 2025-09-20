@@ -218,25 +218,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('player_joined', (data) => {
       console.log(`👥 Player joined:`, data.player.name, `Total players: ${data.playerCount}`);
 
-      // Update connected players list
+      // Update connected players list - don't require currentRoom to be set yet
+      setConnectedPlayers(prev => {
+        // Check if player already exists to avoid duplicates
+        const existingPlayer = prev.find(p => p.id === data.player.id);
+        if (existingPlayer) {
+          console.log(`⚠️ Player ${data.player.name} already in list, skipping duplicate`);
+          return prev;
+        }
+
+        // Don't add current player to connected players list (they're handled separately)
+        if (currentPlayer && data.player.id === currentPlayer.id) {
+          console.log(`⚠️ Skipping current player ${data.player.name} in connected players list`);
+          return prev;
+        }
+
+        const updated = [...prev, data.player];
+        console.log(`✅ Updated player list:`, updated.map(p => p.name));
+        return updated;
+      });
+
+      // Show player join notification (only if currentRoom is set)
       if (currentRoom) {
-        setConnectedPlayers(prev => {
-          // Check if player already exists to avoid duplicates
-          const existingPlayer = prev.find(p => p.id === data.player.id);
-          if (existingPlayer) {
-            console.log(`⚠️ Player ${data.player.name} already in list, skipping duplicate`);
-            return prev;
-          }
-          const updated = [...prev, data.player];
-          console.log(`✅ Updated player list:`, updated.map(p => p.name));
-          return updated;
-        });
-
-        // Show player join notification
         showPlayerJoinNotification(data.player.name, currentRoom.name);
+      }
 
-        // Use character name if available, otherwise fall back to player name
-        const playerCharacterName = data.player.character?.name || data.player.name;
+      // Use character name if available, otherwise fall back to player name
+      const playerCharacterName = data.player.character?.name || data.player.name;
 
         // Add to party system with character data
         addPartyMember({
@@ -262,16 +270,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           status: 'online'
         });
 
-        // Add chat notification about player joining
-        addNotification('social', {
-          sender: { name: 'System', class: 'system', level: 0 },
-          content: `${data.player.name} joined the room`,
-          type: 'system',
-          timestamp: new Date().toISOString()
-        });
-      } else {
-        console.warn('🎮 Player joined but no current room set');
-      }
+      // Add chat notification about player joining
+      addNotification('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `${data.player.name} joined the room`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    // Listen for player count updates
+    socket.on('player_count_updated', (data) => {
+      console.log(`📊 Player count updated: ${data.playerCount} players`);
+      // This will trigger a re-render of the player count display
+      setConnectedPlayers(prev => prev); // Force re-render
     });
 
     socket.on('player_left', (data) => {
@@ -810,6 +822,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('connect');
       socket.off('disconnect');
       socket.off('player_joined');
+      socket.off('player_count_updated');
       socket.off('player_left');
       socket.off('room_closed');
       socket.off('chat_message');
