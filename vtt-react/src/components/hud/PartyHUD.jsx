@@ -817,7 +817,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const handleMemberDrag = useCallback((member, data) => {
         // Update the member's position IMMEDIATELY for responsive visual feedback
         setMemberPosition(member.id, { x: data.x, y: data.y });
-    }, [setMemberPosition]);
+    }, []); // Zustand store functions are stable, no deps needed
 
     // Removed: Test functions for buffs/debuffs
 

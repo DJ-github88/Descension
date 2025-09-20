@@ -852,11 +852,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // Add player to Firebase room members for persistence (if authenticated)
       try {
-        const { user } = useAuthStore.getState();
-        if (user && room.persistentRoomId) {
-          const { joinRoom } = await import('../../services/roomService');
-          await joinRoom(room.persistentRoomId, user.uid, room.password || '');
-          console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
+        // Check if auth store is available (might not be in all environments)
+        if (typeof useAuthStore !== 'undefined') {
+          const { user } = useAuthStore.getState();
+          if (user && room.persistentRoomId) {
+            const { joinRoom } = await import('../../services/roomService');
+            await joinRoom(room.persistentRoomId, user.uid, room.password || '');
+            console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
+          }
+        } else {
+          console.log('🔄 Auth store not available, skipping Firebase persistence');
         }
       } catch (error) {
         console.warn('Failed to add player to persistent room:', error);

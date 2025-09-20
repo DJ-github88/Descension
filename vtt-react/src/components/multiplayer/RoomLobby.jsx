@@ -47,7 +47,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         setRoomName(`${activeCharacter.name}'s Campaign`);
       }
     }
-  }, [activeTab, getActiveCharacter]);
+  }, [activeTab]); // Removed getActiveCharacter from deps to prevent infinite loop
 
   // Function to refresh names based on active character
   const refreshCharacterNames = () => {
@@ -452,6 +452,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     const activeCharacter = getActiveCharacter();
     const characterName = activeCharacter?.name || activeCharacter?.baseName;
     const finalPlayerName = characterName || playerNameRef.current.trim();
+
+    // Sync player name ref with character name for GM detection
+    if (characterName) {
+      playerNameRef.current = characterName;
+      setPlayerName(characterName);
+    }
 
     if (!finalPlayerName || !roomName.trim()) {
       if (!finalPlayerName) {
