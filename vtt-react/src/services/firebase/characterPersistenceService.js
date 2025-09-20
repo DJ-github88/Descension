@@ -17,7 +17,7 @@ import {
   serverTimestamp,
   runTransaction
 } from 'firebase/firestore';
-import { db, auth, isFirebaseConfigured } from '../../config/firebase';
+import { db, auth, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 
 // Import backup service for automatic backups
 let characterBackupService = null;
@@ -176,7 +176,7 @@ function transformFromStorage(firestoreData) {
  */
 class CharacterPersistenceService {
   constructor() {
-    this.isConfigured = isFirebaseConfigured;
+    this.isConfigured = isFirebaseConfigured && !isDemoMode;
   }
 
   /**

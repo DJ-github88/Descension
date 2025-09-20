@@ -17,7 +17,7 @@ import {
   serverTimestamp,
   runTransaction
 } from 'firebase/firestore';
-import { db, isFirebaseConfigured } from '../../config/firebase';
+import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
 
 // Import sync service for offline handling
 let characterSyncService = null;
@@ -41,7 +41,7 @@ const COLLECTIONS = {
  */
 class CharacterSessionService {
   constructor() {
-    this.isConfigured = isFirebaseConfigured;
+    this.isConfigured = isFirebaseConfigured && !isDemoMode;
     this.activeSessions = new Map(); // Local cache of active sessions
   }
 
@@ -49,8 +49,9 @@ class CharacterSessionService {
    * Start a new character session
    */
   async startSession(characterId, userId, roomId = null) {
-    if (!this.isConfigured || !db) {
-      console.warn('Firebase not configured, using local session tracking');
+    if (!this.isConfigured || !db || isDemoMode) {
+      const reason = isDemoMode ? 'Demo mode enabled' : 'Firebase not configured';
+      console.warn(`${reason}, using local session tracking`);
       // Create local session for offline mode
       const sessionId = `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       this.activeSessions.set(characterId, {
@@ -70,6 +71,7 @@ class CharacterSessionService {
         status: 'active',
         isLocal: true
       });
+      console.log(`✅ Local character session created: ${sessionId} for character ${characterId} (${reason})`);
       return sessionId;
     }
 
