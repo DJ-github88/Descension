@@ -10,13 +10,19 @@ export default function GameProvider({ children }) {
             gameState.initializeStore();
         }
 
-        // Initialize character system - load active character if available
+        // Initialize character system with comprehensive health check
         const initializeCharacterSystem = async () => {
             try {
-                const { loadActiveCharacter } = useCharacterStore.getState();
-                await loadActiveCharacter();
+                const { initializeCharacterSystem } = useCharacterStore.getState();
+                const result = await initializeCharacterSystem();
+
+                if (result.isReady) {
+                    console.log(`🎮 Character system ready: ${result.activeCharacter.name}`);
+                } else {
+                    console.log(`⚠️ Character system needs attention: ${result.charactersCount} characters available`);
+                }
             } catch (error) {
-                console.error('Error initializing character system:', error);
+                console.error('❌ Error initializing character system:', error);
             }
         };
 

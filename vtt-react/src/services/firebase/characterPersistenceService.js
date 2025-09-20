@@ -20,7 +20,7 @@ import {
   writeBatch,
   runTransaction
 } from 'firebase/firestore';
-import { db, isFirebaseConfigured } from '../../config/firebase';
+import { db, auth, isFirebaseConfigured } from '../../config/firebase';
 
 // Import backup service for automatic backups
 let characterBackupService = null;
@@ -292,6 +292,36 @@ class CharacterPersistenceService {
   }
 
   /**
+   * Check if user is properly authenticated for Firebase operations
+   */
+  async checkAuthentication() {
+    if (!this.isConfigured || !auth) {
+      return false;
+    }
+
+    try {
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        console.warn('🔐 No authenticated user found');
+        return false;
+      }
+
+      // Check if the user's token is still valid
+      const token = await currentUser.getIdToken(false);
+      if (!token) {
+        console.warn('🔐 User token is invalid');
+        return false;
+      }
+
+      console.log(`✅ User authenticated: ${currentUser.uid}`);
+      return true;
+    } catch (error) {
+      console.error('❌ Authentication check failed:', error);
+      return false;
+    }
+  }
+
+  /**
    * Load all characters for a user
    */
   async loadUserCharacters(userId) {
@@ -301,6 +331,12 @@ class CharacterPersistenceService {
 
     if (!userId) {
       throw new Error('User ID is required');
+    }
+
+    // Check authentication before proceeding
+    const isAuthenticated = await this.checkAuthentication();
+    if (!isAuthenticated) {
+      throw new Error('User not properly authenticated for Firebase access');
     }
 
     try {
@@ -325,6 +361,19 @@ class CharacterPersistenceService {
 
     } catch (error) {
       console.error('Error loading user characters:', error);
+
+      // Handle specific Firebase errors more gracefully
+      if (error.code === 'permission-denied') {
+        console.warn('🔒 Firebase permission denied - user may not be properly authenticated');
+        throw new Error('Permission denied: Please ensure you are logged in and try again');
+      } else if (error.code === 'unavailable') {
+        console.warn('🌐 Firebase service unavailable - network or server issue');
+        throw new Error('Service unavailable: Please check your internet connection and try again');
+      } else if (error.code === 'unauthenticated') {
+        console.warn('🔐 User not authenticated for Firebase access');
+        throw new Error('Authentication required: Please log in and try again');
+      }
+
       throw new Error(`Failed to load characters: ${error.message}`);
     }
   }

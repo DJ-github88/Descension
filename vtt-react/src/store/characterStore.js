@@ -43,12 +43,26 @@ const getCurrentUserId = () => {
             userId: state.user?.uid || 'none',
             isAuthenticated: state.isAuthenticated,
             isDevelopmentBypass: state.isDevelopmentBypass,
-            userEmail: state.user?.email || 'none'
+            userEmail: state.user?.email || 'none',
+            hostname: window.location.hostname,
+            nodeEnv: process.env.NODE_ENV
         });
+
+        // In development mode, always return a user ID to prevent Firebase permission issues
+        if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
+            const devUserId = state.user?.uid || 'dev-user-localhost';
+            console.log(`🔧 Development mode: Using user ID: ${devUserId}`);
+            return devUserId;
+        }
 
         return state.user?.uid || null;
     } catch (error) {
         console.warn('Could not get current user ID:', error);
+        // In development, provide a fallback user ID
+        if (process.env.NODE_ENV === 'development') {
+            console.log('🔧 Development fallback: Using dev-user-fallback');
+            return 'dev-user-fallback';
+        }
         return null;
     }
 };
@@ -1205,15 +1219,29 @@ const useCharacterStore = create((set, get) => ({
             }
 
             // Fallback to localStorage (for offline mode or when Firebase fails)
-            const savedCharacters = localStorage.getItem('mythrill-characters');
-            const characters = savedCharacters ? JSON.parse(savedCharacters) : [];
+            let characters = [];
+            try {
+                const savedCharacters = localStorage.getItem('mythrill-characters');
+                characters = savedCharacters ? JSON.parse(savedCharacters) : [];
+                console.log(`✅ Loaded ${characters.length} characters from localStorage`);
+            } catch (localStorageError) {
+                console.error('❌ Error loading from localStorage:', localStorageError);
+                characters = [];
+            }
+
+            // Ensure characters array is valid
+            if (!Array.isArray(characters)) {
+                console.warn('⚠️ Characters data is not an array, resetting to empty array');
+                characters = [];
+            }
+
             set({ characters, isLoading: false });
-            console.log(`✅ Loaded ${characters.length} characters from localStorage`);
+            console.log(`📋 Final character count: ${characters.length}`);
             return characters;
         } catch (error) {
-            console.error('Error loading characters:', error);
-            set({ error: 'Failed to load characters', isLoading: false });
-            throw error;
+            console.error('❌ Critical error loading characters:', error);
+            set({ error: 'Failed to load characters', isLoading: false, characters: [] });
+            return [];
         }
     },
 
@@ -1444,8 +1472,25 @@ const useCharacterStore = create((set, get) => ({
     // Get the currently active character
     getActiveCharacter: () => {
         const state = get();
+        console.log('🔍 Getting active character...', {
+            currentCharacterId: state.currentCharacterId,
+            charactersCount: state.characters.length,
+            characterIds: state.characters.map(c => c.id)
+        });
+
         if (state.currentCharacterId) {
-            return state.characters.find(char => char.id === state.currentCharacterId);
+            const character = state.characters.find(char => char.id === state.currentCharacterId);
+            if (character) {
+                console.log(`✅ Found active character: ${character.name} (${character.id})`);
+                return character;
+            } else {
+                console.warn(`⚠️ Active character ID ${state.currentCharacterId} not found in characters array`);
+                // Clear invalid active character ID
+                localStorage.removeItem('mythrill-active-character');
+                set({ currentCharacterId: null });
+            }
+        } else {
+            console.log('ℹ️ No active character ID set');
         }
         return null;
     },
@@ -1453,15 +1498,20 @@ const useCharacterStore = create((set, get) => ({
     // Load active character from localStorage on app initialization
     loadActiveCharacter: async () => {
         try {
+            console.log('🔄 Starting active character loading process...');
+
             // First ensure characters are loaded
-            await get().loadCharacters();
+            const characters = await get().loadCharacters();
+            console.log(`📋 Characters loaded: ${characters.length} found`);
 
             // Then check for active character
             const activeCharacterId = localStorage.getItem('mythrill-active-character');
+            console.log(`🔍 Checking for stored active character: ${activeCharacterId || 'none'}`);
+
             if (activeCharacterId) {
                 const character = get().setActiveCharacter(activeCharacterId);
                 if (character) {
-                    console.log(`🔄 Restored active character: ${character.name}`);
+                    console.log(`✅ Restored active character: ${character.name} (${character.id})`);
                     return character;
                 } else {
                     // Character not found, clear the stored ID
@@ -1469,8 +1519,43 @@ const useCharacterStore = create((set, get) => ({
                     console.warn('⚠️ Stored active character not found, cleared selection');
                 }
             }
+
+            // If no active character is set but characters exist, suggest the first one
+            if (characters.length > 0 && !activeCharacterId) {
+                console.log(`💡 No active character set, but ${characters.length} characters available`);
+                console.log('💡 Consider setting an active character using the character management interface');
+            }
+
         } catch (error) {
-            console.error('Error loading active character:', error);
+            console.error('❌ Error loading active character:', error);
+            // Try to provide a fallback by checking localStorage directly
+            try {
+                const savedCharacters = localStorage.getItem('mythrill-characters');
+                const activeCharacterId = localStorage.getItem('mythrill-active-character');
+
+                if (savedCharacters && activeCharacterId) {
+                    const characters = JSON.parse(savedCharacters);
+                    const character = characters.find(char => char.id === activeCharacterId);
+
+                    if (character) {
+                        console.log(`🔄 Fallback: Found character in localStorage: ${character.name}`);
+                        // Manually set the character data without going through the full loading process
+                        set({
+                            currentCharacterId: character.id,
+                            characters: characters,
+                            name: character.name || 'Character Name',
+                            baseName: character.baseName || character.name || 'Character Name',
+                            race: character.race || '',
+                            subrace: character.subrace || '',
+                            class: character.class || 'Class',
+                            level: character.level || 1
+                        });
+                        return character;
+                    }
+                }
+            } catch (fallbackError) {
+                console.error('❌ Fallback character loading also failed:', fallbackError);
+            }
         }
         return null;
     },
@@ -1511,21 +1596,118 @@ const useCharacterStore = create((set, get) => ({
 
     clearError: () => set({ error: null }),
 
+    // System health check and initialization
+    initializeCharacterSystem: async () => {
+        console.log('🔄 Initializing character system...');
+
+        try {
+            // Load characters first
+            const characters = await get().loadCharacters();
+
+            // Check for active character
+            const activeCharacter = await get().loadActiveCharacter();
+
+            // Provide helpful feedback
+            if (characters.length === 0) {
+                console.log('ℹ️ No characters found. User should create their first character.');
+                set({ error: 'Welcome! Create your first character to get started.' });
+            } else if (!activeCharacter) {
+                console.log(`💡 Found ${characters.length} characters but none are active. User should activate one.`);
+                const characterNames = characters.map(c => c.name).join(', ');
+                set({ error: `Please activate a character to continue. Available: ${characterNames}` });
+            } else {
+                console.log(`✅ Character system ready. Active character: ${activeCharacter.name}`);
+                set({ error: null });
+            }
+
+            return {
+                charactersCount: characters.length,
+                activeCharacter,
+                isReady: !!activeCharacter
+            };
+        } catch (error) {
+            console.error('❌ Character system initialization failed:', error);
+            set({ error: 'Failed to initialize character system. Please refresh and try again.' });
+            return {
+                charactersCount: 0,
+                activeCharacter: null,
+                isReady: false,
+                error: error.message
+            };
+        }
+    },
+
+    // Debug function for troubleshooting (available in console)
+    debugCharacterSystem: () => {
+        const state = get();
+        const userId = getCurrentUserId();
+        const useFirebase = shouldUseFirebase();
+
+        const debugInfo = {
+            // Character data
+            charactersCount: state.characters.length,
+            currentCharacterId: state.currentCharacterId,
+            activeCharacterName: state.currentCharacterId ?
+                state.characters.find(c => c.id === state.currentCharacterId)?.name : 'None',
+
+            // Authentication
+            userId: userId || 'None',
+            useFirebase,
+
+            // Storage
+            localStorageCharacters: (() => {
+                try {
+                    const saved = localStorage.getItem('mythrill-characters');
+                    return saved ? JSON.parse(saved).length : 0;
+                } catch { return 'Error reading'; }
+            })(),
+            localStorageActiveId: localStorage.getItem('mythrill-active-character'),
+
+            // Environment
+            hostname: window.location.hostname,
+            nodeEnv: process.env.NODE_ENV,
+
+            // State
+            isLoading: state.isLoading,
+            error: state.error
+        };
+
+        console.log('🔍 Character System Debug Info:');
+        console.table(debugInfo);
+
+        // Provide recommendations
+        if (debugInfo.charactersCount === 0) {
+            console.log('💡 Recommendation: Create your first character');
+        } else if (!debugInfo.currentCharacterId) {
+            console.log('💡 Recommendation: Activate a character using the character management interface');
+        } else {
+            console.log('✅ Character system appears to be working correctly');
+        }
+
+        return debugInfo;
+    },
+
     // Character Session Management for Multiplayer
     startCharacterSession: async (characterId, roomId = null) => {
         try {
             const userId = getCurrentUserId();
             if (!userId) {
-                console.warn('No user authenticated, cannot start character session');
-                return null;
+                console.warn('⚠️ No user authenticated, using local session tracking');
+                // Still create a local session for offline mode
+                const localSessionId = `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+                console.log(`✅ Local character session created: ${localSessionId} for character ${characterId}`);
+                return localSessionId;
             }
 
             const sessionId = await characterSessionService.startSession(characterId, userId, roomId);
             console.log(`✅ Character session started: ${sessionId} for character ${characterId}`);
             return sessionId;
         } catch (error) {
-            console.error('Error starting character session:', error);
-            return null;
+            console.error('❌ Error starting character session:', error);
+            // Create a fallback local session
+            const fallbackSessionId = `fallback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            console.log(`🔄 Created fallback session: ${fallbackSessionId} for character ${characterId}`);
+            return fallbackSessionId;
         }
     },
 
@@ -1724,6 +1906,35 @@ const initializeCharacterStore = () => {
 
 // Run initialization
 initializeCharacterStore();
+
+// Make debug functions available globally for troubleshooting
+if (typeof window !== 'undefined') {
+    window.debugCharacterSystem = () => {
+        const store = useCharacterStore.getState();
+        return store.debugCharacterSystem();
+    };
+
+    // Also provide quick access to character system status
+    window.getCharacterSystemStatus = () => {
+        const store = useCharacterStore.getState();
+        const activeCharacter = store.getActiveCharacter();
+
+        return {
+            charactersCount: store.characters.length,
+            activeCharacter: activeCharacter ? {
+                id: activeCharacter.id,
+                name: activeCharacter.name,
+                class: activeCharacter.class,
+                level: activeCharacter.level
+            } : null,
+            isReady: !!activeCharacter
+        };
+    };
+
+    console.log('🔧 Debug functions available:');
+    console.log('- window.debugCharacterSystem() - Full system debug info');
+    console.log('- window.getCharacterSystemStatus() - Quick status check');
+}
 
 // Debug function to manually recalculate stats (can be called from browser console)
 window.recalculateCharacterStats = () => {

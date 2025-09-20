@@ -822,17 +822,42 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         activeCharacter = await loadActiveCharacter();
       }
 
-      if (activeCharacter) {
-        console.log(`🎮 Loading active character into multiplayer: ${activeCharacter.name}`);
+      // If still no active character, check if any characters exist and suggest activation
+      if (!activeCharacter) {
+        console.warn('⚠️ No active character found for multiplayer session');
 
-        // Start character session for tracking changes during multiplayer
+        // Try to get available characters
+        const { characters } = useCharacterStore.getState();
+        if (characters && characters.length > 0) {
+          console.log(`💡 Found ${characters.length} available characters. Please activate one before joining multiplayer.`);
+          // Show a user-friendly message with actionable guidance
+          const characterNames = characters.map(c => c.name).join(', ');
+          setError(`Please select and activate a character before joining multiplayer rooms. Available characters: ${characterNames}. Go to Account > Characters to activate one.`);
+          return;
+        } else {
+          console.log('ℹ️ No characters available. User needs to create a character first.');
+          setError('You need to create a character before joining multiplayer rooms. Go to Account > Characters to create your first character.');
+          return;
+        }
+      }
+
+      console.log(`🎮 Loading active character into multiplayer: ${activeCharacter.name}`);
+
+      // Start character session for tracking changes during multiplayer
+      try {
         const sessionId = await startCharacterSession(activeCharacter.id, room.id);
         if (sessionId) {
           console.log(`✅ Character session started: ${sessionId}`);
+        } else {
+          console.warn('⚠️ Character session could not be started, but continuing with multiplayer');
         }
+      } catch (sessionError) {
+        console.error('❌ Error starting character session:', sessionError);
+        console.log('🔄 Continuing with multiplayer without session tracking');
+      }
 
-        // Set room name for multiplayer context (this will format the display name)
-        setRoomName(room.name);
+      // Set room name for multiplayer context (this will format the display name)
+      setRoomName(room.name);
 
         // Sync character inventory with inventory store
         try {
@@ -886,13 +911,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           });
           console.log('📤 Character data sent to server');
         }
-      } else {
-        console.warn('⚠️ No active character found for multiplayer session');
-        // Fall back to updating character name to match player name
-        if (currentPlayerData?.name) {
-          updateCharacterInfo('name', currentPlayerData.name);
-        }
-      }
     } catch (error) {
       console.error('Error loading active character for multiplayer:', error);
       // Fall back to updating character name to match player name
