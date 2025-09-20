@@ -247,6 +247,17 @@ export const addChatMessage = async (roomId, message) => {
  * @returns {Promise<Array>} - Array of room data
  */
 export const getUserRooms = async (userId) => {
+  // Check for demo mode
+  try {
+    const { isDemoMode } = await import('../config/firebase');
+    if (isDemoMode) {
+      console.log('🔧 Demo mode: Returning empty rooms list');
+      return [];
+    }
+  } catch (error) {
+    console.warn('Could not check demo mode:', error);
+  }
+
   if (!db) {
     throw new Error('Firebase not initialized');
   }
@@ -545,6 +556,24 @@ export const updateGameStateSection = async (roomId, section, sectionData) => {
  * @returns {Promise<Object>} - Room limit information
  */
 export const getRoomLimits = async (userId = null) => {
+  // Check for demo mode
+  try {
+    const { isDemoMode } = await import('../config/firebase');
+    if (isDemoMode) {
+      console.log('🔧 Demo mode: Returning demo room limits');
+      return {
+        tier: { name: 'Demo', roomLimit: 999 },
+        limit: 999,
+        used: 0,
+        remaining: 999,
+        canCreate: true,
+        rooms: []
+      };
+    }
+  } catch (error) {
+    console.warn('Could not check demo mode:', error);
+  }
+
   const uid = userId || auth.currentUser?.uid;
 
   if (!uid) {

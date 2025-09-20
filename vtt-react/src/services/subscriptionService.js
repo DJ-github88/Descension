@@ -70,6 +70,24 @@ class SubscriptionService {
    * @returns {Object} - Subscription tier object
    */
   async getUserTier(userId = null) {
+    // Check for demo mode
+    try {
+      const { isDemoMode } = await import('../config/firebase');
+      if (isDemoMode) {
+        console.log('🔧 Demo mode: Returning demo tier');
+        return {
+          id: 'demo',
+          name: 'Demo Mode',
+          roomLimit: 999,
+          features: ['Unlimited rooms', 'All features unlocked', 'Demo mode'],
+          price: 0,
+          description: 'Demo mode with unlimited access'
+        };
+      }
+    } catch (error) {
+      console.warn('Could not check demo mode:', error);
+    }
+
     // If not logged in, return guest tier
     if (!auth.currentUser && !userId) {
       return SUBSCRIPTION_TIERS.GUEST;

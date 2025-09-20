@@ -61,6 +61,17 @@ const shouldUseFirebase = () => {
         return false;
     }
 
+    // Check for demo mode - always use localStorage in demo mode
+    try {
+        const { isDemoMode } = require('../config/firebase');
+        if (isDemoMode) {
+            console.log('🔧 Demo mode detected - using localStorage only');
+            return false;
+        }
+    } catch (error) {
+        console.warn('Could not check demo mode:', error);
+    }
+
     // Check if Firebase is properly configured and user is authenticated
     const userId = getCurrentUserId();
     return !!(userId && characterPersistenceService.isConfigured);
