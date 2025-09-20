@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Draggable from 'react-draggable';
-import { Resizable } from 'react-resizable';
+// Removed: Resizable - not used
 import usePartyStore from '../../store/partyStore';
 import useTargetingStore from '../../store/targetingStore';
 import useCharacterStore from '../../store/characterStore';
@@ -19,7 +19,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
     const frameRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { isGMMode } = useGameStore();
-    const { getBuffsForTarget, getRemainingTime, updateBuffTimers } = useBuffStore();
+    const { getBuffsForTarget, getRemainingTime, updateBuffTimers, removeBuff } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers } = useDebuffStore();
     const [showResourceModal, setShowResourceModal] = useState(false);
     const [resourceModalData, setResourceModalData] = useState(null);
@@ -540,8 +540,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [contextMenuBuff, setContextMenuBuff] = useState(null);
     const nodeRefs = useRef({});
 
-    // Force re-render when party member resources change for real-time updates
-    const [forceUpdate, setForceUpdate] = useState(0);
+    // Removed: Unused force update state
 
     // Subscribe to party store changes for real-time updates
     useEffect(() => {
@@ -549,7 +548,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             (state) => state.partyMembers,
             (partyMembers) => {
 
-                setForceUpdate(prev => prev + 1);
+                // Removed: Force update call
             }
         );
 
@@ -587,7 +586,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         }
                     });
                 }
-                setForceUpdate(prev => prev + 1);
+                // Removed: Force update call
             }
         );
 
@@ -597,9 +596,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         };
     }, []);
 
-    const { partyMembers, removePartyMember } = usePartyStore();
+    const {
+        partyMembers,
+        removePartyMember,
+        updatePartyMember,
+        getMemberPosition,
+        setMemberPosition
+    } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource } = useCharacterStore();
+    const { removeBuff } = useBuffStore();
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,

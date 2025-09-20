@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import EnvironmentDebug from '../debug/EnvironmentDebug';
-import { debugWarn, debugError, DEBUG_CATEGORIES } from '../../utils/debugUtils';
+// Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 
 import useGameStore from '../../store/gameStore';
@@ -11,6 +11,7 @@ import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
+import useAuthStore from '../../store/authStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import './styles/MultiplayerApp.css';
 
@@ -33,16 +34,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [isGM, setIsGM] = useState(false);
   const [connectedPlayers, setConnectedPlayers] = useState([]);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [error, setError] = useState(null);
+  // Removed: Unused state variables
 
   // Get stores for state synchronization
-  const { setGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
-  const { updateCharacterInfo, setRoomName, clearRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
-  const { addPartyMember, removePartyMember, createParty } = usePartyStore();
-  const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
-  const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
-  const { addCharacterToken } = useCharacterTokenStore();
+  const { setGMMode, setMultiplayerState } = useGameStore();
+  const { getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
+  const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
+  const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
+  const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore();
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
@@ -54,8 +53,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const THROTTLE_CLEANUP_INTERVAL = 15000; // Clean up throttle map every 15 seconds
   const THROTTLE_ENTRY_LIFETIME = 30000; // Remove entries older than 30 seconds
 
-  // Track player's own drag operations to prevent feedback loops
-  const playerDragStateRef = useRef(new Map()); // Track what the player is currently dragging
+  // Removed: Unused drag state tracking
 
   // Performance optimization: Batch updates to prevent lag spikes
   const updateBatchRef = useRef([]);
@@ -1006,8 +1004,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     const activeCharacter = getActiveCharacter();
     const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
 
-    // Determine if current player is the GM (use the isGameMaster parameter passed to function)
-    const isCurrentPlayerGM = isGameMaster;
+    // Removed: Unused variable
 
     // Create party with current player's character name (not user name)
     createParty(room.name, currentPlayerCharacterName);
@@ -1080,7 +1077,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Initialize game state manager for persistent room state
     if (room.persistentRoomId || room.id) {
-      const roomId = room.persistentRoomId || room.id;
+      // Removed: Unused roomId variable
 
       // DISABLED: Game state loading causes old tokens to appear in fresh rooms
       // Only enable auto-save for GMs, but don't load old state for fresh rooms
