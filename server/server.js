@@ -621,12 +621,17 @@ io.on('connection', (socket) => {
       // Notify other players in the room
       console.log(`📢 Broadcasting player_joined event to room ${roomId} for player:`, player.name);
       console.log(`📢 Current players in room before broadcast:`, Array.from(room.players.values()).map(p => p.name));
+
+      // Calculate accurate player count: GM + regular players
+      const totalPlayerCount = room.players.size + 1; // +1 for GM
+
       socket.to(roomId).emit('player_joined', {
         player: player,
-        playerCount: room.players.size + (room.isActive !== false ? 1 : 0) // +1 for GM only if GM is online
+        playerCount: totalPlayerCount,
+        playerName: player.name
       });
 
-      console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${room.players.size + 1})`);
+      console.log(`✅ ${playerName} joined room: ${room.name} (Total players: ${totalPlayerCount})`);
     }
 
     // Send current grid items to the newly joined player
@@ -887,33 +892,31 @@ io.on('connection', (socket) => {
         return;
       }
 
-    // Throttle character movement broadcasts to prevent player lag (more aggressive)
-    const broadcastKey = `${player.roomId}_character_${player.id}`;
-    const now = Date.now();
-    if (!global.lastCharacterBroadcast) global.lastCharacterBroadcast = new Map();
-    const lastBroadcast = global.lastCharacterBroadcast.get(broadcastKey) || 0;
-    const throttleTime = data.isDragging ? 75 : 150; // Reduced to ~13fps for dragging, ~7fps for final positions
+      // Throttle character movement broadcasts to prevent player lag (more aggressive)
+      const broadcastKey = `${player.roomId}_character_${player.id}`;
+      const now = Date.now();
+      if (!global.lastCharacterBroadcast) global.lastCharacterBroadcast = new Map();
+      const lastBroadcast = global.lastCharacterBroadcast.get(broadcastKey) || 0;
+      const throttleTime = data.isDragging ? 50 : 16; // Faster updates: ~20fps for dragging, immediate for final positions
 
-    if (now - lastBroadcast > throttleTime) {
-      global.lastCharacterBroadcast.set(broadcastKey, now);
+      if (now - lastBroadcast > throttleTime || !data.isDragging) {
+        global.lastCharacterBroadcast.set(broadcastKey, now);
 
-      // Broadcast character movement to ALL players in the room (including mover for confirmation)
-      const movementData = {
-        position: data.position,
-        playerId: player.id,
-        playerName: player.name,
-        isDragging: data.isDragging || false,
-        timestamp: new Date(),
-        serverTimestamp: now
-      };
+        // Broadcast character movement to ALL players in the room (including mover for confirmation)
+        const movementData = {
+          position: data.position,
+          playerId: player.id,
+          playerName: player.name,
+          isDragging: data.isDragging || false,
+          timestamp: new Date(),
+          serverTimestamp: now
+        };
 
-      io.to(player.roomId).emit('character_moved', movementData);
+        // Broadcast to all other players in the room
+        socket.to(player.roomId).emit('character_moved', movementData);
 
-      // Also emit to the sender for confirmation (prevents desync)
-      socket.emit('character_moved', movementData);
-    }
-
-      console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
+        console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
+      }
     } catch (error) {
       console.error('Error handling character movement:', error);
       socket.emit('error', { message: 'Failed to process character movement' });
@@ -1734,10 +1737,14 @@ io.on('connection', (socket) => {
 
         console.log(`GM temporarily disconnected from: ${result.room.name}`);
       } else if (result.type === 'player_left') {
+        // Calculate accurate player count: GM + remaining regular players
+        const totalPlayerCount = result.room.players.size + 1; // +1 for GM
+
         // Notify remaining players
         socket.to(result.room.id).emit('player_left', {
           player: result.player,
-          playerCount: result.room.players.size + (result.room.isActive !== false ? 1 : 0) // +1 for GM only if GM is online
+          playerCount: totalPlayerCount,
+          playerName: result.player.name
         });
 
         // Update room data in Firebase

@@ -10,14 +10,11 @@ import {
   doc,
   getDocs,
   getDoc,
-  addDoc,
   updateDoc,
-  deleteDoc,
   query,
   where,
   orderBy,
   serverTimestamp,
-  writeBatch,
   runTransaction
 } from 'firebase/firestore';
 import { db, auth, isFirebaseConfigured } from '../../config/firebase';

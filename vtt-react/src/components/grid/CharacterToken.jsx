@@ -261,8 +261,8 @@ const CharacterToken = ({
             const now = Date.now();
 
             // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
-            if (isInMultiplayer && multiplayerSocket) {
-                if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
+            if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
+                if (now - lastNetworkUpdate > 50) { // Reduced to 20fps for better performance
                     // Snap to grid during drag to ensure consistency with final position
                     const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
@@ -272,6 +272,7 @@ const CharacterToken = ({
                         isDragging: true
                     });
                     lastNetworkUpdate = now;
+                    console.log(`📡 Sent character drag position:`, { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) });
                 }
             }
         };
@@ -324,11 +325,12 @@ const CharacterToken = ({
             updateCharacterTokenPosition(tokenId, { x: snappedWorldPos.x, y: snappedWorldPos.y });
 
             // Send final position to multiplayer
-            if (isInMultiplayer && multiplayerSocket) {
+            if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
                 multiplayerSocket.emit('character_moved', {
                     position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
                     isDragging: false
                 });
+                console.log(`📡 Sent character final position:`, { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) });
             }
 
             // End dragging and reset all states

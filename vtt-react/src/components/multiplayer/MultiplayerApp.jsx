@@ -34,10 +34,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [isGM, setIsGM] = useState(false);
   const [connectedPlayers, setConnectedPlayers] = useState([]);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [error, setError] = useState(null);
 
   // Get stores for state synchronization
   const { setGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
-  const { updateCharacterInfo, setRoomName, clearRoomName, getActiveCharacter, loadActiveCharacter } = useCharacterStore();
+  const { updateCharacterInfo, setRoomName, clearRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
   const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
   const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
@@ -216,6 +217,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
+      console.log(`👥 Player joined:`, data.player.name, `Total players: ${data.playerCount}`);
 
       // Update connected players list
       if (currentRoom) {
@@ -223,34 +225,38 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Check if player already exists to avoid duplicates
           const existingPlayer = prev.find(p => p.id === data.player.id);
           if (existingPlayer) {
+            console.log(`⚠️ Player ${data.player.name} already in list, skipping duplicate`);
             return prev;
           }
           const updated = [...prev, data.player];
+          console.log(`✅ Updated player list:`, updated.map(p => p.name));
           return updated;
         });
 
         // Show player join notification
         showPlayerJoinNotification(data.player.name, currentRoom.name);
 
-        // Add to party system
+        // Add to party system with enhanced character data
         addPartyMember({
           id: data.player.id,
           name: data.player.name,
           character: {
-            class: 'Unknown',
-            level: 1,
-            health: { current: 100, max: 100 },
-            mana: { current: 50, max: 50 },
-            actionPoints: { current: 3, max: 3 }
+            class: data.player.character?.class || 'Unknown',
+            level: data.player.character?.level || 1,
+            health: data.player.character?.health || { current: 100, max: 100 },
+            mana: data.player.character?.mana || { current: 50, max: 50 },
+            actionPoints: data.player.character?.actionPoints || { current: 3, max: 3 },
+            race: data.player.character?.race || 'Unknown',
+            raceDisplayName: data.player.character?.raceDisplayName || 'Unknown'
           }
         });
 
-        // Add to chat system
+        // Add to chat system with enhanced character data
         addUser({
           id: data.player.id,
           name: data.player.name,
-          class: 'Unknown',
-          level: 1,
+          class: data.player.character?.class || 'Unknown',
+          level: data.player.character?.level || 1,
           status: 'online'
         });
 
@@ -267,8 +273,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('player_left', (data) => {
+      console.log(`👥 Player left:`, data.player.name, `Total players: ${data.playerCount}`);
+
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
+        console.log(`✅ Updated player list after leave:`, updated.map(p => p.name));
         return updated;
       });
 
@@ -391,52 +400,34 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_moved', (data) => {
       // Enhanced check to prevent processing our own movements
       const isOwnMovement = data.playerId === currentPlayer?.id ||
-                           data.playerId === socket.id ||
-                           (window.multiplayerDragState && window.multiplayerDragState.has('character'));
+                           data.playerId === socket.id;
 
+      // Don't check multiplayerDragState for character movements as it can cause sync issues
       if (isOwnMovement) {
+        console.log(`🚫 Ignoring own character movement from ${data.playerId}`);
         return;
       }
 
-      // Only update if it's not our own movement (to avoid double updates and feedback loops)
-      if (!isOwnMovement) {
-        // Smart throttling based on current player role
+      console.log(`👤 Received character movement from ${data.playerName || data.playerId}:`, data.position, `isDragging: ${data.isDragging}`);
+
+      // Process movement from other players
+        // Smart throttling based on current player role and drag state
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
-        const throttleMs = isGM ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
+        const throttleMs = data.isDragging ? 33 : 16; // Faster updates during drag, immediate for final position
 
-        if (now - lastUpdate >= throttleMs) {
+        if (now - lastUpdate >= throttleMs || !data.isDragging) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Batch character updates for better performance
-          const updateData = {
-            type: 'character',
-            playerId: data.playerId,
-            position: data.position,
-            timestamp: now
-          };
-
-          updateBatchRef.current.push(updateData);
-
-          // Process batch after a short delay to group updates
-          if (batchTimeoutRef.current) {
-            clearTimeout(batchTimeoutRef.current);
+          // Update character token position immediately for better responsiveness
+          try {
+            const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+            updateCharacterTokenPosition(data.playerId, data.position);
+            console.log(`✅ Updated character token position for ${data.playerName || data.playerId}:`, data.position);
+          } catch (error) {
+            console.error('❌ Failed to update character token position:', error);
           }
-
-          batchTimeoutRef.current = setTimeout(() => {
-            const batch = updateBatchRef.current.splice(0);
-            if (batch.length > 0) {
-              requestAnimationFrame(() => {
-                batch.forEach(update => {
-                  if (update.type === 'character') {
-                    const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-                    updateCharacterTokenPosition(update.playerId, update.position);
-                  }
-                });
-              });
-            }
-          }, 33); // Increased delay to reduce frequency and prevent performance issues
         }
 
         // Clean up throttle entry immediately when dragging stops
@@ -446,7 +437,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             tokenUpdateThrottleRef.current.delete(throttleKey);
           }, 100);
         }
-      }
     });
 
     // Listen for item drops from other players
@@ -504,18 +494,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
+      console.log(`🎭 Received character token creation from ${data.playerName}:`, data);
+
+      // Don't process our own token creation
+      if (data.playerId === currentPlayer?.id) {
+        console.log(`🚫 Ignoring own character token creation`);
+        return;
+      }
 
       // Import character token store dynamically to avoid circular dependencies
       import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
-        const { addCharacterTokenFromServer } = useCharacterTokenStore.getState();
+        const { addCharacterTokenFromServer, addCharacterToken } = useCharacterTokenStore.getState();
 
         // Add character token directly from server data (bypasses multiplayer sending)
         if (addCharacterTokenFromServer) {
           addCharacterTokenFromServer(data.tokenId, data.position, data.playerId);
+          console.log(`✅ Added character token from server for ${data.playerName}`);
         } else {
           // Fallback to regular method but don't send to server
-          const { addCharacterToken } = useCharacterTokenStore.getState();
           addCharacterToken(data.position, data.playerId, false); // false = don't send to server
+          console.log(`✅ Added character token (fallback) for ${data.playerName}`);
         }
 
         // Show notification in chat only if it's not our own creation
@@ -623,7 +621,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
       if (data.character?.playerId && data.character.playerId !== currentPlayer?.id) {
-        console.log(`📊 Received character update from ${data.character.name}`);
+        console.log(`📊 Received character update from ${data.character.name}:`, data.character);
 
         // Update party member with new character data
         const updatedCharacterData = {
@@ -631,24 +629,54 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           level: data.character.level || 1,
           health: data.character.health || { current: 100, max: 100 },
           mana: data.character.mana || { current: 50, max: 50 },
-          actionPoints: data.character.actionPoints || { current: 3, max: 3 }
+          actionPoints: data.character.actionPoints || { current: 3, max: 3 },
+          race: data.character.race || 'Unknown',
+          raceDisplayName: data.character.raceDisplayName || 'Unknown',
+          exhaustionLevel: data.character.exhaustionLevel || 0,
+          classResource: data.character.classResource || { current: 0, max: 0 }
         };
 
-        // Update party member data
-        addPartyMember({
-          id: data.character.playerId,
-          name: data.character.name,
-          character: updatedCharacterData
-        });
+        // Update party member data (use updatePartyMember if exists, otherwise add)
+        try {
+          updatePartyMember(data.character.playerId, {
+            name: data.character.name,
+            character: updatedCharacterData
+          });
+        } catch (error) {
+          // Fallback to adding if update fails
+          addPartyMember({
+            id: data.character.playerId,
+            name: data.character.name,
+            character: updatedCharacterData
+          });
+        }
 
         // Update chat user data
-        addUser({
-          id: data.character.playerId,
-          name: data.character.name,
-          class: updatedCharacterData.class,
-          level: updatedCharacterData.level,
-          status: 'online'
-        });
+        try {
+          updateUser(data.character.playerId, {
+            name: data.character.name,
+            class: updatedCharacterData.class,
+            level: updatedCharacterData.level
+          });
+        } catch (error) {
+          // Fallback to adding if update fails
+          addUser({
+            id: data.character.playerId,
+            name: data.character.name,
+            class: updatedCharacterData.class,
+            level: updatedCharacterData.level,
+            status: 'online'
+          });
+        }
+
+        // Update connected players list with character data
+        setConnectedPlayers(prev => prev.map(player =>
+          player.id === data.character.playerId
+            ? { ...player, character: updatedCharacterData }
+            : player
+        ));
+
+        console.log(`✅ Updated character data for ${data.character.name} in all systems`);
       }
     });
 
@@ -937,7 +965,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     }
 
-    setConnectedPlayers(allPlayers);
+    // Remove duplicates based on player ID
+    const uniquePlayers = allPlayers.filter((player, index, self) =>
+      index === self.findIndex(p => p.id === player.id)
+    );
+
+    console.log(`🎮 Setting initial player list:`, uniquePlayers.map(p => p.name));
+    setConnectedPlayers(uniquePlayers);
 
     // Integrate multiplayer players into party system
     // GM should always be the leader, regardless of who the current player is
