@@ -1465,16 +1465,22 @@ const useCharacterStore = create((set, get) => ({
     // Get the currently active character
     getActiveCharacter: () => {
         const state = get();
-        console.log('🔍 Getting active character...', {
-            currentCharacterId: state.currentCharacterId,
-            charactersCount: state.characters.length,
-            characterIds: state.characters.map(c => c.id)
-        });
+
+        // Only log in development mode and throttle the logging
+        if (process.env.NODE_ENV === 'development') {
+            const now = Date.now();
+            if (!state._lastActiveCharacterLog || now - state._lastActiveCharacterLog > 5000) {
+                console.log('🔍 Getting active character...', {
+                    currentCharacterId: state.currentCharacterId,
+                    charactersCount: state.characters.length
+                });
+                set({ _lastActiveCharacterLog: now });
+            }
+        }
 
         if (state.currentCharacterId) {
             const character = state.characters.find(char => char.id === state.currentCharacterId);
             if (character) {
-                console.log(`✅ Found active character: ${character.name} (${character.id})`);
                 return character;
             } else {
                 console.warn(`⚠️ Active character ID ${state.currentCharacterId} not found in characters array`);
@@ -1482,8 +1488,6 @@ const useCharacterStore = create((set, get) => ({
                 localStorage.removeItem('mythrill-active-character');
                 set({ currentCharacterId: null });
             }
-        } else {
-            console.log('ℹ️ No active character ID set');
         }
         return null;
     },
