@@ -269,7 +269,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         addPartyMember(newPartyMember);
 
         // Broadcast party member addition to other players
-        if (socket) {
+        if (socket && socket.connected) {
           socket.emit('party_member_added', {
             member: newPartyMember
           });
@@ -302,10 +302,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for party member additions from other clients
     socket.on('party_member_added', (data) => {
-      console.log(`🎭 Received party member addition: ${data.member.name} added by ${data.addedBy}`);
+      console.log(`🎭 Received party member addition:`, data.member?.name || 'Unknown');
 
       // Add the party member to our local party store
-      addPartyMember(data.member);
+      if (data.member) {
+        addPartyMember(data.member);
+      }
     });
 
     socket.on('player_left', (data) => {
