@@ -56,7 +56,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       const characterName = activeCharacter.name || activeCharacter.baseName;
       setPlayerName(characterName);
       if (activeTab === 'create') {
-        setRoomName(`${characterName}'s Campaign`);
+        // Use just the character name as the room name, not "xxx's Campaign"
+        setRoomName(characterName);
       }
       console.log(`🎮 Using active character: ${characterName}`);
     } else {

@@ -997,12 +997,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     }
 
-    // Remove duplicates based on player ID
+    // Remove duplicates based on player ID and exclude current player from connected list
     const uniquePlayers = allPlayers.filter((player, index, self) =>
-      index === self.findIndex(p => p.id === player.id)
+      index === self.findIndex(p => p.id === player.id) && player.id !== currentPlayerData?.id
     );
 
-    console.log(`🎮 Setting initial player list:`, uniquePlayers.map(p => p.name));
+    console.log(`🎮 Setting initial player list (excluding current player):`, uniquePlayers.map(p => p.name));
     setConnectedPlayers(uniquePlayers);
 
     // Integrate multiplayer players into party system
@@ -1014,6 +1014,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Create party with current player's character name (not user name)
     createParty(room.name, currentPlayerCharacterName);
+
+    // Add current player to party system first
+    addPartyMember({
+      id: 'current-player',
+      name: currentPlayerCharacterName,
+      character: {
+        class: activeCharacter?.class || 'Unknown',
+        level: activeCharacter?.level || 1,
+        health: activeCharacter?.health || { current: 100, max: 100 },
+        mana: activeCharacter?.mana || { current: 50, max: 50 },
+        actionPoints: activeCharacter?.actionPoints || { current: 3, max: 3 },
+        race: activeCharacter?.race || 'Unknown',
+        raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown'
+      }
+    });
 
     // Add current player to chat system
     addUser({
@@ -1201,7 +1216,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         </button>
         <div className="room-info">
           <span className="room-name">{currentRoom.name}</span>
-          <span className="player-count">{connectedPlayers.length} players</span>
+          <span className="player-count">{connectedPlayers.length + 1} players</span>
         </div>
       </div>
     </div>
