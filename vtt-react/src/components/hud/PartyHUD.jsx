@@ -291,7 +291,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                     <div className="portrait-image">
                         <i className="fas fa-user"></i>
                     </div>
-                    {member.role === 'leader' && <div className="leader-crown"><i className="fas fa-crown"></i></div>}
+                    {/* Removed: Complex leadership crown - GM status determined by room role */}
                 </div>
 
                 {/* Info Section */}
@@ -597,11 +597,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         };
     }, []);
 
-    const { isInParty, partyMembers, removePartyMember, updatePartyMember, setMemberPosition, getMemberPosition, createParty, isPartyLeader, passLeadership, currentParty } = usePartyStore();
+    const { partyMembers, removePartyMember } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource } = useCharacterStore();
-    const { addBuff, removeBuff } = useBuffStore();
-    const { addDebuff, removeDebuff } = useDebuffStore();
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,
@@ -707,16 +705,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     };
 
-    const handlePassLeadership = () => {
-        if (contextMenuMember) {
-            const success = passLeadership(contextMenuMember.id);
-            if (success) {
-
-            }
-        }
-        setShowContextMenu(false);
-        setContextMenuMember(null);
-    };
+    // Removed: Leadership transfer - Room creator is always GM
 
     const handleResourceAdjust = (memberId, resourceType, adjustment, hudElementRef = null) => {
         if (memberId === 'current-player') {
@@ -824,38 +813,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setMemberPosition(member.id, { x: data.x, y: data.y });
     }, [setMemberPosition]);
 
-    // Test function to add a buff
-    const addTestBuff = () => {
-        addBuff({
-            name: 'Strength Boost',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_strength.jpg',
-            description: 'Increases strength by 5 for a short duration.',
-            effects: {
-                strength: 5,
-                damage: 10
-            },
-            duration: 60, // 1 minute
-            source: 'test',
-            stackable: false
-        });
-    };
-
-    // Test function to add a debuff
-    const addTestDebuff = () => {
-        addDebuff({
-            name: 'Weakness Curse',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofachimonde.jpg',
-            description: 'Reduces strength and agility by 3 for a short duration.',
-            effects: {
-                strength: 3, // Will be made negative by debuff store
-                agility: 3,
-                damage: 5
-            },
-            duration: 45, // 45 seconds
-            source: 'spell',
-            stackable: false
-        });
-    };
+    // Removed: Test functions for buffs/debuffs
 
     // Auto-create party if not in one (for HUD display)
     React.useEffect(() => {
@@ -864,8 +822,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     }, [isInParty, createParty, currentPlayerData.name]);
 
-    // Simple rule: Only show HUDs for players currently in the room
-    // Party members list is the source of truth for who gets HUDs
+    // Simple rule: Show HUDs for all room members
+    // No complex leadership - room creator is GM, others are players
     const displayMembers = partyMembers.map(member => {
         // Update current player with live character data
         if (member.id === 'current-player') {
@@ -887,12 +845,6 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             };
         }
         return member;
-    });
-
-    // Set leadership
-    const currentLeaderId = currentParty?.leaderId || 'current-player';
-    displayMembers.forEach(member => {
-        member.role = member.id === currentLeaderId ? 'leader' : 'member';
     });
 
     return (
@@ -985,14 +937,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
-                // Only show pass leadership if current player is leader and target is not current player
-                if (isPartyLeader() && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
-                    menuItems.push({
-                        icon: <i className="fas fa-crown"></i>,
-                        label: 'Pass Leadership',
-                        onClick: handlePassLeadership
-                    });
-                }
+                // Removed: Complex leadership transfer - Room creator is always GM
 
                 return (
                     <UnifiedContextMenu

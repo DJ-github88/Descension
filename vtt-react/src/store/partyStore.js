@@ -11,12 +11,7 @@ export const PARTY_STATUS = {
     OFFLINE: 'offline'
 };
 
-// Party roles
-export const PARTY_ROLES = {
-    LEADER: 'leader',
-    MEMBER: 'member',
-    ASSISTANT: 'assistant'
-};
+// Removed: Complex party roles - Room creator is GM, others are players
 
 // Initial state
 const initialState = {
@@ -66,7 +61,6 @@ const usePartyStore = create(
                     id: uuidv4(),
                     name: partyName,
                     createdAt: Date.now(),
-                    leaderId: 'current-player', // This would be the current player's ID
                     maxMembers: 6,
                     isPublic: false
                 };
@@ -75,7 +69,7 @@ const usePartyStore = create(
                 const maelisCharacterData = {
                     id: 'maelis-party-member',
                     name: 'Maelis',
-                    role: PARTY_ROLES.MEMBER,
+                    // Removed: Complex roles
                     status: PARTY_STATUS.ONLINE,
                     joinedAt: Date.now(),
                     character: {
@@ -204,19 +198,17 @@ const usePartyStore = create(
                     partyMembers: [
                         {
                             id: 'current-player',
-                            name: currentPlayerName, // Use actual character name
-                            role: PARTY_ROLES.LEADER,
+                            name: currentPlayerName,
                             status: PARTY_STATUS.ONLINE,
                             joinedAt: Date.now(),
                             character: {
-                                class: 'Pyrofiend',
+                                class: 'Unknown',
                                 level: 1,
                                 health: { current: 100, max: 100 },
                                 mana: { current: 50, max: 50 },
                                 actionPoints: { current: 3, max: 3 }
                             }
                         }
-                        // Remove hardcoded placeholder member for multiplayer
                     ]
                 });
             },
@@ -251,7 +243,6 @@ const usePartyStore = create(
                 const newMember = {
                     id: memberData.id || uuidv4(),
                     name: memberData.name,
-                    role: PARTY_ROLES.MEMBER,
                     status: PARTY_STATUS.ONLINE,
                     joinedAt: Date.now(),
                     character: memberData.character || {
@@ -413,53 +404,9 @@ const usePartyStore = create(
                 return state.partyMembers.find(member => member.id === memberId);
             },
 
-            isPartyLeader: (memberId = 'current-player') => {
-                const state = get();
-                return state.currentParty?.leaderId === memberId;
-            },
+            // Removed: Complex party leadership - Room creator is always GM
 
-            // Pass leadership to another member
-            passLeadership: (newLeaderId) => {
-                const state = get();
-
-                // Only current leader can pass leadership
-                if (state.currentParty?.leaderId !== 'current-player') {
-                    return false;
-                }
-
-                // Check if the new leader is a valid party member
-                const newLeader = state.partyMembers.find(member => member.id === newLeaderId);
-                if (!newLeader) {
-                    return false;
-                }
-
-                set(state => ({
-                    currentParty: {
-                        ...state.currentParty,
-                        leaderId: newLeaderId
-                    },
-                    partyMembers: state.partyMembers.map(member => ({
-                        ...member,
-                        role: member.id === newLeaderId ? PARTY_ROLES.LEADER :
-                              member.id === 'current-player' ? PARTY_ROLES.MEMBER :
-                              member.role
-                    }))
-                }));
-
-                // Update GM mode based on new leadership
-                try {
-                    import('../store/gameStore').then(({ default: useGameStore }) => {
-                        const gameStore = useGameStore.getState();
-                        const isNewLeaderCurrentPlayer = newLeaderId === 'current-player';
-                        gameStore.setGMMode(isNewLeaderCurrentPlayer);
-                        console.log(`🎖️ Leadership transferred to ${newLeader.name}. GM mode: ${isNewLeaderCurrentPlayer}`);
-                    });
-                } catch (error) {
-                    console.error('Failed to update GM mode after leadership transfer:', error);
-                }
-
-                return true;
-            },
+            // Removed: Complex leadership transfer - Room creator is always GM
 
             getPartySize: () => {
                 const state = get();

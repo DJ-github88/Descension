@@ -39,7 +39,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Get stores for state synchronization
   const { setGMMode, setMultiplayerState, updateTokenPosition } = useGameStore();
   const { updateCharacterInfo, setRoomName, clearRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
-  const { addPartyMember, removePartyMember, passLeadership, createParty } = usePartyStore();
+  const { addPartyMember, removePartyMember, createParty } = usePartyStore();
   const { addUser, removeUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
   const { updateTokenPosition: updateCreatureTokenPosition, tokens, addCreature, addToken } = useCreatureStore();
   const { addCharacterToken } = useCharacterTokenStore();
@@ -975,7 +975,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     }
 
-    // Update game store GM mode
+    // Simple: Room creator = GM, others = players
     setGMMode(isGameMaster);
 
     // Create/update party with multiplayer players
@@ -1055,16 +1055,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Set proper GM leadership - only if current player is NOT the GM
-    if (!isCurrentPlayerGM) {
-      const gmPlayer = allPlayers.find(p => p.id === room.gm.id);
-      if (gmPlayer) {
-        console.log(`🎖️ Setting GM leadership to ${gmPlayer.name} (ID: ${gmPlayer.id})`);
-        passLeadership(gmPlayer.id);
-      }
-    } else {
-      console.log(`🎖️ Current player is GM, keeping leadership`);
-    }
+    // Simple: Room creator is GM, others are players (no leadership transfer needed)
 
     // Set multiplayer state in game store with socket
     setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection);
@@ -1149,8 +1140,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setIsGM(false);
     setConnectedPlayers([]);
 
-    // Reset GM mode and clear multiplayer state
-    setGMMode(true); // Default back to GM mode for single player
+    // Reset to single player GM mode
+    setGMMode(true);
     setMultiplayerState(false, null, null);
   };
 

@@ -18,7 +18,7 @@ const GMPlayerToggle = () => {
     };
 
     const handleClick = (e) => {
-        // Only toggle if we're not dragging and not in multiplayer
+        // GM mode is determined by room role in multiplayer, can only toggle in single player
         if (!isDragging && !isInMultiplayer) {
             toggleGMMode();
         }
@@ -44,7 +44,7 @@ const GMPlayerToggle = () => {
                     onClick={handleClick}
                     disabled={isInMultiplayer}
                     title={isInMultiplayer
-                        ? 'Mode locked in multiplayer - determined by room role'
+                        ? 'GM mode determined by room creator status'
                         : (isGMMode ? 'Switch to Player View (fog blocks visibility)' : 'Switch to GM View (see through fog)')
                     }
                 >
