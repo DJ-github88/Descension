@@ -34,11 +34,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [currentPlayer, setCurrentPlayer] = useState(null);
   const [isGM, setIsGM] = useState(false);
   const [connectedPlayers, setConnectedPlayers] = useState([]);
-  // Removed: Unused state variables
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [error, setError] = useState(null);
 
   // Get stores for state synchronization
   const { setGMMode, setMultiplayerState } = useGameStore();
-  const { getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
+  const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
   const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
   const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore();
