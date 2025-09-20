@@ -127,7 +127,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             // Check if the click is inside any context menu
             const isInsideContextMenu = event.target.closest('.party-context-menu') ||
                                       event.target.closest('.buff-context-menu') ||
-                                      event.target.closest('.debuff-context-menu');
+                                      event.target.closest('.debuff-context-menu') ||
+                                      event.target.closest('.unified-context-menu');
 
             if (!isInsideContextMenu) {
                 if (showContextMenu) {
@@ -984,6 +985,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     x={contextMenuPosition.x}
                     y={contextMenuPosition.y}
                     onClose={() => setShowContextMenu(false)}
+                    disableClickOutside={true}
                     items={[
                         {
                             icon: <i className="fas fa-search"></i>,
@@ -992,6 +994,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 console.log('🎯 TargetHUD: Inspect clicked');
                                 e.preventDefault();
                                 e.stopPropagation();
+                                setShowContextMenu(false); // Close menu immediately
                                 handleInspectTarget();
                             }
                         },
@@ -1002,6 +1005,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 console.log('🎯 TargetHUD: Clear Target clicked');
                                 e.preventDefault();
                                 e.stopPropagation();
+                                setShowContextMenu(false); // Close menu immediately
                                 handleClearTarget();
                             }
                         }

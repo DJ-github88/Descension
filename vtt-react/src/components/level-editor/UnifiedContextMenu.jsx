@@ -7,13 +7,17 @@ const UnifiedContextMenu = ({
     y,
     onClose,
     items = [],
-    title = null
+    title = null,
+    disableClickOutside = false
 }) => {
     const menuRef = useRef(null);
 
     // Handle clicks outside the menu and prevent wheel events from bubbling
     useEffect(() => {
         const handleClickOutside = (event) => {
+            // Skip click outside handling if disabled (parent component handles it)
+            if (disableClickOutside) return;
+
             console.log('🖱️ [CONTEXT MENU] Click outside detected, target:', event.target);
             console.log('🖱️ [CONTEXT MENU] Menu ref current:', menuRef.current);
             console.log('🖱️ [CONTEXT MENU] Contains check:', menuRef.current?.contains(event.target));
@@ -60,7 +64,7 @@ const UnifiedContextMenu = ({
                 }
             };
         }
-    }, [visible, onClose]);
+    }, [visible, onClose, disableClickOutside]);
 
     // Calculate position to keep menu on screen
     const getMenuPosition = () => {
