@@ -263,22 +263,11 @@ const usePartyStore = create(
                     }
                 };
 
-                // Always make current player the leader when adding a member
-                let updatedMembers = [...state.partyMembers, newMember];
+                // Add new member without changing leadership
+                const updatedMembers = [...state.partyMembers, newMember];
 
-                // Find and update current player to be leader
-                updatedMembers = updatedMembers.map(member =>
-                    member.id === 'current-player'
-                        ? { ...member, role: PARTY_ROLES.LEADER }
-                        : { ...member, role: PARTY_ROLES.MEMBER }
-                );
-
-                // Update both party members and leader ID
+                // Keep existing leadership structure
                 set(state => ({
-                    currentParty: state.currentParty ? {
-                        ...state.currentParty,
-                        leaderId: 'current-player'
-                    } : state.currentParty,
                     partyMembers: updatedMembers
                 }));
 
@@ -457,6 +446,18 @@ const usePartyStore = create(
                               member.role
                     }))
                 }));
+
+                // Update GM mode based on new leadership
+                try {
+                    import('../store/gameStore').then(({ default: useGameStore }) => {
+                        const gameStore = useGameStore.getState();
+                        const isNewLeaderCurrentPlayer = newLeaderId === 'current-player';
+                        gameStore.setGMMode(isNewLeaderCurrentPlayer);
+                        console.log(`🎖️ Leadership transferred to ${newLeader.name}. GM mode: ${isNewLeaderCurrentPlayer}`);
+                    });
+                } catch (error) {
+                    console.error('Failed to update GM mode after leadership transfer:', error);
+                }
 
                 return true;
             },

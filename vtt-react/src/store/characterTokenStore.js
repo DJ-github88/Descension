@@ -96,10 +96,10 @@ const useCharacterTokenStore = create(
                 };
             }),
 
-            // Update character token position
-            updateCharacterTokenPosition: (tokenId, position) => set(state => ({
+            // Update character token position (by player ID for multiplayer sync)
+            updateCharacterTokenPosition: (playerIdOrTokenId, position) => set(state => ({
                 characterTokens: state.characterTokens.map(token =>
-                    token.id === tokenId
+                    token.id === playerIdOrTokenId || token.playerId === playerIdOrTokenId
                         ? { ...token, position }
                         : token
                 )

@@ -236,10 +236,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Show player join notification
         showPlayerJoinNotification(data.player.name, currentRoom.name);
 
-        // Add to party system with enhanced character data
+        // Use character name if available, otherwise fall back to player name
+        const playerCharacterName = data.player.character?.name || data.player.name;
+
+        // Add to party system with character data
         addPartyMember({
           id: data.player.id,
-          name: data.player.name,
+          name: playerCharacterName,
           character: {
             class: data.player.character?.class || 'Unknown',
             level: data.player.character?.level || 1,
@@ -251,10 +254,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
         });
 
-        // Add to chat system with enhanced character data
+        // Add to chat system
         addUser({
           id: data.player.id,
-          name: data.player.name,
+          name: playerCharacterName,
           class: data.player.character?.class || 'Unknown',
           level: data.player.character?.level || 1,
           status: 'online'
@@ -411,28 +414,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       console.log(`👤 Received character movement from ${data.playerName || data.playerId}:`, data.position, `isDragging: ${data.isDragging}`);
 
       // Process movement from other players
-        // Smart throttling based on current player role and drag state
+        // Throttle character token position updates
         const throttleKey = `character_${data.playerId}`;
         const now = Date.now();
         const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
-        const throttleMs = data.isDragging ? 33 : 16; // Faster updates during drag, immediate for final position
+        const throttleMs = data.isDragging ? 33 : 16;
 
         if (now - lastUpdate >= throttleMs || !data.isDragging) {
           tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Update character token position immediately for better responsiveness
+          // Update character token position
           try {
             const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
             updateCharacterTokenPosition(data.playerId, data.position);
-            console.log(`✅ Updated character token position for ${data.playerName || data.playerId}:`, data.position);
           } catch (error) {
-            console.error('❌ Failed to update character token position:', error);
+            console.error('Failed to update character token position:', error);
           }
         }
 
-        // Clean up throttle entry immediately when dragging stops
+        // Clean up throttle entry when dragging stops
         if (!data.isDragging) {
-          // Small delay to allow final position update, then clean up
           setTimeout(() => {
             tokenUpdateThrottleRef.current.delete(throttleKey);
           }, 100);
@@ -835,6 +836,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         currentPlayerData = players[players.length - 1]; // Last joined player
         setCurrentPlayer(currentPlayerData);
       }
+
+      // Add player to Firebase room members for persistence (if authenticated)
+      try {
+        const { user } = useAuthStore.getState();
+        if (user && room.persistentRoomId) {
+          const { joinRoom } = await import('../../services/roomService');
+          await joinRoom(room.persistentRoomId, user.uid, room.password || '');
+          console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
+        }
+      } catch (error) {
+        console.warn('Failed to add player to persistent room:', error);
+        // Don't fail the room join if Firebase persistence fails
+      }
     } catch (error) {
       console.error('Error in handleJoinRoom:', error);
       return; // Exit early if there's an error
@@ -974,42 +988,43 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     setConnectedPlayers(uniquePlayers);
 
     // Integrate multiplayer players into party system
-    // GM should always be the leader, regardless of who the current player is
-    const gmName = room.gm.name;
-    createParty(room.name, gmName);
-
     // Get active character data for current player
     const activeCharacter = getActiveCharacter();
+    const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
 
-    // Add all players to party and chat
+    // Determine if current player is the GM (use the isGameMaster parameter passed to function)
+    const isCurrentPlayerGM = isGameMaster;
+
+    // Create party with current player's character name (not user name)
+    createParty(room.name, currentPlayerCharacterName);
+
+    // Add other players to party and chat (excluding current player to avoid duplicates)
     allPlayers.forEach(player => {
-      // Determine if this is the current player and if we have their character data
       const isCurrentPlayer = player.id === currentPlayerData?.id;
-      const characterData = isCurrentPlayer && activeCharacter ? {
-        class: activeCharacter.class || 'Unknown',
-        level: activeCharacter.level || 1,
-        health: activeCharacter.health || { current: 100, max: 100 },
-        mana: activeCharacter.mana || { current: 50, max: 50 },
-        actionPoints: activeCharacter.actionPoints || { current: 3, max: 3 }
-      } : {
-        class: 'Unknown',
-        level: 1,
-        health: { current: 100, max: 100 },
-        mana: { current: 50, max: 50 },
-        actionPoints: { current: 3, max: 3 }
-      };
 
       if (!isCurrentPlayer) {
+        // Use character name if available, otherwise fall back to player name
+        const playerCharacterName = player.character?.name || player.name;
+        const characterData = {
+          class: player.character?.class || 'Unknown',
+          level: player.character?.level || 1,
+          health: player.character?.health || { current: 100, max: 100 },
+          mana: player.character?.mana || { current: 50, max: 50 },
+          actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
+          race: player.character?.race || 'Unknown',
+          raceDisplayName: player.character?.raceDisplayName || 'Unknown'
+        };
+
         addPartyMember({
           id: player.id,
-          name: player.name,
+          name: playerCharacterName, // Use character name
           character: characterData
         });
 
         // Add to chat system
         addUser({
           id: player.id,
-          name: player.name,
+          name: playerCharacterName, // Use character name
           class: characterData.class,
           level: characterData.level,
           status: 'online'
@@ -1018,21 +1033,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Add current player to chat system with their character data
         addUser({
           id: player.id,
-          name: player.name,
-          class: characterData.class,
-          level: characterData.level,
+          name: currentPlayerCharacterName, // Use character name
+          class: activeCharacter?.class || 'Unknown',
+          level: activeCharacter?.level || 1,
           status: 'online'
         });
       }
     });
 
-    // Ensure GM is always the party leader
-    if (room.gm.name !== currentPlayerData?.name) {
-      // If current player is not GM, pass leadership to GM
-      const gmPlayer = allPlayers.find(p => p.name === room.gm.name);
+    // Set proper GM leadership - only if current player is NOT the GM
+    if (!isCurrentPlayerGM) {
+      const gmPlayer = allPlayers.find(p => p.id === room.gm.id);
       if (gmPlayer) {
+        console.log(`🎖️ Setting GM leadership to ${gmPlayer.name} (ID: ${gmPlayer.id})`);
         passLeadership(gmPlayer.id);
       }
+    } else {
+      console.log(`🎖️ Current player is GM, keeping leadership`);
     }
 
     // Set multiplayer state in game store with socket
