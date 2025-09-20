@@ -864,40 +864,15 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     }, [isInParty, createParty, currentPlayerData.name]);
 
-    // Add current player to the party display if not already included
-    const displayMembers = [...partyMembers];
-    const currentPlayerInParty = partyMembers.find(m => m.id === 'current-player');
-
-    if (!currentPlayerInParty) {
-        // Add current player as first member using actual character data
-        // Role will be set correctly by the leadership logic below
-        displayMembers.unshift({
-            id: 'current-player',
-            name: currentPlayerData.name,
-            role: 'member', // Will be updated by leadership logic
-            status: 'online',
-            character: {
-                level: currentPlayerData.level,
-                race: currentPlayerData.race,
-                raceDisplayName: currentPlayerData.raceDisplayName,
-                class: currentPlayerData.class,
-                alignment: currentPlayerData.alignment,
-                exhaustionLevel: currentPlayerData.exhaustionLevel,
-                health: currentPlayerData.health,
-                mana: currentPlayerData.mana,
-                actionPoints: currentPlayerData.actionPoints,
-                classResource: currentPlayerData.classResource // Add missing classResource
-            }
-        });
-    } else {
-        // Update the current player data in displayMembers with fresh character data
-        const currentPlayerIndex = displayMembers.findIndex(m => m.id === 'current-player');
-        if (currentPlayerIndex !== -1) {
-            displayMembers[currentPlayerIndex] = {
-                ...displayMembers[currentPlayerIndex],
+    // Simple rule: Only show HUDs for players currently in the room
+    // Party members list is the source of truth for who gets HUDs
+    const displayMembers = partyMembers.map(member => {
+        // Update current player with live character data
+        if (member.id === 'current-player') {
+            return {
+                ...member,
                 name: currentPlayerData.name,
                 character: {
-                    ...displayMembers[currentPlayerIndex].character,
                     level: currentPlayerData.level,
                     race: currentPlayerData.race,
                     raceDisplayName: currentPlayerData.raceDisplayName,
@@ -911,9 +886,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 }
             };
         }
-    }
+        return member;
+    });
 
-    // Set leadership based on party store state
+    // Set leadership
     const currentLeaderId = currentParty?.leaderId || 'current-player';
     displayMembers.forEach(member => {
         member.role = member.id === currentLeaderId ? 'leader' : 'member';

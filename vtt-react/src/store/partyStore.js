@@ -275,15 +275,14 @@ const usePartyStore = create(
             },
 
             removePartyMember: (memberId) => {
-                // Prevent removing the current player
-                if (memberId === 'current-player') {
-                    console.log('Cannot remove the current player from the party');
-                    return;
-                }
-
                 set(state => ({
                     partyMembers: state.partyMembers.filter(member => member.id !== memberId)
                 }));
+
+                // If current player is removed, they should be redirected (handled by MultiplayerApp)
+                if (memberId === 'current-player') {
+                    console.log('Current player removed from party - should redirect to homepage');
+                }
             },
 
             updatePartyMember: (memberId, updates) => {

@@ -307,6 +307,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       handleLeaveRoom();
     });
 
+    // Handle being kicked/removed from room
+    socket.on('player_kicked', (data) => {
+      alert(`You have been removed from the room: ${data.reason || 'No reason provided'}`);
+      // Redirect to homepage when removed
+      window.location.href = '/';
+    });
+
+    // Handle room access revoked
+    socket.on('access_revoked', (data) => {
+      alert(`Your access to this room has been revoked: ${data.reason || 'No reason provided'}`);
+      // Redirect to homepage when uninvited
+      window.location.href = '/';
+    });
+
     // Listen for chat messages
     socket.on('chat_message', (message) => {
       // Add to chat system with proper color handling

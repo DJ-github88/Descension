@@ -1707,6 +1707,49 @@ io.on('connection', (socket) => {
     socket.emit('pong', timestamp);
   });
 
+  // Handle player kick (GM only)
+  socket.on('kick_player', (data) => {
+    const gmPlayer = players.get(socket.id);
+    if (!gmPlayer || !gmPlayer.isGM) {
+      socket.emit('error', { message: 'Only GM can kick players' });
+      return;
+    }
+
+    const room = rooms.get(gmPlayer.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Find the player to kick
+    const playerToKick = Array.from(players.values()).find(p => p.id === data.playerId);
+    if (!playerToKick) {
+      socket.emit('error', { message: 'Player not found' });
+      return;
+    }
+
+    // Remove player from room
+    room.players.delete(playerToKick.id);
+    players.delete(playerToKick.socketId);
+
+    // Notify the kicked player
+    io.to(playerToKick.socketId).emit('player_kicked', {
+      reason: data.reason || 'Kicked by GM'
+    });
+
+    // Notify other players
+    socket.to(gmPlayer.roomId).emit('player_left', {
+      player: {
+        id: playerToKick.id,
+        name: playerToKick.name
+      },
+      playerCount: room.players.size + 1, // +1 for GM
+      reason: 'kicked'
+    });
+
+    console.log(`👮 GM ${gmPlayer.name} kicked player ${playerToKick.name} from room ${room.name}`);
+  });
+
   // ========== END ENHANCED MULTIPLAYER HANDLERS ==========
 
   // Handle disconnection
