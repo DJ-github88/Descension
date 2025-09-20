@@ -291,7 +291,12 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                     <div className="portrait-image">
                         <i className="fas fa-user"></i>
                     </div>
-                    {/* Removed: Complex leadership crown - GM status determined by room role */}
+                    {/* GM Crown */}
+                    {member.isGM && (
+                        <div className="leader-crown">
+                            <i className="fas fa-crown"></i>
+                        </div>
+                    )}
                 </div>
 
                 {/* Info Section */}

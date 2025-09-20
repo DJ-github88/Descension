@@ -208,6 +208,7 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
       id: gmPlayerId,
       name: gmName,
       socketId: gmSocketId,
+      isGM: true, // Mark GM status
       color: playerColor || '#d4af37' // Gold default for GM
     },
     players: new Map(),
@@ -1705,6 +1706,29 @@ io.on('connection', (socket) => {
   // Handle ping for latency measurement
   socket.on('ping', (timestamp) => {
     socket.emit('pong', timestamp);
+  });
+
+  // Handle party member synchronization
+  socket.on('party_member_added', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    console.log(`🎭 Broadcasting party member addition: ${data.member.name} to room ${room.name}`);
+
+    // Broadcast to all other players in the room (not the sender)
+    socket.to(player.roomId).emit('party_member_added', {
+      member: data.member,
+      addedBy: player.name
+    });
   });
 
   // Handle player kick (GM only)

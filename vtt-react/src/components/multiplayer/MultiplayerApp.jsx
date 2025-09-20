@@ -36,6 +36,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [connectedPlayers, setConnectedPlayers] = useState([]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState(null);
+  const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
 
   // Get stores for state synchronization
   const { setGMMode, setMultiplayerState } = useGameStore();
@@ -218,6 +219,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('player_joined', (data) => {
       console.log(`👥 Player joined:`, data.player.name, `Total players: ${data.playerCount}`);
 
+      // Update actual player count from server
+      setActualPlayerCount(data.playerCount);
+
       // Update connected players list - don't require currentRoom to be set yet
       setConnectedPlayers(prev => {
         // Check if player already exists to avoid duplicates
@@ -247,9 +251,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const playerCharacterName = data.player.character?.name || data.player.name;
 
         // Add to party system with character data
-        addPartyMember({
+        const newPartyMember = {
           id: data.player.id,
           name: playerCharacterName,
+          isGM: data.player.isGM || false, // Include GM status
           character: {
             class: data.player.character?.class || 'Unknown',
             level: data.player.character?.level || 1,
@@ -259,7 +264,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             race: data.player.character?.race || 'Unknown',
             raceDisplayName: data.player.character?.raceDisplayName || 'Unknown'
           }
-        });
+        };
+
+        addPartyMember(newPartyMember);
+
+        // Broadcast party member addition to other players
+        if (socket) {
+          socket.emit('party_member_added', {
+            member: newPartyMember
+          });
+        }
 
         // Add to chat system
         addUser({
@@ -282,12 +296,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Listen for player count updates
     socket.on('player_count_updated', (data) => {
       console.log(`📊 Player count updated: ${data.playerCount} players`);
-      // This will trigger a re-render of the player count display
-      setConnectedPlayers(prev => prev); // Force re-render
+      // Update the actual player count from server
+      setActualPlayerCount(data.playerCount);
+    });
+
+    // Listen for party member additions from other clients
+    socket.on('party_member_added', (data) => {
+      console.log(`🎭 Received party member addition: ${data.member.name} added by ${data.addedBy}`);
+
+      // Add the party member to our local party store
+      addPartyMember(data.member);
     });
 
     socket.on('player_left', (data) => {
       console.log(`👥 Player left:`, data.player.name, `Total players: ${data.playerCount}`);
+
+      // Update actual player count from server
+      setActualPlayerCount(data.playerCount);
 
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
@@ -823,6 +848,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('disconnect');
       socket.off('player_joined');
       socket.off('player_count_updated');
+      socket.off('party_member_added');
       socket.off('player_left');
       socket.off('room_closed');
       socket.off('chat_message');
@@ -1018,6 +1044,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     console.log(`🎮 Setting initial player list (excluding current player):`, uniquePlayers.map(p => p.name));
     setConnectedPlayers(uniquePlayers);
 
+    // Set initial player count (GM + regular players)
+    const initialPlayerCount = (room.players?.size || 0) + 1; // +1 for GM
+    setActualPlayerCount(initialPlayerCount);
+    console.log(`📊 Setting initial player count: ${initialPlayerCount}`);
+
     // Integrate multiplayer players into party system
     // Get active character data for current player
     const activeCharacter = getActiveCharacter();
@@ -1029,9 +1060,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     createParty(room.name, currentPlayerCharacterName);
 
     // Add current player to party system first
-    addPartyMember({
+    const currentPlayerMember = {
       id: 'current-player',
       name: currentPlayerCharacterName,
+      isGM: isGameMaster, // Include GM status for current player
       character: {
         class: activeCharacter?.class || 'Unknown',
         level: activeCharacter?.level || 1,
@@ -1041,7 +1073,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         race: activeCharacter?.race || 'Unknown',
         raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown'
       }
-    });
+    };
+
+    addPartyMember(currentPlayerMember);
+
+    // Broadcast current player's party member data to other players
+    if (socketConnection) {
+      socketConnection.emit('party_member_added', {
+        member: currentPlayerMember
+      });
+    }
 
     // Add current player to chat system
     addUser({
@@ -1229,7 +1270,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         </button>
         <div className="room-info">
           <span className="room-name">{currentRoom.name}</span>
-          <span className="player-count">{connectedPlayers.length + 1} players</span>
+          <span className="player-count">{actualPlayerCount} players</span>
         </div>
       </div>
     </div>
