@@ -1012,48 +1012,46 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Create party with current player's character name (not user name)
     createParty(room.name, currentPlayerCharacterName);
 
-    // Add other players to party and chat (excluding current player to avoid duplicates)
-    allPlayers.forEach(player => {
-      const isCurrentPlayer = player.id === currentPlayerData?.id;
-
-      if (!isCurrentPlayer) {
-        // Use character name if available, otherwise fall back to player name
-        const playerCharacterName = player.character?.name || player.name;
-        const characterData = {
-          class: player.character?.class || 'Unknown',
-          level: player.character?.level || 1,
-          health: player.character?.health || { current: 100, max: 100 },
-          mana: player.character?.mana || { current: 50, max: 50 },
-          actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
-          race: player.character?.race || 'Unknown',
-          raceDisplayName: player.character?.raceDisplayName || 'Unknown'
-        };
-
-        addPartyMember({
-          id: player.id,
-          name: playerCharacterName, // Use character name
-          character: characterData
-        });
-
-        // Add to chat system
-        addUser({
-          id: player.id,
-          name: playerCharacterName, // Use character name
-          class: characterData.class,
-          level: characterData.level,
-          status: 'online'
-        });
-      } else {
-        // Add current player to chat system with their character data
-        addUser({
-          id: player.id,
-          name: currentPlayerCharacterName, // Use character name
-          class: activeCharacter?.class || 'Unknown',
-          level: activeCharacter?.level || 1,
-          status: 'online'
-        });
-      }
+    // Add current player to chat system
+    addUser({
+      id: currentPlayerData?.id,
+      name: currentPlayerCharacterName,
+      class: activeCharacter?.class || 'Unknown',
+      level: activeCharacter?.level || 1,
+      status: 'online'
     });
+
+    // Add other players to party and chat (only non-current players)
+    if (room.players && room.players.size > 0) {
+      Array.from(room.players.values()).forEach(player => {
+        const isCurrentPlayer = player.id === currentPlayerData?.id;
+
+        if (!isCurrentPlayer) {
+          const playerCharacterName = player.character?.name || player.name;
+          console.log(`👥 Adding other player: ${playerCharacterName}`);
+
+          addPartyMember({
+            id: player.id,
+            name: playerCharacterName,
+            character: {
+              class: player.character?.class || 'Unknown',
+              level: player.character?.level || 1,
+              health: player.character?.health || { current: 100, max: 100 },
+              mana: player.character?.mana || { current: 50, max: 50 },
+              actionPoints: player.character?.actionPoints || { current: 3, max: 3 }
+            }
+          });
+
+          addUser({
+            id: player.id,
+            name: playerCharacterName,
+            class: player.character?.class || 'Unknown',
+            level: player.character?.level || 1,
+            status: 'online'
+          });
+        }
+      });
+    }
 
     // Simple: Room creator is GM, others are players (no leadership transfer needed)
 
@@ -1084,12 +1082,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     if (room.persistentRoomId || room.id) {
       const roomId = room.persistentRoomId || room.id;
 
-      // Initialize with auto-save enabled for GMs, disabled for players
-      gameStateManager.initialize(roomId, isGameMaster).then(() => {
-        // Game state manager initialized successfully
-      }).catch((error) => {
-        console.error('❌ Failed to initialize game state manager:', error);
-      });
+      // DISABLED: Game state loading causes old tokens to appear in fresh rooms
+      // Only enable auto-save for GMs, but don't load old state for fresh rooms
+      // gameStateManager.initialize(roomId, isGameMaster).then(() => {
+      //   // Game state manager initialized successfully
+      // }).catch((error) => {
+      //   console.error('❌ Failed to initialize game state manager:', error);
+      // });
+
+      console.log('🎮 Skipping game state loading to prevent old tokens in fresh rooms');
     }
   };
 

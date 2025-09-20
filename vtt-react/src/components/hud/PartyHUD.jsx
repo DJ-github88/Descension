@@ -815,12 +815,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
     // Removed: Test functions for buffs/debuffs
 
-    // Auto-create party if not in one (for HUD display)
-    React.useEffect(() => {
-        if (!isInParty) {
-            createParty('Solo Adventure', currentPlayerData.name);
-        }
-    }, [isInParty, createParty, currentPlayerData.name]);
+    // Removed: Auto-party creation - multiplayer handles party creation
 
     // Simple rule: Show HUDs for all room members
     // No complex leadership - room creator is GM, others are players

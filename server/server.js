@@ -650,13 +650,7 @@ io.on('connection', (socket) => {
       });
     }
 
-    // Send current tokens to the new player
-    if (room.gameState.tokens && Object.keys(room.gameState.tokens).length > 0) {
-      console.log(`🎭 Syncing ${Object.keys(room.gameState.tokens).length} tokens to ${playerName}`);
-      socket.emit('sync_tokens', {
-        tokens: room.gameState.tokens
-      });
-    }
+    // Removed: Duplicate token syncing code
 
     // Broadcast room list update to all connected clients
     io.emit('room_list_updated', getPublicRooms());
