@@ -701,17 +701,14 @@ const useCharacterStore = create((set, get) => ({
         set(state => {
             const newState = { [field]: value };
 
-            // If name is being changed, update baseName and format with room if needed
+            // If name is being changed, update baseName and keep name clean
             if (field === 'name') {
                 // Extract base name by removing any existing room formatting
                 const cleanName = value.replace(/\s*\([^)]*\)\s*$/, '');
                 newState.baseName = cleanName;
-                // If we're in a room, format the name with room name
-                if (state.roomName) {
-                    newState.name = `${cleanName} (${state.roomName})`;
-                } else {
-                    newState.name = cleanName;
-                }
+                // Keep character name unchanged - room name is for context only
+                // Character name should always remain just the character name
+                newState.name = cleanName;
             }
 
             // If class is being changed, initialize the class resource
@@ -810,12 +807,9 @@ const useCharacterStore = create((set, get) => ({
     updateBaseName: (newBaseName) => {
         set(state => {
             const newState = { baseName: newBaseName };
-            // Update displayed name with room formatting if in a room
-            if (state.roomName) {
-                newState.name = `${newBaseName} (${state.roomName})`;
-            } else {
-                newState.name = newBaseName;
-            }
+            // Keep character name unchanged - room name is for context only
+            // Character name should always remain just the character name
+            newState.name = newBaseName;
             return newState;
         });
     },
@@ -824,10 +818,9 @@ const useCharacterStore = create((set, get) => ({
     setRoomName: (roomName) => {
         set(state => {
             const newState = { roomName };
-            // Update displayed name to include room name
-            if (roomName && state.baseName) {
-                newState.name = `${state.baseName} (${roomName})`;
-            } else if (state.baseName) {
+            // Keep character name unchanged - room name is for context only
+            // Character name should always remain just the character name
+            if (state.baseName) {
                 newState.name = state.baseName;
             }
             return newState;
