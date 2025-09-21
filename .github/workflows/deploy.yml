@@ -9,10 +9,6 @@ on:
 
 env:
   NODE_VERSION: '18'
-  # These secrets must be configured in GitHub repository settings:
-  # Settings > Secrets and variables > Actions
-  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
 jobs:
   # Job 1: Build and Test
@@ -75,46 +71,14 @@ jobs:
           path: vtt-react/build/
           retention-days: 7
 
-  # Job 2: Deploy to Netlify
-  deploy:
-    name: 🌐 Deploy to Netlify
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-    
-    steps:
-      - name: 📥 Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files-${{ github.sha }}
-          path: ./build
-      
-      - name: 🚀 Deploy to Netlify
-        id: netlify-deploy
-        run: |
-          # Install Netlify CLI
-          npm install -g netlify-cli
+  # Job 2: Deploy to Netlify (DISABLED - Using Netlify Auto-Deploy instead)
+  # Netlify will automatically deploy when commits are pushed to master/main
+  # This eliminates the need for GitHub Actions to handle deployment
 
-          # Deploy to Netlify
-          netlify deploy --prod --dir=build --site="${{ secrets.NETLIFY_SITE_ID }}" --auth="${{ secrets.NETLIFY_AUTH_TOKEN }}" --message="Deploy ${{ github.sha }} from GitHub Actions"
-
-          # Output deployment info to GitHub environment file
-          echo "deployment_url=https://mythrill.netlify.app" >> $GITHUB_OUTPUT
-          echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
-          echo "deploy_time=$(date)" >> $GITHUB_OUTPUT
-
-
-      - name: 🔗 Display Deploy Info
-        run: |
-          echo "🌐 Deployment completed!"
-          echo "📍 Site URL: ${{ steps.netlify-deploy.outputs.deployment_url }}"
-          echo "🔍 Commit: ${{ steps.netlify-deploy.outputs.commit_sha }}"
-          echo "🕐 Time: ${{ steps.netlify-deploy.outputs.deploy_time }}"
-
-  # Job 3: Post-Deploy Verification
+  # Job 2: Post-Deploy Verification
   verify-deployment:
     name: ✅ Verify Deployment
-    needs: deploy
+    needs: build-and-test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     
