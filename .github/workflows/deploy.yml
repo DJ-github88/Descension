@@ -96,7 +96,7 @@ jobs:
           npm install -g netlify-cli
 
           # Deploy to Netlify
-          netlify deploy --prod --dir=build --message="Deploy ${{ github.sha }} from GitHub Actions"
+          netlify deploy --prod --dir=build --site=$NETLIFY_SITE_ID --message="Deploy ${{ github.sha }} from GitHub Actions"
 
           # Output deployment info to GitHub environment file
           echo "deployment_url=https://mythrill.netlify.app" >> $GITHUB_OUTPUT
