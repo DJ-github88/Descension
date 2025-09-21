@@ -922,7 +922,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // Removed: Auto-party creation - multiplayer handles party creation
 
     // Debug logging for party members
-    console.log('🎭 PartyHUD rendering with members:', partyMembers.map(m => ({ id: m.id, name: m.name, isGM: m.isGM })));
+    console.log('🎭 PartyHUD rendering with members:', partyMembers.map(m => ({
+        id: m.id,
+        name: m.name,
+        isGM: m.isGM,
+        race: m.character?.race,
+        raceDisplayName: m.character?.raceDisplayName,
+        class: m.character?.class
+    })));
 
     // Simple rule: Show HUDs for all room members
     // No complex leadership - room creator is GM, others are players
