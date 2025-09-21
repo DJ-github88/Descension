@@ -319,20 +319,32 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('party_member_added', (data) => {
       console.log(`🎭 Received party member addition:`, data.member?.name || 'Unknown');
 
+      // Get current character name for comparison
+      const activeCharacter = getActiveCharacter();
+      const currentCharacterName = activeCharacter?.name || currentPlayer?.name;
+
       // Debug logging
       console.log('🔍 party_member_added event debug:', {
         memberName: data.member?.name,
         memberId: data.member?.id,
         currentPlayerName: currentPlayer?.name,
-        currentPlayerId: currentPlayer?.id
+        currentPlayerId: currentPlayer?.id,
+        currentCharacterName: currentCharacterName
       });
 
       // Add the party member to our local party store
-      // Skip if this is our own data being broadcast back to us
-      if (data.member && data.member.name !== currentPlayer?.name) {
+      // Skip if this is our own data being broadcast back to us (check both player name and character name)
+      const isOwnMember = data.member && (
+        data.member.name === currentPlayer?.name ||
+        data.member.name === currentCharacterName ||
+        data.member.id === currentPlayer?.id ||
+        data.member.id === 'current-player'
+      );
+
+      if (data.member && !isOwnMember) {
         console.log('✅ Adding party member from other player:', data.member.name);
         addPartyMember(data.member);
-      } else if (data.member && data.member.name === currentPlayer?.name) {
+      } else if (isOwnMember) {
         console.log('🚫 Skipping own party member data to prevent duplicate');
       }
     });
@@ -1128,6 +1140,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       status: 'online'
     });
 
+    // Add GM to party if GM is not the current player
+    if (room.gm && room.gm.id !== currentPlayerData?.id) {
+      const gmCharacterName = room.gm.character?.name || room.gm.name;
+      console.log(`👑 Adding GM to party: ${gmCharacterName}`);
+
+      addPartyMember({
+        id: room.gm.id,
+        name: gmCharacterName,
+        isGM: true, // Mark as GM
+        character: {
+          class: room.gm.character?.class || 'Unknown',
+          level: room.gm.character?.level || 1,
+          health: room.gm.character?.health || { current: 100, max: 100 },
+          mana: room.gm.character?.mana || { current: 50, max: 50 },
+          actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 }
+        }
+      });
+
+      addUser({
+        id: room.gm.id,
+        name: gmCharacterName,
+        class: room.gm.character?.class || 'Unknown',
+        level: room.gm.character?.level || 1,
+        status: 'online'
+      });
+    }
+
     // Add other players to party and chat (only non-current players)
     if (room.players && room.players.size > 0) {
       Array.from(room.players.values()).forEach(player => {
@@ -1140,6 +1179,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           addPartyMember({
             id: player.id,
             name: playerCharacterName,
+            isGM: false, // Regular players are not GM
             character: {
               class: player.character?.class || 'Unknown',
               level: player.character?.level || 1,

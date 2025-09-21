@@ -401,10 +401,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
-    if (!roomPasswordRef.current.trim()) {
-      setError('Please enter a password for your room');
-      return;
-    }
+    // Password is now optional - if empty, room will be created without password
 
     if (!socket || !socket.connected) {
       setError('Not connected to server');
@@ -503,10 +500,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       return;
     }
 
-    if (!roomPasswordRef.current.trim()) {
-      setError('Please enter a password for your room');
-      return;
-    }
+    // Password is now optional - if empty, room will be created without password
 
     if (!socket) {
       setError('Not connected to server');
@@ -632,9 +626,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   type="text"
                   value={playerName}
                   onChange={(e) => setPlayerName(e.target.value)}
-                  placeholder="Enter your display name"
-                  disabled={isConnecting}
+                  placeholder={getActiveCharacter() ? "Character name will be used automatically" : "Enter your display name"}
+                  disabled={isConnecting || !!getActiveCharacter()}
+                  readOnly={!!getActiveCharacter()}
                   maxLength={20}
+                  className={getActiveCharacter() ? "character-auto-filled" : ""}
                 />
                 {(() => {
                   const activeCharacter = getActiveCharacter();
@@ -806,6 +802,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
         {activeTab === 'create' && (
           <div className="create-room-section">
+            <h3>Create New Room</h3>
             <div className="form-input-group">
               <label htmlFor="roomName">
                 Room Name:
@@ -845,14 +842,14 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               />
             </div>
 
-            <div className="form-input-group">
+            <div className="form-input-group password-optional">
               <label htmlFor="roomPassword">Room Password:</label>
               <input
                 id="roomPassword"
                 type="password"
                 value={roomPassword}
                 onChange={(e) => setRoomPassword(e.target.value)}
-                placeholder="Enter a password for your room"
+                placeholder="Leave empty for no password, or enter a password"
                 disabled={isConnecting}
                 maxLength={50}
                 className="form-input"
@@ -862,7 +859,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             <div className="create-buttons">
               <button
                 onClick={handleCreateRoom}
-                disabled={isConnecting || !playerNameRef.current.trim() || !roomName.trim() || !roomPasswordRef.current.trim()}
+                disabled={isConnecting || !getActiveCharacter() || !roomName.trim()}
                 className="create-button"
               >
                 {isConnecting ? 'Creating...' : 'Create Temporary Room'}
@@ -871,7 +868,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               {isAuthenticated && (
                 <button
                   onClick={handleCreatePersistentRoom}
-                  disabled={isConnecting || !roomName.trim() || !roomPasswordRef.current.trim()}
+                  disabled={isConnecting || !getActiveCharacter() || !roomName.trim()}
                   className="create-button persistent"
                 >
                   {isConnecting ? 'Creating...' : 'Create Persistent Room'}

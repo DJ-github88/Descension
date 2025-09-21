@@ -450,6 +450,21 @@
   position: relative;
 }
 
+/* Character auto-filled input styling */
+.form-input.character-auto-filled {
+  background: rgba(74, 124, 89, 0.2);
+  border-color: #4a7c59;
+  color: #4a7c59;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+.form-input.character-auto-filled::placeholder {
+  color: #4a7c59;
+  opacity: 0.8;
+  font-style: italic;
+}
+
 .character-selected-notice {
   display: flex;
   align-items: center;
@@ -521,11 +536,49 @@
 .create-buttons {
   display: flex;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
 }
 
 .create-buttons .create-button {
   flex: 1;
+}
+
+/* Create room section improvements */
+.create-room-section {
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 25px;
+  margin-top: 20px;
+}
+
+.create-room-section h3 {
+  color: #d4af37;
+  margin: 0 0 20px 0;
+  font-size: 1.4rem;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+}
+
+/* Password field improvements */
+.form-input-group.password-optional {
+  position: relative;
+}
+
+.form-input-group.password-optional::after {
+  content: "Optional";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  pointer-events: none;
 }
 
 .create-button.persistent {
