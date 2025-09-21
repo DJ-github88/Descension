@@ -71,14 +71,49 @@ jobs:
           path: vtt-react/build/
           retention-days: 7
 
-  # Job 2: Deploy to Netlify (DISABLED - Using Netlify Auto-Deploy instead)
-  # Netlify will automatically deploy when commits are pushed to master/main
-  # This eliminates the need for GitHub Actions to handle deployment
+  # Job 2: Deploy to Netlify
+  deploy-to-netlify:
+    name: 🚀 Deploy to Netlify
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
 
-  # Job 2: Post-Deploy Verification
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'vtt-react/package-lock.json'
+
+      - name: 💾 Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files-${{ github.sha }}
+          path: vtt-react/build/
+
+      - name: 🚀 Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './vtt-react/build'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions - ${{ github.event.head_commit.message }}"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 10
+
+  # Job 3: Post-Deploy Verification
   verify-deployment:
     name: ✅ Verify Deployment
-    needs: build-and-test
+    needs: deploy-to-netlify
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     
