@@ -1336,8 +1336,8 @@ const COMBO_POINT_SYSTEMS = {
     return analysis;
   }
   
-  // Export the module
-  module.exports = {
+  // Export the module using ES6 exports
+  export {
     COMBO_POINT_SYSTEMS,
     generatePoints,
     consumePoints,
