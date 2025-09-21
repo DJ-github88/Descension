@@ -90,21 +90,29 @@ jobs:
           path: ./build
       
       - name: 🚀 Deploy to Netlify
-        uses: netlify/actions/cli@master
-        with:
-          args: deploy --prod --dir=build --message="Deploy ${{ github.sha }} from GitHub Actions"
+        id: netlify-deploy
+        run: |
+          # Install Netlify CLI
+          npm install -g netlify-cli
+
+          # Deploy to Netlify
+          netlify deploy --prod --dir=build --message="Deploy ${{ github.sha }} from GitHub Actions"
+
+          # Output deployment info to GitHub environment file
+          echo "deployment_url=https://mythrill.netlify.app" >> $GITHUB_OUTPUT
+          echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "deploy_time=$(date)" >> $GITHUB_OUTPUT
         env:
           # Repository secrets - configure in GitHub Settings
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      
-      - name: 🔗 Get Deploy URL
-        id: netlify-deploy
+
+      - name: 🔗 Display Deploy Info
         run: |
           echo "🌐 Deployment completed!"
-          echo "📍 Site URL: https://mythrill.netlify.app"
-          echo "🔍 Commit: ${{ github.sha }}"
-          echo "🕐 Time: $(date)"
+          echo "📍 Site URL: ${{ steps.netlify-deploy.outputs.deployment_url }}"
+          echo "🔍 Commit: ${{ steps.netlify-deploy.outputs.commit_sha }}"
+          echo "🕐 Time: ${{ steps.netlify-deploy.outputs.deploy_time }}"
 
   # Job 3: Post-Deploy Verification
   verify-deployment:
@@ -124,6 +132,7 @@ jobs:
       - name: 📝 Deployment Summary
         run: |
           echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Site URL:** https://mythrill.netlify.app" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Time:** $(date)" >> $GITHUB_STEP_SUMMARY
