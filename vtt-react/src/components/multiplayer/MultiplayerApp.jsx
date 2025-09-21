@@ -247,11 +247,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         showPlayerJoinNotification(data.player.name, currentRoom.name);
       }
 
-      // Don't add current player to party system (they're handled separately in handleJoinRoom)
-      if (currentPlayer && data.player.id === currentPlayer.id) {
-        console.log(`⚠️ Skipping current player ${data.player.name} in party system - already handled`);
-        return;
-      }
+      // Debug logging to understand player ID structure
+      console.log('🔍 player_joined event debug:', {
+        eventPlayerName: data.player.name,
+        eventPlayerId: data.player.id,
+        currentPlayerName: currentPlayer?.name,
+        currentPlayerId: currentPlayer?.id
+      });
 
       // Use character name if available, otherwise fall back to player name
       const playerCharacterName = data.player.character?.name || data.player.name;
@@ -310,11 +312,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('party_member_added', (data) => {
       console.log(`🎭 Received party member addition:`, data.member?.name || 'Unknown');
 
-      // Don't add current player to party system (they're handled separately)
-      if (data.member && currentPlayer && data.member.id === currentPlayer.id) {
-        console.log(`⚠️ Skipping current player ${data.member.name} in party_member_added - already handled`);
-        return;
-      }
+      // Debug logging
+      console.log('🔍 party_member_added event debug:', {
+        memberName: data.member?.name,
+        memberId: data.member?.id,
+        currentPlayerName: currentPlayer?.name,
+        currentPlayerId: currentPlayer?.id
+      });
 
       // Add the party member to our local party store
       if (data.member) {

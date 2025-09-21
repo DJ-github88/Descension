@@ -116,10 +116,17 @@ const usePartyStore = create(
                     return false;
                 }
 
-                // Check for duplicate members by ID to prevent duplicate HUDs
-                const existingMember = state.partyMembers.find(member => member.id === memberData.id);
-                if (existingMember) {
-                    console.log('🚫 Preventing duplicate party member:', memberData.name, 'ID:', memberData.id);
+                // Check for duplicate members by ID OR by name to prevent duplicate HUDs
+                const existingMemberById = state.partyMembers.find(member => member.id === memberData.id);
+                const existingMemberByName = state.partyMembers.find(member => member.name === memberData.name);
+
+                if (existingMemberById) {
+                    console.log('🚫 Preventing duplicate party member by ID:', memberData.name, 'ID:', memberData.id);
+                    return false;
+                }
+
+                if (existingMemberByName) {
+                    console.log('🚫 Preventing duplicate party member by name:', memberData.name, 'Existing ID:', existingMemberByName.id, 'New ID:', memberData.id);
                     return false;
                 }
 
