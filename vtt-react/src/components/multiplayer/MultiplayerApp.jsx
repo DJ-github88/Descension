@@ -258,8 +258,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Use character name if available, otherwise fall back to player name
       const playerCharacterName = data.player.character?.name || data.player.name;
 
-      // Skip adding ourselves to prevent duplicate HUDs
-      if (playerCharacterName !== currentPlayer?.name) {
+      // Skip adding ourselves to prevent duplicate HUDs - check both ID and name
+      const isCurrentPlayer = data.player.id === currentPlayer?.id ||
+                              playerCharacterName === currentPlayer?.name ||
+                              data.player.name === currentPlayer?.name;
+
+      if (!isCurrentPlayer) {
         console.log('✅ Adding player from player_joined event:', playerCharacterName);
 
         // Add to party system with character data
@@ -287,7 +291,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           });
         }
       } else {
-        console.log('🚫 Skipping own player in player_joined event to prevent duplicate');
+        console.log('🚫 Skipping own player in player_joined event to prevent duplicate HUD');
       }
 
         // Add to chat system

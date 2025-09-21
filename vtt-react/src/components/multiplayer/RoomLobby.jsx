@@ -58,9 +58,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       playerNameRef.current = characterName;
       console.log(`🎮 Auto-updated player name to character: ${characterName}`);
     }
-  }, []); // Run once on mount
+  }, [getActiveCharacter]); // Run when active character changes
 
-  // Also update when component becomes visible (in case character was selected elsewhere)
+  // Sync player name with character name whenever playerName state changes
   useEffect(() => {
     const activeCharacter = getActiveCharacter();
     if (activeCharacter) {
@@ -71,7 +71,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         console.log(`🎮 Synced player name to character: ${characterName}`);
       }
     }
-  });
+  }, [playerName, getActiveCharacter]); // Run when playerName or active character changes
 
   // Function to refresh names based on active character
   const refreshCharacterNames = () => {
