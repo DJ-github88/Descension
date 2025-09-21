@@ -36,8 +36,8 @@ jobs:
       - name: 🧹 Clean Install Dependencies
         working-directory: ./vtt-react
         run: |
-          rm -rf node_modules package-lock.json
-          npm install --force
+          rm -rf node_modules
+          npm ci --force
       
       - name: 🔍 Lint Code
         working-directory: ./vtt-react
