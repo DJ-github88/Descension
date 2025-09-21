@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
-import EnvironmentDebug from '../debug/EnvironmentDebug';
+import LocalhostMultiplayerSimulator from './LocalhostMultiplayerSimulator';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 
@@ -1059,9 +1059,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Removed: Unused variable
 
     // Create party with current player's character name (not user name)
+    // Note: createParty automatically adds the current player, so we don't need to add them again
     createParty(room.name, currentPlayerCharacterName);
 
-    // Add current player to party system first
+    // Update the current player that was automatically added by createParty with full character data
     const currentPlayerMember = {
       id: 'current-player',
       name: currentPlayerCharacterName,
@@ -1077,7 +1078,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     };
 
-    addPartyMember(currentPlayerMember);
+    // Update the existing current player instead of adding a duplicate
+    console.log('🎮 Setting up current player with GM status:', {
+        isGameMaster,
+        currentPlayerMember
+    });
+    updatePartyMember('current-player', currentPlayerMember);
 
     // Broadcast current player's party member data to other players
     if (socketConnection) {
@@ -1239,10 +1245,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Clean VTT interface with integrated multiplayer
   return (
     <div className="multiplayer-vtt">
-      {/* Environment Debug - only show in development or when needed */}
-      {(process.env.NODE_ENV === 'development' || window.location.search.includes('debug=true')) && (
-        <EnvironmentDebug />
-      )}
+      {/* Localhost Multiplayer Simulator - only show in development on localhost */}
+      <LocalhostMultiplayerSimulator
+        isVisible={true}
+        currentRoom={currentRoom}
+      />
 
       {/* Full VTT Interface */}
       <div className="vtt-game-screen">

@@ -36,10 +36,9 @@ import {
 
 // Import from combo system
 import {
-  COMBO_POINT_TYPES,
-  generateComboPoints,
-  calculateComboDamage,
-  getComboEffectiveness
+  COMBO_POINT_SYSTEMS,
+  generatePoints,
+  calculateEffectWithPoints
 } from './comboSystem';
 
 // Resolution Types constants
@@ -277,10 +276,9 @@ export {
   interpretCoinResult,
 
   // Combo system
-  COMBO_POINT_TYPES,
-  generateComboPoints,
-  calculateComboDamage,
-  getComboEffectiveness,
+  COMBO_POINT_SYSTEMS,
+  generatePoints,
+  calculateEffectWithPoints,
 
   // Rollable Table functions will be defined below
 };

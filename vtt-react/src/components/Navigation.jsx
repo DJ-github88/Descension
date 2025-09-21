@@ -715,8 +715,11 @@ export default function Navigation({ onReturnToLanding }) {
         'leveleditor',    // Level Editor
         'creatures',      // Creature Library
         'maplibrary',     // Map Library
-        'campaign'        // Campaign Manager (Premium GM Feature)
+        'campaign',       // Campaign Manager (Premium GM Feature)
+        'itemgen',        // Item Library
+        'combat'          // Combat Initiator
         // Note: settings is now allowed in player mode
+        // Players can access: character, inventory, crafting, spellbook, quests, chat, social, settings
     ]);
 
     // Filter buttons based on GM/Player mode

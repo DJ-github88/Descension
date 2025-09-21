@@ -90,6 +90,40 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
   }, []); // Only log once on mount
 
+  // Localhost development bypass - automatically create test room
+  useEffect(() => {
+    const isLocalhost = window.location.hostname === 'localhost';
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    if (isLocalhost && isDevelopment && socket) {
+      // Check if we should auto-create a test room
+      const autoCreateTestRoom = localStorage.getItem('autoCreateTestRoom') !== 'false';
+
+      if (autoCreateTestRoom) {
+        console.log('🧪 Localhost development detected - auto-creating test room');
+
+        // Set up test room data
+        const testRoomData = {
+          roomName: 'Localhost Test Room',
+          gmName: 'Test GM',
+          password: 'test123',
+          playerColor: '#d4af37'
+        };
+
+        // Auto-fill the form
+        setRoomName(testRoomData.roomName);
+        setRoomPassword(testRoomData.password);
+        playerNameRef.current = testRoomData.gmName;
+
+        // Create the room automatically after a short delay
+        setTimeout(() => {
+          console.log('🚀 Auto-creating localhost test room...');
+          socket.emit('create_room', testRoomData);
+        }, 1000);
+      }
+    }
+  }, [socket]);
+
   useEffect(() => {
     // Check for preselected room from account dashboard
     const selectedRoomId = localStorage.getItem('selectedRoomId');

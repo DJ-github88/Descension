@@ -7,10 +7,12 @@ import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
+import useChatStore from '../../store/chatStore';
 import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -606,11 +608,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         removePartyMember,
         updatePartyMember,
         getMemberPosition,
-        setMemberPosition
+        setMemberPosition,
+        currentParty
     } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const { updateResource } = useCharacterStore();
     const { removeBuff } = useBuffStore();
+    const { addNotification } = useChatStore();
+    const { setGMMode } = useGameStore();
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,
@@ -700,23 +705,111 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         // Don't allow removing the current player (check by name and ID)
         if (contextMenuMember.name === currentPlayerData.name || contextMenuMember.id === 'current-player') {
-
             setShowContextMenu(false);
             return;
         }
 
-        removePartyMember(contextMenuMember.id);
+        // Show leave notification with fade-out effect (same as real multiplayer)
+        showPlayerLeaveNotification(contextMenuMember.name, currentParty?.name || 'Party');
 
-        // Clear target if we're targeting the removed member
-        if (currentTarget?.id === contextMenuMember.id) {
-            clearTarget();
+        // Add visual fade-out effect before removing (same as simulator)
+        const memberElement = document.querySelector(`.party-frame-${contextMenuMember.id}`);
+        if (memberElement) {
+            memberElement.style.transition = 'opacity 0.5s ease-out';
+            memberElement.style.opacity = '0';
+
+            // Remove after animation completes
+            setTimeout(() => {
+                removePartyMember(contextMenuMember.id);
+
+                // Also remove from simulator state if this is a simulated player
+                if (contextMenuMember.id.startsWith('sim_')) {
+                    // Notify simulator to remove this player from its state
+                    const simulatorEvent = new CustomEvent('removeSimulatedPlayer', {
+                        detail: { playerId: contextMenuMember.id }
+                    });
+                    window.dispatchEvent(simulatorEvent);
+                }
+
+                // Clear target if we're targeting the removed member
+                if (currentTarget?.id === contextMenuMember.id) {
+                    clearTarget();
+                }
+            }, 500);
+        } else {
+            // Fallback: remove immediately if element not found
+            removePartyMember(contextMenuMember.id);
+
+            // Also remove from simulator state if this is a simulated player
+            if (contextMenuMember.id.startsWith('sim_')) {
+                // Notify simulator to remove this player from its state
+                const simulatorEvent = new CustomEvent('removeSimulatedPlayer', {
+                    detail: { playerId: contextMenuMember.id }
+                });
+                window.dispatchEvent(simulatorEvent);
+            }
+
+            // Clear target if we're targeting the removed member
+            if (currentTarget?.id === contextMenuMember.id) {
+                clearTarget();
+            }
         }
 
-        setShowContextMenu(false);
+        // Add chat notification about player being uninvited
+        addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${contextMenuMember.name} was removed from the party`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+        });
 
+        setShowContextMenu(false);
+        console.log(`🚫 Uninvited player: ${contextMenuMember.name}`);
     };
 
-    // Removed: Leadership transfer - Room creator is always GM
+    const handleTransferLeadership = () => {
+        console.log('🚀 Transfer Leadership clicked!', {
+            contextMenuMember,
+            currentPlayerData: currentPlayerData.name
+        });
+
+        if (!contextMenuMember) {
+            console.log('❌ No context menu member found');
+            return;
+        }
+
+        // Don't allow transferring to yourself
+        if (contextMenuMember.name === currentPlayerData.name || contextMenuMember.id === 'current-player') {
+            console.log('❌ Cannot transfer to yourself');
+            setShowContextMenu(false);
+            return;
+        }
+
+        console.log('✅ Proceeding with leadership transfer...');
+
+        // Update current player to remove GM status
+        updatePartyMember('current-player', { isGM: false });
+        console.log('📝 Removed GM status from current player');
+
+        // Update target member to have GM status
+        updatePartyMember(contextMenuMember.id, { isGM: true });
+        console.log('📝 Added GM status to target member:', contextMenuMember.name);
+
+        // Switch global GM mode - current player becomes Player, loses all GM privileges
+        setGMMode(false);
+        console.log('📝 Set global GM mode to false');
+
+        // Add chat notification about leadership transfer
+        addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `${contextMenuMember.name} is now the party leader`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+        });
+
+        setShowContextMenu(false);
+        console.log(`👑 Leadership transferred to: ${contextMenuMember.name} - You are now a Player`);
+    };
 
     const handleResourceAdjust = (memberId, resourceType, adjustment, hudElementRef = null) => {
         if (memberId === 'current-player') {
@@ -933,8 +1026,11 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
-                // Only show uninvite for other party members, not yourself
-                if (contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
+                // Leadership transfer - only show if current player is GM and target is not current player
+                const currentPlayerIsGM = partyMembers.find(m => m.id === 'current-player')?.isGM;
+
+                // Only show uninvite for other party members, not yourself, and only if you're the GM
+                if (currentPlayerIsGM && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
                     menuItems.push({
                         icon: <i className="fas fa-user-minus"></i>,
                         label: 'Uninvite',
@@ -943,7 +1039,29 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
-                // Removed: Complex leadership transfer - Room creator is always GM
+                console.log('🔍 Leadership check:', {
+                    currentPlayerIsGM,
+                    contextMenuMemberName: contextMenuMember?.name,
+                    contextMenuMemberId: contextMenuMember?.id,
+                    currentPlayerName: currentPlayerData.name,
+                    partyMembers: partyMembers.map(m => ({ id: m.id, name: m.name, isGM: m.isGM }))
+                });
+                if (currentPlayerIsGM && contextMenuMember?.name !== currentPlayerData.name && contextMenuMember?.id !== 'current-player') {
+                    menuItems.push({
+                        type: 'separator'
+                    });
+                    menuItems.push({
+                        icon: <i className="fas fa-crown"></i>,
+                        label: 'Transfer Leadership',
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🖱️ Transfer Leadership menu item clicked');
+                            handleTransferLeadership();
+                        },
+                        className: 'leadership'
+                    });
+                }
 
                 return (
                     <UnifiedContextMenu
