@@ -298,6 +298,12 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     return null;
   }
 
+  // Check if room is active (GM hasn't left)
+  if (!room.isActive) {
+    console.log('Room is inactive (GM has left):', room.name);
+    return { error: 'Room is inactive - the GM has left' };
+  }
+
   console.log('Room found:', room.name, 'Checking password...');
 
   // Check password
@@ -404,23 +410,17 @@ function leaveRoom(socketId) {
   if (!room) return null;
 
   if (player.isGM) {
-    // GM left - mark room as temporarily inactive but don't delete it immediately
-    // This allows the GM to reconnect without losing the room
-    console.log(`GM temporarily left room: ${room.name} (${room.id})`);
+    // GM left - immediately close the room
+    console.log(`GM left room, closing immediately: ${room.name} (${room.id})`);
     room.isActive = false;
     room.gmDisconnectedAt = Date.now();
     players.delete(socketId);
 
-    // Set a timeout to close the room if GM doesn't reconnect within 5 minutes
-    setTimeout(() => {
-      const currentRoom = rooms.get(player.roomId);
-      if (currentRoom && !currentRoom.isActive && currentRoom.gmDisconnectedAt === room.gmDisconnectedAt) {
-        console.log(`GM didn't reconnect, closing room: ${currentRoom.name} (${currentRoom.id})`);
-        rooms.delete(player.roomId);
-      }
-    }, 5 * 60 * 1000); // 5 minutes
+    // Remove the room immediately
+    rooms.delete(player.roomId);
+    console.log(`Room closed: ${room.name} (${room.id})`);
 
-    return { type: 'gm_disconnected', room };
+    return { type: 'room_closed', room };
   } else {
     // Regular player left
     console.log(`Player ${player.name} left room: ${room.name}`);

@@ -49,12 +49,37 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
   }, [activeTab]); // Removed getActiveCharacter from deps to prevent infinite loop
 
+  // Auto-update player name when character is selected
+  useEffect(() => {
+    const activeCharacter = getActiveCharacter();
+    if (activeCharacter) {
+      const characterName = activeCharacter.name || activeCharacter.baseName;
+      setPlayerName(characterName);
+      playerNameRef.current = characterName;
+      console.log(`🎮 Auto-updated player name to character: ${characterName}`);
+    }
+  }, []); // Run once on mount
+
+  // Also update when component becomes visible (in case character was selected elsewhere)
+  useEffect(() => {
+    const activeCharacter = getActiveCharacter();
+    if (activeCharacter) {
+      const characterName = activeCharacter.name || activeCharacter.baseName;
+      if (playerName !== characterName) {
+        setPlayerName(characterName);
+        playerNameRef.current = characterName;
+        console.log(`🎮 Synced player name to character: ${characterName}`);
+      }
+    }
+  });
+
   // Function to refresh names based on active character
   const refreshCharacterNames = () => {
     const activeCharacter = getActiveCharacter();
     if (activeCharacter) {
       const characterName = activeCharacter.name || activeCharacter.baseName;
       setPlayerName(characterName);
+      playerNameRef.current = characterName; // Update the ref immediately
       if (activeTab === 'create') {
         // Use just the character name as the room name, not "xxx's Campaign"
         setRoomName(characterName);
