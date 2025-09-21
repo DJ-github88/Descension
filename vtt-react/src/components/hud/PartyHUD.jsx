@@ -927,7 +927,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         // Update current player with live character data
         if (member.id === 'current-player') {
             return {
-                ...member,
+                ...member, // Preserve all existing member data including isGM
                 name: currentPlayerData.name,
                 character: {
                     level: currentPlayerData.level,

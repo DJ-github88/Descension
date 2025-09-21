@@ -74,6 +74,7 @@ const usePartyStore = create(
                         {
                             id: 'current-player',
                             name: currentPlayerName,
+                            isGM: false, // Will be updated later with correct GM status
                             status: PARTY_STATUS.ONLINE,
                             joinedAt: Date.now(),
                             character: {
@@ -115,9 +116,17 @@ const usePartyStore = create(
                     return false;
                 }
 
+                // Check for duplicate members by ID to prevent duplicate HUDs
+                const existingMember = state.partyMembers.find(member => member.id === memberData.id);
+                if (existingMember) {
+                    console.log('🚫 Preventing duplicate party member:', memberData.name, 'ID:', memberData.id);
+                    return false;
+                }
+
                 const newMember = {
                     id: memberData.id || uuidv4(),
                     name: memberData.name,
+                    isGM: memberData.isGM || false, // Preserve GM status
                     status: PARTY_STATUS.ONLINE,
                     joinedAt: Date.now(),
                     character: memberData.character || {
@@ -128,6 +137,8 @@ const usePartyStore = create(
                         actionPoints: { current: 3, max: 3 }
                     }
                 };
+
+                console.log('✅ Adding party member:', newMember.name, 'GM:', newMember.isGM, 'ID:', newMember.id);
 
                 // Add new member without changing leadership
                 const updatedMembers = [...state.partyMembers, newMember];
