@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
 import useDialogueStore from '../../store/dialogueStore';
+import useChatStore from '../../store/chatStore';
 import './DialogueSystem.css';
 
 const DialogueSystem = () => {
@@ -11,6 +12,7 @@ const DialogueSystem = () => {
   // Store hooks
   const { name: currentCharacterName, lore } = useCharacterStore();
   const { isInMultiplayer, multiplayerSocket } = useGameStore();
+  const { addSocialNotification } = useChatStore();
 
   // Dialogue store
   const {
@@ -92,6 +94,13 @@ const DialogueSystem = () => {
     };
   }, [activeDialogue, textIndex, isTyping, currentText, updateTypewriter, hideDialogue]);
 
+  // Send dialogue to chat when new dialogue appears
+  useEffect(() => {
+    if (activeDialogue) {
+      sendDialogueToChat(activeDialogue);
+    }
+  }, [activeDialogue]); // Only trigger when activeDialogue changes
+
   // Handle click to skip or close
   const handleDialogueClick = () => {
     if (isTyping) {
@@ -110,6 +119,30 @@ const DialogueSystem = () => {
       return characterData.lore.characterImage;
     }
     return null;
+  };
+
+  // Send dialogue to chat for history
+  const sendDialogueToChat = (dialogue) => {
+    if (!dialogue) return;
+
+    const characterName = dialogue.character?.name || dialogue.characterName || 'Unknown';
+    const parsedData = parseTextWithMarkup(dialogue.text);
+    const cleanText = parsedData.cleanText;
+
+    // Create a dialogue message for chat
+    const chatMessage = {
+      sender: {
+        name: characterName,
+        class: 'npc',
+        level: 0
+      },
+      content: cleanText,
+      type: 'dialogue',
+      timestamp: new Date().toISOString()
+    };
+
+    // Add to social chat
+    addSocialNotification(chatMessage);
   };
 
   // Parse text for special markup and word-level animations
@@ -278,18 +311,19 @@ const DialogueSystem = () => {
       >
         {/* Character Portrait */}
         <div className="dialogue-portrait">
-          {characterPortrait ? (
-            <img
-              src={characterPortrait}
-              alt={dialogueCharacterName}
-              className="portrait-image"
-            />
-          ) : (
-            <div className="portrait-placeholder">
-              <i className="fas fa-user"></i>
-            </div>
-          )}
-          <div className="portrait-frame"></div>
+          <div className="portrait-frame">
+            {characterPortrait ? (
+              <img
+                src={characterPortrait}
+                alt={dialogueCharacterName}
+                className="portrait-image"
+              />
+            ) : (
+              <div className="portrait-placeholder">
+                <i className="fas fa-user"></i>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Dialogue Box */}
