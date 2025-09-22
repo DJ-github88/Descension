@@ -741,6 +741,42 @@ io.on('connection', (socket) => {
     console.log(`✅ Chat message from ${player.name} in room ${room.name}: ${data.message}`);
   });
 
+  // Handle dialogue messages
+  socket.on('dialogue_message', async (data) => {
+    console.log('🎭 Received dialogue message:', data, 'from socket:', socket.id);
+    const player = players.get(socket.id);
+    if (!player) {
+      console.log('❌ Dialogue message from player not in room');
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      console.log('❌ Dialogue message but room not found');
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Enhance dialogue data with player information
+    const enhancedDialogueData = {
+      ...data.dialogueData,
+      playerId: player.id,
+      playerName: player.name,
+      isGM: player.isGM,
+      timestamp: new Date().toISOString()
+    };
+
+    // Broadcast to all players in the room
+    console.log(`🎭 Broadcasting dialogue message to room ${player.roomId} from ${player.name}`);
+    io.to(player.roomId).emit('dialogue_message', {
+      dialogueData: enhancedDialogueData,
+      type: 'dialogue'
+    });
+
+    console.log(`✅ Dialogue message from ${player.name} in room ${room.name}`);
+  });
+
   // Smart token movement with role-aware optimization
   socket.on('token_moved', async (data) => {
     const player = players.get(socket.id);

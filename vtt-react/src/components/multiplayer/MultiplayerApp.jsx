@@ -12,6 +12,7 @@ import useChatStore from '../../store/chatStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useAuthStore from '../../store/authStore';
+import useDialogueStore from '../../store/dialogueStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import './styles/MultiplayerApp.css';
 
@@ -27,6 +28,8 @@ import AtmosphericEffectsManager from "../level-editor/AtmosphericEffectsManager
 import ActionBar from "../ui/ActionBar";
 import CombatSelectionWindow from "../combat/CombatSelectionOverlay";
 import { FloatingCombatTextManager } from "../combat/FloatingCombatText";
+import DialogueSystem from "../dialogue/DialogueSystem";
+import DialogueControls from "../dialogue/DialogueControls";
 
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [currentRoom, setCurrentRoom] = useState(null);
@@ -44,6 +47,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
   const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore();
+  const { setMultiplayerSocket } = useDialogueStore();
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
@@ -1364,6 +1368,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
     setMultiplayerIntegration(socketConnection, sendChatMessage);
 
+    // Set up dialogue system for multiplayer
+    setMultiplayerSocket(socketConnection, true);
+
     // Initialize game state manager for persistent room state
     if (room.persistentRoomId || room.id) {
       // Removed: Unused roomId variable
@@ -1468,6 +1475,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         <DynamicFogManager />
         <DynamicLightingManager />
         <AtmosphericEffectsManager />
+        <DialogueSystem />
+        <DialogueControls />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
 
         {/* Performance monitor removed - was causing overhead */}

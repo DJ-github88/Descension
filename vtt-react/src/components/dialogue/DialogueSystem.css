@@ -1,0 +1,441 @@
+/* Retro 16-bit Dialogue System Styles */
+
+.dialogue-system-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: auto;
+  background:
+    radial-gradient(ellipse at center, rgba(25, 25, 50, 0.3) 0%, rgba(10, 10, 25, 0.6) 100%),
+    linear-gradient(180deg, rgba(15, 15, 30, 0.2) 0%, rgba(5, 5, 15, 0.4) 100%);
+}
+
+.dialogue-container {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: 65%;
+  min-width: 320px;
+  pointer-events: auto;
+}
+
+/* Positioning variants */
+.dialogue-container.bottom {
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dialogue-container.top {
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dialogue-container.left {
+  left: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dialogue-container.right {
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Character Portrait */
+.dialogue-portrait {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.portrait-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px !important; /* Force square-ish corners, not circular */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  /* Ensure no circular inheritance */
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.portrait-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  border-radius: 6px !important; /* Force square-ish corners, not circular */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 32px;
+  /* Ensure no circular inheritance */
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.portrait-frame {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 4px solid #8B4513;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #D2691E, #8B4513);
+  z-index: -1;
+  box-shadow: 
+    0 0 0 2px #000,
+    inset 0 0 0 2px #F4A460,
+    0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Dialogue Box */
+.dialogue-box {
+  background:
+    linear-gradient(135deg, #2a1810 0%, #1a0f08 50%, #0f0804 100%),
+    radial-gradient(ellipse at top left, rgba(139, 69, 19, 0.3) 0%, transparent 50%);
+  border: 3px solid #8B4513;
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-height: 60px;
+  position: relative;
+  box-shadow:
+    0 0 0 2px #000,
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgba(139, 69, 19, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(139, 69, 19, 0.3);
+  flex: 1;
+  max-width: 480px;
+  /* Parchment texture effect */
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+    linear-gradient(135deg, #2a1810 0%, #1a0f08 50%, #0f0804 100%);
+}
+
+.dialogue-box::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 12px 12px 0;
+  border-color: transparent #8B4513 transparent transparent;
+}
+
+.dialogue-box::after {
+  content: '';
+  position: absolute;
+  left: -9px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 9px 9px 0;
+  border-color: transparent #2a1810 transparent transparent;
+}
+
+/* Character Name */
+.dialogue-name {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffd700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-shadow: 
+    2px 2px 0px #000,
+    -1px -1px 0px #000,
+    1px -1px 0px #000,
+    -1px 1px 0px #000;
+}
+
+/* Text Content */
+.dialogue-content {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #ffffff;
+  min-height: 24px;
+  position: relative;
+}
+
+/* Text Effects */
+.dialogue-text.normal {
+  display: inline;
+}
+
+.dialogue-text.wave {
+  display: inline;
+  animation: textWave 2s ease-in-out infinite;
+}
+
+.dialogue-text.shake {
+  display: inline;
+  animation: textShake 0.5s ease-in-out infinite;
+}
+
+.dialogue-text.glow {
+  display: inline;
+  animation: textGlow 1.5s ease-in-out infinite alternate;
+}
+
+.dialogue-text.rainbow {
+  display: inline;
+  animation: textRainbow 3s linear infinite;
+}
+
+/* Word-Level Animations */
+.dialogue-word {
+  display: inline-block;
+  position: relative;
+}
+
+.word-bounce {
+  animation: wordBounce 1.2s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.1s);
+}
+
+.word-shake {
+  animation: wordShake 0.6s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.05s);
+}
+
+.word-glow {
+  animation: wordGlow 2s ease-in-out infinite alternate;
+  animation-delay: calc(var(--word-index, 0) * 0.2s);
+}
+
+.word-wave {
+  animation: wordWave 1.5s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.1s);
+}
+
+.word-float {
+  animation: wordFloat 3s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.15s);
+}
+
+.word-pulse {
+  animation: wordPulse 1s ease-in-out infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.08s);
+}
+
+.rainbow-word {
+  animation: wordRainbow 2s linear infinite;
+  animation-delay: calc(var(--word-index, 0) * 0.1s);
+}
+
+/* Typing Cursor */
+.typing-cursor {
+  color: #ffffff;
+  animation: cursorBlink 1s infinite;
+  font-weight: bold;
+}
+
+/* Continue Indicator */
+.dialogue-continue {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  color: #ffd700;
+  font-size: 12px;
+  animation: continueArrow 1s ease-in-out infinite;
+}
+
+.continue-arrow {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes textWave {
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(-2px); }
+  75% { transform: translateY(2px); }
+}
+
+@keyframes textShake {
+  0%, 100% { transform: translateX(0px); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
+
+@keyframes textGlow {
+  0% { 
+    text-shadow: 
+      2px 2px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000,
+      0 0 5px currentColor;
+  }
+  100% { 
+    text-shadow: 
+      2px 2px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000,
+      0 0 15px currentColor,
+      0 0 25px currentColor;
+  }
+}
+
+@keyframes textRainbow {
+  0% { color: #ff0000; }
+  16.66% { color: #ff8800; }
+  33.33% { color: #ffff00; }
+  50% { color: #00ff00; }
+  66.66% { color: #0088ff; }
+  83.33% { color: #8800ff; }
+  100% { color: #ff0000; }
+}
+
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes continueArrow {
+  0%, 100% { transform: translateY(0px); opacity: 0.7; }
+  50% { transform: translateY(-2px); opacity: 1; }
+}
+
+/* Word-Level Animation Keyframes */
+@keyframes wordBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0px); }
+  40% { transform: translateY(-8px); }
+  60% { transform: translateY(-4px); }
+}
+
+@keyframes wordShake {
+  0%, 100% { transform: translateX(0px); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+@keyframes wordGlow {
+  0% {
+    text-shadow:
+      2px 2px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000,
+      0 0 5px currentColor;
+  }
+  100% {
+    text-shadow:
+      2px 2px 0px #000,
+      -1px -1px 0px #000,
+      1px -1px 0px #000,
+      -1px 1px 0px #000,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+}
+
+@keyframes wordWave {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(1deg); }
+  50% { transform: translateY(0px) rotate(0deg); }
+  75% { transform: translateY(3px) rotate(-1deg); }
+}
+
+@keyframes wordFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes wordPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes wordRainbow {
+  0% { color: #ff0000; }
+  14% { color: #ff8800; }
+  28% { color: #ffff00; }
+  42% { color: #00ff00; }
+  57% { color: #0088ff; }
+  71% { color: #8800ff; }
+  85% { color: #ff00ff; }
+  100% { color: #ff0000; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dialogue-container {
+    max-width: 95%;
+    min-width: 300px;
+    gap: 12px;
+  }
+  
+  .dialogue-portrait {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .dialogue-box {
+    padding: 12px 16px;
+    min-height: 60px;
+  }
+  
+  .dialogue-name {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  
+  .dialogue-content {
+    font-size: 14px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dialogue-box {
+    background: #000;
+    border-color: #fff;
+  }
+  
+  .dialogue-name {
+    color: #fff;
+  }
+  
+  .dialogue-content {
+    color: #fff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dialogue-text.wave,
+  .dialogue-text.shake,
+  .dialogue-text.glow,
+  .dialogue-text.rainbow {
+    animation: none;
+  }
+  
+  .typing-cursor {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .dialogue-continue {
+    animation: none;
+  }
+}

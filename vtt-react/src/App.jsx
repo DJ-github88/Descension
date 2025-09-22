@@ -9,6 +9,8 @@ import useCharacterStore from "./store/characterStore";
 import LandingPage from "./components/landing/LandingPage";
 import AuthModal from "./components/auth/AuthModal";
 import UserProfile from "./components/auth/UserProfile";
+import DialogueSystem from "./components/dialogue/DialogueSystem";
+import DialogueControls from "./components/dialogue/DialogueControls";
 
 // Lazy load heavy components to reduce initial bundle size
 const Grid = lazy(() => import("./components/Grid"));
@@ -254,6 +256,8 @@ function GameScreen() {
                 <DynamicFogManager />
                 <DynamicLightingManager />
                 <AtmosphericEffectsManager />
+                <DialogueSystem />
+                <DialogueControls />
             </Suspense>
 
         </div>

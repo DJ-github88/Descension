@@ -96,7 +96,10 @@ const LocalhostMultiplayerSimulator = ({ isVisible, currentRoom }) => {
   const [simulatedPlayers, setSimulatedPlayers] = useState([]);
   const [isSimulating, setIsSimulating] = useState(false);
   const [autoChat, setAutoChat] = useState(false);
-  
+  const [position, setPosition] = useState({ x: 10, y: 10 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
   const { addPartyMember, removePartyMember, updatePartyMember, partyMembers, setMemberPosition } = usePartyStore();
   const { addNotification } = useChatStore();
   const { setGMMode } = useGameStore();
@@ -105,6 +108,50 @@ const LocalhostMultiplayerSimulator = ({ isVisible, currentRoom }) => {
   const isLocalhost = window.location.hostname === 'localhost';
   const isDevelopment = process.env.NODE_ENV === 'development';
   const shouldShow = isLocalhost && isDevelopment && isVisible && currentRoom;
+
+  // Drag functionality
+  const handleMouseDown = (e) => {
+    if (e.target.closest('.simulator-header')) {
+      setIsDragging(true);
+      const rect = e.currentTarget.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      const newX = e.clientX - dragOffset.x;
+      const newY = e.clientY - dragOffset.y;
+
+      // Keep within viewport bounds
+      const maxX = window.innerWidth - 320; // simulator width
+      const maxY = window.innerHeight - 400; // approximate simulator height
+
+      setPosition({
+        x: Math.max(0, Math.min(newX, maxX)),
+        y: Math.max(0, Math.min(newY, maxY))
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add global mouse event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragOffset]);
 
   // Generate a random character from the pool
   const generateRandomCharacter = () => {
@@ -396,8 +443,16 @@ const LocalhostMultiplayerSimulator = ({ isVisible, currentRoom }) => {
   if (!shouldShow) return null;
 
   return (
-    <div className="localhost-multiplayer-simulator">
-      <div className="simulator-header">
+    <div
+      className={`localhost-multiplayer-simulator ${isDragging ? 'dragging' : ''}`}
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        cursor: isDragging ? 'grabbing' : 'default'
+      }}
+      onMouseDown={handleMouseDown}
+    >
+      <div className="simulator-header" style={{ cursor: 'grab' }}>
         <h3>🤖 Localhost Multiplayer Simulator</h3>
         <div className="simulator-status">
           Room: {currentRoom?.name} | Players: {simulatedPlayers.length}
