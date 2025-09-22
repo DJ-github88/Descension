@@ -657,6 +657,14 @@ io.on('connection', (socket) => {
       });
     }
 
+    // Send current character tokens to the newly joined player
+    if (room.gameState.characterTokens && Object.keys(room.gameState.characterTokens).length > 0) {
+      console.log(`🎭 Sending ${Object.keys(room.gameState.characterTokens).length} character tokens to ${playerName}`);
+      socket.emit('sync_character_tokens', {
+        characterTokens: room.gameState.characterTokens
+      });
+    }
+
     // Removed: Duplicate token syncing code
 
     // Broadcast room list update to all connected clients
@@ -893,6 +901,27 @@ io.on('connection', (socket) => {
         return;
       }
 
+      // Initialize character tokens if needed
+      if (!room.gameState.characterTokens) {
+        room.gameState.characterTokens = {};
+      }
+
+      // Update character token position in room state
+      if (room.gameState.characterTokens[player.id]) {
+        room.gameState.characterTokens[player.id].position = data.position;
+        room.gameState.characterTokens[player.id].lastMovedAt = new Date();
+        room.gameState.characterTokens[player.id].lastMovedBy = player.id;
+      }
+
+      // Persist to Firebase for final positions (not during dragging)
+      if (!data.isDragging) {
+        try {
+          await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+        } catch (error) {
+          console.error('Failed to persist character token movement:', error);
+        }
+      }
+
       // Throttle character movement broadcasts to prevent player lag (more aggressive)
       const broadcastKey = `${player.roomId}_character_${player.id}`;
       const now = Date.now();
@@ -913,8 +942,11 @@ io.on('connection', (socket) => {
           serverTimestamp: now
         };
 
-        // Broadcast to all other players in the room
-        socket.to(player.roomId).emit('character_moved', movementData);
+        // CRITICAL FIX: Broadcast to ALL players including sender for confirmation (like creature tokens)
+        io.to(player.roomId).emit('character_moved', movementData);
+
+        // Also emit to the sender for confirmation (prevents desync)
+        socket.emit('character_moved', movementData);
 
         console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
       }

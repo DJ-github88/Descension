@@ -266,7 +266,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (!isCurrentPlayer) {
         console.log('✅ Adding player from player_joined event:', playerCharacterName);
 
-        // Add to party system with character data
+        // Calculate proper race display name from race and subrace data
+        let raceDisplayName = data.player.character?.raceDisplayName || 'Unknown';
+
+        // Add to party system with character data first
         const newPartyMember = {
           id: data.player.id,
           name: playerCharacterName,
@@ -278,11 +281,47 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             mana: data.player.character?.mana || { current: 50, max: 50 },
             actionPoints: data.player.character?.actionPoints || { current: 3, max: 3 },
             race: data.player.character?.race || 'Unknown',
-            raceDisplayName: data.player.character?.raceDisplayName || 'Unknown'
+            subrace: data.player.character?.subrace || '',
+            raceDisplayName: raceDisplayName
           }
         };
 
         addPartyMember(newPartyMember);
+
+        // Then update with proper race display name if needed
+        if (data.player.character?.race && data.player.character?.subrace) {
+          import('../../data/raceData').then(({ getFullRaceData }) => {
+            const raceData = getFullRaceData(data.player.character.race, data.player.character.subrace);
+            if (raceData) {
+              const updatedRaceDisplayName = raceData.subrace.name;
+              // Update the party member with the correct race display name
+              updatePartyMember(data.player.id, {
+                character: {
+                  ...newPartyMember.character,
+                  raceDisplayName: updatedRaceDisplayName
+                }
+              });
+            }
+          }).catch(error => {
+            console.warn('Failed to calculate race display name for new player:', error);
+          });
+        } else if (data.player.character?.race) {
+          import('../../data/raceData').then(({ getRaceData }) => {
+            const raceData = getRaceData(data.player.character.race);
+            if (raceData) {
+              const updatedRaceDisplayName = raceData.name;
+              // Update the party member with the correct race display name
+              updatePartyMember(data.player.id, {
+                character: {
+                  ...newPartyMember.character,
+                  raceDisplayName: updatedRaceDisplayName
+                }
+              });
+            }
+          }).catch(error => {
+            console.warn('Failed to get race data for new player:', error);
+          });
+        }
 
         // Broadcast party member addition to other players
         if (socket && socket.connected) {
@@ -494,45 +533,67 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Listen for character movements from other players
+    // Listen for character movements from other players AND server confirmations
     socket.on('character_moved', (data) => {
-      // Enhanced check to prevent processing our own movements
       const isOwnMovement = data.playerId === currentPlayer?.id ||
                            data.playerId === socket.id;
 
-      // Don't check multiplayerDragState for character movements as it can cause sync issues
+      // For own movements, only process if it's a server confirmation (has serverTimestamp)
       if (isOwnMovement) {
-        console.log(`🚫 Ignoring own character movement from ${data.playerId}`);
+        if (data.serverTimestamp) {
+          console.log(`✅ Received server confirmation for own character movement:`, data.position);
+          // Update local position to match server confirmation (prevents desync)
+          // Only apply if it's a final position (not during dragging) to prevent jitter
+          if (!data.isDragging) {
+            try {
+              const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+              updateCharacterTokenPosition(data.playerId, data.position);
+            } catch (error) {
+              console.error('Failed to update own character token position from server:', error);
+            }
+          }
+        } else {
+          console.log(`🚫 Ignoring own character movement without server confirmation`);
+        }
         return;
       }
 
       console.log(`👤 Received character movement from ${data.playerName || data.playerId}:`, data.position, `isDragging: ${data.isDragging}`);
 
       // Process movement from other players
-        // Throttle character token position updates
-        const throttleKey = `character_${data.playerId}`;
-        const now = Date.now();
-        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
-        const throttleMs = data.isDragging ? 33 : 16;
+      // Throttle character token position updates
+      const throttleKey = `character_${data.playerId}`;
+      const now = Date.now();
+      const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
+      const throttleMs = data.isDragging ? 33 : 16;
 
-        if (now - lastUpdate >= throttleMs || !data.isDragging) {
-          tokenUpdateThrottleRef.current.set(throttleKey, now);
+      if (now - lastUpdate >= throttleMs || !data.isDragging) {
+        tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Update character token position
-          try {
+        // Update character token position (check for recent local movement to prevent feedback loops)
+        try {
+          const recentMoveKey = `recent_character_move_${data.playerId}`;
+          const recentMoveTime = window[recentMoveKey] || 0;
+          const timeSinceMove = now - recentMoveTime;
+
+          // Only apply server updates if we haven't moved recently (prevents feedback loops)
+          if (timeSinceMove > 100) { // 100ms grace period
             const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
             updateCharacterTokenPosition(data.playerId, data.position);
-          } catch (error) {
-            console.error('Failed to update character token position:', error);
+          } else {
+            console.log(`🚫 Skipping character position update due to recent local movement (${timeSinceMove}ms ago)`);
           }
+        } catch (error) {
+          console.error('Failed to update character token position:', error);
         }
+      }
 
-        // Clean up throttle entry when dragging stops
-        if (!data.isDragging) {
-          setTimeout(() => {
-            tokenUpdateThrottleRef.current.delete(throttleKey);
-          }, 100);
-        }
+      // Clean up throttle entry when dragging stops
+      if (!data.isDragging) {
+        setTimeout(() => {
+          tokenUpdateThrottleRef.current.delete(throttleKey);
+        }, 100);
+      }
     });
 
     // Listen for item drops from other players
@@ -713,37 +774,103 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    // Listen for character token synchronization when joining a room
+    socket.on('sync_character_tokens', (data) => {
+      console.log('🎭 Received character token sync:', data);
+
+      // Import character token store dynamically to avoid circular dependencies
+      import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+        const { addCharacterTokenFromServer } = useCharacterTokenStore.getState();
+
+        // Add each character token without sending back to server
+        Object.values(data.characterTokens).forEach(tokenData => {
+          console.log(`🎭 Syncing character token for player ${tokenData.playerId}:`, tokenData);
+
+          if (addCharacterTokenFromServer) {
+            addCharacterTokenFromServer(tokenData.id, tokenData.position, tokenData.playerId);
+          } else {
+            // Fallback method
+            const { addCharacterToken } = useCharacterTokenStore.getState();
+            addCharacterToken(tokenData.position, tokenData.playerId, false); // false = don't send to server
+          }
+        });
+      }).catch(error => {
+        console.error('Failed to import characterTokenStore for sync:', error);
+      });
+    });
+
     // Listen for character updates from other players
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
       if (data.character?.playerId && data.character.playerId !== currentPlayer?.id) {
         console.log(`📊 Received character update from ${data.character.name}:`, data.character);
 
-        // Update party member with new character data
-        const updatedCharacterData = {
+        // Calculate proper race display name from race and subrace data
+        let raceDisplayName = data.character.raceDisplayName || 'Unknown';
+
+        // Create the base character data first
+        const baseCharacterData = {
           class: data.character.class || 'Unknown',
           level: data.character.level || 1,
           health: data.character.health || { current: 100, max: 100 },
           mana: data.character.mana || { current: 50, max: 50 },
           actionPoints: data.character.actionPoints || { current: 3, max: 3 },
           race: data.character.race || 'Unknown',
-          raceDisplayName: data.character.raceDisplayName || 'Unknown',
+          subrace: data.character.subrace || '',
+          raceDisplayName: raceDisplayName,
           exhaustionLevel: data.character.exhaustionLevel || 0,
           classResource: data.character.classResource || { current: 0, max: 0 }
         };
 
-        // Update party member data (use updatePartyMember if exists, otherwise add)
-        try {
+        if (data.character.race && data.character.subrace) {
+          import('../../data/raceData').then(({ getFullRaceData }) => {
+            const raceData = getFullRaceData(data.character.race, data.character.subrace);
+            if (raceData) {
+              const updatedRaceDisplayName = raceData.subrace.name;
+              // Update party member with correct race display name
+              updatePartyMember(data.character.playerId, {
+                name: data.character.name,
+                character: {
+                  ...baseCharacterData,
+                  raceDisplayName: updatedRaceDisplayName
+                }
+              });
+            }
+          }).catch(error => {
+            console.warn('Failed to calculate race display name:', error);
+            // Fallback to base data
+            updatePartyMember(data.character.playerId, {
+              name: data.character.name,
+              character: baseCharacterData
+            });
+          });
+        } else if (data.character.race) {
+          import('../../data/raceData').then(({ getRaceData }) => {
+            const raceData = getRaceData(data.character.race);
+            if (raceData) {
+              const updatedRaceDisplayName = raceData.name;
+              // Update party member with correct race display name
+              updatePartyMember(data.character.playerId, {
+                name: data.character.name,
+                character: {
+                  ...baseCharacterData,
+                  raceDisplayName: updatedRaceDisplayName
+                }
+              });
+            }
+          }).catch(error => {
+            console.warn('Failed to get race data:', error);
+            // Fallback to base data
+            updatePartyMember(data.character.playerId, {
+              name: data.character.name,
+              character: baseCharacterData
+            });
+          });
+        } else {
+          // No race data to process, use base data
           updatePartyMember(data.character.playerId, {
             name: data.character.name,
-            character: updatedCharacterData
-          });
-        } catch (error) {
-          // Fallback to adding if update fails
-          addPartyMember({
-            id: data.character.playerId,
-            name: data.character.name,
-            character: updatedCharacterData
+            character: baseCharacterData
           });
         }
 
@@ -751,16 +878,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         try {
           updateUser(data.character.playerId, {
             name: data.character.name,
-            class: updatedCharacterData.class,
-            level: updatedCharacterData.level
+            class: data.character.class || 'Unknown',
+            level: data.character.level || 1
           });
         } catch (error) {
           // Fallback to adding if update fails
           addUser({
             id: data.character.playerId,
             name: data.character.name,
-            class: updatedCharacterData.class,
-            level: updatedCharacterData.level,
+            class: data.character.class || 'Unknown',
+            level: data.character.level || 1,
             status: 'online'
           });
         }
@@ -903,6 +1030,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('item_looted');
       socket.off('sync_grid_items');
       socket.off('sync_tokens');
+      socket.off('sync_character_tokens');
       socket.off('character_equipment_updated');
       socket.off('player_color_updated');
       socket.off('character_token_created');
@@ -943,6 +1071,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             const { joinRoom } = await import('../../services/roomService');
             await joinRoom(room.persistentRoomId, user.uid, room.password || '');
             console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
+
+            // Set a flag to indicate that room data should be refreshed when returning to account
+            localStorage.setItem('roomDataChanged', 'true');
+            localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
+          } else if (user && !room.persistentRoomId) {
+            console.log('⚠️ User is authenticated but room has no persistentRoomId - this is a socket-only room');
           }
         } else {
           console.log('🔄 Auth store not available, skipping Firebase persistence');
@@ -1041,6 +1175,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               class: activeCharacter.class,
               race: activeCharacter.race,
               subrace: activeCharacter.subrace,
+              raceDisplayName: activeCharacter.raceDisplayName || '',
               level: activeCharacter.level,
               stats: activeCharacter.stats,
               health: activeCharacter.health,

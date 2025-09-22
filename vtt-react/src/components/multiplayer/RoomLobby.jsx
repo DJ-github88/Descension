@@ -293,6 +293,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       console.log('Is GM reconnect:', data.isGMReconnect);
       setIsConnecting(false);
 
+      // Set flag to refresh room data when returning to account page
+      if (data.room.persistentRoomId) {
+        localStorage.setItem('roomDataChanged', 'true');
+        localStorage.setItem('lastJoinedRoom', data.room.persistentRoomId);
+        console.log(`📝 Marked room data as changed for joined room: ${data.room.persistentRoomId}`);
+      }
+
       // Check if this is a GM reconnect or if the player name matches the GM name
       const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerNameRef.current.trim());
       console.log('Determined isGM:', isGM);
@@ -470,6 +477,13 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         await loadUserRooms();
       } catch (error) {
         console.warn('Failed to refresh user rooms:', error);
+      }
+
+      // Set flag to refresh room data when returning to account page
+      if (persistentRoomId) {
+        localStorage.setItem('roomDataChanged', 'true');
+        localStorage.setItem('lastCreatedRoom', persistentRoomId);
+        console.log(`📝 Marked room data as changed for room: ${persistentRoomId}`);
       }
 
       // Note: The socket will handle the response via 'room_created' event

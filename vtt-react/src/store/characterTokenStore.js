@@ -123,7 +123,44 @@ const useCharacterTokenStore = create(
             getPlayerToken: () => {
                 const state = get();
                 return state.characterTokens.find(token => token.isPlayerToken);
-            }
+            },
+
+            // Add character token from server (for multiplayer sync)
+            addCharacterTokenFromServer: (tokenId, position, playerId) => set((state) => {
+                // Check if token already exists
+                const existingToken = state.characterTokens.find(token =>
+                    token.id === tokenId || (playerId && token.playerId === playerId)
+                );
+
+                if (existingToken) {
+                    console.log('🎭 Character token already exists, updating position:', existingToken.id);
+                    return {
+                        characterTokens: state.characterTokens.map(token =>
+                            token.id === existingToken.id
+                                ? { ...token, position }
+                                : token
+                        )
+                    };
+                }
+
+                // Create new token from server data
+                const newToken = {
+                    id: tokenId,
+                    isPlayerToken: false, // Server tokens are not local player tokens
+                    playerId: playerId,
+                    position,
+                    createdAt: Date.now()
+                };
+
+                console.log('🎭 Added character token from server:', newToken);
+
+                return {
+                    characterTokens: [
+                        ...state.characterTokens,
+                        newToken
+                    ]
+                };
+            })
         }),
         {
             name: 'character-token-storage',

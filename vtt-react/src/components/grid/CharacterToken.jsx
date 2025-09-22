@@ -267,6 +267,9 @@ const CharacterToken = ({
                     const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
+                    // Track local movement to prevent race conditions
+                    window[`recent_character_move_${tokenId}`] = Date.now();
+
                     multiplayerSocket.emit('character_moved', {
                         position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
                         isDragging: true
@@ -326,6 +329,9 @@ const CharacterToken = ({
 
             // Send final position to multiplayer
             if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
+                // Track local movement to prevent race conditions
+                window[`recent_character_move_${tokenId}`] = Date.now();
+
                 multiplayerSocket.emit('character_moved', {
                     position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
                     isDragging: false

@@ -565,6 +565,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 name: state.name,
                 baseName: state.baseName,
                 race: state.race,
+                subrace: state.subrace,
                 raceDisplayName: state.raceDisplayName,
                 class: state.class,
                 level: state.level,
@@ -583,6 +584,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         character: {
                             ...currentMember.character,
                             race: characterData.race,
+                            subrace: characterData.subrace,
                             raceDisplayName: characterData.raceDisplayName,
                             class: characterData.class,
                             level: characterData.level,
@@ -942,6 +944,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 character: {
                     level: currentPlayerData.level,
                     race: currentPlayerData.race,
+                    subrace: currentPlayerData.subrace,
                     raceDisplayName: currentPlayerData.raceDisplayName,
                     class: currentPlayerData.class,
                     alignment: currentPlayerData.alignment,

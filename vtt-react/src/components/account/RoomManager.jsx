@@ -42,9 +42,63 @@ const RoomManager = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [roomStatuses, setRoomStatuses] = useState(new Map());
+  const [refreshMessage, setRefreshMessage] = useState('');
 
   useEffect(() => {
     loadRoomData();
+  }, [user]);
+
+  // Check for room data changes when component mounts or becomes visible
+  useEffect(() => {
+    const checkForRoomDataChanges = () => {
+      if (user && localStorage.getItem('roomDataChanged') === 'true') {
+        console.log('🔄 Room data changed detected, refreshing...');
+        localStorage.removeItem('roomDataChanged');
+        const lastJoinedRoom = localStorage.getItem('lastJoinedRoom');
+        const lastCreatedRoom = localStorage.getItem('lastCreatedRoom');
+
+        if (lastJoinedRoom) {
+          console.log(`📍 Last joined room: ${lastJoinedRoom}`);
+          localStorage.removeItem('lastJoinedRoom');
+          setRefreshMessage(`🎮 Welcome back! Room data refreshed after joining a room.`);
+        } else if (lastCreatedRoom) {
+          console.log(`📍 Last created room: ${lastCreatedRoom}`);
+          localStorage.removeItem('lastCreatedRoom');
+          setRefreshMessage(`🎉 Room created successfully! Your new room should appear below.`);
+        }
+
+        // Clear message after 5 seconds
+        setTimeout(() => setRefreshMessage(''), 5000);
+
+        loadRoomData();
+      }
+    };
+
+    // Check immediately when component mounts
+    checkForRoomDataChanges();
+
+    // Auto-refresh room data when component becomes visible (e.g., returning from multiplayer)
+    const handleVisibilityChange = () => {
+      if (!document.hidden && user) {
+        console.log('🔄 Page became visible, checking for changes...');
+        checkForRoomDataChanges();
+      }
+    };
+
+    const handleFocus = () => {
+      if (user) {
+        console.log('🔄 Window focused, checking for changes...');
+        checkForRoomDataChanges();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, [user]);
 
   // Function to check if a room is currently live on the server
@@ -173,9 +227,22 @@ const RoomManager = () => {
 
       setRooms(roomsWithTest);
       setRoomLimits(limits);
+
+      // Show success message
+      const roomCount = userRooms.length;
+      if (roomCount > 0) {
+        setRefreshMessage(`✅ Loaded ${roomCount} room${roomCount === 1 ? '' : 's'}`);
+      } else {
+        setRefreshMessage('📝 No campaign rooms found');
+      }
+
+      // Clear message after 3 seconds
+      setTimeout(() => setRefreshMessage(''), 3000);
+
     } catch (err) {
       console.error('Error loading room data:', err);
       setError('Failed to load room data from Firebase. Showing test room only.');
+      setRefreshMessage('❌ Failed to load rooms from Firebase');
 
       // Even if Firebase fails, keep the existing test room (don't overwrite)
       setRoomLimits({
@@ -184,6 +251,9 @@ const RoomManager = () => {
         limit: 999,
         canCreate: true
       });
+
+      // Clear error message after 5 seconds
+      setTimeout(() => setRefreshMessage(''), 5000);
     } finally {
       setIsLoading(false);
     }
@@ -462,14 +532,32 @@ const RoomManager = () => {
           My Campaign Rooms
         </h2>
 
+        {refreshMessage && (
+          <div className="refresh-message">
+            {refreshMessage}
+          </div>
+        )}
+
         <div className="header-actions">
+          <button
+            className="refresh-rooms-btn"
+            onClick={() => {
+              console.log('🔄 Manual refresh triggered');
+              loadRoomData();
+            }}
+            title="Refresh room list"
+            disabled={isLoading}
+          >
+            <i className={`fas fa-sync-alt ${isLoading ? 'fa-spin' : ''}`}></i>
+            Refresh Rooms
+          </button>
           <button
             className="refresh-status-btn"
             onClick={checkAllRoomStatuses}
             title="Refresh room status"
           >
-            <i className="fas fa-sync-alt"></i>
-            Refresh Status
+            <i className="fas fa-wifi"></i>
+            Check Status
           </button>
         </div>
 
