@@ -133,15 +133,15 @@ const useDialogueStore = create(
     // Handle incoming multiplayer dialogue
     handleMultiplayerDialogue: (dialogueData) => {
       const state = get();
-      
+
       // Don't show our own messages again
       if (dialogueData.playerId === state.currentPlayerId) {
         return;
       }
-      
-      // Show the dialogue
+
+      // Show the dialogue with multiplayer flag to prevent duplicate chat messages
       set({
-        activeDialogue: dialogueData,
+        activeDialogue: { ...dialogueData, isFromMultiplayer: true },
         currentText: '',
         textIndex: 0,
         isTyping: true,
