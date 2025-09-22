@@ -895,7 +895,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Update connected players list with character data
         setConnectedPlayers(prev => prev.map(player =>
           player.id === data.character.playerId
-            ? { ...player, character: updatedCharacterData }
+            ? { ...player, character: data.character }
             : player
         ));
 
