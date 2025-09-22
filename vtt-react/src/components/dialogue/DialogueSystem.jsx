@@ -65,12 +65,13 @@ const DialogueSystem = () => {
   useEffect(() => {
     if (!activeDialogue || !isTyping) return;
 
-    const text = activeDialogue.text;
+    const parsedData = parseTextWithMarkup(activeDialogue.text);
+    const cleanText = parsedData.cleanText;
     const speed = activeDialogue.speed || 50; // ms per character
 
-    if (textIndex < text.length) {
+    if (textIndex < cleanText.length) {
       typewriterRef.current = setTimeout(() => {
-        const newText = text.substring(0, textIndex + 1);
+        const newText = cleanText.substring(0, textIndex + 1);
         const newIndex = textIndex + 1;
         updateTypewriter(newText, newIndex, true);
       }, speed);
@@ -113,13 +114,17 @@ const DialogueSystem = () => {
 
   // Parse text for special markup and word-level animations
   const parseTextWithMarkup = (text) => {
-    if (!text) return [];
+    if (!text) return { words: [], cleanText: '' };
 
-    // Split text into words and handle special markup
+    // Split text into words while preserving spaces
     const words = text.split(' ');
     const parsedWords = [];
+    const cleanWords = [];
 
     words.forEach((word, index) => {
+      // Skip empty words (from multiple spaces)
+      if (!word.trim()) return;
+
       let cleanWord = word;
       let wordEffect = null;
       let wordColor = null;
@@ -151,30 +156,67 @@ const DialogueSystem = () => {
         }
       }
 
+      cleanWords.push(cleanWord);
       parsedWords.push({
         text: cleanWord,
-        index,
+        index: parsedWords.length, // Use parsedWords length for proper indexing
         animation: wordAnimation,
         color: wordColor,
-        isLastWord: index === words.length - 1
+        needsSpace: true // Always add space after words
       });
     });
 
-    return parsedWords;
+    return {
+      words: parsedWords,
+      cleanText: cleanWords.join(' ')
+    };
   };
 
   // Render text with effects and word-level animations
-  const renderTextWithEffects = (text, effect, color) => {
+  const renderTextWithEffects = (displayText, effect, color) => {
     const baseStyle = {
       color: color || '#ffffff',
       textShadow: '2px 2px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000'
     };
 
-    const parsedWords = parseTextWithMarkup(text);
+    // Get the original text with markup for parsing effects
+    const originalText = activeDialogue?.text || displayText;
+    const parsedData = parseTextWithMarkup(originalText);
+    const parsedWords = parsedData.words;
+    const cleanText = parsedData.cleanText;
+
+    // Calculate which words should be visible based on typewriter progress
+    let visibleLength = displayText.length;
+    let currentPos = 0;
+    const visibleWords = [];
+
+    for (let i = 0; i < parsedWords.length; i++) {
+      const word = parsedWords[i];
+      const wordEndPos = currentPos + word.text.length;
+
+      if (currentPos < visibleLength) {
+        if (wordEndPos <= visibleLength) {
+          // Full word is visible
+          visibleWords.push({ ...word, text: word.text, isPartial: false });
+        } else {
+          // Partial word is visible
+          const partialLength = visibleLength - currentPos;
+          if (partialLength > 0) {
+            visibleWords.push({
+              ...word,
+              text: word.text.substring(0, partialLength),
+              isPartial: true
+            });
+          }
+        }
+      }
+
+      currentPos = wordEndPos + (i < parsedWords.length - 1 ? 1 : 0); // +1 for space
+    }
 
     return (
       <span className={`dialogue-text ${effect || 'normal'}`} style={baseStyle}>
-        {parsedWords.map((wordData, index) => {
+        {visibleWords.map((wordData, index) => {
           const wordStyle = { ...baseStyle };
           let wordClass = 'dialogue-word';
 
@@ -202,17 +244,18 @@ const DialogueSystem = () => {
           }
 
           return (
-            <span
-              key={index}
-              className={wordClass}
-              style={{
-                ...wordStyle,
-                '--word-index': index
-              }}
-            >
-              {wordData.text}
-              {!wordData.isLastWord && ' '}
-            </span>
+            <React.Fragment key={index}>
+              <span
+                className={wordClass}
+                style={{
+                  ...wordStyle,
+                  '--word-index': wordData.index
+                }}
+              >
+                {wordData.text}
+              </span>
+              {index < visibleWords.length - 1 && !wordData.isPartial && ' '}
+            </React.Fragment>
           );
         })}
       </span>
