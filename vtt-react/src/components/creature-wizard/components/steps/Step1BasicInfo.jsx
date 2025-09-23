@@ -8,7 +8,6 @@ const Step1BasicInfo = () => {
   const dispatch = useCreatureWizardDispatch();
 
   const [showIconSelector, setShowIconSelector] = useState(false);
-  const [showImageControls, setShowImageControls] = useState(false);
   const fileInputRef = useRef(null);
 
 
@@ -197,15 +196,7 @@ const Step1BasicInfo = () => {
     }));
   };
 
-  // Get image style with transformations
-  const getImageStyle = () => {
-    const transforms = wizardState.imageTransformations;
-    if (!transforms) return {};
 
-    return {
-      transform: `scale(${transforms.scale || 1}) rotate(${transforms.rotation || 0}deg) translate(${transforms.positionX || 0}px, ${transforms.positionY || 0}px)`
-    };
-  };
 
   // Format type name for display
   const formatTypeName = (type) => {
