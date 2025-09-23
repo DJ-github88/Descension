@@ -327,42 +327,7 @@
   margin-bottom: 1rem;
 }
 
-/* Header */
-.account-header {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
-  border-bottom: 3px solid #8b4513;
-  padding: 2rem 0;
-  box-shadow: 0 4px 20px rgba(139, 69, 19, 0.2);
-  backdrop-filter: blur(10px);
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.user-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 3px solid #8b4513;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
-}
+/* Old header styles removed - using account-header-new instead */
 
 .user-avatar img {
   width: 100%;
@@ -403,10 +368,7 @@
   box-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
 }
 
-.header-actions {
-  display: flex;
-  gap: 1rem;
-}
+/* Old header-actions removed - using header-actions-new instead */
 
 /* Old tab navigation removed - using new fan-style tabs */
 
