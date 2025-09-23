@@ -203,10 +203,12 @@ const CharacterManagement = ({ user }) => {
                 {/* Character Header */}
                 <div className="character-card-header">
                   <div className="character-portrait">
-                    {character.image ? (
-                      <img src={character.image} alt={character.name} />
+                    {character.image || character.lore?.characterImage ? (
+                      <img src={character.image || character.lore?.characterImage} alt={character.name} />
                     ) : (
-                      <i className="fas fa-user-circle"></i>
+                      <div className="default-portrait-text">
+                        {character.name.charAt(0).toUpperCase()}
+                      </div>
                     )}
                     <div className="character-level">
                       {character.level || 1}

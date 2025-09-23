@@ -1743,12 +1743,11 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.3) 100%);
-}
-
-.character-card-compact .default-portrait-icon i {
   font-size: 1.8rem;
-  color: #d4af37;
+  font-weight: 700;
+  color: #8b4513;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Cinzel', serif;
 }
 
 /* Character Info Section */
