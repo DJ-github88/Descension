@@ -112,6 +112,9 @@ const DialogueSystem = () => {
 
   // Get character portrait
   const getCharacterPortrait = (characterData) => {
+    if (characterData?.lore?.characterIcon) {
+      return characterData.lore.characterIcon;
+    }
     if (characterData?.characterImage) {
       return characterData.characterImage;
     }
@@ -209,7 +212,7 @@ const DialogueSystem = () => {
   const renderTextWithEffects = (displayText, effect, color) => {
     const baseStyle = {
       color: color || '#ffffff',
-      textShadow: '2px 2px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000'
+      textShadow: '1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000'
     };
 
     // Get the original text with markup for parsing effects
@@ -263,9 +266,13 @@ const DialogueSystem = () => {
               purple: '#ff44ff',
               white: '#ffffff',
               yellow: '#ffff00',
-              rainbow: '#ff0000' // Will be animated via CSS
+              orange: '#ff8844',
+              black: '#cccccc', // Light gray so it's visible with black outline
+              rainbow: '#ff4444' // Will be animated via CSS
             };
             wordStyle.color = colorMap[wordData.color] || wordStyle.color;
+            // Add black outline to all colored text
+            wordStyle.textShadow = '1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000';
             if (wordData.color === 'rainbow') {
               wordClass += ' rainbow-word';
             }
@@ -313,10 +320,20 @@ const DialogueSystem = () => {
         <div className="dialogue-portrait">
           <div className="portrait-frame">
             {characterPortrait ? (
-              <img
-                src={characterPortrait}
-                alt={dialogueCharacterName}
+              <div
                 className="portrait-image"
+                style={{
+                  backgroundImage: `url(${characterPortrait})`,
+                  backgroundSize: activeDialogue.character?.lore?.imageTransformations
+                    ? `${(activeDialogue.character.lore.imageTransformations.scale || 1) * 150}%`
+                    : 'cover',
+                  backgroundPosition: activeDialogue.character?.lore?.imageTransformations
+                    ? `${50 + (activeDialogue.character.lore.imageTransformations.positionX || 0) / 2}% ${50 - (activeDialogue.character.lore.imageTransformations.positionY || 0) / 2}%`
+                    : 'center center',
+                  transform: activeDialogue.character?.lore?.imageTransformations
+                    ? `rotate(${activeDialogue.character.lore.imageTransformations.rotation || 0}deg)`
+                    : 'none'
+                }}
               />
             ) : (
               <div className="portrait-placeholder">
@@ -346,7 +363,7 @@ const DialogueSystem = () => {
           {/* Continue Indicator */}
           {!isTyping && (
             <div className="dialogue-continue">
-              <span className="continue-arrow">▼</span>
+              <span className="continue-arrow">Continue</span>
             </div>
           )}
         </div>

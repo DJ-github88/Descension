@@ -146,10 +146,10 @@ const DialogueControls = () => {
               {/* Markup Help */}
               <div className="markup-help">
                 <details>
-                  <summary>✨ Text Effects Guide</summary>
+                  <summary>Text Effects Guide</summary>
                   <div className="markup-examples">
                     <div className="effect-category">
-                      <strong>🎭 Animations:</strong>
+                      <strong>Animations:</strong>
                       <div className="effect-list">
                         <span><code>{'{bounce:word}'}</code> - Bouncing text</span>
                         <span><code>{'{shake:word}'}</code> - Shaking text</span>
@@ -160,7 +160,7 @@ const DialogueControls = () => {
                       </div>
                     </div>
                     <div className="effect-category">
-                      <strong>🎨 Colors:</strong>
+                      <strong>Colors:</strong>
                       <div className="effect-list">
                         <span><code>{'{red:word}'}</code> <code>{'{gold:word}'}</code> <code>{'{blue:word}'}</code></span>
                         <span><code>{'{green:word}'}</code> <code>{'{purple:word}'}</code> <code>{'{rainbow:word}'}</code></span>
@@ -235,11 +235,11 @@ const DialogueControls = () => {
             <div className="preview-section">
               <label>Preview:</label>
               <div className="preview-text">
-                <span 
+                <span
                   className={`dialogue-text ${selectedEffect}`}
-                  style={{ 
-                    color: selectedColor,
-                    textShadow: '2px 2px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000'
+                  style={{
+                    color: selectedColor || '#2c3e50',
+                    textShadow: 'none'
                   }}
                 >
                   {message || 'Type a message to see preview...'}
@@ -280,7 +280,7 @@ const DialogueControls = () => {
                     character,
                     characterName,
                     effect: 'normal',
-                    color: '#ffffff',
+                    color: '#2c3e50',
                     position: 'bottom',
                     speed: 40,
                     closeable: true

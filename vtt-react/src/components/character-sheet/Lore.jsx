@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
@@ -31,6 +31,20 @@ export default function Lore() {
     const { tokenSettings, updateTokenSettings } = inspectionData ? { tokenSettings: null, updateTokenSettings: null } : characterStore;
 
     const [activeSection, setActiveSection] = useState('background');
+    const [showImageControls, setShowImageControls] = useState(false);
+
+    // Apply default transformations if image exists but no transformations are set
+    useEffect(() => {
+        if (lore.characterImage && !lore.imageTransformations) {
+            const defaultTransforms = {
+                scale: 1.2, // Start larger since object-fit: contain makes images smaller
+                rotation: 0,
+                positionX: 0,
+                positionY: 0
+            };
+            updateLore('imageTransformations', defaultTransforms);
+        }
+    }, [lore.characterImage, lore.imageTransformations]);
 
     const sections = {
         background: {
@@ -88,6 +102,215 @@ export default function Lore() {
 
     const handleFieldChange = (field, value) => {
         updateLore(field, value);
+
+        // If this is a character image field and we're setting a new image URL,
+        // set default transformations if none exist
+        if (field === 'characterImage' && value && !lore.imageTransformations) {
+            const defaultTransforms = {
+                scale: 0.7, // Start smaller so user can see more of the image
+                rotation: 0,
+                positionX: 0,
+                positionY: 0
+            };
+            updateLore('imageTransformations', defaultTransforms);
+        }
+    };
+
+    // Image manipulation state
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+    // Handle toggling image controls
+    const handleToggleImageControls = () => {
+        if (lore.characterImage) {
+            setShowImageControls(!showImageControls);
+        }
+    };
+
+    // Handle image transformation changes
+    const handleTransformationChange = (property, value) => {
+        const currentTransforms = lore.imageTransformations || {};
+        const newTransforms = {
+            ...currentTransforms,
+            [property]: value
+        };
+        updateLore('imageTransformations', newTransforms);
+    };
+
+    // Reset image transformations
+    const handleResetTransformations = () => {
+        updateLore('imageTransformations', {
+            scale: 1,
+            rotation: 0,
+            positionX: 0,
+            positionY: 0
+        });
+    };
+
+    // Center image
+    const handleCenterImage = () => {
+        const currentTransforms = lore.imageTransformations || {};
+        updateLore('imageTransformations', {
+            ...currentTransforms,
+            positionX: 0,
+            positionY: 0
+        });
+    };
+
+    // Drag handlers for image positioning (from ImageEditor)
+    const handleDragStart = (clientX, clientY) => {
+        const transforms = lore.imageTransformations || {};
+        setIsDragging(true);
+        setDragStart({
+            x: clientX - (transforms.positionX || 0),
+            y: clientY - (transforms.positionY || 0)
+        });
+    };
+
+    const handleDragMove = (clientX, clientY) => {
+        if (!isDragging) return;
+
+        const newX = clientX - dragStart.x;
+        const newY = clientY - dragStart.y;
+
+        // Constrain movement within reasonable bounds
+        const maxOffset = 100;
+        const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, newX));
+        const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, newY));
+
+        handleTransformationChange('positionX', constrainedX);
+        handleTransformationChange('positionY', constrainedY);
+    };
+
+    const handleDragEnd = () => {
+        setIsDragging(false);
+    };
+
+    // Mouse event handlers
+    const handleMouseDown = (e) => {
+        handleDragStart(e.clientX, e.clientY);
+        e.preventDefault();
+    };
+
+    const handleMouseMove = (e) => {
+        handleDragMove(e.clientX, e.clientY);
+    };
+
+    // Touch event handlers
+    const handleTouchStart = (e) => {
+        const touch = e.touches[0];
+        handleDragStart(touch.clientX, touch.clientY);
+        e.preventDefault();
+    };
+
+    const handleTouchMove = (e) => {
+        if (e.touches.length > 0) {
+            const touch = e.touches[0];
+            handleDragMove(touch.clientX, touch.clientY);
+        }
+    };
+
+    // Add global event listeners for dragging
+    useEffect(() => {
+        if (isDragging) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleDragEnd);
+            document.addEventListener('touchmove', handleTouchMove);
+            document.addEventListener('touchend', handleDragEnd);
+            return () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleDragEnd);
+                document.removeEventListener('touchmove', handleTouchMove);
+                document.removeEventListener('touchend', handleDragEnd);
+            };
+        }
+    }, [isDragging, dragStart]);
+
+    // Get image style with transformations
+    const getImageStyle = () => {
+        const transforms = lore.imageTransformations;
+        if (!transforms) return {};
+
+        return {
+            transform: `scale(${transforms.scale || 1}) rotate(${transforms.rotation || 0}deg) translate(${transforms.positionX || 0}px, ${transforms.positionY || 0}px)`
+        };
+    };
+
+    // Save image for both portrait and icon with transformations applied
+    const handleSaveImage = async () => {
+        if (!lore.characterImage || !lore.imageTransformations) return;
+
+        try {
+            // Create a canvas to render the transformed image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size (square for consistency)
+            const size = 400;
+            canvas.width = size;
+            canvas.height = size;
+
+            // Create image element
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = lore.characterImage;
+            });
+
+            // Clear canvas with transparent background
+            ctx.clearRect(0, 0, size, size);
+
+            // Save context state
+            ctx.save();
+
+            // Move to center of canvas
+            ctx.translate(size / 2, size / 2);
+
+            // Apply transformations
+            const transforms = lore.imageTransformations;
+            ctx.scale(transforms.scale || 1, transforms.scale || 1);
+            ctx.rotate((transforms.rotation || 0) * Math.PI / 180);
+            ctx.translate(transforms.positionX || 0, transforms.positionY || 0);
+
+            // Draw image centered
+            ctx.drawImage(img, -img.width / 2, -img.height / 2);
+
+            // Restore context state
+            ctx.restore();
+
+            // Convert canvas to blob and then to data URL
+            const transformedImageDataUrl = canvas.toDataURL('image/png', 0.9);
+
+            // Set the transformed image as the character icon for dialogue and tokens
+            updateLore('characterIcon', transformedImageDataUrl);
+
+            // If we have token settings, update the custom icon
+            if (updateTokenSettings) {
+                updateTokenSettings('customIcon', transformedImageDataUrl);
+            }
+
+            // Save the character to trigger synchronization with party store and persistence
+            if (characterStore.saveCurrentCharacter) {
+                characterStore.saveCurrentCharacter();
+            }
+
+            console.log('Character image saved with transformations applied');
+        } catch (error) {
+            console.error('Error saving transformed image:', error);
+            // Fallback to original image if transformation fails
+            updateLore('characterIcon', lore.characterImage);
+            if (updateTokenSettings) {
+                updateTokenSettings('customIcon', lore.characterImage);
+            }
+
+            // Still save the character even if transformation fails
+            if (characterStore.saveCurrentCharacter) {
+                characterStore.saveCurrentCharacter();
+            }
+        }
     };
 
     const renderField = (field) => {
@@ -127,18 +350,6 @@ export default function Lore() {
                 <div key={field.key} className="lore-field">
                     <label className="lore-field-label">{field.label}</label>
                     <div className="character-image-section">
-                        {lore[field.key] && (
-                            <div className="character-image-preview">
-                                <img
-                                    src={lore[field.key]}
-                                    alt="Character Portrait"
-                                    className="character-image"
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                    }}
-                                />
-                            </div>
-                        )}
                         <input
                             type="text"
                             className="lore-image-input"
@@ -146,6 +357,127 @@ export default function Lore() {
                             onChange={(e) => handleFieldChange(field.key, e.target.value)}
                             placeholder={field.placeholder}
                         />
+
+                        {lore[field.key] && (
+                            <div className="character-image-preview-large">
+                                {/* Draggable Image Preview */}
+                                <div className="inline-image-editor-preview">
+                                    <div className="inline-image-preview-container">
+                                        <img
+                                            src={lore[field.key]}
+                                            alt="Character Portrait"
+                                            className="inline-image-preview"
+                                            style={{
+                                                transform: `scale(${lore.imageTransformations?.scale || 1}) rotate(${lore.imageTransformations?.rotation || 0}deg) translate(${lore.imageTransformations?.positionX || 0}px, ${lore.imageTransformations?.positionY || 0}px)`,
+                                                cursor: isDragging ? 'grabbing' : 'grab'
+                                            }}
+                                            onMouseDown={handleMouseDown}
+                                            onTouchStart={handleTouchStart}
+                                            draggable={false}
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="drag-instructions">
+                                        <i className="fas fa-hand-paper"></i>
+                                        <span>Drag image to reposition</span>
+                                    </div>
+                                </div>
+
+                                <div className="image-controls-section">
+                                    <button
+                                        type="button"
+                                        className="toggle-controls-btn"
+                                        onClick={handleToggleImageControls}
+                                        title="Toggle Image Controls"
+                                    >
+                                        <i className={`fas ${showImageControls ? 'fa-chevron-up' : 'fa-sliders-h'}`}></i>
+                                        {showImageControls ? 'Hide Controls' : 'Edit Image'}
+                                    </button>
+
+                                    {showImageControls && (
+                                        <div className="inline-image-controls">
+                                            {/* Scale Control */}
+                                            <div className="control-group">
+                                                <label className="control-label">Size</label>
+                                                <div className="control-row">
+                                                    <input
+                                                        type="range"
+                                                        min="0.5"
+                                                        max="3"
+                                                        step="0.1"
+                                                        value={lore.imageTransformations?.scale || 1}
+                                                        onChange={(e) => handleTransformationChange('scale', parseFloat(e.target.value))}
+                                                        className="control-slider"
+                                                    />
+                                                    <span className="control-value">
+                                                        {Math.round((lore.imageTransformations?.scale || 1) * 100)}%
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* Rotation Control */}
+                                            <div className="control-group">
+                                                <label className="control-label">Rotation</label>
+                                                <div className="control-row">
+                                                    <input
+                                                        type="range"
+                                                        min="-180"
+                                                        max="180"
+                                                        step="5"
+                                                        value={lore.imageTransformations?.rotation || 0}
+                                                        onChange={(e) => handleTransformationChange('rotation', parseInt(e.target.value))}
+                                                        className="control-slider"
+                                                    />
+                                                    <span className="control-value">
+                                                        {lore.imageTransformations?.rotation || 0}°
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* Position Controls */}
+                                            <div className="control-group">
+                                                <label className="control-label">Position</label>
+                                                <div className="center-control">
+                                                    <button
+                                                        type="button"
+                                                        className="center-btn"
+                                                        onClick={handleCenterImage}
+                                                        title="Center Image"
+                                                    >
+                                                        <i className="fas fa-crosshairs"></i>
+                                                        Center Image
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            {/* Action Buttons */}
+                                            <div className="control-actions">
+                                                <button
+                                                    type="button"
+                                                    className="save-btn"
+                                                    onClick={handleSaveImage}
+                                                    title="Save as Portrait and Icon"
+                                                >
+                                                    <i className="fas fa-save"></i>
+                                                    Save Image
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="reset-btn"
+                                                    onClick={handleResetTransformations}
+                                                    title="Reset All Transformations"
+                                                >
+                                                    <i className="fas fa-undo"></i>
+                                                    Reset
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
@@ -241,6 +573,8 @@ export default function Lore() {
                     {sections[activeSection].fields.map(renderField)}
                 </div>
             </div>
+
+
         </div>
     );
 }

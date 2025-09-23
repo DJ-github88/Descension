@@ -610,10 +610,10 @@ const CharacterToken = ({
                         width: '100%',
                         height: '100%',
                         backgroundSize: characterData.lore.imageTransformations
-                            ? `${(characterData.lore.imageTransformations.scale || 1) * 100}%`
+                            ? `${(characterData.lore.imageTransformations.scale || 1) * 120}%`
                             : 'cover',
                         backgroundPosition: characterData.lore.imageTransformations
-                            ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 4}% ${50 + (characterData.lore.imageTransformations.positionY || 0) / 4}%`
+                            ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 2}% ${50 - (characterData.lore.imageTransformations.positionY || 0) / 2}%`
                             : 'center center',
                         backgroundRepeat: 'no-repeat',
                         borderRadius: '50%',

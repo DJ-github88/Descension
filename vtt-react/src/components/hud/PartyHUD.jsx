@@ -290,8 +290,30 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
             >
                 {/* Portrait */}
                 <div className="party-portrait">
-                    <div className="portrait-image">
-                        <i className="fas fa-user"></i>
+                    <div
+                        className="portrait-image"
+                        style={{
+                            backgroundImage: member.character?.tokenSettings?.customIcon
+                                ? `url(${member.character.tokenSettings.customIcon})`
+                                : member.character?.lore?.characterImage
+                                ? `url(${member.character.lore.characterImage})`
+                                : 'none',
+                            backgroundSize: member.character?.lore?.imageTransformations
+                                ? `${(member.character.lore.imageTransformations.scale || 1) * 150}%`
+                                : 'cover',
+                            backgroundPosition: member.character?.lore?.imageTransformations
+                                ? `${50 + (member.character.lore.imageTransformations.positionX || 0) / 2}% ${50 - (member.character.lore.imageTransformations.positionY || 0) / 2}%`
+                                : 'center center',
+                            backgroundRepeat: 'no-repeat',
+                            transform: member.character?.lore?.imageTransformations
+                                ? `rotate(${member.character.lore.imageTransformations.rotation || 0}deg)`
+                                : 'none'
+                        }}
+                    >
+                        {/* Show default icon only if no character image */}
+                        {!member.character?.tokenSettings?.customIcon && !member.character?.lore?.characterImage && (
+                            <i className="fas fa-user"></i>
+                        )}
                     </div>
                     {/* GM Crown */}
                     {member.isGM && (
@@ -572,7 +594,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 health: state.health,
                 mana: state.mana,
                 actionPoints: state.actionPoints,
-                classResource: state.classResource
+                classResource: state.classResource,
+                lore: state.lore,
+                tokenSettings: state.tokenSettings
             }),
             (characterData) => {
                 // Update the current player in the party store when character data changes
@@ -591,7 +615,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             health: characterData.health,
                             mana: characterData.mana,
                             actionPoints: characterData.actionPoints,
-                            classResource: characterData.classResource
+                            classResource: characterData.classResource,
+                            lore: characterData.lore,
+                            tokenSettings: characterData.tokenSettings
                         }
                     });
                 }
@@ -631,7 +657,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         actionPoints: state.actionPoints,
         derivedStats: state.derivedStats,
         equipmentBonuses: state.equipmentBonuses,
-        classResource: state.classResource // Add class resource to subscription
+        classResource: state.classResource,
+        lore: state.lore,
+        tokenSettings: state.tokenSettings
     }));
 
     // Context menu handlers
@@ -952,7 +980,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     health: currentPlayerData.health,
                     mana: currentPlayerData.mana,
                     actionPoints: currentPlayerData.actionPoints,
-                    classResource: currentPlayerData.classResource
+                    classResource: currentPlayerData.classResource,
+                    lore: currentPlayerData.lore,
+                    tokenSettings: currentPlayerData.tokenSettings
                 }
             };
         }

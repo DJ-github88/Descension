@@ -147,18 +147,22 @@ const CharacterPortraitHUD = ({
                         <div className="portrait-image">
                             {/* Use character image if available, otherwise show default */}
                             {characterData.lore?.characterImage ? (
-                                <img
-                                    src={characterData.lore.characterImage}
-                                    alt={characterData.name}
+                                <div
                                     style={{
                                         width: '100%',
                                         height: '100%',
-                                        objectFit: 'cover',
-                                        borderRadius: '50%'
-                                    }}
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        e.target.nextSibling.style.display = 'flex';
+                                        borderRadius: '50%',
+                                        backgroundImage: `url(${characterData.lore.characterImage})`,
+                                        backgroundSize: characterData.lore?.imageTransformations
+                                            ? `${(characterData.lore.imageTransformations.scale || 1) * 150}%`
+                                            : 'cover',
+                                        backgroundPosition: characterData.lore?.imageTransformations
+                                            ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 2}% ${50 - (characterData.lore.imageTransformations.positionY || 0) / 2}%`
+                                            : 'center center',
+                                        backgroundRepeat: 'no-repeat',
+                                        transform: characterData.lore?.imageTransformations
+                                            ? `rotate(${characterData.lore.imageTransformations.rotation || 0}deg)`
+                                            : 'none'
                                     }}
                                 />
                             ) : null}

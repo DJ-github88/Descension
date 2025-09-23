@@ -306,9 +306,12 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
 
   console.log('Room found:', room.name, 'Checking password...');
 
-  // Check password
-  if (room.password !== password) {
-    console.log('Password mismatch. Expected:', room.password, 'Received:', password);
+  // Check password - handle both empty and non-empty passwords
+  const roomPassword = room.password || '';
+  const providedPassword = password || '';
+
+  if (roomPassword !== providedPassword) {
+    console.log('Password mismatch. Expected:', roomPassword ? '[HIDDEN]' : 'EMPTY', 'Received:', providedPassword ? '[HIDDEN]' : 'EMPTY');
     return { error: 'Incorrect password' };
   }
 
@@ -492,9 +495,9 @@ io.on('connection', (socket) => {
       console.log('🎮 Received create_room request:', data);
       const { roomName, gmName, password } = data;
 
-      if (!roomName || !gmName || !password) {
-        console.log('❌ Missing required fields:', { roomName, gmName, password });
-        socket.emit('error', { message: 'Room name, GM name, and password are required' });
+      if (!roomName || !gmName) {
+        console.log('❌ Missing required fields:', { roomName, gmName, password: password ? '[HIDDEN]' : 'EMPTY' });
+        socket.emit('error', { message: 'Room name and GM name are required' });
         return;
       }
 
@@ -541,26 +544,26 @@ io.on('connection', (socket) => {
     const { roomId, playerName, password } = data;
 
     // Enhanced parameter validation with detailed logging
-    if (!roomId || !playerName || !password) {
+    if (!roomId || !playerName) {
       console.log('❌ Missing required fields for join:', {
         roomId: roomId || 'MISSING',
         playerName: playerName || 'MISSING',
-        password: password ? '[HIDDEN]' : 'MISSING',
+        password: password ? '[HIDDEN]' : 'EMPTY',
         socketId: socket.id
       });
-      socket.emit('error', { message: 'Room ID, player name, and password are required' });
+      socket.emit('error', { message: 'Room ID and player name are required' });
       return;
     }
 
     // Additional validation for empty strings
-    if (!roomId.trim() || !playerName.trim() || !password.trim()) {
+    if (!roomId.trim() || !playerName.trim()) {
       console.log('❌ Empty required fields for join:', {
         roomId: roomId.trim() || 'EMPTY',
         playerName: playerName.trim() || 'EMPTY',
-        password: password.trim() ? '[HIDDEN]' : 'EMPTY',
+        password: password && password.trim() ? '[HIDDEN]' : 'EMPTY',
         socketId: socket.id
       });
-      socket.emit('error', { message: 'Room ID, player name, and password cannot be empty' });
+      socket.emit('error', { message: 'Room ID and player name cannot be empty' });
       return;
     }
 
