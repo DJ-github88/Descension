@@ -86,10 +86,10 @@ class SubscriptionService {
           id: 'demo',
           name: 'Demo Mode',
           roomLimit: 999,
-          characterLimit: 999,
-          features: ['Unlimited rooms', 'Unlimited characters', 'All features unlocked', 'Demo mode'],
+          characterLimit: 50,
+          features: ['Unlimited rooms', '50 character slots', 'All features unlocked', 'Demo mode'],
           price: 0,
-          description: 'Demo mode with unlimited access'
+          description: 'Demo mode with extensive access for testing'
         };
       }
     } catch (error) {

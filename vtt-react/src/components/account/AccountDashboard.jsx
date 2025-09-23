@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import subscriptionService from '../../services/subscriptionService';
+import { RACE_DATA } from '../../data/raceData';
 import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -225,11 +226,28 @@ const AccountDashboard = ({ user }) => {
                       if (character.raceDisplayName) {
                         return character.raceDisplayName;
                       }
-                      // Fallback to combining race and subrace
+
+                      // Look up proper subrace name from race data
                       if (character.subrace && character.race) {
-                        return `${character.subrace} ${character.race}`;
+                        const raceData = RACE_DATA[character.race];
+                        if (raceData && raceData.subraces) {
+                          // Find the subrace by ID
+                          const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
+                          if (subraceData) {
+                            return subraceData.name;
+                          }
+                        }
+                        // Fallback to race name if subrace not found
+                        return raceData ? raceData.name : character.race;
                       }
-                      return character.race || 'Unknown Race';
+
+                      // Just race name
+                      if (character.race) {
+                        const raceData = RACE_DATA[character.race];
+                        return raceData ? raceData.name : character.race;
+                      }
+
+                      return 'Unknown Race';
                     };
 
                     // Helper function to get class display name

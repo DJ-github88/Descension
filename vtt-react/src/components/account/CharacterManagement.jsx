@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useCharacterStore from '../../store/characterStore';
 import subscriptionService from '../../services/subscriptionService';
+import { RACE_DATA } from '../../data/raceData';
 import './styles/CharacterManagement.css';
 
 const CharacterManagement = ({ user }) => {
@@ -216,11 +217,31 @@ const CharacterManagement = ({ user }) => {
                     <div className="character-name-section">
                       <h3 className="character-name">{character.name}</h3>
                       <p className="character-title">
-                        {character.race} {character.class}
+                        {(() => {
+                          // Get proper race display name
+                          if (character.raceDisplayName) {
+                            return character.raceDisplayName;
+                          }
+
+                          if (character.subrace && character.race) {
+                            const raceData = RACE_DATA[character.race];
+                            if (raceData && raceData.subraces) {
+                              const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
+                              if (subraceData) {
+                                return subraceData.name;
+                              }
+                            }
+                            return raceData ? raceData.name : character.race;
+                          }
+
+                          if (character.race) {
+                            const raceData = RACE_DATA[character.race];
+                            return raceData ? raceData.name : character.race;
+                          }
+
+                          return 'Unknown Race';
+                        })()} {character.class}
                       </p>
-                      {character.subrace && (
-                        <p className="character-subrace">{character.subrace}</p>
-                      )}
                     </div>
 
                     {/* Primary Stats in Header */}

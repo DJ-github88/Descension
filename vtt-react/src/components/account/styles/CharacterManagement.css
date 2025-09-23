@@ -168,33 +168,32 @@
 /* High specificity to override game styles */
 .account-main .character-management .characters-grid,
 .characters-grid {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
-  gap: 1.5rem !important;
-  padding: 1rem 0 !important;
-  width: auto !important;
-  max-width: none !important;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+  width: auto;
+  max-width: none;
 }
 
-/* Character Cards - High specificity to override game styles */
-.account-main .character-management .character-card,
-.character-card {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%) !important;
-  border: 2px solid rgba(212, 175, 55, 0.6) !important;
-  border-radius: 12px !important;
-  padding: 0 !important;
-  transition: all 0.3s ease !important;
-  position: relative !important;
-  overflow: hidden !important;
+/* Character Cards - Clean styling without conflicts */
+.character-management .character-card {
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  border-radius: 12px;
+  padding: 0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
   box-shadow:
     0 6px 20px rgba(0, 0, 0, 0.15),
-    0 2px 8px rgba(212, 175, 55, 0.1) !important;
-  min-height: 400px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  width: auto !important;
-  max-width: none !important;
-  flex: none !important;
+    0 2px 8px rgba(212, 175, 55, 0.1);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  max-width: none;
+  flex: none;
 }
 
 .character-card:hover {
@@ -519,16 +518,16 @@
 /* High specificity to override game styles */
 .account-main .character-management .abilities-grid-compact,
 .abilities-grid-compact {
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 0.4rem !important;
-  padding: 0.5rem !important;
-  max-width: none !important;
-  width: auto !important;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(244, 228, 166, 0.05) 100%) !important;
-  border: 1px solid rgba(212, 175, 55, 0.2) !important;
-  border-radius: 6px !important;
-  margin-bottom: 0.5rem !important;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  padding: 0.5rem;
+  max-width: none;
+  width: auto;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(244, 228, 166, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
 }
 
 .ability-score {
@@ -1116,8 +1115,8 @@
   }
 
   .abilities-grid-compact {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0.3rem !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3rem;
   }
 
   .character-actions {
@@ -1175,10 +1174,10 @@
 }
 
 /* Active Character Styles */
-.character-card.active-character {
-  border: 3px solid #28a745 !important;
-  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3) !important;
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(40, 167, 69, 0.1) 100%) !important;
+.character-management .character-card.active-character {
+  border: 3px solid #28a745;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(40, 167, 69, 0.1) 100%);
 }
 
 .character-card.active-character::before {
@@ -1195,13 +1194,13 @@
   z-index: 10;
 }
 
-.btn-success {
-  background: #28a745 !important;
-  border-color: #28a745 !important;
-  color: white !important;
+.character-management .btn-success {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
 }
 
-.btn-success:hover {
-  background: #218838 !important;
-  border-color: #1e7e34 !important;
+.character-management .btn-success:hover {
+  background: #218838;
+  border-color: #1e7e34;
 }
