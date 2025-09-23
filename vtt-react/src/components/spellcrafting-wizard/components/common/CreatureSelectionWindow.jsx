@@ -160,6 +160,22 @@ const CreatureSelectionWindow = ({
     const tooltipWidth = 240 * 0.85; // 204px
     const tooltipHeight = 450 * 0.85; // 382px (estimated full content height)
 
+    // Check if creature icon selector is open
+    const iconSelectorModal = document.querySelector('.creature-icon-selector-modal');
+
+    if (iconSelectorModal) {
+      // Position tooltip below the icon selector modal
+      const modalRect = iconSelectorModal.getBoundingClientRect();
+      const x = Math.max(10, Math.min(mouseX, viewportWidth - tooltipWidth - 10));
+      const y = modalRect.bottom + 10; // 10px below the modal
+
+      // Ensure tooltip doesn't go off bottom of screen
+      const finalY = Math.min(y, viewportHeight - tooltipHeight - 10);
+
+      setTooltipPosition({ x, y: finalY });
+      return;
+    }
+
     // Default offset from cursor
     const offsetX = 15;
     const offsetY = -10;

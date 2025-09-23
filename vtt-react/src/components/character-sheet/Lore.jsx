@@ -236,82 +236,7 @@ export default function Lore() {
         };
     };
 
-    // Save image for both portrait and icon with transformations applied
-    const handleSaveImage = async () => {
-        if (!lore.characterImage || !lore.imageTransformations) return;
 
-        try {
-            // Create a canvas to render the transformed image
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            // Set canvas size (square for consistency)
-            const size = 400;
-            canvas.width = size;
-            canvas.height = size;
-
-            // Create image element
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-
-            await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = reject;
-                img.src = lore.characterImage;
-            });
-
-            // Clear canvas with transparent background
-            ctx.clearRect(0, 0, size, size);
-
-            // Save context state
-            ctx.save();
-
-            // Move to center of canvas
-            ctx.translate(size / 2, size / 2);
-
-            // Apply transformations
-            const transforms = lore.imageTransformations;
-            ctx.scale(transforms.scale || 1, transforms.scale || 1);
-            ctx.rotate((transforms.rotation || 0) * Math.PI / 180);
-            ctx.translate(transforms.positionX || 0, transforms.positionY || 0);
-
-            // Draw image centered
-            ctx.drawImage(img, -img.width / 2, -img.height / 2);
-
-            // Restore context state
-            ctx.restore();
-
-            // Convert canvas to blob and then to data URL
-            const transformedImageDataUrl = canvas.toDataURL('image/png', 0.9);
-
-            // Set the transformed image as the character icon for dialogue and tokens
-            updateLore('characterIcon', transformedImageDataUrl);
-
-            // If we have token settings, update the custom icon
-            if (updateTokenSettings) {
-                updateTokenSettings('customIcon', transformedImageDataUrl);
-            }
-
-            // Save the character to trigger synchronization with party store and persistence
-            if (characterStore.saveCurrentCharacter) {
-                characterStore.saveCurrentCharacter();
-            }
-
-            console.log('Character image saved with transformations applied');
-        } catch (error) {
-            console.error('Error saving transformed image:', error);
-            // Fallback to original image if transformation fails
-            updateLore('characterIcon', lore.characterImage);
-            if (updateTokenSettings) {
-                updateTokenSettings('customIcon', lore.characterImage);
-            }
-
-            // Still save the character even if transformation fails
-            if (characterStore.saveCurrentCharacter) {
-                characterStore.saveCurrentCharacter();
-            }
-        }
-    };
 
     const renderField = (field) => {
         if (field.type === 'textarea') {
@@ -454,15 +379,6 @@ export default function Lore() {
 
                                             {/* Action Buttons */}
                                             <div className="control-actions">
-                                                <button
-                                                    type="button"
-                                                    className="save-btn"
-                                                    onClick={handleSaveImage}
-                                                    title="Save as Portrait and Icon"
-                                                >
-                                                    <i className="fas fa-save"></i>
-                                                    Save Image
-                                                </button>
                                                 <button
                                                     type="button"
                                                     className="reset-btn"

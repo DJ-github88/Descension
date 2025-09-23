@@ -278,6 +278,22 @@ const CreatureLibrary = ({ onEdit }) => {
       }
     }
 
+    // Check if creature icon selector is open
+    const iconSelectorModal = document.querySelector('.creature-icon-selector-modal');
+
+    if (iconSelectorModal) {
+      // Position tooltip below the icon selector modal
+      const modalRect = iconSelectorModal.getBoundingClientRect();
+      const x = Math.max(15, Math.min(event.clientX, viewportWidth - tooltipWidth - 15));
+      const y = modalRect.bottom + 15; // 15px below the modal
+
+      // Ensure tooltip doesn't go off bottom of screen
+      const finalY = Math.min(y, viewportHeight - tooltipHeight - 15);
+
+      setTooltipPosition({ x, y: finalY });
+      return;
+    }
+
     const margin = 15; // Smaller margin for closer positioning
 
     // Get actual window position and size from store, accounting for scale
@@ -455,7 +471,9 @@ const CreatureLibrary = ({ onEdit }) => {
                     // Create a drag image
                     const dragImage = document.createElement('div');
                     dragImage.className = 'creature-drag-image';
-                    dragImage.style.backgroundImage = `url(https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg)`;
+                    dragImage.style.backgroundImage = creature.customTokenImage
+                      ? `url(${creature.customTokenImage})`
+                      : `url(https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg)`;
                     dragImage.style.width = '40px';
                     dragImage.style.height = '40px';
                     dragImage.style.borderRadius = '50%';

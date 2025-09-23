@@ -664,16 +664,7 @@
   margin-bottom: 0 !important;
 }
 
-.item-wizard-modal .form-group label {
-  display: block !important;
-  font-family: var(--pf-font-display, 'Cinzel', serif) !important;
-  font-size: var(--pf-text-base, 14px) !important;
-  font-weight: var(--pf-font-bold, 600) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-}
+/* Removed duplicate .item-wizard-modal .form-group label - using consolidated styles */
 
 .item-wizard-modal input[type="text"],
 .item-wizard-modal input[type="number"],
@@ -2423,17 +2414,7 @@
     margin-bottom: 24px;
 }
 
-.item-wizard-modal .form-group label {
-    display: block;
-    margin-bottom: 12px;
-    color: var(--pf-text-primary);
-    font-size: 16px;
-    font-weight: 600;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    font-family: 'Cinzel', serif;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+/* Removed duplicate .item-wizard-modal .form-group label - using consolidated styles */
 
 .wow-input, .item-name-input, .item-description {
     background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
@@ -2897,14 +2878,7 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #ffd100;
-    font-size: 14px;
-    text-shadow: 1px 1px 0 #000;
-    font-family: 'Times New Roman', serif;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input,
 .form-group select,
@@ -3996,14 +3970,7 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #ffd100;
-    font-size: 14px;
-    text-shadow: 1px 1px 0 #000;
-    font-family: 'Times New Roman', serif;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 /* Description text styling */
 .wow-flavor-text {

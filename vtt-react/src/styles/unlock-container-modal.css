@@ -54,11 +54,7 @@
     margin-bottom: 20px;
 }
 
-.unlock-container-modal .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #e1e1e1;
-}
+/* Removed duplicate .unlock-container-modal .form-group label - using consolidated styles */
 
 .unlock-container-modal .form-group label i {
     margin-right: 8px;

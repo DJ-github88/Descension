@@ -51,8 +51,19 @@ const LibraryStyleCreatureCard = ({ creature }) => {
         <div
           className="creature-icon"
           style={{
-            backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg)`,
-            borderColor: creature.tokenBorder
+            backgroundImage: creature.customTokenImage
+              ? `url(${creature.customTokenImage})`
+              : `url(https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg)`,
+            borderColor: creature.tokenBorder,
+            backgroundSize: creature.customTokenImage && creature.imageTransformations
+              ? `${(creature.imageTransformations.scale || 1) * 100}%`
+              : 'cover',
+            backgroundPosition: creature.customTokenImage && creature.imageTransformations
+              ? `${50 + (creature.imageTransformations.positionX || 0) / 2}% ${50 - (creature.imageTransformations.positionY || 0) / 2}%`
+              : 'center center',
+            transform: creature.customTokenImage && creature.imageTransformations
+              ? `rotate(${creature.imageTransformations.rotation || 0}deg)`
+              : 'none'
           }}
         ></div>
         <div className="creature-name-type">

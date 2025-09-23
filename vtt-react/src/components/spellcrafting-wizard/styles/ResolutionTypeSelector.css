@@ -105,12 +105,7 @@
   gap: var(--pf-space-1);
 }
 
-.form-group label {
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-ui);
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 /* ===== FORM INPUTS ===== */
 

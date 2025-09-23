@@ -1283,7 +1283,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
                 width: '24px',
                 height: '24px',
                 borderRadius: '50%',
-                backgroundImage: `url(${getIconUrl(creature.tokenIcon)})`,
+                backgroundImage: token.state.customIcon
+                  ? `url(${token.state.customIcon})`
+                  : `url(${getIconUrl(creature.tokenIcon)})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 border: `2px solid ${creature.tokenBorder}`

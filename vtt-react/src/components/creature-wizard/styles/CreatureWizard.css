@@ -71,11 +71,7 @@
   flex: 1;
 }
 
-.form-group label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #5a4a3a;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .required-asterisk {
   color: #cc0000;

@@ -867,17 +867,7 @@
   margin-bottom: var(--pf-space-6, 24px) !important;
 }
 
-.recipe-wizard .form-group label {
-  display: block !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  font-weight: 600 !important;
-  margin-bottom: var(--pf-space-2, 8px) !important;
-  font-family: 'Cinzel', serif !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-size: 14px !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-}
+/* Removed duplicate .recipe-wizard .form-group label - using consolidated styles */
 
 /* Recipe Review */
 .recipe-review {

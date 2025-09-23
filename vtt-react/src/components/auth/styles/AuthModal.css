@@ -155,11 +155,7 @@
   gap: 8px;
 }
 
-.form-group label {
-  font-weight: 600;
-  color: #d4af37;
-  font-size: 0.95rem;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input {
   padding: 12px 16px;

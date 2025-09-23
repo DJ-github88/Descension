@@ -51,22 +51,45 @@ const CommunityCreaturesTab = () => {
 
   // Tooltip handlers
   const handleMouseEnter = (creature, e) => {
+    setHoveredCreature(creature);
+    updateTooltipPosition(e);
+  };
+
+  const handleMouseMove = (e) => {
+    if (hoveredCreature) {
+      updateTooltipPosition(e);
+    }
+  };
+
+  // Update tooltip position
+  const updateTooltipPosition = (e) => {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const tooltipWidth = 320;
+    const tooltipHeight = 450;
+
+    // Check if creature icon selector is open
+    const iconSelectorModal = document.querySelector('.creature-icon-selector-modal');
+
+    if (iconSelectorModal) {
+      // Position tooltip below the icon selector modal
+      const modalRect = iconSelectorModal.getBoundingClientRect();
+      const x = Math.max(15, Math.min(e.clientX, viewportWidth - tooltipWidth - 15));
+      const y = modalRect.bottom + 15; // 15px below the modal
+
+      // Ensure tooltip doesn't go off bottom of screen
+      const finalY = Math.min(y, viewportHeight - tooltipHeight - 15);
+
+      setTooltipPosition({ x, y: finalY });
+      return;
+    }
+
+    // Default positioning to the right of the element
     const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPosition({
       x: rect.right + 10,
       y: rect.top
     });
-    setHoveredCreature(creature);
-  };
-
-  const handleMouseMove = (e) => {
-    if (hoveredCreature) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      setTooltipPosition({
-        x: rect.right + 10,
-        y: rect.top
-      });
-    }
   };
 
   const handleMouseLeave = () => {

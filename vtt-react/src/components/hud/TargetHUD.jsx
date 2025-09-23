@@ -265,6 +265,83 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         return null;
     }, [targetType, currentTarget, tokens, forceUpdate, refreshKey]);
 
+    // Get target image/icon based on target type
+    const getTargetImage = () => {
+        if (!currentTarget) return null;
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            if (currentTarget.id === 'current-player') {
+                // Get current player's character image
+                const characterState = useCharacterStore.getState();
+                if (characterState.tokenSettings?.customIcon) {
+                    return characterState.tokenSettings.customIcon;
+                }
+                if (characterState.lore?.characterImage) {
+                    return characterState.lore.characterImage;
+                }
+                // Default character icon
+                return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
+            } else {
+                // Get party member's character image
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === currentTarget.id);
+                if (member?.character) {
+                    if (member.character.tokenSettings?.customIcon) {
+                        return member.character.tokenSettings.customIcon;
+                    }
+                    if (member.character.lore?.characterImage) {
+                        return member.character.lore.characterImage;
+                    }
+                }
+                // Default character icon
+                return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
+            }
+        } else if (targetType === 'creature') {
+            // Get creature's token image
+            const token = tokens.find(t => t.id === currentTarget.id);
+            if (token?.state?.customIcon) {
+                return token.state.customIcon;
+            }
+            // Use creature's default icon
+            if (currentTarget.tokenIcon) {
+                return `https://wow.zamimg.com/images/wow/icons/large/${currentTarget.tokenIcon}.jpg`;
+            }
+            // Fallback to default creature icon
+            return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_orc_01.jpg';
+        }
+
+        return null;
+    };
+
+    // Get image transformations for the target
+    const getImageTransformations = () => {
+        if (!currentTarget) return null;
+
+        if (targetType === 'party_member' || targetType === 'player') {
+            if (currentTarget.id === 'current-player') {
+                const characterState = useCharacterStore.getState();
+                return characterState.lore?.imageTransformations;
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === currentTarget.id);
+                return member?.character?.lore?.imageTransformations;
+            }
+        } else if (targetType === 'creature') {
+            // Creatures use token-level transformations
+            const token = tokens.find(t => t.id === currentTarget.id);
+            if (token?.state) {
+                return {
+                    scale: (token.state.iconScale || 100) / 100,
+                    positionX: ((token.state.iconPosition?.x || 50) - 50) * 2,
+                    positionY: ((token.state.iconPosition?.y || 50) - 50) * -2,
+                    rotation: 0 // Creatures don't typically have rotation
+                };
+            }
+        }
+
+        return null;
+    };
+
     // Don't render if no target
     if (!currentTarget) {
         console.log('🎯 TargetHUD: No current target, hiding component');
@@ -764,7 +841,29 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             {/* Portrait */}
                             <div className="party-portrait">
                                 <div className="portrait-image">
-                                    <i className="fas fa-crosshairs"></i>
+                                    {getTargetImage() ? (
+                                        <div
+                                            className="target-token-image"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                borderRadius: '8px',
+                                                backgroundImage: `url(${getTargetImage()})`,
+                                                backgroundSize: getImageTransformations()
+                                                    ? `${(getImageTransformations().scale || 1) * 120}%`
+                                                    : 'cover',
+                                                backgroundPosition: getImageTransformations()
+                                                    ? `${50 + (getImageTransformations().positionX || 0) / 2}% ${50 - (getImageTransformations().positionY || 0) / 2}%`
+                                                    : 'center center',
+                                                backgroundRepeat: 'no-repeat',
+                                                transform: getImageTransformations()
+                                                    ? `rotate(${getImageTransformations().rotation || 0}deg)`
+                                                    : 'none'
+                                            }}
+                                        />
+                                    ) : (
+                                        <i className="fas fa-crosshairs"></i>
+                                    )}
                                 </div>
                             </div>
 

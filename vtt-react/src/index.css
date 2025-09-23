@@ -1,5 +1,8 @@
 /* ===== PATHFINDER VTT - ROOT STYLES ===== */
 
+/* Import consolidated form group styles */
+@import './styles/consolidated-form-groups.css';
+
 /* ===== CSS VARIABLES - PATHFINDER THEME ===== */
 :root {
   /* Primary Parchment Colors */

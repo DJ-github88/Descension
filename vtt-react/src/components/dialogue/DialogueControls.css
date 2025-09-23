@@ -9,31 +9,32 @@
 
 /* Toggle Button */
 .dialogue-toggle-btn {
-  background: linear-gradient(135deg, #2a2a2e, #1a1a1e);
-  border: 2px solid #4a90e2;
+  background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
+  border: 2px solid #8b7355;
   border-radius: 8px;
-  color: #ffffff;
+  color: #2c1810;
   padding: 12px 16px;
-  font-family: 'Courier New', monospace;
+  font-family: 'Cinzel', serif;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   transition: all 0.3s ease;
-  box-shadow: 
-    0 0 0 1px #000,
-    0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .dialogue-toggle-btn:hover {
-  background: linear-gradient(135deg, #3a3a3e, #2a2a2e);
-  border-color: #6ab7ff;
+  background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a8 100%);
+  border-color: #7a3b2e;
   transform: translateY(-2px);
-  box-shadow: 
-    0 0 0 1px #000,
-    0 6px 12px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .dialogue-toggle-btn.active {

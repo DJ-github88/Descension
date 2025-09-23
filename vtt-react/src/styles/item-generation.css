@@ -341,10 +341,7 @@
     margin-bottom: 1rem;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input,
 .form-group textarea {

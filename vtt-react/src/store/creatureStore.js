@@ -205,6 +205,8 @@ const useCreatureStore = create(
           tags: creature.tags || [],
           tokenIcon: creature.tokenIcon || 'inv_misc_questionmark',
           tokenBorder: creature.tokenBorder || '#ffffff',
+          customTokenImage: creature.customTokenImage || null,
+          imageTransformations: creature.imageTransformations || null,
           stats: { ...DEFAULT_STATS, ...creature.stats },
           resistances: creature.resistances || {},
           vulnerabilities: creature.vulnerabilities || {},
@@ -346,7 +348,16 @@ const useCreatureStore = create(
             currentMana: creature.stats?.maxMana || 0,
             currentActionPoints: creature.stats?.maxActionPoints || 2,
             conditions: [],
-            notes: ''
+            notes: '',
+            // Set custom icon if creature has a custom token image
+            ...(creature.customTokenImage && {
+              customIcon: creature.customTokenImage,
+              iconScale: creature.imageTransformations?.scale ? (creature.imageTransformations.scale * 100) : 100,
+              iconPosition: {
+                x: creature.imageTransformations?.positionX ? (50 + creature.imageTransformations.positionX / 2) : 50,
+                y: creature.imageTransformations?.positionY ? (50 - creature.imageTransformations.positionY / 2) : 50
+              }
+            })
           }
         };
 

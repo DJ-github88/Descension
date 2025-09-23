@@ -494,15 +494,7 @@
     box-sizing: border-box !important;
 }
 
-.quick-item-generator-modal .enhanced-quick-item-wizard .form-group label {
-    display: block !important;
-    margin-bottom: 8px !important; /* Restored for better readability */
-    color: #5e2e23 !important;
-    font-size: 15px !important; /* Restored for better readability */
-    font-weight: 600 !important;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.3) !important;
-    position: relative !important;
-}
+/* Removed duplicate .quick-item-generator-modal .enhanced-quick-item-wizard .form-group label - using consolidated styles */
 
 /* Ensure all input elements use full width */
 .quick-item-generator-modal .enhanced-quick-item-wizard input,

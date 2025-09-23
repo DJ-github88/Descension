@@ -1058,13 +1058,7 @@
   margin-bottom: var(--pf-space-4);
 }
 
-.form-group label {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  text-transform: capitalize;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input,
 .form-group select,

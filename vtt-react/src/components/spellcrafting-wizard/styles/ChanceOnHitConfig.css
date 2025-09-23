@@ -237,13 +237,7 @@
   margin-bottom: var(--pf-space-4);
 }
 
-.form-group label {
-  display: block;
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-2);
-  font-family: var(--pf-font-ui);
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .input-with-label {
   display: flex;
@@ -1205,16 +1199,7 @@ input[type="checkbox"]:hover {
   margin-bottom: var(--pf-space-4);
 }
 
-.mechanics-popup-body .form-group label {
-  display: block;
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-text-primary) !important;
-  margin-bottom: var(--pf-space-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: var(--pf-text-sm);
-}
+/* Removed duplicate .mechanics-popup-body .form-group label - using consolidated styles */
 
 .mechanics-popup-body .form-group select,
 .mechanics-popup-body .form-group input[type="text"],
@@ -2068,12 +2053,7 @@ input[type="checkbox"]:hover {
   margin-bottom: var(--pf-space-2);
 }
 
-.mechanics-grid-item .form-group label {
-  font-size: var(--pf-text-xs);
-  margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-medium);
-}
+/* Removed duplicate .mechanics-grid-item .form-group label - using consolidated styles */
 
 .mechanics-grid-item .form-group input,
 .mechanics-grid-item .form-group select {

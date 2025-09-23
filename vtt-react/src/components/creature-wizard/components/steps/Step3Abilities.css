@@ -703,11 +703,7 @@
   flex-direction: column;
 }
 
-.form-group label {
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #aaaaaa;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input,
 .form-group select,

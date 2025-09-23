@@ -101,14 +101,7 @@
   margin-bottom: 16px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: var(--pf-space-2);
-  color: var(--pf-text-primary);
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-ui);
-  font-weight: var(--pf-font-semibold);
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .wow-settings-input {
   width: 100%;

@@ -2398,16 +2398,7 @@
   margin-bottom: 12px;
 }
 
-.mechanics-grid-item .form-group label {
-  display: block;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  color: #2c1810 !important;
-  margin-bottom: 6px !important;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-family: 'Cinzel', serif;
-}
+/* Removed duplicate .mechanics-grid-item .form-group label - using consolidated styles */
 
 .mechanics-grid-item .form-group input,
 .mechanics-grid-item .form-group select {

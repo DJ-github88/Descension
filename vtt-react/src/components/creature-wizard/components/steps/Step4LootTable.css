@@ -800,14 +800,7 @@
   min-width: 200px;
 }
 
-.form-group label {
-  display: block;
-  font-size: 16px;
-  color: #5a1e12;
-  margin-bottom: 8px;
-  font-weight: 600;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input,
 .form-group select {

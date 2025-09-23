@@ -66,12 +66,7 @@
     margin-bottom: 16px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #fff;
-    font-weight: 500;
-}
+/* Removed duplicate .form-group label - using consolidated styles */
 
 .form-group input {
     width: 100%;
