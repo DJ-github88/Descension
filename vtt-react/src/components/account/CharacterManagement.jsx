@@ -216,58 +216,76 @@ const CharacterManagement = ({ user }) => {
                   </div>
 
                   <div className="character-header-info">
-                    <div className="character-name-section">
-                      <h3 className="character-name">{character.name}</h3>
-                      <p className="character-title">
-                        {(() => {
-                          // Get proper race display name
-                          if (character.raceDisplayName) {
-                            return character.raceDisplayName;
-                          }
+                    {/* Top Row: Name and Class Icons */}
+                    <div className="character-name-row">
+                      <div className="character-name-section">
+                        <h3 className="character-name">{character.name}</h3>
+                      </div>
+                      <div className="character-class-icons">
+                        <div className="race-icon" title={character.race}>
+                          {getRaceIcon(character.race)}
+                        </div>
+                        <div className="class-icon" title={character.class}>
+                          {getClassIcon(character.class)}
+                        </div>
+                      </div>
+                    </div>
 
-                          if (character.subrace && character.race) {
-                            const raceData = RACE_DATA[character.race];
-                            if (raceData && raceData.subraces) {
-                              const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
-                              if (subraceData) {
-                                return subraceData.name;
-                              }
+                    {/* Middle Row: Race, Subrace, and Class */}
+                    <div className="character-details-row">
+                      <div className="character-race-class">
+                        <span className="race-text">
+                          {(() => {
+                            // Get proper race display name
+                            if (character.raceDisplayName) {
+                              return character.raceDisplayName;
                             }
-                            return raceData ? raceData.name : character.race;
-                          }
 
-                          if (character.race) {
-                            const raceData = RACE_DATA[character.race];
-                            return raceData ? raceData.name : character.race;
-                          }
+                            if (character.subrace && character.race) {
+                              const raceData = RACE_DATA[character.race];
+                              if (raceData && raceData.subraces) {
+                                const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
+                                if (subraceData) {
+                                  return subraceData.name;
+                                }
+                              }
+                              return raceData ? raceData.name : character.race;
+                            }
 
-                          return 'Unknown Race';
-                        })()} {character.class}
-                      </p>
-                    </div>
+                            if (character.race) {
+                              const raceData = RACE_DATA[character.race];
+                              return raceData ? raceData.name : character.race;
+                            }
 
-                    {/* Primary Stats in Header */}
-                    <div className="character-header-stats">
-                      <div className="header-stat-item">
-                        <i className="fas fa-heart" title="Health"></i>
-                        <span className="header-stat-value">{character.hitPoints || 100}/{character.maxHitPoints || 100}</span>
-                      </div>
-                      <div className="header-stat-item">
-                        <i className="fas fa-tint" title="Mana"></i>
-                        <span className="header-stat-value">{character.mana || 50}/{character.maxMana || 50}</span>
-                      </div>
-                      <div className="header-stat-item">
-                        <i className="fas fa-zap" title="Action Points"></i>
-                        <span className="header-stat-value">{character.actionPoints || 3}</span>
+                            return 'Unknown Race';
+                          })()}
+                        </span>
+                        <span className="class-text">{character.class}</span>
                       </div>
                     </div>
 
-                    <div className="character-class-icons">
-                      <div className="race-icon" title={character.race}>
-                        {getRaceIcon(character.race)}
+                    {/* Bottom Row: Resource Bars */}
+                    <div className="character-resources-row">
+                      <div className="resource-bar health-bar">
+                        <div className="resource-label">
+                          <i className="fas fa-heart"></i>
+                          <span>HP</span>
+                        </div>
+                        <div className="resource-value">{character.hitPoints || 100}/{character.maxHitPoints || 100}</div>
                       </div>
-                      <div className="class-icon" title={character.class}>
-                        {getClassIcon(character.class)}
+                      <div className="resource-bar mana-bar">
+                        <div className="resource-label">
+                          <i className="fas fa-tint"></i>
+                          <span>MP</span>
+                        </div>
+                        <div className="resource-value">{character.mana || 50}/{character.maxMana || 50}</div>
+                      </div>
+                      <div className="resource-bar action-bar">
+                        <div className="resource-label">
+                          <i className="fas fa-zap"></i>
+                          <span>AP</span>
+                        </div>
+                        <div className="resource-value">{character.actionPoints || 3}</div>
                       </div>
                     </div>
                   </div>
