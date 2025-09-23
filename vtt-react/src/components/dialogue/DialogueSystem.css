@@ -1,5 +1,15 @@
 /* Modern Dialogue System Styles */
 
+:root {
+  /* Enhanced 8-directional text stroke for better outline */
+  --enhanced-text-stroke:
+    -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
+    -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
+    0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
+    1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
+    2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000;
+}
+
 .dialogue-system-overlay {
   position: fixed;
   top: 0;
@@ -93,23 +103,24 @@
   border: none;
 }
 
-/* Dialogue Box */
+/* Dialogue Box - Beige D&D/Pathfinder Aesthetic */
 .dialogue-box {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
-  border: 2px solid #d0d0d0;
+  background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
+  border: 2px solid #8b7355;
   border-radius: 12px;
   padding: 16px 20px;
   min-height: 80px;
   max-height: 50vh;
   position: relative;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.15),
-    0 2px 8px rgba(0, 0, 0, 0.1);
+    0 8px 32px rgba(139, 115, 85, 0.25),
+    0 2px 8px rgba(139, 115, 85, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   flex: 1;
   max-width: 600px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible; /* Allow animations to extend outside */
 }
 
 .dialogue-box::before {
@@ -121,7 +132,7 @@
   height: 0;
   border-style: solid;
   border-width: 0 12px 12px 0;
-  border-color: transparent #8B4513 transparent transparent;
+  border-color: transparent #8b7355 transparent transparent;
 }
 
 .dialogue-box::after {
@@ -133,43 +144,50 @@
   height: 0;
   border-style: solid;
   border-width: 0 9px 9px 0;
-  border-color: transparent #2a1810 transparent transparent;
+  border-color: transparent #e8dcc0 transparent transparent;
 }
 
 /* Character Name - 16-bit RPG Style */
 .dialogue-name {
-  font-family: 'Courier New', 'Monaco', monospace;
+  font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
   font-size: 14px;
   font-weight: bold;
   color: #ffd700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   margin-bottom: 8px;
   flex-shrink: 0;
-  text-shadow:
-    1px 1px 0px #000,
-    -1px -1px 0px #000,
-    1px -1px 0px #000,
-    -1px 1px 0px #000;
+  /* Enhanced 8-directional black text stroke for 16-bit look */
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
 }
 
 /* Text Content Container - 16-bit RPG Style */
 .dialogue-content {
-  font-family: 'Courier New', 'Monaco', monospace;
+  font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.6; /* Increased for animation space */
   color: #ffffff;
   flex: 1;
   overflow-y: auto;
+  overflow-x: visible; /* Allow horizontal overflow for animations */
   max-height: calc(50vh - 80px);
-  padding-right: 8px;
+  padding: 8px 16px 8px 8px; /* Extra padding for animations */
   position: relative;
   font-weight: normal;
-  text-shadow:
-    1px 1px 0px #000,
-    -1px -1px 0px #000,
-    1px -1px 0px #000,
-    -1px 1px 0px #000;
+  /* Enhanced 8-directional black text stroke for 16-bit look */
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
 }
 
 /* Custom Scrollbar for Dialogue Content */
@@ -221,6 +239,10 @@
 .dialogue-word {
   display: inline-block;
   position: relative;
+  /* Ensure animations don't get clipped */
+  margin: 2px;
+  /* Prevent text from being cut off during animations */
+  overflow: visible;
 }
 
 .word-bounce {
@@ -263,14 +285,14 @@
   color: #ffd700;
   animation: cursorBlink 1s infinite;
   font-weight: bold;
-  text-shadow:
-    1px 1px 0px #000,
-    -1px -1px 0px #000,
-    1px -1px 0px #000,
-    -1px 1px 0px #000;
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
-/* Continue Indicator */
+/* Continue Indicator - 16-bit Style */
 .dialogue-continue {
   position: absolute;
   bottom: 12px;
@@ -279,11 +301,11 @@
   font-size: 12px;
   animation: continuePulse 1.5s ease-in-out infinite;
   flex-shrink: 0;
-  text-shadow:
-    1px 1px 0px #000,
-    -1px -1px 0px #000,
-    1px -1px 0px #000,
-    -1px 1px 0px #000;
+  text-shadow: var(--enhanced-text-stroke);
+  /* 16-bit pixelated rendering */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .continue-arrow {
@@ -361,21 +383,10 @@
 
 @keyframes wordGlow {
   0% {
-    text-shadow:
-      2px 2px 0px #000,
-      -1px -1px 0px #000,
-      1px -1px 0px #000,
-      -1px 1px 0px #000,
-      0 0 5px currentColor;
+    text-shadow: var(--enhanced-text-stroke), 0 0 5px currentColor;
   }
   100% {
-    text-shadow:
-      2px 2px 0px #000,
-      -1px -1px 0px #000,
-      1px -1px 0px #000,
-      -1px 1px 0px #000,
-      0 0 20px currentColor,
-      0 0 30px currentColor;
+    text-shadow: var(--enhanced-text-stroke), 0 0 20px currentColor, 0 0 30px currentColor;
   }
 }
 
@@ -397,14 +408,14 @@
 }
 
 @keyframes wordRainbow {
-  0% { color: #ff4444; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  14% { color: #ff8844; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  28% { color: #ffff00; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  42% { color: #44ff44; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  57% { color: #4488ff; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  71% { color: #ff44ff; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  85% { color: #ff4488; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-  100% { color: #ff4444; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
+  0% { color: #ff4444; text-shadow: var(--enhanced-text-stroke); }
+  14% { color: #ff8844; text-shadow: var(--enhanced-text-stroke); }
+  28% { color: #ffff00; text-shadow: var(--enhanced-text-stroke); }
+  42% { color: #44ff44; text-shadow: var(--enhanced-text-stroke); }
+  57% { color: #4488ff; text-shadow: var(--enhanced-text-stroke); }
+  71% { color: #ff44ff; text-shadow: var(--enhanced-text-stroke); }
+  85% { color: #ff4488; text-shadow: var(--enhanced-text-stroke); }
+  100% { color: #ff4444; text-shadow: var(--enhanced-text-stroke); }
 }
 
 /* Responsive Design */

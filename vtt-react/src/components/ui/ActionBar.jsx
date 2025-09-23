@@ -151,18 +151,18 @@ const ActionBar = () => {
                 const spell = JSON.parse(spellData);
                 console.log('Parsed spell:', spell);
 
-                // Update the action slot with the spell
+                // Update the action slot with the complete spell data
                 const newSlots = [...actionSlots];
                 const newSpellSlot = {
-                    id: spell.id,
-                    name: spell.name,
-                    icon: spell.icon || 'spell_holy_holybolt',
-                    cooldown: 0,
-                    maxCooldown: spell.cooldown || 0,
-                    type: 'spell'
+                    // Store complete spell data for rich tooltip display
+                    ...spell,
+                    // Ensure action bar specific fields are set correctly
+                    cooldown: 0, // Current cooldown (starts at 0)
+                    maxCooldown: spell.cooldown || 0, // Max cooldown from spell definition
+                    type: 'spell' // Ensure action bar identifies this as a spell
                 };
                 newSlots[slotIndex] = newSpellSlot;
-                console.log('Setting new spell slot:', newSpellSlot);
+                console.log('Setting new spell slot with complete data:', newSpellSlot);
                 console.log('Icon URL will be:', getSlotIcon(newSpellSlot));
                 setActionSlots(newSlots);
                 dragOverSlot.current = null;
@@ -433,41 +433,17 @@ const ActionBar = () => {
             spellHideTimeoutRef.current = null;
         }
 
-        // Find the spell in the library
-        const spell = spellLibrary?.spells?.find(s => s.id === item.id);
-        console.log('Found spell in library:', spell); // Debug log
-        if (!spell) {
-            // If not found in library, use the item data directly for tooltip
-            console.log('Using item data directly for tooltip');
-            const spellData = {
-                ...item,
-                // Ensure we have the required fields for tooltip display
-                name: item.name || 'Unknown Spell',
-                icon: item.icon || 'spell_holy_holybolt',
-                description: item.description || 'No description available',
-                effectType: item.effectType || 'action'
-            };
+        // Try to find the spell in the library first for the most up-to-date data
+        const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
+        console.log('Found spell in library:', librarySpell); // Debug log
 
-            // Store the element reference to avoid null reference errors
-            const targetElement = e.currentTarget;
-            if (!targetElement) return;
+        // Use library spell if found, otherwise use the complete spell data stored in the action slot
+        const spellToDisplay = librarySpell || item;
+        console.log('Using spell data for tooltip:', spellToDisplay); // Debug log
 
-            // Set hover timeout
-            spellHoverTimeoutRef.current = setTimeout(() => {
-                // Check if element still exists
-                if (!targetElement || !document.contains(targetElement)) return;
-
-                // Get the action slot element's position for better tooltip placement
-                const rect = targetElement.getBoundingClientRect();
-
-                // Position tooltip above the action slot, centered horizontally
-                const tooltipX = rect.left + (rect.width / 2);
-                const tooltipY = rect.top - 10; // Position above the slot
-
-                setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
-                setTooltipSpell(spellData);
-                setShowSpellTooltip(true);
-            }, 300); // 300ms delay before showing tooltip
+        // Ensure we have valid spell data
+        if (!spellToDisplay || !spellToDisplay.id) {
+            console.log('No valid spell data available for tooltip');
             return;
         }
 
@@ -487,15 +463,17 @@ const ActionBar = () => {
             const tooltipX = rect.left + (rect.width / 2);
             const tooltipY = rect.top - 10; // Position above the slot
 
-            console.log('Action bar spell tooltip position:', {
+            console.log('Action bar spell tooltip positioning:', {
               x: tooltipX,
               y: tooltipY,
               slotRect: rect,
-              spellName: spell?.name,
-              actionBarFixed: true
+              spellName: spellToDisplay?.name,
+              actionBarFixed: true,
+              hasLibrarySpell: !!librarySpell,
+              usingStoredData: !librarySpell
             }); // Debug log
             setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
-            setTooltipSpell(spell);
+            setTooltipSpell(spellToDisplay);
             setShowSpellTooltip(true);
         }, 300); // 300ms delay before showing tooltip
     };

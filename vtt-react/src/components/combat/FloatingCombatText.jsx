@@ -130,6 +130,14 @@ export const FloatingCombatTextManager = () => {
     // Expose the function globally for easy access
     useEffect(() => {
         window.showFloatingCombatText = addFloatingText;
+        console.log('🎯 FloatingCombatTextManager: window.showFloatingCombatText function registered');
+
+        // Test the function immediately
+        setTimeout(() => {
+            console.log('🎯 Testing floating combat text function...');
+            window.showFloatingCombatText('TEST', 'heal', { x: 100, y: 100 });
+        }, 1000);
+
         return () => {
             delete window.showFloatingCombatText;
         };

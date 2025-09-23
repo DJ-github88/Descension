@@ -148,71 +148,103 @@ const DialogueSystem = () => {
     addSocialNotification(chatMessage);
   };
 
-  // Parse text for special markup and word-level animations
+  // Parse text for special markup and word-level animations - supports multi-word phrases
   const parseTextWithMarkup = (text) => {
     if (!text) return { words: [], cleanText: '' };
 
-    // Split text into words while preserving spaces
-    const words = text.split(' ');
+    // First, extract all markup patterns and replace them with placeholders
+    const markupRegex = /\{(\w+):\s*([^}]+)\}/g;
+    const markupMatches = [];
+    let processedText = text;
+    let matchIndex = 0;
+
+    // Find all markup patterns (including multi-word phrases)
+    let match;
+    while ((match = markupRegex.exec(text)) !== null) {
+      const [fullMatch, effect, content] = match;
+      const placeholder = `__MARKUP_${matchIndex}__`;
+
+      markupMatches.push({
+        placeholder,
+        effect,
+        content: content.trim(),
+        fullMatch
+      });
+
+      processedText = processedText.replace(fullMatch, placeholder);
+      matchIndex++;
+    }
+
+    // Split into words, preserving placeholders
+    const words = processedText.split(' ');
     const parsedWords = [];
-    const cleanWords = [];
+    let cleanText = '';
 
     words.forEach((word, index) => {
       // Skip empty words (from multiple spaces)
       if (!word.trim()) return;
 
-      let cleanWord = word;
-      let wordEffect = null;
-      let wordColor = null;
-      let wordAnimation = null;
+      // Check if this word contains a markup placeholder
+      const placeholderMatch = word.match(/__MARKUP_(\d+)__/);
 
-      // Check for special markup patterns
-      // {bounce:word} - bouncing animation
-      // {shake:word} - shaking animation
-      // {glow:word} - glowing effect
-      // {wave:word} - wave animation
-      // {float:word} - floating animation
-      // {pulse:word} - pulsing animation
-      // {rainbow:word} - rainbow color cycling
-      // {red:word} - colored text
-      // {gold:word} - gold colored text
+      if (placeholderMatch) {
+        const markupIndex = parseInt(placeholderMatch[1]);
+        const markupData = markupMatches[markupIndex];
 
-      const markupRegex = /\{(\w+):([^}]+)\}/;
-      const match = word.match(markupRegex);
+        if (markupData) {
+          const { effect, content } = markupData;
 
-      if (match) {
-        const [fullMatch, effect, content] = match;
-        cleanWord = content;
+          // Determine if it's a color or animation
+          const colors = ['red', 'gold', 'blue', 'green', 'purple', 'white', 'yellow', 'orange', 'black', 'rainbow'];
+          const animations = ['bounce', 'shake', 'glow', 'wave', 'float', 'pulse'];
 
-        // Determine effect type
-        if (['bounce', 'shake', 'glow', 'wave', 'float', 'pulse'].includes(effect)) {
-          wordAnimation = effect;
-        } else if (['rainbow', 'red', 'gold', 'blue', 'green', 'purple', 'white', 'yellow'].includes(effect)) {
-          wordColor = effect;
+          // Split multi-word content into individual words but keep the effect
+          const contentWords = content.split(' ');
+
+          contentWords.forEach((contentWord, contentIndex) => {
+            parsedWords.push({
+              text: contentWord,
+              color: colors.includes(effect) ? effect : null,
+              animation: animations.includes(effect) ? effect : null,
+              index: parsedWords.length,
+              isGrouped: contentWords.length > 1,
+              groupIndex: contentIndex,
+              groupTotal: contentWords.length
+            });
+
+            cleanText += contentWord + (contentIndex < contentWords.length - 1 ? ' ' : '');
+          });
         }
+      } else {
+        // Regular word without markup
+        parsedWords.push({
+          text: word,
+          color: null,
+          animation: null,
+          index: parsedWords.length,
+          isGrouped: false
+        });
+
+        cleanText += word;
       }
 
-      cleanWords.push(cleanWord);
-      parsedWords.push({
-        text: cleanWord,
-        index: parsedWords.length, // Use parsedWords length for proper indexing
-        animation: wordAnimation,
-        color: wordColor,
-        needsSpace: true // Always add space after words
-      });
+      // Add space after word group (not after individual words in a group)
+      if (index < words.length - 1) {
+        cleanText += ' ';
+      }
     });
 
-    return {
-      words: parsedWords,
-      cleanText: cleanWords.join(' ')
-    };
+    return { words: parsedWords, cleanText };
   };
 
   // Render text with effects and word-level animations
   const renderTextWithEffects = (displayText, effect, color) => {
     const baseStyle = {
       color: color || '#ffffff',
-      textShadow: '1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000'
+      // Enhanced 8-directional black text stroke for 16-bit look
+      textShadow: 'var(--enhanced-text-stroke)',
+      // 16-bit pixelated rendering
+      imageRendering: 'pixelated'
     };
 
     // Get the original text with markup for parsing effects
@@ -271,8 +303,9 @@ const DialogueSystem = () => {
               rainbow: '#ff4444' // Will be animated via CSS
             };
             wordStyle.color = colorMap[wordData.color] || wordStyle.color;
-            // Add black outline to all colored text
-            wordStyle.textShadow = '1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000';
+            // Enhanced black outline for all colored text (16-bit style)
+            wordStyle.textShadow = 'var(--enhanced-text-stroke)';
+            wordStyle.imageRendering = 'pixelated';
             if (wordData.color === 'rainbow') {
               wordClass += ' rainbow-word';
             }

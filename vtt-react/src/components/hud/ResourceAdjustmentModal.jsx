@@ -65,15 +65,12 @@ const ResourceAdjustmentModal = ({
 
     const handleSubmit = () => {
         const value = parseInt(inputValue);
-        console.log('💊 ResourceAdjustmentModal handleSubmit:', { value, adjustmentMode, currentValue });
         if (!isNaN(value)) {
             if (adjustmentMode === 'relative') {
-                console.log('📊 Calling onAdjust with relative value:', value);
                 onAdjust(value);
             } else {
                 // For absolute mode, calculate the difference
                 const adjustment = value - currentValue;
-                console.log('📊 Calling onAdjust with absolute adjustment:', adjustment);
                 onAdjust(adjustment);
             }
         }
@@ -82,7 +79,6 @@ const ResourceAdjustmentModal = ({
     };
 
     const handleQuickAdjust = (amount) => {
-        console.log('⚡ ResourceAdjustmentModal handleQuickAdjust:', amount);
         onAdjust(amount);
         onClose();
     };

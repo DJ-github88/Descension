@@ -3827,8 +3827,11 @@ const UnifiedSpellCard = ({
 
   const handleDragStart = (e) => {
     if (isDraggable) {
-      // Format spell data for action bar compatibility
+      // Transfer complete spell data to preserve all formatting and details
       const spellData = {
+        // Complete spell object with all properties for rich tooltip display
+        ...spell,
+        // Ensure action bar compatibility fields are present
         id: spell.id,
         name: spell.name,
         icon: spell.icon || 'spell_holy_holybolt',
@@ -3839,7 +3842,7 @@ const UnifiedSpellCard = ({
       };
       e.dataTransfer.setData('application/json', JSON.stringify(spellData));
       e.dataTransfer.effectAllowed = 'copy';
-      console.log('Dragging spell from UnifiedSpellCard:', spellData);
+      console.log('Dragging complete spell data from UnifiedSpellCard:', spellData);
     }
   };
 

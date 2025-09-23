@@ -758,8 +758,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       }
     };
 
-    // Check if this creature is already targeted
-    if (currentTarget?.id === creature.id) {
+    // Check if this creature token is already targeted
+    if (currentTarget?.id === tokenId) {
       clearTarget();
     } else {
       setTarget(targetData, TARGET_TYPES.CREATURE);

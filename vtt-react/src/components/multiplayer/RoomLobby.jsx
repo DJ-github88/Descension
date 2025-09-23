@@ -127,11 +127,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       if (autoCreateTestRoom) {
         console.log('🧪 Localhost development detected - auto-creating test room');
 
-        // Set up test room data
+        // Set up test room data (no password to test empty password functionality)
         const testRoomData = {
-          roomName: 'Localhost Test Room',
+          roomName: 'Localhost Test Room (No Password)',
           gmName: 'Test GM',
-          password: 'test123',
+          password: '', // Empty password to test the fix
           playerColor: '#d4af37'
         };
 
@@ -254,12 +254,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       const createdRoomPassword = roomPasswordRef.current.trim();
       const createdPlayerName = playerNameRef.current.trim();
 
-      // Validate parameters before proceeding
-      if (!data.room?.id || !createdPlayerName || !createdRoomPassword) {
+      // Validate parameters before proceeding (password is optional)
+      if (!data.room?.id || !createdPlayerName) {
         console.error('❌ Missing required parameters for auto-join:', {
           roomId: data.room?.id,
           playerName: createdPlayerName,
-          password: createdRoomPassword ? '[HIDDEN]' : 'MISSING'
+          password: createdRoomPassword ? '[HIDDEN]' : 'EMPTY'
         });
         setError('Failed to auto-join created room. Please join manually.');
         return;
@@ -590,10 +590,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     if (isTestRoom && isLocalhost) {
       // Bypass password validation for test rooms in localhost
       console.log('🧪 Test room detected in localhost - bypassing password validation');
-    } else if (!finalPassword.trim()) {
-      setError('Please enter the room password');
-      return;
     }
+    // Note: Password is optional for all rooms, so no validation needed here
+    // The server will handle password matching (empty passwords are allowed)
 
     if (!socket) {
       setError('Not connected to server');

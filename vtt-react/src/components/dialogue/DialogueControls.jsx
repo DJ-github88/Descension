@@ -166,6 +166,14 @@ const DialogueControls = () => {
                         <span><code>{'{green:word}'}</code> <code>{'{purple:word}'}</code> <code>{'{rainbow:word}'}</code></span>
                       </div>
                     </div>
+                    <div className="effect-category">
+                      <strong>Multi-word Support:</strong>
+                      <div className="effect-list">
+                        <span><code>{'{red: crimson road}'}</code> - Colors multiple words</span>
+                        <span><code>{'{bounce: magical spell}'}</code> - Animates phrases</span>
+                        <span>Supports spaces in effect content!</span>
+                      </div>
+                    </div>
                   </div>
                 </details>
               </div>
@@ -270,7 +278,7 @@ const DialogueControls = () => {
               <button
                 className="test-btn"
                 onClick={() => {
-                  const testMessage = "Welcome to the {bounce:magical} {rainbow:retro} dialogue system! This {glow:amazing} feature has {shake:incredible} {float:word-level} animations just like {pulse:classic} {wave:RPG} games!";
+                  const testMessage = "Welcome to the {bounce:magical retro} dialogue system! This {glow:amazing feature} has {shake:incredible multi-word} {float:phrase support} just like {pulse:classic RPG} {wave:adventure games}! Now you can use {red:crimson road} and {gold:golden treasures} with multiple words!";
                   const character = {
                     name: characterName,
                     characterImage: lore?.characterImage,

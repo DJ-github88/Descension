@@ -1201,10 +1201,12 @@ export default function Grid() {
             // Check if this is a creature drag by looking at the dataTransfer types
             const isCreatureDrag = e.dataTransfer.types.includes('creature/id');
 
-
             // Only set isDraggingCreature for actual creature drags
             if (isCreatureDrag) {
                 setIsDraggingCreature(true);
+
+                // Note: We can't get the creature ID here because dataTransfer.getData()
+                // only works in drop events. We'll get it during the drop event instead.
             }
         };
 
@@ -1241,8 +1243,8 @@ export default function Grid() {
                     if (dataText && dataText.trim() !== '') {
                         const data = JSON.parse(dataText);
                         if (data && data.type === 'creature' && data.id) {
-                            // CRITICAL FIX: Only add token if it's a legitimate drop operation
-                            if (isDraggingCreature && draggedCreatureId === data.id) {
+                            // Only add token if we're actually dragging a creature
+                            if (isDraggingCreature) {
                                 // Use the infinite grid system to get proper coordinates
                                 const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
                                 const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
@@ -1557,9 +1559,8 @@ export default function Grid() {
                 // Use the infinite grid system to get proper world coordinates from the tile
                 const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
 
-                // CRITICAL FIX: Only add token if it's a legitimate drop operation
-                // Check if we're actually dropping a creature from the creatures panel
-                if (isDraggingCreature && draggedCreatureId === data.id) {
+                // Only add token if we're actually dragging a creature
+                if (isDraggingCreature) {
                     console.log('✅ Legitimate creature drop - adding token for:', data.id);
                     addToken(data.id, { x: worldPos.x, y: worldPos.y });
                 } else {

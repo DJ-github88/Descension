@@ -37,7 +37,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const { isGMMode } = useGameStore();
     const { updatePartyMember } = usePartyStore();
     const { updateResource, activeCharacter } = useCharacterStore();
-    const { updateTokenState, getCreature } = useCreatureStore();
+    const { updateTokenState, getCreature, creatures } = useCreatureStore();
 
     // Get current player data for comparison
     const currentPlayerData = activeCharacter;
@@ -297,14 +297,20 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
             }
         } else if (targetType === 'creature') {
-            // Get creature's token image
+            // Get creature's token image - currentTarget.id is now the token ID
             const token = tokens.find(t => t.id === currentTarget.id);
             if (token?.state?.customIcon) {
                 return token.state.customIcon;
             }
-            // Use creature's default icon
-            if (currentTarget.tokenIcon) {
-                return `https://wow.zamimg.com/images/wow/icons/large/${currentTarget.tokenIcon}.jpg`;
+            // Get the creature data to check for custom token image
+            if (token) {
+                const creature = creatures.find(c => c.id === token.creatureId);
+                if (creature?.customTokenImage) {
+                    return creature.customTokenImage;
+                }
+                if (creature?.tokenIcon) {
+                    return `https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg`;
+                }
             }
             // Fallback to default creature icon
             return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_orc_01.jpg';
@@ -409,12 +415,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     };
 
     const handleClearTarget = () => {
-        console.log('🎯 TargetHUD: Clear Target clicked!');
         clearTarget();
         setShowContextMenu(false);
-        // Force immediate re-render to ensure component disappears
-        setForceUpdate(prev => prev + 1);
-        console.log('🎯 TargetHUD: Target cleared, forced update triggered');
     };
 
     const handleInspectTarget = () => {
@@ -520,10 +522,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const maxValue = currentResource.max;
                 const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
 
-                updateResource(resourceType, newValue, maxValue);
+                updateResource(resourceType, newValue); // Don't pass maxValue unless we want to change it
 
                 // Show floating combat text for current player at Target HUD position
-                if (window.showFloatingCombatText) {
+                if (window.showFloatingCombatText && adjustment !== 0) {
                     let textType;
                     if (resourceType === 'health') {
                         textType = adjustment > 0 ? 'heal' : 'damage';
@@ -539,22 +541,38 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         const rect = nodeRef.current.getBoundingClientRect();
                         floatingTextPosition = {
                             x: rect.left + rect.width / 2,
-                            y: rect.top + 10 // Slightly above the HUD for better visibility
+                            y: rect.top - 20 // Position above the HUD for better visibility
                         };
                     } else {
-                        // Fallback to stored position
-                        const targetHUDPos = getTargetHUDPosition();
+                        // Fallback to center of screen
                         floatingTextPosition = {
-                            x: targetHUDPos.x + 100,
-                            y: targetHUDPos.y + 20
+                            x: window.innerWidth / 2,
+                            y: window.innerHeight / 2
                         };
                     }
 
-                    window.showFloatingCombatText(
-                        Math.abs(adjustment).toString(),
+                    console.log('🎯 Target HUD: About to call showFloatingCombatText for current player:', {
+                        adjustment,
                         textType,
-                        floatingTextPosition
-                    );
+                        position: floatingTextPosition,
+                        functionExists: typeof window.showFloatingCombatText
+                    });
+
+                    // Add a small delay to ensure DOM is updated
+                    setTimeout(() => {
+                        console.log('🎯 Target HUD: Calling showFloatingCombatText now');
+                        window.showFloatingCombatText(
+                            Math.abs(adjustment).toString(),
+                            textType,
+                            floatingTextPosition
+                        );
+                    }, 50);
+                } else {
+                    console.log('🎯 Target HUD: NOT calling floating text:', {
+                        functionExists: typeof window.showFloatingCombatText,
+                        adjustment,
+                        adjustmentIsZero: adjustment === 0
+                    });
                 }
             } else {
                 // Update party member through party store
@@ -578,7 +596,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     });
 
                     // Show floating combat text for party member at Target HUD position
-                    if (window.showFloatingCombatText) {
+                    if (window.showFloatingCombatText && adjustment !== 0) {
                         let textType;
                         if (resourceType === 'health') {
                             textType = adjustment > 0 ? 'heal' : 'damage';
@@ -594,22 +612,24 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             const rect = nodeRef.current.getBoundingClientRect();
                             floatingTextPosition = {
                                 x: rect.left + rect.width / 2,
-                                y: rect.top + 10 // Slightly above the HUD for better visibility
+                                y: rect.top - 20 // Position above the HUD for better visibility
                             };
                         } else {
                             // Fallback to stored position
                             const targetHUDPos = getTargetHUDPosition();
                             floatingTextPosition = {
                                 x: targetHUDPos.x + 100,
-                                y: targetHUDPos.y + 20
+                                y: targetHUDPos.y - 20 // Position above the HUD
                             };
                         }
 
-                        window.showFloatingCombatText(
-                            Math.abs(adjustment).toString(),
-                            textType,
-                            floatingTextPosition
-                        );
+                        setTimeout(() => {
+                            window.showFloatingCombatText(
+                                Math.abs(adjustment).toString(),
+                                textType,
+                                floatingTextPosition
+                            );
+                        }, 50);
                     }
                 } else {
                     console.error('❌ Party member not found:', memberId);
@@ -617,8 +637,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             }
         } else if (targetType === 'creature') {
             // Update creature token
-            const creatureId = currentTarget.id;
-            const token = tokens.find(t => t.creatureId === creatureId);
+            const tokenId = currentTarget.id;  // For creatures, currentTarget.id is the token ID
+            const token = tokens.find(t => t.id === tokenId);
 
             if (token) {
                 const safeResource = resourceType === 'health' ? safeHealth :
@@ -644,7 +664,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     }, 0);
 
                     // Show floating combat text at token's screen position
-                    if (window.showFloatingCombatText && token.position) {
+                    if (window.showFloatingCombatText && token.position && adjustment !== 0) {
                         // Determine text type based on resource and adjustment direction
                         let textType;
                         if (resourceType === 'health') {
@@ -658,17 +678,44 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         // Get the token's screen position using the grid system
                         const gridSystem = window.gridSystem;
                         if (gridSystem) {
-                            const screenPos = gridSystem.worldToScreen(token.position.x, token.position.y);
-                            window.showFloatingCombatText(
-                                Math.abs(adjustment).toString(),
-                                textType,
-                                { x: screenPos.x, y: screenPos.y }
-                            );
+                            try {
+                                // Get viewport dimensions for proper coordinate conversion (same as CreatureToken)
+                                const viewportWidth = window.innerWidth;
+                                const viewportHeight = window.innerHeight;
+                                const screenPos = gridSystem.worldToScreen(token.position.x, token.position.y, viewportWidth, viewportHeight);
+
+                                // Add a small delay to ensure DOM is updated
+                                setTimeout(() => {
+                                    console.log('🎯 Creature floating text:', {
+                                        tokenPosition: token.position,
+                                        screenPos,
+                                        adjustment,
+                                        textType
+                                    });
+                                    window.showFloatingCombatText(
+                                        Math.abs(adjustment).toString(),
+                                        textType,
+                                        { x: screenPos.x, y: screenPos.y }
+                                    );
+                                }, 50);
+                            } catch (error) {
+                                console.error('❌ Failed to convert creature token position to screen coordinates:', error);
+                                // Fallback: show floating text at a default position
+                                setTimeout(() => {
+                                    window.showFloatingCombatText(
+                                        Math.abs(adjustment).toString(),
+                                        textType,
+                                        { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+                                    );
+                                }, 50);
+                            }
+                        } else {
+                            console.error('❌ Grid system not available for creature floating text');
                         }
                     }
                 }
             } else {
-                console.error('❌ Token not found for creature:', creatureId);
+                console.error('❌ Token not found for creature:', tokenId);
             }
         }
 

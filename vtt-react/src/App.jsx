@@ -23,7 +23,7 @@ const DynamicLightingManager = lazy(() => import("./components/level-editor/Dyna
 const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/AtmosphericEffectsManager"));
 const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
-const FloatingCombatTextManager = lazy(() => import("./components/combat/FloatingCombatText").then(module => ({ default: module.FloatingCombatTextManager })));
+import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 
 // Lazy load page components
 const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
@@ -246,13 +246,13 @@ function GameScreen() {
     return (
         <div className="game-screen">
             <ProductionDebugger />
+            <FloatingCombatTextManager />
             <Suspense fallback={<LoadingFallback message="Loading game..." />}>
                 <Grid />
                 <GridItemsManager />
                 <HUDContainer />
                 <ActionBar />
                 <CombatSelectionWindow />
-                <FloatingCombatTextManager />
                 <DynamicFogManager />
                 <DynamicLightingManager />
                 <AtmosphericEffectsManager />

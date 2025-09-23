@@ -322,8 +322,11 @@ export const joinRoom = async (roomId, userId, password) => {
       throw new Error('Room not found');
     }
 
-    // Check password
-    if (roomData.password !== password) {
+    // Check password - handle both empty and non-empty passwords
+    const roomPassword = roomData.password || '';
+    const providedPassword = password || '';
+
+    if (roomPassword !== providedPassword) {
       throw new Error('Incorrect password');
     }
 

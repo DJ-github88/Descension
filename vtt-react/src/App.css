@@ -3,6 +3,9 @@
 /* Import spell tooltip styles */
 @import './styles/spell-tooltip.css';
 
+/* Import floating combat text styles */
+@import './components/combat/FloatingCombatText.css';
+
 /* Global styles to prevent text selection */
 * {
   user-select: none;
