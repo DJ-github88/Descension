@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
+import subscriptionService from '../../services/subscriptionService';
 import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -14,12 +15,21 @@ const AccountDashboard = ({ user }) => {
   const { characters, loadCharacters, currentCharacterId } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('rooms');
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+  const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
 
   useEffect(() => {
     const loadUserData = async () => {
       setIsLoading(true);
       try {
         await loadCharacters();
+
+        // Load subscription status and character limits
+        const status = await subscriptionService.getSubscriptionStatus(user?.uid);
+        setSubscriptionStatus(status);
+
+        const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+        setCharacterLimitInfo(limitInfo);
       } catch (error) {
         console.error('Error loading user data:', error);
       } finally {
@@ -30,7 +40,7 @@ const AccountDashboard = ({ user }) => {
     if (user) {
       loadUserData();
     }
-  }, [user, loadCharacters]);
+  }, [user, loadCharacters, characters.length]);
 
   // Handle navigation state to set active tab
   useEffect(() => {
@@ -52,7 +62,25 @@ const AccountDashboard = ({ user }) => {
     navigate('/account/characters');
   };
 
-  const handleCreateCharacter = () => {
+  const handleCreateCharacter = async () => {
+    // Check character limits before allowing creation
+    const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+
+    if (!limitInfo.canCreate) {
+      const tierName = limitInfo.tierName;
+      const limit = limitInfo.limit;
+      const isUnlimited = limitInfo.isUnlimited;
+
+      if (isUnlimited) {
+        // This shouldn't happen with unlimited, but just in case
+        navigate('/account/characters/create');
+        return;
+      }
+
+      alert(`Character limit reached!\n\nYour ${tierName} membership allows ${limit} character${limit === 1 ? '' : 's'}.\nYou currently have ${limitInfo.currentCount} character${limitInfo.currentCount === 1 ? '' : 's'}.\n\nUpgrade your membership to create more characters.`);
+      return;
+    }
+
     navigate('/account/characters/create');
   };
 
@@ -150,10 +178,29 @@ const AccountDashboard = ({ user }) => {
           <div className="tab-content">
             <div className="characters-full-view">
               <div className="characters-header">
-                <h2>Character Management</h2>
+                <div className="characters-header-left">
+                  <h2>Character Management</h2>
+                  {characterLimitInfo && (
+                    <div className="character-limit-info">
+                      <span className="character-count">
+                        {characterLimitInfo.currentCount} / {characterLimitInfo.isUnlimited ? '∞' : characterLimitInfo.limit} characters
+                      </span>
+                      {subscriptionStatus && (
+                        <span className="tier-badge">
+                          {subscriptionStatus.tier.name}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 <button
-                  className="create-character-btn"
+                  className={`create-character-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
                   onClick={handleCreateCharacter}
+                  disabled={characterLimitInfo && !characterLimitInfo.canCreate}
+                  title={characterLimitInfo && !characterLimitInfo.canCreate ?
+                    `Character limit reached (${characterLimitInfo.limit}). Upgrade your membership to create more characters.` :
+                    'Create a new character'
+                  }
                 >
                   <i className="fas fa-plus"></i>
                   Create Character

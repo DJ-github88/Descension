@@ -2,12 +2,13 @@
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '../config/firebase';
 
-// Subscription tiers with room limits
+// Subscription tiers with room and character limits
 export const SUBSCRIPTION_TIERS = {
   GUEST: {
     id: 'guest',
     name: 'Guest',
     roomLimit: 0,
+    characterLimit: 0,
     features: ['Local play only', 'No cloud save'],
     price: 0,
     description: 'Try out Mythrill without an account'
@@ -16,8 +17,10 @@ export const SUBSCRIPTION_TIERS = {
     id: 'free',
     name: 'Free Adventurer',
     roomLimit: 1,
+    characterLimit: 1,
     features: [
       'Cloud character save',
+      '1 character slot',
       '1 persistent room',
       'Unlimited local play',
       'Basic multiplayer features'
@@ -29,8 +32,10 @@ export const SUBSCRIPTION_TIERS = {
     id: 'subscriber',
     name: 'Campaign Master',
     roomLimit: 5,
+    characterLimit: 6,
     features: [
       'Cloud character save',
+      '6 character slots',
       '5 persistent rooms',
       'Unlimited local play',
       'Advanced multiplayer features',
@@ -44,8 +49,10 @@ export const SUBSCRIPTION_TIERS = {
     id: 'premium',
     name: 'Guild Leader',
     roomLimit: 20,
+    characterLimit: 24,
     features: [
       'Cloud character save',
+      '24 character slots',
       '20 persistent rooms',
       'Unlimited local play',
       'All multiplayer features',
@@ -79,7 +86,8 @@ class SubscriptionService {
           id: 'demo',
           name: 'Demo Mode',
           roomLimit: 999,
-          features: ['Unlimited rooms', 'All features unlocked', 'Demo mode'],
+          characterLimit: 999,
+          features: ['Unlimited rooms', 'Unlimited characters', 'All features unlocked', 'Demo mode'],
           price: 0,
           description: 'Demo mode with unlimited access'
         };
@@ -221,16 +229,48 @@ class SubscriptionService {
   async getSubscriptionStatus(userId = null) {
     const tier = await this.getUserTier(userId);
     const isAuthenticated = this.isAuthenticated();
-    
+
     return {
       tier: tier,
       isAuthenticated: isAuthenticated,
       roomLimit: tier.roomLimit,
+      characterLimit: tier.characterLimit,
       canCreateRooms: tier.roomLimit > 0,
+      canCreateCharacters: tier.characterLimit > 0,
       features: tier.features,
       displayName: tier.name,
       description: tier.description
     };
+  }
+
+  /**
+   * Check if user can create more characters
+   * @param {number} currentCharacterCount - Current number of characters
+   * @param {string} userId - User ID (optional)
+   * @returns {Promise<Object>} - Object with canCreate boolean and limit info
+   */
+  async canCreateCharacter(currentCharacterCount, userId = null) {
+    const tier = await this.getUserTier(userId);
+    const characterLimit = tier.characterLimit;
+
+    return {
+      canCreate: currentCharacterCount < characterLimit,
+      currentCount: currentCharacterCount,
+      limit: characterLimit,
+      remaining: Math.max(0, characterLimit - currentCharacterCount),
+      tierName: tier.name,
+      isUnlimited: characterLimit >= 999
+    };
+  }
+
+  /**
+   * Get character limit for user's current tier
+   * @param {string} userId - User ID (optional)
+   * @returns {Promise<number>} - Character limit
+   */
+  async getCharacterLimit(userId = null) {
+    const tier = await this.getUserTier(userId);
+    return tier.characterLimit;
   }
 }
 

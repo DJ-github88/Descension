@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useCharacterStore from '../../store/characterStore';
+import subscriptionService from '../../services/subscriptionService';
 import './styles/CharacterManagement.css';
 
 const CharacterManagement = ({ user }) => {
@@ -12,6 +13,8 @@ const CharacterManagement = ({ user }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [sortBy, setSortBy] = useState('name'); // 'name', 'class', 'level', 'created'
   const [filterClass, setFilterClass] = useState('all');
+  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+  const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
 
   // Helper functions for icons
   const getRaceIcon = (race) => {
@@ -37,6 +40,13 @@ const CharacterManagement = ({ user }) => {
       setIsLoading(true);
       try {
         await loadCharacters();
+
+        // Load subscription status and character limits
+        const status = await subscriptionService.getSubscriptionStatus(user?.uid);
+        setSubscriptionStatus(status);
+
+        const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+        setCharacterLimitInfo(limitInfo);
       } catch (error) {
         console.error('Error loading characters:', error);
       } finally {
@@ -47,9 +57,27 @@ const CharacterManagement = ({ user }) => {
     if (user) {
       loadData();
     }
-  }, [user, loadCharacters]);
+  }, [user, loadCharacters, characters.length]);
 
-  const handleCreateCharacter = () => {
+  const handleCreateCharacter = async () => {
+    // Check character limits before allowing creation
+    const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+
+    if (!limitInfo.canCreate) {
+      const tierName = limitInfo.tierName;
+      const limit = limitInfo.limit;
+      const isUnlimited = limitInfo.isUnlimited;
+
+      if (isUnlimited) {
+        // This shouldn't happen with unlimited, but just in case
+        navigate('/account/characters/create');
+        return;
+      }
+
+      alert(`Character limit reached!\n\nYour ${tierName} membership allows ${limit} character${limit === 1 ? '' : 's'}.\nYou currently have ${limitInfo.currentCount} character${limitInfo.currentCount === 1 ? '' : 's'}.\n\nUpgrade your membership to create more characters.`);
+      return;
+    }
+
     navigate('/account/characters/create');
   };
 

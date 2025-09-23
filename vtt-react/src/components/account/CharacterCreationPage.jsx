@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import CharacterCreationWizard from '../character-creation-wizard/CharacterCreationWizard';
 import useCharacterStore from '../../store/characterStore';
 import useAuthStore from '../../store/authStore';
+import subscriptionService from '../../services/subscriptionService';
 import './styles/CharacterCreationPage.css';
 
 const CharacterCreationPage = ({ user, isEditing = false }) => {
@@ -67,6 +68,21 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
           }
         });
       } else {
+        // Check character limits before creating new character
+        const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+
+        if (!limitInfo.canCreate) {
+          const tierName = limitInfo.tierName;
+          const limit = limitInfo.limit;
+          const isUnlimited = limitInfo.isUnlimited;
+
+          if (!isUnlimited) {
+            setError(`Character limit reached!\n\nYour ${tierName} membership allows ${limit} character${limit === 1 ? '' : 's'}.\nYou currently have ${limitInfo.currentCount} character${limitInfo.currentCount === 1 ? '' : 's'}.\n\nUpgrade your membership to create more characters.`);
+            setIsCreating(false);
+            return;
+          }
+        }
+
         // Create new character
         const completeCharacterData = {
           ...characterData,
