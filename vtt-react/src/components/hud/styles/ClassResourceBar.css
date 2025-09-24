@@ -810,6 +810,65 @@
     50% { transform: scale(1.2); }
 }
 
+/* Chaotic Wave Animation for Chaos Weaver */
+@keyframes chaoticWave {
+    0% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+    25% {
+        background-position: 100% 30%;
+        filter: hue-rotate(15deg);
+    }
+    50% {
+        background-position: 200% 70%;
+        filter: hue-rotate(-10deg);
+    }
+    75% {
+        background-position: 300% 20%;
+        filter: hue-rotate(25deg);
+    }
+    100% {
+        background-position: 400% 50%;
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* Apply chaotic wave effect to Chaos Weaver bars - Maximum specificity */
+.class-resource-bar.progress-bar .bar-fill[data-effect="chaotic-wave"],
+.class-resource-bar.progress-bar .bar-fill.chaotic-wave-bar,
+.progress-bar .bar-fill[data-effect="chaotic-wave"],
+.progress-bar .bar-fill.chaotic-wave-bar,
+.character-card-compact .class-resource-bar .bar-fill[data-effect="chaotic-wave"],
+.character-card-compact .class-resource-bar .bar-fill.chaotic-wave-bar {
+    background: linear-gradient(45deg,
+        #1E3A8A 0%,
+        #3B82F6 25%,
+        #1E40AF 50%,
+        #2563EB 75%,
+        #1E3A8A 100%) !important;
+    background-size: 400% 400% !important;
+    animation: chaoticWave 3s ease-in-out infinite !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
+    border: none !important;
+}
+
+/* Nuclear option - override ALL bar-fill elements with blue if they have chaotic-wave */
+div[data-effect="chaotic-wave"],
+.chaotic-wave-bar,
+*[data-effect="chaotic-wave"] {
+    background: #1E3A8A !important;
+    background-image: linear-gradient(45deg,
+        #1E3A8A 0%,
+        #3B82F6 25%,
+        #1E40AF 50%,
+        #2563EB 75%,
+        #1E3A8A 100%) !important;
+    background-size: 400% 400% !important;
+    animation: chaoticWave 3s ease-in-out infinite !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .class-resource-bar {

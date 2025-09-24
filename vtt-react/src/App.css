@@ -685,7 +685,10 @@ input, textarea, [contenteditable="true"] {
   box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
 }
 
-.bar-fill {
+/* Make bar-fill styles specific to health/mana/ap bars to avoid conflicts with class resource bars */
+.health-bar .bar-fill,
+.mana-bar .bar-fill,
+.ap-bar .bar-fill {
   height: 100%;
   transition: width var(--pf-transition-normal);
   position: relative;
@@ -707,7 +710,10 @@ input, textarea, [contenteditable="true"] {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.bar-text {
+/* Make bar-text styles specific to health/mana/ap bars to avoid conflicts with class resource bars */
+.health-bar .bar-text,
+.mana-bar .bar-text,
+.ap-bar .bar-text {
   position: absolute;
   width: 100%;
   height: 100%;

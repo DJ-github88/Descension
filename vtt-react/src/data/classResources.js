@@ -133,11 +133,11 @@ export const CLASS_RESOURCE_TYPES = {
             type: 'progress-bar', // Use standard horizontal bar like health/mana/AP
             count: 'variable',
             arrangement: 'horizontal',
-            baseColor: '#4A0E4E', // Dark purple base
-            activeColor: '#9932CC', // Bright purple fill
-            glowColor: '#DA70D6', // Light purple glow
+            baseColor: '#0F1B3C', // Dark blue base
+            activeColor: '#1E3A8A', // Deep blue fill
+            glowColor: '#3B82F6', // Bright blue glow
             icon: '🌀',
-            effects: ['chaos', 'reality-distortion']
+            effects: ['chaos', 'reality-distortion', 'chaotic-wave']
         },
         mechanics: {
             max: 'calculated', // INT mod + level/5, minimum 5

@@ -214,11 +214,13 @@
     min-width: 80px;
 }
 
-.resource-bar {
+/* Make this specific to party HUD to avoid conflicts with class resource bars */
+.party-hud .resource-bar:not(.class-resource-bar) {
     height: 14px;
 }
 
-.bar-background {
+/* Make bar styles specific to party HUD to avoid conflicts with class resource bars */
+.party-hud .bar-background:not(.class-resource-bar .bar-background) {
     position: relative;
     width: 100%;
     height: 100%;
@@ -228,7 +230,7 @@
     overflow: hidden;
 }
 
-.bar-fill {
+.party-hud .bar-fill:not(.class-resource-bar .bar-fill) {
     position: absolute;
     top: 0;
     left: 0;
@@ -303,7 +305,7 @@
     max-width: 40px;
 }
 
-.party-hud.compact .resource-bar {
+.party-hud.compact .resource-bar:not(.class-resource-bar) {
     height: 12px;
 }
 
@@ -786,7 +788,8 @@
     gap: 12px;
 }
 
-.resource-bar {
+/* Make this specific to character inspect to avoid conflicts with class resource bars */
+.character-inspect .resource-bar:not(.class-resource-bar) {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -956,9 +959,7 @@
 .character-resources,
 .character-stats,
 .character-equipment {
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(160, 140, 112, 0.4);
-    border-radius: 6px;
+    /* Removed background box styling for cleaner look */
 }
 
 .character-resources h4,
@@ -1677,7 +1678,8 @@
     flex: 1; /* Take available space */
 }
 
-.resource-bar {
+/* Make resource bar styles specific to party HUD to avoid conflicts with class resource bars */
+.resource-bars-container .resource-bar:not(.class-resource-bar) {
     position: relative !important;
     height: 12px !important;
     background: linear-gradient(to bottom, #2a1f15, #1a0f0b) !important;
@@ -1690,7 +1692,8 @@
     margin-bottom: 2px !important;
 }
 
-.resource-fill {
+/* Make resource fill styles specific to party HUD to avoid conflicts with class resource bars */
+.resource-bars-container .resource-fill {
     height: 100%;
     transition: width 0.3s ease;
     border-radius: 6px;

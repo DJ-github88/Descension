@@ -212,8 +212,17 @@
   border-bottom: 1px solid rgba(212, 175, 55, 0.3);
   position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Portrait Section - Centered */
+.character-portrait-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .character-card-body {
@@ -227,10 +236,10 @@
 
 /* Character Portrait - High specificity to override game styles */
 .character-management .character-card .character-portrait {
-  width: 140px !important;
-  height: 140px !important;
+  width: 100px !important;
+  height: 100px !important;
   border-radius: 50% !important;
-  border: 4px solid #d4af37 !important;
+  border: 3px solid #d4af37 !important;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -238,7 +247,7 @@
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 228, 166, 0.2) 100%) !important;
   position: relative;
   box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 6px 20px rgba(0, 0, 0, 0.25),
     inset 0 2px 4px rgba(255, 255, 255, 0.2) !important;
   flex-shrink: 0;
 }
@@ -263,7 +272,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.3) 100%) !important;
-  font-size: 3.5rem !important;
+  font-size: 2.5rem !important;
   font-weight: 700;
   color: #8b4513 !important;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -272,45 +281,35 @@
 
 .character-management .character-card .character-level {
   position: absolute;
-  bottom: -12px;
-  right: -12px;
+  bottom: -8px;
+  right: -8px;
   background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%) !important;
   color: #2c2416 !important;
   border-radius: 50% !important;
-  width: 40px !important;
-  height: 40px !important;
+  width: 32px !important;
+  height: 32px !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem !important;
+  font-size: 0.85rem !important;
   font-weight: 800;
-  border: 3px solid #f4f1e8 !important;
+  border: 2px solid #f4f1e8 !important;
   box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 3px 10px rgba(0, 0, 0, 0.4),
     inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
   font-family: 'Cinzel', serif;
 }
 
 .character-header-info {
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 0.75rem;
-  min-height: 140px;
-  padding-left: 1.5rem;
-}
-
-/* Top Row: Name and Class Icons */
-.character-name-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   gap: 1rem;
 }
 
+/* Character Name Section */
 .character-name-section {
-  flex: 1;
+  text-align: center;
 }
 
 .character-class-icons {
@@ -339,30 +338,42 @@
   object-fit: cover;
 }
 
-/* Middle Row: Race and Class Text */
+/* Character Details Row */
 .character-details-row {
   display: flex;
   align-items: center;
-  margin: 0.25rem 0;
+  justify-content: center;
+  width: 100%;
 }
 
 .character-race-class {
   display: flex;
-  gap: 0.75rem;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
 }
 
+.race-class-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+
+
 .race-text, .class-text {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   font-family: 'Cinzel', serif;
   color: #5d4e37;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.6rem;
   background: rgba(212, 175, 55, 0.15);
   border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 12px;
+  border-radius: 8px;
   white-space: nowrap;
+  text-align: center;
 }
 
 .class-text {
@@ -379,7 +390,7 @@
   flex-wrap: wrap;
 }
 
-.resource-bar {
+.character-resources-row .resource-bar {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -393,7 +404,7 @@
   min-width: 80px;
 }
 
-.resource-label {
+.character-resources-row .resource-label {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -402,11 +413,11 @@
   flex-shrink: 0;
 }
 
-.resource-label i {
+.character-resources-row .resource-label i {
   font-size: 0.8rem;
 }
 
-.resource-value {
+.character-resources-row .resource-value {
   font-weight: 700;
   color: #2c2416;
   font-family: 'Cinzel', serif;
@@ -415,38 +426,39 @@
 }
 
 /* Specific resource bar colors */
-.health-bar {
+.character-resources-row .health-bar {
   border-color: rgba(220, 53, 69, 0.4);
 }
 
-.health-bar .resource-label {
+.character-resources-row .health-bar .resource-label {
   color: #dc3545;
 }
 
-.mana-bar {
+.character-resources-row .mana-bar {
   border-color: rgba(13, 110, 253, 0.4);
 }
 
-.mana-bar .resource-label {
+.character-resources-row .mana-bar .resource-label {
   color: #0d6efd;
 }
 
-.action-bar {
+.character-resources-row .action-bar {
   border-color: rgba(255, 193, 7, 0.4);
 }
 
-.action-bar .resource-label {
+.character-resources-row .action-bar .resource-label {
   color: #ffc107;
 }
 
 .character-management .character-card .character-name {
-  font-size: 1.6rem !important;
+  font-size: 1.4rem !important;
   font-weight: 700;
-  margin: 0 0 0.5rem 0 !important;
+  margin: 0 !important;
   color: #1a1a1a !important;
   font-family: 'Cinzel', serif;
   line-height: 1.2;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .character-management .character-card .character-title {
@@ -1218,11 +1230,7 @@
     padding-left: 0;
   }
 
-  .character-name-row {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
+
 
   .character-class-icons {
     justify-content: center;
@@ -1234,7 +1242,7 @@
     width: 100%;
   }
 
-  .resource-bar {
+  .character-resources-row .resource-bar {
     min-width: auto;
     width: 100%;
   }

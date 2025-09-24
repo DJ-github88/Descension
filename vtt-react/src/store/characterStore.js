@@ -104,7 +104,7 @@ const useCharacterStore = create((set, get) => ({
     roomName: '', // Current room name for multiplayer
     race: '', // Race ID (e.g., 'nordmark')
     subrace: '', // Subrace ID (e.g., 'berserker_nordmark')
-    class: 'Class',
+    class: 'Chaos Weaver', // Temporarily set to test chaotic wave animation
     level: 1,
     alignment: 'Neutral Good',
     exhaustionLevel: 0,
@@ -167,7 +167,7 @@ const useCharacterStore = create((set, get) => ({
     // Class-specific resource system
     classResource: {
         type: 'classResource', // Default type for unknown classes
-        current: 0,
+        current: 3, // Set to 3 to test the bar fill
         max: 5, // Default max value
         // Additional properties for complex resource types
         stacks: [], // For multi-stack systems like Chaos Weaver dice

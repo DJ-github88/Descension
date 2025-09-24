@@ -202,69 +202,73 @@ const CharacterManagement = ({ user }) => {
               <div key={character.id} className={`character-card ${currentCharacterId === character.id ? 'active-character' : ''}`}>
                 {/* Character Header */}
                 <div className="character-card-header">
-                  <div className="character-portrait">
-                    {character.image || character.lore?.characterImage ? (
-                      <img src={character.image || character.lore?.characterImage} alt={character.name} />
-                    ) : (
-                      <div className="default-portrait-text">
-                        {character.name.charAt(0).toUpperCase()}
+                  {/* Portrait Section - Centered */}
+                  <div className="character-portrait-section">
+                    <div className="character-portrait">
+                      {character.image || character.lore?.characterImage ? (
+                        <img src={character.image || character.lore?.characterImage} alt={character.name} />
+                      ) : (
+                        <div className="default-portrait-text">
+                          {character.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div className="character-level">
+                        {character.level || 1}
                       </div>
-                    )}
-                    <div className="character-level">
-                      {character.level || 1}
+                    </div>
+
+                    {/* Character Name Below Portrait */}
+                    <div className="character-name-section">
+                      <h3 className="character-name">{character.name}</h3>
                     </div>
                   </div>
 
+                  {/* Character Info Section */}
                   <div className="character-header-info">
-                    {/* Top Row: Name and Class Icons */}
-                    <div className="character-name-row">
-                      <div className="character-name-section">
-                        <h3 className="character-name">{character.name}</h3>
-                      </div>
-                      <div className="character-class-icons">
-                        <div className="race-icon" title={character.race}>
-                          {getRaceIcon(character.race)}
-                        </div>
-                        <div className="class-icon" title={character.class}>
-                          {getClassIcon(character.class)}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Middle Row: Race, Subrace, and Class */}
+                    {/* Race, Class, and Icons Row */}
                     <div className="character-details-row">
                       <div className="character-race-class">
-                        <span className="race-text">
-                          {(() => {
-                            // Get proper race display name
-                            if (character.raceDisplayName) {
-                              return character.raceDisplayName;
-                            }
-
-                            if (character.subrace && character.race) {
-                              const raceData = RACE_DATA[character.race];
-                              if (raceData && raceData.subraces) {
-                                const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
-                                if (subraceData) {
-                                  return subraceData.name;
-                                }
+                        <div className="race-class-text">
+                          <span className="race-text">
+                            {(() => {
+                              // Get proper race display name
+                              if (character.raceDisplayName) {
+                                return character.raceDisplayName;
                               }
-                              return raceData ? raceData.name : character.race;
-                            }
 
-                            if (character.race) {
-                              const raceData = RACE_DATA[character.race];
-                              return raceData ? raceData.name : character.race;
-                            }
+                              if (character.subrace && character.race) {
+                                const raceData = RACE_DATA[character.race];
+                                if (raceData && raceData.subraces) {
+                                  const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
+                                  if (subraceData) {
+                                    return subraceData.name;
+                                  }
+                                }
+                                return raceData ? raceData.name : character.race;
+                              }
 
-                            return 'Unknown Race';
-                          })()}
-                        </span>
-                        <span className="class-text">{character.class}</span>
+                              if (character.race) {
+                                const raceData = RACE_DATA[character.race];
+                                return raceData ? raceData.name : character.race;
+                              }
+
+                              return 'Unknown Race';
+                            })()}
+                          </span>
+                          <span className="class-text">{character.class}</span>
+                        </div>
+                        <div className="character-class-icons">
+                          <div className="race-icon" title={character.race}>
+                            {getRaceIcon(character.race)}
+                          </div>
+                          <div className="class-icon" title={character.class}>
+                            {getClassIcon(character.class)}
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Bottom Row: Resource Bars */}
+                    {/* Resource Bars */}
                     <div className="character-resources-row">
                       <div className="resource-bar health-bar">
                         <div className="resource-label">
@@ -293,40 +297,6 @@ const CharacterManagement = ({ user }) => {
 
                 {/* Character Body */}
                 <div className="character-card-body">
-                  {/* Primary Resources - Most Important Info */}
-                  <div className="character-resources">
-                    <div className="resource-bar">
-                      <div className="resource-label">
-                        <i className="fas fa-heart"></i>
-                        <span>Health</span>
-                      </div>
-                      <div className="resource-value">
-                        <span className="current">{character.currentHealth || character.maxHealth || 100}</span>
-                        <span className="separator">/</span>
-                        <span className="max">{character.maxHealth || 100}</span>
-                      </div>
-                    </div>
-                    <div className="resource-bar">
-                      <div className="resource-label">
-                        <i className="fas fa-magic"></i>
-                        <span>Mana</span>
-                      </div>
-                      <div className="resource-value">
-                        <span className="current">{character.currentMana || character.maxMana || 50}</span>
-                        <span className="separator">/</span>
-                        <span className="max">{character.maxMana || 50}</span>
-                      </div>
-                    </div>
-                    <div className="resource-bar">
-                      <div className="resource-label">
-                        <i className="fas fa-zap"></i>
-                        <span>Action Points</span>
-                      </div>
-                      <div className="resource-value">
-                        <span className="current">{character.actionPoints || 3}</span>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Ability Scores - Two Rows for Better Visibility */}
                   <div className="character-abilities-compact">

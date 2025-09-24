@@ -1622,51 +1622,90 @@
   padding: 1rem 0;
 }
 
-/* Character Card Compact View */
+/* Character Card Compact View - Enhanced */
 .character-card-compact {
-  background: linear-gradient(135deg, rgba(248, 245, 240, 0.95) 0%, rgba(240, 234, 214, 0.95) 100%);
-  border: 2px solid rgba(212, 175, 55, 0.4);
-  border-radius: 12px;
-  padding: 5px;
+  background: linear-gradient(135deg, rgba(248, 245, 240, 0.98) 0%, rgba(240, 234, 214, 0.98) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  border-radius: 16px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 18px rgba(139, 69, 19, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 8px 25px rgba(139, 69, 19, 0.2),
+    0 3px 10px rgba(212, 175, 55, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   overflow: hidden;
   position: relative;
-  min-width: 360px;
+  min-width: 380px;
   width: 100%;
-
+  backdrop-filter: blur(2px);
 }
 
 .character-card-compact:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(139, 69, 19, 0.25);
-  border-color: rgba(212, 175, 55, 0.6);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 15px 40px rgba(139, 69, 19, 0.3),
+    0 5px 15px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: rgba(212, 175, 55, 0.8);
+  background: linear-gradient(135deg, rgba(248, 245, 240, 1) 0%, rgba(240, 234, 214, 1) 100%);
 }
 
-/* Character Header - Compact Integrated Layout */
+/* Character Header - Reorganized Layout */
 .character-card-compact .character-header {
-  padding: 0.6rem;
+  padding: 1rem;
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(244, 228, 166, 0.12) 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
 
+
+
+/* Main Row with Portrait and Resources */
+.character-card-compact .character-main-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Portrait Section - Name Above Portrait */
+.character-card-compact .character-portrait-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  gap: 0.5rem;
 }
 
 .character-card-compact .character-portrait {
-  width: 45px;
-  height: 45px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  border: 2px solid #d4af37;
+  border: 4px solid #d4af37;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 228, 166, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.4) 100%);
   position: relative;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.25),
+    0 2px 8px rgba(212, 175, 55, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.character-card-compact:hover .character-portrait {
+  transform: scale(1.05);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 3px 12px rgba(212, 175, 55, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 .character-card-compact .character-portrait img {
@@ -1682,20 +1721,21 @@
 
 .character-card-compact .character-level-badge {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
+  bottom: -6px;
+  right: -6px;
   background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
   color: #2c2416;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 800;
   border: 2px solid #f4f1e8;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Cinzel', serif;
 }
 
 .character-card-compact .default-portrait-icon {
@@ -1705,49 +1745,47 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(244, 228, 166, 0.3) 100%);
-  font-size: 1.8rem;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #8b4513;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   font-family: 'Cinzel', serif;
 }
 
-/* Character Info Section */
-.character-card-compact .character-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  min-width: 140px;
-  max-width: 250px;
-  padding-right: 0.5rem;
+
+
+.character-card-compact .character-name-section {
+  margin-bottom: 0.25rem;
 }
 
 .character-card-compact .character-name {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.4rem);
   font-weight: 700;
   margin: 0;
   color: #1a1a1a;
   font-family: 'Cinzel', serif;
-  line-height: 1.1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  letter-spacing: 0.5px;
+  text-align: center;
   max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .character-card-compact .character-class-race {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .character-card-compact .race-tag,
 .character-card-compact .class-tag {
-  font-size: 0.7rem;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
   font-weight: 600;
   font-family: 'Cinzel', serif;
   white-space: nowrap;
@@ -1767,72 +1805,254 @@
   border-color: #8B4513;
 }
 
-/* Character Resources Section - Integrated Design */
-.character-card-compact .character-resources {
-  display: block;
+/* Character Resources Section - Class/Race Above Resources */
+.character-card-compact .character-resources-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
 }
 
-.character-card-compact .resource-item {
+.character-card-compact .character-resources {
   display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.character-card-compact .resource-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.character-card-compact .resource-bar-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.character-card-compact .resource-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.2rem;
-  background: rgba(255, 255, 255, 0.4);
-  padding: 0.15rem 0.3rem;
-  border-radius: 3px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  font-size: 0.6rem;
-  white-space: nowrap;
 }
 
 .character-card-compact .resource-label {
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #5d4037;
   text-transform: uppercase;
-  letter-spacing: 0.1px;
+  letter-spacing: 0.5px;
   line-height: 1;
+  font-family: 'Cinzel', serif;
 }
 
 .character-card-compact .resource-value {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: #2c2416;
   font-family: 'Cinzel', serif;
   line-height: 1;
 }
 
-.character-card-compact .ap-dots {
+/* Resource Bar Containers - Simple Clean Style - Override all other styles */
+.character-card-compact .health-resource .resource-bar-container,
+.character-card-compact .mana-resource .resource-bar-container,
+.character-card-compact .action-resource .resource-bar-container {
+  height: 12px !important;
+  background: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  /* Reset conflicting properties */
+  display: block !important;
+  flex-direction: unset !important;
+  gap: unset !important;
+  min-width: unset !important;
+  max-width: unset !important;
+  flex: unset !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.character-card-compact .resource-bar-fill {
+  height: 100% !important;
+  transition: width 0.3s ease !important;
+  border-radius: 5px !important;
+  position: relative !important;
+}
+
+/* Health Bar Styling - Simple Red */
+.character-card-compact .health-fill {
+  background: #dc2626 !important;
+}
+
+/* Mana Bar Styling - Simple Blue */
+.character-card-compact .mana-fill {
+  background: #2563eb !important;
+}
+
+/* Class Resource Bar Styling - Dynamic Colors */
+.character-card-compact .class-resource-fill {
+  /* Background will be set dynamically via inline styles based on class config */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  height: 100% !important;
+  transition: width 0.3s ease !important;
+  border-radius: 5px !important;
+  position: relative !important;
+  /* Don't override background - let inline styles work */
+}
+
+/* More specific targeting for class resource fills - Override party-hud.css */
+.character-card-compact .resource-bar-fill.class-resource {
+  /* Force inline styles to work by not setting background here */
+  height: 100% !important;
+  transition: width 0.3s ease !important;
+  border-radius: 5px !important;
+  position: relative !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  /* Override any conflicting background rules */
+  background: unset !important;
+}
+
+/* Override specific party-hud.css rules that might conflict - ONLY for class resources */
+.character-card-compact .resource-bar-fill.class-resource {
+  background: unset !important;
+}
+
+/* Class resource container styling - Allow dynamic backgrounds */
+.character-card-compact .class-resource-container {
+  height: 12px !important;
+  /* Don't force gray background - let class resource colors show through */
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  /* Reset conflicting properties */
+  display: block !important;
+  flex-direction: unset !important;
+  gap: unset !important;
+  min-width: unset !important;
+  max-width: unset !important;
+  flex: unset !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Add spacing between resource bars */
+.character-card-compact .resource-bar-item {
+  margin-bottom: 0.25rem;
+}
+
+.character-card-compact .resource-bar-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Chaotic Wave Animation for AccountDashboard class resource bars */
+@keyframes chaoticWave {
+    0% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+    25% {
+        background-position: 100% 30%;
+        filter: hue-rotate(15deg);
+    }
+    50% {
+        background-position: 200% 70%;
+        filter: hue-rotate(-10deg);
+    }
+    75% {
+        background-position: 300% 20%;
+        filter: hue-rotate(25deg);
+    }
+    100% {
+        background-position: 400% 50%;
+        filter: hue-rotate(0deg);
+    }
+}
+
+/* Apply chaotic wave effect to AccountDashboard class resource bars */
+.character-card-compact .resource-bar-fill.chaotic-wave-bar,
+.character-card-compact .resource-bar-fill[data-effect="chaotic-wave"],
+.character-card-compact .class-resource-fill.chaotic-wave-bar,
+.character-card-compact .class-resource-fill[data-effect="chaotic-wave"] {
+    background: linear-gradient(45deg,
+        #1E3A8A 0%,
+        #3B82F6 25%,
+        #1E40AF 50%,
+        #2563EB 75%,
+        #1E3A8A 100%) !important;
+    background-size: 400% 400% !important;
+    animation: chaoticWave 3s ease-in-out infinite !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6) !important;
+}
+
+/* Force background and border-radius with maximum specificity - EXCLUDE class resource containers */
+.character-card-compact .health-resource .resource-bar-container,
+.character-card-compact .mana-resource .resource-bar-container,
+.character-card-compact .action-resource .resource-bar-container {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-radius: 6px !important;
+  height: 12px !important;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* Action Points Dots Container */
+.character-card-compact .ap-dots-container {
   display: flex;
-  gap: 0.15rem;
+  gap: 0.25rem;
   align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0;
 }
 
 .character-card-compact .ap-dot {
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  border: 1px solid rgba(156, 39, 176, 0.4);
-  transition: all 0.2s ease;
+  border: 2px solid #d4af37;
+  transition: all 0.3s ease;
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .character-card-compact .ap-dot.filled {
-  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-  border-color: #9C27B0;
-  box-shadow: 0 0 4px rgba(156, 39, 176, 0.5);
+  background: linear-gradient(135deg, #ffc107 0%, #ffeb3b 50%, #fff176 100%);
+  box-shadow:
+    0 0 8px rgba(255, 193, 7, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: #ffb300;
+  transform: scale(1.1);
 }
 
 .character-card-compact .ap-dot.empty {
-  background: rgba(156, 39, 176, 0.15);
-  border-color: rgba(156, 39, 176, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(212, 175, 55, 0.2));
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Character Stats Section */
+/* Character Stats Section - Enhanced */
 .character-card-compact .character-stats {
-  padding: 0.4rem 0.5rem;
+  padding: 0.8rem 1.2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(244, 241, 232, 0.4) 100%);
+  border-top: 1px solid rgba(212, 175, 55, 0.25);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .character-card-compact .stats-grid {
@@ -1888,13 +2108,16 @@
   line-height: 1;
 }
 
-/* Character Actions - Compact */
+/* Character Actions - Enhanced */
 .character-card-compact .character-actions {
   display: flex;
-  gap: 0.3rem;
-  padding: 0.4rem 0.6rem 0.6rem;
-  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  gap: 0.4rem;
+  padding: 0.8rem 1.2rem 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
   margin-top: auto;
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.8) 0%, rgba(232, 224, 208, 0.6) 100%);
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 .character-card-compact .action-btn {
@@ -2107,12 +2330,7 @@
 
 
 
-.character-header-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+
 
 .character-details h3 {
   margin: 0;

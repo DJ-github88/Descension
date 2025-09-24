@@ -15,6 +15,11 @@ const ClassResourceBar = ({
     // Get class configuration
     const config = getClassResourceConfig(characterClass);
 
+    // Don't render if no valid class or if class is the default 'Class' placeholder
+    if (!characterClass || characterClass === 'Class') {
+        return null;
+    }
+
     // If no config exists, create a default one for unknown classes
     const defaultConfig = {
         id: 'classResource',
@@ -24,9 +29,9 @@ const ClassResourceBar = ({
         description: 'Class-specific resource',
         visual: {
             type: 'progress-bar',
-            baseColor: '#4A4A4A',
-            activeColor: '#888888',
-            glowColor: '#AAAAAA',
+            baseColor: '#2D1B69',
+            activeColor: '#9370DB',
+            glowColor: '#DDA0DD',
             icon: '⚡'
         },
         mechanics: {
@@ -40,11 +45,7 @@ const ClassResourceBar = ({
     };
 
     const finalConfig = config || defaultConfig;
-    const finalClassResource = classResource || { current: 0, max: 5 };
-
-    if (!finalConfig) {
-        return null;
-    }
+    const finalClassResource = classResource || { current: 0, max: finalConfig.mechanics.max || 5 };
 
     // Calculate percentage for progress bars
     const percentage = finalClassResource.max > 0 ? (finalClassResource.current / finalClassResource.max) * 100 : 0;
@@ -114,23 +115,37 @@ const ClassResourceBar = ({
     };
 
     // Progress bar (default/fallback)
-    const renderProgressBar = () => (
-        <div className={`class-resource-bar progress-bar ${size}`}>
-            <div className="bar-background">
-                <div
-                    className="bar-fill"
-                    style={{
-                        width: `${percentage}%`,
-                        backgroundColor: finalConfig.visual.activeColor,
-                        boxShadow: `0 0 8px ${finalConfig.visual.glowColor}`
-                    }}
-                />
-                <div className="bar-text">
-                    {finalClassResource.current}/{finalClassResource.max} {finalConfig.shortName}
+    const renderProgressBar = () => {
+        const hasChaoticWave = finalConfig.visual.effects?.includes('chaotic-wave');
+
+        // Debug logging
+        console.log('ClassResourceBar Debug:', {
+            characterClass,
+            hasChaoticWave,
+            effects: finalConfig.visual.effects,
+            activeColor: finalConfig.visual.activeColor,
+            percentage
+        });
+
+        return (
+            <div className={`class-resource-bar progress-bar ${size}`}>
+                <div className="bar-background">
+                    <div
+                        className={`bar-fill ${hasChaoticWave ? 'chaotic-wave-bar' : ''}`}
+                        style={{
+                            width: `${percentage}%`,
+                            backgroundColor: hasChaoticWave ? '#1E3A8A !important' : finalConfig.visual.activeColor,
+                            boxShadow: hasChaoticWave ? '0 0 15px rgba(59, 130, 246, 0.6) !important' : `0 0 8px ${finalConfig.visual.glowColor}`,
+                        }}
+                        data-effect={hasChaoticWave ? 'chaotic-wave' : undefined}
+                    />
+                    <div className="bar-text">
+                        {finalClassResource.current}/{finalClassResource.max} {finalConfig.shortName}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     // Orbs display (legacy - now using progress bar)
     const renderOrbs = () => (

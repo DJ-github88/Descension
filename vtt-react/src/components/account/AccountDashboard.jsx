@@ -5,6 +5,7 @@ import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
 import subscriptionService from '../../services/subscriptionService';
 import { RACE_DATA } from '../../data/raceData';
+import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
 import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -282,57 +283,131 @@ const AccountDashboard = ({ user }) => {
 
                     return (
                       <div key={character.id} className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}>
-                        {/* Character Header - Single Row */}
+                        {/* Character Header - Reorganized Layout */}
                         <div className="character-header">
-                          <div className="character-portrait">
-                            {getCharacterImage(character) ? (
-                              <img
-                                src={getCharacterImage(character)}
-                                alt={character.name}
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.nextSibling.style.display = 'flex';
-                                }}
-                              />
-                            ) : null}
-                            <div
-                              className="default-portrait-icon"
-                              style={{ display: getCharacterImage(character) ? 'none' : 'flex' }}
-                            >
-                              {character.name.charAt(0).toUpperCase()}
-                            </div>
-                            <div className="character-level-badge">
-                              {character.level || 1}
-                            </div>
-                          </div>
-
-                          <div className="character-info">
-                            <h3 className="character-name">{character.name}</h3>
-                            <div className="character-class-race">
-                              <span className="race-tag">{getRaceDisplayName(character)}</span>
-                              <span className="class-tag">{getClassDisplayName(character)}</span>
-                            </div>
-                          </div>
-
-                          <div className="character-resources">
-                            <div className="resource-item">
-                              <span className="resource-label">HP</span>
-                              <span className="resource-value">{health.current}/{health.max}</span>
-                            </div>
-                            <div className="resource-item">
-                              <span className="resource-label">MP</span>
-                              <span className="resource-value">{mana.current}/{mana.max}</span>
-                            </div>
-                            <div className="resource-item">
-                              <span className="resource-label">AP</span>
-                              <div className="ap-dots">
-                                {Array.from({ length: actionPoints.max }, (_, i) => (
-                                  <div
-                                    key={i}
-                                    className={`ap-dot ${i < actionPoints.current ? 'filled' : 'empty'}`}
-                                  ></div>
-                                ))}
+                          {/* Portrait and Resources Row */}
+                          <div className="character-main-row">
+                            {/* Portrait Section with Name Above */}
+                            <div className="character-portrait-section">
+                              <h3 className="character-name">{character.name}</h3>
+                              <div className="character-portrait">
+                                {getCharacterImage(character) ? (
+                                  <img
+                                    src={getCharacterImage(character)}
+                                    alt={character.name}
+                                    onError={(e) => {
+                                      e.target.style.display = 'none';
+                                      e.target.nextSibling.style.display = 'flex';
+                                    }}
+                                  />
+                                ) : null}
+                                <div
+                                  className="default-portrait-icon"
+                                  style={{ display: getCharacterImage(character) ? 'none' : 'flex' }}
+                                >
+                                  {character.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div className="character-level-badge">
+                                  {character.level || 1}
+                                </div>
                               </div>
+                            </div>
+
+                            {/* Resources Section with Class/Race Above */}
+                            <div className="character-resources-section">
+                              <div className="character-class-race">
+                                <span className="race-tag">{getRaceDisplayName(character)}</span>
+                                <span className="class-tag">{getClassDisplayName(character)}</span>
+                              </div>
+                              <div className="character-resources">
+                              <div className="resource-bar-item health-resource">
+                                <div className="resource-header">
+                                  <span className="resource-label">HP</span>
+                                  <span className="resource-value">{health.current}/{health.max}</span>
+                                </div>
+                                <div className="resource-bar-container">
+                                  <div
+                                    className="resource-bar-fill health-fill"
+                                    style={{ width: `${(health.current / health.max) * 100}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                              <div className="resource-bar-item mana-resource">
+                                <div className="resource-header">
+                                  <span className="resource-label">MP</span>
+                                  <span className="resource-value">{mana.current}/{mana.max}</span>
+                                </div>
+                                <div className="resource-bar-container">
+                                  <div
+                                    className="resource-bar-fill mana-fill"
+                                    style={{ width: `${(mana.current / mana.max) * 100}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                              <div className="resource-bar-item action-resource">
+                                <div className="resource-header">
+                                  <span className="resource-label">AP</span>
+                                  <span className="resource-value">{actionPoints.current}/{actionPoints.max}</span>
+                                </div>
+                                <div className="ap-dots-container">
+                                  {Array.from({ length: actionPoints.max }, (_, i) => (
+                                    <div
+                                      key={i}
+                                      className={`ap-dot ${i < actionPoints.current ? 'filled' : 'empty'}`}
+                                    ></div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Class Resource Bar */}
+                              {(() => {
+                                const className = getClassDisplayName(character);
+                                const classConfig = getClassResourceConfig(className);
+                                if (!classConfig) return null;
+
+                                let classResource = character.classResource || initializeClassResource(className, stats);
+                                if (!classResource) return null;
+
+                                // Add some test values for demonstration
+                                if (classResource.current === 0 && classResource.max > 0) {
+                                  classResource = {
+                                    ...classResource,
+                                    current: Math.floor(classResource.max * 0.6) // 60% filled for demo
+                                  };
+                                }
+
+                                // Check for special effects
+                                const hasChaoticWave = classConfig.visual.effects?.includes('chaotic-wave');
+
+                                // Debug logging
+                                console.log('AccountDashboard ClassResource Debug:', {
+                                  className,
+                                  hasChaoticWave,
+                                  effects: classConfig.visual.effects,
+                                  activeColor: classConfig.visual.activeColor,
+                                  baseColor: classConfig.visual.baseColor
+                                });
+
+                                return (
+                                  <div className="resource-bar-item class-resource">
+                                    <div className="resource-header">
+                                      <span className="resource-label">{classConfig.shortName}</span>
+                                      <span className="resource-value">{classResource.current}/{classResource.max}</span>
+                                    </div>
+                                    <div className="resource-bar-container class-resource-container">
+                                      <div
+                                        className={`resource-bar-fill class-resource-fill class-resource ${hasChaoticWave ? 'chaotic-wave-bar' : ''}`}
+                                        data-effect={hasChaoticWave ? 'chaotic-wave' : undefined}
+                                        style={{
+                                          width: `${(classResource.current / classResource.max) * 100}%`,
+                                          background: hasChaoticWave ? undefined : `linear-gradient(90deg, ${classConfig.visual.baseColor}, ${classConfig.visual.activeColor})`
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                );
+                              })()}
+                            </div>
                             </div>
                           </div>
                         </div>
