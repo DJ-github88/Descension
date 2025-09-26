@@ -489,170 +489,20 @@
   }
 }
 
-/* Test Room Styles - Improved Layout with Higher Specificity */
-.room-manager .rooms-list .room-card.test-room {
-  border: 2px solid #e5e7eb !important;
-  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%) !important;
-  background-color: #ffffff !important;
-  background-image: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-  color: inherit !important;
-  padding: 20px 28px !important;
-  border-radius: 16px !important;
-  transition: all 0.3s ease !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  min-height: 72px !important;
-  position: relative !important;
-  gap: 20px !important;
+/* Test Room Styles - Use same styling as regular multiplayer rooms */
+.multiplayer-room-card.test-room {
+  /* Test rooms use the same styling as regular multiplayer rooms */
+  border-color: #10b981 !important; /* Green border to indicate test room */
 }
 
-.room-manager .rooms-list .room-card.test-room:hover {
-  border-color: #3b82f6 !important;
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.18) !important;
-  transform: translateY(-3px) !important;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
-  background-color: #ffffff !important;
-  background-image: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+.multiplayer-room-card.test-room:hover {
+  border-color: #059669 !important;
 }
 
-.test-badge {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  color: white;
-  padding: 4px 10px;
-  border-radius: 14px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  display: inline-flex;
-  align-items: center;
-  margin-left: 12px;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Test Room Content - Clean Single Row Layout */
-.room-manager .rooms-list .room-card.test-room .room-header {
-  display: flex !important;
-  align-items: center !important;
-  margin-bottom: 0 !important;
-  background: none !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  flex: 1 !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .room-title {
-  display: flex !important;
-  align-items: center !important;
-  flex: 1 !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .room-title h3 {
-  color: #1f2937 !important;
-  font-size: 19px !important;
-  font-weight: 500 !important;
-  text-shadow: none !important;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
-  background: none !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  margin: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  letter-spacing: -0.01em !important;
-  line-height: 1.3 !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .room-role {
-  color: #6b7280 !important;
-  background: rgba(107, 114, 128, 0.08) !important;
-  background-color: rgba(107, 114, 128, 0.08) !important;
-  background-image: none !important;
-  border: none !important;
-  padding: 4px 10px !important;
-  border-radius: 8px !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  text-transform: none !important;
-  letter-spacing: 0.02em !important;
-  margin-left: 12px !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
-}
-
-/* Hide description and stats for test room to keep it clean */
-.room-manager .rooms-list .room-card.test-room .room-description {
-  display: none !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .room-stats {
-  display: none !important;
-}
-
-/* Test Room Actions - Hide Delete Button and Style Join Button */
-.room-manager .rooms-list .room-card.test-room .room-actions-menu {
-  display: flex !important;
-  gap: 12px !important;
-  background: none !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin-left: auto !important;
-  align-items: center !important;
-  flex-shrink: 0 !important;
-}
-
-/* Hide delete button for test rooms */
-.room-manager .rooms-list .room-card.test-room .delete-btn {
-  display: none !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .join-btn {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-  background-color: #3b82f6 !important;
-  background-image: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-  color: white !important;
-  border: none !important;
-  padding: 12px 24px !important;
-  border-radius: 12px !important;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.25) !important;
-  text-transform: none !important;
-  letter-spacing: -0.01em !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  white-space: nowrap !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  min-width: 90px !important;
-  justify-content: center !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .join-btn:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-  background-color: #2563eb !important;
-  background-image: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35) !important;
-  transform: translateY(-2px) scale(1.02) !important;
-}
-
-.room-manager .rooms-list .room-card.test-room .join-btn i {
-  font-size: 14px !important;
-  opacity: 0.9 !important;
+/* Test room badge */
+.multiplayer-room-card.test-room .room-role {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #10b981 !important;
 }
 
 /* Local Rooms Section */

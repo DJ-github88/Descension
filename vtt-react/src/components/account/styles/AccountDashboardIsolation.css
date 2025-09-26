@@ -249,12 +249,8 @@
 }
 
 /* ===== ALLOW TEST ROOM STYLES TO OVERRIDE ISOLATION ===== */
-.account-main .room-card.test-room,
-.account-main .room-card.test-room *,
-.account-main .room-card.test-room .join-btn,
-.account-main .room-card.test-room .room-header,
-.account-main .room-card.test-room .room-title,
-.account-main .room-card.test-room .room-role {
+.account-main .multiplayer-room-card.test-room,
+.account-main .multiplayer-room-card.test-room * {
   /* Allow test room styles to take precedence */
   all: revert !important;
 }
