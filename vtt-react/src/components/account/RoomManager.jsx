@@ -791,80 +791,71 @@ const RoomManager = () => {
           ) : (
           rooms.map(room => (
             <div key={room.id} className={`multiplayer-room-card ${room.isTestRoom ? 'test-room' : ''}`}>
-              <div className="room-preview">
-                <div className="room-thumbnail">
-                  <i className="fas fa-map"></i>
-                  <div className="room-overlay">
-                    <div className="room-status">
-                      {(() => {
-                        const statusInfo = getRoomStatusIndicator(room.id);
-                        return (
-                          <div className="status-indicator" title={statusInfo.title}>
-                            <i
-                              className={statusInfo.icon}
-                              style={{ color: statusInfo.color }}
-                            />
-                            <span style={{ color: statusInfo.color }}>
-                              {statusInfo.text}
-                            </span>
-                          </div>
-                        );
-                      })()}
-                    </div>
-                  </div>
+              <div className="room-header">
+                <h3 className="room-name">{room.name}</h3>
+                <div className="room-role">
+                  <i
+                    className={getRoleIcon(room.userRole)}
+                    style={{ color: getRoleColor(room.userRole) }}
+                  />
+                  <span>{room.userRole === 'gm' ? 'GM' : 'Player'}</span>
                 </div>
               </div>
 
-              <div className="room-info">
-                <div className="room-header">
-                  <h3 className="room-name">{room.name}</h3>
-                  <div className="room-role">
-                    <i
-                      className={getRoleIcon(room.userRole)}
-                      style={{ color: getRoleColor(room.userRole) }}
-                    />
-                    <span>{room.userRole === 'gm' ? 'GM' : 'Player'}</span>
-                  </div>
-                </div>
-
-                {room.description && (
-                  <p className="room-description">{room.description}</p>
-                )}
-
-                <div className="room-stats">
-                  <div className="stat">
-                    <i className="fas fa-users"></i>
-                    <span>{room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</span>
-                  </div>
-                  <div className="stat">
-                    <i className="fas fa-clock"></i>
-                    <span>{formatLastActivity(room.lastActivity)}</span>
-                  </div>
-                  {room.stats?.totalSessions > 0 && (
-                    <div className="stat">
-                      <i className="fas fa-dice-d20"></i>
-                      <span>{room.stats.totalSessions} sessions</span>
+              <div className="room-status">
+                {(() => {
+                  const statusInfo = getRoomStatusIndicator(room.id);
+                  return (
+                    <div className="status-indicator" title={statusInfo.title}>
+                      <i
+                        className={statusInfo.icon}
+                        style={{ color: statusInfo.color }}
+                      />
+                      <span style={{ color: statusInfo.color }}>
+                        {statusInfo.text}
+                      </span>
                     </div>
-                  )}
-                </div>
+                  );
+                })()}
+              </div>
 
-                <div className="room-actions">
-                  <button
-                    className="join-btn"
-                    onClick={() => handleJoinRoom(room)}
-                  >
-                    <i className="fas fa-play"></i>
-                    Join
-                  </button>
-                  {room.userRole === 'gm' && (
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDeleteRoom(room)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </button>
-                  )}
+              {room.description && (
+                <p className="room-description">{room.description}</p>
+              )}
+
+              <div className="room-stats">
+                <div className="stat">
+                  <i className="fas fa-users"></i>
+                  <span>{room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</span>
                 </div>
+                <div className="stat">
+                  <i className="fas fa-clock"></i>
+                  <span>{formatLastActivity(room.lastActivity)}</span>
+                </div>
+                {room.stats?.totalSessions > 0 && (
+                  <div className="stat">
+                    <i className="fas fa-dice-d20"></i>
+                    <span>{room.stats.totalSessions} sessions</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="room-actions">
+                <button
+                  className="join-btn"
+                  onClick={() => handleJoinRoom(room)}
+                >
+                  <i className="fas fa-play"></i>
+                  Join
+                </button>
+                {room.userRole === 'gm' && (
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDeleteRoom(room)}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </button>
+                )}
               </div>
             </div>
           ))
