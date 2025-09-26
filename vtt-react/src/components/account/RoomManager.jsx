@@ -639,20 +639,14 @@ const RoomManager = () => {
 
         {roomLimits && (
           <div className="room-limits">
-            <div className="tier-info">
-              <span className={`tier-badge ${roomLimits.tier.name.toLowerCase() === 'development' ? 'development' : ''}`}>
-                <i className="fas fa-star"></i>
-                {roomLimits.tier.name}
-              </span>
-            </div>
             <div className="usage-info">
               <span className="usage-text">
                 {roomLimits.used} / {roomLimits.limit} rooms used
               </span>
               <div className="usage-bar">
-                <div 
+                <div
                   className="usage-fill"
-                  style={{ 
+                  style={{
                     width: `${roomLimits.limit > 0 ? (roomLimits.used / roomLimits.limit) * 100 : 0}%`,
                     backgroundColor: roomLimits.used >= roomLimits.limit ? '#dc2626' : '#059669'
                   }}
@@ -787,7 +781,7 @@ const RoomManager = () => {
           </h3>
         </div>
 
-        <div className="rooms-list">
+        <div className="multiplayer-rooms-grid">
           {rooms.length === 0 ? (
             <div className="no-rooms">
               <i className="fas fa-dungeon"></i>
@@ -796,37 +790,65 @@ const RoomManager = () => {
             </div>
           ) : (
           rooms.map(room => (
-            <div key={room.id} className={`room-card ${room.isTestRoom ? 'test-room' : ''}`}>
-              <div className="room-header">
-                <div className="room-title">
-                  <h3>
-                    {room.name}
-                  </h3>
+            <div key={room.id} className={`multiplayer-room-card ${room.isTestRoom ? 'test-room' : ''}`}>
+              <div className="room-preview">
+                <div className="room-thumbnail">
+                  <i className="fas fa-map"></i>
+                  <div className="room-overlay">
+                    <div className="room-status">
+                      {(() => {
+                        const statusInfo = getRoomStatusIndicator(room.id);
+                        return (
+                          <div className="status-indicator" title={statusInfo.title}>
+                            <i
+                              className={statusInfo.icon}
+                              style={{ color: statusInfo.color }}
+                            />
+                            <span style={{ color: statusInfo.color }}>
+                              {statusInfo.text}
+                            </span>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="room-info">
+                <div className="room-header">
+                  <h3 className="room-name">{room.name}</h3>
                   <div className="room-role">
                     <i
                       className={getRoleIcon(room.userRole)}
                       style={{ color: getRoleColor(room.userRole) }}
                     />
-                    <span>{room.userRole === 'gm' ? 'Game Master' : 'Player'}</span>
-                  </div>
-                  <div className="room-status">
-                    {(() => {
-                      const statusInfo = getRoomStatusIndicator(room.id);
-                      return (
-                        <div className="status-indicator" title={statusInfo.title}>
-                          <i
-                            className={statusInfo.icon}
-                            style={{ color: statusInfo.color }}
-                          />
-                          <span style={{ color: statusInfo.color }}>
-                            {statusInfo.text}
-                          </span>
-                        </div>
-                      );
-                    })()}
+                    <span>{room.userRole === 'gm' ? 'GM' : 'Player'}</span>
                   </div>
                 </div>
-                <div className="room-actions-menu">
+
+                {room.description && (
+                  <p className="room-description">{room.description}</p>
+                )}
+
+                <div className="room-stats">
+                  <div className="stat">
+                    <i className="fas fa-users"></i>
+                    <span>{room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</span>
+                  </div>
+                  <div className="stat">
+                    <i className="fas fa-clock"></i>
+                    <span>{formatLastActivity(room.lastActivity)}</span>
+                  </div>
+                  {room.stats?.totalSessions > 0 && (
+                    <div className="stat">
+                      <i className="fas fa-dice-d20"></i>
+                      <span>{room.stats.totalSessions} sessions</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="room-actions">
                   <button
                     className="join-btn"
                     onClick={() => handleJoinRoom(room)}
@@ -835,7 +857,7 @@ const RoomManager = () => {
                     Join
                   </button>
                   {room.userRole === 'gm' && (
-                    <button 
+                    <button
                       className="delete-btn"
                       onClick={() => handleDeleteRoom(room)}
                     >
@@ -843,27 +865,6 @@ const RoomManager = () => {
                     </button>
                   )}
                 </div>
-              </div>
-              
-              {room.description && (
-                <p className="room-description">{room.description}</p>
-              )}
-              
-              <div className="room-stats">
-                <div className="stat">
-                  <i className="fas fa-users"></i>
-                  <span>{room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1} members</span>
-                </div>
-                <div className="stat">
-                  <i className="fas fa-clock"></i>
-                  <span>Last active: {formatLastActivity(room.lastActivity)}</span>
-                </div>
-                {room.stats?.totalSessions > 0 && (
-                  <div className="stat">
-                    <i className="fas fa-dice-d20"></i>
-                    <span>{room.stats.totalSessions} session{room.stats.totalSessions === 1 ? '' : 's'}</span>
-                  </div>
-                )}
               </div>
             </div>
           ))
