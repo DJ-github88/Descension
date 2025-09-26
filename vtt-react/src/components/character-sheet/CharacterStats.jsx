@@ -296,8 +296,9 @@ export default function CharacterStats() {
             totalStats.damage = storeDerivedStats.damage || calculatedDerivedStats.damage;
             totalStats.rangedDamage = storeDerivedStats.rangedDamage || calculatedDerivedStats.rangedDamage;
             totalStats.armor = storeDerivedStats.armor || calculatedDerivedStats.armor;
-            totalStats.maxHealth = storeDerivedStats.maxHealth || calculatedDerivedStats.maxHealth;
-            totalStats.maxMana = storeDerivedStats.maxMana || calculatedDerivedStats.maxMana;
+            // Always use calculated values for health and mana to ensure they reflect current constitution/intelligence
+            totalStats.maxHealth = calculatedDerivedStats.maxHealth;
+            totalStats.maxMana = calculatedDerivedStats.maxMana;
             totalStats.movementSpeed = storeDerivedStats.moveSpeed || calculatedDerivedStats.moveSpeed;
             totalStats.swimSpeed = storeDerivedStats.swimSpeed || calculatedDerivedStats.swimSpeed || 10;
             totalStats.climbSpeed = storeDerivedStats.climbSpeed || calculatedDerivedStats.climbSpeed || 15;
@@ -393,14 +394,6 @@ export default function CharacterStats() {
         if (currentEncumbranceState === 'encumbered') {
             if (statName === 'strength' || statName === 'constitution') {
                 encumbranceMultiplier = 1.05; // +5% for Strength and Constitution
-                encumbranceDescription = 'Encumbered (+5%)';
-            } else {
-                encumbranceMultiplier = 0.95; // -5% for other stats
-                encumbranceDescription = 'Encumbered (-5%)';
-            }
-        } else if (currentEncumbranceState === 'overencumbered') {
-            if (statName === 'constitution') {
-                encumbranceMultiplier = 1.05; // +5% for Constitution
                 encumbranceDescription = 'Encumbered (+5%)';
             } else {
                 encumbranceMultiplier = 0.95; // -5% for other stats
@@ -507,6 +500,28 @@ export default function CharacterStats() {
                 effect: manaDifference,
                 description: description
             };
+        } else if (statLabel.toLowerCase().includes('movement') && statLabel.toLowerCase().includes('speed')) {
+            // Movement Speed has specific encumbrance penalties
+            let encumbranceMultiplier = 1.0;
+            let description = '';
+
+            if (currentEncumbranceState === 'encumbered') {
+                encumbranceMultiplier = 0.75; // -25% for movement speed when encumbered
+                description = 'Movement speed reduced by encumbrance (-25%)';
+            } else if (currentEncumbranceState === 'overencumbered') {
+                encumbranceMultiplier = 0.25; // -75% for movement speed when overencumbered
+                description = 'Movement speed severely reduced by overencumbrance (-75%)';
+            }
+
+            // Calculate the effect on movement speed based on the base value provided
+            // The baseValue should be the speed before encumbrance is applied
+            const speedWithEncumbrance = Math.floor(baseValue * encumbranceMultiplier);
+            const effect = speedWithEncumbrance - baseValue;
+
+            return {
+                effect: effect,
+                description: description
+            };
         }
 
         // For other derived stats, use the old logic
@@ -540,6 +555,8 @@ export default function CharacterStats() {
             return equipmentBonuses.maxHealth || 0;
         } else if (statLabel.toLowerCase().includes('mana') && statLabel.toLowerCase().includes('max')) {
             return equipmentBonuses.maxMana || 0;
+        } else if (statLabel.toLowerCase().includes('movement') && statLabel.toLowerCase().includes('speed')) {
+            return equipmentBonuses.moveSpeed || 0;
         }
 
         // For other derived stats, return 0 for now (can be expanded later)
@@ -655,8 +672,8 @@ export default function CharacterStats() {
             stats: [
                 {
                     label: 'Health',
-                    value: `${health.current}/${Math.round(totalStats.maxHealth || health.max)}`,
-                    baseValue: Math.round(totalStats.maxHealth || health.max),
+                    value: `${health.current}/${health.max}`,
+                    baseValue: health.max,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg',
                     color: '#ff4444',
@@ -664,8 +681,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Mana',
-                    value: `${mana.current}/${Math.round(totalStats.maxMana || mana.max)}`,
-                    baseValue: Math.round(totalStats.maxMana || mana.max),
+                    value: `${mana.current}/${mana.max}`,
+                    baseValue: mana.max,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_72.jpg',
                     color: '#4444ff',

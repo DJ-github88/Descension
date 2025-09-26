@@ -6,6 +6,8 @@ import useCharacterStore from '../../store/characterStore';
 import subscriptionService from '../../services/subscriptionService';
 import { RACE_DATA } from '../../data/raceData';
 import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
+import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
+import { applyRacialModifiers } from '../../data/raceData';
 import RoomManager from './RoomManager';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -14,8 +16,22 @@ const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userData, signOut, isDevelopmentBypass, disableDevelopmentBypass } = useAuthStore();
-  const { characters, loadCharacters, currentCharacterId } = useCharacterStore();
+  const { characters, loadCharacters, currentCharacterId, deleteCharacter } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
+
+  // Debug: Log all character data on component mount
+  useEffect(() => {
+    if (characters.length > 0) {
+      console.log('🔍 All character data:', characters.map(char => ({
+        name: char.name,
+        stats: char.stats,
+        health: char.health,
+        mana: char.mana,
+        resources: char.resources,
+        rawData: char
+      })));
+    }
+  }, [characters]);
   const [activeTab, setActiveTab] = useState('rooms');
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [characterLimitInfo, setCharacterLimitInfo] = useState(null);
@@ -95,6 +111,129 @@ const AccountDashboard = ({ user }) => {
     } else {
       console.error(`❌ Failed to select character: ${characterId}`);
     }
+  };
+
+  const handleDeleteCharacter = async (characterId, characterName) => {
+    // Show confirmation dialog
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${characterName}"?\n\nThis action cannot be undone. All character data, including:\n• Stats and abilities\n• Inventory and equipment\n• Quest progress\n• Character history\n\nWill be permanently lost.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deleteCharacter(characterId);
+      console.log(`✅ Character deleted: ${characterName}`);
+
+      // Reload characters to update the display
+      await loadCharacters();
+    } catch (error) {
+      console.error('❌ Failed to delete character:', error);
+      alert(`Failed to delete character: ${error.message}`);
+    }
+  };
+
+  // Calculate correct health and mana values for a character
+  const calculateCharacterResources = (character) => {
+    if (!character || !character.stats) {
+      return {
+        health: { current: 100, max: 100 },
+        mana: { current: 50, max: 50 }
+      };
+    }
+
+    // If this is the current character, use the character store's calculated values
+    if (character.id === currentCharacterId) {
+      const { health, mana, derivedStats } = useCharacterStore.getState();
+
+      // Use the character store's values if they exist and are properly calculated
+      if (derivedStats && derivedStats.maxHealth && derivedStats.maxMana) {
+        return {
+          health: {
+            current: health.current,
+            max: Math.round(derivedStats.maxHealth)
+          },
+          mana: {
+            current: mana.current,
+            max: Math.round(derivedStats.maxMana)
+          }
+        };
+      }
+    }
+
+    // For non-current characters or if store values aren't available, calculate manually
+    // Apply racial modifiers to get effective stats
+    const effectiveStats = character.race && character.subrace
+      ? applyRacialModifiers(character.stats, character.race, character.subrace)
+      : character.stats;
+
+    // Calculate equipment bonuses
+    const equipmentBonuses = calculateEquipmentBonuses(character.equipment || {});
+
+    // Apply equipment bonuses to stats
+    const totalStats = { ...effectiveStats };
+    const statMapping = {
+      str: 'strength',
+      con: 'constitution',
+      agi: 'agility',
+      int: 'intelligence',
+      spir: 'spirit',
+      cha: 'charisma'
+    };
+
+    Object.entries(statMapping).forEach(([shortName, fullName]) => {
+      if (equipmentBonuses[shortName]) {
+        totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+      }
+    });
+
+    // Get encumbrance state
+    const encumbranceState = character.inventory?.encumbranceState || 'normal';
+
+    // Calculate derived stats
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+
+    // Calculate correct max values
+    const maxHealth = Math.round(derivedStats.maxHealth);
+    const maxMana = Math.round(derivedStats.maxMana);
+
+    // Use stored current values but ensure they don't exceed new max values
+    const storedHealth = character.health || character.resources?.health || { current: maxHealth, max: maxHealth };
+    const storedMana = character.mana || character.resources?.mana || { current: maxMana, max: maxMana };
+
+    // Debug logging for character resource calculation (temporary)
+    if (character.name === 'YAD') {
+      console.log('🔍 AccountDashboard character resource calculation:', {
+        characterName: character.name,
+        constitution: character.stats?.constitution,
+        intelligence: character.stats?.intelligence,
+        storedHealth,
+        storedMana,
+        calculatedMaxHealth: maxHealth,
+        calculatedMaxMana: maxMana,
+        finalHealth: {
+          current: Math.min(storedHealth.current || maxHealth, maxHealth),
+          max: maxHealth
+        },
+        finalMana: {
+          current: Math.min(storedMana.current || maxMana, maxMana),
+          max: maxMana
+        }
+      });
+    }
+
+    return {
+      health: {
+        current: Math.min(storedHealth.current || maxHealth, maxHealth),
+        max: maxHealth
+      },
+      mana: {
+        current: Math.min(storedMana.current || maxMana, maxMana),
+        max: maxMana
+      }
+    };
   };
 
   if (isLoading) {
@@ -277,9 +416,11 @@ const AccountDashboard = ({ user }) => {
                       charisma: 10
                     };
 
-                    const health = character.health || { current: 100, max: 100 };
-                    const mana = character.mana || { current: 50, max: 50 };
-                    const actionPoints = character.actionPoints || { current: 3, max: 3 };
+                    // Calculate correct health and mana values
+                    const calculatedResources = calculateCharacterResources(character);
+                    const health = calculatedResources.health;
+                    const mana = calculatedResources.mana;
+                    const actionPoints = character.actionPoints || character.resources?.actionPoints || { current: 3, max: 3 };
 
                     return (
                       <div key={character.id} className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}>
@@ -458,7 +599,7 @@ const AccountDashboard = ({ user }) => {
                             title={currentCharacterId === character.id ? 'Active character' : 'Select this character as active'}
                           >
                             <i className={`fas ${currentCharacterId === character.id ? 'fa-check' : 'fa-play'}`}></i>
-                            {currentCharacterId === character.id ? 'Active' : 'Select'}
+                            {currentCharacterId === character.id ? 'On' : 'Set'}
                           </button>
                           <button
                             className="action-btn edit-btn"
@@ -475,6 +616,14 @@ const AccountDashboard = ({ user }) => {
                           >
                             <i className="fas fa-eye"></i>
                             View
+                          </button>
+                          <button
+                            className="action-btn delete-btn"
+                            onClick={() => handleDeleteCharacter(character.id, character.name)}
+                            title="Delete character permanently"
+                          >
+                            <i className="fas fa-trash"></i>
+                            Del
                           </button>
                         </div>
                       </div>
