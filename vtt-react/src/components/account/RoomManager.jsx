@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserRooms, deleteRoom, getRoomLimits } from '../../services/roomService';
+import localRoomService from '../../services/localRoomService';
 import subscriptionService from '../../services/subscriptionService';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
@@ -36,6 +37,7 @@ const RoomManager = () => {
   };
 
   const [rooms, setRooms] = useState([initialTestRoom]);
+  const [localRooms, setLocalRooms] = useState([]);
   const [roomLimits, setRoomLimits] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -43,9 +45,12 @@ const RoomManager = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [roomStatuses, setRoomStatuses] = useState(new Map());
   const [refreshMessage, setRefreshMessage] = useState('');
+  const [showCreateLocalRoom, setShowCreateLocalRoom] = useState(false);
+  const [newLocalRoomName, setNewLocalRoomName] = useState('');
 
   useEffect(() => {
     loadRoomData();
+    loadLocalRooms();
   }, [user]);
 
   // Check for room data changes when component mounts or becomes visible
@@ -152,6 +157,77 @@ const RoomManager = () => {
       checkAllRoomStatuses();
     }
   }, [rooms]);
+
+  // Load local rooms from localStorage
+  const loadLocalRooms = () => {
+    try {
+      const localRoomsList = localRoomService.getLocalRooms();
+      setLocalRooms(localRoomsList);
+      console.log('📁 Loaded local rooms:', localRoomsList.length);
+    } catch (error) {
+      console.error('Error loading local rooms:', error);
+    }
+  };
+
+  // Create a new local room
+  const handleCreateLocalRoom = () => {
+    if (!newLocalRoomName.trim()) {
+      alert('Please enter a room name');
+      return;
+    }
+
+    const activeCharacter = getActiveCharacter();
+    const roomData = {
+      name: newLocalRoomName.trim(),
+      description: `Local room for ${activeCharacter?.name || 'Unknown Character'}`,
+      characterId: activeCharacter?.id,
+      characterName: activeCharacter?.name || 'Unknown Character'
+    };
+
+    try {
+      const newRoom = localRoomService.createLocalRoom(roomData);
+      loadLocalRooms(); // Refresh the list
+      setNewLocalRoomName('');
+      setShowCreateLocalRoom(false);
+      setRefreshMessage(`✅ Local room "${newRoom.name}" created`);
+      setTimeout(() => setRefreshMessage(''), 3000);
+    } catch (error) {
+      console.error('Error creating local room:', error);
+      alert('Failed to create local room');
+    }
+  };
+
+  // Join a local room
+  const handleJoinLocalRoom = (room) => {
+    try {
+      // Store local room info for the game to load
+      localStorage.setItem('selectedLocalRoomId', room.id);
+      localStorage.setItem('isLocalRoom', 'true');
+      localStorage.removeItem('selectedRoomId');
+      localStorage.removeItem('isTestRoom');
+
+      console.log('🎮 Joining local room:', room.name);
+      navigate('/game'); // Navigate directly to game for local rooms
+    } catch (error) {
+      console.error('Error joining local room:', error);
+      alert('Failed to join local room');
+    }
+  };
+
+  // Delete a local room
+  const handleDeleteLocalRoom = (roomId) => {
+    if (confirm('Are you sure you want to delete this local room? This action cannot be undone.')) {
+      try {
+        localRoomService.deleteLocalRoom(roomId);
+        loadLocalRooms(); // Refresh the list
+        setRefreshMessage('🗑️ Local room deleted');
+        setTimeout(() => setRefreshMessage(''), 3000);
+      } catch (error) {
+        console.error('Error deleting local room:', error);
+        alert('Failed to delete local room');
+      }
+    }
+  };
 
   const loadRoomData = async () => {
     if (!user) {
@@ -612,14 +688,113 @@ const RoomManager = () => {
         )}
       </div>
 
-      <div className="rooms-list">
-        {rooms.length === 0 ? (
-          <div className="no-rooms">
-            <i className="fas fa-dungeon"></i>
-            <h3>No Rooms Yet</h3>
-            <p>Create your first persistent room to start a campaign that saves your progress.</p>
+      {/* Local Rooms Section */}
+      <div className="local-rooms-section">
+        <div className="section-header">
+          <h3>
+            <i className="fas fa-home"></i>
+            Local Rooms
+          </h3>
+          <button
+            className="create-local-room-btn"
+            onClick={() => setShowCreateLocalRoom(true)}
+            title="Create a new local room for offline play"
+          >
+            <i className="fas fa-plus"></i>
+            New Local Room
+          </button>
+        </div>
+
+        {showCreateLocalRoom && (
+          <div className="create-local-room-form">
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Enter room name..."
+                value={newLocalRoomName}
+                onChange={(e) => setNewLocalRoomName(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleCreateLocalRoom()}
+                autoFocus
+              />
+              <div className="form-actions">
+                <button onClick={handleCreateLocalRoom} className="create-btn">
+                  <i className="fas fa-check"></i>
+                  Create
+                </button>
+                <button onClick={() => {
+                  setShowCreateLocalRoom(false);
+                  setNewLocalRoomName('');
+                }} className="cancel-btn">
+                  <i className="fas fa-times"></i>
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
-        ) : (
+        )}
+
+        <div className="local-rooms-list">
+          {localRooms.length === 0 ? (
+            <div className="no-local-rooms">
+              <i className="fas fa-home"></i>
+              <p>No local rooms yet. Create one for offline play!</p>
+            </div>
+          ) : (
+            localRooms.map(room => (
+              <div key={room.id} className="room-card local-room">
+                <div className="room-header">
+                  <div className="room-title">
+                    <h4>{room.name}</h4>
+                    <div className="room-type">
+                      <i className="fas fa-home" style={{ color: '#4CAF50' }}></i>
+                      <span>Local Room</span>
+                    </div>
+                  </div>
+                  <div className="room-info">
+                    <p>Character: {room.characterName}</p>
+                    <p>Last played: {new Date(room.lastActivity.seconds * 1000).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                <div className="room-actions">
+                  <button
+                    onClick={() => handleJoinLocalRoom(room)}
+                    className="join-btn"
+                    title="Join this local room"
+                  >
+                    <i className="fas fa-play"></i>
+                    Play
+                  </button>
+                  <button
+                    onClick={() => handleDeleteLocalRoom(room.id)}
+                    className="delete-btn"
+                    title="Delete this local room"
+                  >
+                    <i className="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Multiplayer Rooms Section */}
+      <div className="multiplayer-rooms-section">
+        <div className="section-header">
+          <h3>
+            <i className="fas fa-users"></i>
+            Multiplayer Rooms
+          </h3>
+        </div>
+
+        <div className="rooms-list">
+          {rooms.length === 0 ? (
+            <div className="no-rooms">
+              <i className="fas fa-dungeon"></i>
+              <h3>No Multiplayer Rooms Yet</h3>
+              <p>Create your first persistent room to start a campaign that saves your progress.</p>
+            </div>
+          ) : (
           rooms.map(room => (
             <div key={room.id} className={`room-card ${room.isTestRoom ? 'test-room' : ''}`}>
               <div className="room-header">
@@ -693,6 +868,7 @@ const RoomManager = () => {
             </div>
           ))
         )}
+        </div>
       </div>
 
       {/* Delete Confirmation Modal */}

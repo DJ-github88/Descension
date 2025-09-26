@@ -192,6 +192,84 @@ function GameScreen() {
     const location = useLocation();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
 
+    // Initialize local room
+    const initializeLocalRoom = async (roomId) => {
+        try {
+            // Import local room service
+            const { default: localRoomService } = await import('./services/localRoomService');
+
+            // Load room data
+            const room = localRoomService.getLocalRoom(roomId);
+            if (!room) {
+                console.error('Local room not found:', roomId);
+                return;
+            }
+
+            // Load game state
+            const gameState = localRoomService.loadRoomState(roomId);
+            if (gameState) {
+                console.log('🎮 Loading local room game state');
+                await applyLocalGameState(gameState);
+            }
+
+            // Set character if specified
+            if (room.characterId) {
+                const character = await loadActiveCharacter(room.characterId);
+                if (character) {
+                    setActiveCharacter(character);
+                    console.log('👤 Character loaded for local room:', character.name);
+                }
+            }
+
+            // Clear localStorage flags
+            localStorage.removeItem('isLocalRoom');
+            localStorage.removeItem('selectedLocalRoomId');
+
+            console.log('✅ Local room initialized successfully');
+        } catch (error) {
+            console.error('❌ Error initializing local room:', error);
+        }
+    };
+
+    // Apply local game state to stores
+    const applyLocalGameState = async (gameState) => {
+        try {
+            // Import stores
+            const { default: useGameStore } = await import('./store/gameStore');
+            const { default: useCreatureStore } = await import('./store/creatureStore');
+            const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
+            const { default: useGridItemStore } = await import('./store/gridItemStore');
+
+            // Apply game state to stores
+            if (gameState.backgrounds) {
+                useGameStore.getState().setBackgrounds(gameState.backgrounds);
+            }
+            if (gameState.creatures) {
+                Object.values(gameState.creatures).forEach(creature => {
+                    useCreatureStore.getState().addCreature(creature);
+                });
+            }
+            if (gameState.inventory?.droppedItems) {
+                Object.values(gameState.inventory.droppedItems).forEach(item => {
+                    useGridItemStore.getState().addGridItem(item);
+                });
+            }
+            if (gameState.mapData) {
+                const { cameraPosition, zoomLevel } = gameState.mapData;
+                if (cameraPosition) {
+                    useGameStore.getState().setCameraPosition(cameraPosition.x, cameraPosition.y);
+                }
+                if (zoomLevel) {
+                    useGameStore.getState().setZoom(zoomLevel);
+                }
+            }
+
+            console.log('✅ Local game state applied to stores');
+        } catch (error) {
+            console.error('❌ Error applying local game state:', error);
+        }
+    };
+
     // Load game-specific styles when game screen is rendered
     useEffect(() => {
         loadGameStyles();
@@ -211,6 +289,16 @@ function GameScreen() {
     useEffect(() => {
         const initializeCharacter = async () => {
             try {
+                // Check for local room first
+                const isLocalRoom = localStorage.getItem('isLocalRoom') === 'true';
+                const selectedLocalRoomId = localStorage.getItem('selectedLocalRoomId');
+
+                if (isLocalRoom && selectedLocalRoomId) {
+                    console.log('🏠 Loading local room:', selectedLocalRoomId);
+                    await initializeLocalRoom(selectedLocalRoomId);
+                    return;
+                }
+
                 // Check if a specific character was passed via navigation state
                 const characterId = location.state?.characterId;
 
