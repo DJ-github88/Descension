@@ -150,6 +150,30 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   }, [socket]);
 
   useEffect(() => {
+    // Check for room conversion from local room
+    const isConverting = localStorage.getItem('isConverting') === 'true';
+    const convertingLocalRoom = localStorage.getItem('convertingLocalRoom');
+
+    if (isConverting && convertingLocalRoom) {
+      try {
+        const conversionData = JSON.parse(convertingLocalRoom);
+        setRoomName(conversionData.name);
+        setRoomDescription(conversionData.description);
+        setActiveTab('create');
+
+        // Clear conversion flags
+        localStorage.removeItem('isConverting');
+        localStorage.removeItem('convertingLocalRoom');
+
+        console.log('🔄 Converting local room to multiplayer:', conversionData.name);
+      } catch (error) {
+        console.error('Error parsing conversion data:', error);
+        localStorage.removeItem('isConverting');
+        localStorage.removeItem('convertingLocalRoom');
+      }
+      return;
+    }
+
     // Check for preselected room from account dashboard
     const selectedRoomId = localStorage.getItem('selectedRoomId');
     const selectedRoomPassword = localStorage.getItem('selectedRoomPassword');
@@ -460,13 +484,31 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         // Continue with socket room creation even if Firebase fails
       }
 
+      // Check for converted local room game state
+      const convertingLocalRoom = localStorage.getItem('convertingLocalRoom');
+      let gameState = null;
+      let originalRoomId = null;
+
+      if (convertingLocalRoom) {
+        try {
+          const conversionData = JSON.parse(convertingLocalRoom);
+          gameState = conversionData.gameState;
+          originalRoomId = conversionData.originalRoomId;
+          console.log('🔄 Including converted game state in room creation');
+        } catch (error) {
+          console.error('Error parsing conversion game state:', error);
+        }
+      }
+
       // Create socket server room for immediate multiplayer
       const roomData = {
         roomName: roomName.trim(),
         gmName: playerNameRef.current.trim(),
         password: roomPasswordRef.current.trim(),
         playerColor: playerColor,
-        persistentRoomId: persistentRoomId // Include Firebase room ID if available
+        persistentRoomId: persistentRoomId, // Include Firebase room ID if available
+        gameState: gameState, // Include converted game state if available
+        isConverted: !!originalRoomId // Flag to indicate this is a converted room
       };
 
       console.log('Creating socket room with data:', roomData);
@@ -484,6 +526,20 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         localStorage.setItem('roomDataChanged', 'true');
         localStorage.setItem('lastCreatedRoom', persistentRoomId);
         console.log(`📝 Marked room data as changed for room: ${persistentRoomId}`);
+      }
+
+      // Mark local room as converted if this was a conversion
+      if (originalRoomId && persistentRoomId) {
+        try {
+          const { default: localRoomService } = await import('../../services/localRoomService');
+          localRoomService.markRoomAsConverted(originalRoomId, persistentRoomId);
+          console.log(`✅ Local room ${originalRoomId} marked as converted to ${persistentRoomId}`);
+
+          // Clear conversion data
+          localStorage.removeItem('convertingLocalRoom');
+        } catch (error) {
+          console.error('Error marking local room as converted:', error);
+        }
       }
 
       // Note: The socket will handle the response via 'room_created' event

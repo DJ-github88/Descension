@@ -24,6 +24,7 @@ const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/A
 const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
+const LocalRoomIndicator = lazy(() => import("./components/local-room/LocalRoomIndicator"));
 
 // Lazy load page components
 const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
@@ -190,7 +191,9 @@ const LoadingFallback = ({ message = "Loading..." }) => (
 
 function GameScreen() {
     const location = useLocation();
+    const navigate = useNavigate();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
+    const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Initialize local room
     const initializeLocalRoom = async (roomId) => {
@@ -295,6 +298,7 @@ function GameScreen() {
 
                 if (isLocalRoom && selectedLocalRoomId) {
                     console.log('🏠 Loading local room:', selectedLocalRoomId);
+                    setCurrentLocalRoomId(selectedLocalRoomId);
                     await initializeLocalRoom(selectedLocalRoomId);
                     return;
                 }
@@ -346,6 +350,14 @@ function GameScreen() {
                 <AtmosphericEffectsManager />
                 <DialogueSystem />
                 <DialogueControls />
+
+                {/* Local Room Indicator - only show when in a local room */}
+                {currentLocalRoomId && (
+                    <LocalRoomIndicator
+                        currentLocalRoomId={currentLocalRoomId}
+                        onReturnToMenu={() => navigate('/')}
+                    />
+                )}
             </Suspense>
 
         </div>
