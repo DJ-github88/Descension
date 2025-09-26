@@ -6,6 +6,7 @@ import localRoomService from '../../services/localRoomService';
 import subscriptionService from '../../services/subscriptionService';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
+import RoomCard from '../common/RoomCard';
 import './styles/RoomManager.css';
 
 const RoomManager = () => {
@@ -13,30 +14,7 @@ const RoomManager = () => {
   const { user } = useAuthStore();
   const { getActiveCharacter } = useCharacterStore();
 
-  // Initialize with a test room to ensure it always shows
-  const activeCharacter = getActiveCharacter();
-  const initialTestRoom = {
-    id: 'test-room-local',
-    name: 'Local Test Room',
-    description: 'Local test room for character testing',
-    userRole: 'gm',
-    gmName: 'Game Master',
-    members: ['test-user'],
-    isTestRoom: true,
-    settings: {
-      maxPlayers: 6,
-      isPrivate: false
-    },
-    lastActivity: {
-      seconds: Math.floor(Date.now() / 1000)
-    },
-    createdAt: {
-      seconds: Math.floor(Date.now() / 1000)
-    },
-    isTestRoom: true
-  };
-
-  const [rooms, setRooms] = useState([initialTestRoom]);
+  const [rooms, setRooms] = useState([]);
   const [localRooms, setLocalRooms] = useState([]);
   const [roomLimits, setRoomLimits] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -229,21 +207,87 @@ const RoomManager = () => {
     }
   };
 
+  // Update a local room
+  const handleUpdateLocalRoom = (roomId, updates) => {
+    console.log('🔄 Updating local room:', roomId, 'with updates:', updates);
+    try {
+      localRoomService.updateLocalRoom(roomId, updates);
+      loadLocalRooms(); // Refresh the list
+      console.log('✅ Local room updated successfully');
+      setRefreshMessage('✅ Local room updated');
+      setTimeout(() => setRefreshMessage(''), 3000);
+    } catch (error) {
+      console.error('❌ Error updating local room:', error);
+      if (error.message && error.message.includes('quota')) {
+        alert('Storage quota exceeded. The image is too large. Please try a smaller image.');
+      } else {
+        alert('Failed to update local room: ' + (error.message || 'Unknown error'));
+      }
+      throw error; // Re-throw so RoomCard can handle it
+    }
+  };
+
+  // Update a multiplayer room
+  const handleUpdateMultiplayerRoom = async (roomId, updates) => {
+    console.log('🔄 Updating multiplayer room:', roomId, 'with updates:', updates);
+    try {
+      if (!roomId) {
+        throw new Error('Room ID is required');
+      }
+
+      // Check localStorage space before saving
+      const existingData = localStorage.getItem(`room-data-${roomId}`) || '{}';
+      const roomData = JSON.parse(existingData);
+      const updatedData = { ...roomData, ...updates };
+      const dataString = JSON.stringify(updatedData);
+
+      // Estimate size (rough calculation)
+      const estimatedSize = new Blob([dataString]).size;
+      console.log('💾 Estimated storage size:', (estimatedSize / 1024).toFixed(1), 'KB');
+
+      // Try to save with better error handling
+      try {
+        localStorage.setItem(`room-data-${roomId}`, dataString);
+      } catch (storageError) {
+        if (storageError.name === 'QuotaExceededError') {
+          throw new Error('Storage quota exceeded. The image is too large. Please try a smaller image.');
+        }
+        throw storageError;
+      }
+
+      // Update the local state
+      setRooms(prevRooms =>
+        prevRooms.map(room =>
+          room.id === roomId ? { ...room, ...updates } : room
+        )
+      );
+
+      console.log('✅ Multiplayer room updated successfully');
+      setRefreshMessage('✅ Room updated');
+      setTimeout(() => setRefreshMessage(''), 3000);
+    } catch (error) {
+      console.error('❌ Error updating multiplayer room:', error);
+      throw error; // Re-throw so RoomCard can handle it
+    }
+  };
+
   const loadRoomData = async () => {
     if (!user) {
       // Even without user, create a test room for development
       const activeCharacter = getActiveCharacter();
       const testRoom = {
         id: 'test-room-local',
-        name: `${activeCharacter?.name || 'Test'} - Local Test Room`,
-        description: 'Local test room for character testing',
+        name: 'Development Test Lab',
+        description: 'A sandbox environment for testing game mechanics, character abilities, and multiplayer features. Experiment with spells, items, and combat in a safe testing ground.',
         userRole: 'gm',
         gmName: 'Game Master',
-        members: ['test-user'],
+        members: ['dev-user'],
         isTestRoom: true,
         settings: {
-          maxPlayers: 6,
-          isPrivate: false
+          maxPlayers: 8,
+          isPrivate: false,
+          allowSpectators: true,
+          autoSave: true
         },
         lastActivity: {
           seconds: Math.floor(Date.now() / 1000)
@@ -251,11 +295,18 @@ const RoomManager = () => {
         createdAt: {
           seconds: Math.floor(Date.now() / 1000)
         },
+        stats: {
+          totalSessions: 0,
+          lastSession: 'Ready for Testing',
+          averageSessionLength: 'Variable'
+        },
         isTestRoom: true
       };
 
 
+      console.log('🧪 Setting test room:', testRoom);
       setRooms([testRoom]);
+      setLocalRooms([]); // Keep local rooms empty in development
       setRoomLimits({
         tier: { name: 'Development' },
         used: 1,
@@ -273,15 +324,17 @@ const RoomManager = () => {
     const activeCharacter = getActiveCharacter();
     const testRoom = {
       id: 'test-room-local',
-      name: 'Local Test Room',
-      description: 'Local test room for character testing',
+      name: 'Development Test Lab',
+      description: 'A sandbox environment for testing game mechanics, character abilities, and multiplayer features. Experiment with spells, items, and combat in a safe testing ground.',
       userRole: 'gm',
       gmName: user?.displayName || 'Game Master',
-      members: [user?.uid],
+      members: [user?.uid || 'dev-user'],
       isTestRoom: true,
       settings: {
-        maxPlayers: 6,
-        isPrivate: false
+        maxPlayers: 8,
+        isPrivate: false,
+        allowSpectators: true,
+        autoSave: true
       },
       lastActivity: {
         seconds: Math.floor(Date.now() / 1000)
@@ -289,7 +342,11 @@ const RoomManager = () => {
       createdAt: {
         seconds: Math.floor(Date.now() / 1000)
       },
-      isTestRoom: true // Mark as test room
+      stats: {
+        totalSessions: 0,
+        lastSession: 'Ready for Testing',
+        averageSessionLength: 'Variable'
+      }
     };
 
     try {
@@ -607,7 +664,7 @@ const RoomManager = () => {
           </div>
         )}
 
-        <div className="local-rooms-list">
+        <div className="room-cards-grid">
           {localRooms.length === 0 ? (
             <div className="no-local-rooms">
               <i className="fas fa-home"></i>
@@ -615,38 +672,15 @@ const RoomManager = () => {
             </div>
           ) : (
             localRooms.map(room => (
-              <div key={room.id} className="room-card local-room">
-                <div className="room-header">
-                  <div className="room-title">
-                    <h4>{room.name}</h4>
-                    <div className="room-type">
-                      <i className="fas fa-home" style={{ color: '#4CAF50' }}></i>
-                      <span>Local Room</span>
-                    </div>
-                  </div>
-                  <div className="room-info">
-                    <p>Character: {room.characterName}</p>
-                    <p>Last played: {new Date(room.lastActivity.seconds * 1000).toLocaleDateString()}</p>
-                  </div>
-                </div>
-                <div className="room-actions">
-                  <button
-                    onClick={() => handleJoinLocalRoom(room)}
-                    className="join-btn"
-                    title="Join this local room"
-                  >
-                    <i className="fas fa-play"></i>
-                    Play
-                  </button>
-                  <button
-                    onClick={() => handleDeleteLocalRoom(room.id)}
-                    className="delete-btn"
-                    title="Delete this local room"
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                </div>
-              </div>
+              <RoomCard
+                key={room.id}
+                room={room}
+                onJoin={handleJoinLocalRoom}
+                onDelete={handleDeleteLocalRoom}
+                onUpdateRoom={handleUpdateLocalRoom}
+                showDeleteButton={true}
+                className="room-card-unified"
+              />
             ))
           )}
         </div>
@@ -661,7 +695,7 @@ const RoomManager = () => {
           </h3>
         </div>
 
-        <div className="multiplayer-rooms-grid">
+        <div className="room-cards-grid">
           {rooms.length === 0 ? (
             <div className="no-rooms">
               <i className="fas fa-dungeon"></i>
@@ -669,76 +703,20 @@ const RoomManager = () => {
               <p>Create your first persistent room to start a campaign that saves your progress.</p>
             </div>
           ) : (
-          rooms.map(room => (
-            <div key={room.id} className={`multiplayer-room-card ${room.isTestRoom ? 'test-room' : ''}`}>
-              <div className="room-header">
-                <h3 className="room-name">{room.name}</h3>
-                <div className="room-role">
-                  <i
-                    className={getRoleIcon(room.userRole)}
-                    style={{ color: getRoleColor(room.userRole) }}
-                  />
-                  <span>{room.userRole === 'gm' ? 'GM' : 'Player'}</span>
-                </div>
-              </div>
-
-              <div className="room-status">
-                {(() => {
-                  const statusInfo = getRoomStatusIndicator(room.id);
-                  return (
-                    <div className="status-indicator" title={statusInfo.title}>
-                      <i
-                        className={statusInfo.icon}
-                        style={{ color: statusInfo.color }}
-                      />
-                      <span style={{ color: statusInfo.color }}>
-                        {statusInfo.text}
-                      </span>
-                    </div>
-                  );
-                })()}
-              </div>
-
-              {room.description && (
-                <p className="room-description">{room.description}</p>
-              )}
-
-              <div className="room-stats">
-                <div className="stat">
-                  <i className="fas fa-users"></i>
-                  <span>{room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</span>
-                </div>
-                <div className="stat">
-                  <i className="fas fa-clock"></i>
-                  <span>{formatLastActivity(room.lastActivity)}</span>
-                </div>
-                {room.stats?.totalSessions > 0 && (
-                  <div className="stat">
-                    <i className="fas fa-dice-d20"></i>
-                    <span>{room.stats.totalSessions} sessions</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="room-actions">
-                <button
-                  className="join-btn"
-                  onClick={() => handleJoinRoom(room)}
-                >
-                  <i className="fas fa-play"></i>
-                  Join
-                </button>
-                {room.userRole === 'gm' && (
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDeleteRoom(room)}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                )}
-              </div>
-            </div>
-          ))
+          rooms.map(room => {
+            console.log('🎮 Rendering room:', room);
+            return (
+              <RoomCard
+                key={room.id}
+                room={room}
+                onJoin={handleJoinRoom}
+                onDelete={room.userRole === 'gm' ? handleDeleteRoom : null}
+                onUpdateRoom={handleUpdateMultiplayerRoom}
+                showDeleteButton={room.userRole === 'gm'}
+                className="room-card-unified"
+              />
+            );
+          })
         )}
         </div>
       </div>

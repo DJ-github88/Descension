@@ -25,6 +25,7 @@ const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 const LocalRoomIndicator = lazy(() => import("./components/local-room/LocalRoomIndicator"));
+import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 
 // Lazy load page components
 const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
@@ -194,6 +195,9 @@ function GameScreen() {
     const navigate = useNavigate();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
+
+    // Enable auto-save for local rooms
+    useLocalRoomAutoSave();
 
     // Initialize local room
     const initializeLocalRoom = async (roomId) => {

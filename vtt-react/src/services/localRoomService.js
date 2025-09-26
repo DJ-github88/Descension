@@ -79,16 +79,23 @@ class LocalRoomService {
   }
 
   /**
-   * Get all local rooms
+   * Get all local rooms with their current game state
    */
   getLocalRooms() {
-    return this.rooms.map(room => ({
-      ...room,
-      isLocal: true,
-      userRole: 'gm', // Local rooms are always GM mode
-      members: [room.characterName],
-      lastActivity: { seconds: new Date(room.lastActivity).getTime() / 1000 }
-    }));
+    return this.rooms.map(room => {
+      // Load the actual saved game state for preview
+      const savedGameState = this.loadRoomState(room.id);
+
+      return {
+        ...room,
+        // Use saved game state if available, otherwise fall back to initial state
+        gameState: savedGameState || room.gameState,
+        isLocal: true,
+        userRole: 'gm', // Local rooms are always GM mode
+        members: [room.characterName],
+        lastActivity: { seconds: new Date(room.lastActivity).getTime() / 1000 }
+      };
+    });
   }
 
   /**
@@ -116,6 +123,20 @@ class LocalRoomService {
   }
 
   /**
+   * Update room data
+   */
+  updateLocalRoom(roomId, updates) {
+    const roomIndex = this.rooms.findIndex(r => r.id === roomId);
+    if (roomIndex !== -1) {
+      this.rooms[roomIndex] = { ...this.rooms[roomIndex], ...updates };
+      this.saveRooms();
+      console.log('✅ Local room updated:', roomId, updates);
+    } else {
+      throw new Error('Room not found');
+    }
+  }
+
+  /**
    * Update room activity timestamp
    */
   updateRoomActivity(roomId) {
@@ -132,15 +153,25 @@ class LocalRoomService {
   saveRoomState(roomId, gameState) {
     try {
       const stateKey = `${LOCAL_ROOM_STATE_PREFIX}${roomId}`;
-      localStorage.setItem(stateKey, JSON.stringify({
+
+      // Ensure we preserve background data properly
+      const stateToSave = {
         ...gameState,
+        // Ensure backgrounds are properly saved
+        backgrounds: gameState.backgrounds || [],
+        activeBackgroundId: gameState.activeBackgroundId || null,
+        // Legacy background support
+        backgroundImage: gameState.backgroundImage || null,
+        backgroundImageUrl: gameState.backgroundImageUrl || '',
         lastSaved: new Date().toISOString()
-      }));
-      
+      };
+
+      localStorage.setItem(stateKey, JSON.stringify(stateToSave));
+
       // Update room activity
       this.updateRoomActivity(roomId);
-      
-      console.log('💾 Local room state saved:', roomId);
+
+      console.log('💾 Local room state saved:', roomId, 'with backgrounds:', stateToSave.backgrounds?.length || 0);
     } catch (error) {
       console.error('Error saving room state:', error);
     }
@@ -193,6 +224,87 @@ class LocalRoomService {
   }
 
   /**
+   * Auto-save current game state for active local room
+   * This should be called whenever game state changes
+   */
+  autoSaveCurrentRoom() {
+    const currentRoomId = localStorage.getItem('selectedLocalRoomId');
+    if (!currentRoomId || !localStorage.getItem('isLocalRoom')) {
+      return; // Not in a local room
+    }
+
+    try {
+      // Dynamically import stores to avoid circular dependencies
+      Promise.all([
+        import('../store/gameStore'),
+        import('../store/creatureStore'),
+        import('../store/gridItemStore'),
+        import('../store/levelEditorStore')
+      ]).then(([gameStoreModule, creatureStoreModule, gridItemStoreModule, levelEditorStoreModule]) => {
+        const gameState = gameStoreModule.default.getState();
+        const creatureState = creatureStoreModule.default.getState();
+        const gridItemState = gridItemStoreModule.default.getState();
+        const levelEditorState = levelEditorStoreModule.default.getState();
+
+        const currentGameState = {
+          // Background system - ensure all background data is captured
+          backgrounds: gameState.backgrounds || [],
+          activeBackgroundId: gameState.activeBackgroundId || null,
+          backgroundImage: gameState.backgroundImage || null,
+          backgroundImageUrl: gameState.backgroundImageUrl || '',
+
+          // Creatures
+          creatures: creatureState.creatures || [],
+
+          // Tokens (player characters)
+          tokens: gameState.tokens || [],
+
+          // Dropped items
+          inventory: {
+            droppedItems: gridItemState.gridItems?.reduce((acc, item) => {
+              acc[item.id] = item;
+              return acc;
+            }, {}) || {}
+          },
+
+          // Map data - include background data here too for compatibility
+          mapData: {
+            cameraPosition: { x: gameState.cameraX || 0, y: gameState.cameraY || 0 },
+            zoomLevel: gameState.zoomLevel || 1.0,
+            backgrounds: gameState.backgrounds || [],
+            activeBackgroundId: gameState.activeBackgroundId || null
+          },
+
+          // Level editor data
+          levelEditor: {
+            terrainData: levelEditorState.terrainData || {},
+            environmentalObjects: levelEditorState.environmentalObjects || [],
+            lightSources: levelEditorState.lightSources || []
+          },
+
+          // Combat state
+          combat: {
+            isActive: false // Local rooms don't persist combat state
+          }
+        };
+
+        console.log('💾 Auto-saving local room with background data:', {
+          backgroundsCount: currentGameState.backgrounds.length,
+          activeBackgroundId: currentGameState.activeBackgroundId,
+          hasBackgroundUrl: !!currentGameState.backgroundImageUrl,
+          hasBackgroundImage: !!currentGameState.backgroundImage
+        });
+
+        this.saveRoomState(currentRoomId, currentGameState);
+      }).catch(error => {
+        console.error('Error auto-saving local room:', error);
+      });
+    } catch (error) {
+      console.error('Error in autoSaveCurrentRoom:', error);
+    }
+  }
+
+  /**
    * Get room statistics
    */
   getRoomStats() {
@@ -221,6 +333,7 @@ export const {
   deleteLocalRoom,
   saveRoomState,
   loadRoomState,
+  autoSaveCurrentRoom,
   prepareRoomForConversion,
   markRoomAsConverted,
   getRoomStats

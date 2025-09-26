@@ -4,6 +4,7 @@ import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
 import useCharacterStore from '../../store/characterStore';
 import './styles/RoomLobby.css';
+import '../account/styles/RoomManager.css';
 
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const { getActiveCharacter } = useCharacterStore();
@@ -866,26 +867,55 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               </button>
               
               {availableRooms.length === 0 ? (
-                <p className="no-rooms">No public rooms available</p>
+                <div className="no-rooms">
+                  <i className="fas fa-dungeon"></i>
+                  <h3>No Public Rooms Available</h3>
+                  <p>No public rooms are currently available. Create your own room to get started!</p>
+                </div>
               ) : (
-                <div className="rooms-list">
+                <div className="multiplayer-rooms-grid">
                   {availableRooms.map(room => (
-                    <div key={room.id} className="room-card">
-                      <div className="room-info">
-                        <h4>{room.name}</h4>
-                        <p>GM: {room.gm} {room.gmOnline === false ? '(Offline)' : '(Online)'}</p>
-                        <p>Players: {room.playerCount}/{room.maxPlayers}</p>
-                        <p className="room-age">
-                          Created: {new Date(room.createdAt).toLocaleTimeString()}
-                        </p>
+                    <div key={room.id} className="multiplayer-room-card">
+                      <div className="room-header">
+                        <h3 className="room-name">{room.name}</h3>
+                        <div className="room-role">
+                          <i className="fas fa-crown" style={{ color: '#FFD700' }}></i>
+                          <span>GM: {room.gm}</span>
+                        </div>
                       </div>
-                      <button 
-                        onClick={() => handleQuickJoin(room)}
-                        disabled={isConnecting || !playerNameRef.current.trim() || room.playerCount >= room.maxPlayers}
-                        className="quick-join-button"
-                      >
-                        {room.playerCount >= room.maxPlayers ? 'Full' : 'Join'}
-                      </button>
+
+                      <div className="room-status">
+                        <div className="status-indicator">
+                          <i className="fas fa-circle" style={{ color: room.gmOnline !== false ? '#4CAF50' : '#757575' }}></i>
+                          <span>{room.gmOnline !== false ? 'Online' : 'Offline'}</span>
+                        </div>
+                        <div className="member-count">
+                          <i className="fas fa-users"></i>
+                          <span>{room.playerCount}/{room.maxPlayers}</span>
+                        </div>
+                      </div>
+
+                      <div className="room-stats">
+                        <div className="stat-item">
+                          <i className="fas fa-clock"></i>
+                          <span>Created</span>
+                          <span className="stat-value">
+                            {new Date(room.createdAt).toLocaleTimeString()}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="room-actions">
+                        <button
+                          onClick={() => handleQuickJoin(room)}
+                          disabled={isConnecting || !playerNameRef.current.trim() || room.playerCount >= room.maxPlayers}
+                          className="join-btn primary"
+                          title={room.playerCount >= room.maxPlayers ? 'Room is full' : 'Join this room'}
+                        >
+                          <i className={room.playerCount >= room.maxPlayers ? 'fas fa-ban' : 'fas fa-play'}></i>
+                          {room.playerCount >= room.maxPlayers ? 'Full' : 'Join'}
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -985,32 +1015,76 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           <div className="my-rooms-section">
             <h3>My Rooms</h3>
             {userRooms.length === 0 ? (
-              <p className="no-rooms">You haven't created any rooms yet.</p>
+              <div className="no-rooms">
+                <i className="fas fa-dungeon"></i>
+                <h3>No Multiplayer Rooms Yet</h3>
+                <p>Create your first persistent room to start a campaign that saves your progress.</p>
+              </div>
             ) : (
-              <div className="rooms-list">
-                {userRooms.map(room => (
-                  <div key={room.id} className="room-card persistent">
-                    <div className="room-info">
-                      <h4>{room.name}</h4>
-                      {room.description && <p className="room-description">{room.description}</p>}
-                      <p>Role: {room.userRole === 'gm' ? 'Game Master' : 'Player'}</p>
-                      <p>Members: {room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</p>
-                      <p className="room-age">
-                        Last Activity: {room.lastActivity ? new Date(room.lastActivity.seconds * 1000).toLocaleString() : 'Unknown'}
-                      </p>
-                      {room.isActive && <span className="active-indicator">🟢 Active</span>}
+              <div className="multiplayer-rooms-grid">
+                {userRooms.map(room => {
+                  const getRoleIcon = (role) => {
+                    return role === 'gm' ? 'fas fa-crown' : 'fas fa-user';
+                  };
+
+                  const getRoleColor = (role) => {
+                    return role === 'gm' ? '#FFD700' : '#4CAF50';
+                  };
+
+                  return (
+                    <div key={room.id} className={`multiplayer-room-card ${room.isTestRoom ? 'test-room' : ''}`}>
+                      <div className="room-header">
+                        <h3 className="room-name">{room.name}</h3>
+                        <div className="room-role">
+                          <i
+                            className={getRoleIcon(room.userRole)}
+                            style={{ color: getRoleColor(room.userRole) }}
+                          />
+                          <span>{room.userRole === 'gm' ? 'GM' : 'Player'}</span>
+                        </div>
+                      </div>
+
+                      <div className="room-status">
+                        <div className="status-indicator">
+                          <i className="fas fa-circle" style={{ color: room.isActive ? '#4CAF50' : '#757575' }}></i>
+                          <span>{room.isActive ? 'Active' : 'Offline'}</span>
+                        </div>
+                        <div className="member-count">
+                          <i className="fas fa-users"></i>
+                          <span>{room.members?.length || 0}/{(room.settings?.maxPlayers || 6) + 1}</span>
+                        </div>
+                      </div>
+
+                      {room.description && (
+                        <div className="room-description">
+                          <p>{room.description}</p>
+                        </div>
+                      )}
+
+                      <div className="room-stats">
+                        <div className="stat-item">
+                          <i className="fas fa-clock"></i>
+                          <span>Last Activity</span>
+                          <span className="stat-value">
+                            {room.lastActivity ? new Date(room.lastActivity.seconds * 1000).toLocaleDateString() : 'Unknown'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="room-actions">
+                        <button
+                          onClick={() => handleJoinPersistentRoom(room)}
+                          disabled={isConnecting}
+                          className="join-btn primary"
+                          title={room.userRole === 'gm' ? 'Resume as Game Master' : 'Join as Player'}
+                        >
+                          <i className={room.userRole === 'gm' ? 'fas fa-crown' : 'fas fa-play'}></i>
+                          {room.userRole === 'gm' ? 'Resume as GM' : 'Join'}
+                        </button>
+                      </div>
                     </div>
-                    <div className="room-actions">
-                      <button
-                        onClick={() => handleJoinPersistentRoom(room)}
-                        disabled={isConnecting}
-                        className="join-button"
-                      >
-                        {room.userRole === 'gm' ? 'Resume as GM' : 'Join'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
