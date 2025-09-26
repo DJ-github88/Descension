@@ -1,11 +1,13 @@
-/* Room Manager Styles - Pathfinder Theme */
+/* Room Manager Styles - Modern Clean Theme */
 .room-manager {
   padding: 20px;
-  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%);
-  border-radius: 8px;
-  font-family: 'Cinzel', 'Bookman Old Style', serif;
-  color: #2d1810;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border-radius: 12px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #1f2937;
   min-height: 500px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .room-manager-header {
@@ -14,20 +16,22 @@
   align-items: center;
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 2px solid #8B4513;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .room-manager-header h2 {
   margin: 0;
   font-size: 24px;
-  color: #5a1e12;
+  color: #1f2937;
   display: flex;
   align-items: center;
   gap: 12px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
 }
 
 .room-manager-header h2 i {
-  color: #d4af37;
+  color: #3b82f6;
 }
 
 .header-actions {
@@ -176,25 +180,26 @@
 }
 
 .create-room-btn {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }
 
 .create-room-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #047857 0%, #059669 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
 }
 
 .create-room-btn:disabled {
@@ -656,24 +661,54 @@
   margin-bottom: 32px;
 }
 
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #e5e7eb;
+/* Room Manager specific section headers - override global styles */
+.room-manager .section-header,
+.room-manager .local-rooms-section .section-header,
+.room-manager .multiplayer-rooms-section .section-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 20px !important;
+  padding: 0 !important;
+  padding-bottom: 12px !important;
+  border-bottom: 2px solid #e5e7eb !important;
+  background: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  text-align: left !important;
+  flex: none !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
 }
 
-.section-header h3 {
-  margin: 0;
-  font-size: 20px;
-  color: #1f2937;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+.room-manager .section-header h3,
+.room-manager .local-rooms-section .section-header h3,
+.room-manager .multiplayer-rooms-section .section-header h3 {
+  margin: 0 !important;
+  font-size: 20px !important;
+  color: #1f2937 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-weight: 600 !important;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+  background: none !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .create-local-room-btn {
