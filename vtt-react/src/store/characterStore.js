@@ -984,7 +984,8 @@ const useCharacterStore = create((set, get) => ({
             }
         });
 
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses);
+        const encumbranceState = getEncumbranceState();
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
         // Update health and mana max values based on derived stats
         const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -1229,6 +1230,17 @@ const useCharacterStore = create((set, get) => ({
             }
 
             set({ characters, isLoading: false });
+
+            // If there's an active character, recalculate its resources
+            const activeCharacterId = localStorage.getItem('mythrill-active-character');
+            if (activeCharacterId && characters.length > 0) {
+                const activeCharacter = characters.find(char => char.id === activeCharacterId);
+                if (activeCharacter) {
+                    console.log(`🔄 Recalculating resources for active character: ${activeCharacter.name}`);
+                    get().loadCharacter(activeCharacterId);
+                }
+            }
+
             console.log(`📋 Final character count: ${characters.length}`);
             return characters;
         } catch (error) {
@@ -1253,10 +1265,10 @@ const useCharacterStore = create((set, get) => ({
                 ...characterData,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
-                // Ensure required fields exist
+                // Ensure required fields exist - health/mana will be calculated based on stats
                 resources: characterData.resources || {
-                    health: { current: 100, max: 100 },
-                    mana: { current: 50, max: 50 },
+                    health: { current: 50, max: 50 }, // Temporary values, will be recalculated
+                    mana: { current: 25, max: 25 }, // Temporary values, will be recalculated
                     actionPoints: { current: 3, max: 3 }
                 },
                 inventory: characterData.inventory || {
@@ -1306,6 +1318,11 @@ const useCharacterStore = create((set, get) => ({
                 characters: updatedCharacters,
                 isLoading: false
             });
+
+            // If this is the active character, recalculate stats to ensure proper health/mana
+            if (newCharacter.id === get().currentCharacterId) {
+                get().initializeCharacter();
+            }
 
             return newCharacter;
         } catch (error) {
@@ -1424,9 +1441,16 @@ const useCharacterStore = create((set, get) => ({
                     spirit: 10,
                     charisma: 10
                 },
-                health: character.health || { current: 45, max: 50 },
-                mana: character.mana || { current: 45, max: 50 },
-                actionPoints: character.actionPoints || { current: 1, max: 3 },
+                // Store the current values from the character data, but max values will be recalculated
+                health: {
+                    current: (character.health?.current || character.resources?.health?.current || 45),
+                    max: 50 // Temporary value, will be recalculated
+                },
+                mana: {
+                    current: (character.mana?.current || character.resources?.mana?.current || 45),
+                    max: 50 // Temporary value, will be recalculated
+                },
+                actionPoints: character.actionPoints || character.resources?.actionPoints || { current: 1, max: 3 },
                 equipment: character.equipment || {},
                 resistances: character.resistances || get().resistances,
                 spellPower: character.spellPower || get().spellPower,
@@ -1436,6 +1460,23 @@ const useCharacterStore = create((set, get) => ({
 
             // Recalculate derived stats
             get().initializeCharacter();
+
+            // Force recalculation of HP/MP based on current stats
+            get().recalculateResources();
+
+            // Debug logging for character loading
+            if (character.name === 'YAD') {
+                const state = get();
+                console.log('🔍 Character store after loading:', {
+                    characterName: character.name,
+                    constitution: state.stats?.constitution,
+                    intelligence: state.stats?.intelligence,
+                    finalHealth: state.health,
+                    finalMana: state.mana,
+                    derivedStats: state.derivedStats
+                });
+            }
+
             return character;
         }
 
@@ -1460,6 +1501,77 @@ const useCharacterStore = create((set, get) => ({
             console.error(`❌ Character not found: ${characterId}`);
             return null;
         }
+    },
+
+    // Force recalculation of health and mana based on current stats
+    recalculateResources: () => {
+        const state = get();
+
+        // Apply racial modifiers to get effective stats
+        const effectiveStats = state.race && state.subrace
+            ? applyRacialModifiers(state.stats, state.race, state.subrace)
+            : state.stats;
+
+        // Calculate equipment bonuses
+        const equipmentBonuses = calculateEquipmentBonuses(state.equipment || {});
+
+        // Apply equipment bonuses to stats
+        const totalStats = { ...effectiveStats };
+        const statMapping = {
+            str: 'strength',
+            con: 'constitution',
+            agi: 'agility',
+            int: 'intelligence',
+            spir: 'spirit',
+            cha: 'charisma'
+        };
+
+        Object.entries(statMapping).forEach(([shortName, fullName]) => {
+            if (equipmentBonuses[shortName]) {
+                totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+            }
+        });
+
+        // Get encumbrance state
+        const encumbranceState = state.inventory?.encumbranceState || 'normal';
+
+        // Calculate derived stats
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+
+        // Calculate correct max values
+        const newMaxHealth = Math.round(derivedStats.maxHealth);
+        const newMaxMana = Math.round(derivedStats.maxMana);
+
+        // Update health and mana with recalculated max values
+        const newHealth = {
+            current: Math.min(state.health.current, newMaxHealth),
+            max: newMaxHealth
+        };
+
+        const newMana = {
+            current: Math.min(state.mana.current, newMaxMana),
+            max: newMaxMana
+        };
+
+        // Debug logging for resource recalculation
+        if (state.name === 'YAD') {
+            console.log('🔄 Recalculating resources for YAD:', {
+                constitution: totalStats.constitution,
+                intelligence: totalStats.intelligence,
+                oldHealth: state.health,
+                oldMana: state.mana,
+                newHealth,
+                newMana,
+                derivedStats
+            });
+        }
+
+        set({
+            equipmentBonuses,
+            derivedStats,
+            health: newHealth,
+            mana: newMana
+        });
     },
 
     // Get the currently active character
@@ -1754,6 +1866,11 @@ const useCharacterStore = create((set, get) => ({
                     value: updatedHealth,
                     timestamp: new Date()
                 });
+
+                // Save the character with updated health
+                setTimeout(() => {
+                    get().saveCurrentCharacter();
+                }, 100); // Small delay to ensure state is updated
             }
 
             return { health: updatedHealth };
@@ -1771,6 +1888,11 @@ const useCharacterStore = create((set, get) => ({
                     value: updatedMana,
                     timestamp: new Date()
                 });
+
+                // Save the character with updated mana
+                setTimeout(() => {
+                    get().saveCurrentCharacter();
+                }, 100); // Small delay to ensure state is updated
             }
 
             return { mana: updatedMana };
@@ -1889,6 +2011,21 @@ const initializeCharacterStore = () => {
         current: Math.min(state.mana.current, newMaxMana),
         max: newMaxMana
     };
+
+    // Debug logging for character store resource calculation
+    if (state.name === 'YAD') {
+        console.log('🔍 CharacterStore resource calculation:', {
+            characterName: state.name,
+            constitution: totalStats.constitution,
+            intelligence: totalStats.intelligence,
+            derivedMaxHealth: newMaxHealth,
+            derivedMaxMana: newMaxMana,
+            currentHealth: state.health.current,
+            currentMana: state.mana.current,
+            newHealth,
+            newMana
+        });
+    }
 
     // Update the store with calculated values
     useCharacterStore.setState({

@@ -207,8 +207,7 @@
   background: #fafafa;
 }
 
-.stat-modifier {
-
+.creature-wizard .stat-modifier {
   color: #f0e6d2;
   padding: 12px 16px;
   border-radius: 8px;
@@ -735,7 +734,7 @@
     gap: 10px;
   }
 
-  .stat-modifier {
+  .creature-wizard .stat-modifier {
     align-self: center;
     min-width: 80px;
   }

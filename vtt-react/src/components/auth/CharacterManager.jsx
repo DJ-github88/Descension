@@ -73,7 +73,7 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
         spirit: 10,
         charisma: 10
       },
-      health: { current: 100, max: 100 },
+      health: { current: 50, max: 50 }, // Will be recalculated based on constitution
       experience: 0,
       equipment: [],
       inventory: [],

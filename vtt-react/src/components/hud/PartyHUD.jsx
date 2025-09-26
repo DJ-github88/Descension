@@ -966,6 +966,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const displayMembers = partyMembers.map(member => {
         // Update current player with live character data
         if (member.id === 'current-player') {
+            // Debug logging for party HUD resource display
+            if (currentPlayerData.name === 'YAD') {
+                console.log('🔍 PartyHUD current player data:', {
+                    characterName: currentPlayerData.name,
+                    health: currentPlayerData.health,
+                    mana: currentPlayerData.mana,
+                    derivedStats: currentPlayerData.derivedStats
+                });
+            }
+
             return {
                 ...member, // Preserve all existing member data including isGM
                 name: currentPlayerData.name,

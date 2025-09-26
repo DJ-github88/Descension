@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import useCharacterStore from '../store/characterStore';
 import usePartyStore from '../store/partyStore';
 import useGameStore from '../store/gameStore';
+import { calculateDerivedStats, calculateEquipmentBonuses } from '../utils/characterUtils';
+import { applyRacialModifiers } from '../data/raceData';
 
 // Create the inspection context
 const InspectionContext = createContext(null);
@@ -62,6 +64,70 @@ export const InspectionProvider = ({ character, children }) => {
     // Determine if this is the current player or a party member
     const isCurrentPlayer = currentMemberData?.id === 'current-player' || memberName === currentPlayerData.name;
 
+    // Calculate proper HP/MP values for the inspected character
+    const calculateInspectedCharacterResources = (charData) => {
+        if (!charData || !charData.stats) {
+            return {
+                health: { current: 0, max: 0 },
+                mana: { current: 0, max: 0 }
+            };
+        }
+
+        // Apply racial modifiers to get effective stats
+        const effectiveStats = charData.race && charData.subrace
+            ? applyRacialModifiers(charData.stats, charData.race, charData.subrace)
+            : charData.stats;
+
+        // Calculate equipment bonuses
+        const equipmentBonuses = calculateEquipmentBonuses(charData.equipment || {});
+
+        // Apply equipment bonuses to stats
+        const totalStats = { ...effectiveStats };
+        const statMapping = {
+            str: 'strength',
+            con: 'constitution',
+            agi: 'agility',
+            int: 'intelligence',
+            spir: 'spirit',
+            cha: 'charisma'
+        };
+
+        Object.entries(statMapping).forEach(([shortName, fullName]) => {
+            if (equipmentBonuses[shortName]) {
+                totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+            }
+        });
+
+        // Get encumbrance state
+        const encumbranceState = charData.inventory?.encumbranceState || 'normal';
+
+        // Calculate derived stats
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+
+        // Calculate correct max values
+        const maxHealth = Math.round(derivedStats.maxHealth);
+        const maxMana = Math.round(derivedStats.maxMana);
+
+        // Use stored current values but ensure they don't exceed new max values
+        const storedHealth = charData.health || { current: maxHealth, max: maxHealth };
+        const storedMana = charData.mana || { current: maxMana, max: maxMana };
+
+        return {
+            health: {
+                current: Math.min(storedHealth.current || maxHealth, maxHealth),
+                max: maxHealth
+            },
+            mana: {
+                current: Math.min(storedMana.current || maxMana, maxMana),
+                max: maxMana
+            },
+            derivedStats
+        };
+    };
+
+    // Calculate resources for the inspected character
+    const calculatedResources = calculateInspectedCharacterResources(characterData);
+
     // Create a character store-like object from the inspected character data
     const inspectionStore = {
         // Basic character info - prioritize member name over character name, then fallback to character data name
@@ -72,9 +138,9 @@ export const InspectionProvider = ({ character, children }) => {
         alignment: characterData?.alignment || 'Unknown',
         exhaustionLevel: characterData?.exhaustionLevel || 0,
 
-        // Resources
-        health: characterData?.health || { current: 0, max: 0 },
-        mana: characterData?.mana || { current: 0, max: 0 },
+        // Resources - use calculated values for proper HP/MP
+        health: calculatedResources.health,
+        mana: calculatedResources.mana,
         actionPoints: characterData?.actionPoints || { current: 0, max: 0 },
 
         // Stats
@@ -174,9 +240,9 @@ export const InspectionProvider = ({ character, children }) => {
         updateCharacterInfo: () => {},
         unequipItem: () => {},
 
-        // Calculated values (simplified for inspection)
+        // Calculated values - use properly calculated derived stats
         equipmentBonuses: characterData?.equipmentBonuses || {},
-        derivedStats: characterData?.derivedStats || {
+        derivedStats: calculatedResources.derivedStats || {
             movementSpeed: 30,
             swimSpeed: 15,
             carryingCapacity: 0,
@@ -191,7 +257,8 @@ export const InspectionProvider = ({ character, children }) => {
         currentMemberData,
         characterData,
         memberName,
-        isCurrentPlayer
+        isCurrentPlayer,
+        calculatedResources
     });
 
     return (

@@ -40,7 +40,6 @@ import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
 import firebaseAuthDebugger from './utils/debugFirebaseAuth';
 import PortalDebugger from './components/debug/PortalDebugger';
-import ProductionDebugger from './components/debug/ProductionDebugger';
 
 // Preload roomService to prevent chunk loading issues
 import './services/roomService';
@@ -341,7 +340,6 @@ function GameScreen() {
 
     return (
         <div className="game-screen">
-            <ProductionDebugger />
             <FloatingCombatTextManager />
             <Suspense fallback={<LoadingFallback message="Loading game..." />}>
                 <Grid />

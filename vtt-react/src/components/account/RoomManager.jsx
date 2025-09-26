@@ -545,12 +545,6 @@ const RoomManager = () => {
           My Campaign Rooms
         </h2>
 
-        {refreshMessage && (
-          <div className="refresh-message">
-            {refreshMessage}
-          </div>
-        )}
-
         <div className="header-actions">
           <button
             className="refresh-rooms-btn"
@@ -594,30 +588,19 @@ const RoomManager = () => {
         )}
       </div>
 
+      {/* Fixed position refresh message that doesn't move other elements */}
+      {refreshMessage && (
+        <div className="refresh-message-fixed">
+          {refreshMessage}
+        </div>
+      )}
+
       {error && (
         <div className="error-message">
           <i className="fas fa-exclamation-triangle"></i>
           {error}
         </div>
       )}
-
-      <div className="room-actions">
-        <button 
-          className="create-room-btn"
-          onClick={handleCreateRoom}
-          disabled={roomLimits && !roomLimits.canCreate}
-        >
-          <i className="fas fa-plus"></i>
-          {roomLimits && !roomLimits.canCreate ? 'Room Limit Reached' : 'Create New Room'}
-        </button>
-        
-        {roomLimits && !roomLimits.canCreate && (
-          <p className="limit-message">
-            <i className="fas fa-info-circle"></i>
-            Upgrade your plan to create more rooms
-          </p>
-        )}
-      </div>
 
       {/* Local Rooms Section */}
       <div className="local-rooms-section">
@@ -693,7 +676,25 @@ const RoomManager = () => {
             <i className="fas fa-users"></i>
             Multiplayer Rooms
           </h3>
+          <button
+            className="create-local-room-btn"
+            onClick={handleCreateRoom}
+            disabled={roomLimits && !roomLimits.canCreate}
+            title="Create a new multiplayer room"
+          >
+            <i className="fas fa-plus"></i>
+            {roomLimits && !roomLimits.canCreate ? 'Room Limit Reached' : 'New Multiplayer Room'}
+          </button>
         </div>
+
+        {roomLimits && !roomLimits.canCreate && (
+          <div className="limit-message-section">
+            <p className="limit-message">
+              <i className="fas fa-info-circle"></i>
+              Upgrade your plan to create more rooms
+            </p>
+          </div>
+        )}
 
         <div className="room-cards-grid">
           {rooms.length === 0 ? (

@@ -40,14 +40,34 @@ const CharacterPortraitHUD = ({
         lore: state.lore,
         tokenSettings: state.tokenSettings,
         derivedStats: state.derivedStats,
-        equipmentBonuses: state.equipmentBonuses
+        equipmentBonuses: state.equipmentBonuses,
+        stats: state.stats // Add stats to subscription for constitution/intelligence changes
     }));
 
     const characterData = isCurrentPlayer ? currentPlayerData : character;
 
+    // Use calculated max values from derivedStats if available, otherwise fall back to stored values
+    const maxHealth = characterData.derivedStats?.maxHealth || characterData.health.max;
+    const maxMana = characterData.derivedStats?.maxMana || characterData.mana.max;
+
+    // Debug logging for character portrait HUD
+    if (characterData.name === 'YAD') {
+        console.log('🔍 CharacterPortraitHUD data:', {
+            characterName: characterData.name,
+            isCurrentPlayer,
+            characterData: {
+                health: characterData.health,
+                mana: characterData.mana,
+                derivedStats: characterData.derivedStats
+            },
+            calculatedMaxHealth: maxHealth,
+            calculatedMaxMana: maxMana
+        });
+    }
+
     // Calculate health percentage for bar color
-    const healthPercentage = (characterData.health.current / characterData.health.max) * 100;
-    const manaPercentage = (characterData.mana.current / characterData.mana.max) * 100;
+    const healthPercentage = (characterData.health.current / maxHealth) * 100;
+    const manaPercentage = (characterData.mana.current / maxMana) * 100;
     const apPercentage = (characterData.actionPoints.current / characterData.actionPoints.max) * 100;
 
     // Get health bar color based on percentage
@@ -206,7 +226,7 @@ const CharacterPortraitHUD = ({
                                 }}
                             ></div>
                             <div className="bar-text">
-                                {characterData.health.current}/{characterData.health.max}
+                                {characterData.health.current}/{Math.round(maxHealth)}
                             </div>
                         </div>
                     </div>
@@ -222,7 +242,7 @@ const CharacterPortraitHUD = ({
                                 }}
                             ></div>
                             <div className="bar-text">
-                                {characterData.mana.current}/{characterData.mana.max}
+                                {characterData.mana.current}/{Math.round(maxMana)}
                             </div>
                         </div>
                     </div>

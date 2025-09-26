@@ -91,8 +91,9 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
           updatedAt: new Date().toISOString(),
           level: 1,
           experience: 0,
-          hitPoints: characterData.hitPoints || 100,
-          maxHitPoints: characterData.maxHitPoints || 100,
+          // Health will be calculated based on constitution in character store
+          hitPoints: characterData.hitPoints || (characterData.stats?.constitution || 10) * 5,
+          maxHitPoints: characterData.maxHitPoints || (characterData.stats?.constitution || 10) * 5,
           armorClass: characterData.armorClass || 10,
           // Add default stats if not provided
           stats: characterData.stats || {

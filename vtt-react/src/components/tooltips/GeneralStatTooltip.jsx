@@ -558,7 +558,18 @@ const GeneralStatTooltip = ({ stat, value, baseValue, equipmentBonus, encumbranc
         if (baseValue === undefined || value === undefined || typeof value !== 'number') return null;
 
         const parts = [];
-        const equipmentValue = equipmentBonus || ((value || 0) - (baseValue || 0));
+        // Use explicit equipment bonus if provided, otherwise calculate it properly
+        // Don't include encumbrance effects in equipment calculation
+        let equipmentValue = equipmentBonus || 0;
+
+        // If no explicit equipment bonus is provided and we have encumbrance effects,
+        // calculate equipment as: final_value - base_value - encumbrance_effect
+        if (!equipmentBonus && encumbranceEffect !== undefined) {
+            equipmentValue = (value || 0) - (baseValue || 0) - (encumbranceEffect || 0);
+        } else if (!equipmentBonus && encumbranceEffect === undefined) {
+            // Fallback to old behavior if no encumbrance info
+            equipmentValue = (value || 0) - (baseValue || 0);
+        }
 
         // Always show base
         parts.push(`${Math.round(baseValue)} (base)`);

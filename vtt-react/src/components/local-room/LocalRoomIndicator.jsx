@@ -101,21 +101,11 @@ const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu }) => {
   return (
     <>
       <div className="local-room-indicator">
-        <button
-          className="leave-room-btn"
-          onClick={handleLeaveRoom}
-          title="Leave local room and return to main menu"
-        >
-          <i className="fas fa-sign-out-alt"></i>
-          Leave Room
-        </button>
-        
         <div className="room-info">
           <span className="room-name">
-            <i className="fas fa-home" style={{ color: '#4CAF50', marginRight: '6px' }}></i>
             {currentRoom.name}
           </span>
-          <span className="room-type">Local Room</span>
+          <span className="room-type">(Local)</span>
         </div>
 
         <button
