@@ -547,7 +547,7 @@
 }
 
 .duration-input {
-  width: 80px;
+  width: 120px; /* Increased from 80px for better visibility */
 }
 
 .duration-unit-select,

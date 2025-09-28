@@ -571,8 +571,8 @@ const UnifiedSpellCard = ({
       const selectionMethod = config.targetSelectionMethod || config.selectionMethod;
       if (selectionMethod && selectionMethod !== 'manual') {
         const methodName = selectionMethod === 'random' ? 'Random' :
-                          selectionMethod === 'closest' ? 'Closest' :
-                          selectionMethod === 'furthest' ? 'Furthest' :
+                          selectionMethod === 'closest' || selectionMethod === 'nearest' ? 'Nearest' :
+                          selectionMethod === 'furthest' || selectionMethod === 'farthest' ? 'Farthest' :
                           selectionMethod === 'lowest_health' ? 'Lowest HP' :
                           selectionMethod === 'highest_health' ? 'Highest HP' : '';
         rangeStr += ` (${maxTargets} ${methodName})`;
@@ -663,10 +663,12 @@ const UnifiedSpellCard = ({
           methodText = 'Random';
           break;
         case 'closest':
-          methodText = 'Closest';
+        case 'nearest':
+          methodText = 'Nearest';
           break;
         case 'furthest':
-          methodText = 'Furthest';
+        case 'farthest':
+          methodText = 'Farthest';
           break;
         case 'lowest_health':
           methodText = 'Lowest HP';
@@ -1393,7 +1395,7 @@ const UnifiedSpellCard = ({
               type: 'verbal',
               symbol: 'V',
               name: 'Verbal',
-              description: spell.resourceCost.verbalText || 'Requires speaking magical words',
+              description: formatComponentName(spell.resourceCost.verbalText) || 'Requires speaking magical words',
               customText: spell.resourceCost.verbalText
             });
             break;
@@ -1402,7 +1404,7 @@ const UnifiedSpellCard = ({
               type: 'somatic',
               symbol: 'S',
               name: 'Somatic',
-              description: spell.resourceCost.somaticText || 'Requires specific hand gestures',
+              description: formatComponentName(spell.resourceCost.somaticText) || 'Requires specific hand gestures',
               customText: spell.resourceCost.somaticText
             });
             break;
@@ -1411,7 +1413,7 @@ const UnifiedSpellCard = ({
               type: 'material',
               symbol: 'M',
               name: 'Material',
-              description: spell.resourceCost.materialComponents || 'Requires specific materials',
+              description: formatComponentName(spell.resourceCost.materialComponents) || 'Requires specific materials',
               customText: spell.resourceCost.materialComponents
             });
             break;
@@ -1443,13 +1445,38 @@ const UnifiedSpellCard = ({
             </span>
             {component.customText && (
               <span className="component-custom-text">
-                {component.customText}
+                {formatComponentName(component.customText)}
               </span>
             )}
           </div>
         ))}
       </div>
     );
+  };
+
+  // Helper function to format component names from hyphenated to proper title case
+  const formatComponentName = (name) => {
+    if (!name || typeof name !== 'string') return name;
+
+    // If it's already properly formatted (contains spaces and capital letters), return as-is
+    if (name.includes(' ') && /[A-Z]/.test(name)) {
+      return name;
+    }
+
+    // Convert hyphenated or underscore names to title case
+    return name
+      .split(/[-_]/)
+      .map(word => {
+        // Handle special cases for common words
+        const lowerWord = word.toLowerCase();
+        if (lowerWord === 'of' || lowerWord === 'the' || lowerWord === 'and' || lowerWord === 'in' || lowerWord === 'on') {
+          return lowerWord;
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(' ')
+      // Capitalize the first word even if it's a preposition
+      .replace(/^[a-z]/, match => match.toUpperCase());
   };
 
   // Format material components as text
@@ -1460,9 +1487,9 @@ const UnifiedSpellCard = ({
     const materialComponents = [];
 
     if (spell.resourceCost.materialComponents && Array.isArray(spell.resourceCost.materialComponents)) {
-      materialComponents.push(...spell.resourceCost.materialComponents.map(item => item.name || item));
+      materialComponents.push(...spell.resourceCost.materialComponents.map(item => formatComponentName(item.name || item)));
     } else if (spell.resourceCost.materialComponents && typeof spell.resourceCost.materialComponents === 'string') {
-      materialComponents.push(spell.resourceCost.materialComponents);
+      materialComponents.push(formatComponentName(spell.resourceCost.materialComponents));
     }
 
     if (materialComponents.length === 0) return null;
@@ -2112,7 +2139,8 @@ const UnifiedSpellCard = ({
       };
       displayText = `When ${whoMap[perspective] || 'my health'} ${compMap[comparison] || 'falls below'} ${percentage}%`;
     } else if (trigger.id === 'spell_cast') {
-      const spellName = trigger.parameters?.spell_name || 'a spell';
+      const spellName = trigger.parameters?.spell_name;
+      const spellLevel = trigger.parameters?.spell_level;
       const perspective = trigger.parameters?.perspective || 'self';
       const whoMap = {
         'self': 'I cast',
@@ -2121,7 +2149,14 @@ const UnifiedSpellCard = ({
         'enemy': 'an enemy casts',
         'any': 'anyone casts'
       };
-      displayText = `When ${whoMap[perspective]} ${spellName}`;
+      displayText = `When ${whoMap[perspective]}`;
+      if (spellName) {
+        displayText += ` ${spellName}`;
+      } else if (spellLevel) {
+        displayText += ` a level ${spellLevel} spell`;
+      } else {
+        displayText += ' a spell';
+      }
     } else if (trigger.id === 'turn_start') {
       const perspective = trigger.parameters?.perspective || 'self';
       const whoMap = {
@@ -2200,6 +2235,76 @@ const UnifiedSpellCard = ({
         'any': 'anyone dies'
       };
       displayText = `When ${targetMap[targetType] || 'anyone dies'}`;
+    } else if (trigger.id === 'critical_hit_dealt') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const whoMap = {
+        'self': 'I deal',
+        'target': 'my target deals',
+        'ally': 'an ally deals',
+        'enemy': 'an enemy deals',
+        'any': 'anyone deals'
+      };
+      displayText = `When ${whoMap[perspective]} a critical hit`;
+    } else if (trigger.id === 'distance_moved') {
+      const distance = trigger.parameters?.distance || 30;
+      const perspective = trigger.parameters?.perspective || 'self';
+      const whoMap = {
+        'self': 'I move',
+        'target': 'my target moves',
+        'ally': 'an ally moves',
+        'enemy': 'an enemy moves',
+        'any': 'anyone moves'
+      };
+      displayText = `When ${whoMap[perspective]} ${distance} ft`;
+    } else if (trigger.id === 'resource_threshold') {
+      const resourceType = trigger.parameters?.resource_type || 'health';
+      const thresholdValue = trigger.parameters?.threshold_value || 50;
+      const thresholdType = trigger.parameters?.threshold_type || 'percentage';
+      const perspective = trigger.parameters?.perspective || 'self';
+
+      const whoMap = {
+        'self': 'my',
+        'target': "my target's",
+        'ally': "an ally's",
+        'enemy': "an enemy's",
+        'any': "anyone's"
+      };
+
+      const suffix = thresholdType === 'percentage' ? '%' : ' pts';
+      const resourceName = resourceType.charAt(0).toUpperCase() + resourceType.slice(1);
+      const operator = thresholdType === 'percentage' && thresholdValue <= 50 ? 'drops below' : 'reaches';
+
+      displayText = `When ${whoMap[perspective]} ${resourceName.toLowerCase()} ${operator} ${thresholdValue}${suffix}`;
+    } else if (trigger.id === 'terrain_type') {
+      const terrainType = trigger.parameters?.terrain_type;
+      if (terrainType) {
+        displayText = `When on ${terrainType} terrain`;
+      }
+    } else if (trigger.id === 'enter_range') {
+      const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
+      const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
+      const entityMap = {
+        'any': 'anyone',
+        'allies': 'an ally',
+        'enemies': 'an enemy',
+        'self': 'I'
+      };
+      displayText = `When ${entityMap[entityType] || 'anyone'} enters within ${distance} ft`;
+    } else if (trigger.id === 'exit_range') {
+      const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
+      const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
+      const entityMap = {
+        'any': 'anyone',
+        'allies': 'an ally',
+        'enemies': 'an enemy',
+        'self': 'I'
+      };
+      displayText = `When ${entityMap[entityType] || 'anyone'} exits ${distance} ft range`;
+    } else if (trigger.id === 'last_ally_standing') {
+      displayText = "When I'm the last ally standing";
+    } else if (trigger.id === 'outnumbered') {
+      const ratio = trigger.parameters?.ratio || 2;
+      displayText = `When outnumbered ${ratio}:1`;
     } else if (trigger.id === 'near_death') {
       const threshold = trigger.parameters?.health_threshold || 10;
       const targetType = trigger.parameters?.target_type || 'self';
@@ -2967,8 +3072,62 @@ const UnifiedSpellCard = ({
 
   // ===== BUFF/DEBUFF FORMATTING FUNCTIONS =====
 
+  // Helper function to get enhanced stat names with thematic descriptions
+  const getEnhancedStatName = (statName, magnitude, magnitudeType) => {
+    if (!statName) return 'Stat Modifier';
+
+    const baseName = statName.toLowerCase();
+    const isPositive = magnitude > 0;
+    const isPercentage = magnitudeType === 'percentage';
+
+    // Enhanced naming for primary stats
+    const statEnhancements = {
+      'strength': isPositive ? 'Might Enhancement' : 'Strength Drain',
+      'agility': isPositive ? 'Grace Enhancement' : 'Agility Drain',
+      'constitution': isPositive ? 'Vitality Enhancement' : 'Constitution Drain',
+      'intelligence': isPositive ? 'Mental Acuity' : 'Intelligence Drain',
+      'spirit': isPositive ? 'Spiritual Power' : 'Spirit Drain',
+      'charisma': isPositive ? 'Presence Enhancement' : 'Charisma Drain',
+
+      // Enhanced naming for secondary stats
+      'health': isPositive ? 'Vigor Boost' : 'Health Penalty',
+      'mana': isPositive ? 'Arcane Reservoir' : 'Mana Drain',
+      'stamina': isPositive ? 'Endurance Boost' : 'Stamina Penalty',
+      'speed': isPositive ? 'Swiftness' : 'Sluggishness',
+      'armor': isPositive ? 'Protective Ward' : 'Armor Reduction',
+      'damage': isPositive ? 'Combat Prowess' : 'Damage Penalty'
+    };
+
+    return statEnhancements[baseName] || (statName.charAt(0).toUpperCase() + statName.slice(1));
+  };
+
+  // Helper function to determine stat type for enhanced descriptions
+  const getStatType = (statName) => {
+    if (!statName) return 'general';
+
+    const baseName = statName.toLowerCase();
+    const physicalStats = ['strength', 'agility', 'constitution', 'health', 'stamina', 'armor'];
+    const mentalStats = ['intelligence', 'spirit', 'wisdom', 'perception'];
+    const magicalStats = ['mana', 'spell_power', 'magical_resistance'];
+
+    if (physicalStats.includes(baseName)) return 'physical';
+    if (mentalStats.includes(baseName)) return 'mental';
+    if (magicalStats.includes(baseName)) return 'magical';
+    return 'general';
+  };
+
   const formatBuffEffects = () => {
-    if (!spell?.buffConfig) return null;
+    if (!spell?.buffConfig) {
+      // If spell has buff effect type but no config, show a basic effect
+      if (spell?.effectTypes?.includes('buff')) {
+        return [{
+          name: 'Buff Effect',
+          description: 'Provides beneficial effects',
+          mechanicsText: 'Effect details not configured'
+        }];
+      }
+      return null;
+    }
 
     const { buffConfig } = spell;
     const effects = [];
@@ -3005,6 +3164,10 @@ const UnifiedSpellCard = ({
           class: ''
         };
 
+        // Enhanced stat name formatting with thematic descriptions
+        const enhancedStatName = getEnhancedStatName(stat.name, stat.magnitude, stat.magnitudeType);
+        statDisplay.name = enhancedStatName;
+
         if (typeof stat.magnitude === 'string') {
           // It's a dice formula - could be absorption or regular stat
           if (isAbsorptionStat) {
@@ -3015,7 +3178,17 @@ const UnifiedSpellCard = ({
             }
             statDisplay.class = 'absorption-formula';
           } else {
-            statDisplay.value = stat.magnitude;
+            // Enhanced dice formula display with context
+            const statType = getStatType(stat.name);
+            if (statType === 'physical') {
+              statDisplay.value = `${stat.magnitude} enhancement to physical prowess`;
+            } else if (statType === 'mental') {
+              statDisplay.value = `${stat.magnitude} enhancement to mental faculties`;
+            } else if (statType === 'magical') {
+              statDisplay.value = `${stat.magnitude} enhancement to magical abilities`;
+            } else {
+              statDisplay.value = `${stat.magnitude} enhancement`;
+            }
             statDisplay.class = 'formula';
           }
         } else if (isAbsorptionStat) {
@@ -3062,14 +3235,41 @@ const UnifiedSpellCard = ({
             statDisplay.class = 'percentage';
           }
         } else {
-          // Standard number or percentage display
+          // Enhanced standard number or percentage display with thematic descriptions
           const magnitude = stat.magnitude || 0;
           const sign = magnitude >= 0 ? '+' : '';
-          const displayValue = stat.magnitudeType === 'percentage'
-            ? `${sign}${magnitude}%`
-            : `${sign}${magnitude}`;
-          statDisplay.value = displayValue;
-          statDisplay.class = 'regular';
+          const isPercentage = stat.magnitudeType === 'percentage';
+
+          if (isPercentage) {
+            // Enhanced percentage descriptions
+            if (Math.abs(magnitude) >= 50) {
+              const intensity = magnitude >= 0 ? 'dramatically enhances' : 'severely impairs';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
+            } else if (Math.abs(magnitude) >= 25) {
+              const intensity = magnitude >= 0 ? 'significantly enhances' : 'notably impairs';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
+            } else if (Math.abs(magnitude) >= 10) {
+              const intensity = magnitude >= 0 ? 'moderately enhances' : 'moderately impairs';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
+            } else {
+              const intensity = magnitude >= 0 ? 'slightly enhances' : 'slightly impairs';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
+            }
+          } else {
+            // Enhanced flat number descriptions
+            if (Math.abs(magnitude) >= 10) {
+              const intensity = magnitude >= 0 ? 'greatly increases' : 'greatly decreases';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+            } else if (Math.abs(magnitude) >= 5) {
+              const intensity = magnitude >= 0 ? 'increases' : 'decreases';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+            } else {
+              const intensity = magnitude >= 0 ? 'slightly increases' : 'slightly decreases';
+              statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+            }
+          }
+
+          statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
         }
 
         // Group stats by type
@@ -3114,47 +3314,942 @@ const UnifiedSpellCard = ({
       }
     }
 
-    // Format status effects
+    // Format status effects with enhanced configuration display
     if (buffConfig.statusEffects && buffConfig.statusEffects.length > 0) {
       buffConfig.statusEffects.forEach(effect => {
-        let effectName = effect.name || effect.id || 'Status Effect';
+        // Handle both string IDs and full effect objects
+        let effectName, effectData;
+
+        if (typeof effect === 'string') {
+          effectName = effect;
+          effectData = {};
+        } else {
+          effectName = effect.name || effect.id || 'Status Effect';
+          effectData = effect;
+        }
+
         effectName = effectName.charAt(0).toUpperCase() + effectName.slice(1);
 
         let mechanicsText = '';
         const mechanicsParts = [];
 
-        // Add level information
-        if (effect.level && effect.level !== 'moderate') {
-          const levelMap = {
-            'minor': 'Minor',
-            'major': 'Major',
-            'severe': 'Severe',
-            'extreme': 'Extreme'
-          };
-          const levelDisplay = levelMap[effect.level] || effect.level;
-          effectName = `${levelDisplay} ${effectName}`;
+        // Add configuration-specific details based on effect type
+        if (effectData.option) {
+          // For lifelink, use proper formatting
+          if (effectData.id === 'lifelink') {
+            const optionMap = {
+              'hp_to_hp': 'Health Link',
+              'mana_to_mana': 'Mana Link',
+              'hp_to_mana': 'Life to Mana',
+              'mana_to_hp': 'Mana to HP',
+              'damage_to_healing': 'Damage to Healing',
+              'healing_to_damage': 'Healing to Damage'
+            };
+            const optionName = optionMap[effectData.option] || effectData.option;
+            effectName += ` (${optionName})`;
+          } else {
+            // For other effects, use standard formatting
+            const optionName = effectData.option.charAt(0).toUpperCase() + effectData.option.slice(1);
+            effectName += ` (${optionName})`;
+          }
         }
 
-        // Add save information if applicable
-        if (effect.saveType && effect.saveType !== 'none') {
-          let saveText = `${effect.saveType.charAt(0).toUpperCase() + effect.saveType.slice(1)} save`;
-          if (effect.saveDC) {
-            saveText += ` DC ${effect.saveDC}`;
+        // Add specific effect mechanics based on effect ID with comprehensive configuration details
+        if (effectData.id === 'lifelink') {
+          // Lifelink configuration details - handle both old and new field naming
+          const option = effectData.option; // Old system uses 'option' field
+
+          // Handle old system (CleanStatusEffectConfigPopup) with option-based configuration
+          if (option) {
+            // Map option to readable format
+            const optionMap = {
+              'hp_to_hp': 'Health Link',
+              'mana_to_mana': 'Mana Link',
+              'hp_to_mana': 'Life to Mana',
+              'mana_to_hp': 'Mana to HP',
+              'damage_to_healing': 'Damage to Healing',
+              'healing_to_damage': 'Healing to Damage'
+            };
+            mechanicsParts.push(optionMap[option] || option);
+
+            // Get transfer ratio (old system uses transferRatio, new system uses percentage)
+            const transferRatio = effectData.transferRatio || effectData.percentage || 25;
+            mechanicsParts.push(`${transferRatio}% conversion`);
+
+            // Add maximum transfer limit if specified
+            if (effectData.maxTransfer && effectData.maxTransfer > 0) {
+              mechanicsParts.push(`Max: ${effectData.maxTransfer} per trigger`);
+            }
+          } else {
+            // Handle new system (StatusEffectConfigPopup) with detailed configuration
+            const direction = effectData.direction || 'caster_to_target';
+            const sourceResource = effectData.sourceResource || 'health';
+            const targetResource = effectData.targetResource || 'health';
+            const calculationType = effectData.calculationType || 'percentage';
+
+            // Format direction
+            const directionMap = {
+              'caster_to_target': 'Caster → Target',
+              'target_to_caster': 'Target → Caster',
+              'bidirectional': 'Bidirectional'
+            };
+            mechanicsParts.push(directionMap[direction]);
+
+            // Format resource link
+            if (sourceResource === targetResource) {
+              mechanicsParts.push(`${sourceResource.charAt(0).toUpperCase() + sourceResource.slice(1)} Link`);
+            } else {
+              mechanicsParts.push(`${sourceResource.charAt(0).toUpperCase() + sourceResource.slice(1)} → ${targetResource.charAt(0).toUpperCase() + targetResource.slice(1)}`);
+            }
+
+            // Format conversion details
+            if (calculationType === 'percentage') {
+              const percentage = effectData.percentage || 25;
+              mechanicsParts.push(`${percentage}% conversion`);
+            } else if (calculationType === 'fixed_amount') {
+              const amount = effectData.fixedAmount || 5;
+              mechanicsParts.push(`${amount} points per trigger`);
+            } else if (calculationType === 'dice_roll') {
+              const dice = effectData.diceFormula || '1d4';
+              mechanicsParts.push(`${dice} conversion`);
+            } else if (calculationType === 'custom_formula') {
+              const formula = effectData.customFormula || 'SOURCE_AMOUNT * 0.25';
+              mechanicsParts.push(`Formula: ${formula}`);
+            }
+
+            // Add maximum transfer limit if specified
+            if (effectData.maxTransfer && effectData.maxTransfer > 0) {
+              mechanicsParts.push(`Max: ${effectData.maxTransfer} per trigger`);
+            }
           }
+
+          // Add trigger conditions
+          if (effectData.triggerCondition) {
+            const triggerMap = {
+              'damage_taken': 'when damaged',
+              'damage_dealt': 'when dealing damage',
+              'healing_received': 'when healed',
+              'spell_cast': 'when casting spells',
+              'continuous': 'continuous effect'
+            };
+            mechanicsParts.push(triggerMap[effectData.triggerCondition] || effectData.triggerCondition);
+          }
+
+        } else if (effectData.id === 'damage_shield' || effectData.id === 'damageshield') {
+          // Damage Shield configuration details
+          const shieldType = effectData.shieldType || effectData.option || 'reflection';
+
+          // Handle detailed shield types (StatusEffectConfigPopup system)
+          if (shieldType === 'reflection') {
+            const percentage = effectData.reflectionPercentage || 25;
+            mechanicsParts.push(`Reflects ${percentage}% damage back to attacker`);
+          } else if (shieldType === 'thorns') {
+            // Handle both old format (thornsDamage) and new format (thornsDiceCount + thornsDiceType)
+            let damage;
+            if (effectData.thornsDiceCount && effectData.thornsDiceType) {
+              damage = `${effectData.thornsDiceCount}${effectData.thornsDiceType}`;
+            } else {
+              damage = effectData.thornsDamage || '1d4';
+            }
+            mechanicsParts.push(`Deals ${damage} damage to attackers`);
+          } else if (shieldType === 'absorption') {
+            const amount = effectData.absorptionAmount || 15;
+            mechanicsParts.push(`Absorbs ${amount} damage, converts to temporary HP`);
+          }
+          // Handle simple shield types (CleanStatusEffectConfigPopup system)
+          else if (shieldType === 'physical') {
+            mechanicsParts.push('Reduces physical damage taken');
+          } else if (shieldType === 'magical') {
+            mechanicsParts.push('Reduces magical damage taken');
+          } else if (shieldType === 'complete') {
+            mechanicsParts.push('Reduces all damage taken');
+          }
+
+          // Add damage type restrictions
+          if (effectData.damageTypes && effectData.damageTypes.length > 0) {
+            mechanicsParts.push(`vs ${effectData.damageTypes.join(', ')} damage`);
+          }
+
+          // Add shield charges/uses if specified
+          if (effectData.charges || effectData.uses) {
+            const charges = effectData.charges || effectData.uses;
+            mechanicsParts.push(`${charges} charge${charges > 1 ? 's' : ''}`);
+          }
+
+        } else if (effectData.id === 'empower_next' || effectData.id === 'empower_next_spell') {
+          // Empower Next configuration details
+          const empowerType = effectData.option || 'spell';
+
+          const empowerMap = {
+            'spell': 'Next spell empowered',
+            'heal': 'Next healing empowered',
+            'weapon': 'Next weapon attack empowered',
+            'ability': 'Next ability empowered'
+          };
+
+          mechanicsParts.push(empowerMap[empowerType] || `Next ${empowerType} empowered`);
+
+          // Add empowerment details
+          if (effectData.empowerAmount || effectData.bonusAmount) {
+            const bonus = effectData.empowerAmount || effectData.bonusAmount;
+            mechanicsParts.push(`+${bonus}% effectiveness`);
+          }
+
+          if (effectData.maxDamage || effectData.maximumEffect) {
+            mechanicsParts.push('maximum effect');
+          }
+
+          if (effectData.criticalGuaranteed) {
+            mechanicsParts.push('guaranteed critical');
+          }
+
+        } else if (effectData.id === 'invisibility' || effectData.id === 'invisible') {
+          // Invisibility configuration details
+          const invisibilityType = effectData.option || 'complete';
+
+          const invisibilityMap = {
+            'partial': 'Camouflage - advantage on stealth checks',
+            'complete': 'Complete invisibility - invisible until attacking',
+            'greater': 'Greater invisibility - remains invisible when attacking'
+          };
+
+          mechanicsParts.push(invisibilityMap[invisibilityType] || `${invisibilityType} invisibility`);
+
+          // Add stealth bonus if specified
+          if (effectData.stealthBonus) {
+            mechanicsParts.push(`+${effectData.stealthBonus} stealth bonus`);
+          }
+
+          // Add detection DC if specified
+          if (effectData.detectionDC) {
+            mechanicsParts.push(`DC ${effectData.detectionDC} to detect`);
+          }
+
+          // Add attack bonus details
+          if (effectData.attackBonus && effectData.attackBonusType) {
+            if (effectData.attackBonusType === 'advantage') {
+              mechanicsParts.push('advantage on attacks while invisible');
+            } else {
+              mechanicsParts.push(`+${effectData.attackBonus} attack bonus while invisible`);
+            }
+          }
+
+          // Add breaking conditions
+          if (effectData.breaks && effectData.breaks.length > 0) {
+            const breakConditions = effectData.breaks.map(condition => {
+              const conditionMap = {
+                'attack': 'attacking',
+                'castSpell': 'casting spells',
+                'takeDamage': 'taking damage',
+                'move': 'moving',
+                'interact': 'interacting with objects'
+              };
+              return conditionMap[condition] || condition;
+            });
+            mechanicsParts.push(`breaks on: ${breakConditions.join(', ')}`);
+          }
+
+        } else if (effectData.id === 'inspiration' || effectData.id === 'inspire') {
+          // Inspiration configuration details
+          const inspirationType = effectData.option || 'focus';
+
+          const inspirationMap = {
+            'focus': 'Mental focus - bonus to concentration checks',
+            'insight': 'Tactical insight - bonus to Intelligence checks',
+            'creativity': 'Creative surge - bonus to Charisma checks'
+          };
+
+          mechanicsParts.push(inspirationMap[inspirationType] || `${inspirationType} inspiration`);
+
+          // Add inspiration die if specified
+          if (effectData.inspirationDie) {
+            mechanicsParts.push(`add ${effectData.inspirationDie} to applicable rolls`);
+          }
+
+          // Add uses per duration
+          if (effectData.usesPerDuration) {
+            mechanicsParts.push(`${effectData.usesPerDuration} use${effectData.usesPerDuration > 1 ? 's' : ''} per duration`);
+          }
+
+          // Add what it applies to
+          if (effectData.appliesTo) {
+            mechanicsParts.push(`applies to ${effectData.appliesTo} checks`);
+          }
+
+        } else if (effectData.id === 'elemental_infusion' || effectData.id === 'elemental_affinity') {
+          // Elemental Infusion configuration details
+          const elementType = effectData.option || effectData.elementType || 'fire';
+
+          const elementMap = {
+            'fire': 'Fire infusion - weapon attacks deal fire damage',
+            'frost': 'Frost infusion - weapon attacks deal cold damage',
+            'lightning': 'Lightning infusion - weapon attacks deal lightning damage',
+            'earth': 'Earth infusion - weapon attacks deal earth damage',
+            'air': 'Air infusion - weapon attacks deal air damage',
+            'water': 'Water infusion - weapon attacks deal water damage'
+          };
+
+          mechanicsParts.push(elementMap[elementType] || `${elementType} elemental infusion`);
+
+          // Add damage bonus if specified (check multiple possible field names)
+          if (effectData.extraDamage || effectData.damageBonus || effectData.bonusDamage) {
+            const bonus = effectData.extraDamage || effectData.damageBonus || effectData.bonusDamage;
+            mechanicsParts.push(`+${bonus} ${elementType} damage`);
+          }
+
+          // Add proc chance if specified
+          if (effectData.procChance && effectData.procChance !== '100') {
+            mechanicsParts.push(`${effectData.procChance}% chance`);
+          }
+
+          // Add aura effects if specified
+          if (effectData.auraRadius) {
+            mechanicsParts.push(`${effectData.auraRadius} ft ${elementType} aura`);
+          }
+
+          // Add special effects
+          if (effectData.chainTargets) {
+            mechanicsParts.push(`chains to ${effectData.chainTargets} targets`);
+          }
+
+          if (effectData.setOnFire && elementType === 'fire') {
+            mechanicsParts.push('sets targets on fire');
+          }
+
+          if (effectData.freezeTarget && elementType === 'frost') {
+            mechanicsParts.push('reduces target speed to 0');
+          }
+
+        } else if (effectData.id === 'shielded' || effectData.id === 'shield') {
+          // Shield configuration details
+          const shieldAmount = effectData.shieldAmount || 15;
+          const shieldType = effectData.shieldType || 'absorb';
+
+          if (shieldType === 'absorb') {
+            mechanicsParts.push(`${shieldAmount} absorption shield`);
+          } else if (shieldType === 'reflect') {
+            mechanicsParts.push(`${shieldAmount} HP reflective barrier`);
+          } else if (shieldType === 'thorns') {
+            mechanicsParts.push(`${shieldAmount} HP thorns barrier`);
+          }
+
+        } else if (effectData.id === 'regeneration' || effectData.id === 'regen') {
+          // Regeneration configuration details
+          const regenType = effectData.regenType || 'health';
+          const regenDice = effectData.regenDice || effectData.regenAmount || '1d4';
+          const frequency = effectData.frequency || 'start_of_turn';
+
+          const freqMap = {
+            'start_of_turn': 'start of turn',
+            'end_of_turn': 'end of turn',
+            'when_damaged': 'when damaged',
+            'when_below_half': 'when below 50% HP'
+          };
+
+          mechanicsParts.push(`${regenDice} ${regenType} restored`);
+          mechanicsParts.push(freqMap[frequency] || frequency);
+
+          // Add conditions
+          if (effectData.condition) {
+            mechanicsParts.push(`if ${effectData.condition}`);
+          }
+
+        } else if (effectData.id === 'haste') {
+          // Haste configuration details
+          const speedMultiplier = effectData.speedMultiplier || 2;
+          const actionBonus = effectData.actionBonus || false;
+          const attackBonus = effectData.attackBonus || false;
+
+          mechanicsParts.push(`${speedMultiplier}× movement speed`);
+          if (actionBonus) mechanicsParts.push('extra action');
+          if (attackBonus) mechanicsParts.push('extra attack');
+
+        } else if (effectData.id === 'inspired') {
+          if (effectData.inspirationDie) {
+            mechanicsParts.push(`Add ${effectData.inspirationDie} to rolls`);
+          }
+          if (effectData.usesPerDuration) {
+            mechanicsParts.push(`${effectData.usesPerDuration} use${effectData.usesPerDuration > 1 ? 's' : ''}`);
+          }
+        } else if (effectData.id === 'blessed') {
+          if (effectData.rollBonus) {
+            mechanicsParts.push(`+${effectData.rollBonus} bonus`);
+          }
+          if (effectData.bonusDie) {
+            mechanicsParts.push(`+${effectData.bonusDie} to rolls`);
+          }
+        } else if (effectData.id === 'resistance') {
+          if (effectData.damageTypes && effectData.damageTypes.length > 0) {
+            mechanicsParts.push(`Resist ${effectData.damageTypes.join(', ')}`);
+          }
+          if (effectData.resistanceValue) {
+            mechanicsParts.push(`${effectData.resistanceValue}% reduction`);
+          }
+        } else if (effectData.id === 'poisoned' || effectData.id === 'poison') {
+          // Poison configuration details
+          if (effectData.diceCount && effectData.diceType) {
+            mechanicsParts.push(`${effectData.diceCount}${effectData.diceType} poison damage per round`);
+          }
+          if (effectData.poisonType) {
+            mechanicsParts.push(`${effectData.poisonType} poison`);
+          }
+        } else if (effectData.id === 'energized') {
+          // Energized configuration details
+          if (effectData.bonusActionPoints) {
+            mechanicsParts.push(`+${effectData.bonusActionPoints} action points`);
+          }
+          if (effectData.actionPointRegeneration) {
+            mechanicsParts.push(`+${effectData.actionPointRegeneration} AP regen per turn`);
+          }
+          if (effectData.costReduction) {
+            mechanicsParts.push(`-${effectData.costReduction} AP cost for abilities`);
+          }
+        } else if (effectData.id === 'damage_bonus') {
+          // Damage bonus configuration details
+          const option = effectData.option;
+          if (option === 'elemental' && effectData.damageType && effectData.damageDice) {
+            mechanicsParts.push(`+${effectData.damageDice} ${effectData.damageType} damage`);
+          } else if (option === 'weapon' && effectData.effectDice) {
+            mechanicsParts.push(`+${effectData.effectDice} weapon damage`);
+          } else if (option === 'conditional' && effectData.damageDice) {
+            mechanicsParts.push(`+${effectData.damageDice} conditional damage`);
+          }
+        } else if (effectData.id === 'damage_vulnerability') {
+          // Vulnerability configuration details
+          const option = effectData.option;
+          if (option === 'physical') {
+            mechanicsParts.push('Vulnerable to physical damage');
+          } else if (option === 'elemental' && effectData.primaryElement) {
+            mechanicsParts.push(`Vulnerable to ${effectData.primaryElement} damage`);
+          } else if (option === 'magical') {
+            mechanicsParts.push('Vulnerable to magical damage');
+          }
+          if (effectData.primaryStrength) {
+            mechanicsParts.push(`+${effectData.primaryStrength}% damage taken`);
+          }
+        } else if (effectData.id === 'burning') {
+          // Burning configuration details
+          if (effectData.diceCount && effectData.diceType) {
+            mechanicsParts.push(`${effectData.diceCount}${effectData.diceType} fire damage per round`);
+          }
+          if (effectData.extinguishDC) {
+            mechanicsParts.push(`DC ${effectData.extinguishDC} to extinguish`);
+          }
+          if (effectData.extinguishMethod) {
+            const methodMap = {
+              'action': 'Action to extinguish',
+              'water': 'Water/cold damage extinguishes',
+              'dispel': 'Dispel magic removes',
+              'special': 'Special method required'
+            };
+            mechanicsParts.push(methodMap[effectData.extinguishMethod] || effectData.extinguishMethod);
+          }
+        } else if (effectData.id === 'charmed' || effectData.id === 'charm') {
+          // Charm configuration details
+          if (effectData.commandComplexity) {
+            const complexityMap = {
+              'simple': 'Simple commands only',
+              'moderate': 'Moderate complexity commands',
+              'complex': 'Complex commands allowed',
+              'any': 'Any command possible'
+            };
+            mechanicsParts.push(complexityMap[effectData.commandComplexity]);
+          }
+          if (effectData.maxCommands) {
+            mechanicsParts.push(`Max ${effectData.maxCommands} command${effectData.maxCommands > 1 ? 's' : ''}`);
+          }
+        } else if (effectData.id === 'disadvantage_attack') {
+          // Attack disadvantage configuration details
+          const option = effectData.option;
+          if (option === 'all') {
+            mechanicsParts.push('Disadvantage on all attack rolls');
+          } else if (option === 'melee') {
+            mechanicsParts.push('Disadvantage on melee attack rolls');
+          } else if (option === 'ranged') {
+            mechanicsParts.push('Disadvantage on ranged attack rolls');
+          } else if (option === 'spell') {
+            mechanicsParts.push('Disadvantage on spell attack rolls');
+          }
+        } else if (effectData.id === 'disadvantage_save') {
+          // Save disadvantage configuration details
+          if (effectData.saveType) {
+            mechanicsParts.push(`Disadvantage on ${effectData.saveType} saves`);
+          }
+          if (effectData.saveTypes && effectData.saveTypes.length > 0) {
+            mechanicsParts.push(`Disadvantage on ${effectData.saveTypes.join(', ')} saves`);
+          }
+        } else if (effectData.id === 'stunned' || effectData.id === 'stun') {
+          // Stun configuration details
+          if (effectData.duration) {
+            mechanicsParts.push(`${effectData.duration} round${effectData.duration > 1 ? 's' : ''}`);
+          }
+          if (effectData.untilDispelled) {
+            mechanicsParts.push('Until dispelled');
+          }
+        } else if (effectData.id === 'flight' || effectData.id === 'flying') {
+          // Flight configuration details
+          const flightSpeed = effectData.flightSpeed || 30;
+          const flightType = effectData.flightType || 'magical';
+          const maneuverability = effectData.maneuverability || 'average';
+
+          mechanicsParts.push(`${flightSpeed} ft flight speed`);
+          mechanicsParts.push(`${flightType} flight`);
+          if (maneuverability !== 'average') {
+            mechanicsParts.push(`${maneuverability} maneuverability`);
+          }
+        } else if (effectData.id === 'frightened' || effectData.id === 'fear') {
+          // Fear configuration details
+          if (effectData.fearType || effectData.option) {
+            const fearType = effectData.fearType || effectData.option;
+            const typeMap = {
+              'shaken': 'Shaken - disadvantage on ability checks while source visible',
+              'terrified': 'Terrified - cannot move closer to fear source',
+              'panicked': 'Panicked - must flee from fear source'
+            };
+            mechanicsParts.push(typeMap[fearType] || `${fearType} fear`);
+          }
+          if (effectData.fearRadius) {
+            mechanicsParts.push(`${effectData.fearRadius} ft fear radius`);
+          }
+        } else if (effectData.id === 'blinded' || effectData.id === 'blind') {
+          // Blind configuration details
+          if (effectData.blindType || effectData.option) {
+            const blindType = effectData.blindType || effectData.option;
+            const typeMap = {
+              'partial': 'Partially blinded - disadvantage on perception and attacks',
+              'complete': 'Completely blinded - cannot see, fails sight-based checks',
+              'magical': 'Magical blindness - supernatural darkness'
+            };
+            mechanicsParts.push(typeMap[blindType] || `${blindType} blindness`);
+          }
+        } else if (effectData.id === 'paralyzed' || effectData.id === 'paralyze') {
+          // Paralysis configuration details
+          if (effectData.paralysisType || effectData.option) {
+            const paralysisType = effectData.paralysisType || effectData.option;
+            const typeMap = {
+              'partial': 'Partially paralyzed - reduced movement and actions',
+              'complete': 'Completely paralyzed - cannot move or act',
+              'magical': 'Magical paralysis - held by supernatural forces'
+            };
+            mechanicsParts.push(typeMap[paralysisType] || `${paralysisType} paralysis`);
+          }
+        } else if (effectData.id === 'confused' || effectData.id === 'confusion') {
+          // Confusion configuration details
+          if (effectData.confusionType || effectData.option) {
+            const confusionType = effectData.confusionType || effectData.option;
+            const typeMap = {
+              'random': 'Random actions - roll for behavior each turn',
+              'dazed': 'Dazed - reduced actions available',
+              'disoriented': 'Disoriented - disadvantage on navigation and perception'
+            };
+            mechanicsParts.push(typeMap[confusionType] || `${confusionType} confusion`);
+          }
+        } else if (effectData.id === 'silenced' || effectData.id === 'silence') {
+          // Silence configuration details
+          if (effectData.silenceType || effectData.option) {
+            const silenceType = effectData.silenceType || effectData.option;
+            const typeMap = {
+              'verbal': 'Cannot speak - no verbal spells',
+              'magical': 'Magical silence - no spellcasting',
+              'complete': 'Complete silence - no sound at all'
+            };
+            mechanicsParts.push(typeMap[silenceType] || `${silenceType} silence`);
+          }
+        } else if (effectData.id === 'slowed' || effectData.id === 'slow') {
+          // Slow configuration details
+          if (effectData.slowAmount || effectData.speedReduction) {
+            const reduction = effectData.slowAmount || effectData.speedReduction || 50;
+            mechanicsParts.push(`${reduction}% speed reduction`);
+          }
+          if (effectData.affectsActions) {
+            mechanicsParts.push('reduced actions per turn');
+          }
+        }
+
+        // Generic option-based formatting for effects that use the standard option system
+        else if (effectData.option && !mechanicsParts.length) {
+          // Handle common option patterns for effects not specifically handled above
+          const option = effectData.option;
+
+          // Common option mappings for various effect types
+          if (effectData.id === 'strengthened' || effectData.id === 'strength_boost') {
+            const optionMap = {
+              'physical': 'Physical strength enhanced',
+              'magical': 'Magical power enhanced',
+              'mental': 'Mental fortitude enhanced',
+              'all': 'All capabilities enhanced'
+            };
+            mechanicsParts.push(optionMap[option] || `${option} enhancement`);
+          } else if (effectData.id === 'weakened' || effectData.id === 'weakness') {
+            const optionMap = {
+              'physical': 'Physical weakness - reduced strength and constitution',
+              'mental': 'Mental weakness - reduced intelligence and wisdom',
+              'magical': 'Magical weakness - reduced spellcasting ability',
+              'all': 'General weakness - all abilities reduced'
+            };
+            mechanicsParts.push(optionMap[option] || `${option} weakness`);
+          } else if (effectData.id === 'diseased' || effectData.id === 'disease') {
+            const optionMap = {
+              'wasting': 'Wasting disease - gradual stat reduction',
+              'fever': 'Fever - constitution penalties and confusion',
+              'plague': 'Plague - contagious and debilitating',
+              'magical': 'Magical disease - supernatural affliction'
+            };
+            mechanicsParts.push(optionMap[option] || `${option} disease`);
+          } else if (effectData.id === 'cursed' || effectData.id === 'curse') {
+            const optionMap = {
+              'weakness': 'Curse of Weakness - reduced physical capabilities',
+              'misfortune': 'Curse of Misfortune - disadvantage on rolls',
+              'binding': 'Binding Curse - restricted actions',
+              'doom': 'Curse of Doom - escalating negative effects'
+            };
+            mechanicsParts.push(optionMap[option] || `${option} curse`);
+          } else if (effectData.id === 'bleeding' || effectData.id === 'bleed') {
+            const optionMap = {
+              'minor': 'Minor wound - light bleeding',
+              'severe': 'Severe wound - heavy bleeding',
+              'arterial': 'Arterial bleeding - critical blood loss',
+              'internal': 'Internal bleeding - hidden damage'
+            };
+            mechanicsParts.push(optionMap[option] || `${option} bleeding`);
+          } else {
+            // Generic fallback - capitalize and format the option
+            const formattedOption = option.charAt(0).toUpperCase() + option.slice(1).replace(/_/g, ' ');
+            mechanicsParts.push(formattedOption);
+          }
+        }
+
+        // Add more status effect configurations
+        if (effectData.id === 'luck') {
+          // Handle both old and new luck configuration systems
+          const luckType = effectData.luckType;
+          const option = effectData.option; // Old system uses 'option' field
+
+          // New system (luckType-based)
+          if (luckType === 'bonus') {
+            const luckBonus = effectData.luckBonus || 1;
+            const appliesTo = effectData.appliesTo || 'all';
+
+            if (appliesTo === 'all') {
+              mechanicsParts.push(`+${luckBonus} luck bonus to all rolls`);
+            } else if (appliesTo === 'd20') {
+              mechanicsParts.push(`+${luckBonus} luck bonus to d20 rolls`);
+            } else if (appliesTo === 'attack') {
+              mechanicsParts.push(`+${luckBonus} luck bonus to attack rolls`);
+            } else if (appliesTo === 'damage') {
+              mechanicsParts.push(`+${luckBonus} luck bonus to damage rolls`);
+            } else if (appliesTo === 'skill') {
+              mechanicsParts.push(`+${luckBonus} luck bonus to skill checks`);
+            } else if (appliesTo === 'save') {
+              mechanicsParts.push(`+${luckBonus} luck bonus to saving throws`);
+            } else if (appliesTo === 'custom' && effectData.customRollTypes) {
+              mechanicsParts.push(`+${luckBonus} luck bonus to ${effectData.customRollTypes}`);
+            } else {
+              mechanicsParts.push(`+${luckBonus} luck bonus`);
+            }
+          } else if (luckType === 'reroll') {
+            const rerollCount = effectData.rerollCount || 3;
+            const appliesTo = effectData.appliesTo || 'd20';
+            mechanicsParts.push(`${rerollCount} rerolls for ${appliesTo} rolls`);
+            if (effectData.keepBetter) {
+              mechanicsParts.push('keep better result');
+            }
+          } else if (luckType === 'minimum') {
+            const minimumValue = effectData.minimumValue || 10;
+            const appliesTo = effectData.appliesTo || 'd20';
+            mechanicsParts.push(`minimum ${minimumValue} on ${appliesTo} rolls`);
+          } else if (luckType === 'choose') {
+            const choiceCount = effectData.choiceCount || 1;
+            mechanicsParts.push(`choose result of ${choiceCount} roll${choiceCount > 1 ? 's' : ''}`);
+            if (effectData.allowCritical) {
+              mechanicsParts.push('can choose critical hits');
+            }
+          }
+          // Old system (option-based) - this is what you're currently using
+          else if (option === 'minor') {
+            const rerollCount = effectData.rerollCount || 1;
+            mechanicsParts.push(`${rerollCount} reroll${rerollCount > 1 ? 's' : ''} on failed rolls`);
+          } else if (option === 'major') {
+            const rerollCount = effectData.rerollCount || 3;
+            mechanicsParts.push(`${rerollCount} reroll${rerollCount > 1 ? 's' : ''} on any rolls`);
+          } else if (option === 'fate') {
+            mechanicsParts.push('choose the result of one roll');
+          }
+          // Legacy fallback
+          else if (luckType === 'general' || (!luckType && !option)) {
+            const luckBonus = effectData.luckBonus || 1;
+            mechanicsParts.push(`+${luckBonus} luck bonus to all rolls`);
+          } else if (luckType === 'combat') {
+            const luckBonus = effectData.luckBonus || 1;
+            mechanicsParts.push(`+${luckBonus} luck bonus to combat rolls`);
+          } else if (luckType === 'skill') {
+            const luckBonus = effectData.luckBonus || 1;
+            mechanicsParts.push(`+${luckBonus} luck bonus to skill checks`);
+          }
+
+        } else if (effectData.id === 'flight' || effectData.id === 'flying') {
+          // Flight configuration details
+          const flightSpeed = effectData.flightSpeed || 30;
+          const flightType = effectData.flightType || 'magical';
+          const maneuverability = effectData.maneuverability || 'average';
+
+          mechanicsParts.push(`${flightSpeed} ft flight speed`);
+          mechanicsParts.push(`${flightType} flight`);
+          if (maneuverability !== 'average') {
+            mechanicsParts.push(`${maneuverability} maneuverability`);
+          }
+
+        } else if (effectData.id === 'combat_advantage') {
+          // Combat Advantage configuration details
+          const advantageType = effectData.advantageType || effectData.option || 'attack';
+
+          if (advantageType === 'attack' || advantageType === 'attack_rolls') {
+            mechanicsParts.push('Advantage on attack rolls');
+
+            // Add specific attack types if configured
+            const attackTypes = [];
+            if (effectData.affectsMelee) attackTypes.push('melee');
+            if (effectData.affectsRanged) attackTypes.push('ranged');
+            if (effectData.affectsSpell) attackTypes.push('spell');
+            if (attackTypes.length > 0 && attackTypes.length < 3) {
+              mechanicsParts.push(`(${attackTypes.join(', ')} attacks)`);
+            }
+
+          } else if (advantageType === 'damage' || advantageType === 'damage_rolls') {
+            mechanicsParts.push('Advantage on damage rolls');
+
+            // Add damage bonus dice if specified
+            if (effectData.damageBonusDiceCount && effectData.damageBonusDiceType) {
+              mechanicsParts.push(`+${effectData.damageBonusDiceCount}${effectData.damageBonusDiceType} bonus damage`);
+            }
+
+            // Add damage categories
+            if (effectData.affectsAllDamageTypes) {
+              mechanicsParts.push('for all damage types');
+            } else {
+              const damageCategories = [];
+              if (effectData.affectsPhysical) damageCategories.push('physical');
+              if (effectData.affectsMagical) damageCategories.push('magical');
+              if (damageCategories.length > 0) {
+                mechanicsParts.push(`for ${damageCategories.join(', ')} damage`);
+              }
+
+              // Add specific physical damage types
+              if (effectData.affectsPhysical && !effectData.affectsAllDamageTypes) {
+                const physicalTypes = [];
+                if (effectData.affectsBludgeoning) physicalTypes.push('bludgeoning');
+                if (effectData.affectsPiercing) physicalTypes.push('piercing');
+                if (effectData.affectsSlashing) physicalTypes.push('slashing');
+                if (physicalTypes.length > 0 && physicalTypes.length < 3) {
+                  mechanicsParts.push(`(${physicalTypes.join(', ')})`);
+                }
+              }
+
+              // Add specific magical damage types
+              if (effectData.affectsMagical && !effectData.affectsAllDamageTypes) {
+                const magicalTypes = [];
+                if (effectData.affectsFire) magicalTypes.push('fire');
+                if (effectData.affectsCold) magicalTypes.push('cold');
+                if (effectData.affectsLightning) magicalTypes.push('lightning');
+                if (effectData.affectsVoid) magicalTypes.push('void');
+                if (effectData.affectsArcane) magicalTypes.push('arcane');
+                if (magicalTypes.length > 0 && magicalTypes.length < 5) {
+                  mechanicsParts.push(`(${magicalTypes.join(', ')})`);
+                }
+              }
+            }
+
+          } else if (advantageType === 'healing' || advantageType === 'healing_rolls') {
+            mechanicsParts.push('Advantage on healing rolls');
+
+            // Add healing bonus dice if specified
+            if (effectData.healingBonusDiceCount && effectData.healingBonusDiceType) {
+              mechanicsParts.push(`+${effectData.healingBonusDiceCount}${effectData.healingBonusDiceType} bonus healing`);
+            }
+
+            // Add healing types
+            const healingTypes = [];
+            if (effectData.affectsDirectHealing) healingTypes.push('direct healing');
+            if (effectData.affectsHealingOverTime) healingTypes.push('healing over time');
+            if (effectData.affectsAbsorptionShields) healingTypes.push('absorption shields');
+            if (healingTypes.length > 0 && healingTypes.length < 3) {
+              mechanicsParts.push(`(${healingTypes.join(', ')})`);
+            }
+
+          } else if (advantageType === 'critical' || advantageType === 'critical_hits') {
+            mechanicsParts.push('Increased critical hit chance');
+
+            if (effectData.criticalReduction) {
+              mechanicsParts.push(`critical threshold reduced by ${effectData.criticalReduction}`);
+            }
+
+          } else if (advantageType === 'initiative') {
+            mechanicsParts.push('Advantage on initiative rolls');
+
+            if (effectData.initiativeBonus) {
+              mechanicsParts.push(`+${effectData.initiativeBonus} initiative bonus`);
+            }
+
+          } else if (advantageType === 'saving_throws') {
+            mechanicsParts.push('Advantage on saving throws');
+
+            if (effectData.saveTypes && effectData.saveTypes.length > 0) {
+              mechanicsParts.push(`(${effectData.saveTypes.join(', ')})`);
+            }
+          }
+
+          // Add condition requirements
+          const requirements = [];
+          if (effectData.requiresHigherGround) requirements.push('higher ground');
+          if (effectData.requiresFlank) requirements.push('flanking');
+          if (effectData.requiresHidden) requirements.push('hidden/stealth');
+          if (requirements.length > 0) {
+            mechanicsParts.push(`requires: ${requirements.join(', ')}`);
+          }
+
+          // Add magnitude/bonus value information
+          if (effectData.magnitude && effectData.magnitude > 0) {
+            const magnitudeType = effectData.magnitudeType || 'flat';
+            if (magnitudeType === 'percentage') {
+              mechanicsParts.push(`+${effectData.magnitude}% bonus`);
+            } else {
+              mechanicsParts.push(`+${effectData.magnitude} bonus`);
+            }
+          }
+
+          // Add duration information
+          if (effectData.onlyNextAttack) {
+            mechanicsParts.push('next attack only');
+          } else if (effectData.duration && effectData.duration !== 3) {
+            mechanicsParts.push(`${effectData.duration} rounds`);
+          }
+
+        } else if (effectData.id === 'skill_mastery' || effectData.id === 'skillmastery') {
+          // Skill Mastery configuration details
+          const masteryType = effectData.masteryType || 'specific';
+
+          if (masteryType === 'specific' && effectData.selectedSkills) {
+            mechanicsParts.push(`Mastery in ${effectData.selectedSkills.join(', ')}`);
+          } else if (masteryType === 'category' && effectData.skillCategory) {
+            mechanicsParts.push(`Mastery in all ${effectData.skillCategory} skills`);
+          } else if (masteryType === 'all') {
+            mechanicsParts.push('Mastery in all skills');
+          }
+
+          const masteryBonus = effectData.masteryBonus || 2;
+          mechanicsParts.push(`+${masteryBonus} bonus`);
+
+        } else if (effectData.id === 'elemental_affinity') {
+          // Elemental Affinity configuration details
+          const elements = effectData.elements || ['fire'];
+          const affinityType = effectData.affinityType || 'damage_bonus';
+          const bonusAmount = effectData.bonusAmount || 2;
+
+          if (affinityType === 'damage_bonus') {
+            mechanicsParts.push(`+${bonusAmount} ${elements.join('/')} damage`);
+          } else if (affinityType === 'resistance') {
+            mechanicsParts.push(`Resist ${bonusAmount} ${elements.join('/')} damage`);
+          } else if (affinityType === 'spell_power') {
+            mechanicsParts.push(`+${bonusAmount} ${elements.join('/')} spell power`);
+          }
+        }
+
+        // Add duration information with enhanced formatting (only if effect has specific duration)
+        if (effectData.durationType) {
+          if (effectData.durationType === 'until_used') {
+            mechanicsParts.push('Until used');
+          } else if (effectData.durationType === 'permanent') {
+            mechanicsParts.push('Permanent');
+          } else if (effectData.durationType === 'rest') {
+            const restType = effectData.restType || 'long';
+            mechanicsParts.push(`Until ${restType} rest`);
+          } else if (effectData.durationType === 'time' && effectData.durationValue && effectData.durationUnit) {
+            const unit = effectData.durationUnit === 'minutes' ? 'min' :
+                        effectData.durationUnit === 'seconds' ? 'sec' :
+                        effectData.durationUnit;
+            mechanicsParts.push(`${effectData.durationValue} ${unit}`);
+          } else if (effectData.durationValue) {
+            const unit = effectData.durationType === 'minutes' ? 'min' : effectData.durationType;
+            mechanicsParts.push(`${effectData.durationValue} ${unit}`);
+          }
+        }
+        // Note: Removed automatic fallback to buffConfig duration to prevent unwanted duration text
+
+        // Add common configuration details that apply to many effects
+
+        // Add saving throw information
+        if (effectData.saveType && effectData.saveType !== 'none') {
+          const saveTypeMap = {
+            'strength': 'Strength',
+            'agility': 'Agility',
+            'constitution': 'Constitution',
+            'intelligence': 'Intelligence',
+            'spirit': 'Spirit',
+            'charisma': 'Charisma'
+          };
+          const saveType = saveTypeMap[effectData.saveType] || effectData.saveType;
+          let saveText = `${saveType} save`;
+
+          if (effectData.difficultyClass || effectData.saveDC) {
+            const dc = effectData.difficultyClass || effectData.saveDC;
+            saveText += ` DC ${dc}`;
+          }
+
+          if (effectData.saveOutcome) {
+            const outcomeMap = {
+              'negates': 'negates',
+              'halves_duration': 'halves duration',
+              'ends_early': 'ends early',
+              'reduces_level': 'reduces effect'
+            };
+            saveText += ` (${outcomeMap[effectData.saveOutcome] || effectData.saveOutcome})`;
+          }
+
           mechanicsParts.push(saveText);
         }
 
-        // Add duration if specified
-        if (effect.duration && effect.duration !== 'default') {
-          mechanicsParts.push(`${effect.duration} duration`);
+        // Add stacking information
+        if (effectData.canStack) {
+          let stackText = 'can stack';
+          if (effectData.maxStacks && effectData.maxStacks > 1) {
+            stackText += ` (max ${effectData.maxStacks})`;
+          }
+          mechanicsParts.push(stackText);
+        }
+
+        // Add dispel information
+        if (effectData.canBeDispelled === false) {
+          mechanicsParts.push('cannot be dispelled');
+        }
+
+        // Add concentration requirement if applicable
+        if (effectData.concentrationRequired || buffConfig.concentrationRequired) {
+          mechanicsParts.push('(Concentration)');
         }
 
         mechanicsText = mechanicsParts.join(', ');
 
+        // Create configuration-specific descriptions for certain effects
+        let effectDescription = effectData.description || '';
+
+        if (effectData.id === 'lifelink' && effectData.option) {
+          // Provide specific descriptions based on lifelink type
+          const descriptionMap = {
+            'hp_to_hp': 'Establishes a health link between caster and target, sharing damage and healing',
+            'mana_to_mana': 'Creates a mana link that allows sharing magical energy between entities',
+            'hp_to_mana': 'Converts the caster\'s life force into magical energy for the target',
+            'mana_to_hp': 'Transforms the caster\'s mana into healing energy for the target',
+            'damage_to_healing': 'Converts damage dealt by the caster into healing for the target',
+            'healing_to_damage': 'Transforms healing done by the caster into bonus damage output'
+          };
+          effectDescription = descriptionMap[effectData.option] || effectDescription;
+        }
+
         effects.push({
           name: effectName,
-          description: effect.description || '',
-          mechanicsText: mechanicsText
+          description: effectDescription,
+          mechanicsText: mechanicsText,
+          class: 'status-effect'
         });
       });
     }
@@ -3254,6 +4349,44 @@ const UnifiedSpellCard = ({
           });
         });
       }
+    } else if (purificationConfig.purificationType === 'cleanse') {
+      // Format cleanse effects - only show if there are selected effects
+      if (purificationConfig.selectedEffects && purificationConfig.selectedEffects.length > 0) {
+        // Filter effects to only show those that match the current purification type
+        const cleanseEffects = purificationConfig.selectedEffects.filter(effect =>
+          !effect.purificationType || effect.purificationType === 'cleanse'
+        );
+
+        cleanseEffects.forEach(effect => {
+          const effectName = effect.name || 'Unknown Effect';
+          let effectDescription = effect.description || '';
+
+          // Add specific effect types if available
+          if (effect.specificEffectTypes && effect.specificEffectTypes.length > 0) {
+            const specificTypes = effect.specificEffectTypes.join(', ');
+            effectDescription += effectDescription ? ` (${specificTypes})` : `Targets: ${specificTypes}`;
+          }
+
+          // Add custom effects count if specified
+          let mechanicsText = '';
+          if (effect.customEffects && effect.customEffects > 1) {
+            mechanicsText = `Removes up to ${effect.customEffects} effects`;
+          }
+
+          effects.push({
+            name: effectName,
+            description: effectDescription,
+            mechanicsText: mechanicsText
+          });
+        });
+      } else {
+        // Show default cleanse effect if no specific effects are selected
+        effects.push({
+          name: 'Cleanse',
+          description: 'Remove physical effects like poison, disease, or bleeds',
+          mechanicsText: 'Removes harmful physical effects'
+        });
+      }
     } else if (purificationConfig.purificationType === 'resurrection') {
       // Format resurrection effects
       if (purificationConfig.selectedEffects && purificationConfig.selectedEffects.length > 0) {
@@ -3309,6 +4442,42 @@ const UnifiedSpellCard = ({
           name: 'Resurrection',
           description: resolutionText,
           mechanicsText: `${cleanFormula(formula)} health restored`
+        });
+      }
+    } else {
+      // Handle any other purification types or general purification effects
+      if (purificationConfig.selectedEffects && purificationConfig.selectedEffects.length > 0) {
+        purificationConfig.selectedEffects.forEach(effect => {
+          const effectName = effect.name || 'Unknown Effect';
+          let effectDescription = effect.description || '';
+
+          // Add specific effect types if available
+          if (effect.specificEffectTypes && effect.specificEffectTypes.length > 0) {
+            const specificTypes = effect.specificEffectTypes.join(', ');
+            effectDescription += effectDescription ? ` (${specificTypes})` : `Targets: ${specificTypes}`;
+          }
+
+          // Add custom effects count if specified
+          let mechanicsText = '';
+          if (effect.customEffects && effect.customEffects > 1) {
+            mechanicsText = `Removes up to ${effect.customEffects} effects`;
+          }
+
+          effects.push({
+            name: effectName,
+            description: effectDescription,
+            mechanicsText: mechanicsText
+          });
+        });
+      } else {
+        // Show default purification effect if no specific type or effects are selected
+        const purificationType = purificationConfig.purificationType || 'purification';
+        const typeName = purificationType.charAt(0).toUpperCase() + purificationType.slice(1);
+
+        effects.push({
+          name: typeName,
+          description: 'Remove harmful effects from targets',
+          mechanicsText: 'Removes negative effects'
         });
       }
     }
@@ -3480,15 +4649,18 @@ const UnifiedSpellCard = ({
       return defaultSaves[effectId] || 'constitution';
     };
 
-    // Format status effects with detailed display
+    // Format status effects with enhanced configuration display
     if (debuffConfig.statusEffects && debuffConfig.statusEffects.length > 0) {
       debuffConfig.statusEffects.forEach(effect => {
-        // Handle both string and object effects
-        let displayName;
+        // Handle both string IDs and full effect objects
+        let displayName, effectData;
+
         if (typeof effect === 'string') {
           displayName = effect;
+          effectData = {};
         } else {
           displayName = effect.name || effect.id || effect;
+          effectData = effect;
         }
 
         // Ensure displayName is a string before calling charAt
@@ -3501,46 +4673,48 @@ const UnifiedSpellCard = ({
         // Initialize description and mechanicsText variables
         let description = '';
         let mechanicsText = '';
+        const mechanicsParts = [];
 
         // Add level information if it's not 'moderate' (default)
-        let levelDisplay = '';
-        if (effect.level && effect.level !== 'moderate' && effect.level !== 'medium') {
+        if (effectData.level && effectData.level !== 'moderate' && effectData.level !== 'medium') {
           const levelMap = {
             'minor': 'Minor',
             'major': 'Major',
             'severe': 'Severe',
             'extreme': 'Extreme'
           };
-          levelDisplay = levelMap[effect.level] || effect.level;
+          const levelDisplay = levelMap[effectData.level] || effectData.level;
           if (levelDisplay) {
             displayName = `${levelDisplay} ${displayName}`;
           }
         }
 
-        // Enhanced formatting for charmed effect
-        if (effect.id === 'charmed' || effect.id === 'charm') {
-          const charmType = effect.charmType || effect.option || 'friendly';
+        // Add configuration-specific details
+        if (effectData.option) {
+          const optionName = effectData.option.charAt(0).toUpperCase() + effectData.option.slice(1);
+          displayName += ` (${optionName})`;
+        }
+
+        // Enhanced formatting for specific debuff effects
+        if (effectData.id === 'charmed' || effectData.id === 'charm') {
+          const charmType = effectData.charmType || effectData.option || 'friendly';
           const charmDescriptions = {
             'friendly': 'regards you as a friend but maintains free will',
             'dominated': 'must obey your commands without question',
             'infatuated': 'is devoted to you and will protect you at all costs'
           };
 
-          description = `${displayName} (${charmType}) - target ${charmDescriptions[charmType] || 'is charmed'}`;
+          description = `${displayName} - target ${charmDescriptions[charmType] || 'is charmed'}`;
 
           // Add restrictions based on configuration
           const restrictions = [];
-          if (effect.canAttackCharmer === false) {
+          if (effectData.canAttackCharmer === false) {
             restrictions.push('cannot attack charmer');
-          } else if (effect.canAttackCharmer === true) {
-            restrictions.push('can attack charmer');
           }
-
-          if (effect.canSelfHarm === false) {
+          if (effectData.canSelfHarm === false) {
             restrictions.push('cannot be commanded to self-harm');
           }
-
-          if (effect.retainsMemory === true) {
+          if (effectData.retainsMemory === true) {
             restrictions.push('retains memory of actions');
           }
 
@@ -3548,205 +4722,222 @@ const UnifiedSpellCard = ({
             description += ` (${restrictions.join(', ')})`;
           }
 
-          // Add save information - prioritize status effect's own saveDC, then debuff config
-          const saveDC = effect.saveDC || debuffConfig.difficultyClass || 15;
-          const saveType = effect.saveType || 'wisdom';
-
-          if (saveType && saveType !== 'none') {
-            const saveConfig = {
-              savingThrowType: saveType,
-              difficultyClass: saveDC,
-              saveOutcome: effect.saveOutcome || 'broken'
+        } else if (effectData.id === 'blinded' || effectData.id === 'blind') {
+          if (effectData.blindType || effectData.option) {
+            const blindType = effectData.blindType || effectData.option;
+            const typeMap = {
+              'partial': 'Partially Blinded - limited vision, disadvantage on perception and attacks',
+              'complete': 'Completely Blinded - cannot see, automatically fails sight-based checks',
+              'flash': 'Flash Blinded - temporary blindness that fades over time'
             };
-            const saveInfo = formatSavingThrow(saveConfig, 'status');
-            if (saveInfo) {
-              mechanicsText = `${saveInfo.saveType} save DC ${saveInfo.dc} (${saveInfo.outcome})`;
-            }
+            description = typeMap[blindType] || `${displayName} - cannot see and has disadvantage on attacks`;
+          } else {
+            description = `${displayName} - cannot see and has disadvantage on attacks`;
           }
+
+        } else if (effectData.id === 'paralyzed' || effectData.id === 'paralyze') {
+          if (effectData.option) {
+            const typeMap = {
+              'partial': 'Partially Paralyzed - some limbs affected, reduced movement and actions',
+              'complete': 'Completely Paralyzed - cannot move or take actions, attacks against have advantage',
+              'magical': 'Magical Paralysis - held by supernatural forces, aware but unable to act'
+            };
+            description = typeMap[effectData.option] || `${displayName} - cannot move or take actions`;
+          } else {
+            description = `${displayName} - cannot move or take actions`;
+          }
+
+        } else if (effectData.id === 'frightened' || effectData.id === 'fear') {
+          if (effectData.option) {
+            const typeMap = {
+              'shaken': 'Shaken - disadvantage on ability checks while fear source is visible',
+              'terrified': 'Terrified - cannot willingly move closer to the source of fear',
+              'panicked': 'Panicked - must use actions to flee from source of fear'
+            };
+            description = typeMap[effectData.option] || `${displayName} - overcome with dread and terror`;
+          } else {
+            description = `${displayName} - overcome with dread and terror`;
+          }
+
         } else {
           // General status effect formatting
           description = displayName;
+        }
 
-          // Add specific type information and descriptions based on effect
-          if (effect.id === 'frightened' || effect.id === 'fear') {
-            if (effect.option) {
-              const typeMap = {
-                'shaken': 'Shaken - disadvantage on ability checks while fear source is visible',
-                'terrified': 'Terrified - cannot willingly move closer to the source of fear',
-                'panicked': 'Panicked - must use actions to flee from source of fear'
-              };
-              description = typeMap[effect.option] || `${effect.option} Fear`;
-            } else {
-              description = 'Fear - target is overcome with dread and terror';
-            }
-
-          } else if (effect.id === 'blinded' || effect.id === 'blind') {
-            if (effect.blindType) {
-              const typeMap = {
-                'full': 'Blinded - cannot see, automatically fails sight-based checks, attacks have disadvantage',
-                'partial': 'Partially Blinded - limited vision, disadvantage on perception and attacks',
-                'darkness': 'Magical Darkness - surrounded by supernatural darkness that blocks all vision'
-              };
-              description = typeMap[effect.blindType] || 'Blinded';
-            } else {
-              description = 'Blinded - cannot see and has disadvantage on attacks';
-            }
-          } else if (effect.id === 'paralyzed' || effect.id === 'paralyze') {
-            if (effect.option) {
-              const typeMap = {
-                'partial': 'Partially Paralyzed - some limbs affected, reduced movement and actions',
-                'complete': 'Completely Paralyzed - cannot move or take actions, attacks against have advantage',
-                'magical': 'Magical Paralysis - held by supernatural forces, aware but unable to act'
-              };
-              description = typeMap[effect.option] || 'Paralyzed';
-            } else {
-              description = 'Paralyzed - cannot move or take actions';
-            }
-          } else if (effect.id === 'poisoned' || effect.id === 'poison') {
-            if (effect.option) {
-              const typeMap = {
-                'weakening': 'Weakening Poison - reduces physical capabilities and stamina',
-                'nauseating': 'Nauseating Poison - causes sickness and disadvantage on actions',
-                'lethal': 'Lethal Poison - deals ongoing damage and threatens life'
-              };
-              description = typeMap[effect.option] || 'Poisoned';
-            } else {
-              description = 'Poisoned - disadvantage on attack rolls and ability checks';
-            }
-          } else if (effect.id === 'restrained') {
-            description = 'Restrained - speed becomes 0, attacks have disadvantage, attacks against have advantage';
-          } else if (effect.id === 'silenced') {
-            description = 'Silenced - cannot speak or cast spells with verbal components';
-
-          } else if (effect.id === 'weakened') {
-            description = 'Weakened - reduced physical strength and damage output';
-          } else if (effect.id === 'confused') {
-            description = 'Confused - cannot distinguish friend from foe, actions are unpredictable';
-          } else if (effect.id === 'diseased') {
-            description = 'Diseased - suffering from illness that weakens the body';
-          } else if (effect.id === 'bleeding') {
-            description = 'Bleeding - loses health over time from open wounds';
-          } else if (effect.id === 'cursed') {
-            description = 'Cursed - afflicted by dark magic that brings misfortune';
-          } else if (effect.id === 'invisible') {
-            if (effect.option) {
-              const typeMap = {
-                'partial': 'Partially Invisible - heavily obscured, harder to detect',
-                'full': 'Fully Invisible - completely invisible until you attack',
-                'selective': 'Selectively Invisible - invisible to specific creatures'
-              };
-              description = typeMap[effect.option] || 'Invisible';
-            } else {
-              description = 'Invisible - cannot be seen by normal sight';
-            }
-          } else if (effect.id === 'haste') {
-            if (effect.option) {
-              const typeMap = {
-                'movement': 'Enhanced Movement - double movement speed',
-                'action': 'Extra Action - gain an additional action each turn',
-                'casting': 'Quick Casting - cast spells more quickly'
-              };
-              description = typeMap[effect.option] || 'Haste';
-            } else {
-              description = 'Haste - move and act more quickly';
-            }
-          } else if (effect.id === 'flying') {
-            if (effect.option) {
-              const typeMap = {
-                'hover': 'Hovering - float a few feet off the ground',
-                'wings': 'Winged Flight - grow or manifest wings for true flight',
-                'levitation': 'Magical Levitation - float without physical means'
-              };
-              description = typeMap[effect.option] || 'Flying';
-            } else {
-              description = 'Flying - gain the ability to fly';
-            }
-          } else if (effect.id === 'resistance') {
-            if (effect.option) {
-              const typeMap = {
-                'elemental': 'Elemental Resistance - resistance to fire, cold, lightning, etc.',
-                'physical': 'Physical Resistance - resistance to bludgeoning, piercing, slashing',
-                'magical': 'Magical Resistance - resistance to magical damage types'
-              };
-              description = typeMap[effect.option] || 'Resistance';
-            } else {
-              description = 'Resistance - take reduced damage from specific sources';
-            }
-          } else if (effect.id === 'vulnerability' || effect.id === 'damage_vulnerability') {
-            if (effect.option) {
-              const typeMap = {
-                'physical': 'Physical Vulnerability - take increased damage from physical attacks',
-                'elemental': 'Elemental Vulnerability - take increased damage from elemental attacks',
-                'magical': 'Magical Vulnerability - take increased damage from magical attacks'
-              };
-              description = typeMap[effect.option] || 'Vulnerability';
-            } else {
-              description = 'Vulnerability - take increased damage from specific sources';
-            }
-          } else if (effect.id === 'advantage_attack') {
-            if (effect.option) {
-              const typeMap = {
-                'all': 'Advantage on All Attacks - roll twice and take higher result on all attack rolls',
-                'melee': 'Advantage on Melee Attacks - roll twice and take higher result on melee attacks',
-                'ranged': 'Advantage on Ranged Attacks - roll twice and take higher result on ranged attacks',
-                'spell': 'Advantage on Spell Attacks - roll twice and take higher result on spell attacks'
-              };
-              description = typeMap[effect.option] || 'Advantage on Attacks';
-            } else {
-              description = 'Advantage on Attacks - roll twice and take the higher result on attack rolls';
-            }
-          } else if (effect.id === 'disadvantage_attack') {
-            if (effect.option) {
-              const typeMap = {
-                'all': 'Disadvantage on All Attacks - roll twice and take lower result on all attack rolls',
-                'melee': 'Disadvantage on Melee Attacks - roll twice and take lower result on melee attacks',
-                'ranged': 'Disadvantage on Ranged Attacks - roll twice and take lower result on ranged attacks',
-                'spell': 'Disadvantage on Spell Attacks - roll twice and take lower result on spell attacks'
-              };
-              description = typeMap[effect.option] || 'Disadvantage on Attacks';
-            } else {
-              description = 'Disadvantage on Attacks - roll twice and take the lower result on attack rolls';
-            }
-          } else if (effect.option) {
-            // Generic option handling for other effects
-            const optionName = effect.option.charAt(0).toUpperCase() + effect.option.slice(1);
-            description = `${description} (${optionName})`;
+        // Add comprehensive effect mechanics based on configuration
+        if (effectData.id === 'silenced') {
+          if (effectData.silenceRadius && effectData.silenceRadius > 0) {
+            mechanicsParts.push(`${effectData.silenceRadius}ft radius`);
+          }
+          if (effectData.affectsVerbalSpells) {
+            mechanicsParts.push('Blocks verbal spells');
+          }
+          if (effectData.affectsSomatic) {
+            mechanicsParts.push('Blocks somatic components');
           }
 
-          // Add save information for any status effect with save configuration
-          const saveDC = effect.saveDC || debuffConfig.difficultyClass || 15;
-          const saveType = effect.saveType || getDefaultSaveType(effect.id);
+        } else if (effectData.id === 'poisoned') {
+          const poisonType = effectData.option || 'standard';
+          if (poisonType === 'lethal') {
+            mechanicsParts.push('Lethal poison - ongoing damage');
+          } else if (poisonType === 'paralytic') {
+            mechanicsParts.push('Paralytic poison - movement impaired');
+          } else if (poisonType === 'hallucinogenic') {
+            mechanicsParts.push('Hallucinogenic poison - perception altered');
+          }
 
-          if (saveType && saveType !== 'none') {
-            const saveConfig = {
-              savingThrowType: saveType,
-              difficultyClass: saveDC,
-              saveOutcome: effect.saveOutcome || 'overcome'
-            };
-            const saveInfo = formatSavingThrow(saveConfig, 'status');
-            if (saveInfo) {
-              mechanicsText = `${saveInfo.saveType} save DC ${saveInfo.dc} (${saveInfo.outcome})`;
+          if (effectData.diceCount && effectData.diceType) {
+            mechanicsParts.push(`${effectData.diceCount}${effectData.diceType} damage per round`);
+          }
 
-              // Add save frequency information
-              if (effect.saveFrequency && effect.saveFrequency !== 'initial') {
-                const frequencyMap = {
-                  'end_of_turn': 'save each turn',
-                  'when_damaged': 'save when damaged',
-                  'out_of_sight': 'save when out of sight',
-                  'ally_help': 'save when ally helps',
-                  'special_trigger': 'save on special trigger'
-                };
-                mechanicsText += `, ${frequencyMap[effect.saveFrequency] || 'repeated saves'}`;
-              }
-            }
+        } else if (effectData.id === 'bleeding') {
+          const bleedType = effectData.option || 'minor';
+          if (bleedType === 'minor') {
+            mechanicsParts.push('Minor wound - light bleeding');
+          } else if (bleedType === 'severe') {
+            mechanicsParts.push('Severe wound - heavy bleeding');
+          } else if (bleedType === 'hemorrhaging') {
+            mechanicsParts.push('Hemorrhaging - critical blood loss');
+          }
+
+          if (effectData.diceCount && effectData.diceType) {
+            mechanicsParts.push(`${effectData.diceCount}${effectData.diceType} damage per round`);
+          }
+
+        } else if (effectData.id === 'cursed') {
+          const curseType = effectData.option || 'general';
+          if (curseType === 'weakness') {
+            mechanicsParts.push('Curse of Weakness - reduced physical capabilities');
+          } else if (curseType === 'misfortune') {
+            mechanicsParts.push('Curse of Misfortune - disadvantage on rolls');
+          } else if (curseType === 'vulnerability') {
+            mechanicsParts.push('Curse of Vulnerability - increased damage taken');
+          }
+
+        } else if (effectData.id === 'diseased') {
+          const diseaseType = effectData.option || 'wasting';
+          if (diseaseType === 'wasting') {
+            mechanicsParts.push('Wasting disease - gradual stat reduction');
+          } else if (diseaseType === 'fever') {
+            mechanicsParts.push('Fever - constitution penalties');
+          } else if (diseaseType === 'plague') {
+            mechanicsParts.push('Plague - contagious and debilitating');
+          }
+
+        } else if (effectData.id === 'stunned' || effectData.id === 'stun') {
+          const stunType = effectData.option || 'physical';
+          if (stunType === 'physical') {
+            mechanicsParts.push('Physical stun - cannot act or move');
+          } else if (stunType === 'mental') {
+            mechanicsParts.push('Mental stun - mind overwhelmed');
+          } else if (stunType === 'magical') {
+            mechanicsParts.push('Magical stun - held by arcane forces');
+          }
+
+        } else if (effectData.id === 'confused') {
+          const confusionType = effectData.option || 'random';
+          if (confusionType === 'random') {
+            mechanicsParts.push('Random actions - roll for behavior');
+          } else if (confusionType === 'dazed') {
+            mechanicsParts.push('Dazed - reduced actions available');
+          } else if (confusionType === 'disoriented') {
+            mechanicsParts.push('Disoriented - cannot distinguish friend from foe');
+          }
+
+        } else if (effectData.id === 'weakened') {
+          const weaknessType = effectData.option || 'physical';
+          if (weaknessType === 'physical') {
+            mechanicsParts.push('Physical weakness - reduced strength and constitution');
+          } else if (weaknessType === 'mental') {
+            mechanicsParts.push('Mental weakness - reduced intelligence and wisdom');
+          } else if (weaknessType === 'magical') {
+            mechanicsParts.push('Magical weakness - reduced spell effectiveness');
           }
         }
+
+        // Add save information for any status effect with save configuration
+        const saveDC = effectData.saveDC || debuffConfig.difficultyClass || 15;
+        const saveType = effectData.saveType || getDefaultSaveType(effectData.id || effect);
+
+        if (saveType && saveType !== 'none') {
+          mechanicsParts.push(`${saveType.charAt(0).toUpperCase() + saveType.slice(1)} save DC ${saveDC}`);
+
+          if (effectData.saveOutcome) {
+            mechanicsParts.push(`(${effectData.saveOutcome})`);
+          }
+
+          // Add save frequency information
+          if (effectData.saveFrequency && effectData.saveFrequency !== 'initial') {
+            const frequencyMap = {
+              'end_of_turn': 'save each turn',
+              'when_damaged': 'save when damaged',
+              'out_of_sight': 'save when out of sight',
+              'ally_help': 'save when ally helps',
+              'special_trigger': 'save on special trigger'
+            };
+            mechanicsParts.push(frequencyMap[effectData.saveFrequency] || 'repeated saves');
+          }
+        }
+
+        // Add enhanced duration information
+        if (effectData.durationType) {
+          if (effectData.durationType === 'permanent') {
+            mechanicsParts.push('Permanent');
+          } else if (effectData.durationType === 'until_dispelled') {
+            mechanicsParts.push('Until dispelled');
+          } else if (effectData.durationType === 'until_used') {
+            mechanicsParts.push('Until used');
+          } else if (effectData.durationType === 'rest') {
+            const restType = effectData.restType || 'long';
+            mechanicsParts.push(`Until ${restType} rest`);
+          } else if (effectData.durationType === 'time' && effectData.durationValue && effectData.durationUnit) {
+            const unit = effectData.durationUnit === 'minutes' ? 'min' :
+                        effectData.durationUnit === 'seconds' ? 'sec' :
+                        effectData.durationUnit;
+            mechanicsParts.push(`${effectData.durationValue} ${unit}`);
+          } else if (effectData.durationValue) {
+            const unit = effectData.durationType === 'minutes' ? 'min' : effectData.durationType;
+            mechanicsParts.push(`${effectData.durationValue} ${unit}`);
+          }
+        } else if (debuffConfig.durationType && debuffConfig.durationValue) {
+          if (debuffConfig.durationType === 'permanent') {
+            mechanicsParts.push('Permanent');
+          } else if (debuffConfig.durationType === 'rest') {
+            const restType = debuffConfig.restType || 'long';
+            mechanicsParts.push(`Until ${restType} rest`);
+          } else if (debuffConfig.durationType === 'time' && debuffConfig.durationUnit) {
+            const unit = debuffConfig.durationUnit === 'minutes' ? 'min' :
+                        debuffConfig.durationUnit === 'seconds' ? 'sec' :
+                        debuffConfig.durationUnit;
+            mechanicsParts.push(`${debuffConfig.durationValue} ${unit}`);
+          } else {
+            const unit = debuffConfig.durationType === 'minutes' ? 'min' : debuffConfig.durationType;
+            mechanicsParts.push(`${debuffConfig.durationValue} ${unit}`);
+          }
+        }
+
+        // Add concentration requirement if applicable
+        if (effectData.concentrationRequired || debuffConfig.concentrationRequired) {
+          mechanicsParts.push('(Concentration)');
+        }
+
+        // Add specific effect mechanics
+        if (effectData.magnitude) {
+          mechanicsParts.push(`Magnitude: ${effectData.magnitude}`);
+        }
+
+        if (effectData.diceCount && effectData.diceType) {
+          mechanicsParts.push(`${effectData.diceCount}${effectData.diceType} per round`);
+        }
+
+        mechanicsText = mechanicsParts.join(', ');
 
         // Add the status effect to the effects array
         effects.push({
           name: displayName,
           description: description,
-          mechanicsText: mechanicsText
+          mechanicsText: mechanicsText,
+          class: 'status-effect'
         });
       });
     }
@@ -4180,15 +5371,7 @@ const UnifiedSpellCard = ({
 
               {/* Targeting Type Badge */}
               {formatTargetingType() && (
-                <div
-                  className="pf-targeting-badge"
-                  style={{
-                    fontSize: formatTargetingType().length > 30 ? '9px' :
-                             formatTargetingType().length > 25 ? '10px' :
-                             formatTargetingType().length > 20 ? '11px' :
-                             '12px'
-                  }}
-                >
+                <div className="pf-targeting-badge">
                   <span>{formatTargetingType()}</span>
                 </div>
               )}
@@ -4259,263 +5442,9 @@ const UnifiedSpellCard = ({
                 {hasGlobalTriggers && (
                   <div className="trigger-compact-conditions">
                     {hasTriggerConfig.global.compoundTriggers.map((trigger, index) => {
-                      // Format trigger for compact display with natural, flowing text
-                      let displayText = trigger.name;
+                      // Use the centralized trigger formatting function
+                      const displayText = formatTriggerText(trigger);
 
-                      if (trigger.id === 'damage_taken') {
-                        const amount = trigger.parameters?.amount;
-                        const damageType = trigger.parameters?.damage_type;
-                        const perspective = trigger.parameters?.perspective || 'self';
-
-                        const whoMap = {
-                          'self': 'I take',
-                          'target': 'my target takes',
-                          'ally': 'an ally takes',
-                          'enemy': 'an enemy takes',
-                          'any': 'anyone takes'
-                        };
-
-                        displayText = `When ${whoMap[perspective]}`;
-                        if (amount) displayText += ` ${amount} pts of`;
-                        if (damageType && damageType !== 'any') {
-                          displayText += ` ${damageType}`;
-                        }
-                        displayText += ' damage';
-
-                      } else if (trigger.id === 'critical_hit_taken') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'I receive',
-                          'target': 'my target receives',
-                          'ally': 'an ally receives',
-                          'enemy': 'an enemy receives',
-                          'any': 'anyone receives'
-                        };
-                        displayText = `When ${whoMap[perspective]} a critical hit`;
-
-                      } else if (trigger.id === 'critical_hit_dealt') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'I deal',
-                          'target': 'my target deals',
-                          'ally': 'an ally deals',
-                          'enemy': 'an enemy deals',
-                          'any': 'anyone deals'
-                        };
-                        displayText = `When ${whoMap[perspective]} a critical hit`;
-
-                      } else if (trigger.id === 'distance_moved') {
-                        const distance = trigger.parameters?.distance || 30;
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'I move',
-                          'target': 'my target moves',
-                          'ally': 'an ally moves',
-                          'enemy': 'an enemy moves',
-                          'any': 'anyone moves'
-                        };
-                        displayText = `When ${whoMap[perspective]} ${distance} ft`;
-
-                      } else if (trigger.id === 'spell_cast') {
-                        const spellLevel = trigger.parameters?.spell_level;
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'I cast',
-                          'target': 'my target casts',
-                          'ally': 'an ally casts',
-                          'enemy': 'an enemy casts',
-                          'any': 'anyone casts'
-                        };
-                        displayText = `When ${whoMap[perspective]}`;
-                        if (spellLevel) {
-                          displayText += ` a level ${spellLevel} spell`;
-                        } else {
-                          displayText += ' a spell';
-                        }
-
-                      } else if (trigger.id === 'resource_threshold') {
-                        const resourceType = trigger.parameters?.resource_type || 'health';
-                        const thresholdValue = trigger.parameters?.threshold_value || 50;
-                        const thresholdType = trigger.parameters?.threshold_type || 'percentage';
-                        const perspective = trigger.parameters?.perspective || 'self';
-
-                        const whoMap = {
-                          'self': 'my',
-                          'target': "my target's",
-                          'ally': "an ally's",
-                          'enemy': "an enemy's",
-                          'any': "anyone's"
-                        };
-
-                        const suffix = thresholdType === 'percentage' ? '%' : ' pts';
-                        const resourceName = resourceType.charAt(0).toUpperCase() + resourceType.slice(1);
-                        const operator = thresholdType === 'percentage' && thresholdValue <= 50 ? 'drops below' : 'reaches';
-
-                        displayText = `When ${whoMap[perspective]} ${resourceName.toLowerCase()} ${operator} ${thresholdValue}${suffix}`;
-
-                      } else if (trigger.id === 'terrain_type') {
-                        const terrainType = trigger.parameters?.terrain_type;
-                        if (terrainType) {
-                          displayText = `When on ${terrainType} terrain`;
-                        }
-                      } else if (trigger.id === 'proximity' || trigger.id === 'enter_range') {
-                        const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
-                        const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
-                        const entityMap = {
-                          'any': 'anyone',
-                          'allies': 'an ally',
-                          'enemies': 'an enemy',
-                          'self': 'I'
-                        };
-                        displayText = `When ${entityMap[entityType] || 'anyone'} enters within ${distance} ft`;
-                      } else if (trigger.id === 'exit_range') {
-                        const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
-                        const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
-                        const entityMap = {
-                          'any': 'anyone',
-                          'allies': 'an ally',
-                          'enemies': 'an enemy',
-                          'self': 'I'
-                        };
-                        displayText = `When ${entityMap[entityType] || 'anyone'} exits ${distance} ft range`;
-                      } else if (trigger.id === 'last_ally_standing') {
-                        displayText = "When I'm the last ally standing";
-                      } else if (trigger.id === 'outnumbered') {
-                        const ratio = trigger.parameters?.ratio || 2;
-                        displayText = `When outnumbered ${ratio}:1`;
-                      } else if (trigger.id === 'low_health') {
-                        const threshold = trigger.parameters?.threshold || 25;
-                        displayText = `When below ${threshold}% health`;
-                      } else if (trigger.id === 'critical_hit') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'I land',
-                          'target': 'my target lands',
-                          'ally': 'an ally lands',
-                          'enemy': 'an enemy lands',
-                          'any': 'anyone lands'
-                        };
-                        displayText = `When ${whoMap[perspective]} a critical hit`;
-                      } else if (trigger.id === 'critical_hit_taken') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'I receive',
-                          'target': 'my target receives',
-                          'ally': 'an ally receives',
-                          'enemy': 'an enemy receives',
-                          'any': 'anyone receives'
-                        };
-                        displayText = `When ${whoMap[perspective]} a critical hit`;
-                      } else if (trigger.id === 'miss') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'When an enemy\'s attack misses me',
-                          'target': 'When my target\'s attack misses',
-                          'ally': 'When an ally\'s attack misses',
-                          'enemy': 'When an enemy\'s attack misses',
-                          'any': 'When anyone\'s attack misses'
-                        };
-                        displayText = whoMap[perspective] || 'When an enemy\'s attack misses me';
-                      } else if (trigger.id === 'dodge') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'When I dodge an attack',
-                          'target': 'When my target dodges an attack',
-                          'ally': 'When an ally dodges an attack',
-                          'enemy': 'When an enemy dodges an attack',
-                          'any': 'When anyone dodges an attack'
-                        };
-                        displayText = whoMap[perspective] || 'When I dodge an attack';
-                      } else if (trigger.id === 'parry') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'When I parry an attack',
-                          'target': 'When my target parries an attack',
-                          'ally': 'When an ally parries an attack',
-                          'enemy': 'When an enemy parries an attack',
-                          'any': 'When anyone parries an attack'
-                        };
-                        displayText = whoMap[perspective] || 'When I parry an attack';
-                      } else if (trigger.id === 'block') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'When I block an attack',
-                          'target': 'When my target blocks an attack',
-                          'ally': 'When an ally blocks an attack',
-                          'enemy': 'When an enemy blocks an attack',
-                          'any': 'When anyone blocks an attack'
-                        };
-                        displayText = whoMap[perspective] || 'When I block an attack';
-                      } else if (trigger.id === 'leave_area') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const areaType = trigger.parameters?.area_type || 'area';
-                        const whoMap = {
-                          'self': 'I leave',
-                          'target': 'my target leaves',
-                          'ally': 'an ally leaves',
-                          'enemy': 'an enemy leaves',
-                          'any': 'anyone leaves'
-                        };
-                        displayText = `When ${whoMap[perspective] || 'I leave'} ${areaType}`;
-                      } else if (trigger.id === 'enter_area') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const areaType = trigger.parameters?.area_type || 'area';
-                        const whoMap = {
-                          'self': 'I enter',
-                          'target': 'my target enters',
-                          'ally': 'an ally enters',
-                          'enemy': 'an enemy enters',
-                          'any': 'anyone enters'
-                        };
-                        displayText = `When ${whoMap[perspective] || 'I enter'} ${areaType}`;
-                      } else if (trigger.id === 'proximity') {
-                        const distance = trigger.parameters?.distance || 30;
-                        const entityType = trigger.parameters?.entity_type || 'any';
-                        const entityMap = {
-                          'any': 'anyone',
-                          'ally': 'an ally',
-                          'enemy': 'an enemy',
-                          'self': 'I'
-                        };
-                        displayText = `When ${entityMap[entityType] || 'anyone'} comes within ${distance} ft`;
-                      } else if (trigger.id === 'movement_start') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'When I start moving',
-                          'target': 'When my target starts moving',
-                          'ally': 'When an ally starts moving',
-                          'enemy': 'When an enemy starts moving',
-                          'any': 'When anyone starts moving'
-                        };
-                        displayText = whoMap[perspective] || 'When I start moving';
-                      } else if (trigger.id === 'movement_end') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const whoMap = {
-                          'self': 'When I stop moving',
-                          'target': 'When my target stops moving',
-                          'ally': 'When an ally stops moving',
-                          'enemy': 'When an enemy stops moving',
-                          'any': 'When anyone stops moving'
-                        };
-                        displayText = whoMap[perspective] || 'When I stop moving';
-                      } else if (trigger.id === 'health_threshold') {
-                        const perspective = trigger.parameters?.perspective || 'self';
-                        const percentage = trigger.parameters?.percentage || 50;
-                        const comparison = trigger.parameters?.comparison || 'below';
-                        const whoMap = {
-                          'self': 'my health',
-                          'target': 'target\'s health',
-                          'ally': 'ally\'s health',
-                          'enemy': 'enemy\'s health',
-                          'any': 'anyone\'s health'
-                        };
-                        const compMap = {
-                          'below': 'falls below',
-                          'above': 'rises above',
-                          'equals': 'equals'
-                        };
-                        displayText = `When ${whoMap[perspective] || 'my health'} ${compMap[comparison] || 'falls below'} ${percentage}%`;
-                      }
 
                       return (
                         <span key={index} className="trigger-compact-condition">
@@ -4625,211 +5554,7 @@ const UnifiedSpellCard = ({
                       if (damageEffectTriggers?.compoundTriggers?.length > 0 && isDamageConditional) {
                         // Format trigger names with natural, flowing text
                         const triggerTexts = damageEffectTriggers.compoundTriggers.map(trigger => {
-                          let displayText = trigger.name;
-
-                          // Use same natural formatting as global triggers
-                          if (trigger.id === 'damage_taken') {
-                            const amount = trigger.parameters?.amount;
-                            const damageType = trigger.parameters?.damage_type;
-                            const perspective = trigger.parameters?.perspective || 'self';
-
-                            const whoMap = {
-                              'self': 'I take',
-                              'target': 'my target takes',
-                              'ally': 'an ally takes',
-                              'enemy': 'an enemy takes',
-                              'any': 'anyone takes'
-                            };
-
-                            displayText = `When ${whoMap[perspective]}`;
-                            if (amount) displayText += ` ${amount} pts of`;
-                            if (damageType && damageType !== 'any') {
-                              displayText += ` ${damageType}`;
-                            }
-                            displayText += ' damage';
-
-                          } else if (trigger.id === 'critical_hit_taken') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'I receive',
-                              'target': 'my target receives',
-                              'ally': 'an ally receives',
-                              'enemy': 'an enemy receives',
-                              'any': 'anyone receives'
-                            };
-                            displayText = `When ${whoMap[perspective]} a critical hit`;
-
-                          } else if (trigger.id === 'distance_moved') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const distance = trigger.parameters?.distance || 30;
-                            const whoMap = {
-                              'self': 'I move',
-                              'target': 'my target moves',
-                              'ally': 'an ally moves',
-                              'enemy': 'an enemy moves',
-                              'any': 'anyone moves'
-                            };
-                            displayText = `When ${whoMap[perspective]} ${distance} ft`;
-                          } else if (trigger.id === 'proximity' || trigger.id === 'enter_range') {
-                            const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
-                            const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
-                            const entityMap = {
-                              'any': 'anyone',
-                              'allies': 'an ally',
-                              'enemies': 'an enemy',
-                              'self': 'I'
-                            };
-                            displayText = `When ${entityMap[entityType] || 'anyone'} enters within ${distance} ft`;
-                          } else if (trigger.id === 'exit_range') {
-                            const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
-                            const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
-                            const entityMap = {
-                              'any': 'anyone',
-                              'allies': 'an ally',
-                              'enemies': 'an enemy',
-                              'self': 'I'
-                            };
-                            displayText = `When ${entityMap[entityType] || 'anyone'} exits ${distance} ft range`;
-                          } else if (trigger.id === 'last_ally_standing') {
-                            displayText = "When I'm the last ally standing";
-                          } else if (trigger.id === 'outnumbered') {
-                            const ratio = trigger.parameters?.ratio || 2;
-                            displayText = `When outnumbered ${ratio}:1`;
-                          } else if (trigger.id === 'low_health') {
-                            const threshold = trigger.parameters?.threshold || 25;
-                            displayText = `When below ${threshold}% health`;
-                          } else if (trigger.id === 'critical_hit') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'I land',
-                              'target': 'my target lands',
-                              'ally': 'an ally lands',
-                              'enemy': 'an enemy lands',
-                              'any': 'anyone lands'
-                            };
-                            displayText = `When ${whoMap[perspective]} a critical hit`;
-                          } else if (trigger.id === 'critical_hit_taken') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'I receive',
-                              'target': 'my target receives',
-                              'ally': 'an ally receives',
-                              'enemy': 'an enemy receives',
-                              'any': 'anyone receives'
-                            };
-                            displayText = `When ${whoMap[perspective]} a critical hit`;
-                          } else if (trigger.id === 'miss') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When an enemy\'s attack misses me',
-                              'target': 'When my target\'s attack misses',
-                              'ally': 'When an ally\'s attack misses',
-                              'enemy': 'When an enemy\'s attack misses',
-                              'any': 'When anyone\'s attack misses'
-                            };
-                            displayText = whoMap[perspective] || 'When an enemy\'s attack misses me';
-                          } else if (trigger.id === 'dodge') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I dodge an attack',
-                              'target': 'When my target dodges an attack',
-                              'ally': 'When an ally dodges an attack',
-                              'enemy': 'When an enemy dodges an attack',
-                              'any': 'When anyone dodges an attack'
-                            };
-                            displayText = whoMap[perspective] || 'When I dodge an attack';
-                          } else if (trigger.id === 'parry') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I parry an attack',
-                              'target': 'When my target parries an attack',
-                              'ally': 'When an ally parries an attack',
-                              'enemy': 'When an enemy parries an attack',
-                              'any': 'When anyone parries an attack'
-                            };
-                            displayText = whoMap[perspective] || 'When I parry an attack';
-                          } else if (trigger.id === 'block') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I block an attack',
-                              'target': 'When my target blocks an attack',
-                              'ally': 'When an ally blocks an attack',
-                              'enemy': 'When an enemy blocks an attack',
-                              'any': 'When anyone blocks an attack'
-                            };
-                            displayText = whoMap[perspective] || 'When I block an attack';
-                          } else if (trigger.id === 'leave_area') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const areaType = trigger.parameters?.area_type || 'area';
-                            const whoMap = {
-                              'self': 'I leave',
-                              'target': 'my target leaves',
-                              'ally': 'an ally leaves',
-                              'enemy': 'an enemy leaves',
-                              'any': 'anyone leaves'
-                            };
-                            displayText = `When ${whoMap[perspective] || 'I leave'} ${areaType}`;
-                          } else if (trigger.id === 'enter_area') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const areaType = trigger.parameters?.area_type || 'area';
-                            const whoMap = {
-                              'self': 'I enter',
-                              'target': 'my target enters',
-                              'ally': 'an ally enters',
-                              'enemy': 'an enemy enters',
-                              'any': 'anyone enters'
-                            };
-                            displayText = `When ${whoMap[perspective] || 'I enter'} ${areaType}`;
-                          } else if (trigger.id === 'proximity') {
-                            const distance = trigger.parameters?.distance || 30;
-                            const entityType = trigger.parameters?.entity_type || 'any';
-                            const entityMap = {
-                              'any': 'anyone',
-                              'ally': 'an ally',
-                              'enemy': 'an enemy',
-                              'self': 'I'
-                            };
-                            displayText = `When ${entityMap[entityType] || 'anyone'} comes within ${distance} ft`;
-                          } else if (trigger.id === 'movement_start') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I start moving',
-                              'target': 'When my target starts moving',
-                              'ally': 'When an ally starts moving',
-                              'enemy': 'When an enemy starts moving',
-                              'any': 'When anyone starts moving'
-                            };
-                            displayText = whoMap[perspective] || 'When I start moving';
-                          } else if (trigger.id === 'movement_end') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I stop moving',
-                              'target': 'When my target stops moving',
-                              'ally': 'When an ally stops moving',
-                              'enemy': 'When an enemy stops moving',
-                              'any': 'When anyone stops moving'
-                            };
-                            displayText = whoMap[perspective] || 'When I stop moving';
-                          } else if (trigger.id === 'health_threshold') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const percentage = trigger.parameters?.percentage || 50;
-                            const comparison = trigger.parameters?.comparison || 'below';
-                            const whoMap = {
-                              'self': 'my health',
-                              'target': 'target\'s health',
-                              'ally': 'ally\'s health',
-                              'enemy': 'enemy\'s health',
-                              'any': 'anyone\'s health'
-                            };
-                            const compMap = {
-                              'below': 'falls below',
-                              'above': 'rises above',
-                              'equals': 'equals'
-                            };
-                            displayText = `When ${whoMap[perspective] || 'my health'} ${compMap[comparison] || 'falls below'} ${percentage}%`;
-                          }
-
-                          return displayText;
+                          return formatTriggerText(trigger);
                         });
 
                         const logicType = damageEffectTriggers.logicType || 'AND';
@@ -5019,211 +5744,7 @@ const UnifiedSpellCard = ({
                       if (healingEffectTriggers?.compoundTriggers?.length > 0 && isHealingConditional) {
                         // Format trigger names with natural, flowing text
                         const triggerTexts = healingEffectTriggers.compoundTriggers.map(trigger => {
-                          let displayText = trigger.name;
-
-                          // Use same natural formatting as global triggers
-                          if (trigger.id === 'damage_taken') {
-                            const amount = trigger.parameters?.amount;
-                            const damageType = trigger.parameters?.damage_type;
-                            const perspective = trigger.parameters?.perspective || 'self';
-
-                            const whoMap = {
-                              'self': 'I take',
-                              'target': 'my target takes',
-                              'ally': 'an ally takes',
-                              'enemy': 'an enemy takes',
-                              'any': 'anyone takes'
-                            };
-
-                            displayText = `When ${whoMap[perspective]}`;
-                            if (amount) displayText += ` ${amount} pts of`;
-                            if (damageType && damageType !== 'any') {
-                              displayText += ` ${damageType}`;
-                            }
-                            displayText += ' damage';
-
-                          } else if (trigger.id === 'critical_hit_taken') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'I receive',
-                              'target': 'my target receives',
-                              'ally': 'an ally receives',
-                              'enemy': 'an enemy receives',
-                              'any': 'anyone receives'
-                            };
-                            displayText = `When ${whoMap[perspective]} a critical hit`;
-
-                          } else if (trigger.id === 'distance_moved') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const distance = trigger.parameters?.distance || 30;
-                            const whoMap = {
-                              'self': 'I move',
-                              'target': 'my target moves',
-                              'ally': 'an ally moves',
-                              'enemy': 'an enemy moves',
-                              'any': 'anyone moves'
-                            };
-                            displayText = `When ${whoMap[perspective]} ${distance} ft`;
-                          } else if (trigger.id === 'proximity' || trigger.id === 'enter_range') {
-                            const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
-                            const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
-                            const entityMap = {
-                              'any': 'anyone',
-                              'allies': 'an ally',
-                              'enemies': 'an enemy',
-                              'self': 'I'
-                            };
-                            displayText = `When ${entityMap[entityType] || 'anyone'} enters within ${distance} ft`;
-                          } else if (trigger.id === 'exit_range') {
-                            const distance = trigger.parameters?.distance || trigger.parameters?.range || 30;
-                            const entityType = trigger.parameters?.entity_type || trigger.parameters?.entitiesAffected || 'any';
-                            const entityMap = {
-                              'any': 'anyone',
-                              'allies': 'an ally',
-                              'enemies': 'an enemy',
-                              'self': 'I'
-                            };
-                            displayText = `When ${entityMap[entityType] || 'anyone'} exits ${distance} ft range`;
-                          } else if (trigger.id === 'last_ally_standing') {
-                            displayText = "When I'm the last ally standing";
-                          } else if (trigger.id === 'outnumbered') {
-                            const ratio = trigger.parameters?.ratio || 2;
-                            displayText = `When outnumbered ${ratio}:1`;
-                          } else if (trigger.id === 'low_health') {
-                            const threshold = trigger.parameters?.threshold || 25;
-                            displayText = `When below ${threshold}% health`;
-                          } else if (trigger.id === 'critical_hit') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'I land',
-                              'target': 'my target lands',
-                              'ally': 'an ally lands',
-                              'enemy': 'an enemy lands',
-                              'any': 'anyone lands'
-                            };
-                            displayText = `When ${whoMap[perspective]} a critical hit`;
-                          } else if (trigger.id === 'critical_hit_taken') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'I receive',
-                              'target': 'my target receives',
-                              'ally': 'an ally receives',
-                              'enemy': 'an enemy receives',
-                              'any': 'anyone receives'
-                            };
-                            displayText = `When ${whoMap[perspective]} a critical hit`;
-                          } else if (trigger.id === 'miss') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When an enemy\'s attack misses me',
-                              'target': 'When my target\'s attack misses',
-                              'ally': 'When an ally\'s attack misses',
-                              'enemy': 'When an enemy\'s attack misses',
-                              'any': 'When anyone\'s attack misses'
-                            };
-                            displayText = whoMap[perspective] || 'When an enemy\'s attack misses me';
-                          } else if (trigger.id === 'dodge') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I dodge an attack',
-                              'target': 'When my target dodges an attack',
-                              'ally': 'When an ally dodges an attack',
-                              'enemy': 'When an enemy dodges an attack',
-                              'any': 'When anyone dodges an attack'
-                            };
-                            displayText = whoMap[perspective] || 'When I dodge an attack';
-                          } else if (trigger.id === 'parry') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I parry an attack',
-                              'target': 'When my target parries an attack',
-                              'ally': 'When an ally parries an attack',
-                              'enemy': 'When an enemy parries an attack',
-                              'any': 'When anyone parries an attack'
-                            };
-                            displayText = whoMap[perspective] || 'When I parry an attack';
-                          } else if (trigger.id === 'block') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I block an attack',
-                              'target': 'When my target blocks an attack',
-                              'ally': 'When an ally blocks an attack',
-                              'enemy': 'When an enemy blocks an attack',
-                              'any': 'When anyone blocks an attack'
-                            };
-                            displayText = whoMap[perspective] || 'When I block an attack';
-                          } else if (trigger.id === 'leave_area') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const areaType = trigger.parameters?.area_type || 'area';
-                            const whoMap = {
-                              'self': 'I leave',
-                              'target': 'my target leaves',
-                              'ally': 'an ally leaves',
-                              'enemy': 'an enemy leaves',
-                              'any': 'anyone leaves'
-                            };
-                            displayText = `When ${whoMap[perspective] || 'I leave'} ${areaType}`;
-                          } else if (trigger.id === 'enter_area') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const areaType = trigger.parameters?.area_type || 'area';
-                            const whoMap = {
-                              'self': 'I enter',
-                              'target': 'my target enters',
-                              'ally': 'an ally enters',
-                              'enemy': 'an enemy enters',
-                              'any': 'anyone enters'
-                            };
-                            displayText = `When ${whoMap[perspective] || 'I enter'} ${areaType}`;
-                          } else if (trigger.id === 'proximity') {
-                            const distance = trigger.parameters?.distance || 30;
-                            const entityType = trigger.parameters?.entity_type || 'any';
-                            const entityMap = {
-                              'any': 'anyone',
-                              'ally': 'an ally',
-                              'enemy': 'an enemy',
-                              'self': 'I'
-                            };
-                            displayText = `When ${entityMap[entityType] || 'anyone'} comes within ${distance} ft`;
-                          } else if (trigger.id === 'movement_start') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I start moving',
-                              'target': 'When my target starts moving',
-                              'ally': 'When an ally starts moving',
-                              'enemy': 'When an enemy starts moving',
-                              'any': 'When anyone starts moving'
-                            };
-                            displayText = whoMap[perspective] || 'When I start moving';
-                          } else if (trigger.id === 'movement_end') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const whoMap = {
-                              'self': 'When I stop moving',
-                              'target': 'When my target stops moving',
-                              'ally': 'When an ally stops moving',
-                              'enemy': 'When an enemy stops moving',
-                              'any': 'When anyone stops moving'
-                            };
-                            displayText = whoMap[perspective] || 'When I stop moving';
-                          } else if (trigger.id === 'health_threshold') {
-                            const perspective = trigger.parameters?.perspective || 'self';
-                            const percentage = trigger.parameters?.percentage || 50;
-                            const comparison = trigger.parameters?.comparison || 'below';
-                            const whoMap = {
-                              'self': 'my health',
-                              'target': 'target\'s health',
-                              'ally': 'ally\'s health',
-                              'enemy': 'enemy\'s health',
-                              'any': 'anyone\'s health'
-                            };
-                            const compMap = {
-                              'below': 'falls below',
-                              'above': 'rises above',
-                              'equals': 'equals'
-                            };
-                            displayText = `When ${whoMap[perspective] || 'my health'} ${compMap[comparison] || 'falls below'} ${percentage}%`;
-                          }
-
-                          return displayText;
+                          return formatTriggerText(trigger);
                         });
 
                         const logicType = healingEffectTriggers.logicType || 'AND';
@@ -5396,6 +5917,38 @@ const UnifiedSpellCard = ({
                             </div>
                           );
                         })()}
+
+                        {/* Add effect-specific triggers for buff (only if conditional activation is enabled) */}
+                        {(() => {
+                          const buffEffectTriggers = spell?.triggerConfig?.effectTriggers?.buff;
+                          const isBuffConditional = spell?.conditionalEffects?.buff?.isConditional;
+
+                          if (buffEffectTriggers?.compoundTriggers?.length > 0 && isBuffConditional) {
+                            // Format trigger names with natural, flowing text
+                            const triggerTexts = buffEffectTriggers.compoundTriggers.map(trigger => {
+                              return formatTriggerText(trigger);
+                            });
+
+                            const logicType = buffEffectTriggers.logicType || 'AND';
+                            const triggerText = triggerTexts.length === 1
+                              ? triggerTexts[0]
+                              : `${triggerTexts.slice(0, -1).join(', ')} ${logicType.toLowerCase()} ${triggerTexts[triggerTexts.length - 1]}`;
+
+                            return (
+                              <div className="buff-formula-line">
+                                <div className="buff-effect-item conditional-trigger-item">
+                                  <div className="buff-effect">
+                                    <span className="buff-effect-name conditional-trigger-label">Conditional Activation</span>
+                                  </div>
+                                  <div className="buff-effect-details">
+                                    <div className="buff-effect-mechanics conditional-trigger-text">{triggerText}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        })()}
                       </div>
                     </div>
                   </div>
@@ -5511,6 +6064,38 @@ const UnifiedSpellCard = ({
                               <span className="debuff-formula-value">Configure debuff effects in the spellcrafting wizard</span>
                             </div>
                           );
+                        })()}
+
+                        {/* Add effect-specific triggers for debuff (only if conditional activation is enabled) */}
+                        {(() => {
+                          const debuffEffectTriggers = spell?.triggerConfig?.effectTriggers?.debuff;
+                          const isDebuffConditional = spell?.conditionalEffects?.debuff?.isConditional;
+
+                          if (debuffEffectTriggers?.compoundTriggers?.length > 0 && isDebuffConditional) {
+                            // Format trigger names with natural, flowing text
+                            const triggerTexts = debuffEffectTriggers.compoundTriggers.map(trigger => {
+                              return formatTriggerText(trigger);
+                            });
+
+                            const logicType = debuffEffectTriggers.logicType || 'AND';
+                            const triggerText = triggerTexts.length === 1
+                              ? triggerTexts[0]
+                              : `${triggerTexts.slice(0, -1).join(', ')} ${logicType.toLowerCase()} ${triggerTexts[triggerTexts.length - 1]}`;
+
+                            return (
+                              <div className="debuff-formula-line">
+                                <div className="debuff-effect-item conditional-trigger-item">
+                                  <div className="debuff-effect">
+                                    <span className="debuff-effect-name conditional-trigger-label">Conditional Activation</span>
+                                  </div>
+                                  <div className="debuff-effect-details">
+                                    <div className="debuff-effect-mechanics conditional-trigger-text">{triggerText}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
                         })()}
                       </div>
                     </div>

@@ -224,81 +224,111 @@ class LocalRoomService {
   }
 
   /**
+   * Collect current game state from all stores
+   */
+  async collectCurrentGameState() {
+    try {
+      // Import stores dynamically to avoid circular dependencies
+      const [gameStoreModule, creatureStoreModule, gridItemStoreModule, levelEditorStoreModule] = await Promise.all([
+        import('../store/gameStore'),
+        import('../store/creatureStore'),
+        import('../store/gridItemStore'),
+        import('../store/levelEditorStore')
+      ]);
+
+      const gameState = gameStoreModule.default.getState();
+      const creatureState = creatureStoreModule.default.getState();
+      const gridItemState = gridItemStoreModule.default.getState();
+      const levelEditorState = levelEditorStoreModule.default.getState();
+
+    return {
+      // Background system - ensure all background data is captured
+      backgrounds: gameState.backgrounds || [],
+      activeBackgroundId: gameState.activeBackgroundId || null,
+      backgroundImage: gameState.backgroundImage || null,
+      backgroundImageUrl: gameState.backgroundImageUrl || '',
+
+      // FIXED: Save tokens (placed creatures) instead of global creature library
+      // The creature library should remain global and not be saved per room
+      tokens: creatureState.tokens || [], // Room-specific placed creature tokens
+
+      // Dropped items
+      inventory: {
+        droppedItems: gridItemState.gridItems?.reduce((acc, item) => {
+          acc[item.id] = item;
+          return acc;
+        }, {}) || {}
+      },
+
+      // Map data - include background data here too for compatibility
+      mapData: {
+        cameraPosition: { x: gameState.cameraX || 0, y: gameState.cameraY || 0 },
+        zoomLevel: gameState.zoomLevel || 1.0,
+        backgrounds: gameState.backgrounds || [],
+        activeBackgroundId: gameState.activeBackgroundId || null
+      },
+
+      // Level editor data - comprehensive collection
+      levelEditor: {
+        terrainData: levelEditorState.terrainData || {},
+        environmentalObjects: levelEditorState.environmentalObjects || [],
+        lightSources: levelEditorState.lightSources || {},
+        wallData: levelEditorState.wallData || {},
+        dndElements: levelEditorState.dndElements || [],
+        fogOfWarData: levelEditorState.fogOfWarData || {},
+        drawingPaths: levelEditorState.drawingPaths || [],
+        drawingLayers: levelEditorState.drawingLayers || []
+      },
+
+      // Combat state
+      combat: {
+        isActive: false // Local rooms don't persist combat state
+      }
+    };
+    } catch (error) {
+      console.error('Error collecting game state:', error);
+      // Return minimal state if there's an error
+      return {
+        backgrounds: [],
+        tokens: [],
+        inventory: { droppedItems: {} },
+        mapData: { cameraPosition: { x: 0, y: 0 }, zoomLevel: 1.0 },
+        levelEditor: {},
+        combat: { isActive: false }
+      };
+    }
+  }
+
+  /**
    * Auto-save current game state for active local room
    * This should be called whenever game state changes
    */
-  autoSaveCurrentRoom() {
+  async autoSaveCurrentRoom() {
     const currentRoomId = localStorage.getItem('selectedLocalRoomId');
     if (!currentRoomId || !localStorage.getItem('isLocalRoom')) {
       return; // Not in a local room
     }
 
     try {
-      // Dynamically import stores to avoid circular dependencies
-      Promise.all([
-        import('../store/gameStore'),
-        import('../store/creatureStore'),
-        import('../store/gridItemStore'),
-        import('../store/levelEditorStore')
-      ]).then(([gameStoreModule, creatureStoreModule, gridItemStoreModule, levelEditorStoreModule]) => {
-        const gameState = gameStoreModule.default.getState();
-        const creatureState = creatureStoreModule.default.getState();
-        const gridItemState = gridItemStoreModule.default.getState();
-        const levelEditorState = levelEditorStoreModule.default.getState();
+      const currentGameState = await this.collectCurrentGameState();
 
-        const currentGameState = {
-          // Background system - ensure all background data is captured
-          backgrounds: gameState.backgrounds || [],
-          activeBackgroundId: gameState.activeBackgroundId || null,
-          backgroundImage: gameState.backgroundImage || null,
-          backgroundImageUrl: gameState.backgroundImageUrl || '',
-
-          // Creatures
-          creatures: creatureState.creatures || [],
-
-          // Tokens (player characters)
-          tokens: gameState.tokens || [],
-
-          // Dropped items
-          inventory: {
-            droppedItems: gridItemState.gridItems?.reduce((acc, item) => {
-              acc[item.id] = item;
-              return acc;
-            }, {}) || {}
-          },
-
-          // Map data - include background data here too for compatibility
-          mapData: {
-            cameraPosition: { x: gameState.cameraX || 0, y: gameState.cameraY || 0 },
-            zoomLevel: gameState.zoomLevel || 1.0,
-            backgrounds: gameState.backgrounds || [],
-            activeBackgroundId: gameState.activeBackgroundId || null
-          },
-
-          // Level editor data
-          levelEditor: {
-            terrainData: levelEditorState.terrainData || {},
-            environmentalObjects: levelEditorState.environmentalObjects || [],
-            lightSources: levelEditorState.lightSources || []
-          },
-
-          // Combat state
-          combat: {
-            isActive: false // Local rooms don't persist combat state
-          }
-        };
-
-        console.log('💾 Auto-saving local room with background data:', {
-          backgroundsCount: currentGameState.backgrounds.length,
-          activeBackgroundId: currentGameState.activeBackgroundId,
-          hasBackgroundUrl: !!currentGameState.backgroundImageUrl,
-          hasBackgroundImage: !!currentGameState.backgroundImage
-        });
-
-        this.saveRoomState(currentRoomId, currentGameState);
-      }).catch(error => {
-        console.error('Error auto-saving local room:', error);
+      console.log('💾 Auto-saving local room with data:', {
+        backgroundsCount: currentGameState.backgrounds.length,
+        tokensCount: currentGameState.tokens.length,
+        droppedItemsCount: Object.keys(currentGameState.inventory.droppedItems).length,
+        activeBackgroundId: currentGameState.activeBackgroundId,
+        hasBackgroundUrl: !!currentGameState.backgroundImageUrl,
+        hasBackgroundImage: !!currentGameState.backgroundImage
       });
+
+      // Debug: Log actual tokens being saved
+      if (currentGameState.tokens && currentGameState.tokens.length > 0) {
+        console.log('🎭 Tokens being saved:', currentGameState.tokens.map(t => ({ id: t.id, creatureId: t.creatureId, position: t.position })));
+      } else {
+        console.log('🎭 No tokens in creature store to save');
+      }
+
+      this.saveRoomState(currentRoomId, currentGameState);
     } catch (error) {
       console.error('Error in autoSaveCurrentRoom:', error);
     }
@@ -325,6 +355,29 @@ const localRoomService = new LocalRoomService();
 
 export default localRoomService;
 
+// Force save function that bypasses all loading checks
+export const forceSaveCurrentRoom = async () => {
+  const roomId = localStorage.getItem('selectedLocalRoomId');
+  if (!roomId) {
+    console.log('🚫 No local room selected for force save');
+    return;
+  }
+
+  console.log('💪 Force saving room state for:', roomId);
+
+  try {
+    // Get current game state from all stores
+    const currentGameState = await localRoomService.collectCurrentGameState();
+
+    // Use the same save method as regular auto-save
+    localRoomService.saveRoomState(roomId, currentGameState);
+
+    console.log('✅ Force save completed for room:', roomId);
+  } catch (error) {
+    console.error('❌ Error in force save:', error);
+  }
+};
+
 // Export individual functions for convenience
 export const {
   createLocalRoom,
@@ -334,6 +387,7 @@ export const {
   saveRoomState,
   loadRoomState,
   autoSaveCurrentRoom,
+  collectCurrentGameState,
   prepareRoomForConversion,
   markRoomAsConverted,
   getRoomStats

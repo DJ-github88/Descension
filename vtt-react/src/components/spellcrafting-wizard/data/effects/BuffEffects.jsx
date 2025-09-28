@@ -455,10 +455,14 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
   // Update buff configuration state (global settings)
   const updateBuffConfig = (key, value) => {
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       [key]: value
-    }));
+    };
+    setBuffConfig(newConfig);
+
+    // Immediately dispatch to global state for preview updates
+    dispatch(actionCreators.updateBuffConfig(newConfig));
 
     // If updating the global magnitude or magnitudeType, don't apply to existing modifiers
     // Each stat now has its own magnitude and type
@@ -812,10 +816,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       magnitudeType: buffConfig.magnitudeType || 'flat'
     });
 
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statModifiers: existingModifiers
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Update an existing stat modifier's magnitude
@@ -831,10 +837,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       return mod;
     });
 
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statModifiers: updatedModifiers
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Update an existing stat modifier's magnitude type
@@ -849,10 +857,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       return mod;
     });
 
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statModifiers: updatedModifiers
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Update an entire stat modifier object (for resistance dropdowns)
@@ -864,10 +874,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       return mod;
     });
 
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statModifiers: updatedModifiers
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Remove stat modifier from buff
@@ -876,10 +888,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
     const statModifiers = buffConfig.statModifiers || [];
     const newStatModifiers = statModifiers.filter(mod => mod.id !== statId);
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statModifiers: newStatModifiers
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Add status effect to buff
@@ -982,10 +996,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         ...getDefaultBuffConfig(effect.id)
       };
 
-      setBuffConfig(prev => ({
-        ...prev,
+      const newConfig = {
+        ...buffConfig,
         statusEffects: [...statusEffects, newStatusEffect]
-      }));
+      };
+      setBuffConfig(newConfig);
+      dispatch(actionCreators.updateBuffConfig(newConfig));
     }
   };
 
@@ -995,10 +1011,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
     const statusEffects = buffConfig.statusEffects || [];
     const newStatusEffects = statusEffects.filter(effect => effect.id !== effectId);
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statusEffects: newStatusEffects
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Open the configuration popup for a status effect
@@ -1019,10 +1037,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       return effect;
     });
 
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statusEffects: newStatusEffects
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Update status effect level
@@ -1037,10 +1057,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       return effect;
     });
 
-    setBuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...buffConfig,
       statusEffects: newStatusEffects
-    }));
+    };
+    setBuffConfig(newConfig);
+    dispatch(actionCreators.updateBuffConfig(newConfig));
   };
 
   // Get Status Effects by category
@@ -2074,7 +2096,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
               position: 'fixed',
               left: mousePos.x,
               top: mousePos.y,
-              zIndex: 99999,
+              zIndex: 15002, /* Standardized to ensure tooltips appear above modals */
               pointerEvents: 'none',
               transform: 'translate(10px, -100%)'
             }}

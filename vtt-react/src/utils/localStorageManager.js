@@ -103,7 +103,7 @@ class LocalStorageManager {
     }
 
     tempKeys.forEach(key => localStorage.removeItem(key));
-    console.log(`🧹 Cleaned up ${tempKeys.length} temporary data entries`);
+
     return tempKeys.length;
   }
 
@@ -162,7 +162,7 @@ class LocalStorageManager {
    * Emergency cleanup - more aggressive than regular cleanup
    */
   performEmergencyCleanup() {
-    console.log('🚨 Performing emergency localStorage cleanup...');
+
 
     // Remove all backup data
     const keysToRemove = [];
@@ -181,7 +181,7 @@ class LocalStorageManager {
       localStorage.removeItem(key);
     });
 
-    console.log(`🧹 Emergency cleanup removed ${keysToRemove.length} items`);
+
     return keysToRemove.length;
   }
 

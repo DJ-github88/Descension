@@ -8,10 +8,23 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
+import { useRoomContext } from '../../contexts/RoomContext';
 import './ActionBar.css';
 
 const ActionBar = () => {
-    const [actionSlots, setActionSlots] = useState(Array(10).fill(null));
+    // Get current room context for persistence
+    const { currentRoomId } = useRoomContext();
+
+    // Use the persistence hook instead of local state
+    const {
+        actionSlots,
+        isLoading,
+        updateSlot,
+        clearSlot,
+        updateActionSlots
+    } = useActionBarPersistence(currentRoomId);
+
     const [draggedSpell, setDraggedSpell] = useState(null);
     const dragOverSlot = useRef(null);
 
@@ -152,7 +165,6 @@ const ActionBar = () => {
                 console.log('Parsed spell:', spell);
 
                 // Update the action slot with the complete spell data
-                const newSlots = [...actionSlots];
                 const newSpellSlot = {
                     // Store complete spell data for rich tooltip display
                     ...spell,
@@ -161,10 +173,9 @@ const ActionBar = () => {
                     maxCooldown: spell.cooldown || 0, // Max cooldown from spell definition
                     type: 'spell' // Ensure action bar identifies this as a spell
                 };
-                newSlots[slotIndex] = newSpellSlot;
                 console.log('Setting new spell slot with complete data:', newSpellSlot);
                 console.log('Icon URL will be:', getSlotIcon(newSpellSlot));
-                setActionSlots(newSlots);
+                updateSlot(slotIndex, newSpellSlot);
                 dragOverSlot.current = null;
                 return;
             }
@@ -179,8 +190,7 @@ const ActionBar = () => {
                     const item = data.item;
 
                     // Update the action slot with the consumable item
-                    const newSlots = [...actionSlots];
-                    newSlots[slotIndex] = {
+                    const newConsumableSlot = {
                         id: item.id,
                         name: item.name,
                         icon: item.iconId || 'inv_potion_51',
@@ -191,7 +201,7 @@ const ActionBar = () => {
                         quality: item.quality || item.rarity || 'common',
                         rarity: item.rarity || item.quality || 'common'
                     };
-                    setActionSlots(newSlots);
+                    updateSlot(slotIndex, newConsumableSlot);
                 }
             }
         } catch (error) {
@@ -222,13 +232,12 @@ const ActionBar = () => {
 
             // Start cooldown if applicable
             if (item.maxCooldown > 0) {
-                const newSlots = [...actionSlots];
-                newSlots[slotIndex] = { ...item, cooldown: item.maxCooldown };
-                setActionSlots(newSlots);
+                const itemWithCooldown = { ...item, cooldown: item.maxCooldown };
+                updateSlot(slotIndex, itemWithCooldown);
 
                 // Countdown timer
                 const timer = setInterval(() => {
-                    setActionSlots(currentSlots => {
+                    updateActionSlots(currentSlots => {
                         const updatedSlots = [...currentSlots];
                         if (updatedSlots[slotIndex] && updatedSlots[slotIndex].cooldown > 0) {
                             updatedSlots[slotIndex] = {
@@ -285,9 +294,7 @@ const ActionBar = () => {
             handleSlotClick(slotIndex);
         } else {
             // For spells and other items, remove from slot
-            const newSlots = [...actionSlots];
-            newSlots[slotIndex] = null;
-            setActionSlots(newSlots);
+            clearSlot(slotIndex);
         }
     };
 

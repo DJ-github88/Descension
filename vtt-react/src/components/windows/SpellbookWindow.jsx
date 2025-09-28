@@ -83,20 +83,17 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
       );
     }
 
-    // Always render all tabs but hide them when not active for pre-loading
-    return (
-      <>
-        <div style={{ display: activeTab === 'wizard' ? 'block' : 'none', width: '100%', height: '100%' }}>
-          <SpellWizardTab />
-        </div>
-        <div style={{ display: activeTab === 'library' ? 'block' : 'none', width: '100%', height: '100%' }}>
-          <SpellLibraryTab />
-        </div>
-        <div style={{ display: activeTab === 'collections' ? 'block' : 'none', width: '100%', height: '100%' }}>
-          <CommunitySpellsTab />
-        </div>
-      </>
-    );
+    // Only render the active tab to prevent duplicate instances
+    switch (activeTab) {
+      case 'wizard':
+        return <SpellWizardTab />;
+      case 'library':
+        return <SpellLibraryTab />;
+      case 'collections':
+        return <CommunitySpellsTab />;
+      default:
+        return <SpellWizardTab />;
+    }
   };
 
   // Spell Library Tab Component - now includes filtering functionality

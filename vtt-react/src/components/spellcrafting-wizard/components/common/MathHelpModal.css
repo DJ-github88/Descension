@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999 !important;
+  z-index: 15000 !important; /* Standardized to ensure it appears above spellbook window */
   backdrop-filter: blur(3px);
 }
 

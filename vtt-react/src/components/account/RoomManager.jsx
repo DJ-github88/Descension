@@ -165,6 +165,17 @@ const RoomManager = () => {
     try {
       const newRoom = localRoomService.createLocalRoom(roomData);
       loadLocalRooms(); // Refresh the list
+
+      // Refresh room limits to update the counter
+      if (user) {
+        getRoomLimits(user.uid).then(limits => {
+          setRoomLimits(limits);
+          console.log('📊 Room limits updated after creating local room');
+        }).catch(err => {
+          console.error('Error updating room limits:', err);
+        });
+      }
+
       setNewLocalRoomName('');
       setShowCreateLocalRoom(false);
       setRefreshMessage(`✅ Local room "${newRoom.name}" created`);
@@ -198,6 +209,17 @@ const RoomManager = () => {
       try {
         localRoomService.deleteLocalRoom(roomId);
         loadLocalRooms(); // Refresh the list
+
+        // Refresh room limits to update the counter
+        if (user) {
+          getRoomLimits(user.uid).then(limits => {
+            setRoomLimits(limits);
+            console.log('📊 Room limits updated after deleting local room');
+          }).catch(err => {
+            console.error('Error updating room limits:', err);
+          });
+        }
+
         setRefreshMessage('🗑️ Local room deleted');
         setTimeout(() => setRefreshMessage(''), 3000);
       } catch (error) {

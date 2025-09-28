@@ -50,20 +50,7 @@ const CharacterPortraitHUD = ({
     const maxHealth = characterData.derivedStats?.maxHealth || characterData.health.max;
     const maxMana = characterData.derivedStats?.maxMana || characterData.mana.max;
 
-    // Debug logging for character portrait HUD
-    if (characterData.name === 'YAD') {
-        console.log('🔍 CharacterPortraitHUD data:', {
-            characterName: characterData.name,
-            isCurrentPlayer,
-            characterData: {
-                health: characterData.health,
-                mana: characterData.mana,
-                derivedStats: characterData.derivedStats
-            },
-            calculatedMaxHealth: maxHealth,
-            calculatedMaxMana: maxMana
-        });
-    }
+
 
     // Calculate health percentage for bar color
     const healthPercentage = (characterData.health.current / maxHealth) * 100;

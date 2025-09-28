@@ -8,6 +8,8 @@ import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useLevelEditorStore, { TERRAIN_TYPES, WALL_TYPES } from "../store/levelEditorStore";
 import useMapStore from "../store/mapStore";
+import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
+import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
 import GridItem from "./grid/GridItem";
 import GridContainer from "./grid/GridContainer";
 import CreatureToken from "./grid/CreatureToken";
@@ -323,6 +325,9 @@ export default function Grid() {
 
     // Get map store for initialization
     const { initializeWithCurrentState } = useMapStore();
+
+    // Level editor persistence hook
+    const { scheduleAutoSave } = useLevelEditorPersistence();
 
     // Generate grid tiles using the infinite grid system with optimized updates
     const [gridTiles, setGridTiles] = useState([]);
@@ -1089,6 +1094,11 @@ export default function Grid() {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'copy';
         setHoveredTile(tile);
+
+        // Debug: Log drag over events to help diagnose drop zone issues
+        if (isDraggingCreature) {
+            console.log('🎯 Drag over tile:', tile.gridX, tile.gridY, 'at zoom:', effectiveZoom);
+        }
     };
 
     // Handle drag leave for grid tiles
@@ -1237,6 +1247,12 @@ export default function Grid() {
                     const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
                     // Add the creature token to the grid
                     addToken(creatureId, { x: worldPos.x, y: worldPos.y });
+
+                    // Force immediate save for local rooms after placing creature token
+                    setTimeout(() => {
+                        console.log('💾 Force saving after token placement');
+                        forceSaveCurrentRoom();
+                    }, 500);
                 } else {
                     // If no direct creature ID, check for JSON data
                     const dataText = e.dataTransfer.getData('text/plain');
@@ -1250,6 +1266,12 @@ export default function Grid() {
                                 const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
                                 console.log('✅ Legitimate document-level creature drop - adding token for:', data.id);
                                 addToken(data.id, { x: worldPos.x, y: worldPos.y });
+
+                                // Force immediate save for local rooms after placing creature token
+                                setTimeout(() => {
+                                    console.log('💾 Force saving after document-level token placement');
+                                    forceSaveCurrentRoom();
+                                }, 500);
                             } else {
                                 console.log('🚫 Ignoring document-level creature drop - not a legitimate drag operation');
                             }
@@ -1563,6 +1585,12 @@ export default function Grid() {
                 if (isDraggingCreature) {
                     console.log('✅ Legitimate creature drop - adding token for:', data.id);
                     addToken(data.id, { x: worldPos.x, y: worldPos.y });
+
+                    // Force immediate save for local rooms after placing creature token
+                    setTimeout(() => {
+                        console.log('💾 Force saving after canvas token placement');
+                        forceSaveCurrentRoom();
+                    }, 500);
                 } else {
                     console.log('🚫 Ignoring creature drop - not a legitimate drag operation');
                 }
@@ -1610,6 +1638,9 @@ export default function Grid() {
 
                     // Add the item to the grid with the clean position data
                     addItemToGrid(cleanItem, positionCopy, true); // Send to server
+
+                    // Trigger auto-save for local rooms after placing item
+                    setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
                 } else {
                     // Item not found in store
                 }
@@ -1701,6 +1732,9 @@ export default function Grid() {
 
                     // Remove the item from inventory
                     inventoryStore.removeItem(itemId);
+
+                    // Trigger auto-save for local rooms after placing inventory item
+                    setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
                 }
             }
         } catch (error) {

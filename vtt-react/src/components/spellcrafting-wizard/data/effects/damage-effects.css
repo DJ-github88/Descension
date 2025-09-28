@@ -276,7 +276,7 @@
 }
 
 .count-input {
-  width: 80px;
+  width: 120px; /* Increased from 80px for better visibility */
   padding: 8px 12px;
   background: linear-gradient(135deg, #f8f5e8 0%, #f0ead6 100%);
   border: 2px solid #8b6914;
@@ -694,13 +694,6 @@
 .variable-button.resolution-specific:hover {
   background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
   color: #ffffff;
-}
-
-/* Spell damage type buttons */
-.variable-button.spell-damage-type {
-  background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
-  color: #f4f1e8;
-  border-color: #654321;
 }
 
 .variable-button.spell-damage-type:hover {

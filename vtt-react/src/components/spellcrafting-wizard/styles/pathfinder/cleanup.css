@@ -10,7 +10,7 @@
 
 /* ===== CONSOLIDATE DUPLICATE BUTTON STYLES ===== */
 
-/* Unified button styling for all spellcrafting components */
+/* Unified button styling for all spellcrafting components (excluding pf-tab which has its own styling) */
 .btn,
 .pf-button,
 .effect-option,
@@ -20,8 +20,7 @@
 .threshold-button,
 .dice-preset-button,
 .spell-card-action-btn,
-.wizard-nav-button,
-.tab-button {
+.wizard-nav-button {
   background: var(--pf-gradient-button) !important;
   border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
   border-radius: var(--pf-border-radius) !important;
@@ -51,8 +50,7 @@
 .threshold-button:hover,
 .dice-preset-button:hover,
 .spell-card-action-btn:hover,
-.wizard-nav-button:hover,
-.tab-button:hover {
+.wizard-nav-button:hover {
   background: var(--pf-gradient-button-hover) !important;
   border-color: var(--pf-gold) !important;
   box-shadow: var(--pf-shadow-md) !important;
@@ -67,8 +65,7 @@
 .threshold-button:active,
 .dice-preset-button:active,
 .spell-card-action-btn:active,
-.wizard-nav-button:active,
-.tab-button:active {
+.wizard-nav-button:active {
   transform: translateY(0) !important;
   box-shadow: var(--pf-shadow-sm) !important;
 }
@@ -78,8 +75,7 @@
 .effect-option.selected,
 .effect-option-button.selected,
 .effect-option-button.active,
-.effect-type-option.selected,
-.tab-button.active {
+.effect-type-option.selected {
   background: var(--pf-gradient-gold) !important;
   color: var(--pf-brown-darkest) !important;
   border-color: var(--pf-gold-dark) !important;
@@ -91,8 +87,7 @@
 .effect-option.selected:hover,
 .effect-option-button.selected:hover,
 .effect-option-button.active:hover,
-.effect-type-option.selected:hover,
-.tab-button.active:hover {
+.effect-type-option.selected:hover {
   background: var(--pf-gold-light) !important;
   box-shadow: var(--pf-shadow-glow) !important;
 }
@@ -106,8 +101,7 @@
 .threshold-button:disabled,
 .dice-preset-button:disabled,
 .spell-card-action-btn:disabled,
-.wizard-nav-button:disabled,
-.tab-button:disabled {
+.wizard-nav-button:disabled {
   opacity: 0.6 !important;
   cursor: not-allowed !important;
   transform: none !important;
@@ -410,7 +404,6 @@
 .spellbook-layout select,
 .spellbook-layout .spell-card,
 .spellbook-layout .wizard-nav-btn,
-.spellbook-layout .tab-button,
 .spellbook-layout .effect-option,
 .spellbook-layout .selection-card,
 .spellbook-layout .spell-wizard-tag,
@@ -583,8 +576,7 @@
 
 /* Special handling for light text on dark backgrounds */
 .spellbook-layout .spell-card-header *,
-.spellbook-layout .pf-button *,
-.spellbook-layout .tab-button * {
+.spellbook-layout .pf-button * {
   color: var(--pf-text-primary) !important;
 }
 
@@ -636,7 +628,6 @@
 /* Force readable text on all interactive elements */
 .spellbook-layout button *,
 .spellbook-layout .pf-button *,
-.spellbook-layout .tab-button *,
 .spellbook-layout .stat-card *,
 .spellbook-layout .component-option *,
 .spellbook-layout .effect-option *,
@@ -1161,6 +1152,49 @@
   font-family: var(--pf-font-body) !important;
 }
 
+/* Fix buff trigger configuration containers */
+.spellbook-layout .wow-buff-config-container,
+.spellbook-layout .wow-debuff-config-container,
+.spellbook-layout .wow-control-config-container {
+  background: var(--pf-gradient-parchment-light) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+/* Fix buff configuration sections */
+.spellbook-layout .wow-buff-config-section,
+.spellbook-layout .wow-debuff-config-section,
+.spellbook-layout .wow-control-config-section {
+  background: transparent !important;
+  border: none !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix section titles */
+.spellbook-layout .wow-buff-section-title,
+.spellbook-layout .wow-debuff-section-title,
+.spellbook-layout .wow-control-section-title {
+  color: var(--pf-gold) !important;
+  font-family: var(--pf-font-display) !important;
+  font-weight: var(--pf-font-bold) !important;
+}
+
+/* Fix conditional formula examples */
+.spellbook-layout .wow-conditional-formula-example {
+  background: var(--pf-gradient-parchment-light) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix conditional formula tips */
+.spellbook-layout .wow-conditional-formula-tip {
+  color: var(--pf-text-secondary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
 /* Override trigger hover states */
 .spellbook-layout .wow-trigger-role-option:hover,
 .spellbook-layout .wow-trigger-category:hover,
@@ -1183,6 +1217,360 @@
   border-color: var(--pf-gold-dark) !important;
   color: var(--pf-brown-darkest) !important;
   box-shadow: var(--pf-shadow-glow) !important;
+}
+
+/* Fix buff stat modifier displays */
+.spellbook-layout .wow-buff-stat-modifiers,
+.spellbook-layout .wow-debuff-stat-penalties {
+  background: transparent !important;
+  border: none !important;
+}
+
+.spellbook-layout .wow-buff-stat-modifier,
+.spellbook-layout .wow-debuff-stat-penalty {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-buff-stat-modifier.disabled,
+.spellbook-layout .wow-debuff-stat-penalty.disabled {
+  opacity: 0.5 !important;
+  background: var(--pf-gradient-parchment-light) !important;
+}
+
+/* Fix stat modifier info sections */
+.spellbook-layout .wow-buff-stat-info,
+.spellbook-layout .wow-debuff-stat-info {
+  background: transparent !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-buff-stat-name,
+.spellbook-layout .wow-debuff-stat-name {
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-ui) !important;
+  font-weight: var(--pf-font-semibold) !important;
+}
+
+/* Fix input controls in buff/debuff configs */
+.spellbook-layout .wow-buff-config-container input,
+.spellbook-layout .wow-debuff-config-container input,
+.spellbook-layout .wow-control-config-container input,
+.spellbook-layout .wow-buff-config-container select,
+.spellbook-layout .wow-debuff-config-container select,
+.spellbook-layout .wow-control-config-container select {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+.spellbook-layout .wow-buff-config-container input:focus,
+.spellbook-layout .wow-debuff-config-container input:focus,
+.spellbook-layout .wow-control-config-container input:focus,
+.spellbook-layout .wow-buff-config-container select:focus,
+.spellbook-layout .wow-debuff-config-container select:focus,
+.spellbook-layout .wow-control-config-container select:focus {
+  border-color: var(--pf-gold) !important;
+  box-shadow: 0 0 0 1px var(--pf-gold) !important;
+  outline: none !important;
+}
+
+/* Fix formula suggestion buttons */
+.spellbook-layout .wow-formula-suggestions {
+  background: transparent !important;
+  border: none !important;
+  padding: var(--pf-space-2) 0 !important;
+}
+
+.spellbook-layout .wow-formula-suggestion {
+  background: var(--pf-gradient-button) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-ui) !important;
+  font-size: var(--pf-text-sm) !important;
+  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  margin: var(--pf-space-1) !important;
+  transition: all var(--pf-transition-normal) !important;
+}
+
+.spellbook-layout .wow-formula-suggestion:hover {
+  background: var(--pf-gradient-button-hover) !important;
+  border-color: var(--pf-gold) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--pf-shadow-sm) !important;
+}
+
+/* Fix movement start target and other dark elements */
+.spellbook-layout .movement-start-target,
+.spellbook-layout .buff-movement-config,
+.spellbook-layout .debuff-movement-config {
+  background: var(--pf-gradient-parchment-light) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+/* Fix any remaining dark backgrounds in trigger sections */
+.spellbook-layout .wow-trigger-config,
+.spellbook-layout .wow-trigger-parameters,
+.spellbook-layout .wow-trigger-settings {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix checkbox styling in trigger configs */
+.spellbook-layout .wow-buff-stat-checkbox input[type="checkbox"],
+.spellbook-layout .wow-debuff-stat-checkbox input[type="checkbox"] {
+  accent-color: var(--pf-gold) !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* Fix any dark text that might be hard to read */
+.spellbook-layout .wow-buff-config-container *,
+.spellbook-layout .wow-debuff-config-container *,
+.spellbook-layout .wow-control-config-container * {
+  color: inherit !important;
+}
+
+/* Ensure proper text contrast */
+.spellbook-layout .wow-buff-config-container,
+.spellbook-layout .wow-debuff-config-container,
+.spellbook-layout .wow-control-config-container {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix any remaining dark theme elements in trigger sections */
+.spellbook-layout .wow-trigger-section,
+.spellbook-layout .wow-effect-section,
+.spellbook-layout .wow-conditional-settings {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix trigger option containers */
+.spellbook-layout .wow-trigger-options,
+.spellbook-layout .wow-effect-options {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Fix any dark backgrounds in effect previews */
+.spellbook-layout .effect-preview,
+.spellbook-layout .effect-preview-section,
+.spellbook-layout .effect-preview-card {
+  background: var(--pf-gradient-parchment-light) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix effect preview headers */
+.spellbook-layout .effect-preview-header,
+.spellbook-layout .effect-preview-title {
+  background: transparent !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-ui) !important;
+}
+
+/* Fix effect preview subtitles */
+.spellbook-layout .effect-preview-subtitle {
+  color: var(--pf-gold) !important;
+  font-family: var(--pf-font-display) !important;
+  font-weight: var(--pf-font-bold) !important;
+}
+
+/* Override any remaining midnight/dark theme colors */
+.spellbook-layout [style*="background-color: #1a2f4a"],
+.spellbook-layout [style*="background-color: #2c4c6e"],
+.spellbook-layout [style*="background: #1a2f4a"],
+.spellbook-layout [style*="background: #2c4c6e"] {
+  background: var(--pf-gradient-parchment-light) !important;
+}
+
+.spellbook-layout [style*="color: #a7c7e7"],
+.spellbook-layout [style*="color: #c7d5e3"],
+.spellbook-layout [style*="color: #8cb3d9"] {
+  color: var(--pf-text-primary) !important;
+}
+
+/* Fix any remaining border colors */
+.spellbook-layout [style*="border-color: #3e6a99"],
+.spellbook-layout [style*="border-color: #2c4c6e"] {
+  border-color: var(--pf-brown-medium) !important;
+}
+
+/* ===== OVERRIDE DARK THEME COLORS FROM TRIGGERS.CSS ===== */
+
+/* Fix wow-example elements */
+.spellbook-layout .wow-example-label {
+  color: var(--pf-gold) !important;
+}
+
+.spellbook-layout .wow-advanced-toggle-button {
+  background: var(--pf-gradient-button) !important;
+  border-color: var(--pf-brown-medium) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-advanced-toggle-button:hover {
+  background: var(--pf-gradient-button-hover) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-advanced-options-title {
+  color: var(--pf-text-primary) !important;
+  border-bottom-color: var(--pf-brown-medium) !important;
+}
+
+.spellbook-layout .wow-option-label {
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-number-input {
+  background: var(--pf-gradient-parchment) !important;
+  border-color: var(--pf-brown-medium) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-option-hint {
+  color: var(--pf-text-secondary) !important;
+}
+
+.spellbook-layout .wow-standard-formula-label {
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-standard-formula-value {
+  color: var(--pf-gold) !important;
+}
+
+.spellbook-layout .wow-example-card {
+  background: var(--pf-gradient-parchment) !important;
+  border-color: var(--pf-brown-medium) !important;
+}
+
+.spellbook-layout .wow-example-card:hover {
+  background: var(--pf-gradient-button-hover) !important;
+  border-color: var(--pf-gold) !important;
+}
+
+.spellbook-layout .wow-example-title {
+  color: var(--pf-text-primary) !important;
+}
+
+.spellbook-layout .wow-example-formula {
+  color: var(--pf-text-secondary) !important;
+}
+
+.spellbook-layout .wow-conditional-tip {
+  color: var(--pf-text-secondary) !important;
+  background: var(--pf-gradient-parchment-light) !important;
+}
+
+.spellbook-layout .example-formula {
+  color: var(--pf-text-secondary) !important;
+}
+
+/* Fix perspective color indicators with Pathfinder-appropriate colors */
+.spellbook-layout .wow-selected-trigger[data-perspective="self"] .wow-selected-trigger-name::after {
+  color: var(--pf-gold) !important;
+}
+
+.spellbook-layout .wow-selected-trigger[data-perspective="ally"] .wow-selected-trigger-name::after {
+  color: #228B22 !important; /* Forest green for allies */
+}
+
+.spellbook-layout .wow-selected-trigger[data-perspective="enemy"] .wow-selected-trigger-name::after {
+  color: #8B0000 !important; /* Dark red for enemies */
+}
+
+/* ===== FIX DROPDOWN AND SELECTION ELEMENTS ===== */
+
+/* Fix trigger dropdowns and selects */
+.spellbook-layout select,
+.spellbook-layout .trigger-dropdown,
+.spellbook-layout .effect-dropdown {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+.spellbook-layout select:focus,
+.spellbook-layout .trigger-dropdown:focus,
+.spellbook-layout .effect-dropdown:focus {
+  border-color: var(--pf-gold) !important;
+  box-shadow: 0 0 0 1px var(--pf-gold) !important;
+  outline: none !important;
+}
+
+/* Fix any remaining input elements */
+.spellbook-layout input[type="text"],
+.spellbook-layout input[type="number"],
+.spellbook-layout textarea {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+.spellbook-layout input[type="text"]:focus,
+.spellbook-layout input[type="number"]:focus,
+.spellbook-layout textarea:focus {
+  border-color: var(--pf-gold) !important;
+  box-shadow: 0 0 0 1px var(--pf-gold) !important;
+  outline: none !important;
+}
+
+/* Fix any remaining button elements */
+.spellbook-layout button:not(.pf-button):not(.pf-toggle-button):not(.wow-formula-suggestion) {
+  background: var(--pf-gradient-button) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-ui) !important;
+  transition: all var(--pf-transition-normal) !important;
+}
+
+.spellbook-layout button:not(.pf-button):not(.pf-toggle-button):not(.wow-formula-suggestion):hover {
+  background: var(--pf-gradient-button-hover) !important;
+  border-color: var(--pf-gold) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Fix any labels that might still have dark colors */
+.spellbook-layout label {
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-ui) !important;
+}
+
+/* Fix any remaining text elements */
+.spellbook-layout p,
+.spellbook-layout span,
+.spellbook-layout div {
+  color: inherit !important;
+}
+
+/* Ensure all text in trigger sections is readable */
+.spellbook-layout .wow-buff-config-container *,
+.spellbook-layout .wow-debuff-config-container *,
+.spellbook-layout .wow-control-config-container *,
+.spellbook-layout .pf-selected-trigger *,
+.spellbook-layout .pf-config-group * {
+  color: inherit !important;
 }
 
 /* Override any remaining dark text colors in triggers */

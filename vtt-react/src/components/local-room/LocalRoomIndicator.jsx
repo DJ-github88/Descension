@@ -58,10 +58,8 @@ const LocalRoomIndicator = ({ currentLocalRoomId, onReturnToMenu }) => {
 
               const currentGameState = {
                 backgrounds: gameState.backgrounds,
-                creatures: creatureState.creatures.reduce((acc, creature) => {
-                  acc[creature.id] = creature;
-                  return acc;
-                }, {}),
+                // FIXED: Save tokens (placed creatures) instead of global creature library
+                tokens: creatureState.tokens || [],
                 inventory: {
                   droppedItems: gridItemState.gridItems.reduce((acc, item) => {
                     acc[item.id] = item;

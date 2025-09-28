@@ -1583,7 +1583,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99999;
+  z-index: 15000; /* Standardized to ensure it appears above spellbook window */
   backdrop-filter: blur(2px);
 }
 
@@ -1598,7 +1598,7 @@
   max-height: 80vh;
   overflow-y: auto;
   font-family: var(--pf-font-body);
-  z-index: 100000;
+  z-index: 15001; /* Standardized to ensure it appears above spellbook window */
   position: relative;
 }
 
@@ -3442,18 +3442,35 @@
 
 .duration-config {
   display: flex;
-  gap: var(--pf-space-2);
+  gap: var(--pf-space-3);
   align-items: center;
 }
 
 .duration-value {
-  flex: 1;
-  padding: var(--pf-space-2);
-  background: var(--pf-gradient-input);
+  flex: 0 0 120px;
+}
+
+.duration-value input {
+  width: 100%;
+  height: var(--pf-input-height);
+  padding: var(--pf-input-padding);
+  background: var(--pf-gradient-parchment);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
   font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+  text-align: center;
+  transition: all var(--pf-transition-normal);
+  box-shadow: var(--pf-shadow-inset);
+}
+
+.duration-value input:focus {
+  outline: none;
+  border-color: var(--pf-brown-dark);
+  box-shadow:
+    var(--pf-shadow-inset),
+    0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .duration-unit {

@@ -239,15 +239,26 @@ const DialogueControls = () => {
               </div>
             </div>
 
-            {/* Preview */}
+            {/* Preview - Always Visible with Dialogue System Styling */}
             <div className="preview-section">
               <label>Preview:</label>
               <div className="preview-text">
                 <span
                   className={`dialogue-text ${selectedEffect}`}
                   style={{
-                    color: selectedColor || '#2c3e50',
-                    textShadow: 'none'
+                    color: selectedColor || '#ffffff',
+                    /* Enhanced 8-directional black text stroke for 16-bit look */
+                    textShadow: `
+                      -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
+                      -1px -2px 0px #000, -1px -1px 0px #000, -1px 0px 0px #000, -1px 1px 0px #000, -1px 2px 0px #000,
+                      0px -2px 0px #000, 0px -1px 0px #000, 0px 1px 0px #000, 0px 2px 0px #000,
+                      1px -2px 0px #000, 1px -1px 0px #000, 1px 0px 0px #000, 1px 1px 0px #000, 1px 2px 0px #000,
+                      2px -2px 0px #000, 2px -1px 0px #000, 2px 0px 0px #000, 2px 1px 0px #000, 2px 2px 0px #000
+                    `,
+                    /* 16-bit pixelated rendering */
+                    imageRendering: 'pixelated',
+                    fontSmooth: 'never',
+                    WebkitFontSmoothing: 'none'
                   }}
                 >
                   {message || 'Type a message to see preview...'}
@@ -288,7 +299,7 @@ const DialogueControls = () => {
                     character,
                     characterName,
                     effect: 'normal',
-                    color: '#2c3e50',
+                    color: '#ffffff',
                     position: 'bottom',
                     speed: 40,
                     closeable: true

@@ -203,7 +203,7 @@ export const emergencyStorageCleanup = {
       safeStorage.removeItem(key);
     });
     
-    console.log(`Emergency cleanup: Removed ${storeKeys.length} store keys`);
+
     return storeKeys.length;
   },
 
@@ -216,7 +216,7 @@ export const emergencyStorageCleanup = {
       safeStorage.removeItem(key);
     });
     
-    console.log(`Temp cleanup: Removed ${tempKeys.length} temporary keys`);
+
     return tempKeys.length;
   },
 

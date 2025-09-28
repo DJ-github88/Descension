@@ -194,11 +194,12 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     };
     setDebuffConfig(newConfig);
 
-    // Immediately trigger formatting update when save-related fields change
+    // Always dispatch to global state for preview updates
+    dispatch(actionCreators.updateDebuffConfig(newConfig));
+
+    // Log save-related field changes for debugging
     if (key === 'savingThrow' || key === 'difficultyClass' || key === 'saveOutcome') {
-      console.log('Triggering immediate save formatting update for:', key, value);
-      // Force a re-render of the spell card by updating the global state
-      dispatch(actionCreators.updateDebuffConfig(newConfig));
+      console.log('Updated save-related field:', key, value);
     }
     // If updating the global magnitude or magnitudeType, don't apply to existing modifiers
     // Each stat now has its own magnitude and type
@@ -414,10 +415,12 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         saveOutcome: 'negates'
       };
 
-      setDebuffConfig(prev => ({
-        ...prev,
+      const newConfig = {
+        ...debuffConfig,
         statusEffects: [...statusEffects, newStatusEffect]
-      }));
+      };
+      setDebuffConfig(newConfig);
+      dispatch(actionCreators.updateDebuffConfig(newConfig));
     }
   };
 
@@ -426,10 +429,12 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
     const statusEffects = debuffConfig.statusEffects || [];
     const newStatusEffects = statusEffects.filter(effect => effect.id !== effectId);
 
-    setDebuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...debuffConfig,
       statusEffects: newStatusEffects
-    }));
+    };
+    setDebuffConfig(newConfig);
+    dispatch(actionCreators.updateDebuffConfig(newConfig));
   };
 
   // Update status effect option
@@ -442,10 +447,12 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       return effect;
     });
 
-    setDebuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...debuffConfig,
       statusEffects: newStatusEffects
-    }));
+    };
+    setDebuffConfig(newConfig);
+    dispatch(actionCreators.updateDebuffConfig(newConfig));
   };
 
   // Update status effect level
@@ -458,10 +465,12 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       return effect;
     });
 
-    setDebuffConfig(prev => ({
-      ...prev,
+    const newConfig = {
+      ...debuffConfig,
       statusEffects: newStatusEffects
-    }));
+    };
+    setDebuffConfig(newConfig);
+    dispatch(actionCreators.updateDebuffConfig(newConfig));
   };
 
   // Open the configuration popup for a status effect
@@ -1969,7 +1978,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
               position: 'fixed',
               left: mousePos.x,
               top: mousePos.y,
-              zIndex: 99999,
+              zIndex: 15002, /* Standardized to ensure tooltips appear above modals */
               pointerEvents: 'none'
             }}
           >

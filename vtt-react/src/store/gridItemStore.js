@@ -667,6 +667,36 @@ const useGridItemStore = create(
       // Clear all items from the grid
       clearGrid: () => set({ gridItems: [] }),
 
+      // Load a grid item from saved state (bypasses position validation)
+      loadGridItem: (item) => set((state) => {
+        console.log('🔄 Loading grid item from saved state:', item);
+
+        // Ensure the item has required properties
+        if (!item.id) {
+          console.warn('⚠️ Grid item missing ID, skipping:', item);
+          return state;
+        }
+
+        // Check if item already exists (avoid duplicates)
+        const existingItemIndex = state.gridItems.findIndex(gridItem => gridItem.id === item.id);
+        if (existingItemIndex >= 0) {
+          console.log('🔄 Grid item already exists, updating:', item.id);
+          const updatedGridItems = [...state.gridItems];
+          updatedGridItems[existingItemIndex] = item;
+          return {
+            gridItems: updatedGridItems,
+            lastUpdate: Date.now()
+          };
+        }
+
+        // Add new item
+        console.log('✅ Grid item loaded successfully:', item.id);
+        return {
+          gridItems: [...state.gridItems, item],
+          lastUpdate: Date.now()
+        };
+      }),
+
       // Update item position on the grid
       updateItemPosition: (gridItemId, newPosition) => set((state) => {
         const currentItems = Array.isArray(state.gridItems) ? state.gridItems : [];

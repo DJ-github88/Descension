@@ -1010,35 +1010,7 @@
   flex-wrap: wrap;
 }
 
-.pf-tab {
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: none;
-  border-right: 1px solid var(--pf-brown-medium, #8B4513);
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
-  cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
-  flex: 1;
-  text-align: center;
-  font-weight: var(--pf-font-medium, 500);
-  min-width: 80px;
-}
-
-.pf-tab:last-child {
-  border-right: none;
-}
-
-.pf-tab:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
-}
-
-.pf-tab.pf-tab-active {
-  background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(139, 0, 0, 0.1) 100%);
-  color: var(--pf-fire, #8B0000);
-  font-weight: var(--pf-font-semibold, 600);
-}
+/* pf-tab styles moved to unified-tabs.css */
 
 /* Pathfinder Stat Grid */
 .pf-stat-grid {

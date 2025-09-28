@@ -186,10 +186,10 @@
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  width: 60px;
+  padding: var(--pf-space-2) var(--pf-space-3); /* Increased padding for better usability */
+  width: 100px; /* Increased from 60px for better visibility */
   text-align: center;
-  font-size: var(--pf-text-sm);
+  font-size: var(--pf-text-base); /* Increased from text-sm for better readability */
   font-family: var(--pf-font-mono);
 }
 

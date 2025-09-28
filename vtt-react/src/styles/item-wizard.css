@@ -5361,7 +5361,7 @@ h4 {
 
 .bonus-input-group .stat-input {
     text-align: center;
-    width: 80px;
+    width: 120px; /* Increased from 80px for better visibility */
     padding: 8px 12px;
     border-radius: 6px;
     background: rgba(0, 0, 0, 0.3);
@@ -5971,8 +5971,8 @@ h4 {
 }
 
 .slots-input .wow-input {
-    width: 60px;
-    padding: 6px 12px;
+    width: 100px; /* Increased from 60px for better visibility */
+    padding: 8px 12px; /* Increased padding for better usability */
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;

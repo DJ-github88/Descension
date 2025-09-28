@@ -14,6 +14,7 @@ import useCharacterTokenStore from '../../store/characterTokenStore';
 import useAuthStore from '../../store/authStore';
 import useDialogueStore from '../../store/dialogueStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
+import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import './styles/MultiplayerApp.css';
 
 // Import main game components
@@ -1456,6 +1457,36 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   }
 
   // Clean VTT interface with integrated multiplayer
+  return (
+    <RoomProvider>
+      <MultiplayerGameContent
+        currentRoom={currentRoom}
+        handleReturnToSinglePlayer={handleReturnToSinglePlayer}
+      />
+    </RoomProvider>
+  );
+};
+
+// Separate component that can use room context
+const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => {
+  const { enterMultiplayerRoom, exitRoom } = useRoomContext();
+
+  // Update room context when currentRoom changes
+  useEffect(() => {
+    if (currentRoom) {
+      const roomId = currentRoom.persistentRoomId || currentRoom.id;
+      enterMultiplayerRoom(roomId, currentRoom);
+    } else {
+      exitRoom();
+    }
+  }, [currentRoom, enterMultiplayerRoom, exitRoom]);
+
+  if (!currentRoom) {
+    return null;
+  }
+
+  const actualPlayerCount = (currentRoom.players ? currentRoom.players.size : 0) + 1; // +1 for GM
+
   return (
     <div className="multiplayer-vtt">
       {/* Localhost Multiplayer Simulator - only show in development on localhost */}

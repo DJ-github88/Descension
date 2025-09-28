@@ -4,6 +4,7 @@ import useGameStore from '../../store/gameStore';
 import WowWindow from '../windows/WowWindow';
 import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
 
 // Import professional tool components
 import DrawingTools from './tools/DrawingTools';
@@ -87,6 +88,17 @@ const ProfessionalVTTEditor = () => {
         playerZoom,
         showGrid
     } = useGameStore();
+
+    // Level editor persistence hook
+    const {
+        saveLevelEditorState,
+        loadLevelEditorState,
+        copyFromRoom,
+        clearRoomState,
+        currentRoomId,
+        isInRoom,
+        hasUnsavedChanges
+    } = useLevelEditorPersistence();
 
     // Professional VTT tool categories inspired by Roll20/Owlbear Rodeo
     const vttTools = {
@@ -1186,12 +1198,40 @@ const ProfessionalVTTEditor = () => {
                         </div>
 
                         <div className="layer-actions">
-                            <button className="action-btn primary" onClick={saveMapState}>
-                                Save Map
-                            </button>
-                            <button className="action-btn secondary">
-                                Load Map
-                            </button>
+                            {isInRoom ? (
+                                <>
+                                    <button
+                                        className={`action-btn ${hasUnsavedChanges ? 'warning' : 'primary'}`}
+                                        onClick={saveLevelEditorState}
+                                        title={`Save to Room: ${currentRoomId}`}
+                                    >
+                                        {hasUnsavedChanges ? '💾 Save*' : '💾 Save'}
+                                    </button>
+                                    <button
+                                        className="action-btn secondary"
+                                        onClick={loadLevelEditorState}
+                                        title={`Load from Room: ${currentRoomId}`}
+                                    >
+                                        📋 Load
+                                    </button>
+                                    <div className="room-status">
+                                        <small>Room: {currentRoomId}</small>
+                                        {hasUnsavedChanges && <small className="unsaved">*Unsaved changes</small>}
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <button className="action-btn primary" onClick={saveMapState}>
+                                        Save Map
+                                    </button>
+                                    <button className="action-btn secondary">
+                                        Load Map
+                                    </button>
+                                    <div className="room-status">
+                                        <small>Global Mode</small>
+                                    </div>
+                                </>
+                            )}
                             <button className="action-btn danger" onClick={clearAllProfessionalData}>
                                 Clear All
                             </button>

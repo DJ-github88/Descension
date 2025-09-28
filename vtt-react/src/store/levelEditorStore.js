@@ -1126,6 +1126,18 @@ const useLevelEditorStore = create(
                 set({ fogOfWarData: fogOfWarData || {} });
             },
 
+            setDrawingPaths: (drawingPaths) => {
+                set({ drawingPaths: drawingPaths || [] });
+            },
+
+            setDrawingLayers: (drawingLayers) => {
+                set({ drawingLayers: drawingLayers || initialState.drawingLayers });
+            },
+
+            setLightSources: (lightSources) => {
+                set({ lightSources: lightSources || {} });
+            },
+
             // Professional VTT Methods
             setSelectedTool: (tool) => {
                 set({ selectedTool: tool, activeTool: tool });

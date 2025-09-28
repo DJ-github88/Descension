@@ -175,14 +175,14 @@
       rgba(184, 134, 11, 0.1) 100%);
   
   /* ===== Z-INDEX LAYERS ===== */
-  
+
   --pf-z-base: 1;
   --pf-z-dropdown: 1000;
   --pf-z-sticky: 1020;
   --pf-z-fixed: 1030;
-  --pf-z-modal-backdrop: 1040;
-  --pf-z-modal: 1050;
-  --pf-z-popover: 1060;
+  --pf-z-modal-backdrop: 15000; /* Increased to ensure modals appear above spellbook window */
+  --pf-z-modal: 15001; /* Increased to ensure modals appear above spellbook window */
+  --pf-z-popover: 15002; /* Increased to ensure popovers appear above modals */
   --pf-z-tooltip: 1070;
   --pf-z-toast: 1080;
   

@@ -564,13 +564,20 @@ export const getRoomLimits = async (userId = null) => {
     const { isDemoMode } = await import('../config/firebase');
     if (isDemoMode) {
       console.log('🔧 Demo mode: Returning demo room limits');
+
+      // Import local room service to get local room count
+      const { default: localRoomService } = await import('./localRoomService');
+      const localRooms = localRoomService.getLocalRooms();
+      const localRoomCount = localRooms.length;
+
       return {
         tier: { name: 'Demo', roomLimit: 999 },
         limit: 999,
-        used: 0,
-        remaining: 999,
+        used: localRoomCount, // Include local rooms in demo mode
+        remaining: 999 - localRoomCount,
         canCreate: true,
-        rooms: []
+        rooms: [],
+        localRooms: localRooms
       };
     }
   } catch (error) {
@@ -580,45 +587,94 @@ export const getRoomLimits = async (userId = null) => {
   const uid = userId || auth.currentUser?.uid;
 
   if (!uid) {
-    // Not logged in - guest tier
-    return {
-      tier: await subscriptionService.getUserTier(null),
-      limit: 0,
-      used: 0,
-      remaining: 0,
-      canCreate: false
-    };
+    // Not logged in - guest tier, but still count local rooms
+    try {
+      const { default: localRoomService } = await import('./localRoomService');
+      const localRooms = localRoomService.getLocalRooms();
+      const localRoomCount = localRooms.length;
+
+      return {
+        tier: await subscriptionService.getUserTier(null),
+        limit: 0,
+        used: localRoomCount, // Show local rooms even when not logged in
+        remaining: 0,
+        canCreate: false,
+        localRooms: localRooms
+      };
+    } catch (error) {
+      console.error('Error loading local rooms for guest user:', error);
+      return {
+        tier: await subscriptionService.getUserTier(null),
+        limit: 0,
+        used: 0,
+        remaining: 0,
+        canCreate: false
+      };
+    }
   }
 
   try {
-    const userRooms = await getUserRooms(uid);
+    // Get both multiplayer and local rooms
+    const [userRooms, localRoomService] = await Promise.all([
+      getUserRooms(uid),
+      import('./localRoomService').then(module => module.default)
+    ]);
+
     const ownedRooms = userRooms.filter(room => room.userRole === 'gm');
-    const used = ownedRooms.length;
+    const localRooms = localRoomService.getLocalRooms();
+
+    // Total used rooms = multiplayer rooms + local rooms
+    const multiplayerRoomCount = ownedRooms.length;
+    const localRoomCount = localRooms.length;
+    const totalUsed = multiplayerRoomCount + localRoomCount;
 
     const tier = await subscriptionService.getUserTier(uid);
     const limit = tier.roomLimit;
-    const remaining = Math.max(0, limit - used);
+    const remaining = Math.max(0, limit - totalUsed);
+
+    console.log(`📊 Room count: ${multiplayerRoomCount} multiplayer + ${localRoomCount} local = ${totalUsed} total`);
 
     return {
       tier: tier,
       limit: limit,
-      used: used,
+      used: totalUsed,
       remaining: remaining,
-      canCreate: used < limit,
-      rooms: ownedRooms
+      canCreate: totalUsed < limit,
+      rooms: ownedRooms,
+      localRooms: localRooms,
+      multiplayerCount: multiplayerRoomCount,
+      localCount: localRoomCount
     };
   } catch (error) {
     console.error('Error getting room limits:', error);
-    // Fallback to basic info
-    const tier = await subscriptionService.getUserTier(uid);
-    return {
-      tier: tier,
-      limit: tier.roomLimit,
-      used: 0,
-      remaining: tier.roomLimit,
-      canCreate: tier.roomLimit > 0,
-      rooms: []
-    };
+    // Fallback to basic info, but still try to count local rooms
+    try {
+      const { default: localRoomService } = await import('./localRoomService');
+      const localRooms = localRoomService.getLocalRooms();
+      const localRoomCount = localRooms.length;
+
+      const tier = await subscriptionService.getUserTier(uid);
+      return {
+        tier: tier,
+        limit: tier.roomLimit,
+        used: localRoomCount, // At least show local rooms
+        remaining: Math.max(0, tier.roomLimit - localRoomCount),
+        canCreate: localRoomCount < tier.roomLimit,
+        rooms: [],
+        localRooms: localRooms
+      };
+    } catch (localError) {
+      console.error('Error loading local rooms in fallback:', localError);
+      const tier = await subscriptionService.getUserTier(uid);
+      return {
+        tier: tier,
+        limit: tier.roomLimit,
+        used: 0,
+        remaining: tier.roomLimit,
+        canCreate: tier.roomLimit > 0,
+        rooms: []
+      };
+    }
   }
 };
 

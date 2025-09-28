@@ -101,14 +101,15 @@
 }
 
 .wow-buff-duration-value {
-  width: 60px;
+  width: 100px; /* Increased from 60px for better visibility */
   background: var(--pf-gradient-parchment);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  padding: var(--pf-space-2) var(--pf-space-3); /* Increased padding for better usability */
+  font-size: var(--pf-text-base); /* Increased from text-sm for better readability */
   font-family: var(--pf-font-ui);
+  text-align: center;
 }
 
 .wow-buff-duration-unit {
@@ -243,14 +244,15 @@
 }
 
 .wow-debuff-duration-value {
-  width: 60px;
+  width: 100px; /* Increased from 60px for better visibility */
   background: var(--pf-gradient-parchment);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-size: var(--pf-text-sm);
+  padding: var(--pf-space-2) var(--pf-space-3); /* Increased padding for better usability */
+  font-size: var(--pf-text-base); /* Increased from text-sm for better readability */
   font-family: var(--pf-font-ui);
+  text-align: center;
 }
 
 .wow-debuff-duration-unit {
@@ -498,7 +500,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: 15000; /* Increased to ensure it appears above spellbook window */
 }
 
 .effect-config-popup {
@@ -809,22 +811,58 @@
 /* Conditional Formula Example */
 .wow-conditional-formula-example {
   margin-top: var(--pf-space-3);
-  padding: var(--pf-space-2);
+  padding: var(--pf-space-3);
   background: var(--pf-gradient-parchment-light);
   border-radius: var(--pf-border-radius);
   border: var(--pf-border-width) solid var(--pf-brown-light);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .wow-conditional-formula-tip {
   color: var(--pf-text-secondary);
-  font-size: var(--pf-text-xs);
+  font-size: var(--pf-text-sm);
   margin: 0;
   font-family: var(--pf-font-body);
+  line-height: 1.4;
 }
 
 .wow-conditional-formula-tip strong {
   color: var(--pf-gold);
   font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+}
+
+/* Formula Suggestions */
+.wow-formula-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  margin: var(--pf-space-3) 0;
+  padding: var(--pf-space-2);
+  background: rgba(218, 165, 32, 0.05);
+  border-radius: var(--pf-border-radius);
+  border: 1px dashed var(--pf-brown-light);
+}
+
+.wow-formula-suggestion {
+  background: var(--pf-gradient-button);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+  white-space: nowrap;
+}
+
+.wow-formula-suggestion:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-gold);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 /* Conditional Buff Preview Styles */
@@ -855,6 +893,198 @@
   color: var(--pf-text-primary);
   font-size: var(--pf-text-xs);
   font-family: var(--pf-font-body);
+}
+
+/* Buff Stat Modifier Styling */
+.wow-buff-stat-modifiers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-3);
+}
+
+.wow-buff-stat-modifier {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  transition: all var(--pf-transition-normal);
+}
+
+.wow-buff-stat-modifier:hover {
+  border-color: var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.wow-buff-stat-modifier.disabled {
+  opacity: 0.5;
+  background: var(--pf-gradient-parchment-light);
+}
+
+.wow-buff-stat-info {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex: 1;
+}
+
+.wow-buff-stat-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.wow-buff-stat-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pf-gold);
+  cursor: pointer;
+}
+
+.wow-buff-stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.wow-buff-stat-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wow-buff-stat-name {
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  font-size: var(--pf-text-sm);
+}
+
+/* Buff stat controls */
+.wow-buff-stat-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.wow-buff-stat-controls input,
+.wow-buff-stat-controls select {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  min-width: 80px;
+}
+
+.wow-buff-stat-controls input:focus,
+.wow-buff-stat-controls select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold);
+}
+
+/* Debuff Stat Penalty Styling (mirror of buff styling) */
+.wow-debuff-stat-penalties {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  margin-top: var(--pf-space-3);
+}
+
+.wow-debuff-stat-penalty {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  transition: all var(--pf-transition-normal);
+}
+
+.wow-debuff-stat-penalty:hover {
+  border-color: var(--pf-brown-medium);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.wow-debuff-stat-penalty.disabled {
+  opacity: 0.5;
+  background: var(--pf-gradient-parchment-light);
+}
+
+.wow-debuff-stat-info {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex: 1;
+}
+
+.wow-debuff-stat-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.wow-debuff-stat-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pf-gold);
+  cursor: pointer;
+}
+
+.wow-debuff-stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.wow-debuff-stat-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wow-debuff-stat-name {
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  font-size: var(--pf-text-sm);
+}
+
+/* Debuff stat controls */
+.wow-debuff-stat-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.wow-debuff-stat-controls input,
+.wow-debuff-stat-controls select {
+  background: var(--pf-gradient-parchment);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  min-width: 80px;
+}
+
+.wow-debuff-stat-controls input:focus,
+.wow-debuff-stat-controls select:focus {
+  outline: none;
+  border-color: var(--pf-gold);
+  box-shadow: 0 0 0 1px var(--pf-gold);
 }
 
 .conditional-buff-stats {

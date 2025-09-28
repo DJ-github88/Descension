@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { autoSaveCurrentRoom } from '../services/localRoomService';
+import localRoomService from '../services/localRoomService';
 import useGameStore from '../store/gameStore';
 import useCreatureStore from '../store/creatureStore';
 import useGridItemStore from '../store/gridItemStore';
@@ -12,25 +12,55 @@ import useLevelEditorStore from '../store/levelEditorStore';
 const useLocalRoomAutoSave = () => {
   const saveTimeoutRef = useRef(null);
   const lastSaveRef = useRef(0);
+  const isLoadingRef = useRef(false);
+
+  // Manual save function that can be called externally
+  const forceSave = () => {
+    if (isInLocalRoom() && !isLoadingRef.current) {
+      localRoomService.autoSaveCurrentRoom();
+      lastSaveRef.current = Date.now();
+      console.log('💾 Manual save triggered for local room');
+    }
+  };
+
+  // Function to set loading state (prevents auto-save during loading)
+  const setLoading = (loading) => {
+    isLoadingRef.current = loading;
+    if (loading) {
+      console.log('🔄 Auto-save disabled during room loading');
+    } else {
+      console.log('✅ Auto-save re-enabled after room loading');
+    }
+  };
   
   // Debounced save function to prevent excessive saves
   const debouncedSave = () => {
+    if (isLoadingRef.current) {
+      console.log('🚫 Auto-save skipped - room is loading');
+      return;
+    }
+
     const now = Date.now();
-    
+
     // Don't save more than once every 2 seconds
     if (now - lastSaveRef.current < 2000) {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
-      
+
       saveTimeoutRef.current = setTimeout(() => {
-        autoSaveCurrentRoom();
-        lastSaveRef.current = Date.now();
+        if (!isLoadingRef.current) {
+          console.log('⏰ Delayed auto-save triggered');
+          localRoomService.autoSaveCurrentRoom();
+          lastSaveRef.current = Date.now();
+        } else {
+          console.log('🚫 Delayed auto-save skipped - still loading');
+        }
       }, 2000);
       return;
     }
-    
-    autoSaveCurrentRoom();
+
+    localRoomService.autoSaveCurrentRoom();
     lastSaveRef.current = now;
   };
 
@@ -67,12 +97,13 @@ const useLocalRoomAutoSave = () => {
       }
     });
 
-    // Subscribe to creature store changes
+    // Subscribe to creature store changes (tokens, not global creatures)
     const unsubscribeCreatures = useCreatureStore.subscribe((state, prevState) => {
       if (!isInLocalRoom()) return;
-      
-      if (state.creatures !== prevState.creatures) {
-        console.log('🐉 Local room: Creatures changed, auto-saving...');
+
+      // Monitor tokens (placed creatures) instead of global creature library
+      if (state.tokens !== prevState.tokens) {
+        console.log('🎭 Local room: Tokens changed, auto-saving...');
         debouncedSave();
       }
     });
@@ -124,6 +155,9 @@ const useLocalRoomAutoSave = () => {
       }
     };
   }, []);
+
+  // Return the manual save function for external use
+  return { forceSave, setLoading };
 };
 
 export default useLocalRoomAutoSave;

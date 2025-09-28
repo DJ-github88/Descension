@@ -195,6 +195,8 @@ const useCreatureStore = create(
       }),
 
       // Creature actions
+      setCreatures: (creatures) => set({ creatures }),
+
       addCreature: (creature, categories = null) => set(state => {
         const newCreature = {
           id: creature.id || uuidv4(),
@@ -287,6 +289,53 @@ const useCreatureStore = create(
       })),
 
       // Token actions
+      clearTokens: () => {
+        console.log('🧹 Clearing all tokens from store');
+        set({ tokens: [] });
+      },
+
+      // Special method for loading tokens from saved state (bypasses existing token checks)
+      loadToken: (tokenData) => set(state => {
+        console.log('🔄 Loading token from saved state:', tokenData);
+
+        // Find the creature for this token
+        const creature = state.creatures.find(c => c.id === tokenData.creatureId);
+        if (!creature) {
+          console.warn('⚠️ Creature not found for token:', tokenData.creatureId);
+          return state;
+        }
+
+        // Check if token already exists (avoid duplicates)
+        const existingTokenIndex = state.tokens.findIndex(t => t.id === tokenData.id);
+        if (existingTokenIndex >= 0) {
+          console.log('🔄 Token already exists, updating:', tokenData.id);
+          const updatedTokens = [...state.tokens];
+          updatedTokens[existingTokenIndex] = {
+            ...tokenData,
+            // Ensure we have the creature reference
+            creature: creature
+          };
+          return { tokens: updatedTokens };
+        }
+
+        // Add new token
+        const newToken = {
+          ...tokenData,
+          creature: creature,
+          // Ensure we have proper state structure
+          state: tokenData.state || {
+            currentHp: creature.stats?.maxHp || 10,
+            currentMana: creature.stats?.maxMana || 0,
+            currentActionPoints: creature.stats?.maxActionPoints || 2,
+            conditions: [],
+            notes: ''
+          }
+        };
+
+        console.log('✅ Token loaded successfully:', newToken.id);
+        return { tokens: [...state.tokens, newToken] };
+      }),
+
       addToken: (creatureId, position, sendToServer = true, tokenId = null) => set(state => {
         console.log('🔍 addToken called with creatureId:', creatureId, 'tokenId:', tokenId, 'type:', typeof creatureId);
         console.log('📋 Available creatures in store:', state.creatures.map(c => ({ id: c.id, name: c.name, idType: typeof c.id })));
@@ -367,6 +416,9 @@ const useCreatureStore = create(
             newToken
           ]
         };
+
+        console.log('✅ Token added to store:', newToken.id, 'for creature:', creature.name);
+        console.log('📊 Total tokens in store after adding:', newState.tokens.length);
 
         // Send to multiplayer server if enabled
         if (sendToServer) {
@@ -484,30 +536,8 @@ const useCreatureStore = create(
   )
 );
 
-// Initialize the store with sample creatures if needed
-const initializeStore = async () => {
-  const state = useCreatureStore.getState();
-
-  try {
-    // Import sample creatures from data file using dynamic import
-    const creatureData = await import('../data/creatureLibraryData');
-    const LIBRARY_CREATURES = creatureData.LIBRARY_CREATURES;
-
-    // Only add library creatures that don't already exist
-    // This preserves custom creatures while ensuring library creatures are available
-    LIBRARY_CREATURES.forEach(creature => {
-      const existingCreature = state.creatures.find(c => c.id === creature.id);
-      if (!existingCreature) {
-        state.addCreature(creature);
-      }
-    });
-  } catch (error) {
-    console.error('Error loading creature library data:', error);
-  }
-};
-
-// Run initialization
-initializeStore();
+// Note: Initialization is now handled by initCreatureStore.js to avoid duplicates
+// This prevents race conditions and multiple initialization calls
 
 // Expose store for debugging
 if (typeof window !== 'undefined') {

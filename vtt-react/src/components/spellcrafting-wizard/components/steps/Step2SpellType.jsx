@@ -709,11 +709,18 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
         .duration-config {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
         }
 
         .duration-value {
-          flex: 0 0 80px;
+          flex: 0 0 120px;
+        }
+
+        .duration-value input {
+          width: 100%;
+          text-align: center;
+          font-size: 14px;
+          padding: 8px 12px;
         }
 
         .duration-unit {

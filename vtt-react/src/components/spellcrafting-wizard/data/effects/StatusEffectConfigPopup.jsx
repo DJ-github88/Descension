@@ -2174,6 +2174,12 @@ const StatusEffectConfigPopup = ({
           <h4>Luck Type</h4>
           <div className="effect-options">
             <button
+              className={`effect-option-button ${(statusEffectData?.luckType === 'bonus' || !statusEffectData?.luckType) ? 'active' : ''}`}
+              onClick={() => updateEffectConfig('luckType', 'bonus')}
+            >
+              <span>Luck Bonus</span>
+            </button>
+            <button
               className={`effect-option-button ${statusEffectData?.luckType === 'reroll' ? 'active' : ''}`}
               onClick={() => updateEffectConfig('luckType', 'reroll')}
             >
@@ -2194,11 +2200,60 @@ const StatusEffectConfigPopup = ({
           </div>
 
           <div className="option-description">
+            {statusEffectData?.luckType === 'bonus' && 'Provides a flat bonus to dice rolls'}
             {statusEffectData?.luckType === 'reroll' && 'Allows rerolling dice when you get an unfavorable result'}
             {statusEffectData?.luckType === 'minimum' && 'Sets a minimum value for dice rolls'}
             {statusEffectData?.luckType === 'choose' && 'Allows choosing the result instead of rolling'}
           </div>
         </div>
+
+        {statusEffectData?.luckType === 'bonus' && (
+          <div className="effect-config-section">
+            <h4>Luck Bonus Settings</h4>
+            <div className="effect-config-option">
+              <label>Bonus Amount</label>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={statusEffectData?.luckBonus || 1}
+                onChange={(e) => {
+                  updateEffectConfig('luckBonus', parseInt(e.target.value));
+                }}
+              />
+            </div>
+
+            <div className="effect-config-option">
+              <label>Applies To</label>
+              <select
+                value={statusEffectData?.appliesTo || 'all'}
+                onChange={(e) => updateEffectConfig('appliesTo', e.target.value)}
+              >
+                <option value="all">All Rolls</option>
+                <option value="d20">d20 Rolls Only</option>
+                <option value="attack">Attack Rolls</option>
+                <option value="damage">Damage Rolls</option>
+                <option value="skill">Skill Checks</option>
+                <option value="save">Saving Throws</option>
+                <option value="custom">Custom (Specify)</option>
+              </select>
+            </div>
+
+            {statusEffectData?.appliesTo === 'custom' && (
+              <div className="effect-config-option">
+                <label>Custom Roll Types</label>
+                <input
+                  type="text"
+                  placeholder="e.g., perception, stealth, initiative"
+                  value={statusEffectData?.customRollTypes || ''}
+                  onChange={(e) => {
+                    updateEffectConfig('customRollTypes', e.target.value);
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
 
         {statusEffectData?.luckType === 'reroll' && (
           <div className="effect-config-section">

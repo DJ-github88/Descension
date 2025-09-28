@@ -4427,7 +4427,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     transformOrigin: 'top left',
                     transform: `scale(${windowScale})`,
                     willChange: 'transform',
-                    zIndex: 10000 // Above item library (1000) but below container wizard (10001)
+                    zIndex: 15000 // Increased to ensure it appears above spellbook window
                 }}
                 onMouseDown={handleMouseDown}
             >

@@ -61,8 +61,8 @@
   .pf-range-badge,
   .pf-damage-type-badge,
   .pf-resource-cost {
-    font-size: 10px;
-    padding: 1px 4px;
+    font-size: 12px;
+    padding: 2px 5px;
   }
 }
 
@@ -420,7 +420,7 @@
   gap: var(--pf-space-1);
   padding: 2px 6px;
   border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-xs);
+  font-size: var(--pf-text-sm);
   font-weight: var(--pf-font-bold);
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -524,16 +524,15 @@
 .pf-targeting-badge {
   display: flex;
   align-items: center;
-  gap: 0; /* Remove gap since we removed the icon */
+  gap: var(--pf-space-1);
   padding: 2px 6px;
   border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-xs);
+  font-size: var(--pf-text-sm);
   font-weight: var(--pf-font-semibold);
-  border: 1px solid rgba(139, 69, 19, 0.6);
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.2), rgba(139, 69, 19, 0.1));
-  color: #d2b48c;
-  box-shadow: var(--pf-shadow-sm);
-  backdrop-filter: blur(4px);
+  border: none;
+  background: transparent;
+  color: #d1d5db;
+  box-shadow: none;
   white-space: nowrap;
   min-width: fit-content;
   max-width: 250px;
@@ -626,7 +625,7 @@
   gap: var(--pf-space-1);
   padding: 2px 6px;
   border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-xs);
+  font-size: var(--pf-text-sm);
   font-weight: var(--pf-font-semibold);
   border: none;
   background: transparent;
@@ -931,70 +930,7 @@
 
 /* ===== COMPACT TRIGGERS DISPLAY ===== */
 
-.global-triggers-compact {
-  background: rgba(218, 165, 32, 0.1);
-  border: 1px solid var(--pf-gold-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
-}
-
-.trigger-compact-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--pf-space-1);
-}
-
-.trigger-compact-modes {
-  display: flex;
-  gap: var(--pf-space-2);
-  align-items: center;
-}
-
-.trigger-compact-label {
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-gold-dark);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-family: var(--pf-font-ui);
-}
-
-.trigger-compact-mode {
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-secondary);
-  font-family: var(--pf-font-ui);
-  background: rgba(218, 165, 32, 0.2);
-  padding: 2px 6px;
-  border-radius: var(--pf-border-radius-sm);
-}
-
-.trigger-compact-logic {
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-gold-dark);
-  font-family: var(--pf-font-ui);
-  background: rgba(218, 165, 32, 0.3);
-  padding: 2px 6px;
-  border-radius: var(--pf-border-radius-sm);
-  border: 1px solid var(--pf-gold-medium);
-}
-
-.trigger-compact-conditions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pf-space-1);
-  align-items: center;
-}
-
-.trigger-compact-condition {
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-primary);
-  font-family: var(--pf-font-body);
-  font-weight: var(--pf-font-medium);
-}
+/* This section is now handled by the enhanced styling below - keeping for compatibility */
 
 .trigger-logic {
   color: var(--pf-text-primary);
@@ -1783,7 +1719,7 @@
   flex-direction: column; /* Stack components vertically like bullets */
   align-items: flex-start; /* Align to left edge beneath Cold damage type */
   gap: 2px; /* Small gap between each component line */
-  max-width: 120px; /* Constrain width to stay beneath leftmost damage type */
+  max-width: 220px; /* Increased width for longer component names */
   margin-left: 0; /* Start at the left edge of the box */
 }
 
@@ -1843,12 +1779,13 @@
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100px; /* Constrain to stay in designated area */
+  line-height: 1.3;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  max-width: 200px; /* Increased width for longer component names */
   flex: 1; /* Take remaining space in the row */
+  word-wrap: break-word;
 }
 
 .unified-spell-components-header .component-custom-text strong {
@@ -2139,53 +2076,66 @@
   margin-top: 2px; /* Consistent minimal spacing after description */
 }
 
-/* Compact triggers styling */
+/* ===== CLEAN COMPACT TRIGGERS STYLING ===== */
 .global-triggers-compact {
   order: -1; /* Move to top */
   margin: 0 0 var(--pf-space-2) 0 !important;
   padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .trigger-compact-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: var(--pf-space-2);
   margin-bottom: var(--pf-space-1);
+  padding: 0;
+  border: none;
 }
 
 .trigger-compact-label {
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-bold);
-  color: var(--pf-gold);
+  color: var(--pf-brown-dark);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-family: var(--pf-font-ui);
 }
 
 .trigger-compact-modes {
   display: flex;
   gap: var(--pf-space-1);
   font-size: var(--pf-text-xs);
+  align-items: center;
 }
 
 .trigger-compact-mode,
 .trigger-compact-logic {
   background: var(--pf-brown-medium);
   color: var(--pf-text-light);
-  padding: 1px 4px;
-  border-radius: 2px;
-  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-medium);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .trigger-compact-conditions {
-  font-size: var(--pf-text-xs);
+  font-size: var(--pf-text-sm);
   line-height: 1.3;
-  color: var(--pf-text-secondary);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
 }
 
-.trigger-compact-conditions span {
-  display: block;
-  margin-bottom: 1px;
+.trigger-compact-condition {
+  display: inline;
+  font-weight: var(--pf-font-medium);
+  color: var(--pf-text-primary);
 }
 
 /* Spell title separator line for wizard variant */
@@ -2254,7 +2204,7 @@
   font-size: 10px;
   line-height: 1.2;
   text-align: right; /* Align text to the right */
-  max-width: 180px; /* Reasonable max width */
+  max-width: 320px; /* Increased max width for longer component names */
 }
 
 .unified-spell-components .component-custom-text {
@@ -2262,10 +2212,12 @@
   text-shadow: none;
   font-style: normal;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  max-width: 300px;
+  word-wrap: break-word;
+  line-height: 1.3;
 }
 
 .unified-spell-components .component-custom-text strong {
@@ -2346,12 +2298,21 @@
   }
 
   .unified-spell-components-header {
-    max-width: 100px; /* Constrain to stay beneath leftmost damage type */
+    max-width: 160px; /* Increased width for mobile */
   }
 
   .pf-damage-types-header {
     max-width: 180px; /* Maintain spread even on smaller screens */
     gap: var(--pf-space-2); /* Reduce gap slightly on smaller screens */
+  }
+
+  .unified-spell-cooldown {
+    padding: 3px 8px;
+    font-size: var(--pf-text-xs);
+  }
+
+  .cooldown-label {
+    font-size: 10px;
   }
 }
 
@@ -2365,8 +2326,21 @@
   .pf-range-badge,
   .pf-targeting-badge,
   .pf-propagation-badge {
+    font-size: 11px;
+    padding: 2px 4px;
+  }
+
+  .unified-spell-cooldown {
+    padding: 2px 6px;
+    font-size: var(--pf-text-xs);
+  }
+
+  .cooldown-label {
     font-size: 9px;
-    padding: 1px 3px;
+  }
+
+  .cooldown-value {
+    font-size: var(--pf-text-xs);
   }
 
   .unified-spell-header-main {
@@ -2386,7 +2360,7 @@
   }
 
   .unified-spell-components-header {
-    max-width: 90px; /* Even more constrained on small screens */
+    max-width: 140px; /* Increased width for very small screens */
   }
 
   .pf-damage-types-header {
@@ -2431,9 +2405,9 @@
 @container (max-width: 300px) {
   .pf-targeting-badge,
   .pf-propagation-badge {
-    font-size: 10px;
-    padding: 1px 4px;
-    gap: 2px;
+    font-size: 11px;
+    padding: 2px 4px;
+    gap: var(--pf-space-1);
   }
 }
 
@@ -2441,10 +2415,10 @@
 @media (max-width: 600px) {
   .unified-spell-badges-row .pf-targeting-badge,
   .unified-spell-badges-row .pf-propagation-badge {
-    font-size: 10px;
-    padding: 1px 4px;
-    gap: 2px;
-    max-width: 150px;
+    font-size: 12px;
+    padding: 2px 5px;
+    gap: var(--pf-space-1);
+    max-width: 180px;
   }
 }
 
@@ -2900,6 +2874,88 @@
   font-size: var(--pf-font-size-sm);
   color: var(--pf-text-primary);
   line-height: 1.4;
+}
+
+/* ===== CONDITIONAL ACTIVATION TRIGGER STYLING ===== */
+.conditional-trigger-label {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+  color: #F5DEB3 !important;
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-font-size-xs);
+  font-weight: var(--pf-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid #654321;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+              0 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  margin-bottom: var(--pf-space-1);
+}
+
+/* Trigger mechanics text styling */
+.conditional-trigger-text {
+  background: linear-gradient(135deg, #F5DEB3 0%, #E6D3A3 100%);
+  border: 1px solid #D2B48C;
+  border-radius: var(--pf-border-radius-sm);
+  padding: var(--pf-space-2);
+  margin-top: var(--pf-space-1);
+  font-family: 'Cinzel', serif;
+  font-size: var(--pf-font-size-sm);
+  font-style: italic;
+  color: #5D4E37 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1),
+              0 1px 0 rgba(255, 255, 255, 0.8);
+  position: relative;
+}
+
+/* Remove decorative icon */
+
+/* Enhanced styling for conditional trigger items */
+.conditional-trigger-item {
+  background: rgba(245, 222, 179, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  margin: var(--pf-space-1) 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Add subtle animation to trigger items */
+.conditional-trigger-item:hover {
+  background: rgba(245, 222, 179, 0.15);
+  border-color: rgba(139, 69, 19, 0.3);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Make trigger text more readable and thematic */
+.conditional-trigger-text {
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Add subtle glow effect to the trigger label */
+.conditional-trigger-label {
+  position: relative;
+  overflow: hidden;
+}
+
+.conditional-trigger-label::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.conditional-trigger-item:hover .conditional-trigger-label::after {
+  left: 100%;
 }
 
 
@@ -3655,16 +3711,27 @@
   gap: var(--pf-space-1);
   font-size: var(--pf-text-sm);
   white-space: nowrap;
+  background: var(--pf-gradient-parchment-light);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  border: 1px solid var(--pf-brown-light);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .cooldown-label {
   font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-muted);
+  color: var(--pf-text-secondary);
+  font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .cooldown-value {
   font-weight: var(--pf-font-bold);
-  color: var(--pf-orange);
+  color: var(--pf-brown-medium);
+  font-family: var(--pf-font-ui);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 
 .spell-range,

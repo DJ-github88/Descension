@@ -560,19 +560,12 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
                     // Add a small delay to ensure DOM is updated
                     setTimeout(() => {
-                        console.log('🎯 Target HUD: Calling showFloatingCombatText now');
                         window.showFloatingCombatText(
                             Math.abs(adjustment).toString(),
                             textType,
                             floatingTextPosition
                         );
                     }, 50);
-                } else {
-                    console.log('🎯 Target HUD: NOT calling floating text:', {
-                        functionExists: typeof window.showFloatingCombatText,
-                        adjustment,
-                        adjustmentIsZero: adjustment === 0
-                    });
                 }
             } else {
                 // Update party member through party store
@@ -631,8 +624,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                             );
                         }, 50);
                     }
-                } else {
-                    console.error('❌ Party member not found:', memberId);
                 }
             }
         } else if (targetType === 'creature') {

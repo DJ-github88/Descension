@@ -2,6 +2,7 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";
+import { RoomProvider } from "./contexts/RoomContext";
 import useAuthStore from "./store/authStore";
 import useCharacterStore from "./store/characterStore";
 
@@ -35,7 +36,7 @@ const CharacterCreationPage = lazy(() => import("./components/account/CharacterC
 
 
 import initChatStore from './utils/initChatStore';
-import initCreatureStore from './utils/initCreatureStore';
+import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
 import firebaseAuthDebugger from './utils/debugFirebaseAuth';
@@ -196,11 +197,24 @@ function GameScreen() {
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Enable auto-save for local rooms
-    useLocalRoomAutoSave();
+    const { forceSave, setLoading } = useLocalRoomAutoSave();
+
+    // Save when component unmounts (navigating away from game)
+    useEffect(() => {
+        return () => {
+            // Force save when leaving the game screen
+            if (forceSave) {
+                forceSave();
+            }
+        };
+    }, [forceSave]);
 
     // Initialize local room
     const initializeLocalRoom = async (roomId) => {
         try {
+            // Disable auto-save during loading to prevent race conditions
+            setLoading(true);
+
             // Import local room service
             const { default: localRoomService } = await import('./services/localRoomService');
 
@@ -208,15 +222,34 @@ function GameScreen() {
             const room = localRoomService.getLocalRoom(roomId);
             if (!room) {
                 console.error('Local room not found:', roomId);
+                setLoading(false);
                 return;
             }
+
+            // Clear any existing room-specific state first to ensure isolation
+            await clearRoomSpecificState();
 
             // Load game state
             const gameState = localRoomService.loadRoomState(roomId);
             if (gameState) {
-                console.log('🎮 Loading local room game state');
-                await applyLocalGameState(gameState);
+                console.log('🎮 Loading local room game state:', {
+                    hasTokens: !!gameState.tokens,
+                    tokensCount: gameState.tokens?.length || 0,
+                    hasDroppedItems: !!gameState.inventory?.droppedItems,
+                    droppedItemsCount: Object.keys(gameState.inventory?.droppedItems || {}).length,
+                    hasBackgrounds: !!gameState.backgrounds,
+                    backgroundsCount: gameState.backgrounds?.length || 0
+                });
+                await applyLocalGameState(gameState, roomId);
+            } else {
+                console.log('📝 No saved state for this room - starting fresh');
             }
+
+            // Re-enable auto-save after loading is complete
+            setTimeout(() => {
+                setLoading(false);
+                console.log('✅ Room loading complete - auto-save re-enabled');
+            }, 1000); // 1 second delay to ensure all state changes are settled
 
             // Set character if specified
             if (room.characterId) {
@@ -227,18 +260,39 @@ function GameScreen() {
                 }
             }
 
-            // Clear localStorage flags
-            localStorage.removeItem('isLocalRoom');
-            localStorage.removeItem('selectedLocalRoomId');
-
-            console.log('✅ Local room initialized successfully');
+            // DON'T clear localStorage flags - we need them for saving!
+            // The flags will be cleared when leaving the room
+            console.log('✅ Local room initialized successfully - keeping room flags for saving');
         } catch (error) {
             console.error('❌ Error initializing local room:', error);
+            setLoading(false); // Re-enable auto-save even if there's an error
+        }
+    };
+
+    // Clear room-specific state to ensure isolation
+    const clearRoomSpecificState = async () => {
+        try {
+            // Import stores
+            const { default: useGameStore } = await import('./store/gameStore');
+            const { default: useCreatureStore } = await import('./store/creatureStore');
+            const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
+            const { default: useGridItemStore } = await import('./store/gridItemStore');
+
+            // Clear room-specific data (but keep global libraries)
+            useCreatureStore.getState().clearTokens(); // Clear placed tokens
+            useGridItemStore.getState().clearGrid(); // Clear dropped items
+            useGameStore.getState().setBackgrounds([]); // Clear backgrounds
+            useGameStore.getState().setCameraPosition(0, 0); // Reset camera
+            useGameStore.getState().setZoomLevel(1.0); // Reset zoom
+
+            console.log('🧹 Room-specific state cleared for isolation');
+        } catch (error) {
+            console.error('❌ Error clearing room-specific state:', error);
         }
     };
 
     // Apply local game state to stores
-    const applyLocalGameState = async (gameState) => {
+    const applyLocalGameState = async (gameState, roomId) => {
         try {
             // Import stores
             const { default: useGameStore } = await import('./store/gameStore');
@@ -250,14 +304,32 @@ function GameScreen() {
             if (gameState.backgrounds) {
                 useGameStore.getState().setBackgrounds(gameState.backgrounds);
             }
-            if (gameState.creatures) {
-                Object.values(gameState.creatures).forEach(creature => {
-                    useCreatureStore.getState().addCreature(creature);
+
+            // FIXED: Don't add creatures to global library - they should already be there
+            // Instead, load tokens if they exist using the special loadToken method
+            if (gameState.tokens && Array.isArray(gameState.tokens)) {
+                console.log('🎭 Loading tokens from room state:', gameState.tokens.length, 'tokens');
+                gameState.tokens.forEach(token => {
+                    console.log('🎭 Loading token:', { id: token.id, creatureId: token.creatureId, position: token.position });
+                    // Use loadToken method which bypasses existing token checks
+                    useCreatureStore.getState().loadToken(token);
                 });
+            } else if (gameState.tokens && typeof gameState.tokens === 'object') {
+                // Handle legacy object format
+                console.log('🎭 Loading tokens from legacy object format');
+                Object.values(gameState.tokens).forEach(token => {
+                    console.log('🎭 Loading legacy token:', { id: token.id, creatureId: token.creatureId, position: token.position });
+                    useCreatureStore.getState().loadToken(token);
+                });
+            } else {
+                console.log('🎭 No tokens to load from room state');
             }
             if (gameState.inventory?.droppedItems) {
-                Object.values(gameState.inventory.droppedItems).forEach(item => {
-                    useGridItemStore.getState().addGridItem(item);
+                const droppedItems = Object.values(gameState.inventory.droppedItems);
+                console.log('📦 Loading dropped items from room state:', droppedItems.length, 'items');
+                droppedItems.forEach(item => {
+                    console.log('📦 Loading item:', item);
+                    useGridItemStore.getState().loadGridItem(item);
                 });
             }
             if (gameState.mapData) {
@@ -266,8 +338,53 @@ function GameScreen() {
                     useGameStore.getState().setCameraPosition(cameraPosition.x, cameraPosition.y);
                 }
                 if (zoomLevel) {
-                    useGameStore.getState().setZoom(zoomLevel);
+                    useGameStore.getState().setZoomLevel(zoomLevel);
                 }
+            }
+
+            // Load level editor data if it exists
+            if (gameState.levelEditor) {
+                const levelEditorStore = useLevelEditorStore.getState();
+
+                // Load all level editor data
+                if (gameState.levelEditor.terrainData) {
+                    levelEditorStore.setTerrainData(gameState.levelEditor.terrainData);
+                }
+                if (gameState.levelEditor.environmentalObjects) {
+                    levelEditorStore.setEnvironmentalObjects(gameState.levelEditor.environmentalObjects);
+                }
+                if (gameState.levelEditor.lightSources) {
+                    levelEditorStore.setLightSources(gameState.levelEditor.lightSources);
+                }
+                if (gameState.levelEditor.wallData) {
+                    levelEditorStore.setWallData(gameState.levelEditor.wallData);
+                }
+                if (gameState.levelEditor.dndElements) {
+                    levelEditorStore.setDndElements(gameState.levelEditor.dndElements);
+                }
+                if (gameState.levelEditor.fogOfWarData) {
+                    levelEditorStore.setFogOfWarData(gameState.levelEditor.fogOfWarData);
+                }
+                if (gameState.levelEditor.drawingPaths) {
+                    levelEditorStore.setDrawingPaths(gameState.levelEditor.drawingPaths);
+                }
+                if (gameState.levelEditor.drawingLayers) {
+                    levelEditorStore.setDrawingLayers(gameState.levelEditor.drawingLayers);
+                }
+
+                console.log('🏗️ Level editor data loaded from room state');
+            }
+
+            // Also try to load from the separate level editor persistence service
+            try {
+                const { default: levelEditorPersistenceService } = await import('./services/levelEditorPersistenceService');
+                const levelEditorData = levelEditorPersistenceService.loadLevelEditorState(roomId);
+                if (levelEditorData) {
+                    useLevelEditorStore.getState().loadMapState(levelEditorData);
+                    console.log('🏗️ Level editor persistence data loaded for room:', roomId);
+                }
+            } catch (error) {
+                console.warn('Could not load level editor persistence data:', error);
             }
 
             console.log('✅ Local game state applied to stores');
@@ -339,30 +456,32 @@ function GameScreen() {
     }, [location.state?.characterId, setActiveCharacter, loadActiveCharacter]);
 
     return (
-        <div className="game-screen">
-            <FloatingCombatTextManager />
-            <Suspense fallback={<LoadingFallback message="Loading game..." />}>
-                <Grid />
-                <GridItemsManager />
-                <HUDContainer />
-                <ActionBar />
-                <CombatSelectionWindow />
-                <DynamicFogManager />
-                <DynamicLightingManager />
-                <AtmosphericEffectsManager />
-                <DialogueSystem />
-                <DialogueControls />
+        <RoomProvider>
+            <div className="game-screen">
+                <FloatingCombatTextManager />
+                <Suspense fallback={<LoadingFallback message="Loading game..." />}>
+                    <Grid />
+                    <GridItemsManager />
+                    <HUDContainer />
+                    <ActionBar />
+                    <CombatSelectionWindow />
+                    <DynamicFogManager />
+                    <DynamicLightingManager />
+                    <AtmosphericEffectsManager />
+                    <DialogueSystem />
+                    <DialogueControls />
 
-                {/* Local Room Indicator - only show when in a local room */}
-                {currentLocalRoomId && (
-                    <LocalRoomIndicator
-                        currentLocalRoomId={currentLocalRoomId}
-                        onReturnToMenu={() => navigate('/')}
-                    />
-                )}
-            </Suspense>
+                    {/* Local Room Indicator - only show when in a local room */}
+                    {currentLocalRoomId && (
+                        <LocalRoomIndicator
+                            currentLocalRoomId={currentLocalRoomId}
+                            onReturnToMenu={() => navigate('/')}
+                        />
+                    )}
+                </Suspense>
 
-        </div>
+            </div>
+        </RoomProvider>
     );
 }
 
@@ -401,6 +520,11 @@ export default function App() {
 
         initChatStore();
         initCreatureStore();
+
+        // Clean up any duplicate creatures that might exist
+        setTimeout(() => {
+            removeDuplicateCreatures();
+        }, 1000); // Give stores time to initialize
 
         // Clear old hardcoded spells from library
         initializeCleanSpellLibrary();
