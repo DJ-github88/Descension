@@ -66,22 +66,12 @@ const GridItem = ({ gridItem }) => {
       const screenPos = gridSystem.worldToScreen(gridItem.position.x, gridItem.position.y, viewportWidth, viewportHeight);
       return screenPos;
     } else if (gridItem.gridPosition) {
-      // Fallback to grid coordinates
-      try {
-        const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-        const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
-        return screenPos;
-      } catch (error) {
-        // Final fallback
-        const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
-        const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
-        return {
-          x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
-          y: (worldY - cameraY) * effectiveZoom + window.innerHeight / 2
-        };
-      }
+      // Fallback to grid coordinates - use gridSystem to ensure consistency with tokens
+      const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+      return screenPos;
     }
 
     return { x: 0, y: 0 };
@@ -92,10 +82,7 @@ const GridItem = ({ gridItem }) => {
     gridItem.gridPosition?.row,
     cameraX,
     cameraY,
-    effectiveZoom,
-    gridSize,
-    gridOffsetX,
-    gridOffsetY
+    effectiveZoom
   ]);
 
   // Calculate orb size based on grid size and zoom
