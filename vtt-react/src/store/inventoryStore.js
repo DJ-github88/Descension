@@ -910,32 +910,80 @@ const useInventoryStore = create(persist((set, get) => ({
         // Current position
         const { row, col } = item.position;
 
-        // For simplicity and predictability, we'll just check if the item can rotate in place
-        // This avoids issues with items jumping around the grid
         // Create a temporary item with the new rotation for validation
         const tempItem = { ...item, rotation: newRotation };
-        if (!isValidPosition(
-            state.items.filter(i => i.id !== itemId),
-            row,
-            col,
-            tempItem,
-            itemId
-        )) {
-            // If rotation in place isn't valid, don't rotate
-            return { items: state.items };
+        const otherItems = state.items.filter(i => i.id !== itemId);
+
+        // First, try to rotate in place
+        if (isValidPosition(otherItems, row, col, tempItem, itemId)) {
+            // Rotation in place is valid, update the item
+            const updatedItems = state.items.map(i =>
+                i.id === itemId
+                    ? { ...i, rotation: newRotation }
+                    : i
+            );
+
+            // Update encumbrance state after rotating
+            setTimeout(() => get().updateEncumbranceState(), 0);
+
+            return { items: updatedItems };
         }
 
-        // Rotation is valid, update the item
-        const updatedItems = state.items.map(i =>
-            i.id === itemId
-                ? { ...i, rotation: newRotation }
-                : i
-        );
+        // If rotation in place isn't valid, try to find a nearby position where it would fit
+        // Search in a spiral pattern starting from the current position
+        const currentGridSize = getCurrentGridSize();
+        const maxSearchRadius = Math.max(currentGridSize.WIDTH, currentGridSize.HEIGHT);
 
-        // Update encumbrance state after rotating
-        setTimeout(() => get().updateEncumbranceState(), 0);
+        // Helper function to generate positions in a spiral pattern
+        const getSpiralPositions = (centerRow, centerCol, maxRadius) => {
+            const positions = [];
 
-        return { items: updatedItems };
+            // Start with positions closest to the original position
+            for (let radius = 1; radius <= maxRadius; radius++) {
+                // Top row (left to right)
+                for (let c = centerCol - radius; c <= centerCol + radius; c++) {
+                    positions.push({ row: centerRow - radius, col: c });
+                }
+                // Right column (top to bottom, excluding corners)
+                for (let r = centerRow - radius + 1; r <= centerRow + radius - 1; r++) {
+                    positions.push({ row: r, col: centerCol + radius });
+                }
+                // Bottom row (right to left)
+                for (let c = centerCol + radius; c >= centerCol - radius; c--) {
+                    positions.push({ row: centerRow + radius, col: c });
+                }
+                // Left column (bottom to top, excluding corners)
+                for (let r = centerRow + radius - 1; r >= centerRow - radius + 1; r--) {
+                    positions.push({ row: r, col: centerCol - radius });
+                }
+            }
+
+            return positions;
+        };
+
+        // Search for a valid position in spiral pattern
+        const spiralPositions = getSpiralPositions(row, col, maxSearchRadius);
+
+        for (const pos of spiralPositions) {
+            if (isValidPosition(otherItems, pos.row, pos.col, tempItem, itemId)) {
+                // Found a valid position! Rotate and move the item
+                const updatedItems = state.items.map(i =>
+                    i.id === itemId
+                        ? { ...i, rotation: newRotation, position: { row: pos.row, col: pos.col } }
+                        : i
+                );
+
+                // Update encumbrance state after rotating
+                setTimeout(() => get().updateEncumbranceState(), 0);
+
+                console.log(`🔄 Rotated item and moved from (${row}, ${col}) to (${pos.row}, ${pos.col})`);
+                return { items: updatedItems };
+            }
+        }
+
+        // If no valid position found anywhere, don't rotate
+        console.warn(`⚠️ Cannot rotate item - no valid position found in inventory`);
+        return { items: state.items };
     }),
 
     // Split stack into two
