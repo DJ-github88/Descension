@@ -1,0 +1,531 @@
+/* Talent Tree Window - Pathfinder Beige Style */
+
+.talent-tree-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    color: var(--pf-text-primary, #2d1810);
+    overflow: hidden;
+}
+
+.talent-tree-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.2rem;
+    color: var(--pf-brown-medium, #8B4513);
+}
+
+/* Floating Controls - Points and Reset in top-right of grid */
+.talent-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.points-display {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d1810;
+    padding: 6px 12px;
+    background: linear-gradient(145deg, rgba(248, 244, 230, 0.95) 0%, rgba(237, 228, 211, 0.95) 100%);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.points-label {
+    color: var(--pf-text-secondary, #5d4e37);
+    font-size: 0.85rem;
+}
+
+.points-value {
+    color: #D4AF37;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-shadow:
+        0 0 8px rgba(212, 175, 55, 0.6),
+        1px 1px 2px rgba(0, 0, 0, 0.4);
+    min-width: 20px;
+    text-align: center;
+}
+
+.reset-talents-btn {
+    padding: 6px 14px;
+    background: linear-gradient(145deg, rgba(248, 244, 230, 0.95) 0%, rgba(237, 228, 211, 0.95) 100%);
+    border: 2px solid var(--pf-brown-medium, #8B4513);
+    border-radius: 6px;
+    color: var(--pf-text-primary, #2d1810);
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+}
+
+.reset-talents-btn:hover {
+    background: linear-gradient(145deg, rgba(237, 228, 211, 0.95) 0%, rgba(232, 220, 198, 0.95) 100%);
+    border-color: var(--pf-gold, #D4AF37);
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+.reset-talents-btn:active {
+    transform: translateY(0);
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(139, 69, 19, 0.2);
+}
+
+/* Talent Grid Container - TTRPG optimized layout */
+.talent-grid-container {
+    flex: 1;
+    overflow: auto;
+    padding: 70px 30px 30px 30px; /* Optimized padding */
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    /* Backdrop overlay for better talent visibility */
+    background-blend-mode: overlay;
+    min-height: 600px; /* Ensure enough vertical space */
+}
+
+.talent-grid-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(248, 244, 230, 0.15) 0%,
+        rgba(238, 232, 213, 0.1) 50%,
+        rgba(248, 244, 230, 0.15) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.talent-grid-absolute {
+    position: relative;
+    z-index: 1;
+    margin-top: 10px;
+}
+
+/* Talent Node Container - Absolute positioned wrapper */
+.talent-node-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* Talent Node - TTRPG style with larger icons */
+.talent-node {
+    position: relative;
+    /* Size set inline via style attribute (80px default) */
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 10;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5));
+}
+
+.talent-icon-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 4px solid var(--pf-brown-medium, #8B4513);
+    box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.6),
+        inset 0 2px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.5);
+    background: #0a0a0a;
+    transition: all 0.25s ease;
+}
+
+.talent-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) brightness(0.4);
+    transition: all 0.25s ease;
+}
+
+/* Talent States */
+.talent-node.locked .talent-icon {
+    filter: grayscale(100%) brightness(0.25) contrast(0.8);
+    opacity: 0.7;
+}
+
+.talent-node.locked .talent-icon-wrapper {
+    border-color: rgba(80, 40, 20, 0.6);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.05),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.6);
+}
+
+.talent-node.learnable .talent-icon-wrapper {
+    border-color: var(--pf-gold, #D4AF37);
+    box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.6),
+        inset 0 2px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(212, 175, 55, 0.9),
+        0 0 30px rgba(212, 175, 55, 0.5);
+    animation: talent-glow 2s ease-in-out infinite;
+}
+
+.talent-node.learnable .talent-icon {
+    filter: grayscale(20%) brightness(0.95) saturate(1.2);
+}
+
+.talent-node.learnable:hover {
+    transform: scale(1.12);
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+}
+
+.talent-node.learnable:hover .talent-icon-wrapper {
+    border-color: #FFD700;
+    box-shadow:
+        0 12px 24px rgba(0, 0, 0, 0.7),
+        inset 0 2px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+        0 0 32px rgba(255, 215, 0, 1),
+        0 0 48px rgba(255, 215, 0, 0.7);
+    animation: none;
+}
+
+.talent-node.learnable:hover .talent-icon {
+    filter: grayscale(0%) brightness(1.2);
+}
+
+/* Talent glow animation */
+@keyframes talent-glow {
+    0%, 100% {
+        box-shadow:
+            0 8px 16px rgba(0, 0, 0, 0.5),
+            inset 0 3px 0 rgba(255, 255, 255, 0.2),
+            inset 0 -3px 0 rgba(0, 0, 0, 0.4),
+            0 0 24px rgba(212, 175, 55, 0.8),
+            0 0 32px rgba(212, 175, 55, 0.4);
+    }
+    50% {
+        box-shadow:
+            0 8px 16px rgba(0, 0, 0, 0.5),
+            inset 0 3px 0 rgba(255, 255, 255, 0.2),
+            inset 0 -3px 0 rgba(0, 0, 0, 0.4),
+            0 0 32px rgba(212, 175, 55, 1),
+            0 0 40px rgba(212, 175, 55, 0.6);
+    }
+}
+
+.talent-node.learned .talent-icon-wrapper {
+    border-color: #5cb85c;
+    box-shadow:
+        0 8px 16px rgba(0, 0, 0, 0.6),
+        inset 0 2px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+        0 0 16px rgba(92, 184, 92, 0.9),
+        0 0 24px rgba(92, 184, 92, 0.5);
+}
+
+.talent-node.learned .talent-icon {
+    filter: none;
+    brightness: 1.15;
+    saturate: 1.1;
+}
+
+.talent-node.learned:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+}
+
+.talent-node.learned:hover .talent-icon-wrapper {
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.7),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+        0 0 24px rgba(92, 184, 92, 1),
+        0 0 36px rgba(92, 184, 92, 0.7);
+}
+
+/* Rank Indicator - Always visible, TTRPG style */
+.talent-ranks {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 20, 10, 0.95) 100%);
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 800;
+    font-family: 'Cinzel', serif;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 2px solid rgba(100, 100, 100, 0.6);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Rank indicator when talent has points */
+.talent-node.learned .talent-ranks {
+    color: #FFD700;
+    border-color: rgba(212, 175, 55, 0.9);
+    box-shadow:
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 2px 6px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    text-shadow:
+        0 0 6px rgba(255, 215, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Rank indicator when talent is learnable */
+.talent-node.learnable .talent-ranks {
+    color: #D4AF37;
+    border-color: rgba(212, 175, 55, 0.7);
+}
+
+/* Talent Tooltip */
+.talent-tooltip {
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
+    border: 3px solid var(--pf-brown-medium, #8B4513);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 320px;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    font-family: 'Cinzel', serif;
+    z-index: 999999999;
+}
+
+.talent-tooltip-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--pf-brown-medium, #8B4513);
+}
+
+.talent-tooltip-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--pf-text-primary, #2d1810);
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+}
+
+.talent-tooltip-ranks {
+    font-size: 0.9rem;
+    color: var(--pf-gold, #D4AF37);
+    font-weight: 600;
+}
+
+.talent-tooltip-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--pf-text-secondary, #5d4e37);
+    margin-bottom: 12px;
+}
+
+.talent-tooltip-requirement {
+    font-size: 0.85rem;
+    color: #DC143C;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.talent-tooltip-hint {
+    font-size: 0.8rem;
+    color: var(--pf-brown-medium, #8B4513);
+    font-style: italic;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+/* Scrollbar Styling */
+.talent-grid-container::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+
+.talent-grid-container::-webkit-scrollbar-track {
+    background: rgba(139, 69, 19, 0.15);
+    border-radius: 8px;
+    border: 2px solid rgba(139, 69, 19, 0.3);
+}
+
+.talent-grid-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--pf-brown-medium, #8B4513) 0%, #654321 100%);
+    border-radius: 8px;
+    border: 2px solid rgba(248, 244, 230, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.talent-grid-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #A0522D 0%, var(--pf-brown-medium, #8B4513) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.talent-grid-container::-webkit-scrollbar-corner {
+    background: rgba(139, 69, 19, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .talent-node {
+        width: 56px;
+        height: 56px;
+    }
+
+    .talent-icon-wrapper {
+        border-width: 4px;
+    }
+
+    .talent-tree-header {
+        padding: 16px 20px;
+    }
+
+    .tree-header-left h2 {
+        font-size: 1.5rem;
+    }
+
+    .points-display {
+        font-size: 1rem;
+        padding: 10px 16px;
+    }
+
+    .points-value {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .talent-node {
+        width: 48px;
+        height: 48px;
+    }
+
+    .talent-icon-wrapper {
+        border-width: 3px;
+        border-radius: 10px;
+    }
+
+    .talent-ranks {
+        font-size: 0.7rem;
+        padding: 2px 5px;
+    }
+
+    .talent-tree-tabs {
+        padding: 12px 16px;
+        gap: 8px;
+    }
+
+    .tree-tab-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .tree-tab-name {
+        font-size: 1rem;
+    }
+
+    .tree-tab-points {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .talent-icon-wrapper {
+        border-width: 3px;
+        border-radius: 10px;
+    }
+
+    .talent-grid-container {
+        padding: 50px 15px 15px 15px;
+    }
+
+    .talent-controls {
+        top: 10px;
+        right: 10px;
+        gap: 8px;
+    }
+
+    .points-display {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+
+    .points-value {
+        font-size: 1rem;
+    }
+
+    .reset-talents-btn {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+    }
+
+    .talent-ranks {
+        font-size: 0.75rem;
+        padding: 3px 6px;
+        border-width: 1.5px;
+    }
+
+    .talent-tooltip {
+        max-width: 280px;
+        padding: 12px;
+    }
+
+    .talent-tooltip-name {
+        font-size: 1.1rem;
+    }
+
+    .talent-tooltip-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* Print styles */
+@media print {
+    .talent-controls {
+        display: none;
+    }
+
+    .talent-grid-container {
+        overflow: visible;
+    }
+}
+

@@ -4,10 +4,12 @@
  */
 
 const ACTION_BAR_STORAGE_PREFIX = 'mythrill-actionbar-';
+const HOTKEY_STORAGE_PREFIX = 'mythrill-hotkeys-';
 
 class ActionBarPersistenceService {
   constructor() {
     this.cache = new Map(); // In-memory cache for performance
+    this.hotkeyCache = new Map(); // Cache for hotkey bindings
   }
 
   /**
@@ -180,7 +182,7 @@ class ActionBarPersistenceService {
   getAllCharacterConfigs(characterId) {
     const configs = {};
     const prefix = `${ACTION_BAR_STORAGE_PREFIX}${characterId}-`;
-    
+
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -193,8 +195,124 @@ class ActionBarPersistenceService {
     } catch (error) {
       console.error('Error getting all character configs:', error);
     }
-    
+
     return configs;
+  }
+
+  /**
+   * Get hotkey storage key for character-room combination
+   * @param {string} characterId - Character ID
+   * @param {string} roomId - Room ID (or 'global' for default)
+   * @returns {string} Storage key
+   */
+  getHotkeyStorageKey(characterId, roomId = 'global') {
+    return `${HOTKEY_STORAGE_PREFIX}${characterId}-${roomId}`;
+  }
+
+  /**
+   * Save hotkey bindings for a character in a specific room
+   * @param {string} characterId - Character ID
+   * @param {string} roomId - Room ID
+   * @param {Object} hotkeys - Object mapping slot indices to hotkey strings
+   * @returns {boolean} Success status
+   */
+  saveHotkeys(characterId, roomId, hotkeys) {
+    if (!characterId) {
+      console.warn('Invalid character ID for saving hotkeys');
+      return false;
+    }
+
+    try {
+      const storageKey = this.getHotkeyStorageKey(characterId, roomId);
+      const hotkeyData = {
+        characterId,
+        roomId,
+        hotkeys,
+        lastSaved: new Date().toISOString(),
+        version: '1.0'
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(hotkeyData));
+      this.hotkeyCache.set(storageKey, hotkeyData);
+
+      console.log(`⌨️ Hotkeys saved for character ${characterId} in room ${roomId}`);
+      return true;
+    } catch (error) {
+      console.error('Error saving hotkeys:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Load hotkey bindings for a character in a specific room
+   * @param {string} characterId - Character ID
+   * @param {string} roomId - Room ID
+   * @returns {Object|null} Hotkey bindings object or null if not found
+   */
+  loadHotkeys(characterId, roomId) {
+    if (!characterId) {
+      console.warn('Invalid character ID for loading hotkeys');
+      return null;
+    }
+
+    try {
+      const storageKey = this.getHotkeyStorageKey(characterId, roomId);
+
+      // Check cache first
+      if (this.hotkeyCache.has(storageKey)) {
+        const cached = this.hotkeyCache.get(storageKey);
+        console.log(`⌨️ Hotkeys loaded from cache for character ${characterId} in room ${roomId}`);
+        return cached.hotkeys;
+      }
+
+      // Load from localStorage
+      const stored = localStorage.getItem(storageKey);
+      if (!stored) {
+        // Try to load global hotkeys as fallback
+        if (roomId !== 'global') {
+          console.log(`🔄 No room-specific hotkeys found, trying global hotkeys for character ${characterId}`);
+          return this.loadHotkeys(characterId, 'global');
+        }
+        return null;
+      }
+
+      const hotkeyData = JSON.parse(stored);
+
+      // Validate data structure
+      if (!hotkeyData.hotkeys || typeof hotkeyData.hotkeys !== 'object') {
+        console.warn('Invalid hotkey data structure');
+        return null;
+      }
+
+      // Update cache
+      this.hotkeyCache.set(storageKey, hotkeyData);
+
+      console.log(`⌨️ Hotkeys loaded for character ${characterId} in room ${roomId}`);
+      return hotkeyData.hotkeys;
+    } catch (error) {
+      console.error('Error loading hotkeys:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Delete hotkey bindings for a character in a specific room
+   * @param {string} characterId - Character ID
+   * @param {string} roomId - Room ID
+   * @returns {boolean} Success status
+   */
+  deleteHotkeys(characterId, roomId) {
+    try {
+      const storageKey = this.getHotkeyStorageKey(characterId, roomId);
+      localStorage.removeItem(storageKey);
+      this.hotkeyCache.delete(storageKey);
+
+      console.log(`🗑️ Hotkeys deleted for character ${characterId} in room ${roomId}`);
+      return true;
+    } catch (error) {
+      console.error('Error deleting hotkeys:', error);
+      return false;
+    }
   }
 
   /**

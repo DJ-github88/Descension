@@ -36,6 +36,12 @@ import ExternalLivePreview from './spellcrafting-wizard/ExternalLivePreview';
 // Pre-load these components instead of lazy loading for better development experience
 import SpellbookWindow from './windows/SpellbookWindow';
 import CampaignManagerWindow from './windows/CampaignManagerWindow';
+const TalentTreeWindow = lazy(() =>
+    import('./windows/TalentTreeWindow').catch(err => {
+        console.error('Failed to load TalentTreeWindow:', err);
+        return { default: () => <div>Error loading Talent Tree</div> };
+    })
+);
 const QuestLogWindow = lazy(() =>
     import('./windows/QuestLogWindow').catch(err => {
         console.error('Failed to load QuestLogWindow:', err);
@@ -398,6 +404,19 @@ const NAVIGATION_BUTTONS = [
         title: 'Spellbook',
         shortcut: 'S',
         svg: <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+    },
+    {
+        id: 'talents',
+        title: 'Talent Tree',
+        shortcut: 'T',
+        svg: <>
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+            <circle cx="12" cy="7" r="1.5"/>
+            <circle cx="7" cy="12" r="1.5"/>
+            <circle cx="17" cy="12" r="1.5"/>
+            <circle cx="12" cy="17" r="1.5"/>
+        </>
     },
     {
         id: 'itemgen',
@@ -962,6 +981,18 @@ export default function Navigation({ onReturnToLanding }) {
                                     onClose={() => handleButtonClick(button.id)}
                                 />
                             </SpellLibraryProvider>
+                        </Suspense>
+                    </ErrorBoundary>
+                );
+            case 'talents':
+                return shouldRender && (
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <TalentTreeWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
                         </Suspense>
                     </ErrorBoundary>
                 );

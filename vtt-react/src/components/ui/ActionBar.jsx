@@ -10,6 +10,8 @@ import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip
 import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
 import { useRoomContext } from '../../contexts/RoomContext';
+import HotkeyAssignmentPopup from './HotkeyAssignmentPopup';
+import actionBarPersistenceService from '../../services/actionBarPersistenceService';
 import './ActionBar.css';
 
 const ActionBar = () => {
@@ -27,6 +29,7 @@ const ActionBar = () => {
 
     const [draggedSpell, setDraggedSpell] = useState(null);
     const dragOverSlot = useRef(null);
+    const actionBarContainerRef = useRef(null);
 
     // Tooltip state for consumables
     const [showTooltip, setShowTooltip] = useState(false);
@@ -39,6 +42,11 @@ const ActionBar = () => {
     const [tooltipSpell, setTooltipSpell] = useState(null);
     const spellHoverTimeoutRef = useRef(null);
     const spellHideTimeoutRef = useRef(null);
+
+    // Hotkey assignment state
+    const [showHotkeyPopup, setShowHotkeyPopup] = useState(false);
+    const [hotkeySlotIndex, setHotkeySlotIndex] = useState(null);
+    const [hotkeys, setHotkeys] = useState({});
 
     // Get spell library for spell tooltips (hooks must be called unconditionally)
     const spellLibrary = useSpellLibrary();
@@ -57,7 +65,63 @@ const ActionBar = () => {
 
     // Get combat store for turn restrictions
     const { isInCombat, getCurrentCombatant } = useCombatStore();
-    const currentCharacterId = useCharacterStore(state => state.id); // Assuming character has an ID
+    const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
+
+    // Load hotkeys on mount and when character/room changes
+    useEffect(() => {
+        if (currentCharacterId) {
+            const loadedHotkeys = actionBarPersistenceService.loadHotkeys(currentCharacterId, currentRoomId);
+            if (loadedHotkeys) {
+                setHotkeys(loadedHotkeys);
+            } else {
+                // Set default hotkeys (1-9, 0)
+                const defaultHotkeys = {};
+                for (let i = 0; i < 10; i++) {
+                    defaultHotkeys[i] = i === 9 ? '0' : `${i + 1}`;
+                }
+                setHotkeys(defaultHotkeys);
+            }
+        }
+    }, [currentCharacterId, currentRoomId]);
+
+    // Keyboard event listener for hotkey activation
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // Don't handle if user is typing in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+
+            // Don't handle if hotkey popup is open
+            if (showHotkeyPopup) {
+                return;
+            }
+
+            // Build the pressed key combination
+            let pressedKey = '';
+            if (e.ctrlKey) pressedKey += 'Ctrl+';
+            if (e.altKey) pressedKey += 'Alt+';
+            if (e.shiftKey) pressedKey += 'Shift+';
+
+            let keyName = e.key.toUpperCase();
+            if (e.key === ' ') keyName = 'Space';
+            else if (e.key.length === 1) keyName = e.key.toUpperCase();
+            else keyName = e.key;
+
+            pressedKey += keyName;
+
+            // Find the slot with this hotkey
+            const slotIndex = Object.keys(hotkeys).find(index => hotkeys[index] === pressedKey);
+
+            if (slotIndex !== undefined) {
+                e.preventDefault();
+                handleSlotClick(parseInt(slotIndex));
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [hotkeys, showHotkeyPopup, actionSlots]);
 
     // Helper function to get current quantity of a consumable item
     const getItemQuantity = (itemId) => {
@@ -287,15 +351,32 @@ const ActionBar = () => {
 
     const handleRightClick = (e, slotIndex) => {
         e.preventDefault();
-        const item = actionSlots[slotIndex];
 
-        if (item && item.type === 'consumable') {
-            // For consumables, use the item instead of removing it
-            handleSlotClick(slotIndex);
-        } else {
-            // For spells and other items, remove from slot
-            clearSlot(slotIndex);
+        // Open hotkey assignment popup
+        setHotkeySlotIndex(slotIndex);
+        setShowHotkeyPopup(true);
+    };
+
+    const handleHotkeyAssign = (newHotkey) => {
+        if (hotkeySlotIndex === null) return;
+
+        // Update hotkeys state
+        const updatedHotkeys = { ...hotkeys, [hotkeySlotIndex]: newHotkey };
+        setHotkeys(updatedHotkeys);
+
+        // Save to localStorage
+        if (currentCharacterId) {
+            actionBarPersistenceService.saveHotkeys(currentCharacterId, currentRoomId, updatedHotkeys);
         }
+
+        // Close popup
+        setShowHotkeyPopup(false);
+        setHotkeySlotIndex(null);
+    };
+
+    const handleHotkeyPopupClose = () => {
+        setShowHotkeyPopup(false);
+        setHotkeySlotIndex(null);
     };
 
     const getSlotIcon = (item) => {
@@ -514,7 +595,7 @@ const ActionBar = () => {
     };
 
     return (
-        <div className="action-bar-container">
+        <div className="action-bar-container" ref={actionBarContainerRef}>
             <div className="action-bar">
                 {actionSlots.map((item, index) => {
                     const isConsumable = item && item.type === 'consumable';
@@ -601,11 +682,22 @@ const ActionBar = () => {
                                 )}
                             </>
                         )}
-                        <div className="slot-number">{index + 1}</div>
+                        <div className="slot-number">{hotkeys[index] || (index + 1)}</div>
                     </div>
                     );
                 })}
             </div>
+
+            {/* Hotkey Assignment Popup */}
+            {showHotkeyPopup && hotkeySlotIndex !== null && (
+                <HotkeyAssignmentPopup
+                    slotIndex={hotkeySlotIndex}
+                    currentHotkey={hotkeys[hotkeySlotIndex]}
+                    onAssign={handleHotkeyAssign}
+                    onClose={handleHotkeyPopupClose}
+                    actionBarRef={actionBarContainerRef}
+                />
+            )}
 
             {/* Consumable Tooltip */}
             {showTooltip && tooltipItem && (
