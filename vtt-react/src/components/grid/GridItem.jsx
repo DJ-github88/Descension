@@ -374,7 +374,8 @@ const GridItem = ({ gridItem }) => {
           boxShadow: isDragging
             ? '0 8px 16px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8)'
             : '0 2px 4px rgba(0, 0, 0, 0.2)',
-          transition: isDragging ? 'none' : 'all 0.2s ease', // No transition while dragging
+          // No transition on position properties to prevent floating during camera movement
+          transition: isDragging ? 'none' : 'filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease',
           // Conditionally add background image for the item icon
           ...(imageLoaded && !imageError ? {
             backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg)`,

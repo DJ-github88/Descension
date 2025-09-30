@@ -29,8 +29,11 @@
   /* Enhanced border with quality-based styling */
   border: calc(var(--orb-size, 20px) * 0.03) solid rgba(255, 255, 255, 0.6);
 
-  /* Smooth transitions */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Smooth transitions - EXCLUDE left/top to prevent floating during camera movement */
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* When background image is present, add overlay for 3D effect */
   position: relative;
