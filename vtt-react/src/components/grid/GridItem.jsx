@@ -36,9 +36,6 @@ const GridItem = ({ gridItem }) => {
   const zoomLevel = useGameStore(state => state.zoomLevel);
   const playerZoom = useGameStore(state => state.playerZoom);
   const gridSize = useGameStore(state => state.gridSize);
-  const gridOffsetX = useGameStore(state => state.gridOffsetX);
-  const gridOffsetY = useGameStore(state => state.gridOffsetY);
-  const gridMovesWithBackground = useGameStore(state => state.gridMovesWithBackground);
 
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
@@ -89,7 +86,7 @@ const GridItem = ({ gridItem }) => {
   const orbSize = useMemo(() => {
     const baseSize = gridSize * 0.6;
     return baseSize * effectiveZoom;
-  }, [gridSize, zoomLevel, playerZoom, effectiveZoom]);
+  }, [gridSize, effectiveZoom]);
 
   // Get functions from the grid item store
   const lootItem = useGridItemStore(state => state.lootItem);
