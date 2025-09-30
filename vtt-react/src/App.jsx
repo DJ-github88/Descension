@@ -104,7 +104,6 @@ const loadGameStyles = () => {
 
         // Load HUD-related CSS files that were removed from components
         import('./components/hud/styles/ClassResourceBar.css'),
-        import('./styles/buff-container.css'),
 
         // Load UI component CSS files that were removed from components
         // NOTE: ActionBar.css is now preloaded above to prevent multiplayer timing issues

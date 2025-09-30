@@ -198,13 +198,32 @@ const DraggableWindow = forwardRef(({
         }
 
         // Only stop propagation if this is actually a window drag (from the handle)
-        if (e.target.closest(`.${handleClassName}`)) {
+        if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Handle drag with pure immediate feedback - let react-draggable handle positioning
+    // Add scale-aware drag throttling for consistent feel across different window scales
+    const lastDragTime = useRef(0);
+    const getDragThrottleMs = useCallback(() => {
+        // Reduced throttling for better responsiveness
+        // At 0.5x scale: 8ms throttle (~125fps)
+        // At 1.0x scale: 4ms throttle (~250fps)
+        // At 1.5x scale: 4ms throttle (~250fps)
+        return Math.max(4, Math.round(8 / windowScale));
+    }, [windowScale]);
+
+    // Handle drag with scale-aware throttling for consistent movement feel
     const handleDrag = useCallback((e, data) => {
+        const now = Date.now();
+        const throttleMs = getDragThrottleMs();
+
+        // Apply scale-aware throttling
+        if (now - lastDragTime.current < throttleMs) {
+            return;
+        }
+        lastDragTime.current = now;
+
         // Update position state for React consistency
         setPosition({ x: data.x, y: data.y });
         positionRef.current = { x: data.x, y: data.y };
@@ -215,10 +234,10 @@ const DraggableWindow = forwardRef(({
         }
 
         // Only stop propagation if this is actually a window drag (from the handle)
-        if (e.target.closest(`.${handleClassName}`)) {
+        if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, handleClassName]);
+    }, [onDrag, handleClassName, getDragThrottleMs]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -253,7 +272,7 @@ const DraggableWindow = forwardRef(({
         }
 
         // Only stop propagation if this is actually a window drag (from the handle)
-        if (e.target.closest(`.${handleClassName}`)) {
+        if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
     }, [onDrag, onDragStop, zIndex, handleClassName]);
@@ -271,16 +290,20 @@ const DraggableWindow = forwardRef(({
       }
     }
 
+    // Calculate scale-aware grid size for consistent drag feel across all scales
+    const gridSize = Math.max(1, Math.round(1 / windowScale)); // Reduced grid size for better responsiveness
+
     return (
         <Draggable
             handle={`.${handleClassName}`}
             position={position}
             nodeRef={nodeRef}
             bounds={false} // Remove all bounds restrictions for free movement
+            grid={[gridSize, gridSize]} // Scale-aware grid snapping for consistent sensitivity
             onStart={handleDragStart}
             onDrag={handleDrag}
             onStop={handleDragStop}
-            scale={windowScale} // Pass the window scale to react-draggable for proper drag handling
+            scale={1} // Fixed scale to prevent double scaling - CSS handles visual scaling
             enableUserSelectHack={false} // Disable user select hack for better performance
         >
             <div

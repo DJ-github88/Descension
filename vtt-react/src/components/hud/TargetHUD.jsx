@@ -522,7 +522,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const maxValue = currentResource.max;
                 const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
 
-                updateResource(resourceType, newValue); // Don't pass maxValue unless we want to change it
+                updateResource(resourceType, newValue, undefined); // Pass undefined for max to keep it unchanged
 
                 // Show floating combat text for current player at Target HUD position
                 if (window.showFloatingCombatText && adjustment !== 0) {

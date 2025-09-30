@@ -433,25 +433,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
     dispatch(actionCreators.updateBuffConfig(buffConfig));
   }, [buffConfig, dispatch]);
 
-  // Initialize duration fields if not set
-  useEffect(() => {
-    // Check if we need to migrate from legacy duration format
-    if (buffConfig && buffConfig.duration && !buffConfig.durationType) {
-      const updatedConfig = { ...buffConfig };
 
-      // If duration is -1, it means "until dispelled"
-      if (buffConfig.duration === -1) {
-        updatedConfig.durationType = 'permanent';
-        updatedConfig.canBeDispelled = true;
-      } else {
-        // Otherwise, default to turns/rounds
-        updatedConfig.durationType = 'turns';
-        updatedConfig.durationValue = buffConfig.duration;
-      }
-
-      setBuffConfig(updatedConfig);
-    }
-  }, []);
 
   // Update buff configuration state (global settings)
   const updateBuffConfig = (key, value) => {
@@ -923,7 +905,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             affectsAttacks: true,
             affectsSaves: true,
             affectsSkills: false,
-            durationType: 'minutes',
+            durationType: 'rounds',
             durationValue: 10,
             canBeDispelled: true
           },
@@ -932,7 +914,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             damageTypes: ['fire'],
             resistanceValue: '50',
             absorptionAmount: '',
-            durationType: 'minutes',
+            durationType: 'rounds',
             durationValue: 10,
             canStack: false
           },
@@ -946,13 +928,13 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           },
           'invisible': {
             option: 'full',
-            durationType: 'minutes',
+            durationType: 'rounds',
             durationValue: 10,
             canBeDispelled: true
           },
           'flying': {
             option: 'wings',
-            durationType: 'minutes',
+            durationType: 'rounds',
             durationValue: 10,
             canBeDispelled: true
           },
@@ -971,7 +953,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           'damage_resistance': {
             option: 'physical',
             resistancePercent: 50,
-            durationType: 'minutes',
+            durationType: 'rounds',
             durationValue: 10
           },
           'lifesteal': {
@@ -1266,38 +1248,39 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
       </div>
 
       <div className="pf-config-section">
+
         <div className="pf-config-group">
           <h4 className="pf-config-title">Duration</h4>
 
-          <div className="pf-config-option duration-config-section">
-            <label className="pf-label duration-label">Duration Type</label>
-            <div className="pf-button-group duration-button-group">
+          <div className="pf-config-option">
+            <label>Duration Type</label>
+            <div className="pf-button-group">
               <button
-                className={`pf-button ${buffConfig.durationType === 'turns' ? 'pf-button-active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'turns' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'turns')}
               >
                 <span>Turns</span>
               </button>
               <button
-                className={`pf-button ${buffConfig.durationType === 'rounds' ? 'pf-button-active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'rounds' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'rounds')}
               >
                 <span>Rounds</span>
               </button>
               <button
-                className={`pf-button ${buffConfig.durationType === 'time' ? 'pf-button-active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'time' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'time')}
               >
                 <span>Time-Based</span>
               </button>
               <button
-                className={`pf-button ${buffConfig.durationType === 'rest' ? 'pf-button-active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'rest' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'rest')}
               >
                 <span>Rest-Based</span>
               </button>
               <button
-                className={`pf-button ${buffConfig.durationType === 'permanent' ? 'pf-button-active' : ''}`}
+                className={`pf-button ${buffConfig.durationType === 'permanent' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateBuffConfig('durationType', 'permanent')}
               >
                 <span>Permanent</span>
@@ -1305,11 +1288,9 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             </div>
           </div>
 
-
-
-          {buffConfig.durationType === 'rounds' && (
+          {(buffConfig.durationType === 'turns' || buffConfig.durationType === 'rounds') && (
             <div className="pf-config-option">
-              <label className="pf-label">Number of Rounds</label>
+              <label>Number of {buffConfig.durationType === 'turns' ? 'Turns' : 'Rounds'}</label>
               <input
                 type="number"
                 min="1"
@@ -1317,9 +1298,15 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                 value={buffConfig.durationValue || 1}
                 placeholder="1"
                 onChange={(e) => {
-                  updateBuffConfig('durationValue', parseInt(e.target.value));
-                  // Also update legacy duration field for backward compatibility
-                  updateBuffConfig('duration', parseInt(e.target.value));
+                  const value = parseInt(e.target.value) || 1;
+                  // Update both fields in a single call to avoid race conditions
+                  const newConfig = {
+                    ...buffConfig,
+                    durationValue: value,
+                    duration: value // Legacy field for backward compatibility
+                  };
+                  setBuffConfig(newConfig);
+                  dispatch(actionCreators.updateBuffConfig(newConfig));
                 }}
                 className="pf-input"
               />
@@ -1328,8 +1315,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
           {buffConfig.durationType === 'time' && (
             <div className="pf-config-option">
-              <label className="pf-label">Duration</label>
-              <div className="pf-input-group">
+              <label>Duration</label>
+              <div className="duration-time-input">
                 <input
                   type="number"
                   min="1"
@@ -1338,14 +1325,12 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                   onChange={(e) => {
                     updateBuffConfig('durationValue', parseInt(e.target.value));
                   }}
-                  className="pf-input"
                 />
                 <select
                   value={buffConfig.durationUnit || 'minutes'}
                   onChange={(e) => {
                     updateBuffConfig('durationUnit', e.target.value);
                   }}
-                  className="pf-select"
                 >
                   <option value="seconds">Seconds</option>
                   <option value="minutes">Minutes</option>
@@ -1358,16 +1343,16 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
           {buffConfig.durationType === 'rest' && (
             <div className="pf-config-option">
-              <label className="pf-label">Rest Type</label>
+              <label>Rest Type</label>
               <div className="pf-button-group">
                 <button
-                  className={`pf-button ${buffConfig.restType === 'short' ? 'pf-button-active' : ''}`}
+                  className={`pf-button ${buffConfig.restType === 'short' ? 'pf-button-selected' : ''}`}
                   onClick={() => updateBuffConfig('restType', 'short')}
                 >
                   <span>Until Short Rest</span>
                 </button>
                 <button
-                  className={`pf-button ${buffConfig.restType === 'long' ? 'pf-button-active' : ''}`}
+                  className={`pf-button ${buffConfig.restType === 'long' ? 'pf-button-selected' : ''}`}
                   onClick={() => updateBuffConfig('restType', 'long')}
                 >
                   <span>Until Long Rest</span>
@@ -1685,27 +1670,27 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           </div>
         )}
 
+        {/* Contextual Dice Formula Examples - Only show when there are stats that can use formulas */}
+        {buffConfig.statModifiers && buffConfig.statModifiers.length > 0 && (
+          <>
+            {showDiceExamples && <DiceFormulaExamples />}
+
+            <div className="pf-help-section">
+              <button
+                className="pf-help-button"
+                onClick={() => setShowDiceExamples(!showDiceExamples)}
+              >
+                {showDiceExamples ? 'Hide Dice Formula Examples' : 'Show Dice Formula Examples'}
+              </button>
+              <p className="pf-help-text">
+                Use dice formulas for dynamic buffs (e.g., "2d4" for 2-8 Spirit instead of flat +3)
+              </p>
+            </div>
+          </>
+        )}
+
         {/* Default Magnitude and Default Type fields removed as they are configured when choosing a buff */}
       </div>
-
-      {/* Contextual Dice Formula Examples - Only show when there are stats that can use formulas */}
-      {buffConfig.statModifiers && buffConfig.statModifiers.length > 0 && (
-        <>
-          {showDiceExamples && <DiceFormulaExamples />}
-
-          <div className="pf-help-section">
-            <button
-              className="pf-help-button"
-              onClick={() => setShowDiceExamples(!showDiceExamples)}
-            >
-              {showDiceExamples ? 'Hide Dice Formula Examples' : 'Show Dice Formula Examples'}
-            </button>
-            <p className="pf-help-text">
-              Use dice formulas for dynamic buffs (e.g., "2d4" for 2-8 Spirit instead of flat +3)
-            </p>
-          </div>
-        </>
-      )}
 
       {buffConfig.statModifiers && buffConfig.statModifiers.length > 0 && (
         <div className="pf-config-group">
@@ -1718,7 +1703,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                 </div>
                 <div className="pf-stat-info">
                   <div className="pf-stat-name">{stat.name}</div>
-                  <div className="pf-stat-description">{stat.description}</div>
+
                 </div>
                 <div className="pf-stat-controls">
                   {/* Special handling for resistance stats */}
@@ -2074,8 +2059,6 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           })}
         </div>
       </div>
-
-
 
       {/* Status Effect Configuration Popup */}
       <CleanStatusEffectConfigPopup

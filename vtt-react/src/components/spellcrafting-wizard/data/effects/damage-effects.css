@@ -314,7 +314,7 @@
 .coin-config-compact {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--pf-space-1);
 }
 
 .formula-builder-compact,
@@ -322,7 +322,7 @@
 .coin-settings-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: var(--pf-space-1);
   align-items: start;
 }
 
@@ -330,10 +330,10 @@
 .dice-examples-section,
 .card-examples-section,
 .coin-examples-section {
-  background: rgba(255, 255, 255, 0.3);
-  border: 2px solid rgba(139, 105, 20, 0.3);
-  border-radius: 6px;
-  padding: 16px;
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1);
 }
 
 .primary-attributes-section h5,
@@ -1594,15 +1594,15 @@
 .card-config-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin: 20px 0;
+  gap: var(--pf-space-1);
+  margin: var(--pf-space-1) 0;
 }
 
 .card-config-section {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 245, 232, 0.6) 100%);
-  border: 2px solid rgba(139, 105, 20, 0.4);
-  border-radius: 8px;
-  padding: 16px;
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1);
   text-align: center;
 }
 
@@ -2725,10 +2725,10 @@
 
 /* ===== MECHANICS SECTION STYLING ===== */
 .mechanics-section {
-  background: rgba(139, 105, 20, 0.05);
-  padding: 16px;
-  border-radius: 6px;
-  border: 1px solid rgba(139, 105, 20, 0.2);
+  background: var(--pf-gradient-parchment-light);
+  padding: var(--pf-space-1);
+  border-radius: var(--pf-border-radius);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

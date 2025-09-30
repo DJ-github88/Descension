@@ -5,6 +5,164 @@
 
 import { formatFormulaToPlainEnglish } from '../../components/common/SpellCardUtils';
 
+// Helper function to extract damage type from resistance stat name
+const extractDamageTypeFromResistanceName = (resistanceName) => {
+  if (!resistanceName) return 'damage';
+
+  const name = resistanceName.toLowerCase();
+  if (name.includes('fire')) return 'fire';
+  if (name.includes('cold') || name.includes('frost')) return 'cold';
+  if (name.includes('lightning') || name.includes('electric')) return 'lightning';
+  if (name.includes('acid')) return 'acid';
+  if (name.includes('poison')) return 'poison';
+  if (name.includes('necrotic')) return 'necrotic';
+  if (name.includes('radiant')) return 'radiant';
+  if (name.includes('psychic')) return 'psychic';
+  if (name.includes('thunder')) return 'thunder';
+  if (name.includes('force')) return 'force';
+  if (name.includes('physical')) return 'physical';
+  if (name.includes('slashing')) return 'slashing';
+  if (name.includes('piercing')) return 'piercing';
+  if (name.includes('bludgeoning')) return 'bludgeoning';
+  return 'damage';
+};
+
+// Helper function to get thematic resistance descriptions
+const getThematicResistanceDescription = (resistanceLevel, damageType) => {
+  const thematicDescriptions = {
+    highly_resistant: {
+      fire: 'Flame Barrier (takes 25% fire damage)',
+      cold: 'Frost Barrier (takes 25% cold damage)',
+      lightning: 'Storm Barrier (takes 25% lightning damage)',
+      acid: 'Acid Barrier (takes 25% acid damage)',
+      poison: 'Toxin Barrier (takes 25% poison damage)',
+      necrotic: 'Death Barrier (takes 25% necrotic damage)',
+      radiant: 'Light Barrier (takes 25% radiant damage)',
+      psychic: 'Mind Barrier (takes 25% psychic damage)',
+      thunder: 'Sound Barrier (takes 25% thunder damage)',
+      force: 'Force Barrier (takes 25% force damage)',
+      physical: 'Adamant Skin (takes 25% physical damage)',
+      slashing: 'Cut Barrier (takes 25% slashing damage)',
+      piercing: 'Pierce Barrier (takes 25% piercing damage)',
+      bludgeoning: 'Crush Barrier (takes 25% bludgeoning damage)',
+      'all damage': 'Full Barrier (takes 25% damage)',
+      damage: 'Highly Resistant (takes 25% damage)'
+    },
+    resistant: {
+      fire: 'Flame Ward (takes half fire damage)',
+      cold: 'Frost Ward (takes half cold damage)',
+      lightning: 'Storm Ward (takes half lightning damage)',
+      acid: 'Acid Ward (takes half acid damage)',
+      poison: 'Toxin Ward (takes half poison damage)',
+      necrotic: 'Death Ward (takes half necrotic damage)',
+      radiant: 'Light Ward (takes half radiant damage)',
+      psychic: 'Mind Ward (takes half psychic damage)',
+      thunder: 'Sound Ward (takes half thunder damage)',
+      force: 'Force Ward (takes half force damage)',
+      physical: 'Iron Skin (takes half physical damage)',
+      slashing: 'Cut Ward (takes half slashing damage)',
+      piercing: 'Pierce Ward (takes half piercing damage)',
+      bludgeoning: 'Crush Ward (takes half bludgeoning damage)',
+      'all damage': 'Full Ward (takes half damage)',
+      damage: 'Resistant (takes half damage)'
+    },
+    guarded: {
+      fire: 'Flame Guard (takes 75% fire damage)',
+      cold: 'Frost Guard (takes 75% cold damage)',
+      lightning: 'Storm Guard (takes 75% lightning damage)',
+      acid: 'Acid Guard (takes 75% acid damage)',
+      poison: 'Toxin Guard (takes 75% poison damage)',
+      necrotic: 'Death Guard (takes 75% necrotic damage)',
+      radiant: 'Light Guard (takes 75% radiant damage)',
+      psychic: 'Mind Guard (takes 75% psychic damage)',
+      thunder: 'Sound Guard (takes 75% thunder damage)',
+      force: 'Force Guard (takes 75% force damage)',
+      physical: 'Hardened Skin (takes 75% physical damage)',
+      slashing: 'Cut Guard (takes 75% slashing damage)',
+      piercing: 'Pierce Guard (takes 75% piercing damage)',
+      bludgeoning: 'Crush Guard (takes 75% bludgeoning damage)',
+      'all damage': 'Full Guard (takes 75% damage)',
+      damage: 'Guarded (takes 75% damage)'
+    },
+    immune: {
+      fire: 'Flame Immunity (takes no fire damage)',
+      cold: 'Frost Immunity (takes no cold damage)',
+      lightning: 'Storm Immunity (takes no lightning damage)',
+      acid: 'Acid Immunity (takes no acid damage)',
+      poison: 'Toxin Immunity (takes no poison damage)',
+      necrotic: 'Death Immunity (takes no necrotic damage)',
+      radiant: 'Light Immunity (takes no radiant damage)',
+      psychic: 'Mind Immunity (takes no psychic damage)',
+      thunder: 'Sound Immunity (takes no thunder damage)',
+      force: 'Force Immunity (takes no force damage)',
+      physical: 'Physical Immunity (takes no physical damage)',
+      slashing: 'Cut Immunity (takes no slashing damage)',
+      piercing: 'Pierce Immunity (takes no piercing damage)',
+      bludgeoning: 'Crush Immunity (takes no bludgeoning damage)',
+      'all damage': 'Full Immunity (takes no damage)',
+      damage: 'Immune (takes no damage)'
+    },
+    susceptible: {
+      fire: 'Flame Weakness (takes 125% fire damage)',
+      cold: 'Frost Weakness (takes 125% cold damage)',
+      lightning: 'Storm Weakness (takes 125% lightning damage)',
+      acid: 'Acid Weakness (takes 125% acid damage)',
+      poison: 'Toxin Weakness (takes 125% poison damage)',
+      necrotic: 'Death Weakness (takes 125% necrotic damage)',
+      radiant: 'Light Weakness (takes 125% radiant damage)',
+      psychic: 'Mind Weakness (takes 125% psychic damage)',
+      thunder: 'Sound Weakness (takes 125% thunder damage)',
+      force: 'Force Weakness (takes 125% force damage)',
+      physical: 'Soft Skin (takes 125% physical damage)',
+      slashing: 'Cut Weakness (takes 125% slashing damage)',
+      piercing: 'Pierce Weakness (takes 125% piercing damage)',
+      bludgeoning: 'Crush Weakness (takes 125% bludgeoning damage)',
+      'all damage': 'Full Weakness (takes 125% damage)',
+      damage: 'Susceptible (takes 125% damage)'
+    },
+    exposed: {
+      fire: 'Flame Exposure (takes 150% fire damage)',
+      cold: 'Frost Exposure (takes 150% cold damage)',
+      lightning: 'Storm Exposure (takes 150% lightning damage)',
+      acid: 'Acid Exposure (takes 150% acid damage)',
+      poison: 'Toxin Exposure (takes 150% poison damage)',
+      necrotic: 'Death Exposure (takes 150% necrotic damage)',
+      radiant: 'Light Exposure (takes 150% radiant damage)',
+      psychic: 'Mind Exposure (takes 150% psychic damage)',
+      thunder: 'Sound Exposure (takes 150% thunder damage)',
+      force: 'Force Exposure (takes 150% force damage)',
+      physical: 'Tender Flesh (takes 150% physical damage)',
+      slashing: 'Cut Exposure (takes 150% slashing damage)',
+      piercing: 'Pierce Exposure (takes 150% piercing damage)',
+      bludgeoning: 'Crush Exposure (takes 150% bludgeoning damage)',
+      'all damage': 'Full Exposure (takes 150% damage)',
+      damage: 'Exposed (takes 150% damage)'
+    },
+    vulnerable: {
+      fire: 'Flame Curse (takes double fire damage)',
+      cold: 'Frost Curse (takes double cold damage)',
+      lightning: 'Storm Curse (takes double lightning damage)',
+      acid: 'Acid Curse (takes double acid damage)',
+      poison: 'Toxin Curse (takes double poison damage)',
+      necrotic: 'Death Curse (takes double necrotic damage)',
+      radiant: 'Light Curse (takes double radiant damage)',
+      psychic: 'Mind Curse (takes double psychic damage)',
+      thunder: 'Sound Curse (takes double thunder damage)',
+      force: 'Force Curse (takes double force damage)',
+      physical: 'Brittle Bones (takes double physical damage)',
+      slashing: 'Cut Curse (takes double slashing damage)',
+      piercing: 'Pierce Curse (takes double piercing damage)',
+      bludgeoning: 'Crush Curse (takes double bludgeoning damage)',
+      'all damage': 'Full Curse (takes double damage)',
+      damage: 'Vulnerable (takes double damage)'
+    }
+  };
+
+  return thematicDescriptions[resistanceLevel]?.[damageType] ||
+         thematicDescriptions[resistanceLevel]?.damage ||
+         resistanceLevel;
+};
+
 /**
  * Format damage effects for a spell
  * @param {Object} spell - The spell object
@@ -465,8 +623,61 @@ export const formatBuffEffects = (spell) => {
     // Use statModifiers if available
     else if (spell.buffConfig?.statModifiers && spell.buffConfig.statModifiers.length > 0) {
       spell.buffConfig.statModifiers.forEach(modifier => {
-        const effectName = `${modifier.name || 'Stat'} Boost`;
-        const buffEffect = `${modifier.magnitude || 2}${modifier.magnitudeType === 'percentage' ? '%' : ''} ${modifier.name || 'stat'} increase`;
+        // Check if this is a resistance stat
+        const statName = (modifier.name || modifier.id || '').toLowerCase();
+        const isResistanceStat = modifier.category === 'resistance' ||
+                                statName.includes('resistance') ||
+                                statName.includes('resist') ||
+                                statName.includes('fire') ||
+                                statName.includes('cold') ||
+                                statName.includes('lightning') ||
+                                statName.includes('acid') ||
+                                statName.includes('poison') ||
+                                statName.includes('necrotic') ||
+                                statName.includes('radiant') ||
+                                statName.includes('psychic') ||
+                                statName.includes('thunder') ||
+                                statName.includes('force') ||
+                                statName.includes('slashing') ||
+                                statName.includes('piercing') ||
+                                statName.includes('bludgeoning') ||
+                                statName.includes('physical');
+
+        let effectName, buffEffect;
+
+        if (isResistanceStat) {
+          // Handle resistance stats with thematic descriptions
+          const percentage = Math.round(parseFloat(modifier.magnitude) || 0);
+          const damageType = extractDamageTypeFromResistanceName(modifier.name || modifier.id);
+
+          if (percentage === 0) {
+            buffEffect = getThematicResistanceDescription('immune', damageType);
+          } else if (percentage === 25) {
+            buffEffect = getThematicResistanceDescription('highly_resistant', damageType);
+          } else if (percentage === 50) {
+            buffEffect = getThematicResistanceDescription('resistant', damageType);
+          } else if (percentage === 75) {
+            buffEffect = getThematicResistanceDescription('guarded', damageType);
+          } else if (percentage === 125) {
+            buffEffect = getThematicResistanceDescription('susceptible', damageType);
+          } else if (percentage === 150) {
+            buffEffect = getThematicResistanceDescription('exposed', damageType);
+          } else if (percentage === 200) {
+            buffEffect = getThematicResistanceDescription('vulnerable', damageType);
+          } else {
+            // Fallback for other percentages
+            if (percentage > 100) {
+              buffEffect = `Increased ${damageType} vulnerability (${percentage}% damage)`;
+            } else {
+              buffEffect = `${damageType.charAt(0).toUpperCase() + damageType.slice(1)} resistance (${percentage}% damage)`;
+            }
+          }
+          effectName = modifier.name || 'Resistance';
+        } else {
+          // Handle regular stats with generic formatting
+          effectName = `${modifier.name || 'Stat'} Boost`;
+          buffEffect = `${modifier.magnitude || 2}${modifier.magnitudeType === 'percentage' ? '%' : ''} ${modifier.name || 'stat'} increase`;
+        }
 
         // Don't include duration in each effect, it will be added as a separate entry
         effects.push(`${effectName}: ${buffEffect}`);

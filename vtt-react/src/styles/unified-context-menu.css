@@ -187,6 +187,15 @@
   color: #8b3a2e;
 }
 
+.context-menu-button.heal {
+  color: #4a8a4a;
+}
+
+.context-menu-button.heal:hover:not(:disabled) {
+  background-color: rgba(74, 138, 74, 0.2);
+  color: #2e5a2e;
+}
+
 .context-menu-button.debug {
   color: #ff8c00;
 }
@@ -218,6 +227,11 @@
 .context-menu-group .submenu .context-menu-button.danger:hover:not(:disabled) {
   background-color: rgba(160, 90, 70, 0.3) !important;
   border-color: rgba(160, 90, 70, 0.5) !important;
+}
+
+.context-menu-group .submenu .context-menu-button.heal:hover:not(:disabled) {
+  background-color: rgba(74, 138, 74, 0.3) !important;
+  border-color: rgba(74, 138, 74, 0.5) !important;
 }
 
 /* Icon styling */

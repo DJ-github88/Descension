@@ -20,7 +20,7 @@ import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu }) => {
     const frameRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
-    const { isGMMode } = useGameStore();
+    const isGMMode = useGameStore(state => state.isGMMode);
     const { getBuffsForTarget, getRemainingTime, updateBuffTimers, removeBuff } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers } = useDebuffStore();
     const [showResourceModal, setShowResourceModal] = useState(false);
@@ -567,6 +567,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [showBuffContextMenu, setShowBuffContextMenu] = useState(false);
     const [buffContextMenuPosition, setBuffContextMenuPosition] = useState({ x: 0, y: 0 });
     const [contextMenuBuff, setContextMenuBuff] = useState(null);
+    const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
+    const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal'
     const nodeRefs = useRef({});
 
     // Removed: Unused force update state
@@ -643,7 +645,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const { updateResource } = useCharacterStore();
     const { removeBuff } = useBuffStore();
     const { addNotification } = useChatStore();
-    const { setGMMode } = useGameStore();
+    const { setGMMode, isGMMode } = useGameStore();
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,
@@ -941,6 +943,101 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     };
 
+    // Handle custom amount adjustments
+    const handleCustomAmount = (type) => {
+        setCustomAmountType(type);
+        setShowCustomAmountModal(true);
+        setShowContextMenu(false);
+    };
+
+    // Handle custom amount submission
+    const handleCustomAmountSubmit = (amount) => {
+        const numAmount = parseInt(amount);
+        if (isNaN(numAmount) || numAmount <= 0 || !contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        switch (customAmountType) {
+            case 'damage':
+                handleResourceAdjust(memberId, 'health', -numAmount);
+                break;
+            case 'heal':
+                handleResourceAdjust(memberId, 'health', numAmount);
+                break;
+            case 'mana-damage':
+                handleResourceAdjust(memberId, 'mana', -numAmount);
+                break;
+            case 'mana-heal':
+                handleResourceAdjust(memberId, 'mana', numAmount);
+                break;
+        }
+        setShowCustomAmountModal(false);
+        setCustomAmountType('');
+    };
+
+    // Handle full heal
+    const handleFullHeal = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const maxHp = currentPlayerData.health?.max || 0;
+            const maxMp = currentPlayerData.mana?.max || 0;
+            handleResourceAdjust(memberId, 'health', maxHp - (currentPlayerData.health?.current || 0));
+            handleResourceAdjust(memberId, 'mana', maxMp - (currentPlayerData.mana?.current || 0));
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const maxHp = member.character?.health?.max || 0;
+                const maxMp = member.character?.mana?.max || 0;
+                const currentHp = member.character?.health?.current || 0;
+                const currentMp = member.character?.mana?.current || 0;
+                handleResourceAdjust(memberId, 'health', maxHp - currentHp);
+                handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle kill (set health to 0)
+    const handleKill = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const currentHp = currentPlayerData.health?.current || 0;
+            handleResourceAdjust(memberId, 'health', -currentHp);
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const currentHp = member.character?.health?.current || 0;
+                handleResourceAdjust(memberId, 'health', -currentHp);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle drain mana (set mana to 0)
+    const handleDrainMana = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const currentMp = currentPlayerData.mana?.current || 0;
+            handleResourceAdjust(memberId, 'mana', -currentMp);
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const currentMp = member.character?.mana?.current || 0;
+                handleResourceAdjust(memberId, 'mana', -currentMp);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
     // Handle drag for party member frames with immediate visual feedback
     const handleMemberDrag = useCallback((member, data) => {
         // Update the member's position IMMEDIATELY for responsive visual feedback
@@ -1079,6 +1176,109 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
+                // Health adjustment options - only show if GM mode
+                if (isGMMode) {
+                    menuItems.push({ type: 'separator' });
+
+                    // Health submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-heart"></i>,
+                        label: 'Health',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', -5)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', -10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Damage',
+                                onClick: () => handleCustomAmount('damage')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', 5)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'health', 10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Heal',
+                                onClick: () => handleCustomAmount('heal')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-heart"></i>,
+                                label: 'Full Heal',
+                                onClick: handleFullHeal,
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-skull"></i>,
+                                label: 'Kill',
+                                onClick: handleKill,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Mana submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-magic"></i>,
+                        label: 'Mana',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', -5)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', -10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Drain',
+                                onClick: () => handleCustomAmount('mana-damage')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (5)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', 5)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (10)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'mana', 10)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Restore',
+                                onClick: () => handleCustomAmount('mana-heal')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: handleDrainMana,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+                }
+
                 // Leadership transfer - only show if current player is GM and target is not current player
                 const currentPlayerIsGM = partyMembers.find(m => m.id === 'current-player')?.isGM;
 
@@ -1142,6 +1342,111 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         }
                     ]}
                 />
+            )}
+
+            {/* Custom Amount Modal */}
+            {showCustomAmountModal && (
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowCustomAmountModal(false);
+                        setCustomAmountType('');
+                    }}
+                >
+                    <div
+                        className="custom-amount-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '300px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            {customAmountType === 'damage' && 'Custom Damage Amount'}
+                            {customAmountType === 'heal' && 'Custom Heal Amount'}
+                            {customAmountType === 'mana-damage' && 'Custom Mana Drain Amount'}
+                            {customAmountType === 'mana-heal' && 'Custom Mana Restore Amount'}
+                        </h3>
+                        <input
+                            type="number"
+                            min="1"
+                            placeholder="Enter amount..."
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                border: '1px solid #a08c70',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                marginBottom: '15px',
+                                textAlign: 'center'
+                            }}
+                            autoFocus
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleCustomAmountSubmit(e.target.value);
+                                } else if (e.key === 'Escape') {
+                                    setShowCustomAmountModal(false);
+                                    setCustomAmountType('');
+                                }
+                            }}
+                        />
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={(e) => {
+                                    const input = e.target.parentElement.parentElement.querySelector('input');
+                                    handleCustomAmountSubmit(input.value);
+                                }}
+                            >
+                                Apply
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowCustomAmountModal(false);
+                                    setCustomAmountType('');
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </>
     );

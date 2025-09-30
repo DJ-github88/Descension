@@ -22,38 +22,133 @@
   box-shadow: var(--pf-shadow-sm);
 }
 
-/* ===== BUFF EFFECTS SPELL CARD STYLING ===== */
+/* ===== UNIFIED EFFECT SECTIONS STYLING ===== */
 
-.buff-effects {
+/* Base styling for all effect sections - matches damage/healing clean format */
+.buff-effects,
+.debuff-effects,
+.utility-effects,
+.control-effects,
+.damage-effects,
+.healing-effects,
+.summoning-effects,
+.transformation-effects,
+.purification-effects,
+.restoration-effects {
   background: var(--pf-gradient-parchment-light);
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
+  padding: var(--pf-space-1);
+  margin-bottom: var(--pf-space-1);
+  min-height: 40px;
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--pf-space-1);
   overflow: hidden;
 }
 
-.buff-effects-section {
+.buff-effects-section,
+.debuff-effects-section,
+.utility-effects-section,
+.control-effects-section,
+.damage-effects-section,
+.healing-effects-section,
+.summoning-effects-section,
+.transformation-effects-section,
+.purification-effects-section,
+.restoration-effects-section {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-3);
+  gap: var(--pf-space-1);
   height: 100%;
   width: 100%;
 }
 
-.buff-header {
+/* Unified header styling for all effect sections */
+.buff-header,
+.debuff-header,
+.utility-header,
+.control-header,
+.damage-header,
+.healing-header,
+.summoning-header,
+.transformation-header,
+.purification-header,
+.restoration-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: 0;
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
+  gap: var(--pf-space-1);
+}
+
+/* Unified separator styling for all effect sections */
+.buff-separator,
+.debuff-separator,
+.utility-separator,
+.control-separator,
+.damage-separator,
+.healing-separator,
+.summoning-separator,
+.transformation-separator,
+.purification-separator,
+.restoration-separator {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--pf-brown-light), transparent);
+  margin: var(--pf-space-1) 0;
+}
+
+/* ===== UNIFIED CONFIGURATION WINDOW STYLING ===== */
+
+/* All configuration sections, panels, and cards use unified styling */
+.config-section,
+.section-panel,
+.effect-config-section,
+.card-config-section,
+.mechanics-section,
+.primary-attributes-section,
+.dice-examples-section,
+.card-examples-section,
+.coin-examples-section,
+.stat-category-card,
+.examples-card,
+.custom-formula-card,
+.card-selector-card,
+.card-stats-card,
+.card-examples-card,
+.coin-patterns-card,
+.coin-stats-card,
+.selected-effect-card,
+.effect-config-popup {
+  background: var(--pf-gradient-parchment-light) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  padding: var(--pf-space-1) !important;
+  margin-bottom: var(--pf-space-1) !important;
+  box-shadow: var(--pf-shadow-sm) !important;
+  color: var(--pf-text-primary) !important;
+  font-family: var(--pf-font-body) !important;
+}
+
+/* Unified spacing for all grids and containers */
+.card-config-grid,
+.stat-buttons-grid,
+.selected-effects-grid,
+.dice-config-compact,
+.card-config-compact,
+.coin-config-compact {
+  gap: var(--pf-space-1) !important;
+}
+
+/* Unified spacing for all layout components */
+.formula-builder-compact,
+.card-settings-row,
+.coin-settings-row,
+.section-panel-content {
+  gap: var(--pf-space-1) !important;
 }
 
 .buff-label {
@@ -226,209 +321,15 @@
   text-align: center;
 }
 
-/* Buff stat text styling for different effect types */
-.buff-stat-text {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-  margin: var(--pf-space-1) 0;
-  padding: var(--pf-space-1);
-  border-radius: var(--pf-border-radius-sm);
-  display: block;
-}
+/* Note: Buff stat text styling removed - now using unified healing effects styling */
 
-/* Regular stat modifiers */
-.buff-stat-text.regular {
-  background: var(--pf-gradient-parchment-light);
-  border-left: 3px solid var(--pf-brown-medium);
-}
+/* Note: Old buff stat text resistance styling removed - now using unified healing effects styling */
 
-/* Formula-based effects */
-.buff-stat-text.formula {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
-  border-left: 3px solid var(--pf-brown-medium);
-  font-family: var(--pf-font-mono);
-}
+/* Note: Old debuff stat text styling removed - now using unified healing effects styling */
 
-/* Resistance effects */
-.buff-stat-text.vampiric {
-  background: linear-gradient(135deg, rgba(233, 30, 99, 0.1) 0%, rgba(233, 30, 99, 0.05) 100%);
-  border-left: 3px solid #e91e63;
-  color: #ad1457;
-}
+/* Note: Old debuff stat text classes removed - now using unified healing effects styling */
 
-.buff-stat-text.absorbing {
-  background: linear-gradient(135deg, rgba(156, 39, 176, 0.1) 0%, rgba(156, 39, 176, 0.05) 100%);
-  border-left: 3px solid #9c27b0;
-  color: #7b1fa2;
-}
 
-.buff-stat-text.draining {
-  background: linear-gradient(135deg, rgba(103, 58, 183, 0.1) 0%, rgba(103, 58, 183, 0.05) 100%);
-  border-left: 3px solid #673ab7;
-  color: #512da8;
-}
-
-.buff-stat-text.siphoning {
-  background: linear-gradient(135deg, rgba(63, 81, 181, 0.1) 0%, rgba(63, 81, 181, 0.05) 100%);
-  border-left: 3px solid #3f51b5;
-  color: #303f9f;
-}
-
-.buff-stat-text.immune {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
-  border-left: 3px solid #4caf50;
-  color: #388e3c;
-}
-
-.buff-stat-text.resistant {
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
-  border-left: 3px solid #2196f3;
-  color: #1976d2;
-}
-
-.buff-stat-text.highly_resistant {
-  background: linear-gradient(135deg, rgba(0, 188, 212, 0.1) 0%, rgba(0, 188, 212, 0.05) 100%);
-  border-left: 3px solid #00bcd4;
-  color: #0097a7;
-}
-
-.buff-stat-text.guarded {
-  background: linear-gradient(135deg, rgba(0, 150, 136, 0.1) 0%, rgba(0, 150, 136, 0.05) 100%);
-  border-left: 3px solid #009688;
-  color: #00695c;
-}
-
-/* Absorption effects */
-.buff-stat-text.absorption-formula {
-  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
-  border-left: 3px solid #ffc107;
-  color: #f57c00;
-  font-family: var(--pf-font-mono);
-}
-
-.buff-stat-text.absorption-flat {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
-  border-left: 3px solid #ff9800;
-  color: #e65100;
-}
-
-/* Debuff stat text styling for different effect types */
-.debuff-stat-text {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-  margin: var(--pf-space-1) 0;
-  padding: var(--pf-space-1);
-  border-radius: var(--pf-border-radius-sm);
-  display: block;
-}
-
-/* Regular stat penalties */
-.debuff-stat-text.regular {
-  background: var(--pf-gradient-parchment-light);
-  border-left: 3px solid var(--pf-red-medium);
-}
-
-/* Formula-based penalties */
-.debuff-stat-text.formula {
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
-  border-left: 3px solid var(--pf-red-medium);
-  font-family: var(--pf-font-mono);
-}
-
-/* Resistance penalties (making target more vulnerable) */
-.debuff-stat-text.vulnerable {
-  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
-  border-left: 3px solid #f44336;
-  color: #d32f2f;
-}
-
-.debuff-stat-text.exposed {
-  background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 87, 34, 0.05) 100%);
-  border-left: 3px solid #ff5722;
-  color: #e64a19;
-}
-
-.debuff-stat-text.susceptible {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
-  border-left: 3px solid #ff9800;
-  color: #f57c00;
-}
-
-.debuff-stat-text.nullified {
-  background: linear-gradient(135deg, rgba(158, 158, 158, 0.1) 0%, rgba(158, 158, 158, 0.05) 100%);
-  border-left: 3px solid #9e9e9e;
-  color: #616161;
-}
-
-.debuff-stat-text.guarded {
-  background: linear-gradient(135deg, rgba(0, 150, 136, 0.1) 0%, rgba(0, 150, 136, 0.05) 100%);
-  border-left: 3px solid #009688;
-  color: #00695c;
-}
-
-.debuff-stat-text.resistant {
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
-  border-left: 3px solid #2196f3;
-  color: #1976d2;
-}
-
-.debuff-stat-text.slight_reduction {
-  background: linear-gradient(135deg, rgba(103, 58, 183, 0.1) 0%, rgba(103, 58, 183, 0.05) 100%);
-  border-left: 3px solid #673ab7;
-  color: #512da8;
-}
-
-/* Absorption penalties */
-.debuff-stat-text.absorption-formula {
-  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
-  border-left: 3px solid #ffc107;
-  color: #f57c00;
-  font-family: var(--pf-font-mono);
-}
-
-.debuff-stat-text.absorption-flat {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
-  border-left: 3px solid #ff9800;
-  color: #e65100;
-}
-
-/* ===== DEBUFF EFFECTS SPELL CARD STYLING ===== */
-
-.debuff-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  overflow: hidden;
-}
-
-.debuff-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
-
-.debuff-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
-  flex-wrap: wrap;
-  gap: var(--pf-space-2);
-}
 
 .debuff-label {
   font-family: var(--pf-font-heading);
@@ -600,38 +501,15 @@
   text-align: center;
 }
 
-/* ===== UTILITY EFFECTS SPELL CARD STYLING ===== */
 
-.utility-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  overflow: hidden;
-}
-
-.utility-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
 
 .utility-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: 0; /* Removed margin since header is now empty */
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
+  gap: var(--pf-space-1); /* Reduced from space-2 to space-1 (4px) */
 }
 
 .utility-title-group {
@@ -653,131 +531,7 @@
   flex-shrink: 0;
 }
 
-.utility-type {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  font-weight: 500;
-  color: var(--pf-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.utility-duration {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-brown-medium);
-  font-style: italic;
-}
-
-.utility-separator {
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--pf-brown-light) 20%, var(--pf-brown-light) 80%, transparent 100%);
-  margin: var(--pf-space-1) 0;
-  width: 100%;
-}
-
-.utility-effects-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.utility-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.utility-effect-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  width: 100%;
-}
-
-.utility-effect {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--pf-space-1);
-  width: 100%;
-}
-
-.utility-effect-name {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: 600;
-  color: var(--pf-text-primary);
-  line-height: 1.3;
-}
-
-.utility-effect-description {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-}
-
-.utility-effect-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  margin-top: var(--pf-space-1);
-  width: 100%;
-}
-
-.utility-effect-mechanics {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-  font-style: italic;
-}
-
-.utility-formula-line {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.utility-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.utility-formula-value {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  text-align: center;
-  padding: var(--pf-space-2);
-}
-
-.utility-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: 1px dashed var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  min-height: 40px;
-}
-
-.utility-placeholder-text {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  text-align: center;
-}
+/* Old utility styles removed - now using unified styles below at line 1616+ */
 
 /* ===== SECTION STYLING ===== */
 
@@ -1736,175 +1490,10 @@
 }
 
 /* ===== UTILITY EFFECTS SPELL CARD STYLING ===== */
-
-.utility-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.utility-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-}
-
-.utility-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: var(--pf-space-1);
-  flex-wrap: wrap;
-  gap: var(--pf-space-1);
-  min-height: auto;
-  max-width: 100%;
-}
-
-.utility-title-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  flex: 1;
-  min-width: 0;
-  max-width: 100%;
-}
-
-.utility-label {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-}
-
-.utility-duration {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  margin-top: 2px;
-}
-
-.utility-save-info {
-  display: flex;
-  align-items: center;
-  gap: var(--pf-space-2);
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  max-width: 100%;
-}
-
-.utility-save-type {
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-bold);
-  text-transform: uppercase;
-}
-
-.utility-dc {
-  background: var(--pf-gradient-gold);
-  border: 1px solid var(--pf-gold-dark);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-brown-darkest);
-  font-weight: var(--pf-font-bold);
-}
-
-.utility-effects-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  min-height: 0;
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.utility-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  width: 100%;
-  max-width: 100%;
-}
-
-.utility-effect-item {
-  background: var(--pf-gradient-button);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  transition: all var(--pf-transition-normal);
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.utility-effect-item:hover {
-  background: var(--pf-gradient-button-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-sm);
-}
-
-.utility-effect-item.minor {
-  border-left: 3px solid #10b981;
-}
-
-.utility-effect-item.moderate {
-  border-left: 3px solid #f59e0b;
-}
-
-.utility-effect-item.major {
-  border-left: 3px solid #ef4444;
-}
-
-.utility-effect-item.extreme {
-  border-left: 3px solid #8b5cf6;
-}
-
-.utility-effect-name {
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-sm);
-  font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
-  margin-bottom: var(--pf-space-1);
-  line-height: 1.3;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-}
-
-.utility-effect-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  line-height: 1.4;
-  font-style: italic;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-}
+/* Note: Utility effects now use the same CSS classes as healing effects for consistency */
+/* The old .utility-effect-* classes have been removed as they're no longer used */
+/* Utility effects on spell cards now use .healing-effects, .healing-effects-section, */
+/* .healing-formula-line, .healing-effects-list, .healing-effect-item, etc. */
 
 .utility-placeholder {
   display: flex;
@@ -1925,30 +1514,7 @@
   text-align: center;
 }
 
-/* ===== CONTROL EFFECTS SPELL CARD STYLING ===== */
 
-.control-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.control-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
 
 .control-header {
   display: flex;
@@ -2010,155 +1576,10 @@
   font-weight: 600;
 }
 
-.control-effects-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+/* Note: Control effects on spell cards now use healing-effects CSS classes for consistency */
+/* The old .control-effect-* spell card classes have been removed */
 
-.control-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
 
-.control-effect-item {
-  background: var(--pf-gradient-parchment);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  transition: all var(--pf-transition-normal);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.control-effect-item:hover {
-  background: var(--pf-gradient-parchment-light);
-  border-color: var(--pf-brown-medium);
-  transform: translateY(-1px);
-}
-
-.control-effect-name {
-  font-family: var(--pf-font-heading);
-  font-size: var(--pf-text-base);
-  font-weight: 600;
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-1);
-}
-
-.control-effect-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  line-height: 1.4;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-}
-
-/* Enhanced control effect details styling */
-.control-effect-details {
-  margin-top: var(--pf-space-1);
-  padding-top: var(--pf-space-1);
-  border-top: 1px solid var(--pf-brown-light);
-  font-size: var(--pf-text-xs);
-}
-
-.control-effect-flavor {
-  font-family: var(--pf-font-body);
-  font-style: italic;
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-  margin-bottom: var(--pf-space-1);
-}
-
-.control-effect-mechanics {
-  font-family: var(--pf-font-ui);
-  font-weight: 500;
-  color: var(--pf-text-primary);
-  line-height: 1.3;
-  font-size: var(--pf-text-xs);
-}
-
-.control-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--pf-space-3);
-  background: var(--pf-gradient-parchment);
-  border: 1px dashed var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  min-height: 40px;
-}
-
-.control-placeholder-text {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  text-align: center;
-}
-
-/* Control properties styling */
-.control-properties {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--pf-space-2);
-  margin-top: var(--pf-space-2);
-  padding-top: var(--pf-space-2);
-  border-top: 1px solid var(--pf-brown-light);
-}
-
-.control-property {
-  background: var(--pf-gradient-parchment);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1) var(--pf-space-2);
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-primary);
-  font-weight: 500;
-}
-
-.control-property-text {
-  color: var(--pf-text-primary);
-}
-
-/* ===== DAMAGE EFFECTS SPELL CARD STYLING ===== */
-
-.damage-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  overflow: hidden;
-}
-
-.damage-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
-
-.damage-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
-  flex-wrap: wrap;
-  gap: var(--pf-space-2);
-}
 
 .damage-label {
   font-family: var(--pf-font-heading);
@@ -2178,11 +1599,7 @@
   border: 1px solid var(--pf-brown-light);
 }
 
-.damage-separator {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--pf-brown-light), transparent);
-  margin: var(--pf-space-1) 0;
-}
+
 
 .damage-formula-line {
   display: flex;
@@ -2194,7 +1611,7 @@
 .damage-effects-list {
   display: flex;
   flex-direction: column;
-  gap: var(--pf-space-2);
+  gap: var(--pf-space-1); /* Reduced from space-2 to space-1 (4px) */
   width: 100%;
 }
 
@@ -2202,7 +1619,7 @@
   background: var(--pf-gradient-parchment);
   border: 1px solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
+  padding: var(--pf-space-1); /* Reduced from space-2 to space-1 (4px) */
   transition: all var(--pf-transition-normal);
   width: 100%;
   display: flex;
@@ -2257,38 +1674,15 @@
   padding: var(--pf-space-2);
 }
 
-/* ===== HEALING EFFECTS SPELL CARD STYLING ===== */
 
-.healing-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  overflow: hidden;
-}
-
-.healing-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
 
 .healing-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
+  margin-bottom: 0; /* Removed margin since header is now empty */
   flex-wrap: wrap;
-  gap: var(--pf-space-2);
+  gap: var(--pf-space-1); /* Reduced from space-2 to space-1 (4px) */
 }
 
 .healing-label {
@@ -2388,135 +1782,10 @@
   padding: var(--pf-space-2);
 }
 
-/* ===== RESTORATION EFFECTS SPELL CARD STYLING ===== */
 
-.restoration-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow: hidden;
-}
 
-.restoration-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
-
-.restoration-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: var(--pf-space-2);
-  flex-wrap: wrap;
-  gap: var(--pf-space-2);
-}
-
-.restoration-label {
-  font-family: var(--pf-font-heading);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-weight-bold);
-  color: var(--pf-text-primary);
-  text-shadow: var(--pf-text-shadow);
-  margin: 0;
-  line-height: 1.2;
-}
-
-.restoration-type {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.restoration-formula-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.restoration-formula-line {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.restoration-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
-
-.restoration-effect-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  width: 100%;
-}
-
-.restoration-effect {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--pf-space-1);
-  width: 100%;
-}
-
-.restoration-effect-name {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  font-weight: 600;
-  color: var(--pf-text-primary);
-  line-height: 1.3;
-}
-
-.restoration-effect-description {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-}
-
-.restoration-effect-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  margin-left: var(--pf-space-2);
-  width: calc(100% - var(--pf-space-2));
-}
-
-.restoration-effect-mechanics {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
-  color: var(--pf-text-secondary);
-  line-height: 1.3;
-  font-style: italic;
-}
-
-.restoration-formula-value {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  text-align: center;
-  padding: var(--pf-space-2);
-}
+/* Note: Restoration effects on spell cards now use healing-effects CSS classes for consistency */
+/* The old .restoration-effect-* spell card classes have been removed */
 
 .restoration-placeholder {
   display: flex;
@@ -2662,30 +1931,7 @@
   box-shadow: var(--pf-shadow-lg);
 }
 
-/* ===== SUMMONING EFFECTS SPELL CARD STYLING ===== */
 
-.summoning-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.summoning-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  height: 100%;
-  width: 100%;
-}
 
 .summoning-header {
   display: flex;
@@ -2905,29 +2151,7 @@
   color: var(--pf-text-secondary);
 }
 
-/* ===== TRANSFORMATION EFFECTS SPELL CARD STYLING ===== */
 
-.transformation-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  margin-bottom: var(--pf-space-2);
-  min-height: 50px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.transformation-effects-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-3);
-  width: 100%;
-}
 
 .transformation-header {
   display: flex;
@@ -3417,16 +2641,19 @@
 
 .utility-config-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--pf-space-4);
-  margin-bottom: var(--pf-space-6);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pf-space-3);
+  margin-bottom: var(--pf-space-4);
 }
 
 .config-group {
   background: var(--pf-gradient-parchment-light);
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-4);
+  padding: var(--pf-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
 }
 
 .config-group label {
@@ -3435,25 +2662,26 @@
   font-weight: var(--pf-font-bold);
   color: var(--pf-brown-dark);
   display: block;
-  margin-bottom: var(--pf-space-2);
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .duration-config {
   display: flex;
-  gap: var(--pf-space-3);
-  align-items: center;
+  gap: var(--pf-space-2);
+  align-items: stretch;
 }
 
 .duration-value {
-  flex: 0 0 120px;
+  flex: 0 0 80px;
 }
 
+.duration-value,
 .duration-value input {
   width: 100%;
-  height: var(--pf-input-height);
-  padding: var(--pf-input-padding);
+  height: 40px;
+  padding: var(--pf-space-2);
   background: var(--pf-gradient-parchment);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
@@ -3474,28 +2702,44 @@
 }
 
 .duration-unit {
-  flex: 2;
+  flex: 1;
+  height: 40px;
   padding: var(--pf-space-2);
   background: var(--pf-gradient-input);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
   font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.duration-unit:hover {
+  border-color: var(--pf-brown-dark);
+}
+
+.duration-unit:focus {
+  outline: none;
+  border-color: var(--pf-brown-dark);
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .concentration-toggle {
   display: flex;
-  gap: var(--pf-space-1);
+  gap: var(--pf-space-2);
 }
 
 .toggle-btn {
   flex: 1;
+  height: 40px;
   padding: var(--pf-space-2);
   background: var(--pf-gradient-button);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
   font-family: var(--pf-font-ui);
+  font-size: var(--pf-text-base);
   font-weight: var(--pf-font-medium);
   cursor: pointer;
   transition: all var(--pf-transition-normal);
@@ -3503,12 +2747,15 @@
 
 .toggle-btn:hover {
   background: var(--pf-gradient-button-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .toggle-btn.active {
   background: var(--pf-gradient-gold);
   border-color: var(--pf-gold-dark);
   color: var(--pf-brown-darkest);
+  font-weight: var(--pf-font-bold);
 }
 
 .dc-config {
@@ -3519,28 +2766,53 @@
 
 .dc-input {
   flex: 1;
+  height: 40px;
   padding: var(--pf-space-2);
   background: var(--pf-gradient-input);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
   font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+  text-align: center;
+  transition: all var(--pf-transition-normal);
+}
+
+.dc-input:focus {
+  outline: none;
+  border-color: var(--pf-brown-dark);
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .dc-label {
   font-family: var(--pf-font-ui);
   font-weight: var(--pf-font-bold);
   color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
 }
 
 .save-select {
   width: 100%;
+  height: 40px;
   padding: var(--pf-space-2);
   background: var(--pf-gradient-input);
   border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
   font-family: var(--pf-font-body);
+  font-size: var(--pf-text-base);
+  cursor: pointer;
+  transition: all var(--pf-transition-normal);
+}
+
+.save-select:hover {
+  border-color: var(--pf-brown-dark);
+}
+
+.save-select:focus {
+  outline: none;
+  border-color: var(--pf-brown-dark);
+  box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
 .utility-empty-state {

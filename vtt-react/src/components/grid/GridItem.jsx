@@ -90,7 +90,6 @@ const GridItem = ({ gridItem }) => {
     gridItem.position?.y,
     gridItem.gridPosition?.col,
     gridItem.gridPosition?.row,
-    gridSystem,
     cameraX,
     cameraY,
     effectiveZoom,

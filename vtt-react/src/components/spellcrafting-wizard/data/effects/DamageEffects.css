@@ -245,7 +245,7 @@
   gap: 15px;
 }
 
-/* Card Components */
+/* Card Components - Unified Styling */
 .stat-category-card,
 .examples-card,
 .custom-formula-card,
@@ -254,28 +254,28 @@
 .card-examples-card,
 .coin-patterns-card,
 .coin-stats-card {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ede4d3 100%);
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-1);
+  box-shadow: var(--pf-shadow-sm);
 }
 
 .category-title {
-  color: #2c1810;
-  margin: 0 0 12px 0;
-  font-size: 16px;
+  color: var(--pf-text-primary);
+  margin: 0 0 var(--pf-space-1) 0;
+  font-size: var(--pf-text-base);
   text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(139, 69, 19, 0.3);
-  padding-bottom: 8px;
+  text-shadow: var(--pf-text-shadow);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-1);
 }
 
-/* Button Grids */
+/* Button Grids - Unified Spacing */
 .stat-buttons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 8px;
+  gap: var(--pf-space-1);
 }
 
 .examples-grid,

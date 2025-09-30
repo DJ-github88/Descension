@@ -155,7 +155,10 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
       case 'buff':
         dispatch(actionCreators.updateBuffConfig({
           buffType: 'statEnhancement',
-          duration: 'medium',
+          duration: 3, // Legacy field for backward compatibility
+          durationValue: 3,
+          durationType: 'rounds',
+          durationUnit: 'rounds',
           stacks: 1,
           maxStacks: 1,
           dispelDifficulty: 'normal',

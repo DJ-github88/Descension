@@ -1545,17 +1545,17 @@
 }
 
 .section-panel {
-    margin-top: 12px;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: var(--pf-space-1);
+    padding: var(--pf-space-1);
+    background: var(--pf-gradient-parchment-light);
+    border-radius: var(--pf-border-radius);
+    border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .section-panel-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--pf-space-1);
 }
 
 .selected-spell-info-panel {

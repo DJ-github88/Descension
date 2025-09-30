@@ -7,7 +7,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     pointer-events: auto;
-    /* Remove transition that can cause blurriness */
+
+    /* Add smooth transition when not dragging - shorter for better responsiveness */
+    transition: transform 0.08s cubic-bezier(0.2, 0, 0.2, 1);
 
     /* Performance optimizations */
     will-change: transform;

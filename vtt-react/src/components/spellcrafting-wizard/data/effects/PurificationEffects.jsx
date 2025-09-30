@@ -812,9 +812,6 @@ const PurificationEffects = ({ state, dispatch, actionCreators }) => {
       {/* Effect Selection */}
       {renderEffectSelection()}
 
-      {/* Selected Effects */}
-      {renderSelectedEffects()}
-
       {/* Duration Settings (conditional) */}
       {renderDurationSettings()}
 

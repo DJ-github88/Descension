@@ -34,6 +34,8 @@ const CharacterToken = ({
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
+    const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal'
     const contextMenuRef = useRef(null);
     const tooltipTimeoutRef = useRef(null);
 
@@ -502,8 +504,8 @@ const CharacterToken = ({
             timestamp: new Date().toLocaleTimeString()
         });
 
-        // Update character health through character store
-        useCharacterStore.getState().updateResource('health', { current: newHp });
+        // Update character health through character store - pass current value, keep max unchanged
+        useCharacterStore.getState().updateResource('health', newHp, undefined);
 
         // Show floating combat text at token's screen position
         if (window.showFloatingCombatText) {
@@ -533,14 +535,173 @@ const CharacterToken = ({
             timestamp: new Date().toLocaleTimeString()
         });
 
-        // Update character health through character store
-        useCharacterStore.getState().updateResource('health', { current: newHp });
+        // Update character health through character store - pass current value, keep max unchanged
+        useCharacterStore.getState().updateResource('health', newHp, undefined);
 
         // Show floating combat text at token's screen position
         if (window.showFloatingCombatText) {
             window.showFloatingCombatText(
                 amount.toString(),
                 'heal',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+
+        setShowContextMenu(false);
+    };
+
+    // Handle custom amount damage/heal
+    const handleCustomAmount = (type) => {
+        setCustomAmountType(type);
+        setShowCustomAmountModal(true);
+        setShowContextMenu(false);
+    };
+
+    // Handle custom amount submission
+    const handleCustomAmountSubmit = (amount) => {
+        const numAmount = parseInt(amount);
+        if (isNaN(numAmount) || numAmount <= 0) return;
+
+        switch (customAmountType) {
+            case 'damage':
+                handleDamageToken(numAmount);
+                break;
+            case 'heal':
+                handleHealToken(numAmount);
+                break;
+            case 'mana-damage':
+                handleManaDamage(numAmount);
+                break;
+            case 'mana-heal':
+                handleManaHeal(numAmount);
+                break;
+        }
+        setShowCustomAmountModal(false);
+        setCustomAmountType('');
+    };
+
+    // Handle mana damage
+    const handleManaDamage = (amount) => {
+        const currentMp = characterData.mana.current;
+        const newMp = Math.max(0, currentMp - amount);
+
+        console.log('💙 MANA DAMAGE CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            amount,
+            currentMp,
+            newMp,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Update character mana through character store
+        useCharacterStore.getState().updateResource('mana', newMp, undefined);
+
+        // Show floating combat text at token's screen position
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                amount.toString(),
+                'mana-damage',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+    };
+
+    // Handle mana heal
+    const handleManaHeal = (amount) => {
+        const currentMp = characterData.mana.current;
+        const maxMp = characterData.mana.max;
+        const newMp = Math.min(maxMp, currentMp + amount);
+
+        console.log('💙 MANA HEAL CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            amount,
+            currentMp,
+            maxMp,
+            newMp,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Update character mana through character store
+        useCharacterStore.getState().updateResource('mana', newMp, undefined);
+
+        // Show floating combat text at token's screen position
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                amount.toString(),
+                'mana-heal',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+    };
+
+    // Handle full heal
+    const handleFullHeal = () => {
+        const maxHp = characterData.health.max;
+        const maxMp = characterData.mana.max;
+
+        console.log('💚 FULL HEAL CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Update both health and mana to max
+        useCharacterStore.getState().updateResource('health', maxHp, undefined);
+        useCharacterStore.getState().updateResource('mana', maxMp, undefined);
+
+        // Show floating combat text
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                'FULL HEAL',
+                'heal',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+
+        setShowContextMenu(false);
+    };
+
+    // Handle kill (set health to 0)
+    const handleKill = () => {
+        console.log('💀 KILL CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Set health to 0
+        useCharacterStore.getState().updateResource('health', 0, undefined);
+
+        // Show floating combat text
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                'KILLED',
+                'damage',
+                { x: screenPosition.x, y: screenPosition.y }
+            );
+        }
+
+        setShowContextMenu(false);
+    };
+
+    // Handle drain mana (set mana to 0)
+    const handleDrainMana = () => {
+        console.log('🔵 DRAIN MANA CHARACTER TOKEN:', {
+            tokenId,
+            characterName: characterData.name,
+            timestamp: new Date().toLocaleTimeString()
+        });
+
+        // Set mana to 0
+        useCharacterStore.getState().updateResource('mana', 0, undefined);
+
+        // Show floating combat text
+        if (window.showFloatingCombatText) {
+            window.showFloatingCombatText(
+                'DRAINED',
+                'mana-damage',
                 { x: screenPosition.x, y: screenPosition.y }
             );
         }
@@ -679,8 +840,8 @@ const CharacterToken = ({
 
                     <div className="context-menu-group">
                         <div className="group-header">
-                            <i className="fas fa-fist-raised"></i>
-                            <span>Combat</span>
+                            <i className="fas fa-heart"></i>
+                            <span>Health</span>
                             <i className="fas fa-chevron-right"></i>
                         </div>
                         <div className="submenu">
@@ -690,11 +851,58 @@ const CharacterToken = ({
                             <button className="context-menu-button" onClick={() => handleDamageToken(10)}>
                                 <i className="fas fa-minus-circle"></i> Damage (10)
                             </button>
+                            <button className="context-menu-button" onClick={() => handleCustomAmount('damage')}>
+                                <i className="fas fa-edit"></i> Custom Damage
+                            </button>
+                            <div className="context-menu-separator"></div>
                             <button className="context-menu-button" onClick={() => handleHealToken(5)}>
                                 <i className="fas fa-plus-circle"></i> Heal (5)
                             </button>
                             <button className="context-menu-button" onClick={() => handleHealToken(10)}>
                                 <i className="fas fa-plus-circle"></i> Heal (10)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleCustomAmount('heal')}>
+                                <i className="fas fa-edit"></i> Custom Heal
+                            </button>
+                            <div className="context-menu-separator"></div>
+                            <button className="context-menu-button heal" onClick={handleFullHeal}>
+                                <i className="fas fa-heart"></i> Full Heal
+                            </button>
+                            <button className="context-menu-button danger" onClick={handleKill}>
+                                <i className="fas fa-skull"></i> Kill
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="context-menu-group">
+                        <div className="group-header">
+                            <i className="fas fa-magic"></i>
+                            <span>Mana</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </div>
+                        <div className="submenu">
+                            <button className="context-menu-button" onClick={() => handleManaDamage(5)}>
+                                <i className="fas fa-minus-circle"></i> Drain (5)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleManaDamage(10)}>
+                                <i className="fas fa-minus-circle"></i> Drain (10)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleCustomAmount('mana-damage')}>
+                                <i className="fas fa-edit"></i> Custom Drain
+                            </button>
+                            <div className="context-menu-separator"></div>
+                            <button className="context-menu-button" onClick={() => handleManaHeal(5)}>
+                                <i className="fas fa-plus-circle"></i> Restore (5)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleManaHeal(10)}>
+                                <i className="fas fa-plus-circle"></i> Restore (10)
+                            </button>
+                            <button className="context-menu-button" onClick={() => handleCustomAmount('mana-heal')}>
+                                <i className="fas fa-edit"></i> Custom Restore
+                            </button>
+                            <div className="context-menu-separator"></div>
+                            <button className="context-menu-button danger" onClick={handleDrainMana}>
+                                <i className="fas fa-battery-empty"></i> Drain All
                             </button>
                         </div>
                     </div>
@@ -708,6 +916,112 @@ const CharacterToken = ({
                         <div className="submenu">
                             <button className="context-menu-button" onClick={handleOpenConditions}>
                                 <i className="fas fa-bolt"></i> Conditions
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {/* Custom Amount Modal */}
+            {showCustomAmountModal && createPortal(
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowCustomAmountModal(false);
+                        setCustomAmountType('');
+                    }}
+                >
+                    <div
+                        className="custom-amount-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '300px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            {customAmountType === 'damage' && 'Custom Damage Amount'}
+                            {customAmountType === 'heal' && 'Custom Heal Amount'}
+                            {customAmountType === 'mana-damage' && 'Custom Mana Drain Amount'}
+                            {customAmountType === 'mana-heal' && 'Custom Mana Restore Amount'}
+                        </h3>
+                        <input
+                            type="number"
+                            min="1"
+                            placeholder="Enter amount..."
+                            style={{
+                                width: '100%',
+                                padding: '8px',
+                                border: '1px solid #a08c70',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                marginBottom: '15px',
+                                textAlign: 'center'
+                            }}
+                            autoFocus
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleCustomAmountSubmit(e.target.value);
+                                } else if (e.key === 'Escape') {
+                                    setShowCustomAmountModal(false);
+                                    setCustomAmountType('');
+                                }
+                            }}
+                        />
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={(e) => {
+                                    const input = e.target.parentElement.parentElement.querySelector('input');
+                                    handleCustomAmountSubmit(input.value);
+                                }}
+                            >
+                                Apply
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowCustomAmountModal(false);
+                                    setCustomAmountType('');
+                                }}
+                            >
+                                Cancel
                             </button>
                         </div>
                     </div>

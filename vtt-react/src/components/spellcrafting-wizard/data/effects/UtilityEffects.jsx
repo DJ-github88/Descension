@@ -1,3 +1,4 @@
+// Utility Effects Component - Updated to match Healing Effects styling v2.0
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { FaCog } from 'react-icons/fa';
@@ -5,9 +6,12 @@ import { FaCog } from 'react-icons/fa';
 // Pathfinder styles imported via main.css
 import '../../styles/effects/unified-effects.css';
 import '../../styles/pathfinder/wizard-enhancements.css';
+import './healing-effects.css'; // Import healing effects styling for consistency
+import './damage-effects.css'; // Import damage effects styling for consistency
 
 // Import utilities and stat data
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';
+import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 
 
 // Utility type definitions
@@ -297,6 +301,253 @@ const ABILITY_SCORES = [
   { id: 'cha', name: 'Charisma', icon: 'spell_holy_powerwordshield' }
 ];
 
+// Utility Effect Configuration Popup Component
+const UtilityEffectConfigPopup = ({
+  isOpen,
+  onClose,
+  effect,
+  selectedEffect,
+  updateConfig,
+  selectedUtilityCategory,
+  updateEffectConfig
+}) => {
+  if (!isOpen || !effect) return null;
+
+  // Find the specific effect in the selectedEffects array
+  const effectData = selectedEffect.selectedEffects?.find(e => e.id === effect.id) || {};
+
+  // Get icon URL
+  const getIconUrl = (iconName) => {
+    if (!iconName) return '';
+    return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+  };
+
+  // Update effect configuration function
+  const updateEffectConfigLocal = (field, value) => {
+    if (!isOpen) return;
+
+    const updatedEffects = selectedEffect.selectedEffects.map(e =>
+      e.id === effect.id ? {...e, [field]: value} : e
+    );
+    updateConfig('selectedEffects', updatedEffects);
+  };
+
+  // Render configuration based on effect type
+  const renderEffectConfig = () => {
+    // Flight configuration
+    if (effect.id === 'fly') {
+      return (
+        <>
+          <div className="effect-config-section">
+            <h4>Flight Type</h4>
+            <div className="effect-options">
+              <button
+                className={`effect-option-button ${effectData?.flightType === 'levitation' ? 'active' : ''}`}
+                onClick={() => updateEffectConfigLocal('flightType', 'levitation')}
+              >
+                Levitation
+              </button>
+              <button
+                className={`effect-option-button ${effectData?.flightType === 'gliding' ? 'active' : ''}`}
+                onClick={() => updateEffectConfigLocal('flightType', 'gliding')}
+              >
+                Gliding
+              </button>
+              <button
+                className={`effect-option-button ${effectData?.flightType === 'flying' ? 'active' : ''}`}
+                onClick={() => updateEffectConfigLocal('flightType', 'flying')}
+              >
+                Full Flight
+              </button>
+            </div>
+          </div>
+
+          <div className="effect-config-section">
+            <h4>Flight Speed</h4>
+            <div className="effect-config-option">
+              <label>Speed (feet per round)</label>
+              <input
+                type="number"
+                min="5"
+                max="120"
+                step="5"
+                value={effectData?.flightSpeed || 30}
+                onChange={(e) => updateEffectConfigLocal('flightSpeed', parseInt(e.target.value))}
+              />
+            </div>
+          </div>
+
+          <div className="effect-config-section">
+            <h4>Maximum Altitude</h4>
+            <div className="effect-config-option">
+              <label>Height (feet)</label>
+              <input
+                type="number"
+                min="5"
+                max="1000"
+                step="5"
+                value={effectData?.maxAltitude || 100}
+                onChange={(e) => updateEffectConfigLocal('maxAltitude', parseInt(e.target.value))}
+              />
+            </div>
+          </div>
+
+          <div className="effect-config-section">
+            <h4>Potency Level</h4>
+            <div className="effect-options">
+              {POTENCY_OPTIONS.map(potency => (
+                <button
+                  key={potency.id}
+                  className={`effect-option-button ${effectData?.potency === potency.id ? 'active' : ''}`}
+                  onClick={() => updateEffectConfigLocal('potency', potency.id)}
+                  style={{ borderColor: potency.color }}
+                >
+                  <span style={{ color: potency.color }}>{potency.name}</span>
+                  <small>{potency.description}</small>
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    // Teleportation configuration
+    if (effect.id === 'teleport') {
+      return (
+        <>
+          <div className="effect-config-section">
+            <h4>Teleport Distance</h4>
+            <div className="effect-config-option">
+              <label>Maximum Distance (feet)</label>
+              <input
+                type="number"
+                min="5"
+                max="500"
+                step="5"
+                value={effectData?.distance || 30}
+                onChange={(e) => updateEffectConfigLocal('distance', parseInt(e.target.value))}
+              />
+            </div>
+          </div>
+
+          <div className="effect-config-section">
+            <h4>Teleport Options</h4>
+            <div className="toggle-options">
+              <div className="toggle-option">
+                <button
+                  className={`toggle-button ${effectData?.needsLineOfSight ? 'active' : ''}`}
+                  onClick={() => updateEffectConfigLocal('needsLineOfSight', !effectData?.needsLineOfSight)}
+                >
+                  <div className="toggle-icon">
+                    {effectData?.needsLineOfSight ? '✓' : ''}
+                  </div>
+                  <span>Requires Line of Sight</span>
+                </button>
+              </div>
+              <div className="toggle-option">
+                <button
+                  className={`toggle-button ${effectData?.takesOthers ? 'active' : ''}`}
+                  onClick={() => updateEffectConfigLocal('takesOthers', !effectData?.takesOthers)}
+                >
+                  <div className="toggle-icon">
+                    {effectData?.takesOthers ? '✓' : ''}
+                  </div>
+                  <span>Can Teleport Others</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="effect-config-section">
+            <h4>Potency Level</h4>
+            <div className="effect-options">
+              {POTENCY_OPTIONS.map(potency => (
+                <button
+                  key={potency.id}
+                  className={`effect-option-button ${effectData?.potency === potency.id ? 'active' : ''}`}
+                  onClick={() => updateEffectConfigLocal('potency', potency.id)}
+                  style={{ borderColor: potency.color }}
+                >
+                  <span style={{ color: potency.color }}>{potency.name}</span>
+                  <small>{potency.description}</small>
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    // Generic configuration for other effects
+    return (
+      <>
+        <div className="effect-config-section">
+          <h4>Effect Properties</h4>
+          <div className="effect-config-option">
+            <label>Effect Name</label>
+            <input
+              type="text"
+              value={effectData?.customName || effect.name}
+              onChange={(e) => updateEffectConfigLocal('customName', e.target.value)}
+            />
+          </div>
+          <div className="effect-config-option">
+            <label>Description</label>
+            <textarea
+              value={effectData?.customDescription || effect.description}
+              onChange={(e) => updateEffectConfigLocal('customDescription', e.target.value)}
+              rows="3"
+            />
+          </div>
+        </div>
+
+        <div className="effect-config-section">
+          <h4>Potency Level</h4>
+          <div className="effect-options">
+            {POTENCY_OPTIONS.map(potency => (
+              <button
+                key={potency.id}
+                className={`effect-option-button ${effectData?.potency === potency.id ? 'active' : ''}`}
+                onClick={() => updateEffectConfigLocal('potency', potency.id)}
+                style={{ borderColor: potency.color }}
+              >
+                <span style={{ color: potency.color }}>{potency.name}</span>
+                <small>{potency.description}</small>
+              </button>
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  return ReactDOM.createPortal(
+    <div className="status-effect-config-overlay" onClick={onClose}>
+      <div className="status-effect-config-popup pathfinder-window" onClick={(e) => e.stopPropagation()}>
+        <div className="pathfinder-header">
+          <div className="header-content">
+            <img src={getIconUrl(effect.icon)} alt={effect.name} className="effect-icon" />
+            <h3>{effect.name} Configuration</h3>
+          </div>
+          <button className="close-button" onClick={onClose}>×</button>
+        </div>
+
+        <div className="popup-content">
+          {renderEffectConfig()}
+        </div>
+
+        <div className="popup-footer">
+          <button className="pathfinder-button secondary" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
 const UtilityEffects = ({ state, dispatch, actionCreators }) => {
   // Initialize with default utility type from state or 'enhancement'
   const [selectedUtilityCategory, setSelectedUtilityCategory] = useState(
@@ -310,6 +561,11 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
   const [selectedEffectForConfig, setSelectedEffectForConfig] = useState(null);
   // Local state just for potency UI highlighting
   const [localPotencySelection, setLocalPotencySelection] = useState(null);
+
+  // Tooltip state for hover effects
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [tooltipContent, setTooltipContent] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   // Define default configuration
   const defaultConfig = {
@@ -370,41 +626,66 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     }
   };
 
-  // Toggle an effect selection
+  // Open configuration popup for an effect
+  const openEffectConfig = (effect) => {
+    setSelectedEffectForConfig(effect);
+    setLocalPotencySelection(effect.potency || 'moderate');
+    setConfigPopupOpen(true);
+  };
+
+  // Add an effect to the selected effects list
+  const addEffect = (effect) => {
+    const selectedEffects = [...(utilityConfig.selectedEffects || [])];
+
+    // Get enhanced description for default potency
+    const defaultPotency = 'moderate';
+    let enhancedDescription = effect.description;
+
+    if (UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effect.id]?.[defaultPotency]) {
+      enhancedDescription = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory][effect.id][defaultPotency];
+    }
+
+    const newEffect = {
+      id: effect.id,
+      name: effect.name,
+      description: enhancedDescription,
+      customName: effect.name,
+      customDescription: '', // Don't set custom description by default
+      potency: defaultPotency,
+      statModifiers: [], // Add stat modifiers array
+      icon: effect.icon
+    };
+
+    selectedEffects.push(newEffect);
+    updateUtilityConfig('selectedEffects', selectedEffects);
+
+    return newEffect;
+  };
+
+  // Remove an effect from the selected effects list
+  const removeEffect = (effectId) => {
+    const selectedEffects = [...(utilityConfig.selectedEffects || [])];
+    const filteredEffects = selectedEffects.filter(e => e.id !== effectId);
+    updateUtilityConfig('selectedEffects', filteredEffects);
+  };
+
+  // Toggle an effect selection (legacy support)
   const toggleEffect = (effectId) => {
     const selectedEffects = [...(utilityConfig.selectedEffects || [])];
     const effectIndex = selectedEffects.findIndex(e => e.id === effectId);
 
     if (effectIndex >= 0) {
       // Remove effect if already selected
-      selectedEffects.splice(effectIndex, 1);
+      removeEffect(effectId);
     } else {
       // Add effect with default values
       const effectsMap = getEffectsForType(selectedUtilityCategory);
       const effect = effectsMap.find(e => e.id === effectId);
 
       if (effect) {
-        // Get enhanced description for default potency
-        const defaultPotency = 'moderate';
-        let enhancedDescription = effect.description;
-
-        if (UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effect.id]?.[defaultPotency]) {
-          enhancedDescription = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory][effect.id][defaultPotency];
-        }
-
-        selectedEffects.push({
-          id: effect.id,
-          name: effect.name,
-          description: enhancedDescription,
-          customName: effect.name,
-          customDescription: '', // Don't set custom description by default
-          potency: defaultPotency,
-          statModifiers: [] // Add stat modifiers array
-        });
+        addEffect(effect);
       }
     }
-
-    updateUtilityConfig('selectedEffects', selectedEffects);
   };
 
   // Update effect configuration
@@ -557,10 +838,39 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
   };
 
+  // Tooltip handlers
+  const handleMouseEnter = (effect, e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({ x: rect.left + rect.width / 2, y: rect.top });
+
+    const tooltipElement = (
+      <div className="pf-tooltip">
+        <div className="pf-tooltip-header">
+          <img src={getIconUrl(effect.icon)} alt={effect.name} className="pf-tooltip-icon" />
+          <h4>{effect.name}</h4>
+        </div>
+        <p className="pf-tooltip-description">{effect.description}</p>
+      </div>
+    );
+
+    setTooltipContent(tooltipElement);
+    setShowTooltip(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
+    setTooltipContent(null);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({ x: rect.left + rect.width / 2, y: rect.top });
+  };
+
 
 
   return (
-    <div className="utility-effects-container">
+    <div className="damage-effects-container">
       <div className="section">
         <h3>Utility Effects Configuration</h3>
         <p>Create versatile utility effects that provide non-combat benefits and special abilities</p>
@@ -568,7 +878,7 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
 
       {/* Enhanced Configuration Section - Moved to top */}
       <div className="section">
-        <h4>Effect Configuration</h4>
+        <h3>Effect Configuration</h3>
 
         <div className="utility-config-grid">
           <div className="config-group">
@@ -661,7 +971,7 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
 
       {/* Combined Category Selection and Available Effects */}
       <div className="section">
-        <h4>Available Effects</h4>
+        <h3>Available Effects</h3>
 
         {/* Utility Category Selection at Header */}
         <div className="utility-category-buttons">
@@ -681,77 +991,53 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
           ))}
         </div>
 
-        {/* Selected Effects Section - Moved up here */}
-        {utilityConfig.selectedEffects && utilityConfig.selectedEffects.length > 0 && (
-          <div className="selected-stats">
-            <h4>Selected Effects ({utilityConfig.selectedEffects.length})</h4>
-            <div className="selected-effects-grid">
-              {utilityConfig.selectedEffects.map(effect => {
-                const originalEffect = getEffectsForType(selectedUtilityCategory).find(e => e.id === effect.id);
-
-                return (
-                  <div className="selected-effect-card" key={effect.id}>
-                    <div className="effect-card-header">
-                      <img src={getIconUrl(originalEffect?.icon)} alt={effect.customName || effect.name} className="effect-card-icon" />
-                      <div className="effect-card-title">{effect.customName || effect.name}</div>
-                      <button
-                        className="effect-configure-btn"
-                        onClick={() => {
-                          setSelectedEffectForConfig(effect);
-                          setLocalPotencySelection(effect.potency || 'moderate'); // Initialize local state
-                          setConfigPopupOpen(true);
-                        }}
-                        title="Configure effect"
-                      >
-                        <FaCog />
-                      </button>
-                      <button
-                        className="effect-remove-btn"
-                        onClick={() => toggleEffect(effect.id)}
-                        title="Remove effect"
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
-                    </div>
-                    <div className="effect-card-description">
-                      {effect.customDescription || effect.description || getEffectDescription(effect)}
-                    </div>
-                    <div className="effect-card-potency">
-                      Potency: {effect.potency}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
         {/* Available Effects Grid */}
-        <div className="utility-effects-grid">
+        <div className="card-selection-grid">
           {getEffectsForType(selectedUtilityCategory).map(effect => {
             const isSelected = utilityConfig.selectedEffects?.some(e => e.id === effect.id);
+            const selectedEffect = isSelected ? utilityConfig.selectedEffects.find(e => e.id === effect.id) : null;
 
             return (
               <div
                 key={effect.id}
-                className={`utility-effect-card ${isSelected ? 'selected' : ''}`}
-                onClick={() => toggleEffect(effect.id)}
+                className={`icon-selection-card ${isSelected ? 'selected' : ''}`}
+                onClick={() => {
+                  if (isSelected) {
+                    // If already selected, open the configuration popup
+                    openEffectConfig({
+                      ...effect,
+                      ...selectedEffect
+                    });
+                  } else {
+                    // If not selected, add it first
+                    const newEffect = addEffect(effect);
+                    // Then open the configuration popup
+                    openEffectConfig(newEffect);
+                  }
+                }}
+                onMouseEnter={(e) => handleMouseEnter(effect, e)}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
               >
-                <div className="utility-effect-header">
-                  <img
-                    src={`https://wow.zamimg.com/images/wow/icons/large/${effect.icon}.jpg`}
-                    alt={effect.name}
-                    className="utility-effect-icon"
-                  />
-                  <div className="utility-effect-info">
-                    <h6>{effect.name}</h6>
-                    <p>{effect.description}</p>
-                  </div>
+                <div className="icon-selection-icon">
+                  <img src={getIconUrl(effect.icon)} alt={effect.name} />
                 </div>
+                <div className="icon-selection-content">
+                  <h4>{effect.name}</h4>
+                  <p>{effect.description}</p>
+                </div>
+
                 {isSelected && (
-                  <div className="utility-effect-selected">
-                    <span className="utility-effect-checkmark">✓</span>
-                  </div>
+                  <button
+                    className="remove-effect-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeEffect(effect.id);
+                    }}
+                    title="Remove effect"
+                  >
+                    ×
+                  </button>
                 )}
               </div>
             );
@@ -767,116 +1053,36 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
 
 
 
-      {/* Enhanced Effect Configuration Popup - Rendered outside spellbook window */}
-      {configPopupOpen && selectedEffectForConfig && ReactDOM.createPortal(
-        <div className="effect-config-popup-overlay" onClick={() => setConfigPopupOpen(false)}>
-          <div className="effect-config-popup" onClick={(e) => e.stopPropagation()}>
-            <div className="effect-config-header">
-              <img
-                src={getIconUrl(getEffectsForType(selectedUtilityCategory).find(e => e.id === selectedEffectForConfig.id)?.icon)}
-                alt={selectedEffectForConfig.name}
-                className="effect-config-icon"
-              />
-              <h3>Configure Effect</h3>
-              <button
-                className="effect-config-close"
-                onClick={() => setConfigPopupOpen(false)}
-              >
-                ×
-              </button>
-            </div>
+      {/* Utility Effect Configuration Popup using CleanStatusEffectConfigPopup */}
+      <UtilityEffectConfigPopup
+        isOpen={configPopupOpen}
+        onClose={() => setConfigPopupOpen(false)}
+        effect={selectedEffectForConfig}
+        selectedEffect={utilityConfig}
+        updateConfig={updateUtilityConfig}
+        selectedUtilityCategory={selectedUtilityCategory}
+        updateEffectConfig={updateEffectConfig}
+      />
 
-            <div className="effect-config-content">
-              <div className="effect-config-field">
-                <label>Effect Name</label>
-                <input
-                  type="text"
-                  value={selectedEffectForConfig.customName || selectedEffectForConfig.name}
-                  onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'customName', e.target.value)}
-                  placeholder="Custom effect name"
-                />
-              </div>
-
-              <div className="effect-config-field">
-                <label>Potency Level</label>
-                <div className="potency-selection-grid">
-                  {POTENCY_OPTIONS.map(potency => {
-                    // Use local state for UI highlighting, fallback to actual state
-                    const currentPotency = localPotencySelection || selectedEffectForConfig.potency || 'moderate';
-                    const isSelected = currentPotency === potency.id;
-
-                    const effectType = getEffectsForType(selectedUtilityCategory).find(e => e.id === selectedEffectForConfig.id);
-
-
-
-                    // Get the proper description based on category and effect ID
-                    let description = 'No description available';
-                    if (effectType && UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effectType.id]?.[potency.id]) {
-                      description = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory][effectType.id][potency.id];
-                    }
-
-                    return (
-                      <div
-                        key={potency.id}
-                        className={`potency-option ${isSelected ? 'selected' : ''} potency-${potency.id}`}
-                        onClick={(e) => {
-
-                          e.preventDefault();
-                          e.stopPropagation();
-                          // Set local state immediately for UI feedback
-                          setLocalPotencySelection(potency.id);
-                          updateEffectConfig(selectedEffectForConfig.id, 'potency', potency.id);
-                          // Also update the description if no custom description is set
-                          if (!selectedEffectForConfig.customDescription) {
-                            // Get the enhanced description for this potency level
-                            const enhancedDescription = UTILITY_EFFECT_DESCRIPTIONS[selectedUtilityCategory]?.[effectType.id]?.[potency.id];
-                            if (enhancedDescription) {
-                              updateEffectConfig(selectedEffectForConfig.id, 'description', enhancedDescription);
-                            }
-                          }
-                        }}
-                      >
-                        <div className="potency-header">
-                          <h5 style={{ color: potency.color }}>{potency.name}</h5>
-                          <p className="potency-description">{potency.description}</p>
-                        </div>
-                        <div className="potency-effect-preview">
-                          <strong>Effect:</strong> {description}
-                        </div>
-                        {isSelected && (
-                          <div className="potency-selected-indicator">✓</div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="effect-config-field">
-                <label>Custom Description (Optional)</label>
-                <textarea
-                  value={selectedEffectForConfig.customDescription || ''}
-                  onChange={(e) => updateEffectConfig(selectedEffectForConfig.id, 'customDescription', e.target.value)}
-                  placeholder="Override the default description with your own..."
-                  rows="3"
-                />
-              </div>
-
-            </div>
-
-            <div className="effect-config-footer">
-              <button
-                className="effect-config-save"
-                onClick={() => setConfigPopupOpen(false)}
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-
+      {/* Tooltip Rendering */}
+      {showTooltip && tooltipContent && (() => {
+        const tooltipRoot = document.getElementById('tooltip-root') || document.body;
+        return ReactDOM.createPortal(
+          <div
+            style={{
+              position: 'fixed',
+              left: mousePos.x,
+              top: mousePos.y,
+              zIndex: 15002,
+              pointerEvents: 'none',
+              transform: 'translate(10px, -100%)'
+            }}
+          >
+            {tooltipContent}
+          </div>,
+          tooltipRoot
+        );
+      })()}
     </div>
   );
 };

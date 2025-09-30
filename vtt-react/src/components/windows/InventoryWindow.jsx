@@ -1335,8 +1335,8 @@ export default function InventoryWindow() {
 
                             return (
                                 <div className="item-wrapper" style={{
-                                    width: `${bounds.width * 100}%`,
-                                    height: `${bounds.height * 100}%`,
+                                    width: bounds.width > 1 ? `calc(${bounds.width * 100}% + ${(bounds.width - 1) * 1}px)` : `${bounds.width * 100}%`,
+                                    height: bounds.height > 1 ? `calc(${bounds.height * 100}% + ${(bounds.height - 1) * 1}px)` : `${bounds.height * 100}%`,
                                     position: 'absolute',
                                     top: 0,
                                     left: 0,
