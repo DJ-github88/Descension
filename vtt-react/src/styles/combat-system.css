@@ -878,44 +878,44 @@
     border: 3px solid #8B4513;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    padding: 14px 16px;
+    padding: 16px 18px;
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-    min-width: 220px;
-    max-width: 280px;
-    min-height: 100px;
+    min-width: 240px;
+    max-width: 300px;
+    min-height: 130px;
 }
 
 .tooltip-content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .tooltip-name {
     color: #5a1e12;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     border-bottom: 2px solid #8B4513;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
 }
 
 .tooltip-initiative {
     color: #3a3a3a;
-    font-size: 13px;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .initiative-breakdown {
     color: #666;
-    font-size: 11px;
+    font-size: 12px;
     font-style: italic;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .tooltip-ap {
     color: #5a1e12;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
-    margin-top: 4px;
+    margin-top: 6px;
 }
