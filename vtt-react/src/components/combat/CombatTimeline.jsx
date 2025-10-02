@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useCombatStore from '../../store/combatStore';
@@ -31,11 +31,50 @@ const CombatTimeline = () => {
     const [draggedItem, setDraggedItem] = useState(null);
     const nodeRef = useRef(null);
 
+    // Auto-adjust timeline width when number of combatants changes
+    useEffect(() => {
+        if (!isInCombat || turnOrder.length === 0) return;
+
+        // Calculate optimal width based on number of combatants
+        const tokenWidth = 85; // Match CSS max-width
+        const tokenGap = 8; // Match CSS gap
+        const padding = 24; // Match CSS padding (12px * 2)
+
+        // Calculate width to fit actual tokens (up to 6 before wrapping)
+        const tokensToShow = Math.min(turnOrder.length, 6);
+        const contentWidth = (tokensToShow * tokenWidth) + ((tokensToShow - 1) * tokenGap) + padding;
+
+        // Use content width with reasonable min/max bounds
+        const calculatedWidth = Math.max(
+            320, // Minimum width (fits ~3 tokens comfortably)
+            Math.min(
+                650, // Maximum width (fits ~6 tokens)
+                contentWidth
+            )
+        );
+
+        console.log('CombatTimeline: Auto-adjusting width', {
+            numCombatants: turnOrder.length,
+            tokensToShow,
+            contentWidth,
+            calculatedWidth,
+            currentWidth: timelineSize.width
+        });
+
+        // Always update to the calculated width when combatant count changes
+        // Use taller default height to accommodate token content
+        updateTimelineSize({
+            width: calculatedWidth,
+            height: timelineSize.height || 180
+        });
+    }, [turnOrder.length, isInCombat, updateTimelineSize]);
+
     const handleMouseEnter = (event, combatant) => {
         const rect = event.currentTarget.getBoundingClientRect();
+        // Position tooltip above the token, accounting for page scroll
         setTooltipPosition({
             x: rect.left + rect.width / 2,
-            y: rect.top - 10
+            y: rect.top + window.scrollY - 10
         });
         setTooltipData(combatant);
         setShowTooltip(true);
@@ -59,6 +98,13 @@ const CombatTimeline = () => {
     };
 
     const getCreatureIcon = (combatant) => {
+        // Handle character tokens
+        if (combatant.isCharacterToken) {
+            const useCharacterStore = require('../../store/characterStore').default;
+            const char = useCharacterStore.getState();
+            return char.tokenSettings?.customIcon || char.lore?.characterImage || 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg';
+        }
+
         // First try to get the creature from the store
         const creature = creatures.find(c => c.id === combatant.creatureId);
         if (creature && creature.tokenIcon) {
@@ -155,6 +201,10 @@ const CombatTimeline = () => {
     console.log('CombatTimeline: Window dimensions:', { width: window.innerWidth, height: window.innerHeight });
     console.log('CombatTimeline: Timeline size:', timelineSize);
 
+    // Use timeline size from store (updated by useEffect)
+    const effectiveWidth = timelineSize.width || 450;
+    const effectiveHeight = timelineSize.height || 180;
+
     return (
         <>
             {createPortal(
@@ -174,18 +224,18 @@ const CombatTimeline = () => {
                         }}
                     >
                         <Resizable
-                            width={timelineSize.width}
-                            height={timelineSize.height}
+                            width={effectiveWidth}
+                            height={effectiveHeight}
                             onResize={handleResize}
-                            minConstraints={[300, 100]}
-                            maxConstraints={[1200, 200]}
+                            minConstraints={[350, 150]}
+                            maxConstraints={[800, 300]}
                             resizeHandles={['e', 'w', 'se', 'sw']}
                         >
                             <div
                                 className="combat-timeline-window-compact"
                                 style={{
-                                    width: timelineSize.width,
-                                    height: timelineSize.height
+                                    width: effectiveWidth,
+                                    height: effectiveHeight
                                 }}
                             >
                         <div className="timeline-header">
@@ -287,7 +337,7 @@ const CombatTimeline = () => {
                 <div
                     className="combat-tooltip"
                     style={{
-                        position: 'fixed',
+                        position: 'absolute',
                         left: tooltipPosition.x,
                         top: tooltipPosition.y,
                         transform: 'translateX(-50%) translateY(-100%)',
@@ -298,10 +348,10 @@ const CombatTimeline = () => {
                     <div className="tooltip-content">
                         <div className="tooltip-name">{tooltipData.name}</div>
                         <div className="tooltip-initiative">
-                            Initiative: {tooltipData.initiative}
-                            <span className="initiative-breakdown">
-                                (d20: {tooltipData.d20Roll} + Initiative Mod: {tooltipData.initiativeMod || tooltipData.agilityMod})
-                            </span>
+                            <div>Initiative: {tooltipData.initiative}</div>
+                            <div className="initiative-breakdown">
+                                (d20: {tooltipData.d20Roll} + Mod: {tooltipData.initiativeMod || tooltipData.agilityMod})
+                            </div>
                         </div>
                         <div className="tooltip-ap">
                             Action Points: {tooltipData.currentActionPoints}/{tooltipData.maxActionPoints}

@@ -24,6 +24,34 @@ const getTalentTreesForClass = (className) => {
     }));
 };
 
+// Helper function to calculate dynamic tooltip description based on current rank
+const getDynamicDescription = (talent, currentRank) => {
+    if (!talent.description) return '';
+
+    // If no ranks invested, show the base description
+    if (currentRank === 0) return talent.description;
+
+    // Replace "per rank" calculations with actual values
+    let description = talent.description;
+
+    // Pattern: "X per rank" or "+X per rank" where X can be a number or dice notation
+    const perRankPattern = /(\+?)(\d+d?\d*)\s+([a-zA-Z\s]+)\s+per rank/gi;
+    description = description.replace(perRankPattern, (match, plus, value, type) => {
+        // Check if it's dice notation (e.g., "1d4")
+        if (value.includes('d')) {
+            const [numDice, diceSize] = value.split('d').map(Number);
+            const scaledDice = numDice * currentRank;
+            return `${plus}${scaledDice}d${diceSize} ${type}`;
+        } else {
+            // It's a flat number
+            const scaledValue = parseInt(value) * currentRank;
+            return `${plus}${scaledValue} ${type}`;
+        }
+    });
+
+    return description;
+};
+
 // Constants for grid layout - TTRPG style with larger icons
 const CELL_WIDTH = 120;  // Width of each grid cell (increased for larger icons)
 const CELL_HEIGHT = 110; // Height of each grid cell (tighter vertical spacing)
@@ -82,28 +110,40 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         // Check if player has enough points spent in tree
         if (pointsSpent < talent.requiresPoints) return false;
 
-        // Check if required talent(s) are learned
+        // Check if required talent(s) are FULLY MAXED OUT
         if (talent.requires) {
             if (typeof talent.requires === 'string') {
-                // Single prerequisite
-                if (!talents[talent.requires] || talents[talent.requires] === 0) {
+                // Single prerequisite - must be fully maxed
+                const prereqTalent = currentTree.talents.find(t => t.id === talent.requires);
+                if (!prereqTalent) return false;
+
+                const currentRanks = talents[talent.requires] || 0;
+                if (currentRanks < prereqTalent.maxRanks) {
                     return false;
                 }
             } else if (Array.isArray(talent.requires)) {
                 // Multiple prerequisites
                 if (talent.requiresAll) {
-                    // AND logic - all prerequisites must be met
+                    // AND logic - ALL prerequisites must be fully maxed
                     for (const prereqId of talent.requires) {
-                        if (!talents[prereqId] || talents[prereqId] === 0) {
+                        const prereqTalent = currentTree.talents.find(t => t.id === prereqId);
+                        if (!prereqTalent) return false;
+
+                        const currentRanks = talents[prereqId] || 0;
+                        if (currentRanks < prereqTalent.maxRanks) {
                             return false;
                         }
                     }
                 } else {
-                    // OR logic - at least one prerequisite must be met
-                    const hasAnyPrereq = talent.requires.some(
-                        prereqId => talents[prereqId] && talents[prereqId] > 0
-                    );
-                    if (!hasAnyPrereq) {
+                    // OR logic - at least ONE prerequisite must be fully maxed
+                    const hasAnyMaxedPrereq = talent.requires.some(prereqId => {
+                        const prereqTalent = currentTree.talents.find(t => t.id === prereqId);
+                        if (!prereqTalent) return false;
+
+                        const currentRanks = talents[prereqId] || 0;
+                        return currentRanks >= prereqTalent.maxRanks;
+                    });
+                    if (!hasAnyMaxedPrereq) {
                         return false;
                     }
                 }
@@ -176,22 +216,100 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                             <span>{tree.name}</span>
                         </button>
                     ))}
+                    <button
+                        key="summary"
+                        className={`spellbook-tab-button ${selectedTree === trees.length ? 'active' : ''}`}
+                        onClick={() => setSelectedTree(trees.length)}
+                        title="View all learned talents"
+                    >
+                        <span>Summary</span>
+                    </button>
                 </div>
             }
         >
             <div className="talent-tree-container">
 
-                {/* Talent Grid */}
-                <div
-                    ref={gridContainerRef}
-                    className="talent-grid-container"
-                    style={{
-                        backgroundImage: currentTree.backdrop || currentTree.fallbackBackground,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat'
-                    }}
-                >
+                {/* Summary Tab - Show all learned talents */}
+                {selectedTree === trees.length ? (
+                    <div className="talent-summary-container">
+                        <div className="talent-summary-header">
+                            <h2>Learned Talents</h2>
+                            <button className="reset-talents-btn" onClick={resetTalents}>
+                                Reset All
+                            </button>
+                        </div>
+
+                        {trees.map((tree, treeIndex) => {
+                            // Get all learned talents from this tree
+                            const learnedTalents = tree.talents.filter(talent =>
+                                talents[talent.id] && talents[talent.id] > 0
+                            );
+
+                            if (learnedTalents.length === 0) return null;
+
+                            // Calculate points spent in this tree
+                            const treePoints = tree.talents.reduce((sum, talent) =>
+                                sum + (talents[talent.id] || 0), 0
+                            );
+
+                            return (
+                                <div key={tree.id} className="talent-summary-tree">
+                                    <div className="talent-summary-tree-header">
+                                        <h3>{tree.name}</h3>
+                                        <span className="talent-summary-points">{treePoints} points</span>
+                                    </div>
+                                    <div className="talent-summary-list">
+                                        {learnedTalents.map(talent => {
+                                            const currentRanks = talents[talent.id];
+                                            return (
+                                                <div key={talent.id} className="talent-summary-item">
+                                                    <div className="talent-summary-icon-wrapper">
+                                                        <img
+                                                            src={`https://wow.zamimg.com/images/wow/icons/large/${talent.icon}.jpg`}
+                                                            alt={talent.name}
+                                                            className="talent-summary-icon"
+                                                            onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
+                                                        />
+                                                        <div className="talent-summary-ranks">
+                                                            {currentRanks}/{talent.maxRanks}
+                                                        </div>
+                                                    </div>
+                                                    <div className="talent-summary-details">
+                                                        <div className="talent-summary-name">{talent.name}</div>
+                                                        <div className="talent-summary-description">
+                                                            {getDynamicDescription(talent, currentRanks)}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        })}
+
+                        {/* Show message if no talents learned */}
+                        {trees.every(tree =>
+                            tree.talents.every(talent => !talents[talent.id] || talents[talent.id] === 0)
+                        ) && (
+                            <div className="talent-summary-empty">
+                                <p>No talents learned yet.</p>
+                                <p>Select a specialization tab above to begin investing talent points.</p>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    /* Talent Grid */
+                    <div
+                        ref={gridContainerRef}
+                        className="talent-grid-container"
+                        style={{
+                            backgroundImage: currentTree.backdrop || currentTree.fallbackBackground,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat'
+                        }}
+                    >
                     {/* Points and Reset Controls - Floating in top-right */}
                     <div className="talent-controls">
                         <div className="points-display">
@@ -210,23 +328,6 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                             height: `${GRID_ROWS * CELL_HEIGHT}px`
                         }}
                     >
-                        {/* Tier separators for visual hierarchy */}
-                        {[1, 2, 3, 4, 5, 6].map(tier => (
-                            <div
-                                key={`tier-${tier}`}
-                                className="tier-separator"
-                                style={{
-                                    position: 'absolute',
-                                    top: `${tier * CELL_HEIGHT - 5}px`,
-                                    left: '0',
-                                    width: '100%',
-                                    height: '1px',
-                                    background: 'linear-gradient(90deg, transparent 0%, rgba(139, 69, 19, 0.3) 20%, rgba(139, 69, 19, 0.3) 80%, transparent 100%)',
-                                    pointerEvents: 'none',
-                                    zIndex: 1
-                                }}
-                            />
-                        ))}
 
                         {/* Render arrows first (behind talents) */}
                         <TalentArrowRenderer
@@ -287,49 +388,50 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                     </div>
                 </div>
 
-                {/* Talent Tooltip */}
-                {hoveredTalent && (
-                    <TooltipPortal>
-                        <div
-                            className="talent-tooltip"
-                            style={{
-                                position: 'fixed',
-                                left: tooltipPosition.x + 15,
-                                top: tooltipPosition.y - 10,
-                                pointerEvents: 'none'
-                            }}
-                        >
-                            <div className="talent-tooltip-header">
-                                <div className="talent-tooltip-name">{hoveredTalent.name}</div>
-                                {hoveredTalent.maxRanks > 1 && (
-                                    <div className="talent-tooltip-ranks">
-                                        Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
+                    {/* Talent Tooltip */}
+                    {hoveredTalent && selectedTree < trees.length && (
+                        <TooltipPortal>
+                            <div
+                                className="talent-tooltip"
+                                style={{
+                                    position: 'fixed',
+                                    left: tooltipPosition.x + 15,
+                                    top: tooltipPosition.y - 10,
+                                    pointerEvents: 'none'
+                                }}
+                            >
+                                <div className="talent-tooltip-header">
+                                    <div className="talent-tooltip-name">{hoveredTalent.name}</div>
+                                    {hoveredTalent.maxRanks > 1 && (
+                                        <div className="talent-tooltip-ranks">
+                                            Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="talent-tooltip-description">
+                                    {getDynamicDescription(hoveredTalent, talents[hoveredTalent.id] || 0)}
+                                </div>
+                                {hoveredTalent.requiresPoints > 0 && (
+                                    <div className="talent-tooltip-requirement">
+                                        Requires {hoveredTalent.requiresPoints} points in {currentTree.name}
                                     </div>
                                 )}
-                            </div>
-                            <div className="talent-tooltip-description">
-                                {hoveredTalent.description}
-                            </div>
-                            {hoveredTalent.requiresPoints > 0 && (
-                                <div className="talent-tooltip-requirement">
-                                    Requires {hoveredTalent.requiresPoints} points in {currentTree.name}
+                                {hoveredTalent.requires && (
+                                    <div className="talent-tooltip-requirement">
+                                        {typeof hoveredTalent.requires === 'string'
+                                            ? 'Requires previous talent'
+                                            : hoveredTalent.requiresAll
+                                                ? `Requires all: ${hoveredTalent.requires.length} talents`
+                                                : `Requires any: ${hoveredTalent.requires.length} talents`
+                                        }
+                                    </div>
+                                )}
+                                <div className="talent-tooltip-hint">
+                                    Left-click to learn | Right-click to unlearn
                                 </div>
-                            )}
-                            {hoveredTalent.requires && (
-                                <div className="talent-tooltip-requirement">
-                                    {typeof hoveredTalent.requires === 'string'
-                                        ? 'Requires previous talent'
-                                        : hoveredTalent.requiresAll
-                                            ? `Requires all: ${hoveredTalent.requires.length} talents`
-                                            : `Requires any: ${hoveredTalent.requires.length} talents`
-                                    }
-                                </div>
-                            )}
-                            <div className="talent-tooltip-hint">
-                                Left-click to learn | Right-click to unlearn
                             </div>
-                        </div>
-                    </TooltipPortal>
+                        </TooltipPortal>
+                    )}
                 )}
             </div>
         </WowWindow>

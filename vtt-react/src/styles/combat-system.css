@@ -701,11 +701,13 @@
 
 .timeline-combatants {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
     overflow-x: auto;
-    min-height: 80px;
+    overflow-y: auto;
+    flex-wrap: wrap; /* Allow wrapping to multiple rows */
+    min-height: 120px; /* Taller to accommodate token content */
     background:
         repeating-linear-gradient(
             45deg,
@@ -724,14 +726,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 8px;
+    gap: 3px;
+    padding: 6px;
     background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%);
     border: 2px solid #8B4513;
     border-radius: 8px;
     cursor: grab;
     transition: all 0.2s ease;
-    min-width: 70px;
+    min-width: 65px;
+    max-width: 85px; /* Prevent tokens from getting too wide */
+    flex-shrink: 0; /* Prevent tokens from shrinking */
     position: relative;
     box-shadow:
         0 3px 8px rgba(0, 0, 0, 0.2),
@@ -780,7 +784,9 @@
         inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
-.token-icon {
+/* Scope to combat timeline only */
+.combat-timeline .token-icon,
+.timeline-token .token-icon {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -872,32 +878,44 @@
     border: 3px solid #8B4513;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    padding: 12px;
+    padding: 14px 16px;
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
-    max-width: 250px;
+    min-width: 220px;
+    max-width: 280px;
+    min-height: 100px;
+}
+
+.tooltip-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .tooltip-name {
     color: #5a1e12;
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    border-bottom: 2px solid #8B4513;
+    padding-bottom: 6px;
 }
 
 .tooltip-initiative {
     color: #3a3a3a;
-    font-size: 14px;
-    margin-bottom: 4px;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .initiative-breakdown {
     color: #666;
-    font-size: 12px;
-    margin-left: 5px;
+    font-size: 11px;
+    font-style: italic;
+    margin-top: 2px;
 }
 
 .tooltip-ap {
     color: #5a1e12;
     font-size: 14px;
     font-weight: bold;
+    margin-top: 4px;
 }
