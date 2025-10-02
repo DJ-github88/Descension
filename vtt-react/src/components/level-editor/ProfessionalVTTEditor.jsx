@@ -27,6 +27,7 @@ const ProfessionalVTTEditor = () => {
     const [currentPath, setCurrentPath] = useState([]);
     const [textInput, setTextInput] = useState({ show: false, x: 0, y: 0, text: '', gridX: 0, gridY: 0 });
     const [hoverPreview, setHoverPreview] = useState({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
+    const [isLayersPanelCollapsed, setIsLayersPanelCollapsed] = useState(false);
 
 
     const windowRef = useRef(null);
@@ -669,16 +670,24 @@ const ProfessionalVTTEditor = () => {
         // Handle different drawing tool types
         switch (selectedTool) {
             case 'freehand':
-                // Start freehand drawing with screen coordinates for true freehand
+                // Start freehand drawing with world coordinates so it sticks to the grid
                 const rect = overlayRef.current?.getBoundingClientRect();
                 if (rect) {
-                    const screenCoords = {
-                        x: e.clientX - rect.left,
-                        y: e.clientY - rect.top,
-                        isFreehand: true // Flag to distinguish from grid coords
+                    const screenX = e.clientX - rect.left;
+                    const screenY = e.clientY - rect.top;
+
+                    // Convert screen coordinates to world coordinates
+                    const gridSystem = getGridSystem();
+                    const viewport = gridSystem.getViewportDimensions();
+                    const worldCoords = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
+
+                    const worldPoint = {
+                        worldX: worldCoords.x,
+                        worldY: worldCoords.y,
+                        isWorldCoords: true // Flag to distinguish from grid coords
                     };
-                    setCurrentPath([screenCoords]);
-                    setCurrentDrawingPath([screenCoords]);
+                    setCurrentPath([worldPoint]);
+                    setCurrentDrawingPath([worldPoint]);
                 }
                 return; // Don't process grid-based actions for freehand
             case 'line':
@@ -777,18 +786,26 @@ const ProfessionalVTTEditor = () => {
         // Handle continuous painting for terrain tools
         switch (selectedTool) {
             case 'freehand':
-                // Continue freehand drawing with screen coordinates
+                // Continue freehand drawing with world coordinates
                 const rect = overlayRef.current?.getBoundingClientRect();
                 if (rect) {
-                    const screenCoords = {
-                        x: e.clientX - rect.left,
-                        y: e.clientY - rect.top,
-                        isFreehand: true
+                    const screenX = e.clientX - rect.left;
+                    const screenY = e.clientY - rect.top;
+
+                    // Convert screen coordinates to world coordinates
+                    const gridSystem = getGridSystem();
+                    const viewport = gridSystem.getViewportDimensions();
+                    const worldCoords = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
+
+                    const worldPoint = {
+                        worldX: worldCoords.x,
+                        worldY: worldCoords.y,
+                        isWorldCoords: true
                     };
 
                     // Add point and immediately update drawing path for real-time feedback
                     setCurrentPath(prev => {
-                        const newPath = [...prev, screenCoords];
+                        const newPath = [...prev, worldPoint];
                         // Also update the drawing path immediately
                         setCurrentDrawingPath(newPath);
                         return newPath;
@@ -1140,8 +1157,19 @@ const ProfessionalVTTEditor = () => {
 
 
                     {/* Layer Management - Right Side */}
-                    <div className="vtt-layer-panel">
-                        <h4>Layers</h4>
+                    <div className={`vtt-layer-panel ${isLayersPanelCollapsed ? 'collapsed' : ''}`}>
+                        <div className="layer-panel-header">
+                            <h4>Layers</h4>
+                            <button
+                                className="layer-panel-toggle"
+                                onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                                title={isLayersPanelCollapsed ? 'Expand Layers Panel' : 'Collapse Layers Panel'}
+                            >
+                                {isLayersPanelCollapsed ? '◀' : '▶'}
+                            </button>
+                        </div>
+                        {!isLayersPanelCollapsed && (
+                            <>
                         <div className="layer-list">
                             {drawingLayers.map(layer => {
                                 // For grid layer, use actual grid visibility state
@@ -1236,6 +1264,8 @@ const ProfessionalVTTEditor = () => {
                                 Clear All
                             </button>
                         </div>
+                            </>
+                        )}
                     </div>
                 </div>
 

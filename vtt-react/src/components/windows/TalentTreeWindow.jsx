@@ -387,51 +387,51 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                         })}
                     </div>
                 </div>
+                )}
 
-                    {/* Talent Tooltip */}
-                    {hoveredTalent && selectedTree < trees.length && (
-                        <TooltipPortal>
-                            <div
-                                className="talent-tooltip"
-                                style={{
-                                    position: 'fixed',
-                                    left: tooltipPosition.x + 15,
-                                    top: tooltipPosition.y - 10,
-                                    pointerEvents: 'none'
-                                }}
-                            >
-                                <div className="talent-tooltip-header">
-                                    <div className="talent-tooltip-name">{hoveredTalent.name}</div>
-                                    {hoveredTalent.maxRanks > 1 && (
-                                        <div className="talent-tooltip-ranks">
-                                            Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="talent-tooltip-description">
-                                    {getDynamicDescription(hoveredTalent, talents[hoveredTalent.id] || 0)}
-                                </div>
-                                {hoveredTalent.requiresPoints > 0 && (
-                                    <div className="talent-tooltip-requirement">
-                                        Requires {hoveredTalent.requiresPoints} points in {currentTree.name}
+                {/* Talent Tooltip */}
+                {hoveredTalent && (
+                    <TooltipPortal>
+                        <div
+                            className="talent-tooltip"
+                            style={{
+                                position: 'fixed',
+                                left: tooltipPosition.x + 15,
+                                top: tooltipPosition.y - 10,
+                                pointerEvents: 'none'
+                            }}
+                        >
+                            <div className="talent-tooltip-header">
+                                <div className="talent-tooltip-name">{hoveredTalent.name}</div>
+                                {hoveredTalent.maxRanks > 1 && (
+                                    <div className="talent-tooltip-ranks">
+                                        Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
                                     </div>
                                 )}
-                                {hoveredTalent.requires && (
-                                    <div className="talent-tooltip-requirement">
-                                        {typeof hoveredTalent.requires === 'string'
-                                            ? 'Requires previous talent'
-                                            : hoveredTalent.requiresAll
-                                                ? `Requires all: ${hoveredTalent.requires.length} talents`
-                                                : `Requires any: ${hoveredTalent.requires.length} talents`
-                                        }
-                                    </div>
-                                )}
-                                <div className="talent-tooltip-hint">
-                                    Left-click to learn | Right-click to unlearn
-                                </div>
                             </div>
-                        </TooltipPortal>
-                    )}
+                            <div className="talent-tooltip-description">
+                                {getDynamicDescription(hoveredTalent, talents[hoveredTalent.id] || 0)}
+                            </div>
+                            {hoveredTalent.requiresPoints > 0 && (
+                                <div className="talent-tooltip-requirement">
+                                    Requires {hoveredTalent.requiresPoints} points in {currentTree.name}
+                                </div>
+                            )}
+                            {hoveredTalent.requires && (
+                                <div className="talent-tooltip-requirement">
+                                    {typeof hoveredTalent.requires === 'string'
+                                        ? 'Requires previous talent'
+                                        : hoveredTalent.requiresAll
+                                            ? `Requires all: ${hoveredTalent.requires.length} talents`
+                                            : `Requires any: ${hoveredTalent.requires.length} talents`
+                                    }
+                                </div>
+                            )}
+                            <div className="talent-tooltip-hint">
+                                Left-click to learn | Right-click to unlearn
+                            </div>
+                        </div>
+                    </TooltipPortal>
                 )}
             </div>
         </WowWindow>

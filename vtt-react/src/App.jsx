@@ -24,6 +24,7 @@ const DynamicLightingManager = lazy(() => import("./components/level-editor/Dyna
 const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/AtmosphericEffectsManager"));
 const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
+const CombatTimeline = lazy(() => import("./components/combat/CombatTimeline"));
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 const LocalRoomIndicator = lazy(() => import("./components/local-room/LocalRoomIndicator"));
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
@@ -464,6 +465,7 @@ function GameScreen() {
                     <HUDContainer />
                     <ActionBar />
                     <CombatSelectionWindow />
+                    <CombatTimeline />
                     <DynamicFogManager />
                     <DynamicLightingManager />
                     <AtmosphericEffectsManager />

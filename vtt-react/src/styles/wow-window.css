@@ -112,12 +112,12 @@
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 0 12px;
+    padding: 0 clamp(6px, 1.5vw, 12px);
     background: transparent;
     border: 1px solid rgba(240, 230, 210, 0.3);
     border-radius: 4px;
     color: #f0e6d2; /* Parchment color */
-    font-size: 14px;
+    font-size: clamp(10px, 1.2vw, 14px);
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -337,9 +337,9 @@
     );
     border: none;
     color: #f0e6d2;
-    padding: 0 16px;
+    padding: 0 clamp(8px, 2vw, 16px);
     margin: 0;
-    font-size: 14px;
+    font-size: clamp(10px, 1.2vw, 14px);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -350,7 +350,7 @@
     justify-content: center;
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    letter-spacing: 0.3px;
+    letter-spacing: clamp(0px, 0.3px, 0.5px);
     border-radius: 0;
     box-shadow: none;
     text-transform: uppercase;
@@ -453,8 +453,7 @@
     }
 
     .spellbook-tab-button {
-        padding: 10px 12px;
-        font-size: 13px;
+        /* Padding and font-size now handled by clamp() */
         min-width: 0;
     }
 }
@@ -466,8 +465,7 @@
     }
 
     .spellbook-tab-button {
-        padding: 8px 6px;
-        font-size: 11px;
+        /* Padding and font-size now handled by clamp() */
         white-space: normal;
         line-height: 1.2;
     }

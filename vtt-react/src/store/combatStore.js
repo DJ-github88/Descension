@@ -15,7 +15,7 @@ const useCombatStore = create(
 
             // UI state
             timelinePosition: { x: 300, y: 100 },
-            timelineSize: { width: 450, height: 260 },
+            timelineSize: { width: 450, height: 220 },
 
             // Turn timer state
             turnTimers: new Map(), // tokenId -> { startTime, totalTime, isActive }

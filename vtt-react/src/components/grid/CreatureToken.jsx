@@ -6,10 +6,10 @@ import useGameStore from '../../store/gameStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
+import useChatStore from '../../store/chatStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import TurnTimer from '../combat/TurnTimer';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import MovementVisualization from './MovementVisualization';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/creature-token.css';
 import '../../styles/unified-context-menu.css';
@@ -52,6 +52,30 @@ const getQualityColor = (quality) => {
   return qualityColors[quality?.toLowerCase()] || '#ffffff';
 };
 
+// Helper function to log movement to combat chat
+const logMovementToCombat = (tokenId, creatures, distance, startPos, endPos) => {
+  const useChatStore = require('../../store/chatStore').default;
+  const useCreatureStore = require('../../store/creatureStore').default;
+
+  const { addCombatNotification } = useChatStore.getState();
+  const { tokens } = useCreatureStore.getState();
+
+  const token = tokens.find(t => t.id === tokenId);
+  const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
+
+  if (creature && addCombatNotification) {
+    addCombatNotification({
+      type: 'movement',
+      creature: creature.name,
+      distance: Math.round(distance),
+      from: startPos,
+      to: endPos,
+      content: `${creature.name} moved ${Math.round(distance)} feet`,
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
 const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
@@ -82,6 +106,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const { tokens, creatures, updateTokenState, removeToken, duplicateToken, updateTokenPosition } = useCreatureStore();
   const { isInMultiplayer, multiplayerSocket } = useGameStore();
   const { currentTarget, setTarget, clearTarget } = useTargetingStore();
+  const { addCombatNotification } = useChatStore();
   const {
     isSelectionMode,
     selectedTokens,
@@ -200,8 +225,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           window.multiplayerDragState.set(`token_${token.creatureId}`, true);
           // Removed excessive logging for performance
 
-          // Start movement visualization if enabled and in combat
-          if (showMovementVisualization && isInCombat) {
+          // Start movement visualization if enabled (works in and out of combat)
+          if (showMovementVisualization) {
             startMovementVisualization(tokenId, { x: position.x, y: position.y });
           }
         } else {
@@ -258,9 +283,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
 
         // Calculate and update temporary movement distance for tooltip
+        // CRITICAL FIX: Convert world distance to tile distance before multiplying by feetPerTile
         const dx = worldPos.x - dragStartPosition.x;
         const dy = worldPos.y - dragStartPosition.y;
-        const distance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
+        const worldDistance = Math.sqrt(dx * dx + dy * dy);
+        const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
+        const distance = tileDistance * feetPerTile;
         updateTempMovementDistance(tokenId, distance);
 
         lastCombatUpdate = now;
@@ -318,28 +346,39 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // Handle combat movement validation if in combat
       if (isInCombat && dragStartPosition) {
-        const dx = finalWorldPos.x - dragStartPosition.x;
-        const dy = finalWorldPos.y - dragStartPosition.y;
-        const totalDistance = Math.sqrt(dx * dx + dy * dy) * feetPerTile;
-
-        // Movement distance calculated
-
         // Validate movement and handle AP costs
         const validation = validateMovement(tokenId, dragStartPosition, finalWorldPos, [creature], feetPerTile);
 
         if (validation.needsConfirmation) {
           // Movement requires confirmation
+          const combatant = useCombatStore.getState().turnOrder.find(c => c.tokenId === tokenId);
           setPendingMovementConfirmation({
             tokenId,
             startPosition: dragStartPosition,
             finalPosition: finalWorldPos,
             requiredAP: validation.additionalAPNeeded,
-            totalDistance: totalDistance
+            totalDistance: validation.totalMovementAfterThis,
+            baseMovement: creature.stats?.speed || 30,
+            currentAP: combatant?.currentActionPoints || 0,
+            creatureName: creature.name || 'Creature',
+            movementUsedThisTurn: validation.movementUsedThisTurn,
+            feetPerTile: feetPerTile,
+            currentMovementDistance: validation.currentMovementFeet
           });
         } else if (validation.isValid) {
-          // Movement is valid - auto-confirming
-          // Auto-confirm valid movement
-          confirmMovement(tokenId, validation.additionalAPNeeded, totalDistance);
+          // Movement is valid - auto-confirm
+          confirmMovement(tokenId, validation.additionalAPNeeded, validation.currentMovementFeet);
+          logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
+
+          if (isInMultiplayer && multiplayerSocket) {
+            multiplayerSocket.emit('token_movement_complete', {
+              tokenId: token.creatureId,
+              creatureName: creature.name,
+              distance: Math.round(validation.currentMovementFeet),
+              from: dragStartPosition,
+              to: finalWorldPos
+            });
+          }
         } else {
           console.log('❌ MOVEMENT IS INVALID - Reverting');
           // Revert to start position
@@ -1614,15 +1653,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         document.body
       )}
 
-      {/* Movement Visualization */}
-      {showMovementVisualization && activeMovement?.tokenId === tokenId && (
-        <MovementVisualization
-          startPosition={activeMovement.startPosition}
-          currentPosition={activeMovement.currentPosition}
-          tokenId={tokenId}
-          gridSystem={gridSystem}
-        />
-      )}
+      {/* Movement Visualization - Now rendered at Grid level for correct positioning */}
 
       {/* Movement Confirmation Dialog */}
       <MovementConfirmationDialog

@@ -6,6 +6,7 @@ import useGameStore from "../store/gameStore";
 import useCreatureStore from "../store/creatureStore";
 import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
+import useCombatStore from "../store/combatStore";
 import useLevelEditorStore, { TERRAIN_TYPES, WALL_TYPES } from "../store/levelEditorStore";
 import useMapStore from "../store/mapStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
@@ -14,6 +15,7 @@ import GridItem from "./grid/GridItem";
 import GridContainer from "./grid/GridContainer";
 import CreatureToken from "./grid/CreatureToken";
 import CharacterToken from "./grid/CharacterToken";
+import MovementVisualization from "./grid/MovementVisualization";
 // import TokenTester from "./grid/TokenTester"; // Removed per user request
 import CanvasGridRenderer from "./grid/CanvasGridRenderer";
 import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
@@ -132,8 +134,12 @@ export default function Grid() {
         setGridAlignmentStep,
         gridAlignmentRectangles,
         addGridAlignmentRectangle,
-        clearGridAlignmentRectangles
+        clearGridAlignmentRectangles,
+        showMovementVisualization
     } = gameStore;
+
+    // CRITICAL FIX: Subscribe to activeMovement from combatStore for reactive movement visualization
+    const activeMovement = useCombatStore(state => state.activeMovement);
 
     // Calculate effective zoom early (GM zoom * player zoom) - memoized for performance
     const effectiveZoom = useMemo(() => zoomLevel * playerZoom, [zoomLevel, playerZoom]);
@@ -2486,6 +2492,17 @@ export default function Grid() {
                     onInspect={handleCharacterTokenInspect}
                 />
             )), [characterTokens, handleRemoveCharacterToken, handleCharacterTokenInspect])}
+
+            {/* Movement Visualization - Rendered at grid level for correct positioning */}
+            {/* CRITICAL FIX: Now using reactive state subscriptions instead of getState() */}
+            {showMovementVisualization && activeMovement?.tokenId && activeMovement?.startPosition && activeMovement?.currentPosition && (
+                <MovementVisualization
+                    startPosition={activeMovement.startPosition}
+                    currentPosition={activeMovement.currentPosition}
+                    tokenId={activeMovement.tokenId}
+                    gridSystem={gridSystem}
+                />
+            )}
 
             {/* Character Token Placement Preview */}
             {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}

@@ -428,14 +428,16 @@
 /* Combat timeline resize handles */
 .combat-timeline-window-compact .react-resizable-handle {
     position: absolute;
-    background: linear-gradient(135deg, #8B4513 0%, #5a1e12 100%);
-    border: 1px solid #f0e6d2;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
+    background: rgba(139, 69, 19, 0.3);
+    border: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    z-index: 10;
 }
 
 .combat-timeline-window-compact .react-resizable-handle:hover {
     opacity: 1;
+    background: rgba(139, 69, 19, 0.6);
 }
 
 .combat-timeline-window-compact .react-resizable-handle-se {

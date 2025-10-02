@@ -229,7 +229,7 @@ const CombatTimeline = () => {
                             onResize={handleResize}
                             minConstraints={[350, 200]}
                             maxConstraints={[900, 500]}
-                            resizeHandles={['se', 'sw', 'ne', 'nw', 's', 'e', 'w', 'n']}
+                            resizeHandles={['se', 'sw']}
                         >
                             <div
                                 className="combat-timeline-window-compact"

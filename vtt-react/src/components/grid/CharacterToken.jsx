@@ -67,13 +67,38 @@ const CharacterToken = ({
 
     // Get grid and combat state
     const gridSystem = getGridSystem();
-    const { gridSize, zoomLevel, playerZoom, cameraX, cameraY, isInMultiplayer, multiplayerSocket, isGMMode } = useGameStore();
+    const {
+        gridSize,
+        zoomLevel,
+        playerZoom,
+        cameraX,
+        cameraY,
+        isInMultiplayer,
+        multiplayerSocket,
+        isGMMode,
+        showMovementVisualization,
+        feetPerTile
+    } = useGameStore();
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = gridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
-    const { isInCombat, currentTurn } = useCombatStore();
+    const {
+        isInCombat,
+        currentTurn,
+        isSelectionMode,
+        selectedTokens,
+        toggleTokenSelection,
+        activeMovement,
+        startMovementVisualization,
+        updateMovementVisualization,
+        clearMovementVisualization,
+        updateTempMovementDistance
+    } = useCombatStore();
     const { addBuff } = useBuffStore();
     const { addDebuff } = useDebuffStore();
+
+    // Check if this token is selected for combat
+    const isSelectedForCombat = selectedTokens.has(tokenId);
 
     // Removed enhanced multiplayer hook - was causing conflicts
 
@@ -192,18 +217,19 @@ const CharacterToken = ({
         e.stopPropagation();
         e.preventDefault();
 
-        // Removed excessive logging for performance
-
         // Only handle click if we're not dragging
         if (!isDragging) {
-            // Handle any click-specific logic here if needed
-            // For now, just prevent the event from reaching the grid
+            // Handle combat selection mode
+            if (isSelectionMode) {
+                toggleTokenSelection(tokenId);
+            }
         }
     };
 
     // Handle mouse move and up for dragging with pure immediate feedback
     useEffect(() => {
         let lastNetworkUpdate = 0;
+        let lastCombatUpdate = 0;
         let dragTimeoutId = null;
 
         const handleMouseMove = (e) => {
@@ -231,6 +257,11 @@ const CharacterToken = ({
                         window.multiplayerDragState = new Map();
                     }
                     window.multiplayerDragState.set('character', true);
+
+                    // CRITICAL FIX: Start movement visualization when dragging starts
+                    if (showMovementVisualization) {
+                        startMovementVisualization(tokenId, { x: position.x, y: position.y });
+                    }
                     // Removed excessive logging for performance
                 } else {
                     // Still within threshold, don't start dragging yet
@@ -279,6 +310,25 @@ const CharacterToken = ({
                     lastNetworkUpdate = now;
                     console.log(`📡 Sent character drag position:`, { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) });
                 }
+            }
+
+            // CRITICAL FIX: Update movement visualization and distance calculation during drag
+            if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
+                // Update movement visualization if enabled
+                if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
+                    updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
+                }
+
+                // Calculate and update temporary movement distance for tooltip
+                // CRITICAL FIX: Convert world distance to tile distance before multiplying by feetPerTile
+                const dx = worldPos.x - dragStartPosition.x;
+                const dy = worldPos.y - dragStartPosition.y;
+                const worldDistance = Math.sqrt(dx * dx + dy * dy);
+                const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
+                const distance = tileDistance * feetPerTile;
+                updateTempMovementDistance(tokenId, distance);
+
+                lastCombatUpdate = now;
             }
         };
 
@@ -341,6 +391,9 @@ const CharacterToken = ({
                 console.log(`📡 Sent character final position:`, { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) });
             }
 
+            // CRITICAL FIX: Clear movement visualization when drag ends
+            clearMovementVisualization();
+
             // End dragging and reset all states
             setIsDragging(false);
             setIsMouseDown(false);
@@ -396,7 +449,25 @@ const CharacterToken = ({
                 clearTimeout(dragTimeoutId);
             }
         };
-    }, [isDragging, isMouseDown, isInMultiplayer, multiplayerSocket, position, dragOffset, mouseDownPosition, gridSystem, tokenId]);
+    }, [
+        isDragging,
+        isMouseDown,
+        isInMultiplayer,
+        multiplayerSocket,
+        position,
+        dragOffset,
+        mouseDownPosition,
+        gridSystem,
+        tokenId,
+        showMovementVisualization,
+        startMovementVisualization,
+        updateMovementVisualization,
+        clearMovementVisualization,
+        updateTempMovementDistance,
+        activeMovement,
+        dragStartPosition,
+        feetPerTile
+    ]);
 
     // Handle context menu
     const handleContextMenu = (e) => {
@@ -745,14 +816,17 @@ const CharacterToken = ({
                     position: 'absolute',
                     transform: 'translate(-50%, -50%)',
                     borderRadius: '50%',
-                    border: `3px solid ${isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor}`,
+                    border: `3px solid ${isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor}`,
                     overflow: 'hidden',
                     boxShadow: isMyTurn
                         ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                        : isSelectedForCombat
+                        ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : isTargeted
                         ? '0 0 15px rgba(255, 152, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : '0 2px 8px rgba(0, 0, 0, 0.3)',
                     backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
                     pointerEvents: 'all', // Ensure it can receive mouse events
                     userSelect: 'none',
                     touchAction: 'none'

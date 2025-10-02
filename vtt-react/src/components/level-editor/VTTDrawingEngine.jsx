@@ -168,7 +168,7 @@ const VTTDrawingEngine = () => {
 
             ctx.restore();
         }
-    }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, isCurrentlyDrawing, currentDrawingPath, currentDrawingTool, toolSettings]);
+    }, [drawingPaths, drawingLayers, effectiveZoom, gridToScreen, isCurrentlyDrawing, currentDrawingPath, currentDrawingTool, toolSettings, cameraX, cameraY]);
 
     // Render freehand drawing
     const renderFreehandPath = (ctx, points) => {
@@ -176,9 +176,29 @@ const VTTDrawingEngine = () => {
 
         ctx.beginPath();
 
-        // Check if this is a freehand path with screen coordinates
-        if (points[0] && points[0].isFreehand) {
-            // Use screen coordinates directly for true freehand drawing
+        // Check if this is a freehand path with world coordinates (new system)
+        if (points[0] && points[0].isWorldCoords) {
+            // Convert world coordinates to screen coordinates for rendering
+            const gridSystem = getGridSystem();
+            const viewport = gridSystem.getViewportDimensions();
+
+            if (points.length === 1) {
+                // Draw a small dot for single point
+                const screenPos = gridSystem.worldToScreen(points[0].worldX, points[0].worldY, viewport.width, viewport.height);
+                ctx.arc(screenPos.x, screenPos.y, ctx.lineWidth / 2, 0, 2 * Math.PI);
+                ctx.fill();
+            } else {
+                // Draw connected lines for multiple points
+                const startPos = gridSystem.worldToScreen(points[0].worldX, points[0].worldY, viewport.width, viewport.height);
+                ctx.moveTo(startPos.x, startPos.y);
+                for (let i = 1; i < points.length; i++) {
+                    const screenPos = gridSystem.worldToScreen(points[i].worldX, points[i].worldY, viewport.width, viewport.height);
+                    ctx.lineTo(screenPos.x, screenPos.y);
+                }
+                ctx.stroke();
+            }
+        } else if (points[0] && points[0].isFreehand) {
+            // Legacy: Use screen coordinates directly (old freehand drawings)
             if (points.length === 1) {
                 // Draw a small dot for single point
                 ctx.arc(points[0].x, points[0].y, ctx.lineWidth / 2, 0, 2 * Math.PI);
@@ -272,7 +292,7 @@ const VTTDrawingEngine = () => {
         const screenPos = gridToScreen(point.gridX, point.gridY);
 
         // Extract text style properties
-        const fontSize = path.style.fontSize || 16;
+        const baseFontSize = path.style.fontSize || 16;
         const fontFamily = path.style.fontFamily || 'Arial';
         const textColor = path.style.textColor || '#000000';
         const backgroundColor = path.style.backgroundColor || '#ffffff';
@@ -280,6 +300,9 @@ const VTTDrawingEngine = () => {
         const bold = path.style.bold || false;
         const italic = path.style.italic || false;
         const underline = path.style.underline || false;
+
+        // Scale font size by zoom level
+        const fontSize = baseFontSize * effectiveZoom;
 
         // Build font string
         let fontString = '';
@@ -295,7 +318,7 @@ const VTTDrawingEngine = () => {
         const textMetrics = ctx.measureText(path.text);
         const textWidth = textMetrics.width;
         const textHeight = fontSize * 1.2; // Account for line height
-        const padding = 6;
+        const padding = 6 * effectiveZoom; // Scale padding by zoom
 
         // Draw background based on style
         if (backgroundStyle !== 'none') {

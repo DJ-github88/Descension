@@ -2,6 +2,8 @@ import React from 'react';
 import WowWindow from '../windows/WowWindow';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
+import useCharacterStore from '../../store/characterStore';
 import useChatStore from '../../store/chatStore';
 // REMOVED: import './CombatSelectionOverlay.css'; // CAUSES CSS POLLUTION - loaded centrally
 
@@ -14,6 +16,7 @@ const CombatSelectionWindow = () => {
     } = useCombatStore();
 
     const { tokens, creatures } = useCreatureStore();
+    const { characterTokens } = useCharacterTokenStore();
     const { addNotification } = useChatStore();
 
     // Don't render if not in selection mode
@@ -25,10 +28,10 @@ const CombatSelectionWindow = () => {
             return;
         }
 
-        // Get selected token objects
-        const selectedTokenObjects = tokens.filter(token => 
-            selectedTokens.has(token.id)
-        );
+        // Get selected creature and character tokens
+        const selectedCreatureTokens = tokens.filter(token => selectedTokens.has(token.id));
+        const selectedCharacterTokens = characterTokens.filter(token => selectedTokens.has(token.id));
+        const allSelectedTokens = [...selectedCreatureTokens, ...selectedCharacterTokens];
 
         // Add combat notification function
         const addCombatNotification = (notification) => {
@@ -36,7 +39,7 @@ const CombatSelectionWindow = () => {
         };
 
         // Start combat with selected tokens
-        startCombat(selectedTokenObjects, creatures, addCombatNotification);
+        startCombat(allSelectedTokens, creatures, addCombatNotification);
     };
 
     const handleCancel = () => {
@@ -44,18 +47,26 @@ const CombatSelectionWindow = () => {
     };
 
     const getSelectedTokenData = () => {
-        const selectedTokenObjects = tokens.filter(token =>
-            selectedTokens.has(token.id)
-        );
+        const selectedCreatureTokens = tokens.filter(token => selectedTokens.has(token.id));
+        const selectedCharacterTokens = characterTokens.filter(token => selectedTokens.has(token.id));
 
-        return selectedTokenObjects.map(token => {
+        const creatureData = selectedCreatureTokens.map(token => {
             const creature = creatures.find(c => c.id === token.creatureId);
             return {
                 name: creature?.name || 'Unknown',
-                tokenIcon: creature?.tokenIcon || 'inv_misc_questionmark',
-                creatureId: creature?.id
+                tokenIcon: creature?.tokenIcon || 'inv_misc_questionmark'
             };
         });
+
+        const characterData = selectedCharacterTokens.map(() => {
+            const char = useCharacterStore.getState();
+            return {
+                name: char.name || 'Character',
+                tokenIcon: char.tokenSettings?.customIcon || char.lore?.characterImage || 'inv_misc_questionmark'
+            };
+        });
+
+        return [...creatureData, ...characterData];
     };
 
     const selectedTokenData = getSelectedTokenData();

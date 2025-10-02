@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
 
-const MovementVisualization = ({ 
-    startPosition, 
-    currentPosition, 
+const MovementVisualization = ({
+    startPosition,
+    currentPosition,
     tokenId,
-    gridSystem 
+    gridSystem
 }) => {
     const {
         showMovementVisualization,
@@ -19,6 +19,34 @@ const MovementVisualization = ({
 
     const { isInCombat, validateMovement, turnMovementUsed, getTotalUnlockedMovement } = useCombatStore();
     const { tokens, creatures } = useCreatureStore();
+
+    // Animation state for stippled line (marching ants effect)
+    const [dashOffset, setDashOffset] = useState(0);
+
+    // Animate the dash offset for marching ants effect
+    useEffect(() => {
+        let animationFrameId;
+        let lastTime = Date.now();
+
+        const animate = () => {
+            const currentTime = Date.now();
+            const deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+
+            // Update dash offset (move 15 pixels per second)
+            setDashOffset(prev => (prev + (deltaTime * 0.015)) % 12);
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        animationFrameId = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        };
+    }, []);
 
     // Calculate movement data (hook must be called before early return)
     const movementData = useMemo(() => {
@@ -33,6 +61,7 @@ const MovementVisualization = ({
         if (!creature) return null;
 
         // Calculate distance for this specific move
+        // CRITICAL FIX: Properly convert world distance to tile distance before multiplying by feetPerTile
         const dx = currentPosition.x - startPosition.x;
         const dy = currentPosition.y - startPosition.y;
         const worldDistance = Math.sqrt(dx * dx + dy * dy);
@@ -108,9 +137,12 @@ const MovementVisualization = ({
     // Don't render if no movement data or visualization is disabled
     if (!movementData) return null;
 
-    // Convert world coordinates to screen coordinates
-    const startScreen = gridSystem.worldToScreen(startPosition.x, startPosition.y);
-    const currentScreen = gridSystem.worldToScreen(currentPosition.x, currentPosition.y);
+    // CRITICAL FIX: Convert world coordinates to screen coordinates with viewport dimensions
+    // This ensures proper centering and positioning
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const startScreen = gridSystem.worldToScreen(startPosition.x, startPosition.y, viewportWidth, viewportHeight);
+    const currentScreen = gridSystem.worldToScreen(currentPosition.x, currentPosition.y, viewportWidth, viewportHeight);
 
     // Calculate SVG viewBox to contain the line with some padding
     const minX = Math.min(startScreen.x, currentScreen.x) - 50;
@@ -147,7 +179,7 @@ const MovementVisualization = ({
                     left: 0
                 }}
             >
-                {/* Movement line */}
+                {/* Movement line with animated stippled effect */}
                 <line
                     x1={relativeStartX}
                     y1={relativeStartY}
@@ -156,6 +188,7 @@ const MovementVisualization = ({
                     stroke={movementData.lineColor}
                     strokeWidth={movementLineWidth}
                     strokeDasharray={movementLineDashArray}
+                    strokeDashoffset={-dashOffset}
                     strokeOpacity={movementData.lineOpacity}
                     strokeLinecap="round"
                 />

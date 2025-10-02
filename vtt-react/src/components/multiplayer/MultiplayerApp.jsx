@@ -28,6 +28,7 @@ import DynamicLightingManager from "../level-editor/DynamicLightingManager";
 import AtmosphericEffectsManager from "../level-editor/AtmosphericEffectsManager";
 import ActionBar from "../ui/ActionBar";
 import CombatSelectionWindow from "../combat/CombatSelectionOverlay";
+import CombatTimeline from "../combat/CombatTimeline";
 import { FloatingCombatTextManager } from "../combat/FloatingCombatText";
 import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
@@ -1502,6 +1503,7 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         <HUDContainer />
         <ActionBar />
         <CombatSelectionWindow />
+        <CombatTimeline />
         <FloatingCombatTextManager />
         <DynamicFogManager />
         <DynamicLightingManager />
