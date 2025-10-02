@@ -472,6 +472,40 @@
     cursor: ew-resize;
 }
 
+.combat-timeline-window-compact .react-resizable-handle-n {
+    width: 100%;
+    height: 8px;
+    top: 0;
+    left: 0;
+    cursor: ns-resize;
+}
+
+.combat-timeline-window-compact .react-resizable-handle-s {
+    width: 100%;
+    height: 8px;
+    bottom: 0;
+    left: 0;
+    cursor: ns-resize;
+}
+
+.combat-timeline-window-compact .react-resizable-handle-ne {
+    width: 12px;
+    height: 12px;
+    top: 0;
+    right: 0;
+    cursor: ne-resize;
+    border-radius: 0 8px 0 0;
+}
+
+.combat-timeline-window-compact .react-resizable-handle-nw {
+    width: 12px;
+    height: 12px;
+    top: 0;
+    left: 0;
+    cursor: nw-resize;
+    border-radius: 8px 0 0 0;
+}
+
 .combat-timeline {
     display: flex;
     flex-direction: column;

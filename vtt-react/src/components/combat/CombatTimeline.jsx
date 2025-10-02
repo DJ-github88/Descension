@@ -65,7 +65,7 @@ const CombatTimeline = () => {
         // Use taller default height to accommodate token content
         updateTimelineSize({
             width: calculatedWidth,
-            height: timelineSize.height || 180
+            height: timelineSize.height || 260
         });
     }, [turnOrder.length, isInCombat, updateTimelineSize]);
 
@@ -203,7 +203,7 @@ const CombatTimeline = () => {
 
     // Use timeline size from store (updated by useEffect)
     const effectiveWidth = timelineSize.width || 450;
-    const effectiveHeight = timelineSize.height || 180;
+    const effectiveHeight = timelineSize.height || 260;
 
     return (
         <>
@@ -227,9 +227,9 @@ const CombatTimeline = () => {
                             width={effectiveWidth}
                             height={effectiveHeight}
                             onResize={handleResize}
-                            minConstraints={[350, 150]}
-                            maxConstraints={[800, 300]}
-                            resizeHandles={['e', 'w', 'se', 'sw']}
+                            minConstraints={[350, 200]}
+                            maxConstraints={[900, 500]}
+                            resizeHandles={['se', 'sw', 'ne', 'nw', 's', 'e', 'w', 'n']}
                         >
                             <div
                                 className="combat-timeline-window-compact"

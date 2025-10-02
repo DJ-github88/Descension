@@ -15,7 +15,7 @@ const useCombatStore = create(
 
             // UI state
             timelinePosition: { x: 300, y: 100 },
-            timelineSize: { width: 800, height: 120 },
+            timelineSize: { width: 450, height: 260 },
 
             // Turn timer state
             turnTimers: new Map(), // tokenId -> { startTime, totalTime, isActive }
@@ -59,7 +59,29 @@ const useCombatStore = create(
             // Start combat with selected tokens
             startCombat: (tokens, creatures, addCombatNotification) => {
                 const combatants = tokens.map(token => {
-                    const creature = creatures.find(c => c.id === token.creatureId);
+                    let creature = creatures.find(c => c.id === token.creatureId);
+                    let isCharacterToken = false;
+
+                    // CRITICAL FIX: Handle character tokens (have playerId OR isPlayerToken flag)
+                    // Local player tokens have isPlayerToken=true but no playerId
+                    // Multiplayer player tokens have playerId
+                    if (!creature && (token.playerId || token.isPlayerToken)) {
+                        isCharacterToken = true;
+                        const useCharacterStore = require('./characterStore').default;
+                        const char = useCharacterStore.getState();
+                        creature = {
+                            id: token.playerId ? `character_${token.playerId}` : 'character_local',
+                            name: char.name || 'Character',
+                            stats: {
+                                agility: char.stats?.agility || 10,
+                                initiativeMod: Math.floor(((char.stats?.agility || 10) - 10) / 2),
+                                speed: char.derivedStats?.movementSpeed || 30
+                            },
+                            tokenIcon: char.tokenSettings?.customIcon || char.lore?.characterImage || 'inv_misc_questionmark',
+                            tokenBorder: char.tokenSettings?.borderColor || '#4CAF50'
+                        };
+                    }
+
                     if (!creature) return null;
 
                     // Roll initiative (d20 + initiative modifier)
@@ -99,7 +121,8 @@ const useCombatStore = create(
                         tokenIcon: creature.tokenIcon,
                         tokenBorder: creature.tokenBorder,
                         currentActionPoints: actionPoints,
-                        maxActionPoints: actionPoints
+                        maxActionPoints: actionPoints,
+                        isCharacterToken
                     };
                 }).filter(Boolean);
 
@@ -448,8 +471,18 @@ const useCombatStore = create(
                     return { isValid: false, reason: 'Token not in combat' };
                 }
 
-                // Find creature data
-                const creature = creatures.find(c => c.id === combatant.creatureId);
+                // Find creature data - handle character tokens
+                let creature = creatures.find(c => c.id === combatant.creatureId);
+
+                if (!creature && combatant.isCharacterToken) {
+                    const useCharacterStore = require('./characterStore').default;
+                    const char = useCharacterStore.getState();
+                    creature = {
+                        id: combatant.creatureId,
+                        name: char.name || 'Character',
+                        stats: { speed: char.derivedStats?.movementSpeed || 30 }
+                    };
+                }
 
                 if (!creature) {
                     return { isValid: false, reason: 'Creature data not found' };
@@ -807,6 +840,11 @@ const useCombatStore = create(
                 }
                 if (!(state.turnTimers instanceof Map)) {
                     updates.turnTimers = new Map();
+                }
+
+                // Migrate old timeline size to new dimensions
+                if (state.timelineSize && (state.timelineSize.height === 120 || state.timelineSize.width > 650)) {
+                    updates.timelineSize = { width: 450, height: 180 };
                 }
 
                 if (Object.keys(updates).length > 0) {
