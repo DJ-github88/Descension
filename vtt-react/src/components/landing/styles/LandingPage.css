@@ -24,6 +24,7 @@ body.landing-mode .header-content,
 body.landing-mode .main-nav,
 body.landing-mode .nav-item,
 body.landing-mode .login-btn,
+body.landing-mode .community-btn,
 body.landing-mode .dev-bypass-btn {
   /* Force landing page styles to take precedence */
   font-family: 'Cinzel', serif !important;
@@ -205,6 +206,32 @@ body svg[data-icon] {
 .dev-bypass-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+}
+
+.community-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border: 2px solid #2d5a9a;
+  border-radius: 6px;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.community-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+  background: linear-gradient(135deg, #5a9ff2, #4589cd);
+}
+
+.community-btn i {
+  font-size: 14px;
 }
 
 /* Main Content */

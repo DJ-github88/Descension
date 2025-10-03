@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "presence": {
+      "$userId": {
+        ".read": true,
+        ".write": "$userId === auth.uid",
+        ".validate": "newData.hasChildren(['userId', 'characterName', 'status'])"
+      }
+    },
+    ".read": false,
+    ".write": false
+  }
+}
+

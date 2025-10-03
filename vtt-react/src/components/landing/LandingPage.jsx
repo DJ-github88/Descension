@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
+import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showCommunity, setShowCommunity] = useState(false);
   const navigate = useNavigate();
-  const { enableDevelopmentBypass } = useAuthStore();
+  const { enableDevelopmentBypass, user } = useAuthStore();
 
   // Development bypass handler
   const handleDevelopmentBypass = () => {
@@ -28,6 +30,32 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Debug: Log user state
+  useEffect(() => {
+    console.log('LandingPage - User state:', user);
+  }, [user]);
+
+  // Handle community button click
+  const handleCommunityClick = () => {
+    console.log('🎭 Community button clicked, user:', user);
+    if (!user) {
+      // For testing/development - allow bypass
+      const bypass = window.confirm('You are not logged in. Open Community chat anyway? (Development mode)');
+      console.log('🎭 Bypass decision:', bypass);
+      if (!bypass) {
+        onShowLogin();
+        return;
+      }
+    }
+    console.log('🎭 Opening community chat...');
+    setShowCommunity(true);
+  };
+
+  // Debug: Log showCommunity state changes
+  useEffect(() => {
+    console.log('🎭 showCommunity state changed:', showCommunity);
+  }, [showCommunity]);
 
 
 
@@ -203,6 +231,14 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           </nav>
           
           <div className="header-actions">
+            <button
+              className="community-btn"
+              onClick={handleCommunityClick}
+              title="Community Chat"
+            >
+              <i className="fas fa-users"></i>
+              Community
+            </button>
             <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
               <i className="fas fa-cog"></i>
               Dev Preview
@@ -261,6 +297,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           <i className="fas fa-chevron-up"></i>
         </button>
       )}
+
+      {/* Global Chat Window */}
+      <GlobalChatWindowWrapper
+        isOpen={showCommunity}
+        onClose={() => setShowCommunity(false)}
+      />
     </div>
   );
 };

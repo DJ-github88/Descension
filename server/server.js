@@ -895,10 +895,9 @@ io.on('connection', (socket) => {
           tokenMoveData.sequence = inputResult.sequence;
         }
 
+        // Broadcast to room (includes sender since they're in the room)
+        // NOTE: io.to() already includes the sender, so no need for duplicate socket.emit()
         io.to(player.roomId).emit('token_moved', tokenMoveData);
-
-        // Also emit to the sender for confirmation (prevents desync)
-        socket.emit('token_moved', tokenMoveData);
       }
 
       // DISABLED: Optimized Firebase causing performance issues
@@ -981,11 +980,9 @@ io.on('connection', (socket) => {
           serverTimestamp: now
         };
 
-        // CRITICAL FIX: Broadcast to ALL players including sender for confirmation (like creature tokens)
+        // Broadcast to room (includes sender since they're in the room)
+        // NOTE: io.to() already includes the sender, so no need for duplicate socket.emit()
         io.to(player.roomId).emit('character_moved', movementData);
-
-        // Also emit to the sender for confirmation (prevents desync)
-        socket.emit('character_moved', movementData);
 
         console.log(`🚶 Character moved by ${player.name} to`, data.position, data.isDragging ? '(dragging)' : '(final)');
       }
@@ -1847,9 +1844,201 @@ io.on('connection', (socket) => {
 
   // ========== END ENHANCED MULTIPLAYER HANDLERS ==========
 
+  // ========== GLOBAL CHAT & PRESENCE HANDLERS ==========
+
+  // Track online users globally (not just in rooms)
+  const onlineUsers = global.onlineUsers || new Map();
+  global.onlineUsers = onlineUsers;
+
+  // User comes online with character data
+  socket.on('user_online', (userData) => {
+    console.log('👤 User online:', userData.characterName);
+
+    // Store user data with socket ID
+    onlineUsers.set(userData.userId, {
+      ...userData,
+      socketId: socket.id,
+      connectedAt: new Date()
+    });
+
+    // Broadcast to all connected clients
+    io.emit('user_status_changed', {
+      userId: userData.userId,
+      ...userData,
+      status: 'online'
+    });
+  });
+
+  // User updates session (local/multiplayer)
+  socket.on('update_session', (sessionData) => {
+    const user = Array.from(onlineUsers.values()).find(u => u.socketId === socket.id);
+    if (user) {
+      // Update user's session data
+      onlineUsers.set(user.userId, {
+        ...user,
+        ...sessionData
+      });
+
+      // Broadcast update
+      io.emit('user_status_changed', {
+        userId: user.userId,
+        ...user,
+        ...sessionData
+      });
+
+      console.log('📍 Session updated:', user.characterName, sessionData.sessionType);
+    }
+  });
+
+  // User goes offline
+  socket.on('user_offline', (userId) => {
+    const user = onlineUsers.get(userId);
+    if (user) {
+      onlineUsers.delete(userId);
+
+      // Broadcast offline status
+      io.emit('user_status_changed', {
+        userId,
+        status: 'offline'
+      });
+
+      console.log('👋 User offline:', user.characterName);
+    }
+  });
+
+  // Global chat message
+  socket.on('global_chat_message', async (message) => {
+    console.log('💬 Global chat:', message.senderName, '-', message.content);
+
+    // Add server timestamp
+    const enhancedMessage = {
+      ...message,
+      serverTimestamp: new Date().toISOString()
+    };
+
+    // Broadcast to all connected clients
+    io.emit('global_chat_message', enhancedMessage);
+
+    // TODO: Store in Firebase for persistence
+    // await firebaseService.saveGlobalChatMessage(enhancedMessage);
+  });
+
+  // Whisper message to specific user
+  socket.on('whisper_message', (message) => {
+    const targetUser = onlineUsers.get(message.targetUserId);
+
+    if (targetUser && targetUser.socketId) {
+      // Send to target user
+      io.to(targetUser.socketId).emit('whisper_received', {
+        ...message,
+        serverTimestamp: new Date().toISOString()
+      });
+
+      console.log('🤫 Whisper:', message.senderName, '->', targetUser.characterName);
+    } else {
+      // User not online, send error back
+      socket.emit('error', {
+        message: 'User is not online',
+        type: 'whisper_failed'
+      });
+    }
+  });
+
+  // Send room invitation
+  socket.on('send_room_invite', ({ targetUserId, roomId, roomName, gmName }) => {
+    const gmPlayer = players.get(socket.id);
+
+    // Validate sender is GM of the room
+    const room = rooms.get(roomId);
+    if (!room || room.gm.socketId !== socket.id) {
+      socket.emit('error', { message: 'Not authorized to send invites' });
+      return;
+    }
+
+    // Find target user
+    const targetUser = onlineUsers.get(targetUserId);
+    if (!targetUser || !targetUser.socketId) {
+      socket.emit('error', { message: 'User not online' });
+      return;
+    }
+
+    // Check if user is already in the room
+    if (targetUser.roomId === roomId) {
+      socket.emit('error', { message: 'User is already in this room' });
+      return;
+    }
+
+    // Create invitation
+    const inviteId = uuidv4();
+    const invitation = {
+      id: inviteId,
+      roomId,
+      roomName,
+      gmName,
+      gmUserId: gmPlayer.id,
+      expiresAt: Date.now() + 60000 // 1 minute
+    };
+
+    // Send invitation to target user
+    io.to(targetUser.socketId).emit('room_invitation', invitation);
+
+    console.log('📨 Room invite sent:', gmName, '->', targetUser.characterName, 'for room:', roomName);
+  });
+
+  // Respond to room invitation
+  socket.on('respond_to_invite', async ({ inviteId, accepted, roomId, password }) => {
+    if (!accepted) {
+      console.log('❌ Invitation declined:', inviteId);
+      return;
+    }
+
+    // User accepted - join them to the room
+    const user = Array.from(onlineUsers.values()).find(u => u.socketId === socket.id);
+    if (!user) {
+      socket.emit('error', { message: 'User data not found' });
+      return;
+    }
+
+    // Join the room (reuse existing join logic)
+    const room = rooms.get(roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room no longer exists' });
+      return;
+    }
+
+    // Join room with user's character name
+    const joinData = {
+      roomId,
+      playerName: user.characterName,
+      password: password || room.password,
+      playerColor: '#4a90e2'
+    };
+
+    // Trigger join room logic
+    socket.emit('auto_join_room', joinData);
+
+    console.log('✅ Invitation accepted:', user.characterName, 'joining room:', room.name);
+  });
+
+  // ========== END GLOBAL CHAT & PRESENCE HANDLERS ==========
+
   // Handle disconnection
   socket.on('disconnect', async () => {
     console.log(`Player disconnected: ${socket.id}`);
+
+    // Clean up online user presence
+    const user = Array.from(onlineUsers.values()).find(u => u.socketId === socket.id);
+    if (user) {
+      onlineUsers.delete(user.userId);
+
+      // Broadcast offline status
+      io.emit('user_status_changed', {
+        userId: user.userId,
+        status: 'offline'
+      });
+
+      console.log('👋 User disconnected and marked offline:', user.characterName);
+    }
 
     const result = leaveRoom(socket.id);
     if (result) {

@@ -2,12 +2,14 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getDatabase } from 'firebase/database';
 import { getAnalytics } from 'firebase/analytics';
 
 // Firebase configuration using environment variables with fallback to hardcoded values
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyDs9SSWy1J_aSX3LvHUBbI9fwi68cuaX7A",
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "mythrill-ff7c6.firebaseapp.com",
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL || "https://mythrill-ff7c6-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "mythrill-ff7c6",
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "mythrill-ff7c6.firebasestorage.app",
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "715658408409",
@@ -55,6 +57,7 @@ if (isFirebaseConfigured && firebaseConfig) {
 // Initialize Firebase services only if app is available
 export let auth = null;
 export let db = null;
+export let realtimeDb = null;
 export let analytics = null;
 export let googleProvider = null;
 
@@ -67,6 +70,10 @@ if (app) {
     // Initialize Cloud Firestore and get a reference to the service
     db = getFirestore(app);
     console.log('✅ Firestore initialized');
+
+    // Initialize Realtime Database for presence tracking
+    realtimeDb = getDatabase(app);
+    console.log('✅ Realtime Database initialized');
 
     // Initialize Analytics (optional)
     if (typeof window !== 'undefined') {
