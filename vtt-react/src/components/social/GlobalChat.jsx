@@ -180,8 +180,8 @@ const GlobalChat = ({ whisperTarget, onClearWhisper }) => {
             className="chat-input"
             placeholder={
               whisperTarget
-                ? `Whisper to ${whisperTarget.characterName}...`
-                : 'Type a message...'
+                ? `Whisper to ${whisperTarget.characterName}... - Yad`
+                : 'Yad'
             }
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}

@@ -102,6 +102,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   const contextMenuRef = useRef(null);
   const tokenRef = useRef(null);
+  const lastPositionUpdateRef = useRef(Date.now());
 
   const { tokens, creatures, updateTokenState, removeToken, duplicateToken, updateTokenPosition } = useCreatureStore();
   const { isInMultiplayer, multiplayerSocket } = useGameStore();
@@ -137,10 +138,24 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     initializeStore();
   }, [initializeStore]);
 
-  // Update local position when prop position changes (but not during dragging)
+  // Update local position when prop position changes (but not during dragging or shortly after)
   useEffect(() => {
-    if (!isDragging) {
+    // CRITICAL FIX: NEVER update position from props while dragging
+    // This prevents ANY external updates (including auto-save) from interfering with smooth dragging
+    if (isDragging) {
+      console.log(`🚫 CreatureToken: Skipping position update - currently dragging`);
+      return;
+    }
+
+    const timeSinceLastUpdate = Date.now() - lastPositionUpdateRef.current;
+
+    // After dragging ends, wait for grace period before accepting external position updates
+    // This prevents auto-save and server echoes from causing jumps
+    if (timeSinceLastUpdate > 1000) {
+      console.log(`📍 CreatureToken: Updating localPosition from prop (${timeSinceLastUpdate}ms since last update)`);
       setLocalPosition(position);
+    } else {
+      console.log(`🚫 CreatureToken: Skipping position update - within grace period (${timeSinceLastUpdate}ms < 1000ms)`);
     }
   }, [position, isDragging]);
   const gridSystem = getGridSystem();
@@ -275,21 +290,23 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
       }
 
-      // For combat features, update less frequently
-      if (isInCombat && dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
+      // CRITICAL FIX: Update movement visualization and distance calculation during drag (works in and out of combat)
+      if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
         // Update movement visualization if enabled
         if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
           updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
         }
 
-        // Calculate and update temporary movement distance for tooltip
-        // CRITICAL FIX: Convert world distance to tile distance before multiplying by feetPerTile
-        const dx = worldPos.x - dragStartPosition.x;
-        const dy = worldPos.y - dragStartPosition.y;
-        const worldDistance = Math.sqrt(dx * dx + dy * dy);
-        const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
-        const distance = tileDistance * feetPerTile;
-        updateTempMovementDistance(tokenId, distance);
+        // Calculate and update temporary movement distance for tooltip (only needed in combat)
+        if (isInCombat) {
+          // CRITICAL FIX: Convert world distance to tile distance before multiplying by feetPerTile
+          const dx = worldPos.x - dragStartPosition.x;
+          const dy = worldPos.y - dragStartPosition.y;
+          const worldDistance = Math.sqrt(dx * dx + dy * dy);
+          const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
+          const distance = tileDistance * feetPerTile;
+          updateTempMovementDistance(tokenId, distance);
+        }
 
         lastCombatUpdate = now;
       }
@@ -344,6 +361,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Update token position to snapped grid center (with multiplayer sync)
       updateTokenPositionWithSync(tokenId, finalWorldPos);
 
+      // Update local position immediately to prevent visual jumps
+      setLocalPosition({ x: finalWorldPos.x, y: finalWorldPos.y });
+
+      // Track when we last updated position (for grace period in useEffect)
+      lastPositionUpdateRef.current = Date.now();
+
       // Handle combat movement validation if in combat
       if (isInCombat && dragStartPosition) {
         // Validate movement and handle AP costs
@@ -367,7 +390,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           });
         } else if (validation.isValid) {
           // Movement is valid - auto-confirm
-          confirmMovement(tokenId, validation.additionalAPNeeded, validation.currentMovementFeet);
+          // CRITICAL FIX: Pass totalMovementAfterThis (cumulative) instead of currentMovementFeet (just this move)
+          // This ensures movement tracking accumulates properly instead of resetting
+          confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
           logMovementToCombat(tokenId, creatures, validation.currentMovementFeet, dragStartPosition, finalWorldPos);
 
           if (isInMultiplayer && multiplayerSocket) {
@@ -891,6 +916,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       currentHp: newHp
     });
 
+    // CRITICAL FIX: Sync HP to combat timeline if in combat
+    if (isInCombat) {
+      const { updateCombatantHP } = useCombatStore.getState();
+      updateCombatantHP(tokenId, newHp);
+    }
+
     // Show floating combat text at token's screen position
     if (window.showFloatingCombatText) {
       window.showFloatingCombatText(
@@ -924,6 +955,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     updateTokenState(tokenId, {
       currentHp: newHp
     });
+
+    // CRITICAL FIX: Sync HP to combat timeline if in combat
+    if (isInCombat) {
+      const { updateCombatantHP } = useCombatStore.getState();
+      updateCombatantHP(tokenId, newHp);
+    }
 
     // Show floating combat text at token's screen position
     if (window.showFloatingCombatText) {
@@ -1007,6 +1044,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     updateTokenState(tokenId, {
       currentMana: newMana
     });
+
+    // CRITICAL FIX: Sync Mana to combat timeline if in combat
+    if (isInCombat) {
+      const { updateCombatantMana } = useCombatStore.getState();
+      updateCombatantMana(tokenId, newMana);
+    }
   };
 
   // Handle mana heal

@@ -314,9 +314,11 @@ const useCharacterStore = create((set, get) => ({
     },
 
     // Derived stats (calculated)
+    // CRITICAL FIX: Use moveSpeed (not movementSpeed) to match characterUtils.js
     derivedStats: {
-        movementSpeed: 30,
+        moveSpeed: 30,
         swimSpeed: 15,
+        climbSpeed: 15,
         carryingCapacity: 0,
         visionRange: 0
     },

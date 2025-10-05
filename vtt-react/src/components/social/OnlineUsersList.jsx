@@ -9,14 +9,18 @@ import React, { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
+import usePartyStore from '../../store/partyStore';
+import useSocialStore from '../../store/socialStore';
 
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
-  
+
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const { user } = useAuthStore();
+  const { isInParty, addPartyMember, createParty } = usePartyStore();
+  const { addFriend } = useSocialStore();
 
   // Filter users based on search term
   const filteredUsers = useMemo(() => {
@@ -75,6 +79,49 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const handleInvite = () => {
     if (contextMenu?.user) {
       onInviteToRoom(contextMenu.user);
+    }
+    closeContextMenu();
+  };
+
+  const handleInviteToParty = () => {
+    if (contextMenu?.user) {
+      // If not in party, create one first
+      if (!isInParty) {
+        createParty(`${currentUserPresence?.characterName || 'Player'}'s Party`, currentUserPresence?.characterName || 'Player');
+      }
+
+      // Add member to party
+      const newMember = {
+        id: contextMenu.user.userId,
+        name: contextMenu.user.characterName,
+        isGM: false,
+        status: 'online',
+        joinedAt: Date.now(),
+        character: {
+          class: contextMenu.user.class,
+          level: contextMenu.user.level,
+          health: { current: 100, max: 100 },
+          mana: { current: 50, max: 50 },
+          actionPoints: { current: 3, max: 3 }
+        }
+      };
+
+      addPartyMember(newMember);
+      console.log(`✅ Invited ${contextMenu.user.characterName} to party`);
+    }
+    closeContextMenu();
+  };
+
+  const handleAddFriend = () => {
+    if (contextMenu?.user) {
+      addFriend({
+        name: contextMenu.user.characterName,
+        level: contextMenu.user.level,
+        class: contextMenu.user.class,
+        status: contextMenu.user.status,
+        location: contextMenu.user.sessionType === 'multiplayer' ? contextMenu.user.roomName : 'Local'
+      });
+      console.log(`✅ Added ${contextMenu.user.characterName} as friend`);
     }
     closeContextMenu();
   };
@@ -221,7 +268,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             position: 'fixed',
             left: `${contextMenu.x}px`,
             top: `${contextMenu.y}px`,
-            zIndex: 10000
+            zIndex: 9999999
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -235,6 +282,22 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           >
             <i className="fas fa-comment"></i>
             Whisper
+          </button>
+
+          <button
+            className="context-menu-item"
+            onClick={handleInviteToParty}
+          >
+            <i className="fas fa-users"></i>
+            Invite to Party
+          </button>
+
+          <button
+            className="context-menu-item"
+            onClick={handleAddFriend}
+          >
+            <i className="fas fa-user-plus"></i>
+            Add Friend
           </button>
 
           {isGMWithRoom && (

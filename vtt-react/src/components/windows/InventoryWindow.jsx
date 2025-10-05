@@ -747,6 +747,8 @@ export default function InventoryWindow() {
 
     // Helper functions for inventory management with shape support
     const isValidPosition = (items, row, col, itemToPlace, itemId = null) => {
+        console.log(`    🔍 isValidPosition check for ${itemToPlace.name} at ${row},${col}`);
+
         // Get the shape for the item to place
         let shape = itemToPlace.shape;
         if (!shape) {
@@ -764,6 +766,7 @@ export default function InventoryWindow() {
 
         // Get all occupied cells for this shape
         const occupiedCells = getOccupiedCells(shape);
+        console.log(`    Item will occupy ${occupiedCells.length} cells:`, occupiedCells);
 
         // Check if any occupied cell would go out of bounds or collide
         for (const cell of occupiedCells) {
@@ -798,14 +801,21 @@ export default function InventoryWindow() {
 
                 // Check if this cell collides with any cell of the other item
                 const otherOccupiedCells = getOccupiedCells(otherShape);
-                return otherOccupiedCells.some(otherCell => {
+                const collision = otherOccupiedCells.some(otherCell => {
                     const otherCellRow = item.position.row + otherCell.row;
                     const otherCellCol = item.position.col + otherCell.col;
                     return cellRow === otherCellRow && cellCol === otherCellCol;
                 });
+
+                if (collision) {
+                    console.log(`      ❌ Collision with ${item.name} at ${cellRow},${cellCol}`);
+                }
+
+                return collision;
             });
 
             if (isOccupied) {
+                console.log(`      Cell ${cellRow},${cellCol} is occupied!`);
                 return false;
             }
         }
@@ -842,6 +852,43 @@ export default function InventoryWindow() {
         });
 
         return cells;
+    };
+
+    // Helper function to find which item occupies a specific cell (shape-aware)
+    const findItemAtCell = (items, row, col, excludeItemId = null) => {
+        return items.find(item => {
+            // Skip excluded item
+            if (excludeItemId && item.id === excludeItemId) {
+                return false;
+            }
+
+            // Skip items without position
+            if (!item.position) {
+                return false;
+            }
+
+            // Get the item's shape
+            let shape = item.shape;
+            if (!shape) {
+                // Legacy item - convert to shape
+                const width = item.width || 1;
+                const height = item.height || 1;
+                shape = createRectangularShape(width, height);
+            }
+
+            // Apply rotation if needed
+            if (item.rotation === 1) {
+                shape = rotateShape(shape);
+            }
+
+            // Calculate relative position within the item's shape
+            const relativeRow = row - item.position.row;
+            const relativeCol = col - item.position.col;
+
+            // Check if this cell is occupied by the item's shape
+            return relativeRow >= 0 && relativeCol >= 0 &&
+                   isShapeCellOccupied(shape, relativeRow, relativeCol);
+        });
     };
 
     // Handle drag start for items
@@ -902,6 +949,8 @@ export default function InventoryWindow() {
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
 
+        console.log(`🎯 Drag over cell ${row},${col} with item:`, draggedItem.name);
+
         // Get item dimensions
         const width = draggedItem.width || 1;
         const height = draggedItem.height || 1;
@@ -915,6 +964,8 @@ export default function InventoryWindow() {
             draggedItem,
             draggedItem.id
         );
+
+        console.log(`  Position valid: ${isValid}`);
 
         // Get all cells that would be occupied
         const tempItem = { ...draggedItem, position: { row, col } };
@@ -969,13 +1020,8 @@ export default function InventoryWindow() {
                 const item = items.find(item => item.id === id);
 
                 if (item) {
-                    // Check if there's an item at the target position
-                    const targetItem = items.find(i =>
-                        i.id !== id &&
-                        i.position &&
-                        i.position.row === row &&
-                        i.position.col === col
-                    );
+                    // Find which item (if any) occupies the target cell (shape-aware)
+                    const targetItem = findItemAtCell(items, row, col, id);
 
                     if (targetItem) {
                         // Check if we can merge stacks
@@ -990,6 +1036,8 @@ export default function InventoryWindow() {
                             useInventoryStore.getState().mergeStacks(id, targetItem.id);
                             return;
                         }
+                        // If not stackable, don't allow placement on top of another item
+                        return;
                     }
 
                     // Get item dimensions
@@ -1015,12 +1063,8 @@ export default function InventoryWindow() {
                 const { item, containerId } = data;
 
                 if (item) {
-                    // Check if there's an item at the target position that we can stack with
-                    const targetItem = items.find(i =>
-                        i.position &&
-                        i.position.row === row &&
-                        i.position.col === col
-                    );
+                    // Find which item (if any) occupies the target cell (shape-aware)
+                    const targetItem = findItemAtCell(items, row, col);
 
                     if (targetItem) {
                         // Check if we can merge stacks
@@ -1148,12 +1192,8 @@ export default function InventoryWindow() {
                 const libraryItem = itemStoreItems.find(item => item.id === id);
 
                 if (libraryItem) {
-                    // Check if there's an item at the target position that we can stack with
-                    const targetItem = items.find(i =>
-                        i.position &&
-                        i.position.row === row &&
-                        i.position.col === col
-                    );
+                    // Find which item (if any) occupies the target cell (shape-aware)
+                    const targetItem = findItemAtCell(items, row, col);
 
                     if (targetItem) {
                         // Check if we can merge stacks
@@ -1340,7 +1380,8 @@ export default function InventoryWindow() {
                                     position: 'absolute',
                                     top: 0,
                                     left: 0,
-                                    overflow: 'visible'
+                                    overflow: 'visible',
+                                    pointerEvents: 'none' // Allow events to pass through to cells below
                                 }}>
                                     {/* Render custom shape cells */}
                                     {shape.type === 'custom' ? (
@@ -1362,13 +1403,21 @@ export default function InventoryWindow() {
                                                             border: `2px solid ${getQualityColor(item.quality, item.rarity)}`,
                                                             boxShadow: `0 0 8px ${getQualityColor(item.quality, item.rarity)}80`,
                                                             backgroundColor: 'transparent', // Remove dark overlay
-                                                            borderRadius: '4px'
+                                                            borderRadius: '4px',
+                                                            cursor: 'move',
+                                                            pointerEvents: 'auto' // Re-enable pointer events for occupied cells
                                                         }}
+                                                        draggable
+                                                        onDragStart={(e) => handleDragStart(e, item)}
+                                                        onDragEnd={handleDragEnd}
                                                         onContextMenu={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();
                                                             handleItemContextMenu(e, item.id);
                                                         }}
+                                                        onMouseEnter={(e) => handleItemMouseEnter(e, item.id)}
+                                                        onMouseMove={(e) => handleItemMouseMove(e, item.id)}
+                                                        onMouseLeave={handleItemMouseLeave}
                                                         onClick={(e) => {
                                                             // Single click to select
                                                             setSelectedItemId(item.id);
@@ -1408,6 +1457,7 @@ export default function InventoryWindow() {
                                     )}
 
                                     {/* Invisible overlay for context menu and interactions - covers entire item bounds */}
+                                    {/* For custom shapes, use pointer-events: none to allow holes to be interactive */}
                                     <div
                                         className="item-interaction-overlay"
                                         style={{
@@ -1418,7 +1468,8 @@ export default function InventoryWindow() {
                                             height: '100%',
                                             zIndex: 5,
                                             backgroundColor: 'transparent',
-                                            cursor: 'move'
+                                            cursor: 'move',
+                                            pointerEvents: shape.type === 'custom' ? 'none' : 'auto' // Disable for custom shapes
                                         }}
                                         draggable
                                         onDragStart={(e) => handleDragStart(e, item)}

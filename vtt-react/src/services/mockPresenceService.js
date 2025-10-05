@@ -7,7 +7,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-// Mock user data
+// Mock user data - Using actual game classes, races, and subraces
 const MOCK_USERS = [
   {
     userId: 'mock_user_1',
@@ -15,8 +15,8 @@ const MOCK_USERS = [
     characterName: 'Thorin Ironforge',
     level: 12,
     class: 'Titan',
-    background: 'Zealot',
-    race: 'Dwarf',
+    background: 'Soldier',
+    race: 'Grimheart',
     subrace: 'Mountain Dwarf',
     status: 'online',
     sessionType: 'multiplayer',
@@ -29,10 +29,10 @@ const MOCK_USERS = [
     characterId: 'char_mock_2',
     characterName: 'Elara Moonwhisper',
     level: 10,
-    class: 'Mystic',
+    class: 'Lunarch',
     background: 'Sage',
-    race: 'Elf',
-    subrace: 'High Elf',
+    race: 'Thornkin',
+    subrace: 'Courtly Thornkin',
     status: 'online',
     sessionType: 'multiplayer',
     roomId: 'room_dragons_lair',
@@ -46,7 +46,7 @@ const MOCK_USERS = [
     level: 15,
     class: 'Berserker',
     background: 'Outlaw',
-    race: 'Orc',
+    race: 'Ashmark',
     subrace: 'War Orc',
     status: 'online',
     sessionType: 'local',
@@ -61,8 +61,8 @@ const MOCK_USERS = [
     level: 8,
     class: 'Pyrofiend',
     background: 'Mystic',
-    race: 'Human',
-    subrace: 'Nordmark',
+    race: 'Nordmark',
+    subrace: 'Berserker Nordmark',
     status: 'online',
     sessionType: null,
     roomId: null,
@@ -74,10 +74,10 @@ const MOCK_USERS = [
     characterId: 'char_mock_5',
     characterName: 'Zephyr Shadowblade',
     level: 11,
-    class: 'Rogue',
+    class: 'Bladedancer',
     background: 'Criminal',
-    race: 'Halfling',
-    subrace: 'Lightfoot',
+    race: 'Wildkin',
+    subrace: 'Lightfoot Halfling',
     status: 'away',
     sessionType: 'local',
     roomId: null,
@@ -89,10 +89,10 @@ const MOCK_USERS = [
     characterId: 'char_mock_6',
     characterName: 'Aldric the Wise',
     level: 20,
-    class: 'Archmage',
+    class: 'Inscriptor',
     background: 'Sage',
-    race: 'Human',
-    subrace: 'Nordmark',
+    race: 'Nordmark',
+    subrace: 'Skald Nordmark',
     status: 'online',
     sessionType: 'multiplayer',
     roomId: 'room_dragons_lair',
@@ -143,6 +143,7 @@ class MockPresenceService {
     this.mockUsers = new Map();
     this.responseTimers = [];
     this.chatInterval = null;
+    this.onlineOfflineInterval = null;
   }
 
   /**
@@ -314,10 +315,72 @@ class MockPresenceService {
   }
 
   /**
+   * Start simulating users going online/offline
+   */
+  startOnlineOfflineSimulation(updateUserStatus, addGlobalMessage) {
+    console.log('🔄 Starting online/offline simulation...');
+
+    // Random status changes every 30-120 seconds
+    this.onlineOfflineInterval = setInterval(() => {
+      const users = Array.from(this.mockUsers.values());
+      if (users.length === 0) return;
+
+      // Pick a random user
+      const randomUser = users[Math.floor(Math.random() * users.length)];
+
+      // Determine new status
+      let newStatus;
+      if (randomUser.status === 'online') {
+        newStatus = Math.random() > 0.5 ? 'away' : 'offline';
+      } else if (randomUser.status === 'away') {
+        newStatus = Math.random() > 0.5 ? 'online' : 'offline';
+      } else {
+        newStatus = 'online';
+      }
+
+      // Update user status
+      randomUser.status = newStatus;
+      randomUser.lastSeen = new Date();
+      this.mockUsers.set(randomUser.userId, randomUser);
+
+      // Update in store
+      updateUserStatus(randomUser.userId, randomUser);
+
+      // Add system message
+      const statusMessages = {
+        online: `${randomUser.characterName} has come online.`,
+        away: `${randomUser.characterName} is now away.`,
+        offline: `${randomUser.characterName} has gone offline.`
+      };
+
+      addGlobalMessage({
+        id: `msg_${Date.now()}_status`,
+        content: statusMessages[newStatus],
+        timestamp: new Date().toISOString(),
+        type: 'system'
+      });
+
+      console.log(`🔄 ${randomUser.characterName} is now ${newStatus}`);
+    }, 30000 + Math.random() * 90000); // 30-120 seconds
+  }
+
+  /**
+   * Stop online/offline simulation
+   */
+  stopOnlineOfflineSimulation() {
+    if (this.onlineOfflineInterval) {
+      clearInterval(this.onlineOfflineInterval);
+      this.onlineOfflineInterval = null;
+    }
+    console.log('🛑 Stopped online/offline simulation');
+  }
+
+  /**
    * Cleanup
    */
   cleanup() {
     this.stopAutomatedChat();
+    this.stopOnlineOfflineSimulation();
     this.mockUsers.clear();
   }
 }

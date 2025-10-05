@@ -58,11 +58,13 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
 
     const handleTerrainSelect = (terrainId) => {
         setSelectedTerrainType(terrainId);
+        // Reset brush size to 1 when selecting a new terrain type
+        setBrushSize(1);
         // Auto-select terrain brush when terrain is selected
         onToolSelect('terrain_brush');
         onSettingsChange({
             selectedTerrainType: terrainId,
-            brushSize
+            brushSize: 1  // Default to size 1
         });
     };
 
@@ -131,21 +133,15 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                     {Object.entries(terrainCategories).map(([categoryId, category]) => (
                         <div key={categoryId} className="terrain-category">
                             <div className="category-header">
-                                <img
-                                    src={`${WOW_ICON_BASE_URL}${category.icon}.jpg`}
-                                    alt={category.name}
-                                    className="category-icon"
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src = `${WOW_ICON_BASE_URL}inv_misc_questionmark.jpg`;
-                                    }}
-                                />
                                 <span className="category-name">{category.name}</span>
                             </div>
                             <div className="terrain-grid">
                                 {category.terrains.map(terrainId => {
                                     const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainId];
                                     if (!terrain) return null;
+
+                                    // Get the first tile variation if available, otherwise use texture
+                                    const tileImage = terrain.tileVariations?.[0] || terrain.texture;
 
                                     return (
                                         <button
@@ -154,13 +150,27 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                             onClick={() => handleTerrainSelect(terrainId)}
                                             title={`${terrain.name} - ${terrain.description}`}
                                             style={{
-                                                backgroundColor: terrain.color,
-                                                border: selectedTerrainType === terrainId 
-                                                    ? '3px solid #d4af37' 
+                                                border: selectedTerrainType === terrainId
+                                                    ? '3px solid #d4af37'
                                                     : '2px solid #a08c70'
                                             }}
                                         >
-                                            <div className="terrain-preview" style={{ backgroundColor: terrain.color }}>
+                                            <div className="terrain-preview">
+                                                {/* Show tile image if available, otherwise show color */}
+                                                {tileImage ? (
+                                                    <img
+                                                        src={tileImage}
+                                                        alt={terrain.name}
+                                                        className="terrain-tile-image"
+                                                        onError={(e) => {
+                                                            // Fallback to color if image fails to load
+                                                            e.target.style.display = 'none';
+                                                            e.target.parentElement.style.backgroundColor = terrain.color;
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="terrain-color-fallback" style={{ backgroundColor: terrain.color }} />
+                                                )}
                                                 <span className="terrain-name">{terrain.name}</span>
                                                 {terrain.movementCost > 1 && (
                                                     <span className="movement-cost">

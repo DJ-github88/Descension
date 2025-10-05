@@ -240,6 +240,38 @@ export const RACE_DATA = {
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
                 speed: 25
+            },
+            mountaindwarf: {
+                id: 'mountaindwarf_grimheart',
+                name: 'Mountain Dwarf',
+                description: 'Hardy dwarves from high mountain peaks and deep halls',
+                statModifiers: {
+                    constitution: 3,
+                    strength: 2,
+                    agility: 0,
+                    intelligence: 1,
+                    spirit: 1,
+                    charisma: 0
+                },
+                traits: [
+                    {
+                        name: 'Mountain Born',
+                        description: 'Acclimated to high altitude and resistant to cold. Advantage on saves against altitude sickness and cold weather.',
+                        type: 'resistance'
+                    },
+                    {
+                        name: 'Dwarven Resilience',
+                        description: 'Advantage on saving throws against poison and resistance to poison damage.',
+                        type: 'resistance'
+                    },
+                    {
+                        name: 'Stonecunning',
+                        description: 'Whenever you make an Intelligence check related to the origin of stonework, you are considered proficient and add double your proficiency bonus.',
+                        type: 'knowledge'
+                    }
+                ],
+                languages: ['Common', 'Dwarvish', 'Terran'],
+                speed: 25
             }
         }
     },
@@ -556,6 +588,38 @@ export const RACE_DATA = {
                 ],
                 languages: ['Common', 'Druidic', 'Elemental'],
                 speed: 35
+            },
+            lightfoot: {
+                id: 'lightfoot_wildkin',
+                name: 'Lightfoot Halfling',
+                description: 'Small, nimble folk who blend into crowds and move with supernatural stealth',
+                statModifiers: {
+                    constitution: 1,
+                    strength: -1,
+                    agility: 3,
+                    intelligence: 1,
+                    spirit: 1,
+                    charisma: 2
+                },
+                traits: [
+                    {
+                        name: 'Naturally Stealthy',
+                        description: 'Can attempt to hide even when only obscured by a creature that is at least one size larger than you.',
+                        type: 'stealth'
+                    },
+                    {
+                        name: 'Lucky',
+                        description: 'When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.',
+                        type: 'luck'
+                    },
+                    {
+                        name: 'Brave',
+                        description: 'You have advantage on saving throws against being frightened.',
+                        type: 'mental'
+                    }
+                ],
+                languages: ['Common', 'Halfling', 'Druidic'],
+                speed: 25
             }
         }
     },
@@ -634,6 +698,38 @@ export const RACE_DATA = {
                 ],
                 languages: ['Common', 'Ignan', 'Auran'],
                 speed: 35
+            },
+            warorc: {
+                id: 'warorc_ashmark',
+                name: 'War Orc',
+                description: 'Fierce warriors from volcanic battlegrounds, tempered by fire and war',
+                statModifiers: {
+                    constitution: 2,
+                    strength: 3,
+                    agility: 1,
+                    intelligence: -1,
+                    spirit: 1,
+                    charisma: 0
+                },
+                traits: [
+                    {
+                        name: 'Savage Attacks',
+                        description: 'When you score a critical hit with a melee weapon attack, you can roll one of the weapon\'s damage dice one additional time.',
+                        type: 'combat'
+                    },
+                    {
+                        name: 'Relentless Endurance',
+                        description: 'When reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. Once per long rest.',
+                        type: 'survival'
+                    },
+                    {
+                        name: 'Volcanic Fury',
+                        description: 'Can channel inner fire to deal bonus fire damage on attacks, but take recoil damage from the heat.',
+                        type: 'combat'
+                    }
+                ],
+                languages: ['Common', 'Orcish', 'Ignan'],
+                speed: 30
             }
         }
     },

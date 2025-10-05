@@ -11,6 +11,7 @@ import useDebuffStore from '../../store/debuffStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/unified-context-menu.css';
 
 const CharacterToken = ({
@@ -41,11 +42,26 @@ const CharacterToken = ({
 
     // Throttle multiplayer updates during drag
     const lastMoveUpdateRef = useRef(null);
+    const lastPositionUpdateRef = useRef(Date.now());
 
-    // Update local position when prop position changes (but not during dragging)
+    // Update local position when prop position changes (but not during dragging or shortly after)
     useEffect(() => {
-        if (!isDragging) {
+        // CRITICAL FIX: NEVER update position from props while dragging
+        // This prevents ANY external updates from interfering with smooth dragging
+        if (isDragging) {
+            console.log(`🚫 Skipping position update - currently dragging`);
+            return;
+        }
+
+        const timeSinceLastUpdate = Date.now() - lastPositionUpdateRef.current;
+
+        // After dragging ends, wait for grace period before accepting external position updates
+        // This prevents server echoes and stale updates from causing jumps
+        if (timeSinceLastUpdate > 1000) {
+            console.log(`📍 Updating character token localPosition from prop (${timeSinceLastUpdate}ms since last update)`);
             setLocalPosition(position);
+        } else {
+            console.log(`🚫 Skipping position update - within grace period (${timeSinceLastUpdate}ms < 1000ms)`);
         }
     }, [position, isDragging]);
 
@@ -92,7 +108,15 @@ const CharacterToken = ({
         startMovementVisualization,
         updateMovementVisualization,
         clearMovementVisualization,
-        updateTempMovementDistance
+        updateTempMovementDistance,
+        isTokensTurn,  // CRITICAL FIX: Import isTokensTurn to properly check turn status
+        pendingMovementConfirmation,
+        setPendingMovementConfirmation,
+        clearPendingMovementConfirmation,
+        confirmMovement,
+        validateMovement,
+        recordTurnStartPosition,
+        getTurnStartPosition
     } = useCombatStore();
     const { addBuff } = useBuffStore();
     const { addDebuff } = useDebuffStore();
@@ -116,7 +140,20 @@ const CharacterToken = ({
 
     // Check if this token is targeted (use consistent ID for current player)
     const isTargeted = currentTarget?.id === 'current-player' && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
-    const isMyTurn = isInCombat && currentTurn === tokenId;
+
+    // CRITICAL FIX: Use isTokensTurn function instead of direct comparison
+    // This properly checks if it's this token's turn in combat
+    const isMyTurn = isInCombat && isTokensTurn(tokenId);
+
+    // Record turn start position when turn begins
+    useEffect(() => {
+        if (isMyTurn && position) {
+            const currentTurnStartPosition = getTurnStartPosition(tokenId);
+            if (!currentTurnStartPosition) {
+                recordTurnStartPosition(tokenId, position);
+            }
+        }
+    }, [isMyTurn, tokenId, position, recordTurnStartPosition, getTurnStartPosition]);
 
     // Get character image or use default
     const getCharacterImage = () => {
@@ -169,6 +206,47 @@ const CharacterToken = ({
             clearTimeout(tooltipTimeoutRef.current);
         }
         setShowTooltip(false);
+    };
+
+    // Movement confirmation handlers
+    const handleConfirmMovement = () => {
+        if (pendingMovementConfirmation) {
+            const {
+                tokenId: pendingTokenId,
+                finalPosition,
+                requiredAP,
+                totalDistance
+            } = pendingMovementConfirmation;
+
+            console.log('💰 CONFIRMING CHARACTER MOVEMENT:', {
+                requiredAP,
+                totalDistance: Math.round(totalDistance)
+            });
+
+            // Update token position to final position (should already be there, but ensure it)
+            updateCharacterTokenPosition(pendingTokenId, finalPosition);
+
+            // Track the movement and spend the required AP
+            confirmMovement(pendingTokenId, requiredAP, totalDistance);
+
+            // Clear the pending confirmation
+            clearPendingMovementConfirmation();
+        }
+    };
+
+    const handleCancelMovement = () => {
+        if (pendingMovementConfirmation) {
+            const { tokenId: pendingTokenId, startPosition } = pendingMovementConfirmation;
+
+            console.log('❌ CANCELING CHARACTER MOVEMENT');
+
+            // Revert token to start position
+            updateCharacterTokenPosition(pendingTokenId, startPosition);
+            setLocalPosition(startPosition);
+
+            // Clear the pending confirmation
+            clearPendingMovementConfirmation();
+        }
     };
 
     // Handle mouse down for dragging
@@ -293,15 +371,16 @@ const CharacterToken = ({
             // Handle expensive operations with simple time-based throttling (no RAF)
             const now = Date.now();
 
-            // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
+            // CRITICAL FIX: Update timestamp on EVERY mousemove to keep grace period active during long drags
+            // This prevents server echoes from slipping through during extended drag sessions
+            window[`recent_character_move_${tokenId}`] = now;
+
+            // Send real-time position updates to multiplayer server during drag (throttled for performance)
             if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
-                if (now - lastNetworkUpdate > 50) { // Reduced to 20fps for better performance
+                if (now - lastNetworkUpdate > 100) { // Throttle to ~10fps during drag for better performance
                     // Snap to grid during drag to ensure consistency with final position
                     const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
                     const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-
-                    // Track local movement to prevent race conditions
-                    window[`recent_character_move_${tokenId}`] = Date.now();
 
                     multiplayerSocket.emit('character_moved', {
                         position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
@@ -379,16 +458,63 @@ const CharacterToken = ({
             // Update final position with grid snapping
             updateCharacterTokenPosition(tokenId, { x: snappedWorldPos.x, y: snappedWorldPos.y });
 
-            // Send final position to multiplayer
-            if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
-                // Track local movement to prevent race conditions
-                window[`recent_character_move_${tokenId}`] = Date.now();
+            // Update local position immediately to prevent visual jumps
+            setLocalPosition({ x: snappedWorldPos.x, y: snappedWorldPos.y });
 
-                multiplayerSocket.emit('character_moved', {
-                    position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
-                    isDragging: false
-                });
-                console.log(`📡 Sent character final position:`, { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) });
+            // Track when we last updated position (for grace period in useEffect)
+            lastPositionUpdateRef.current = Date.now();
+
+            // CRITICAL FIX: Handle combat movement validation if in combat
+            if (isInCombat && dragStartPosition) {
+                // Validate movement - combatStore handles character tokens internally
+                const validation = validateMovement(tokenId, dragStartPosition, snappedWorldPos, [], feetPerTile);
+
+                if (validation.needsConfirmation) {
+                    // Movement requires confirmation - show dialog
+                    const combatant = useCombatStore.getState().turnOrder.find(c => c.tokenId === tokenId);
+                    setPendingMovementConfirmation({
+                        tokenId,
+                        startPosition: dragStartPosition,
+                        finalPosition: snappedWorldPos,
+                        requiredAP: validation.additionalAPNeeded,
+                        totalDistance: validation.totalMovementAfterThis,
+                        baseMovement: validation.creatureSpeed,
+                        currentAP: combatant?.currentActionPoints || 0,
+                        creatureName: characterData.name || 'Character',
+                        movementUsedThisTurn: validation.movementUsedThisTurn,
+                        feetPerTile: feetPerTile,
+                        currentMovementDistance: validation.currentMovementFeet
+                    });
+                } else if (validation.isValid) {
+                    // Movement is valid - auto-confirm
+                    // CRITICAL FIX: Pass totalMovementAfterThis (cumulative) instead of currentMovementFeet (just this move)
+                    // This ensures movement tracking accumulates properly instead of resetting
+                    confirmMovement(tokenId, validation.additionalAPNeeded, validation.totalMovementAfterThis);
+
+                    // Send to multiplayer
+                    if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
+                        window[`recent_character_move_${tokenId}`] = Date.now();
+                        multiplayerSocket.emit('character_moved', {
+                            position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
+                            isDragging: false
+                        });
+                    }
+                } else {
+                    // Movement is invalid - revert to start position
+                    console.log('❌ CHARACTER MOVEMENT IS INVALID - Reverting');
+                    updateCharacterTokenPosition(tokenId, dragStartPosition);
+                    setLocalPosition(dragStartPosition);
+                    updateTempMovementDistance(tokenId, 0);
+                }
+            } else {
+                // Not in combat - send final position to multiplayer
+                if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
+                    window[`recent_character_move_${tokenId}`] = Date.now();
+                    multiplayerSocket.emit('character_moved', {
+                        position: { x: Math.round(snappedWorldPos.x), y: Math.round(snappedWorldPos.y) },
+                        isDragging: false
+                    });
+                }
             }
 
             // CRITICAL FIX: Clear movement visualization when drag ends
@@ -417,18 +543,32 @@ const CharacterToken = ({
             }
         };
 
+        // CRITICAL FIX: Handle mouse leaving window during drag
+        const handleMouseLeave = (e) => {
+            // Only trigger if we're actively dragging
+            if (isDragging) {
+                console.log('🖱️ Mouse left window during drag - finalizing position');
+                // Trigger mouseup to properly finalize the position
+                handleMouseUp(e);
+            }
+        };
+
         if (isDragging || isMouseDown) {
             // Add the event listeners to the document to ensure they work even if the cursor moves outside the token
             // Use passive: false for both mousemove and mouseup to allow preventDefault
             document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
             document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
 
+            // CRITICAL FIX: Handle mouse leaving the window to prevent position jumps
+            document.addEventListener('mouseleave', handleMouseLeave, { passive: false });
+
             // Also add a fallback mouseup listener without capture to ensure we catch it
             document.addEventListener('mouseup', handleMouseUp, { passive: false });
 
             // Safety timeout to reset dragging state if mouse up is missed (e.g., cursor leaves window)
+            // This is now a last resort since we handle mouseleave properly
             dragTimeoutId = setTimeout(() => {
-                // Removed excessive logging for performance
+                console.log('⏰ Drag timeout triggered - this should rarely happen now');
                 setIsDragging(false);
                 setIsMouseDown(false);
                 setMouseDownPosition(null);
@@ -445,6 +585,7 @@ const CharacterToken = ({
             document.removeEventListener('mousemove', handleMouseMove, { capture: true });
             document.removeEventListener('mouseup', handleMouseUp, { capture: true });
             document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('mouseleave', handleMouseLeave);
             if (dragTimeoutId) {
                 clearTimeout(dragTimeoutId);
             }
@@ -578,6 +719,12 @@ const CharacterToken = ({
         // Update character health through character store - pass current value, keep max unchanged
         useCharacterStore.getState().updateResource('health', newHp, undefined);
 
+        // CRITICAL FIX: Sync HP to combat timeline if in combat
+        if (isInCombat) {
+            const { updateCombatantHP } = useCombatStore.getState();
+            updateCombatantHP(tokenId, newHp);
+        }
+
         // Show floating combat text at token's screen position
         if (window.showFloatingCombatText) {
             window.showFloatingCombatText(
@@ -608,6 +755,12 @@ const CharacterToken = ({
 
         // Update character health through character store - pass current value, keep max unchanged
         useCharacterStore.getState().updateResource('health', newHp, undefined);
+
+        // CRITICAL FIX: Sync HP to combat timeline if in combat
+        if (isInCombat) {
+            const { updateCombatantHP } = useCombatStore.getState();
+            updateCombatantHP(tokenId, newHp);
+        }
 
         // Show floating combat text at token's screen position
         if (window.showFloatingCombatText) {
@@ -667,6 +820,12 @@ const CharacterToken = ({
 
         // Update character mana through character store
         useCharacterStore.getState().updateResource('mana', newMp, undefined);
+
+        // CRITICAL FIX: Sync Mana to combat timeline if in combat
+        if (isInCombat) {
+            const { updateCombatantMana } = useCombatStore.getState();
+            updateCombatantMana(tokenId, newMp);
+        }
 
         // Show floating combat text at token's screen position
         if (window.showFloatingCombatText) {
@@ -1210,6 +1369,15 @@ const CharacterToken = ({
                 </div>,
                 document.body
             )}
+
+            {/* Movement Confirmation Dialog */}
+            <MovementConfirmationDialog
+                isOpen={!!pendingMovementConfirmation}
+                onConfirm={handleConfirmMovement}
+                onCancel={handleCancelMovement}
+                movementData={pendingMovementConfirmation}
+                position={{ x: 400, y: 300 }}
+            />
 
             {/* Conditions Window */}
             <ConditionsWindow

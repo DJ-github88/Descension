@@ -15,7 +15,7 @@ const useCombatStore = create(
 
             // UI state
             timelinePosition: { x: 300, y: 100 },
-            timelineSize: { width: 450, height: 220 },
+            timelineSize: { width: 450, height: 350 },
 
             // Turn timer state
             turnTimers: new Map(), // tokenId -> { startTime, totalTime, isActive }
@@ -69,13 +69,15 @@ const useCombatStore = create(
                         isCharacterToken = true;
                         const useCharacterStore = require('./characterStore').default;
                         const char = useCharacterStore.getState();
+                        // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
+                        const characterSpeed = char.derivedStats?.moveSpeed || 30;
                         creature = {
                             id: token.playerId ? `character_${token.playerId}` : 'character_local',
                             name: char.name || 'Character',
                             stats: {
                                 agility: char.stats?.agility || 10,
                                 initiativeMod: Math.floor(((char.stats?.agility || 10) - 10) / 2),
-                                speed: char.derivedStats?.movementSpeed || 30
+                                speed: characterSpeed
                             },
                             tokenIcon: char.tokenSettings?.customIcon || char.lore?.characterImage || 'inv_misc_questionmark',
                             tokenBorder: char.tokenSettings?.borderColor || '#4CAF50'
@@ -102,13 +104,39 @@ const useCombatStore = create(
                         });
                     }
 
-                    // Calculate AP based on initiative roll
-                    let actionPoints = 0;
-                    if (initiative >= 1 && initiative <= 5) actionPoints = 0;
-                    else if (initiative >= 6 && initiative <= 10) actionPoints = 1;
-                    else if (initiative >= 11 && initiative <= 15) actionPoints = 2;
-                    else if (initiative >= 16 && initiative <= 20) actionPoints = 3;
-                    else if (initiative >= 21) actionPoints = 4;
+                    // CRITICAL FIX: Set max AP from stats, calculate current AP from initiative
+                    let currentActionPoints = 0;
+                    let maxActionPoints = 0;
+
+                    if (isCharacterToken) {
+                        // For character tokens, use their actual AP from character store
+                        const useCharacterStore = require('./characterStore').default;
+                        const char = useCharacterStore.getState();
+                        maxActionPoints = char.actionPoints?.max || char.derivedStats?.maxActionPoints || 3;
+                        // Calculate current AP based on initiative roll
+                        if (initiative >= 1 && initiative <= 5) currentActionPoints = 0;
+                        else if (initiative >= 6 && initiative <= 10) currentActionPoints = 1;
+                        else if (initiative >= 11 && initiative <= 15) currentActionPoints = 2;
+                        else if (initiative >= 16 && initiative <= 20) currentActionPoints = 3;
+                        else if (initiative >= 21) currentActionPoints = 4;
+                    } else {
+                        // For creature tokens, get max AP from creature stats
+                        maxActionPoints = creature.stats?.maxActionPoints || 6;
+                        // Calculate current AP based on initiative roll
+                        if (initiative >= 1 && initiative <= 5) currentActionPoints = 0;
+                        else if (initiative >= 6 && initiative <= 10) currentActionPoints = 1;
+                        else if (initiative >= 11 && initiative <= 15) currentActionPoints = 2;
+                        else if (initiative >= 16 && initiative <= 20) currentActionPoints = 3;
+                        else if (initiative >= 21) currentActionPoints = 4;
+                    }
+
+                    console.log('⚔️ COMBAT START:', {
+                        name: creature.name,
+                        type: isCharacterToken ? 'CHARACTER' : 'CREATURE',
+                        initiative,
+                        d20Roll,
+                        AP: `${currentActionPoints}/${maxActionPoints}`
+                    });
 
                     return {
                         tokenId: token.id,
@@ -120,8 +148,8 @@ const useCombatStore = create(
                         initiativeMod,
                         tokenIcon: creature.tokenIcon,
                         tokenBorder: creature.tokenBorder,
-                        currentActionPoints: actionPoints,
-                        maxActionPoints: actionPoints,
+                        currentActionPoints,
+                        maxActionPoints,
                         isCharacterToken
                     };
                 }).filter(Boolean);
@@ -165,6 +193,41 @@ const useCombatStore = create(
                     turnMovementUsed: new Map(), // Reset movement tracking for new combat
                     activeMovement: null,
                     pendingMovementConfirmation: null
+                });
+
+                // CRITICAL FIX: Sync initial AP to character store AND party store for ALL character tokens
+                sortedCombatants.forEach(combatant => {
+                    if (combatant.isCharacterToken) {
+                        try {
+                            // Sync to character store (for local player)
+                            const useCharacterStore = require('./characterStore').default;
+                            useCharacterStore.getState().updateResource(
+                                'actionPoints',
+                                combatant.currentActionPoints,
+                                combatant.maxActionPoints
+                            );
+
+                            // Sync to party store (for Party HUD display)
+                            const usePartyStore = require('./partyStore').default;
+                            usePartyStore.getState().updatePartyMember('current-player', {
+                                character: {
+                                    ...usePartyStore.getState().partyMembers.find(m => m.id === 'current-player')?.character,
+                                    actionPoints: {
+                                        current: combatant.currentActionPoints,
+                                        max: combatant.maxActionPoints
+                                    }
+                                }
+                            });
+
+                            console.log('⚔️ SYNCED INITIAL CHARACTER AP:', {
+                                name: combatant.name,
+                                current: combatant.currentActionPoints,
+                                max: combatant.maxActionPoints
+                            });
+                        } catch (error) {
+                            console.error('❌ Failed to sync initial character AP:', error);
+                        }
+                    }
                 });
             },
 
@@ -245,24 +308,72 @@ const useCombatStore = create(
                         const initiativeMod = combatant.initiativeMod || combatant.agilityMod || 0;
                         const newInitiative = d20Roll + initiativeMod;
 
+                        // CRITICAL FIX: Calculate current AP based on initiative, but keep original max AP
                         // Calculate AP based on initiative roll
-                        let actionPoints = 0;
-                        if (newInitiative >= 1 && newInitiative <= 5) actionPoints = 0;
-                        else if (newInitiative >= 6 && newInitiative <= 10) actionPoints = 1;
-                        else if (newInitiative >= 11 && newInitiative <= 15) actionPoints = 2;
-                        else if (newInitiative >= 16 && newInitiative <= 20) actionPoints = 3;
-                        else if (newInitiative >= 21) actionPoints = 4;
+                        let currentActionPoints = 0;
+                        if (newInitiative >= 1 && newInitiative <= 5) currentActionPoints = 0;
+                        else if (newInitiative >= 6 && newInitiative <= 10) currentActionPoints = 1;
+                        else if (newInitiative >= 11 && newInitiative <= 15) currentActionPoints = 2;
+                        else if (newInitiative >= 16 && newInitiative <= 20) currentActionPoints = 3;
+                        else if (newInitiative >= 21) currentActionPoints = 4;
+
+                        // Keep the original maxActionPoints (set at combat start)
+                        const maxActionPoints = combatant.maxActionPoints;
+
+                        console.log('🔄 TURN START:', {
+                            name: combatant.name,
+                            type: combatant.isCharacterToken ? 'CHARACTER' : 'CREATURE',
+                            initiative: newInitiative,
+                            d20Roll: d20Roll,
+                            AP: `${currentActionPoints}/${maxActionPoints}`
+                        });
 
                         return {
                             ...combatant,
                             initiative: newInitiative,
                             d20Roll: d20Roll,
-                            currentActionPoints: actionPoints,
-                            maxActionPoints: actionPoints
+                            currentActionPoints,
+                            maxActionPoints
                         };
                     }
                     return combatant;
                 });
+
+                // CRITICAL FIX: Sync AP to character store AND party store when character's turn starts
+                const nextCombatantData = updatedTurnOrder[nextIndex];
+                if (nextCombatantData?.isCharacterToken) {
+                    try {
+                        // Sync to character store
+                        const useCharacterStore = require('./characterStore').default;
+                        useCharacterStore.getState().updateResource(
+                            'actionPoints',
+                            nextCombatantData.currentActionPoints,
+                            nextCombatantData.maxActionPoints
+                        );
+
+                        // Sync to party store
+                        const usePartyStore = require('./partyStore').default;
+                        const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                        if (currentMember) {
+                            usePartyStore.getState().updatePartyMember('current-player', {
+                                character: {
+                                    ...currentMember.character,
+                                    actionPoints: {
+                                        current: nextCombatantData.currentActionPoints,
+                                        max: nextCombatantData.maxActionPoints
+                                    }
+                                }
+                            });
+                        }
+
+                        console.log('🔄 SYNCED CHARACTER AP ON TURN START:', {
+                            current: nextCombatantData.currentActionPoints,
+                            max: nextCombatantData.maxActionPoints
+                        });
+                    } catch (error) {
+                        console.error('❌ Failed to sync character AP on turn start:', error);
+                    }
+                }
 
                 return {
                     currentTurnIndex: nextIndex,
@@ -477,10 +588,17 @@ const useCombatStore = create(
                 if (!creature && combatant.isCharacterToken) {
                     const useCharacterStore = require('./characterStore').default;
                     const char = useCharacterStore.getState();
+                    // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
+                    const characterSpeed = char.derivedStats?.moveSpeed || 30;
+                    console.log('🏃 CHARACTER MOVEMENT SPEED:', {
+                        name: char.name,
+                        speed: characterSpeed,
+                        derivedStats: char.derivedStats
+                    });
                     creature = {
                         id: combatant.creatureId,
                         name: char.name || 'Character',
-                        stats: { speed: char.derivedStats?.movementSpeed || 30 }
+                        stats: { speed: characterSpeed }
                     };
                 }
 
@@ -728,7 +846,20 @@ const useCombatStore = create(
                 const combatant = state.turnOrder.find(c => c.tokenId === tokenId);
                 if (!combatant) return 0;
 
-                const creature = creatures.find(c => c.id === combatant.creatureId);
+                // Find creature data - handle character tokens
+                let creature = creatures.find(c => c.id === combatant.creatureId);
+
+                if (!creature && combatant.isCharacterToken) {
+                    const useCharacterStore = require('./characterStore').default;
+                    const char = useCharacterStore.getState();
+                    // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
+                    creature = {
+                        id: combatant.creatureId,
+                        name: char.name || 'Character',
+                        stats: { speed: char.derivedStats?.moveSpeed || 30 }
+                    };
+                }
+
                 if (!creature) return 0;
 
                 const creatureSpeed = creature.stats?.speed || 30;
@@ -757,7 +888,20 @@ const useCombatStore = create(
                 const combatant = state.turnOrder.find(c => c.tokenId === tokenId);
                 if (!combatant) return 0;
 
-                const creature = creatures.find(c => c.id === combatant.creatureId);
+                // Find creature data - handle character tokens
+                let creature = creatures.find(c => c.id === combatant.creatureId);
+
+                if (!creature && combatant.isCharacterToken) {
+                    const useCharacterStore = require('./characterStore').default;
+                    const char = useCharacterStore.getState();
+                    // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
+                    creature = {
+                        id: combatant.creatureId,
+                        name: char.name || 'Character',
+                        stats: { speed: char.derivedStats?.moveSpeed || 30 }
+                    };
+                }
+
                 if (!creature) return 0;
 
                 const creatureSpeed = creature.stats?.speed || 30;
@@ -888,10 +1032,20 @@ const useCombatStore = create(
                     beforeSpend: get().turnOrder.find(c => c.tokenId === tokenId)?.currentActionPoints
                 });
 
+                // Find the combatant to determine if it's a character or creature token
+                const combatant = get().turnOrder.find(c => c.tokenId === tokenId);
+                if (!combatant) {
+                    console.warn('⚠️ Cannot spend AP: combatant not found for tokenId:', tokenId);
+                    return;
+                }
+
+                // CRITICAL FIX: Calculate newAP BEFORE updating the store
+                const newAP = Math.max(0, combatant.currentActionPoints - amount);
+
+                // Update combat store turnOrder
                 set(state => {
                     const updatedTurnOrder = state.turnOrder.map(combatant => {
                         if (combatant.tokenId === tokenId) {
-                            const newAP = Math.max(0, combatant.currentActionPoints - amount);
                             console.log('💰 AP UPDATE:', {
                                 tokenId,
                                 oldAP: combatant.currentActionPoints,
@@ -909,6 +1063,57 @@ const useCombatStore = create(
                     console.log('💰 TURN ORDER UPDATED');
                     return { turnOrder: updatedTurnOrder };
                 });
+
+                // CRITICAL FIX: Synchronize AP to other stores for consistent display
+                if (combatant.isCharacterToken) {
+                    // Update character store AND party store for character tokens
+                    try {
+                        const useCharacterStore = require('./characterStore').default;
+                        const beforeAP = useCharacterStore.getState().actionPoints;
+                        console.log('💰 BEFORE SYNC - Character Store AP:', beforeAP);
+
+                        // Sync to character store
+                        useCharacterStore.getState().updateResource('actionPoints', newAP, beforeAP.max);
+
+                        // Sync to party store
+                        const usePartyStore = require('./partyStore').default;
+                        const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                        if (currentMember) {
+                            usePartyStore.getState().updatePartyMember('current-player', {
+                                character: {
+                                    ...currentMember.character,
+                                    actionPoints: {
+                                        current: newAP,
+                                        max: beforeAP.max
+                                    }
+                                }
+                            });
+                        }
+
+                        const afterAP = useCharacterStore.getState().actionPoints;
+                        console.log('💰 AFTER SYNC - Character Store AP:', afterAP);
+                        console.log('💰 ✅ SYNCED AP TO CHARACTER & PARTY STORES:', { newAP, beforeAP, afterAP });
+                    } catch (error) {
+                        console.error('❌ Failed to sync AP to character/party store:', error);
+                    }
+                } else {
+                    // Update creature token state for creature tokens
+                    try {
+                        const useCreatureStore = require('./creatureStore').default;
+                        const beforeState = useCreatureStore.getState().tokens.find(t => t.id === tokenId)?.state;
+                        console.log('💰 BEFORE SYNC - Creature Token AP:', beforeState?.currentActionPoints);
+
+                        useCreatureStore.getState().updateTokenState(tokenId, {
+                            currentActionPoints: newAP
+                        });
+
+                        const afterState = useCreatureStore.getState().tokens.find(t => t.id === tokenId)?.state;
+                        console.log('💰 AFTER SYNC - Creature Token AP:', afterState?.currentActionPoints);
+                        console.log('💰 ✅ SYNCED AP TO CREATURE TOKEN STATE:', newAP);
+                    } catch (error) {
+                        console.error('❌ Failed to sync AP to creature token state:', error);
+                    }
+                }
             },
 
             // Get timer info for a token
@@ -927,6 +1132,50 @@ const useCombatStore = create(
                     currentTime,
                     isActive: timer.isActive
                 };
+            },
+
+            // CRITICAL FIX: Synchronize HP updates to combat timeline
+            // This ensures the timeline shows current HP values
+            updateCombatantHP: (tokenId, newHP) => {
+                set(state => {
+                    const updatedTurnOrder = state.turnOrder.map(combatant => {
+                        if (combatant.tokenId === tokenId) {
+                            console.log('💚 SYNCING HP TO TIMELINE:', {
+                                tokenId,
+                                oldHP: combatant.currentHP,
+                                newHP
+                            });
+                            return {
+                                ...combatant,
+                                currentHP: newHP
+                            };
+                        }
+                        return combatant;
+                    });
+                    return { turnOrder: updatedTurnOrder };
+                });
+            },
+
+            // CRITICAL FIX: Synchronize Mana updates to combat timeline
+            // This ensures the timeline shows current Mana values
+            updateCombatantMana: (tokenId, newMana) => {
+                set(state => {
+                    const updatedTurnOrder = state.turnOrder.map(combatant => {
+                        if (combatant.tokenId === tokenId) {
+                            console.log('💙 SYNCING MANA TO TIMELINE:', {
+                                tokenId,
+                                oldMana: combatant.currentMana,
+                                newMana
+                            });
+                            return {
+                                ...combatant,
+                                currentMana: newMana
+                            };
+                        }
+                        return combatant;
+                    });
+                    return { turnOrder: updatedTurnOrder };
+                });
             }
         }),
         {
@@ -967,6 +1216,15 @@ const useCombatStore = create(
                             // Initialize as empty Map if not present
                             parsed.state.turnStartPositions = new Map();
                         }
+
+                        // Migrate timeline height if it's using old default (< 300px)
+                        if (parsed.state?.timelineSize && parsed.state.timelineSize.height < 300) {
+                            parsed.state.timelineSize = {
+                                ...parsed.state.timelineSize,
+                                height: 350
+                            };
+                        }
+
                         return parsed;
                     } catch {
                         return null;

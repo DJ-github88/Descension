@@ -352,6 +352,8 @@
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
     overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .combat-timeline-window-compact::before {
@@ -430,9 +432,9 @@
     position: absolute;
     background: rgba(139, 69, 19, 0.3);
     border: none;
-    opacity: 0;
+    opacity: 0.3;
     transition: opacity 0.2s ease, background 0.2s ease;
-    z-index: 10;
+    z-index: 100;
 }
 
 .combat-timeline-window-compact .react-resizable-handle:hover {
@@ -441,8 +443,8 @@
 }
 
 .combat-timeline-window-compact .react-resizable-handle-se {
-    width: 12px;
-    height: 12px;
+    width: 20px;
+    height: 20px;
     bottom: 0;
     right: 0;
     cursor: se-resize;
@@ -450,8 +452,8 @@
 }
 
 .combat-timeline-window-compact .react-resizable-handle-sw {
-    width: 12px;
-    height: 12px;
+    width: 20px;
+    height: 20px;
     bottom: 0;
     left: 0;
     cursor: sw-resize;
@@ -491,8 +493,8 @@
 }
 
 .combat-timeline-window-compact .react-resizable-handle-ne {
-    width: 12px;
-    height: 12px;
+    width: 20px;
+    height: 20px;
     top: 0;
     right: 0;
     cursor: ne-resize;
@@ -500,8 +502,8 @@
 }
 
 .combat-timeline-window-compact .react-resizable-handle-nw {
-    width: 12px;
-    height: 12px;
+    width: 20px;
+    height: 20px;
     top: 0;
     left: 0;
     cursor: nw-resize;
@@ -743,6 +745,7 @@
     overflow-x: auto;
     overflow-y: auto;
     flex-wrap: wrap; /* Allow wrapping to multiple rows */
+    flex: 1; /* Fill remaining vertical space */
     min-height: 120px; /* Taller to accommodate token content */
     background:
         repeating-linear-gradient(

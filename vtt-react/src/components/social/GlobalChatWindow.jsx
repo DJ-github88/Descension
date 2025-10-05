@@ -8,7 +8,8 @@
 import React, { useState, useEffect } from 'react';
 import WowWindow from '../windows/WowWindow';
 import OnlineUsersList from './OnlineUsersList';
-import GlobalChat from './GlobalChat';
+import ChatTabs from './ChatTabs';
+import TabbedChat from './TabbedChat';
 import RoomInvitationNotification from './RoomInvitationNotification';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore';
@@ -16,7 +17,6 @@ import useCharacterStore from '../../store/characterStore';
 import '../../styles/global-chat.css';
 
 const GlobalChatWindow = ({ isOpen, onClose }) => {
-  const [whisperTarget, setWhisperTarget] = useState(null);
   const [splitPosition, setSplitPosition] = useState(35); // 35% for users list
   const [isDragging, setIsDragging] = useState(false);
 
@@ -27,6 +27,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const subscribeToOnlineUsers = usePresenceStore((state) => state.subscribeToOnlineUsers);
   const cleanup = usePresenceStore((state) => state.cleanup);
   const pendingInvitations = usePresenceStore((state) => state.pendingInvitations);
+  const openWhisperTab = usePresenceStore((state) => state.openWhisperTab);
 
   // Initialize presence when window opens
   useEffect(() => {
@@ -74,7 +75,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const handleMouseMove = (e) => {
     if (!isDragging) return;
 
-    const container = e.currentTarget.closest('.global-chat-container');
+    const container = document.querySelector('.global-chat-container');
     if (!container) return;
 
     const rect = container.getBoundingClientRect();
@@ -105,14 +106,9 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
     // Could expand to show user profile or other actions
   };
 
-  // Handle whisper
+  // Handle whisper - opens whisper tab
   const handleWhisper = (user) => {
-    setWhisperTarget(user);
-  };
-
-  // Clear whisper target
-  const handleClearWhisper = () => {
-    setWhisperTarget(null);
+    openWhisperTab(user);
   };
 
   // Handle invite to room
@@ -174,15 +170,13 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Right Pane - Global Chat */}
-          <div 
+          {/* Right Pane - Tabbed Chat */}
+          <div
             className="chat-pane"
             style={{ width: `${100 - splitPosition}%` }}
           >
-            <GlobalChat
-              whisperTarget={whisperTarget}
-              onClearWhisper={handleClearWhisper}
-            />
+            <ChatTabs />
+            <TabbedChat />
           </div>
         </div>
       </WowWindow>

@@ -544,22 +544,29 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       const isOwnMovement = data.playerId === currentPlayer?.id ||
                            data.playerId === socket.id;
 
-      // For own movements, only process if it's a server confirmation (has serverTimestamp)
+      // For own movements, ignore server confirmations to prevent position jumps
+      // The client is authoritative for its own character position
       if (isOwnMovement) {
-        if (data.serverTimestamp) {
-          console.log(`✅ Received server confirmation for own character movement:`, data.position);
-          // Update local position to match server confirmation (prevents desync)
-          // Only apply if it's a final position (not during dragging) to prevent jitter
-          if (!data.isDragging) {
-            try {
-              const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-              updateCharacterTokenPosition(data.playerId, data.position);
-            } catch (error) {
-              console.error('Failed to update own character token position from server:', error);
-            }
-          }
-        } else {
-          console.log(`🚫 Ignoring own character movement without server confirmation`);
+        // Check if we recently sent this movement (within last 2000ms to handle long drags)
+        const recentMoveKey = `recent_character_move_${data.playerId}`;
+        const recentMoveTime = window[recentMoveKey] || 0;
+        const timeSinceMove = Date.now() - recentMoveTime;
+
+        if (timeSinceMove < 2000) {
+          // This is our own recent movement echoed back - ignore it completely
+          // Extended to 2000ms to handle long drag sessions
+          console.log(`🔄 Ignoring own character movement echo (${timeSinceMove}ms ago)`);
+          return;
+        }
+
+        // If it's been a while, this might be a legitimate server correction
+        // (e.g., after reconnection or desync), so apply it
+        console.log(`✅ Applying server correction for own character (${timeSinceMove}ms since last move)`);
+        try {
+          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+          updateCharacterTokenPosition(data.playerId, data.position);
+        } catch (error) {
+          console.error('Failed to update own character token position from server:', error);
         }
         return;
       }
@@ -576,19 +583,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (now - lastUpdate >= throttleMs || !data.isDragging) {
         tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-        // Update character token position (check for recent local movement to prevent feedback loops)
+        // Update character token position for other players
         try {
-          const recentMoveKey = `recent_character_move_${data.playerId}`;
-          const recentMoveTime = window[recentMoveKey] || 0;
-          const timeSinceMove = now - recentMoveTime;
-
-          // Only apply server updates if we haven't moved recently (prevents feedback loops)
-          if (timeSinceMove > 100) { // 100ms grace period
-            const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
-            updateCharacterTokenPosition(data.playerId, data.position);
-          } else {
-            console.log(`🚫 Skipping character position update due to recent local movement (${timeSinceMove}ms ago)`);
-          }
+          const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
+          updateCharacterTokenPosition(data.playerId, data.position);
         } catch (error) {
           console.error('Failed to update character token position:', error);
         }

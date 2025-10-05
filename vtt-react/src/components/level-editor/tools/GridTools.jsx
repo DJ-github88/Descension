@@ -376,45 +376,36 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 </div>
             </div>
 
-            {/* Grid Appearance - Compact Combined Section */}
+            {/* Grid Appearance - Redesigned for Clean Layout */}
             <div className="tool-section">
                 <h4>Grid Appearance</h4>
 
-                {/* Thickness Control */}
-                <div className="appearance-control">
-                    <label>Thickness: {selectedThickness}px</label>
-                    <div className="thickness-presets">
+                {/* Thickness Control - Compact Horizontal Layout */}
+                <div className="appearance-group">
+                    <label className="appearance-label">Line Thickness ({selectedThickness}px)</label>
+                    <div className="thickness-buttons">
                         {thicknessPresets.map(preset => (
                             <button
                                 key={preset.value}
-                                className={`thickness-btn ${selectedThickness === preset.value ? 'active' : ''}`}
+                                className={`thickness-option ${selectedThickness === preset.value ? 'active' : ''}`}
                                 onClick={() => handleThicknessChange(preset.value)}
                                 title={`${preset.label} (${preset.value}px)`}
                             >
                                 <div
-                                    className="thickness-preview"
+                                    className="thickness-line"
                                     style={{
-                                        height: `${Math.max(1, preset.value)}px`,
-                                        backgroundColor: '#d4af37'
+                                        height: `${Math.max(2, Math.min(preset.value * 2, 8))}px`,
+                                        backgroundColor: selectedThickness === preset.value ? '#f0e6d2' : '#7a3b2e'
                                     }}
                                 />
                             </button>
                         ))}
                     </div>
-                    <input
-                        type="range"
-                        min="0.1"
-                        max="10"
-                        step="0.1"
-                        value={selectedThickness}
-                        onChange={(e) => handleThicknessChange(parseFloat(e.target.value))}
-                        className="thickness-slider"
-                    />
                 </div>
 
-                {/* Opacity Control */}
-                <div className="appearance-control">
-                    <label>Opacity: {Math.round(selectedOpacity * 100)}%</label>
+                {/* Opacity Control - Compact Slider */}
+                <div className="appearance-group">
+                    <label className="appearance-label">Opacity ({Math.round(selectedOpacity * 100)}%)</label>
                     <input
                         type="range"
                         min="0.1"
@@ -422,33 +413,30 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                         step="0.1"
                         value={selectedOpacity}
                         onChange={(e) => handleOpacityChange(parseFloat(e.target.value))}
-                        className="opacity-slider"
+                        className="compact-slider"
                     />
                 </div>
 
-                {/* Color Control */}
-                <div className="appearance-control">
-                    <label>Color:</label>
-                    <div className="color-controls">
-                        <div className="color-presets">
-                            {colorPresets.map(preset => (
-                                <button
-                                    key={preset.value}
-                                    className={`color-btn ${selectedColor === preset.value ? 'active' : ''}`}
-                                    onClick={() => handleColorChange(preset.value)}
-                                    title={preset.label}
-                                    style={{
-                                        backgroundColor: preset.color,
-                                        border: selectedColor === preset.value ? '2px solid #fff' : '1px solid #666'
-                                    }}
-                                />
-                            ))}
-                        </div>
+                {/* Color Control - Compact Grid */}
+                <div className="appearance-group">
+                    <label className="appearance-label">Line Color</label>
+                    <div className="color-grid">
+                        {colorPresets.map(preset => (
+                            <button
+                                key={preset.value}
+                                className={`color-option ${selectedColor === preset.value ? 'active' : ''}`}
+                                onClick={() => handleColorChange(preset.value)}
+                                title={preset.label}
+                                style={{
+                                    backgroundColor: preset.color
+                                }}
+                            />
+                        ))}
                         <input
                             type="color"
                             value={selectedColor.match(/#[0-9a-f]{6}/i)?.[0] || '#d4af37'}
                             onChange={(e) => handleColorChange(`rgba(${parseInt(e.target.value.slice(1, 3), 16)}, ${parseInt(e.target.value.slice(3, 5), 16)}, ${parseInt(e.target.value.slice(5, 7), 16)}, ${selectedOpacity})`)}
-                            className="color-picker"
+                            className="color-picker-compact"
                             title="Custom color"
                         />
                     </div>

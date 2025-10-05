@@ -39,15 +39,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   // Handle community button click
   const handleCommunityClick = () => {
     console.log('🎭 Community button clicked, user:', user);
-    if (!user) {
-      // For testing/development - allow bypass
-      const bypass = window.confirm('You are not logged in. Open Community chat anyway? (Development mode)');
-      console.log('🎭 Bypass decision:', bypass);
-      if (!bypass) {
-        onShowLogin();
-        return;
-      }
-    }
     console.log('🎭 Opening community chat...');
     setShowCommunity(true);
   };

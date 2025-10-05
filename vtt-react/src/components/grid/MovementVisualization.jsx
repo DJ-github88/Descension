@@ -2,6 +2,8 @@ import React, { useMemo, useState, useEffect } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
+import useCharacterStore from '../../store/characterStore';
 
 const MovementVisualization = ({
     startPosition,
@@ -19,22 +21,30 @@ const MovementVisualization = ({
 
     const { isInCombat, validateMovement, turnMovementUsed, getTotalUnlockedMovement } = useCombatStore();
     const { tokens, creatures } = useCreatureStore();
+    const { characterTokens } = useCharacterTokenStore();
+    const characterData = useCharacterStore();
 
     // Animation state for stippled line (marching ants effect)
     const [dashOffset, setDashOffset] = useState(0);
 
-    // Animate the dash offset for marching ants effect
+    // Animate the dash offset for marching ants effect with throttled updates
     useEffect(() => {
         let animationFrameId;
         let lastTime = Date.now();
+        let lastUpdateTime = Date.now();
 
         const animate = () => {
             const currentTime = Date.now();
             const deltaTime = currentTime - lastTime;
+            const timeSinceUpdate = currentTime - lastUpdateTime;
             lastTime = currentTime;
 
-            // Update dash offset (move 15 pixels per second)
-            setDashOffset(prev => (prev + (deltaTime * 0.015)) % 12);
+            // Throttle state updates to 30fps to reduce re-renders and improve performance
+            if (timeSinceUpdate >= 33) { // ~30fps
+                // Update dash offset (move 15 pixels per second)
+                setDashOffset(prev => (prev + (deltaTime * 0.015)) % 12);
+                lastUpdateTime = currentTime;
+            }
 
             animationFrameId = requestAnimationFrame(animate);
         };
@@ -54,25 +64,51 @@ const MovementVisualization = ({
         if (!showMovementVisualization || !startPosition || !currentPosition || !gridSystem) {
             return null;
         }
-        // Find the token and creature data
+        // CRITICAL FIX: Support both creature tokens AND character tokens
+        // First check if it's a creature token
         const token = tokens.find(t => t.id === tokenId);
-        const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
-        
+        let creature = token ? creatures.find(c => c.id === token.creatureId) : null;
+
+        // If not a creature token, check if it's a character token
+        let isCharacterToken = false;
+        if (!creature) {
+            const characterToken = characterTokens.find(t => t.id === tokenId);
+            if (characterToken) {
+                isCharacterToken = true;
+                // Create a mock creature object from character data
+                creature = {
+                    id: tokenId,
+                    name: characterData.name || 'Character',
+                    stats: {
+                        speed: characterData.derivedStats?.movementSpeed || 30
+                    }
+                };
+            }
+        }
+
         if (!creature) return null;
 
-        // Calculate distance for this specific move
-        // CRITICAL FIX: Properly convert world distance to tile distance before multiplying by feetPerTile
-        const dx = currentPosition.x - startPosition.x;
-        const dy = currentPosition.y - startPosition.y;
-        const worldDistance = Math.sqrt(dx * dx + dy * dy);
-        // Convert world distance to tiles using grid size
-        const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
-        const currentMoveFeet = tileDistance * feetPerTile;
-
-        // Get movement validation data
+        // Get movement validation data first (if in combat)
+        // This ensures we use the SAME calculation method (D&D tile-based) as the actual validation
         const movementValidation = isInCombat ?
             validateMovement(tokenId, startPosition, currentPosition, creatures, feetPerTile) :
             null;
+
+        // Calculate distance for this specific move
+        // CRITICAL FIX: Use validation result if in combat to ensure consistency
+        // Otherwise fall back to Euclidean calculation for out-of-combat movement
+        let currentMoveFeet;
+        if (isInCombat && movementValidation) {
+            // Use the same D&D tile-based calculation from validateMovement
+            currentMoveFeet = movementValidation.currentMovementFeet;
+        } else {
+            // Out of combat: use simple Euclidean distance
+            const dx = currentPosition.x - startPosition.x;
+            const dy = currentPosition.y - startPosition.y;
+            const worldDistance = Math.sqrt(dx * dx + dy * dy);
+            const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
+            currentMoveFeet = tileDistance * feetPerTile;
+        }
 
         // Determine line color based on movement validity
         let lineColor = movementLineColor;
@@ -132,7 +168,7 @@ const MovementVisualization = ({
             displayText,
             isValidMovement: !isInCombat || !movementValidation || movementValidation.isValid
         };
-    }, [startPosition, currentPosition, tokenId, tokens, creatures, feetPerTile, isInCombat, gridSystem, movementLineColor]);
+    }, [startPosition, currentPosition, tokenId, tokens, creatures, characterTokens, characterData, feetPerTile, isInCombat, gridSystem, movementLineColor]);
 
     // Don't render if no movement data or visualization is disabled
     if (!movementData) return null;

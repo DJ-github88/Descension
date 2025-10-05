@@ -14,18 +14,25 @@ const usePresenceStore = create((set, get) => ({
   // Online users state
   onlineUsers: new Map(), // userId -> UserPresenceData
   currentUserPresence: null,
-  
+
+  // Chat tabs state
+  activeTab: 'global', // 'global', 'whisper_userId', 'party'
+  whisperTabs: new Map(), // userId -> { user, messages: [], unreadCount: 0 }
+
   // Global chat state
   globalChatMessages: [],
   maxChatMessages: 100,
-  
+
+  // Party chat state (integrated with partyStore)
+  partyChatMessages: [],
+
   // Room invitations
   pendingInvitations: [],
-  
+
   // Socket connection
   socket: null,
   isConnected: false,
-  
+
   // Subscriptions
   presenceUnsubscribe: null,
 
@@ -66,6 +73,10 @@ const usePresenceStore = create((set, get) => ({
     // Start automated chat
     const addGlobalMessage = get().addGlobalMessage;
     mockPresenceService.startAutomatedChat(addGlobalMessage);
+
+    // Start online/offline simulation
+    const updateUserStatus = get().updateUserStatus;
+    mockPresenceService.startOnlineOfflineSimulation(updateUserStatus, addGlobalMessage);
 
     console.log(`✅ Added ${mockUsers.length} mock users to online list`);
   },
@@ -400,21 +411,118 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
+   * Tab Management
+   */
+  setActiveTab: (tabId) => {
+    set({ activeTab: tabId });
+  },
+
+  /**
+   * Open whisper tab with a user
+   */
+  openWhisperTab: (user) => {
+    const { whisperTabs } = get();
+    const tabId = `whisper_${user.userId}`;
+
+    if (!whisperTabs.has(user.userId)) {
+      const newTabs = new Map(whisperTabs);
+      newTabs.set(user.userId, {
+        user,
+        messages: [],
+        unreadCount: 0
+      });
+      set({ whisperTabs: newTabs });
+    }
+
+    set({ activeTab: tabId });
+  },
+
+  /**
+   * Close whisper tab
+   */
+  closeWhisperTab: (userId) => {
+    const { whisperTabs, activeTab } = get();
+    const newTabs = new Map(whisperTabs);
+    newTabs.delete(userId);
+
+    // If closing active tab, switch to global
+    const newActiveTab = activeTab === `whisper_${userId}` ? 'global' : activeTab;
+
+    set({ whisperTabs: newTabs, activeTab: newActiveTab });
+  },
+
+  /**
+   * Add message to whisper tab
+   */
+  addWhisperMessage: (userId, message) => {
+    const { whisperTabs, activeTab } = get();
+    const newTabs = new Map(whisperTabs);
+    const tab = newTabs.get(userId);
+
+    if (tab) {
+      tab.messages.push(message);
+
+      // Increment unread count if not on this tab
+      if (activeTab !== `whisper_${userId}`) {
+        tab.unreadCount++;
+      }
+
+      set({ whisperTabs: newTabs });
+    }
+  },
+
+  /**
+   * Clear unread count for whisper tab
+   */
+  clearWhisperUnread: (userId) => {
+    const { whisperTabs } = get();
+    const newTabs = new Map(whisperTabs);
+    const tab = newTabs.get(userId);
+
+    if (tab) {
+      tab.unreadCount = 0;
+      set({ whisperTabs: newTabs });
+    }
+  },
+
+  /**
+   * Add party chat message
+   */
+  addPartyChatMessage: (message) => {
+    set(state => ({
+      partyChatMessages: [...state.partyChatMessages, message].slice(-100)
+    }));
+  },
+
+  /**
+   * Update user status (for online/offline simulation)
+   */
+  updateUserStatus: (userId, updatedUser) => {
+    const { onlineUsers } = get();
+    const newUsers = new Map(onlineUsers);
+    newUsers.set(userId, updatedUser);
+    set({ onlineUsers: newUsers });
+  },
+
+  /**
    * Cleanup on unmount
    */
   cleanup: () => {
     const { presenceUnsubscribe } = get();
-    
+
     if (presenceUnsubscribe) {
       presenceUnsubscribe();
     }
-    
+
     presenceService.cleanup();
-    
+
     set({
       onlineUsers: new Map(),
       currentUserPresence: null,
+      activeTab: 'global',
+      whisperTabs: new Map(),
       globalChatMessages: [],
+      partyChatMessages: [],
       pendingInvitations: [],
       socket: null,
       isConnected: false,
