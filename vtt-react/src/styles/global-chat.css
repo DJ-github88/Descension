@@ -375,6 +375,18 @@
   background: #f5e6d3;
 }
 
+.context-menu-item.danger {
+  color: #c53030;
+}
+
+.context-menu-item.danger:hover {
+  background: #fff5f5;
+}
+
+.context-menu-item.danger i {
+  color: #c53030;
+}
+
 .context-menu-item i {
   width: 16px;
   text-align: center;

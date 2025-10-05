@@ -21,14 +21,18 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const { user } = useAuthStore();
   const { isInParty, addPartyMember, createParty } = usePartyStore();
-  const { friends, addFriend } = useSocialStore();
+  const { friends, addFriend, removeFriend, addIgnored } = useSocialStore();
 
   // Filter out current user from friends list
   const filteredFriends = useMemo(() => {
     if (!friends) return [];
-    return friends.filter(friend =>
-      friend.name !== currentUserPresence?.characterName
-    );
+    return friends.filter(friend => {
+      // Exclude current user by character name
+      if (friend.name === currentUserPresence?.characterName) return false;
+      // Exclude "Yad" (test user)
+      if (friend.name === 'Yad') return false;
+      return true;
+    });
   }, [friends, currentUserPresence]);
 
   // Filter users based on search term
@@ -141,6 +145,30 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         location: contextMenu.user.sessionType === 'multiplayer' ? contextMenu.user.roomName : 'Local'
       });
       console.log(`✅ Added ${contextMenu.user.characterName} as friend`);
+    }
+    closeContextMenu();
+  };
+
+  const handleRemoveFriend = () => {
+    if (contextMenu?.user) {
+      // Find friend by name
+      const friend = friends.find(f => f.name === contextMenu.user.characterName || f.name === contextMenu.user.name);
+      if (friend) {
+        removeFriend(friend.id);
+        console.log(`✅ Removed ${friend.name} from friends`);
+      }
+    }
+    closeContextMenu();
+  };
+
+  const handleIgnoreUser = () => {
+    if (contextMenu?.user) {
+      const userName = contextMenu.user.characterName || contextMenu.user.name;
+      addIgnored({
+        name: userName,
+        note: 'Ignored from Community'
+      });
+      console.log(`✅ Ignored ${userName}`);
     }
     closeContextMenu();
   };
@@ -353,7 +381,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="context-menu-header">
-            {contextMenu.user.characterName}
+            {contextMenu.user.characterName || contextMenu.user.name}
           </div>
 
           <button
@@ -372,12 +400,31 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
             Invite to Party
           </button>
 
+          {/* Show different options based on whether user is a friend */}
+          {activeTab === 'friends' ? (
+            <button
+              className="context-menu-item danger"
+              onClick={handleRemoveFriend}
+            >
+              <i className="fas fa-user-minus"></i>
+              Remove Friend
+            </button>
+          ) : (
+            <button
+              className="context-menu-item"
+              onClick={handleAddFriend}
+            >
+              <i className="fas fa-user-plus"></i>
+              Add Friend
+            </button>
+          )}
+
           <button
-            className="context-menu-item"
-            onClick={handleAddFriend}
+            className="context-menu-item danger"
+            onClick={handleIgnoreUser}
           >
-            <i className="fas fa-user-plus"></i>
-            Add Friend
+            <i className="fas fa-ban"></i>
+            Ignore
           </button>
 
           {isGMWithRoom && (
