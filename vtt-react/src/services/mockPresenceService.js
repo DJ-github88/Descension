@@ -231,7 +231,7 @@ class MockPresenceService {
   /**
    * Simulate response to whisper
    */
-  simulateWhisperResponse(targetUserId, senderName, addGlobalMessage) {
+  simulateWhisperResponse(targetUserId, senderName, addWhisperMessage) {
     const user = this.mockUsers.get(targetUserId);
     if (!user) return;
 
@@ -243,16 +243,13 @@ class MockPresenceService {
         id: `msg_${uuidv4()}`,
         senderId: user.userId,
         senderName: user.characterName,
-        senderClass: user.class,
-        senderLevel: user.level,
-        targetName: senderName,
+        recipientName: senderName,
         content: response,
         timestamp: new Date().toISOString(),
-        type: 'whisper',
-        isOutgoing: false
+        type: 'whisper_received'
       };
 
-      addGlobalMessage(whisperMessage);
+      addWhisperMessage(whisperMessage);
       console.log(`🤫 ${user.characterName} whispered back: ${response}`);
     }, 1000 + Math.random() * 2000); // 1-3 second delay
   }
@@ -328,12 +325,10 @@ class MockPresenceService {
       // Pick a random user
       const randomUser = users[Math.floor(Math.random() * users.length)];
 
-      // Determine new status
+      // Determine new status (only online/offline, no away)
       let newStatus;
       if (randomUser.status === 'online') {
-        newStatus = Math.random() > 0.5 ? 'away' : 'offline';
-      } else if (randomUser.status === 'away') {
-        newStatus = Math.random() > 0.5 ? 'online' : 'offline';
+        newStatus = 'offline';
       } else {
         newStatus = 'online';
       }
@@ -343,8 +338,20 @@ class MockPresenceService {
       randomUser.lastSeen = new Date();
       this.mockUsers.set(randomUser.userId, randomUser);
 
-      // Update in store
-      updateUserStatus(randomUser.userId, randomUser);
+      // Update in store - if offline, remove from list
+      if (newStatus === 'offline') {
+        // Remove from online users
+        const removeUser = get => {
+          const { onlineUsers } = get();
+          const newUsers = new Map(onlineUsers);
+          newUsers.delete(randomUser.userId);
+          return { onlineUsers: newUsers };
+        };
+        updateUserStatus(randomUser.userId, null, true); // true = remove
+      } else {
+        // Add back to online users
+        updateUserStatus(randomUser.userId, randomUser, false);
+      }
 
       console.log(`🔄 ${randomUser.characterName} is now ${newStatus}`);
     }, 30000 + Math.random() * 90000); // 30-120 seconds

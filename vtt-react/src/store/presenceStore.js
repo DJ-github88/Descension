@@ -262,25 +262,25 @@ const usePresenceStore = create((set, get) => ({
       id: uuidv4(),
       senderId: currentUserPresence.userId,
       senderName: currentUserPresence.characterName,
-      senderClass: currentUserPresence.class,
-      senderLevel: currentUserPresence.level,
-      targetUserId,
-      targetName: targetUser?.characterName || 'Unknown',
+      recipientId: targetUserId,
+      recipientName: targetUser?.characterName || 'Unknown',
       content: content.trim(),
       timestamp: new Date().toISOString(),
-      type: 'whisper',
-      isOutgoing: true
+      type: 'whisper_sent'
     };
 
-    // Add to local chat as outgoing whisper
-    get().addGlobalMessage(message);
+    // Add to whisper tab instead of global chat
+    get().addWhisperMessage(targetUserId, message);
 
     // If mock user, simulate response
     if (isMockUser) {
       mockPresenceService.simulateWhisperResponse(
         targetUserId,
         currentUserPresence.characterName,
-        get().addGlobalMessage
+        (responseMessage) => {
+          // Add response to whisper tab
+          get().addWhisperMessage(targetUserId, responseMessage);
+        }
       );
     } else if (socket && socket.connected) {
       // Real user - send via socket
@@ -501,10 +501,18 @@ const usePresenceStore = create((set, get) => ({
   /**
    * Update user status (for online/offline simulation)
    */
-  updateUserStatus: (userId, updatedUser) => {
+  updateUserStatus: (userId, updatedUser, remove = false) => {
     const { onlineUsers } = get();
     const newUsers = new Map(onlineUsers);
-    newUsers.set(userId, updatedUser);
+
+    if (remove || !updatedUser) {
+      // Remove user from online list
+      newUsers.delete(userId);
+    } else {
+      // Update or add user
+      newUsers.set(userId, updatedUser);
+    }
+
     set({ onlineUsers: newUsers });
   },
 

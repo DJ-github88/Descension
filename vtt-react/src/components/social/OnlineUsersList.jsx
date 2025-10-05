@@ -15,12 +15,13 @@ import useSocialStore from '../../store/socialStore';
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
+  const [showFriends, setShowFriends] = useState(true);
 
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const { user } = useAuthStore();
   const { isInParty, addPartyMember, createParty } = usePartyStore();
-  const { addFriend } = useSocialStore();
+  const { friends, addFriend } = useSocialStore();
 
   // Filter users based on search term
   const filteredUsers = useMemo(() => {
@@ -200,23 +201,29 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
       {/* Users List */}
       <div className="users-list-content">
-        {filteredUsers.length === 0 ? (
-          <div className="no-users">
-            {searchTerm ? (
-              <>
-                <i className="fas fa-search"></i>
-                <p>No users found matching "{searchTerm}"</p>
-              </>
-            ) : (
-              <>
-                <i className="fas fa-user-slash"></i>
-                <p>No users online</p>
-              </>
-            )}
+        {/* Online Users Section */}
+        <div className="users-section">
+          <div className="section-header">
+            <i className="fas fa-globe"></i>
+            <span>Online ({filteredUsers.length})</span>
           </div>
-        ) : (
-          filteredUsers.map((user) => {
-            const isCurrentUser = user.userId === currentUserPresence?.userId;
+          {filteredUsers.length === 0 ? (
+            <div className="no-users">
+              {searchTerm ? (
+                <>
+                  <i className="fas fa-search"></i>
+                  <p>No users found matching "{searchTerm}"</p>
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-user-slash"></i>
+                  <p>No users online</p>
+                </>
+              )}
+            </div>
+          ) : (
+            filteredUsers.map((user) => {
+              const isCurrentUser = user.userId === currentUserPresence?.userId;
             
             return (
               <div
@@ -257,6 +264,44 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               </div>
             );
           })
+        )}
+        </div>
+
+        {/* Friends Section */}
+        {friends && friends.length > 0 && (
+          <div className="users-section friends-section">
+            <div
+              className="section-header clickable"
+              onClick={() => setShowFriends(!showFriends)}
+            >
+              <i className={`fas fa-chevron-${showFriends ? 'down' : 'right'}`}></i>
+              <i className="fas fa-user-friends"></i>
+              <span>Friends ({friends.length})</span>
+            </div>
+            {showFriends && (
+              <div className="friends-list">
+                {friends.map((friend) => (
+                  <div key={friend.id || friend.name} className="user-card friend-card">
+                    <div className="user-info">
+                      <div className="user-header">
+                        {getStatusIcon(friend.status)}
+                        <span className="user-name">{friend.name}</span>
+                      </div>
+                      <div className="user-details">
+                        <span>Lvl {friend.level} {friend.class}</span>
+                      </div>
+                      {friend.location && (
+                        <div className="session-info">
+                          <i className="fas fa-map-marker-alt"></i>
+                          <span>{friend.location}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         )}
       </div>
 
