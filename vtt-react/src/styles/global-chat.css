@@ -84,25 +84,53 @@
 }
 
 .users-list-header {
-  padding: 12px 16px;
-  background: linear-gradient(to bottom, #d4c4a8, #c9b896);
+  padding: 0;
+  background: linear-gradient(to bottom, #c9b896, #b8a67d);
   border-bottom: 2px solid #a89968;
+  flex-shrink: 0;
 }
 
-.users-list-header h3 {
-  margin: 0;
-  font-family: 'Cinzel', serif;
-  font-size: 18px;
-  color: #3d2817;
+.users-tabs {
+  display: flex;
+  gap: 0;
+}
+
+.users-tab {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #5a4a38;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
 }
 
-.user-count {
-  font-size: 14px;
-  color: #6b5742;
-  font-weight: normal;
+.users-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #3d2817;
+}
+
+.users-tab.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-bottom-color: #8b7355;
+  color: #3d2817;
+}
+
+.users-tab i {
+  font-size: 13px;
+}
+
+.users-tab .tab-count {
+  font-size: 12px;
+  opacity: 0.8;
 }
 
 /* Search */
@@ -177,6 +205,13 @@
   font-size: 14px;
 }
 
+.no-users .hint {
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
 /* User Card */
 .user-card {
   display: flex;
@@ -238,14 +273,26 @@
 
 .user-details {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   font-size: 13px;
   color: #6b5742;
   margin-bottom: 4px;
+  align-items: center;
 }
 
 .user-level {
   font-weight: 600;
+}
+
+.user-class {
+  font-weight: 500;
+}
+
+.user-background {
+  font-style: italic;
+  font-size: 12px;
+  opacity: 0.9;
 }
 
 .user-race {

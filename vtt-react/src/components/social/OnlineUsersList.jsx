@@ -15,13 +15,21 @@ import useSocialStore from '../../store/socialStore';
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
-  const [showFriends, setShowFriends] = useState(true);
+  const [activeTab, setActiveTab] = useState('online'); // 'online' or 'friends'
 
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const { user } = useAuthStore();
   const { isInParty, addPartyMember, createParty } = usePartyStore();
   const { friends, addFriend } = useSocialStore();
+
+  // Filter out current user from friends list
+  const filteredFriends = useMemo(() => {
+    if (!friends) return [];
+    return friends.filter(friend =>
+      friend.name !== currentUserPresence?.characterName
+    );
+  }, [friends, currentUserPresence]);
 
   // Filter users based on search term
   const filteredUsers = useMemo(() => {
@@ -171,13 +179,26 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   return (
     <div className="online-users-list" onClick={closeContextMenu}>
-      {/* Header */}
+      {/* Header with Tabs */}
       <div className="users-list-header">
-        <h3>
-          <i className="fas fa-users"></i>
-          Online Users
-          <span className="user-count">({onlineUsers.length})</span>
-        </h3>
+        <div className="users-tabs">
+          <button
+            className={`users-tab ${activeTab === 'online' ? 'active' : ''}`}
+            onClick={() => setActiveTab('online')}
+          >
+            <i className="fas fa-globe"></i>
+            <span>Online</span>
+            <span className="tab-count">({onlineUsers.length})</span>
+          </button>
+          <button
+            className={`users-tab ${activeTab === 'friends' ? 'active' : ''}`}
+            onClick={() => setActiveTab('friends')}
+          >
+            <i className="fas fa-user-friends"></i>
+            <span>Friends</span>
+            <span className="tab-count">({filteredFriends.length})</span>
+          </button>
+        </div>
       </div>
 
       {/* Search */}
@@ -201,29 +222,26 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
       {/* Users List */}
       <div className="users-list-content">
-        {/* Online Users Section */}
-        <div className="users-section">
-          <div className="section-header">
-            <i className="fas fa-globe"></i>
-            <span>Online ({filteredUsers.length})</span>
-          </div>
-          {filteredUsers.length === 0 ? (
-            <div className="no-users">
-              {searchTerm ? (
-                <>
-                  <i className="fas fa-search"></i>
-                  <p>No users found matching "{searchTerm}"</p>
-                </>
-              ) : (
-                <>
-                  <i className="fas fa-user-slash"></i>
-                  <p>No users online</p>
-                </>
-              )}
-            </div>
-          ) : (
-            filteredUsers.map((user) => {
-              const isCurrentUser = user.userId === currentUserPresence?.userId;
+        {/* Online Users Tab */}
+        {activeTab === 'online' && (
+          <div className="users-section">
+            {filteredUsers.length === 0 ? (
+              <div className="no-users">
+                {searchTerm ? (
+                  <>
+                    <i className="fas fa-search"></i>
+                    <p>No users found matching "{searchTerm}"</p>
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-user-slash"></i>
+                    <p>No users online</p>
+                  </>
+                )}
+              </div>
+            ) : (
+              filteredUsers.map((user) => {
+                const isCurrentUser = user.userId === currentUserPresence?.userId;
             
             return (
               <div
@@ -247,14 +265,12 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                   <div className="user-details">
                     <span className="user-level">Lvl {user.level}</span>
                     <span className="user-class">{user.class}</span>
+                    {user.background && <span className="user-background">({user.background})</span>}
                   </div>
-                  
+
                   <div className="user-race">
-                    {user.background && <span>{user.background}</span>}
-                    {user.race && (
-                      <span>
-                        {user.subrace ? `${user.subrace} ${user.race}` : user.race}
-                      </span>
+                    {user.subrace && user.race && (
+                      <span>{user.subrace}</span>
                     )}
                   </div>
 
@@ -266,29 +282,29 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
           })
         )}
         </div>
+        )}
 
-        {/* Friends Section */}
-        {friends && friends.length > 0 && (
+        {/* Friends Tab */}
+        {activeTab === 'friends' && (
           <div className="users-section friends-section">
-            <div
-              className="section-header clickable"
-              onClick={() => setShowFriends(!showFriends)}
-            >
-              <i className={`fas fa-chevron-${showFriends ? 'down' : 'right'}`}></i>
-              <i className="fas fa-user-friends"></i>
-              <span>Friends ({friends.length})</span>
-            </div>
-            {showFriends && (
+            {filteredFriends.length === 0 ? (
+              <div className="no-users">
+                <i className="fas fa-user-friends"></i>
+                <p>No friends added yet</p>
+                <p className="hint">Right-click online users to add friends</p>
+              </div>
+            ) : (
               <div className="friends-list">
-                {friends.map((friend) => (
+                {filteredFriends.map((friend) => (
                   <div key={friend.id || friend.name} className="user-card friend-card">
+                    <div className="user-status">
+                      <span className="status-icon">{getStatusIcon(friend.status)}</span>
+                    </div>
                     <div className="user-info">
-                      <div className="user-header">
-                        {getStatusIcon(friend.status)}
-                        <span className="user-name">{friend.name}</span>
-                      </div>
+                      <div className="user-name">{friend.name}</div>
                       <div className="user-details">
-                        <span>Lvl {friend.level} {friend.class}</span>
+                        <span className="user-level">Lvl {friend.level}</span>
+                        <span className="user-class">{friend.class}</span>
                       </div>
                       {friend.location && (
                         <div className="session-info">
