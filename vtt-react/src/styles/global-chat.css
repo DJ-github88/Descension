@@ -963,6 +963,8 @@
   font-size: 14px;
   color: #3d2817;
   font-family: inherit;
+  height: 42px;
+  box-sizing: border-box;
 }
 
 .tabbed-chat .chat-input:focus {
@@ -972,7 +974,7 @@
 }
 
 .tabbed-chat .send-button {
-  padding: 10px 18px;
+  padding: 0 20px;
   background: linear-gradient(to bottom, #8b7355, #6d5a44);
   border: 1px solid #5a4a38;
   border-radius: 4px;
@@ -983,8 +985,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 50px;
+  min-width: 60px;
   height: 42px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .tabbed-chat .send-button:hover:not(:disabled) {

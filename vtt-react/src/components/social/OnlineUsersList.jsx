@@ -123,10 +123,20 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   const handleAddFriend = () => {
     if (contextMenu?.user) {
+      // Don't add yourself as a friend
+      if (contextMenu.user.userId === currentUserPresence?.userId) {
+        console.log(`❌ Cannot add yourself as a friend`);
+        closeContextMenu();
+        return;
+      }
+
       addFriend({
         name: contextMenu.user.characterName,
         level: contextMenu.user.level,
         class: contextMenu.user.class,
+        background: contextMenu.user.background,
+        race: contextMenu.user.race,
+        subrace: contextMenu.user.subrace,
         status: contextMenu.user.status,
         location: contextMenu.user.sessionType === 'multiplayer' ? contextMenu.user.roomName : 'Local'
       });
@@ -295,26 +305,35 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               </div>
             ) : (
               <div className="friends-list">
-                {filteredFriends.map((friend) => (
-                  <div key={friend.id || friend.name} className="user-card friend-card">
-                    <div className="user-status">
-                      <span className="status-icon">{getStatusIcon(friend.status)}</span>
-                    </div>
-                    <div className="user-info">
-                      <div className="user-name">{friend.name}</div>
-                      <div className="user-details">
-                        <span className="user-level">Lvl {friend.level}</span>
-                        <span className="user-class">{friend.class}</span>
+                {filteredFriends.map((friend) => {
+                  // Find the friend in online users to get full details
+                  const onlineUser = onlineUsers.find(u => u.characterName === friend.name);
+                  const friendData = onlineUser || friend;
+
+                  return (
+                    <div
+                      key={friend.id || friend.name}
+                      className="user-card friend-card"
+                      onContextMenu={(e) => handleContextMenu(e, friendData)}
+                    >
+                      <div className="user-status">
+                        <span className="status-icon">{getStatusIcon(friendData.status)}</span>
                       </div>
-                      {friend.location && (
-                        <div className="session-info">
-                          <i className="fas fa-map-marker-alt"></i>
-                          <span>{friend.location}</span>
+                      <div className="user-info">
+                        <div className="user-name">{friendData.characterName || friend.name}</div>
+                        <div className="user-details">
+                          <span className="user-level">Lvl {friendData.level}</span>
+                          <span className="user-class">{friendData.class}</span>
+                          {friendData.background && <span className="user-background">({friendData.background})</span>}
                         </div>
-                      )}
+                        <div className="user-race">
+                          {friendData.subrace && <span>{friendData.subrace}</span>}
+                        </div>
+                        {onlineUser && getSessionDisplay(onlineUser)}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
