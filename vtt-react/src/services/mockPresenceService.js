@@ -346,20 +346,6 @@ class MockPresenceService {
       // Update in store
       updateUserStatus(randomUser.userId, randomUser);
 
-      // Add system message
-      const statusMessages = {
-        online: `${randomUser.characterName} has come online.`,
-        away: `${randomUser.characterName} is now away.`,
-        offline: `${randomUser.characterName} has gone offline.`
-      };
-
-      addGlobalMessage({
-        id: `msg_${Date.now()}_status`,
-        content: statusMessages[newStatus],
-        timestamp: new Date().toISOString(),
-        type: 'system'
-      });
-
       console.log(`🔄 ${randomUser.characterName} is now ${newStatus}`);
     }, 30000 + Math.random() * 90000); // 30-120 seconds
   }

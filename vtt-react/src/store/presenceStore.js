@@ -212,31 +212,35 @@ const usePresenceStore = create((set, get) => ({
    */
   sendGlobalMessage: (content) => {
     const { currentUserPresence, socket } = get();
-    
-    if (!currentUserPresence) {
-      console.error('Cannot send message: user not online');
-      return false;
-    }
 
-    if (!socket || !socket.connected) {
-      console.error('Cannot send message: socket not connected');
-      return false;
-    }
+    // For testing without login, use a default user
+    const senderData = currentUserPresence || {
+      userId: 'test_user',
+      characterName: 'Yad',
+      class: 'Adventurer',
+      level: 1
+    };
 
     const message = {
       id: uuidv4(),
-      senderId: currentUserPresence.userId,
-      senderName: currentUserPresence.characterName,
-      senderClass: currentUserPresence.class,
-      senderLevel: currentUserPresence.level,
+      senderId: senderData.userId,
+      senderName: senderData.characterName,
+      senderClass: senderData.class,
+      senderLevel: senderData.level,
       content: content.trim(),
       timestamp: new Date().toISOString(),
       type: 'message'
     };
 
-    // Emit to server
-    socket.emit('global_chat_message', message);
-    
+    // If socket connected, emit to server
+    if (socket && socket.connected) {
+      socket.emit('global_chat_message', message);
+    } else {
+      // For testing without socket, add directly to local state
+      const addGlobalMessage = get().addGlobalMessage;
+      addGlobalMessage(message);
+    }
+
     return true;
   },
 
