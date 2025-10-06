@@ -41,25 +41,45 @@ const usePresenceStore = create((set, get) => ({
    */
   initializePresence: async (userId, characterData, sessionData = {}) => {
     const success = await presenceService.setOnline(userId, characterData, sessionData);
-    
-    if (success) {
-      set({
-        currentUserPresence: {
-          userId,
-          ...characterData,
-          ...sessionData,
-          status: 'online'
-        }
-      });
-    }
-    
-    return success;
+
+    // Always set local state, even if Firebase fails (for dev mode without Firebase)
+    const presenceData = {
+      userId,
+      ...characterData,
+      ...sessionData,
+      status: 'online',
+      lastUpdated: Date.now()
+    };
+
+    set({
+      currentUserPresence: presenceData
+    });
+
+    // Also add to onlineUsers map so user appears in the list
+    const { onlineUsers } = get();
+    const newOnlineUsers = new Map(onlineUsers);
+    newOnlineUsers.set(userId, presenceData);
+    set({ onlineUsers: newOnlineUsers });
+
+    console.log('✅ Presence initialized locally for user:', userId);
+    console.log('✅ Firebase sync:', success ? 'enabled' : 'disabled (dev mode)');
+
+    return true; // Always return true since local state is set
   },
 
   /**
    * Initialize mock users for testing
    */
   initializeMockUsers: () => {
+    // Check if mock users are already initialized
+    const currentUsers = get().onlineUsers;
+    const hasMockUsers = Array.from(currentUsers.keys()).some(key => key.startsWith('mock_user_'));
+
+    if (hasMockUsers) {
+      console.log('🎭 Mock users already initialized, skipping...');
+      return;
+    }
+
     console.log('🎭 Initializing mock users for testing...');
     const mockUsers = mockPresenceService.initializeMockUsers();
 
@@ -150,27 +170,79 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
-   * Update current user's status (online/away/busy)
+   * Update current user's status (online/away/busy) and optional status comment
    */
-  updateStatus: async (status) => {
-    const { currentUserPresence } = get();
-    if (!currentUserPresence) return false;
+  updateStatus: async (status, statusComment = null) => {
+    const { currentUserPresence, onlineUsers } = get();
 
-    const success = await presenceService.updateStatus(
-      currentUserPresence.userId,
-      status
-    );
+    console.log('🔍 updateStatus called with:', { status, statusComment });
+    console.log('👤 currentUserPresence:', currentUserPresence);
+    console.log('👥 onlineUsers size:', onlineUsers.size);
 
-    if (success) {
-      set({
-        currentUserPresence: {
-          ...currentUserPresence,
-          status
-        }
-      });
+    if (!currentUserPresence) {
+      console.error('❌ No currentUserPresence found!');
+      return false;
     }
 
-    return success;
+    // Try to update in Firebase (will fail gracefully if not configured)
+    const success = await presenceService.updateStatus(
+      currentUserPresence.userId,
+      status,
+      statusComment
+    );
+
+    console.log('🔥 Firebase update success:', success);
+
+    // Always update local state, even if Firebase update failed (for demo mode)
+    const updates = {
+      ...currentUserPresence,
+      status,
+      lastUpdated: Date.now() // Add timestamp to ensure object is seen as changed
+    };
+
+    // Only update statusComment if provided
+    if (statusComment !== null) {
+      updates.statusComment = statusComment;
+    }
+
+    console.log('📦 Updates object:', updates);
+    console.log('📦 Old status:', currentUserPresence.status, '→ New status:', status);
+
+    // Also update the user in the onlineUsers map so the UI reflects the change
+    const newOnlineUsers = new Map(onlineUsers);
+    const userExists = newOnlineUsers.has(currentUserPresence.userId);
+    console.log('🔍 User exists in onlineUsers:', userExists, 'userId:', currentUserPresence.userId);
+
+    if (userExists) {
+      newOnlineUsers.set(currentUserPresence.userId, updates);
+    } else {
+      console.warn('⚠️ User not found in onlineUsers map, adding them now');
+      newOnlineUsers.set(currentUserPresence.userId, updates);
+    }
+
+    // Update both in a single set call to ensure atomic update
+    set({
+      currentUserPresence: updates,
+      onlineUsers: newOnlineUsers
+    });
+
+    console.log('✅ Updated currentUserPresence and onlineUsers');
+    console.log('✅ New currentUserPresence status:', get().currentUserPresence?.status);
+
+    // Emit socket event if connected (for multiplayer sync)
+    const { socket } = get();
+    if (socket && socket.connected) {
+      socket.emit('update_status', {
+        userId: currentUserPresence.userId,
+        status,
+        statusComment: updates.statusComment
+      });
+      console.log('📡 Emitted status update to socket');
+    }
+
+    console.log(`✅ Status updated to: ${status}${statusComment ? ` - "${statusComment}"` : ''}`);
+
+    return true; // Return true since we updated local state
   },
 
   /**
@@ -195,16 +267,23 @@ const usePresenceStore = create((set, get) => ({
   addGlobalMessage: (message) => {
     set((state) => {
       const messages = [...state.globalChatMessages, message];
-      
+
       // Keep only last maxChatMessages
       if (messages.length > state.maxChatMessages) {
         return {
           globalChatMessages: messages.slice(-state.maxChatMessages)
         };
       }
-      
+
       return { globalChatMessages: messages };
     });
+  },
+
+  /**
+   * Clear global chat messages
+   */
+  clearGlobalMessages: () => {
+    set({ globalChatMessages: [] });
   },
 
   /**
@@ -254,14 +333,18 @@ const usePresenceStore = create((set, get) => ({
     const targetUser = onlineUsers.get(targetUserId);
     const isMockUser = targetUserId.startsWith('mock_user_');
 
-    if (!currentUserPresence) {
-      return false;
-    }
+    // For testing without login, use a default user
+    const senderData = currentUserPresence || {
+      userId: 'test_user',
+      characterName: 'Yad',
+      class: 'Adventurer',
+      level: 1
+    };
 
     const message = {
       id: uuidv4(),
-      senderId: currentUserPresence.userId,
-      senderName: currentUserPresence.characterName,
+      senderId: senderData.userId,
+      senderName: senderData.characterName,
       recipientId: targetUserId,
       recipientName: targetUser?.characterName || 'Unknown',
       content: content.trim(),
@@ -276,10 +359,10 @@ const usePresenceStore = create((set, get) => ({
     if (isMockUser) {
       mockPresenceService.simulateWhisperResponse(
         targetUserId,
-        currentUserPresence.characterName,
-        (responseMessage) => {
+        senderData.characterName,
+        (userId, responseMessage) => {
           // Add response to whisper tab
-          get().addWhisperMessage(targetUserId, responseMessage);
+          get().addWhisperMessage(userId, responseMessage);
         }
       );
     } else if (socket && socket.connected) {
@@ -459,20 +542,35 @@ const usePresenceStore = create((set, get) => ({
    * Add message to whisper tab
    */
   addWhisperMessage: (userId, message) => {
-    const { whisperTabs, activeTab } = get();
+    const { whisperTabs, activeTab, onlineUsers } = get();
     const newTabs = new Map(whisperTabs);
-    const tab = newTabs.get(userId);
+    let tab = newTabs.get(userId);
 
-    if (tab) {
-      tab.messages.push(message);
-
-      // Increment unread count if not on this tab
-      if (activeTab !== `whisper_${userId}`) {
-        tab.unreadCount++;
+    // Create tab if it doesn't exist
+    if (!tab) {
+      const user = onlineUsers.get(userId);
+      if (user) {
+        tab = {
+          user,
+          messages: [],
+          unreadCount: 0
+        };
+        newTabs.set(userId, tab);
+      } else {
+        console.warn('Cannot add whisper message: user not found', userId);
+        return;
       }
-
-      set({ whisperTabs: newTabs });
     }
+
+    // Add message to tab
+    tab.messages.push(message);
+
+    // Increment unread count if not on this tab
+    if (activeTab !== `whisper_${userId}`) {
+      tab.unreadCount++;
+    }
+
+    set({ whisperTabs: newTabs });
   },
 
   /**
@@ -490,12 +588,33 @@ const usePresenceStore = create((set, get) => ({
   },
 
   /**
+   * Clear messages for whisper tab
+   */
+  clearWhisperMessages: (userId) => {
+    const { whisperTabs } = get();
+    const newTabs = new Map(whisperTabs);
+    const tab = newTabs.get(userId);
+
+    if (tab) {
+      tab.messages = [];
+      set({ whisperTabs: newTabs });
+    }
+  },
+
+  /**
    * Add party chat message
    */
   addPartyChatMessage: (message) => {
     set(state => ({
       partyChatMessages: [...state.partyChatMessages, message].slice(-100)
     }));
+  },
+
+  /**
+   * Clear party chat messages
+   */
+  clearPartyMessages: () => {
+    set({ partyChatMessages: [] });
   },
 
   /**

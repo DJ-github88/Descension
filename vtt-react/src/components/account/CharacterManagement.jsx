@@ -86,9 +86,9 @@ const CharacterManagement = ({ user }) => {
     navigate(`/account/characters/edit/${characterId}`);
   };
 
-  const handlePlayCharacter = (characterId) => {
+  const handlePlayCharacter = async (characterId) => {
     // Toggle this character as active (don't navigate)
-    const character = setActiveCharacter(characterId);
+    const character = await setActiveCharacter(characterId);
     if (character) {
       console.log(`🎮 Selected character: ${character.name}`);
     } else {

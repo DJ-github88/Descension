@@ -1072,13 +1072,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         if (typeof useAuthStore !== 'undefined') {
           const { user } = useAuthStore.getState();
           if (user && room.persistentRoomId) {
-            const { joinRoom } = await import('../../services/roomService');
-            await joinRoom(room.persistentRoomId, user.uid, room.password || '');
-            console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
+            // For guest users, save joined room to localStorage instead of Firebase
+            if (user.isGuest) {
+              console.log('👤 Guest user joined room - saving to localStorage');
+              const guestRoomData = {
+                id: room.persistentRoomId,
+                name: room.name,
+                description: room.description || '',
+                password: room.password || '',
+                createdAt: new Date().toISOString(),
+                lastActivity: new Date().toISOString(),
+                userRole: 'player',
+                isMultiplayer: true
+              };
+              localStorage.setItem('mythrill-guest-joined-room', JSON.stringify(guestRoomData));
+              localStorage.setItem('roomDataChanged', 'true');
+              localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
+              console.log(`✅ Guest joined room saved to localStorage: ${room.name}`);
+            } else {
+              // Regular authenticated user - save to Firebase
+              const { joinRoom } = await import('../../services/roomService');
+              await joinRoom(room.persistentRoomId, user.uid, room.password || '');
+              console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
 
-            // Set a flag to indicate that room data should be refreshed when returning to account
-            localStorage.setItem('roomDataChanged', 'true');
-            localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
+              // Set a flag to indicate that room data should be refreshed when returning to account
+              localStorage.setItem('roomDataChanged', 'true');
+              localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
+            }
           } else if (user && !room.persistentRoomId) {
             console.log('⚠️ User is authenticated but room has no persistentRoomId - this is a socket-only room');
           }

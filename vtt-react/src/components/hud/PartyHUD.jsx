@@ -8,6 +8,7 @@ import useGameStore from '../../store/gameStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
 import useChatStore from '../../store/chatStore';
+import usePresenceStore from '../../store/presenceStore';
 import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -646,6 +647,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const { removeBuff } = useBuffStore();
     const { addNotification } = useChatStore();
     const { setGMMode, isGMMode } = useGameStore();
+    const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,
@@ -1076,6 +1078,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             return {
                 ...member, // Preserve all existing member data including isGM
                 name: currentPlayerData.name,
+                status: currentUserPresence?.status || 'online', // Add status from presence
                 character: {
                     level: currentPlayerData.level,
                     race: currentPlayerData.race,
@@ -1109,18 +1112,18 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     const memberNodeRef = nodeRefs.current[member.id];
 
                     // Calculate dynamic spacing based on whether previous members have class resources
-                    let yOffset = 200;
+                    let yOffset = 20;
                     for (let i = 0; i < index; i++) {
                         const prevMember = displayMembers[i];
                         const hasClassResource = prevMember.character?.class && prevMember.character?.classResource;
                         const isComplexClass = ['Minstrel', 'Chaos Weaver', 'Gambler', 'Exorcist', 'Lichborne', 'Plaguebringer', 'Toxicologist', 'False Prophet'].includes(prevMember.character?.class);
 
                         if (hasClassResource && isComplexClass) {
-                            yOffset += 120; // Extra spacing for complex class resource displays
+                            yOffset += 130; // Extra spacing for complex class resource displays
                         } else if (hasClassResource) {
-                            yOffset += 100; // Standard spacing for class resource displays
+                            yOffset += 115; // Standard spacing for class resource displays
                         } else {
-                            yOffset += 80; // Standard spacing for basic frames
+                            yOffset += 100; // Standard spacing for basic frames
                         }
                     }
 

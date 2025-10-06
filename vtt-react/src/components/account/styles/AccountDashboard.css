@@ -132,6 +132,25 @@
   font-weight: 500;
 }
 
+.guest-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 152, 0, 0.15);
+  border: 1px solid #ff9800;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #8b4513;
+  font-weight: 500;
+}
+
+.guest-notice i {
+  color: #ff9800;
+  font-size: 0.9rem;
+}
+
 /* Center: Fan-style Tab Navigation */
 .fan-tabs {
   flex: 1;

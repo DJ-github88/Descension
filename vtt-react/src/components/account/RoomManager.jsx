@@ -28,7 +28,10 @@ const RoomManager = () => {
 
   useEffect(() => {
     loadRoomData();
-    loadLocalRooms();
+    // Don't load local rooms separately for guests - handled in loadRoomData
+    if (!user?.isGuest) {
+      loadLocalRooms();
+    }
   }, [user]);
 
   // Check for room data changes when component mounts or becomes visible
@@ -295,46 +298,126 @@ const RoomManager = () => {
 
   const loadRoomData = async () => {
     if (!user) {
-      // Even without user, create a test room for development
-      const activeCharacter = getActiveCharacter();
-      const testRoom = {
-        id: 'test-room-local',
-        name: 'Development Test Lab',
-        description: 'A sandbox environment for testing game mechanics, character abilities, and multiplayer features. Experiment with spells, items, and combat in a safe testing ground.',
-        userRole: 'gm',
-        gmName: 'Game Master',
-        members: ['dev-user'],
-        isTestRoom: true,
-        settings: {
-          maxPlayers: 8,
-          isPrivate: false,
-          allowSpectators: true,
-          autoSave: true
-        },
-        lastActivity: {
-          seconds: Math.floor(Date.now() / 1000)
-        },
-        createdAt: {
-          seconds: Math.floor(Date.now() / 1000)
-        },
-        stats: {
-          totalSessions: 0,
-          lastSession: 'Ready for Testing',
-          averageSessionLength: 'Variable'
-        },
-        isTestRoom: true
-      };
-
-
-      console.log('🧪 Setting test room:', testRoom);
-      setRooms([testRoom]);
-      setLocalRooms([]); // Keep local rooms empty in development
+      // No user logged in - show empty state
+      console.log('⚠️ No user logged in');
+      setRooms([]);
+      setLocalRooms([]);
       setRoomLimits({
-        tier: { name: 'Development' },
-        used: 1,
-        limit: 999,
-        canCreate: true
+        tier: { name: 'Guest' },
+        used: 0,
+        limit: 0,
+        canCreate: false
       });
+      setIsLoading(false);
+      return;
+    }
+
+    // Check if user is a guest - they get 1 room limit (can be local or multiplayer)
+    if (user.isGuest) {
+      console.log('👤 Guest user detected - loading guest rooms');
+      setIsLoading(true);
+
+      try {
+        // Check if guest has been initialized (rooms cleared on first login)
+        const guestInitialized = localStorage.getItem('mythrill-guest-initialized');
+
+        if (!guestInitialized) {
+          // First time this guest is accessing rooms - clear any existing rooms from other users
+          console.log('🧹 First-time guest access - clearing any existing local rooms');
+          localStorage.removeItem('mythrill_local_rooms');
+
+          // Clear room state data
+          Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('mythrill_local_room_state_')) {
+              localStorage.removeItem(key);
+            }
+          });
+
+          // Clear any previous guest joined rooms
+          localStorage.removeItem('mythrill-guest-joined-room');
+
+          // Mark as initialized
+          localStorage.setItem('mythrill-guest-initialized', 'true');
+        }
+
+        // Load local rooms for guest
+        const localRoomsData = localRoomService.getLocalRooms();
+        const localRoomCount = localRoomsData.length;
+
+        // Check for joined multiplayer room (stored in localStorage for guests)
+        let joinedMultiplayerRooms = [];
+        const guestJoinedRoom = localStorage.getItem('mythrill-guest-joined-room');
+
+        if (guestJoinedRoom) {
+          try {
+            const roomData = JSON.parse(guestJoinedRoom);
+            // Verify the room still exists on the server
+            const serverUrl = process.env.REACT_APP_SOCKET_URL ||
+                             (process.env.NODE_ENV === 'production' ?
+                              'https://descension-mythrill.up.railway.app' :
+                              'http://localhost:3001');
+
+            try {
+              const response = await fetch(`${serverUrl}/rooms`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                signal: AbortSignal.timeout(5000)
+              });
+
+              if (response.ok) {
+                const activeRooms = await response.json();
+                const roomStillExists = activeRooms.some(r => r.id === roomData.id);
+
+                if (roomStillExists) {
+                  joinedMultiplayerRooms = [roomData];
+                  console.log('✅ Guest joined multiplayer room found:', roomData.name);
+                } else {
+                  // Room no longer exists, clear it
+                  localStorage.removeItem('mythrill-guest-joined-room');
+                  console.log('🗑️ Joined room no longer exists, cleared from storage');
+                }
+              }
+            } catch (serverError) {
+              console.warn('Could not verify room on server:', serverError);
+              // Still show the room even if we can't verify
+              joinedMultiplayerRooms = [roomData];
+            }
+          } catch (parseError) {
+            console.error('Error parsing guest joined room:', parseError);
+            localStorage.removeItem('mythrill-guest-joined-room');
+          }
+        }
+
+        // Guests can have 1 local room OR 1 multiplayer room (not both)
+        // Total limit is 1 room
+        const totalRoomCount = localRoomCount + joinedMultiplayerRooms.length;
+
+        setRooms(joinedMultiplayerRooms);
+        setLocalRooms(localRoomsData);
+
+        const guestTier = await subscriptionService.getUserTier(user.uid);
+        setRoomLimits({
+          tier: guestTier,
+          used: totalRoomCount,
+          limit: 1,
+          remaining: Math.max(0, 1 - totalRoomCount),
+          canCreate: totalRoomCount < 1, // Can only create if no rooms at all
+          localRooms: localRoomsData
+        });
+
+        console.log(`👤 Guest rooms loaded: ${localRoomCount} local, ${joinedMultiplayerRooms.length} multiplayer (total: ${totalRoomCount}/1)`);
+      } catch (error) {
+        console.error('Error loading guest rooms:', error);
+        setRooms([]);
+        setLocalRooms([]);
+        setRoomLimits({
+          tier: { name: 'Guest' },
+          used: 0,
+          limit: 1,
+          canCreate: true
+        });
+      }
+
       setIsLoading(false);
       return;
     }
@@ -342,45 +425,13 @@ const RoomManager = () => {
     setIsLoading(true);
     setError('');
 
-    // Create test room regardless of Firebase status
-    const activeCharacter = getActiveCharacter();
-    const testRoom = {
-      id: 'test-room-local',
-      name: 'Development Test Lab',
-      description: 'A sandbox environment for testing game mechanics, character abilities, and multiplayer features. Experiment with spells, items, and combat in a safe testing ground.',
-      userRole: 'gm',
-      gmName: user?.displayName || 'Game Master',
-      members: [user?.uid || 'dev-user'],
-      isTestRoom: true,
-      settings: {
-        maxPlayers: 8,
-        isPrivate: false,
-        allowSpectators: true,
-        autoSave: true
-      },
-      lastActivity: {
-        seconds: Math.floor(Date.now() / 1000)
-      },
-      createdAt: {
-        seconds: Math.floor(Date.now() / 1000)
-      },
-      stats: {
-        totalSessions: 0,
-        lastSession: 'Ready for Testing',
-        averageSessionLength: 'Variable'
-      }
-    };
-
     try {
       const [userRooms, limits] = await Promise.all([
         getUserRooms(user.uid),
         getRoomLimits(user.uid)
       ]);
 
-      // Add test room to the beginning of the list
-      const roomsWithTest = [testRoom, ...userRooms];
-
-      setRooms(roomsWithTest);
+      setRooms(userRooms);
       setRoomLimits(limits);
 
       // Show success message
@@ -634,12 +685,26 @@ const RoomManager = () => {
           <button
             className="create-local-room-btn"
             onClick={() => setShowCreateLocalRoom(true)}
-            title="Create a new local room for offline play"
+            disabled={roomLimits && localRooms.length >= roomLimits.limit}
+            title={roomLimits && localRooms.length >= roomLimits.limit
+              ? `Room limit reached (${roomLimits.limit})`
+              : "Create a new local room for offline play"}
           >
             <i className="fas fa-plus"></i>
-            New Local Room
+            {roomLimits && localRooms.length >= roomLimits.limit ? 'Room Limit Reached' : 'New Local Room'}
           </button>
         </div>
+
+        {roomLimits && localRooms.length >= roomLimits.limit && (
+          <div className="limit-message-section">
+            <p className="limit-message">
+              <i className="fas fa-info-circle"></i>
+              {user?.isGuest
+                ? 'Guest accounts are limited to 1 room. Sign up for a free account to get more!'
+                : 'Upgrade your plan to create more rooms'}
+            </p>
+          </div>
+        )}
 
         {showCreateLocalRoom && (
           <div className="create-local-room-form">
@@ -701,22 +766,33 @@ const RoomManager = () => {
           <button
             className="create-local-room-btn"
             onClick={handleCreateRoom}
-            disabled={roomLimits && !roomLimits.canCreate}
-            title="Create a new multiplayer room"
+            disabled={user?.isGuest || (roomLimits && !roomLimits.canCreate)}
+            title={user?.isGuest
+              ? "Sign up for a free account to create multiplayer rooms"
+              : "Create a new multiplayer room"}
           >
             <i className="fas fa-plus"></i>
-            {roomLimits && !roomLimits.canCreate ? 'Room Limit Reached' : 'New Multiplayer Room'}
+            {user?.isGuest
+              ? 'Sign Up Required'
+              : (roomLimits && !roomLimits.canCreate ? 'Room Limit Reached' : 'New Multiplayer Room')}
           </button>
         </div>
 
-        {roomLimits && !roomLimits.canCreate && (
+        {user?.isGuest ? (
+          <div className="limit-message-section">
+            <p className="limit-message">
+              <i className="fas fa-info-circle"></i>
+              Guest accounts can only create local rooms. Sign up for a free account to create multiplayer rooms!
+            </p>
+          </div>
+        ) : (roomLimits && !roomLimits.canCreate && (
           <div className="limit-message-section">
             <p className="limit-message">
               <i className="fas fa-info-circle"></i>
               Upgrade your plan to create more rooms
             </p>
           </div>
-        )}
+        ))}
 
         <div className="room-cards-grid">
           {rooms.length === 0 ? (

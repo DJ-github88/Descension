@@ -765,9 +765,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                     {characters.map(char => (
                       <button
                         key={char.id}
-                        onClick={() => {
+                        onClick={async () => {
                           console.log(`🎮 Activating character: ${char.name} (${char.class})`);
-                          setActiveCharacter(char.id);
+                          await setActiveCharacter(char.id);
                         }}
                         className="character-activation-btn"
                         style={{

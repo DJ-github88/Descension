@@ -43,6 +43,7 @@ const getCurrentUserId = () => {
             userId: state.user?.uid || 'none',
             isAuthenticated: state.isAuthenticated,
             isDevelopmentBypass: state.isDevelopmentBypass,
+            isGuest: state.user?.isGuest || false,
             userEmail: state.user?.email || 'none',
             hostname: window.location.hostname,
             nodeEnv: process.env.NODE_ENV
@@ -65,6 +66,22 @@ const getCurrentUserId = () => {
         }
         return null;
     }
+};
+
+// Helper function to check if current user is a guest
+const isGuestUser = () => {
+    try {
+        const authStore = require('./authStore').default;
+        const state = authStore.getState();
+        return state.user?.isGuest || false;
+    } catch (error) {
+        return false;
+    }
+};
+
+// Helper function to get the appropriate localStorage key for characters
+const getCharactersStorageKey = () => {
+    return isGuestUser() ? 'mythrill-guest-characters' : 'mythrill-characters';
 };
 
 // Helper function to check if we should use Firebase or localStorage only
@@ -763,7 +780,8 @@ const useCharacterStore = create((set, get) => ({
 
                 // Save updated characters to localStorage with quota management
                 try {
-                    const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+                    const storageKey = getCharactersStorageKey();
+                    const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
                     if (!result.success) {
                         console.error('Error saving characters to localStorage:', result.error);
                     }
@@ -1202,9 +1220,41 @@ const useCharacterStore = create((set, get) => ({
                 try {
                     console.log('🔥 Attempting to load characters from Firebase...');
                     const characters = await characterPersistenceService.loadUserCharacters(userId);
-                    set({ characters, isLoading: false });
-                    console.log(`✅ Loaded ${characters.length} characters from Firebase`);
-                    return characters;
+
+                    // Compute missing display names for loaded characters
+                    const enrichedCharacters = characters.map(char => {
+                        const enriched = { ...char };
+
+                        // Compute backgroundDisplayName if missing
+                        if (char.background && !char.backgroundDisplayName) {
+                            const { getCustomBackgroundData } = require('../data/customBackgroundData');
+                            const customBgData = getCustomBackgroundData(char.background.toLowerCase());
+                            if (customBgData) {
+                                enriched.backgroundDisplayName = customBgData.name;
+                            }
+                        }
+
+                        // Compute raceDisplayName if missing
+                        if ((char.race || char.subrace) && !char.raceDisplayName) {
+                            if (char.race && char.subrace) {
+                                const fullRaceData = getFullRaceData(char.race, char.subrace);
+                                if (fullRaceData?.subrace?.name) {
+                                    enriched.raceDisplayName = fullRaceData.subrace.name;
+                                }
+                            } else if (char.race) {
+                                const raceData = getRaceData(char.race);
+                                if (raceData?.name) {
+                                    enriched.raceDisplayName = raceData.name;
+                                }
+                            }
+                        }
+
+                        return enriched;
+                    });
+
+                    set({ characters: enrichedCharacters, isLoading: false });
+                    console.log(`✅ Loaded ${enrichedCharacters.length} characters from Firebase`);
+                    return enrichedCharacters;
                 } catch (firebaseError) {
                     console.error('❌ Error loading user characters:', firebaseError);
                     console.warn('Failed to load from Firebase, falling back to localStorage:', firebaseError);
@@ -1214,12 +1264,13 @@ const useCharacterStore = create((set, get) => ({
                 console.log('👤 Using localStorage only (development mode or no auth)');
             }
 
-            // Fallback to localStorage (for offline mode or when Firebase fails)
+            // Fallback to localStorage (for offline mode, guest users, or when Firebase fails)
             let characters = [];
             try {
-                const savedCharacters = localStorage.getItem('mythrill-characters');
+                const storageKey = getCharactersStorageKey();
+                const savedCharacters = localStorage.getItem(storageKey);
                 characters = savedCharacters ? JSON.parse(savedCharacters) : [];
-                console.log(`✅ Loaded ${characters.length} characters from localStorage`);
+                console.log(`✅ Loaded ${characters.length} characters from localStorage (${storageKey})`);
             } catch (localStorageError) {
                 console.error('❌ Error loading from localStorage:', localStorageError);
                 characters = [];
@@ -1230,6 +1281,37 @@ const useCharacterStore = create((set, get) => ({
                 console.warn('⚠️ Characters data is not an array, resetting to empty array');
                 characters = [];
             }
+
+            // Compute missing display names for loaded characters
+            characters = characters.map(char => {
+                const enriched = { ...char };
+
+                // Compute backgroundDisplayName if missing
+                if (char.background && !char.backgroundDisplayName) {
+                    const { getCustomBackgroundData } = require('../data/customBackgroundData');
+                    const customBgData = getCustomBackgroundData(char.background.toLowerCase());
+                    if (customBgData) {
+                        enriched.backgroundDisplayName = customBgData.name;
+                    }
+                }
+
+                // Compute raceDisplayName if missing
+                if ((char.race || char.subrace) && !char.raceDisplayName) {
+                    if (char.race && char.subrace) {
+                        const fullRaceData = getFullRaceData(char.race, char.subrace);
+                        if (fullRaceData?.subrace?.name) {
+                            enriched.raceDisplayName = fullRaceData.subrace.name;
+                        }
+                    } else if (char.race) {
+                        const raceData = getRaceData(char.race);
+                        if (raceData?.name) {
+                            enriched.raceDisplayName = raceData.name;
+                        }
+                    }
+                }
+
+                return enriched;
+            });
 
             set({ characters, isLoading: false });
 
@@ -1310,7 +1392,8 @@ const useCharacterStore = create((set, get) => ({
             const updatedCharacters = [...state.characters, newCharacter];
 
             // Always save to localStorage as backup with quota management
-            const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            const storageKey = getCharactersStorageKey();
+            const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
             if (!result.success) {
                 console.error('Failed to save characters to localStorage:', result.error);
                 // Still continue with the operation, just log the error
@@ -1360,7 +1443,8 @@ const useCharacterStore = create((set, get) => ({
             }
 
             // Always save to localStorage as backup with quota management
-            const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            const storageKey = getCharactersStorageKey();
+            const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
             if (!result.success) {
                 console.error('Failed to save characters to localStorage:', result.error);
                 // Still continue with the operation, just log the error
@@ -1399,7 +1483,8 @@ const useCharacterStore = create((set, get) => ({
             const updatedCharacters = state.characters.filter(char => char.id !== characterId);
 
             // Save to localStorage with quota management
-            const result = localStorageManager.safeSetItem('mythrill-characters', JSON.stringify(updatedCharacters));
+            const storageKey = getCharactersStorageKey();
+            const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
             if (!result.success) {
                 console.error('Failed to save characters to localStorage:', result.error);
                 // Still continue with the operation, just log the error
@@ -1486,7 +1571,7 @@ const useCharacterStore = create((set, get) => ({
     },
 
     // Set active character and persist the selection
-    setActiveCharacter: (characterId) => {
+    setActiveCharacter: async (characterId) => {
         const state = get();
         const character = state.characters.find(char => char.id === characterId);
 
@@ -1498,6 +1583,81 @@ const useCharacterStore = create((set, get) => ({
             localStorage.setItem('mythrill-active-character', characterId);
 
             console.log(`✅ Active character set to: ${character.name} (${characterId})`);
+
+            // Update party member if in a party
+            try {
+                const partyStore = require('./partyStore').default;
+                const partyState = partyStore.getState();
+
+                if (partyState.isInParty) {
+                    const currentMember = partyState.partyMembers.find(m => m.id === 'current-player');
+                    if (currentMember) {
+                        // Get proper race display name
+                        let raceDisplayName = character.raceDisplayName;
+                        if (!raceDisplayName && character.race && character.subrace) {
+                            const raceData = getFullRaceData(character.race, character.subrace);
+                            if (raceData) {
+                                raceDisplayName = raceData.subrace.name;
+                            }
+                        } else if (!raceDisplayName && character.race) {
+                            const raceData = getRaceData(character.race);
+                            if (raceData) {
+                                raceDisplayName = raceData.name;
+                            }
+                        }
+
+                        // Get proper background display name - ONLY custom backgrounds are valid
+                        let backgroundDisplayName = '';
+                        if (character.background) {
+                            // Only check custom backgrounds (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel)
+                            const { getCustomBackgroundData } = require('../data/customBackgroundData');
+                            const customBgData = getCustomBackgroundData(character.background.toLowerCase());
+                            if (customBgData) {
+                                backgroundDisplayName = customBgData.name;
+                            }
+                            // If not found, leave empty (invalid background)
+                        }
+
+                        partyStore.getState().updatePartyMember('current-player', {
+                            name: character.name,
+                            character: {
+                                ...currentMember.character,
+                                race: character.race,
+                                subrace: character.subrace,
+                                raceDisplayName: raceDisplayName,
+                                class: character.class,
+                                level: character.level,
+                                background: character.background,
+                                backgroundDisplayName: backgroundDisplayName
+                            }
+                        });
+                        console.log(`✅ Updated party member name to: ${character.name}`);
+                    }
+                }
+            } catch (error) {
+                console.warn('Could not update party member:', error);
+            }
+
+            // Update presence data if user is online
+            try {
+                const userId = getCurrentUserId();
+                if (userId && shouldUseFirebase()) {
+                    const presenceService = (await import('../services/firebase/presenceService')).default;
+                    await presenceService.updateCharacterData(userId, {
+                        id: character.id,
+                        name: character.name,
+                        level: character.level,
+                        class: character.class,
+                        background: character.background,
+                        race: character.race,
+                        subrace: character.subrace
+                    });
+                    console.log(`✅ Updated presence data for: ${character.name}`);
+                }
+            } catch (error) {
+                console.warn('Could not update presence data:', error);
+            }
+
             return character;
         } else {
             console.error(`❌ Character not found: ${characterId}`);
@@ -1620,7 +1780,7 @@ const useCharacterStore = create((set, get) => ({
             console.log(`🔍 Checking for stored active character: ${activeCharacterId || 'none'}`);
 
             if (activeCharacterId) {
-                const character = get().setActiveCharacter(activeCharacterId);
+                const character = await get().setActiveCharacter(activeCharacterId);
                 if (character) {
                     console.log(`✅ Restored active character: ${character.name} (${character.id})`);
                     return character;
@@ -1641,7 +1801,8 @@ const useCharacterStore = create((set, get) => ({
             console.error('❌ Error loading active character:', error);
             // Try to provide a fallback by checking localStorage directly
             try {
-                const savedCharacters = localStorage.getItem('mythrill-characters');
+                const storageKey = getCharactersStorageKey();
+                const savedCharacters = localStorage.getItem(storageKey);
                 const activeCharacterId = localStorage.getItem('mythrill-active-character');
 
                 if (savedCharacters && activeCharacterId) {
@@ -1768,7 +1929,8 @@ const useCharacterStore = create((set, get) => ({
             // Storage
             localStorageCharacters: (() => {
                 try {
-                    const saved = localStorage.getItem('mythrill-characters');
+                    const storageKey = getCharactersStorageKey();
+                    const saved = localStorage.getItem(storageKey);
                     return saved ? JSON.parse(saved).length : 0;
                 } catch { return 'Error reading'; }
             })(),

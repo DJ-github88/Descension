@@ -9,7 +9,7 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, googleProvider, db, isFirebaseConfigured, isDemoMode } from '../config/firebase';
 import demoAuthService from './demoAuthService';
 
@@ -44,12 +44,20 @@ class AuthService {
   }
 
   // Sign up with email and password
-  async signUp(email, password, displayName) {
+  async signUp(email, password, displayName, friendId = null) {
     if (!this.isConfigured || !auth) {
       return { error: 'Authentication not configured', success: false };
     }
 
     try {
+      // Validate friendId if provided
+      if (friendId) {
+        const isAvailable = await this.checkFriendIdAvailable(friendId);
+        if (!isAvailable) {
+          return { error: 'Friend ID is already taken', success: false };
+        }
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
@@ -59,8 +67,8 @@ class AuthService {
       // Send email verification
       await sendEmailVerification(user);
 
-      // Create user document in Firestore
-      await this.createUserDocument(user);
+      // Create user document in Firestore with friendId
+      await this.createUserDocument(user, friendId);
 
       return { user, success: true };
     } catch (error) {
@@ -161,22 +169,78 @@ class AuthService {
     }
   }
 
+  // Generate a unique Friend ID
+  generateFriendId(displayName) {
+    // Remove special characters and spaces from display name
+    const cleanName = (displayName || 'User').replace(/[^a-zA-Z0-9]/g, '');
+    // Generate random 4-digit number
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    return `${cleanName}${randomNum}`;
+  }
+
+  // Check if Friend ID is available
+  async checkFriendIdAvailable(friendId) {
+    if (!db) return false;
+
+    try {
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('friendId', '==', friendId));
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.empty; // Returns true if no user has this friendId
+    } catch (error) {
+      console.error('Error checking friendId availability:', error);
+      return false;
+    }
+  }
+
+  // Find user by Friend ID
+  async findUserByFriendId(friendId) {
+    if (!db) return null;
+
+    try {
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('friendId', '==', friendId));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        return { id: userDoc.id, ...userDoc.data() };
+      }
+      return null;
+    } catch (error) {
+      console.error('Error finding user by friendId:', error);
+      return null;
+    }
+  }
+
   // Create user document in Firestore
-  async createUserDocument(user) {
+  async createUserDocument(user, friendId = null) {
     if (!user) return;
-    
+
     const userRef = doc(db, 'users', user.uid);
     const userSnap = await getDoc(userRef);
-    
+
     if (!userSnap.exists()) {
       const { displayName, email, photoURL } = user;
       const createdAt = new Date();
-      
+
+      // Generate friendId if not provided
+      let finalFriendId = friendId;
+      if (!finalFriendId) {
+        // Auto-generate a unique friendId
+        let attempts = 0;
+        do {
+          finalFriendId = this.generateFriendId(displayName || email.split('@')[0]);
+          attempts++;
+        } while (!(await this.checkFriendIdAvailable(finalFriendId)) && attempts < 10);
+      }
+
       try {
         await setDoc(userRef, {
           displayName: displayName || email.split('@')[0],
           email,
           photoURL: photoURL || null,
+          friendId: finalFriendId,
           createdAt,
           lastLoginAt: createdAt,
           // Default character data
@@ -193,6 +257,7 @@ class AuthService {
             totalPlayTime: 0
           }
         });
+        console.log(`✅ User document created with Friend ID: ${finalFriendId}`);
       } catch (error) {
         console.error('Error creating user document:', error);
       }

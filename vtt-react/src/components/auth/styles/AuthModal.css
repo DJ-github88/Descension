@@ -83,6 +83,60 @@
   gap: 16px; /* Reduced from 24px to bring sections closer together */
 }
 
+/* Friend ID Input Styling */
+.friend-id-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.friend-id-input-wrapper:focus-within {
+  border-color: #d4af37;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+.friend-id-prefix {
+  padding: 12px 8px 12px 16px;
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 1.1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-right: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.friend-id-input {
+  flex: 1;
+  padding: 12px 16px 12px 8px;
+  background: transparent;
+  border: none;
+  color: #f0e6d2;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  outline: none;
+}
+
+.friend-id-input::placeholder {
+  color: rgba(240, 230, 210, 0.4);
+}
+
+.optional-label {
+  font-size: 0.85rem;
+  color: rgba(240, 230, 210, 0.6);
+  font-weight: normal;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  color: rgba(240, 230, 210, 0.6);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
 /* Google Sign In Button */
 .google-signin-btn {
   display: flex;
@@ -118,6 +172,44 @@
 .google-signin-btn i {
   font-size: 1.2rem;
   color: #4285f4;
+}
+
+/* Guest Sign In Button */
+.guest-signin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.2), rgba(109, 90, 68, 0.2));
+  color: #f0e6d2;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 12px;
+}
+
+.guest-signin-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.3), rgba(109, 90, 68, 0.3));
+  border-color: #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.guest-signin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.guest-signin-btn i {
+  font-size: 1.2rem;
+  color: #d4af37;
 }
 
 /* Divider */

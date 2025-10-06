@@ -224,10 +224,10 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                       {/* Character Actions */}
                       <div className="character-actions">
                         <button
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.stopPropagation();
                             // Set this character as active (don't close modal)
-                            const activeCharacter = setActiveCharacter(character.id);
+                            const activeCharacter = await setActiveCharacter(character.id);
                             if (activeCharacter) {
                               console.log(`🎮 Selected character: ${activeCharacter.name}`);
                             } else {
@@ -293,9 +293,9 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                 {selectedCharacter && (
                   <button
                     className="enter-world-btn"
-                    onClick={() => {
+                    onClick={async () => {
                       // Set this character as active and close modal
-                      const activeCharacter = setActiveCharacter(selectedCharacter.id);
+                      const activeCharacter = await setActiveCharacter(selectedCharacter.id);
                       if (activeCharacter) {
                         console.log(`🎮 Selected character: ${activeCharacter.name}`);
                         handleSelectCharacter(selectedCharacter);

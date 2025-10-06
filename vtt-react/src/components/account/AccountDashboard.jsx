@@ -42,12 +42,19 @@ const AccountDashboard = ({ user }) => {
       try {
         await loadCharacters();
 
-        // Load subscription status and character limits
+        // Load subscription status and character limits (works for both guest and authenticated users)
         const status = await subscriptionService.getSubscriptionStatus(user?.uid);
         setSubscriptionStatus(status);
 
         const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
         setCharacterLimitInfo(limitInfo);
+
+        console.log('📊 Account Dashboard loaded:', {
+          isGuest: user?.isGuest,
+          tier: status?.tier?.name,
+          characterLimit: limitInfo?.limit,
+          currentCharacters: characters.length
+        });
       } catch (error) {
         console.error('Error loading user data:', error);
       } finally {
@@ -102,10 +109,10 @@ const AccountDashboard = ({ user }) => {
     navigate('/account/characters/create');
   };
 
-  const handleSelectCharacter = (characterId) => {
+  const handleSelectCharacter = async (characterId) => {
     // Toggle this character as active (don't navigate)
     const { setActiveCharacter } = useCharacterStore.getState();
-    const character = setActiveCharacter(characterId);
+    const character = await setActiveCharacter(characterId);
     if (character) {
       console.log(`🎮 Selected character: ${character.name}`);
     } else {
@@ -266,13 +273,19 @@ const AccountDashboard = ({ user }) => {
               <p>{user?.displayName || 'Adventurer'}</p>
               <span className="membership-tag">
                 <i className="fas fa-crown"></i>
-                Free Adventurer
+                {user?.isGuest ? 'Guest' : (subscriptionStatus?.tier?.name || 'Free Adventurer')}
               </span>
             </div>
             {isDevelopmentBypass && (
               <div className="dev-mode-badge">
                 <i className="fas fa-code"></i>
                 Preview Mode
+              </div>
+            )}
+            {user?.isGuest && (
+              <div className="guest-notice">
+                <i className="fas fa-info-circle"></i>
+                <span>Guest Mode - Your progress won't be saved after logout</span>
               </div>
             )}
           </div>

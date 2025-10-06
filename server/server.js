@@ -289,8 +289,8 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
   return room;
 }
 
-function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2') {
-  console.log('joinRoom called with:', { roomId, playerName, socketId, playerColor });
+function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2', character = null) {
+  console.log('joinRoom called with:', { roomId, playerName, socketId, playerColor, hasCharacter: !!character });
   const room = rooms.get(roomId);
 
   if (!room) {
@@ -364,7 +364,8 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     socketId: socketId,
     isGM: false,
     color: playerColor || '#4a90e2', // Ensure color is always set
-    joinedAt: new Date()
+    joinedAt: new Date(),
+    character: character || null // Include character data if provided
   };
 
   room.players.set(playerId, player);
@@ -521,6 +522,37 @@ io.on('connection', (socket) => {
       console.log('Broadcasting room list update:', publicRooms);
       io.emit('room_list_updated', publicRooms);
 
+      // Auto-invite party members if provided
+      if (data.partyMembers && Array.isArray(data.partyMembers) && data.partyMembers.length > 0) {
+        console.log('🎉 Auto-inviting party members to room:', data.partyMembers.map(m => m.name));
+
+        // Send invitations to each party member
+        data.partyMembers.forEach(member => {
+          // Find the online user by character name
+          const targetUser = Array.from(onlineUsers.values()).find(
+            u => u.characterName === member.name
+          );
+
+          if (targetUser) {
+            const inviteId = uuidv4();
+            const invitation = {
+              id: inviteId,
+              roomId: room.id,
+              roomName: room.name,
+              gmName: gmName,
+              gmUserId: room.gm.id,
+              expiresAt: Date.now() + 60000 // 1 minute
+            };
+
+            // Send invitation to target user
+            io.to(targetUser.socketId).emit('room_invitation', invitation);
+            console.log('📨 Party auto-invite sent:', gmName, '->', member.name, 'for room:', room.name);
+          } else {
+            console.log('⚠️ Party member not online:', member.name);
+          }
+        });
+      }
+
       // Performance tracking disabled
 
     } catch (error) {
@@ -541,7 +573,7 @@ io.on('connection', (socket) => {
   // Join an existing room
   socket.on('join_room', (data) => {
     console.log('🚪 Received join_room request:', data);
-    const { roomId, playerName, password } = data;
+    const { roomId, playerName, password, character } = data;
 
     // Enhanced parameter validation with detailed logging
     if (!roomId || !playerName) {
@@ -570,7 +602,7 @@ io.on('connection', (socket) => {
     console.log('Attempting to join room:', roomId, 'Total rooms available:', rooms.size);
     console.log('Available room IDs:', Array.from(rooms.keys()));
 
-    const result = joinRoom(roomId, playerName, socket.id, password, data.playerColor);
+    const result = joinRoom(roomId, playerName, socket.id, password, data.playerColor, character);
 
     if (!result) {
       console.log('❌ Room not found for join request:', roomId);

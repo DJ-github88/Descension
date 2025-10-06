@@ -82,6 +82,10 @@ class LocalRoomService {
    * Get all local rooms with their current game state
    */
   getLocalRooms() {
+    // Always reload from localStorage to ensure we have the latest data
+    // This is important when localStorage is cleared (e.g., guest login)
+    this.rooms = this.loadRooms();
+
     return this.rooms.map(room => {
       // Load the actual saved game state for preview
       const savedGameState = this.loadRoomState(room.id);

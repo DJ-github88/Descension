@@ -7,11 +7,11 @@ export const SUBSCRIPTION_TIERS = {
   GUEST: {
     id: 'guest',
     name: 'Guest',
-    roomLimit: 0,
-    characterLimit: 0,
-    features: ['Local play only', 'No cloud save'],
+    roomLimit: 1,
+    characterLimit: 1,
+    features: ['1 temporary character', '1 room (local or multiplayer)', 'Join multiplayer rooms', 'No cloud save', 'Data cleared on logout'],
     price: 0,
-    description: 'Try out Mythrill without an account'
+    description: 'Try out Mythrill without an account - create one character and one room'
   },
   FREE: {
     id: 'free',
@@ -77,7 +77,36 @@ class SubscriptionService {
    * @returns {Object} - Subscription tier object
    */
   async getUserTier(userId = null) {
-    // Check for demo mode
+    const checkUserId = userId || auth.currentUser?.uid;
+    console.log('🔍 getUserTier called with userId:', checkUserId);
+
+    // Check if user is a guest FIRST (before demo mode check)
+    // This ensures guest users get the correct tier (1 character, 1 room)
+    const guestUser = localStorage.getItem('mythrill-guest-user');
+    if (guestUser) {
+      try {
+        const parsedGuestUser = JSON.parse(guestUser);
+        if (parsedGuestUser.isGuest) {
+          console.log('👤 Guest user detected: Returning guest tier');
+          return SUBSCRIPTION_TIERS.GUEST;
+        }
+      } catch (error) {
+        console.warn('Could not parse guest user:', error);
+      }
+    }
+
+    // Check if the userId indicates a guest user
+    if (checkUserId && checkUserId.startsWith('guest-')) {
+      console.log('👤 Guest user detected (from userId): Returning guest tier');
+      return SUBSCRIPTION_TIERS.GUEST;
+    }
+
+    // If not logged in, return guest tier
+    if (!auth.currentUser && !userId) {
+      return SUBSCRIPTION_TIERS.GUEST;
+    }
+
+    // Check for demo mode (after guest check to avoid giving guests demo tier)
     try {
       const { isDemoMode } = await import('../config/firebase');
       if (isDemoMode) {
@@ -96,12 +125,7 @@ class SubscriptionService {
       console.warn('Could not check demo mode:', error);
     }
 
-    // If not logged in, return guest tier
-    if (!auth.currentUser && !userId) {
-      return SUBSCRIPTION_TIERS.GUEST;
-    }
-
-    // If Firebase not configured, return free tier for logged in users
+    // If Firebase not configured, return appropriate tier
     if (!this.isConfigured) {
       return auth.currentUser ? SUBSCRIPTION_TIERS.FREE : SUBSCRIPTION_TIERS.GUEST;
     }
@@ -113,8 +137,14 @@ class SubscriptionService {
 
       if (userSnap.exists()) {
         const userData = userSnap.data();
+
+        // Check if user is marked as guest in Firestore
+        if (userData.isGuest) {
+          return SUBSCRIPTION_TIERS.GUEST;
+        }
+
         const tierKey = userData.subscriptionTier || 'free';
-        
+
         // Validate tier exists
         const tier = Object.values(SUBSCRIPTION_TIERS).find(t => t.id === tierKey);
         return tier || SUBSCRIPTION_TIERS.FREE;

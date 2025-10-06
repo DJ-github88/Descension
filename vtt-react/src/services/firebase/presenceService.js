@@ -48,7 +48,10 @@ class PresenceService {
         background: characterData.background || '',
         race: characterData.race || '',
         subrace: characterData.subrace || '',
+        raceDisplayName: characterData.raceDisplayName || '',
+        backgroundDisplayName: characterData.backgroundDisplayName || '',
         status: 'online',
+        statusComment: '',
         sessionType: sessionData.sessionType || null, // 'local' | 'multiplayer' | null
         roomId: sessionData.roomId || null,
         roomName: sessionData.roomName || null,
@@ -105,22 +108,83 @@ class PresenceService {
   }
 
   /**
-   * Update user status (online/away/busy)
+   * Update user status (online/away/busy) and optional status comment
    */
-  async updateStatus(userId, status) {
+  async updateStatus(userId, status, statusComment = null) {
     if (!this.isConfigured || !realtimeDb) {
       return false;
     }
 
     try {
       const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
-      await set(presenceRef, {
+
+      // Get current data to preserve other fields
+      const snapshot = await get(presenceRef);
+      const currentData = snapshot.val();
+
+      if (!currentData) {
+        console.warn('No presence data found for user:', userId);
+        return false;
+      }
+
+      const updates = {
+        ...currentData,
         status,
         lastSeen: serverTimestamp()
-      });
+      };
+
+      // Only update statusComment if provided (null means don't change it)
+      if (statusComment !== null) {
+        updates.statusComment = statusComment;
+      }
+
+      await set(presenceRef, updates);
       return true;
     } catch (error) {
       console.error('❌ Failed to update status:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Update user character data (when switching characters)
+   */
+  async updateCharacterData(userId, characterData) {
+    if (!this.isConfigured || !realtimeDb) {
+      return false;
+    }
+
+    try {
+      const presenceRef = dbRef(realtimeDb, `presence/${userId}`);
+
+      // First get the current presence data to preserve session info
+      const snapshot = await get(presenceRef);
+      const currentData = snapshot.val();
+
+      if (!currentData) {
+        console.warn('No presence data found for user:', userId);
+        return false;
+      }
+
+      const updates = {
+        ...currentData,
+        characterId: characterData.id || currentData.characterId,
+        characterName: characterData.name || currentData.characterName,
+        level: characterData.level || currentData.level,
+        class: characterData.class || currentData.class,
+        background: characterData.background || currentData.background,
+        backgroundDisplayName: characterData.backgroundDisplayName || currentData.backgroundDisplayName,
+        race: characterData.race || currentData.race,
+        subrace: characterData.subrace || currentData.subrace,
+        raceDisplayName: characterData.raceDisplayName || currentData.raceDisplayName,
+        lastSeen: serverTimestamp()
+      };
+
+      await set(presenceRef, updates);
+      console.log('✅ Character data updated for user:', userId, characterData.name);
+      return true;
+    } catch (error) {
+      console.error('❌ Failed to update character data:', error);
       return false;
     }
   }

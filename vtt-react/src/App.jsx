@@ -5,6 +5,7 @@ import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/
 import { RoomProvider } from "./contexts/RoomContext";
 import useAuthStore from "./store/authStore";
 import useCharacterStore from "./store/characterStore";
+import useIdleDetection from "./hooks/useIdleDetection";
 
 // Core components that are always needed
 import LandingPage from "./components/landing/LandingPage";
@@ -255,7 +256,7 @@ function GameScreen() {
             if (room.characterId) {
                 const character = await loadActiveCharacter(room.characterId);
                 if (character) {
-                    setActiveCharacter(character);
+                    await setActiveCharacter(character);
                     console.log('👤 Character loaded for local room:', character.name);
                 }
             }
@@ -429,7 +430,7 @@ function GameScreen() {
                 if (characterId) {
                     // Set this character as active
                     console.log(`🎮 Loading character from navigation: ${characterId}`);
-                    const character = setActiveCharacter(characterId);
+                    const character = await setActiveCharacter(characterId);
                     if (character) {
                         console.log(`✅ Character loaded: ${character.name}`);
                     } else {
@@ -666,6 +667,9 @@ const AppContent = ({
     handleReturnToLanding
 }) => {
     const navigate = useNavigate();
+
+    // Initialize idle detection for automatic status updates
+    useIdleDetection();
 
     const handleEnterSinglePlayer = () => {
         navigate('/game');

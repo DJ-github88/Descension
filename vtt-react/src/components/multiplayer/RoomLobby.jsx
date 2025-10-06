@@ -3,11 +3,14 @@ import { io } from 'socket.io-client';
 import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
 import useCharacterStore from '../../store/characterStore';
+import usePartyStore from '../../store/partyStore';
+import useAuthStore from '../../store/authStore';
 import './styles/RoomLobby.css';
 import '../account/styles/RoomManager.css';
 
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const { getActiveCharacter } = useCharacterStore();
+  const { isInParty, partyMembers } = usePartyStore();
   const [playerName, setPlayerName] = useState('');
   const [playerColor, setPlayerColor] = useState('#4a90e2'); // Default blue color
   const [roomName, setRoomName] = useState('');
@@ -323,6 +326,28 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         localStorage.setItem('roomDataChanged', 'true');
         localStorage.setItem('lastJoinedRoom', data.room.persistentRoomId);
         console.log(`📝 Marked room data as changed for joined room: ${data.room.persistentRoomId}`);
+
+        // For guest users, save the joined room to localStorage
+        try {
+          const { user } = useAuthStore.getState();
+          if (user?.isGuest) {
+            console.log('👤 Guest user joined room via lobby - saving to localStorage');
+            const guestRoomData = {
+              id: data.room.persistentRoomId,
+              name: data.room.name,
+              description: data.room.description || '',
+              password: data.room.password || '',
+              createdAt: new Date().toISOString(),
+              lastActivity: new Date().toISOString(),
+              userRole: 'player',
+              isMultiplayer: true
+            };
+            localStorage.setItem('mythrill-guest-joined-room', JSON.stringify(guestRoomData));
+            console.log(`✅ Guest joined room saved: ${data.room.name}`);
+          }
+        } catch (error) {
+          console.warn('Could not save guest joined room:', error);
+        }
       }
 
       // Check if this is a GM reconnect or if the player name matches the GM name
@@ -509,10 +534,16 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         playerColor: playerColor,
         persistentRoomId: persistentRoomId, // Include Firebase room ID if available
         gameState: gameState, // Include converted game state if available
-        isConverted: !!originalRoomId // Flag to indicate this is a converted room
+        isConverted: !!originalRoomId, // Flag to indicate this is a converted room
+        partyMembers: isInParty ? partyMembers.filter(m => m.id !== 'current-player').map(m => ({
+          name: m.name,
+          id: m.id,
+          character: m.character
+        })) : [] // Include party members (excluding current player who is the GM)
       };
 
       console.log('Creating socket room with data:', roomData);
+      console.log('🎉 Party members to auto-invite:', roomData.partyMembers);
       socket.emit('create_room', roomData);
 
       // Try to refresh user rooms if Firebase is available
@@ -615,10 +646,16 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       roomName: roomName.trim(),
       gmName: finalPlayerName,
       password: roomPasswordRef.current.trim(),
-      playerColor: playerColor
+      playerColor: playerColor,
+      partyMembers: isInParty ? partyMembers.filter(m => m.id !== 'current-player').map(m => ({
+        name: m.name,
+        id: m.id,
+        character: m.character
+      })) : [] // Include party members (excluding current player who is the GM)
     };
 
     console.log('Creating room with data:', roomData);
+    console.log('🎉 Party members to auto-invite:', roomData.partyMembers);
     socket.emit('create_room', roomData);
   };
 
@@ -659,17 +696,36 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     setIsConnecting(true);
     setError('');
 
+    // Include full character data in join request to avoid race conditions
     const joinData = {
       roomId: finalRoomId.trim(),
       playerName: finalPlayerName,
       password: (isTestRoom && isLocalhost) ? 'test123' : finalPassword.trim(),
-      playerColor: playerColor
+      playerColor: playerColor,
+      character: activeCharacter ? {
+        id: activeCharacter.id,
+        name: activeCharacter.name,
+        class: activeCharacter.class,
+        race: activeCharacter.race,
+        subrace: activeCharacter.subrace,
+        raceDisplayName: activeCharacter.raceDisplayName || '',
+        level: activeCharacter.level,
+        health: activeCharacter.health,
+        mana: activeCharacter.mana,
+        actionPoints: activeCharacter.actionPoints,
+        alignment: activeCharacter.alignment,
+        background: activeCharacter.background,
+        classResource: activeCharacter.classResource,
+        lore: activeCharacter.lore,
+        tokenSettings: activeCharacter.tokenSettings
+      } : null
     };
 
     console.log('🎮 Joining room with character:', {
       characterName: activeCharacter?.name,
       playerName: finalPlayerName,
-      roomId: finalRoomId
+      roomId: finalRoomId,
+      hasCharacterData: !!activeCharacter
     });
     socket.emit('join_room', joinData);
   };

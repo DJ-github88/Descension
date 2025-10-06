@@ -48,15 +48,14 @@ const QuestLogWindow = lazy(() =>
         return { default: () => <div>Error loading Quest Log</div> };
     })
 );
-const SocialWindow = lazy(() =>
-    import('./windows/SocialWindow').catch(err => {
-        console.error('Failed to load SocialWindow:', err);
-        // Return a more user-friendly error component
+const GlobalChatWindowWrapper = lazy(() =>
+    import('./social/GlobalChatWindowWrapper').catch(err => {
+        console.error('Failed to load GlobalChatWindowWrapper:', err);
         return {
             default: () => (
                 <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
-                    <h3>🚫 Social Window Unavailable</h3>
-                    <p>The social features are temporarily unavailable.</p>
+                    <h3>🚫 Community Window Unavailable</h3>
+                    <p>The community features are temporarily unavailable.</p>
                     <p>Please try refreshing the page.</p>
                 </div>
             )
@@ -197,53 +196,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
     );
 }
 
-// Social Window Wrapper with spellbook-style tabs
-function SocialWindowWrapper({ isOpen, onClose }) {
-    const [activeTab, setActiveTab] = useState('friends');
 
-    const tabs = [
-        {
-            id: 'friends',
-            label: 'Friends',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/achievement_guildperk_everyonesfriend.jpg'
-        },
-        {
-            id: 'ignored',
-            label: 'Ignore',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg'
-        },
-        {
-            id: 'who',
-            label: 'Who',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg'
-        }
-    ];
-
-    return (
-        <WowWindow
-            isOpen={isOpen}
-            onClose={onClose}
-            title="Social"
-            defaultSize={{ width: 400, height: 600 }}
-            defaultPosition={{ x: 200, y: 150 }}
-            customHeader={
-                <div className="spellbook-tab-container">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-                </div>
-            }
-        >
-            <SocialWindow activeTab={activeTab} contentOnly={true} />
-        </WowWindow>
-    );
-}
 
 // Quest Log Window Wrapper - simplified to prevent double window loading
 function QuestLogWindowWrapper({ isOpen, onClose }) {
@@ -322,62 +275,9 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
         </WowWindow>
     );
 }
-const ChatWindow = lazy(() =>
-    import('./windows/ChatWindow').catch(err => {
-        console.error('Failed to load ChatWindow:', err);
-        // Return a more user-friendly error component
-        return {
-            default: () => (
-                <div style={{ padding: '20px', textAlign: 'center', color: '#ff6b6b' }}>
-                    <h3>💬 Chat Window Unavailable</h3>
-                    <p>The chat system is temporarily unavailable.</p>
-                    <p>Please try refreshing the page.</p>
-                </div>
-            )
-        };
-    })
-);
 
-// Chat Window Wrapper with tabs in header
-function ChatWindowWrapper({ isOpen, onClose }) {
-    const { activeTab, setActiveTab, unreadCounts } = useChatStore(state => ({
-        activeTab: state.activeTab,
-        setActiveTab: state.setActiveTab,
-        unreadCounts: state.unreadCounts
-    }));
 
-    const tabs = [
-        { id: 'social', label: 'Social' },
-        { id: 'combat', label: 'Combat' },
-        { id: 'loot', label: 'Loot' }
-    ];
 
-    return (
-        <WowWindow
-            isOpen={isOpen}
-            onClose={onClose}
-            title="Chat"
-            defaultSize={{ width: 500, height: 600 }}
-            defaultPosition={{ x: 200, y: 150 }}
-            customHeader={
-                <div className="spellbook-tab-container">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                            onClick={() => setActiveTab(tab.id)}
-                            data-unread={unreadCounts[tab.id]}
-                        >
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-                </div>
-            }
-        >
-            <ChatWindow />
-        </WowWindow>
-    );
-}
 
 // Define buttons array outside component to avoid any temporal dead zone issues
 const NAVIGATION_BUTTONS = [
@@ -442,16 +342,10 @@ const NAVIGATION_BUTTONS = [
         premium: true
     },
     {
-        id: 'chat',
-        title: 'Chat',
+        id: 'community',
+        title: 'Community',
         shortcut: 'H',
-        svg: <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-    },
-    {
-        id: 'social',
-        title: 'Social',
-        shortcut: 'O',
-        svg: <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 100-6 3 3 0 000 6z"/>
+        svg: <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
     },
 
     {
@@ -1020,23 +914,11 @@ export default function Navigation({ onReturnToLanding }) {
                         </Suspense>
                     </ErrorBoundary>
                 );
-            case 'chat':
+            case 'community':
                 return shouldRender && (
                     <ErrorBoundary key={`${button.id}-error-boundary`}>
                         <Suspense fallback={<div>Loading...</div>}>
-                            <ChatWindowWrapper
-                                key={button.id}
-                                isOpen={true}
-                                onClose={() => handleButtonClick(button.id)}
-                            />
-                        </Suspense>
-                    </ErrorBoundary>
-                );
-            case 'social':
-                return shouldRender && (
-                    <ErrorBoundary key={`${button.id}-error-boundary`}>
-                        <Suspense fallback={<div>Loading...</div>}>
-                            <SocialWindowWrapper
+                            <GlobalChatWindowWrapper
                                 key={button.id}
                                 isOpen={true}
                                 onClose={() => handleButtonClick(button.id)}

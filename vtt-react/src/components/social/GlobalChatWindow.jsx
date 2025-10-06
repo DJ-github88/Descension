@@ -21,7 +21,15 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const { user } = useAuthStore();
-  const character = useCharacterStore((state) => state.character);
+  // Get character data from characterStore - use individual selectors to trigger updates
+  const characterName = useCharacterStore((state) => state.name);
+  const characterClass = useCharacterStore((state) => state.class);
+  const characterLevel = useCharacterStore((state) => state.level);
+  const characterRace = useCharacterStore((state) => state.race);
+  const characterSubrace = useCharacterStore((state) => state.subrace);
+  const characterBackground = useCharacterStore((state) => state.background);
+  const characterId = useCharacterStore((state) => state.currentCharacterId);
+
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const initializePresence = usePresenceStore((state) => state.initializePresence);
   const subscribeToOnlineUsers = usePresenceStore((state) => state.subscribeToOnlineUsers);
@@ -31,22 +39,27 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
   // Initialize presence when window opens
   useEffect(() => {
-    if (isOpen && user && character && !currentUserPresence) {
+    if (isOpen && characterId && !currentUserPresence) {
       const characterData = {
-        id: character.id,
-        name: character.name,
-        level: character.level,
-        class: character.class,
-        background: character.background,
-        race: character.race,
-        subrace: character.subrace
+        id: characterId,
+        name: characterName,
+        level: characterLevel,
+        class: characterClass,
+        background: characterBackground,
+        race: characterRace,
+        subrace: characterSubrace
       };
 
       const sessionData = {
         sessionType: null // Will be updated when entering game
       };
 
-      initializePresence(user.uid, characterData, sessionData);
+      // Use user.uid if logged in, otherwise use a dev mode ID
+      const userId = user?.uid || `dev_user_${characterId}`;
+
+      console.log('🎭 Initializing presence with character:', characterData);
+      console.log('🎭 User ID:', userId, '(logged in:', !!user, ')');
+      initializePresence(userId, characterData, sessionData);
       subscribeToOnlineUsers();
     }
 
@@ -55,7 +68,33 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       const initializeMockUsers = usePresenceStore.getState().initializeMockUsers;
       initializeMockUsers();
     }
-  }, [isOpen, user, character, currentUserPresence]);
+  }, [isOpen, user, characterId, currentUserPresence]);
+
+  // Update presence when character changes
+  useEffect(() => {
+    if (isOpen && characterId && currentUserPresence) {
+      const characterData = {
+        id: characterId,
+        name: characterName,
+        level: characterLevel,
+        class: characterClass,
+        background: characterBackground,
+        race: characterRace,
+        subrace: characterSubrace
+      };
+
+      const sessionData = {
+        sessionType: currentUserPresence.sessionType || null
+      };
+
+      // Use user.uid if logged in, otherwise use a dev mode ID
+      const userId = user?.uid || `dev_user_${characterId}`;
+
+      console.log('🔄 Updating presence with new character data:', characterData);
+      // Re-initialize presence with updated character data
+      initializePresence(userId, characterData, sessionData);
+    }
+  }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterBackground, characterLevel]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -138,10 +177,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
         icon="fas fa-users"
         isOpen={isOpen}
         onClose={onClose}
-        defaultWidth={900}
-        defaultHeight={600}
-        minWidth={700}
-        minHeight={400}
+        defaultSize={{ width: 1200, height: 800 }}
         className="global-chat-window"
       >
         <div 

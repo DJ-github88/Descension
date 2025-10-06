@@ -11,13 +11,16 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     email: '',
     password: '',
     confirmPassword: '',
-    displayName: ''
+    displayName: '',
+    friendId: ''
   });
+  const [friendIdError, setFriendIdError] = useState('');
 
   const {
     signIn,
     signUp,
     signInWithGoogle,
+    signInAsGuest,
     resetPassword,
     isLoading,
     error,
@@ -26,22 +29,54 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+    // Validate Friend ID format
+    if (name === 'friendId') {
+      // Only allow alphanumeric characters
+      const cleanValue = value.replace(/[^a-zA-Z0-9]/g, '');
+      setFormData(prev => ({
+        ...prev,
+        [name]: cleanValue
+      }));
+
+      // Validate length
+      if (cleanValue.length > 0 && cleanValue.length < 3) {
+        setFriendIdError('Friend ID must be at least 3 characters');
+      } else if (cleanValue.length > 20) {
+        setFriendIdError('Friend ID must be 20 characters or less');
+      } else {
+        setFriendIdError('');
+      }
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+
     clearError();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (mode === 'register') {
       if (formData.password !== formData.confirmPassword) {
         return;
       }
-      
-      const result = await signUp(formData.email, formData.password, formData.displayName);
+
+      // Validate Friend ID if provided
+      if (formData.friendId && (formData.friendId.length < 3 || formData.friendId.length > 20)) {
+        setFriendIdError('Friend ID must be between 3 and 20 characters');
+        return;
+      }
+
+      const result = await signUp(
+        formData.email,
+        formData.password,
+        formData.displayName,
+        formData.friendId || null
+      );
       if (result.success) {
         onClose();
         navigate('/account');
@@ -72,13 +107,27 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     }
   };
 
+  const handleGuestLogin = async () => {
+    console.log('Starting guest login...');
+    const result = await signInAsGuest();
+    if (result.success) {
+      console.log('Guest login successful!');
+      onClose();
+      navigate('/account');
+    } else {
+      console.error('Guest login failed:', result.error);
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       email: '',
       password: '',
       confirmPassword: '',
-      displayName: ''
+      displayName: '',
+      friendId: ''
     });
+    setFriendIdError('');
     clearError();
   };
 
@@ -112,14 +161,28 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
         <div className="auth-modal-content">
           {/* Google Sign In Button */}
           {mode !== 'forgot' && (
-            <button 
-              className="google-signin-btn"
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-            >
-              <i className="fab fa-google"></i>
-              Continue with Google
-            </button>
+            <>
+              <button
+                className="google-signin-btn"
+                onClick={handleGoogleSignIn}
+                disabled={isLoading}
+              >
+                <i className="fab fa-google"></i>
+                Continue with Google
+              </button>
+
+              {/* Guest Login Button - Only show on login screen */}
+              {mode === 'login' && (
+                <button
+                  className="guest-signin-btn"
+                  onClick={handleGuestLogin}
+                  disabled={isLoading}
+                >
+                  <i className="fas fa-user-secret"></i>
+                  Continue as Guest
+                </button>
+              )}
+            </>
           )}
 
           {mode !== 'forgot' && <div className="auth-divider">or</div>}
@@ -127,18 +190,45 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
           {/* Form */}
           <form onSubmit={handleSubmit} className="auth-form">
             {mode === 'register' && (
-              <div className="form-group">
-                <label htmlFor="displayName">Display Name</label>
-                <input
-                  id="displayName"
-                  name="displayName"
-                  type="text"
-                  value={formData.displayName}
-                  onChange={handleInputChange}
-                  placeholder="Enter your display name"
-                  required
-                />
-              </div>
+              <>
+                <div className="form-group">
+                  <label htmlFor="displayName">Display Name</label>
+                  <input
+                    id="displayName"
+                    name="displayName"
+                    type="text"
+                    value={formData.displayName}
+                    onChange={handleInputChange}
+                    placeholder="Enter your display name"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="friendId">
+                    Friend ID <span className="optional-label">(Optional)</span>
+                  </label>
+                  <div className="friend-id-input-wrapper">
+                    <span className="friend-id-prefix">#</span>
+                    <input
+                      id="friendId"
+                      name="friendId"
+                      type="text"
+                      value={formData.friendId}
+                      onChange={handleInputChange}
+                      placeholder="e.g., WillburtTheGoat4"
+                      maxLength={20}
+                      className="friend-id-input"
+                    />
+                  </div>
+                  <small className="field-hint">
+                    Your unique ID for friends to find you. Leave blank to auto-generate.
+                  </small>
+                  {friendIdError && (
+                    <span className="error-text">{friendIdError}</span>
+                  )}
+                </div>
+              </>
             )}
 
             <div className="form-group">

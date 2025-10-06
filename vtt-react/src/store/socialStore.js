@@ -9,6 +9,7 @@ const SAMPLE_FRIENDS = [
   {
     id: '1',
     name: 'Thordak',
+    friendId: 'IronHammer7821',
     level: 12,
     class: 'Dreadnaught',
     background: 'Soldier',
@@ -22,6 +23,7 @@ const SAMPLE_FRIENDS = [
   {
     id: '3',
     name: 'Elaria',
+    friendId: 'MoonWhisper3492',
     level: 10,
     class: 'Chronarch',
     background: 'Sage',
@@ -35,6 +37,7 @@ const SAMPLE_FRIENDS = [
   {
     id: '4',
     name: 'Grimjaw',
+    friendId: 'ShadowBlade5678',
     level: 11,
     class: 'Bladedancer',
     background: 'Criminal',
@@ -48,6 +51,7 @@ const SAMPLE_FRIENDS = [
   {
     id: '5',
     name: 'Seraphina',
+    friendId: 'HolyLight1234',
     level: 11,
     class: 'Exorcist',
     background: 'Folk Hero',
@@ -61,6 +65,7 @@ const SAMPLE_FRIENDS = [
   {
     id: '6',
     name: 'Varis',
+    friendId: 'ForestGuard9876',
     level: 8,
     class: 'Warden',
     background: 'Outlander',
@@ -122,6 +127,17 @@ const useSocialStore = create(
       // Tab actions
       setActiveTab: (tab) => set({ activeTab: tab }),
 
+      // Migration: Reset friends if they don't have friendId
+      migrateFriends: () => {
+        const { friends } = get();
+        const needsMigration = friends.some(f => !f.friendId);
+
+        if (needsMigration) {
+          console.log('🔄 Migrating friends data to include Friend IDs...');
+          set({ friends: [...SAMPLE_FRIENDS] });
+        }
+      },
+
       // Friend actions
       addFriend: (friend) => set(state => {
         // Check if friend already exists
@@ -182,10 +198,23 @@ const useSocialStore = create(
         };
       }),
 
-      removeIgnored: (id) => set(state => ({
-        ignored: state.ignored.filter(ignored => ignored.id !== id),
-        selectedIgnored: state.selectedIgnored === id ? null : state.selectedIgnored
-      })),
+      removeIgnored: (id) => {
+        console.log('🗑️ removeIgnored called with ID:', id);
+        set(state => {
+          const beforeCount = state.ignored.length;
+          const newIgnored = state.ignored.filter(ignored => {
+            console.log(`  Checking: ${ignored.name} (${ignored.id}) === ${id}? ${ignored.id === id}`);
+            return ignored.id !== id;
+          });
+          const afterCount = newIgnored.length;
+          console.log(`📊 Ignored list: ${beforeCount} → ${afterCount}`);
+
+          return {
+            ignored: newIgnored,
+            selectedIgnored: state.selectedIgnored === id ? null : state.selectedIgnored
+          };
+        });
+      },
 
       setSelectedIgnored: (id) => set({ selectedIgnored: id }),
 
