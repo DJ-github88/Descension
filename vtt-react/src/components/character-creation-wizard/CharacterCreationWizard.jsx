@@ -1,10 +1,10 @@
 /**
  * Character Creation Wizard - Main Component
- * 
+ *
  * Multi-step character creation wizard with background selection and stat allocation
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CharacterWizardProvider, useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators, WIZARD_STEPS, STEP_INFO } from './context/CharacterWizardContext';
 
 // Import wizard steps
@@ -12,8 +12,12 @@ import Step1BasicInfo from './steps/Step1BasicInfo';
 import Step2RaceSelection from './steps/Step2RaceSelection';
 import Step3ClassSelection from './steps/Step3ClassSelection';
 import Step4BackgroundSelection from './steps/Step4BackgroundSelection';
-import Step5StatAllocation from './steps/Step5StatAllocation';
-import Step6CharacterSummary from './steps/Step6CharacterSummary';
+import Step5PathSelection from './steps/Step5PathSelection';
+import Step6StatAllocation from './steps/Step6StatAllocation';
+import Step7SkillsLanguages from './steps/Step7SkillsLanguages';
+import Step8LoreDetails from './steps/Step8LoreDetails';
+import Step10EquipmentSelection from './steps/Step10EquipmentSelection';
+import Step9CharacterSummary from './steps/Step9CharacterSummary';
 
 // Import styles
 import './styles/CharacterCreationWizard.css';
@@ -21,6 +25,14 @@ import './styles/CharacterCreationWizard.css';
 const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, existingCharacter, isEditing }) => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
+
+    // Load existing character data when editing
+    useEffect(() => {
+        if (isEditing && existingCharacter) {
+            console.log('Loading existing character into wizard:', existingCharacter);
+            dispatch(wizardActionCreators.loadCharacter(existingCharacter));
+        }
+    }, [isEditing, existingCharacter, dispatch]);
 
     // Render the current step
     const renderStep = () => {
@@ -33,10 +45,18 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 return <Step3ClassSelection />;
             case WIZARD_STEPS.BACKGROUND_SELECTION:
                 return <Step4BackgroundSelection />;
+            case WIZARD_STEPS.PATH_SELECTION:
+                return <Step5PathSelection />;
             case WIZARD_STEPS.STAT_ALLOCATION:
-                return <Step5StatAllocation />;
+                return <Step6StatAllocation />;
+            case WIZARD_STEPS.SKILLS_LANGUAGES:
+                return <Step7SkillsLanguages />;
+            case WIZARD_STEPS.LORE_DETAILS:
+                return <Step8LoreDetails />;
+            case WIZARD_STEPS.EQUIPMENT_SELECTION:
+                return <Step10EquipmentSelection />;
             case WIZARD_STEPS.CHARACTER_SUMMARY:
-                return <Step6CharacterSummary />;
+                return <Step9CharacterSummary />;
             default:
                 return <Step1BasicInfo />;
         }
@@ -70,7 +90,11 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 subrace: state.characterData.subrace,
                 class: state.characterData.class,
                 background: state.characterData.background,
+                selectedSkills: state.characterData.selectedSkills,
+                selectedLanguages: state.characterData.selectedLanguages,
+                path: state.characterData.path,
                 stats: state.characterData.finalStats,
+                lore: state.characterData.lore,
                 characterImage: state.characterData.characterImage,
                 imageTransformations: state.characterData.imageTransformations
             };
@@ -109,7 +133,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                         <i className="fas fa-arrow-left"></i>
                     </button>
                     <div className="wizard-title-section">
-                        <h1 className="wizard-title">Character Creation</h1>
+                        <h1 className="wizard-title">{isEditing ? 'Edit Character' : 'Character Creation'}</h1>
                         <p className="wizard-subtitle">{STEP_INFO[state.currentStep]?.description}</p>
                     </div>
                 </div>
@@ -146,7 +170,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 <div className="header-right">
                     <div className="user-info">
                         <i className="fas fa-user"></i>
-                        <span>Creating Character</span>
+                        <span>{isEditing ? 'Editing Character' : 'Creating Character'}</span>
                     </div>
                 </div>
             </div>
@@ -202,7 +226,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                                 ) : (
                                     <>
                                         <i className="fas fa-check"></i>
-                                        Create Character
+                                        {isEditing ? 'Update Character' : 'Create Character'}
                                     </>
                                 )}
                             </button>

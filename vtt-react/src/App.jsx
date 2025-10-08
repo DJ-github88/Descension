@@ -35,6 +35,7 @@ const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerAp
 const AccountDashboard = lazy(() => import("./components/account/AccountDashboard"));
 const CharacterManagement = lazy(() => import("./components/account/CharacterManagement"));
 const CharacterCreationPage = lazy(() => import("./components/account/CharacterCreationPage"));
+const CharacterViewPage = lazy(() => import("./components/account/CharacterViewPage"));
 
 
 import initChatStore from './utils/initChatStore';
@@ -78,6 +79,8 @@ import './components/ui/ActionBar.css';
 // Preload account dashboard isolation to override game styles
 import './components/account/styles/AccountDashboardIsolation.css';
 
+// Preload character creation wizard styles to ensure they're available immediately
+import './components/character-creation-wizard/styles/CharacterCreationWizard.css';
 
 
 // Track dynamically loaded stylesheets for cleanup
@@ -743,6 +746,16 @@ const AppContent = ({
                             isAuthenticated ? (
                                 <Suspense fallback={<LoadingFallback message="Loading character editor..." />}>
                                     <CharacterCreationPage user={user} isEditing={true} />
+                                </Suspense>
+                            ) : (
+                                <Navigate to="/" replace />
+                            )
+                        } />
+
+                        <Route path="/account/characters/view/:characterId" element={
+                            isAuthenticated ? (
+                                <Suspense fallback={<LoadingFallback message="Loading character..." />}>
+                                    <CharacterViewPage />
                                 </Suspense>
                             ) : (
                                 <Navigate to="/" replace />

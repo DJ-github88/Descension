@@ -12,6 +12,9 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const [showSwitchConfirm, setShowSwitchConfirm] = useState(false);
     const [pendingMapSwitch, setPendingMapSwitch] = useState(null);
     const [showBackgroundAssignment, setShowBackgroundAssignment] = useState(null);
+    const [editingMapId, setEditingMapId] = useState(null);
+    const [editMapName, setEditMapName] = useState('');
+    const [editMapDescription, setEditMapDescription] = useState('');
     const fileInputRef = useRef(null);
     const backgroundFileInputRef = useRef(null);
 
@@ -313,6 +316,34 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         setPendingMapSwitch(null);
     };
 
+    // Handle map editing
+    const handleEditMap = (mapId) => {
+        const map = maps.find(m => m.id === mapId);
+        if (map) {
+            setEditingMapId(mapId);
+            setEditMapName(map.name);
+            setEditMapDescription(map.description || '');
+        }
+    };
+
+    const handleSaveMapEdit = () => {
+        if (editingMapId) {
+            updateMap(editingMapId, {
+                name: editMapName,
+                description: editMapDescription
+            });
+            setEditingMapId(null);
+            setEditMapName('');
+            setEditMapDescription('');
+        }
+    };
+
+    const handleCancelMapEdit = () => {
+        setEditingMapId(null);
+        setEditMapName('');
+        setEditMapDescription('');
+    };
+
     // Handle background assignment to existing maps
     const handleAssignBackground = (mapId) => {
         setShowBackgroundAssignment(mapId);
@@ -450,6 +481,11 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                             >
                                 {/* Map thumbnail */}
                                 <div className="map-thumbnail">
+                                    {/* Current indicator tag at top-right */}
+                                    {map.id === currentMapId && (
+                                        <span className="current-tag">Current</span>
+                                    )}
+
                                     {map.backgrounds && map.backgrounds.length > 0 ? (
                                         <img
                                             src={map.backgrounds[0].url}
@@ -472,6 +508,11 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                 <div className="map-info">
                                     <h3 className="map-name">{map.name}</h3>
                                     <div className="map-details">
+                                        {map.description && (
+                                            <div className="map-description">
+                                                {map.description}
+                                            </div>
+                                        )}
                                         <span className="map-date">
                                             Modified: {formatDate(map.lastModified)}
                                         </span>
@@ -485,9 +526,6 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
                                 {/* Map actions */}
                                 <div className="map-actions">
-                                    {map.id === currentMapId && (
-                                        <span className="current-indicator">Current</span>
-                                    )}
                                     <button
                                         className="wow-button small"
                                         onClick={(e) => {
@@ -497,6 +535,16 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                         disabled={map.id === currentMapId}
                                     >
                                         {map.id === currentMapId ? 'Active' : 'Switch'}
+                                    </button>
+                                    <button
+                                        className="wow-button small"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleEditMap(map.id);
+                                        }}
+                                        title="Edit Map Name & Description"
+                                    >
+                                        Edit
                                     </button>
                                     <button
                                         className="wow-button small"
@@ -621,6 +669,58 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 newMapName={pendingMapSwitch?.newMapName || ''}
                 position={{ x: 450, y: 250 }}
             />
+
+            {/* Map Edit Dialog */}
+            {editingMapId && (
+                <WowWindow
+                    title="Edit Map"
+                    isOpen={true}
+                    onClose={handleCancelMapEdit}
+                    defaultSize={{ width: 500, height: 350 }}
+                    defaultPosition={{ x: 400, y: 200 }}
+                    isModal={true}
+                >
+                    <div className="map-edit-dialog">
+                        <div className="edit-field">
+                            <label className="edit-label">Map Name</label>
+                            <input
+                                type="text"
+                                className="wow-input"
+                                value={editMapName}
+                                onChange={(e) => setEditMapName(e.target.value)}
+                                placeholder="Enter map name..."
+                            />
+                        </div>
+
+                        <div className="edit-field">
+                            <label className="edit-label">Description</label>
+                            <textarea
+                                className="wow-textarea"
+                                value={editMapDescription}
+                                onChange={(e) => setEditMapDescription(e.target.value)}
+                                placeholder="Enter map description..."
+                                rows={6}
+                            />
+                        </div>
+
+                        <div className="edit-actions">
+                            <button
+                                className="wow-button secondary"
+                                onClick={handleCancelMapEdit}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="wow-button primary"
+                                onClick={handleSaveMapEdit}
+                                disabled={!editMapName.trim()}
+                            >
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </WowWindow>
+            )}
         </>
     );
 };

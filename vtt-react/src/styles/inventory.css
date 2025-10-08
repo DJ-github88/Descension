@@ -207,7 +207,8 @@
     margin-bottom: 2px;
 }
 
-.section-header {
+/* Scope section-header to inventory context only */
+.inventory-section-headers .section-header {
     flex: 1;
     text-align: center;
     font-size: 0.9rem;
@@ -224,7 +225,7 @@
     border-bottom: 2px solid;
 }
 
-.section-header.normal {
+.inventory-section-headers .section-header.normal {
     color: #1a3d0a;
     background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
     border: 1px solid #4a934a;
@@ -234,7 +235,7 @@
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
-.section-header.encumbered {
+.inventory-section-headers .section-header.encumbered {
     color: #5a4a0a;
     background: linear-gradient(135deg, #f5f0d4 0%, #e8dcc0 100%);
     border: 1px solid #c9a83f;
@@ -244,7 +245,7 @@
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
-.section-header.overencumbered {
+.inventory-section-headers .section-header.overencumbered {
     color: #4a1a0a;
     background: linear-gradient(135deg, #f0e0d4 0%, #e8d0c0 100%);
     border: 1px solid #a05a46;

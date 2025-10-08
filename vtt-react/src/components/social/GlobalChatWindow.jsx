@@ -27,7 +27,11 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const characterLevel = useCharacterStore((state) => state.level);
   const characterRace = useCharacterStore((state) => state.race);
   const characterSubrace = useCharacterStore((state) => state.subrace);
+  const characterRaceDisplayName = useCharacterStore((state) => state.raceDisplayName);
   const characterBackground = useCharacterStore((state) => state.background);
+  const characterBackgroundDisplayName = useCharacterStore((state) => state.backgroundDisplayName);
+  const characterPath = useCharacterStore((state) => state.path);
+  const characterPathDisplayName = useCharacterStore((state) => state.pathDisplayName);
   const characterId = useCharacterStore((state) => state.currentCharacterId);
 
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
@@ -39,15 +43,20 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
   // Initialize presence when window opens
   useEffect(() => {
-    if (isOpen && characterId && !currentUserPresence) {
+    if (isOpen && !currentUserPresence) {
+      // Use character data if available, otherwise use defaults
       const characterData = {
-        id: characterId,
-        name: characterName,
-        level: characterLevel,
-        class: characterClass,
-        background: characterBackground,
-        race: characterRace,
-        subrace: characterSubrace
+        id: characterId || 'temp_character',
+        name: characterName || 'Guest',
+        level: characterLevel || 1,
+        class: characterClass || 'Adventurer',
+        background: characterBackground || '',
+        backgroundDisplayName: characterBackgroundDisplayName || '',
+        race: characterRace || '',
+        subrace: characterSubrace || '',
+        raceDisplayName: characterRaceDisplayName || '',
+        path: characterPath || '',
+        pathDisplayName: characterPathDisplayName || ''
       };
 
       const sessionData = {
@@ -55,7 +64,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       };
 
       // Use user.uid if logged in, otherwise use a dev mode ID
-      const userId = user?.uid || `dev_user_${characterId}`;
+      const userId = user?.uid || `dev_user_${characterId || 'guest'}`;
 
       console.log('🎭 Initializing presence with character:', characterData);
       console.log('🎭 User ID:', userId, '(logged in:', !!user, ')');
@@ -79,8 +88,12 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
         level: characterLevel,
         class: characterClass,
         background: characterBackground,
+        backgroundDisplayName: characterBackgroundDisplayName,
         race: characterRace,
-        subrace: characterSubrace
+        subrace: characterSubrace,
+        raceDisplayName: characterRaceDisplayName,
+        path: characterPath,
+        pathDisplayName: characterPathDisplayName
       };
 
       const sessionData = {
@@ -94,7 +107,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       // Re-initialize presence with updated character data
       initializePresence(userId, characterData, sessionData);
     }
-  }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterBackground, characterLevel]);
+  }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterRaceDisplayName, characterBackground, characterBackgroundDisplayName, characterPath, characterLevel]);
 
   // Cleanup on unmount
   useEffect(() => {

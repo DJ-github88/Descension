@@ -5,6 +5,7 @@ import { persist } from 'zustand/middleware';
 const createDefaultMap = (name = 'New Map') => ({
     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
     name,
+    description: '',
     createdAt: Date.now(),
     lastModified: Date.now(),
 

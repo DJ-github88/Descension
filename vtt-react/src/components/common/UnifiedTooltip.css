@@ -7,7 +7,6 @@
   pointer-events: none;
   opacity: 0;
   animation: tooltip-fade-in 0.2s ease-out forwards;
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
   /* Ensure tooltip is always on top */
   isolation: isolate;
 }
@@ -25,36 +24,34 @@
 
 /* ===== TOOLTIP CONTENT ===== */
 
-.tooltip-content {
+.unified-tooltip .tooltip-content {
   /* Pathfinder Parchment Background */
-  background: linear-gradient(145deg, 
-    #f8f4e6 0%, 
-    #ede4d3 30%, 
-    #e8dcc6 70%, 
+  background: linear-gradient(145deg,
+    #f8f4e6 0%,
+    #ede4d3 30%,
+    #e8dcc6 70%,
     #f0ead6 100%
   );
-  
+
   /* Medieval Border */
   border: 2px solid #8B4513;
-  border-radius: 8px;
-  
+  border-radius: 6px;
+
   /* Shadow & Depth */
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(139, 69, 19, 0.2);
-  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
   /* Layout */
-  padding: 12px 16px;
-  max-width: 320px;
-  min-width: 120px;
-  
+  padding: 16px 20px;
+  max-width: 400px;
+  min-width: 180px;
+  width: max-content;
+
   /* Typography */
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 13px;
-  line-height: 1.4;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-size: 14px;
+  line-height: 1.6;
   color: #2c1810;
-  
+
   /* Flex layout for icon + text */
   display: flex;
   align-items: flex-start;
@@ -63,7 +60,7 @@
 
 /* ===== TOOLTIP ICON ===== */
 
-.tooltip-icon {
+.unified-tooltip .tooltip-icon {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
@@ -72,13 +69,13 @@
   justify-content: center;
 }
 
-.tooltip-icon img {
+.unified-tooltip .tooltip-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.tooltip-icon svg {
+.unified-tooltip .tooltip-icon svg {
   width: 20px;
   height: 20px;
   color: #8B4513;
@@ -86,50 +83,43 @@
 
 /* ===== TOOLTIP TEXT ===== */
 
-.tooltip-text {
+.unified-tooltip .tooltip-text {
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
-.tooltip-title {
+.unified-tooltip .tooltip-title {
   font-weight: 700;
   font-size: 14px;
   color: #5a1e12;
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: normal;
 }
 
-.tooltip-description {
+.unified-tooltip .tooltip-description {
   color: #2c1810;
   word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  /* Override any global tooltip-description styles */
+  background: none !important;
+  border: none !important;
+  border-left: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-style: normal !important;
+  text-shadow: none !important;
 }
 
 /* ===== TOOLTIP ARROW ===== */
+/* Arrow removed for cleaner appearance */
 
 .tooltip-arrow {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid #8B4513;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.tooltip-arrow::after {
-  content: '';
-  position: absolute;
-  top: -9px;
-  left: -7px;
-  width: 0;
-  height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 7px solid #f0ead6;
+  display: none;
 }
 
 /* ===== TOOLTIP VARIANTS ===== */
@@ -137,57 +127,25 @@
 /* Spell Tooltip */
 .unified-tooltip.spell .tooltip-content {
   border-color: #9370DB;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(147, 112, 219, 0.2),
-    0 0 15px rgba(147, 112, 219, 0.15);
-}
-
-.unified-tooltip.spell .tooltip-arrow {
-  border-top-color: #9370DB;
+  box-shadow: 0 4px 12px rgba(147, 112, 219, 0.4);
 }
 
 /* Dice Tooltip */
 .unified-tooltip.dice .tooltip-content {
   border-color: #DC143C;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(220, 20, 60, 0.2),
-    0 0 15px rgba(220, 20, 60, 0.15);
-}
-
-.unified-tooltip.dice .tooltip-arrow {
-  border-top-color: #DC143C;
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
 }
 
 /* Card Tooltip */
 .unified-tooltip.card .tooltip-content {
   border-color: #4682B4;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(70, 130, 180, 0.2),
-    0 0 15px rgba(70, 130, 180, 0.15);
-}
-
-.unified-tooltip.card .tooltip-arrow {
-  border-top-color: #4682B4;
+  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.4);
 }
 
 /* Coin Tooltip */
 .unified-tooltip.coin .tooltip-content {
   border-color: #DAA520;
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(218, 165, 32, 0.2),
-    0 0 15px rgba(218, 165, 32, 0.15);
-}
-
-.unified-tooltip.coin .tooltip-arrow {
-  border-top-color: #DAA520;
+  box-shadow: 0 4px 12px rgba(218, 165, 32, 0.4);
 }
 
 /* ===== COMPACT VARIANT ===== */

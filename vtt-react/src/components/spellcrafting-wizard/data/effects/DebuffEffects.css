@@ -335,7 +335,9 @@
   box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
 }
 
-.section-header {
+/* Scope section-header to debuff effects only */
+.debuff-effects .section-header,
+.effect-category .section-header {
   font-family: var(--pf-font-display, 'Cinzel', serif);
   font-size: var(--pf-text-lg, 18px);
   font-weight: var(--pf-font-semibold, 600);

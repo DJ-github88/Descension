@@ -3,6 +3,7 @@ import useSocialStore from '../../store/socialStore';
 import usePartyStore from '../../store/partyStore';
 import useChatStore from '../../store/chatStore';
 import SocialContextMenu from './SocialContextMenu';
+import UserCard from './UserCard';
 import '../../styles/social-window.css';
 
 const FriendsList = () => {
@@ -198,32 +199,43 @@ const FriendsList = () => {
   const onlineFriends = friends.filter(friend => friend.status === 'online' || friend.status === 'away');
   const offlineFriends = friends.filter(friend => friend.status === 'offline');
 
-  // Render a friend entry
-  const renderFriendEntry = (friend) => (
-    <div
-      key={friend.id}
-      className={`friend-entry ${selectedFriend === friend.id ? 'selected' : ''}`}
-      onClick={() => handleSelectFriend(friend.id)}
-      onContextMenu={(e) => handleContextMenu(e, friend)}
-      onDoubleClick={() => friend.status === 'online' && handleWhisper(friend)}
-    >
-      <div className={`friend-status ${friend.status}`}></div>
-      <div className="friend-name">{friend.name}</div>
-      <div className="friend-info">
-        <span className="friend-level">{friend.level}</span>
-        <span className={`friend-class ${friend.class}`}>{friend.class}</span>
-        {friend.background && (
-          <span className="friend-background">{friend.background}</span>
-        )}
-        {friend.status === 'online' && friend.location && (
-          <div className="friend-location">{friend.location}</div>
-        )}
-        {friend.note && (
-          <div className="friend-note">{friend.note}</div>
-        )}
+  // Render a friend entry using UserCard
+  const renderFriendEntry = (friend) => {
+    // Build session display if friend is online
+    const sessionDisplay = friend.status === 'online' && friend.location ? (
+      <div className="user-session">
+        <span className="session-badge local">
+          <i className="fas fa-map-marker-alt"></i> {friend.location}
+        </span>
       </div>
-    </div>
-  );
+    ) : null;
+
+    // Build note display
+    const noteDisplay = friend.note ? (
+      <div className="friend-note-display">
+        <i className="fas fa-sticky-note"></i>
+        <span>{friend.note}</span>
+      </div>
+    ) : null;
+
+    return (
+      <UserCard
+        key={friend.id}
+        user={{
+          ...friend,
+          characterName: friend.name,
+          userId: friend.id
+        }}
+        className="friend-card"
+        showFriendId={true}
+        showSessionInfo={!!sessionDisplay}
+        sessionDisplay={sessionDisplay}
+        additionalContent={noteDisplay}
+        onClick={() => handleSelectFriend(friend.id)}
+        onContextMenu={(e) => handleContextMenu(e, friend)}
+      />
+    );
+  };
 
   return (
     <div className="friends-list-container">
@@ -370,6 +382,7 @@ const FriendsList = () => {
           onRemoveFriend={handleRemoveFriend}
           onAddIgnore={() => {}}
           onRemoveIgnore={() => {}}
+          onAddNote={handleAddNote}
         />
       )}
     </div>

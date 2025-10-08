@@ -155,19 +155,17 @@
 }
 
 .racial-trait-type {
-  background: linear-gradient(135deg, 
-    var(--pf-brown-medium) 0%, 
-    var(--pf-brown-dark) 100%);
-  color: var(--pf-cream);
-  padding: 2px 8px;
+  background: linear-gradient(135deg, #718096 0%, #a0aec0 100%);
+  color: #ffffff;
+  padding: 3px 10px;
   border-radius: 12px;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  box-shadow: var(--pf-shadow-sm);
-  border: 1px solid var(--pf-brown-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #4a5568;
 }
 
 /* ===== TRAIT DESCRIPTION ===== */
@@ -237,38 +235,125 @@
   }
 }
 
-/* ===== TRAIT TYPE VARIANTS ===== */
+/* ===== TRAIT TYPE VARIANTS - IMPROVED READABILITY ===== */
 
 .racial-trait-type[data-type="combat"] {
-  background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
+  background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
+  color: #ffffff;
+  border-color: #9b2c2c;
 }
 
 .racial-trait-type[data-type="resistance"] {
-  background: linear-gradient(135deg, #4682B4 0%, #5F9EA0 100%);
+  background: linear-gradient(135deg, #3182ce 0%, #4299e1 100%);
+  color: #ffffff;
+  border-color: #2c5282;
 }
 
 .racial-trait-type[data-type="movement"] {
-  background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+  background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+  color: #ffffff;
+  border-color: #2f855a;
+}
+
+.racial-trait-type[data-type="communication"] {
+  background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
 }
 
 .racial-trait-type[data-type="perception"] {
-  background: linear-gradient(135deg, #9932CC 0%, #BA55D3 100%);
+  background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
 }
 
 .racial-trait-type[data-type="social"] {
-  background: linear-gradient(135deg, #DAA520 0%, #FFD700 100%);
-  color: var(--pf-brown-darkest);
+  background: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
+  color: #2d1810;
+  border-color: #b7791f;
 }
 
 .racial-trait-type[data-type="utility"] {
-  background: linear-gradient(135deg, #708090 0%, #778899 100%);
+  background: linear-gradient(135deg, #718096 0%, #a0aec0 100%);
+  color: #ffffff;
+  border-color: #4a5568;
 }
 
 .racial-trait-type[data-type="knowledge"] {
-  background: linear-gradient(135deg, #4169E1 0%, #6495ED 100%);
+  background: linear-gradient(135deg, #3182ce 0%, #4299e1 100%);
+  color: #ffffff;
+  border-color: #2c5282;
 }
 
 .racial-trait-type[data-type="nature"] {
-  background: linear-gradient(135deg, #8FBC8F 0%, #98FB98 100%);
-  color: var(--pf-brown-darkest);
+  background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+  color: #ffffff;
+  border-color: #2f855a;
+}
+
+.racial-trait-type[data-type="defense"] {
+  background: linear-gradient(135deg, #4a5568 0%, #718096 100%);
+  color: #ffffff;
+  border-color: #2d3748;
+}
+
+.racial-trait-type[data-type="divination"] {
+  background: linear-gradient(135deg, #805ad5 0%, #b794f4 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="protection"] {
+  background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
+  color: #ffffff;
+  border-color: #2c5282;
+}
+
+.racial-trait-type[data-type="inspiration"] {
+  background: linear-gradient(135deg, #d69e2e 0%, #f6ad55 100%);
+  color: #2d1810;
+  border-color: #b7791f;
+  font-weight: 700;
+}
+
+.racial-trait-type[data-type="mental"] {
+  background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="illusion"] {
+  background: linear-gradient(135deg, #9f7aea 0%, #d6bcfa 100%);
+  color: #2d1810;
+  border-color: #805ad5;
+}
+
+.racial-trait-type[data-type="transformation"] {
+  background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+  color: #ffffff;
+  border-color: #2f855a;
+}
+
+.racial-trait-type[data-type="hunting"] {
+  background: linear-gradient(135deg, #c53030 0%, #fc8181 100%);
+  color: #ffffff;
+  border-color: #9b2c2c;
+}
+
+.racial-trait-type[data-type="detection"] {
+  background: linear-gradient(135deg, #805ad5 0%, #b794f4 100%);
+  color: #ffffff;
+  border-color: #6b46c1;
+}
+
+.racial-trait-type[data-type="undead"] {
+  background: linear-gradient(135deg, #4a5568 0%, #718096 100%);
+  color: #ffffff;
+  border-color: #2d3748;
+}
+
+.racial-trait-type[data-type="crafting"] {
+  background: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%);
+  color: #2d1810;
+  border-color: #b7791f;
 }

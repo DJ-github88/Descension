@@ -37,7 +37,7 @@
 /* ========== Split Panes ========== */
 .users-pane {
   height: 100%;
-  overflow: hidden;
+  overflow: visible; /* Changed from hidden to allow status dropdown to show */
   display: flex;
   flex-direction: column;
 }
@@ -81,6 +81,7 @@
   flex-direction: column;
   height: 100%;
   background: #f5e6d3;
+  overflow: visible; /* Allow status dropdown to overflow */
 }
 
 .users-list-header {
@@ -89,6 +90,8 @@
   border-bottom: 2px solid #a89968;
   flex-shrink: 0;
   position: relative;
+  overflow: visible; /* Allow status dropdown to overflow */
+  z-index: 1000; /* Ensure header and its children appear above content */
 }
 
 /* Status Setter */
@@ -96,6 +99,7 @@
   padding: 8px 12px;
   border-bottom: 1px solid rgba(168, 153, 104, 0.3);
   position: relative;
+  z-index: 1001; /* Ensure dropdown appears above other content */
 }
 
 .status-button {
@@ -144,7 +148,7 @@
   border: 2px solid #a89968;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 10000; /* Very high z-index to appear above all other content */
   overflow: hidden;
 }
 
@@ -492,6 +496,8 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: flex-start; /* Explicitly left-align all content */
+  text-align: left; /* Ensure text is left-aligned */
 }
 
 .user-name {
@@ -501,6 +507,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  width: 100%; /* Ensure full width */
+  justify-content: flex-start; /* Explicitly left-align */
 }
 
 .you-badge {
@@ -538,6 +546,8 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  width: 100%; /* Ensure full width */
+  justify-content: flex-start; /* Explicitly left-align */
 }
 
 .detail-item {
@@ -551,23 +561,100 @@
   font-weight: 500;
 }
 
-.detail-item.background-badge {
-  background: linear-gradient(135deg, #f0e6d2, #e8dcc8);
-  color: #5a4a38;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 11px;
+/* User Details - Larger and More Readable */
+.user-details-new {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+  width: 100%;
+}
+
+/* Level and Class Row - Large and Prominent */
+.level-class-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.level-text {
+  font-size: 13px;
+  color: #6d5a3a;
+  font-weight: 600;
+}
+
+.class-text {
+  font-size: 14px;
+  color: #2d2416;
+  font-weight: 700;
+}
+
+/* Badges Row */
+.badges-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.char-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.char-badge.path-badge {
+  background: #8b6f47;
+  color: #fff;
+  border: 1px solid #6d5a3a;
+}
+
+.char-badge.bg-badge {
+  background: #5a4a38;
+  color: #fff;
+  border: 1px solid #3d2817;
+}
+
+/* Race Row - Larger and More Visible */
+.race-row {
+  display: flex;
+  align-items: center;
+}
+
+.race-text {
+  font-size: 13px;
+  color: #3d2817;
   font-weight: 500;
-  border: 1px solid #d4c4a8;
+  font-style: italic;
 }
 
-.user-race {
-  margin-top: 0;
+/* Friend and Ignored Note Display */
+.friend-note-display,
+.ignored-note {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  padding: 4px 8px;
+  background: rgba(139, 111, 71, 0.15);
+  border-left: 2px solid #8b6f47;
+  border-radius: 3px;
 }
 
-.user-race .race-name {
+.friend-note-display i,
+.ignored-note i {
+  font-size: 10px;
+  color: #8b6f47;
+}
+
+.friend-note-display span,
+.ignored-note span {
   font-size: 11px;
-  color: #7a6a54;
+  color: #4a3d2e;
   font-style: italic;
 }
 
@@ -1344,7 +1431,10 @@
   margin-bottom: 16px;
 }
 
-.section-header {
+/* Scope section-header to community/chat windows only */
+.community-window .section-header,
+.global-chat-window .section-header,
+.users-section .section-header {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1360,16 +1450,22 @@
   letter-spacing: 0.5px;
 }
 
-.section-header.clickable {
+.community-window .section-header.clickable,
+.global-chat-window .section-header.clickable,
+.users-section .section-header.clickable {
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.section-header.clickable:hover {
+.community-window .section-header.clickable:hover,
+.global-chat-window .section-header.clickable:hover,
+.users-section .section-header.clickable:hover {
   background: linear-gradient(to bottom, #d4c4a8, #c9b896);
 }
 
-.section-header i:first-child {
+.community-window .section-header i:first-child,
+.global-chat-window .section-header i:first-child,
+.users-section .section-header i:first-child {
   font-size: 11px;
   opacity: 0.8;
 }

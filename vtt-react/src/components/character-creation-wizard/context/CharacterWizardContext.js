@@ -7,7 +7,7 @@
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { getDefaultStats, validateStats, calculateFinalStats } from '../../../utils/pointBuySystem';
-import { getCustomBackgroundStartingPoints, getCustomBackgroundStatModifiers } from '../../../data/customBackgroundData';
+import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData';
 import { applyRacialModifiers } from '../../../data/raceData';
 
 // Wizard steps configuration
@@ -16,8 +16,12 @@ export const WIZARD_STEPS = {
     RACE_SELECTION: 2,
     CLASS_SELECTION: 3,
     BACKGROUND_SELECTION: 4,
-    STAT_ALLOCATION: 5,
-    CHARACTER_SUMMARY: 6
+    PATH_SELECTION: 5,
+    STAT_ALLOCATION: 6,
+    SKILLS_LANGUAGES: 7,
+    LORE_DETAILS: 8,
+    EQUIPMENT_SELECTION: 9,
+    CHARACTER_SUMMARY: 10
 };
 
 export const STEP_INFO = {
@@ -41,10 +45,30 @@ export const STEP_INFO = {
         description: 'Choose your character\'s history',
         icon: 'fas fa-book'
     },
+    [WIZARD_STEPS.PATH_SELECTION]: {
+        name: 'Path',
+        description: 'Select your character\'s path',
+        icon: 'fas fa-route'
+    },
     [WIZARD_STEPS.STAT_ALLOCATION]: {
         name: 'Ability Scores',
         description: 'Allocate your character\'s stats',
         icon: 'fas fa-chart-bar'
+    },
+    [WIZARD_STEPS.SKILLS_LANGUAGES]: {
+        name: 'Skills & Languages',
+        description: 'Choose proficiencies and languages',
+        icon: 'fas fa-cogs'
+    },
+    [WIZARD_STEPS.LORE_DETAILS]: {
+        name: 'Lore & Details',
+        description: 'Define backstory and personality',
+        icon: 'fas fa-scroll'
+    },
+    [WIZARD_STEPS.EQUIPMENT_SELECTION]: {
+        name: 'Starting Equipment',
+        description: 'Purchase your starting gear',
+        icon: 'fas fa-shopping-bag'
     },
     [WIZARD_STEPS.CHARACTER_SUMMARY]: {
         name: 'Summary',
@@ -75,14 +99,42 @@ const initialState = {
         // Class
         class: '',
 
-        // Background
+        // Background (standard D&D backgrounds)
         background: '',
+
+        // Skills and Languages
+        selectedSkills: [],
+        selectedLanguages: [],
+
+        // Path (custom paths like Mystic, Zealot, etc.)
+        path: '',
 
         // Stats (point-buy allocation)
         baseStats: getDefaultStats(),
 
         // Calculated final stats (with all modifiers)
-        finalStats: getDefaultStats()
+        finalStats: getDefaultStats(),
+
+        // Lore and personality
+        lore: {
+            backstory: '',
+            personalityTraits: '',
+            ideals: '',
+            bonds: '',
+            flaws: '',
+            appearance: '',
+            goals: '',
+            fears: '',
+            allies: '',
+            enemies: '',
+            organizations: '',
+            notes: ''
+        },
+
+        // Starting equipment and currency
+        startingCurrency: null,
+        selectedEquipment: [],
+        remainingCurrency: null
     },
     
     // Validation
@@ -101,24 +153,31 @@ export const ACTION_TYPES = {
     NEXT_STEP: 'NEXT_STEP',
     PREV_STEP: 'PREV_STEP',
     MARK_STEP_COMPLETED: 'MARK_STEP_COMPLETED',
-    
+
     // Character data updates
     UPDATE_BASIC_INFO: 'UPDATE_BASIC_INFO',
     SET_RACE: 'SET_RACE',
     SET_SUBRACE: 'SET_SUBRACE',
     SET_CLASS: 'SET_CLASS',
     SET_BACKGROUND: 'SET_BACKGROUND',
+    SET_SKILLS: 'SET_SKILLS',
+    SET_LANGUAGES: 'SET_LANGUAGES',
+    SET_PATH: 'SET_PATH',
+    UPDATE_LORE: 'UPDATE_LORE',
     UPDATE_BASE_STATS: 'UPDATE_BASE_STATS',
     RECALCULATE_FINAL_STATS: 'RECALCULATE_FINAL_STATS',
-    
+
     // Validation
     SET_VALIDATION_ERRORS: 'SET_VALIDATION_ERRORS',
     VALIDATE_CURRENT_STEP: 'VALIDATE_CURRENT_STEP',
-    
+
     // Utility
     RESET_WIZARD: 'RESET_WIZARD',
     SET_LOADING: 'SET_LOADING',
-    SET_ERROR: 'SET_ERROR'
+    SET_ERROR: 'SET_ERROR',
+
+    // Edit mode
+    LOAD_CHARACTER: 'LOAD_CHARACTER'
 };
 
 // Reducer function
@@ -199,7 +258,46 @@ const characterWizardReducer = (state, action) => {
                     background: action.payload
                 }
             };
-            
+
+        case ACTION_TYPES.SET_SKILLS:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    selectedSkills: action.payload
+                }
+            };
+
+        case ACTION_TYPES.SET_LANGUAGES:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    selectedLanguages: action.payload
+                }
+            };
+
+        case ACTION_TYPES.SET_PATH:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    path: action.payload
+                }
+            };
+
+        case ACTION_TYPES.UPDATE_LORE:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    lore: {
+                        ...state.characterData.lore,
+                        ...action.payload
+                    }
+                }
+            };
+
         case ACTION_TYPES.UPDATE_BASE_STATS:
             return {
                 ...state,
@@ -211,24 +309,24 @@ const characterWizardReducer = (state, action) => {
             
         case ACTION_TYPES.RECALCULATE_FINAL_STATS:
             const { characterData } = state;
-            
+
             // Get racial modifiers
             const racialModifiers = characterData.race && characterData.subrace
                 ? applyRacialModifiers({}, characterData.race, characterData.subrace)
                 : {};
-            
-            // Get background modifiers
-            const backgroundModifiers = characterData.background
-                ? getCustomBackgroundStatModifiers(characterData.background)
+
+            // Get path modifiers (paths provide stat bonuses, not backgrounds)
+            const pathModifiers = characterData.path
+                ? getPathStatModifiers(characterData.path)
                 : {};
-            
+
             // Calculate final stats
             const finalStats = calculateFinalStats(
                 characterData.baseStats,
                 racialModifiers,
-                backgroundModifiers
+                pathModifiers
             );
-            
+
             return {
                 ...state,
                 characterData: {
@@ -268,7 +366,65 @@ const characterWizardReducer = (state, action) => {
                 ...state,
                 error: action.payload
             };
-            
+
+        case ACTION_TYPES.LOAD_CHARACTER:
+            // Load existing character data for editing
+            const existingChar = action.payload;
+            return {
+                ...state,
+                characterData: {
+                    // Basic information
+                    name: existingChar.name || '',
+                    gender: existingChar.gender || 'male',
+                    characterImage: existingChar.lore?.characterImage || existingChar.characterImage || null,
+                    imageTransformations: existingChar.lore?.imageTransformations || existingChar.imageTransformations || null,
+
+                    // Race and subrace
+                    race: existingChar.race || '',
+                    subrace: existingChar.subrace || '',
+
+                    // Class
+                    class: existingChar.class || '',
+
+                    // Background
+                    background: existingChar.background || '',
+
+                    // Skills and Languages
+                    selectedSkills: existingChar.selectedSkills || [],
+                    selectedLanguages: existingChar.selectedLanguages || [],
+
+                    // Path
+                    path: existingChar.path || '',
+
+                    // Stats - use existing stats or defaults
+                    baseStats: existingChar.stats || getDefaultStats(),
+                    finalStats: existingChar.stats || getDefaultStats(),
+
+                    // Lore
+                    lore: existingChar.lore || {
+                        backstory: '',
+                        personalityTraits: '',
+                        ideals: '',
+                        bonds: '',
+                        flaws: '',
+                        appearance: '',
+                        goals: '',
+                        fears: '',
+                        allies: '',
+                        enemies: '',
+                        organizations: '',
+                        notes: ''
+                    },
+
+                    // Equipment (if available from character)
+                    startingCurrency: existingChar.inventory?.currency || null,
+                    selectedEquipment: existingChar.inventory?.items || [],
+                    remainingCurrency: existingChar.inventory?.currency || null
+                },
+                // Mark all steps as completed for existing character
+                completedSteps: Object.values(WIZARD_STEPS)
+            };
+
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -310,12 +466,22 @@ const validateCurrentStep = (state) => {
                 errors.background = 'Please select a background';
             }
             break;
-            
+
+        case WIZARD_STEPS.PATH_SELECTION:
+            if (!characterData.path) {
+                errors.path = 'Please select a path';
+            }
+            break;
+
+        case WIZARD_STEPS.LORE_SKILLS:
+            // Skills, languages, and lore are optional, no validation needed
+            break;
+
         case WIZARD_STEPS.STAT_ALLOCATION:
-            const backgroundStartingPoints = characterData.background
-                ? getCustomBackgroundStartingPoints(characterData.background)
+            const pathStartingPoints = characterData.path
+                ? getPathStartingPoints(characterData.path)
                 : 0;
-            const statValidation = validateStats(characterData.baseStats, backgroundStartingPoints);
+            const statValidation = validateStats(characterData.baseStats, pathStartingPoints);
             if (!statValidation.isValid) {
                 errors.stats = statValidation.errors.join(', ');
             }
@@ -353,7 +519,7 @@ export function CharacterWizardProvider({ children }) {
         state.characterData.baseStats,
         state.characterData.race,
         state.characterData.subrace,
-        state.characterData.background
+        state.characterData.path
     ]);
     
     // Auto-validate current step when data changes
@@ -393,18 +559,24 @@ export const wizardActionCreators = {
     nextStep: () => ({ type: ACTION_TYPES.NEXT_STEP }),
     prevStep: () => ({ type: ACTION_TYPES.PREV_STEP }),
     markStepCompleted: (step) => ({ type: ACTION_TYPES.MARK_STEP_COMPLETED, payload: step }),
-    
+
     updateBasicInfo: (info) => ({ type: ACTION_TYPES.UPDATE_BASIC_INFO, payload: info }),
     setRace: (race) => ({ type: ACTION_TYPES.SET_RACE, payload: race }),
     setSubrace: (subrace) => ({ type: ACTION_TYPES.SET_SUBRACE, payload: subrace }),
     setClass: (characterClass) => ({ type: ACTION_TYPES.SET_CLASS, payload: characterClass }),
     setBackground: (background) => ({ type: ACTION_TYPES.SET_BACKGROUND, payload: background }),
+    setSkills: (skills) => ({ type: ACTION_TYPES.SET_SKILLS, payload: skills }),
+    setLanguages: (languages) => ({ type: ACTION_TYPES.SET_LANGUAGES, payload: languages }),
+    setPath: (path) => ({ type: ACTION_TYPES.SET_PATH, payload: path }),
+    updateLore: (lore) => ({ type: ACTION_TYPES.UPDATE_LORE, payload: lore }),
     updateBaseStats: (stats) => ({ type: ACTION_TYPES.UPDATE_BASE_STATS, payload: stats }),
-    
+
     setValidationErrors: (errors) => ({ type: ACTION_TYPES.SET_VALIDATION_ERRORS, payload: errors }),
     validateCurrentStep: () => ({ type: ACTION_TYPES.VALIDATE_CURRENT_STEP }),
-    
+
     resetWizard: () => ({ type: ACTION_TYPES.RESET_WIZARD }),
     setLoading: (loading) => ({ type: ACTION_TYPES.SET_LOADING, payload: loading }),
-    setError: (error) => ({ type: ACTION_TYPES.SET_ERROR, payload: error })
+    setError: (error) => ({ type: ACTION_TYPES.SET_ERROR, payload: error }),
+
+    loadCharacter: (character) => ({ type: ACTION_TYPES.LOAD_CHARACTER, payload: character })
 };

@@ -216,6 +216,14 @@ const useSocialStore = create(
         });
       },
 
+      setIgnoredNote: (id, note) => set(state => ({
+        ignored: state.ignored.map(ignored =>
+          ignored.id === id
+            ? { ...ignored, note }
+            : ignored
+        )
+      })),
+
       setSelectedIgnored: (id) => set({ selectedIgnored: id }),
 
       // Who actions

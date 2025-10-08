@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { RACE_DATA, getFullRaceData } from '../../../data/raceData';
+import { getEquipmentPreview } from '../../../data/startingEquipmentData';
 
 const Step2RaceSelection = () => {
     const state = useCharacterWizardState();
@@ -26,8 +27,8 @@ const Step2RaceSelection = () => {
             description: raceData.description,
             icon: getRaceIcon(raceData.name),
             color: getRaceColor(raceData.name),
-            subraces: Object.entries(raceData.subraces).map(([subraceId, subraceData]) => ({
-                id: subraceId,
+            subraces: Object.entries(raceData.subraces).map(([subraceKey, subraceData]) => ({
+                id: subraceData.id, // Use the actual ID from subraceData, not the object key
                 name: subraceData.name,
                 description: subraceData.description,
                 statModifiers: subraceData.statModifiers,
@@ -242,6 +243,35 @@ const Step2RaceSelection = () => {
                                                     ))}
                                                 </div>
                                             </div>
+
+                                            {/* Starting Equipment Preview */}
+                                            {(() => {
+                                                const raceEquipment = getEquipmentPreview('race', previewRace.id);
+                                                const subraceEquipment = getEquipmentPreview('subrace', previewSubrace.id);
+                                                const totalCount = raceEquipment.count + subraceEquipment.count;
+
+                                                if (totalCount > 0) {
+                                                    return (
+                                                        <div className="preview-section">
+                                                            <h4>
+                                                                <i className="fas fa-shopping-bag"></i> Starting Equipment
+                                                            </h4>
+                                                            <p className="equipment-preview-text">
+                                                                Unlocks <strong>{totalCount}</strong> item{totalCount !== 1 ? 's' : ''} for purchase during character creation
+                                                            </p>
+                                                            {[...raceEquipment.examples, ...subraceEquipment.examples].length > 0 && (
+                                                                <div className="equipment-examples">
+                                                                    <span className="examples-label">Examples:</span>
+                                                                    <span className="examples-list">
+                                                                        {[...raceEquipment.examples, ...subraceEquipment.examples].join(', ')}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            })()}
                                         </>
                                     )}
 

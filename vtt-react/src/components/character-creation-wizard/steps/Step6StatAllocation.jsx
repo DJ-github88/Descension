@@ -1,48 +1,48 @@
 /**
- * Step 5: Stat Allocation
- * 
- * Point-buy system for allocating ability scores with racial and background modifiers
+ * Step 6: Stat Allocation
+ *
+ * Point-buy system for allocating ability scores with racial and path modifiers
  */
 
 import React from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { 
-    ABILITY_SCORES, 
+import {
+    ABILITY_SCORES,
     POINT_BUY_CONFIG,
-    increaseStat, 
-    decreaseStat, 
-    canIncreaseStat, 
+    increaseStat,
+    decreaseStat,
+    canIncreaseStat,
     canDecreaseStat,
     calculateAvailablePoints,
     getStatBreakdown,
     calculateAbilityModifier
 } from '../../../utils/pointBuySystem';
-import { getCustomBackgroundStartingPoints, getCustomBackgroundStatModifiers } from '../../../data/customBackgroundData';
+import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData';
 import { applyRacialModifiers } from '../../../data/raceData';
 
-const Step5StatAllocation = () => {
+const Step6StatAllocation = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
 
     const { characterData, validationErrors } = state;
-    const { baseStats, race, subrace, background } = characterData;
+    const { baseStats, race, subrace, path } = characterData;
 
     // Get modifiers
-    const backgroundStartingPoints = background ? getCustomBackgroundStartingPoints(background) : 0;
-    const backgroundModifiers = background ? getCustomBackgroundStatModifiers(background) : {};
+    const pathStartingPoints = path ? getPathStartingPoints(path) : 0;
+    const pathModifiers = path ? getPathStatModifiers(path) : {};
     const racialModifiers = race && subrace ? applyRacialModifiers({}, race, subrace) : {};
 
     // Calculate available points
-    const availablePoints = calculateAvailablePoints(baseStats, backgroundStartingPoints);
-    const totalPoints = POINT_BUY_CONFIG.BASE_POINT_POOL + backgroundStartingPoints;
+    const availablePoints = calculateAvailablePoints(baseStats, pathStartingPoints);
+    const totalPoints = POINT_BUY_CONFIG.BASE_POINT_POOL + pathStartingPoints;
 
     // Get stat breakdown for display
-    const statBreakdown = getStatBreakdown(baseStats, racialModifiers, backgroundModifiers);
+    const statBreakdown = getStatBreakdown(baseStats, racialModifiers, pathModifiers);
 
     // Handle stat changes
     const handleIncreaseStat = (statId) => {
-        if (canIncreaseStat(baseStats, statId, backgroundStartingPoints)) {
-            const newStats = increaseStat(baseStats, statId, backgroundStartingPoints);
+        if (canIncreaseStat(baseStats, statId, pathStartingPoints)) {
+            const newStats = increaseStat(baseStats, statId, pathStartingPoints);
             dispatch(wizardActionCreators.updateBaseStats(newStats));
         }
     };
@@ -66,8 +66,8 @@ const Step5StatAllocation = () => {
                                 <h3>Point Pool</h3>
                                 <div className="pool-breakdown">
                                     <span className="base-points">Base: {POINT_BUY_CONFIG.BASE_POINT_POOL}</span>
-                                    {backgroundStartingPoints > 0 && (
-                                        <span className="bonus-points">Background: +{backgroundStartingPoints}</span>
+                                    {pathStartingPoints > 0 && (
+                                        <span className="bonus-points">Path: +{pathStartingPoints}</span>
                                     )}
                                 </div>
                             </div>
@@ -89,7 +89,7 @@ const Step5StatAllocation = () => {
                         <div className="stat-controls">
                             {ABILITY_SCORES.map((ability) => {
                                 const breakdown = statBreakdown[ability.id];
-                                const canIncrease = canIncreaseStat(baseStats, ability.id, backgroundStartingPoints);
+                                const canIncrease = canIncreaseStat(baseStats, ability.id, pathStartingPoints);
                                 const canDecrease = canDecreaseStat(baseStats, ability.id);
 
                                 return (
@@ -204,7 +204,7 @@ const Step5StatAllocation = () => {
                                         </div>
                                         <div className="detail-item">
                                             <span className="detail-label">Background:</span>
-                                            <span className="detail-value">{background}</span>
+                                            <span className="detail-value">{characterData.background}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -260,4 +260,4 @@ const Step5StatAllocation = () => {
     );
 };
 
-export default Step5StatAllocation;
+export default Step6StatAllocation;

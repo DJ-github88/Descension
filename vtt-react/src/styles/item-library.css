@@ -1137,8 +1137,9 @@
     min-width: 80px;
 }
 
-/* Legacy section header - keep for backwards compatibility */
-.section-header {
+/* Legacy section header - scoped to item library only */
+.item-library-window .section-header,
+.item-library .section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1149,7 +1150,8 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.section-header h2 {
+.item-library-window .section-header h2,
+.item-library .section-header h2 {
     margin: 0;
     font-size: 16px;
     font-weight: bold;

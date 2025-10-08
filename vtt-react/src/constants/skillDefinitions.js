@@ -195,6 +195,134 @@ export const SKILL_DEFINITIONS = {
         description: 'Perform complex magical rituals and ceremonies',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         rollableTable: 'ritualOutcomes'
+    },
+
+    // Additional D&D Standard Skills
+    acrobatics: {
+        name: 'Acrobatics',
+        category: SKILL_CATEGORIES.EXPLORATION.name,
+        primaryStat: 'agility',
+        secondaryStat: 'strength',
+        description: 'Balance, tumble, and perform acrobatic stunts to avoid falls and navigate difficult terrain',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
+        rollableTable: 'acrobaticsFeats'
+    },
+    animalHandling: {
+        name: 'Animal Handling',
+        category: SKILL_CATEGORIES.EXPLORATION.name,
+        primaryStat: 'spirit',
+        secondaryStat: 'charisma',
+        description: 'Calm, train, and read the intentions of animals and beasts',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
+        rollableTable: 'animalHandlingOutcomes'
+    },
+    arcana: {
+        name: 'Arcana',
+        category: SKILL_CATEGORIES.ARCANE.name,
+        primaryStat: 'intelligence',
+        secondaryStat: 'spirit',
+        description: 'Knowledge of magic, spells, magical items, and arcane symbols',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
+        rollableTable: 'arcanaKnowledge'
+    },
+    history: {
+        name: 'History',
+        category: SKILL_CATEGORIES.ARCANE.name,
+        primaryStat: 'intelligence',
+        secondaryStat: 'spirit',
+        description: 'Knowledge of historical events, legends, ancient civilizations, and past conflicts',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
+        rollableTable: 'historicalKnowledge'
+    },
+    insight: {
+        name: 'Insight',
+        category: SKILL_CATEGORIES.SOCIAL.name,
+        primaryStat: 'spirit',
+        secondaryStat: 'intelligence',
+        description: 'Read body language and determine true intentions to detect lies',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
+        rollableTable: 'insightReading'
+    },
+    intimidation: {
+        name: 'Intimidation',
+        category: SKILL_CATEGORIES.SOCIAL.name,
+        primaryStat: 'strength',
+        secondaryStat: 'charisma',
+        description: 'Influence others through threats, hostile actions, and physical presence',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
+        rollableTable: 'intimidationEffects'
+    },
+    medicine: {
+        name: 'Medicine',
+        category: SKILL_CATEGORIES.CRAFTING.name,
+        primaryStat: 'intelligence',
+        secondaryStat: 'spirit',
+        description: 'Diagnose illness, treat wounds, and stabilize the dying',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
+        rollableTable: 'medicineResults'
+    },
+    nature: {
+        name: 'Nature',
+        category: SKILL_CATEGORIES.EXPLORATION.name,
+        primaryStat: 'intelligence',
+        secondaryStat: 'spirit',
+        description: 'Knowledge of terrain, plants, animals, and weather patterns',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
+        rollableTable: 'natureKnowledge'
+    },
+    perception: {
+        name: 'Perception',
+        category: SKILL_CATEGORIES.EXPLORATION.name,
+        primaryStat: 'spirit',
+        secondaryStat: 'intelligence',
+        description: 'Spot, hear, and detect things in your environment',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
+        rollableTable: 'perceptionFinds'
+    },
+    performance: {
+        name: 'Performance',
+        category: SKILL_CATEGORIES.SOCIAL.name,
+        primaryStat: 'charisma',
+        secondaryStat: 'agility',
+        description: 'Entertain an audience through music, dance, acting, or storytelling',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
+        rollableTable: 'performanceOutcomes'
+    },
+    religion: {
+        name: 'Religion',
+        category: SKILL_CATEGORIES.ARCANE.name,
+        primaryStat: 'intelligence',
+        secondaryStat: 'spirit',
+        description: 'Knowledge of deities, religious rituals, holy symbols, and divine magic',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
+        rollableTable: 'religiousKnowledge'
+    },
+    sleightOfHand: {
+        name: 'Sleight of Hand',
+        category: SKILL_CATEGORIES.SOCIAL.name,
+        primaryStat: 'agility',
+        secondaryStat: 'intelligence',
+        description: 'Manual trickery including pickpocketing, concealing objects, and performing tricks',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
+        rollableTable: 'sleightOfHandTricks'
+    },
+    stealth: {
+        name: 'Stealth',
+        category: SKILL_CATEGORIES.EXPLORATION.name,
+        primaryStat: 'agility',
+        secondaryStat: 'intelligence',
+        description: 'Move silently and hide from enemies to avoid detection',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
+        rollableTable: 'stealthOutcomes'
+    },
+    survival: {
+        name: 'Survival',
+        category: SKILL_CATEGORIES.EXPLORATION.name,
+        primaryStat: 'constitution',
+        secondaryStat: 'intelligence',
+        description: 'Follow tracks, hunt, navigate wilderness, and predict weather',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
+        rollableTable: 'survivalSkills'
     }
 };
 

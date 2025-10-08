@@ -394,5 +394,230 @@ export const ROLLABLE_TABLES = {
             { roll: [13, 17], result: 'Ritual exceeds expectations', type: 'success' },
             { roll: [18, 20], result: 'Perfect ritual, permanent benefits', type: 'critical' }
         ]
+    },
+
+    // Acrobatics Table
+    acrobaticsFeats: {
+        name: 'Acrobatic Feats',
+        description: 'Results of acrobatic maneuvers and stunts',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 4], result: 'Stumble and fall prone, take 1d4 damage', type: 'failure' },
+            { roll: [5, 9], result: 'Clumsy maneuver, succeed but lose balance', type: 'normal' },
+            { roll: [10, 14], result: 'Graceful movement, succeed with style', type: 'success' },
+            { roll: [15, 18], result: 'Perfect form, gain advantage on next action', type: 'success' },
+            { roll: [19, 20], result: 'Spectacular display, inspire allies (+2 to their next roll)', type: 'critical' }
+        ]
+    },
+
+    // Animal Handling Table
+    animalHandlingOutcomes: {
+        name: 'Animal Handling Outcomes',
+        description: 'Results of interacting with animals and beasts',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Animal becomes hostile and attacks', type: 'failure' },
+            { roll: [4, 8], result: 'Animal remains wary and uncooperative', type: 'normal' },
+            { roll: [9, 14], result: 'Animal calms and follows basic commands', type: 'success' },
+            { roll: [15, 18], result: 'Animal becomes friendly and helpful', type: 'success' },
+            { roll: [19, 20], result: 'Form deep bond, animal becomes loyal companion', type: 'critical' }
+        ]
+    },
+
+    // Arcana Table
+    arcanaKnowledge: {
+        name: 'Arcane Knowledge',
+        description: 'Results of identifying and understanding magic',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Misidentify magic, draw wrong conclusion', type: 'failure' },
+            { roll: [4, 8], result: 'Vague understanding, partial information', type: 'normal' },
+            { roll: [9, 14], result: 'Correctly identify magic and its properties', type: 'success' },
+            { roll: [15, 18], result: 'Detailed knowledge including weaknesses', type: 'success' },
+            { roll: [19, 20], result: 'Complete understanding, learn how to replicate it', type: 'critical' }
+        ]
+    },
+
+    // History Table
+    historicalKnowledge: {
+        name: 'Historical Knowledge',
+        description: 'Results of recalling historical information',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Recall false information, misleading facts', type: 'failure' },
+            { roll: [4, 8], result: 'Remember basic facts, common knowledge', type: 'normal' },
+            { roll: [9, 14], result: 'Recall detailed historical information', type: 'success' },
+            { roll: [15, 18], result: 'Remember obscure details and connections', type: 'success' },
+            { roll: [19, 20], result: 'Perfect recall, uncover hidden historical truth', type: 'critical' }
+        ]
+    },
+
+    // Insight Table
+    insightReading: {
+        name: 'Insight Reading',
+        description: 'Results of reading intentions and detecting lies',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Completely misread intentions, believe lies', type: 'failure' },
+            { roll: [4, 8], result: 'Uncertain reading, can\'t tell truth from lies', type: 'normal' },
+            { roll: [9, 14], result: 'Accurately read basic intentions', type: 'success' },
+            { roll: [15, 18], result: 'Detect lies and understand motivations', type: 'success' },
+            { roll: [19, 20], result: 'See through all deception, know their deepest desires', type: 'critical' }
+        ]
+    },
+
+    // Intimidation Table
+    intimidationEffects: {
+        name: 'Intimidation Effects',
+        description: 'Results of intimidating others',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Target becomes defiant and hostile', type: 'failure' },
+            { roll: [4, 8], result: 'Target is unmoved by threats', type: 'normal' },
+            { roll: [9, 14], result: 'Target complies reluctantly', type: 'success' },
+            { roll: [15, 18], result: 'Target is frightened and cooperative', type: 'success' },
+            { roll: [19, 20], result: 'Target is terrified, will do anything you ask', type: 'critical' }
+        ]
+    },
+
+    // Medicine Table
+    medicineResults: {
+        name: 'Medical Treatment',
+        description: 'Results of treating wounds and illnesses',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Treatment fails, patient worsens (lose 1d4 HP)', type: 'failure' },
+            { roll: [4, 8], result: 'Basic treatment, stabilize but no healing', type: 'normal' },
+            { roll: [9, 14], result: 'Successful treatment, heal 1d6 HP', type: 'success' },
+            { roll: [15, 18], result: 'Excellent care, heal 2d6 HP', type: 'success' },
+            { roll: [19, 20], result: 'Miraculous recovery, heal 3d6 HP + remove one condition', type: 'critical' }
+        ]
+    },
+
+    // Nature Table
+    natureKnowledge: {
+        name: 'Nature Knowledge',
+        description: 'Results of identifying natural phenomena',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Misidentify plant/animal, dangerous mistake', type: 'failure' },
+            { roll: [4, 8], result: 'Basic identification, common knowledge', type: 'normal' },
+            { roll: [9, 14], result: 'Correct identification with useful details', type: 'success' },
+            { roll: [15, 18], result: 'Detailed knowledge including medicinal uses', type: 'success' },
+            { roll: [19, 20], result: 'Expert knowledge, discover rare property', type: 'critical' }
+        ]
+    },
+
+    // Perception Table
+    perceptionFinds: {
+        name: 'Perception Finds',
+        description: 'Results of searching and noticing things',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Miss obvious details, overlook danger', type: 'failure' },
+            { roll: [4, 8], result: 'Notice only obvious things', type: 'normal' },
+            { roll: [9, 14], result: 'Spot hidden details and clues', type: 'success' },
+            { roll: [15, 18], result: 'Notice everything, including secret doors', type: 'success' },
+            { roll: [19, 20], result: 'Perfect awareness, sense invisible threats', type: 'critical' }
+        ]
+    },
+
+    // Performance Table
+    performanceOutcomes: {
+        name: 'Performance Outcomes',
+        description: 'Results of entertaining an audience',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Terrible performance, audience boos and throws things', type: 'failure' },
+            { roll: [4, 8], result: 'Mediocre performance, polite applause', type: 'normal' },
+            { roll: [9, 14], result: 'Good performance, audience is entertained', type: 'success' },
+            { roll: [15, 18], result: 'Excellent performance, standing ovation', type: 'success' },
+            { roll: [19, 20], result: 'Legendary performance, audience is moved to tears', type: 'critical' }
+        ]
+    },
+
+    // Religion Table
+    religiousKnowledge: {
+        name: 'Religious Knowledge',
+        description: 'Results of recalling religious information',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Blasphemous mistake, offend deity', type: 'failure' },
+            { roll: [4, 8], result: 'Basic religious knowledge', type: 'normal' },
+            { roll: [9, 14], result: 'Detailed understanding of rituals and beliefs', type: 'success' },
+            { roll: [15, 18], result: 'Deep theological knowledge', type: 'success' },
+            { roll: [19, 20], result: 'Divine revelation, gain temporary blessing', type: 'critical' }
+        ]
+    },
+
+    // Sleight of Hand Table
+    sleightOfHandTricks: {
+        name: 'Sleight of Hand Tricks',
+        description: 'Results of manual dexterity and trickery',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Fumble badly, drop everything and get caught', type: 'failure' },
+            { roll: [4, 8], result: 'Clumsy attempt, observers are suspicious', type: 'normal' },
+            { roll: [9, 14], result: 'Smooth execution, trick succeeds', type: 'success' },
+            { roll: [15, 18], result: 'Flawless technique, no one notices', type: 'success' },
+            { roll: [19, 20], result: 'Impossible feat, steal something valuable undetected', type: 'critical' }
+        ]
+    },
+
+    // Stealth Table
+    stealthOutcomes: {
+        name: 'Stealth Outcomes',
+        description: 'Results of sneaking and hiding',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Make loud noise, immediately detected', type: 'failure' },
+            { roll: [4, 8], result: 'Partially hidden, enemies are alert', type: 'normal' },
+            { roll: [9, 14], result: 'Successfully hidden, enemies unaware', type: 'success' },
+            { roll: [15, 18], result: 'Perfectly concealed, can move freely', type: 'success' },
+            { roll: [19, 20], result: 'Become invisible, gain surprise attack advantage', type: 'critical' }
+        ]
+    },
+
+    // Survival Table
+    survivalSkills: {
+        name: 'Survival Skills',
+        description: 'Results of wilderness survival attempts',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Get lost, consume poisonous food (1d6 damage)', type: 'failure' },
+            { roll: [4, 8], result: 'Barely survive, find minimal food/water', type: 'normal' },
+            { roll: [9, 14], result: 'Survive comfortably, find adequate resources', type: 'success' },
+            { roll: [15, 18], result: 'Thrive in wilderness, find abundant resources', type: 'success' },
+            { roll: [19, 20], result: 'Master the wild, discover rare resources and safe haven', type: 'critical' }
+        ]
+    },
+
+    // Deception Table
+    deceptionResults: {
+        name: 'Deception Results',
+        description: 'Results of lying and deceiving others',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'Obvious lie, target becomes hostile', type: 'failure' },
+            { roll: [4, 8], result: 'Unconvincing, target is suspicious', type: 'normal' },
+            { roll: [9, 14], result: 'Believable lie, target is fooled', type: 'success' },
+            { roll: [15, 18], result: 'Perfect deception, target completely believes you', type: 'success' },
+            { roll: [19, 20], result: 'Masterful manipulation, target becomes your ally', type: 'critical' }
+        ]
     }
 };

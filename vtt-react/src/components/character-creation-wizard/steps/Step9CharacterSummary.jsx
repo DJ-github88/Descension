@@ -1,26 +1,28 @@
 /**
- * Step 6: Character Summary & Finalization
- * 
+ * Step 9: Character Summary & Finalization
+ *
  * Final review of character before creation
  */
 
 import React from 'react';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
-import { getCustomBackgroundData, getCustomBackgroundStatModifiers } from '../../../data/customBackgroundData';
+import { getPathData, getPathStatModifiers } from '../../../data/pathData';
+import { getBackgroundData } from '../../../data/backgroundData';
 import { applyRacialModifiers } from '../../../data/raceData';
 
-const Step6CharacterSummary = () => {
+const Step9CharacterSummary = () => {
     const state = useCharacterWizardState();
     const { characterData } = state;
 
     // Get modifiers for stat breakdown
-    const backgroundModifiers = characterData.background ? getCustomBackgroundStatModifiers(characterData.background) : {};
+    const pathModifiers = characterData.path ? getPathStatModifiers(characterData.path) : {};
     const racialModifiers = characterData.race && characterData.subrace ? applyRacialModifiers({}, characterData.race, characterData.subrace) : {};
-    const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, backgroundModifiers);
+    const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, pathModifiers);
 
-    // Get background data for display
-    const backgroundData = characterData.background ? getCustomBackgroundData(characterData.background) : null;
+    // Get background and path data for display
+    const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
+    const pathData = characterData.path ? getPathData(characterData.path) : null;
 
     return (
         <div className="wizard-step-content">
@@ -57,7 +59,11 @@ const Step6CharacterSummary = () => {
                                 </div>
                                 <div className="detail-item">
                                     <span className="detail-label">Background:</span>
-                                    <span className="detail-value">{characterData.background}</span>
+                                    <span className="detail-value">{backgroundData?.name || characterData.background}</span>
+                                </div>
+                                <div className="detail-item">
+                                    <span className="detail-label">Path:</span>
+                                    <span className="detail-value">{pathData?.name || characterData.path}</span>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +98,7 @@ const Step6CharacterSummary = () => {
                                                 )}
                                                 {breakdown.background !== 0 && (
                                                     <span className="background">
-                                                        Background: {breakdown.background >= 0 ? '+' : ''}{breakdown.background}
+                                                        Path: {breakdown.background >= 0 ? '+' : ''}{breakdown.background}
                                                     </span>
                                                 )}
                                             </div>
@@ -138,14 +144,16 @@ const Step6CharacterSummary = () => {
                                         </div>
                                     </div>
 
-                                    <div className="benefit-group">
-                                        <h4>Starting Equipment</h4>
-                                        <ul className="equipment-list">
-                                            {backgroundData.startingEquipment.map((item, index) => (
-                                                <li key={index}>{item}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                    {backgroundData.equipment && backgroundData.equipment.length > 0 && (
+                                        <div className="benefit-group">
+                                            <h4>Starting Equipment</h4>
+                                            <ul className="equipment-list">
+                                                {backgroundData.equipment.map((item, index) => (
+                                                    <li key={index}>{item}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
@@ -209,4 +217,4 @@ const Step6CharacterSummary = () => {
     );
 };
 
-export default Step6CharacterSummary;
+export default Step9CharacterSummary;

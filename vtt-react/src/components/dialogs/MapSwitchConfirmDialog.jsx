@@ -27,14 +27,17 @@ const MapSwitchConfirmDialog = ({
             title="Switch Map?"
             isOpen={isOpen}
             onClose={onClose}
-            defaultSize={{ width: 350, height: 180 }}
+            defaultSize={{ width: 480, height: 260 }}
             defaultPosition={position}
             isModal={true}
+            resizable={false}
         >
             <div className="map-switch-confirm-dialog">
                 <div className="dialog-content">
+                    <div className="dialog-icon">🗺️</div>
                     <div className="dialog-message">
                         <p>Switch to <strong>"{newMapName}"</strong>?</p>
+                        <p className="dialog-submessage">Current map state will be saved.</p>
                     </div>
                 </div>
 
@@ -43,13 +46,13 @@ const MapSwitchConfirmDialog = ({
                         className="wow-button secondary"
                         onClick={handleStay}
                     >
-                        Stay Here
+                        Cancel
                     </button>
                     <button
                         className="wow-button primary"
                         onClick={handleConfirm}
                     >
-                        Switch to {newMapName}
+                        Switch Map
                     </button>
                 </div>
             </div>

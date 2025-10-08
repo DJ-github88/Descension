@@ -1,0 +1,703 @@
+/* Character View Page - Full Page Character Sheet View */
+
+.character-view-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+  display: flex;
+  flex-direction: column;
+  color: #d5cbb0;
+}
+
+/* Header */
+.character-view-header {
+  background: linear-gradient(180deg, rgba(213, 203, 176, 0.15) 0%, rgba(213, 203, 176, 0.05) 100%);
+  border-bottom: 2px solid #7a3b2e;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.back-button {
+  background: rgba(122, 59, 46, 0.3);
+  border: 1px solid #7a3b2e;
+  color: #d5cbb0;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: rgba(122, 59, 46, 0.5);
+  border-color: #a04d3a;
+  transform: translateX(-2px);
+}
+
+.back-button i {
+  font-size: 12px;
+}
+
+.character-view-title {
+  flex: 1;
+  text-align: center;
+}
+
+.character-view-title h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f4e4c1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: 'Cinzel', serif;
+}
+
+.character-view-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 15px;
+  color: #b8a888;
+}
+
+.character-view-subtitle span {
+  padding: 6px 14px;
+  background: rgba(122, 59, 46, 0.25);
+  border: 1px solid rgba(122, 59, 46, 0.5);
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.character-view-subtitle span:hover {
+  background: rgba(122, 59, 46, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.character-level {
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.character-class {
+  color: #87ceeb;
+  text-shadow: 0 0 8px rgba(135, 206, 235, 0.3);
+}
+
+.character-race {
+  color: #98fb98;
+  text-shadow: 0 0 8px rgba(152, 251, 152, 0.3);
+}
+
+.character-background {
+  color: #dda0dd;
+  text-shadow: 0 0 8px rgba(221, 160, 221, 0.3);
+}
+
+.character-alignment {
+  color: #f0e68c;
+  text-shadow: 0 0 8px rgba(240, 230, 140, 0.3);
+}
+
+.character-exhaustion {
+  color: #ff6b6b;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+  animation: pulse-exhaustion 2s ease-in-out infinite;
+}
+
+@keyframes pulse-exhaustion {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.character-view-resources {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.resource-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(213, 203, 176, 0.3);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.resource-display.health {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.3);
+}
+
+.resource-display.mana {
+  color: #4dabf7;
+  border-color: rgba(77, 171, 247, 0.3);
+}
+
+.resource-display.action-points {
+  color: #ffd43b;
+  border-color: rgba(255, 212, 59, 0.3);
+}
+
+.resource-display i {
+  font-size: 16px;
+}
+
+/* Tab Navigation */
+.character-view-tabs {
+  display: flex;
+  background: rgba(213, 203, 176, 0.1);
+  border-bottom: 2px solid #7a3b2e;
+  padding: 0 40px;
+  gap: 5px;
+}
+
+.character-view-tab {
+  background: transparent;
+  border: none;
+  color: #b8a888;
+  padding: 15px 30px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  position: relative;
+}
+
+.character-view-tab:hover {
+  background: rgba(213, 203, 176, 0.1);
+  color: #d5cbb0;
+}
+
+.character-view-tab.active {
+  background: rgba(122, 59, 46, 0.2);
+  color: #f4e4c1;
+  border-bottom-color: #a04d3a;
+}
+
+.character-view-tab i {
+  font-size: 16px;
+}
+
+/* Content Area */
+.character-view-content {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+  background: #d5cbb0;
+  display: flex;
+  flex-direction: column;
+}
+
+.character-view-content-wrapper {
+  flex: 1;
+  max-width: 100%;
+  margin: 0;
+  background: #d5cbb0;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Override character sheet styles for full-page view */
+.character-view-content .character-container,
+.character-view-content .stats-container,
+.character-view-content .skills-container,
+.character-view-content .lore-container {
+  background: #d5cbb0;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  min-height: 100%;
+  height: 100%;
+}
+
+/* Make inventory window fit the full-page layout */
+.character-view-content .inventory-container {
+  background: #d5cbb0;
+  border: none;
+  height: 100%;
+  flex: 1;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Inventory grid styling for full-page view */
+.character-view-content .inventory-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 4px;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Section headers - proportional to grid columns */
+.character-view-content .inventory-section-headers {
+  display: flex;
+  width: 100%;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+  height: auto;
+}
+
+.character-view-content .section-header {
+  padding: 6px 0;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* Match header widths to column sections */
+.character-view-content .section-header.normal {
+  flex: 0 0 33.333%;
+}
+
+.character-view-content .section-header.encumbered {
+  flex: 0 0 33.333%;
+}
+
+.character-view-content .section-header.overencumbered {
+  flex: 0 0 33.333%;
+}
+
+/* Make inventory rows compact without extra spacing */
+.character-view-content .inventory-row {
+  display: flex;
+  gap: 0;
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+/* Make inventory cells perfectly square and equal sized */
+.character-view-content .inventory-cell {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  width: 0;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Force square aspect ratio using padding trick */
+.character-view-content .inventory-cell::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+/* Position cell contents absolutely to fill the square */
+.character-view-content .inventory-cell > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Ensure item wrappers scale properly */
+.character-view-content .inventory-cell .item-wrapper {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Ensure item icons scale properly */
+.character-view-content .inventory-cell .item-icon {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Section headers should match grid width */
+.character-view-content .inventory-section-headers {
+  display: flex;
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.character-view-content .section-header {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 0.85rem;
+}
+
+/* Character navigation buttons - pathfinder theme */
+.character-view-content .character-navigation,
+.character-view-content .stats-navigation,
+.character-view-content .skills-navigation,
+.character-view-content .lore-navigation {
+  background: rgba(122, 59, 46, 0.2);
+  border-right: 2px solid #7a3b2e;
+  padding: 20px 10px;
+  margin: 0;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.character-view-content .character-nav-button,
+.character-view-content .stats-nav-button,
+.character-view-content .skills-nav-button {
+  background: rgba(213, 203, 176, 0.3);
+  border: 1px solid #7a3b2e;
+  color: #5a3825;
+}
+
+.character-view-content .character-nav-button.active,
+.character-view-content .stats-nav-button.active,
+.character-view-content .skills-nav-button.active {
+  background: #7a3b2e;
+  color: #f4e4c1;
+  border-color: #5a3825;
+}
+
+.character-view-content .character-nav-button:hover,
+.character-view-content .stats-nav-button:hover,
+.character-view-content .skills-nav-button:hover {
+  background: rgba(122, 59, 46, 0.4);
+  color: #2c1810;
+}
+
+/* Content areas */
+.character-view-content .character-content-area,
+.character-view-content .stats-content-area,
+.character-view-content .skills-content,
+.character-view-content .lore-content {
+  background: #d5cbb0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section headers */
+.character-view-content .character-section-header,
+.character-view-content .stats-section-header,
+.character-view-content .skills-section-header,
+.character-view-content .lore-section-header {
+  background: rgba(122, 59, 46, 0.15);
+  border-bottom: 2px solid #7a3b2e;
+  padding: 12px 20px;
+  margin: 0;
+}
+
+.character-view-content .character-section-title,
+.character-view-content .stats-section-title,
+.character-view-content .skills-section-title,
+.character-view-content .lore-section-title {
+  color: #5a3825;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Lore fields container */
+.character-view-content .lore-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Equipment and character info backgrounds */
+.character-view-content .equipment-content,
+.character-view-content .character-info-content {
+  background: #d5cbb0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+.character-view-content .equipment-layout {
+  background: #d5cbb0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+  gap: 30px;
+}
+
+.character-view-content .character-summary-layout {
+  background: #d5cbb0;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  padding: 40px 60px;
+  gap: 30px;
+}
+
+/* Character identity section */
+.character-view-content .character-identity-section {
+  background: linear-gradient(135deg,
+    rgba(213, 203, 176, 0.5) 0%,
+    rgba(213, 203, 176, 0.3) 100%);
+  border-color: #7a3b2e;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+/* Character fields container */
+.character-view-content .character-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Character fields */
+.character-view-content .character-field-input,
+.character-view-content .character-field-select {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: #7a3b2e;
+  color: #2c1810;
+}
+
+.character-view-content .character-field-input:focus,
+.character-view-content .character-field-select:focus {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #5a3825;
+}
+
+/* Equipment slots - larger and better spaced */
+.character-view-content .equipment-slot {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg,
+    rgba(240, 230, 210, 0.95) 0%,
+    rgba(220, 210, 190, 0.9) 50%,
+    rgba(200, 190, 170, 0.85) 100%);
+  border: 3px solid #8b7355;
+  border-radius: 10px;
+}
+
+.character-view-content .equipment-slot:hover {
+  background: linear-gradient(135deg,
+    rgba(250, 240, 220, 0.98) 0%,
+    rgba(230, 220, 200, 0.95) 50%,
+    rgba(210, 200, 180, 0.9) 100%);
+  border-color: #7a3b2e;
+}
+
+.character-view-content .equipment-slots {
+  gap: 16px;
+}
+
+.character-view-content .left-equipment,
+.character-view-content .right-equipment {
+  gap: 16px;
+}
+
+/* Character image container - larger in full view */
+.character-view-content .character-image-container {
+  width: 340px;
+  height: 510px;
+}
+
+.character-view-content .character-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Weapon slots - better spacing */
+.character-view-content .weapon-slots {
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Stats and Skills grids - better spacing */
+.character-view-content .stats-fields,
+.character-view-content .skills-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px 20px;
+  justify-content: flex-start;
+}
+
+.character-view-content .stats-content,
+.character-view-content .skills-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stat rows - better vertical spacing */
+.character-view-content .stat-row {
+  margin-bottom: 8px;
+}
+
+/* Skills grid - better layout */
+.character-view-content .skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+/* Sync Indicator */
+.character-view-sync-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(122, 59, 46, 0.9);
+  border: 1px solid #7a3b2e;
+  padding: 10px 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #d5cbb0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.character-view-sync-indicator i {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading State */
+.character-view-loading,
+.character-view-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 20px;
+  color: #d5cbb0;
+}
+
+.character-view-loading i,
+.character-view-error i {
+  font-size: 48px;
+  color: #7a3b2e;
+}
+
+.character-view-loading p,
+.character-view-error p {
+  font-size: 18px;
+  margin: 0;
+}
+
+.character-view-error i {
+  color: #ff6b6b;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .character-view-header {
+    padding: 15px 30px;
+  }
+
+  .character-view-title h1 {
+    font-size: 28px;
+  }
+
+  .character-view-tabs {
+    padding: 0 30px;
+  }
+
+  /* Removed padding - let content manage its own spacing */
+}
+
+@media (max-width: 768px) {
+  .character-view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .character-view-title {
+    text-align: left;
+  }
+
+  .character-view-subtitle {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .character-view-resources {
+    flex-wrap: wrap;
+  }
+
+  .character-view-tabs {
+    overflow-x: auto;
+    padding: 0 20px;
+  }
+
+  .character-view-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  /* Removed padding - let content manage its own spacing */
+
+  .character-view-content-wrapper {
+    padding: 0;
+  }
+}
+

@@ -2,193 +2,125 @@
 .map-switch-confirm-dialog {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 16px;
-    color: #f0e6d2;
-    font-family: inherit;
+    justify-content: space-between;
+    padding: 24px;
+    color: var(--pf-text-primary);
+    font-family: 'Cinzel', serif;
+    height: 100%;
+    overflow: hidden;
 }
 
 /* Dialog Content */
 .dialog-content {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Map Info */
-.map-info {
-    background: rgba(240, 230, 210, 0.05);
-    border: 1px solid rgba(160, 140, 112, 0.3);
-    border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.map-info-item {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    padding: 16px 0;
 }
 
-.map-label {
-    color: #a08c70;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.map-name {
-    font-weight: bold;
-    font-size: 0.95rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-}
-
-.map-name.new {
-    color: #89dceb;
-    background: rgba(137, 220, 235, 0.1);
-    border: 1px solid rgba(137, 220, 235, 0.3);
-}
-
-.map-name.current {
-    color: #c9aa71;
-    background: rgba(201, 170, 113, 0.1);
-    border: 1px solid rgba(201, 170, 113, 0.3);
+/* Dialog Icon */
+.dialog-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+    opacity: 0.8;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Dialog Message */
 .dialog-message {
-    text-align: center;
-    line-height: 1.5;
-    padding: 8px 0;
+    text-align: left;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
 }
 
 .dialog-message p {
     margin: 0;
-    color: #f0e6d2;
-    font-size: 1rem;
+    color: var(--pf-text-primary);
+    font-size: 1.1rem;
 }
 
 .dialog-message strong {
-    color: #c9aa71;
+    color: var(--pf-gold-dark);
     font-weight: bold;
 }
 
-/* Dialog Options */
-.dialog-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 8px 0;
-}
-
-.option-card {
-    background: rgba(240, 230, 210, 0.03);
-    border: 2px solid rgba(160, 140, 112, 0.3);
-    border-radius: 8px;
-    padding: 12px;
-    text-align: center;
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.option-card:hover {
-    border-color: rgba(160, 140, 112, 0.5);
-    background: rgba(240, 230, 210, 0.06);
-    transform: translateY(-1px);
-}
-
-.option-card.switch:hover {
-    border-color: rgba(137, 220, 235, 0.5);
-    background: rgba(137, 220, 235, 0.05);
-}
-
-.option-card.stay:hover {
-    border-color: rgba(201, 170, 113, 0.5);
-    background: rgba(201, 170, 113, 0.05);
-}
-
-.option-icon {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.option-content h4 {
-    color: #c9aa71;
-    font-size: 1rem;
-    font-weight: bold;
-    margin: 0 0 4px 0;
-}
-
-.option-content p {
-    color: #a08c70;
-    font-size: 0.85rem;
-    margin: 0;
-    line-height: 1.3;
+.dialog-submessage {
+    font-size: 0.9rem !important;
+    color: var(--pf-text-secondary) !important;
+    font-style: italic;
 }
 
 /* Dialog Actions */
 .dialog-actions {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(160, 140, 112, 0.3);
+    justify-content: center;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 2px solid var(--pf-brown-medium);
 }
 
-.wow-button {
-    flex: 1;
-    padding: 10px 16px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 0.9rem;
+.map-switch-confirm-dialog .wow-button {
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s ease;
     border: 2px solid;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 140px;
+    flex: 0 0 auto;
+    box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-.wow-button.secondary {
-    background: linear-gradient(135deg, rgba(160, 140, 112, 0.2) 0%, rgba(160, 140, 112, 0.1) 100%);
-    border-color: rgba(160, 140, 112, 0.5);
-    color: #f0e6d2;
+.map-switch-confirm-dialog .wow-button.secondary {
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%) !important;
+    border-color: #654321 !important;
+    color: #F5F5DC !important;
 }
 
-.wow-button.secondary:hover {
-    background: linear-gradient(135deg, rgba(160, 140, 112, 0.3) 0%, rgba(160, 140, 112, 0.2) 100%);
-    border-color: rgba(160, 140, 112, 0.7);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.map-switch-confirm-dialog .wow-button.secondary:hover {
+    background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%) !important;
+    border-color: #8B4513 !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
-.wow-button.primary {
-    background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
-    border-color: #6b9775;
-    color: #f0e6d2;
+.map-switch-confirm-dialog .wow-button.primary {
+    background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 100%) !important;
+    border-color: #C9A961 !important;
+    color: #3E2723 !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3) !important;
 }
 
-.wow-button.primary:hover {
-    background: linear-gradient(135deg, #5d8a6b 0%, #6b9775 100%);
-    border-color: #7ba583;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.map-switch-confirm-dialog .wow-button.primary:hover {
+    background: linear-gradient(135deg, #F4D03F 0%, #F9E79F 100%) !important;
+    border-color: #D4AF37 !important;
+    color: #2C1810 !important;
+    transform: translateY(-2px);
+    box-shadow:
+        0 4px 12px rgba(212, 175, 55, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Responsive Design */
 @media (max-width: 500px) {
-    .dialog-options {
-        grid-template-columns: 1fr;
-    }
-
     .dialog-actions {
         flex-direction: column;
     }
 
-    .map-info-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
+    .map-switch-confirm-dialog .wow-button {
+        width: 100%;
     }
 }

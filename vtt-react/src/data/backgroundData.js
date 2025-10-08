@@ -32,6 +32,7 @@ export const BACKGROUND_DATA = {
         description: 'You are an experienced criminal with a history of breaking the law. You have spent a lot of time among other criminals.',
         skillProficiencies: ['Deception', 'Stealth'],
         toolProficiencies: ['Thieves\' tools', 'Gaming set'],
+        languages: 1, // Underworld connections
         equipment: [
             'Crowbar',
             'Dark common clothes with hood',
@@ -49,6 +50,7 @@ export const BACKGROUND_DATA = {
         description: 'You come from humble origins, but you are destined for so much more. The people of your home village regard you as their champion.',
         skillProficiencies: ['Animal Handling', 'Survival'],
         toolProficiencies: ['Artisan\'s tools', 'Vehicles (land)'],
+        languages: 1, // Folk heroes often travel and interact with diverse communities
         equipment: [
             'Artisan\'s tools',
             'Shovel',
@@ -107,6 +109,7 @@ export const BACKGROUND_DATA = {
         description: 'War has been your life for as long as you care to remember. You trained as a youth, studied the use of weapons and armor.',
         skillProficiencies: ['Athletics', 'Intimidation'],
         toolProficiencies: ['Gaming set', 'Vehicles (land)'],
+        languages: 1, // Military campaigns expose you to foreign tongues
         equipment: [
             'Insignia of rank',
             'Trophy from fallen enemy',
@@ -126,6 +129,7 @@ export const BACKGROUND_DATA = {
         description: 'You have always had a way with people. You know what makes them tick, you can tease out their hearts\' desires.',
         skillProficiencies: ['Deception', 'Sleight of Hand'],
         toolProficiencies: ['Forgery kit', 'Disguise kit'],
+        languages: 1, // Worldly experience from traveling cons
         equipment: [
             'Disguise kit',
             'Tools of con of choice',
@@ -145,6 +149,7 @@ export const BACKGROUND_DATA = {
         description: 'You thrive in front of an audience. You know how to entrance them, entertain them, and even inspire them.',
         skillProficiencies: ['Acrobatics', 'Performance'],
         toolProficiencies: ['Disguise kit', 'Musical instrument'],
+        languages: 1, // Traveling performers learn languages from diverse audiences
         equipment: [
             'Musical instrument',
             'Favor of admirer',
@@ -220,6 +225,7 @@ export const BACKGROUND_DATA = {
         description: 'You sailed on a seagoing vessel for years. In that time, you faced down mighty storms, monsters of the deep, and those who wanted to sink your craft.',
         skillProficiencies: ['Athletics', 'Perception'],
         toolProficiencies: ['Navigator\'s tools', 'Vehicles (water)'],
+        languages: 1, // Port cities expose sailors to many tongues
         equipment: [
             'Belaying pin',
             'Silk rope (50 feet)',

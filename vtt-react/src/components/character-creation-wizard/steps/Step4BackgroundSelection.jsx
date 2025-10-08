@@ -1,12 +1,13 @@
 /**
  * Step 4: Background Selection
- * 
- * Choose from 9 custom backgrounds with unique benefits and features
+ *
+ * Choose from standard D&D backgrounds (Acolyte, Sage, Soldier, etc.)
  */
 
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { getAllCustomBackgrounds, getCustomBackgroundData } from '../../../data/customBackgroundData';
+import { getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
+import { getEquipmentPreview } from '../../../data/startingEquipmentData';
 
 const Step4BackgroundSelection = () => {
     const state = useCharacterWizardState();
@@ -14,7 +15,7 @@ const Step4BackgroundSelection = () => {
     const [selectedBackground, setSelectedBackground] = useState(state.characterData.background);
     const [hoveredBackground, setHoveredBackground] = useState(null);
 
-    const backgrounds = getAllCustomBackgrounds();
+    const backgrounds = getAllBackgrounds() || [];
     const { validationErrors } = state;
 
     // Handle background selection
@@ -26,7 +27,7 @@ const Step4BackgroundSelection = () => {
     // Get background for preview (hovered or selected)
     const getPreviewBackground = () => {
         const previewId = hoveredBackground || selectedBackground;
-        return previewId ? getCustomBackgroundData(previewId) : null;
+        return previewId ? getBackgroundData(previewId) : null;
     };
 
     const previewBackground = getPreviewBackground();
@@ -47,7 +48,7 @@ const Step4BackgroundSelection = () => {
                                     onMouseLeave={() => setHoveredBackground(null)}
                                 >
                                     <div className="background-icon">
-                                        <i className={background.icon}></i>
+                                        <i className="fas fa-book"></i>
                                     </div>
                                     <div className="background-info">
                                         <h3 className="background-name">{background.name}</h3>
@@ -57,13 +58,15 @@ const Step4BackgroundSelection = () => {
                                     </div>
                                     <div className="background-benefits">
                                         <div className="benefit-item">
-                                            <i className="fas fa-plus-circle"></i>
-                                            <span>+{background.startingPoints} Points</span>
-                                        </div>
-                                        <div className="benefit-item">
                                             <i className="fas fa-cogs"></i>
                                             <span>{background.skillProficiencies.length} Skills</span>
                                         </div>
+                                        {background.languages && (
+                                            <div className="benefit-item">
+                                                <i className="fas fa-language"></i>
+                                                <span>{background.languages} Languages</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}
@@ -83,9 +86,12 @@ const Step4BackgroundSelection = () => {
                             <div className="preview-card">
                                 <div className="preview-header">
                                     <div className="preview-icon">
-                                        <i className={previewBackground.icon}></i>
+                                        <i className="fas fa-book"></i>
                                     </div>
-                                    <h3 className="preview-title">{previewBackground.name}</h3>
+                                    <div className="preview-title-section">
+                                        <h2 className="preview-title">{previewBackground.name}</h2>
+                                        <p className="preview-subtitle">Character Background</p>
+                                    </div>
                                 </div>
 
                                 <div className="preview-content">
@@ -94,20 +100,6 @@ const Step4BackgroundSelection = () => {
                                         <p className="background-description">
                                             {previewBackground.description}
                                         </p>
-                                    </div>
-
-                                    <div className="preview-section">
-                                        <h4>Stat Modifiers</h4>
-                                        <div className="stat-modifiers">
-                                            {Object.entries(previewBackground.statModifiers).map(([stat, modifier]) => (
-                                                <div key={stat} className={`stat-modifier ${modifier >= 0 ? 'positive' : 'negative'}`}>
-                                                    <span className="stat-name">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
-                                                    <span className="stat-value">
-                                                        {modifier >= 0 ? '+' : ''}{modifier}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                        </div>
                                     </div>
 
                                     <div className="preview-section">
@@ -143,14 +135,16 @@ const Step4BackgroundSelection = () => {
                                         </div>
                                     )}
 
-                                    <div className="preview-section">
-                                        <h4>Starting Equipment</h4>
-                                        <ul className="equipment-list">
-                                            {previewBackground.startingEquipment.map((item, index) => (
-                                                <li key={index}>{item}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                                    {previewBackground.equipment && (
+                                        <div className="preview-section">
+                                            <h4>Starting Equipment</h4>
+                                            <ul className="equipment-list">
+                                                {previewBackground.equipment.map((item, index) => (
+                                                    <li key={index}>{item}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
 
                                     <div className="preview-section">
                                         <h4>Special Feature</h4>
@@ -162,15 +156,32 @@ const Step4BackgroundSelection = () => {
                                         </div>
                                     </div>
 
-                                    <div className="preview-section">
-                                        <h4>Point Allocation Bonus</h4>
-                                        <div className="points-bonus">
-                                            <i className="fas fa-star"></i>
-                                            <span>
-                                                +{previewBackground.startingPoints} extra point{previewBackground.startingPoints !== 1 ? 's' : ''} for stat allocation
-                                            </span>
-                                        </div>
-                                    </div>
+                                    {/* Starting Equipment Preview */}
+                                    {(() => {
+                                        const backgroundEquipment = getEquipmentPreview('background', previewBackground.id);
+
+                                        if (backgroundEquipment.count > 0) {
+                                            return (
+                                                <div className="preview-section">
+                                                    <h4>
+                                                        <i className="fas fa-shopping-bag"></i> Starting Equipment
+                                                    </h4>
+                                                    <p className="equipment-preview-text">
+                                                        Unlocks <strong>{backgroundEquipment.count}</strong> background-specific item{backgroundEquipment.count !== 1 ? 's' : ''} for purchase
+                                                    </p>
+                                                    {backgroundEquipment.examples.length > 0 && (
+                                                        <div className="equipment-examples">
+                                                            <span className="examples-label">Examples:</span>
+                                                            <span className="examples-list">
+                                                                {backgroundEquipment.examples.join(', ')}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })()}
                                 </div>
                             </div>
                         ) : (

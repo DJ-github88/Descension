@@ -17,10 +17,10 @@ export const SUBSCRIPTION_TIERS = {
     id: 'free',
     name: 'Free Adventurer',
     roomLimit: 1,
-    characterLimit: 1,
+    characterLimit: 50,
     features: [
       'Cloud character save',
-      '1 character slot',
+      '50 character slots',
       '1 persistent room',
       'Unlimited local play',
       'Basic multiplayer features'

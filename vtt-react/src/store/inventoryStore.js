@@ -21,6 +21,11 @@ const recordCharacterChange = (changeType, changeData) => {
         if (state.currentCharacterId) {
             // Record the change asynchronously
             state.recordCharacterChange(state.currentCharacterId, changeType, changeData);
+
+            // Save the character with updated inventory
+            setTimeout(() => {
+                state.saveCurrentCharacter();
+            }, 100); // Small delay to ensure state is updated
         }
     } catch (error) {
         console.warn('Could not record character change:', error);
@@ -866,6 +871,14 @@ const useInventoryStore = create(persist((set, get) => ({
                 : i
         );
 
+        // Record character change for persistence
+        recordCharacterChange('inventory_move', {
+            itemId: itemId,
+            oldPosition: item.position,
+            newPosition: newPosition,
+            timestamp: new Date()
+        });
+
         // Update encumbrance state after moving
         setTimeout(() => get().updateEncumbranceState(), 0);
 
@@ -901,6 +914,14 @@ const useInventoryStore = create(persist((set, get) => ({
                     : i
             );
 
+            // Record character change for persistence
+            recordCharacterChange('inventory_rotate', {
+                itemId: itemId,
+                oldRotation: currentRotation,
+                newRotation: newRotation,
+                timestamp: new Date()
+            });
+
             // Update encumbrance state after rotating
             setTimeout(() => get().updateEncumbranceState(), 0);
 
@@ -922,6 +943,14 @@ const useInventoryStore = create(persist((set, get) => ({
                     ? { ...i, rotation: newRotation }
                     : i
             );
+
+            // Record character change for persistence
+            recordCharacterChange('inventory_rotate', {
+                itemId: itemId,
+                oldRotation: currentRotation,
+                newRotation: newRotation,
+                timestamp: new Date()
+            });
 
             // Update encumbrance state after rotating
             setTimeout(() => get().updateEncumbranceState(), 0);
@@ -972,6 +1001,16 @@ const useInventoryStore = create(persist((set, get) => ({
                         ? { ...i, rotation: newRotation, position: { row: pos.row, col: pos.col } }
                         : i
                 );
+
+                // Record character change for persistence
+                recordCharacterChange('inventory_rotate', {
+                    itemId: itemId,
+                    oldRotation: currentRotation,
+                    newRotation: newRotation,
+                    oldPosition: { row, col },
+                    newPosition: pos,
+                    timestamp: new Date()
+                });
 
                 // Update encumbrance state after rotating
                 setTimeout(() => get().updateEncumbranceState(), 0);
@@ -1028,6 +1067,14 @@ const useInventoryStore = create(persist((set, get) => ({
             ...item,
             quantity: item.quantity - quantity
         };
+
+        // Record character change for persistence
+        recordCharacterChange('inventory_split', {
+            originalItemId: itemId,
+            newItemId: newItem.id,
+            splitQuantity: quantity,
+            timestamp: new Date()
+        });
 
         return { items: [...updatedItems, newItem] };
     }),
@@ -1115,6 +1162,14 @@ const useInventoryStore = create(persist((set, get) => ({
             // Source is completely merged, remove it
             updatedItems.splice(sourceIndex, 1);
         }
+
+        // Record character change for persistence
+        recordCharacterChange('inventory_merge', {
+            sourceItemId: sourceItemId,
+            targetItemId: targetItemId,
+            mergedQuantity: amountToMerge,
+            timestamp: new Date()
+        });
 
         // Update encumbrance after merging
         setTimeout(() => get().updateEncumbranceState(), 0);

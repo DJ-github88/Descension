@@ -235,7 +235,8 @@ export default function CharacterPanel() {
         updateBaseName,
         updateResource,
         unequipItem,
-        immunities = [] // Default to empty array if not provided
+        immunities = [], // Default to empty array if not provided
+        lore = {} // Get lore data for character image
     } = dataSource;
 
     // State for navigation
@@ -479,11 +480,18 @@ export default function CharacterPanel() {
                 {/* Character Portrait Section with Weapons Below */}
                 <div className="character-center-section">
                     <div className="character-image-container">
-                        <img
-                            src="https://wow.zamimg.com/uploads/screenshots/normal/1046017-human-priest.jpg"
-                            alt="Character Portrait"
-                            className="character-portrait"
-                        />
+                        {lore?.characterImage ? (
+                            <img
+                                src={lore.characterImage}
+                                alt="Character Portrait"
+                                className="character-portrait"
+                            />
+                        ) : (
+                            <div className="character-portrait-placeholder">
+                                <i className="fas fa-user"></i>
+                                <span>No Image</span>
+                            </div>
+                        )}
                     </div>
 
                     {/* Weapon Slots Below Character */}

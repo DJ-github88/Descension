@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useSocialStore from '../../store/socialStore';
 import SocialContextMenu from './SocialContextMenu';
+import UserCard from './UserCard';
 import '../../styles/social-window.css';
 
 const IgnoreList = () => {
@@ -9,7 +10,8 @@ const IgnoreList = () => {
     selectedIgnored,
     setSelectedIgnored,
     addIgnored,
-    removeIgnored
+    removeIgnored,
+    setIgnoredNote
   } = useSocialStore();
 
   // State for context menu
@@ -17,6 +19,10 @@ const IgnoreList = () => {
   // State for add ignore dialog
   const [showAddIgnore, setShowAddIgnore] = useState(false);
   const [newIgnoreName, setNewIgnoreName] = useState('');
+  // State for note dialog
+  const [showNoteDialog, setShowNoteDialog] = useState(false);
+  const [noteText, setNoteText] = useState('');
+  const [notePlayerId, setNotePlayerId] = useState(null);
 
   // Handle ignore selection
   const handleSelectIgnored = (id) => {
@@ -63,26 +69,53 @@ const IgnoreList = () => {
   // Handle remove ignore
   const handleRemoveIgnore = (player) => {
     removeIgnored(player.id);
+    closeContextMenu();
   };
 
-  // Render an ignore entry
-  const renderIgnoreEntry = (ignore) => (
-    <div
-      key={ignore.id}
-      className={`ignore-entry ${selectedIgnored === ignore.id ? 'selected' : ''}`}
-      onClick={() => handleSelectIgnored(ignore.id)}
-      onContextMenu={(e) => handleContextMenu(e, ignore)}
-    >
-      <div className="ignore-name">{ignore.name}</div>
-      <div className="friend-info">
-        <span className="friend-level">{ignore.level}</span>
-        <span className={`friend-class ${ignore.class}`}>{ignore.class}</span>
-        {ignore.note && (
-          <div className="friend-note">{ignore.note}</div>
-        )}
+  // Handle add note
+  const handleAddNote = (player) => {
+    setNoteText(player.note || '');
+    setNotePlayerId(player.id);
+    setShowNoteDialog(true);
+    closeContextMenu();
+  };
+
+  // Handle note submit
+  const handleNoteSubmit = () => {
+    if (notePlayerId) {
+      setIgnoredNote(notePlayerId, noteText);
+      setShowNoteDialog(false);
+      setNotePlayerId(null);
+      setNoteText('');
+    }
+  };
+
+  // Render an ignore entry using UserCard
+  const renderIgnoreEntry = (ignore) => {
+    // Build note display
+    const noteDisplay = ignore.note ? (
+      <div className="ignored-note">
+        <i className="fas fa-sticky-note"></i>
+        <span>{ignore.note}</span>
       </div>
-    </div>
-  );
+    ) : null;
+
+    return (
+      <UserCard
+        key={ignore.id}
+        user={{
+          ...ignore,
+          characterName: ignore.name,
+          userId: ignore.id,
+          status: 'offline' // Ignored users shown as offline
+        }}
+        className="ignored-card"
+        additionalContent={noteDisplay}
+        onClick={() => handleSelectIgnored(ignore.id)}
+        onContextMenu={(e) => handleContextMenu(e, ignore)}
+      />
+    );
+  };
 
   return (
     <div className="friends-list-container">
@@ -98,13 +131,22 @@ const IgnoreList = () => {
             <i className="fas fa-user-slash"></i>
           </button>
           {selectedIgnored && (
-            <button
-              className="compact-action-btn remove-ignore"
-              onClick={() => handleRemoveIgnore(ignored.find(i => i.id === selectedIgnored))}
-              title="Remove Ignore"
-            >
-              <i className="fas fa-user-check"></i>
-            </button>
+            <>
+              <button
+                className="compact-action-btn set-note"
+                onClick={() => handleAddNote(ignored.find(i => i.id === selectedIgnored))}
+                title="Set Note"
+              >
+                <i className="fas fa-sticky-note"></i>
+              </button>
+              <button
+                className="compact-action-btn remove-ignore"
+                onClick={() => handleRemoveIgnore(ignored.find(i => i.id === selectedIgnored))}
+                title="Remove Ignore"
+              >
+                <i className="fas fa-user-check"></i>
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -161,6 +203,38 @@ const IgnoreList = () => {
         </div>
       )}
 
+      {/* Note Dialog */}
+      {showNoteDialog && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Set Note</h3>
+            <div className="modal-form">
+              <textarea
+                value={noteText}
+                onChange={(e) => setNoteText(e.target.value)}
+                placeholder="Enter note"
+                className="who-input"
+                rows={3}
+              />
+            </div>
+            <div className="modal-actions">
+              <button
+                className="social-button"
+                onClick={handleNoteSubmit}
+              >
+                Save
+              </button>
+              <button
+                className="social-button"
+                onClick={() => setShowNoteDialog(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Context Menu */}
       {contextMenu && (
         <SocialContextMenu
@@ -174,6 +248,7 @@ const IgnoreList = () => {
           onRemoveFriend={() => {}}
           onAddIgnore={() => {}}
           onRemoveIgnore={handleRemoveIgnore}
+          onAddNote={handleAddNote}
         />
       )}
     </div>

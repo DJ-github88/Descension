@@ -122,6 +122,10 @@ const useCharacterStore = create((set, get) => ({
     race: '', // Race ID (e.g., 'nordmark')
     subrace: '', // Subrace ID (e.g., 'berserker_nordmark')
     class: 'Chaos Weaver', // Temporarily set to test chaotic wave animation
+    background: '', // Background ID (e.g., 'acolyte', 'sage')
+    backgroundDisplayName: '', // Display name for background
+    path: '', // Character path ID (e.g., 'mystic', 'zealot')
+    pathDisplayName: '', // Display name for path (e.g., 'Mystic', 'Zealot')
     level: 1,
     alignment: 'Neutral Good',
     exhaustionLevel: 0,
@@ -1517,7 +1521,12 @@ const useCharacterStore = create((set, get) => ({
                 baseName: character.baseName || character.name || 'Character Name',
                 race: character.race || '',
                 subrace: character.subrace || '',
+                raceDisplayName: character.raceDisplayName || '',
                 class: character.class || 'Class',
+                background: character.background || '',
+                backgroundDisplayName: character.backgroundDisplayName || '',
+                path: character.path || '',
+                pathDisplayName: character.pathDisplayName || '',
                 level: character.level || 1,
                 alignment: character.alignment || 'Neutral Good',
                 stats: character.stats || {
@@ -1544,6 +1553,33 @@ const useCharacterStore = create((set, get) => ({
                 lore: character.lore || get().lore,
                 tokenSettings: character.tokenSettings || get().tokenSettings
             });
+
+            // Load character's inventory into the inventory store
+            try {
+                const inventoryStore = require('./inventoryStore').default;
+                const inventoryState = inventoryStore.getState();
+
+                console.log(`📦 Loading inventory for character: ${character.name}`);
+
+                // Clear current inventory
+                inventoryState.clearInventory();
+
+                // Load character's items
+                if (character.inventory?.items && Array.isArray(character.inventory.items)) {
+                    character.inventory.items.forEach(item => {
+                        inventoryState.addItem(item);
+                    });
+                    console.log(`✅ Loaded ${character.inventory.items.length} items into inventory`);
+                }
+
+                // Load character's currency
+                if (character.inventory?.currency) {
+                    inventoryState.updateCurrency(character.inventory.currency);
+                    console.log(`💰 Loaded currency:`, character.inventory.currency);
+                }
+            } catch (error) {
+                console.error('❌ Error loading character inventory:', error);
+            }
 
             // Recalculate derived stats
             get().initializeCharacter();
@@ -1843,6 +1879,25 @@ const useCharacterStore = create((set, get) => ({
         const state = get();
         if (!state.currentCharacterId) return;
 
+        // Get current inventory from inventory store
+        let inventoryData = {
+            items: [],
+            currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+            encumbranceState: 'normal'
+        };
+
+        try {
+            const inventoryStore = require('./inventoryStore').default;
+            const inventoryState = inventoryStore.getState();
+            inventoryData = {
+                items: inventoryState.items || [],
+                currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+                encumbranceState: inventoryState.encumbranceState || 'normal'
+            };
+        } catch (error) {
+            console.warn('Could not get inventory data:', error);
+        }
+
         const characterData = {
             name: state.name,
             baseName: state.baseName,
@@ -1860,6 +1915,7 @@ const useCharacterStore = create((set, get) => ({
             spellPower: state.spellPower,
             lore: state.lore,
             tokenSettings: state.tokenSettings,
+            inventory: inventoryData, // Include inventory data
             updatedAt: new Date().toISOString()
         };
 

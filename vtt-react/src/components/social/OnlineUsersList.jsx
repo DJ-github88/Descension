@@ -117,8 +117,15 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     });
   };
 
-  // Close context menu
-  const closeContextMenu = () => {
+  // Close context menu and status menu when clicking outside
+  const closeContextMenu = (e) => {
+    // Don't close if clicking inside status menu or status button
+    if (e && (
+      e.target.closest('.status-menu') ||
+      e.target.closest('.status-button')
+    )) {
+      return;
+    }
     setContextMenu(null);
   };
 
@@ -435,8 +442,22 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   const partyLeader = getPartyLeader();
 
+  // Handle clicks outside status menu to close it
+  const handleOutsideClick = (e) => {
+    // Don't close if clicking inside the status menu
+    if (e.target.closest('.status-menu')) {
+      return;
+    }
+    // Close status menu if clicking outside of it
+    if (showStatusMenu && !e.target.closest('.status-setter')) {
+      setShowStatusMenu(false);
+    }
+    // Close context menu
+    closeContextMenu(e);
+  };
+
   return (
-    <div className="online-users-list" onClick={closeContextMenu}>
+    <div className="online-users-list" onClick={handleOutsideClick}>
       {/* Header with Status Setter and Tabs */}
       <div className="users-list-header">
         {/* Status Setter */}
@@ -460,14 +481,16 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               <div className="status-menu-header">Set Status</div>
               <button
                 className="status-option"
-                onClick={() => handleStatusChange('online')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange('online');
+                }}
               >
                 🟢 Online
               </button>
               <button
                 className="status-option"
                 onClick={(e) => {
-                  console.log('🖱️ AWAY BUTTON CLICKED!');
                   e.stopPropagation();
                   handleStatusChange('away');
                 }}
@@ -476,13 +499,19 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
               </button>
               <button
                 className="status-option"
-                onClick={() => handleStatusChange('busy')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange('busy');
+                }}
               >
                 🔴 Busy
               </button>
               <button
                 className="status-option"
-                onClick={() => handleStatusChange('offline')}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange('offline');
+                }}
               >
                 ⚫ Appear Offline
               </button>
@@ -757,10 +786,12 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     name: member.name,
                     level: displayData.level || member.character?.level || 1,
                     class: displayData.class || member.character?.class || 'Unknown',
-                    background: member.character?.background,
-                    backgroundDisplayName: computedBackgroundDisplayName,
-                    race: member.character?.race,
-                    subrace: member.character?.subrace,
+                    background: member.character?.background || displayData.background,
+                    backgroundDisplayName: computedBackgroundDisplayName || displayData.backgroundDisplayName,
+                    path: member.character?.path || displayData.path,
+                    pathDisplayName: member.character?.pathDisplayName || displayData.pathDisplayName,
+                    race: member.character?.race || displayData.race,
+                    subrace: member.character?.subrace || displayData.subrace,
                     raceDisplayName: member.character?.raceDisplayName || displayData.raceDisplayName,
                     status: displayData.status || member.status,
                     statusComment: displayData.statusComment

@@ -106,19 +106,7 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
           },
           // Add lore section with character image and transformations
           lore: {
-            background: '',
-            personalityTraits: '',
-            ideals: '',
-            bonds: '',
-            flaws: '',
-            appearance: '',
-            backstory: '',
-            goals: '',
-            fears: '',
-            allies: '',
-            enemies: '',
-            organizations: '',
-            notes: '',
+            ...(characterData.lore || {}),
             characterImage: characterData.characterImage || null,
             imageTransformations: characterData.imageTransformations || null
           },

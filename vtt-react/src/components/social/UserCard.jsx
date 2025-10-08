@@ -28,15 +28,29 @@ const UserCard = ({
   className = '',
   additionalContent = null
 }) => {
-  // Helper to get background display name - ONLY custom backgrounds are valid
+  // Helper to get background display name from backgroundData
   const getBackgroundDisplayName = (backgroundId) => {
     if (!backgroundId) return '';
 
-    // Only check custom backgrounds (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel)
-    const customBg = getCustomBackgroundData(backgroundId.toLowerCase());
-    if (customBg) return customBg.name;
+    // Import background data
+    const { getBackgroundData } = require('../../data/backgroundData');
+    const bgData = getBackgroundData(backgroundId);
+    if (bgData) return bgData.name;
 
-    // If not found, return empty string (invalid background)
+    // If not found, return empty string
+    return '';
+  };
+
+  // Helper to get path display name from pathData
+  const getPathDisplayName = (pathId) => {
+    if (!pathId) return '';
+
+    // Import path data
+    const { getPathData } = require('../../data/pathData');
+    const pathData = getPathData(pathId);
+    if (pathData) return pathData.name;
+
+    // If not found, return empty string
     return '';
   };
 
@@ -68,6 +82,7 @@ const UserCard = ({
   };
 
   const backgroundDisplayName = user.backgroundDisplayName || getBackgroundDisplayName(user.background);
+  const pathDisplayName = user.pathDisplayName || getPathDisplayName(user.path);
   const raceDisplayName = getRaceDisplayName(user);
 
   return (
@@ -105,22 +120,29 @@ const UserCard = ({
           )}
         </div>
 
-        {/* Details Row: Level, Class, Background */}
-        <div className="user-details">
-          <span className="detail-item level-class">
-            Lvl {user.level || 1} {user.class || 'Unknown'}
-          </span>
-          {backgroundDisplayName && (
-            <span className="detail-item background-badge">{backgroundDisplayName}</span>
+        {/* Character Details - Larger and More Readable */}
+        <div className="user-details-new">
+          {/* Level and Class - Large and prominent */}
+          <div className="level-class-row">
+            <span className="level-text">Lvl {user.level || 1}</span>
+            <span className="class-text">{user.class || 'Unknown'}</span>
+          </div>
+
+          {/* Path and Background badges */}
+          {(pathDisplayName || backgroundDisplayName) && (
+            <div className="badges-row">
+              {pathDisplayName && <span className="char-badge path-badge">{pathDisplayName}</span>}
+              {backgroundDisplayName && <span className="char-badge bg-badge">{backgroundDisplayName}</span>}
+            </div>
+          )}
+
+          {/* Race - Larger and more visible */}
+          {raceDisplayName && (
+            <div className="race-row">
+              <span className="race-text">{raceDisplayName}</span>
+            </div>
           )}
         </div>
-
-        {/* Race Row */}
-        {raceDisplayName && (
-          <div className="user-race">
-            <span className="race-name">{raceDisplayName}</span>
-          </div>
-        )}
 
         {/* Session Info */}
         {showSessionInfo && sessionDisplay}

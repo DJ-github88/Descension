@@ -55,13 +55,16 @@ const UnifiedTooltip = ({
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // Start with mouse position, offset more to avoid overlap with hovered element
-        let x = position.x + 25;
-        let y = position.y - rect.height - 25;
+        // Start with mouse position, offset to the right and above
+        const offsetX = 15; // Horizontal offset from cursor
+        const offsetY = 15; // Vertical offset from cursor
+
+        let x = position.x + offsetX;
+        let y = position.y - rect.height - offsetY;
 
         // Adjust horizontal position if tooltip would go off screen
         if (x + rect.width > viewportWidth - 20) {
-          x = position.x - rect.width - 25; // Show to the left of cursor with more spacing
+          x = position.x - rect.width - offsetX; // Show to the left of cursor
         }
         if (x < 20) {
           x = 20; // Minimum left margin
@@ -69,7 +72,7 @@ const UnifiedTooltip = ({
 
         // Adjust vertical position if tooltip would go off screen
         if (y < 20) {
-          y = position.y + 35; // Show below cursor with more spacing if no room above
+          y = position.y + offsetY; // Show below cursor if no room above
         }
         if (y + rect.height > viewportHeight - 20) {
           y = viewportHeight - rect.height - 20; // Keep within viewport
@@ -79,8 +82,8 @@ const UnifiedTooltip = ({
       } else {
         // Set initial position even before tooltip is measured
         setAdjustedPosition({
-          x: position.x + 25,
-          y: position.y - 60 // Estimated height offset with more spacing
+          x: position.x + 15,
+          y: position.y - 80 // Estimated height offset
         });
       }
     }

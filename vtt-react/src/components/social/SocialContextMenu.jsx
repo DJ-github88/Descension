@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import '../../styles/unified-context-menu.css';
 
-const SocialContextMenu = ({ x, y, player, onClose, onWhisper, onInvite, onAddFriend, onRemoveFriend, onAddIgnore, onRemoveIgnore }) => {
+const SocialContextMenu = ({ x, y, player, onClose, onWhisper, onInvite, onAddFriend, onRemoveFriend, onAddIgnore, onRemoveIgnore, onAddNote }) => {
   const menuRef = useRef(null);
   
   // Handle clicks outside the menu to close it
@@ -67,19 +67,29 @@ const SocialContextMenu = ({ x, y, player, onClose, onWhisper, onInvite, onAddFr
       {isFriend !== undefined && (
         <>
           {!isFriend ? (
-            <div 
+            <div
               className="context-menu-item"
               onClick={() => handleMenuItemClick(onAddFriend)}
             >
               Add Friend
             </div>
           ) : (
-            <div 
-              className="context-menu-item"
-              onClick={() => handleMenuItemClick(onRemoveFriend)}
-            >
-              Remove Friend
-            </div>
+            <>
+              {onAddNote && (
+                <div
+                  className="context-menu-item"
+                  onClick={() => handleMenuItemClick(onAddNote)}
+                >
+                  Add/Edit Note
+                </div>
+              )}
+              <div
+                className="context-menu-item"
+                onClick={() => handleMenuItemClick(onRemoveFriend)}
+              >
+                Remove Friend
+              </div>
+            </>
           )}
         </>
       )}
@@ -88,19 +98,29 @@ const SocialContextMenu = ({ x, y, player, onClose, onWhisper, onInvite, onAddFr
       {isIgnored !== undefined && (
         <>
           {!isIgnored ? (
-            <div 
+            <div
               className="context-menu-item"
               onClick={() => handleMenuItemClick(onAddIgnore)}
             >
               Add to Ignore List
             </div>
           ) : (
-            <div 
-              className="context-menu-item"
-              onClick={() => handleMenuItemClick(onRemoveIgnore)}
-            >
-              Remove from Ignore List
-            </div>
+            <>
+              {onAddNote && (
+                <div
+                  className="context-menu-item"
+                  onClick={() => handleMenuItemClick(onAddNote)}
+                >
+                  Add/Edit Note
+                </div>
+              )}
+              <div
+                className="context-menu-item"
+                onClick={() => handleMenuItemClick(onRemoveIgnore)}
+              >
+                Remove from Ignore List
+              </div>
+            </>
           )}
         </>
       )}

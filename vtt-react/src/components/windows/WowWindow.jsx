@@ -22,7 +22,10 @@ const WowWindow = forwardRef(({
     centered = false,
     bounds = "body",
     onDrag = null,
-    className = ""
+    className = "",
+    resizable = true,
+    minConstraints = [300, 400],
+    maxConstraints = [1200, 1000]
 }, ref) => {
     // Safety check for required props
     if (!isOpen) {
@@ -171,10 +174,10 @@ const WowWindow = forwardRef(({
             <Resizable
                 width={windowSize.width}
                 height={windowSize.height}
-                minConstraints={[300, 400]}
-                maxConstraints={[1200, 1000]}
+                minConstraints={minConstraints}
+                maxConstraints={maxConstraints}
                 onResize={handleResize}
-                resizeHandles={['se']}
+                resizeHandles={resizable ? ['se'] : []}
             >
                 <div
                     className={`wow-window ${className}`}

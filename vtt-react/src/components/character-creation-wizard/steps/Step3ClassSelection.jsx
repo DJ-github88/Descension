@@ -6,6 +6,7 @@
 
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
+import { getEquipmentPreview } from '../../../data/startingEquipmentData';
 
 const Step3ClassSelection = () => {
     const state = useCharacterWizardState();
@@ -533,27 +534,52 @@ const Step3ClassSelection = () => {
                                     </div>
 
                                     <div className="preview-section">
-                                        <h4>Starting Equipment</h4>
-                                        <div className="starting-equipment">
-                                            {Object.entries(getStartingEquipment(previewClass.name)).map(([category, items]) => (
-                                                <div key={category} className="equipment-category">
-                                                    <h5>
-                                                        <i className={
-                                                            category === 'weapons' ? 'fas fa-sword' :
-                                                            category === 'armor' ? 'fas fa-shield-alt' :
-                                                            category === 'tools' ? 'fas fa-tools' :
-                                                            'fas fa-flask'
-                                                        }></i>
-                                                        {category.charAt(0).toUpperCase() + category.slice(1)}
-                                                    </h5>
-                                                    <ul className="equipment-list">
-                                                        {items.map((item, index) => (
-                                                            <li key={index} className="equipment-item">{item}</li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        <h4>
+                                            <i className="fas fa-shopping-bag"></i> Starting Equipment
+                                        </h4>
+                                        {(() => {
+                                            const classEquipment = getEquipmentPreview('class', previewClass.name);
+
+                                            if (classEquipment.count > 0) {
+                                                return (
+                                                    <>
+                                                        <p className="equipment-preview-text">
+                                                            Unlocks <strong>{classEquipment.count}</strong> class-specific item{classEquipment.count !== 1 ? 's' : ''} for purchase
+                                                        </p>
+                                                        {classEquipment.examples.length > 0 && (
+                                                            <div className="equipment-examples">
+                                                                <span className="examples-label">Examples:</span>
+                                                                <span className="examples-list">
+                                                                    {classEquipment.examples.join(', ')}
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                        <div className="equipment-categories">
+                                                            {Object.entries(classEquipment.categories).map(([category, count]) => (
+                                                                count > 0 && (
+                                                                    <div key={category} className="category-badge">
+                                                                        <i className={
+                                                                            category === 'weapons' ? 'fas fa-sword' :
+                                                                            category === 'armor' ? 'fas fa-shield-alt' :
+                                                                            category === 'accessories' ? 'fas fa-ring' :
+                                                                            category === 'consumables' ? 'fas fa-flask' :
+                                                                            'fas fa-box'
+                                                                        }></i>
+                                                                        <span>{count} {category}</span>
+                                                                    </div>
+                                                                )
+                                                            ))}
+                                                        </div>
+                                                    </>
+                                                );
+                                            } else {
+                                                return (
+                                                    <p className="equipment-preview-text">
+                                                        <i className="fas fa-info-circle"></i> No class-specific equipment. Universal items available.
+                                                    </p>
+                                                );
+                                            }
+                                        })()}
                                     </div>
 
                                     {getSpellSchools(previewClass.name).length > 0 && (
