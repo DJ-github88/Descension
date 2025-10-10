@@ -193,8 +193,175 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
 
 
+  const renderRulesSection = () => (
+    <div className="landing-section">
+      <div className="rules-content">
+        <h2>Rules & Getting Started</h2>
+
+        <div className="rules-grid">
+          {/* Getting Started Guide */}
+          <div className="rules-card getting-started-card">
+            <div className="rules-card-header">
+              <i className="fas fa-book-open"></i>
+              <h3>Getting Started</h3>
+            </div>
+            <div className="rules-card-body">
+              <div className="guide-step">
+                <div className="guide-step-number">1</div>
+                <div className="guide-step-content">
+                  <h4>Create Your Account</h4>
+                  <p>Sign up for a free account to unlock character creation and multiplayer features. Guest accounts are limited to 1 character and 1 room.</p>
+                </div>
+              </div>
+
+              <div className="guide-step">
+                <div className="guide-step-number">2</div>
+                <div className="guide-step-content">
+                  <h4>Build Your Character</h4>
+                  <p>Choose from 10 races, 27 classes, and multiple backgrounds. Allocate your ability scores and select starting equipment to prepare for adventure.</p>
+                </div>
+              </div>
+
+              <div className="guide-step">
+                <div className="guide-step-number">3</div>
+                <div className="guide-step-content">
+                  <h4>Join or Create a Room</h4>
+                  <p>Create your own campaign room as a GM, or join an existing room to play with friends. Rooms support up to 2 players in the free edition.</p>
+                </div>
+              </div>
+
+              <div className="guide-step">
+                <div className="guide-step-number">4</div>
+                <div className="guide-step-content">
+                  <h4>Start Your Adventure</h4>
+                  <p>Use the World Builder to create maps, place tokens, and craft your story. Roll dice, cast spells, and track combat in real-time.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Core Rules */}
+          <div className="rules-card core-rules-card">
+            <div className="rules-card-header">
+              <i className="fas fa-scroll"></i>
+              <h3>Core Rules</h3>
+            </div>
+            <div className="rules-card-body">
+              <div className="rule-section">
+                <h4><i className="fas fa-dice-d20"></i> Ability Scores</h4>
+                <p>Characters have six core abilities:</p>
+                <ul>
+                  <li><strong>Strength:</strong> Physical power and melee combat</li>
+                  <li><strong>Agility:</strong> Dexterity, reflexes, and ranged attacks</li>
+                  <li><strong>Constitution:</strong> Health, stamina, and resilience</li>
+                  <li><strong>Intelligence:</strong> Knowledge, reasoning, and arcane magic</li>
+                  <li><strong>Spirit:</strong> Willpower, divine magic, and perception</li>
+                  <li><strong>Charisma:</strong> Personality, leadership, and social skills</li>
+                </ul>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-heart"></i> Health & Resources</h4>
+                <ul>
+                  <li><strong>HP (Health Points):</strong> Based on Constitution, determines survivability</li>
+                  <li><strong>MP (Mana Points):</strong> Used for casting spells and abilities</li>
+                  <li><strong>AP (Action Points):</strong> Spent during combat for actions</li>
+                </ul>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-weight-hanging"></i> Encumbrance</h4>
+                <p>Carrying capacity is based on Strength. Exceeding your limit applies penalties:</p>
+                <ul>
+                  <li>-25% movement speed</li>
+                  <li>+5% to Strength and Constitution</li>
+                  <li>-5% to all other ability scores</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Game Mechanics */}
+          <div className="rules-card mechanics-card">
+            <div className="rules-card-header">
+              <i className="fas fa-cogs"></i>
+              <h3>Game Mechanics</h3>
+            </div>
+            <div className="rules-card-body">
+              <div className="rule-section">
+                <h4><i className="fas fa-dice"></i> Dice Rolling</h4>
+                <p>All randomization uses dice rolls, card draws, or coin flips. The d20 system forms the core of skill checks and combat.</p>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-swords"></i> Combat</h4>
+                <ul>
+                  <li>Turn-based tactical combat with initiative order</li>
+                  <li>Action Points (AP) limit actions per turn</li>
+                  <li>Movement tracked in feet with visual distance indicators</li>
+                  <li>Real-time multiplayer combat synchronization</li>
+                </ul>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-magic"></i> Spellcrafting</h4>
+                <p>Create custom spells with unique effects, targeting, and resource costs. Each class has access to specialized spell schools plus universal baseline spells.</p>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-tree"></i> Talent Trees</h4>
+                <p>Unlock powerful abilities through class-specific talent trees. Talents are tier-based with visual dependency chains showing prerequisites.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Community Guidelines */}
+          <div className="rules-card community-card">
+            <div className="rules-card-header">
+              <i className="fas fa-users"></i>
+              <h3>Community Guidelines</h3>
+            </div>
+            <div className="rules-card-body">
+              <div className="rule-section">
+                <h4><i className="fas fa-handshake"></i> Respect & Conduct</h4>
+                <ul>
+                  <li>Treat all players with respect and courtesy</li>
+                  <li>No harassment, hate speech, or discriminatory behavior</li>
+                  <li>Keep content appropriate for all audiences</li>
+                  <li>Respect GM decisions and table rules</li>
+                </ul>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-shield-alt"></i> Fair Play</h4>
+                <ul>
+                  <li>No cheating, exploiting, or metagaming</li>
+                  <li>Communicate openly with your party</li>
+                  <li>Work together to create memorable stories</li>
+                  <li>Report bugs and issues to help improve the platform</li>
+                </ul>
+              </div>
+
+              <div className="rule-section">
+                <h4><i className="fas fa-balance-scale"></i> GM Authority</h4>
+                <p>The Game Master has final authority over their campaign. GMs can:</p>
+                <ul>
+                  <li>Set house rules and modify game mechanics</li>
+                  <li>Remove disruptive players from their rooms</li>
+                  <li>Transfer GM leadership to another player</li>
+                  <li>Manage room settings and permissions</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const navigation = [
     { id: 'home', label: 'Home', icon: 'fas fa-home' },
+    { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
     { id: 'game-info', label: 'Game Info', icon: 'fas fa-info' },
     { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
   ];
@@ -244,6 +411,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
       <main className="landing-main">
         {activeSection === 'home' && renderHomeSection()}
+        {activeSection === 'rules' && renderRulesSection()}
         {activeSection === 'game-info' && renderGameInfoSection()}
         {activeSection === 'membership' && renderMembershipSection()}
       </main>
