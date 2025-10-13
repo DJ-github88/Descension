@@ -237,6 +237,68 @@ export const BACKGROUND_DATA = {
             name: 'Ship\'s Passage',
             description: 'You can secure free passage on sailing ships for yourself and companions in exchange for work.'
         }
+    },
+
+    merchant: {
+        id: 'merchant',
+        name: 'Merchant',
+        description: 'You have spent your life in the world of trade and commerce, buying and selling goods across distant lands. You understand the value of coin and the art of negotiation.',
+        skillProficiencies: ['Insight', 'Persuasion'],
+        toolProficiencies: ['Navigator\'s tools'],
+        languages: 2, // Merchants learn languages to conduct business
+        equipment: [
+            'Merchant\'s scale',
+            'Sample goods',
+            'Traveler\'s clothes',
+            'Ledger',
+            'Belt pouch with 20g'
+        ],
+        feature: {
+            name: 'Trade Network',
+            description: 'You have contacts in merchant guilds and trading posts across the land, allowing you to buy and sell goods at favorable prices and gather market information.'
+        }
+    },
+
+    urchin: {
+        id: 'urchin',
+        name: 'Urchin',
+        description: 'You grew up on the streets alone, orphaned, and poor. You had no one to watch over you or provide for you, so you learned to provide for yourself.',
+        skillProficiencies: ['Sleight of Hand', 'Stealth'],
+        toolProficiencies: ['Disguise kit', 'Thieves\' tools'],
+        languages: 1, // Street smarts include picking up local dialects
+        equipment: [
+            'Small knife',
+            'Map of home city',
+            'Pet mouse',
+            'Token of parents',
+            'Common clothes',
+            'Belt pouch with 10g'
+        ],
+        feature: {
+            name: 'City Secrets',
+            description: 'You know the secret patterns and flow of cities and can find passages through the urban sprawl that others would miss.'
+        }
+    },
+
+    scholar: {
+        id: 'scholar',
+        name: 'Scholar',
+        description: 'You have dedicated your life to the pursuit of knowledge, studying in great libraries and academies. Your expertise in a particular field of study sets you apart.',
+        skillProficiencies: ['History', 'Investigation'],
+        toolProficiencies: ['Calligrapher\'s supplies'],
+        languages: 2, // Scholars study ancient texts in various languages
+        equipment: [
+            'Bottle of ink',
+            'Quill',
+            'Parchment (10 sheets)',
+            'Academic robes',
+            'Research notes',
+            'Belt pouch with 15g'
+        ],
+        feature: {
+            name: 'Academic Network',
+            description: 'You have connections with scholars, librarians, and academics across the realm who can provide you with access to knowledge and research materials.'
+        }
     }
 };
 

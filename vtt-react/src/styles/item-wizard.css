@@ -925,7 +925,7 @@
   width: 100vw !important;
   height: 100vh !important;
   background: rgba(0, 0, 0, 0.5) !important;
-  z-index: 9999 !important;
+  /* z-index managed by component via inline styles */
 }
 
 .item-wizard-modal.spellbook-wizard-layout {
@@ -948,7 +948,7 @@
   display: flex !important;
   flex-direction: column !important;
   position: fixed !important;
-  z-index: 10000 !important;
+  /* z-index managed by component via inline styles */
 }
 
 /* ===== SINGLE COLUMN LAYOUT (Preview is now external) ===== */

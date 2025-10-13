@@ -175,6 +175,7 @@ const FriendsList = () => {
     setNoteText(player.note || '');
     setNotePlayerId(player.id);
     setShowNoteDialog(true);
+    closeContextMenu();
   };
 
   // Handle note submit

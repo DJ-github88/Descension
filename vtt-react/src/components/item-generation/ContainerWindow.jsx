@@ -4,6 +4,7 @@ import Draggable from 'react-draggable';
 import useItemStore from '../../store/itemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useGameStore from '../../store/gameStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
 import LockSettingsModal from './LockSettingsModal';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -31,9 +32,28 @@ const ContainerWindow = ({ container, onClose }) => {
     const [itemContextMenu, setItemContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [position, setPosition] = useState({ x: 100, y: 100 });
 
+    // Generate unique window ID
+    const windowId = useRef(`container-window-${container.id}-${Date.now()}`).current;
+    const [zIndex, setZIndex] = useState(1000);
+
     // Get window scale from game store
     const windowScale = useGameStore(state => state.windowScale);
     const [forceRender, setForceRender] = useState(0);
+
+    // Window manager store actions
+    const registerWindow = useWindowManagerStore(state => state.registerWindow);
+    const bringToFront = useWindowManagerStore(state => state.bringToFront);
+    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
+
+    // Register window with window manager on mount
+    useEffect(() => {
+        const initialZIndex = registerWindow(windowId, 'window');
+        setZIndex(initialZIndex);
+
+        return () => {
+            unregisterWindow(windowId);
+        };
+    }, [windowId, registerWindow, unregisterWindow]);
 
     // Debug: Log window scale changes
     useEffect(() => {
@@ -950,10 +970,16 @@ const ContainerWindow = ({ container, onClose }) => {
                     className="container-window"
                     ref={draggableNodeRef}
                     onContextMenu={handleContextMenu}
+                    onClick={() => {
+                        const newZIndex = bringToFront(windowId);
+                        if (newZIndex) {
+                            setZIndex(newZIndex);
+                        }
+                    }}
                     id={`container-window-${container.id}`}
                     style={{
                         position: 'fixed',
-                        zIndex: 9999,
+                        zIndex: zIndex, // Use managed z-index
                         display: 'block',
                         visibility: 'visible',
                         opacity: 1,

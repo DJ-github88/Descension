@@ -1148,30 +1148,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10500; /* Higher than Community window (9999-10000) to ensure modals appear on top */
   backdrop-filter: blur(2px);
 }
 
 .modal-content {
   background: #f0e6d2;
-  border: 1px solid #a08c70;
-  border-radius: 6px;
-  padding: 20px;
-  width: 320px;
+  border: 3px solid #8b7355;
+  border-radius: 12px;
+  padding: 28px 32px;
+  width: 550px;
+  max-width: 90vw;
   color: #3a3a3a;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
 }
 
 .modal-content h3 {
   color: #7a3b2e;
   margin-top: 0;
-  margin-bottom: 15px;
-  font-size: 18px;
-  border-bottom: 1px solid rgba(122, 59, 46, 0.3);
-  padding-bottom: 8px;
+  margin-bottom: 20px;
+  font-size: 22px;
+  border-bottom: 2px solid rgba(122, 59, 46, 0.3);
+  padding-bottom: 12px;
   text-align: center;
-  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .modal-form {
@@ -1181,18 +1184,35 @@
 .modal-form input,
 .modal-form textarea {
   width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #a08c70;
-  border-radius: 4px;
+  padding: 12px 14px;
+  border: 2px solid #a08c70;
+  border-radius: 6px;
   background-color: #fff;
   color: #3a3a3a;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.modal-form textarea {
+  min-height: 200px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus {
+  outline: none;
+  border-color: #7a3b2e;
+  box-shadow: 0 0 0 3px rgba(122, 59, 46, 0.1);
 }
 
 .modal-actions {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 16px;
+  margin-top: 28px;
 }
 
 /* ===== SOCIAL WINDOW TAB CONTAINER (Navigation Bar) ===== */

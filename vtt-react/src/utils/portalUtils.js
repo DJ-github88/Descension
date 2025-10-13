@@ -81,6 +81,7 @@ export const initializePortalSystem = () => {
         }
 
         // Ensure critical CSS classes are applied
+        // Note: z-index is now managed by windowManagerStore, not hardcoded here
         const criticalStyles = `
             .wow-window,
             .draggable-window,
@@ -89,12 +90,11 @@ export const initializePortalSystem = () => {
             .quick-item-generator-modal,
             .categorize-modal {
                 position: fixed !important;
-                z-index: 9999 !important;
                 pointer-events: auto !important;
                 visibility: visible !important;
                 opacity: 1 !important;
             }
-            
+
             .modal-backdrop,
             .shop-window-overlay,
             .quick-item-generator-overlay,
@@ -104,7 +104,6 @@ export const initializePortalSystem = () => {
                 left: 0 !important;
                 width: 100vw !important;
                 height: 100vh !important;
-                z-index: 9998 !important;
                 pointer-events: auto !important;
             }
         `;

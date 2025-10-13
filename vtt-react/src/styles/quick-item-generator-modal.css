@@ -1,4 +1,4 @@
-/* Quick Item Generator Modal overlay */
+/* Quick Item Generator Modal overlay - z-index managed by windowManagerStore */
 .quick-item-generator-overlay {
     position: fixed;
     top: 0;
@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000; /* Higher than Item Library (1000), but lower than Container Wizard (10001) */
+    /* z-index set via inline styles by component */
     backdrop-filter: blur(3px);
 }
 

@@ -292,16 +292,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // CRITICAL FIX: Update movement visualization and distance calculation during drag (works in and out of combat)
       if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
-        // Update movement visualization if enabled
+        // CRITICAL FIX: Snap position to tile center for clean distance display
+        // This makes the movement line point to tile centers and shows clean distance increments
+        const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+        const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+        // Update movement visualization if enabled - use SNAPPED position for clean line
         if (showMovementVisualization && activeMovement?.tokenId === tokenId) {
-          updateMovementVisualization({ x: worldPos.x, y: worldPos.y });
+          updateMovementVisualization({ x: snappedPos.x, y: snappedPos.y });
         }
 
         // Calculate and update temporary movement distance for tooltip (only needed in combat)
         if (isInCombat) {
-          // CRITICAL FIX: Convert world distance to tile distance before multiplying by feetPerTile
-          const dx = worldPos.x - dragStartPosition.x;
-          const dy = worldPos.y - dragStartPosition.y;
+          // CRITICAL FIX: Use snapped positions for tile-based distance calculation
+          const dx = snappedPos.x - dragStartPosition.x;
+          const dy = snappedPos.y - dragStartPosition.y;
           const worldDistance = Math.sqrt(dx * dx + dy * dy);
           const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
           const distance = tileDistance * feetPerTile;
@@ -456,8 +461,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       document.addEventListener('mouseup', handleMouseUp, { passive: false });
 
       // Safety timeout to reset dragging state if mouse up is missed
+      // CRITICAL FIX: Increased from 5s to 30s to prevent interrupting long drags
       dragTimeoutId = setTimeout(() => {
-        // Removed excessive logging for performance
+        console.warn('⏰ Drag timeout triggered after 30s - this should rarely happen');
         setIsDragging(false);
         setIsMouseDown(false);
         if (window.multiplayerDragState && token) {
@@ -465,7 +471,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
         window.tokenInteractionActive = false;
         window.tokenInteractionTimestamp = null;
-      }, 5000); // 5 second timeout
+      }, 30000); // 30 second timeout (safety net only)
     }
 
     return () => {
@@ -2363,4 +2369,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   );
 };
 
-export default CreatureToken;
+// CRITICAL FIX: Wrap in React.memo to prevent unnecessary re-renders
+// This prevents parent component re-renders from forcing token re-renders
+// Only re-render when tokenId, position, or onRemove actually change
+export default React.memo(CreatureToken, (prevProps, nextProps) => {
+  // Return true if props are equal (skip re-render)
+  // Return false if props changed (do re-render)
+  return (
+    prevProps.tokenId === nextProps.tokenId &&
+    prevProps.position?.x === nextProps.position?.x &&
+    prevProps.position?.y === nextProps.position?.y &&
+    prevProps.onRemove === nextProps.onRemove
+  );
+});

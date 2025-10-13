@@ -92,51 +92,58 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
 };
 
 export default function Grid() {
-    // Get state from game store first to access zoom values
-    const gameStore = useGameStore();
-    const {
-        gridSize,
-        backgroundImage,
-        backgroundImageUrl,
-        backgrounds,
-        activeBackgroundId,
-        gridOffsetX,
-        gridOffsetY,
-        gridLineColor,
-        gridLineThickness,
-        gridMovesWithBackground,
-        backgroundSticksToGrid,
-        cameraX,
-        cameraY,
-        zoomLevel,
-        playerZoom,
-        showGrid,
-        showFogLayer,
-        showTileLayer,
-        showLightLayer,
-        showShadowLayer,
-        showDrawingLayer,
-        showPortalLayer,
-        showAtmosphericLayer,
-        showCreatureLayer,
-        showItemLayer,
-        showGMNotesLayer,
-        showCharacterLayer,
-        showEffectLayer,
-        showUILayer,
-        showDebugLayer,
-        tileSize,
-        moveCameraBy,
-        setPlayerZoom,
-        setGridSize,
-        setGridOffset,
-        gridAlignmentStep,
-        setGridAlignmentStep,
-        gridAlignmentRectangles,
-        addGridAlignmentRectangle,
-        clearGridAlignmentRectangles,
-        showMovementVisualization
-    } = gameStore;
+    // CRITICAL FIX: Use selective subscriptions instead of entire gameStore
+    // This prevents re-renders when unrelated game state changes (e.g., HUD updates)
+    // Only subscribe to the specific values we actually use in Grid component
+    const gridSize = useGameStore(state => state.gridSize);
+    const backgroundImage = useGameStore(state => state.backgroundImage);
+    const backgroundImageUrl = useGameStore(state => state.backgroundImageUrl);
+    const backgrounds = useGameStore(state => state.backgrounds);
+    const activeBackgroundId = useGameStore(state => state.activeBackgroundId);
+    const gridOffsetX = useGameStore(state => state.gridOffsetX);
+    const gridOffsetY = useGameStore(state => state.gridOffsetY);
+    const gridLineColor = useGameStore(state => state.gridLineColor);
+    const gridLineThickness = useGameStore(state => state.gridLineThickness);
+    const gridMovesWithBackground = useGameStore(state => state.gridMovesWithBackground);
+    const backgroundSticksToGrid = useGameStore(state => state.backgroundSticksToGrid);
+    const cameraX = useGameStore(state => state.cameraX);
+    const cameraY = useGameStore(state => state.cameraY);
+    const zoomLevel = useGameStore(state => state.zoomLevel);
+    const playerZoom = useGameStore(state => state.playerZoom);
+    const showGrid = useGameStore(state => state.showGrid);
+    const showFogLayer = useGameStore(state => state.showFogLayer);
+    const showTileLayer = useGameStore(state => state.showTileLayer);
+    const showLightLayer = useGameStore(state => state.showLightLayer);
+    const showShadowLayer = useGameStore(state => state.showShadowLayer);
+    const showDrawingLayer = useGameStore(state => state.showDrawingLayer);
+    const showPortalLayer = useGameStore(state => state.showPortalLayer);
+    const showAtmosphericLayer = useGameStore(state => state.showAtmosphericLayer);
+    const showCreatureLayer = useGameStore(state => state.showCreatureLayer);
+    const showItemLayer = useGameStore(state => state.showItemLayer);
+    const showGMNotesLayer = useGameStore(state => state.showGMNotesLayer);
+    const showCharacterLayer = useGameStore(state => state.showCharacterLayer);
+    const showEffectLayer = useGameStore(state => state.showEffectLayer);
+    const showUILayer = useGameStore(state => state.showUILayer);
+    const showDebugLayer = useGameStore(state => state.showDebugLayer);
+    const tileSize = useGameStore(state => state.tileSize);
+    const moveCameraBy = useGameStore(state => state.moveCameraBy);
+    const setPlayerZoom = useGameStore(state => state.setPlayerZoom);
+    const setGridSize = useGameStore(state => state.setGridSize);
+    const setGridOffset = useGameStore(state => state.setGridOffset);
+    const gridAlignmentStep = useGameStore(state => state.gridAlignmentStep);
+    const setGridAlignmentStep = useGameStore(state => state.setGridAlignmentStep);
+    const gridAlignmentRectangles = useGameStore(state => state.gridAlignmentRectangles);
+    const addGridAlignmentRectangle = useGameStore(state => state.addGridAlignmentRectangle);
+    const clearGridAlignmentRectangles = useGameStore(state => state.clearGridAlignmentRectangles);
+    const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
+    const isGridAlignmentMode = useGameStore(state => state.isGridAlignmentMode);
+    const isBackgroundManipulationMode = useGameStore(state => state.isBackgroundManipulationMode);
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const playerZoomIn = useGameStore(state => state.playerZoomIn);
+    const playerZoomOut = useGameStore(state => state.playerZoomOut);
+    const updateBackground = useGameStore(state => state.updateBackground);
+    const maxPlayerZoom = useGameStore(state => state.maxPlayerZoom);
+    const minPlayerZoom = useGameStore(state => state.minPlayerZoom);
 
     // CRITICAL FIX: Subscribe to activeMovement from combatStore for reactive movement visualization
     const activeMovement = useCombatStore(state => state.activeMovement);
@@ -159,16 +166,6 @@ export default function Grid() {
 
     // Track when items are being dragged to enable pointer events
     const [isDraggingItem, setIsDraggingItem] = useState(false);
-
-    // Additional state from game store (continuing from earlier destructuring)
-    const {
-        isGridAlignmentMode,
-        isBackgroundManipulationMode,
-        isGMMode,
-        playerZoomIn,
-        playerZoomOut,
-        updateBackground
-    } = gameStore;
 
     // Initialize viewport size state first (needed by instantZoom function)
     const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
@@ -452,7 +449,8 @@ export default function Grid() {
     useEffect(() => {
         // Initialize the map store with the current game state
         const levelEditorData = useLevelEditorStore.getState();
-        initializeWithCurrentState(gameStore, levelEditorData);
+        const gameStoreState = useGameStore.getState();
+        initializeWithCurrentState(gameStoreState, levelEditorData);
     }, []); // Only run once on mount
 
     // Update viewport size on window resize and when editor mode changes
@@ -976,8 +974,8 @@ export default function Grid() {
                 const zoomFactor = 1.15; // Slightly more aggressive zoom for better feel
                 const currentZoom = playerZoom;
                 let targetZoom = e.deltaY < 0 ?
-                    Math.min(currentZoom * zoomFactor, gameStore.maxPlayerZoom) :
-                    Math.max(currentZoom / zoomFactor, gameStore.minPlayerZoom);
+                    Math.min(currentZoom * zoomFactor, maxPlayerZoom) :
+                    Math.max(currentZoom / zoomFactor, minPlayerZoom);
 
                 // Additional safety check: prevent effective zoom from going too low to avoid VTT breaking
                 const effectiveTargetZoom = zoomLevel * targetZoom;
@@ -1000,13 +998,15 @@ export default function Grid() {
         e.preventDefault();
     }, [
         playerZoom,
-        gameStore,
+        maxPlayerZoom,
+        minPlayerZoom,
         instantZoom,
         isEditorMode,
         isBackgroundManipulationMode,
         activeBackgroundId,
         backgrounds,
-        updateBackground
+        updateBackground,
+        zoomLevel
     ]);
 
     // Handle wheel events for player zoom navigation and background scaling

@@ -110,10 +110,14 @@ const MovementVisualization = ({
             currentMoveFeet = tileDistance * feetPerTile;
         }
 
+        // CRITICAL FIX: Round distance to nearest feetPerTile increment for clean display
+        // This prevents showing 1, 2, 3, 4 and instead shows 0, 5, 10, 15, etc.
+        const roundedDistance = Math.round(currentMoveFeet / feetPerTile) * feetPerTile;
+
         // Determine line color based on movement validity
         let lineColor = movementLineColor;
         let lineOpacity = 1.0;
-        let displayText = `${Math.round(currentMoveFeet)} ft`;
+        let displayText = `${roundedDistance} ft`;
 
         if (isInCombat && movementValidation) {
             const {

@@ -8,14 +8,14 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
     min-width: 300px;
     user-select: none;
-    z-index: 9999;
+    /* z-index managed by windowManagerStore via inline styles */
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
 .container-window.dragging {
-    z-index: 10000;
+    /* z-index managed by windowManagerStore via inline styles */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
 }
 

@@ -3,6 +3,7 @@ import { Resizable } from 'react-resizable';
 import { createPortal } from 'react-dom';
 import DraggableWindow from './DraggableWindow';
 import useGameStore from '../../store/gameStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import '../../styles/wow-window.css';
 import '../../styles/draggable-window.css';
@@ -41,8 +42,16 @@ const WowWindow = forwardRef(({
     const draggableRef = useRef(null);
     const windowElementRef = useRef(null);
 
+    // Generate unique window ID (stable across re-renders)
+    const windowId = useRef(`wow-window-${Date.now()}-${Math.random()}`).current;
+
     // Get window scale from store
     const windowScale = useGameStore(state => state.windowScale);
+
+    // Window manager store actions
+    const registerWindow = useWindowManagerStore(state => state.registerWindow);
+    const bringToFront = useWindowManagerStore(state => state.bringToFront);
+    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
 
     // State for window size
     const [windowSize, setWindowSize] = useState({
@@ -103,17 +112,28 @@ const WowWindow = forwardRef(({
 
     // Track if window is being dragged to prevent resize conflicts
     const [isDragging, setIsDragging] = useState(false);
-    const [zIndex, setZIndex] = useState(10000);
+    const [zIndex, setZIndex] = useState(1000);
+
+    // Register window with window manager on mount
+    useEffect(() => {
+        const initialZIndex = registerWindow(windowId, 'window');
+        setZIndex(initialZIndex);
+
+        return () => {
+            unregisterWindow(windowId);
+        };
+    }, [windowId, registerWindow, unregisterWindow]);
 
     // Handle window click to bring to front
     const handleWindowClick = useCallback((e) => {
         // Only bring to front if clicking on the window itself, not dragging
         if (!isDragging) {
-            // Use a simple incrementing z-index that stays well below dragged windows
-            const newZIndex = Math.min(zIndex + 1, 14000);
-            setZIndex(newZIndex);
+            const newZIndex = bringToFront(windowId);
+            if (newZIndex) {
+                setZIndex(newZIndex);
+            }
         }
-    }, [isDragging, zIndex]);
+    }, [isDragging, windowId, bringToFront]);
 
     // Handle resize - only when not dragging
     const handleResize = (event, { size }) => {
@@ -128,7 +148,12 @@ const WowWindow = forwardRef(({
     // Handle drag start/stop to prevent resize conflicts
     const handleDragStart = useCallback(() => {
         setIsDragging(true);
-    }, []);
+        // Bring window to front when drag starts
+        const newZIndex = bringToFront(windowId);
+        if (newZIndex) {
+            setZIndex(newZIndex);
+        }
+    }, [windowId, bringToFront]);
 
     const handleDragStop = useCallback((position) => {
         setIsDragging(false);

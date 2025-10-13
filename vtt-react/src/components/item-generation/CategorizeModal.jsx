@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import useWindowManagerStore from '../../store/windowManagerStore';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import './CategorizeModal.css';
 
@@ -7,12 +8,32 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
     const [hoveredCategory, setHoveredCategory] = useState(null);
     const availableCategories = categories.filter(category => category.id !== currentCategoryId);
 
+    // Generate unique window ID
+    const windowId = useRef(`categorize-modal-${Date.now()}-${Math.random()}`).current;
+    const [overlayZIndex, setOverlayZIndex] = useState(2000);
+    const [modalZIndex, setModalZIndex] = useState(2001);
+
+    // Window manager store actions
+    const registerWindow = useWindowManagerStore(state => state.registerWindow);
+    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
+
+    // Register modal with window manager on mount
+    useEffect(() => {
+        const baseZIndex = registerWindow(windowId, 'modal');
+        setOverlayZIndex(baseZIndex);
+        setModalZIndex(baseZIndex + 1);
+
+        return () => {
+            unregisterWindow(windowId);
+        };
+    }, [windowId, registerWindow, unregisterWindow]);
+
     // Position the modal near the cursor but ensure it stays on screen
     const modalStyle = {
         position: 'fixed',
         left: Math.min(x, window.innerWidth - 320), // Ensure it doesn't go off right edge
         top: Math.min(y, window.innerHeight - 200), // Ensure it doesn't go off bottom edge
-        zIndex: 16000 // High but below tooltips
+        zIndex: modalZIndex // Use managed z-index
     };
 
     // Get safe portal target
@@ -27,7 +48,11 @@ const CategorizeModal = ({ categories, currentCategoryId, onMoveToCategory, onCl
     return createPortal(
         <>
             {/* Invisible overlay to catch clicks outside */}
-            <div className="categorize-overlay" onClick={onClose} />
+            <div
+                className="categorize-overlay"
+                style={{ zIndex: overlayZIndex }}
+                onClick={onClose}
+            />
 
             <div className="categorize-modal" style={modalStyle} onClick={(e) => e.stopPropagation()}>
                 <div className="categorize-modal-header">

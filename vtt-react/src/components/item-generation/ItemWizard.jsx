@@ -16,6 +16,7 @@ import {
 } from '../../utils/itemShapeUtils';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import useGameStore from '../../store/gameStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
 
 // Default image to show when item image fails to load
 const DEFAULT_ITEM_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzY2NiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
@@ -4259,6 +4260,26 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     // Get window scale from game store
     const windowScale = useGameStore(state => state.windowScale);
 
+    // Generate unique window ID
+    const windowId = useRef(`item-wizard-${Date.now()}-${Math.random()}`).current;
+    const [overlayZIndex, setOverlayZIndex] = useState(2000);
+    const [modalZIndex, setModalZIndex] = useState(2001);
+
+    // Window manager store actions
+    const registerWindow = useWindowManagerStore(state => state.registerWindow);
+    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
+
+    // Register modal with window manager on mount
+    useEffect(() => {
+        const baseZIndex = registerWindow(windowId, 'modal');
+        setOverlayZIndex(baseZIndex);
+        setModalZIndex(baseZIndex + 1);
+
+        return () => {
+            unregisterWindow(windowId);
+        };
+    }, [windowId, registerWindow, unregisterWindow]);
+
     const [isDragging, setIsDragging] = useState(false);
     const [position, setPosition] = useState(() => ({
         x: Math.max(50, (window.innerWidth - 800) / 2),
@@ -4412,7 +4433,13 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
 
     return createPortal(
         <SpellLibraryProvider>
-            <div className="modal-backdrop" />
+            {/* Overlay - rendered as sibling to modal */}
+            <div
+                className="modal-backdrop"
+                style={{ zIndex: overlayZIndex }}
+            />
+
+            {/* Modal - rendered as sibling to overlay */}
             <div
                 ref={modalRef}
                 className="item-wizard-modal spellbook-wizard-layout"
@@ -4427,7 +4454,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     transformOrigin: 'top left',
                     transform: `scale(${windowScale})`,
                     willChange: 'transform',
-                    zIndex: 15000 // Increased to ensure it appears above spellbook window
+                    zIndex: modalZIndex // Use managed z-index
                 }}
                 onMouseDown={handleMouseDown}
             >

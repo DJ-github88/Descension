@@ -1,10 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useItemStore from '../../store/itemStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../../styles/container-wizard.css';
 
 function ContainerWizard({ onComplete, onCancel }) {
+    // Generate unique window ID
+    const windowId = useRef(`container-wizard-${Date.now()}-${Math.random()}`).current;
+    const [overlayZIndex, setOverlayZIndex] = useState(2000);
+    const [modalZIndex, setModalZIndex] = useState(2001);
+
+    // Window manager store actions
+    const registerWindow = useWindowManagerStore(state => state.registerWindow);
+    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
+
+    // Register modal with window manager on mount
+    useEffect(() => {
+        const baseZIndex = registerWindow(windowId, 'modal');
+        setOverlayZIndex(baseZIndex);
+        setModalZIndex(baseZIndex + 1);
+
+        return () => {
+            unregisterWindow(windowId);
+        };
+    }, [windowId, registerWindow, unregisterWindow]);
     const containerIcons = [
         { 
             id: 'inv_box_01',
@@ -181,13 +201,33 @@ function ContainerWizard({ onComplete, onCancel }) {
     };
 
     return createPortal(
-        <div className="container-wizard-overlay">
-            <div className="wizard-container">
-                <div className="wizard-header">
-                    <h2>Create Container</h2>
-                    <button className="close-button" onClick={onCancel}>×</button>
-                </div>
-                <div className="wizard-content">
+        <>
+            {/* Overlay - rendered as sibling to modal */}
+            <div
+                className="container-wizard-overlay"
+                style={{ zIndex: overlayZIndex }}
+                onClick={onCancel}
+            />
+
+            {/* Modal - rendered as sibling to overlay */}
+            <div
+                className="container-wizard-overlay"
+                style={{
+                    zIndex: modalZIndex,
+                    background: 'transparent',
+                    pointerEvents: 'none'
+                }}
+            >
+                <div
+                    className="wizard-container"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ pointerEvents: 'auto' }}
+                >
+                    <div className="wizard-header">
+                        <h2>Create Container</h2>
+                        <button className="close-button" onClick={onCancel}>×</button>
+                    </div>
+                    <div className="wizard-content">
                     {/* Basic Information Section */}
                     <div className="wizard-section">
                         <div className="wizard-section-title">
@@ -554,6 +594,7 @@ function ContainerWizard({ onComplete, onCancel }) {
                                 </>
                             )}
                     </div>
+                    </div>
 
                     <div className="wizard-footer">
                         <button className="cancel-button" onClick={onCancel}>
@@ -571,7 +612,7 @@ function ContainerWizard({ onComplete, onCancel }) {
                     </div>
                 </div>
             </div>
-        </div>,
+        </>,
         document.body
     );
 }

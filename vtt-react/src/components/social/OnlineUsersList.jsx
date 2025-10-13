@@ -15,6 +15,7 @@ import useCharacterStore from '../../store/characterStore';
 import mockPresenceService from '../../services/mockPresenceService';
 import authService from '../../services/authService';
 import UserCard from './UserCard';
+import '../../styles/social-window.css';
 
 const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,13 +27,17 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [showAddFriendPopup, setShowAddFriendPopup] = useState(false);
   const [friendIdInput, setFriendIdInput] = useState('');
   const [friendIdError, setFriendIdError] = useState('');
+  const [showNoteDialog, setShowNoteDialog] = useState(false);
+  const [noteText, setNoteText] = useState('');
+  const [noteUserId, setNoteUserId] = useState(null);
+  const [noteUserType, setNoteUserType] = useState(null); // 'friend' or 'ignored'
 
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const updateStatus = usePresenceStore((state) => state.updateStatus);
   const { user } = useAuthStore();
   const { isInParty, addPartyMember, createParty, partyMembers, removePartyMember } = usePartyStore();
-  const { friends, addFriend, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends } = useSocialStore();
+  const { friends, addFriend, removeFriend, addIgnored, ignored, removeIgnored, migrateFriends, setFriendNote, setIgnoredNote } = useSocialStore();
 
   // Migrate friends data on mount if needed
   useEffect(() => {
@@ -346,6 +351,45 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
       }
     }
     closeContextMenu();
+  };
+
+  // Handle add/edit note
+  const handleAddNote = () => {
+    if (contextMenu?.user) {
+      const userName = contextMenu.user.characterName || contextMenu.user.name;
+
+      // Determine if this is a friend or ignored user
+      const friend = friends.find(f => f.name === userName);
+      const ignoredUser = ignored.find(i => i.name === userName);
+
+      if (friend) {
+        setNoteText(friend.note || '');
+        setNoteUserId(friend.id);
+        setNoteUserType('friend');
+        setShowNoteDialog(true);
+      } else if (ignoredUser) {
+        setNoteText(ignoredUser.note || '');
+        setNoteUserId(ignoredUser.id);
+        setNoteUserType('ignored');
+        setShowNoteDialog(true);
+      }
+    }
+    closeContextMenu();
+  };
+
+  // Handle note submit
+  const handleNoteSubmit = () => {
+    if (noteUserId && noteUserType) {
+      if (noteUserType === 'friend') {
+        setFriendNote(noteUserId, noteText);
+      } else if (noteUserType === 'ignored') {
+        setIgnoredNote(noteUserId, noteText);
+      }
+      setShowNoteDialog(false);
+      setNoteUserId(null);
+      setNoteUserType(null);
+      setNoteText('');
+    }
   };
 
   // Check if current user is GM with active room
@@ -681,6 +725,14 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                       sessionDisplay={onlineUser ? getSessionDisplay(onlineUser) : null}
                       showFriendId={true}
                       onContextMenu={(e) => handleContextMenu(e, friendData)}
+                      additionalContent={
+                        friend.note && (
+                          <div className="friend-note-display">
+                            <i className="fas fa-sticky-note"></i>
+                            <span>{friend.note}</span>
+                          </div>
+                        )
+                      }
                     />
                   );
                 })}
@@ -903,6 +955,41 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
         </div>
       )}
 
+      {/* Note Dialog */}
+      {showNoteDialog && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Set Note</h3>
+            <div className="modal-form">
+              <textarea
+                value={noteText}
+                onChange={(e) => setNoteText(e.target.value)}
+                placeholder="Enter note"
+              />
+            </div>
+            <div className="modal-actions">
+              <button
+                className="social-button"
+                onClick={handleNoteSubmit}
+              >
+                Save
+              </button>
+              <button
+                className="social-button"
+                onClick={() => {
+                  setShowNoteDialog(false);
+                  setNoteUserId(null);
+                  setNoteUserType(null);
+                  setNoteText('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Context Menu - Rendered via Portal */}
       {contextMenu && createPortal(
         <div
@@ -921,30 +1008,39 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
           {/* Show Unignore option for ignored users, otherwise show normal options */}
           {contextMenu.isIgnored ? (
-            <button
-              className="context-menu-item"
-              onClick={() => {
-                console.log('🔍 Attempting to unignore:', contextMenu.user);
-                console.log('📋 Current ignored list:', ignored);
+            <>
+              <button
+                className="context-menu-item"
+                onClick={handleAddNote}
+              >
+                <i className="fas fa-sticky-note"></i>
+                Add/Edit Note
+              </button>
+              <button
+                className="context-menu-item"
+                onClick={() => {
+                  console.log('🔍 Attempting to unignore:', contextMenu.user);
+                  console.log('📋 Current ignored list:', ignored);
 
-                if (contextMenu.user.id) {
-                  removeIgnored(contextMenu.user.id);
-                  console.log(`✅ Unignored ${contextMenu.user.name} (ID: ${contextMenu.user.id})`);
+                  if (contextMenu.user.id) {
+                    removeIgnored(contextMenu.user.id);
+                    console.log(`✅ Unignored ${contextMenu.user.name} (ID: ${contextMenu.user.id})`);
 
-                  // Verify removal
-                  setTimeout(() => {
-                    const updatedIgnored = useSocialStore.getState().ignored;
-                    console.log('📋 Updated ignored list:', updatedIgnored);
-                  }, 100);
-                } else {
-                  console.error('❌ No ID found for user:', contextMenu.user);
-                }
-                closeContextMenu();
-              }}
-            >
-              <i className="fas fa-user-check"></i>
-              Unignore
-            </button>
+                    // Verify removal
+                    setTimeout(() => {
+                      const updatedIgnored = useSocialStore.getState().ignored;
+                      console.log('📋 Updated ignored list:', updatedIgnored);
+                    }, 100);
+                  } else {
+                    console.error('❌ No ID found for user:', contextMenu.user);
+                  }
+                  closeContextMenu();
+                }}
+              >
+                <i className="fas fa-user-check"></i>
+                Unignore
+              </button>
+            </>
           ) : (
             <>
               <button
@@ -976,13 +1072,22 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
               {/* Show different options based on whether user is a friend */}
               {activeTab === 'friends' ? (
-                <button
-                  className="context-menu-item danger"
-                  onClick={handleRemoveFriend}
-                >
-                  <i className="fas fa-user-minus"></i>
-                  Remove Friend
-                </button>
+                <>
+                  <button
+                    className="context-menu-item"
+                    onClick={handleAddNote}
+                  >
+                    <i className="fas fa-sticky-note"></i>
+                    Add/Edit Note
+                  </button>
+                  <button
+                    className="context-menu-item danger"
+                    onClick={handleRemoveFriend}
+                  >
+                    <i className="fas fa-user-minus"></i>
+                    Remove Friend
+                  </button>
+                </>
               ) : (
                 <button
                   className="context-menu-item"

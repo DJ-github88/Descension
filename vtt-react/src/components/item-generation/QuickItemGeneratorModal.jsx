@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useGameStore from '../../store/gameStore';
+import useWindowManagerStore from '../../store/windowManagerStore';
 import EnhancedQuickItemWizard from './EnhancedQuickItemWizard';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import '../../styles/quick-item-generator-modal.css';
@@ -17,6 +18,26 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
         colors: { border: '#b8860b', text: '#daa520', glow: 'rgba(184, 134, 11, 0.3)' }
     });
     const modalRef = useRef(null);
+
+    // Generate unique window ID
+    const windowId = useRef(`quick-item-generator-${Date.now()}-${Math.random()}`).current;
+    const [overlayZIndex, setOverlayZIndex] = useState(2000);
+    const [modalZIndex, setModalZIndex] = useState(2001);
+
+    // Window manager store actions
+    const registerWindow = useWindowManagerStore(state => state.registerWindow);
+    const unregisterWindow = useWindowManagerStore(state => state.unregisterWindow);
+
+    // Register modal with window manager on mount
+    useEffect(() => {
+        const baseZIndex = registerWindow(windowId, 'modal');
+        setOverlayZIndex(baseZIndex);
+        setModalZIndex(baseZIndex + 1);
+
+        return () => {
+            unregisterWindow(windowId);
+        };
+    }, [windowId, registerWindow, unregisterWindow]);
 
     useEffect(() => {
         const handleMouseMove = (e) => {
@@ -117,37 +138,57 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
     }
 
     return createPortal(
-        <div className="quick-item-generator-overlay" onClick={handleBackdropClick}>
+        <>
+            {/* Overlay - rendered as sibling to modal */}
             <div
-                ref={modalRef}
-                className="quick-item-generator-modal"
-                onClick={handleModalClick}
-                style={position ? {
-                    position: 'absolute',
-                    left: `${position.x}px`,
-                    top: `${position.y}px`,
-                    transformOrigin: 'top left',
-                    transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
-                } : {
-                    transformOrigin: 'center center',
-                    transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                className="quick-item-generator-overlay"
+                style={{ zIndex: overlayZIndex }}
+                onClick={handleBackdropClick}
+            />
+
+            {/* Modal - rendered as sibling to overlay */}
+            <div
+                className="quick-item-generator-overlay"
+                style={{
+                    zIndex: modalZIndex,
+                    background: 'transparent',
+                    pointerEvents: 'none'
                 }}
             >
-                <div className="modal-header" onMouseDown={handleHeaderMouseDown}>
-                    <h2>Quick Item Generator</h2>
-                    <button className="close-button" onClick={onCancel}>
-                        <i className="fas fa-times"></i>
-                    </button>
-                </div>
-                <div className="modal-content">
-                    <EnhancedQuickItemWizard
-                        onComplete={onComplete}
-                        onCancel={onCancel}
-                        onRarityChange={handleRarityChange}
-                    />
+                <div
+                    ref={modalRef}
+                    className="quick-item-generator-modal"
+                    onClick={handleModalClick}
+                    style={{
+                        ...(position ? {
+                            position: 'absolute',
+                            left: `${position.x}px`,
+                            top: `${position.y}px`,
+                            transformOrigin: 'top left',
+                            transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                        } : {
+                            transformOrigin: 'center center',
+                            transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                        }),
+                        pointerEvents: 'auto'
+                    }}
+                >
+                    <div className="modal-header" onMouseDown={handleHeaderMouseDown}>
+                        <h2>Quick Item Generator</h2>
+                        <button className="close-button" onClick={onCancel}>
+                            <i className="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div className="modal-content">
+                        <EnhancedQuickItemWizard
+                            onComplete={onComplete}
+                            onCancel={onCancel}
+                            onRarityChange={handleRarityChange}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>,
+        </>,
         portalTarget
     );
 };

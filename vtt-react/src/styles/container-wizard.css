@@ -1,4 +1,4 @@
-/* Container Wizard Modal Overlay - Higher z-index than Quick Item Generator */
+/* Container Wizard Modal Overlay - z-index managed by windowManagerStore */
 .container-wizard-overlay {
     position: fixed;
     top: 0;
@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10001; /* Higher than Quick Item Generator (9999) and Item Library (1000) */
+    /* z-index set via inline styles by component */
 }
 
 .container-wizard-overlay .wizard-container {

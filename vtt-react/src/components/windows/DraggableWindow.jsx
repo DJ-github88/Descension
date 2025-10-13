@@ -184,15 +184,12 @@ const DraggableWindow = forwardRef(({
         }
         window.multiplayerDragState.set(`window_${Date.now()}`, true);
 
-        // Increase z-index when dragging starts to bring window to front
-        // Keep dragged windows below the CSS dragging z-index
+        // Add dragging class for visual feedback (disable transitions)
         if (nodeRef.current) {
-            const dragZIndex = Math.min(zIndex + 10, 14500);
-            nodeRef.current.style.zIndex = dragZIndex.toString();
-            nodeRef.current.classList.add('dragging'); // Disable transition during drag
+            nodeRef.current.classList.add('dragging');
         }
 
-        // Call external onDragStart callback
+        // Call external onDragStart callback (WowWindow will handle z-index)
         if (onDragStart) {
             onDragStart(data);
         }
@@ -312,7 +309,7 @@ const DraggableWindow = forwardRef(({
                     position: 'fixed',
                     top: 0,
                     left: 0,
-                    zIndex: 99999,
+                    zIndex: zIndex, // Use z-index from props (managed by WowWindow)
                     transformOrigin: 'top left',
                     pointerEvents: 'auto',
                 }}
