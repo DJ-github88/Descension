@@ -14,7 +14,7 @@ import CharacterStats from './CharacterStats';
 import { createInventoryItem, isOffHandDisabled } from '../../utils/equipmentUtils';
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig, getResourceDisplayText } from '../../data/classResources';
-import { getRaceList, getSubraceList } from '../../data/raceData';
+import { getRaceList, getSubraceList, getRaceData } from '../../data/raceData';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
@@ -456,6 +456,24 @@ export default function CharacterPanel() {
                                 </div>
                             )}
                         </div>
+
+                        {/* Cultural Background - Show if available */}
+                        {(() => {
+                            const raceData = getRaceData(race);
+                            if (raceData?.culturalBackground) {
+                                return (
+                                    <div className="racial-cultural-background">
+                                        <h4 className="cultural-background-title">
+                                            <i className="fas fa-book"></i> Cultural Background
+                                        </h4>
+                                        <p className="cultural-background-text">
+                                            {raceData.culturalBackground}
+                                        </p>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })()}
                     </div>
                 )}
                     </div>

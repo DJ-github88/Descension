@@ -6,6 +6,7 @@ import TooltipPortal from '../../../tooltips/TooltipPortal';
 import StatTooltip from '../../../tooltips/StatTooltip';
 import GeneralStatTooltip from '../../../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../../../tooltips/ResistanceTooltip';
+import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { WOW_ICON_BASE_URL } from '../../../item-generation/wowIcons';
 import { getQualityColor } from '../../../../constants/itemConstants';
@@ -17,6 +18,7 @@ import useInventoryStore from '../../../../store/inventoryStore';
 import useItemStore from '../../../../store/itemStore';
 import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
+import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import './EnhancedCreatureInspectView.css';
 
 // Helper function to calculate ability modifier
@@ -911,89 +913,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
            (ability.school && ability.level !== undefined);
   };
 
-  // Simple spell card component that doesn't require SpellLibraryProvider
-  const SimpleSpellCard = ({ spell, onClick }) => {
-    const getRarityClass = () => {
-      const rarity = (spell.rarity || 'common').toLowerCase();
-      return `spell-card-${rarity}`;
-    };
-
-    const getSchoolColor = () => {
-      const school = (spell.school || 'evocation').toLowerCase();
-      const schoolColors = {
-        abjuration: '#4a90e2',
-        conjuration: '#7b68ee',
-        divination: '#ffd700',
-        enchantment: '#ff69b4',
-        evocation: '#ff4500',
-        illusion: '#9370db',
-        necromancy: '#8b0000',
-        transmutation: '#32cd32'
-      };
-      return schoolColors[school] || '#ff4500';
-    };
-
-    return (
-      <div
-        className={`simple-spell-card ${getRarityClass()}`}
-        onClick={onClick}
-        style={{ borderColor: getSchoolColor() }}
-      >
-        <div className="spell-card-header">
-          <img
-            src={`https://wow.zamimg.com/images/wow/icons/large/${spell.icon || 'spell_holy_magicalsentry'}.jpg`}
-            alt={spell.name}
-            className="spell-card-icon"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
-            }}
-          />
-          <div className="spell-card-info">
-            <h4 className="spell-card-name">{spell.name}</h4>
-            <div className="spell-card-meta">
-              <span className="spell-level">Level {spell.level}</span>
-              <span className="spell-school">{spell.school}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="spell-card-body">
-          <div className="spell-card-details">
-            <div className="spell-detail">
-              <strong>Cast Time:</strong> {spell.castTime}
-            </div>
-            <div className="spell-detail">
-              <strong>Range:</strong> {spell.range}
-            </div>
-            <div className="spell-detail">
-              <strong>Duration:</strong> {spell.duration}
-            </div>
-            {spell.manaCost && (
-              <div className="spell-detail">
-                <strong>Cost:</strong> {spell.manaCost} {typeof spell.manaCost === 'number' ? 'Mana' : ''}
-              </div>
-            )}
-          </div>
-
-          {spell.description && (
-            <div className="spell-card-description">
-              {spell.description}
-            </div>
-          )}
-
-          {spell.damage && (
-            <div className="spell-card-damage">
-              <strong>Damage:</strong> {typeof spell.damage === 'object'
-                ? `${spell.damage.diceCount}d${spell.damage.diceType}${spell.damage.bonus > 0 ? `+${spell.damage.bonus}` : ''}`
-                : spell.damage
-              }
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
+  // NOTE: Removed duplicate SimpleSpellCard component - now using UnifiedSpellCard for consistency
 
   // Transform ability to spell format for spell cards
   const transformAbilityToSpell = (ability) => {
@@ -1040,8 +960,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                 const transformedSpell = transformAbilityToSpell(spell);
                 return (
                   <div key={index} className="spell-card-wrapper">
-                    <SimpleSpellCard
+                    <UnifiedSpellCard
                       spell={transformedSpell}
+                      variant="wizard"
+                      showActions={false}
+                      showDescription={true}
+                      showStats={true}
+                      showTags={false}
                       onClick={() => {/* Spell interaction functionality can be added here */}}
                     />
                   </div>

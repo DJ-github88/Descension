@@ -7,7 +7,7 @@ export { default as SpellDetailPopup } from './SpellDetailPopup';
 export { default as IconSelector } from './IconSelector';
 export { default as WizardStep } from './WizardStep';
 export { default as ValidationMessage } from './ValidationMessage';
-export { default as PathfinderFormElements } from './PathfinderFormElements';
+export * as PathfinderFormElements from './PathfinderFormElements';
 export { default as ResourceCostDisplay } from './ResourceCostDisplay';
 export { default as SpellComponentsSelector } from './SpellComponentsSelector';
 export { default as RollableTableSummary } from './RollableTableSummary';

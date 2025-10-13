@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
 import { getEquipmentPreview } from '../../../data/startingEquipmentData';
+import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 
 const Step4BackgroundSelection = () => {
     const state = useCharacterWizardState();
@@ -59,12 +60,18 @@ const Step4BackgroundSelection = () => {
                                     <div className="background-benefits">
                                         <div className="benefit-item">
                                             <i className="fas fa-cogs"></i>
-                                            <span>{background.skillProficiencies.length} Skills</span>
+                                            <span>{background.skillProficiencies?.length || 0} Skills</span>
                                         </div>
-                                        {background.languages && (
+                                        {background.languages > 0 && (
                                             <div className="benefit-item">
                                                 <i className="fas fa-language"></i>
-                                                <span>{background.languages} Languages</span>
+                                                <span>{background.languages} Language{background.languages > 1 ? 's' : ''}</span>
+                                            </div>
+                                        )}
+                                        {background.toolProficiencies && background.toolProficiencies.length > 0 && (
+                                            <div className="benefit-item">
+                                                <i className="fas fa-tools"></i>
+                                                <span>{background.toolProficiencies.length} Tool{background.toolProficiencies.length > 1 ? 's' : ''}</span>
                                             </div>
                                         )}
                                     </div>
@@ -113,7 +120,7 @@ const Step4BackgroundSelection = () => {
                                         </div>
                                     </div>
 
-                                    {previewBackground.toolProficiencies && (
+                                    {previewBackground.toolProficiencies && previewBackground.toolProficiencies.length > 0 && (
                                         <div className="preview-section">
                                             <h4>Tool Proficiencies</h4>
                                             <div className="tool-list">
@@ -135,7 +142,7 @@ const Step4BackgroundSelection = () => {
                                         </div>
                                     )}
 
-                                    {previewBackground.equipment && (
+                                    {previewBackground.equipment && previewBackground.equipment.length > 0 && (
                                         <div className="preview-section">
                                             <h4>Starting Equipment</h4>
                                             <ul className="equipment-list">
@@ -155,6 +162,37 @@ const Step4BackgroundSelection = () => {
                                             </p>
                                         </div>
                                     </div>
+
+                                    {/* Background Abilities */}
+                                    {(() => {
+                                        const abilities = getBackgroundAbilities(previewBackground.id);
+                                        if (abilities && abilities.length > 0) {
+                                            return (
+                                                <div className="preview-section">
+                                                    <h4>Background Abilities</h4>
+                                                    <div className="abilities-list">
+                                                        {abilities.map((ability, index) => (
+                                                            <div key={index} className="ability-item">
+                                                                <div className="ability-header">
+                                                                    <h5 className="ability-name">{ability.name}</h5>
+                                                                    <div className="ability-meta">
+                                                                        <span className={`ability-type ${ability.type.toLowerCase()}`}>
+                                                                            {ability.type}
+                                                                        </span>
+                                                                        <span className="ability-usage">{ability.usage}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <p className="ability-description">
+                                                                    {ability.description}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })()}
 
                                     {/* Starting Equipment Preview */}
                                     {(() => {

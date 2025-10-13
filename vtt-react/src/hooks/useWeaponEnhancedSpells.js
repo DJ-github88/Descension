@@ -30,19 +30,29 @@ export const useWeaponEnhancedSpells = () => {
   // Create enhanced spells with weapon integration
   const enhancedSpells = useMemo(() => {
     const spells = [...ALL_GENERAL_SPELLS];
-    
+
+    // Debug: Check if Arcane Counterstrike has triggerConfig
+    const arcaneCounterstrike = spells.find(s => s.name === 'TEST: Arcane Counterstrike');
+    if (arcaneCounterstrike) {
+      console.log('🔍 Arcane Counterstrike in useWeaponEnhancedSpells:', {
+        name: arcaneCounterstrike.name,
+        hasTriggerConfig: !!arcaneCounterstrike.triggerConfig,
+        triggerConfig: arcaneCounterstrike.triggerConfig
+      });
+    }
+
     // Find and replace the Attack spell with weapon-enhanced versions
     const attackSpellIndex = spells.findIndex(spell => spell.name === 'Attack');
-    
+
     if (attackSpellIndex !== -1) {
       // Remove the generic Attack spell
       spells.splice(attackSpellIndex, 1);
-      
+
       // Add weapon-specific attack spells
       const weaponAttacks = getAllWeaponAttackSpells();
       spells.splice(attackSpellIndex, 0, ...weaponAttacks);
     }
-    
+
     return spells;
   }, [equipment, lastEquipmentUpdate]);
   

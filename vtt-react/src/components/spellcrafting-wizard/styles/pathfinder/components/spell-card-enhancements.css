@@ -1,0 +1,554 @@
+/* ===== GLOBAL SPELL CARD ENHANCEMENTS ===== */
+/* Consistent styling for spell cards across ALL contexts (rules, library, spellbook, etc.) */
+/*
+ * SINGLE SOURCE OF TRUTH for spell card effect box styling (.damage-effects, .healing-effects, etc.)
+ * This file is imported via main.css and applies globally to all spell cards.
+ * DO NOT duplicate these styles in other CSS files (e.g., unified-effects.css) to prevent conflicts.
+ */
+
+/* ===== BEIGE BORDERED BOXES FOR BADGES ===== */
+/* Add beige boxes to action type, targeting, and range badges everywhere */
+.pf-action-type-badge,
+.pf-targeting-badge,
+.pf-range-badge {
+    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    border: 1px solid var(--pf-brown-medium, #8B4513) !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2) !important;
+    color: #000000 !important; /* Black text for clarity */
+}
+
+/* Ensure all text within badges is black */
+.pf-action-type-badge *,
+.pf-targeting-badge *,
+.pf-range-badge * {
+    color: #000000 !important;
+}
+
+/* ===== BORDERED BOXES AROUND DAMAGE/HEALING/EFFECT SECTIONS ===== */
+/* Ensure all effect sections have clear visual separation */
+.damage-effects,
+.healing-effects,
+.buff-effects,
+.debuff-effects,
+.utility-effects,
+.control-effects,
+.summoning-effects,
+.transformation-effects,
+.purification-effects,
+.restoration-effects {
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.95) 0%, rgba(244, 241, 232, 0.9) 100%) !important;
+    border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    border-radius: var(--pf-border-radius, 8px) !important;
+    padding: 8px !important; /* Reduced from 12px to 8px for tighter fit */
+    margin-bottom: var(--pf-space-3, 12px) !important;
+    margin-top: 0 !important; /* Remove top margin to eliminate gap after description */
+    box-shadow:
+        0 2px 4px rgba(139, 69, 19, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    overflow: visible !important; /* Allow content to expand naturally */
+    position: relative !important;
+    min-height: auto !important; /* Allow box to fit content exactly */
+    height: auto !important;
+}
+
+/* Inner sections within effect boxes */
+.damage-effects-section,
+.healing-effects-section {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Effect formula lines */
+.damage-formula-line,
+.healing-formula-line {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Individual effect items */
+.damage-effect-item,
+.healing-effect-item {
+    background: rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(139, 115, 85, 0.3) !important;
+    border-radius: 4px !important;
+    padding: 6px !important; /* Reduced from 8px to 6px for tighter fit */
+    margin-bottom: 6px !important;
+    overflow: visible !important;
+    word-wrap: break-word !important;
+    min-height: auto !important; /* Allow box to stretch with content */
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important; /* Consistent spacing between elements */
+}
+
+.damage-effect-item:last-child,
+.healing-effect-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Fix critical hit text wrapping and ensure box stretches */
+.damage-effect-name,
+.healing-effect-name,
+.damage-effect-description,
+.healing-effect-description,
+.damage-effect-mechanics,
+.healing-effect-mechanics {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Ensure damage/healing effects sections fit content */
+.damage-effects-section,
+.healing-effects-section {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.damage-formula-line,
+.healing-formula-line {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+/* ===== BETTER SPACING BETWEEN DESCRIPTION AND EFFECTS ===== */
+/* Add clear visual separation with minimal spacing */
+.pf-spell-description,
+.wow-spell-card-description,
+.spell-description,
+.item-description {
+    margin-bottom: 0 !important; /* Remove bottom margin to eliminate gap */
+    padding-bottom: 6px !important; /* Slightly more padding for visual separation */
+    border-bottom: 1px solid rgba(139, 105, 20, 0.3) !important; /* More visible beige border */
+    background: transparent !important;
+}
+
+/* Minimal spacing after description before effects */
+.item-description + .pf-spell-stats,
+.item-description + .damage-effects,
+.item-description + .healing-effects,
+.item-description + .control-effects,
+.item-description + .buff-effects,
+.item-description + .debuff-effects,
+.item-description + .utility-effects,
+.item-description + .summoning-effects,
+.item-description + .transformation-effects,
+.item-description + .purification-effects,
+.item-description + .restoration-effects {
+    margin-top: 0 !important; /* Remove top margin to eliminate gap */
+}
+
+/* ===== RESOURCE COST COLORIZATION FIXES ===== */
+/* Ensure resource costs have proper colors */
+
+/* Action Points - Gold */
+.pf-resource-cost.action-points,
+.pf-resource-cost.actionpoints,
+.pf-resource-cost.action_points {
+    color: #fbbf24 !important;
+}
+
+.pf-resource-cost.action-points .pf-resource-icon,
+.pf-resource-cost.actionpoints .pf-resource-icon,
+.pf-resource-cost.action_points .pf-resource-icon {
+    color: #fbbf24 !important;
+}
+
+.pf-resource-cost.action-points .pf-resource-amount,
+.pf-resource-cost.actionpoints .pf-resource-amount,
+.pf-resource-cost.action_points .pf-resource-amount {
+    color: #fbbf24 !important;
+}
+
+/* Mana - WHITE (not blue) */
+.pf-resource-cost.mana {
+    color: #ffffff !important;
+}
+
+.pf-resource-cost.mana .pf-resource-icon {
+    color: #ffffff !important;
+}
+
+.pf-resource-cost.mana .pf-resource-amount {
+    color: #ffffff !important;
+}
+
+.pf-resource-cost.mana .pf-resource-name {
+    color: #ffffff !important;
+}
+
+/* Rage - Red */
+.pf-resource-cost.rage {
+    color: #f87171 !important;
+}
+
+.pf-resource-cost.rage .pf-resource-icon {
+    color: #f87171 !important;
+}
+
+.pf-resource-cost.rage .pf-resource-amount {
+    color: #f87171 !important;
+}
+
+/* Energy - Yellow */
+.pf-resource-cost.energy {
+    color: #fde047 !important;
+}
+
+.pf-resource-cost.energy .pf-resource-icon {
+    color: #fde047 !important;
+}
+
+.pf-resource-cost.energy .pf-resource-amount {
+    color: #fde047 !important;
+}
+
+/* Health - Dark Red */
+.pf-resource-cost.health {
+    color: #dc2626 !important;
+}
+
+.pf-resource-cost.health .pf-resource-icon {
+    color: #dc2626 !important;
+}
+
+.pf-resource-cost.health .pf-resource-amount {
+    color: #dc2626 !important;
+}
+
+/* Focus - Green */
+.pf-resource-cost.focus {
+    color: #34d399 !important;
+}
+
+.pf-resource-cost.focus .pf-resource-icon {
+    color: #34d399 !important;
+}
+
+.pf-resource-cost.focus .pf-resource-amount {
+    color: #34d399 !important;
+}
+
+/* Fortune - Bright Gold */
+.pf-resource-cost.fortune {
+    color: #fbbf24 !important;
+}
+
+.pf-resource-cost.fortune .pf-resource-icon {
+    color: #fbbf24 !important;
+}
+
+.pf-resource-cost.fortune .pf-resource-amount {
+    color: #fbbf24 !important;
+}
+
+/* Soul Shards - Purple */
+.pf-resource-cost.soul-shards,
+.pf-resource-cost.soulshards {
+    color: #a78bfa !important;
+}
+
+.pf-resource-cost.soul-shards .pf-resource-icon,
+.pf-resource-cost.soulshards .pf-resource-icon {
+    color: #a78bfa !important;
+}
+
+.pf-resource-cost.soul-shards .pf-resource-amount,
+.pf-resource-cost.soulshards .pf-resource-amount {
+    color: #a78bfa !important;
+}
+
+/* Stamina - Orange */
+.pf-resource-cost.stamina {
+    color: #fb923c !important;
+}
+
+.pf-resource-cost.stamina .pf-resource-icon {
+    color: #fb923c !important;
+}
+
+.pf-resource-cost.stamina .pf-resource-amount {
+    color: #fb923c !important;
+}
+
+/* ===== EFFECT SECTION HEADERS ===== */
+/* Make effect type headers more prominent */
+.damage-effect-name,
+.healing-effect-name {
+    font-weight: 700 !important;
+    color: var(--pf-text-primary, #2d1810) !important;
+    font-size: 13px !important;
+}
+
+.damage-effect-description,
+.healing-effect-description {
+    color: var(--pf-text-secondary, #5d4037) !important;
+    font-size: 12px !important;
+    font-style: italic !important;
+}
+
+.damage-effect-mechanics,
+.healing-effect-mechanics {
+    color: var(--pf-text-primary, #2d1810) !important;
+    font-size: 12px !important;
+    margin-top: 4px !important;
+    padding: 4px 8px !important;
+    background: rgba(139, 115, 85, 0.1) !important;
+    border-radius: 4px !important;
+}
+
+/* Trigger mechanics need special handling for multiple items */
+.healing-effect-mechanics > div {
+    margin-bottom: 6px !important;
+    line-height: 1.6 !important;
+}
+
+.healing-effect-mechanics > div:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* ===== ENSURE CONSISTENT STYLING IN ALL CONTEXTS ===== */
+/* Apply to rules section, spell library, spellbook, etc. */
+.rules-page .pf-spell-card,
+.rules-page .wow-spell-card,
+.background-selector-container .pf-spell-card,
+.background-selector-container .wow-spell-card,
+.race-selector-container .pf-spell-card,
+.race-selector-container .wow-spell-card,
+.spell-library-tab .pf-spell-card,
+.spell-library-tab .wow-spell-card,
+.spellbook-layout .pf-spell-card,
+.spellbook-layout .wow-spell-card {
+    /* Ensure all spell cards use consistent styling */
+    font-family: var(--pf-font-body, 'Cinzel', serif) !important;
+}
+
+/* ===== RULES PAGE SPECIFIC STYLING TO MATCH SPELLBOOK ===== */
+/* Make rules page spell cards look identical to spellbook */
+.rules-page .damage-effect-name,
+.rules-page .healing-effect-name {
+    font-family: 'Cinzel', serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #5a1e12 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 4px !important;
+}
+
+.rules-page .damage-effect-description,
+.rules-page .healing-effect-description {
+    font-family: 'Crimson Text', 'Times New Roman', serif !important;
+    font-size: 13px !important;
+    font-style: italic !important;
+    color: #5a1e12 !important;
+    opacity: 0.9 !important;
+}
+
+.rules-page .damage-effect-mechanics,
+.rules-page .healing-effect-mechanics {
+    font-family: 'Crimson Text', 'Times New Roman', serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #2d1810 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin-top: 2px !important;
+}
+
+/* Add bordered box around description in rules page */
+.rules-page .item-description {
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.6) 0%, rgba(248, 245, 232, 0.5) 100%) !important;
+    border: 2px solid rgba(139, 105, 20, 0.3) !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    margin: 8px 0 0 0 !important; /* Remove bottom margin to eliminate gap */
+    font-family: 'Crimson Text', 'Times New Roman', serif !important;
+    font-size: 14px !important;
+    font-style: italic !important;
+    color: #5a1e12 !important;
+    line-height: 1.5 !important;
+}
+
+/* Ensure footer has visible border-top in rules page */
+.rules-page .unified-spell-tags-footer {
+    border-top: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    background: var(--pf-gradient-parchment-dark, linear-gradient(135deg, #e8dcc6 0%, #d5cbb0 100%)) !important;
+    padding: 8px 16px !important;
+}
+
+/* ===== SPELL LIBRARY & WIZARD STYLING TO MATCH RULES PAGE ===== */
+/* Apply the same beautiful styling to spell library and wizard spell cards */
+
+/* Bordered box around description in spell library/wizard */
+.spell-library-tab .item-description,
+.spellbook-layout .item-description,
+.wizard-view .item-description {
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.6) 0%, rgba(248, 245, 232, 0.5) 100%) !important;
+    border: 2px solid rgba(139, 105, 20, 0.3) !important;
+    border-radius: 6px !important;
+    padding: 10px 12px !important;
+    margin: 8px 0 0 0 !important; /* Remove bottom margin to eliminate gap */
+    font-family: 'Crimson Text', 'Times New Roman', serif !important;
+    font-size: 14px !important;
+    font-style: italic !important;
+    color: #5a1e12 !important;
+    line-height: 1.5 !important;
+}
+
+/* Ensure footer has visible border-top in spell library/wizard */
+.spell-library-tab .unified-spell-tags-footer,
+.spellbook-layout .unified-spell-tags-footer,
+.wizard-view .unified-spell-tags-footer {
+    border-top: 2px solid var(--pf-brown-medium, #8B4513) !important;
+    background: var(--pf-gradient-parchment-dark, linear-gradient(135deg, #e8dcc6 0%, #d5cbb0 100%)) !important;
+    padding: 8px 16px !important;
+    margin-top: 8px !important;
+}
+
+/* Typography consistency for spell library/wizard */
+.spell-library-tab .damage-effect-name,
+.spell-library-tab .healing-effect-name,
+.spellbook-layout .damage-effect-name,
+.spellbook-layout .healing-effect-name,
+.wizard-view .damage-effect-name,
+.wizard-view .healing-effect-name {
+    font-family: 'Cinzel', serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #5a1e12 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 4px !important;
+}
+
+.spell-library-tab .damage-effect-description,
+.spell-library-tab .healing-effect-description,
+.spellbook-layout .damage-effect-description,
+.spellbook-layout .healing-effect-description,
+.wizard-view .damage-effect-description,
+.wizard-view .healing-effect-description {
+    font-family: 'Crimson Text', 'Times New Roman', serif !important;
+    font-size: 13px !important;
+    font-style: italic !important;
+    color: #5a1e12 !important;
+    opacity: 0.9 !important;
+}
+
+.spell-library-tab .damage-effect-mechanics,
+.spell-library-tab .healing-effect-mechanics,
+.spellbook-layout .damage-effect-mechanics,
+.spellbook-layout .healing-effect-mechanics,
+.wizard-view .damage-effect-mechanics,
+.wizard-view .healing-effect-mechanics {
+    font-family: 'Crimson Text', 'Times New Roman', serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #2d1810 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin-top: 2px !important;
+}
+
+/* ===== PROPAGATION BADGE STYLING ===== */
+.pf-propagation-badge {
+    background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%)) !important;
+    border: 1px solid var(--pf-brown-medium, #8B4513) !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 3px rgba(139, 69, 19, 0.2) !important;
+    color: #000000 !important; /* Black text for clarity */
+}
+
+.pf-propagation-badge * {
+    color: #000000 !important;
+}
+
+/* ===== ADDITIONAL FIXES ===== */
+
+/* Damage type badges should have COLORED text based on type */
+.pf-damage-type-badge {
+    /* Remove black override - let damage types have their natural colors */
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+}
+
+/* Specific damage type colors */
+.pf-damage-type-badge.radiant {
+    color: #fbbf24 !important; /* Gold/Yellow for Radiant */
+}
+
+.pf-damage-type-badge.fire {
+    color: #f87171 !important; /* Red for Fire */
+}
+
+.pf-damage-type-badge.cold,
+.pf-damage-type-badge.ice {
+    color: #60a5fa !important; /* Blue for Cold/Ice */
+}
+
+.pf-damage-type-badge.lightning,
+.pf-damage-type-badge.electric {
+    color: #fde047 !important; /* Yellow for Lightning */
+}
+
+.pf-damage-type-badge.poison {
+    color: #34d399 !important; /* Green for Poison */
+}
+
+.pf-damage-type-badge.necrotic,
+.pf-damage-type-badge.shadow {
+    color: #a78bfa !important; /* Purple for Necrotic */
+}
+
+.pf-damage-type-badge.divine,
+.pf-damage-type-badge.holy {
+    color: #fbbf24 !important; /* Gold for Divine */
+}
+
+.pf-damage-type-badge.arcane {
+    color: #60a5fa !important; /* Blue for Arcane */
+}
+
+.pf-damage-type-badge.physical,
+.pf-damage-type-badge.slashing,
+.pf-damage-type-badge.piercing,
+.pf-damage-type-badge.bludgeoning {
+    color: #9ca3af !important; /* Gray for Physical */
+}
+
+/* Fix any background color issues in description areas */
+.pf-spell-card-body,
+.wow-spell-card-body,
+.unified-spell-card-body {
+    background: transparent !important;
+}
+
+/* Ensure proper text wrapping in all spell card text areas */
+.pf-spell-card *,
+.wow-spell-card *,
+.unified-spell-card * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Remove any unwanted backgrounds from spell stats sections */
+.pf-spell-stats,
+.wow-spell-stats {
+    background: transparent !important;
+}
+
+/* Ensure cooldown text is visible */
+.pf-cooldown-text,
+.spell-cooldown {
+    color: var(--pf-text-primary, #2d1810) !important;
+}
+

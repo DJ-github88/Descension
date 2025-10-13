@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import '../styles/SpellWizard.css';
+import '../../styles/pathfinder/main.css';
 
 /**
  * ResourceCostDisplay component that shows spell resource requirements

@@ -19,6 +19,7 @@
 @import './components/modals.css';
 @import './components/spell-library.css';
 @import './components/compact-spell-view.css';
+@import './components/spell-card-enhancements.css';
 
 /* ===== CLEANUP STYLES ===== */
 @import './cleanup.css';

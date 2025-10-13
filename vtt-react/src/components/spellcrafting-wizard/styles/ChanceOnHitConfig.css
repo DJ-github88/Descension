@@ -705,8 +705,10 @@ input[type="checkbox"]:hover {
   padding: 8px 12px;
 }
 
-/* Individual formula lines for instant + DoT */
-.damage-formula-line {
+/* Individual formula lines for instant + DoT - SCOPED TO CONFIG POPUP ONLY */
+/* DO NOT use .damage-formula-line directly - conflicts with spell cards */
+.proc-effect-config-popup .damage-formula-line,
+.chance-on-hit-config .damage-formula-line {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -714,7 +716,8 @@ input[type="checkbox"]:hover {
   margin-bottom: 4px;
 }
 
-.damage-formula-line:last-child {
+.proc-effect-config-popup .damage-formula-line:last-child,
+.chance-on-hit-config .damage-formula-line:last-child {
   margin-bottom: 0;
 }
 
@@ -729,8 +732,10 @@ input[type="checkbox"]:hover {
   padding: 8px 12px;
 }
 
-/* Individual formula lines for instant + HoT */
-.healing-formula-line {
+/* Individual formula lines for instant + HoT - SCOPED TO CONFIG POPUP ONLY */
+/* DO NOT use .healing-formula-line directly - conflicts with spell cards */
+.proc-effect-config-popup .healing-formula-line,
+.chance-on-hit-config .healing-formula-line {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -738,7 +743,8 @@ input[type="checkbox"]:hover {
   margin-bottom: 4px;
 }
 
-.healing-formula-line:last-child {
+.proc-effect-config-popup .healing-formula-line:last-child,
+.chance-on-hit-config .healing-formula-line:last-child {
   margin-bottom: 0;
 }
 

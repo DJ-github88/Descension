@@ -202,11 +202,58 @@ const Step2RaceSelection = () => {
 
                                 <div className="preview-content">
                                     <div className="preview-section">
-                                        <h4>Description</h4>
+                                        <h4>Overview</h4>
                                         <p className="race-full-description">
                                             {previewRace.description}
                                         </p>
                                     </div>
+
+                                    {/* Cultural Background - Show for all races */}
+                                    {(() => {
+                                        const raceData = RACE_DATA[previewRace.id];
+                                        if (raceData?.culturalBackground) {
+                                            return (
+                                                <div className="preview-section">
+                                                    <h4><i className="fas fa-book"></i> Cultural Background</h4>
+                                                    <p className="cultural-background-text">
+                                                        {raceData.culturalBackground}
+                                                    </p>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })()}
+
+                                    {/* Basic Information */}
+                                    {(() => {
+                                        const raceData = RACE_DATA[previewRace.id];
+                                        if (raceData?.baseTraits) {
+                                            return (
+                                                <div className="preview-section">
+                                                    <h4><i className="fas fa-info-circle"></i> Basic Information</h4>
+                                                    <div className="basic-info-grid">
+                                                        <div className="info-item">
+                                                            <span className="info-label">Size:</span>
+                                                            <span className="info-value">{raceData.baseTraits.size}</span>
+                                                        </div>
+                                                        <div className="info-item">
+                                                            <span className="info-label">Speed:</span>
+                                                            <span className="info-value">{raceData.baseTraits.baseSpeed} feet</span>
+                                                        </div>
+                                                        <div className="info-item">
+                                                            <span className="info-label">Lifespan:</span>
+                                                            <span className="info-value">{raceData.baseTraits.lifespan}</span>
+                                                        </div>
+                                                        <div className="info-item">
+                                                            <span className="info-label">Languages:</span>
+                                                            <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })()}
 
                                     {previewSubrace && (
                                         <>
@@ -243,6 +290,36 @@ const Step2RaceSelection = () => {
                                                     ))}
                                                 </div>
                                             </div>
+
+                                            {/* Integration Notes */}
+                                            {(() => {
+                                                const raceData = RACE_DATA[previewRace.id];
+                                                if (raceData?.integrationNotes) {
+                                                    return (
+                                                        <div className="preview-section">
+                                                            <h4><i className="fas fa-link"></i> Integration with Game Systems</h4>
+                                                            <div className="integration-notes">
+                                                                {raceData.integrationNotes.actionPointSystem && (
+                                                                    <div className="integration-item">
+                                                                        <strong>Action Points:</strong> {raceData.integrationNotes.actionPointSystem}
+                                                                    </div>
+                                                                )}
+                                                                {raceData.integrationNotes.backgroundSynergy && (
+                                                                    <div className="integration-item">
+                                                                        <strong>Background Synergy:</strong> {raceData.integrationNotes.backgroundSynergy}
+                                                                    </div>
+                                                                )}
+                                                                {raceData.integrationNotes.classCompatibility && (
+                                                                    <div className="integration-item">
+                                                                        <strong>Class Compatibility:</strong> {raceData.integrationNotes.classCompatibility}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            })()}
 
                                             {/* Starting Equipment Preview */}
                                             {(() => {

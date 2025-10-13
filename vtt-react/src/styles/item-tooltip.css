@@ -161,7 +161,7 @@
     color: #d4af37;
     font-size: 14px;
     font-style: italic;
-    margin: 8px 0 6px 0; /* Reduced margins for tighter spacing */
+    margin: 8px 0 0 0; /* Remove bottom margin to eliminate gap */
     line-height: 1.4;
     padding: 6px 0; /* Reduced padding for auto-sizing */
     border-top: 1px solid rgba(139, 69, 19, 0.5);
@@ -178,11 +178,6 @@
 /* Remove extra space when description is empty or very short */
 .item-description:empty {
     display: none; /* Hide completely when empty */
-}
-
-/* Minimal spacing for short descriptions */
-.item-description:not(:empty) {
-    margin-bottom: 4px; /* Minimal bottom margin when content exists */
 }
 
 /* Miscellaneous item specific styles */

@@ -1,40 +1,23 @@
 /**
  * Class Spell Templates
- * 
- * Contains 3 spells for each of the 27 character classes (81 total spells)
- * Organized by class specializations with proper spell data structure
+ *
+ * CLEARED FOR TESTING
+ * All class spells have been removed and replaced with comprehensive test spells.
+ * See testSpells.js for the test spell library.
+ *
+ * Original spells backed up to: BACKUP_classSpellTemplates.js
  */
 
-// Generate spell ID function
-const generateSpellId = (name) => {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Date.now();
-};
+// CLEARED - All class spell arrays are now empty
+export const INFERNAL_PATH_SPELLS = {};
+export const DIVINE_PATH_SPELLS = {};
+export const ARCANE_PATH_SPELLS = {};
+export const NATURE_PATH_SPELLS = {};
+export const SHADOW_PATH_SPELLS = {};
+export const MARTIAL_PATH_SPELLS = {};
 
-// Helper function to create a base spell template
-const createBaseSpell = (name, description, className, specialization, icon, spellType = 'ACTION') => ({
-  id: generateSpellId(name),
-  name,
-  description,
-  className,
-  specialization,
-  source: 'class',
-  icon,
-  spellType,
-  level: 1,
-  tags: [className.toLowerCase(), specialization],
-  effectTypes: [],
-  damageTypes: [],
-  dateCreated: new Date().toISOString(),
-  lastModified: new Date().toISOString()
-});
-
-// Infernal Path Spells
-export const INFERNAL_PATH_SPELLS = {
-  // Pyrofiend Spells
-  Pyrofiend: [
-    {
-      ...createBaseSpell(
-        'Infernal Blast',
+// Export all class spells combined
+export const ALL_CLASS_SPELLS = [];
         'Channel demonic fire energy into a devastating blast that burns enemies and leaves lingering flames.',
         'Pyrofiend',
         'fire_mastery',

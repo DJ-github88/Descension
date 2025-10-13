@@ -1,404 +1,343 @@
 /**
- * Class Spell Generator
+ * Class Spell Generator - COMPLETELY REWRITTEN
  * 
- * Programmatically generates all 81 class spells (3 per class for 27 classes)
- * Based on class specializations and spell archetypes
+ * Generates properly formatted showcase spells for all classes
+ * Each spell demonstrates specific spell wizard capabilities
  */
 
 import { CLASS_SPECIALIZATIONS } from './classSpellCategories';
 
-// Spell archetype templates for different specialization types
-const SPELL_ARCHETYPES = {
-  // Damage archetypes
-  damage_direct: {
-    effectTypes: ['damage'],
-    damageConfig: {
-      damageType: 'direct',
-      formula: '2d8 + intelligence',
-      hasDotEffect: false
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 50,
-      validTargets: ['enemy']
-    },
-    resourceCost: { mana: 25, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 3, charges: 1 }
-  },
+// ===== PROPERLY FORMATTED SPELL ARCHETYPES =====
+// Each archetype is COMPLETE with all necessary configurations
 
-  damage_aoe: {
+const SPELL_ARCHETYPES = {
+  
+  // 1. CONE AOE DAMAGE - Showcases cone targeting
+  damage_cone_aoe: {
     effectTypes: ['damage'],
+    spellType: 'ACTION',
     damageConfig: {
       damageType: 'direct',
-      formula: '1d10 + intelligence / 2',
-      hasDotEffect: false
+      formula: '4d6 + 3',
+      hasDotEffect: false,
+      savingThrow: {
+        enabled: true,
+        attribute: 'agility',
+        difficulty: 14,
+        onSuccess: 'half_damage',
+        onFailure: 'full_damage'
+      },
+      criticalConfig: {
+        enabled: true,
+        critType: 'dice',
+        critMultiplier: 2,
+        critDiceOnly: false,
+        extraDice: '2d6',
+        explodingDice: true
+      }
     },
     targetingConfig: {
       targetingType: 'aoe',
-      aoeType: 'sphere',
-      aoeSize: 20,
-      range: 40,
-      validTargets: ['enemy']
+      aoeType: 'cone',
+      aoeSize: 30,
+      range: 30,
+      validTargets: ['enemy'],
+      requiresLineOfSight: true
     },
-    resourceCost: { mana: 35, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 4, charges: 1 }
+    resourceCost: { 
+      mana: 30, 
+      health: 0, 
+      stamina: 0, 
+      focus: 0,
+      components: ['verbal', 'somatic'],
+      materialComponents: '',
+      actionPoints: 1
+    },
+    cooldownConfig: { type: 'turn_based', value: 4, charges: 1 },
+    durationConfig: {
+      type: 'instant',
+      value: 0,
+      unit: 'seconds'
+    }
   },
 
-  damage_dot: {
+  // 2. REACTION SPELL - Showcases trigger system
+  damage_reaction: {
     effectTypes: ['damage'],
+    spellType: 'REACTION',
     damageConfig: {
       damageType: 'direct',
-      formula: '1d6 + 2',
-      hasDotEffect: true,
-      dotConfig: {
-        duration: 12,
-        tickFormula: '1d4 + 1',
-        tickFrequency: 'start'
+      formula: '3d8 + 4',
+      hasDotEffect: false,
+      criticalConfig: {
+        enabled: true,
+        critType: 'dice',
+        critMultiplier: 2,
+        critDiceOnly: false
       }
     },
     targetingConfig: {
       targetingType: 'single',
-      range: 45,
-      validTargets: ['enemy']
+      range: 60,
+      validTargets: ['enemy'],
+      requiresLineOfSight: true
     },
-    resourceCost: { mana: 18, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 2, charges: 1 }
+    triggerConfig: {
+      global: {
+        logicType: 'OR',
+        compoundTriggers: [
+          {
+            id: 'on_damage_taken',
+            name: 'When you take damage',
+            parameters: {
+              damageThreshold: 10,
+              damageTypes: ['any'],
+              triggerChance: 100
+            }
+          }
+        ]
+      },
+      effectTriggers: {},
+      conditionalEffects: {},
+      triggerRole: {
+        mode: 'REACTIVE',
+        activationDelay: 0,
+        requiresLOS: true
+      }
+    },
+    resourceCost: { 
+      mana: 20, 
+      health: 0, 
+      stamina: 0, 
+      focus: 0,
+      components: ['verbal'],
+      actionPoints: 0
+    },
+    cooldownConfig: { type: 'turn_based', value: 2, charges: 1 },
+    durationConfig: {
+      type: 'instant',
+      value: 0,
+      unit: 'seconds'
+    }
   },
 
-  // Healing archetypes
-  healing_direct: {
-    effectTypes: ['healing'],
-    healingConfig: {
-      healingType: 'direct',
-      formula: '3d8 + spirit',
-      hasHotEffect: false
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 30,
-      validTargets: ['ally', 'self']
-    },
-    resourceCost: { mana: 30, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 3, charges: 1 }
-  },
-
-  healing_aoe: {
-    effectTypes: ['healing'],
-    healingConfig: {
-      healingType: 'area',
-      formula: '2d8 + spirit / 2',
-      maxTargets: 4
-    },
-    targetingConfig: {
-      targetingType: 'aoe',
-      aoeType: 'sphere',
-      aoeSize: 25,
-      range: 35,
-      validTargets: ['ally', 'self']
-    },
-    resourceCost: { mana: 40, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 5, charges: 1 }
-  },
-
+  // 3. HEALING OVER TIME - Showcases HOT mechanics
   healing_hot: {
     effectTypes: ['healing'],
+    spellType: 'ACTION',
     healingConfig: {
-      healingType: 'direct',
+      healingType: 'hot',
       formula: '2d6 + 3',
       hasHotEffect: true,
-      hotConfig: {
-        duration: 15,
-        tickFormula: '1d6 + 2',
-        tickFrequency: 'start'
+      hotFormula: '1d6 + 2',
+      hotDuration: 15,
+      hotTickType: 'round',
+      hotApplication: 'start',
+      overhealShield: true,
+      overhealPercentage: 50,
+      criticalConfig: {
+        enabled: true,
+        critType: 'dice',
+        critMultiplier: 2,
+        critDiceOnly: false
       }
     },
     targetingConfig: {
       targetingType: 'single',
-      range: 30,
-      validTargets: ['ally', 'self']
-    },
-    resourceCost: { mana: 30, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 4, charges: 1 }
-  },
-
-  // Buff archetypes
-  buff_self: {
-    effectTypes: ['buff'],
-    buffConfig: {
-      buffType: 'enhancement',
-      duration: 5,
-      durationType: 'rounds',
-      statBonuses: [
-        { stat: 'intelligence', amount: 4, type: 'flat' },
-        { stat: 'spirit', amount: 2, type: 'flat' }
-      ],
-      effects: ['enhanced_casting', 'mana_efficiency']
-    },
-    targetingConfig: {
-      targetingType: 'self',
-      range: 0,
-      validTargets: ['self']
-    },
-    resourceCost: { mana: 25, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 6, charges: 1 }
-  },
-
-  buff_ally: {
-    effectTypes: ['buff'],
-    buffConfig: {
-      buffType: 'protection',
-      duration: 4,
-      durationType: 'rounds',
-      statBonuses: [
-        { stat: 'constitution', amount: 3, type: 'flat' },
-        { stat: 'agility', amount: 2, type: 'flat' }
-      ],
-      effects: ['damage_resistance', 'improved_saves']
-    },
-    targetingConfig: {
-      targetingType: 'single',
       range: 40,
-      validTargets: ['ally', 'self']
+      validTargets: ['ally', 'self'],
+      requiresLineOfSight: true
     },
-    resourceCost: { mana: 22, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 5, charges: 1 }
-  },
-
-  buff_aoe: {
-    effectTypes: ['buff'],
-    buffConfig: {
-      buffType: 'enhancement',
-      duration: 20,
-      durationType: 'seconds',
-      effects: ['group_enhancement'],
-      areaEffect: true
+    resourceCost: { 
+      mana: 25, 
+      health: 0, 
+      stamina: 0, 
+      focus: 0,
+      components: ['verbal', 'somatic'],
+      actionPoints: 1
     },
-    targetingConfig: {
-      targetingType: 'aoe',
-      aoeType: 'sphere',
-      aoeSize: 20,
-      range: 30,
-      validTargets: ['ally', 'self']
-    },
-    resourceCost: { mana: 30, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 7, charges: 1 }
-  },
-
-  // Debuff archetypes
-  debuff_single: {
-    effectTypes: ['debuff'],
-    debuffConfig: {
-      debuffType: 'weakness',
-      duration: 15,
-      durationType: 'seconds',
-      effects: ['reduced_damage', 'slowed']
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 45,
-      validTargets: ['enemy']
-    },
-    resourceCost: { mana: 18, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 4, charges: 1 }
-  },
-
-  debuff_aoe: {
-    effectTypes: ['debuff'],
-    debuffConfig: {
-      debuffType: 'weakness',
-      duration: 12,
-      durationType: 'seconds',
-      effects: ['area_weakness'],
-      areaEffect: true
-    },
-    targetingConfig: {
-      targetingType: 'aoe',
-      aoeType: 'sphere',
-      aoeSize: 18,
-      range: 40,
-      validTargets: ['enemy']
-    },
-    resourceCost: { mana: 25, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 5, charges: 1 }
-  },
-
-  // Utility archetypes
-  utility_movement: {
-    effectTypes: ['utility'],
-    utilityConfig: {
-      utilityType: 'movement',
-      effects: ['teleport', 'dash', 'phase']
-    },
-    targetingConfig: {
-      targetingType: 'special',
-      range: 60,
-      validTargets: ['self']
-    },
-    resourceCost: { mana: 15, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 3, charges: 1 }
-  },
-
-  utility_control: {
-    effectTypes: ['utility'],
-    utilityConfig: {
-      utilityType: 'control',
-      effects: ['stun', 'root', 'silence']
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 40,
-      validTargets: ['enemy']
-    },
-    resourceCost: { mana: 20, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 6, charges: 1 }
-  },
-
-  utility_special: {
-    effectTypes: ['utility'],
-    utilityConfig: {
-      utilityType: 'special',
-      effects: ['unique_class_ability']
-    },
-    targetingConfig: {
-      targetingType: 'special',
-      range: 50,
-      validTargets: ['any']
-    },
-    resourceCost: { mana: 25, health: 0, stamina: 0, focus: 0 },
-    cooldownConfig: { type: 'turn_based', value: 8, charges: 1 }
+    cooldownConfig: { type: 'turn_based', value: 3, charges: 1 },
+    durationConfig: {
+      type: 'duration',
+      value: 15,
+      unit: 'rounds'
+    }
   }
 };
 
-// Spell name templates for different themes
-const SPELL_NAME_TEMPLATES = {
-  fire: ['Infernal Blast', 'Flame Strike', 'Burning Surge'],
-  ice: ['Frost Bolt', 'Ice Shard', 'Frozen Touch'],
-  lightning: ['Lightning Bolt', 'Thunder Strike', 'Electric Surge'],
-  holy: ['Divine Light', 'Sacred Strike', 'Holy Radiance'],
-  shadow: ['Shadow Bolt', 'Dark Strike', 'Void Touch'],
-  nature: ['Nature\'s Wrath', 'Thorn Strike', 'Wild Growth'],
-  arcane: ['Arcane Missile', 'Magic Strike', 'Mystic Bolt'],
-  chaos: ['Chaos Bolt', 'Random Strike', 'Entropy Wave'],
-  time: ['Temporal Strike', 'Time Warp', 'Chronos Blast'],
-  music: ['Sonic Blast', 'Harmonic Strike', 'Melody Wave'],
-  luck: ['Lucky Strike', 'Fortune Bolt', 'Fate Touch'],
-  protection: ['Divine Shield', 'Sacred Ward', 'Holy Barrier'],
-  healing: ['Healing Light', 'Restoration', 'Sacred Mend'],
-  enhancement: ['Power Boost', 'Enhancement', 'Empowerment'],
-  movement: ['Swift Step', 'Phase Walk', 'Quick Dash'],
-  control: ['Hold Person', 'Binding Strike', 'Control Wave']
-};
-
-// Generate spell ID
-const generateSpellId = (name) => {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Date.now();
-};
-
-// Create a base spell template
-const createBaseSpell = (name, description, className, specialization, icon, spellType = 'ACTION') => ({
-  id: generateSpellId(name),
-  name,
-  description,
-  className,
-  specialization,
-  source: 'class',
-  icon,
-  spellType,
-  level: 1,
-  tags: [className.toLowerCase(), specialization],
-  effectTypes: [],
-  damageTypes: [],
-  dateCreated: new Date().toISOString(),
-  lastModified: new Date().toISOString()
-});
-
-// Generate all class spells
-export const generateAllClassSpells = () => {
-  const allSpells = {};
-
-  Object.entries(CLASS_SPECIALIZATIONS).forEach(([className, classData]) => {
-    allSpells[className] = [];
-
-    classData.specializations.forEach((specialization, index) => {
-      // Generate 3 spells per specialization (one for each archetype pattern)
-      const spellArchetypes = [
-        index === 0 ? 'damage_direct' : index === 1 ? 'healing_direct' : 'buff_self',
-        index === 0 ? 'damage_aoe' : index === 1 ? 'healing_aoe' : 'buff_ally', 
-        index === 0 ? 'utility_control' : index === 1 ? 'utility_movement' : 'utility_special'
-      ];
-
-      spellArchetypes.forEach((archetypeKey, spellIndex) => {
-        const archetype = SPELL_ARCHETYPES[archetypeKey];
-        const spellNames = [`${specialization.name} Strike`, `${specialization.name} Mastery`, `${specialization.name} Expertise`];
-        const spellName = spellNames[spellIndex];
-
-        // Create more detailed descriptions based on archetype and specialization
-        let description = '';
-        if (archetypeKey.includes('damage')) {
-          description = `Channel the power of ${specialization.name.toLowerCase()} to unleash devastating ${archetype.damageConfig?.elementType || 'elemental'} damage upon your enemies.`;
-        } else if (archetypeKey.includes('healing')) {
-          description = `Harness ${specialization.name.toLowerCase()} energies to restore health and vitality to yourself or allies.`;
-        } else if (archetypeKey.includes('buff')) {
-          description = `Invoke ${specialization.name.toLowerCase()} magic to enhance abilities and provide protective benefits.`;
-        } else {
-          description = `Utilize ${specialization.name.toLowerCase()} techniques to control the battlefield and manipulate your environment.`;
-        }
-
-        const spell = {
-          ...createBaseSpell(spellName, description, className, specialization.id, specialization.icon),
-          ...archetype
-        };
-
-        // Customize based on specialization theme
-        if (spell.damageConfig) {
-          spell.damageConfig.elementType = getElementTypeForSpecialization(specialization.id);
-          spell.damageTypes = [spell.damageConfig.elementType];
-        }
-
-        // Adjust resource costs based on class theme
-        if (className.includes('Mage') || className.includes('Wizard') || className.includes('Sorcerer')) {
-          spell.resourceCost.mana = Math.floor(spell.resourceCost.mana * 1.2); // Mages use more mana
-        } else if (className.includes('Warrior') || className.includes('Fighter')) {
-          spell.resourceCost.stamina = Math.floor(spell.resourceCost.mana * 0.8); // Warriors use stamina
-          spell.resourceCost.mana = Math.floor(spell.resourceCost.mana * 0.5);
-        }
-
-        allSpells[className].push(spell);
-      });
-    });
-  });
-
-  return allSpells;
-};
-
-// Helper function to determine element type based on specialization
+// ===== ELEMENT TYPE MAPPING =====
 const getElementTypeForSpecialization = (specializationId) => {
   const elementMap = {
-    fire_mastery: 'fire',
-    corruption_stages: 'shadow',
-    demonic_power: 'shadow',
-    harmonic_weaving: 'sonic',
-    chord_combinations: 'sonic',
-    musical_magic: 'sonic',
-    temporal_control: 'temporal',
-    time_manipulation: 'temporal',
-    chronos_energy: 'temporal',
-    reality_bending: 'chaos',
-    entropy_control: 'chaos',
-    chaos_dice: 'chaos',
-    luck_manipulation: 'fortune',
-    risk_management: 'fortune',
-    fate_control: 'fortune',
-    divine_protection: 'holy',
-    holy_wrath: 'holy',
-    sacred_healing: 'holy',
-    divine_magic: 'holy',
-    healing_arts: 'holy',
-    sacred_rituals: 'holy'
+    // Pyrofiend
+    'fire_mastery': 'fire',
+    'infernal_power': 'fire',
+    'combustion': 'fire',
+    
+    // Cryomancer
+    'frost_mastery': 'cold',
+    'glacial_power': 'cold',
+    'permafrost': 'cold',
+    
+    // Stormcaller
+    'lightning_mastery': 'lightning',
+    'tempest_power': 'lightning',
+    'electrocution': 'lightning',
+    
+    // Shadowmancer
+    'shadow_mastery': 'shadow',
+    'void_power': 'shadow',
+    'corruption_stages': 'shadow',
+    
+    // Necromancer
+    'death_mastery': 'necrotic',
+    'undeath_power': 'necrotic',
+    'decay': 'necrotic',
+    
+    // Lightbringer
+    'holy_mastery': 'radiant',
+    'divine_power': 'radiant',
+    'purification': 'radiant',
+    
+    // Arcanist
+    'arcane_mastery': 'arcane',
+    'mystical_power': 'arcane',
+    'spellweaving': 'arcane',
+    
+    // Naturalist
+    'nature_mastery': 'nature',
+    'primal_power': 'nature',
+    'growth': 'nature',
+    
+    // Demonologist
+    'chaos_mastery': 'chaos',
+    'demonic_power': 'chaos',
+    'corruption': 'chaos',
+    
+    // Chronomancer
+    'time_mastery': 'temporal',
+    'temporal_power': 'temporal',
+    'acceleration': 'temporal',
+    
+    // Psion
+    'mind_mastery': 'psychic',
+    'mental_power': 'psychic',
+    'domination': 'psychic',
+    
+    // Geomancer
+    'earth_mastery': 'force',
+    'stone_power': 'force',
+    'petrification': 'force',
+    
+    // Toxicologist
+    'poison_mastery': 'poison',
+    'venom_power': 'poison',
+    'toxicity': 'poison',
+    
+    // Sonicmancer
+    'sound_mastery': 'sonic',
+    'resonance_power': 'sonic',
+    'vibration': 'sonic',
+    
+    // Acidmancer
+    'acid_mastery': 'acid',
+    'corrosion_power': 'acid',
+    'dissolution': 'acid'
   };
-
-  return elementMap[specializationId] || 'force';
+  
+  return elementMap[specializationId] || 'arcane';
 };
 
-// Export the generated spells
+// ===== SPELL NAME GENERATOR =====
+const generateSpellName = (specializationName, archetypeKey) => {
+  const nameTemplates = {
+    damage_cone_aoe: ['Breath', 'Cone', 'Spray', 'Gust', 'Sweep'],
+    damage_reaction: ['Retaliation', 'Counterstrike', 'Vengeance', 'Retort', 'Riposte'],
+    healing_hot: ['Regeneration', 'Rejuvenation', 'Recovery', 'Vitality', 'Renewal']
+  };
+
+  const template = nameTemplates[archetypeKey] || ['Spell'];
+  const suffix = template[Math.floor(Math.random() * template.length)];
+  
+  // Use first word of specialization name
+  const specPrefix = specializationName.split(' ')[0];
+  
+  return `${specPrefix} ${suffix}`;
+};
+
+// ===== SPELL DESCRIPTION GENERATOR =====
+const generateDescription = (archetypeKey, elementType, archetype) => {
+  if (archetypeKey === 'damage_cone_aoe') {
+    const aoeSize = archetype.targetingConfig?.aoeSize || 30;
+    return `Unleash a ${aoeSize}ft cone of ${elementType} energy, engulfing all enemies in front of you. Targets must make an Agility saving throw or take full damage.`;
+  } else if (archetypeKey === 'damage_reaction') {
+    return `Instantly retaliate with ${elementType} energy when you take damage, striking back at your attacker with devastating force.`;
+  } else if (archetypeKey === 'healing_hot') {
+    const duration = archetype.healingConfig?.hotDuration || 15;
+    return `Restore health over time, healing the target for ${duration} rounds. Excess healing creates a temporary shield.`;
+  }
+  return `A powerful ${elementType} spell.`;
+};
+
+// ===== SPELL GENERATION =====
+export const generateAllClassSpells = () => {
+  const spellsByClass = {};
+
+  Object.entries(CLASS_SPECIALIZATIONS).forEach(([className, classData]) => {
+    const classSpells = [];
+
+    classData.specializations.forEach((specialization, index) => {
+      // Generate 1 spell per specialization (3 total per class)
+      let archetypeKey;
+
+      if (index === 0) {
+        archetypeKey = 'damage_cone_aoe';
+      } else if (index === 1) {
+        archetypeKey = 'healing_hot';
+      } else {
+        archetypeKey = 'damage_reaction';
+      }
+
+      const archetype = SPELL_ARCHETYPES[archetypeKey];
+      const elementType = getElementTypeForSpecialization(specialization.id);
+      const spellName = generateSpellName(specialization.name, archetypeKey);
+      const description = generateDescription(archetypeKey, elementType, archetype);
+
+      const spell = {
+        id: `${className}-${specialization.id}-${archetypeKey}`,
+        name: spellName,
+        description,
+        icon: specialization.icon || 'spell_arcane_arcane01',
+        spellType: archetype.spellType,
+        effectTypes: archetype.effectTypes,
+        damageTypes: [elementType],
+        tags: [className.toLowerCase(), specialization.name.toLowerCase().replace(/ /g, '_'), archetypeKey],
+        specialization: specialization.id, // Add specialization ID for filtering
+
+        // Copy all configs from archetype
+        ...archetype,
+
+        // Customize element type
+        ...(archetype.damageConfig && {
+          damageConfig: {
+            ...archetype.damageConfig,
+            elementType
+          }
+        })
+      };
+
+      // Remove duplicate tags
+      spell.tags = [...new Set(spell.tags.map(tag => tag.toLowerCase()))];
+
+      classSpells.push(spell);
+    });
+
+    // Store spells for this class
+    spellsByClass[className] = classSpells;
+  });
+
+  return spellsByClass;
+};
+
+// Generate all spells organized by class
 export const ALL_CLASS_SPELLS = generateAllClassSpells();
+

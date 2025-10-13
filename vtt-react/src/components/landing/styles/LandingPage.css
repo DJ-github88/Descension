@@ -236,14 +236,11 @@ body svg[data-icon] {
 
 /* Main Content */
 .landing-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
   /* Remove overflow from here - let body handle scrolling */
 }
 
 .landing-section {
-  margin-bottom: 60px;
+  margin-bottom: 0;
 }
 
 /* Hero Section */
@@ -873,6 +870,22 @@ body svg[data-icon] {
   margin-bottom: 40px;
 }
 
+/* ===== RULES SECTION ===== */
+
+/* Wrapper for the new comprehensive rules page */
+.rules-section-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+.rules-section-wrapper .rules-page {
+  height: 100%;
+}
+
+/* Legacy rules grid (kept for reference, not used with new RulesPage) */
 .rules-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
@@ -1029,7 +1042,7 @@ body svg[data-icon] {
 .landing-footer {
   background: rgba(0, 0, 0, 0.8);
   border-top: 2px solid #8b4513;
-  margin-top: 80px;
+  margin-top: 0;
 }
 
 .footer-content {

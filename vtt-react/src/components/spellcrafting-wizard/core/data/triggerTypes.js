@@ -543,10 +543,10 @@ const STATUS_TRIGGERS = [
   {
     id: 'health_threshold',
     name: 'Health Threshold',
-    description: 'Triggers when health falls below or rises above a threshold',
+    description: 'Triggers when health falls below, rises above, or equals a threshold',
     parameters: [
       { name: 'threshold', type: 'number', unit: '%', default: 50 },
-      { name: 'condition', type: 'select', options: ['below', 'above'], default: 'below' }
+      { name: 'condition', type: 'select', options: ['below', 'above', 'equals'], default: 'below' }
     ],
     entitiesAffected: ['allies', 'enemies', 'self'],
     icon: 'spell_holy_sealofsacrifice',

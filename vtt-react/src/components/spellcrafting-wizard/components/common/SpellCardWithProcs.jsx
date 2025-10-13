@@ -31,9 +31,25 @@ const SpellCardWithProcs = ({
   ...props
 }) => {
   // Check if spell has proc effects
-  const hasProcEffects = spell?.mechanicsConfig?.some(config => 
-    config.system === 'PROC_SYSTEM' && config.procOptions?.spellId
-  );
+  // mechanicsConfig can be either an array or an object
+  const hasProcEffects = (() => {
+    if (!spell?.mechanicsConfig) return false;
+
+    // If it's an array, check each config
+    if (Array.isArray(spell.mechanicsConfig)) {
+      return spell.mechanicsConfig.some(config =>
+        config.system === 'PROC_SYSTEM' && config.procOptions?.spellId
+      );
+    }
+
+    // If it's an object, check if it has proc system configured
+    if (typeof spell.mechanicsConfig === 'object') {
+      // Check for proc system in the object structure
+      return spell.mechanicsConfig.procs?.enabled && spell.mechanicsConfig.procs?.spellId;
+    }
+
+    return false;
+  })();
 
   // If no proc effects or showProcs is false, just render the normal spell card
   if (!hasProcEffects || !showProcs) {

@@ -1521,7 +1521,7 @@
 /* ===== ROLLABLE TABLE INTEGRATION ===== */
 
 .unified-spell-rollable-table {
-  margin: var(--pf-space-3) var(--pf-space-4);
+  margin: var(--pf-space-2) 0; /* Reduced vertical margin, no horizontal margin (handled inline) */
   background: var(--pf-gradient-parchment); /* Ensure beige background covers rollable table area */
   position: relative;
   z-index: 2;
@@ -1889,8 +1889,8 @@
   display: flex;
   flex-direction: row;
   gap: var(--pf-space-2);
-  align-items: center;
-  justify-content: space-between; /* Spread resource costs and components apart */
+  align-items: flex-start;
+  justify-content: flex-start;
   margin-top: 0;
   margin-bottom: var(--pf-space-1);
   flex-wrap: nowrap;
@@ -1899,19 +1899,21 @@
   overflow: visible;
 }
 
-/* Resource costs display for wizard variant - compact */
+/* Resource costs display for wizard variant - compact with wrapping */
 .unified-spell-resource-costs {
   display: flex;
   align-items: center;
   gap: 3px;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  flex-wrap: wrap; /* Allow wrapping when there are many resources */
+  max-width: 100%; /* Ensure it doesn't overflow */
 }
 
 .unified-spell-resource-costs .pf-spell-resources {
   display: flex;
   align-items: center;
   gap: 3px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap; /* Allow wrapping for multiple resources */
 }
 
 .unified-spell-resource-costs {
@@ -2013,7 +2015,7 @@
 
 /* Auto-sizing description for spell cards */
 .unified-spell-card .item-description {
-  margin: 6px 0 4px 0; /* Minimal margins for auto-sizing */
+  margin: 6px 0 0 0; /* Remove bottom margin to eliminate gap */
   padding: 6px 8px; /* Reduced padding */
   font-family: 'Times New Roman', serif;
   font-size: var(--pf-text-sm);
@@ -2038,15 +2040,10 @@
   display: none;
 }
 
-/* Minimal spacing for non-empty descriptions */
-.unified-spell-card .item-description:not(:empty) {
-  margin-bottom: 4px;
-}
-
 /* Triggers section - position at top with minimal spacing */
 .triggers-section {
   order: -1; /* Move to top */
-  margin: 0 0 var(--pf-space-2) 0;
+  margin: 0 0 var(--pf-space-1) 0; /* Reduced bottom margin */
   padding: 0;
 }
 
@@ -2086,65 +2083,92 @@
 /* ===== CLEAN COMPACT TRIGGERS STYLING ===== */
 .global-triggers-compact {
   order: -1; /* Move to top */
-  margin: 0 0 var(--pf-space-2) 0 !important;
-  padding: 0;
-  background: var(--pf-gradient-parchment); /* Ensure beige background covers triggers section */
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
+  margin: 0 0 var(--pf-space-3) 0 !important;
+  padding: var(--pf-space-3);
+  background: var(--pf-gradient-parchment-light);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  box-shadow:
+    0 1px 3px rgba(139, 69, 19, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   position: relative;
   z-index: 2;
 }
 
-.trigger-compact-header {
+.trigger-section-header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: var(--pf-space-2);
-  margin-bottom: var(--pf-space-1);
-  padding: 0;
-  border: none;
+  justify-content: space-between;
+  margin-bottom: var(--pf-space-2);
+  padding-bottom: var(--pf-space-2);
+  border-bottom: 1px solid var(--pf-brown-light);
 }
 
-.trigger-compact-label {
+.trigger-section-title {
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-bold);
-  color: var(--pf-brown-dark);
+  color: #000000;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-family: var(--pf-font-ui);
 }
 
-.trigger-compact-modes {
+.trigger-header-badges {
   display: flex;
-  gap: var(--pf-space-1);
-  font-size: var(--pf-text-xs);
+  gap: var(--pf-space-2);
   align-items: center;
 }
 
-.trigger-compact-mode,
-.trigger-compact-logic {
-  background: var(--pf-brown-medium);
-  color: var(--pf-text-light);
-  padding: 2px 6px;
+.trigger-mode-badge,
+.trigger-logic-badge {
+  background: transparent;
+  color: #000000;
+  padding: 2px 8px;
   border-radius: var(--pf-border-radius-sm);
+  border: 1px solid var(--pf-brown-medium);
   font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-medium);
+  font-weight: var(--pf-font-semibold);
   text-transform: uppercase;
   white-space: nowrap;
+  font-family: var(--pf-font-ui);
+  letter-spacing: 0.3px;
 }
 
-.trigger-compact-conditions {
+.trigger-conditions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.trigger-condition-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+}
+
+.trigger-condition-text {
   font-size: var(--pf-text-sm);
-  line-height: 1.3;
-  color: var(--pf-text-primary);
+  line-height: 1.4;
+  color: #000000;
   font-family: var(--pf-font-body);
+  font-weight: normal;
 }
 
-.trigger-compact-condition {
-  display: inline;
-  font-weight: var(--pf-font-medium);
-  color: var(--pf-text-primary);
+.trigger-logic-connector {
+  font-size: var(--pf-text-xs);
+  color: #000000;
+  font-weight: var(--pf-font-semibold);
+  font-style: italic;
+  text-align: center;
+  padding: var(--pf-space-1) 0;
+  font-family: var(--pf-font-ui);
+}
+
+.trigger-no-conditions {
+  font-size: var(--pf-text-sm);
+  color: #000000;
+  font-family: var(--pf-font-body);
+  font-style: italic;
 }
 
 /* Spell title separator line for wizard variant */

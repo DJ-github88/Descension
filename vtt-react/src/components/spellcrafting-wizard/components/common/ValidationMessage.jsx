@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import '../styles/SpellWizard.css';
+import '../../styles/pathfinder/main.css';
 
 /**
  * ValidationMessage component to display validation errors, warnings, and info messages

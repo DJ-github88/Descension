@@ -17,19 +17,35 @@ const ProcEffectDisplay = ({
 }) => {
   const library = useSpellLibrary();
 
-  // Check if spell has proc system mechanics
-  const hasProcSystem = spell?.mechanicsConfig?.some(config => 
-    config.system === 'PROC_SYSTEM' && config.procOptions?.spellId
-  );
+  // Get all proc configurations - handle both array and object formats
+  const procConfigs = (() => {
+    if (!spell?.mechanicsConfig) return [];
 
-  if (!hasProcSystem) {
+    // If it's an array, filter for proc configs
+    if (Array.isArray(spell.mechanicsConfig)) {
+      return spell.mechanicsConfig.filter(config =>
+        config.system === 'PROC_SYSTEM' && config.procOptions?.spellId
+      );
+    }
+
+    // If it's an object, check for proc system in object structure
+    if (typeof spell.mechanicsConfig === 'object') {
+      // Check if procs property exists and is configured
+      if (spell.mechanicsConfig.procs?.enabled && spell.mechanicsConfig.procs?.spellId) {
+        return [{
+          system: 'PROC_SYSTEM',
+          procOptions: spell.mechanicsConfig.procs
+        }];
+      }
+    }
+
+    return [];
+  })();
+
+  // If no proc configurations found, don't render
+  if (procConfigs.length === 0) {
     return null;
   }
-
-  // Get all proc configurations
-  const procConfigs = spell.mechanicsConfig.filter(config => 
-    config.system === 'PROC_SYSTEM' && config.procOptions?.spellId
-  );
 
   return (
     <div className={`proc-effect-display ${position} ${className}`}>

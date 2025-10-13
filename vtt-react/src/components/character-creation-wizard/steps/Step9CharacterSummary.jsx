@@ -9,6 +9,7 @@ import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
 import { getPathData, getPathStatModifiers } from '../../../data/pathData';
 import { getBackgroundData } from '../../../data/backgroundData';
+import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { applyRacialModifiers } from '../../../data/raceData';
 
 const Step9CharacterSummary = () => {
@@ -22,6 +23,7 @@ const Step9CharacterSummary = () => {
 
     // Get background and path data for display
     const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
+    const backgroundAbilities = characterData.background ? getBackgroundAbilities(characterData.background) : [];
     const pathData = characterData.path ? getPathData(characterData.path) : null;
 
     return (
@@ -143,6 +145,31 @@ const Step9CharacterSummary = () => {
                                             <p>{backgroundData.feature.description}</p>
                                         </div>
                                     </div>
+
+                                    {/* Background Abilities */}
+                                    {backgroundAbilities && backgroundAbilities.length > 0 && (
+                                        <div className="benefit-group">
+                                            <h4>Background Abilities</h4>
+                                            <div className="abilities-list">
+                                                {backgroundAbilities.map((ability, index) => (
+                                                    <div key={index} className="ability-item">
+                                                        <div className="ability-header">
+                                                            <h5 className="ability-name">{ability.name}</h5>
+                                                            <div className="ability-meta">
+                                                                <span className={`ability-type ${ability.type.toLowerCase()}`}>
+                                                                    {ability.type}
+                                                                </span>
+                                                                <span className="ability-usage">{ability.usage}</span>
+                                                            </div>
+                                                        </div>
+                                                        <p className="ability-description">
+                                                            {ability.description}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {backgroundData.equipment && backgroundData.equipment.length > 0 && (
                                         <div className="benefit-group">

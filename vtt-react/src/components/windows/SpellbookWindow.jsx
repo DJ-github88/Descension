@@ -152,6 +152,58 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
               onClick={() => setActiveTab(tab.id)}
             >
               <span>{tab.label}</span>
+              {/* Add Import/Export buttons to Spell Library tab */}
+              {tab.id === 'library' && activeTab === 'library' && (
+                <div style={{
+                  marginLeft: 'auto',
+                  display: 'flex',
+                  gap: '8px',
+                  paddingLeft: '16px'
+                }}>
+                  <button
+                    className="tab-action-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Trigger import via custom event
+                      window.dispatchEvent(new CustomEvent('spellLibraryImport'));
+                    }}
+                    title="Import Spells"
+                    style={{
+                      background: 'rgba(139, 115, 85, 0.3)',
+                      border: '1px solid rgba(212, 175, 55, 0.5)',
+                      borderRadius: '4px',
+                      padding: '4px 8px',
+                      color: '#f0e6d2',
+                      fontSize: '11px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <i className="fas fa-file-import"></i> Import
+                  </button>
+                  <button
+                    className="tab-action-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Trigger export via custom event
+                      window.dispatchEvent(new CustomEvent('spellLibraryExport'));
+                    }}
+                    title="Export Spells"
+                    style={{
+                      background: 'rgba(139, 115, 85, 0.3)',
+                      border: '1px solid rgba(212, 175, 55, 0.5)',
+                      borderRadius: '4px',
+                      padding: '4px 8px',
+                      color: '#f0e6d2',
+                      fontSize: '11px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <i className="fas fa-file-export"></i> Export
+                  </button>
+                </div>
+              )}
             </button>
           ))}
         </div>

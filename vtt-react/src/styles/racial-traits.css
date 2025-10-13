@@ -357,3 +357,42 @@
   color: #2d1810;
   border-color: #b7791f;
 }
+
+/* ===== CULTURAL BACKGROUND SECTION ===== */
+
+.racial-cultural-background {
+  margin-top: var(--pf-space-4);
+  padding: var(--pf-space-4);
+  background: linear-gradient(135deg,
+    rgba(212, 175, 55, 0.05) 0%,
+    rgba(212, 175, 55, 0.1) 50%,
+    rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid var(--pf-brown-light);
+  border-radius: var(--pf-border-radius);
+  box-shadow: inset 0 1px 3px rgba(139, 69, 19, 0.08);
+}
+
+.cultural-background-title {
+  font-family: 'Cinzel', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--pf-brown-darkest);
+  margin: 0 0 var(--pf-space-3) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+
+.cultural-background-title i {
+  color: var(--pf-gold);
+  font-size: 1rem;
+}
+
+.cultural-background-text {
+  font-family: 'Libre Baskerville', 'Georgia', serif;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--pf-text-secondary);
+  margin: 0;
+  text-align: justify;
+}

@@ -1,5 +1,14 @@
 /* ===== UNIFIED EFFECTS STYLING - PATHFINDER THEME ===== */
 /* Comprehensive styling for all effect components in the spellcrafting wizard */
+/*
+ * IMPORTANT: This file handles effect CONFIGURATION UI styling (wizard, popups, etc.)
+ * For effect BOX styling on SPELL CARDS (borders, backgrounds, padding), see:
+ * - spell-card-enhancements.css (single source of truth for spell card effect boxes)
+ *
+ * DO NOT add .damage-effects, .healing-effects, .buff-effects, etc. border/background/padding
+ * rules here as they will conflict with spell-card-enhancements.css and cause inconsistent
+ * rendering between spellbook, library, and rules sections.
+ */
 
 /* ===== MAIN CONTAINERS ===== */
 
@@ -24,31 +33,13 @@
 
 /* ===== UNIFIED EFFECT SECTIONS STYLING ===== */
 
-/* Base styling for all effect sections - matches damage/healing clean format */
-.buff-effects,
-.debuff-effects,
-.utility-effects,
-.control-effects,
-.damage-effects,
-.healing-effects,
-.summoning-effects,
-.transformation-effects,
-.purification-effects,
-.restoration-effects {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1);
-  margin-bottom: var(--pf-space-1);
-  min-height: 40px;
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1);
-  overflow: hidden;
-}
+/*
+ * REMOVED: Spell card effect box styling (.damage-effects, .healing-effects, etc.)
+ * These are now exclusively controlled by spell-card-enhancements.css
+ * This file only handles CONFIGURATION UI (wizard popups, effect selection, etc.)
+ */
 
+/* Effect section containers - ONLY for configuration UI, NOT spell cards */
 .buff-effects-section,
 .debuff-effects-section,
 .utility-effects-section,
@@ -66,7 +57,7 @@
   width: 100%;
 }
 
-/* Unified header styling for all effect sections */
+/* Unified header styling for effect configuration sections */
 .buff-header,
 .debuff-header,
 .utility-header,
@@ -85,7 +76,7 @@
   gap: var(--pf-space-1);
 }
 
-/* Unified separator styling for all effect sections */
+/* Unified separator styling for effect configuration sections */
 .buff-separator,
 .debuff-separator,
 .utility-separator,
@@ -244,6 +235,7 @@
   margin-top: var(--pf-space-1);
 }
 
+/* Buff formula lines - CONFIGURATION UI ONLY (not spell cards) */
 .buff-formula-line {
   display: flex;
   flex-direction: column;
@@ -424,6 +416,7 @@
   margin-top: var(--pf-space-1);
 }
 
+/* Debuff formula lines - CONFIGURATION UI ONLY (not spell cards) */
 .debuff-formula-line {
   display: flex;
   flex-direction: column;
@@ -1601,78 +1594,12 @@
 
 
 
-.damage-formula-line {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
+/* REMOVED: .damage-formula-line - now in spell-card-enhancements.css for spell cards */
+/* This was causing conflicts with spell card rendering */
 
-.damage-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-1); /* Reduced from space-2 to space-1 (4px) */
-  width: 100%;
-}
-
-.damage-effect-item {
-  background: var(--pf-gradient-parchment);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1); /* Reduced from space-2 to space-1 (4px) */
-  transition: all var(--pf-transition-normal);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.damage-effect-item:hover {
-  background: var(--pf-gradient-parchment-light);
-  border-color: var(--pf-brown-medium);
-  transform: translateY(-1px);
-}
-
-.damage-effect-name {
-  font-family: var(--pf-font-heading);
-  font-size: var(--pf-text-base);
-  font-weight: 600;
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-1);
-}
-
-.damage-effect-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  line-height: 1.4;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-}
-
-.damage-effect-details {
-  margin-top: var(--pf-space-1);
-  padding-top: var(--pf-space-1);
-  border-top: 1px solid var(--pf-brown-light);
-  font-size: var(--pf-text-xs);
-}
-
-.damage-effect-mechanics {
-  font-family: var(--pf-font-ui);
-  font-weight: 500;
-  color: var(--pf-text-primary);
-  line-height: 1.3;
-  font-size: var(--pf-text-xs);
-}
-
-.damage-formula-value {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  text-align: center;
-  padding: var(--pf-space-2);
-}
+/* REMOVED: Spell card damage effect item styling - now in spell-card-enhancements.css */
+/* .damage-effects-list, .damage-effect-item, .damage-effect-name, etc. */
+/* These styles conflicted with spell-card-enhancements.css */
 
 
 
@@ -1709,12 +1636,8 @@
   margin: var(--pf-space-1) 0;
 }
 
-.healing-formula-line {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-2);
-  width: 100%;
-}
+/* REMOVED: .healing-formula-line - now in spell-card-enhancements.css for spell cards */
+/* This was causing conflicts with spell card rendering */
 
 .healing-effects-list {
   display: flex;
@@ -1723,64 +1646,9 @@
   width: 100%;
 }
 
-.healing-effect-item {
-  background: var(--pf-gradient-parchment);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-2);
-  transition: all var(--pf-transition-normal);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.healing-effect-item:hover {
-  background: var(--pf-gradient-parchment-light);
-  border-color: var(--pf-brown-medium);
-  transform: translateY(-1px);
-}
-
-.healing-effect-name {
-  font-family: var(--pf-font-heading);
-  font-size: var(--pf-text-base);
-  font-weight: 600;
-  color: var(--pf-text-secondary);
-  margin-bottom: var(--pf-space-1);
-}
-
-.healing-effect-description {
-  font-family: var(--pf-font-body);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  line-height: 1.4;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-}
-
-.healing-effect-details {
-  margin-top: var(--pf-space-1);
-  padding-top: var(--pf-space-1);
-  border-top: 1px solid var(--pf-brown-light);
-  font-size: var(--pf-text-xs);
-}
-
-.healing-effect-mechanics {
-  font-family: var(--pf-font-ui);
-  font-weight: 500;
-  color: var(--pf-text-primary);
-  line-height: 1.3;
-  font-size: var(--pf-text-xs);
-}
-
-.healing-formula-value {
-  font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-sm);
-  color: var(--pf-text-secondary);
-  font-style: italic;
-  text-align: center;
-  padding: var(--pf-space-2);
-}
+/* REMOVED: Spell card healing effect item styling - now in spell-card-enhancements.css */
+/* .healing-effect-item, .healing-effect-name, .healing-effect-description, etc. */
+/* These styles conflicted with spell-card-enhancements.css */
 
 
 

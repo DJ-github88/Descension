@@ -37,6 +37,9 @@ const CharacterManagement = lazy(() => import("./components/account/CharacterMan
 const CharacterCreationPage = lazy(() => import("./components/account/CharacterCreationPage"));
 const CharacterViewPage = lazy(() => import("./components/account/CharacterViewPage"));
 
+// Test components
+const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/test/TestTriggerDisplay"));
+
 
 import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
@@ -787,6 +790,13 @@ const AppContent = ({
                                     isAuthenticated={isAuthenticated}
                                     user={user}
                                 />
+                            </Suspense>
+                        } />
+
+                        {/* Test routes */}
+                        <Route path="/test/triggers" element={
+                            <Suspense fallback={<LoadingFallback message="Loading test..." />}>
+                                <TestTriggerDisplay />
                             </Suspense>
                         } />
 

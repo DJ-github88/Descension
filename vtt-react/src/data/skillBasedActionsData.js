@@ -1,64 +1,25 @@
 /**
  * Skill-Based Actions Data
- * 
- * Contains skill-based actions that use character skills and abilities.
- * These are part of the general actions available to all characters.
+ *
+ * CLEARED FOR TESTING
+ * All skill-based actions have been removed and replaced with comprehensive test spells.
+ * See testSpells.js for the test spell library.
+ *
+ * Original actions backed up to: BACKUP_skillBasedActionsData.js
  */
 
-// Helper function to generate spell IDs
-const generateSpellId = (name) => {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-skill';
+// CLEARED - Using test spells instead
+export const SKILL_BASED_ACTIONS = [];
+
+// Export for use in general spells
+export const SKILL_ACTIONS_CATEGORY = {
+  id: 'skill_actions',
+  name: 'Skill Actions',
+  description: 'Actions that utilize character skills and abilities',
+  icon: 'spell_holy_blessingofstrength',
+  color: '#6B8E23',
+  spells: SKILL_BASED_ACTIONS.map(action => action.id)
 };
-
-// Helper function to create base skill action template
-const createSkillAction = (name, description, skill, actionPoints, icon, difficulty = 12) => ({
-  id: generateSpellId(name),
-  name,
-  description,
-  icon,
-  spellType: 'ACTION',
-  source: 'general',
-  tags: ['general', 'skill', skill],
-  effectTypes: ['skill'],
-  dateCreated: new Date().toISOString(),
-  lastModified: new Date().toISOString(),
-  resourceCost: {
-    mana: 0,
-    health: 0,
-    stamina: 0,
-    focus: 0,
-    actionPoints: actionPoints
-  },
-  targetingConfig: {
-    targetingType: 'single',
-    range: 5,
-    validTargets: ['enemy', 'ally', 'object'],
-    requiresLineOfSight: true
-  },
-  durationConfig: {
-    type: 'instant',
-    value: 0,
-    unit: 'seconds',
-    concentration: false
-  },
-  mechanicsConfig: {
-    skillCheck: {
-      enabled: true,
-      skill: skill,
-      difficulty: difficulty,
-      description: `${skill.charAt(0).toUpperCase() + skill.slice(1)} Roll DC ${difficulty}`
-    }
-  },
-  resolution: 'DICE',
-  categoryIds: ['general_actions']
-});
-
-// Skill-based actions
-export const SKILL_BASED_ACTIONS = [
-  // Acrobatics - Charged Squat
-  {
-    ...createSkillAction(
-      'Charged Squat',
       'Jump up to 10 ft horizontally or 10 ft vertically. On failure, land prone. Add 5 ft by increasing DC by 3.',
       'acrobatics',
       1,

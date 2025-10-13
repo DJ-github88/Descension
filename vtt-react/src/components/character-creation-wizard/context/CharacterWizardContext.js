@@ -108,6 +108,8 @@ const initialState = {
 
         // Path (custom paths like Mystic, Zealot, etc.)
         path: '',
+        subPath: '',
+        selectedAbilities: [], // Array of ability IDs (max 1)
 
         // Stats (point-buy allocation)
         baseStats: getDefaultStats(),
@@ -163,6 +165,8 @@ export const ACTION_TYPES = {
     SET_SKILLS: 'SET_SKILLS',
     SET_LANGUAGES: 'SET_LANGUAGES',
     SET_PATH: 'SET_PATH',
+    SET_SUBPATH: 'SET_SUBPATH',
+    SET_SELECTED_ABILITIES: 'SET_SELECTED_ABILITIES',
     UPDATE_LORE: 'UPDATE_LORE',
     UPDATE_BASE_STATS: 'UPDATE_BASE_STATS',
     RECALCULATE_FINAL_STATS: 'RECALCULATE_FINAL_STATS',
@@ -282,7 +286,30 @@ const characterWizardReducer = (state, action) => {
                 ...state,
                 characterData: {
                     ...state.characterData,
-                    path: action.payload
+                    path: action.payload,
+                    // Reset subpath and abilities when path changes
+                    subPath: '',
+                    selectedAbilities: []
+                }
+            };
+
+        case ACTION_TYPES.SET_SUBPATH:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    subPath: action.payload,
+                    // Reset abilities when subpath changes
+                    selectedAbilities: []
+                }
+            };
+
+        case ACTION_TYPES.SET_SELECTED_ABILITIES:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    selectedAbilities: action.payload
                 }
             };
 
@@ -395,6 +422,8 @@ const characterWizardReducer = (state, action) => {
 
                     // Path
                     path: existingChar.path || '',
+                    subPath: existingChar.subPath || '',
+                    selectedAbilities: existingChar.selectedAbilities || [],
 
                     // Stats - use existing stats or defaults
                     baseStats: existingChar.stats || getDefaultStats(),
@@ -470,6 +499,12 @@ const validateCurrentStep = (state) => {
         case WIZARD_STEPS.PATH_SELECTION:
             if (!characterData.path) {
                 errors.path = 'Please select a path';
+            }
+            if (!characterData.subPath) {
+                errors.subPath = 'Please select a specialization';
+            }
+            if (!characterData.selectedAbilities || characterData.selectedAbilities.length !== 1) {
+                errors.abilities = 'Please select exactly 1 ability';
             }
             break;
 
@@ -568,6 +603,8 @@ export const wizardActionCreators = {
     setSkills: (skills) => ({ type: ACTION_TYPES.SET_SKILLS, payload: skills }),
     setLanguages: (languages) => ({ type: ACTION_TYPES.SET_LANGUAGES, payload: languages }),
     setPath: (path) => ({ type: ACTION_TYPES.SET_PATH, payload: path }),
+    setSubPath: (subPath) => ({ type: ACTION_TYPES.SET_SUBPATH, payload: subPath }),
+    setSelectedAbilities: (abilities) => ({ type: ACTION_TYPES.SET_SELECTED_ABILITIES, payload: abilities }),
     updateLore: (lore) => ({ type: ACTION_TYPES.UPDATE_LORE, payload: lore }),
     updateBaseStats: (stats) => ({ type: ACTION_TYPES.UPDATE_BASE_STATS, payload: stats }),
 

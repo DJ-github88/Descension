@@ -50,6 +50,9 @@ const UnifiedSpellCard = ({
   const hoverTimeoutRef = useRef(null);
   const hideTimeoutRef = useRef(null);
 
+  // State for rollable table expansion
+  const [isRollableTableExpanded, setIsRollableTableExpanded] = useState(false);
+
   // ===== COMPREHENSIVE HELPER FUNCTIONS =====
 
   // Format resource names properly (convert snake_case to proper names)
@@ -1331,10 +1334,15 @@ const UnifiedSpellCard = ({
       });
     }
 
-    // Check for class spell resource costs (simple format: { mana: 25, health: 0, stamina: 0, focus: 0 })
-    if (spell.resourceCost && spell.source === 'class') {
-      Object.entries(spell.resourceCost).forEach(([type, amount]) => {
-        if (amount > 0 && type !== 'components' && type !== 'materialComponents' && type !== 'verbalText' && type !== 'somaticText' && type !== 'resourceValues' && type !== 'resourceTypes' && type !== 'resourceFormulas' && type !== 'useFormulas' && type !== 'actionPointsSelected' && type !== 'primaryResourceType' && type !== 'classResourceCost') {
+    // Check for simple resource cost format: { mana: 25, health: 0, stamina: 0, focus: 0, classResource: {...} }
+    // This handles class spells, test spells, and any spell with direct resource properties
+    if (spell.resourceCost && !spell.resourceCost.resourceTypes) {
+      // List of valid resource types to check
+      const validResourceTypes = ['mana', 'health', 'stamina', 'focus', 'actionPoints'];
+
+      validResourceTypes.forEach(type => {
+        const amount = spell.resourceCost[type];
+        if (amount > 0) {
           // Don't add if already added from resourceValues
           if (!resources.some(r => r.type === type.toLowerCase().replace(/\s+/g, '-'))) {
             resources.push({
@@ -1347,6 +1355,20 @@ const UnifiedSpellCard = ({
           }
         }
       });
+
+      // Check for class resource (e.g., arcane_charges, holy_power, etc.)
+      if (spell.resourceCost.classResource && spell.resourceCost.classResource.cost > 0) {
+        const classResourceType = spell.resourceCost.classResource.type;
+        const classResourceCost = spell.resourceCost.classResource.cost;
+
+        resources.push({
+          type: classResourceType.toLowerCase().replace(/\s+/g, '-'),
+          amount: classResourceCost,
+          name: formatResourceName(classResourceType),
+          icon: getResourceIcon(classResourceType),
+          color: getResourceColor(classResourceType)
+        });
+      }
     }
 
     // Check for legacy resource costs (spellbook format) - only for actual spellbook spells
@@ -1442,12 +1464,16 @@ const UnifiedSpellCard = ({
 
   // Format spell components for display below spell name
   const formatSpellComponents = () => {
-    if (!spell || !spell.resourceCost) return null;
+    if (!spell || !spell.resourceCost) {
+      console.log('[formatSpellComponents] No spell or resourceCost:', { spell: !!spell, resourceCost: !!spell?.resourceCost });
+      return null;
+    }
 
     const components = [];
 
     // Check for spell components in resourceCost
     if (spell.resourceCost.components && spell.resourceCost.components.length > 0) {
+      console.log('[formatSpellComponents] Found components:', spell.resourceCost.components);
       spell.resourceCost.components.forEach(component => {
         switch(component) {
           case 'verbal':
@@ -1482,9 +1508,11 @@ const UnifiedSpellCard = ({
     }
 
     if (components.length === 0) {
+      console.log('[formatSpellComponents] No components found');
       return null;
     }
 
+    console.log('[formatSpellComponents] Returning components:', components.length);
     return (
       <div className="pf-spell-components">
         {components.map((component, index) => (
@@ -2455,8 +2483,10 @@ const UnifiedSpellCard = ({
       const effects = critConfig.critEffects || [];
       if (effects.length > 0) {
         const effectNames = effects.map(effect => {
-          // Format effect names nicely
-          return effect.charAt(0).toUpperCase() + effect.slice(1);
+          // Format effect names nicely - convert underscores to spaces and capitalize each word
+          return effect.split('_')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
         }).join(', ');
         return `Effect only: ${effectNames}`;
       }
@@ -2524,8 +2554,10 @@ const UnifiedSpellCard = ({
     // Add special effects if any are selected
     if (critEffects && critEffects.length > 0) {
       const effectNames = critEffects.map(effect => {
-        // Format effect names nicely
-        return effect.charAt(0).toUpperCase() + effect.slice(1);
+        // Format effect names nicely - convert underscores to spaces and capitalize each word
+        return effect.split('_')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
       }).join(', ');
       critText += ` + ${effectNames}`;
     }
@@ -3051,9 +3083,16 @@ const UnifiedSpellCard = ({
     // Use a Set to automatically handle duplicates
     const damageTypesSet = new Set();
 
-    // Priority order: damageTypes array first, then other sources
-    if (spell.damageTypes && Array.isArray(spell.damageTypes) && spell.damageTypes.length > 0) {
-      spell.damageTypes.forEach(type => {
+    // Priority order: damageTypes array first (check both top-level and damageConfig), then other sources
+    const damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
+    console.log('[getDamageTypes] Checking damage types:', {
+      spellName: spell.name,
+      topLevel: spell.damageTypes,
+      damageConfig: spell.damageConfig?.damageTypes,
+      final: damageTypesArray
+    });
+    if (damageTypesArray && Array.isArray(damageTypesArray) && damageTypesArray.length > 0) {
+      damageTypesArray.forEach(type => {
         if (type && type.trim()) {
           damageTypesSet.add(type.toLowerCase().trim());
         }
@@ -3086,6 +3125,44 @@ const UnifiedSpellCard = ({
       }
     }
 
+    // Infer damage type from spell effects if still not found
+    if (damageTypesSet.size === 0) {
+      // Check damage config for type hints
+      if (spell.damageConfig?.formula) {
+        const formula = spell.damageConfig.formula.toLowerCase();
+        if (formula.includes('fire')) damageTypesSet.add('fire');
+        else if (formula.includes('cold') || formula.includes('frost') || formula.includes('ice')) damageTypesSet.add('cold');
+        else if (formula.includes('lightning') || formula.includes('electric')) damageTypesSet.add('lightning');
+        else if (formula.includes('radiant') || formula.includes('holy')) damageTypesSet.add('radiant');
+        else if (formula.includes('necrotic') || formula.includes('shadow')) damageTypesSet.add('necrotic');
+        else if (formula.includes('poison')) damageTypesSet.add('poison');
+        else if (formula.includes('acid')) damageTypesSet.add('acid');
+        else if (formula.includes('psychic')) damageTypesSet.add('psychic');
+        else if (formula.includes('force')) damageTypesSet.add('force');
+      }
+
+      // Check spell name and description for type hints
+      const spellText = `${spell.name || ''} ${spell.description || ''}`.toLowerCase();
+      if (spellText.includes('fire') || spellText.includes('flame') || spellText.includes('burn')) damageTypesSet.add('fire');
+      else if (spellText.includes('cold') || spellText.includes('frost') || spellText.includes('ice')) damageTypesSet.add('cold');
+      else if (spellText.includes('lightning') || spellText.includes('electric') || spellText.includes('thunder')) damageTypesSet.add('lightning');
+      else if (spellText.includes('radiant') || spellText.includes('holy') || spellText.includes('divine') || spellText.includes('light')) damageTypesSet.add('radiant');
+      else if (spellText.includes('necrotic') || spellText.includes('shadow') || spellText.includes('death') || spellText.includes('decay')) damageTypesSet.add('necrotic');
+      else if (spellText.includes('poison') || spellText.includes('venom') || spellText.includes('toxic')) damageTypesSet.add('poison');
+      else if (spellText.includes('acid') || spellText.includes('corrosive')) damageTypesSet.add('acid');
+      else if (spellText.includes('psychic') || spellText.includes('mind') || spellText.includes('mental')) damageTypesSet.add('psychic');
+      else if (spellText.includes('force') || spellText.includes('arcane')) damageTypesSet.add('force');
+
+      // Check buff/debuff effects for damage type hints
+      if (spell.buffConfig?.statusEffects) {
+        spell.buffConfig.statusEffects.forEach(effect => {
+          const effectText = `${effect.name || ''} ${effect.description || ''}`.toLowerCase();
+          if (effectText.includes('radiant') || effectText.includes('holy')) damageTypesSet.add('radiant');
+          else if (effectText.includes('necrotic') || effectText.includes('shadow')) damageTypesSet.add('necrotic');
+        });
+      }
+    }
+
     // Valid damage types (normalize cold/ice/frost to just 'cold')
     const validDamageTypes = ['fire', 'cold', 'lightning', 'thunder', 'electric',
                              'poison', 'acid', 'necrotic', 'shadow', 'radiant', 'holy',
@@ -3096,6 +3173,8 @@ const UnifiedSpellCard = ({
     const normalizedTypes = Array.from(damageTypesSet).map(type => {
       if (type === 'ice' || type === 'frost') return 'cold';
       if (type === 'electric') return 'lightning';
+      if (type === 'holy') return 'radiant';
+      if (type === 'shadow') return 'necrotic';
       return type;
     });
 
@@ -3179,7 +3258,42 @@ const UnifiedSpellCard = ({
   // Format status effect details based on configuration
   const formatStatusEffectDetails = (status, effectType = 'buff', parentConfig = null) => {
     const effectName = status.name || status.id || 'Status Effect';
-    let description = status.description || (effectType === 'buff' ? 'Beneficial status effect' : 'Harmful status effect');
+
+    // Improved fallback descriptions - show warning if incomplete
+    let description = status.description;
+    if (!description) {
+      // Try to infer from status name/id
+      const statusId = (status.id || status.name || '').toLowerCase();
+      if (statusId.includes('haste') || statusId.includes('speed')) {
+        description = 'Increased movement and attack speed';
+      } else if (statusId.includes('strength') || statusId.includes('might')) {
+        description = 'Enhanced physical power';
+      } else if (statusId.includes('intellect') || statusId.includes('wisdom')) {
+        description = 'Enhanced mental acuity';
+      } else if (statusId.includes('shield') || statusId.includes('barrier')) {
+        description = 'Protective magical barrier';
+      } else if (statusId.includes('regen') || statusId.includes('heal')) {
+        description = 'Gradual health restoration';
+      } else if (statusId.includes('bless') || statusId.includes('divine')) {
+        description = 'Divine blessing and protection';
+      } else if (statusId.includes('invisible') || statusId.includes('invisibility')) {
+        description = 'Cannot be seen';
+      } else if (statusId.includes('flight') || statusId.includes('fly')) {
+        description = 'Ability to fly';
+      } else if (statusId.includes('stun')) {
+        description = 'Unable to act';
+      } else if (statusId.includes('charm')) {
+        description = 'Magically influenced';
+      } else if (statusId.includes('burn')) {
+        description = 'Taking fire damage over time';
+      } else {
+        // Show clear warning for incomplete data
+        description = effectType === 'buff'
+          ? '⚠️ INCOMPLETE: Add description to status effect'
+          : '⚠️ INCOMPLETE: Add description to status effect';
+      }
+    }
+
     let mechanicsText = '';
     const mechanicsParts = [];
 
@@ -3616,6 +3730,14 @@ const UnifiedSpellCard = ({
       }
     }
 
+    // PRONE EFFECT
+    else if (effectId === 'prone') {
+      description = 'Knocked prone';
+      mechanicsParts.push('Disadvantage on attack rolls');
+      mechanicsParts.push('Attacks against target have advantage');
+      mechanicsParts.push('Costs half movement to stand up');
+    }
+
     // SILENCED EFFECT
     else if (effectId === 'silenced') {
       const silenceType = status.silenceType || 'magical';
@@ -3888,15 +4010,20 @@ const UnifiedSpellCard = ({
 
         const isAbsorptionStat = statName.includes('absorption');
 
+        // Check for incomplete stat data and show warning
+        const hasIncompleteName = !stat.name || stat.name.toLowerCase().includes('stat') && !stat.name.toLowerCase().includes('strength') && !stat.name.toLowerCase().includes('agility');
+
         let statDisplay = {
-          name: stat.name || 'Stat Modifier',
+          name: hasIncompleteName ? '⚠️ INCOMPLETE: Specify stat name' : (stat.name || 'Stat Modifier'),
           value: '',
-          class: ''
+          class: hasIncompleteName ? 'incomplete-data' : ''
         };
 
-        // Enhanced stat name formatting with thematic descriptions
-        const enhancedStatName = getEnhancedStatName(stat.name, stat.magnitude, stat.magnitudeType);
-        statDisplay.name = enhancedStatName;
+        // Enhanced stat name formatting with thematic descriptions (only if not incomplete)
+        if (!hasIncompleteName) {
+          const enhancedStatName = getEnhancedStatName(stat.name, stat.magnitude, stat.magnitudeType);
+          statDisplay.name = enhancedStatName;
+        }
 
         if (typeof stat.magnitude === 'string') {
           // It's a dice formula - could be absorption or regular stat
@@ -5187,6 +5314,27 @@ const UnifiedSpellCard = ({
 
         // Handle special effects
         if (buff.effects) {
+          if (buff.effects.temporaryHitPoints) {
+            mechanicsParts.push(`+${buff.effects.temporaryHitPoints} temporary hit points`);
+          }
+          if (buff.effects.damageReduction) {
+            mechanicsParts.push(`${buff.effects.damageReduction} damage reduction`);
+          }
+          if (buff.effects.attackBonus) {
+            mechanicsParts.push(`+${buff.effects.attackBonus} attack bonus`);
+          }
+          if (buff.effects.damageBonus) {
+            mechanicsParts.push(`+${buff.effects.damageBonus} damage`);
+          }
+          if (buff.effects.fearImmunity) {
+            mechanicsParts.push('Immune to fear');
+          }
+          if (buff.effects.redirectAttack) {
+            mechanicsParts.push('Redirects attacks to self');
+          }
+          if (buff.effects.radiantDamage) {
+            mechanicsParts.push('Attacks deal radiant damage');
+          }
           if (buff.effects.spellPowerBonus) {
             mechanicsParts.push(`Spell Power: +${buff.effects.spellPowerBonus}`);
           }
@@ -6295,12 +6443,24 @@ const UnifiedSpellCard = ({
           {/* Right side container for Resource Cost and Damage Types */}
           <div className="unified-spell-header-right">
             {/* Combined damage types and spell components box for wizard variant */}
-            {variant === 'wizard' && (getDamageTypes().length > 0 || formatSpellComponents()) && (
-              <div className="pf-damage-spell-box">
-                {/* Damage Types - Top row */}
-                {getDamageTypes().length > 0 && (
+            {(() => {
+              const damageTypes = getDamageTypes();
+              const spellComponents = formatSpellComponents();
+              const shouldShow = variant === 'wizard' && (damageTypes.length > 0 || spellComponents);
+
+              console.log('[Damage/Component Box]', {
+                variant,
+                damageTypesCount: damageTypes.length,
+                hasComponents: !!spellComponents,
+                shouldShow
+              });
+
+              return shouldShow && (
+                <div className="pf-damage-spell-box">
+                  {/* Damage Types - Top row */}
+                  {damageTypes.length > 0 && (
                   <div className="pf-damage-types-header">
-                    {getDamageTypes().map((damageType, index) => (
+                    {damageTypes.map((damageType, index) => (
                       <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
                         <div className="pf-damage-type-icon"></div>
                         <span className="pf-damage-type-text">{damageType}</span>
@@ -6310,13 +6470,14 @@ const UnifiedSpellCard = ({
                 )}
 
                 {/* Spell Components - Bottom row, starting beneath leftmost damage type */}
-                {formatSpellComponents() && (
+                {spellComponents && (
                   <div className="unified-spell-components-header">
-                    {formatSpellComponents()}
+                    {spellComponents}
                   </div>
                 )}
               </div>
-            )}
+              );
+            })()}
 
             {/* Damage Types only for non-wizard variants */}
             {(variant === 'library' || variant === 'collection') && getDamageTypes().length > 0 && (
@@ -6353,7 +6514,6 @@ const UnifiedSpellCard = ({
 
               {/* Range Badge */}
               <div className="pf-range-badge">
-                <div className="pf-range-icon"></div>
                 <span>{formatRange()}</span>
               </div>
 
@@ -6398,7 +6558,14 @@ const UnifiedSpellCard = ({
       {/* Card Body */}
       {showDescription && (
         <div className="pf-spell-card-body wow-spell-card-body">
-          {/* Global Triggers - Move to top with minimal spacing */}
+          {/* Description - First element in body */}
+          {spell?.description && (
+            <div className="item-description">
+              "{spell.description}"
+            </div>
+          )}
+
+          {/* Global Triggers - Positioned after description */}
           {(() => {
             const hasTriggerConfig = spell?.triggerConfig;
             const hasGlobalTriggers = hasTriggerConfig?.global?.compoundTriggers?.length > 0;
@@ -6407,54 +6574,68 @@ const UnifiedSpellCard = ({
             const shouldShowGlobalTriggers = hasGlobalTriggers || hasTriggerRole ||
               (hasTriggerConfig && ['REACTION', 'PASSIVE', 'TRAP', 'STATE'].includes(spell?.spellType));
 
-            if (!shouldShowGlobalTriggers) return null;
+            console.log('[Trigger Display]', {
+              spellName: spell?.name,
+              spellType: spell?.spellType,
+              hasTriggerConfig: !!hasTriggerConfig,
+              hasGlobalTriggers,
+              hasTriggerRole,
+              shouldShowGlobalTriggers,
+              triggerConfigFull: hasTriggerConfig,
+              compoundTriggersLength: hasTriggerConfig?.global?.compoundTriggers?.length,
+              triggers: hasTriggerConfig?.global?.compoundTriggers
+            });
+
+            if (!shouldShowGlobalTriggers) {
+              console.log('[Trigger Display] NOT showing triggers for', spell?.name);
+              return null;
+            }
+
+            console.log('[Trigger Display] SHOWING triggers for', spell?.name);
+
+            // Build logic badge text
+            let logicBadge = '';
+            if (hasGlobalTriggers && hasTriggerConfig.global.compoundTriggers.length > 1) {
+              logicBadge = hasTriggerConfig.global.logicType === 'AND' ? 'ALL' : 'ANY';
+            }
+
+            // Build trigger conditions as array for proper rendering
+            let triggerTexts = [];
+            if (hasGlobalTriggers) {
+              triggerTexts = hasTriggerConfig.global.compoundTriggers.map(trigger => formatTriggerText(trigger));
+              console.log('🔍 Formatted trigger texts:', triggerTexts);
+            } else {
+              triggerTexts = ['When on desert terrain'];
+            }
 
             return (
-              <div className="unified-spell-stat global-triggers-compact">
-                <div className="trigger-compact-header">
-                  <span className="trigger-compact-label">TRIGGERS</span>
-                  <div className="trigger-compact-modes">
-                    {hasTriggerRole && (
-                      <span className="trigger-compact-mode">
-                        {hasTriggerConfig.triggerRole.mode === 'AUTO_CAST' ? 'Auto-Cast' :
-                         hasTriggerConfig.triggerRole.mode === 'BOTH' ? 'Auto + Manual' : 'Conditional'}
-                      </span>
-                    )}
-                    {hasGlobalTriggers && hasTriggerConfig.global.compoundTriggers.length > 1 && (
-                      <span className="trigger-compact-logic">
-                        {hasTriggerConfig.global.logicType === 'AND' ? 'ALL' : 'ANY'}
-                      </span>
-                    )}
+              <div className="healing-effects" style={{ marginTop: '8px', marginBottom: '4px' }}>
+                <div className="healing-effects-section">
+                  <div className="healing-formula-line">
+                    <div className="healing-effects-list">
+                      <div className="healing-effect-item">
+                        <div className="healing-effect">
+                          <span className="healing-effect-name">Triggers</span>
+                          {logicBadge && (
+                            <span className="healing-effect-description"> - {logicBadge}</span>
+                          )}
+                        </div>
+                        <div className="healing-effect-details">
+                          <div className="healing-effect-mechanics">
+                            {triggerTexts.map((text, index) => (
+                              <div key={index}>
+                                {text}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                {hasGlobalTriggers && (
-                  <div className="trigger-compact-conditions">
-                    {hasTriggerConfig.global.compoundTriggers.map((trigger, index) => {
-                      // Use the centralized trigger formatting function
-                      const displayText = formatTriggerText(trigger);
-
-
-                      return (
-                        <span key={index} className="trigger-compact-condition">
-                          {displayText}
-                          {index < hasTriggerConfig.global.compoundTriggers.length - 1 && (
-                            <span className="trigger-logic"> {hasTriggerConfig.global.logicType === 'AND' ? ' and ' : ' or '} </span>
-                          )}
-                        </span>
-                      );
-                    })}
-                  </div>
-                )}
               </div>
             );
           })()}
-
-          {/* Description - Positioned after triggers with minimal spacing */}
-          {spell?.description && (
-            <div className="item-description">
-              "{spell.description}"
-            </div>
-          )}
 
           {/* Stats (varies by variant) */}
           {showStats && (
@@ -6657,10 +6838,20 @@ const UnifiedSpellCard = ({
                         } else {
                           // Regular healing
                           const healingType = healingData.healingType;
+
+                          // Determine description based on formula type
+                          let healingDescription = '';
+                          if (healingType !== 'hot') {
+                            // Check if formula is a simple number (no dice)
+                            const formula = healingData.formula || '';
+                            const isSimpleNumber = /^\d+$/.test(formula.toString().trim());
+                            healingDescription = isSimpleNumber ? 'Restore HP' : 'Roll Dice';
+                          }
+
                           effects.push({
                             name: healingType === 'hot' ? 'Healing Over Time' :
                                   healingType === 'shield' ? 'Shield Absorption' : 'Instant Healing',
-                            description: healingType === 'hot' ? '' : 'Roll Dice',
+                            description: healingDescription,
                             mechanicsText: healingResult
                           });
                         }
@@ -6825,7 +7016,14 @@ const UnifiedSpellCard = ({
                             };
 
                             // Use the correct property names: name/id for stat, magnitude for value, magnitudeType for percentage
-                            const statName = modifier.name || statMap[modifier.id?.toLowerCase()] || modifier.id?.charAt(0).toUpperCase() + modifier.id?.slice(1) || 'Stat';
+                            let statName = modifier.name || statMap[modifier.id?.toLowerCase()] || modifier.id?.charAt(0).toUpperCase() + modifier.id?.slice(1) || 'Stat';
+
+                            // Check for incomplete stat names and show warning
+                            const hasIncompleteName = !modifier.name || (statName.toLowerCase().includes('stat') && !statName.toLowerCase().includes('strength') && !statName.toLowerCase().includes('agility'));
+                            if (hasIncompleteName) {
+                              statName = '⚠️ INCOMPLETE: Specify stat name';
+                            }
+
                             const value = modifier.magnitude || modifier.value || 0;
                             const sign = value >= 0 ? '+' : '';
                             const typeText = modifier.magnitudeType === 'percentage' ? '%' : '';
@@ -7786,6 +7984,70 @@ const UnifiedSpellCard = ({
                           });
                         }
 
+                        // Handle flat structure (legacy format with creatureName, creatureStats, etc.)
+                        if (effects.length === 0 && summoningData?.creatureName) {
+                          const quantity = summoningData.maxSummons || 1;
+                          const quantityText = quantity > 1 ? ` (×${quantity})` : '';
+
+                          // Build inline details for duration, control type, etc.
+                          const inlineDetails = [];
+
+                          // Add creature type if available
+                          if (summoningData.creatureType) {
+                            inlineDetails.push(summoningData.creatureType.replace(/_/g, ' '));
+                          }
+
+                          // Add duration
+                          if (summoningData.duration !== undefined && summoningData.duration !== null) {
+                            const durationUnit = summoningData.durationType || 'minutes';
+                            let durationText = `${summoningData.duration} ${durationUnit}`;
+                            if (spell?.durationConfig?.requiresConcentration) {
+                              durationText += ' (Concentration)';
+                            }
+                            inlineDetails.push(durationText);
+                          }
+
+                          // Add control type
+                          if (summoningData.controlType) {
+                            const controlTypeMap = {
+                              'full': 'Full Control',
+                              'limited': 'Limited Control',
+                              'autonomous': 'Autonomous',
+                              'friendly': 'Friendly'
+                            };
+                            inlineDetails.push(controlTypeMap[summoningData.controlType] || summoningData.controlType);
+                          }
+
+                          // Build creature stats text
+                          const stats = [];
+                          const creatureStats = summoningData.creatureStats || {};
+                          if (creatureStats.health) {
+                            stats.push(`HP: ${creatureStats.health}`);
+                          }
+                          if (creatureStats.armor) {
+                            stats.push(`AC: ${creatureStats.armor}`);
+                          }
+                          if (creatureStats.damage) {
+                            stats.push(`Damage: ${creatureStats.damage}`);
+                          }
+                          if (creatureStats.attackBonus) {
+                            stats.push(`Attack: +${creatureStats.attackBonus}`);
+                          }
+
+                          // Add abilities if present
+                          let mechanicsText = stats.join(' • ');
+                          if (creatureStats.abilities?.length > 0) {
+                            const abilitiesText = `Abilities: ${creatureStats.abilities.join(', ')}`;
+                            mechanicsText = mechanicsText ? `${mechanicsText} • ${abilitiesText}` : abilitiesText;
+                          }
+
+                          effects.push({
+                            name: `Summon ${summoningData.creatureName}${quantityText}`,
+                            description: inlineDetails.join(' - '),
+                            mechanicsText: mechanicsText || 'Summoned creature'
+                          });
+                        }
+
                         // If spell has summoning effect type but no config, show a basic effect
                         if (hasSummoningType && effects.length === 0) {
                           effects.push({
@@ -7885,33 +8147,60 @@ const UnifiedSpellCard = ({
                           inlineDetails.push(`DC ${dc} ${saveTypeText}`);
                         }
 
-                        // Handle selected creature transformation
-                        if (transformationData?.selectedCreature) {
+                        // Handle transformation with targetForm or selectedCreature
+                        if (transformationData?.targetForm || transformationData?.selectedCreature) {
                           const creature = transformationData.selectedCreature;
+                          const targetForm = transformationData.targetForm;
+                          const transformationType = transformationData.transformationType || 'creature';
 
                           // Build stats text
                           const stats = [];
-                          if (creature.stats?.maxHp || creature.stats?.hp) {
-                            stats.push(`HP: ${creature.stats.maxHp || creature.stats.hp}`);
-                          }
-                          if (creature.stats?.armorClass || creature.stats?.armor) {
-                            stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
+
+                          if (creature) {
+                            // Full creature data available
+                            if (creature.stats?.maxHp || creature.stats?.hp) {
+                              stats.push(`HP: ${creature.stats.maxHp || creature.stats.hp}`);
+                            }
+                            if (creature.stats?.armorClass || creature.stats?.armor) {
+                              stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
+                            }
                           }
 
                           // Add equipment maintenance info
                           if (transformationData.maintainEquipment) {
                             stats.push('Equipment maintained');
+                          } else if (transformationData.retainsAbilities === false) {
+                            stats.push('Loses abilities');
+                          }
+
+                          // Add saving throw info
+                          if (transformationData.savingThrow && transformationData.difficultyClass) {
+                            const saveTypeMap = {
+                              'wisdom': 'Wisdom',
+                              'charisma': 'Charisma',
+                              'intelligence': 'Intelligence',
+                              'constitution': 'Constitution',
+                              'strength': 'Strength',
+                              'agility': 'Agility'
+                            };
+                            const saveType = saveTypeMap[transformationData.savingThrow] || transformationData.savingThrow;
+                            stats.push(`${saveType} save DC ${transformationData.difficultyClass}`);
                           }
 
                           // Add creature description if available
                           let mechanicsText = stats.join(' • ');
-                          if (creature.description) {
+                          if (creature?.description) {
                             mechanicsText = creature.description + (stats.length > 0 ? ' • ' + mechanicsText : '');
+                          } else if (!mechanicsText) {
+                            mechanicsText = `Transform into ${transformationType}`;
                           }
 
+                          const formName = creature?.name || (targetForm ? targetForm.charAt(0).toUpperCase() + targetForm.slice(1) : 'creature');
+                          const formType = creature ? `${creature.size} ${creature.type}` : transformationType;
+
                           effects.push({
-                            name: `Transform into ${creature.name}`,
-                            description: `${creature.size} ${creature.type}${inlineDetails.length > 0 ? ' - ' + inlineDetails.join(' - ') : ''}`,
+                            name: `Transform into ${formName}`,
+                            description: `${formType}${inlineDetails.length > 0 ? ' - ' + inlineDetails.join(' - ') : ''}`,
                             mechanicsText: mechanicsText || 'Transform into creature'
                           });
                         }
@@ -8018,7 +8307,45 @@ const UnifiedSpellCard = ({
                           inlineDetails.push(`DC ${purificationData.difficultyClass} ${saveText}`);
                         }
 
-                        // Handle selected effects
+                        // Handle purification type and target effects
+                        if (purificationData?.purificationType || purificationData?.targetEffects) {
+                          const purificationType = purificationData.purificationType || 'cleanse';
+                          const targetEffects = purificationData.targetEffects || [];
+                          const strength = purificationData.strength || 'moderate';
+
+                          // Format purification type name
+                          const typeMap = {
+                            'cleanse_all': 'Cleanse All',
+                            'cleanse_specific': 'Cleanse Specific',
+                            'dispel_magic': 'Dispel Magic',
+                            'remove_curse': 'Remove Curse',
+                            'neutralize_poison': 'Neutralize Poison',
+                            'cure_disease': 'Cure Disease'
+                          };
+                          const typeName = typeMap[purificationType] || purificationType.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+                          // Build mechanics text
+                          let mechanicsText = '';
+                          if (targetEffects.length > 0) {
+                            const effectsList = targetEffects.map(e => e.charAt(0).toUpperCase() + e.slice(1)).join(', ');
+                            mechanicsText = `Removes: ${effectsList}`;
+                          } else {
+                            mechanicsText = 'Removes all negative effects';
+                          }
+
+                          // Add strength info
+                          if (strength && strength !== 'moderate') {
+                            mechanicsText += ` (${strength.charAt(0).toUpperCase() + strength.slice(1)} strength)`;
+                          }
+
+                          effects.push({
+                            name: typeName,
+                            description: inlineDetails.length > 0 ? inlineDetails.join(' - ') : 'Purification effect',
+                            mechanicsText: mechanicsText
+                          });
+                        }
+
+                        // Handle selected effects (alternative format)
                         if (purificationData?.selectedEffects?.length > 0) {
                           purificationData.selectedEffects.forEach(effect => {
                             const effectName = typeof effect === 'string' ? effect : (effect.name || effect.id || 'Purification Effect');
@@ -8109,12 +8436,54 @@ const UnifiedSpellCard = ({
 
                         const effects = [];
 
+                        // Handle resurrection
+                        if (restorationData?.restorationType === 'resurrection' || restorationData?.targetState === 'dead') {
+                          const mechanicsParts = [];
+
+                          // Add restored resources
+                          if (restorationData.restoredHealth) {
+                            mechanicsParts.push(`Restores ${restorationData.restoredHealth} health`);
+                          }
+                          if (restorationData.restoredMana) {
+                            mechanicsParts.push(`${restorationData.restoredMana} mana`);
+                          }
+
+                          // Add removed conditions
+                          if (restorationData.removesConditions?.length > 0) {
+                            mechanicsParts.push(`Removes: ${restorationData.removesConditions.join(', ')}`);
+                          }
+
+                          // Add casting time
+                          if (restorationData.castingTime) {
+                            const timeUnit = restorationData.castingTimeUnit || 'seconds';
+                            mechanicsParts.push(`Casting time: ${restorationData.castingTime} ${timeUnit}`);
+                          }
+
+                          // Add time limit
+                          if (restorationData.timeLimit) {
+                            const limitUnit = restorationData.timeLimitUnit || 'seconds';
+                            mechanicsParts.push(`Must be cast within ${restorationData.timeLimit} ${limitUnit} of death`);
+                          }
+
+                          // Add penalty
+                          if (restorationData.penaltyOnRevive) {
+                            const penalty = restorationData.penaltyOnRevive;
+                            mechanicsParts.push(`Penalty: ${penalty.type} level ${penalty.level}`);
+                          }
+
+                          effects.push({
+                            name: 'Resurrection',
+                            description: 'Brings the dead back to life',
+                            mechanicsText: mechanicsParts.join(' • ')
+                          });
+                        }
+
                         // Get resource name for inline display
                         const resourceName = formatResourceName(restorationData?.resourceType) || restorationData?.resourceType || 'resource';
                         const resourceDisplayName = resourceName.charAt(0).toUpperCase() + resourceName.slice(1);
 
-                        // Handle instant restoration
-                        if (restorationData?.formula) {
+                        // Handle instant restoration (non-resurrection)
+                        if (restorationData?.formula && restorationData?.restorationType !== 'resurrection') {
                           const hasInstantRestoration = restorationData.duration === 'instant' || !restorationData.duration;
                           if (hasInstantRestoration) {
                             const resolution = restorationData.resolution || 'DICE';
@@ -8194,42 +8563,106 @@ const UnifiedSpellCard = ({
                 );
               })()}
 
+          {/* Rollable Table Summary */}
+          {(() => {
+            // Extract rollable table data from spell if not provided as prop
+            const tableData = rollableTableData || spell?.mechanicsConfig?.rollableTable;
 
+            if (!tableData || !tableData.enabled) return null;
+
+            return (
+              <div className="healing-effects">
+                <div className="healing-effects-section">
+                  <div className="healing-formula-line">
+                    <div className="healing-effects-list">
+                      <div className="healing-effect-item">
+                        <div
+                          className="healing-effect"
+                          style={{ cursor: 'pointer' }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsRollableTableExpanded(!isRollableTableExpanded);
+                          }}
+                        >
+                          <span className="healing-effect-name">Random Effects</span>
+                          <span className="healing-effect-description"> - {tableData.tableName || 'Random Effects (d100)'}</span>
+                          <span style={{ marginLeft: '8px', fontSize: '12px', opacity: 0.7 }}>
+                            {isRollableTableExpanded ? '▼' : '▶'}
+                          </span>
+                        </div>
+                        {isRollableTableExpanded && (
+                          <div className="healing-effect-details">
+                            <div className="healing-effect-mechanics" style={{ padding: '8px' }}>
+                              {(() => {
+                                const outcomes = tableData.outcomes || tableData.entries || [];
+                                const diceFormula = tableData.diceFormula || '1d100';
+
+                                if (outcomes.length === 0) {
+                                  return 'No table entries configured';
+                                }
+
+                                return (
+                                  <div style={{ marginTop: '4px' }}>
+                                    <div style={{
+                                      fontWeight: 'bold',
+                                      marginBottom: '8px',
+                                      color: 'var(--pf-text-primary, #2d1810)',
+                                      fontSize: '13px'
+                                    }}>
+                                      Roll {diceFormula}:
+                                    </div>
+                                    {outcomes.map((outcome, index) => {
+                                      const range = outcome.range || [index + 1, index + 1];
+                                      const rangeText = range[0] === range[1]
+                                        ? `${range[0]}`
+                                        : `${range[0]}-${range[1]}`;
+                                      const effect = outcome.effect || outcome.result || outcome.description || 'Unknown effect';
+
+                                      return (
+                                        <div
+                                          key={index}
+                                          style={{
+                                            marginBottom: '6px',
+                                            paddingLeft: '10px',
+                                            paddingRight: '4px',
+                                            paddingTop: '4px',
+                                            paddingBottom: '4px',
+                                            borderLeft: '3px solid rgba(139, 69, 19, 0.4)',
+                                            backgroundColor: 'rgba(254, 252, 248, 0.3)',
+                                            borderRadius: '2px',
+                                            lineHeight: '1.5'
+                                          }}
+                                        >
+                                          <span style={{
+                                            fontWeight: '700',
+                                            color: '#8B4513',
+                                            minWidth: '40px',
+                                            display: 'inline-block'
+                                          }}>
+                                            {rangeText}:
+                                          </span>{' '}
+                                          <span style={{ color: 'var(--pf-text-primary, #2d1810)' }}>
+                                            {effect}
+                                          </span>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                );
+                              })()}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
             </div>
           )}
-        </div>
-      )}
-
-      {/* Rollable Table Summary */}
-      {rollableTableData && rollableTableData.enabled && (
-        <div className="unified-spell-rollable-table">
-          {(() => {
-            // Determine the best display variant based on card variant and table complexity
-            const entryCount = rollableTableData.entries ? rollableTableData.entries.length : 0;
-            const isComplexTable = entryCount > 5;
-
-            // For compact variants or simple tables, use inline display
-            if (variant === 'compact' || variant === 'preview' || (!isComplexTable && entryCount <= 3)) {
-              const formattedText = formatRollableTableForCard(rollableTableData);
-              return formattedText ? (
-                <div className="rollable-table-inline-display">
-                  <span className="rollable-table-inline-label">Random Effects:</span>
-                  <span className="rollable-table-inline-text">{formattedText}</span>
-                </div>
-              ) : null;
-            }
-
-            // For other variants, use the full component
-            return (
-              <RollableTableSummary
-                rollableTableData={rollableTableData}
-                variant={variant === 'wizard' ? 'detailed' : 'compact'}
-                showExpandButton={variant !== 'library'}
-                className="spell-card-rollable-table"
-              />
-            );
-          })()}
         </div>
       )}
 

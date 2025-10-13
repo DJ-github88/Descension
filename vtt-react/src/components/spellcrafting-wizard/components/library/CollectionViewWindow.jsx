@@ -18,7 +18,7 @@ const CollectionViewWindow = ({
   collectionId
 }) => {
   const [contextMenu, setContextMenu] = useState(null);
-  const [viewMode, setViewMode] = useState('compact'); // 'compact' or 'grid'
+  const [viewMode, setViewMode] = useState('grid'); // Always use grid view for full Pathfinder spell cards
   const library = useSpellLibrary();
   const dispatch = useSpellLibraryDispatch();
 
@@ -353,24 +353,8 @@ const CollectionViewWindow = ({
             <h2 className="pf-collection-view-name">{collection.name}</h2>
           </div>
 
-          {/* View mode toggle buttons */}
+          {/* Close button */}
           <div className="collection-view-controls">
-            <div className="view-mode-toggle">
-              <button
-                className={`pf-button pf-button-small ${viewMode === 'compact' ? 'pf-button-primary' : 'pf-button-secondary'}`}
-                onClick={() => setViewMode('compact')}
-                title="Compact view with hover tooltips"
-              >
-                <i className="fas fa-th"></i>
-              </button>
-              <button
-                className={`pf-button pf-button-small ${viewMode === 'grid' ? 'pf-button-primary' : 'pf-button-secondary'}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid view with full spell cards"
-              >
-                <i className="fas fa-th-large"></i>
-              </button>
-            </div>
             <button
               onClick={onClose}
               className="pf-button pf-button-close"
@@ -476,35 +460,7 @@ const CollectionViewWindow = ({
                   transformedSpell.resourceCost = { mana: '1d10' };
                 }
 
-                // Render compact view or full card view based on viewMode
-                if (viewMode === 'compact') {
-                  return (
-                    <UnifiedSpellCard
-                      key={spell.id}
-                      spell={transformedSpell}
-                      variant="compact"
-                      rollableTableData={rollableTableData}
-                      onClick={() => handleSelectSpell(spell.id)}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        setContextMenu({
-                          x: e.clientX,
-                          y: e.clientY,
-                          spellId: spell.id
-                        });
-                      }}
-                      isSelected={library.selectedSpell === spell.id}
-                      className="collection-compact-item"
-                      showActions={false}
-                      showDescription={false}
-                      showStats={false}
-                      showTags={false}
-                      isDraggable={true}
-                    />
-                  );
-                }
-
-                // Full card view (grid)
+                // Always render full card view (grid)
                 return (
                   <div
                     key={spell.id}

@@ -1,0 +1,56 @@
+I need you to remove all existing spells from the spell library and create comprehensive test spells to verify formatting.
+
+CONTEXT:
+We just completed a massive investigation of the spell wizard system (see SPELL_WIZARD_TASK_COMPLETE.md, SPELL_WIZARD_FINDINGS.md, SPELL_WIZARD_DOCUMENTATION.md, and SPELL_WIZARD_JSON_SCHEMA.md).
+
+We found:
+1. Duplicate formatting functions causing inconsistent spell card display
+2. General actions have empty effectTypes arrays (root cause of formatting issues)
+3. ~2,500 lines of obsolete code to remove
+
+TASK:
+Before we fix the code issues, we need to create a comprehensive test suite to verify all formatting works correctly.
+
+PHASE 1: Remove ALL existing spells
+- Clear generalSpellsData.js (general actions)
+- Clear skillBasedActionsData.js (skill actions)
+- Clear classSpellTemplates.js (all 27 class spells)
+- Clear enhancedSpellLibrary.js
+- Clear spellLibraryData.js
+- Create BACKUP_ versions of all files first
+
+PHASE 2: Create 37+ test spells that demonstrate EVERY feature
+- 3 spells testing resolution methods (DICE, CARDS, COINS)
+- 10 spells testing effect types (damage, healing, buff, debuff, utility, control, summoning, transformation, purification, restoration)
+- 6 spells testing spell types (ACTION, CHANNELED, PASSIVE, REACTION, TRAP, STATE)
+- 9 spells testing targeting types (single, multi, area, chain, cone, line, self, smart, nearest)
+- 10 spells testing advanced mechanics (rollable tables, triggers, progressive effects, chance-on-hit, multiple resources, charge cooldowns, dice cooldowns, reagents, multi-effect combos, all features combined)
+
+Each test spell should:
+- Use proper JSON schema format (see SPELL_WIZARD_JSON_SCHEMA.md)
+- Test edge cases and complex configurations
+- Have descriptive names like "TEST: Dice Fireball" or "TEST: Chain Lightning"
+- Include all relevant configs (damageConfig, healingConfig, buffConfig, etc.)
+
+PHASE 3: Verify formatting
+- Check spell displays in Spell Wizard preview
+- Check spell displays in Spell Library
+- Check spell displays in Rules section
+- Verify effect section borders are visible
+- Verify formulas are plain English (not technical)
+- Document any formatting issues found
+
+REFERENCE:
+- See NEXT_TASK_SPELL_LIBRARY_REBUILD.md for detailed task breakdown
+- See SPELL_WIZARD_JSON_SCHEMA.md for spell structure examples
+- See SPELL_WIZARD_DOCUMENTATION.md for how configurations map to display
+
+START WITH:
+1. Create backups of all spell data files
+2. Clear all spell arrays
+3. Create testSpells.js with the 37+ comprehensive test spells
+4. Load test spells into spell library
+5. Verify formatting and document results
+
+Let me know when you're ready to start and I'll guide you through each phase.
+

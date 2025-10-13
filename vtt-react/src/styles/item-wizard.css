@@ -2455,11 +2455,11 @@ textarea.item-description,
     border-radius: var(--pf-border-radius, 8px) !important;
     padding: var(--pf-space-3, 12px) !important;
     width: 100% !important;
-    min-height: 80px !important;
+    min-height: auto !important; /* Remove fixed min-height to eliminate gap */
     resize: vertical !important;
     line-height: 1.4 !important;
     font-size: var(--pf-text-base, 14px) !important;
-    margin-bottom: var(--pf-space-6, 24px) !important;
+    margin-bottom: 0 !important; /* Remove bottom margin to eliminate gap */
     transition: all var(--pf-transition-normal, 0.25s ease) !important;
     box-shadow:
         inset 0 2px 4px rgba(139, 69, 19, 0.1),

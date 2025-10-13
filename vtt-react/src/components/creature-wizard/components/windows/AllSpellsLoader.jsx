@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../../../components/spellcrafting-wizard/context/SpellLibraryContext';
 import { CUSTOM_LIBRARY_SPELLS } from '../../../../data/customSpellLibraryData';
 import { ADDITIONAL_SPELLS } from '../../../../data/additionalSpells';
-import { ADVANCED_SPELLS } from '../../../../data/advancedSpells';
+import { ADDITIONAL_ENHANCED_SPELLS } from '../../../../data/additionalEnhancedSpells';
 import { transformSpellForCard } from '../../../../components/spellcrafting-wizard/core/utils/spellTransformers';
 
 /**
@@ -14,11 +14,11 @@ const AllSpellsLoader = () => {
   const dispatch = useSpellLibraryDispatch();
 
   useEffect(() => {
-    // Create our clean spell list (40 spells total)
+    // Create our clean spell list (all available spells)
     const CLEAN_SPELLS = [
       ...CUSTOM_LIBRARY_SPELLS,
       ...ADDITIONAL_SPELLS,
-      ...ADVANCED_SPELLS
+      ...ADDITIONAL_ENHANCED_SPELLS
     ];
 
     // Always log the current state

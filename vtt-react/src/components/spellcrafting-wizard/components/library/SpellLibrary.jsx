@@ -12,8 +12,21 @@ import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import '../../styles/pathfinder/main.css';
+import '../../styles/pathfinder/components/wow-spellbook.css';
 
 import SpellContextMenu from './SpellContextMenu';
+
+// Helper function to get spell icon URL
+const getSpellIconUrl = (spell) => {
+  // Extract icon from various possible locations
+  const iconName = spell?.typeConfig?.icon ||
+                   spell?.icon ||
+                   spell?.damageConfig?.icon ||
+                   spell?.healingConfig?.icon ||
+                   'inv_misc_questionmark';
+
+  return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+};
 
 
 // Add compact header styling
@@ -81,18 +94,27 @@ if (typeof document !== 'undefined') {
 }
 
 const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
-  // State for view options - force compact view and clear any stored preferences
-  const [viewMode, setViewMode] = useState(() => {
-    // Clear any existing localStorage preference to force compact view
-    localStorage.removeItem('spellLibraryViewMode');
-    return 'compact';
-  });
+  // Always use compact view - no other view modes
+  const viewMode = 'compact';
 
   // State for context menu
   const [contextMenu, setContextMenu] = useState(null);
 
   // State for active category
   const [activeCategory, setActiveCategory] = useState(null);
+
+  // State for pagination (for compact view)
+  const [currentPage, setCurrentPage] = useState(1);
+  const spellsPerPage = 20; // 10 per column, 2 columns
+
+  // State for spell tooltip (hover preview)
+  const [hoveredSpell, setHoveredSpell] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [tooltipTimer, setTooltipTimer] = useState(null);
+
+  // State for preview panel position
+  const [previewPanelPosition, setPreviewPanelPosition] = useState({ x: 0, y: 0 });
+  const libraryContentRef = React.useRef(null);
 
   // Get library state and dispatch from context
   const library = useSpellLibrary();
@@ -152,6 +174,44 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       classSpellsError
     });
   }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories.length, classSpellsLoading, classSpellsError]);
+
+  // Calculate preview panel position when a spell is selected
+  useEffect(() => {
+    if (library.selectedSpell && libraryContentRef.current) {
+      const updatePosition = () => {
+        const libraryRect = libraryContentRef.current.getBoundingClientRect();
+        const previewWidth = 500; // Width of the preview panel
+        const previewHeight = Math.min(800, window.innerHeight - 100); // Max height with padding
+
+        // Position to the right of the library window
+        let x = libraryRect.right + 10;
+        let y = libraryRect.top;
+
+        // If preview would go off right edge, position to the left instead
+        if (x + previewWidth > window.innerWidth) {
+          x = libraryRect.left - previewWidth - 10;
+        }
+
+        // Ensure preview doesn't go off bottom
+        if (y + previewHeight > window.innerHeight) {
+          y = Math.max(10, window.innerHeight - previewHeight - 10);
+        }
+
+        // Ensure preview doesn't go off top
+        if (y < 10) {
+          y = 10;
+        }
+
+        setPreviewPanelPosition({ x, y });
+      };
+
+      updatePosition();
+
+      // Update position on window resize
+      window.addEventListener('resize', updatePosition);
+      return () => window.removeEventListener('resize', updatePosition);
+    }
+  }, [library.selectedSpell]);
 
   // Unified mapping function (same as Step10Review and ExternalLivePreview)
   const mapSpellToUnifiedFormat = (spell) => {
@@ -315,6 +375,13 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       zoneConfig: spell.zoneConfig || null,
       trapConfig: spell.trapConfig || null,
 
+      // CRITICAL: Preserve trigger configuration
+      triggerConfig: spell.triggerConfig || null,
+      conditionalEffects: spell.conditionalEffects || null,
+      procConfig: spell.procConfig || null,
+      durationConfig: spell.durationConfig || null,
+      cooldownConfig: spell.cooldownConfig || null,
+
       // Duration and cooldown formatting
       duration: spell.durationConfig ? formatDuration(spell.durationConfig) : 'Instant',
       cooldown: spell.cooldownConfig ? formatCooldown(spell.cooldownConfig) : getDefaultCooldown(spell),
@@ -410,15 +477,27 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     generalSpells
   ]);
 
-  // Save view preferences to localStorage (but keep compact as default)
+  // Reset page when category changes
   useEffect(() => {
-    // Only save non-compact view modes to localStorage
-    if (viewMode !== 'compact') {
-      localStorage.setItem('spellLibraryViewMode', viewMode);
-    } else {
-      localStorage.removeItem('spellLibraryViewMode');
-    }
-  }, [viewMode]);
+    setCurrentPage(1);
+  }, [activeCategory, library.filters]);
+
+  // Cleanup tooltip timer on unmount
+  useEffect(() => {
+    return () => {
+      if (tooltipTimer) {
+        clearTimeout(tooltipTimer);
+      }
+    };
+  }, [tooltipTimer]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredSpells.length / spellsPerPage);
+  const paginatedSpells = useMemo(() => {
+    const startIndex = (currentPage - 1) * spellsPerPage;
+    const endIndex = startIndex + spellsPerPage;
+    return filteredSpells.slice(startIndex, endIndex);
+  }, [filteredSpells, currentPage, spellsPerPage]);
 
   // Handle spell selection
   const handleSelectSpell = (spellId, isEditing = false) => {
@@ -629,8 +708,19 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     URL.revokeObjectURL(url);
   };
 
+  // Listen for import/export events from tab header
+  useEffect(() => {
+    const handleImportEvent = () => handleImport();
+    const handleExportEvent = () => handleExport();
 
+    window.addEventListener('spellLibraryImport', handleImportEvent);
+    window.addEventListener('spellLibraryExport', handleExportEvent);
 
+    return () => {
+      window.removeEventListener('spellLibraryImport', handleImportEvent);
+      window.removeEventListener('spellLibraryExport', handleExportEvent);
+    };
+  }, [handleImport, handleExport]);
 
 
   // Render empty state when no spells exist
@@ -714,8 +804,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   return (
     <div className="library-view">
-      {/* Library header - conditionally rendered */}
-      {!hideHeader && (
+      {/* Library header - conditionally rendered (hide in compact view) */}
+      {!hideHeader && viewMode !== 'compact' && (
         <div className="library-header compact-header">
           <h3 className="library-title compact-title">Spell Library ({filteredSpells.length})</h3>
 
@@ -801,9 +891,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                 className={`view-mode-button ${viewMode === 'compact' ? 'active' : ''}`}
                 onClick={() => setViewMode('compact')}
                 aria-label="Compact view"
-                title="Compact view with hover tooltips"
+                title="WoW Classic spellbook view"
               >
-                <i className="fas fa-th-large"></i>
+                <i className="fas fa-book"></i>
               </button>
 
               <button
@@ -828,8 +918,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         </div>
       )}
 
-      {/* Category Selection - Light Theme */}
-      {hasActiveCharacter && allSpellCategories.length > 0 && (
+      {/* Category Selection - Light Theme (hide in compact view) */}
+      {hasActiveCharacter && allSpellCategories.length > 0 && viewMode !== 'compact' && (
         <div className="spell-categories-container" style={{
           background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
           border: '2px solid #8B4513',
@@ -920,38 +1010,198 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       )}
 
       {/* Main content area */}
-      <div className="library-content">
-        {/* Main content area with spell cards */}
-        <main className={`spell-library-spells ${viewMode}-view`}>
-          {filteredSpells.length === 0 ? (
-            <div className="spell-library-no-results">
-              <p>No spells match your current filters.</p>
-              <button
-                className="secondary-button"
-                onClick={() => dispatch(libraryActionCreators.clearFilters())}
-              >
-                Clear Filters
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="spell-count-info">
-                {hasActiveCharacter && hasClassSpells ? (
-                  <>
-                    Showing {filteredSpells.length} of {getAllSpells().length} spells
-                    {activeCategory && (
-                      <span style={{ marginLeft: '8px', opacity: 0.8 }}>
-                        (from {getCategoryInfo(activeCategory)?.name || 'category'})
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  `Showing ${filteredSpells.length} of ${library.spells.length} spells`
-                )}
-              </div>
+      <div className="library-content" ref={libraryContentRef}>
+        {/* Compact WoW-style view */}
+        {viewMode === 'compact' ? (
+          <div className="wow-spellbook-view">
+              {/* Category Tabs - Only show if character is active */}
+              {hasActiveCharacter && allSpellCategories.length > 0 && (
+                <div className="wow-category-tabs">
+                  <button
+                    className={`wow-category-tab ${!activeCategory ? 'active' : ''}`}
+                    onClick={() => setActiveCategory(null)}
+                  >
+                    All Spells
+                  </button>
+                  {allSpellCategories.map(category => (
+                    <button
+                      key={category.id}
+                      className={`wow-category-tab ${activeCategory === category.id ? 'active' : ''}`}
+                      onClick={() => setActiveCategory(category.id)}
+                      title={category.description}
+                    >
+                      {category.name} ({category.spells?.length || 0})
+                    </button>
+                  ))}
+                </div>
+              )}
 
-              <div className="spell-cards-container">
-                {filteredSpells.map(spell => {
+            {filteredSpells.length === 0 ? (
+              <div className="wow-spell-list-container">
+                <div className="wow-spellbook-empty">
+                  <i className="fas fa-book-open"></i>
+                  <p>No spells found</p>
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="wow-spell-list-container">
+                  {paginatedSpells.map(spell => (
+                    <div
+                      key={spell.id}
+                      className={`wow-spell-row ${library.selectedSpell === spell.id ? 'selected' : ''}`}
+                      onClick={() => handleSelectSpell(spell.id)}
+                      onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
+                      draggable={true}
+                      onDragStart={(e) => {
+                        const iconName = spell?.typeConfig?.icon ||
+                                       spell?.icon ||
+                                       spell?.damageConfig?.icon ||
+                                       spell?.healingConfig?.icon ||
+                                       'inv_misc_questionmark';
+
+                        const spellData = {
+                          ...spell,
+                          id: spell.id,
+                          name: spell.name,
+                          icon: iconName,
+                          cooldown: spell.cooldown || 0,
+                          level: spell.level || 1,
+                          spellType: spell.spellType || 'ACTION',
+                          type: 'spell'
+                        };
+                        e.dataTransfer.setData('application/json', JSON.stringify(spellData));
+                        e.dataTransfer.effectAllowed = 'copy';
+                        console.log('Dragging spell from library:', spellData);
+                      }}
+                      onMouseEnter={(e) => {
+                        // Clear any existing timer
+                        if (tooltipTimer) {
+                          clearTimeout(tooltipTimer);
+                        }
+
+                        // Set a small delay before showing tooltip (like WoW Classic)
+                        const timer = setTimeout(() => {
+                          // Check if element still exists
+                          if (!e.currentTarget) return;
+
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const tooltipWidth = 600; // max-width from CSS
+                          const tooltipHeight = 400; // estimated height
+
+                          // Calculate position - prefer right side, but flip to left if not enough space
+                          let x = rect.right + 10;
+                          let y = rect.top;
+
+                          // Check if tooltip would go off right edge of screen
+                          if (x + tooltipWidth > window.innerWidth) {
+                            x = rect.left - tooltipWidth - 10;
+                          }
+
+                          // Check if tooltip would go off bottom edge of screen
+                          if (y + tooltipHeight > window.innerHeight) {
+                            y = window.innerHeight - tooltipHeight - 10;
+                          }
+
+                          // Ensure tooltip doesn't go off top edge
+                          if (y < 10) {
+                            y = 10;
+                          }
+
+                          setHoveredSpell(spell);
+                          setTooltipPosition({ x, y });
+                        }, 300); // 300ms delay
+
+                        setTooltipTimer(timer);
+                      }}
+                      onMouseLeave={() => {
+                        // Clear timer and hide tooltip
+                        if (tooltipTimer) {
+                          clearTimeout(tooltipTimer);
+                          setTooltipTimer(null);
+                        }
+                        setHoveredSpell(null);
+                      }}
+                    >
+                      <div className="wow-spell-icon">
+                        <img
+                          src={getSpellIconUrl(spell)}
+                          alt={spell.name}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                          }}
+                        />
+                      </div>
+                      <div className="wow-spell-info">
+                        <p className="wow-spell-name">{spell.name}</p>
+                        <p className="wow-spell-rank">
+                          {spell.level ? `Level ${spell.level}` : spell.spellType || 'Action'}
+                        </p>
+                      </div>
+                      {spell.spellType && (
+                        <span className="wow-spell-type">{spell.spellType}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {totalPages > 1 && (
+                  <div className="wow-spellbook-pagination">
+                    <button
+                      className="wow-page-button"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <i className="fas fa-chevron-left"></i>
+                    </button>
+                    <span className="wow-page-info">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      className="wow-page-button"
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                    >
+                      <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        ) : (
+          /* Grid/List view */
+          <main className={`spell-library-spells ${viewMode}-view`}>
+            {filteredSpells.length === 0 ? (
+              <div className="spell-library-no-results">
+                <p>No spells match your current filters.</p>
+                <button
+                  className="secondary-button"
+                  onClick={() => dispatch(libraryActionCreators.clearFilters())}
+                >
+                  Clear Filters
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="spell-count-info">
+                  {hasActiveCharacter && hasClassSpells ? (
+                    <>
+                      Showing {filteredSpells.length} of {getAllSpells().length} spells
+                      {activeCategory && (
+                        <span style={{ marginLeft: '8px', opacity: 0.8 }}>
+                          (from {getCategoryInfo(activeCategory)?.name || 'category'})
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    `Showing ${filteredSpells.length} of ${library.spells.length} spells`
+                  )}
+                </div>
+
+                <div className="spell-cards-container">
+                  {filteredSpells.map(spell => {
                   // Use the unified mapping function for consistency
                   const transformedSpell = mapSpellToUnifiedFormat(spell);
 
@@ -1039,32 +1289,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                     };
                   }
 
-                  // Render compact view or full card view based on viewMode
-                  if (viewMode === 'compact') {
-                    return (
-                      <UnifiedSpellCard
-                        key={spell.id}
-                        spell={transformedSpell}
-                        variant="compact"
-                        rollableTableData={rollableTableData}
-                        onClick={(e) => {
-                          handleSelectSpell(spell.id);
-                        }}
-                        onContextMenu={(e) => {
-                          handleSpellContextMenu(e, spell.id);
-                        }}
-                        isSelected={library.selectedSpell === spell.id}
-                        className="library-compact-item"
-                        showActions={false}
-                        showDescription={false}
-                        showStats={false}
-                        showTags={false}
-                        isDraggable={true}
-                      />
-                    );
-                  }
-
-                  // Full card view (grid/list)
+                  // Always render full card view (grid/list)
                   return (
                     <div
                       key={spell.id}
@@ -1115,11 +1340,12 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                       </div>
                     </div>
                   );
-                })}
-              </div>
-            </>
-          )}
-        </main>
+                  })}
+                </div>
+              </>
+            )}
+          </main>
+        )}
       </div>
 
 
@@ -1158,6 +1384,67 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         </div>
       )}
 
+      {/* Spell Tooltip - Shows full spell card on hover (only when no spell is selected) */}
+      {hoveredSpell && viewMode === 'compact' && !library.selectedSpell && ReactDOM.createPortal(
+        <div
+          className={`wow-spell-tooltip ${hoveredSpell ? 'visible' : ''}`}
+          style={{
+            left: `${tooltipPosition.x}px`,
+            top: `${tooltipPosition.y}px`
+          }}
+        >
+          <div className="review-spell-preview">
+            <SpellCardWithProcs
+              spell={mapSpellToUnifiedFormat(hoveredSpell)}
+              variant="wizard"
+              rollableTableData={getSpellRollableTable(hoveredSpell)}
+              showActions={false}
+              showDescription={true}
+              showStats={true}
+              showTags={true}
+              procPosition="right"
+              showProcs={true}
+            />
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* Spell Preview - Just the spell card floating to the right of library */}
+      {library.selectedSpell && (() => {
+        const selectedSpell = filteredSpells.find(s => s.id === library.selectedSpell);
+        if (!selectedSpell) return null;
+
+        const transformedSpell = mapSpellToUnifiedFormat(selectedSpell);
+        const rollableTableData = getSpellRollableTable(selectedSpell);
+
+        return ReactDOM.createPortal(
+          <div
+            className="spell-preview-panel-floating"
+            style={{
+              position: 'fixed',
+              left: `${previewPanelPosition.x}px`,
+              top: `${previewPanelPosition.y}px`,
+              zIndex: 9999,
+              animation: 'slideInFromRight 0.3s ease-out',
+              filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))'
+            }}
+          >
+            <SpellCardWithProcs
+              spell={transformedSpell}
+              variant="wizard"
+              rollableTableData={rollableTableData}
+              showActions={false}
+              showDescription={true}
+              showStats={true}
+              showTags={true}
+              procPosition="below"
+              showProcs={true}
+            />
+          </div>,
+          document.body
+        );
+      })()}
 
     </div>
   );
