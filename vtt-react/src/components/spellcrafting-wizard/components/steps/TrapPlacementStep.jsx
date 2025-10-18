@@ -330,7 +330,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
                 <option value="thieves_tools">Thieves' Tools</option>
                 <option value="arcana">Arcana Check</option>
                 <option value="strength">Strength Check</option>
-                <option value="dexterity">Dexterity Check</option>
+                <option value="agility">Agility Check</option>
                 <option value="dispel_magic">Dispel Magic</option>
                 <option value="specific_item">Specific Item</option>
               </select>
@@ -593,7 +593,7 @@ const TrapPlacementStep = ({ stepNumber, totalSteps, onNext, onPrevious, isActiv
                   {trapConfig.disarmMethod === 'thieves_tools' ? 'Thieves\' Tools' :
                    trapConfig.disarmMethod === 'arcana' ? 'Arcana Check' :
                    trapConfig.disarmMethod === 'strength' ? 'Strength Check' :
-                   trapConfig.disarmMethod === 'dexterity' ? 'Dexterity Check' :
+                   trapConfig.disarmMethod === 'agility' ? 'Agility Check' :
                    trapConfig.disarmMethod === 'dispel_magic' ? 'Dispel Magic' :
                    'Specific Item'} (DC {trapConfig.disarmDC})
                 </span>

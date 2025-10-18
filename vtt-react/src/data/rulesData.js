@@ -522,9 +522,10 @@ GMs can mix and match these systems to create the perfect experience for their t
         id: 'classes',
         name: 'Classes',
         icon: 'fas fa-hat-wizard',
+        hasDetailPages: true, // Flag to indicate this subcategory has detail pages
         content: {
           title: 'Classes',
-          description: '27 classes organized by thematic paths with unique resource systems',
+          description: '27 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.',
           sections: [
             {
               title: 'Class System',
@@ -539,36 +540,36 @@ GMs can mix and match these systems to create the perfect experience for their t
             {
               title: 'All Classes',
               headers: ['Class', 'Role', 'Resource', 'Playstyle'],
+              clickableColumn: 0, // Make the first column (Class) clickable
               rows: [
-                ['Arcanoneer', 'Damage', 'Volatility Risk', 'Elemental cannon wielder with explosive potential'],
+                ['Arcanoneer', 'Damage/Utility', 'Sphere Generation & Combination', 'Master of elemental sphere combination with dynamic spell crafting'],
                 ['Berserker', 'Damage', 'Rage Points', 'Fury warrior with momentum-based combat'],
                 ['Bladedancer', 'Damage', 'Edge & Flourish', 'Finesse fighter with elegant combat techniques'],
-                ['Chaos Weaver', 'Control', 'Chaos Dice', 'Reality bender using entropy and randomness'],
+                ['Chaos Weaver', 'Damage', 'Mayhem Modifiers', 'Master of unpredictability with highest damage potential'],
                 ['Chronarch', 'Control', 'Temporal Energy', 'Time manipulator building temporal power'],
-                ['Cleric', 'Support', 'Divine Magic', 'Healer with divine intervention abilities'],
                 ['Covenbane', 'Damage/Support', 'Anti-Magic Seals', 'Witch hunter with magic-disrupting abilities'],
-                ['Deathcaller', 'Damage/Control', 'Soul Harvest', 'Necromancer harvesting souls for dark magic'],
+                ['Deathcaller', 'Damage/Support', 'Necrotic Ascension', 'Blood mage sacrificing health for forbidden power'],
                 ['Dreadnaught', 'Tank', 'Siege Mode', 'Fortress defender with heavy armor capabilities'],
                 ['Exorcist', 'Support/Damage', 'Divine Favor', 'Holy warrior banishing evil spirits'],
                 ['False Prophet', 'Control', 'Deception', 'Corrupting preacher spreading lies and manipulation'],
-                ['Formbender', 'Damage/Control', 'Primal Instinct', 'Shapeshifter with animalistic transformations'],
-                ['Gambler', 'Damage/Control', 'Luck Points', 'Fate manipulator balancing risk and reward'],
+                ['Fate Weaver', 'Support/Control', 'Threads of Destiny', 'Card-based destiny manipulator turning failures into power'],
+                ['Formbender', 'Hybrid (Tank/Damage/Support)', 'Wild Instinct', 'Shapeshifter mastering four primal forms with adaptive combat'],
+                ['Gambler', 'Damage/Utility', 'Fortune Points', 'Daring risk-taker manipulating luck and probability'],
                 ['Huntress', 'Damage', 'Quarry Marks', 'Tracker with precision targeting and pursuit'],
-                ['Inscriptor', 'Support/Control', 'Runic Circuits', 'Runic scholar creating magical glyph networks'],
-                ['Lichborne', 'Damage', 'Phylactery Power', 'Undead spellcaster with soul-bound magic'],
+                ['Inscriptor', 'Control/Support', 'Runic Wrapping & Inscriptions', 'Tactical battlefield controller using runes and inscriptions'],
+                ['Lichborne', 'Damage/Control', 'Eternal Frost Aura & Phylactery', 'Frost-wielding undead with life-draining aura and resurrection mechanics'],
                 ['Lunarch', 'Support/Control', 'Lunar Charge', 'Lunar mage with phase-based energy cycles'],
                 ['Martyr', 'Tank/Support', 'Pain Points', 'Self-sacrificing warrior earning power through suffering'],
                 ['Minstrel', 'Support', 'Harmonic Notes', 'Musical spellcaster with note combinations'],
                 ['Oracle', 'Support/Control', 'Prophetic Vision', 'Seer with foresight and divination'],
-                ['Paladin', 'Tank/Support', 'Divine Favor', 'Holy warrior with protective auras'],
-                ['Plaguebringer', 'Damage/Control', 'Plague Stacks', 'Disease spreader with contagious effects'],
-                ['Primalist', 'Support/Control', 'Primal Resonance', 'Totem master resonating with elemental forces'],
-                ['Pyrofiend', 'Damage', 'Demonic Ascension', 'Fire-wielding demon with corruption stages'],
+                ['Plaguebringer', 'Damage/Control', 'Affliction Cultivation', 'Plague master evolving diseases through strategic spell combinations'],
+                ['Primalist', 'Support/Control', 'Totemic Synergy', 'Totem master creating powerful synergies through sacred totems'],
+                ['Pyrofiend', 'Damage', 'Inferno Veil', 'Fire-wielding demon with corruption stages'],
                 ['Spellguard', 'Tank/Support', 'Ward Layers', 'Protective mage with magical shield systems'],
                 ['Titan', 'Tank/Control', 'Strain Overload', 'Gravity manipulator with colossal strength'],
                 ['Toxicologist', 'Damage/Control', 'Alchemical Vials', 'Poison crafter with chemical warfare'],
-                ['Warden', 'Tank/Support', 'Bulwark Meter', 'Barrier guardian with protective constructs'],
-                ['Witch Doctor', 'Support/Control', 'Loa Spirits', 'Spiritual invoker channeling ancestral powers']
+                ['Warden', 'Damage/Control', 'Vengeance Points', 'Relentless hunter with glaive combat and spectral cages'],
+                ['Witch Doctor', 'Support/Control', 'Voodoo Essence & Loa Invocation', 'Voodoo practitioner invoking powerful gods through curses, rituals, and totems']
               ]
             }
           ]
@@ -1785,8 +1786,7 @@ These systems add cultural immersion and social interaction opportunities.`
                 ['Rage', 'Berserkers, Reavers', 'Builds through combat, decays out of combat'],
                 ['Focus', 'Rogues, Rangers', 'Regenerates quickly, caps at 100'],
                 ['Energy', 'Monks', 'Regenerates very quickly, caps at 100'],
-                ['Runic Power', 'Death Knights', 'Builds through attacks, decays slowly'],
-                ['Holy Power', 'Paladins', 'Builds through attacks and abilities']
+                ['Runic Power', 'Death Knights', 'Builds through attacks, decays slowly']
               ]
             }
           ]

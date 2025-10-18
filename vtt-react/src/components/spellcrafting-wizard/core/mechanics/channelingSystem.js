@@ -493,9 +493,9 @@ export function getMaxChannelDuration(spellLevel, casterState) {
         bonusDuration += Math.floor((casterState.attributes.intelligence - 10) / 2);
       }
       
-      // Bonus from wisdom (for divine casters)
-      if (casterState.castingType === 'divine' && casterState.attributes.wisdom) {
-        bonusDuration += Math.floor((casterState.attributes.wisdom - 10) / 2);
+      // Bonus from spirit (for divine casters)
+      if (casterState.castingType === 'divine' && casterState.attributes.spirit) {
+        bonusDuration += Math.floor((casterState.attributes.spirit - 10) / 2);
       }
     }
     

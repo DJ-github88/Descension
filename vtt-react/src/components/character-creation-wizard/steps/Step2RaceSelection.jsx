@@ -112,8 +112,7 @@ const Step2RaceSelection = () => {
 
     return (
         <div className="wizard-step-content">
-            <div className="step-body">
-                <div className="race-selection-layout">
+            <div className="race-selection-layout">
                     {/* Left side - Race and Subrace selection */}
                     <div className="race-selection-panel">
                         {/* Race Selection */}
@@ -371,10 +370,7 @@ const Step2RaceSelection = () => {
                         )}
                     </div>
                 </div>
-
-
-                </div>
-            </div>
+        </div>
     );
 };
 

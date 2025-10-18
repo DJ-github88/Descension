@@ -78,7 +78,7 @@ const STATUS_EFFECTS = [
       {
         id: 'physical',
         name: 'Physical Prowess',
-        description: 'Gain advantage on Strength and Dexterity checks',
+        description: 'Gain advantage on Strength and Agility checks',
         icon: 'inv_sword_04'
       },
       {
@@ -1075,8 +1075,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           initiative: "You have advantage on your next initiative roll"
         },
         skill_mastery: {
-          physical: "You have advantage on your next Strength or Dexterity check",
-          mental: "You have advantage on your next Intelligence or Wisdom check",
+          physical: "You have advantage on your next Strength or Agility check",
+          mental: "You have advantage on your next Intelligence or Spirit check",
           social: "You have advantage on your next Charisma check"
         },
         empower_next: {
@@ -1126,8 +1126,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           initiative: "You have advantage on initiative rolls and gain +2 to the roll"
         },
         skill_mastery: {
-          physical: "You have advantage on all Strength and Dexterity checks for the duration",
-          mental: "You have advantage on all Intelligence and Wisdom checks for the duration",
+          physical: "You have advantage on all Strength and Agility checks for the duration",
+          mental: "You have advantage on all Intelligence and Spirit checks for the duration",
           social: "You have advantage on all Charisma checks for the duration"
         },
         empower_next: {
@@ -1177,8 +1177,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           initiative: "You have advantage on initiative rolls and gain +5 to the roll"
         },
         skill_mastery: {
-          physical: "You automatically succeed on Strength and Dexterity checks with DC 15 or lower",
-          mental: "You automatically succeed on Intelligence and Wisdom checks with DC 15 or lower",
+          physical: "You automatically succeed on Strength and Agility checks with DC 15 or lower",
+          mental: "You automatically succeed on Intelligence and Spirit checks with DC 15 or lower",
           social: "You automatically succeed on Charisma checks with DC 15 or lower"
         },
         empower_next: {

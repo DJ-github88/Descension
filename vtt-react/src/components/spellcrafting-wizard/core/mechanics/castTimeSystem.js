@@ -102,7 +102,7 @@ export const CAST_TIME_MECHANICS = {
       name: 'Concentration Break',
       description: 'Failed concentration check interrupts',
       usesConcentrationMechanics: true,
-      concentrationAttribute: 'wisdom'
+      concentrationAttribute: 'spirit'
     }
   },
 
@@ -124,10 +124,10 @@ export const CAST_TIME_MECHANICS = {
       }
     },
     ATTRIBUTE_BONUSES: {
-      damage: ['constitution', 'wisdom'],
-      status: ['wisdom', 'charisma'],
-      movement: ['dexterity', 'wisdom'],
-      concentration: ['wisdom', 'intelligence']
+      damage: ['constitution', 'spirit'],
+      status: ['spirit', 'charisma'],
+      movement: ['agility', 'spirit'],
+      concentration: ['spirit', 'intelligence']
     },
     SPELL_LEVEL_FACTORS: {
       baseBonusPerLevel: 1,
@@ -1079,11 +1079,11 @@ function calculateInterruptionResistance(spellConfig, casterState) {
       const conBonus = Math.floor((casterState.attributes.constitution - 10) / 2);
       resistance.damage += conBonus;
     }
-    
-    // Wisdom helps with concentration
-    if (casterState.attributes.wisdom) {
-      const wisBonus = Math.floor((casterState.attributes.wisdom - 10) / 2);
-      resistance.concentration += wisBonus;
+
+    // Spirit helps with concentration
+    if (casterState.attributes.spirit) {
+      const spiritBonus = Math.floor((casterState.attributes.spirit - 10) / 2);
+      resistance.concentration += spiritBonus;
     }
   }
   

@@ -845,7 +845,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         poisoned: {
           weakening: "Target has disadvantage on their next Strength check",
           debilitating: "Target takes 1d4 poison damage",
-          paralyzing: "Target feels numbness in extremities, -2 to Dexterity checks"
+          paralyzing: "Target feels numbness in extremities, -2 to Agility checks"
         },
         stunned: {
           dazed: "Target has disadvantage on their next attack roll",
@@ -874,7 +874,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
         },
         frozen: {
           chilled: "Target's movement speed is reduced by 5 feet",
-          frostbitten: "Target has disadvantage on Dexterity checks for 1 round",
+          frostbitten: "Target has disadvantage on Agility checks for 1 round",
           frozen: "Parts of target's body are covered in frost, movement reduced by 5 feet"
         },
         weakened: {
@@ -940,7 +940,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           electric: "Target drops held items and is stunned for 1 round"
         },
         restrained: {
-          ensnared: "Target's speed becomes 0 and has disadvantage on Dexterity saving throws",
+          ensnared: "Target's speed becomes 0 and has disadvantage on Agility saving throws",
           grappled: "Target is grappled (escape DC equals spell save DC)",
           bound: "Target is restrained and cannot use their hands"
         },
@@ -960,7 +960,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           magical: "Target takes 2d4 fire damage that ignores resistance"
         },
         frozen: {
-          chilled: "Target's movement speed is halved and has disadvantage on Dexterity saves",
+          chilled: "Target's movement speed is halved and has disadvantage on Agility saves",
           frostbitten: "Target takes 1d6 cold damage and has disadvantage on attack rolls",
           frozen: "Target is partially encased in ice, speed reduced to 0"
         },

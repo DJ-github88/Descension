@@ -27,8 +27,9 @@ const Step3ClassSelection = () => {
 
         // Zealot Path
         { name: 'Martyr', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through pain', theme: 'sacrifice' },
-        { name: 'False Prophet', icon: 'fas fa-eye', description: 'Deceptive preacher spreading lies and corruption', theme: 'deception' },
+        { name: 'False Prophet', icon: 'fas fa-eye-slash', description: 'Deceptive preacher spreading lies and corruption', theme: 'deception' },
         { name: 'Exorcist', icon: 'fas fa-hand-sparkles', description: 'Holy warrior banishing evil spirits', theme: 'holy' },
+        { name: 'Oracle', icon: 'fas fa-eye', description: 'Seer with prophetic visions and fate manipulation', theme: 'divination' },
 
         // Harrow Path
         { name: 'Plaguebringer', icon: 'fas fa-skull', description: 'Disease spreader with contagious plague stacks', theme: 'disease' },
@@ -423,9 +424,8 @@ const Step3ClassSelection = () => {
     };
 
     return (
-            <div className="wizard-step-content">
-            <div className="step-body">
-                <div className="class-selection-layout">
+        <div className="wizard-step-content">
+            <div className="class-selection-layout">
                     {/* Left side - Class selection */}
                     <div className="class-selection-panel">
                         <div className="class-section">
@@ -639,9 +639,7 @@ const Step3ClassSelection = () => {
                         )}
                     </div>
                 </div>
-
-            </div>
-            </div>
+        </div>
     );
 };
 

@@ -549,6 +549,21 @@ export const TALENT_TREES = {
     'elemental': PLACEHOLDER_TREE,
     'enhancement': PLACEHOLDER_TREE,
     'restoration': PLACEHOLDER_TREE
+  },
+  'Martyr': {
+    'redemption': PLACEHOLDER_TREE,
+    'zealot': PLACEHOLDER_TREE,
+    'ascetic': PLACEHOLDER_TREE
+  },
+  'False Prophet': {
+    'voidcaller': PLACEHOLDER_TREE,
+    'deceiver': PLACEHOLDER_TREE,
+    'cultist': PLACEHOLDER_TREE
+  },
+  'Exorcist': {
+    'demonologist': PLACEHOLDER_TREE,
+    'demon_lord': PLACEHOLDER_TREE,
+    'possessed': PLACEHOLDER_TREE
   }
 };
 

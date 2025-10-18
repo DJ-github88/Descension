@@ -6,7 +6,7 @@ export const MERCENARY_PATH = {
     overview: 'Mercenaries are professional warriors who have honed their skills through countless battles. They are pragmatic, versatile, and always ready for the next contract.',
     
     mechanicalBenefits: [
-        { name: 'Tactical Mind', description: '+1 to AC when fighting multiple enemies', type: 'passive' }
+        { name: 'Tactical Mind', description: '+1 to armor when fighting multiple enemies', type: 'passive' }
     ],
 
     integrationNotes: {

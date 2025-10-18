@@ -5,7 +5,8 @@ import {
   faBolt, faGem, faFire, faRunning, faEye, faHeart,
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
-  faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask
+  faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
+  faArrowUp, faArrowDown
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -66,6 +67,7 @@ const UnifiedSpellCard = ({
       'runic_power': 'Runic Power',
       'soul_power': 'Soul Power',
       'arcane_power': 'Arcane Power',
+      'arcane_energy_points': 'AEP',
       'combo_points': 'Combo Points',
       'soul_shards': 'Soul Shards',
       'holy_power': 'Holy Power',
@@ -662,8 +664,9 @@ const UnifiedSpellCard = ({
         baseText = 'Chain Effect';
         break;
       case 'self':
-        baseText = 'Self';
-        break;
+        // Don't show "Self" here since it's already shown in the range badge
+        // This prevents duplicate "Self" badges
+        return '';
       default:
         baseText = '';
     }
@@ -1225,6 +1228,9 @@ const UnifiedSpellCard = ({
       'runic_power': faSnowflake,
       'soul_shards': faGhost,
       'astral_power': faMoon,
+      'arcane_energy_points': faBolt,
+      'arcaneenergypoints': faBolt,
+      'aep': faBolt,
       'maelstrom': faWind,
       'insanity': faBrain,
       'fury': faFistRaised,
@@ -1257,6 +1263,9 @@ const UnifiedSpellCard = ({
       'runic_power': '#3498DB',
       'soul_shards': '#8E44AD',
       'astral_power': '#9B59B6',
+      'arcane_energy_points': '#4169E1',
+      'arcaneenergypoints': '#4169E1',
+      'aep': '#4169E1',
       'maelstrom': '#1ABC9C',
       'insanity': '#8E44AD',
       'fury': '#E74C3C',
@@ -3246,7 +3255,7 @@ const UnifiedSpellCard = ({
 
     const baseName = statName.toLowerCase();
     const physicalStats = ['strength', 'agility', 'constitution', 'health', 'stamina', 'armor'];
-    const mentalStats = ['intelligence', 'spirit', 'wisdom', 'perception'];
+    const mentalStats = ['intelligence', 'spirit', 'perception'];
     const magicalStats = ['mana', 'spell_power', 'magical_resistance'];
 
     if (physicalStats.includes(baseName)) return 'physical';
@@ -3268,7 +3277,7 @@ const UnifiedSpellCard = ({
         description = 'Increased movement and attack speed';
       } else if (statusId.includes('strength') || statusId.includes('might')) {
         description = 'Enhanced physical power';
-      } else if (statusId.includes('intellect') || statusId.includes('wisdom')) {
+      } else if (statusId.includes('intellect') || statusId.includes('spirit')) {
         description = 'Enhanced mental acuity';
       } else if (statusId.includes('shield') || statusId.includes('barrier')) {
         description = 'Protective magical barrier';
@@ -4835,7 +4844,7 @@ const UnifiedSpellCard = ({
           } else if (effectData.id === 'weakened' || effectData.id === 'weakness') {
             const optionMap = {
               'physical': 'Physical weakness - reduced strength and constitution',
-              'mental': 'Mental weakness - reduced intelligence and wisdom',
+              'mental': 'Mental weakness - reduced intelligence and spirit',
               'magical': 'Magical weakness - reduced spellcasting ability',
               'all': 'General weakness - all abilities reduced'
             };
@@ -5723,9 +5732,9 @@ const UnifiedSpellCard = ({
     // Helper function to get default save type for status effects
     const getDefaultSaveType = (effectId) => {
       const defaultSaves = {
-        'charmed': 'wisdom',
-        'frightened': 'wisdom',
-        'fear': 'wisdom',
+        'charmed': 'spirit',
+        'frightened': 'spirit',
+        'fear': 'spirit',
 
         'blinded': 'constitution',
         'blind': 'constitution',
@@ -5735,10 +5744,10 @@ const UnifiedSpellCard = ({
         'silenced': 'constitution',
 
         'weakened': 'constitution',
-        'confused': 'wisdom',
+        'confused': 'spirit',
         'diseased': 'constitution',
         'bleeding': 'constitution',
-        'cursed': 'wisdom'
+        'cursed': 'spirit'
       };
       return defaultSaves[effectId] || 'constitution';
     };
@@ -5943,7 +5952,7 @@ const UnifiedSpellCard = ({
           if (weaknessType === 'physical') {
             mechanicsParts.push('Physical weakness - reduced strength and constitution');
           } else if (weaknessType === 'mental') {
-            mechanicsParts.push('Mental weakness - reduced intelligence and wisdom');
+            mechanicsParts.push('Mental weakness - reduced intelligence and spirit');
           } else if (weaknessType === 'magical') {
             mechanicsParts.push('Magical weakness - reduced spell effectiveness');
           }
@@ -6420,10 +6429,63 @@ const UnifiedSpellCard = ({
             )}
 
             {/* Resource costs below separator for wizard variant */}
-            {variant === 'wizard' && formatResourceCosts() && (
+            {variant === 'wizard' && (formatResourceCosts() || spell?.infernoRequired !== undefined || spell?.infernoAscend !== undefined || spell?.infernoDescend !== undefined || spell?.musicalCombo) && (
               <div className="unified-spell-wizard-meta">
                 <div className="unified-spell-resource-costs">
                   {formatResourceCosts()}
+
+                  {/* Inferno Requirements - styled like resource costs */}
+                  {(spell?.infernoRequired !== undefined || spell?.infernoAscend !== undefined || spell?.infernoDescend !== undefined) && (
+                    <div className="pf-spell-inferno-costs">
+                      {spell?.infernoRequired !== undefined && (
+                        <div className="pf-inferno-cost inferno-required">
+                          <FontAwesomeIcon icon={faFire} className="pf-inferno-icon" style={{ color: '#8b0000' }} />
+                          <span className="pf-inferno-amount">{spell.infernoRequired}</span>
+                          <span className="pf-inferno-name">Inferno</span>
+                        </div>
+                      )}
+                      {spell?.infernoAscend !== undefined && (
+                        <div className="pf-inferno-cost inferno-ascend">
+                          <FontAwesomeIcon icon={faArrowUp} className="pf-inferno-icon" style={{ color: '#ff4500' }} />
+                          <span className="pf-inferno-amount">+{spell.infernoAscend}</span>
+                          <span className="pf-inferno-name">Ascend</span>
+                        </div>
+                      )}
+                      {spell?.infernoDescend !== undefined && (
+                        <div className="pf-inferno-cost inferno-descend">
+                          <FontAwesomeIcon icon={faArrowDown} className="pf-inferno-icon" style={{ color: '#4682b4' }} />
+                          <span className="pf-inferno-amount">{spell.infernoDescend}</span>
+                          <span className="pf-inferno-name">Descend</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Musical Combo - only show for resolver spells (note requirements) */}
+                  {spell?.musicalCombo?.type === 'resolver' && spell?.musicalCombo?.consumes && (
+                    <div className="pf-spell-musical-combo">
+                      {/* Cadence name is shown as a badge, so only show required notes here */}
+                      {spell.musicalCombo.consumes.map((noteReq, idx) => {
+                        const noteFunctionMap = {
+                          'I': 'Tonic',
+                          'II': 'Supertonic',
+                          'III': 'Mediant',
+                          'IV': 'Subdominant',
+                          'V': 'Dominant',
+                          'VI': 'Submediant',
+                          'VII': 'Leading Tone'
+                        };
+                        const functionName = noteFunctionMap[noteReq.note] || noteReq.note;
+                        return (
+                          <div key={idx} className="pf-musical-note-req">
+                            <FontAwesomeIcon icon={faComment} className="pf-musical-icon" style={{ color: '#DC143C' }} />
+                            <span className="pf-musical-amount">{noteReq.count}</span>
+                            <span className="pf-musical-name">{functionName} ({noteReq.note})</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -6521,6 +6583,15 @@ const UnifiedSpellCard = ({
               {formatTargetingType() && (
                 <div className="pf-targeting-badge">
                   <span>{formatTargetingType()}</span>
+                </div>
+              )}
+
+              {/* Cadence Name Badge - for Minstrel resolver spells - styled like action type */}
+              {spell?.musicalCombo?.type === 'resolver' && spell?.musicalCombo?.cadenceName && (
+                <div className="pf-action-type-badge cadence">
+                  <div className="pf-action-type-content">
+                    <span className="pf-action-type-name">{spell.musicalCombo.cadenceName.toUpperCase()}</span>
+                  </div>
                 </div>
               )}
 
@@ -6778,7 +6849,46 @@ const UnifiedSpellCard = ({
                 </div>
               )}
 
-
+              {/* Note Generation Display - Only show for builder spells */}
+              {spell?.musicalCombo?.type === 'builder' && spell?.musicalCombo?.generates && (
+                <div className="damage-effects">
+                  <div className="damage-effects-section">
+                    <div className="damage-formula-line">
+                      <div className="damage-effects-list">
+                        <div className="damage-effect-item">
+                          <div className="damage-effect">
+                            <span className="damage-effect-name">
+                              Note Generation
+                            </span>
+                          </div>
+                          <div className="damage-effect-details">
+                            <div className="damage-effect-mechanics">
+                              {spell.musicalCombo.generates.map((noteGen, idx) => {
+                                const noteFunctionMap = {
+                                  'I': 'Tonic',
+                                  'II': 'Supertonic',
+                                  'III': 'Mediant',
+                                  'IV': 'Subdominant',
+                                  'V': 'Dominant',
+                                  'VI': 'Submediant',
+                                  'VII': 'Leading Tone'
+                                };
+                                const functionName = noteFunctionMap[noteGen.note] || noteGen.note;
+                                return (
+                                  <span key={idx}>
+                                    {idx > 0 && ', '}
+                                    +{noteGen.count} {functionName} ({noteGen.note})
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Healing Display - Only show if healing is actually configured */}
               {(() => {
@@ -8176,7 +8286,7 @@ const UnifiedSpellCard = ({
                           // Add saving throw info
                           if (transformationData.savingThrow && transformationData.difficultyClass) {
                             const saveTypeMap = {
-                              'wisdom': 'Wisdom',
+                              'spirit': 'Spirit',
                               'charisma': 'Charisma',
                               'intelligence': 'Intelligence',
                               'constitution': 'Constitution',

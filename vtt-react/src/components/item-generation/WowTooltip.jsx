@@ -11,10 +11,10 @@ export default function WowTooltip({ item, onSave, onClose, position }) {
             quality: formData.get('quality'),
             stats: {
                 strength: { value: parseInt(formData.get('strength')) || 0, isPercentage: false },
-                dexterity: { value: parseInt(formData.get('dexterity')) || 0, isPercentage: false },
+                agility: { value: parseInt(formData.get('agility')) || 0, isPercentage: false },
                 constitution: { value: parseInt(formData.get('constitution')) || 0, isPercentage: false },
                 intelligence: { value: parseInt(formData.get('intelligence')) || 0, isPercentage: false },
-                wisdom: { value: parseInt(formData.get('wisdom')) || 0, isPercentage: false },
+                spirit: { value: parseInt(formData.get('spirit')) || 0, isPercentage: false },
                 charisma: { value: parseInt(formData.get('charisma')) || 0, isPercentage: false }
             },
             description: formData.get('description')
@@ -66,11 +66,11 @@ export default function WowTooltip({ item, onSave, onClose, position }) {
                             />
                         </label>
                         <label>
-                            <span className="stat-name">Dexterity</span>
-                            <input 
-                                type="number" 
-                                name="dexterity"
-                                defaultValue={item.stats?.dexterity?.value || 0}
+                            <span className="stat-name">Agility</span>
+                            <input
+                                type="number"
+                                name="agility"
+                                defaultValue={item.stats?.agility?.value || 0}
                             />
                         </label>
                         <label>
@@ -90,11 +90,11 @@ export default function WowTooltip({ item, onSave, onClose, position }) {
                             />
                         </label>
                         <label>
-                            <span className="stat-name">Wisdom</span>
-                            <input 
-                                type="number" 
-                                name="wisdom"
-                                defaultValue={item.stats?.wisdom?.value || 0}
+                            <span className="stat-name">Spirit</span>
+                            <input
+                                type="number"
+                                name="spirit"
+                                defaultValue={item.stats?.spirit?.value || 0}
                             />
                         </label>
                         <label>

@@ -207,11 +207,16 @@
   color: var(--pf-brown-dark);
   font-size: var(--pf-text-xs);
   min-width: 30px;
+  max-width: 200px; /* Allow card patterns to display fully */
   text-align: center;
   background: var(--pf-gradient-parchment-light);
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius-sm);
   padding: 1px var(--pf-space-1);
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for very long patterns */
+  flex-shrink: 0; /* Don't shrink this element */
 }
 
 .rollable-table-entry-preview .entry-effect {

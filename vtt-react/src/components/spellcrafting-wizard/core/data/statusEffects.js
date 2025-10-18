@@ -493,7 +493,7 @@ export const NEGATIVE_STATUS_EFFECTS = [
         fearStrength: 'medium'
       },
       counters: ['morale', 'courage'],
-      saveType: 'wisdom'
+      saveType: 'spirit'
     },
     {
       id: 'paralyzed',
@@ -604,7 +604,7 @@ export const COMBAT_DISADVANTAGES = [
       ],
       defaultParameters: {
         requiresSave: true,
-        saveType: 'dexterity',
+        saveType: 'agility',
         duration: 3, // rounds
         disadvantageCount: 1,
         affectsMelee: true,
@@ -627,7 +627,7 @@ export const COMBAT_DISADVANTAGES = [
       ],
       defaultParameters: {
         requiresSave: true,
-        saveType: 'dexterity',
+        saveType: 'agility',
         duration: 3, // rounds
         disadvantageCount: 1,
         affectsMelee: true,
@@ -1035,10 +1035,10 @@ export function getStatusEffectSaveDC(effectId, caster) {
       let abilityMod = 0;
 
       if (effect.category === 'mental') {
-        // Use Intelligence, Wisdom, or Charisma
+        // Use Intelligence, Spirit, or Charisma
         abilityMod = Math.max(
           (caster.abilityScores.intelligence - 10) / 2,
-          (caster.abilityScores.wisdom - 10) / 2,
+          (caster.abilityScores.spirit - 10) / 2,
           (caster.abilityScores.charisma - 10) / 2
         );
       } else if (effect.category === 'physical') {

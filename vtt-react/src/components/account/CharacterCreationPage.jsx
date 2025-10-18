@@ -94,7 +94,7 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
           // Health will be calculated based on constitution in character store
           hitPoints: characterData.hitPoints || (characterData.stats?.constitution || 10) * 5,
           maxHitPoints: characterData.maxHitPoints || (characterData.stats?.constitution || 10) * 5,
-          armorClass: characterData.armorClass || 10,
+          armor: characterData.armor || 10,
           // Add default stats if not provided
           stats: characterData.stats || {
             strength: 10,

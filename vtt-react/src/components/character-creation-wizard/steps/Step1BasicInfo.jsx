@@ -126,8 +126,7 @@ const Step1BasicInfo = () => {
 
     return (
         <div className="wizard-step-content">
-            <div className="step-body">
-                <div className="basic-info-layout">
+            <div className="basic-info-layout">
                     {/* Left side - Form fields */}
                     <div className="basic-info-form">
                         {/* Character Name */}
@@ -270,18 +269,15 @@ const Step1BasicInfo = () => {
                     </div>
                 </div>
 
-
-                </div>
-
-                {/* Image Editor Modal */}
-                <ImageEditor
+            {/* Image Editor Modal */}
+            <ImageEditor
                     isOpen={showImageEditor}
                     onClose={() => setShowImageEditor(false)}
                     imageUrl={imagePreview || characterData.characterImage}
                     onApply={handleApplyTransformations}
                     initialTransformations={characterData.imageTransformations || imageTransformations}
                 />
-            </div>
+        </div>
     );
 };
 

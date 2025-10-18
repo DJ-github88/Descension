@@ -72,7 +72,7 @@ export const PYROFIEND_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             spirit: { value: 1, isPercentage: false }
@@ -216,7 +216,7 @@ export const MINSTREL_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             charisma: { value: 1, isPercentage: false }
@@ -761,7 +761,7 @@ export const SPELLGUARD_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Spellguard']
@@ -992,7 +992,7 @@ export const BERSERKER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 3, isPercentage: false }
+            armor: { value: 3, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -1018,7 +1018,7 @@ export const DREADNAUGHT_ITEMS = [
         width: 2,
         height: 3,
         slots: ['offHand'],
-        armorClass: 4,
+        armor: 4,
         baseStats: {
             constitution: { value: 2, isPercentage: false }
         },
@@ -1234,7 +1234,7 @@ export const BLADEDANCER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             agility: { value: 2, isPercentage: false }
@@ -1370,7 +1370,7 @@ export const WARDEN_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 4, isPercentage: false }
+            armor: { value: 4, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -1427,7 +1427,7 @@ export const JUSTICAR_ITEMS = [
         width: 2,
         height: 2,
         slots: ['offHand'],
-        armorClass: 2,
+        armor: 2,
         baseStats: {
             spirit: { value: 1, isPercentage: false }
         },
@@ -1526,7 +1526,7 @@ export const HEXER_PATH_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
@@ -1605,7 +1605,7 @@ export const HARROW_PATH_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }

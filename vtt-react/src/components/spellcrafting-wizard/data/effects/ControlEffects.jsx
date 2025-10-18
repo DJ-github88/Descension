@@ -657,13 +657,13 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
       case 'forced_movement':
         return 'strength';
       case 'restraint':
-        return 'dexterity';
+        return 'agility';
       case 'knockdown':
-        return 'dexterity';
+        return 'agility';
       case 'incapacitation':
         return 'constitution';
       case 'mind_control':
-        return 'wisdom';
+        return 'spirit';
       case 'restriction':
         // Different saving throws based on restriction type
         if (['melee_attacks', 'ranged_attacks', 'melee_damage'].includes(effectId)) {
@@ -671,11 +671,11 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
         } else if (['spellcasting', 'magic_damage', 'arcane_damage', 'force_damage'].includes(effectId)) {
           return 'intelligence';
         } else if (['healing', 'healing_effect', 'radiant_damage'].includes(effectId)) {
-          return 'wisdom';
+          return 'spirit';
         } else if (['physical_damage', 'poison_damage', 'acid_damage', 'necrotic_damage'].includes(effectId)) {
           return 'constitution';
         } else if (['fire_damage', 'lightning_damage', 'thunder_damage'].includes(effectId)) {
-          return 'dexterity';
+          return 'agility';
         } else if (['psychic_damage', 'void_damage'].includes(effectId)) {
           return 'charisma';
         } else if (['cold_damage'].includes(effectId)) {
@@ -683,7 +683,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
         } else if (['bludgeoning_damage', 'piercing_damage', 'slashing_damage'].includes(effectId)) {
           return 'strength';
         } else {
-          return 'dexterity'; // Default for other damage types
+          return 'agility'; // Default for other damage types
         }
       default:
         return 'strength';
@@ -945,10 +945,10 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
 
     switch (type) {
       case 'str': return 'Strength';
-      case 'dex': return 'Dexterity';
+      case 'agi': return 'Agility';
       case 'con': return 'Constitution';
       case 'int': return 'Intelligence';
-      case 'wis': return 'Wisdom';
+      case 'spi': return 'Spirit';
       case 'cha': return 'Charisma';
       default: return type.charAt(0).toUpperCase() + type.slice(1);
     }

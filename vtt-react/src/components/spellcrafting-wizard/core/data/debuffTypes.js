@@ -89,7 +89,7 @@ export const DEBUFF_CATEGORIES = [
     description: 'Affects mind, perception, or decision-making',
     icon: 'spell_shadow_mindshear',
     examples: ['Fear', 'Confusion', 'Hallucination'],
-    saveType: 'wisdom',
+    saveType: 'spirit',
     duration: 'short',
     dispelDifficulty: 'hard',
     commonTargets: ['intelligent enemies', 'casters'],
@@ -497,7 +497,7 @@ export const DEBUFF_EFFECT_TYPES = [
     saveDC: {
       base: 14,
       scaling: 'level',
-      type: 'wisdom'
+      type: 'spirit'
     },
     stacking: 'none',
     maxStacks: 1,
@@ -776,8 +776,8 @@ export function calculateDebuffSaveDC(debuffId, caster) {
       case 'intelligence':
         abilityMod = Math.floor((caster.abilityScores.intelligence - 10) / 2);
         break;
-      case 'wisdom':
-        abilityMod = Math.floor((caster.abilityScores.wisdom - 10) / 2);
+      case 'spirit':
+        abilityMod = Math.floor((caster.abilityScores.spirit - 10) / 2);
         break;
       case 'charisma':
         abilityMod = Math.floor((caster.abilityScores.charisma - 10) / 2);
@@ -790,7 +790,7 @@ export function calculateDebuffSaveDC(debuffId, caster) {
         // Use highest mental attribute
         abilityMod = Math.max(
           Math.floor((caster.abilityScores.intelligence - 10) / 2),
-          Math.floor((caster.abilityScores.wisdom - 10) / 2),
+          Math.floor((caster.abilityScores.spirit - 10) / 2),
           Math.floor((caster.abilityScores.charisma - 10) / 2)
         );
     }

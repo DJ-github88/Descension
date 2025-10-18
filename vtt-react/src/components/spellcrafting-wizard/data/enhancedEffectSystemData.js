@@ -182,12 +182,12 @@ export const ENHANCED_EFFECT_TYPES_DATA = [
 
   // Stat modifiers
   { id: 'strength', name: 'Strength', category: 'stat', description: 'Modify strength stat' },
-  { id: 'dexterity', name: 'Dexterity', category: 'stat', description: 'Modify dexterity stat' },
+  { id: 'agility', name: 'Agility', category: 'stat', description: 'Modify agility stat' },
   { id: 'constitution', name: 'Constitution', category: 'stat', description: 'Modify constitution stat' },
   { id: 'intelligence', name: 'Intelligence', category: 'stat', description: 'Modify intelligence stat' },
-  { id: 'wisdom', name: 'Wisdom', category: 'stat', description: 'Modify wisdom stat' },
+  { id: 'spirit', name: 'Spirit', category: 'stat', description: 'Modify spirit stat' },
   { id: 'charisma', name: 'Charisma', category: 'stat', description: 'Modify charisma stat' },
-  { id: 'ac', name: 'Armor Class', category: 'stat', description: 'Modify armor class' },
+  { id: 'armor', name: 'Armor', category: 'stat', description: 'Modify armor value' },
   { id: 'speed', name: 'Speed', category: 'stat', description: 'Modify movement speed' },
 
   // Status effects - positive

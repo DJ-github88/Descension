@@ -217,8 +217,7 @@ const Step7SkillsLanguages = () => {
 
     return (
         <div className="wizard-step-content">
-            <div className="step-body">
-                <div className="skills-languages-container">
+            <div className="skills-languages-container">
                     {/* Skills Section */}
                     <div className="selection-section">
                         <div className="section-header">
@@ -586,7 +585,6 @@ const Step7SkillsLanguages = () => {
                         </div>
                     )}
                 </div>
-            </div>
 
             {/* Unified Tooltip */}
             <UnifiedTooltip

@@ -345,8 +345,8 @@ const CharacterManagement = ({ user }) => {
                     <div className="combat-stat-group">
                       <div className="combat-stat">
                         <i className="fas fa-shield-alt"></i>
-                        <span className="stat-label">AC</span>
-                        <span className="stat-value">{character.armorClass || 10}</span>
+                        <span className="stat-label">Armor</span>
+                        <span className="stat-value">{character.armor || 10}</span>
                       </div>
                       <div className="combat-stat">
                         <i className="fas fa-running"></i>

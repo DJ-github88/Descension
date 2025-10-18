@@ -5,9 +5,71 @@ import BackgroundSelector from './BackgroundSelector';
 import BackgroundsDisplay from './BackgroundsDisplay';
 import SkillsDisplay from './SkillsDisplay';
 import LanguagesDisplay from './LanguagesDisplay';
+import ClassDetailDisplay from './ClassDetailDisplay';
+import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
+import { MINSTREL_DATA } from '../../data/classes/minstrelData';
+import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
+import { MARTYR_DATA } from '../../data/classes/martyrData';
+import { FALSE_PROPHET_DATA } from '../../data/classes/falseProphetData';
+import { EXORCIST_DATA } from '../../data/classes/exorcistData';
+import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverData';
+import { GAMBLER_DATA } from '../../data/classes/gamblerData';
+import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
+import { DEATHCALLER_DATA } from '../../data/classes/deathcallerData';
+import { PLAGUEBRINGER_DATA } from '../../data/classes/plaguebringerData';
+import { LICHBORNE_DATA } from '../../data/classes/lichborneData';
+import { SPELLGUARD_DATA } from '../../data/classes/spellguardData';
+import { INSCRIPTOR_DATA } from '../../data/classes/inscriptorData';
+import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
+import { WITCH_DOCTOR_DATA } from '../../data/classes/witchDoctorData';
+import { FORMBENDER_DATA } from '../../data/classes/formbenderData';
+import { PRIMALIST_DATA } from '../../data/classes/primalistData';
+import { BERSERKER_DATA } from '../../data/classes/berserkerData';
+import { DREADNAUGHT_DATA } from '../../data/classes/dreadnaughtData';
+import { TITAN_DATA } from '../../data/classes/titanData';
+import { BLADEDANCER_DATA } from '../../data/classes/bladedancerData';
+import { TOXICOLOGIST_DATA } from '../../data/classes/toxicologistData';
+import { COVENBANE_DATA } from '../../data/classes/covenbaneData';
+import { LUNARCH_DATA } from '../../data/classes/lunarchData';
+import { HUNTRESS_DATA } from '../../data/classes/huntressData';
+import { WARDEN_DATA } from '../../data/classes/wardenData';
+import { ORACLE_DATA } from '../../data/classes/oracleData';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
+
+// Map of class names to their data
+const CLASS_DATA_MAP = {
+  'Pyrofiend': PYROFIEND_DATA,
+  'Minstrel': MINSTREL_DATA,
+  'Chronarch': CHRONARCH_DATA,
+  'Martyr': MARTYR_DATA,
+  'False Prophet': FALSE_PROPHET_DATA,
+  'Exorcist': EXORCIST_DATA,
+  'Chaos Weaver': CHAOS_WEAVER_DATA,
+  'Gambler': GAMBLER_DATA,
+  'Fate Weaver': FATE_WEAVER_DATA,
+  'Deathcaller': DEATHCALLER_DATA,
+  'Plaguebringer': PLAGUEBRINGER_DATA,
+  'Lichborne': LICHBORNE_DATA,
+  'Spellguard': SPELLGUARD_DATA,
+  'Inscriptor': INSCRIPTOR_DATA,
+  'Arcanoneer': ARCANONEER_DATA,
+  'Witch Doctor': WITCH_DOCTOR_DATA,
+  'Formbender': FORMBENDER_DATA,
+  'Primalist': PRIMALIST_DATA,
+  'Berserker': BERSERKER_DATA,
+  'Dreadnaught': DREADNAUGHT_DATA,
+  'Titan': TITAN_DATA,
+  'Bladedancer': BLADEDANCER_DATA,
+  'Toxicologist': TOXICOLOGIST_DATA,
+  'Covenbane': COVENBANE_DATA,
+  'Lunarch': LUNARCH_DATA,
+  'Huntress': HUNTRESS_DATA,
+  'Warden': WARDEN_DATA,
+  'Oracle': ORACLE_DATA,
+  // Add other classes as they are created
+};
 
 // Simple markdown processor for basic formatting
 const processMarkdown = (text) => {
@@ -40,6 +102,7 @@ const processMarkdown = (text) => {
 const RulesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('core-rules');
   const [selectedSubcategory, setSelectedSubcategory] = useState('game-overview');
+  const [selectedClassDetail, setSelectedClassDetail] = useState(null); // For class detail pages
   const [expandedCategories, setExpandedCategories] = useState(['core-rules']);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(null);
@@ -57,12 +120,23 @@ const RulesPage = () => {
   const handleSubcategoryClick = (categoryId, subcategoryId) => {
     setSelectedCategory(categoryId);
     setSelectedSubcategory(subcategoryId);
+    setSelectedClassDetail(null); // Clear class detail when changing subcategory
     setActiveTab(null); // Reset tab when changing subcategory
-    
+
     // Ensure the category is expanded
     if (!expandedCategories.includes(categoryId)) {
       setExpandedCategories(prev => [...prev, categoryId]);
     }
+  };
+
+  // Handle class detail selection
+  const handleClassClick = (className) => {
+    setSelectedClassDetail(className);
+  };
+
+  // Handle back to classes list
+  const handleBackToClasses = () => {
+    setSelectedClassDetail(null);
   };
 
   // Get current content
@@ -96,29 +170,45 @@ const RulesPage = () => {
   }, [searchQuery]);
 
   // Render a table
-  const renderTable = (table) => (
-    <div className="rules-table-container" key={table.title}>
-      {table.title && <h5 className="rules-table-title">{table.title}</h5>}
-      <table className="rules-table">
-        <thead>
-          <tr>
-            {table.headers.map((header, idx) => (
-              <th key={idx}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {table.rows.map((row, rowIdx) => (
-            <tr key={rowIdx}>
-              {row.map((cell, cellIdx) => (
-                <td key={cellIdx}>{cell}</td>
+  const renderTable = (table) => {
+    const clickableColumn = table.clickableColumn !== undefined ? table.clickableColumn : -1;
+
+    return (
+      <div className="rules-table-container" key={table.title}>
+        {table.title && <h5 className="rules-table-title">{table.title}</h5>}
+        <table className="rules-table">
+          <thead>
+            <tr>
+              {table.headers.map((header, idx) => (
+                <th key={idx}>{header}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+          </thead>
+          <tbody>
+            {table.rows.map((row, rowIdx) => (
+              <tr key={rowIdx}>
+                {row.map((cell, cellIdx) => {
+                  // Check if this is a clickable cell (for class names)
+                  const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
+
+                  return (
+                    <td
+                      key={cellIdx}
+                      className={isClickable ? 'clickable-cell' : ''}
+                      onClick={isClickable ? () => handleClassClick(cell) : undefined}
+                      style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
+                    >
+                      {cell}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
 
   // Render content sections
   const renderSections = (sections) => {
@@ -178,6 +268,25 @@ const RulesPage = () => {
     const currentSubcategory = RULES_CATEGORIES
       .find(cat => cat.id === selectedCategory)
       ?.subcategories?.find(sub => sub.id === selectedSubcategory);
+
+    // If viewing a class detail page
+    if (selectedClassDetail && selectedSubcategory === 'classes') {
+      const classData = CLASS_DATA_MAP[selectedClassDetail];
+
+      return (
+        <div className="rules-content-area">
+          {classData ? (
+            <ClassDetailDisplay classData={classData} onBack={handleBackToClasses} />
+          ) : (
+            <div className="rules-no-content">
+              <i className="fas fa-exclamation-triangle"></i>
+              <p>Class data for {selectedClassDetail} is not yet available.</p>
+              <p>This class will be added in a future update.</p>
+            </div>
+          )}
+        </div>
+      );
+    }
 
     return (
       <div className="rules-content-area">
@@ -256,18 +365,32 @@ const RulesPage = () => {
               {expandedCategories.includes(category.id) && (
                 <div className="rules-nav-subcategories">
                   {category.subcategories.map(sub => (
-                    <button
-                      key={sub.id}
-                      className={`rules-nav-subcategory ${
-                        selectedCategory === category.id && selectedSubcategory === sub.id
-                          ? 'active'
-                          : ''
-                      }`}
-                      onClick={() => handleSubcategoryClick(category.id, sub.id)}
-                    >
-                      <i className={`${sub.icon} rules-nav-subicon`}></i>
-                      <span>{sub.name}</span>
-                    </button>
+                    <div key={sub.id}>
+                      <button
+                        className={`rules-nav-subcategory ${
+                          selectedCategory === category.id && selectedSubcategory === sub.id && !selectedClassDetail
+                            ? 'active'
+                            : ''
+                        }`}
+                        onClick={() => handleSubcategoryClick(category.id, sub.id)}
+                      >
+                        <i className={`${sub.icon} rules-nav-subicon`}></i>
+                        <span>{sub.name}</span>
+                      </button>
+
+                      {/* Show indented class name when viewing class detail */}
+                      {sub.id === 'classes' && selectedSubcategory === 'classes' && selectedClassDetail && (
+                        <div className="rules-nav-class-detail">
+                          <button
+                            className="rules-nav-class-detail-btn active"
+                            onClick={() => {/* Already on this page */}}
+                          >
+                            <i className="fas fa-fire rules-nav-subicon"></i>
+                            <span>{selectedClassDetail}</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               )}

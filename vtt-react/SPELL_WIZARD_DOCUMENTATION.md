@@ -294,7 +294,7 @@ debuffConfig: {
       
       // Save Configuration
       saveDC: 15,
-      saveType: "wisdom",
+      saveType: "spirit",
       saveOutcome: "negates",  // negates, halves_duration, ends_early, partial_immunity, reduces_level
       saveTrigger: "harmful",  // none, harmful, turn, damage
       saveFrequency: "end_of_turn"  // initial, end_of_turn, when_damaged, out_of_sight, ally_help
@@ -302,7 +302,7 @@ debuffConfig: {
   ],
   
   // Saving Throw
-  savingThrow: "wisdom",
+  savingThrow: "spirit",
   difficultyClass: 15,
   saveOutcome: "negates",
   
@@ -315,7 +315,7 @@ debuffConfig: {
 
 **Spell Card Formatting:**
 - **Stat Penalty**: `"Agility: -2 Agility decrease"`
-- **Charmed (Complex)**: `"Charmed (friendly) - target regards you as a friend but maintains free will (cannot attack charmer, cannot be commanded to self-harm, retains memory of actions) - moderate complexity commands (max 3 commands) - Wisdom save DC 15 (negated on save), save when given harmful command"`
+- **Charmed (Complex)**: `"Charmed (friendly) - target regards you as a friend but maintains free will (cannot attack charmer, cannot be commanded to self-harm, retains memory of actions) - moderate complexity commands (max 3 commands) - Spirit save DC 15 (negated on save), save when given harmful command"`
 - **Duration**: `"Duration: 3 rounds"`
 - **Dispellable**: `"Can be dispelled"`
 
@@ -475,7 +475,7 @@ Duration: Instant
         retainsMemory: false,
         commandComplexity: "any",
         saveDC: 17,
-        saveType: "wisdom",
+        saveType: "spirit",
         saveOutcome: "negates",
         saveTrigger: "harmful",
         saveFrequency: "end_of_turn"
@@ -492,9 +492,9 @@ Duration: Instant
 ```
 Name: Dominate Person
 Effects:
-  • Charmed (dominated) - target must obey your commands without question 
+  • Charmed (dominated) - target must obey your commands without question
     (cannot attack charmer, cannot be commanded to self-harm) - any commands allowed
-    - Wisdom save DC 17 (negated on save), save when given harmful command, save each turn
+    - Spirit save DC 17 (negated on save), save when given harmful command, save each turn
 Duration: 10 minutes
 Requires Concentration
 ```

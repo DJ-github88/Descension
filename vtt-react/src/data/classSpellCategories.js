@@ -12,25 +12,25 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Infernal Path',
     specializations: [
       {
-        id: 'fire_mastery',
-        name: 'Fire Mastery',
-        description: 'Spells focused on pure fire damage and elemental control',
+        id: 'inferno',
+        name: 'Inferno',
+        description: 'Pure destruction - aggressive burst damage and rapid ascension',
         color: '#FF4500',
         icon: 'spell_fire_fireball02'
       },
       {
-        id: 'corruption_stages',
-        name: 'Corruption Stages',
-        description: 'Demonic corruption spells that grow stronger over time',
-        color: '#8B0000',
-        icon: 'spell_shadow_shadowwordpain'
+        id: 'wildfire',
+        name: 'Wildfire',
+        description: 'Spreading chaos - area damage and damage-over-time effects',
+        color: '#FF8C00',
+        icon: 'spell_fire_flameshock'
       },
       {
-        id: 'demonic_power',
-        name: 'Demonic Power',
-        description: 'Raw demonic energy and infernal abilities',
-        color: '#DC143C',
-        icon: 'spell_shadow_demonicfortitude'
+        id: 'hellfire',
+        name: 'Hellfire',
+        description: 'Demonic resilience - self-sustain and dark powers',
+        color: '#8B0000',
+        icon: 'spell_shadow_shadowwordpain'
       }
     ]
   },
@@ -229,52 +229,52 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Celestial Path',
     specializations: [
       {
-        id: 'glyph_magic',
-        name: 'Glyph Magic',
-        description: 'Magical symbols that store and release energy',
+        id: 'runebinder',
+        name: 'Runebinder',
+        description: 'Master of runic zone manipulation and battlefield control',
         color: '#4169E1',
         icon: 'spell_arcane_arcaneorb'
       },
       {
-        id: 'symbol_power',
-        name: 'Symbol Power',
-        description: 'Ancient symbols imbued with mystical force',
+        id: 'enchanter',
+        name: 'Enchanter',
+        description: 'Equipment enhancement specialist with powerful inscriptions',
         color: '#6495ED',
         icon: 'spell_arcane_arcanetorrent'
       },
       {
-        id: 'runic_arts',
-        name: 'Runic Arts',
-        description: 'Traditional runic magic and inscription techniques',
-        color: '#87CEEB',
-        icon: 'spell_arcane_arcanepower'
+        id: 'glyphweaver',
+        name: 'Glyphweaver',
+        description: 'Explosive trap master focused on detonation mechanics',
+        color: '#DC143C',
+        icon: 'spell_fire_selfdestruct'
       }
     ]
   },
 
   'Arcanoneer': {
-    path: 'Celestial Path',
+    path: 'Arcane Path',
     specializations: [
       {
-        id: 'arcane_engineering',
-        name: 'Arcane Engineering',
-        description: 'Magical technology and arcane constructs',
-        color: '#9370DB',
-        icon: 'spell_arcane_arcanetorrent'
+        id: 'elementalist',
+        name: 'Elementalist',
+        description: 'Master of pure element combinations and elemental specialization',
+        color: '#FF4500',
+        icon: 'spell_fire_flamebolt'
       },
       {
-        id: 'magical_technology',
-        name: 'Magical Technology',
-        description: 'Fusion of magic and technological principles',
-        color: '#8A2BE2',
-        icon: 'spell_arcane_arcanepower'
+        id: 'chaosweaver',
+        name: 'Chaosweaver',
+        description: 'Embraces randomness and chaos magic for explosive unpredictable power',
+        color: '#9400D3',
+        icon: 'spell_shadow_charm'
       },
       {
-        id: 'volatility_control',
-        name: 'Volatility Control',
-        description: 'Management of unstable magical energies',
-        color: '#9932CC',
-        icon: 'spell_arcane_arcanetorrent'
+        id: 'runesmith',
+        name: 'Runesmith',
+        description: 'Precise sphere manipulation and tactical control specialist',
+        color: '#4169E1',
+        icon: 'inv_misc_rune_01'
       }
     ]
   },
@@ -629,6 +629,33 @@ export const CLASS_SPECIALIZATIONS = {
         description: 'Vigilant protection and area denial abilities',
         color: '#708090',
         icon: 'spell_holy_magicalsentry'
+      }
+    ]
+  },
+
+  'Oracle': {
+    path: 'Divine Path',
+    specializations: [
+      {
+        id: 'seer',
+        name: 'Seer',
+        description: 'Future sight and prediction mastery',
+        color: '#9370DB',
+        icon: 'spell_holy_farsight'
+      },
+      {
+        id: 'truthseeker',
+        name: 'Truthseeker',
+        description: 'Past sight and hidden knowledge revelation',
+        color: '#FFD700',
+        icon: 'spell_holy_searinglightpriest'
+      },
+      {
+        id: 'fateweaver',
+        name: 'Fateweaver',
+        description: 'Destiny manipulation and fate alteration',
+        color: '#FF1493',
+        icon: 'spell_arcane_prismaticcloak'
       }
     ]
   }

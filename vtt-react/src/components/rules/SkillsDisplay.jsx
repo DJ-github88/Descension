@@ -45,33 +45,35 @@ const SkillsDisplay = () => {
     if (!selectedCategory && !selectedSkill) {
         return (
             <div className="background-selector">
-                <div className="step-description">
-                    <p>Skills represent your character's training and expertise in various areas. Each skill is tied to a primary and secondary ability score, and your proficiency in a skill adds your proficiency bonus to related checks.</p>
-                </div>
+                <div className="skill-categories-view">
+                    <div className="step-description">
+                        <p>Skills represent your character's training and expertise in various areas. Each skill is tied to a primary and secondary ability score, and your proficiency in a skill adds your proficiency bonus to related checks.</p>
+                    </div>
 
-                <div className="background-grid">
-                    {Object.entries(skillsByCategory).map(([categoryName, skills]) => {
-                        const categoryData = getCategoryData(categoryName);
-                        return (
-                            <div
-                                key={categoryName}
-                                className="background-card"
-                                onClick={() => handleCategoryClick(categoryName)}
-                            >
-                                <div className="background-card-header">
-                                    <h3>{categoryName}</h3>
+                    <div className="background-grid">
+                        {Object.entries(skillsByCategory).map(([categoryName, skills]) => {
+                            const categoryData = getCategoryData(categoryName);
+                            return (
+                                <div
+                                    key={categoryName}
+                                    className="background-card"
+                                    onClick={() => handleCategoryClick(categoryName)}
+                                >
+                                    <div className="background-card-header">
+                                        <h3>{categoryName}</h3>
+                                    </div>
+                                    <p className="background-description">
+                                        {categoryData?.description || 'Skills in this category'}
+                                    </p>
+                                    <div className="info-badges">
+                                        <span className="info-badge">
+                                            <i className="fas fa-cogs"></i> {skills.length} Skills
+                                        </span>
+                                    </div>
                                 </div>
-                                <p className="background-description">
-                                    {categoryData?.description || 'Skills in this category'}
-                                </p>
-                                <div className="info-badges">
-                                    <span className="info-badge">
-                                        <i className="fas fa-cogs"></i> {skills.length} Skills
-                                    </span>
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         );
@@ -84,38 +86,40 @@ const SkillsDisplay = () => {
 
         return (
             <div className="background-selector">
-                <button className="back-button" onClick={handleBackClick}>
-                    <i className="fas fa-arrow-left"></i> Back to Categories
-                </button>
+                <div className="skill-list-view">
+                    <button className="back-button" onClick={handleBackClick}>
+                        <i className="fas fa-arrow-left"></i> Back to Categories
+                    </button>
 
-                <div className="background-overview">
-                    <h2>{selectedCategory}</h2>
-                    <p>{categoryData?.description || 'Skills in this category'}</p>
-                </div>
+                    <div className="background-overview">
+                        <h2>{selectedCategory}</h2>
+                        <p>{categoryData?.description || 'Skills in this category'}</p>
+                    </div>
 
-                <div className="background-grid">
-                    {categorySkills.map((skill) => (
-                        <div
-                            key={skill.id}
-                            className="background-card"
-                            onClick={() => handleSkillClick(skill)}
-                        >
-                            <div className="background-card-header">
-                                <h3>{skill.name}</h3>
-                            </div>
-                            <p className="background-description">{skill.description}</p>
-                            <div className="info-badges">
-                                <span className="info-badge">
-                                    <i className="fas fa-dumbbell"></i> {skill.primaryStat?.toUpperCase() || 'N/A'}
-                                </span>
-                                {skill.secondaryStat && (
+                    <div className="background-grid">
+                        {categorySkills.map((skill) => (
+                            <div
+                                key={skill.id}
+                                className="background-card"
+                                onClick={() => handleSkillClick(skill)}
+                            >
+                                <div className="background-card-header">
+                                    <h3>{skill.name}</h3>
+                                </div>
+                                <p className="background-description">{skill.description}</p>
+                                <div className="info-badges">
                                     <span className="info-badge">
-                                        <i className="fas fa-plus"></i> {skill.secondaryStat.toUpperCase()}
+                                        <i className="fas fa-dumbbell"></i> {skill.primaryStat?.toUpperCase() || 'N/A'}
                                     </span>
-                                )}
+                                    {skill.secondaryStat && (
+                                        <span className="info-badge">
+                                            <i className="fas fa-plus"></i> {skill.secondaryStat.toUpperCase()}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -137,7 +141,7 @@ const SkillsDisplay = () => {
                     <i className="fas fa-arrow-left"></i> Back to {selectedCategory}
                 </button>
 
-                <div className="background-detail-view">
+                <div className="skill-detail-view">
                     {/* Header */}
                     <div className="background-overview">
                         <h2>{selectedSkill.name}</h2>
@@ -147,25 +151,15 @@ const SkillsDisplay = () => {
                     {/* Ability Scores */}
                     <div className="benefits-section">
                         <h4>Associated Ability Scores</h4>
-                        <div className="benefits-grid">
-                            <div className="benefit-card">
-                                <div className="benefit-icon">
-                                    <i className="fas fa-star"></i>
-                                </div>
-                                <div className="benefit-content">
-                                    <h5 className="benefit-name">Primary: {selectedSkill.primaryStat?.toUpperCase() || 'None'}</h5>
-                                    <p className="benefit-description">Main ability score for this skill</p>
-                                </div>
+                        <div className="ability-scores-inline">
+                            <div className="ability-score-badge primary">
+                                <i className="fas fa-star"></i>
+                                <span>Primary: {selectedSkill.primaryStat?.toUpperCase() || 'None'}</span>
                             </div>
                             {selectedSkill.secondaryStat && (
-                                <div className="benefit-card">
-                                    <div className="benefit-icon">
-                                        <i className="fas fa-plus"></i>
-                                    </div>
-                                    <div className="benefit-content">
-                                        <h5 className="benefit-name">Secondary: {selectedSkill.secondaryStat.toUpperCase()}</h5>
-                                        <p className="benefit-description">Additional ability score that can apply</p>
-                                    </div>
+                                <div className="ability-score-badge secondary">
+                                    <i className="fas fa-plus"></i>
+                                    <span>Secondary: {selectedSkill.secondaryStat.toUpperCase()}</span>
                                 </div>
                             )}
                         </div>
@@ -174,17 +168,13 @@ const SkillsDisplay = () => {
                     {/* Category */}
                     <div className="benefits-section">
                         <h4>Skill Category</h4>
-                        <div className="feature-card">
-                            <div className="feature-header">
-                                <div className="feature-icon">
-                                    <i className="fas fa-folder"></i>
-                                </div>
-                                <h5 className="feature-name">{selectedSkill.category}</h5>
-                            </div>
-                            <p className="feature-description">
-                                {getCategoryData(selectedSkill.category)?.description || 'Part of this skill category'}
-                            </p>
+                        <div className="skill-category-badge">
+                            <i className="fas fa-folder"></i>
+                            <span>{selectedSkill.category}</span>
                         </div>
+                        <p className="skill-category-description">
+                            {getCategoryData(selectedSkill.category)?.description || 'Part of this skill category'}
+                        </p>
                     </div>
 
                     {/* Rollable Table Examples */}

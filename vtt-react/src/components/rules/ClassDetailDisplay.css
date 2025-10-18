@@ -1,0 +1,654 @@
+/* Class Detail Display Styles */
+
+.class-detail-display {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.class-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
+  border-bottom: 2px solid #8b4513;
+}
+
+.class-header-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+  border: 3px solid #d4af37;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  color: #d4af37;
+}
+
+.class-header-info h2 {
+  font-family: 'Crimson Text', serif;
+  font-size: 2rem;
+  color: #5a1e12;
+  margin: 0 0 10px 0;
+}
+
+.class-header-meta {
+  display: flex;
+  gap: 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+}
+
+.class-role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8b4513;
+}
+
+.class-role i {
+  color: #d4af37;
+}
+
+/* Tabs */
+.class-detail-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #8b4513;
+  padding: 0;
+  background: rgba(139, 69, 19, 0.05);
+}
+
+.class-tab {
+  flex: 1;
+  padding: 15px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #5a1e12;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.class-tab:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #3a0e08;
+}
+
+.class-tab.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-bottom-color: #d4af37;
+  color: #3a0e08;
+}
+
+.class-tab i {
+  font-size: 1rem;
+}
+
+/* Content */
+.class-detail-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px 20px;
+}
+
+.class-detail-section {
+  width: 100%;
+  max-width: none;
+}
+
+.class-intro {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Only add spacing/border when there's content after the intro */
+.class-intro:has(~ .class-subsection),
+.class-detail-section:has(.class-subsection) .class-intro {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.class-intro h3 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.8rem;
+  color: #5a1e12;
+  margin: 0 0 10px 0;
+}
+
+.class-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.2rem;
+  color: #8b4513;
+  font-style: italic;
+  margin: 0 0 15px 0;
+}
+
+.class-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #5a1e12;
+}
+
+/* Subsections */
+.class-subsection {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(248, 244, 230, 0.5);
+  border-left: 4px solid #d4af37;
+  border-radius: 4px;
+}
+
+.class-subsection h4 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.5rem;
+  color: #5a1e12;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.class-subsection h4 i {
+  color: #d4af37;
+  font-size: 1.3rem;
+}
+
+.subsection-content {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #5a1e12;
+}
+
+.subsection-content p {
+  margin: 0 0 15px 0;
+}
+
+.subsection-content strong {
+  color: #3a0e08;
+  font-weight: 600;
+}
+
+/* Resource Table */
+.class-resource-table {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.class-resource-table tbody tr.level-safe {
+  background: rgba(144, 238, 144, 0.1);
+}
+
+.class-resource-table tbody tr.level-low {
+  background: rgba(255, 255, 0, 0.05);
+}
+
+.class-resource-table tbody tr.level-mid {
+  background: rgba(255, 165, 0, 0.1);
+}
+
+.class-resource-table tbody tr.level-high {
+  background: rgba(255, 0, 0, 0.1);
+}
+
+/* Specializations Grid */
+.specializations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.specialization-card {
+  background: #f8f4e6;
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.specialization-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.spec-header {
+  padding: 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.spec-icon {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.spec-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spec-title h4 {
+  margin: 0 0 5px 0;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.spec-theme {
+  margin: 0;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.spec-body {
+  padding: 20px;
+}
+
+.spec-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #5a1e12;
+  margin-bottom: 15px;
+}
+
+.spec-playstyle {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #5a1e12;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: rgba(212, 175, 55, 0.1);
+  border-left: 3px solid #d4af37;
+}
+
+.spec-strengths,
+.spec-weaknesses,
+.spec-key-abilities {
+  margin-bottom: 15px;
+}
+
+.spec-strengths h5,
+.spec-weaknesses h5,
+.spec-key-abilities h5 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  color: #5a1e12;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-strengths h5 i {
+  color: #228b22;
+}
+
+.spec-weaknesses h5 i {
+  color: #dc143c;
+}
+
+.spec-key-abilities h5 i {
+  color: #4169e1;
+}
+
+.spec-strengths ul,
+.spec-weaknesses ul,
+.spec-key-abilities ul {
+  margin: 0;
+  padding-left: 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #5a1e12;
+}
+
+.spec-strengths li,
+.spec-weaknesses li,
+.spec-key-abilities li {
+  margin-bottom: 5px;
+}
+
+/* Passive Abilities */
+.spec-passives {
+  margin-bottom: 15px;
+}
+
+.spec-passives h5 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  color: #5a1e12;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-passives h5 i {
+  color: #d4af37;
+}
+
+.passive-ability {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border-left: 3px solid #8b4513;
+}
+
+.passive-ability.shared {
+  background: rgba(212, 175, 55, 0.1);
+  border-left-color: #d4af37;
+}
+
+.passive-ability.unique {
+  background: rgba(139, 69, 19, 0.1);
+  border-left-color: #8b4513;
+}
+
+.passive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.passive-header strong {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: #3a0e08;
+}
+
+.passive-tier {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  color: #8b4513;
+  font-style: italic;
+}
+
+.passive-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #5a1e12;
+  margin: 0 0 5px 0;
+}
+
+.passive-note {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  color: #8b4513;
+  margin: 0;
+}
+
+.spec-recommendation {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #5a1e12;
+  padding: 10px;
+  background: rgba(139, 69, 19, 0.05);
+  border-radius: 4px;
+  font-style: italic;
+}
+
+/* Spell Grid */
+.spell-category {
+  margin-bottom: 40px;
+}
+
+.spell-category-title {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.4rem;
+  color: #5a1e12;
+  margin: 0 0 15px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(139, 69, 19, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spell-category-title i {
+  color: #ff4500;
+}
+
+/* Two-Column Spell Browser Layout */
+.spell-browser-layout {
+  display: grid;
+  grid-template-columns: 1fr 600px;
+  gap: 30px;
+  align-items: start; /* Align items to the start */
+}
+
+/* Left Column: Spell Icons */
+.spell-icons-column {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  min-height: 100%; /* Ensure column takes full height */
+}
+
+/* Right Column: Spell Detail (Sticky) */
+.spell-detail-column {
+  position: relative;
+  height: 100%; /* Take full height of grid cell */
+}
+
+.spell-detail-sticky {
+  position: -webkit-sticky; /* Safari support */
+  position: sticky;
+  top: 0; /* Stick to the top of the scrolling container */
+  max-height: 100%; /* Take full available height */
+  overflow-y: auto; /* Allow internal scrolling when content is too tall */
+  overflow-x: visible;
+  /* Custom scrollbar styling */
+}
+
+/* Spell Icon Grid */
+.spell-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.spell-icon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(160, 82, 45, 0.02) 100%);
+  border: 2px solid rgba(139, 69, 19, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.spell-icon-card:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border-color: #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
+}
+
+.spell-icon-card.viewing {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.15) 100%);
+  border-color: #d4af37;
+  border-width: 3px;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.spell-icon-image {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #8b4513;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.spell-icon-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spell-icon-name {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a1e12;
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.spell-icon-level {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.7rem;
+  color: #ff4500;
+  background: rgba(255, 69, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 69, 0, 0.3);
+}
+
+/* Spell Detail Section */
+.spell-detail-sticky .unified-spell-card {
+  box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
+}
+
+/* Scrollbar for sticky spell detail */
+.spell-detail-sticky::-webkit-scrollbar {
+  width: 8px;
+}
+
+.spell-detail-sticky::-webkit-scrollbar-track {
+  background: rgba(139, 69, 19, 0.1);
+  border-radius: 4px;
+}
+
+.spell-detail-sticky::-webkit-scrollbar-thumb {
+  background: #8b4513;
+  border-radius: 4px;
+}
+
+.spell-detail-sticky::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Empty State */
+.spell-detail-sticky .empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: rgba(90, 30, 18, 0.5);
+}
+
+.spell-detail-sticky .empty-state i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: rgba(212, 175, 55, 0.3);
+}
+
+.spell-detail-sticky .empty-state p {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* Responsive: Stack on smaller screens */
+@media (max-width: 1400px) {
+  .spell-browser-layout {
+    grid-template-columns: 1fr 500px;
+    gap: 25px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .spell-browser-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .spell-detail-sticky {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+
+  .spell-detail-column {
+    order: -1; /* Show spell detail above icons on mobile */
+  }
+}
+
+.spell-inferno-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(139, 69, 19, 0.1);
+  border-top: 1px solid rgba(139, 69, 19, 0.2);
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+}
+
+.inferno-required {
+  color: #8b4513;
+  font-weight: 600;
+}
+
+.inferno-ascend {
+  color: #ff4500;
+  font-weight: 600;
+}
+
+.inferno-descend {
+  color: #4682b4;
+  font-weight: 600;
+}
+
+/* Error State */
+.class-detail-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #8b4513;
+}
+
+.class-detail-error i {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #d4af37;
+}
+
+.class-detail-error p {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.2rem;
+}
+

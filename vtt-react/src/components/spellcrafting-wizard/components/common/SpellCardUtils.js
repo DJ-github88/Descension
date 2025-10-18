@@ -289,11 +289,11 @@ const convertStatToReadable = (stat) => {
     'intelligence': 'Intelligence',
     'str': 'Strength',
     'strength': 'Strength',
-    'dex': 'Dexterity',
+    'agi': 'Agility',
     'agility': 'Agility',
     'con': 'Constitution',
     'constitution': 'Constitution',
-    'wis': 'Wisdom',
+    'spi': 'Spirit',
     'spirit': 'Spirit',
     'cha': 'Charisma',
     'charisma': 'Charisma',
@@ -445,9 +445,9 @@ export const formatFormulaToReadableText = (formula, drawCount = 4) => {
   readableText = readableText.replace(/\b(intelligence|INT)\b/gi, 'Intelligence');
   readableText = readableText.replace(/\b(healingpower|healingPower|HEA)\b/gi, 'Healing Power');
   readableText = readableText.replace(/\b(strength|STR)\b/gi, 'Strength');
-  readableText = readableText.replace(/\b(agility|dexterity|DEX)\b/gi, 'Agility');
+  readableText = readableText.replace(/\b(agility|AGI)\b/gi, 'Agility');
   readableText = readableText.replace(/\b(constitution|CON)\b/gi, 'Constitution');
-  readableText = readableText.replace(/\b(spirit|wisdom|WIS)\b/gi, 'Spirit');
+  readableText = readableText.replace(/\b(spirit|SPI)\b/gi, 'Spirit');
   readableText = readableText.replace(/\b(charisma|CHA)\b/gi, 'Charisma');
   readableText = readableText.replace(/\b(damage)\b/gi, 'might');
   readableText = readableText.replace(/\b(rangeddamage|rangedDamage)\b/gi, 'precision');

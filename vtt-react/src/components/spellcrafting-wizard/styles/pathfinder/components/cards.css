@@ -2011,6 +2011,98 @@
   font-weight: var(--pf-font-bold);
 }
 
+/* ===== INFERNO COSTS (STYLED LIKE RESOURCE COSTS) ===== */
+
+.pf-spell-inferno-costs {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.pf-inferno-cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  min-width: auto;
+  justify-content: flex-start;
+  line-height: 1;
+  margin-right: var(--pf-space-2);
+}
+
+.pf-inferno-icon {
+  font-size: 12px;
+  margin-right: 2px;
+  color: #ffffff !important;
+}
+
+.pf-inferno-amount {
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1;
+  margin-right: 2px;
+}
+
+.pf-inferno-name {
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+}
+
+/* ===== MUSICAL COMBO (STYLED LIKE RESOURCE COSTS) ===== */
+
+.pf-spell-musical-combo {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.pf-musical-note-gen,
+.pf-musical-note-req,
+.pf-musical-cadence-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  min-width: auto;
+  justify-content: flex-start;
+  line-height: 1;
+  margin-right: var(--pf-space-2);
+}
+
+.pf-musical-icon {
+  font-size: 12px;
+  margin-right: 2px;
+  color: #ffffff !important;
+}
+
+.pf-musical-amount {
+  font-weight: var(--pf-font-bold);
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1;
+  margin-right: 2px;
+}
+
+.pf-musical-name {
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+}
+
 /* ===== IMPROVED SPELL CARD LAYOUT ===== */
 
 /* Auto-sizing description for spell cards */
@@ -3712,6 +3804,48 @@
   font-family: var(--pf-font-body);
   min-height: 28px;
   margin-top: auto; /* Push to bottom of card */
+  gap: var(--pf-space-3);
+}
+
+/* Inferno Requirements */
+.unified-spell-inferno-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+  align-items: center;
+}
+
+.inferno-required-badge,
+.inferno-ascend-badge,
+.inferno-descend-badge {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-bold);
+  font-family: var(--pf-font-ui);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius);
+  border: 2px solid;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.inferno-required-badge {
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.15) 0%, rgba(178, 34, 34, 0.1) 100%);
+  border-color: #8b0000;
+  color: #8b0000;
+}
+
+.inferno-ascend-badge {
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.15) 0%, rgba(255, 140, 0, 0.1) 100%);
+  border-color: #ff4500;
+  color: #ff4500;
+}
+
+.inferno-descend-badge {
+  background: linear-gradient(135deg, rgba(70, 130, 180, 0.15) 0%, rgba(100, 149, 237, 0.1) 100%);
+  border-color: #4682b4;
+  color: #4682b4;
 }
 
 .unified-spell-tags {

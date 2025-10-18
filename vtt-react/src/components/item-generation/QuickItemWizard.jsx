@@ -710,9 +710,9 @@ const getStatModifierFromPrompt = (words, stat) => {
     const statKeywords = {
         strength: ['strength', 'str', 'powerful'],
         constitution: ['constitution', 'con', 'sturdy', 'tough'],
-        agility: ['agility', 'dexterity', 'dex', 'agile'],
+        agility: ['agility', 'agi', 'agile'],
         intelligence: ['intelligence', 'int', 'smart'],
-        spirit: ['spirit', 'wisdom', 'wis'],
+        spirit: ['spirit', 'spi'],
         charisma: ['charisma', 'cha']
     };
 
@@ -789,9 +789,9 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             const statKeywords = {
                 strength: ['strength', 'str', 'powerful'],
                 constitution: ['constitution', 'con', 'sturdy', 'tough'],
-                dexterity: ['dexterity', 'dex', 'agile'],
+                agility: ['agility', 'agi', 'agile'],
                 intelligence: ['intelligence', 'int', 'smart'],
-                wisdom: ['wisdom', 'wis'],
+                spirit: ['spirit', 'spi'],
                 charisma: ['charisma', 'cha']
             };
 

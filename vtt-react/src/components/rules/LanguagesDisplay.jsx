@@ -76,31 +76,33 @@ const LanguagesDisplay = () => {
     if (!selectedCategory && !selectedLanguage) {
         return (
             <div className="background-selector">
-                <div className="step-description">
-                    <p>Languages allow your character to communicate with different creatures and cultures. Your race grants you certain languages automatically, and you can learn additional languages from your background, class, or through gameplay.</p>
-                </div>
+                <div className="language-categories-view">
+                    <div className="step-description">
+                        <p>Languages allow your character to communicate with different creatures and cultures. Your race grants you certain languages automatically, and you can learn additional languages from your background, class, or through gameplay.</p>
+                    </div>
 
-                <div className="background-grid">
-                    {Object.entries(LANGUAGE_CATEGORIES).map(([categoryId, categoryData]) => {
-                        const languages = languagesByCategory[categoryId] || [];
-                        return (
-                            <div
-                                key={categoryId}
-                                className="background-card"
-                                onClick={() => handleCategoryClick(categoryId)}
-                            >
-                                <div className="background-card-header">
-                                    <h3>{categoryData.name}</h3>
+                    <div className="background-grid">
+                        {Object.entries(LANGUAGE_CATEGORIES).map(([categoryId, categoryData]) => {
+                            const languages = languagesByCategory[categoryId] || [];
+                            return (
+                                <div
+                                    key={categoryId}
+                                    className="background-card"
+                                    onClick={() => handleCategoryClick(categoryId)}
+                                >
+                                    <div className="background-card-header">
+                                        <h3>{categoryData.name}</h3>
+                                    </div>
+                                    <p className="background-description">{categoryData.description}</p>
+                                    <div className="info-badges">
+                                        <span className="info-badge">
+                                            <i className={`fas ${categoryData.icon}`}></i> {languages.length} Languages
+                                        </span>
+                                    </div>
                                 </div>
-                                <p className="background-description">{categoryData.description}</p>
-                                <div className="info-badges">
-                                    <span className="info-badge">
-                                        <i className={`fas ${categoryData.icon}`}></i> {languages.length} Languages
-                                    </span>
-                                </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         );
@@ -113,33 +115,35 @@ const LanguagesDisplay = () => {
 
         return (
             <div className="background-selector">
-                <button className="back-button" onClick={handleBackClick}>
-                    <i className="fas fa-arrow-left"></i> Back to Categories
-                </button>
+                <div className="language-list-view">
+                    <button className="back-button" onClick={handleBackClick}>
+                        <i className="fas fa-arrow-left"></i> Back to Categories
+                    </button>
 
-                <div className="background-overview">
-                    <h2>{categoryData.name}</h2>
-                    <p>{categoryData.description}</p>
-                </div>
+                    <div className="background-overview">
+                        <h2>{categoryData.name}</h2>
+                        <p>{categoryData.description}</p>
+                    </div>
 
-                <div className="background-grid">
-                    {categoryLanguages.map((language) => (
-                        <div
-                            key={language.name}
-                            className="background-card"
-                            onClick={() => handleLanguageClick(language)}
-                        >
-                            <div className="background-card-header">
-                                <h3>{language.name}</h3>
+                    <div className="background-grid">
+                        {categoryLanguages.map((language) => (
+                            <div
+                                key={language.name}
+                                className="background-card"
+                                onClick={() => handleLanguageClick(language)}
+                            >
+                                <div className="background-card-header">
+                                    <h3>{language.name}</h3>
+                                </div>
+                                <p className="background-description">{language.description}</p>
+                                <div className="info-badges">
+                                    <span className="info-badge">
+                                        <i className={`fas ${language.icon}`}></i> {categoryData.name}
+                                    </span>
+                                </div>
                             </div>
-                            <p className="background-description">{language.description}</p>
-                            <div className="info-badges">
-                                <span className="info-badge">
-                                    <i className={`fas ${language.icon}`}></i> {categoryData.name}
-                                </span>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -155,7 +159,7 @@ const LanguagesDisplay = () => {
                     <i className="fas fa-arrow-left"></i> Back to {categoryData.name}
                 </button>
 
-                <div className="background-detail-view">
+                <div className="language-detail-view">
                     {/* Header */}
                     <div className="background-overview">
                         <h2>{selectedLanguage.name}</h2>
@@ -165,15 +169,11 @@ const LanguagesDisplay = () => {
                     {/* Category */}
                     <div className="benefits-section">
                         <h4>Language Type</h4>
-                        <div className="feature-card">
-                            <div className="feature-header">
-                                <div className="feature-icon">
-                                    <i className={`fas ${categoryData.icon}`}></i>
-                                </div>
-                                <h5 className="feature-name">{categoryData.name}</h5>
-                            </div>
-                            <p className="feature-description">{categoryData.description}</p>
+                        <div className="language-type-badge">
+                            <i className={`fas ${categoryData.icon}`}></i>
+                            <span>{categoryData.name}</span>
                         </div>
+                        <p className="language-type-description">{categoryData.description}</p>
                     </div>
 
                     {/* Typical Speakers */}

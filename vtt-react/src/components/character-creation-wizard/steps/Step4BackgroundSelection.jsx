@@ -35,8 +35,7 @@ const Step4BackgroundSelection = () => {
 
     return (
         <div className="wizard-step-content">
-            <div className="step-body">
-                <div className="background-selection-layout">
+            <div className="background-selection-layout">
                     {/* Left side - Background grid */}
                     <div className="background-grid-container">
                         <div className="background-grid">
@@ -231,10 +230,7 @@ const Step4BackgroundSelection = () => {
                         )}
                     </div>
                 </div>
-
-
-                </div>
-            </div>
+        </div>
     );
 };
 

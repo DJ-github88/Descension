@@ -28,6 +28,13 @@ const RollableTableSummary = ({
     entries = []
   } = rollableTableData;
 
+  // Debug logging
+  console.log('RollableTableSummary - rollableTableData:', rollableTableData);
+  console.log('RollableTableSummary - entries:', entries);
+  if (entries.length > 0) {
+    console.log('RollableTableSummary - first entry:', entries[0]);
+  }
+
   // Format resolution method display
   const formatResolutionMethod = () => {
     switch (resolutionType) {
@@ -106,15 +113,17 @@ const RollableTableSummary = ({
                 const formatRange = (entry, resolutionType) => {
                   switch (resolutionType) {
                     case 'DICE':
-                      if (!entry.range) return `${index + 1}`;
-                      if (typeof entry.range === 'object' && entry.range.min !== undefined && entry.range.max !== undefined) {
+                      if (!entry || !entry.range) return `${index + 1}`;
+                      if (typeof entry.range === 'object' && entry.range !== null && entry.range.min !== undefined && entry.range.max !== undefined) {
                         return entry.range.min === entry.range.max ? `${entry.range.min}` : `${entry.range.min}-${entry.range.max}`;
                       }
                       return String(entry.range);
                     case 'CARDS':
-                      return entry.cardPattern || `Card ${index + 1}`;
+                      // For CARDS, use cardPattern first, then range (which stores card pattern), then fallback
+                      return entry.cardPattern || entry.range || `Card ${index + 1}`;
                     case 'COINS':
-                      return entry.coinPattern || `Coin ${index + 1}`;
+                      // For COINS, use coinPattern first, then range (which stores coin pattern), then fallback
+                      return entry.coinPattern || entry.range || `Coin ${index + 1}`;
                     default:
                       return `${index + 1}`;
                   }
@@ -219,15 +228,17 @@ const RollableTableSummary = ({
               const formatRange = (entry, resolutionType) => {
                 switch (resolutionType) {
                   case 'DICE':
-                    if (!entry.range) return `${index + 1}`;
-                    if (typeof entry.range === 'object' && entry.range.min !== undefined && entry.range.max !== undefined) {
+                    if (!entry || !entry.range) return `${index + 1}`;
+                    if (typeof entry.range === 'object' && entry.range !== null && entry.range.min !== undefined && entry.range.max !== undefined) {
                       return entry.range.min === entry.range.max ? `${entry.range.min}` : `${entry.range.min}-${entry.range.max}`;
                     }
                     return String(entry.range);
                   case 'CARDS':
-                    return entry.cardPattern || `Card ${index + 1}`;
+                    // For CARDS, use cardPattern first, then range (which stores card pattern), then fallback
+                    return entry.cardPattern || entry.range || `Card ${index + 1}`;
                   case 'COINS':
-                    return entry.coinPattern || `Coin ${index + 1}`;
+                    // For COINS, use coinPattern first, then range (which stores coin pattern), then fallback
+                    return entry.coinPattern || entry.range || `Coin ${index + 1}`;
                   default:
                     return `${index + 1}`;
                 }
