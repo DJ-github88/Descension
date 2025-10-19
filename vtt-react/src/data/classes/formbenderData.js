@@ -47,6 +47,120 @@ export const FORMBENDER_DATA = {
 - **Frostfang**: Tracking, pack tactics, and coordinated strikes
 
 **Escalating Power**: Wild Instinct abilities scale from 1-5 WI, allowing you to choose between frequent small boosts or saving for devastating ultimate abilities. This creates meaningful moment-to-moment decisions in combat.`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Shapeshifter\'s Dance',
+      content: `**The Setup**: You're a Formbender (Metamorph specialization) ambushing a group of bandits (3 bandits + 1 bandit leader) in a forest. Your party is with you. Starting Wild Instinct: 6 (banked from previous encounter). Your goal: Use multiple forms strategically, generate Wild Instinct through form-specific actions, and adapt to the changing battle.
+
+**Starting State**: Wild Instinct: 6/15 | HP: 75/75 | Form: Human (not transformed)
+
+**Turn 1 - Opening Ambush (WI: 6 → 8, Form: Nightstalker)**
+
+*You crouch in the shadows, watching the bandits make camp. Time to strike. You focus on the primal energy within, and your body SHIFTS.*
+
+**Free Action**: Transform into Nightstalker form (FREE - first transformation of combat)
+**Effect**: Your body shrinks, muscles coiling like a panther. Black fur ripples across your skin. Your eyes glow yellow. You're a predator now.
+
+**Your Action**: Ambush from Stealth on Bandit #1 (form-specific ability)
+**Attack Roll**: d20+6 (advantage from stealth) → [19] = Critical Hit!
+**Damage**: 4d8 (crit) + 2d6 (sneak attack) → [7, 8, 6, 7] + [5, 6] = 39 damage!
+**Wild Instinct Generated**: +2 WI (Ambush from Stealth - form-specific ability)
+**Result**: Bandit #1 DEAD (overkill)
+
+*You leap from the shadows, claws extended. The bandit doesn't even scream—your jaws close around his throat before he can react. The primal energy surges through you.*
+
+**Wild Instinct**: 6 + 2 = **8 WI**
+**Current Form**: Nightstalker (stealth, burst damage)
+
+**Turn 2 - Form Switch (WI: 8 → 9, Form: Nightstalker → Ironhide)**
+
+*The bandits shout in alarm. The leader draws his sword. Your party's mage is exposed—the bandits are charging her. Time to TANK.*
+
+**Your Action**: Transform into Ironhide form (costs 1 WI)
+**Wild Instinct**: 8 - 1 = **7 WI**
+
+*Your body EXPLODES in size. Fur becomes thick hide. Claws become massive paws. You're a BEAR now—800 pounds of muscle and fury. You roar, positioning yourself between the bandits and your mage.*
+
+**Your Action**: Taunt all 3 enemies (form-specific action)
+**Effect**: All bandits must attack you instead of allies
+**Wild Instinct Generated**: +1 WI per enemy taunted = +3 WI
+**Wild Instinct**: 7 + 3 = **10 WI**
+
+*"COME ON!" you roar in a voice that's half-human, half-beast. The bandits hesitate, then charge YOU instead of your mage. Perfect.*
+
+**Bandit #2's Turn**: Attacks you → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
+**Bandit #3's Turn**: Attacks you → Hit! → 2d6+3 → [6, 3] + 3 = 9 damage
+**Bandit Leader's Turn**: Attacks you → Hit! → 3d6+4 → [5, 6, 4] + 4 = 19 damage
+
+**Total Damage Taken**: 12 + 9 + 19 = 40 damage
+**Your HP**: 75 - 40 = 35/75
+**Ironhide Passive**: As a bear, you have +20 HP and damage resistance → Effective HP: 55/95, damage reduced to 20
+
+*The bandits' weapons bounce off your thick hide. You barely feel it. This is what Ironhide form is FOR.*
+
+**Current State**: WI: 10/15 | HP: 55/95 (Ironhide form) | Form: Ironhide
+
+**Turn 3 - Spending Wild Instinct (WI: 10 → 5)**
+
+*You're at 10 WI. Time to spend it. You have a Tier 5 ultimate ability: "Primal Fury" (costs 5 WI) - massive AoE damage.*
+
+**Your Action**: Use "Primal Fury" (5 WI, Ironhide ultimate)
+**Wild Instinct**: 10 - 5 = **5 WI**
+**Effect**: You rear up on hind legs and SLAM the ground with both paws
+
+*The earth SHAKES. A shockwave of primal energy explodes outward, hitting all enemies within 15 feet.*
+
+**Damage Roll**: 5d10 (Tier 5 ability) → [8, 9, 7, 10, 6] = 40 damage to ALL bandits!
+**Results**:
+- Bandit #2: 40 damage → DEAD
+- Bandit #3: 40 damage → DEAD
+- Bandit Leader: 60 HP - 40 damage = 20 HP remaining, STUNNED for 1 round
+
+*Two bandits are crushed by the shockwave. The leader staggers, stunned.*
+
+**Current State**: WI: 5/15 | HP: 55/95 | Form: Ironhide
+
+**Turn 4 - Aerial Assault (WI: 5 → 6, Form: Ironhide → Skyhunter)**
+
+*The leader is stunned but will recover next turn. He's trying to flee. Time to CUT HIM OFF.*
+
+**Your Action**: Transform into Skyhunter form (costs 1 WI)
+**Wild Instinct**: 5 - 1 = **4 WI**
+
+*Your massive bear form SHRINKS. Wings erupt from your back. Feathers replace fur. You're an EAGLE now—a massive raptor with razor talons. You take flight.*
+
+**Your Action**: Dive Attack on Bandit Leader (form-specific ability, generates 2 WI)
+**Attack Roll**: d20+6 (advantage from dive) → [18] = Hit!
+**Damage**: 3d8 (dive attack) + 2d6 (momentum) → [7, 8, 6] + [5, 6] = 32 damage
+**Wild Instinct Generated**: +2 WI (Dive Attack - form-specific ability)
+**Wild Instinct**: 4 + 2 = **6 WI**
+
+*You dive from 50 feet up, talons extended. The leader looks up just in time to see death descending. Your talons pierce his chest. He falls.*
+
+**Bandit Leader**: 20 HP - 32 damage = DEAD
+
+**Combat Over**
+
+*You land gracefully, wings folding. Your party stares at you—you've been three different animals in four turns. You shift back to human form, breathing heavily.*
+
+**Your Party's Tank**: "That was... incredible. You were a panther, then a bear, then an eagle."
+**You**: "Formbender. I'm whatever the situation needs me to be."
+**Your Party's Mage**: "Thanks for tanking those hits. I would've died."
+**You**: "That's what Ironhide form is for. Nightstalker for ambush, Ironhide for tanking, Skyhunter for mobility. Each form has a purpose."
+
+**Final State**: WI: 6/15 (banked for next fight) | HP: 55/95 (will heal when you drop Ironhide form)
+
+**The Lesson**: Formbender gameplay is about:
+1. **Free First Transform**: Started combat with free Nightstalker transformation (no WI cost)
+2. **Form-Specific Generation**: Generated 2 WI from Ambush (Nightstalker), 3 WI from Taunt (Ironhide), 2 WI from Dive Attack (Skyhunter) = 7 WI total
+3. **Form Switching**: Switched forms twice (Nightstalker → Ironhide → Skyhunter) at 1 WI each = 2 WI spent
+4. **Ultimate Ability**: Spent 5 WI on Primal Fury (Tier 5 ability) for 40 AoE damage
+5. **Form Synergy**: Nightstalker for burst → Ironhide for tanking → Skyhunter for mobility/finishing
+6. **Resource Banking**: Started with 6 WI (banked from previous fight), ended with 6 WI (ready for next fight)
+7. **Adaptation**: Changed forms to match the situation (stealth → tank → aerial pursuit)
+
+You're not locked into one role. You're a SHAPESHIFTER. Panther when you need stealth. Bear when you need to tank. Eagle when you need to fly. Each form generates Wild Instinct differently, and each form spends it on unique abilities. The key is knowing when to switch, when to spend, and when to save. You're not just a damage dealer or a tank—you're EVERYTHING, one transformation at a time.`
     }
   },
   
@@ -54,8 +168,123 @@ export const FORMBENDER_DATA = {
   resourceSystem: {
     title: 'Wild Instinct System',
     subtitle: 'Primal Energy Through Form Mastery',
-    
+
     description: `Wild Instinct is the primal energy that fuels the Formbender's transformations and abilities. This resource is gathered through actions that align with each form's nature and spent to unleash powerful form-specific abilities or switch between forms mid-combat.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Wild Instinct Gauge',
+      content: `**What You See**: Your Wild Instinct gauge displays as a horizontal bar with 15 segments, each representing 1 Wild Instinct point. The bar's appearance changes based on your current form, with each form having a unique visual theme and color scheme.
+
+**Form-Specific Visual Themes**:
+
+**Human Form (No Transformation)**:
+- Bar: Gray/neutral color, no special effects
+- Border: White (neutral)
+- Status: "Not Transformed"
+- WI Display: "6/15 Wild Instinct"
+
+**Nightstalker Form (Panther/Stealth)**:
+- Bar: Deep purple-black with shadowy wisps
+- Border: Dark purple
+- Form Icon: Panther silhouette with glowing yellow eyes
+- Status: "Nightstalker - Stealth & Burst Damage"
+- WI Display: "8/15 Wild Instinct" with shadow particle effects
+- Special Effect: Bar pulses when in stealth
+
+**Ironhide Form (Bear/Tank)**:
+- Bar: Brown-gray with rocky texture
+- Border: Dark brown
+- Form Icon: Bear silhouette with thick hide
+- Status: "Ironhide - Tank & Durability"
+- WI Display: "10/15 Wild Instinct" with earth particle effects
+- Special Effect: Bar glows when taunting enemies
+
+**Skyhunter Form (Eagle/Mobility)**:
+- Bar: Sky blue with feather patterns
+- Border: Light blue
+- Form Icon: Eagle silhouette with spread wings
+- Status: "Skyhunter - Mobility & Aerial Control"
+- WI Display: "6/15 Wild Instinct" with wind particle effects
+- Special Effect: Bar shimmers when airborne
+
+**Frostfang Form (Wolf/Pack Tactics)**:
+- Bar: Icy blue-white with frost patterns
+- Border: Frost blue
+- Form Icon: Wolf silhouette with bared fangs
+- Status: "Frostfang - Pack Tactics & Tracking"
+- WI Display: "7/15 Wild Instinct" with snow particle effects
+- Special Effect: Bar pulses when near allies (pack bonus)
+
+**Wild Instinct Level Indicators** (applies to all forms):
+
+**0-3 WI (Low Reserve)**:
+- Bar: 0-3 segments filled, dim glow
+- Border: Red (warning)
+- Status: "Low Wild Instinct"
+- Warning: "Cannot use Tier 3+ abilities"
+
+**4-7 WI (Moderate Reserve)**:
+- Bar: 4-7 segments filled, moderate glow
+- Border: Yellow (caution)
+- Status: "Moderate Wild Instinct"
+- Available: "Tier 1-3 abilities available"
+
+**8-11 WI (Good Reserve)**:
+- Bar: 8-11 segments filled, bright glow
+- Border: Green (good)
+- Status: "Good Wild Instinct"
+- Available: "Tier 1-4 abilities available"
+
+**12-15 WI (Maximum Reserve)**:
+- Bar: 12-15 segments filled, intense glow
+- Border: Blue (excellent)
+- Status: "Maximum Wild Instinct"
+- Available: "ALL abilities available (including Tier 5 ultimates)"
+
+**Wild Instinct Generation Animation**:
+When you generate Wild Instinct:
+- **+1 WI (Standard Action)**: Single primal energy orb flows from your character to the bar, fills 1 segment
+- **+2 WI (Form-Specific Ability)**: Two primal energy orbs flow to bar, fills 2 segments with brighter animation
+- **Audio**: Primal growl/roar sound effect (varies by form)
+- **Text Popup**: "+2 Wild Instinct (Ambush from Stealth)" or "+1 WI (Taunt)"
+
+**Wild Instinct Spending Animation**:
+When you spend Wild Instinct:
+- **Form Switch (1 WI)**: 1 segment drains, transformation animation plays (body morphs into new form)
+- **Ability Use (1-5 WI)**: Segments drain with reverse animation, ability effect plays
+- **Audio**: Ability-specific sound (roar for Primal Fury, screech for Dive Attack, etc.)
+- **Text Popup**: "-5 Wild Instinct (Primal Fury)" or "-1 WI (Form Switch)"
+
+**Form Transformation Visual**:
+When you transform:
+- **Current Form Icon**: Fades out with dissolve effect
+- **Transformation Animation**: Your character model morphs (human → panther → bear → eagle → wolf)
+- **New Form Icon**: Fades in with glow effect
+- **Bar Color Change**: Smoothly transitions to new form's color scheme
+- **Audio**: Transformation sound (bones cracking, fur growing, wings sprouting)
+- **Duration**: 1-2 second animation
+
+**Ability Tier Display**:
+Below the Wild Instinct bar, ability buttons show:
+- **Tier 1 (1 WI)**: Small icon, always available if you have 1+ WI
+- **Tier 2 (2 WI)**: Medium icon, available if you have 2+ WI
+- **Tier 3 (3 WI)**: Large icon, available if you have 3+ WI
+- **Tier 4 (4 WI)**: Larger icon, available if you have 4+ WI
+- **Tier 5 (5 WI)**: HUGE icon, glows when available (5+ WI), labeled "ULTIMATE"
+
+**Form Switch Button**:
+- **Button**: "Transform" with dropdown menu showing all 4 forms
+- **Cost Display**: "1 Wild Instinct" (grayed out if you have 0 WI)
+- **Current Form**: Highlighted in dropdown
+- **Hover**: Shows form preview (stats, abilities, generation methods)
+
+**Persistence Indicator**:
+- **Between Combats**: Wild Instinct bar shows "Banked: 6/15 WI - Persists to next combat"
+- **Visual**: Bar has a "locked" icon indicating WI won't decay
+- **Strategic Info**: "Wild Instinct does not decay - save for crucial encounters"
+
+**Why This Matters**: The Wild Instinct gauge isn't just a resource bar—it's a visual representation of your primal connection. When you transform into Nightstalker, the bar turns shadowy purple and pulses with stealth energy. When you switch to Ironhide, it becomes rocky brown and glows with earth power. Each form FEELS different visually. The form-specific colors, icons, and particle effects make it immediately obvious which form you're in and how much power you have. When you hit 15 WI and the bar glows blue with "ULTIMATE AVAILABLE," you KNOW you can unleash Primal Fury. The transformation animations make each form switch feel impactful—you're not just changing stats, you're becoming a different CREATURE. And the persistence indicator reminds you that Wild Instinct banks between fights, encouraging strategic resource management across multiple encounters.`
+    },
 
     mechanics: {
       title: 'Core Mechanics',

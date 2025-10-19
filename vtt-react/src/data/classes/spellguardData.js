@@ -115,6 +115,230 @@ The Spellguard excels at absorbing magical damage and disrupting enemy spellcast
 - **AEP Banking**: Save AEP for critical moments rather than spending immediately
 - **Mana Pressure**: Constantly drain enemy casters to limit their options
 - **Zone Control**: Use anti-magic zones to deny areas to enemy casters`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Spell Eater',
+      content: `**The Setup**: You're a Spellguard (Arcane Warden specialization) facing a group of enemy mages (3 fire mages + 1 archmage). Your party is with you. Starting AEP: 0. Starting Mana: 40/50. Your goal: Absorb enemy spells to generate AEP, then use that AEP to protect allies and reflect spells back at enemies.
+
+**Starting State**: AEP: 0/100 | Mana: 40/50 | HP: 70/70 | Shield: 0
+
+**Turn 1 - First Absorption (AEP: 0 → 18)**
+
+*Three fire mages and an archmage stand before you. They begin casting. Perfect. You HUNGER for their magic.*
+
+**Fire Mage #1's Turn**: Casts Fireball at your party (targeting you and 2 allies)
+**Fireball Damage**: 28 fire damage to all targets
+
+**Your Reaction**: "Arcane Absorption" (passive ability, no cost)
+**Effect**: You absorb the magical damage, converting it to AEP instead of HP damage
+
+*The fireball SLAMS into you. But instead of burning, the flames are PULLED INTO YOUR BODY. Your armor glows with absorbed energy.*
+
+**Damage Absorbed**: 28 fire damage → 0 HP damage taken
+**AEP Generated**: 28 damage absorbed × 0.5 = **14 AEP**
+**AEP**: 0 + 14 = **14/100**
+
+**Your Allies**: Still take 28 fire damage each (you only absorbed your portion)
+
+**Your Party's Mage**: "The fireball... you just ATE it!"
+**You**: "Arcane Absorption. I convert magical damage to Arcane Energy Points. I have 14 AEP now."
+
+**Fire Mage #2's Turn**: Casts Lightning Bolt at you
+**Lightning Damage**: 22 lightning damage
+
+**Your Reaction**: Arcane Absorption (passive)
+**Damage Absorbed**: 22 lightning damage → 0 HP damage taken
+**AEP Generated**: 22 × 0.5 = **11 AEP**
+**AEP**: 14 + 11 = **25/100**
+
+*Lightning CRASHES into you. Your body DRINKS IT IN. Your eyes glow with crackling energy.*
+
+**Your Action**: Melee attack Fire Mage #1 (no mana cost)
+**Attack Roll**: d20+5 → [16] = Hit!
+**Damage**: 2d8+3 → [7, 6] + 3 = **16 damage**
+**Mana Drain**: Fire Mage #1 loses 1d4 → [3] = 3 mana
+
+*Your weapon PULSES with anti-magic energy. When it strikes, it DRAINS the mage's mana.*
+
+**Fire Mage #1**: Takes 16 damage, loses 3 mana
+
+**Current State**: AEP: 25/100 | Mana: 40/50 | HP: 70/70
+
+**Turn 2 - Building Power (AEP: 25 → 53)**
+
+*The archmage begins casting. You can feel the power building. This will be a BIG spell.*
+
+**Archmage's Turn**: Casts "Meteor Swarm" at your party (massive AoE)
+**Meteor Damage**: 45 fire damage to all party members
+
+**Your Reaction**: "Spell Interception" (10 AEP, intercept spell targeting ally)
+**Effect**: You jump in front of your healer, taking their portion of the damage
+
+*You LEAP in front of your healer. The meteor SLAMS into you instead of them.*
+
+**Damage Absorbed**: 45 (your portion) + 45 (healer's portion) = **90 fire damage total**
+**Arcane Absorption**: 90 damage → 0 HP damage taken
+**AEP Generated**: 90 × 0.5 = **45 AEP**
+**AEP**: 25 - 10 (Spell Interception cost) + 45 (absorption) = **60/100**
+
+**Your Party's Healer**: "You... you saved me! You took the entire meteor!"
+**You**: "Spell Interception. Cost me 10 AEP, but I absorbed 90 damage and gained 45 AEP. Net gain: 35 AEP. I'm at 60 AEP now."
+
+**Fire Mage #3's Turn**: Casts Fireball at you
+**Fireball Damage**: 26 fire damage
+
+**Arcane Absorption**: 26 damage → 0 HP damage taken
+**AEP Generated**: 26 × 0.5 = **13 AEP**
+**AEP**: 60 + 13 = **73/100**
+
+*Another fireball. Another meal. Your armor is BLAZING with absorbed magical energy.*
+
+**Your Action**: Cast "Arcane Shield" on your mage (15 AEP)
+**Effect**: Target ally gains shield absorbing 30 magical damage
+
+**AEP**: 73 - 15 = **58/100**
+
+*You gesture at your mage. A shimmering barrier of absorbed arcane energy surrounds them.*
+
+**Your Party's Mage**: "I feel... protected. What is this?"
+**You**: "Arcane Shield. Spent 15 AEP to give you a 30-damage shield against magic. You're safe now."
+
+**Current State**: AEP: 58/100 | Mana: 40/50 | HP: 70/70
+
+**Turn 3 - Spell Reflection (AEP: 58 → 71)**
+
+*The enemy mages are starting to realize their spells are feeding you. But they have no choice—they're casters. Magic is all they have.*
+
+**Fire Mage #1's Turn**: Casts Fireball at you
+**Fireball Damage**: 30 fire damage
+
+**Your Reaction**: "Spell Reflection" (25 AEP, reflect spell back at caster)
+**Effect**: The fireball is REFLECTED back at Fire Mage #1
+
+*You raise your hand. The fireball STOPS in mid-air, hovering. Then it REVERSES, flying back at the caster.*
+
+**AEP**: 58 - 25 = **33/100**
+
+**Fire Mage #1**: Takes 30 fire damage from his own Fireball → **DEAD**
+
+**Your Party's Rogue**: "You just... threw his spell back at him!"
+**You**: "Spell Reflection. Cost 25 AEP. His own fireball killed him."
+
+**Archmage's Turn**: Casts "Chain Lightning" at your party
+**Lightning Damage**: 35 lightning damage, chains to 3 targets
+
+**Your Reaction**: Arcane Absorption (you're one of the targets)
+**Damage Absorbed**: 35 lightning damage → 0 HP damage taken
+**AEP Generated**: 35 × 0.5 = **17 AEP**
+**AEP**: 33 + 17 = **50/100**
+
+**Your Allies**: Take 35 lightning damage each (but your mage's Arcane Shield absorbs it)
+**Mage's Shield**: 30/30 → 0/30 (absorbed 30 damage, took 5 HP damage)
+
+**Your Action**: Melee attack Archmage (no mana cost)
+**Attack Roll**: d20+5 → [18] = Hit!
+**Damage**: 2d8+3 → [8, 7] + 3 = **18 damage**
+**Mana Drain**: Archmage loses 1d4 → [4] = 4 mana
+
+*You close the distance and strike. Your weapon DRAINS the archmage's mana.*
+
+**Archmage**: Takes 18 damage, loses 4 mana
+
+**Fire Mage #2's Turn**: Casts Fireball at you
+**Fireball Damage**: 28 fire damage
+
+**Arcane Absorption**: 28 damage → 0 HP damage taken
+**AEP Generated**: 28 × 0.5 = **14 AEP**
+**AEP**: 50 + 14 = **64/100**
+
+**Current State**: AEP: 64/100 | Mana: 40/50 | HP: 70/70
+
+**Turn 4 - Maximum Absorption (AEP: 64 → 85)**
+
+*You're at 64 AEP. The enemy mages are running low on mana from your drains. Time to finish this.*
+
+**Your Action**: Cast "Anti-Magic Zone" (20 mana, creates 15 ft zone)
+**Effect**: All spells cast in zone have disadvantage on attack rolls, spell save DCs reduced by 2
+
+**Mana**: 40 - 20 = 20/50
+
+*You slam your weapon into the ground. A ZONE of anti-magic energy spreads outward, suppressing magical power.*
+
+**Fire Mage #2**: Tries to cast Fireball (inside zone)
+**Spell Save DC**: 15 → 13 (reduced by 2)
+**Your Party**: Easier to save against the spell
+
+**Archmage's Turn**: Casts "Disintegrate" at you (single-target, massive damage)
+**Disintegrate Damage**: 75 force damage
+
+**Your Reaction**: Arcane Absorption
+**Damage Absorbed**: 75 force damage → 0 HP damage taken
+**AEP Generated**: 75 × 0.5 = **37 AEP**
+**AEP**: 64 + 37 = **101/100** → Capped at **100/100** (MAXIMUM AEP)
+
+*The disintegration ray SLAMS into you. Your body DEVOURS it. You are at MAXIMUM ARCANE ENERGY.*
+
+**You**: "MAXIMUM AEP. I've absorbed everything they've thrown at me. Now I unleash it."
+
+**Your Action (Bonus Action)**: "Arcane Detonation" (50 AEP, massive AoE damage)
+**Effect**: Release absorbed energy in 20 ft radius explosion
+**Damage**: 50 force damage to all enemies in radius
+
+**AEP**: 100 - 50 = **50/100**
+
+*You EXPLODE with absorbed magical energy. A shockwave of pure arcane force ERUPTS from your body.*
+
+**Fire Mage #2**: Takes 50 force damage → **DEAD**
+**Fire Mage #3**: Takes 50 force damage → **DEAD**
+**Archmage**: Takes 50 force damage → HEAVILY DAMAGED (near death)
+
+**Your Party's Tank**: "You just... exploded with their own magic!"
+**You**: "Arcane Detonation. I spent 50 AEP to release all the energy I absorbed. That was THEIR magic, turned against them."
+
+**Current State**: AEP: 50/100 | Mana: 20/50 | HP: 70/70
+
+**Turn 5 - Finishing the Archmage**
+
+*Only the archmage remains, heavily damaged and low on mana from your drains.*
+
+**Archmage's Turn**: Casts "Magic Missile" at you (desperate, low mana)
+**Magic Missile Damage**: 3d4+3 → [3, 4, 2] + 3 = **12 force damage**
+
+**Arcane Absorption**: 12 damage → 0 HP damage taken
+**AEP Generated**: 12 × 0.5 = **6 AEP**
+**AEP**: 50 + 6 = **56/100**
+
+**Your Action**: Melee attack Archmage
+**Attack Roll**: d20+5 → [19] = Hit!
+**Damage**: 2d8+3 → [8, 6] + 3 = **17 damage**
+**Mana Drain**: Archmage loses 1d4 → [3] = 3 mana
+
+**Archmage**: Takes 17 damage → **DEAD**
+
+**Combat Over**
+
+*You stand among the fallen mages, your armor still glowing with absorbed arcane energy. You took ZERO damage.*
+
+**Your Party's Healer**: "You didn't take a single point of damage. They hit you with fireballs, lightning, meteors, disintegration rays... and you absorbed EVERYTHING."
+**You**: "Arcane Absorption. Every point of magical damage I take is converted to AEP instead of HP damage. I absorbed 90 damage from the meteor, 75 from disintegrate, and multiple fireballs and lightning bolts. Total: over 300 damage absorbed."
+**Your Party's Mage**: "And you used that energy to protect us and kill them?"
+**You**: "Exactly. I spent 15 AEP to shield you. I spent 25 AEP to reflect a fireball back at a mage, killing him with his own spell. I spent 50 AEP on Arcane Detonation, killing two mages with their own absorbed energy."
+**Your Party's Tank**: "And the mana drains?"
+**You**: "Every melee attack drains 1d4 mana from enemy casters. I drained the archmage for 4, 3, and 3 mana across three hits. That's 10 mana stolen, limiting his spell options."
+
+**Final State**: AEP: 56/100 | Mana: 20/50 | HP: 70/70 (full health, zero damage taken)
+
+**The Lesson**: Spellguard gameplay is about:
+1. **Arcane Absorption**: Converted 300+ magical damage to 0 HP damage, generated 100+ AEP
+2. **Spell Interception**: Jumped in front of healer, absorbed their meteor damage (90 damage)
+3. **Spell Reflection**: Reflected fireball back at caster for 30 damage, killing them with their own spell
+4. **Arcane Shield**: Spent 15 AEP to protect ally with 30-damage shield
+5. **Arcane Detonation**: Spent 50 AEP to deal 50 AoE damage, killing 2 mages
+6. **Mana Drain**: Drained 10+ mana from archmage through melee attacks
+7. **AEP Management**: Built from 0 → 100 (max) → 50 (after detonation) → 56 (final)
+
+You're the ultimate ANTI-MAGE TANK. Enemy spells don't hurt you—they FEED you. Every fireball, every lightning bolt, every meteor is FUEL for your abilities. You absorbed a 75-damage disintegration ray and took ZERO damage. You intercepted a meteor to save your healer. You reflected a fireball back at its caster. You detonated 50 AEP of absorbed energy, killing two mages with their own magic. Against spellcasters, you're INVINCIBLE. You're not just a tank—you're a SPELL EATER.`
     }
   },
   

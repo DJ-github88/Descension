@@ -15,7 +15,20 @@ export const BERSERKER_DATA = {
   overview: {
     title: 'The Berserker',
     subtitle: 'Fury-Driven Warrior',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Berserker builds Rage (0-100) through combat actions and ascends through six escalating Rage States, each unlocking more powerful abilities. The longer you fight, the stronger you become—but exceed 101 Rage without spending it and you Overheat, taking 2d6 damage and resetting to 0.
+
+**Core Mechanic**: Attack/take damage → Build Rage → Ascend through Rage States → Spend Rage on devastating abilities → Avoid Overheat
+
+**Resource**: Rage (0-100 scale, visualized as 2d10 dice)
+
+**Playstyle**: Aggressive momentum-based melee, escalating power, high-risk high-reward
+
+**Best For**: Players who enjoy building momentum, managing escalating power, and aggressive frontline combat`
+    },
+
     description: `The Berserker harnesses their inner fury to unleash devastating attacks and gain incredible resilience. This class revolves around building and utilizing Rage, a resource that grows as they engage in combat. The Berserker's abilities scale with their Rage, becoming more powerful as their fury intensifies. By managing their Rage effectively, Berserkers can transition between different states of rage, each offering unique and potent effects.`,
     
     roleplayIdentity: {
@@ -70,9 +83,135 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 - Rage decreases by 5 points per round if no Rage-generating actions are taken
 - Stay aggressive to maintain your Rage States
 
-**Overheat Management**: 
+**Overheat Management**:
 - If Rage exceeds 101 and isn't spent within one round, you take 2d6 damage and reset to 0
 - Always have a plan to spend Rage when approaching 100`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Arena of Blood',
+      content: `**The Setup**: You stand in the center of a gladiatorial arena, facing three armored pit fighters. The crowd roars for blood. Your greataxe feels light in your hands. Your Rage is at 0—for now.
+
+**Turn 1 - First Blood (Rage: 0 → 8)**
+
+*The first pit fighter charges. You meet him head-on, your axe swinging in a brutal arc.*
+
+**Action**: Attack with greataxe → Hit!
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage
+**Enemy Counterattack**: Pit fighter strikes you → 8 damage taken
+**Rage Generation**: Roll 1d4 → [2] → Gain 2 Rage
+
+**Current Rage: 8** (Smoldering State)
+
+*You feel the first stirrings of fury. Your muscles tense. Your breathing quickens. The pain from the pit fighter's blade doesn't hurt—it FUELS you.*
+
+**Turn 2 - Building Fury (Rage: 8 → 23)**
+
+*The second pit fighter joins the fray. Two against one. Good. More targets.*
+
+**Action**: Attack pit fighter #1 → Hit!
+**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 13)
+**Action**: Second attack (using action points) → Hit!
+**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 17)
+**Enemy Attacks**: Both pit fighters strike you → 12 damage total
+**Rage Generation**: Roll 1d4 → [6] → Gain 6 Rage (now at 23)
+
+**Current Rage: 23** (Frenzied State - UNLOCKED!)
+
+*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State—you now have +1 to all attack rolls.*
+
+**Turn 3 - Ascending Wrath (Rage: 23 → 47)**
+
+*The third pit fighter hesitates. He sees the fury in your eyes. Smart man. Won't save him.*
+
+**Action**: Frenzied Slash (Rage ability) on pit fighter #1 → CRITICAL HIT!
+**Rage Generation**: Roll 2d6 → [5, 6] = 11 → Gain 11 Rage (now at 34)
+**Result**: Pit fighter #1 drops, blood spraying across the sand
+**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 42)
+
+**Action**: Charge pit fighter #2 → Hit!
+**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 47)
+
+**Current Rage: 47** (Primal State - UNLOCKED!)
+
+*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust—you now regenerate health each turn. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
+
+**Turn 4 - Peak Carnage (Rage: 47 → 73)**
+
+*Two pit fighters remain. They're backing away. Cowards.*
+
+**Passive**: Bloodlust activates → Heal 1d8 HP → [6] → Regain 6 HP
+**Action**: Primal Roar (AoE intimidation + damage)
+**Rage Cost**: Spend 10 Rage (now at 37)
+**Effect**: Both pit fighters take 2d6 damage and are frightened
+**Action**: Attack frightened pit fighter #2 → Hit with advantage!
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 43)
+**Action**: Second attack → Hit!
+**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 47)
+**Enemy Attacks**: Pit fighter #3 attacks with disadvantage (frightened) → Misses!
+
+*You laugh. A sound like grinding stone. You attack again.*
+
+**Action**: Third attack (spending action points) → CRITICAL HIT!
+**Rage Generation**: Roll 2d6 → [6, 5] = 11 → Gain 11 Rage (now at 58)
+**Result**: Pit fighter #2 falls, skull caved in
+**Rage Generation**: Defeated enemy → Roll 1d8 → [7] → Gain 7 Rage (now at 65)
+
+**Current Rage: 65** (Carnage State - UNLOCKED!)
+
+*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State—+3 to attack rolls, damage resistance activated. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
+
+**Turn 5 - The Overheat Danger (Rage: 65 → 98)**
+
+*You chase him down. He's fast. You're faster.*
+
+**Action**: Carnage Strike (massive Rage-fueled attack)
+**Rage Cost**: Spend 15 Rage (now at 50)
+**Effect**: 4d10 damage → Pit fighter #3 is nearly dead
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 56)
+
+**Action**: Basic attack to finish him → Hit!
+**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 61)
+**Result**: Pit fighter #3 dies
+**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 69)
+
+*The crowd erupts. They want MORE. They throw weapons into the arena. A massive armored champion enters—the Arena Master himself.*
+
+**Action**: You roar and charge → Hit!
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 75)
+**Enemy Attack**: Arena Master's massive hammer strikes you → 15 damage!
+**Rage Generation**: Roll 1d4 → [4] → Gain 4 Rage (now at 79)
+**Action**: Second attack → CRITICAL HIT!
+**Rage Generation**: Roll 2d6 → [6, 6] = 12 → Gain 12 Rage (now at 91)
+**Action**: Third attack → Hit!
+**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 96)
+**Enemy Attack**: Arena Master strikes again → 12 damage!
+**Rage Generation**: Roll 1d4 → [2] → Gain 2 Rage (now at 98)
+
+**Current Rage: 98** (Cataclysm State - DANGER ZONE!)
+
+*You're at the peak. Your body is beyond mortal limits. +4 to attack rolls. Immune to fear, stun, paralysis. But you're approaching the edge. Two more points and you'll hit Obliteration. Three more and you risk Overheat.*
+
+**Turn 6 - Controlled Destruction (Rage: 98 → 35)**
+
+*You need to spend this Rage NOW or it will consume you.*
+
+**Action**: Cataclysmic Blow (ultimate Rage ability)
+**Rage Cost**: Spend 50 Rage (now at 48)
+**Effect**: 6d12 damage + knockback + stun
+**Result**: Arena Master is staggered, armor cracked, bleeding heavily
+
+*You feel the fury drain from you like water from a broken dam. Your vision clears slightly. Your muscles ache. But you're still in Primal State (48 Rage), still dangerous.*
+
+**Action**: Attack while he's stunned → Hit!
+**Rage Generation**: Roll 1d6 → [3] → Gain 3 Rage (now at 51)
+**Action**: Second attack → Hit!
+**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 55)
+**Result**: Arena Master falls to his knees, defeated
+
+*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (55 → 50 → 45...), but the battle is won.*
+
+**The Lesson**: The Berserker is about riding the wave of fury—building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.`
     }
   },
   
@@ -80,28 +219,97 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
   resourceSystem: {
     title: 'Rage States',
     subtitle: 'Escalating Fury Mechanic',
-    
-    description: `The Berserker's Rage is measured on a scale from 0 to 100, represented by two 10-sided dice (2d10). As they fight, the Berserker generates Rage through various actions, allowing them to access increasingly powerful states of rage. Each Rage State unlocks new abilities and enhances the Berserker's combat effectiveness.`,
-    
+
+    description: `The Berserker's Rage is measured on a scale from 0 to 100, represented by two 10-sided dice (2d10). As they fight, the Berserker generates Rage through various actions, allowing them to access increasingly powerful states of rage. Each Rage State unlocks new abilities and enhances the Berserker's combat effectiveness. This is a momentum-based resource system where aggression is rewarded and passivity is punished.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Rage Bar',
+      content: `**What You See**: Your Berserker resource bar displays two 10-sided dice (2d10) that together represent your current Rage from 0 to 100. The left die shows the tens place (0-90), the right die shows the ones place (0-10). The dice glow with increasing intensity as your Rage rises, changing color to reflect your current Rage State.
+
+**Visual Representation by State**:
+- **Smoldering (0-20)**: Dim orange glow, barely visible embers
+- **Frenzied (21-40)**: Bright orange, flickering flames
+- **Primal (41-60)**: Red-orange, intense burning
+- **Carnage (61-80)**: Deep red, roiling inferno
+- **Cataclysm (81-100)**: Crimson with black edges, barely contained
+- **Obliteration (101+)**: Violent purple-black, pulsing with danger
+
+**How It Changes**:
+- **When You Attack**: Dice spin and increase by 1d6 (average +3-4 per attack)
+- **When You Crit**: Dice spin rapidly and jump by 2d6 (average +7)
+- **When You Take Damage**: Dice pulse and increase by 1d4 (pain fuels rage)
+- **When You Kill**: Dice explode upward by 1d8 (bloodlust surge)
+- **When You Spend Rage**: Dice decrease by the ability cost, glow dims slightly
+- **Passive Decay**: If you don't attack for a full round, dice slowly tick down by 5
+
+**State Transition Moments**: When you cross a Rage State threshold (e.g., 40 → 41 entering Primal), your dice flash brightly and a visual effect plays—your character model changes, muscles bulge, eyes glow, aura intensifies. This is your power-up moment.
+
+**The Overheat Warning**: When your Rage exceeds 100, the dice turn purple-black and pulse with a warning indicator. You have ONE ROUND to spend Rage below 101 or you'll Overheat—taking 2d6 damage and resetting to 0. The bar literally shakes and cracks to warn you.
+
+**Why This Matters**: Unlike mana that you conserve, Rage is meant to be SPENT. Your resource bar isn't a savings account—it's a pressure gauge. The higher it climbs, the more powerful you become, but also the closer you are to exploding. Learning to ride the edge between Cataclysm (81-100) and Obliteration (101+) is the mark of a master Berserker.
+
+**Strategic Depth**: Your Rage bar tells a story of the battle. A slowly climbing bar means you're building momentum. A rapidly fluctuating bar means you're spending and building in rhythm. A bar stuck at low Rage means you're not being aggressive enough. A bar at 95+ means you're playing with fire—literally.`
+    },
+
     mechanics: {
-      title: 'How It Works',
-      content: `**Rage Scale**: Rage ranges from 0 to 100 (and can exceed 100 temporarily)
-**Representation**: Visualized as 2d10 (each die represents 0-10, combined for 0-100 scale)
+      title: 'Detailed Mechanics',
+      content: `**Rage Scale**:
+- Ranges from 0 to 100 (can temporarily exceed 100)
+- Visualized as 2d10 (left die = tens, right die = ones)
+- Example: Left die shows 6, right die shows 3 = 63 Rage
 
-**Generating Rage**:
-- **Attacking**: Generates 1d6 Rage points
-- **Critical Hits**: Generates 2d6 Rage points
-- **Taking Damage**: Generates 1d4 Rage points
-- **Defeating an Enemy**: Generates 1d8 Rage points
+**Generating Rage (How to Build Fury)**:
 
-**Spending Rage**:
-Most Berserker abilities require Rage to activate and are more powerful at higher Rage States. Using abilities consumes Rage based on their power level.
+Every combat action that involves aggression or pain generates Rage:
 
-**Rage Decay**:
-At the end of each combat round, Rage decreases by 5 points if no Rage-generating actions are taken. Stay aggressive to maintain your fury.
+- **Normal Attack (Hit)**: Roll 1d6, add result to Rage
+  - Example: You have 25 Rage, attack and roll [4] → Now at 29 Rage
 
-**Overheat**:
-If Rage exceeds 101 and is not spent within the next round, you suffer Overheat: take 2d6 damage and Rage resets to 0. This represents your fury becoming uncontrollable and turning inward.`
+- **Critical Hit**: Roll 2d6, add result to Rage
+  - Example: You have 45 Rage, crit and roll [5, 6] = 11 → Now at 56 Rage (jumped from Primal to Carnage!)
+
+- **Taking Damage**: Roll 1d4, add result to Rage (pain fuels fury)
+  - Example: You have 30 Rage, take 15 damage, roll [3] → Now at 33 Rage
+
+- **Defeating an Enemy**: Roll 1d8, add result to Rage (bloodlust surge)
+  - Example: You have 52 Rage, kill an enemy, roll [7] → Now at 59 Rage
+
+**Spending Rage (How to Use Fury)**:
+
+Berserker abilities cost Rage to activate. Higher-tier abilities cost more but deal devastating damage:
+
+- **Basic Abilities**: 5-10 Rage (Frenzied Slash, War Cry)
+- **Moderate Abilities**: 15-25 Rage (Primal Roar, Carnage Strike)
+- **Ultimate Abilities**: 40-60 Rage (Cataclysmic Blow, Obliterating Strike)
+
+Example: You're at 68 Rage (Carnage State). You use Carnage Strike (costs 20 Rage) → Now at 48 Rage (dropped to Primal State)
+
+**Rage Decay (Punishment for Passivity)**:
+
+At the end of each combat round, if you took NO Rage-generating actions (didn't attack, didn't take damage), your Rage decreases by 5 points.
+
+Example: You're at 55 Rage but spend your turn running away and hiding → End of round: 55 - 5 = 50 Rage
+
+**Overheat (The Danger Zone)**:
+
+If your Rage exceeds 101 and you don't spend it below 101 within ONE ROUND, you Overheat:
+- Take 2d6 damage (your fury turns inward, damaging you)
+- Rage resets to 0 (complete exhaustion)
+- Lose all Rage State benefits
+
+Example: You're at 98 Rage, crit for 2d6 = [6, 5] = 11 → Now at 109 Rage (DANGER!)
+- Next round: You MUST spend at least 9 Rage to get below 101
+- If you don't: Roll 2d6 = [4, 3] = 7 damage taken, Rage resets to 0, you're back to Smoldering
+
+**Rage State Thresholds**:
+
+Your current Rage determines which state you're in and what bonuses you receive:
+- 0-20: Smoldering (no bonuses)
+- 21-40: Frenzied (+1 attack)
+- 41-60: Primal (+2 attack, healing)
+- 61-80: Carnage (+3 attack, damage resistance)
+- 81-100: Cataclysm (+4 attack, condition immunity)
+- 101+: Obliteration (+5 attack, MUST SPEND OR OVERHEAT)`
     },
     
     rageStatesTable: {
@@ -128,6 +336,91 @@ If Rage exceeds 101 and is not spent within the next round, you suffer Overheat:
 **Overheat Zone (101+ Rage)**: Emergency state. You have one round to spend excess Rage or suffer 2d6 damage and reset. Use your most expensive abilities immediately.
 
 **Rage Decay Management**: Never let Rage decay passively. If combat is winding down, spend remaining Rage on utility abilities or defensive buffs rather than losing it.`
+    },
+
+    overheatVisualization: {
+      title: 'Overheat Visualization & Effects',
+      content: `**What Happens When You Overheat (101+ Rage)**:
+
+Your Rage bar undergoes a dramatic visual transformation to warn you of the danger:
+
+**Visual Indicators**:
+- **Dice Color**: Shifts from crimson red to violent purple-black
+- **Glow Effect**: Intensifies dramatically, creating a pulsing aura around the dice
+- **Dice Animation**: The dice begin to SHAKE and VIBRATE violently, as if barely contained
+- **Warning Symbol**: A ⚠️ warning icon appears and pulses in sync with the dice
+- **Aura Pulse**: A red pulsing aura expands and contracts around the dice, growing more intense
+- **Screen Effect**: The entire resource bar area may have a subtle red tint or vignette effect
+
+**The Countdown**:
+Once you exceed 100 Rage, you have exactly ONE ROUND to act:
+- **Round 1 (Overheat Triggered)**: Dice shake, warning appears, you can still act
+- **End of Round 1**: If Rage is still 101+, you Overheat
+  - Take 2d6 damage (your fury turns inward)
+  - Rage resets to 0 (complete exhaustion)
+  - Dice stop shaking and return to normal (Smoldering state)
+  - You lose all Rage State bonuses
+
+**How to Avoid Overheat**:
+Spend Rage-costing abilities to bring yourself below 101. The more Rage you have over 100, the more you need to spend:
+- 101 Rage: Spend 1+ Rage to get to 100
+- 109 Rage: Spend 9+ Rage to get to 100
+- 115 Rage: Spend 15+ Rage to get to 100
+
+**Strategic Use of Overheat**:
+Some advanced Berserkers intentionally push into Overheat to use their most powerful abilities (Obliterating Strike, Wrath of the Berserker) knowing they'll take the damage. This is high-risk, high-reward play—use it when you're confident you can finish the fight or when the damage is worth the payoff.
+
+**Example Overheat Scenario**:
+- You're at 95 Rage (Cataclysm)
+- You crit and roll 2d6 = [6, 5] = 11 → Now at 106 Rage (OVERHEAT!)
+- Dice turn purple-black and shake violently
+- You have ONE ROUND to act
+- Option A: Use Obliterating Strike (costs 60 Rage) → Drop to 46 Rage (Primal), avoid Overheat
+- Option B: Do nothing → End of round: Take 2d6 damage, Rage resets to 0
+- Option C: Use a cheaper ability (costs 10 Rage) → Drop to 96 Rage, avoid Overheat but waste potential`
+    },
+
+    practicalExample: {
+      title: 'Practical Decision-Making Example',
+      content: `**Scenario**: You're at 87 Rage (Cataclysm State) fighting a boss with 40% HP remaining. Your party's healer is down to 20% HP.
+
+**Current State**:
+- Rage: 87 (Cataclysm - +4 attack, condition immunity)
+- Boss HP: ~40%
+- Healer HP: ~20% (in danger)
+- Your HP: 65%
+
+**Option A - Go for the Kill**:
+Use Cataclysmic Blow (costs 50 Rage, deals 6d12 damage)
+- Pros: Massive damage, might finish the boss
+- Cons: Drops you to 37 Rage (Primal State), lose +4 attack bonus, lose condition immunity
+- Risk: If boss survives, you're weaker for the rest of the fight
+
+**Option B - Sustain and Build**:
+Use Primal Roar (costs 10 Rage, AoE damage + intimidate)
+- Pros: Stays at 77 Rage (still Carnage State), keeps high bonuses
+- Cons: Less burst damage, boss might kill healer
+- Risk: Healer dies, you lose support
+
+**Option C - Controlled Aggression**:
+Normal attacks to build more Rage, then use Obliterating Strike next turn
+- Pros: Attack twice, generate ~8 more Rage (95 total), then use ultimate ability
+- Cons: Approaching Overheat danger zone (95 → one good crit puts you at 101+)
+- Risk: Might Overheat if you crit
+
+**Option D - Emergency Overheat Strategy**:
+Attack recklessly to push past 101, then immediately use Obliterating Strike (costs 60 Rage)
+- Pros: Briefly access Obliteration State (+5 attack), then spend before Overheat
+- Cons: Requires precise timing, risky if you miss
+- Risk: If you can't spend in time, you Overheat and reset to 0
+
+**Best Choice**: Option A (Cataclysmic Blow)
+- Why: Boss at 40% HP means one massive hit could end the fight. Healer survives if boss dies. Even if you drop to Primal State (37 Rage), the fight might be over. The risk of the boss surviving and killing your healer while you're at lower Rage is less than the reward of potentially ending the encounter immediately.
+
+**Alternative if Boss is Tankier**: Option C (Build to 95+, then Obliterating Strike)
+- Why: If you know the boss has high HP and won't die to Cataclysmic Blow, building to Obliteration State for the +5 attack bonus on your ultimate ability is worth the Overheat risk.
+
+**The Lesson**: Rage management isn't just about avoiding Overheat—it's about knowing when to cash in your fury for maximum impact. Sometimes dropping from Cataclysm to Primal is worth it if it ends the fight. Sometimes riding the edge of Obliteration is the only way to win. Read the situation, trust your instincts, and let the fury guide you.`
     }
   },
   

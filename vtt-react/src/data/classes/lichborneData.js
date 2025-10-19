@@ -76,6 +76,187 @@ export const LICHBORNE_DATA = {
 - Synergizes with classes that can group enemies for AoE freeze
 - Can control battlefield with ice walls and frozen enemies
 - Phylactery resurrection allows aggressive plays`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Undying Frost',
+      content: `**The Setup**: You're a Lichborne facing a group of fire elementals (3 elementals + 1 fire elemental lord). Your party is with you. Starting HP: 80/80. Phylactery HP: 30 (stored from previous ritual). Eternal Frost Aura: Inactive. Starting Mana: 50/60. Your goal: Activate Eternal Frost Aura for enhanced frost damage, manage the health drain, and use your Phylactery strategically.
+
+**Starting State**: HP: 80/80 | Phylactery HP: 30 | Aura: Inactive | Mana: 50/60
+
+**Turn 1 - Activating the Aura (HP: 80 → 74, Aura: Active)**
+
+*The fire elementals blaze before you, their heat oppressive. You close your eyes and reach for the cold within. Your phylactery—a frozen crystal hanging from your neck—pulses with dark energy.*
+
+**Your Action**: Activate Eternal Frost Aura (1 AP, no mana cost)
+
+*Frost spreads from your body in waves. The temperature DROPS. Ice crystals form in the air around you. Your skin turns pale blue, your breath visible. The aura is ACTIVE.*
+
+**Eternal Frost Aura**: ACTIVE
+**Effect**: All frost spells deal +1d6 frost damage, enemies hit must save DC 15 Con or -10 ft speed
+**Health Drain**: Will lose 1d6 HP at start of each turn
+
+**Your Action**: Cast "Ice Shard" at Fire Elemental #1 (6 mana)
+**Attack Roll**: d20+6 → [16] = Hit!
+**Base Damage**: 3d6 frost → [5, 6, 4] = 15 damage
+**Aura Bonus**: +1d6 frost → [5] = +5 damage
+**Total Damage**: 15 + 5 = **20 frost damage!**
+
+*The ice shard strikes the fire elemental. It HISSES, steam rising from the impact. Fire and ice clash.*
+
+**Chilling Effect**: Fire Elemental #1 must save DC 15 Constitution
+**Save Roll**: [11] → FAIL!
+**Effect**: Movement speed reduced by 10 ft until end of its next turn
+
+*The elemental's flames dim slightly, slowed by the supernatural cold.*
+
+**Mana**: 50 - 6 = 44/60
+
+**Fire Elemental #1's Turn**: Attacks you → [17] → Hit! → 2d8+4 fire → [7, 6] + 4 = 17 fire damage
+**Your HP**: 80 - 17 = 63/80
+
+**Current State**: HP: 63/80 | Phylactery HP: 30 | Aura: Active | Mana: 44/60
+
+**Turn 2 - The Drain Begins (HP: 63 → 57 → 50)**
+
+*You feel the aura draining your life force. The cold is consuming you from within. But the power... the POWER is worth it.*
+
+**Start of Turn**: Eternal Frost Aura health drain
+**Drain Roll**: 1d6 → [6] = 6 HP lost
+**Your HP**: 63 - 6 = 57/80
+
+*You stagger, frost spreading across your skin. Your phylactery glows, sensing your weakening state.*
+
+**Your Action**: Cast "Frozen Orb" at all 3 fire elementals (10 mana, AoE)
+**Damage Roll**: 4d6 frost → [6, 5, 4, 6] = 21 damage
+**Aura Bonus**: +1d6 frost → [4] = +4 damage
+**Total Damage**: 21 + 4 = **25 frost damage to ALL 3 elementals!**
+
+*A sphere of absolute zero explodes among the elementals. They shriek, their flames guttering.*
+
+**Chilling Effect**: All 3 elementals must save DC 15 Constitution
+**Elemental #1**: [9] → FAIL! → -10 ft speed
+**Elemental #2**: [12] → FAIL! → -10 ft speed
+**Elemental #3**: [14] → FAIL! → -10 ft speed
+
+*All three elementals are CHILLED, their movement slowed.*
+
+**Mana**: 44 - 10 = 34/60
+
+**Fire Elemental Lord's Turn**: Casts "Flame Strike" at you → 4d6 fire → [5, 6, 4, 5] = 20 fire damage
+**Your HP**: 57 - 20 = 37/80
+
+*The fire lord's flames sear you. You're at 37/80 HP. The aura is draining you, and the enemies are hitting hard.*
+
+**Current State**: HP: 37/80 | Phylactery HP: 30 | Aura: Active | Mana: 34/60
+
+**Turn 3 - Critical Decision (HP: 37 → 32 → 0 → PHYLACTERY RESURRECTION)**
+
+**Start of Turn**: Eternal Frost Aura health drain
+**Drain Roll**: 1d6 → [5] = 5 HP lost
+**Your HP**: 37 - 5 = 32/80
+
+*You're at 32 HP. The aura is killing you. But you're so close to victory. You keep it active.*
+
+**Your Action**: Cast "Ice Lance" at Fire Elemental Lord (8 mana)
+**Attack Roll**: d20+6 → [18] = Hit!
+**Base Damage**: 4d8 frost → [7, 8, 6, 7] = 28 damage
+**Aura Bonus**: +1d6 frost → [6] = +6 damage
+**Total Damage**: 28 + 6 = **34 frost damage!**
+
+*The ice lance pierces the fire lord. It roars in pain, flames flickering.*
+
+**Mana**: 34 - 8 = 26/60
+
+**Fire Elemental #2's Turn**: Attacks you → [19] → Hit! → 2d8+4 → [8, 7] + 4 = 19 damage
+**Your HP**: 32 - 19 = 13/80
+
+**Fire Elemental #3's Turn**: Attacks you → [18] → Hit! → 2d8+4 → [6, 8] + 4 = 18 damage
+**Your HP**: 13 - 18 = **-5 HP** → YOU DIE!
+
+*The flames consume you. You fall, your body burning. But your phylactery PULSES.*
+
+**PHYLACTERY RESURRECTION TRIGGERS!**
+
+*Your phylactery shatters, releasing the stored life force. Your body REFORMS from ice and shadow.*
+
+**Phylactery Effect**: Spend all stored HP (30 HP) to resurrect at that HP total
+**Your HP**: 0 → **30 HP** (resurrected!)
+**Phylactery HP**: 30 → **0** (depleted, must be recharged via ritual)
+
+*You rise from the ashes, frost spreading from your reformed body. The fire elementals back away, terrified. You DIED and came back. That's what Lichborne do.*
+
+**Your Party's Healer**: "You... you died. I saw you die."
+**You**: "Death is temporary. My phylactery anchors my soul. I'll reform it later."
+
+**Current State**: HP: 30/80 | Phylactery HP: 0 (depleted) | Aura: Still Active | Mana: 26/60
+
+**Turn 4 - Deactivating the Aura (HP: 30 → 25 → 40)**
+
+**Start of Turn**: Eternal Frost Aura health drain
+**Drain Roll**: 1d6 → [5] = 5 HP lost
+**Your HP**: 30 - 5 = 25/80
+
+*You're at 25 HP. The aura is still draining you. Time to turn it OFF.*
+
+**Your Action**: Deactivate Eternal Frost Aura (0 AP, free action)
+
+*You release the cold. The frost aura dissipates. The temperature rises. You can breathe again.*
+
+**Eternal Frost Aura**: INACTIVE
+**Effect**: No more +1d6 frost damage, no more health drain
+
+**Your Party's Healer**: Heals you for 15 HP
+**Your HP**: 25 + 15 = 40/80
+
+**Your Action**: Cast "Ice Shard" at Fire Elemental #2 (6 mana, no aura bonus)
+**Attack Roll**: d20+6 → [15] = Hit!
+**Damage**: 3d6 frost → [6, 5, 4] = **15 damage** (no aura bonus)
+**Result**: Fire Elemental #2 DEAD (was already wounded)
+
+**Mana**: 26 - 6 = 20/60
+
+**Your Party's Mage**: Casts Fireball → Kills Fire Elemental #3
+**Your Party's Tank**: Attacks Fire Elemental Lord → 18 damage
+
+**Fire Elemental Lord**: 34 + 18 = 52 damage taken, badly wounded
+
+**Current State**: HP: 40/80 | Phylactery HP: 0 | Aura: Inactive | Mana: 20/60
+
+**Turn 5 - Finishing the Fight**
+
+**Your Action**: Cast "Frozen Tomb" on Fire Elemental Lord (12 mana)
+**Effect**: Target must save DC 15 Constitution or be frozen solid (paralyzed) for 3 rounds
+
+**Fire Lord's Save**: [8] → FAIL!
+
+*The fire lord is encased in a tomb of ice. Frozen. Helpless.*
+
+**Your Party's Tank**: Shatters the frozen lord with a hammer strike → DEAD
+
+**Combat Over**
+
+*You stand among the melted remains of the fire elementals, breathing heavily. Your phylactery is dark, depleted. You'll need to perform the ritual again to recharge it.*
+
+**Your Party's Tank**: "You died. Actually died. And came back."
+**You**: "The phylactery stores life force. I spent 30 HP worth to resurrect. Now it's empty. I'll need to perform a 1-hour ritual to recharge it—transfer 10 HP at a time."
+**Your Party's Mage**: "And that aura? You were glowing with frost, but you were also... dying."
+**You**: "Eternal Frost Aura. +1d6 frost damage to all my spells, enemies get chilled. But it drains 1d6 HP per turn. I lost 16 HP total from the drain (6 + 5 + 5). Worth it for the damage boost."
+**Your Party's Healer**: "You're insane."
+**You**: "I'm undead. Sanity is optional."
+
+**Final State**: HP: 40/80 | Phylactery HP: 0 (needs recharge) | Aura: Inactive | Mana: 8/60
+
+**The Lesson**: Lichborne gameplay is about:
+1. **Aura Activation**: Activated Eternal Frost Aura Turn 1, gained +1d6 frost damage on all spells
+2. **Health Drain**: Lost 1d6 HP per turn (6 + 5 + 5 = 16 HP total) while aura was active
+3. **Damage Amplification**: Ice Shard: 15 → 20 damage (+5), Frozen Orb: 21 → 25 damage (+4), Ice Lance: 28 → 34 damage (+6)
+4. **Chilling Effects**: All enemies hit by frost spells had to save or lose 10 ft movement speed
+5. **Phylactery Resurrection**: Died at -5 HP, phylactery triggered, resurrected at 30 HP (spent all stored phylactery HP)
+6. **Aura Management**: Deactivated aura Turn 4 when HP got too low (25 HP)
+7. **Risk/Reward**: Aura gave +20 total damage but cost 16 HP from drain + death at -5 HP = worth it for the power
+
+You're not a safe, sustainable caster. You're an UNDEAD FROST MAGE who sacrifices your own life force for power. The Eternal Frost Aura makes you stronger but KILLS you slowly. The Phylactery lets you die and come back. You're playing with death itself—draining your HP for damage, dying, resurrecting, then doing it again. The key is knowing when to activate the aura (for burst damage), when to deactivate it (when HP gets critical), and when to use your phylactery resurrection (when you actually die). Death isn't the end. It's just another resource.`
     }
   },
   
@@ -83,9 +264,134 @@ export const LICHBORNE_DATA = {
   resourceSystem: {
     title: 'Eternal Frost Aura & Phylactery',
     subtitle: 'Power Through Sacrifice, Resurrection Through Preparation',
-    
+
     description: `The Lichborne's unique dual-mechanic system combines the Eternal Frost Aura (active power boost with health drain) and the Phylactery (HP storage and resurrection). Mastering both mechanics is essential to becoming an effective Lichborne.`,
-    
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Eternal Frost Aura & Phylactery Interface',
+      content: `**What You See**: The Lichborne has a DUAL interface—one for the Eternal Frost Aura (toggle ability) and one for the Phylactery (HP storage and resurrection). Both are displayed prominently on your HUD.
+
+**ETERNAL FROST AURA INTERFACE** (Top Section):
+
+**Aura Status Display**:
+- **Inactive State**: Gray frost icon with "Eternal Frost Aura: INACTIVE" text
+- **Active State**: Glowing blue-white frost icon with "Eternal Frost Aura: ACTIVE" text, pulsing animation
+- **Toggle Button**: Large button "ACTIVATE AURA (1 AP)" or "DEACTIVATE AURA (0 AP)"
+
+**Aura Effect Indicators** (when active):
+- **Damage Bonus**: "+1d6 Frost Damage" displayed in bright blue text
+- **Chilling Effect**: "Enemies Chilled (DC 15 Con save or -10 ft speed)" in icy blue
+- **Health Drain Warning**: "⚠️ DRAINING 1d6 HP PER TURN" in red, pulsing
+
+**Visual Effects** (when aura is active):
+- **Character Model**: Surrounded by swirling frost particles, icy blue glow
+- **Frost Aura Radius**: 5 ft radius around you shown with icy mist effect
+- **Breathing Effect**: Visible frozen breath, ice crystals forming in air
+- **Skin Tone**: Character's skin turns pale blue-white
+- **Eyes**: Glow with cold blue light
+
+**Health Drain Tracker**:
+- **Turn Counter**: "Aura Active: Turn 3" (tracks how long aura has been active)
+- **Total HP Drained**: "Total Drained: 16 HP (6 + 5 + 5)" running total
+- **Next Drain**: "Next Drain: 1d6 HP at start of your turn" countdown
+
+**Aura Activation Animation**:
+When you activate the aura:
+- **Frost Explosion**: Frost spreads from your body in a wave
+- **Temperature Drop**: Screen tints slightly blue, frost particles appear
+- **Audio**: Deep, resonant ice cracking sound + wind howling
+- **Status Update**: "ETERNAL FROST AURA ACTIVATED" text appears
+- **Buff Icon**: Frost aura icon appears in your buff bar
+
+**Aura Deactivation Animation**:
+When you deactivate the aura:
+- **Frost Dissipation**: Frost particles fade away, blue glow dims
+- **Temperature Rise**: Screen tint returns to normal
+- **Audio**: Fading wind sound, ice melting
+- **Status Update**: "Eternal Frost Aura Deactivated" text
+- **Buff Icon**: Frost aura icon removed from buff bar
+
+**PHYLACTERY INTERFACE** (Bottom Section):
+
+**Phylactery Display**:
+- **Phylactery Icon**: Image of your phylactery (frozen crystal, skull amulet, etc.)
+- **Stored HP Bar**: Shows HP stored in phylactery (0-50 HP max)
+- **HP Counter**: "Phylactery HP: 30/50" in glowing text
+
+**Phylactery HP Bar Visualization**:
+- **0 HP (Empty)**: Dark, lifeless phylactery icon, "DEPLETED" in red
+- **1-15 HP (Low)**: Dim glow, phylactery barely pulsing, red border
+- **16-30 HP (Moderate)**: Moderate glow, phylactery pulsing steadily, orange border
+- **31-45 HP (High)**: Bright glow, phylactery pulsing strongly, green border
+- **46-50 HP (Maximum)**: Maximum glow, phylactery radiating power, gold border, "FULLY CHARGED"
+
+**Resurrection Status**:
+- **Available**: "Resurrection Available (10 HP cost)" in green
+- **Used This Combat**: "Resurrection Used - Recharge Required" in red
+- **Insufficient HP**: "Insufficient Phylactery HP (need 10 HP)" in orange
+
+**Phylactery Storage Ritual Interface**:
+When performing the 1-hour ritual:
+- **Ritual Progress Bar**: "Storing HP in Phylactery... 45:00 remaining"
+- **HP Transfer**: "Transferring 10 HP → Phylactery" with animation
+- **Your HP**: Shows your current HP decreasing by 10
+- **Phylactery HP**: Shows phylactery HP increasing by 10
+- **Completion**: "Ritual Complete - 10 HP Stored" notification
+
+**Resurrection Trigger Animation**:
+When you die and phylactery resurrects you:
+- **Death**: Screen goes dark, "YOU HAVE FALLEN" text appears
+- **Phylactery Activation**: Phylactery icon PULSES with brilliant light
+- **Resurrection**: Your body reforms from ice and shadow, frost spreading outward
+- **HP Restoration**: "PHYLACTERY RESURRECTION! +30 HP" (or whatever was stored)
+- **Phylactery Depletion**: Phylactery HP bar drains to 0, icon goes dark
+- **Status Update**: "Resurrected by Phylactery - Recharge Required"
+- **Audio**: Shattering ice sound, then deep resonant hum as you reform
+
+**Combined Interface Display**:
+- **Top Half**: Eternal Frost Aura status (active/inactive, damage bonus, health drain)
+- **Bottom Half**: Phylactery status (stored HP, resurrection availability)
+- **HP Bar**: Your current HP shown prominently with drain indicator when aura is active
+- **Mana Bar**: Standard mana pool for casting spells
+
+**Aura + Phylactery Synergy Indicators**:
+When both systems are active:
+- **Risk Assessment**: "⚠️ Aura Draining HP - Phylactery at 30 HP (3 resurrections available)"
+- **Safety Net**: "Phylactery Resurrection Ready - Safe to Aggressive Play"
+- **Warning**: "⚠️ LOW PHYLACTERY HP - Deactivate Aura or Recharge!"
+
+**Health Drain Visual Feedback**:
+At the start of each turn while aura is active:
+- **Drain Animation**: Frost particles flow FROM your body, HP bar decreases
+- **Damage Number**: "-6 HP (Aura Drain)" appears above your character in red
+- **Audio**: Chilling wind sound, ice cracking
+- **HP Bar Flash**: HP bar flashes red briefly
+- **Phylactery Pulse**: Phylactery icon pulses, reminding you it's your safety net
+
+**Spell Amplification Feedback**:
+When you cast a frost spell with aura active:
+- **Spell Cast**: Normal spell animation
+- **Aura Amplification**: Frost aura SURGES, spell grows larger and brighter
+- **Damage Display**: "Ice Shard: 15 damage + 5 (Aura) = 20 damage!"
+- **Chilling Effect**: "Target Chilled (DC 15 save)" notification
+- **Visual**: Enemy covered in frost, movement speed indicator shows -10 ft
+
+**Chilling Effect Visualization**:
+When enemy fails save against chilling:
+- **Frost Coating**: Enemy model covered in ice crystals
+- **Movement Debuff**: "-10 ft Speed" icon appears above enemy
+- **Duration**: "Chilled (1 turn remaining)" countdown
+- **Visual Trail**: Enemy leaves frost trail when moving (slower movement)
+
+**Phylactery Recharge Reminder**:
+When phylactery is depleted:
+- **Notification**: "⚠️ Phylactery Depleted - Perform 1-hour ritual to recharge"
+- **Ritual Availability**: "Ritual Available During Short/Long Rest"
+- **HP Cost**: "Transfer 10 HP per ritual (max 50 HP total)"
+
+**Why This Matters**: The Lichborne's dual interface makes you feel like you're PLAYING WITH DEATH. When you activate the Eternal Frost Aura, you see frost spread from your body, your skin turns pale blue, and the "DRAINING 1d6 HP PER TURN" warning pulses in red. Every turn, you watch your HP drain with the frost particle animation and damage number. But you also see the "+1d6 Frost Damage" bonus on every spell, and when you cast Ice Shard and it shows "15 + 5 (Aura) = 20 damage!", you KNOW the sacrifice is worth it. The Phylactery interface shows your safety net—when it's at 30 HP and glowing green, you can play aggressively because you have resurrection available. When you actually DIE and the phylactery triggers, the screen goes dark, then your body REFORMS from ice and shadow with the "PHYLACTERY RESURRECTION!" text—it's dramatic and powerful. The combined interface makes the risk/reward clear: drain your HP for power, but keep an eye on your phylactery because that's your lifeline.`
+    },
+
     mechanics: {
       title: 'How It Works',
       content: `**Eternal Frost Aura**:

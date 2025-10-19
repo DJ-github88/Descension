@@ -102,6 +102,134 @@ export const FATE_WEAVER_DATA = {
         'Coordinate with allies for Echo of Fate card matching',
         'Track which cards have been drawn to predict remaining deck composition'
       ]
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Gambler\'s Paradox',
+      content: `**The Setup**: You're a Fate Weaver (Fortune Teller specialization) facing a powerful necromancer and two skeletal guards. Your party needs you to deal damage, but your spells are card-based—unpredictable. Starting Threads: 4. Starting Mana: 45/50. Your goal: Use card mechanics strategically, build Threads from failures, then spend them to guarantee success when it matters.
+
+**Starting State**: Threads: 4/20 | Mana: 45/50 | HP: 55/70 | Deck: Shuffled (52 cards)
+
+**Turn 1 - The Risky Play (Threads: 4 → 5)**
+
+*The necromancer raises his staff, dark energy crackling. The skeletal guards advance. You draw a card from your mystical deck. Time to see what fate has in store.*
+
+**Your Action**: Cast "Hand of Fate" on Necromancer (8 mana, draw 5 cards for poker hand)
+**Cards Drawn**: [3♠, 7♦, J♣, 2♥, 9♠]
+**Poker Hand**: High Card (Jack) - WORST POSSIBLE HAND
+**Damage**: 2d6 (base for High Card) → [4, 5] = 9 damage
+**Thread Generation**: +1 Thread (spell succeeded but with minimal effect)
+
+*The cards shimmer and fade. A weak bolt of energy strikes the necromancer. He barely flinches. But you feel it—a Thread of Destiny forming from the failure. The universe owes you one.*
+
+**Threads**: 4 + 1 = **5 Threads**
+**Mana**: 45 - 8 = 37/50
+
+**Necromancer's Turn**: Casts "Bone Spear" at you → 3d8 → [6, 7, 5] = 18 damage
+**Your HP**: 55 - 18 = 37/70
+
+**Current State**: Threads: 5/20 | Mana: 37/50 | HP: 37/70
+
+**Turn 2 - Building Threads (Threads: 5 → 8)**
+
+*You're hurt, but you have a plan. You need more Threads. Time to take a risk.*
+
+**Your Action**: Cast "Draw of the Damned" on Skeletal Guard #1 (6 mana, blackjack-style)
+**Goal**: Get close to 21 for maximum damage, but don't bust
+
+**Card 1**: [K♥] = 10 → Total: 10
+**Decision**: Hit (draw another card)
+**Card 2**: [8♣] = 8 → Total: 18
+**Decision**: Hit (risky, but you want more damage)
+**Card 3**: [9♦] = 9 → Total: 27 → **BUST!**
+
+*The cards explode in your face. Dark energy backlashes, reducing your AC.*
+
+**Result**: Bust (over 21) → AC reduced by 2 for 2 rounds, NO DAMAGE to target
+**Thread Generation**: +2 Threads (major negative outcome)
+**Threads**: 5 + 2 = **7 Threads**
+**Mana**: 37 - 6 = 31/50
+
+*Your party's tank groans. "Did you just... hurt yourself?" You smile through the pain. "I'm building resources. Trust me."*
+
+**Skeletal Guard #1's Turn**: Attacks you (you have -2 AC!) → Hit! → 2d6+2 → [5, 4] + 2 = 11 damage
+**Your HP**: 37 - 11 = 26/70
+
+**Your Party's Healer**: Heals you for 15 HP
+**Your HP**: 26 + 15 = 41/70
+
+**Current State**: Threads: 7/20 | Mana: 31/50 | HP: 41/70 | AC: -2 (1 round remaining)
+
+**Turn 3 - The Setup (Threads: 7 → 9)**
+
+*You're at 7 Threads. Not quite enough to guarantee the perfect hand, but getting close. One more failure should do it.*
+
+**Your Action**: Cast "Heart's Gamble" on Skeletal Guard #2 (5 mana, draw cards until non-heart)
+**Goal**: Draw as few hearts as possible for maximum damage to enemy
+
+**Card 1**: [4♥] → Heart! → Continue drawing
+**Card 2**: [Q♥] → Heart (face card)! → Continue drawing
+**Card 3**: [7♠] → Non-heart! → STOP
+
+**Result**: Drew 2 hearts (one face card) → Take 2d6 damage yourself
+**Damage to Self**: 2d6 → [5, 6] = 11 damage
+**Damage to Enemy**: 0 (hearts cancel damage)
+**Thread Generation**: +2 Threads (major negative outcome - face card heart + self-damage)
+
+*The cards turn against you. Hearts burn your hands. You scream, but you're SMILING. Two more Threads. You're at 9 now.*
+
+**Your HP**: 41 - 11 = 30/70
+**Threads**: 7 + 2 = **9 Threads**
+**Mana**: 31 - 5 = 26/50
+
+**Your Party's Rogue**: "Are you TRYING to kill yourself?!"
+**You**: "No. I'm trying to kill HIM." *You point at the necromancer.* "Next turn. Watch."
+
+**Current State**: Threads: 9/20 | Mana: 26/50 | HP: 30/70
+
+**Turn 4 - The Payoff (Threads: 9 → 1)**
+
+*You're at 9 Threads. Enough to call 4 specific cards (2 Threads per card). Time to build a Royal Flush.*
+
+**Your Action**: Cast "Hand of Fate" on Necromancer (8 mana, draw 5 cards)
+**Thread Spending**: Spend 8 Threads to call 4 specific cards (2 Threads each)
+
+**Called Cards**:
+- Call [A♠] (2 Threads)
+- Call [K♠] (2 Threads)
+- Call [Q♠] (2 Threads)
+- Call [J♠] (2 Threads)
+
+**Random 5th Card**: [10♠] → **ROYAL FLUSH!**
+
+*The cards appear in your hand, glowing with golden light. Ace, King, Queen, Jack, Ten—all spades. The BEST POSSIBLE HAND. The necromancer's eyes widen.*
+
+**Poker Hand**: Royal Flush (best hand)
+**Damage**: 10d10 (Royal Flush damage) → [9, 8, 10, 7, 9, 6, 10, 8, 9, 7] = **83 damage!**
+
+*The cards explode into pure radiant energy, engulfing the necromancer. He screams as the light consumes him. When it fades, he's DEAD. Obliterated.*
+
+**Threads**: 9 - 8 = **1 Thread**
+**Mana**: 26 - 8 = 18/50
+
+**Your Party**: *Stunned silence*
+**Your Tank**: "...Okay, I take it back. That was worth it."
+**You**: "Told you. Fate favors the patient."
+
+**Skeletal Guards**: Without their master, the guards crumble to dust.
+
+**Combat Over**
+
+**The Lesson**: Fate Weaver gameplay is about:
+1. **Thread Building**: Turns 1-3 generated 5 Threads (1 + 2 + 2) from failures and negative outcomes
+2. **Accepting Failure**: Deliberately took risky plays (Draw of the Damned bust, Heart's Gamble) to build Threads
+3. **Self-Damage Trade**: Took 11 damage from Heart's Gamble but gained 2 Threads—worth it for the setup
+4. **Thread Spending**: Spent 8 Threads to call 4 specific cards, guaranteeing 4/5 of a Royal Flush
+5. **Luck + Skill**: Random 5th card ([10♠]) completed the Royal Flush—but you stacked the odds
+6. **Damage Variance**: Turn 1 dealt 9 damage (High Card), Turn 4 dealt 83 damage (Royal Flush) - 9x multiplier!
+7. **Resource Conversion**: Converted 3 turns of failures/self-damage into 1 turn of massive burst
+
+You're not a consistent damage dealer. You're a GAMBLER who turns bad luck into good luck. You take hits, you fail spells, you hurt yourself—all to build Threads. Then, when it matters, you spend those Threads to manipulate fate itself. You don't just draw cards. You CALL them. And when you call a Royal Flush, nothing survives.`
     }
   },
 
@@ -111,6 +239,97 @@ export const FATE_WEAVER_DATA = {
     subtitle: 'Weaving Fate from Failure',
 
     description: `Threads of Destiny are the Fate Weaver's unique resource, generated whenever their spells fail or produce negative outcomes. These mystical threads represent the cosmic energy released when destiny is disrupted, which the Fate Weaver can then harness to manipulate future events. By spending Threads, Fate Weavers can call specific cards from their deck, transforming randomness into calculated strategy.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Threads of Destiny Gauge',
+      content: `**What You See**: Your Threads of Destiny gauge displays as a horizontal bar with 20 segments, each representing 1 Thread. The bar is styled like a golden tapestry with intricate weaving patterns. As you accumulate Threads, the segments fill with shimmering golden-silver energy, representing the cosmic threads you've woven from fate's disruptions.
+
+**Visual Representation by Thread Level**:
+
+**0-3 Threads (Building Phase)**:
+- Bar: 0-3 segments filled with dim golden glow
+- Border: Gray (neutral)
+- Effect: Minimal visual effects
+- Status: "Building Threads"
+- Recommendation: "Accept failures to build reserves"
+
+**4-7 Threads (Moderate Reserve)**:
+- Bar: 4-7 segments filled, golden glow brightening
+- Border: Yellow (caution)
+- Effect: Threads shimmer and pulse gently
+- Status: "Moderate Reserve"
+- Recommendation: "Spend on critical spells only"
+- Call Card Button: Enabled (glowing) - "Call Specific Card (2 Threads)"
+
+**8-12 Threads (Good Reserve)**:
+- Bar: 8-12 segments filled, bright golden energy
+- Border: Green (good)
+- Effect: Threads weave together in animated patterns
+- Status: "Good Reserve"
+- Recommendation: "Spend freely on important moments"
+- Call Card Button: Brightly glowing - "4-6 cards available"
+
+**13-16 Threads (High Reserve)**:
+- Bar: 13-16 segments filled, intense golden-white glow
+- Border: Blue (excellent)
+- Effect: Threads pulse with power, weaving complex patterns
+- Status: "High Reserve - Aggressive Manipulation"
+- Recommendation: "Maximize control over fate"
+- Call Card Button: Pulsing - "6-8 cards available"
+
+**17-20 Threads (At/Near Cap)**:
+- Bar: 17-20 segments filled, maximum brightness
+- Border: Orange (warning - approaching cap)
+- Effect: Threads overflow with energy, sparkling particles
+- Status: "AT CAP - Spend or Waste!"
+- Recommendation: "Spend liberally to avoid waste"
+- Warning Text: "Thread generation will be wasted if at 20!"
+
+**Thread Generation Animation**:
+When you gain Threads from a failure or negative outcome:
+- **+1 Thread**: Single golden thread appears from the spell effect, flows to your bar, fills 1 segment
+- **+2 Threads**: Two golden threads appear, intertwine, flow to bar, fill 2 segments with dramatic animation
+- **Audio**: Soft chime sound for +1 Thread, louder chime for +2 Threads
+- **Text Popup**: "+1 Thread of Destiny (Spell Failure)" or "+2 Threads (Major Negative Outcome)"
+
+**Thread Spending Animation**:
+When you spend Threads to call a specific card:
+- **Cost Display**: "Call [A♠] - 2 Threads" button appears
+- **Spending**: 2 segments drain from bar with reverse animation
+- **Card Appearance**: The called card materializes from golden energy, spinning into your hand
+- **Audio**: Magical whoosh sound, card shuffle sound
+- **Text Popup**: "Called [A♠] from deck (-2 Threads)"
+
+**Deck Display Integration**:
+Your Threads gauge is positioned above your card deck display, showing:
+- **Top Card Preview**: If you have Destiny's Insight passive, top card of deck shown
+- **Cards in Hand**: Current cards drawn for active spell
+- **Cards Remaining**: "Cards in deck: 47/52"
+- **Call Card Interface**: Dropdown menu to select specific card to call (costs 2 Threads)
+
+**Call Card Interface** (when you have 2+ Threads):
+- **Button**: "Call Specific Card (2 Threads)" - glows when available
+- **Click**: Opens card selector showing all 52 cards
+- **Selection**: Click a card (e.g., A♠) → Confirmation "Call [A♠] for 2 Threads?"
+- **Confirm**: Card is pulled from deck, added to your hand, 2 Threads spent
+- **Limitation**: Once per turn (grayed out after use)
+
+**Failure Feedback System**:
+When a spell fails or produces negative outcome:
+- **Spell Effect**: Shows failure animation (e.g., cards fizzling, bust explosion)
+- **Thread Generation**: Golden threads emerge from the failure, flow to your bar
+- **Positive Spin**: Text says "Failure converted to 1 Thread!" (not just "Spell Failed")
+- **Visual**: Even failures look visually rewarding (golden energy, chimes, positive feedback)
+
+**Strategic Indicators**:
+- **At 0-3 Threads**: Tooltip says "Not enough to call cards - accept failures to build"
+- **At 4-7 Threads**: Tooltip says "Can call 2-3 cards - save for critical moments"
+- **At 8-12 Threads**: Tooltip says "Can call 4-6 cards - good reserve for manipulation"
+- **At 13-16 Threads**: Tooltip says "Can call 6-8 cards - aggressive manipulation available"
+- **At 17-20 Threads**: Tooltip says "AT CAP - spend or waste generation!"
+
+**Why This Matters**: The Threads of Destiny gauge transforms failures into victories. When you bust on Draw of the Damned and take damage, you don't just feel bad—you see 2 golden threads flow into your bar, hear the chime, and read "+2 Threads (Major Negative Outcome)". The visual feedback makes failures feel GOOD because they're building your power. Then, when you spend 8 Threads to call 4 specific cards and build a Royal Flush, you see each card materialize from golden energy, and you FEEL the payoff. The gauge isn't just a resource bar—it's a visual story of turning bad luck into good luck, one thread at a time.`
+    },
 
     mechanics: {
       title: 'How It Works',

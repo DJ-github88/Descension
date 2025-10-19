@@ -70,6 +70,173 @@ However, Titans must carefully manage their devotion restrictions. Each celestia
 - **Celestial Champion**: Enhances devotion benefits
 - **Divine Conduit**: Reduces devotion restrictions
 - **Astral Warrior**: Allows mid-combat devotion switching`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Celestial Champion',
+      content: `**The Setup**: You're a Titan (Celestial Champion specialization) attuned to Solara, the Radiant Sun. You're facing a group of shadow demons (4 shadow demons + 1 shadow lord). Your party is with you. Current Devotion: Solara (offensive radiant damage). Starting Mana: 50/60. Your goal: Use Solara's radiant damage bonuses to destroy the shadow demons, but manage the visibility drawback.
+
+**Starting State**: Devotion: Solara | Mana: 50/60 | HP: 75/75 | Radiant Aura: Active
+
+**Solara Devotion Benefits**:
+- +2d6 radiant damage to all melee attacks
+- Radiant Aura: Enemies within 10 ft take 1d6 radiant damage per turn
+- Once-per-day: "Solar Flare" (massive radiant AoE)
+
+**Solara Devotion Drawback**:
+- You glow with bright light (30 ft radius)
+- Enemies have advantage on attacks against you in bright light
+
+**Turn 1 - Radiant Strike (Radiant Damage: 0 → 19)**
+
+*Four shadow demons and their lord emerge from darkness. You BLAZE with Solara's light, a beacon in the shadows.*
+
+**Your Action**: Melee attack Shadow Demon #1
+**Attack Roll**: d20+6 → [15] = Hit!
+**Base Damage**: 2d8+4 → [7, 6] + 4 = 17 damage
+**Solara Bonus**: +2d6 radiant → [5, 6] = **+11 radiant damage**
+**Total Damage**: 17 + 11 = **28 damage**
+
+*Your weapon BLAZES with solar fire. The shadow demon SCREAMS as radiant light burns it.*
+
+**Shadow Demon #1**: Takes 28 damage → HEAVILY DAMAGED
+
+**Radiant Aura** (passive, start of your turn):
+**Effect**: All enemies within 10 ft take 1d6 radiant damage
+**Demons in Range**: Shadow Demons #1, #2, #3 (all within 10 ft)
+**Damage**: 1d6 → [4] = 4 radiant damage each
+
+*Your radiant aura PULSES. The demons within 10 feet BURN from proximity to your light.*
+
+**Shadow Demons #1, #2, #3**: Each take 4 radiant damage
+
+**Your Party's Mage**: "You're GLOWING! The demons are burning just from being near you!"
+**You**: "Solara's Radiant Aura. Enemies within 10 feet take 1d6 radiant damage per turn. And my melee attacks deal +2d6 radiant damage."
+
+**Shadow Demon #2's Turn**: Attacks you
+**Attack Roll**: d20+5 with ADVANTAGE (you're glowing in bright light) → [16, 12] → Take 16 = Hit!
+**Damage**: 2d6+3 → [5, 4] + 3 = **12 damage**
+
+**HP**: 75 - 12 = 63/75
+
+**Your Party's Tank**: "They have advantage against you because you're glowing!"
+**You**: "Solara's drawback. I emit bright light in 30 ft. Enemies have advantage on attacks against me in bright light. But the damage I deal makes it worth it."
+
+**Current State**: Devotion: Solara | Mana: 50/60 | HP: 63/75
+
+**Turn 2 - Solar Fury (Radiant Damage: 19 → 42)**
+
+*The shadow demons swarm you. Perfect. More targets for your radiant aura.*
+
+**Radiant Aura** (start of turn):
+**Demons in Range**: Shadow Demons #1, #2, #3, #4 (all within 10 ft now)
+**Damage**: 1d6 → [5] = 5 radiant damage each
+
+**Shadow Demon #1**: Takes 5 radiant damage → **DEAD** (was already heavily damaged)
+
+*The demon DISSOLVES in your radiant light.*
+
+**Your Action**: Melee attack Shadow Demon #2
+**Attack Roll**: d20+6 → [18] = Hit!
+**Base Damage**: 2d8+4 → [8, 7] + 4 = 19 damage
+**Solara Bonus**: +2d6 radiant → [6, 5] = **+11 radiant damage**
+**Total Damage**: 19 + 11 = **30 damage**
+
+**Shadow Demon #2**: Takes 30 damage → **DEAD**
+
+**Your Action (Bonus Action)**: "Radiant Smite" (8 mana, Solara-enhanced ability)
+**Effect**: Next attack deals additional 3d8 radiant damage
+
+**Mana**: 50 - 8 = 42/60
+
+*You channel Solara's power. Your weapon ERUPTS with solar fire.*
+
+**Your Party's Healer**: "Two demons dead already! Your radiant damage is devastating them!"
+**You**: "Shadow creatures are vulnerable to radiant damage. Solara is the perfect devotion for this fight."
+
+**Current State**: Devotion: Solara | Mana: 42/60 | HP: 63/75
+
+**Turn 3 - Solar Flare (Ultimate Ability)**
+
+*Two shadow demons and the shadow lord remain. Time to use Solara's ultimate ability.*
+
+**Radiant Aura** (start of turn):
+**Demons in Range**: Shadow Demons #3, #4, Shadow Lord
+**Damage**: 1d6 → [6] = 6 radiant damage each
+
+**Shadow Demons #3, #4**: Each take 6 radiant damage
+**Shadow Lord**: Takes 6 radiant damage
+
+**Your Action**: "SOLAR FLARE" (Solara's once-per-long-rest ultimate ability, no mana cost)
+**Effect**: Massive radiant explosion, 30 ft radius, 8d10 radiant damage, enemies blinded for 1 round
+
+*You raise your weapon to the sky. You CHANNEL SOLARA DIRECTLY. The sun itself seems to descend.*
+
+**Damage Roll**: 8d10 radiant → [9, 10, 8, 7, 9, 8, 10, 7] = **68 radiant damage!**
+
+*A MINIATURE SUN appears above you, then EXPLODES in a devastating wave of radiant fire.*
+
+**Shadow Demon #3**: Takes 68 radiant damage → **DISINTEGRATED**
+**Shadow Demon #4**: Takes 68 radiant damage → **DISINTEGRATED**
+**Shadow Lord**: Takes 68 radiant damage → HEAVILY DAMAGED (50% HP remaining)
+**Blinded**: Shadow Lord is blinded for 1 round
+
+**Your Party (shielding eyes)**: "WHAT WAS THAT?!"
+**You**: "Solar Flare. Solara's ultimate ability. Once per long rest. 68 radiant damage in 30 feet. The shadow demons couldn't withstand the sun's fury."
+
+**Current State**: Devotion: Solara | Mana: 42/60 | HP: 63/75
+
+**Turn 4 - Finishing the Shadow Lord**
+
+*Only the shadow lord remains, blinded and heavily damaged.*
+
+**Radiant Aura** (start of turn):
+**Shadow Lord in Range**: Yes
+**Damage**: 1d6 → [5] = 5 radiant damage
+
+**Shadow Lord**: Takes 5 radiant damage
+
+**Your Action**: Melee attack Shadow Lord (has disadvantage on attacks due to blindness)
+**Attack Roll**: d20+6 → [17] = Hit!
+**Base Damage**: 2d8+4 → [8, 6] + 4 = 18 damage
+**Solara Bonus**: +2d6 radiant → [6, 5] = **+11 radiant damage**
+**Radiant Smite** (from Turn 2): +3d8 radiant → [7, 8, 6] = **+21 radiant damage**
+**Total Damage**: 18 + 11 + 21 = **50 damage!**
+
+*Your weapon, still charged with Radiant Smite, EXPLODES with solar fire as it strikes the shadow lord.*
+
+**Shadow Lord**: Takes 50 damage → **DEAD**
+
+**Combat Over**
+
+*You stand victorious, still glowing with Solara's radiant light. The shadow demons are gone, burned away by the sun.*
+
+**Your Party's Mage**: "You dealt... incredible radiant damage. That Solar Flare alone did 68 damage to all of them."
+**You**: "Solara, the Radiant Sun. My devotion grants +2d6 radiant damage to all melee attacks. My Radiant Aura deals 1d6 radiant damage per turn to all enemies within 10 feet. And Solar Flare is my once-per-long-rest ultimate—8d10 radiant damage in 30 feet."
+**Your Party's Tank**: "But you were taking more hits because you're glowing."
+**You**: "Solara's drawback. I emit bright light in 30 feet, so enemies have advantage on attacks against me in bright light. I took 12 damage from a shadow demon that had advantage. But the offensive power is worth it."
+**Your Party's Healer**: "Could you have chosen a different devotion?"
+**You**: "Yes. Each morning during a long rest, I can attune to a different celestial being. I could choose Lunara for defense and healing, Terranox for maximum tankiness, Astraeus for speed and mobility, or Zephyra for attack speed. Each has different benefits and drawbacks. I chose Solara because we were fighting shadow demons, and radiant damage is devastating against them."
+
+**Final State**: Devotion: Solara | Mana: 42/60 | HP: 63/75
+
+**Damage Breakdown**:
+- Turn 1: 28 damage (melee) + 12 damage (aura to 3 demons) = 40 total
+- Turn 2: 30 damage (melee) + 20 damage (aura to 4 demons) = 50 total
+- Turn 3: 68 damage (Solar Flare to 3 enemies) + 18 damage (aura) = 204 total (68×3)
+- Turn 4: 50 damage (melee with Radiant Smite) + 5 damage (aura) = 55 total
+- **Grand Total**: ~350+ radiant damage dealt
+
+**The Lesson**: Titan gameplay is about:
+1. **Devotion Selection**: Chose Solara for offensive radiant damage against shadow demons
+2. **Radiant Aura**: Dealt 1d6 radiant damage per turn to all enemies within 10 ft (passive)
+3. **Melee Bonus**: +2d6 radiant damage on every melee attack (11 damage per hit)
+4. **Solar Flare**: Ultimate ability dealt 68 radiant damage in 30 ft radius, once per long rest
+5. **Radiant Smite**: Enhanced ability added 21 radiant damage to finishing blow
+6. **Drawback Management**: Accepted advantage for enemies in exchange for massive radiant damage
+7. **Daily Flexibility**: Can switch to different devotion (Lunara, Terranox, Astraeus, Zephyra) each long rest
+
+You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morning, you choose which celestial being to attune to, gaining their powers and restrictions. Solara makes you a radiant damage powerhouse—+2d6 on every melee attack, 1d6 aura damage per turn, and a devastating 8d10 Solar Flare ultimate. But you GLOW, giving enemies advantage. Lunara would make you a defensive tank with self-healing. Terranox would make you immovable with maximum defense. Each devotion changes your playstyle completely. You're not locked into one role—you ADAPT daily to the challenges ahead.`
     }
   },
   

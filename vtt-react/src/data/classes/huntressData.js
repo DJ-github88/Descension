@@ -89,6 +89,132 @@ Don't stand still. Use Shadowstep and Evasion to:
 - Coordinate companion attacks with team burst windows
 - Use mobility to assist allies in trouble
 - Mark priority targets for focused fire`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Shadow Glaive Dance',
+      content: `**The Setup**: You're a Huntress (Shadowblade specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
+
+**Starting State**: Quarry Marks: 2/10 | HP: 70/70 | Companion (Fang): 50/50 HP
+
+**Turn 1 - The Opening Chain (QM: 2 → 5)**
+
+*Five bandits stand in a tight group, weapons drawn. You grip your Shadow Glaive—a crescent-bladed polearm that hums with dark energy. Fang growls beside you, ready to strike.*
+
+**Your Action**: Shadow Glaive Attack on Bandit #1 (melee attack, chains to nearby enemies)
+**Attack Roll**: d20+7 → [16] = Hit!
+**Primary Target Damage**: 2d8+4 → [7, 6] + 4 = **17 damage** to Bandit #1
+
+*Your glaive strikes Bandit #1, and the blade GLOWS. Shadow energy arcs from the impact point, seeking nearby targets.*
+
+**Chain Mechanic**: Glaive chains to all enemies within 5 feet of primary target
+**Enemies in Range**: Bandits #2, #3, #4 (all within 5 feet of Bandit #1)
+**Chain Damage**: 1d8+4 to each chained target
+
+**Chain Attack #1 (Bandit #2)**: 1d8+4 → [6] + 4 = **10 damage**
+**Chain Attack #2 (Bandit #3)**: 1d8+4 → [7] + 4 = **11 damage**
+**Chain Attack #3 (Bandit #4)**: 1d8+4 → [5] + 4 = **9 damage**
+
+*The shadow energy EXPLODES outward, striking four bandits in one swing. They stagger, wounded.*
+
+**Total Damage**: 17 + 10 + 11 + 9 = **47 damage across 4 targets!**
+**Quarry Marks Generated**: +1 QM per successful hit = +4 QM (hit 4 enemies)
+**Quarry Marks**: 2 + 4 = **6 QM** (but max is 10, so capped at 6)
+
+*Wait, let me recalculate. You hit 1 primary target + 3 chained targets = 4 hits total. But Quarry Marks generate +1 per successful attack on marked enemies. Let me check the rules... Actually, you generate +1 QM per successful glaive attack, regardless of chains. So +1 QM total.*
+
+**Correction**: **Quarry Marks Generated**: +1 QM (successful glaive attack)
+**Quarry Marks**: 2 + 1 = **3 QM**
+
+**Companion's Turn (Fang)**: Attack Bandit #1 (commanded to attack)
+**Attack Roll**: d20+5 → [14] = Hit!
+**Damage**: 1d8+3 → [6] + 3 = **9 damage**
+**Result**: Bandit #1 takes 17 + 9 = 26 total damage, DEAD
+
+*Fang leaps forward, jaws clamping down on Bandit #1's throat. The bandit falls.*
+
+**Current State**: QM: 3/10 | 4 bandits remaining (all wounded)
+
+**Turn 2 - Spending Quarry Marks (QM: 3 → 1)**
+
+*The bandits regroup. Bandit #5 (who wasn't in the chain range) charges you. Time to use Quarry Marks.*
+
+**Bandit #5's Turn**: Attacks you → [17] → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
+**Your HP**: 70 - 12 = 58/70
+
+**Your Action**: Spend 2 Quarry Marks to extend glaive chain by +1 target
+**Quarry Marks**: 3 - 2 = **1 QM**
+
+*You focus your will. The Shadow Glaive pulses with darker energy. This next strike will chain further.*
+
+**Your Action**: Shadow Glaive Attack on Bandit #2
+**Attack Roll**: d20+7 → [18] = Hit!
+**Primary Target Damage**: 2d8+4 → [8, 7] + 4 = **19 damage** to Bandit #2
+
+**Chain Mechanic**: Normally chains to enemies within 5 feet, but you spent 2 QM for +1 target
+**Enemies in Range**: Bandits #3, #4, #5 (3 enemies)
+**Extended Chain**: Can hit 3 + 1 = **4 targets total** (but only 3 enemies in range, so hits all 3)
+
+**Chain Attack #1 (Bandit #3)**: 1d8+4 → [6] + 4 = **10 damage** → Bandit #3 DEAD (was already wounded)
+**Chain Attack #2 (Bandit #4)**: 1d8+4 → [8] + 4 = **12 damage** → Bandit #4 DEAD (was already wounded)
+**Chain Attack #3 (Bandit #5)**: 1d8+4 → [5] + 4 = **9 damage**
+
+*The glaive chains to THREE enemies this time, killing two of them. Only Bandits #2 and #5 remain.*
+
+**Quarry Marks Generated**: +1 QM (successful attack)
+**Quarry Marks**: 1 + 1 = **2 QM**
+
+**Companion's Turn (Fang)**: You command Fang to Defend you (+2 AC for 1 round)
+*Fang positions himself protectively in front of you, snarling at the remaining bandits.*
+
+**Current State**: QM: 2/10 | 2 bandits remaining | Your AC: 16 → 18 (Fang defending)
+
+**Turn 3 - Companion Empowerment (QM: 2 → 0 → 1)**
+
+*Two bandits left. Bandit #2 is wounded (19 damage taken), Bandit #5 is wounded (9 damage taken). Time to finish this.*
+
+**Your Action**: Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
+**Quarry Marks**: 2 - 1 = **1 QM**
+
+**Your Action**: Command Fang to attack Bandit #2
+**Fang's Attack Roll**: d20+5 → [16] = Hit!
+**Damage**: 1d8+3 + 1d6 (QM bonus) → [7] + 3 + [5] = **15 damage**
+**Result**: Bandit #2 DEAD
+
+*Fang's jaws glow with shadow energy as he tears into Bandit #2. The bandit falls.*
+
+**Your Action**: Shadow Glaive Attack on Bandit #5 (last enemy)
+**Attack Roll**: d20+7 → [19] = Hit!
+**Damage**: 2d8+4 → [8, 6] + 4 = **18 damage**
+**Result**: Bandit #5 DEAD
+
+*Your glaive sweeps through the last bandit. He falls. Combat over.*
+
+**Quarry Marks Generated**: +1 QM (successful attack)
+**Quarry Marks**: 1 + 1 = **2 QM** (banked for next fight)
+
+**Combat Over**
+
+*You stand among five corpses, your Shadow Glaive still humming with dark energy. Fang sits beside you, blood on his muzzle. Your party stares.*
+
+**Your Party's Mage**: "You... you killed four of them in one swing."
+**You**: "Shadow Glaive chains to nearby enemies. The closer they stand, the more they die together."
+**Your Party's Tank**: "And your wolf just... knew when to defend you?"
+**You**: "Fang and I are bonded. I command, he obeys. But we fight as one."
+**Fang**: *Growls in agreement*
+
+**Final State**: QM: 2/10 (banked) | HP: 58/70 | Fang: 50/50 HP
+
+**The Lesson**: Huntress gameplay is about:
+1. **Glaive Chaining**: Hit 1 primary target, chain to 3 nearby enemies = 4 hits in one attack (47 damage total in Turn 1)
+2. **Quarry Mark Generation**: +1 QM per successful glaive attack (not per chained enemy)
+3. **Quarry Mark Spending**: Spent 2 QM to extend chain by +1 target (Turn 2), spent 1 QM to enhance Fang's attack (Turn 3)
+4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2)
+5. **Positioning**: Enemies grouped together = maximum chain effectiveness
+6. **Burst Damage**: Turn 1 dealt 47 damage across 4 targets, Turn 2 dealt 50 damage across 4 targets (killed 2)
+7. **Resource Banking**: Ended with 2 QM banked for next fight
+
+You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies group up, your Shadow Glaive becomes a weapon of mass destruction. One swing, four hits. And with Quarry Marks, you can extend chains even further, empower your companion, or unleash ultimate abilities. The key is positioning—get enemies close together, then watch the shadow energy arc between them. And Fang isn't just a pet—he's a tactical asset. Attack when you need damage, Defend when you need protection, Support when you need utility. Together, you're unstoppable.`
     }
   },
   
@@ -96,9 +222,117 @@ Don't stand still. Use Shadowstep and Evasion to:
   resourceSystem: {
     title: 'Quarry Marks',
     subtitle: 'Hunter\'s Tracking System',
-    
+
     description: `The Huntress marks her prey through successful attacks, building up Quarry Marks that can be spent to enhance her abilities and empower her companion. This resource system rewards aggressive play and tactical decision-making, allowing the Huntress to choose between sustained damage or powerful burst abilities.`,
-    
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Quarry Marks Gauge',
+      content: `**What You See**: Your Quarry Marks gauge displays as 10 glowing hunter's marks arranged horizontally, each representing 1 Quarry Mark. The marks appear as stylized crosshair symbols that glow with silver-blue moonlight energy. As you mark your prey through successful attacks, the symbols fill and pulse with power.
+
+**Visual Representation by Quarry Mark Level**:
+
+**0 Quarry Marks (No Marks)**:
+- Marks: All 10 symbols empty, dim gray outlines
+- Border: Gray (neutral)
+- Status: "No Quarry Marks"
+- Companion Icon: Normal (no enhancements available)
+- Ability Buttons: All grayed out (need marks to activate)
+
+**1-2 Quarry Marks (Low Reserve)**:
+- Marks: 1-2 symbols filled with silver-blue glow
+- Border: White (building)
+- Status: "Building Marks"
+- Companion Icon: Slight glow (Empowered Strike available at 1 mark)
+- Ability Buttons: "Empowered Strike (1 QM)" glowing, others grayed out
+- Visual Effect: Faint moonlight particles around filled marks
+
+**3-4 Quarry Marks (Moderate Reserve)**:
+- Marks: 3-4 symbols filled, brighter glow
+- Border: Blue (moderate)
+- Status: "Moderate Marks"
+- Companion Icon: Glowing (Companion Special available at 3 marks)
+- Ability Buttons: "Empowered Strike (1 QM)", "Extended Chain (2 QM)", "Companion Special (3 QM)" all glowing
+- Visual Effect: Moonlight particles swirl around marks, connecting them with silver lines
+
+**5-7 Quarry Marks (High Reserve)**:
+- Marks: 5-7 symbols filled, intense silver-blue glow
+- Border: Green (good)
+- Status: "High Marks - Ultimate Available"
+- Companion Icon: Brightly glowing with moonlight aura
+- Ability Buttons: ALL abilities available including "Ultimate Ability (5 QM)"
+- Visual Effect: Marks pulse in sequence, moonlight energy flows between them
+- Special Indicator: "ULTIMATE READY" text appears
+
+**8-10 Quarry Marks (Maximum Reserve)**:
+- Marks: 8-10 symbols filled, maximum brightness
+- Border: Gold (excellent)
+- Status: "MAXIMUM MARKS"
+- Companion Icon: Pulsing with maximum power
+- Ability Buttons: All glowing, ultimate ability pulsing
+- Visual Effect: All marks connected by glowing silver lines forming a hunter's constellation pattern
+- Special Text: "APEX PREDATOR MODE"
+
+**Quarry Mark Generation Animation**:
+When you generate Quarry Marks:
+- **+1 QM (Successful Hit)**: Silver crosshair appears on enemy, flies to your bar, fills 1 mark symbol with glow
+- **+1 QM (Companion Hit)**: Companion's paw print appears on enemy, flies to bar, fills 1 mark
+- **+2 QM (Critical Hit)**: Two crosshairs appear with golden flash, fly to bar, fill 2 marks with dramatic animation
+- **Audio**: Bow string twang sound for +1 QM, louder twang + chime for +2 QM
+- **Text Popup**: "+1 Quarry Mark (Glaive Hit)" or "+2 QM (CRITICAL!)"
+
+**Quarry Mark Spending Animation**:
+When you spend Quarry Marks:
+- **1 QM (Empowered Strike)**: 1 mark drains, energy flows to companion icon, companion glows
+- **2 QM (Extended Chain)**: 2 marks drain, energy flows to glaive weapon icon, glaive glows with extended range indicator
+- **3 QM (Companion Special)**: 3 marks drain, energy BURSTS to companion, special ability animation plays
+- **5 QM (Ultimate)**: 5 marks drain in sequence, massive energy burst, ultimate ability activates
+- **Audio**: Spending sound (marks draining), ability-specific sound effect
+- **Text Popup**: "-2 Quarry Marks (Extended Chain)" or "-5 QM (ULTIMATE ACTIVATED)"
+
+**Companion Integration**:
+Your companion's portrait appears next to the Quarry Marks bar:
+- **Companion Portrait**: Shows your companion (wolf, owl, panther, etc.) with current HP bar
+- **Companion Status**: "Fang (Wolf) - 50/50 HP - Ready"
+- **Command Buttons**: "Attack", "Defend", "Support" buttons below portrait
+- **Enhancement Indicator**: When you spend QM on companion, portrait glows with corresponding effect
+  * 1 QM spent: "+1d6 damage" icon appears on portrait
+  * 3 QM spent: Special ability icon appears (stun, heal, buff, etc.)
+
+**Glaive Chain Indicator**:
+When you have 2+ Quarry Marks (can extend chain):
+- **Chain Preview**: Dotted lines appear connecting you to enemies within chain range
+- **Extended Chain Preview**: If you spend 2 QM, preview shows +1 additional target highlighted
+- **Example**: Normally chains to 3 enemies (shown with blue lines), spending 2 QM shows 4th enemy highlighted in gold
+
+**Ability Cost Display**:
+Below the Quarry Marks bar, ability buttons show:
+- **Empowered Strike (1 QM)**: Small icon, glows when you have 1+ QM
+- **Extended Chain (2 QM)**: Medium icon, glows when you have 2+ QM
+- **Companion Special (3 QM)**: Large icon, glows when you have 3+ QM
+- **Ultimate Ability (5 QM)**: HUGE icon, glows when you have 5+ QM, labeled "ULTIMATE"
+
+**Persistence Indicator**:
+- **Between Combats**: Quarry Marks bar shows "Banked: 4/10 QM - Persists to next combat"
+- **Visual**: Marks have a "locked" icon indicating they won't decay
+- **Strategic Info**: "Quarry Marks persist between combats - save for boss fights"
+
+**Companion Command Interface**:
+When you command your companion:
+- **Attack Command**: Companion portrait flashes red, attack animation plays, target gets crosshair
+- **Defend Command**: Companion portrait flashes blue, shield icon appears on you (+2 AC displayed)
+- **Support Command**: Companion portrait flashes green, buff/debuff icons appear on targets
+
+**Critical Hit Feedback**:
+When you score a critical hit:
+- **Screen Flash**: Brief silver flash
+- **Mark Generation**: Two marks fill simultaneously with golden glow
+- **Audio**: Dramatic critical hit sound + double chime
+- **Text**: "CRITICAL HIT! +2 Quarry Marks!"
+- **Companion Reaction**: Companion portrait shows excited animation (wolf howls, owl screeches, etc.)
+
+**Why This Matters**: The Quarry Marks gauge isn't just a resource bar—it's a HUNT TRACKER. When you hit an enemy with your Shadow Glaive, you see a silver crosshair appear on them, fly to your bar, and fill a mark symbol. You're literally MARKING your quarry. When you have 5 marks and the "ULTIMATE READY" text appears, you KNOW you can unleash your specialization's ultimate ability. The companion integration makes Fang (or your chosen companion) feel like a true partner—when you spend 1 QM to empower his attack, you see the energy flow from your marks to his portrait, and his next attack glows with bonus damage. The chain preview shows you exactly which enemies will be hit, and spending 2 QM to extend the chain shows the additional target highlighted in gold. Every mark generated, every mark spent, every companion command—it all has visual feedback that makes you feel like a master hunter coordinating with your beast companion to take down your prey.`
+    },
+
     mechanics: {
       title: 'How It Works',
       content: `**Generating Quarry Marks**:

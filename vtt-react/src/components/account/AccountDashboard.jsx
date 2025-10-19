@@ -9,6 +9,7 @@ import { getClassResourceConfig, initializeClassResource } from '../../data/clas
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
 import RoomManager from './RoomManager';
+import ClassResourceBar from '../hud/ClassResourceBar';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
 
@@ -530,34 +531,14 @@ const AccountDashboard = ({ user }) => {
                                   };
                                 }
 
-                                // Check for special effects
-                                const hasChaoticWave = classConfig.visual.effects?.includes('chaotic-wave');
-
-                                // Debug logging
-                                console.log('AccountDashboard ClassResource Debug:', {
-                                  className,
-                                  hasChaoticWave,
-                                  effects: classConfig.visual.effects,
-                                  activeColor: classConfig.visual.activeColor,
-                                  baseColor: classConfig.visual.baseColor
-                                });
-
                                 return (
-                                  <div className="resource-bar-item class-resource">
-                                    <div className="resource-header">
-                                      <span className="resource-label">{classConfig.shortName}</span>
-                                      <span className="resource-value">{classResource.current}/{classResource.max}</span>
-                                    </div>
-                                    <div className="resource-bar-container class-resource-container">
-                                      <div
-                                        className={`resource-bar-fill class-resource-fill class-resource ${hasChaoticWave ? 'chaotic-wave-bar' : ''}`}
-                                        data-effect={hasChaoticWave ? 'chaotic-wave' : undefined}
-                                        style={{
-                                          width: `${(classResource.current / classResource.max) * 100}%`,
-                                          background: hasChaoticWave ? undefined : `linear-gradient(90deg, ${classConfig.visual.baseColor}, ${classConfig.visual.activeColor})`
-                                        }}
-                                      ></div>
-                                    </div>
+                                  <div className="resource-bar-item class-resource-full">
+                                    <ClassResourceBar
+                                      characterClass={className}
+                                      classResource={classResource}
+                                      size="normal"
+                                      isGMMode={false}
+                                    />
                                   </div>
                                 );
                               })()}

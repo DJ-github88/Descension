@@ -66,6 +66,195 @@ However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno L
 - Requires protection from tanks when at high Inferno Levels
 - Benefits from healers who can offset self-damage
 - Synergizes with crowd control to safely ascend`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Infernal Ascension',
+      content: `**The Setup**: You're a Pyrofiend (Inferno specialization) facing a powerful ice elemental and its minions (1 ice elemental + 4 frost wraiths). Your party is with you. Starting Inferno Level: 0. Starting Mana: 60/60. Your goal: Ascend through Inferno Levels to maximize fire damage, but manage the increasingly severe drawbacks.
+
+**Starting State**: Inferno Level: 0/9 | Fire Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
+
+**Turn 1 - First Flames (Inferno: 0 → 2)**
+
+*The ice elemental looms before you, frost radiating from its crystalline form. You feel the demonic fire stirring within. Time to let it OUT.*
+
+**Your Action**: Cast "Hellfire Bolt" at Ice Elemental (8 mana, ascends +2 Inferno)
+**Attack Roll**: d20+7 → [16] = Hit!
+**Base Damage**: 3d10 fire → [8, 9, 7] = 24 fire damage
+**Inferno Bonus**: +0 (currently at Level 0)
+**Total Damage**: **24 fire damage**
+
+*The bolt of hellfire SLAMS into the elemental. It recoils, ice cracking.*
+
+**Inferno Ascension**: 0 → **2** (Hellfire Bolt ascends +2)
+**Fire Damage Bonus**: +0 → **+2**
+**Drawback (Level 2 - Greed)**: "You must collect 50% of all treasure found"
+
+**Mana**: 60 - 8 = 52/60
+
+*You feel the inferno rising within you. Your eyes begin to GLOW with inner fire. Heat radiates from your skin.*
+
+**Your Party's Tank**: "Your eyes... they're glowing!"
+**You**: "The fire is waking up. Inferno Level 2. I'm just getting started."
+
+**Current State**: Inferno: 2/9 | Fire Bonus: +2 | Mana: 52/60 | HP: 45/45
+
+**Turn 2 - Rising Heat (Inferno: 2 → 5)**
+
+*The frost wraiths attack, but your tank intercepts. The ice elemental prepares a frost nova. You need MORE POWER.*
+
+**Your Action**: Cast "Infernal Immolation" at Frost Wraith group (12 mana, ascends +3 Inferno, AoE)
+**Effect**: 4d8 fire damage to all enemies in 15 ft radius
+**Damage Roll**: 4d8 → [7, 8, 6, 7] = 28 fire damage
+**Inferno Bonus**: +2 (currently at Level 2)
+**Total Damage**: 28 + 2 = **30 fire damage to 4 frost wraiths**
+
+*You raise your hands. INFERNAL FIRE explodes outward in a massive sphere. The wraiths SCREAM as they burn.*
+
+**Frost Wraiths**: 2 wraiths DEAD (30 damage each), 2 wraiths heavily damaged
+
+**Inferno Ascension**: 2 → **5** (Infernal Immolation ascends +3)
+**Fire Damage Bonus**: +2 → **+5**
+**Drawback (Level 5 - Wrath)**: "You must attack the creature that last damaged you"
+
+**Mana**: 52 - 12 = 40/60
+
+*The fire SURGES through you. Your skin begins to crack, revealing MOLTEN VEINS beneath. Small horns sprout from your forehead. The air around you SHIMMERS with heat.*
+
+**Your Party's Healer**: "You're... changing. Your skin is cracking!"
+**You**: "Inferno Level 5. The demon is emerging. +5 fire damage to all my spells now."
+**Your Party's Mage**: "But what's the cost?"
+**You**: "Wrath. I must attack whoever last hurt me. And greed—I need half the treasure. Small prices for THIS POWER."
+
+*You take 3 damage from a frost wraith's attack*
+
+**Wrath Drawback Triggered**: You MUST attack that frost wraith next turn
+
+**Current State**: Inferno: 5/9 | Fire Bonus: +5 | Mana: 40/60 | HP: 42/45
+
+**Turn 3 - Demonic Fury (Inferno: 5 → 7)**
+
+*The wrath consumes you. You MUST burn the wraith that dared strike you.*
+
+**Your Action (Compelled by Wrath)**: Cast "Hellfire Bolt" at Frost Wraith that damaged you (8 mana, ascends +2)
+**Attack Roll**: d20+7 → [18] = Hit!
+**Base Damage**: 3d10 fire → [9, 10, 8] = 27 fire damage
+**Inferno Bonus**: +5 (currently at Level 5)
+**Total Damage**: 27 + 5 = **32 fire damage**
+
+*The wraith EXPLODES in flames, utterly annihilated.*
+
+**Frost Wraith**: DEAD
+
+**Inferno Ascension**: 5 → **7** (Hellfire Bolt ascends +2)
+**Fire Damage Bonus**: +5 → **+7**
+**Drawback (Level 7 - Gluttony)**: "You must consume 2x normal food/water, take 1d6 damage per turn if you don't"
+
+**Mana**: 40 - 8 = 32/60
+
+*The transformation accelerates. Your horns GROW LARGER. Your eyes are PITS OF FLAME. Sulfurous smoke pours from your mouth. Your voice echoes with INFERNAL RESONANCE.*
+
+**You (voice echoing)**: "INFERNO LEVEL SEVEN. THE DEMON HUNGERS."
+
+**Gluttony Damage**: You haven't eaten recently → Take 1d6 → [4] = 4 damage
+
+**HP**: 42 - 4 = 38/45
+
+**Your Party's Tank**: "You're hurting yourself!"
+**You**: "The gluttony... the demon HUNGERS. But look at my damage—+7 fire damage to EVERY spell. That last Hellfire Bolt did 32 damage!"
+
+**Current State**: Inferno: 7/9 | Fire Bonus: +7 | Mana: 32/60 | HP: 38/45
+
+**Turn 4 - Maximum Inferno (Inferno: 7 → 9)**
+
+*Only the ice elemental and one frost wraith remain. The elemental is at 60% HP. You need MAXIMUM POWER.*
+
+**Your Action**: Cast "Demonic Conflagration" at Ice Elemental (15 mana, ascends +2, ultimate fire spell)
+**Attack Roll**: d20+7 → [19] = Hit!
+**Base Damage**: 6d12 fire → [11, 10, 12, 9, 11, 10] = 63 fire damage
+**Inferno Bonus**: +7 (currently at Level 7)
+**Total Damage**: 63 + 7 = **70 fire damage!**
+
+*You unleash DEMONIC HELLFIRE. The flames are BLACK and RED, wreathed in sulfur. The ice elemental MELTS, screaming.*
+
+**Ice Elemental**: Takes 70 fire damage → HEAVILY DAMAGED (near death)
+
+**Inferno Ascension**: 7 → **9** (MAXIMUM INFERNO)
+**Fire Damage Bonus**: +7 → **+10** (maximum)
+**Drawback (Level 9 - Pride)**: "You cannot accept help from allies, must fight alone"
+
+**Mana**: 32 - 15 = 17/60
+
+*You have reached MAXIMUM INFERNO. You are MORE DEMON THAN MORTAL. Massive horns curl from your head. Your skin is CRACKED OBSIDIAN revealing LAVA beneath. Wings of SHADOW and FLAME spread from your back. Your voice is PURELY DEMONIC.*
+
+**You (demonic voice)**: "I AM BECOME INFERNO. WITNESS TRUE POWER."
+
+**Your Party's Healer**: "I need to heal you—you're at 38 HP!"
+**You**: "NO. Pride forbids it. I fight ALONE now. But I have +10 fire damage. MAXIMUM POWER."
+
+**Gluttony Damage**: 1d6 → [5] = 5 damage
+**HP**: 38 - 5 = 33/45
+
+**Current State**: Inferno: 9/9 (MAX) | Fire Bonus: +10 | Mana: 17/60 | HP: 33/45
+
+**Turn 5 - The Price of Power**
+
+*You are at maximum inferno. +10 fire damage. But you're taking 5 damage per turn from gluttony, you can't accept healing from allies (pride), you must attack whoever hurts you (wrath), and you need half the treasure (greed).*
+
+**Ice Elemental's Turn**: Casts Frost Nova at you → 18 cold damage
+**HP**: 33 - 18 = 15/45
+
+**Wrath Triggered**: You MUST attack the ice elemental next turn (fortunately, that's your target anyway)
+
+**Your Action**: Cast "Hellfire Bolt" at Ice Elemental (8 mana, ascends +2 but already at max)
+**Attack Roll**: d20+7 → [17] = Hit!
+**Base Damage**: 3d10 fire → [8, 9, 10] = 27 fire damage
+**Inferno Bonus**: +10 (MAXIMUM)
+**Total Damage**: 27 + 10 = **37 fire damage!**
+
+*BLACK HELLFIRE engulfs the elemental. It SHATTERS into steam and ice shards.*
+
+**Ice Elemental**: DEAD
+
+**Mana**: 17 - 8 = 9/60
+
+**Your Party's Rogue**: Kills last frost wraith
+
+**Combat Over**
+
+*You stand among the melted remains, wings of shadow-flame spread wide, eyes blazing. Then you cast Cooling Ember.*
+
+**Your Action (After Combat)**: Cast "Cooling Ember" (5 mana, descends -3 Inferno)
+**Inferno Descent**: 9 → **6**
+**Fire Damage Bonus**: +10 → **+6**
+**Drawbacks Removed**: Pride removed (can accept help again)
+
+**Mana**: 9 - 5 = 4/60
+
+*The demonic transformation begins to RECEDE. Your wings fade. Your horns shrink. The cracks in your skin seal. You're still partially demonic (Level 6), but no longer at the dangerous maximum.*
+
+**Your Party's Healer**: Heals you for 20 HP
+**HP**: 15 + 20 = 35/45
+
+**Your Party's Tank**: "That was... terrifying. You did 70 damage in one hit."
+**You**: "Demonic Conflagration with +7 fire damage at Inferno Level 7. Then I ascended to Level 9—maximum inferno. At Level 9, I had +10 fire damage. My Hellfire Bolt did 37 damage."
+**Your Party's Mage**: "But you were taking damage every turn and couldn't accept healing."
+**You**: "The drawbacks. Level 2 was greed (need half the treasure). Level 5 was wrath (must attack whoever hurts me). Level 7 was gluttony (take 1d6 damage per turn). Level 9 was pride (can't accept help). Each level gives +1 fire damage but adds a drawback."
+**Your Party's Healer**: "And Cooling Ember?"
+**You**: "Descends me -3 Inferno Levels. I went from 9 to 6, removing the pride drawback so you could heal me. I'm still at Level 6, so I still have greed, wrath, and gluttony, but I can manage those."
+
+**Final State**: Inferno: 6/9 | Fire Bonus: +6 | Mana: 4/60 | HP: 35/45
+
+**The Lesson**: Pyrofiend gameplay is about:
+1. **Inferno Ascension**: Started at Level 0, ascended to Level 9 (maximum) through fire spells
+2. **Damage Scaling**: Level 0 (+0) → Level 2 (+2) → Level 5 (+5) → Level 7 (+7) → Level 9 (+10)
+3. **Spell Damage**: Hellfire Bolt at Level 0 = 24 damage, at Level 9 = 37 damage (+13 damage!)
+4. **Ultimate Power**: Demonic Conflagration with +7 bonus = 70 damage in one hit
+5. **Drawback Management**: Level 2 (greed), Level 5 (wrath), Level 7 (gluttony), Level 9 (pride)
+6. **Self-Damage**: Gluttony dealt 4 + 5 = 9 damage over 2 turns
+7. **Cooling Ember**: Descended from 9 → 6 to remove pride, allowing healing
+
+You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno Levels, each one adding +1 fire damage but imposing thematic drawbacks (greed, wrath, gluttony, pride). At Level 9, you're MORE DEMON THAN MORTAL—+10 fire damage, massive horns, wings of flame, but you can't accept help and you're taking damage every turn. The key is knowing when to ascend for burst damage and when to use Cooling Ember to descend and manage drawbacks. You're not a safe class. You're a DEMONIC GLASS CANNON who trades humanity for DEVASTATING POWER.`
     }
   },
   

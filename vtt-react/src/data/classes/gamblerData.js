@@ -15,7 +15,20 @@ export const GAMBLER_DATA = {
   overview: {
     title: 'The Gambler',
     subtitle: 'Master of Fortune and Fate',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Gambler generates Fortune Points by successfully casting spells or landing attacks. Spend Fortune Points to adjust roll results by ±1 each (similar to Chaos Weaver's Mayhem Modifiers, but for YOUR rolls). Three specializations use different mechanics: coin flips, dice rolls, and card draws. Spells include rollable tables with multiple outcomes (Jackpot: 3d20 slot machine with 20 outcomes, Fate's Coin: 6 coin flip options, High Roller: 3 d20-based bets, Death Roll: competitive 5d20 game).
+
+**Core Mechanic**: Successful spell/attack → Generate Fortune Points → Spend to adjust YOUR roll results by ±1 per point
+
+**Resource**: Fortune Points (0-20, generated from successful actions)
+
+**Playstyle**: High-risk damage dealer, probability manipulation, rollable table specialist, luck-based utility
+
+**Best For**: Players who enjoy gambling mechanics, adjusting roll results, and unpredictable high-variance gameplay`
+    },
+
     description: `The Gambler is a daring risk-taker who manipulates luck and probability to gain an edge in combat. Embracing high-risk, high-reward strategies, Gamblers are known for their bold moves and their ability to turn the tide of battle with a well-placed bet. They thrive on chance and the thrill of unpredictability, using Fortune Points to influence outcomes and transform random chance into calculated advantage.`,
     
     roleplayIdentity: {
@@ -114,6 +127,141 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 - **Card Sharp**: Strategic gambling with calculated risks, deck manipulation
 
 **Perfect For**: Players who enjoy randomness, dramatic moments, risk/reward decisions, and don't mind occasional spectacular failures in pursuit of legendary successes.`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The House Always Wins',
+      content: `**The Setup**: You're a Gambler (High Roller specialization) facing a powerful ogre champion and two goblin minions. Your party needs you to deal damage, but your spells are gambling-based—high risk, high reward. Starting Fortune Points: 3 (from previous encounter). Starting Mana: 40/50. Your goal: Build Fortune Points through successful actions, use them to adjust critical rolls, and unleash devastating gambling abilities.
+
+**Starting State**: Fortune Points: 3/20 | Mana: 40/50 | HP: 60/70
+
+**Turn 1 - Building Fortune (FP: 3 → 5)**
+
+*The ogre roars, raising its massive club. The goblins cackle, circling. You pull out a pair of enchanted dice, grinning. "Let's make this interesting."*
+
+**Your Action**: Cast "Lucky Strike" on Ogre (5 mana, roll 1d20 for damage multiplier)
+**Attack Roll**: d20+5 → [16] = Hit!
+**Damage Multiplier Roll**: 1d20 → [14] = 14x multiplier!
+**Base Damage**: 1d6 → [4] = 4 damage
+**Total Damage**: 4 × 14 = **56 damage!**
+
+*The dice glow golden as they roll. Fourteen. The ogre takes a MASSIVE hit of magical energy. It staggers, roaring in pain.*
+
+**Fortune Points Generated**: +1 FP (successful spell cast)
+**Fortune Points**: 3 + 1 = **4 FP**
+**Mana**: 40 - 5 = 35/50
+
+**Ogre's Turn**: Attacks you → [18] → Hit! → 3d8+5 → [6, 7, 5] + 5 = 23 damage
+**Your HP**: 60 - 23 = 37/70
+
+*The ogre's club slams into you. You're hurt, but you're SMILING. That damage roll was worth it.*
+
+**Your Party's Healer**: Heals you for 15 HP
+**Your HP**: 37 + 15 = 52/70
+
+**Current State**: FP: 4/20 | Mana: 35/50 | HP: 52/70
+
+**Turn 2 - The Gamble (FP: 4 → 6)**
+
+*You're at 4 Fortune Points. Time to use your signature spell: "Jackpot" - a 3d20 slot machine with 20 different outcomes. You roll 3d20 and match the results to a table. But the rolls are random. Unless...*
+
+**Your Action**: Cast "Jackpot" on Ogre (8 mana, roll 3d20 and consult outcome table)
+**3d20 Roll**: [12], [7], [19]
+
+*Three magical slot machine reels appear above the ogre. They spin, then STOP. 12. 7. 19. You check the table...*
+
+**Outcome Lookup**: 12-7-19 → "Moderate Win" → 4d10 damage + stun for 1 round
+
+*Not bad, but not great. You have 4 Fortune Points. You could spend them to adjust the rolls. If you change [12] to [20], [7] to [20], and [19] to [20], you'd get triple 20s—the JACKPOT outcome (10d10 damage + paralysis). That would cost 3 Fortune Points (12→20 = 8 points... wait, that's too expensive).*
+
+*Actually, let me check the table for better outcomes. If you change [7] to [20] (costs 13 Fortune Points—you don't have that many). Okay, different strategy. What if you adjust [12] to [15]? That's 3 Fortune Points. Let's see what 15-7-19 gives...*
+
+**Decision**: Spend 3 Fortune Points to change [12] to [15]
+**Fortune Points**: 4 - 3 = **1 FP**
+**Adjusted Roll**: [15], [7], [19]
+**Outcome Lookup**: 15-7-19 → "Big Win" → 6d10 damage + stun for 2 rounds + gain 2 Fortune Points
+
+*You snap your fingers. The first reel SHIFTS from 12 to 15. The slot machine dings. BIG WIN!*
+
+**Damage Roll**: 6d10 → [8, 9, 7, 10, 6, 8] = **48 damage!**
+**Effect**: Ogre stunned for 2 rounds
+**Fortune Points Generated**: +1 FP (successful spell) +2 FP (Big Win bonus) = +3 FP total
+**Fortune Points**: 1 + 3 = **4 FP**
+
+*The ogre is BLASTED by magical energy. It falls to one knee, stunned. The goblins back away, terrified.*
+
+**Mana**: 35 - 8 = 27/50
+**Current State**: FP: 4/20 | Mana: 27/50 | HP: 52/70 | Ogre: Stunned (2 rounds)
+
+**Turn 3 - Finishing the Goblins (FP: 4 → 6)**
+
+*The ogre is stunned. Time to clean up the goblins.*
+
+**Your Action**: Cast "Fate's Coin" on Goblin #1 (4 mana, flip coin for outcome)
+**Coin Flip**: Heads or Tails? → [Heads]
+**Outcome**: Heads → "Lucky Strike" → 3d8 damage + gain 1 Fortune Point
+
+**Damage Roll**: 3d8 → [7, 6, 8] = **21 damage**
+**Result**: Goblin #1 DEAD (overkill)
+**Fortune Points Generated**: +1 FP (successful spell) +1 FP (Lucky Strike bonus) = +2 FP
+**Fortune Points**: 4 + 2 = **6 FP**
+
+*You flip a golden coin. It spins in the air, glowing. Heads. The goblin is struck by a bolt of luck-infused energy. Dead.*
+
+**Mana**: 27 - 4 = 23/50
+
+**Goblin #2's Turn**: Attacks you → [11] → Miss!
+
+**Current State**: FP: 6/20 | Mana: 23/50 | HP: 52/70
+
+**Turn 4 - The Ultimate Gamble (FP: 6 → 8)**
+
+*The ogre shakes off the stun. It's wounded (104 damage taken total) but still alive. One goblin remains. You have 6 Fortune Points. Time for the ultimate gamble: "Death Roll."*
+
+**Your Action**: Cast "Death Roll" on Ogre (10 mana, competitive 5d20 game)
+**How It Works**: You and the target each roll 5d20. Highest total wins. Winner deals damage equal to the difference.
+
+**Your Roll**: 5d20 → [18, 12, 15, 9, 14] = **68 total**
+**Ogre's Roll**: 5d20 → [16, 11, 13, 10, 17] = **67 total**
+
+*You're winning by 1. But that's not enough damage to kill the ogre. You have 6 Fortune Points. You could spend them to increase your total or decrease the ogre's total. Let's increase your [9] to [15] (costs 6 Fortune Points).*
+
+**Decision**: Spend 6 Fortune Points to change your [9] to [15]
+**Fortune Points**: 6 - 6 = **0 FP**
+**Adjusted Your Roll**: [18, 12, 15, 15, 14] = **74 total**
+**Difference**: 74 - 67 = **7**
+
+*You focus your will. The dice SHIFT. Your 9 becomes a 15. The ogre's eyes widen.*
+
+**Damage**: 7d10 (difference of 7) → [9, 8, 10, 7, 6, 9, 8] = **57 damage!**
+
+*The ogre EXPLODES in a burst of magical energy. Dead. The remaining goblin flees.*
+
+**Fortune Points Generated**: +1 FP (successful spell) +1 FP (won Death Roll) = +2 FP
+**Fortune Points**: 0 + 2 = **2 FP**
+**Mana**: 23 - 10 = 13/50
+
+**Combat Over**
+
+*You stand among the corpses, breathing heavily. Your party stares at you.*
+
+**Your Party's Tank**: "Did you just... gamble the ogre to death?"
+**You**: "I didn't gamble. I CALCULATED. 68 vs 67? I spent 6 Fortune Points to turn that into 74 vs 67. The house always wins when you control the dice."
+**Your Party's Mage**: "But what if you'd rolled lower?"
+**You**: "Then I would have spent Fortune Points to adjust. That's the secret—build Fortune Points through successful actions, then spend them to turn near-wins into guaranteed wins. Luck is just probability you haven't manipulated yet."
+
+**Final State**: FP: 2/20 (banked for next fight) | Mana: 13/50 | HP: 52/70
+
+**The Lesson**: Gambler gameplay is about:
+1. **Fortune Point Generation**: Generated 8 FP total (4 from successful spells, 2 from Big Win, 2 from Death Roll win)
+2. **Fortune Point Spending**: Spent 9 FP total (3 to adjust Jackpot roll, 6 to adjust Death Roll)
+3. **Roll Adjustment**: Changed [12] to [15] in Jackpot (cost 3 FP, gained better outcome), changed [9] to [15] in Death Roll (cost 6 FP, increased damage by 60)
+4. **Risk Management**: Jackpot is random (3d20 with 20 outcomes), but Fortune Points let you adjust rolls to hit better outcomes
+5. **Outcome Tables**: Jackpot has outcomes ranging from "Critical Fail" (damage yourself) to "JACKPOT" (10d10 + paralysis)
+6. **Competitive Gambling**: Death Roll pits your rolls against enemy rolls—Fortune Points let you tip the scales
+7. **Resource Conversion**: Spent 37 mana and 9 Fortune Points to deal 161 total damage (56 + 48 + 21 + 57) in 4 turns
+
+You're not a consistent damage dealer. You're a GAMBLER who manipulates probability. You roll dice, flip coins, spin slot machines—but you're not leaving it to chance. You build Fortune Points through successful actions, then spend them to adjust critical rolls. When you roll 68 vs 67 in Death Roll, you don't accept the 1-point difference—you spend 6 Fortune Points to turn it into 7 points and deal 57 damage instead of 10. The randomness is real, but you control it. That's the Gambler's edge.`
     }
   },
   
@@ -121,9 +269,120 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
   resourceSystem: {
     title: 'Fortune Points',
     subtitle: 'Manipulating Luck and Probability',
-    
+
     description: `Fortune Points represent the Gambler's accumulated luck and their ability to influence fate. As they succeed in combat, they build Fortune Points, which they can then spend to adjust the outcomes of their gambles. This system allows Gamblers to embrace luck-based abilities while maintaining strategic control over critical moments.`,
-    
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Fortune Points Gauge',
+      content: `**What You See**: Your Fortune Points gauge displays as a horizontal bar with 20 segments, each representing 1 Fortune Point. The bar is styled like a golden coin stack with glowing poker chips. As you accumulate Fortune Points, the segments fill with shimmering gold energy, representing your accumulated luck.
+
+**Visual Representation by Fortune Point Level**:
+
+**0-2 Fortune Points (Minimal Control)**:
+- Bar: 0-2 segments filled with dim gold glow
+- Border: Red (warning)
+- Effect: Minimal visual effects, bar looks depleted
+- Status: "Low Fortune - Build Points"
+- Recommendation: "Focus on successful attacks/spells to build Fortune"
+- Dice Icon: Grayed out (not enough to adjust rolls meaningfully)
+
+**3-5 Fortune Points (Low Control)**:
+- Bar: 3-5 segments filled, gold glow brightening
+- Border: Orange (caution)
+- Effect: Faint golden sparkles around bar
+- Status: "Low Fortune"
+- Recommendation: "Can adjust minor rolls, save for important moments"
+- Dice Icon: Dim glow (can adjust rolls by ±3 to ±5)
+
+**6-10 Fortune Points (Moderate Control)**:
+- Bar: 6-10 segments filled, bright gold energy
+- Border: Yellow (moderate)
+- Effect: Golden coins appear to spin around the bar
+- Status: "Moderate Fortune"
+- Recommendation: "Comfortable using medium-risk abilities"
+- Dice Icon: Glowing (can adjust rolls by ±6 to ±10)
+- Ability Unlocks: Medium-risk abilities highlighted
+
+**11-15 Fortune Points (High Control)**:
+- Bar: 11-15 segments filled, intense golden glow
+- Border: Green (good)
+- Effect: Golden coins and poker chips swirl around bar, lucky symbols appear
+- Status: "High Fortune - Strong Control"
+- Recommendation: "Can afford multiple adjustments, safe to use high-risk abilities"
+- Dice Icon: Brightly glowing with lucky aura
+- Ability Unlocks: High-risk abilities highlighted
+
+**16-20 Fortune Points (Maximum Control)**:
+- Bar: 16-20 segments filled, maximum brightness
+- Border: Blue (excellent)
+- Effect: Bar overflows with golden energy, four-leaf clovers and lucky symbols orbit the bar
+- Status: "MAXIMUM FORTUNE - Near-Complete Control"
+- Recommendation: "Use ultimate abilities freely, adjust any roll"
+- Dice Icon: Pulsing with maximum power
+- Ability Unlocks: ALL abilities available, ultimate gambles recommended
+- Special Text: "THE HOUSE ALWAYS WINS"
+
+**Fortune Point Generation Animation**:
+When you generate Fortune Points:
+- **+1 FP (Successful Action)**: Single golden coin appears from your character, flies to bar, fills 1 segment with chime sound
+- **+2 FP (Critical Success)**: Two golden coins appear, spin together, fly to bar with louder chime
+- **+1 FP (Winning Gamble)**: Poker chip appears from spell effect, flies to bar with casino sound
+- **Text Popup**: "+1 Fortune Point (Successful Spell)" or "+2 FP (Critical Hit!)"
+
+**Fortune Point Spending Animation**:
+When you spend Fortune Points to adjust a roll:
+- **Spending Prompt**: After you roll, prompt appears: "Adjust roll? (You have 8 FP)"
+- **Adjustment Interface**: Slider appears showing current roll (e.g., "14") with +/- buttons
+- **Spending**: Click + to increase roll (costs 1 FP per +1), click - to decrease
+- **Visual**: Each FP spent shows a golden coin flying from bar to the dice, dice number CHANGES
+- **Confirmation**: "Spent 3 FP: 14 → 17" with golden flash
+- **Audio**: Coin spending sound, dice re-rolling sound
+
+**Roll Adjustment Interface** (appears after any roll):
+- **Current Roll Display**: Large dice showing your roll (e.g., "14")
+- **Fortune Point Counter**: "You have 8 Fortune Points"
+- **Adjustment Slider**:
+  * Left side: "-8" (decrease by 8) → "6"
+  * Center: "0" (no change) → "14"
+  * Right side: "+8" (increase by 8) → "22"
+- **Cost Display**: "Spend 3 FP to change 14 → 17"
+- **Confirm Button**: "Adjust Roll" (spends FP and changes result)
+- **Cancel Button**: "Accept Roll" (no FP spent)
+
+**Special Roll Indicators**:
+- **Natural 20**: If you roll natural 20, bar flashes gold, "+2 FP (CRITICAL!)" appears
+- **Near-Miss**: If you roll 18-19 (close to crit), tooltip suggests "Spend 1-2 FP for guaranteed crit?"
+- **Critical Fail**: If you roll natural 1, tooltip suggests "Spend FP to avoid critical failure?"
+
+**Gambling Ability Integration**:
+When you cast gambling spells (Jackpot, Death Roll, Fate's Coin):
+- **Pre-Roll**: Fortune Point bar pulses, showing available FP for adjustment
+- **During Roll**: Dice/coins/cards appear with animation
+- **Post-Roll**: Adjustment interface appears immediately
+- **Example (Jackpot)**: Roll 3d20 → [12, 7, 19] → Prompt: "Spend FP to adjust? (3 FP to change 12→15)"
+
+**Outcome Table Integration** (for Jackpot, etc.):
+- **Table Display**: Shows all possible outcomes with your current roll highlighted
+- **Adjustment Preview**: Hover over different outcomes to see FP cost to reach them
+- **Example**:
+  * Current: [12, 7, 19] = "Moderate Win" (4d10 damage)
+  * Hover [15, 7, 19]: "Big Win (6d10 damage) - Cost: 3 FP"
+  * Hover [20, 20, 20]: "JACKPOT (10d10 damage) - Cost: 21 FP (NOT ENOUGH)"
+
+**Persistence Indicator**:
+- **Between Combats**: Fortune Points bar shows "Banked: 8/20 FP - Persists until long rest"
+- **Visual**: Bar has a "locked" icon indicating FP won't decay
+- **Strategic Info**: "Fortune Points persist between combats - save for boss fights"
+
+**Risk Level Warnings**:
+When casting high-risk abilities with low Fortune Points:
+- **Warning Popup**: "HIGH RISK ABILITY - Only 3 Fortune Points available"
+- **Recommendation**: "Recommended: 7+ FP for safe adjustment"
+- **Confirm**: "Cast Anyway" or "Cancel"
+
+**Why This Matters**: The Fortune Points gauge isn't just a resource bar—it's your CONTROL PANEL for probability manipulation. When you roll a 14 and need a 17, you don't just accept it—you see the adjustment interface, slide the bar to +3, spend 3 Fortune Points, and watch the dice change from 14 to 17 with a golden flash. The visual feedback makes every adjustment feel powerful and intentional. When you're at 18 Fortune Points and the bar is overflowing with golden energy, you KNOW you have near-complete control over your rolls. And when you cast Jackpot and see the outcome table with FP costs to reach each outcome, you can make informed decisions: "I rolled Moderate Win, but for 3 FP I can get Big Win—worth it!" The gauge transforms randomness into strategy, showing you exactly how much control you have and what it costs to manipulate fate.`
+    },
+
     mechanics: {
       title: 'How It Works',
       content: `**Starting State**: Gamblers begin each combat encounter with 0 Fortune Points

@@ -26,7 +26,7 @@
     }
 }
 
-.tooltip-header {
+.tile-tooltip .tooltip-header {
     background: #f5f5f5;
     color: #333;
     padding: 6px 8px;
@@ -36,53 +36,53 @@
     font-size: 11px;
 }
 
-.coordinates {
+.tile-tooltip .coordinates {
     font-size: 11px;
 }
 
 /* Tooltip content removed - using unified Pathfinder tooltip system */
 
-.tooltip-section {
+.tile-tooltip .tooltip-section {
     margin-bottom: 8px;
     padding-bottom: 4px;
     border-bottom: 1px solid #eee;
 }
 
-.tooltip-section:last-child {
+.tile-tooltip .tooltip-section:last-child {
     margin-bottom: 0;
     border-bottom: none;
 }
 
-.section-header {
+.tile-tooltip .section-header {
     display: flex;
     align-items: center;
     gap: 4px;
     margin-bottom: 4px;
 }
 
-.section-title {
+.tile-tooltip .section-title {
     font-weight: bold;
     color: #333;
     font-size: 11px;
     text-transform: none;
 }
 
-.terrain-color {
+.tile-tooltip .terrain-color {
     width: 12px;
     height: 12px;
     border-radius: 2px;
     border: 1px solid #ccc;
 }
 
-.section-details {
+.tile-tooltip .section-details {
     margin-left: 16px;
 }
 
-.terrain-description,
-.object-description,
-.wall-description,
-.dnd-description,
-.fog-description {
+.tile-tooltip .terrain-description,
+.tile-tooltip .object-description,
+.tile-tooltip .wall-description,
+.tile-tooltip .dnd-description,
+.tile-tooltip .fog-description {
     font-size: 11px;
     color: #666;
     margin: 2px 0;
@@ -90,11 +90,11 @@
     font-style: normal;
 }
 
-.terrain-stats {
+.tile-tooltip .terrain-stats {
     margin-top: 4px;
 }
 
-.stat {
+.tile-tooltip .stat {
     display: inline-block;
     background: #f0f0f0;
     padding: 1px 4px;
@@ -105,9 +105,9 @@
     border: 1px solid #ddd;
 }
 
-.object-item,
-.wall-item,
-.dnd-item {
+.tile-tooltip .object-item,
+.tile-tooltip .wall-item,
+.tile-tooltip .dnd-item {
     margin-bottom: 4px;
     padding: 4px;
     background: #f9f9f9;
@@ -115,29 +115,29 @@
     border-left: 2px solid #ccc;
 }
 
-.object-item:last-child,
-.wall-item:last-child,
-.dnd-item:last-child {
+.tile-tooltip .object-item:last-child,
+.tile-tooltip .wall-item:last-child,
+.tile-tooltip .dnd-item:last-child {
     margin-bottom: 0;
 }
 
-.object-name,
-.wall-name,
-.dnd-name {
+.tile-tooltip .object-name,
+.tile-tooltip .wall-name,
+.tile-tooltip .dnd-name {
     font-weight: bold;
     color: #333;
     font-size: 11px;
     display: block;
 }
 
-.fog-section {
+.tile-tooltip .fog-section {
     background: #f5f5f5;
     border-radius: 2px;
     padding: 4px;
     border: 1px solid #ddd;
 }
 
-.fog-section .section-title {
+.tile-tooltip .fog-section .section-title {
     color: #666;
 }
 
@@ -179,18 +179,18 @@
 }
 
 /* Simple tooltip item styling */
-.tooltip-item {
+.tile-tooltip .tooltip-item {
     padding: 2px 0;
     font-size: 12px;
     color: #333;
     line-height: 1.3;
 }
 
-.tooltip-item:first-child {
+.tile-tooltip .tooltip-item:first-child {
     padding-top: 0;
 }
 
-.tooltip-item:last-child {
+.tile-tooltip .tooltip-item:last-child {
     padding-bottom: 0;
 }
 
@@ -204,19 +204,19 @@
         font-size: 12px;
     }
 
-    .tooltip-header {
+    .tile-tooltip .tooltip-header {
         padding: 6px 10px;
     }
 
-    .tooltip-content {
+    .tile-tooltip .tooltip-content {
         padding: 10px;
     }
 
-    .coordinates {
+    .tile-tooltip .coordinates {
         font-size: 12px;
     }
 
-    .section-title {
+    .tile-tooltip .section-title {
         font-size: 12px;
     }
 }
@@ -228,15 +228,15 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
 
-    .section-title {
+    .tile-tooltip .section-title {
         color: #000;
     }
 
-    .terrain-description,
-    .object-description,
-    .wall-description,
-    .dnd-description,
-    .fog-description {
+    .tile-tooltip .terrain-description,
+    .tile-tooltip .object-description,
+    .tile-tooltip .wall-description,
+    .tile-tooltip .dnd-description,
+    .tile-tooltip .fog-description {
         color: #333;
     }
 }

@@ -2700,7 +2700,7 @@
     z-index: 1;
 }
 
-.tooltip-header {
+.character-sheet .tooltip-header {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -2709,20 +2709,20 @@
     color: #7a3b2e; /* Rustic red */
 }
 
-.tooltip-effects {
+.character-sheet .tooltip-effects {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.tooltip-effect {
+.character-sheet .tooltip-effect {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 4px 0;
 }
 
-.tooltip-spell-schools {
+.character-sheet .tooltip-spell-schools {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;

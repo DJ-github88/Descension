@@ -116,47 +116,181 @@ const GMToolsPanel = ({ isVisible, onClose }) => {
     }
   };
 
-  const renderPlayersTab = () => (
-    <div className="gm-tab-content">
-      <h3>Connected Players ({connectedPlayers.length})</h3>
-      <div className="players-list">
-        {connectedPlayers.map(player => (
-          <div key={player.id} className="player-item">
-            <div className="player-info">
-              <div 
-                className="player-color" 
-                style={{ backgroundColor: player.color }}
+  const renderPlayersTab = () => {
+    const [showXPModal, setShowXPModal] = useState(false);
+    const [partyXPAmount, setPartyXPAmount] = useState('');
+
+    const handleAwardPartyXP = () => {
+      const xpAmount = parseInt(partyXPAmount);
+      if (isNaN(xpAmount) || xpAmount <= 0) return;
+
+      // Award XP to all players (including current player if in party)
+      console.log(`💰 Awarding ${xpAmount} XP to entire party`);
+
+      // Award to current player
+      const useCharacterStore = require('../../store/characterStore').default;
+      useCharacterStore.getState().awardExperience(xpAmount);
+
+      // TODO: Award to other party members via multiplayer
+
+      addNotification({
+        type: 'system',
+        message: `GM awarded ${xpAmount} XP to the party!`,
+        timestamp: Date.now()
+      });
+
+      setShowXPModal(false);
+      setPartyXPAmount('');
+    };
+
+    return (
+      <div className="gm-tab-content">
+        <h3>Connected Players ({connectedPlayers.length})</h3>
+
+        {/* Party-wide XP Award */}
+        <div className="party-actions" style={{ marginBottom: '15px' }}>
+          <button
+            className="gm-btn gm-btn-primary"
+            onClick={() => setShowXPModal(true)}
+            title="Award XP to entire party"
+          >
+            ⭐ Award Party XP
+          </button>
+        </div>
+
+        <div className="players-list">
+          {connectedPlayers.map(player => (
+            <div key={player.id} className="player-item">
+              <div className="player-info">
+                <div
+                  className="player-color"
+                  style={{ backgroundColor: player.color }}
+                />
+                <div className="player-details">
+                  <span className="player-name">{player.name}</span>
+                  <span className="player-status">
+                    {player.isGM ? 'GM' : 'Player'} • {player.isOnline ? 'Online' : 'Offline'}
+                  </span>
+                </div>
+              </div>
+              {!player.isGM && (
+                <div className="player-actions">
+                  <button
+                    className="gm-btn gm-btn-small"
+                    onClick={() => handleMutePlayer(player.id)}
+                    title="Mute Player"
+                  >
+                    🔇
+                  </button>
+                  <button
+                    className="gm-btn gm-btn-small gm-btn-danger"
+                    onClick={() => handleKickPlayer(player.id)}
+                    title="Kick Player"
+                  >
+                    👢
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* XP Award Modal */}
+        {showXPModal && (
+          <div
+            className="modal-overlay"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 10002
+            }}
+            onClick={() => setShowXPModal(false)}
+          >
+            <div
+              className="xp-modal"
+              style={{
+                backgroundColor: '#f0e6d2',
+                border: '2px solid #a08c70',
+                borderRadius: '8px',
+                padding: '20px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                color: '#7a3b2e',
+                minWidth: '300px',
+                textAlign: 'center'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                Award Party Experience
+              </h3>
+              <input
+                type="number"
+                min="1"
+                placeholder="Enter XP amount..."
+                value={partyXPAmount}
+                onChange={(e) => setPartyXPAmount(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #a08c70',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  marginBottom: '15px',
+                  textAlign: 'center'
+                }}
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleAwardPartyXP();
+                  } else if (e.key === 'Escape') {
+                    setShowXPModal(false);
+                  }
+                }}
               />
-              <div className="player-details">
-                <span className="player-name">{player.name}</span>
-                <span className="player-status">
-                  {player.isGM ? 'GM' : 'Player'} • {player.isOnline ? 'Online' : 'Offline'}
-                </span>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                <button
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#7a3b2e',
+                    color: '#f0e6d2',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '12px'
+                  }}
+                  onClick={handleAwardPartyXP}
+                >
+                  Award
+                </button>
+                <button
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#a08c70',
+                    color: '#f0e6d2',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '12px'
+                  }}
+                  onClick={() => setShowXPModal(false)}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
-            {!player.isGM && (
-              <div className="player-actions">
-                <button 
-                  className="gm-btn gm-btn-small"
-                  onClick={() => handleMutePlayer(player.id)}
-                  title="Mute Player"
-                >
-                  🔇
-                </button>
-                <button 
-                  className="gm-btn gm-btn-small gm-btn-danger"
-                  onClick={() => handleKickPlayer(player.id)}
-                  title="Kick Player"
-                >
-                  👢
-                </button>
-              </div>
-            )}
           </div>
-        ))}
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderCombatTab = () => (
     <div className="gm-tab-content">

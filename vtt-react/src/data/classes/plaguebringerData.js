@@ -71,6 +71,199 @@ export const PLAGUEBRINGER_DATA = {
 - Synergizes with classes that can protect them during setup
 - Benefits from crowd control to safely cultivate afflictions
 - Can spread afflictions to grouped enemies for massive AoE damage`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Plague Garden',
+      content: `**The Setup**: You're a Plaguebringer (Pestilence specialization) facing a group of knights (4 knights + 1 knight captain). Your party is with you. Starting Mana: 50/60. Your goal: Apply base afflictions to enemies, then cultivate them through category spells to evolve them into devastating final afflictions.
+
+**Starting State**: Mana: 50/60 | HP: 50/50 | Active Afflictions: None
+
+**Turn 1 - Planting Seeds (Afflictions: 0 → 2)**
+
+*Four knights and their captain stand before you, armor gleaming. They don't know it yet, but they're already dead. They just haven't finished dying.*
+
+**Your Action**: Cast "Curse of Agony" on Knight Captain (6 mana, base affliction)
+**Effect**: Apply base affliction "Curse of Agony" (deals 1d6 damage per turn)
+
+*You gesture at the captain. Dark energy seeps into his armor, invisible to him. The seed is planted.*
+
+**Affliction Applied**: Knight Captain has "Curse of Agony" (Stage 1: Base)
+**Damage**: 1d6 → [4] = 4 damage per turn
+
+**Mana**: 50 - 6 = 44/60
+
+**Your Action (Bonus Action)**: Cast "Venomous Touch" on Knight #1 (4 mana, base affliction)
+**Effect**: Apply base affliction "Venomous Touch" (deals 1d4 poison damage per turn)
+
+*You point at Knight #1. Invisible venom seeps into his bloodstream. Another seed planted.*
+
+**Affliction Applied**: Knight #1 has "Venomous Touch" (Stage 1: Base)
+**Damage**: 1d4 → [3] = 3 poison damage per turn
+
+**Mana**: 44 - 4 = 40/60
+
+**Current Afflictions**:
+- Knight Captain: Curse of Agony (Stage 1)
+- Knight #1: Venomous Touch (Stage 1)
+
+**Turn 2 - Cultivation Begins (Afflictions: Stage 1 → Stage 2)**
+
+*The afflictions tick. The captain takes 4 damage. Knight #1 takes 3 poison damage. They don't understand yet. But they will.*
+
+**Your Action**: Cast "Weaken" on Knight Captain (5 mana, category spell)
+**Effect**: Evolve "Curse of Agony" → "Curse of Weakness" (Stage 2: Weaken path)
+
+*You channel dark energy into the captain's curse. It EVOLVES. The curse spreads through his body, weakening him.*
+
+**Affliction Evolution**: Knight Captain: Curse of Agony (Stage 1) → **Curse of Weakness (Stage 2)**
+**New Effect**: 2d6 damage per turn + target has -2 AC
+
+**Mana**: 40 - 5 = 35/60
+
+**Knight Captain**: Takes 2d6 → [5, 4] = 9 damage, AC reduced by 2
+
+**Your Action (Bonus Action)**: Cast "Fester" on Knight #1 (5 mana, category spell)
+**Effect**: Evolve "Venomous Touch" → "Festering Venom" (Stage 2: Fester path)
+
+*The venom in Knight #1's blood begins to FESTER. It spreads, corrupting his flesh.*
+
+**Affliction Evolution**: Knight #1: Venomous Touch (Stage 1) → **Festering Venom (Stage 2)**
+**New Effect**: 2d4 poison damage per turn + spreads to adjacent enemies
+
+**Mana**: 35 - 5 = 30/60
+
+**Knight #1**: Takes 2d4 → [3, 4] = 7 poison damage
+**Contagion**: Knight #2 (adjacent) is infected with "Venomous Touch" (Stage 1)
+
+*The venom SPREADS. Knight #2 doesn't notice yet, but he's infected.*
+
+**Current Afflictions**:
+- Knight Captain: Curse of Weakness (Stage 2: Weaken path)
+- Knight #1: Festering Venom (Stage 2: Fester path)
+- Knight #2: Venomous Touch (Stage 1: Contagion from Knight #1)
+
+**Turn 3 - Further Evolution (Afflictions: Stage 2 → Stage 3)**
+
+*The afflictions tick again. Captain takes 9 damage. Knight #1 takes 7 poison damage. Knight #2 takes 3 poison damage from the contagion. They're starting to panic.*
+
+**Knight Captain**: "Something's wrong! I feel... weak!"
+**You**: "You're dying. Slowly. Beautifully."
+
+**Your Action**: Cast "Torment" on Knight Captain (6 mana, category spell)
+**Effect**: Evolve "Curse of Weakness" → "Curse of Agonizing Weakness" (Stage 3: Weaken + Torment path)
+
+*You twist the curse further. The captain's weakness becomes AGONY.*
+
+**Affliction Evolution**: Knight Captain: Curse of Weakness (Stage 2) → **Curse of Agonizing Weakness (Stage 3)**
+**New Effect**: 3d6 damage per turn + -3 AC + disadvantage on attack rolls
+
+**Mana**: 30 - 6 = 24/60
+
+**Knight Captain**: Takes 3d6 → [6, 5, 4] = 15 damage, AC -3, disadvantage on attacks
+
+*The captain falls to one knee, gasping. His armor feels like lead. His sword is too heavy to lift.*
+
+**Your Action (Bonus Action)**: Cast "Amplify Pain" on Knight #1 (5 mana, category spell)
+**Effect**: Evolve "Festering Venom" → "Amplified Festering Venom" (Stage 3: Fester + Amplify path)
+
+*The festering venom INTENSIFIES. Knight #1 screams.*
+
+**Affliction Evolution**: Knight #1: Festering Venom (Stage 2) → **Amplified Festering Venom (Stage 3)**
+**New Effect**: 3d6 poison damage per turn + spreads to adjacent enemies + -2 Constitution saves
+
+**Mana**: 24 - 5 = 19/60
+
+**Knight #1**: Takes 3d6 → [6, 5, 6] = 17 poison damage
+**Contagion**: Knight #3 (adjacent) is infected with "Venomous Touch" (Stage 1)
+
+*Knight #1 collapses, vomiting black bile. The venom spreads to Knight #3.*
+
+**Current Afflictions**:
+- Knight Captain: Curse of Agonizing Weakness (Stage 3: Weaken + Torment)
+- Knight #1: Amplified Festering Venom (Stage 3: Fester + Amplify)
+- Knight #2: Venomous Touch (Stage 1: Contagion)
+- Knight #3: Venomous Touch (Stage 1: Contagion)
+
+**Turn 4 - The Harvest (Afflictions: Stage 3 → FINAL)**
+
+*The afflictions tick. Captain takes 15 damage. Knight #1 takes 17 poison damage. Knights #2 and #3 take 3 poison damage each. The captain is at 30% HP. Knight #1 is at 20% HP.*
+
+**Your Action**: Cast "Decay" on Knight Captain (7 mana, category spell)
+**Effect**: Evolve "Curse of Agonizing Weakness" → "CURSE OF TOTAL DECAY" (Stage 4: FINAL - Weaken + Torment + Decay)
+
+*You raise your hand. The curse reaches its FINAL FORM. The captain's body begins to ROT.*
+
+**Affliction Evolution**: Knight Captain: Curse of Agonizing Weakness (Stage 3) → **CURSE OF TOTAL DECAY (FINAL)**
+**New Effect**: 5d8 damage per turn + -5 AC + disadvantage on all rolls + healing reduced by 50% + spreads to all enemies within 10 ft
+
+**Mana**: 19 - 7 = 12/60
+
+**Knight Captain**: Takes 5d8 → [7, 8, 6, 5, 7] = 33 damage → **DEAD** (HP reduced to 0)
+
+*The captain's flesh ROTS off his bones. He falls, dead, his body a festering corpse. The curse SPREADS.*
+
+**Contagion (Final Affliction)**: All knights within 10 ft are infected with "Curse of Agony" (Stage 1)
+
+*Knights #2, #3, and #4 are all infected. They stare in horror at their captain's corpse.*
+
+**Knight #2**: "What... what did you DO?!"
+**You**: "I cultivated him. From seed to harvest. And now, you're all infected."
+
+**Current Afflictions**:
+- Knight Captain: DEAD
+- Knight #1: Amplified Festering Venom (Stage 3)
+- Knight #2: Venomous Touch (Stage 1) + Curse of Agony (Stage 1)
+- Knight #3: Venomous Touch (Stage 1) + Curse of Agony (Stage 1)
+- Knight #4: Curse of Agony (Stage 1)
+
+**Turn 5 - The Plague Spreads**
+
+*The afflictions tick. Knight #1 takes 17 poison damage → DEAD. Knights #2, #3, #4 take damage from multiple afflictions.*
+
+**Your Party's Mage**: "They're... they're all dying. You didn't even touch them."
+**You**: "I don't need to touch them. I planted the seeds. The afflictions do the rest."
+
+**Your Action**: Cast "Nurture" on Knight #2 (6 mana, category spell)
+**Effect**: Evolve both afflictions on Knight #2
+
+*You gesture at Knight #2. Both his afflictions GROW.*
+
+**Affliction Evolution**:
+- Venomous Touch (Stage 1) → Nurtured Venom (Stage 2)
+- Curse of Agony (Stage 1) → Nurtured Curse (Stage 2)
+
+**Mana**: 12 - 6 = 6/60
+
+**Knight #2**: Takes 2d4 + 2d6 = [3, 4] + [5, 6] = 18 total damage → DEAD
+
+*Knight #2 falls, his body consumed by multiple afflictions.*
+
+**Knights #3 and #4**: Flee in terror
+
+**Combat Over**
+
+*You stand among the corpses. Your party stares at you in a mixture of awe and horror.*
+
+**Your Party's Tank**: "You... you killed them all with DISEASES. They rotted alive."
+**You**: "I cultivated them. The captain started with Curse of Agony (Stage 1). I evolved it through Weaken (Stage 2), then Torment (Stage 3), then Decay (FINAL). Each stage made it stronger. The final form dealt 33 damage in one turn and killed him."
+**Your Party's Rogue**: "And the venom spread to the others?"
+**You**: "Festering Venom spreads to adjacent enemies. Knight #1 infected Knights #2 and #3. The captain's final curse infected everyone within 10 feet. That's the beauty of contagion."
+**Your Party's Mage**: "How many afflictions can you track at once?"
+**You**: "As many as there are targets. Each enemy is a garden. Each affliction is a seed. I cultivate them all."
+
+**Final State**: Mana: 6/60 | HP: 50/50 | Enemies: All dead or fled
+
+**The Lesson**: Plaguebringer gameplay is about:
+1. **Base Afflictions**: Applied Curse of Agony and Venomous Touch (Stage 1 afflictions)
+2. **Category Spells**: Used Weaken, Fester, Torment, Amplify Pain, Decay, Nurture to evolve afflictions
+3. **Evolution Paths**: Captain: Curse → Weaken → Torment → Decay (4 stages to FINAL)
+4. **Contagion**: Festering Venom spread to adjacent enemies, Final Curse spread to all within 10 ft
+5. **Damage Scaling**: Stage 1 (1d6) → Stage 2 (2d6) → Stage 3 (3d6) → FINAL (5d8)
+6. **Multi-Affliction**: Knight #2 had 2 afflictions simultaneously, took damage from both
+7. **Strategic Cultivation**: Focused on captain for final affliction, spread contagion to others
+
+You're not a burst damage dealer. You're a PLAGUE GARDENER. You plant seeds (base afflictions), cultivate them (category spells), and watch them GROW into devastating final forms. The captain went from 4 damage/turn to 33 damage/turn in 4 stages. The venom SPREAD through contagion. Each enemy is a garden to be tended. Each affliction is a masterpiece of decay. You don't kill quickly. You kill BEAUTIFULLY.`
     }
   },
 

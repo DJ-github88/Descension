@@ -15,6 +15,7 @@
   padding: 20px;
   background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
   border-bottom: 2px solid #8b4513;
+  position: relative;
 }
 
 .class-header-icon {
@@ -30,6 +31,10 @@
   color: #d4af37;
 }
 
+.class-header-info {
+  flex: 0 0 auto;
+}
+
 .class-header-info h2 {
   font-family: 'Crimson Text', serif;
   font-size: 2rem;
@@ -42,6 +47,22 @@
   gap: 20px;
   font-family: 'Crimson Text', serif;
   font-size: 1.1rem;
+}
+
+.class-header-resource {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  min-width: 600px;
+  width: 100%;
+}
+
+.class-header-resource > * {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 960px;
 }
 
 .class-role {
@@ -140,7 +161,7 @@
 
 .class-description {
   font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1.6;
   color: #5a1e12;
 }
@@ -154,6 +175,14 @@
   border-radius: 4px;
 }
 
+/* Special styling for shared passive ability section in specializations */
+.class-intro .class-subsection {
+  margin-top: 25px;
+  padding: 15px 20px;
+  background: rgba(212, 175, 55, 0.08);
+  border-left: 4px solid #d4af37;
+}
+
 .class-subsection h4 {
   font-family: 'Crimson Text', serif;
   font-size: 1.5rem;
@@ -164,9 +193,19 @@
   gap: 10px;
 }
 
+/* Smaller heading for shared passive in intro */
+.class-intro .class-subsection h4 {
+  font-size: 1.3rem;
+  margin: 0 0 12px 0;
+}
+
 .class-subsection h4 i {
   color: #d4af37;
   font-size: 1.3rem;
+}
+
+.class-intro .class-subsection h4 i {
+  font-size: 1.1rem;
 }
 
 .subsection-content {
@@ -364,6 +403,14 @@
   border-left-color: #d4af37;
 }
 
+/* Cleaner styling for shared passive in intro section */
+.class-intro .passive-ability.shared {
+  background: transparent;
+  border-left: none;
+  padding: 0;
+  margin: 0;
+}
+
 .passive-ability.unique {
   background: rgba(139, 69, 19, 0.1);
   border-left-color: #8b4513;
@@ -382,6 +429,12 @@
   color: #3a0e08;
 }
 
+/* Larger font for shared passive name in intro */
+.class-intro .passive-header strong {
+  font-size: 1.15rem;
+  color: #5a1e12;
+}
+
 .passive-tier {
   font-family: 'Crimson Text', serif;
   font-size: 0.9rem;
@@ -394,6 +447,13 @@
   font-size: 1rem;
   color: #5a1e12;
   margin: 0 0 5px 0;
+}
+
+/* Larger font for shared passive description in intro */
+.class-intro .passive-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .passive-note {
@@ -629,6 +689,44 @@
 .inferno-descend {
   color: #4682b4;
   font-weight: 600;
+}
+
+/* Resource Bar Showcase */
+.resource-bar-showcase {
+  background: linear-gradient(145deg, rgba(139, 69, 19, 0.05), rgba(160, 82, 45, 0.03));
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.resource-bar-showcase h4 {
+  margin-bottom: 16px;
+  color: #5a1e12;
+}
+
+.resource-bar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  min-height: 140px;
+}
+
+.resource-bar-hint {
+  margin-top: 12px;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #6b4423;
+  font-style: italic;
+  text-align: center;
+}
+
+.resource-bar-hint i {
+  color: #d4af37;
+  margin-right: 6px;
 }
 
 /* Error State */

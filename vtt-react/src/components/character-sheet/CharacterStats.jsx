@@ -6,6 +6,7 @@ import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
 import useGameStore from '../../store/gameStore';
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
+import { getXPProgress, formatXP } from '../../utils/experienceUtils';
 import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
@@ -223,6 +224,8 @@ export default function CharacterStats() {
         health = { current: 50, max: 50 },
         mana = { current: 50, max: 50 },
         actionPoints = { current: 3, max: 3 },
+        level = 1,
+        experience = 0,
         resistances = {},
         immunities = [],
         updateStat
@@ -664,12 +667,37 @@ export default function CharacterStats() {
         setStatEditModal({ visible: false, stat: null, value: 0, position: { x: 0, y: 0 } });
     };
 
+    // Calculate XP progress for display
+    const xpProgress = getXPProgress(experience);
+
     const statGroups = {
         summary: {
             title: 'Character Summary',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
             description: 'Quick overview of your character\'s most important statistics',
             stats: [
+                {
+                    label: 'Level',
+                    value: level,
+                    baseValue: level,
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/achievement_level_10.jpg',
+                    color: '#D4AF37',
+                    description: 'Current character level'
+                },
+                {
+                    label: 'Experience',
+                    value: xpProgress.isMaxLevel
+                        ? 'MAX LEVEL'
+                        : `${formatXP(xpProgress.xpIntoLevel)} / ${formatXP(xpProgress.xpNeededForLevel)}`,
+                    baseValue: experience,
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg',
+                    color: '#FFD700',
+                    description: xpProgress.isMaxLevel
+                        ? 'You have reached maximum level!'
+                        : `Progress to level ${level + 1}: ${Math.round(xpProgress.percentage)}%`
+                },
                 {
                     label: 'Health',
                     value: `${health.current}/${health.max}`,

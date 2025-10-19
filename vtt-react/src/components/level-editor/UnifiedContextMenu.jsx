@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../../styles/unified-context-menu.css';
 
 const UnifiedContextMenu = ({
@@ -11,6 +11,15 @@ const UnifiedContextMenu = ({
     disableClickOutside = false
 }) => {
     const menuRef = useRef(null);
+    const [hoveredSubmenuIndex, setHoveredSubmenuIndex] = useState(null);
+
+    // Debug: Log when menu renders
+    useEffect(() => {
+        if (visible) {
+            console.log('🖱️ [CONTEXT MENU] Rendering with items:', items);
+            console.log('🖱️ [CONTEXT MENU] Items with submenus:', items.filter(item => item.submenu));
+        }
+    }, [visible, items]);
 
     // Handle clicks outside the menu and prevent wheel events from bubbling
     useEffect(() => {
@@ -122,7 +131,66 @@ const UnifiedContextMenu = ({
                             <React.Fragment key={index}>
                                 {item.type === 'separator' ? (
                                     <div className="context-menu-separator" />
+                                ) : item.submenu ? (
+                                    // Item with submenu
+                                    <div
+                                        className={`context-menu-group has-submenu ${hoveredSubmenuIndex === index ? 'hovered' : ''}`}
+                                        onMouseEnter={() => {
+                                            console.log('🖱️ [CONTEXT MENU] Mouse entered submenu item:', item.label, 'index:', index);
+                                            setHoveredSubmenuIndex(index);
+                                        }}
+                                        onMouseLeave={() => {
+                                            console.log('🖱️ [CONTEXT MENU] Mouse left submenu item:', item.label);
+                                            setHoveredSubmenuIndex(null);
+                                        }}
+                                    >
+                                        <div className="group-header">
+                                            {item.icon}
+                                            <span>{item.label}</span>
+                                            <i className="fas fa-chevron-right expand-icon"></i>
+                                        </div>
+                                        <div className="submenu">
+                                            {item.submenu.map((subItem, subIndex) => (
+                                                <React.Fragment key={subIndex}>
+                                                    {subItem.type === 'separator' ? (
+                                                        <div className="context-menu-separator" />
+                                                    ) : (
+                                                        <button
+                                                            className={`context-menu-button ${subItem.className || ''} ${subItem.disabled ? 'disabled' : ''}`}
+                                                            style={{ pointerEvents: 'auto' }}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                e.preventDefault();
+
+                                                                if (!subItem.disabled && subItem.onClick) {
+                                                                    const button = e.currentTarget;
+                                                                    button.style.transform = 'scale(0.95)';
+                                                                    button.style.opacity = '0.7';
+
+                                                                    setTimeout(() => {
+                                                                        try {
+                                                                            subItem.onClick(e);
+                                                                        } catch (error) {
+                                                                            console.error('❌ [CONTEXT MENU] Error in onClick for:', subItem.label, error);
+                                                                        }
+
+                                                                        button.style.transform = '';
+                                                                        button.style.opacity = '';
+                                                                    }, 100);
+                                                                }
+                                                            }}
+                                                            disabled={subItem.disabled}
+                                                            title={subItem.tooltip}
+                                                        >
+                                                            {subItem.icon} {subItem.label}
+                                                        </button>
+                                                    )}
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    </div>
                                 ) : (
+                                    // Regular button
                                     <button
                                         className={`context-menu-button ${item.className || ''} ${item.disabled ? 'disabled' : ''}`}
                                         style={{ pointerEvents: 'auto' }}

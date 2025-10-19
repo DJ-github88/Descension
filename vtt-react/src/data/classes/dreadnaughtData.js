@@ -15,7 +15,20 @@ export const DREADNAUGHT_DATA = {
   overview: {
     title: 'The Dreadnaught',
     subtitle: 'Dark Resilient Tank',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Dreadnaught is a tank who converts damage taken into Dark Resilience Points (DRP). Gain 1 DRP for every 5 damage taken (max 50 DRP). Spend DRP on powerful abilities: Shadow Shield (2:1 damage absorption), Wraith Strike (+1d6 necrotic per 5 DRP), Unholy Fortitude (+1 AC per 5 DRP), Necrotic Aura (15 DRP debuff). Passive benefits at 10+ DRP: resistance to one damage type + HP regeneration (1 HP per 10 DRP). Dark Rebirth auto-triggers at 0 HP: spend all DRP to regain HP equal to 2x DRP.
+
+**Core Mechanic**: Take damage → Generate DRP → Spend on abilities OR save for passive benefits + emergency Dark Rebirth
+
+**Resource**: Dark Resilience Points (0-50, generated from damage taken)
+
+**Playstyle**: Frontline tank, damage-to-power conversion, adaptive defense, last stand specialist
+
+**Best For**: Players who enjoy tanking, converting pain into power, and managing a damage-based resource`
+    },
+
     description: `The Dreadnaught taps into their dark connection to fuel their resilience and power. As they take damage, they build up Dark Resilience Points (DRP), which can be used to enhance their defensive and offensive capabilities. This system emphasizes the Dreadnaught's ability to absorb and utilize damage taken, turning it into a powerful resource for both offense and defense.`,
     
     roleplayIdentity: {
@@ -70,11 +83,149 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 - Spend all remaining DRP to regain HP equal to twice the DRP
 - Your ultimate survival tool—always keep some DRP in reserve
 
-**Resource Management**: 
+**Resource Management**:
 - Don't spend all DRP immediately—save some for emergencies
 - Balance between offensive (Wraith Strike) and defensive (Shadow Shield) spending
 - Time Necrotic Aura for maximum impact when surrounded
 - Always keep 10+ DRP for passive benefits`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Undying Wall',
+      content: `**The Setup**: Your party is ambushed by a pack of dire wolves (5 wolves, 1 alpha). You're the Dreadnaught tank with 120/120 HP and 0 DRP. Your job: protect the party while they deal damage. Time to embrace the pain.
+
+**Starting State**: HP: 120/120 | DRP: 0/50 | AC: 18
+
+**Turn 1 - Taking the Hits (HP: 120 → 85, DRP: 0 → 7)**
+
+*The wolves surround you. The alpha snarls. You plant your feet and raise your shield. "Come on, then."*
+
+**Wolves' Turn**: 3 wolves attack you (2 hit, 1 miss)
+- Wolf 1: Attack roll [18] → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
+- Wolf 2: Attack roll [16] → Hit! → 2d6+3 → [6, 5] + 3 = 14 damage
+- Wolf 3: Attack roll [11] → Miss!
+
+**Damage Taken**: 12 + 14 = 26 damage
+**HP**: 120 - 26 = 94 HP
+**DRP Generated**: 26 ÷ 5 = 5.2 → **5 DRP** (round down)
+
+*You feel the wolves' teeth sink into your armor. Pain flares—but with it comes POWER. Dark energy swirls around you.*
+
+**Alpha Wolf's Turn**: Attacks you → [19] → Hit! → 3d6+4 → [6, 5, 4] + 4 = 19 damage
+**HP**: 94 - 19 = 75 HP
+**DRP Generated**: 19 ÷ 5 = 3.8 → **3 DRP**
+**Total DRP**: 5 + 3 = **8 DRP**
+
+*The alpha's jaws clamp down on your shoulder. You don't scream. You SMILE. The darkness feeds on your pain.*
+
+**Your Turn**: Attack alpha wolf with Wraith Strike (spend 5 DRP for +1d6 necrotic)
+**DRP**: 8 - 5 = 3 DRP remaining
+**Attack Roll**: d20+6 → [15] → Hit!
+**Damage**: 2d8 (weapon) + 1d6 (Wraith Strike) → [7, 6] + [5] = 18 damage
+
+*Your blade strikes, wreathed in dark energy. The alpha yelps.*
+
+**Current State**: HP: 75/120 | DRP: 3/50
+
+**Turn 2 - Building Power (HP: 75 → 50, DRP: 3 → 8)**
+
+*More wolves attack. You're bleeding, but the darkness is growing stronger.*
+
+**Wolves' Turn**: 4 wolves attack you (3 hit, 1 miss)
+- Total Damage: 13 + 11 + 14 = 38 damage
+**HP**: 75 - 38 = 37 HP
+**DRP Generated**: 38 ÷ 5 = 7.6 → **7 DRP**
+**Total DRP**: 3 + 7 = **10 DRP**
+
+*You're at 37/120 HP (31%), but you've hit 10 DRP—the threshold for passive benefits.*
+
+**Passive Benefits Activate**:
+- **Dark Resistance**: Choose slashing damage (wolves deal slashing)
+- **Health Regeneration**: 1 HP per 10 DRP = 1 HP/turn
+
+*A shadowy aura envelops you. The next wolf bite feels... distant. Muted. Your wounds begin to close with dark energy.*
+
+**Regeneration**: +1 HP (10 DRP ÷ 10 = 1 HP)
+**HP**: 37 + 1 = 38 HP
+
+**Your Turn**: Use Shadow Shield (spend 10 DRP for 20 damage absorption)
+**DRP**: 10 - 10 = 0 DRP
+**Effect**: Next 20 damage absorbed by shadow shield
+
+*You raise your hand, and a barrier of pure darkness materializes. "You'll have to do better than that."*
+
+**Current State**: HP: 38/120 | DRP: 0/50 | Shadow Shield: 20
+
+**Turn 3 - The Shield Holds (HP: 38 → 38, DRP: 0 → 4)**
+
+*The wolves attack again, but your shadow shield absorbs the blows.*
+
+**Wolves' Turn**: 3 wolves attack (2 hit, 1 miss)
+- Total Damage: 12 + 15 = 27 damage
+**Shadow Shield**: Absorbs 20 damage
+**Remaining Damage**: 27 - 20 = 7 damage
+**HP**: 38 - 7 = 31 HP
+**DRP Generated**: 27 ÷ 5 = 5.4 → **5 DRP** (you generate DRP from total damage, not just what gets through!)
+
+*The shadow shield shatters, but it saved you. You're still standing.*
+
+**Alpha Wolf's Turn**: Attacks → [17] → Hit! → 18 damage
+**Resistance**: Slashing damage (you have Dark Resistance active!)
+**Damage Taken**: 18 ÷ 2 = 9 damage (halved!)
+**HP**: 31 - 9 = 22 HP
+**DRP Generated**: 18 ÷ 5 = 3.6 → **3 DRP** (calculated from full damage before resistance!)
+**Total DRP**: 5 + 3 = **8 DRP**
+
+*The alpha's bite is weakened by your dark aura. You're at 22/120 HP (18%), but you're not done yet.*
+
+**Your Turn**: Attack alpha wolf
+**Attack Roll**: d20+6 → [16] → Hit!
+**Damage**: 2d8 → [8, 7] = 15 damage
+**Alpha Wolf**: DEAD
+
+*The alpha falls. The pack hesitates.*
+
+**Current State**: HP: 22/120 | DRP: 8/50
+
+**Turn 4 - The Comeback (HP: 22 → 0 → 16, DRP: 8 → 0)**
+
+*The remaining wolves attack in desperation.*
+
+**Wolves' Turn**: 4 wolves attack (all hit in frenzy)
+- Total Damage: 14 + 13 + 12 + 15 = 54 damage!
+**HP**: 22 - 54 = **-32 HP** (YOU DIE!)
+
+**DARK REBIRTH TRIGGERS!**
+
+*You fall. The world goes dark. But the darkness is your ally. It will not let you die.*
+
+**Dark Rebirth Effect**: Spend all remaining DRP (8 DRP) to regain HP equal to 2x DRP
+**HP Regained**: 8 × 2 = 16 HP
+**HP**: 0 → 16 HP (YOU LIVE!)
+**DRP**: 8 - 8 = 0 DRP
+
+*You rise from the ground, dark energy pouring from your wounds. The wolves back away, terrified.*
+
+**Your Party's Mage**: Casts Fireball → Kills 2 wolves
+**Your Party's Rogue**: Sneak attack → Kills 1 wolf
+**Remaining**: 1 wolf (fleeing)
+
+**Your Turn**: Let it run. You've made your point.
+
+*You stand among the corpses, bleeding but alive. Your party stares at you.*
+
+**Your Healer**: "You... you died. I saw you die."
+**You**: "Death is just another resource. I spent it wisely."
+
+**The Lesson**: Dreadnaught gameplay is about:
+1. **Damage-to-Power**: Took 145 damage total, generated 23 DRP (145 ÷ 5 = 29, but capped at 50 max)
+2. **Passive Benefits**: At 10+ DRP, gained resistance (halved damage) + regeneration (1 HP/turn)
+3. **Shadow Shield**: Spent 10 DRP for 20 damage absorption (2:1 ratio = efficient!)
+4. **Dark Rebirth**: Auto-triggered at 0 HP, spent 8 DRP to regain 16 HP (saved your life!)
+5. **Resistance Math**: Alpha's 18 damage → 9 after resistance, but DRP calculated from full 18 (you still gain resources!)
+6. **Strategic Spending**: Spent 15 DRP total (5 on Wraith Strike, 10 on Shadow Shield), saved 8 for Dark Rebirth
+
+You're not a tank who avoids damage—you're a tank who CONVERTS damage into power. The more you suffer, the stronger you become. Death itself is just another tool in your arsenal.`
     }
   },
   
@@ -82,25 +233,156 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
   resourceSystem: {
     title: 'Dark Resilience Points (DRP)',
     subtitle: 'Convert Pain into Power',
-    
-    description: `Dark Resilience Points represent the Dreadnaught's ability to absorb damage and convert it into dark energy. Every hit they take fuels their power, allowing them to unleash devastating abilities or create impenetrable defenses. The more they suffer, the stronger they become.`,
-    
+
+    description: `Dark Resilience Points represent the Dreadnaught's ability to absorb damage and convert it into dark energy. Every hit they take fuels their power, allowing them to unleash devastating abilities or create impenetrable defenses. Unlike other tanks who avoid damage, Dreadnaughts EMBRACE it—pain is their resource, suffering is their strength.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your DRP Bar',
+      content: `**What You See**: Your DRP bar displays as a dark purple-black bar with 50 segments, each representing 1 DRP. As you take damage, segments fill with shadowy energy, pulsing with dark power.
+
+**Visual Representation by DRP Level**:
+- **0-9 DRP**: Few segments filled, dim glow, building phase
+- **10-19 DRP**: Moderate fill, purple glow, passive benefits activate (resistance + 1 HP regen)
+- **20-29 DRP**: Half filled, bright purple, 2 HP regen/turn
+- **30-39 DRP**: Mostly filled, intense glow, 3 HP regen/turn
+- **40-49 DRP**: Nearly full, violent pulsing, 4 HP regen/turn
+- **50 DRP**: MAXIMUM - Bar glows white-hot with dark energy, 5 HP regen/turn
+
+**How It Changes**:
+- **When You Take Damage**: Segments fill based on damage ÷ 5 (smooth fill animation)
+  - Example: Take 23 damage → +4 DRP (23 ÷ 5 = 4.6, round down)
+- **When You Spend DRP**: Segments drain into your ability (energy flows from bar to spell effect)
+- **When Dark Rebirth Triggers**: Entire bar EXPLODES into healing energy, resets to 0
+
+**The DRP Counter**: Below the bar is a numerical display showing "X/50 DRP" with color coding:
+- **0-9 DRP**: White text (building phase)
+- **10-19 DRP**: Yellow text (passive benefits active)
+- **20-29 DRP**: Orange text (strong regeneration)
+- **30-50 DRP**: Red text (maximum power)
+
+**Passive Benefit Indicators**: When you hit 10+ DRP, icons appear showing:
+- **Shield Icon**: Dark Resistance active (shows chosen damage type)
+- **Heart Icon**: HP Regeneration active (shows amount: 1-5 HP/turn)
+
+**Dark Rebirth Indicator**: A skull icon appears when you have 10+ DRP, showing "Emergency HP: X" (where X = 2× your current DRP). This shows how much HP you'd regain if you died right now.
+
+**Why This Matters**:
+
+DRP is a **reactive resource**—you don't generate it by casting spells or attacking. You generate it by TAKING DAMAGE. This creates a unique tanking dynamic:
+- Other tanks: Avoid damage → Stay alive
+- Dreadnaught: Take damage → Gain power → Spend power to survive
+
+**The Dreadnaught's Paradox**:
+- High HP, Low DRP = Safe but weak (no resources to spend)
+- Low HP, High DRP = Dangerous but powerful (lots of resources, but close to death)
+- Low HP, Low DRP = Critical danger (no resources, close to death)
+
+**Strategic Depth**:
+
+Unlike mana (which regenerates over time), DRP only generates from damage. This means:
+1. **You WANT to get hit** (within reason)
+2. **Positioning matters** (stand where enemies will attack you)
+3. **Damage resistance affects DRP generation** (you still generate DRP from full damage before resistance!)
+
+**The Resistance Trick**: When you have Dark Resistance active (10+ DRP), you take HALF damage from one type, but you still generate DRP from the FULL damage amount!
+- Example: Take 20 slashing damage with slashing resistance
+- Actual damage: 20 ÷ 2 = 10 HP lost
+- DRP generated: 20 ÷ 5 = 4 DRP (calculated from full 20!)
+- Result: You take less damage but generate MORE resources!
+
+**The Regeneration Scaling**: HP regeneration scales with DRP:
+- 10 DRP: +1 HP/turn
+- 20 DRP: +2 HP/turn
+- 30 DRP: +3 HP/turn
+- 40 DRP: +4 HP/turn
+- 50 DRP: +5 HP/turn
+
+At 50 DRP, you're regenerating 5 HP every turn. In a 10-turn fight, that's 50 HP healed passively!
+
+**Master Dreadnaughts Know**:
+- Keep DRP between 15-30 (enough for abilities + Dark Rebirth safety net)
+- Spend DRP on Shadow Shield when facing burst damage (2:1 ratio is efficient!)
+- Save 10+ DRP for Dark Rebirth (insurance against death)
+- Choose Dark Resistance based on enemy damage types (change it as needed)
+- Don't cap at 50 DRP (you waste generation if you're already full)`
+    },
+
     mechanics: {
-      title: 'How It Works',
-      content: `**DRP Generation**: Gain 1 DRP for every 5 points of damage taken
-**Maximum Capacity**: Can store up to 50 DRP
-**Persistence**: DRP persists between combats until spent or until you rest
+      title: 'Detailed Mechanics',
+      content: `**DRP Generation (Damage-to-Power Conversion)**
 
-**Spending DRP**:
-Dreadnaught abilities consume DRP to create powerful effects. The more DRP you spend, the stronger the effect.
+**Formula**: 1 DRP per 5 damage taken (round down)
 
-**Passive Benefits**:
-Simply having DRP provides ongoing benefits:
-- **Dark Resistance** (10+ DRP): Gain resistance to one damage type of your choice
-- **Health Regeneration** (10+ DRP): Regenerate 1 HP per 10 DRP at the start of each turn
+**Examples**:
+- Take 7 damage → 7 ÷ 5 = 1.4 → **1 DRP**
+- Take 23 damage → 23 ÷ 5 = 4.6 → **4 DRP**
+- Take 50 damage → 50 ÷ 5 = 10 → **10 DRP**
 
-**Dark Rebirth**:
-When you reach 0 hit points, automatically spend all remaining DRP to regain hit points equal to twice the DRP spent. This can save you from death, but leaves you at 0 DRP afterward.`
+**Maximum Capacity**: 50 DRP (any excess is wasted)
+
+**Persistence**: DRP persists between combats until spent or until you complete a long rest
+
+**Important**: DRP is calculated from damage BEFORE resistance/reduction
+- Example: Take 20 damage with resistance (10 actual damage) → Still generate 4 DRP (20 ÷ 5)
+
+**Spending DRP (Active Abilities)**
+
+**Shadow Shield** (Variable Cost):
+- **Effect**: Absorb damage equal to 2× DRP spent
+- **Cost**: Any amount of DRP
+- **Ratio**: 2:1 (spend 10 DRP → absorb 20 damage)
+- **Example**: Spend 15 DRP → Create shield that absorbs 30 damage
+- **Usage**: Best used before taking burst damage
+
+**Wraith Strike** (5/10/15/20 DRP):
+- **Effect**: Add necrotic damage to next attack
+- **Scaling**:
+  - 5 DRP: +1d6 necrotic
+  - 10 DRP: +2d6 necrotic
+  - 15 DRP: +3d6 necrotic
+  - 20 DRP: +4d6 necrotic
+- **Example**: Spend 15 DRP → Next attack deals +3d6 necrotic (~10 bonus damage)
+
+**Unholy Fortitude** (5/10/15/20 DRP):
+- **Effect**: Increase AC for 1 minute
+- **Scaling**:
+  - 5 DRP: +1 AC
+  - 10 DRP: +2 AC
+  - 15 DRP: +3 AC
+  - 20 DRP: +4 AC
+- **Example**: Spend 10 DRP → +2 AC for 1 minute (10 turns)
+
+**Necrotic Aura** (15 DRP):
+- **Effect**: Enemies within 10 feet have disadvantage on attacks for 1 minute
+- **Cost**: Fixed 15 DRP
+- **Usage**: Best when surrounded by multiple enemies
+
+**Dark Rebirth** (All Remaining DRP):
+- **Trigger**: Automatically activates when you reach 0 HP
+- **Effect**: Regain HP equal to 2× DRP spent
+- **Cost**: ALL remaining DRP (resets to 0)
+- **Example**: Die with 20 DRP → Spend all 20 → Regain 40 HP → Back at 40 HP with 0 DRP
+
+**Passive Benefits (Always Active)**
+
+**Dark Resistance** (Requires 10+ DRP):
+- **Effect**: Gain resistance to one damage type of your choice
+- **Activation**: Choose damage type when you first reach 10 DRP
+- **Change**: Can change damage type as a bonus action
+- **Types**: Slashing, piercing, bludgeoning, fire, cold, lightning, necrotic, radiant, etc.
+
+**Health Regeneration** (Requires 10+ DRP):
+- **Effect**: Regenerate HP at the start of each turn
+- **Scaling**:
+  - 10-19 DRP: +1 HP/turn
+  - 20-29 DRP: +2 HP/turn
+  - 30-39 DRP: +3 HP/turn
+  - 40-49 DRP: +4 HP/turn
+  - 50 DRP: +5 HP/turn
+- **Example**: At 25 DRP, regenerate 2 HP every turn
+
+**Strategic Balance**:
+The key to mastering the Dreadnaught is knowing when to spend DRP versus saving it for passive benefits and Dark Rebirth. At 30 DRP, you're regenerating 3 HP/turn—but you could also spend 20 DRP on Wraith Strike for +4d6 damage. Choose wisely.`
     },
     
     drpAbilitiesTable: {
@@ -139,6 +421,104 @@ When you reach 0 hit points, automatically spend all remaining DRP to regain hit
 **Emergency Reserve**: Always keep at least 10-15 DRP in reserve for Dark Rebirth. This ensures you can survive a lethal blow and continue fighting.
 
 **Damage Type Selection**: When choosing your Dark Resistance damage type at 10 DRP, consider the enemies you're facing. Change it strategically as combat evolves.`
+    },
+
+    practicalExample: {
+      title: 'Practical Decision-Making Example',
+      content: `**Scenario**: Boss fight, Turn 6. You're at 45/120 HP with 28 DRP. The boss just used a powerful ability and will attack you next turn for an estimated 40 damage. Your party's healer is out of mana. You're the only thing standing between the boss and your party.
+
+**Current State**:
+- HP: 45/120 (38%, dangerous)
+- DRP: 28/50
+- Boss's Next Attack: ~40 damage (will kill you: 45 - 40 = 5 HP)
+- Healer: Out of mana (can't heal you)
+- Dark Resistance: Currently set to fire (boss deals slashing damage)
+
+**Passive Benefits (28 DRP)**:
+- Dark Resistance: Fire (WRONG TYPE for this boss!)
+- HP Regeneration: +2 HP/turn (20-29 DRP range)
+
+**Option A - Shadow Shield (Spend 20 DRP)**:
+Use Shadow Shield to absorb 40 damage (spend 20 DRP for 40 absorption)
+- Cost: 20 DRP (28 → 8 remaining)
+- Result: Boss's 40 damage absorbed completely, you take 0 damage
+- Pros: You survive the hit, stay at 45 HP
+- Cons: Drop to 8 DRP (lose regeneration tier: 2 HP/turn → 0 HP/turn), only 8 DRP left for Dark Rebirth (16 HP if you die)
+- Risk: If boss hits you again after shield breaks, you only have 8 DRP for Dark Rebirth (16 HP recovery)
+
+**Option B - Change Dark Resistance + Take the Hit**:
+Change Dark Resistance to slashing (boss's damage type), take reduced damage
+- Cost: 0 DRP (bonus action to change resistance)
+- Damage: 40 ÷ 2 = 20 damage (halved by resistance)
+- HP: 45 - 20 = 25 HP
+- DRP: 28 + 8 = 36 DRP (gain 8 DRP from 40 damage: 40 ÷ 5 = 8)
+- Pros: Gain DRP, increase regeneration (28 → 36 DRP = 3 HP/turn), keep resources
+- Cons: Drop to 25 HP (21%, very dangerous)
+- Risk: One more hit might kill you
+
+**Option C - Shadow Shield (Spend 10 DRP) + Change Resistance**:
+Use smaller Shadow Shield (20 absorption) + change resistance to slashing
+- Cost: 10 DRP (28 → 18 remaining)
+- Shield: Absorbs 20 damage
+- Remaining Damage: 40 - 20 = 20 damage with slashing resistance
+- Actual Damage: 20 ÷ 2 = 10 damage
+- HP: 45 - 10 = 35 HP
+- DRP: 18 + 8 = 26 DRP (gain 8 from full 40 damage before shield/resistance)
+- Pros: Moderate damage taken, keep decent DRP, maintain regeneration
+- Cons: Complex, requires two actions
+- Risk: Moderate
+
+**Option D - Unholy Fortitude (Spend 15 DRP) + Change Resistance**:
+Boost AC by +3 (spend 15 DRP), change resistance, hope boss misses
+- Cost: 15 DRP (28 → 13 remaining)
+- AC: 18 → 21 (boss needs to roll higher to hit)
+- Pros: If boss misses, you take 0 damage and keep HP
+- Cons: If boss hits anyway, you wasted 15 DRP and still take damage
+- Risk: Gambling on boss missing (depends on boss's attack bonus)
+
+**Best Choice**: Option B (Change Dark Resistance + Take the Hit)
+
+**Why**:
+1. **DRP Generation**: Taking 40 damage generates 8 DRP (40 ÷ 5), bringing you to 36 DRP
+2. **Regeneration Tier**: 36 DRP = 3 HP/turn (up from 2 HP/turn at 28 DRP)
+3. **Dark Rebirth Safety**: 36 DRP = 72 HP recovery if you die (much better than 16 HP from Option A)
+4. **Resource Efficiency**: You don't spend DRP, you GAIN it
+5. **Resistance Math**: 40 damage → 20 actual damage (halved), but still generate 8 DRP from full 40
+
+**Execution**:
+- **Bonus Action**: Change Dark Resistance from fire → slashing
+- **Boss's Turn**: Attacks for 40 damage
+- **Resistance Applied**: 40 ÷ 2 = 20 damage taken
+- **HP**: 45 - 20 = 25 HP
+- **DRP Generated**: 40 ÷ 5 = 8 DRP
+- **DRP**: 28 + 8 = 36 DRP
+- **Regeneration**: Now at 3 HP/turn (36 DRP is in 30-39 range)
+
+**Next Turn**:
+- **Regeneration**: +3 HP (25 → 28 HP)
+- **Your Action**: Attack boss with Wraith Strike (spend 15 DRP for +3d6 necrotic)
+- **DRP**: 36 - 15 = 21 DRP remaining
+- **Dark Rebirth Safety**: 21 DRP = 42 HP recovery if you die
+
+**Result**: You're at 28 HP with 21 DRP, regenerating 2 HP/turn, with 42 HP emergency recovery available. You survived, gained resources, and can continue fighting.
+
+**Alternative if Boss Attack Was 60+ Damage**: Option A (Shadow Shield 30 DRP)
+- Why: If boss deals 60 damage, resistance only reduces it to 30 (still might kill you at 45 HP)
+- Better: Spend 30 DRP for 60 absorption shield (full block)
+
+**Alternative if You Had 50 DRP**: Option B still (Take the Hit)
+- Why: At 50 DRP (max), you can't generate more DRP (wasted)
+- Better: Take damage to "spend" some DRP capacity, then regenerate it
+
+**The Lesson**: Dreadnaught decision-making involves:
+1. **Resistance Optimization**: Change Dark Resistance to match incoming damage type
+2. **DRP Generation Math**: Taking damage generates DRP (sometimes better than avoiding it!)
+3. **Regeneration Tiers**: Higher DRP = more HP/turn (36 DRP = 3 HP/turn)
+4. **Dark Rebirth Planning**: Always keep 15-20 DRP for emergency resurrection (30-40 HP recovery)
+5. **The Resistance Trick**: Resistance halves damage taken, but DRP calculated from FULL damage
+6. **Resource Efficiency**: Sometimes taking damage is better than spending DRP to avoid it
+
+You're not a tank who hides behind shields—you're a tank who FEEDS on pain. Every hit makes you stronger. Every wound is an investment. Master the balance between suffering and power, and you become truly unkillable.`
     }
   },
   

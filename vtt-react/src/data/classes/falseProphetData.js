@@ -106,6 +106,124 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 - Coordinate mind control with team to maximize controlled enemy damage
 - Use chaos zones strategically to control battlefield
 - Synergizes with classes that can protect fragile casters`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: Dancing on the Edge of Madness',
+      content: `**The Setup**: You're a False Prophet (Voidcaller specialization) facing a group of bandits (4 bandits + 1 bandit captain). Your party is with you, but you're the primary damage dealer. Starting Madness: 0. Starting Mana: 40/50. Your goal: Build Madness for maximum damage, use Temptation abilities strategically, and DON'T hit 20 Madness unless you're ready for chaos.
+
+**Starting State**: Madness: 0/20 | Shadow Damage Bonus: +0 | Mana: 40/50 | HP: 60/60
+
+**Turn 1 - Building Madness (Madness: 0 → 5)**
+
+*The bandits charge. You raise your hands, void energy crackling between your fingers. Time to embrace the darkness.*
+
+**Your Action**: Cast "Whispers of the Void" on Bandit #1 (6 mana, generates 1d6 Madness)
+**Madness Roll**: 1d6 → [5] → +5 Madness Points
+**Madness**: 0 + 5 = **5 Madness**
+**Shadow Damage Bonus**: +5 to all shadow damage
+**Spell Damage**: 3d6 shadow + 5 (Madness bonus) → [4, 5, 6] + 5 = 20 damage
+**Result**: Bandit #1 takes 20 damage, frightened for 2 rounds
+
+*Dark whispers fill the bandit's mind. He screams, clutching his head. You feel the madness building—a sweet, intoxicating power.*
+
+**Mana**: 40 - 6 = 34/50
+**Current State**: Madness: 5/20 | Shadow Damage Bonus: +5
+
+**Turn 2 - Approaching the Threshold (Madness: 5 → 11)**
+
+*The bandits are wary now. The captain barks orders. You smile. They have no idea what's coming.*
+
+**Your Action**: Cast "Eldritch Bolt" on Bandit #2 (5 mana, generates 1d6 Madness)
+**Madness Roll**: 1d6 → [6] → +6 Madness Points
+**Madness**: 5 + 6 = **11 Madness**
+**Shadow Damage Bonus**: +11 to all shadow damage
+**Spell Damage**: 2d8 shadow + 11 (Madness bonus) → [7, 6] + 11 = 24 damage!
+**Result**: Bandit #2 takes 24 damage, DEAD (overkill)
+
+*The bolt of void energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness—past the 9 threshold. Eldritch Vision is now available.*
+
+**Mana**: 34 - 5 = 29/50
+**Temptation Unlocked**: Eldritch Vision (9+ Madness) - See through walls, detect invisible, +1d6 Madness
+
+**Current State**: Madness: 11/20 | Shadow Damage Bonus: +11 | Eldritch Vision Available
+
+**Turn 3 - The Temptation (Madness: 11 → 16)**
+
+*The bandit captain ducks behind cover. You can't see him. But you COULD see him... if you used Eldritch Vision. It would cost 1d6 Madness. You're at 11. If you roll high, you could hit 17-18. Close to the edge. But the power...*
+
+**Your Decision**: Use Eldritch Vision (adds 1d6 Madness)
+**Madness Roll**: 1d6 → [5] → +5 Madness Points
+**Madness**: 11 + 5 = **16 Madness**
+**Shadow Damage Bonus**: +16 to all shadow damage
+
+*Your eyes turn black. The walls become transparent. You see EVERYTHING. The captain hiding behind the crate. The bandit sneaking up behind your ally. The rats in the walls. The worms in the earth. TOO MUCH. But you can use this.*
+
+**Your Action**: Cast "Shadow Bolt" at bandit captain (behind cover, but you can see him!) (5 mana, no Madness generation)
+**Spell Damage**: 3d6 shadow + 16 (Madness bonus) → [5, 6, 4] + 16 = 31 damage!
+**Result**: Bandit captain takes 31 damage, severely wounded (down to 15 HP)
+
+*The captain screams as the bolt phases through the crate and strikes him. "How did you—?!" You don't answer. You're too busy fighting the voices in your head.*
+
+**Mana**: 29 - 5 = 24/50
+**Current State**: Madness: 16/20 | Shadow Damage Bonus: +16 | **DANGER ZONE**
+
+**Turn 4 - The Decision Point (Madness: 16 → 19)**
+
+*You're at 16 Madness. Four points from Insanity Convulsion. You have two choices:*
+*1. Spend Madness with a spending spell to drop back to safety*
+*2. Keep building for maximum damage and risk hitting 20*
+
+*You're a Voidcaller. You chose this path. MAXIMUM DAMAGE.*
+
+**Your Action**: Cast "Void Tendrils" on remaining bandits (7 mana, generates 1d4 Madness)
+**Madness Roll**: 1d4 → [3] → +3 Madness Points
+**Madness**: 16 + 3 = **19 Madness**
+**Shadow Damage Bonus**: +19 to all shadow damage
+**Spell Damage**: 4d6 shadow + 19 (Madness bonus) → [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
+
+*Tendrils of pure void energy erupt from the ground, wrapping around the bandits. They scream as the darkness consumes them.*
+
+**Results**:
+- Bandit #3: 40 damage → DEAD
+- Bandit #4: 40 damage → DEAD
+- Bandit Captain: 15 HP - 40 damage → DEAD (overkill)
+
+*All enemies dead. You're at 19 Madness. ONE POINT from Insanity Convulsion. Your hands shake. The voices are SCREAMING. Reality is fracturing at the edges.*
+
+**Mana**: 24 - 7 = 17/50
+**Current State**: Madness: 19/20 | Shadow Damage Bonus: +19 | **ONE POINT FROM CONVULSION**
+
+**Turn 5 - The Comedown (Madness: 19 → 13)**
+
+*Combat is over. You need to spend Madness before you lose control. You have spending spells.*
+
+**Your Action**: Cast "Siphon Sanity" (self-heal, spends 1d6 Madness)
+**Madness Spent**: 1d6 → [6] → -6 Madness Points
+**Madness**: 19 - 6 = **13 Madness**
+**Healing**: 6 × 2 = 12 HP healed (you weren't damaged, but now you're at full)
+
+*You breathe deeply. The voices quiet. The world solidifies. You're back to 13 Madness—still high, but safe. For now.*
+
+**Your Party's Healer**: "Are you... okay? Your eyes were completely black."
+**You**: "I'm fine. Better than fine. Did you see that damage?"
+**Your Party's Tank**: "We saw. We also saw you almost lose your mind."
+**You**: "Almost doesn't count."
+
+*But you know the truth. You were one bad roll away from Insanity Convulsion. One 1d4 roll of [4] instead of [3] and you would have hit 20. The table would have rolled. Maybe Shadow Burst (5d6 damage to yourself and allies). Maybe Mind Shatter (stunned for 2 rounds). Maybe worse.*
+
+*But you didn't. You danced on the edge and came back. That's what False Prophets do.*
+
+**The Lesson**: False Prophet gameplay is about:
+1. **Madness Generation**: Random dice rolls (1d4, 1d6, 1d8) mean you can't predict exact Madness levels
+2. **Damage Scaling**: At 19 Madness, +19 shadow damage turned 21 base damage into 40 damage (90% increase!)
+3. **Temptation Abilities**: Eldritch Vision cost 1d6 Madness but provided crucial tactical advantage
+4. **Risk Management**: Stayed at 19 Madness (one point from Convulsion) for maximum damage
+5. **Spending Strategy**: Used Siphon Sanity after combat to drop from 19 → 13, avoiding Convulsion
+6. **Randomness**: If Void Tendrils had rolled 1d4 → [4] instead of [3], would have hit 20 and triggered Convulsion
+7. **Reward**: Dealt 115 total damage in 4 turns (20 + 24 + 31 + 40) with massive Madness scaling
+
+You're not a safe, predictable caster. You're a chaos mage who gambles with sanity for power. Every spell is a dice roll. Every turn is a risk. And when you hit 19 Madness and unleash 40 damage AoE, it's all worth it. Until it isn't.`
     }
   },
   
@@ -164,15 +282,89 @@ Roll 1d6 for the specific effect:
 6. **Rage**: Advantage on attacks but attack nearest creature (friend or foe)`
     },
     
-    visualRepresentation: {
-      title: 'Visual Representation',
-      content: `The Madness gauge appears as a horizontal bar with 20 segments, filling with swirling purple and black energy as Madness accumulates. At 6, 9, and 12 Madness, special threshold markers glow, indicating available Temptation abilities. As Madness approaches 20, the bar pulses with increasing intensity, warning of imminent Convulsion.
+    resourceBarExplanation: {
+      title: 'Understanding Your Madness Gauge',
+      content: `**What You See**: Your Madness gauge is a horizontal bar with 20 individual segments, each representing 1 Madness Point. As you accumulate Madness, the segments fill with swirling purple-black void energy, pulsing and writhing like living darkness.
 
-The gauge displays:
-- Current Madness Points / 20
-- Shadow damage bonus (+X)
-- Available Temptation abilities (glowing icons)
-- Warning indicator when at 15+ Madness (pulsing red border)`
+**Visual Representation by Madness Level**:
+
+**0-5 Madness (Safe Zone)**:
+- Bar: 0-5 segments filled with dim purple glow
+- Border: Green (safe)
+- Effect: Minimal visual distortion, screen is clear
+- Shadow Damage Bonus: +0 to +5 displayed in small text
+- Status: "Building Power"
+
+**6-8 Madness (First Threshold)**:
+- Bar: 6-8 segments filled, purple glow brightening
+- Border: Yellow (caution)
+- Effect: Slight screen edge vignette (purple tint at corners)
+- Temptation Unlocked: **Veil of Shadows** icon glows (invisibility ability)
+- Shadow Damage Bonus: +6 to +8 displayed in larger text
+- Status: "Temptation Available"
+- Audio: Faint whispers begin
+
+**9-11 Madness (Second Threshold)**:
+- Bar: 9-11 segments filled, bright purple with black tendrils
+- Border: Orange (warning)
+- Effect: Screen vignette intensifies, occasional visual flicker
+- Temptation Unlocked: **Eldritch Vision** icon glows (true sight ability)
+- Shadow Damage Bonus: +9 to +11 displayed in bold
+- Status: "Power Growing"
+- Audio: Whispers louder, occasional laughter
+
+**12-14 Madness (Third Threshold - Danger Zone)**:
+- Bar: 12-14 segments filled, violent purple-black swirling
+- Border: Red (danger)
+- Effect: Screen edges darken significantly, periodic screen shake
+- Temptation Unlocked: **Apocalyptic Revelation** icon glows (8d6 AoE ability)
+- Shadow Damage Bonus: +12 to +14 displayed in large, pulsing text
+- Status: "DANGER - High Madness"
+- Audio: Loud whispers, screaming, reality distortion sounds
+
+**15-19 Madness (Critical Zone)**:
+- Bar: 15-19 segments filled, chaotic energy crackling between segments
+- Border: Flashing red with black lightning
+- Effect: Heavy screen distortion, frequent screen shake, void tendrils appear at screen edges
+- All Temptations: Available but RISKY (any could push you to 20)
+- Shadow Damage Bonus: +15 to +19 displayed in HUGE pulsing text
+- Status: "CRITICAL - ONE POINT FROM CONVULSION"
+- Audio: SCREAMING, reality tearing sounds, heartbeat pounding
+- Warning Text: "MADNESS CRITICAL - CONVULSION IMMINENT" flashes on screen
+
+**20 Madness (INSANITY CONVULSION)**:
+- Bar: ALL 20 segments filled, EXPLODING with void energy
+- Border: Entire screen flashes white, then black
+- Effect: Screen goes completely dark for 1 second, then EXPLOSION of purple-black energy
+- Convulsion Table: 1d6 roll animation appears in center of screen
+- Audio: LOUD EXPLOSION, glass shattering, reality breaking
+- Status: "INSANITY CONVULSION TRIGGERED"
+- Result: Roll displayed with dramatic animation, effect applied, Madness resets to 0
+
+**Temptation Ability Icons** (appear at thresholds):
+- **Veil of Shadows** (6+ Madness): Shadowy cloak icon, glows purple when available
+- **Eldritch Vision** (9+ Madness): Eye with void pupil icon, glows when available
+- **Apocalyptic Revelation** (12+ Madness): Exploding void sphere icon, glows when available
+- Each icon shows: Ability name, Madness cost (1d4/1d6/2d6), current availability
+
+**Shadow Damage Bonus Display**:
+- Small text at 0-5 Madness: "+5 shadow damage"
+- Medium text at 6-11 Madness: "+10 shadow damage" (yellow)
+- Large text at 12-14 Madness: "+13 shadow damage" (orange)
+- HUGE pulsing text at 15-19 Madness: "+19 SHADOW DAMAGE" (red, pulsing)
+
+**Madness Generation/Spending Indicators**:
+- When you cast a Madness-generating spell: Dice roll animation (1d4/1d6/1d8) appears above bar, segments fill with animation
+- When you cast a Madness-spending spell: Dice roll animation appears, segments drain with reverse animation
+- Randomness emphasized: You see the dice roll BEFORE the Madness changes, reinforcing unpredictability
+
+**Warning Systems**:
+- At 15 Madness: Yellow warning text "Approaching Convulsion Threshold"
+- At 17 Madness: Orange warning text "DANGER - 3 Points from Convulsion"
+- At 19 Madness: Red flashing text "CRITICAL - 1 POINT FROM CONVULSION" + alarm sound
+- When casting spell that could trigger Convulsion: Confirmation prompt "This spell could trigger Insanity Convulsion. Proceed?"
+
+**Why This Matters**: The Madness gauge isn't just a resource bar—it's a visual representation of your descent into insanity. The screen effects, audio cues, and warning systems create tension and immersion. When you're at 19 Madness and the screen is shaking, whispers are screaming, and the warning text is flashing, you FEEL the danger. You know one bad dice roll will trigger Convulsion. That's the thrill of False Prophet—dancing on the edge of madness, watching the gauge fill, hearing the whispers grow louder, and deciding whether to push for one more spell or spend Madness to safety. The visual feedback makes every point of Madness feel meaningful and dangerous.`
     },
     
     strategicDepth: {

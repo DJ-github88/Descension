@@ -55,6 +55,170 @@ Oracles are not direct damage dealers but force multipliers who make their allie
 **Embrace Mystery**: Enjoy cryptic abilities and uncertain outcomes
 
 The class has a unique prediction mechanic where you declare what you think will happen (e.g., "The enemy will miss their next attack" or "Our fighter will land a critical hit") and gain bonuses if your prediction proves true. This creates engaging gameplay where you're constantly reading the battlefield and making tactical forecasts.`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Seer\'s Gambit',
+      content: `**The Setup**: You're an Oracle (Fate Weaver specialization) facing a group of assassins (4 assassins + 1 assassin master). Your party is with you. Starting Prophetic Visions: 3 (baseline). Starting Mana: 50/60. Your goal: Make predictions about combat events, gain Visions when correct, then spend Visions to manipulate fate and turn the tide of battle.
+
+**Starting State**: Prophetic Visions: 3/10 | Mana: 50/60 | HP: 55/55
+
+**Turn 1 - First Prediction (Visions: 3 → 4)**
+
+*The assassins emerge from the shadows, blades drawn. You close your eyes and SEE. The future unfolds before you like a tapestry.*
+
+**Your Action (Bonus Action)**: Make a Simple Prediction
+**Prediction**: "The assassin master will attack our tank next turn."
+
+*You open your eyes. "The master will strike our tank. Be ready."*
+
+**Assassin #1's Turn**: Attacks your mage → [16] → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
+
+**Assassin Master's Turn**: Attacks your tank → [18] → Hit! → 3d6+5 → [6, 5, 4] + 5 = 20 damage
+
+*Your prediction was CORRECT. The master attacked the tank.*
+
+**Prediction Result**: CORRECT! → +1 Prophetic Vision
+**Prophetic Visions**: 3 + 1 = **4/10**
+
+**Your Action**: Cast "Omen of Weakness" on Assassin Master (6 mana)
+**Effect**: Target has disadvantage on next attack roll
+
+*You point at the assassin master. "I see your blade faltering. Your next strike will fail."*
+
+**Mana**: 50 - 6 = 44/60
+
+**Current State**: Visions: 4/10 | Mana: 44/60
+
+**Turn 2 - Witnessing Fate (Visions: 4 → 5)**
+
+**Your Party's Tank**: Attacks Assassin #1 → [20] → **CRITICAL HIT!** → 4d8+5 → [7, 8, 6, 7] + 5 = 33 damage → Assassin #1 DEAD
+
+*A critical hit occurs within 30 feet of you. You WITNESS the threads of fate aligning.*
+
+**Witnessing Fate**: Critical hit within 30 ft → +1 Prophetic Vision
+**Prophetic Visions**: 4 + 1 = **5/10**
+
+**Your Action (Bonus Action)**: Make a Moderate Prediction
+**Prediction**: "The assassin master's next attack will miss due to my Omen of Weakness."
+
+*You speak with certainty. "The master's blade will find only air."*
+
+**Assassin Master's Turn**: Attacks your tank (has disadvantage from Omen of Weakness)
+**Attack Roll**: d20+7 with DISADVANTAGE → [17, 9] → Take 9 → 9 + 7 = 16 → Miss! (tank's AC is 17)
+
+*The assassin master's blade swings wide, just as you predicted.*
+
+**Prediction Result**: CORRECT! → +2 Prophetic Visions (moderate prediction)
+**Prophetic Visions**: 5 + 2 = **7/10**
+
+**Your Party's Mage**: "You... you KNEW he would miss?"
+**You**: "I saw it. The future is clear to me."
+
+**Current State**: Visions: 7/10 | Mana: 44/60
+
+**Turn 3 - Altering Fate (Visions: 7 → 4)**
+
+*Assassin #2 attacks your mage. She's low on HP—this could kill her.*
+
+**Assassin #2's Turn**: Attacks your mage → [18] → Hit! → 2d6+3 → [6, 5] + 3 = 14 damage
+
+*Your mage is at 20 HP. This attack will bring her to 6 HP. But you can CHANGE this.*
+
+**Your Action (Reaction)**: Spend 3 Prophetic Visions to "Alter Fate"
+**Effect**: Force enemy to reroll attack with disadvantage
+
+*You raise your hand. "No. That is not how this ends. I have SEEN a different future."*
+
+**Prophetic Visions**: 7 - 3 = **4/10**
+
+**Assassin #2's Reroll**: d20+7 with DISADVANTAGE → [14, 7] → Take 7 → 7 + 7 = 14 → Miss! (mage's AC is 15)
+
+*The assassin's blade passes through empty air. Your mage is unharmed. You changed fate itself.*
+
+**Your Party's Mage**: "I... I should be dead. You saved me."
+**You**: "I saw you fall. I wove a different thread. You live."
+
+**Your Action**: Cast "Prophetic Strike" on your tank (8 mana + 1 Vision)
+**Effect**: Tank's next attack has advantage and deals +2d6 damage
+**Cost**: 8 mana + 1 Prophetic Vision
+
+*You touch your tank's shoulder. "I see your blade striking true. Trust the vision."*
+
+**Mana**: 44 - 8 = 36/60
+**Prophetic Visions**: 4 - 1 = **3/10**
+
+**Current State**: Visions: 3/10 | Mana: 36/60
+
+**Turn 4 - Prediction Payoff (Visions: 3 → 5)**
+
+**Your Action (Bonus Action)**: Make a Complex Prediction
+**Prediction**: "Our tank will land a critical hit on the assassin master with Prophetic Strike active."
+
+*You speak with absolute certainty. "The master will fall to our tank's blade. I have SEEN it."*
+
+**Your Party's Tank's Turn**: Attacks Assassin Master (has advantage from Prophetic Strike)
+**Attack Roll**: d20+6 with ADVANTAGE → [19, 12] → Take 19 → **CRITICAL HIT!** (19-20 crit range)
+**Damage**: 2d8+5 → [8, 7] + 5 = 20 damage → DOUBLED = 40 damage
+**Prophetic Strike Bonus**: +2d6 → [5, 6] = +11 damage
+**Total Damage**: 40 + 11 = **51 damage!**
+
+*The tank's blade GLOWS with prophetic energy. The strike is PERFECT. The assassin master falls, dead.*
+
+**Assassin Master**: DEAD
+
+**Prediction Result**: CORRECT! → +3 Prophetic Visions (complex prediction)
+**Prophetic Visions**: 3 + 3 = **6/10**
+
+**Witnessing Fate**: Critical hit within 30 ft → +1 Prophetic Vision
+**Prophetic Visions**: 6 + 1 = **7/10**
+
+**Your Party's Tank**: "I... I've never hit that hard. Fifty-one damage. What did you DO?"
+**You**: "I saw the future where you struck true. I made it real. Prophetic Strike gave you advantage and +2d6 damage. You rolled a 19—a critical hit. I predicted it. And it came to pass."
+
+**Current State**: Visions: 7/10 | Mana: 36/60
+
+**Turn 5 - Finishing the Fight**
+
+*Three assassins remain. You have 7 Visions. Time to end this.*
+
+**Your Action**: Spend 5 Prophetic Visions to cast "Doom Prophecy" (10 mana + 5 Visions)
+**Effect**: All enemies within 30 ft must save DC 16 Wisdom or take 6d8 psychic damage and be frightened
+
+*You raise both hands. Your eyes GLOW with prophetic power. "I have seen your deaths. They are INEVITABLE."*
+
+**Mana**: 36 - 10 = 26/60
+**Prophetic Visions**: 7 - 5 = **2/10**
+
+**Assassin #2 Save**: [9] → FAIL! → 6d8 psychic → [7, 6, 8, 5, 6, 7] = 39 damage → DEAD + Frightened
+**Assassin #3 Save**: [11] → FAIL! → 39 damage → DEAD + Frightened
+**Assassin #4 Save**: [14] → FAIL! → 39 damage → DEAD + Frightened
+
+*All three assassins clutch their heads, screaming. They see their own deaths in vivid detail. Then they fall, dead, their minds shattered by the prophecy.*
+
+**Combat Over**
+
+*You lower your hands. Your eyes stop glowing. The battlefield is silent.*
+
+**Your Party's Mage**: "You... you killed them with a VISION. They saw their own deaths and it killed them."
+**You**: "I showed them the truth. Their fates were sealed. I merely revealed it."
+**Your Party's Tank**: "And you saved our mage by changing fate. You made the assassin miss."
+**You**: "I saw two futures. In one, she died. In the other, she lived. I spent 3 Visions to make the second future real."
+**Your Party's Rogue**: "How many Visions do you have now?"
+**You**: "Two. I started with 3, gained 7 through correct predictions and witnessing critical hits, spent 9 total. But I'll regenerate to 3 at our next long rest."
+
+**Final State**: Visions: 2/10 | Mana: 26/60 | HP: 55/55
+
+**The Lesson**: Oracle gameplay is about:
+1. **Making Predictions**: Made 3 predictions (simple, moderate, complex), gained 1/2/3 Visions when correct
+2. **Witnessing Fate**: Gained +1 Vision each time a critical hit occurred within 30 ft (2 crits = +2 Visions)
+3. **Altering Fate**: Spent 3 Visions to force assassin to reroll with disadvantage, saved mage's life
+4. **Vision-Powered Spells**: Prophetic Strike (8 mana + 1 Vision), Doom Prophecy (10 mana + 5 Visions)
+5. **Prediction Accuracy**: All 3 predictions were correct, gained 6 Visions total from predictions
+6. **Vision Economy**: Started with 3, gained 7, spent 9, ended with 2
+7. **Fate Manipulation**: Changed the future by forcing rerolls and granting advantage
+
+You're not a damage dealer. You're a SEER who manipulates FATE. You make predictions about what will happen, and when you're right, you gain Prophetic Visions. You spend those Visions to CHANGE reality—force rerolls, grant advantage, unleash devastating prophecies. The key is reading the battlefield, making accurate predictions, and spending Visions at critical moments. When you spend 3 Visions to make an assassin miss and save your mage, you're REWRITING FATE. When you spend 5 Visions to cast Doom Prophecy and kill three enemies by showing them their own deaths, you're wielding DESTINY as a weapon. You see the future. And you make it real.`
     }
   },
   
@@ -62,9 +226,163 @@ The class has a unique prediction mechanic where you declare what you think will
   resourceSystem: {
     title: 'Prophetic Visions',
     subtitle: 'The Oracle\'s Unique Resource Mechanic',
-    
+
     description: `Oracles generate Prophetic Visions by making accurate predictions and revealing hidden truths. These Visions can be spent to manipulate fate, force rerolls, or unleash powerful divination magic. The more accurate your predictions, the more power you accumulate.`,
-    
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Prophetic Visions Interface',
+      content: `**What You See**: The Oracle's interface displays a mystical EYE OF PROPHECY with 10 glowing iris segments representing your Prophetic Visions. As you make correct predictions and witness fate, the eye fills with radiant light. Active predictions are shown as floating text above the eye, and fate manipulation options appear when you have Visions to spend.
+
+**EYE OF PROPHECY DISPLAY** (Center of HUD):
+
+**Eye Visualization**:
+- **Outer Ring**: Ornate mystical eye with 10 iris segments
+- **Iris Segments**: Each segment represents 1 Prophetic Vision (0-10 total)
+- **Pupil**: Central dark circle that glows brighter as Visions increase
+- **Eyelids**: Partially closed when low Visions, wide open when high Visions
+- **Aura**: Swirling ethereal energy around the eye
+
+**Vision Level Visualization**:
+
+**0-2 Visions (Low Insight)**:
+- **Iris**: Only 0-2 segments filled with dim blue light
+- **Pupil**: Dark, barely glowing
+- **Eyelids**: Nearly closed, squinting
+- **Aura**: Faint wisps of blue energy
+- **Status**: "Low Visions - Limited Foresight"
+- **Border**: Gray
+
+**3-5 Visions (Moderate Insight)**:
+- **Iris**: 3-5 segments filled with moderate blue-white glow
+- **Pupil**: Glowing softly
+- **Eyelids**: Half-open
+- **Aura**: Moderate swirling energy
+- **Status**: "Moderate Visions - Clear Sight"
+- **Border**: Blue
+
+**6-8 Visions (High Insight)**:
+- **Iris**: 6-8 segments filled with bright silver-blue light
+- **Pupil**: Glowing brightly, pulsing
+- **Eyelids**: Wide open, alert
+- **Aura**: Strong swirling energy, occasional flashes
+- **Status**: "High Visions - Prophetic Clarity"
+- **Border**: Silver
+
+**9-10 Visions (MAXIMUM FORESIGHT)**:
+- **Iris**: 9-10 segments filled with BRILLIANT white-gold light
+- **Pupil**: BLAZING with prophetic power, radiating light
+- **Eyelids**: FULLY OPEN, eye staring intensely
+- **Aura**: INTENSE swirling energy, constant flashes, reality distortion effect
+- **Status**: "MAXIMUM VISIONS - OMNISCIENT SIGHT"
+- **Border**: Gold, pulsing
+- **Screen Effect**: Slight ethereal overlay, you can see faint outlines of future events
+
+**Vision Generation Animation**:
+
+**Correct Prediction**:
+- **Prediction Text**: "Prediction: Tank will be attacked" (shown above eye)
+- **Event Occurs**: Tank is attacked
+- **Validation**: "PREDICTION CORRECT!" text flashes in gold
+- **Vision Gain**: Eye iris segment LIGHTS UP, +1/2/3 Visions based on complexity
+- **Audio**: Mystical chime, whisper of "truth revealed"
+- **Text Notification**: "+2 Prophetic Visions (Correct Prediction)"
+- **Pupil Flash**: Pupil flashes brightly
+
+**Witnessing Fate (Critical Hit)**:
+- **Critical Hit Occurs**: Ally or enemy rolls natural 20 within 30 ft
+- **Fate Detection**: Eye PULSES, detecting the critical moment
+- **Vision Gain**: Iris segment lights up, +1 Vision
+- **Audio**: Soft bell chime
+- **Text Notification**: "+1 Prophetic Vision (Witnessed Critical Hit)"
+- **Visual**: Brief flash of light from eye to the critical hit location
+
+**Revealing Truth**:
+- **Divination Cast**: You cast "Detect Lies" or similar
+- **Truth Revealed**: "Enemy is lying about their intentions"
+- **Vision Gain**: Iris segment lights up, +1 Vision
+- **Audio**: Revelation sound (mystical whoosh)
+- **Text Notification**: "+1 Prophetic Vision (Truth Revealed)"
+
+**Prediction Interface**:
+
+**Making a Prediction** (Bonus Action):
+- **Prediction Menu**: Opens with three options
+  * "Simple Prediction (+1 Vision if correct)"
+  * "Moderate Prediction (+2 Visions if correct)"
+  * "Complex Prediction (+3 Visions if correct)"
+- **Text Input**: "Enter your prediction: ___"
+- **Examples Shown**: "Enemy will attack tank" / "Ally will crit" / "Enemy will cast Fireball"
+- **Confirm Button**: "MAKE PREDICTION"
+
+**Active Prediction Display**:
+- **Floating Text**: Above the Eye of Prophecy
+- **Prediction**: "ACTIVE: Tank will be attacked next turn"
+- **Complexity**: "Moderate Prediction (+2 Visions if correct)"
+- **Timer**: "Resolves: Next turn"
+- **Status**: "Pending..." (yellow) or "CORRECT!" (gold) or "Incorrect" (red)
+
+**Prediction Resolution**:
+- **Correct**: Eye flashes gold, iris segments fill, "+2 Visions!" text
+- **Incorrect**: Eye dims briefly, "Prediction Failed" text, no Visions gained
+- **Partial**: Some predictions can be partially correct for reduced Visions
+
+**Vision Spending Interface**:
+
+**Alter Fate Options** (when you have Visions):
+- **Button 1**: "Force Reroll (3 Visions)" - glows when available
+- **Button 2**: "Grant Advantage (2 Visions)" - glows when available
+- **Button 3**: "Add +5 to Roll (1 Vision)" - glows when available
+- **Button 4**: "Subtract -5 from Roll (1 Vision)" - glows when available
+
+**Alter Fate Animation**:
+When you spend Visions to alter fate:
+- **Vision Drain**: Eye iris segments DIM (e.g., 7 Visions → 4 Visions, 3 segments fade)
+- **Fate Manipulation**: Ethereal energy BURSTS from eye toward target
+- **Reality Warp**: Brief distortion effect around target
+- **Reroll**: Dice appears, spins, shows new result
+- **Audio**: Reality-warping sound (deep resonance + high chime)
+- **Text Notification**: "FATE ALTERED! Forced reroll (spent 3 Visions)"
+
+**Vision-Powered Spell Interface**:
+When casting spells that cost Visions:
+- **Spell Button**: "Prophetic Strike (8 mana + 1 Vision)"
+- **Cost Display**: Shows both mana and Vision cost
+- **Warning**: "Will reduce Visions: 7 → 6"
+- **Cast Animation**: Eye glows, Vision drains, spell effect enhanced with prophetic energy
+
+**Doom Prophecy Cast** (5 Visions):
+- **Vision Drain**: 5 iris segments DIM rapidly
+- **Eye Transformation**: Eye OPENS FULLY, pupil becomes VOID
+- **Prophecy Projection**: Ethereal visions of death project from eye to enemies
+- **Enemy Reaction**: Enemies see their own deaths, clutch heads, scream
+- **Damage Numbers**: "39 psychic damage (Doom Prophecy)" appears
+- **Audio**: Ominous whispers, screams, reality tearing
+- **Screen Effect**: Brief flash of death visions
+
+**Fate Thread Visualization**:
+When you have high Visions (7+):
+- **Fate Threads**: Ethereal silver threads appear connecting you to allies and enemies
+- **Thread Colors**:
+  * Allies: Golden threads (positive fate)
+  * Enemies: Red threads (doomed fate)
+  * Uncertain: Silver threads (fate undecided)
+- **Thread Manipulation**: When you alter fate, threads SHIFT and REWEAVE
+
+**Prediction History Log**:
+- **Recent Predictions**: Shows last 3 predictions
+  * "Tank attacked ✓ (+2 Visions)"
+  * "Mage will crit ✗ (Failed)"
+  * "Enemy casts spell ✓ (+2 Visions)"
+- **Accuracy Rate**: "Prediction Accuracy: 75% (6/8 correct)"
+
+**Vision Regeneration Indicator**:
+- **Long Rest**: "Visions will reset to 3 at next long rest"
+- **Current**: "Visions: 2/10 (will regenerate to 3)"
+- **Baseline**: "Baseline Prophetic Insight: 3 Visions"
+
+**Why This Matters**: The Eye of Prophecy makes you FEEL like a seer. When you make a prediction—"The tank will be attacked"—and it comes true, the eye FLASHES GOLD, an iris segment LIGHTS UP, and "+2 Prophetic Visions" appears. You were RIGHT. You SAW the future. When you have 7 Visions and the eye is WIDE OPEN with silver-blue light, you can see fate threads connecting everyone on the battlefield. When you spend 3 Visions to force an enemy to reroll and the eye BURSTS with energy, reality WARPS, and the dice spins to a new result—you just CHANGED FATE. When you cast Doom Prophecy with 5 Visions and the eye becomes a VOID projecting death visions to enemies, you're wielding DESTINY as a weapon. The prediction interface makes the mechanic engaging: you type your prediction, it floats above the eye, and when it resolves you get immediate feedback. Every correct prediction makes you stronger. Every Vision spent reshapes reality. You don't just see the future—you MAKE it.`
+    },
+
     mechanics: {
       title: 'How Prophetic Visions Work',
       content: `**Generating Visions**

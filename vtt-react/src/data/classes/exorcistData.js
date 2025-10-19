@@ -65,58 +65,192 @@ The Exorcist thrives when they can prepare binding rituals before combat and mai
     
     playstyle: {
       title: 'Playstyle & Strategy',
-      content: `Playing an Exorcist is about preparation, control, and risk management. Key considerations:
+      content: `Playing an Exorcist is about preparation, control, and risk management. You're not just a spellcaster—you're a demon wrangler, constantly balancing the power of your bound servants against the risk of losing control. Every command you give, every hit your demon takes, brings them one step closer to breaking free.
 
 **Pre-Combat Preparation**:
-- Perform binding rituals to capture demons (requires ingredients and conditions)
-- Each demon type requires specific ritual components and skill checks
-- Bound demons persist until dismissed, killed, or they escape
-- Can have multiple demons bound simultaneously (spec-dependent)
 
-**Dominance Die System**:
-- Each bound demon has a Dominance Die (d6, d8, d10, or d12)
-- Die size represents how submissive/controlled the demon is
-- Dominance Die decreases by one size each time the demon:
-  * Performs an action (attacks, uses ability, etc.)
-  * Takes damage from an enemy
-- When Dominance Die reaches 0, demon makes a saving throw or escapes
+Before battle even begins, the Exorcist's work has already started. You must perform binding rituals to capture demons, each requiring specific components and conditions:
 
-**Dominance Management**:
-- Use Dominance Replenishment spells to restore control
-- **Reassert Dominance**: Restore DD to maximum size
-- **Chain of Command**: Increase DD by one size for 3 actions
-- **Divine Bond**: Restore DD by 2 steps
-- Balance demon usage with Dominance maintenance
+- **Imp Binding** (d12 DD - Easiest): Gather purified lava from a volcanic region, ash from a burned holy text, and a flame-touched gemstone. Perform the ritual at midnight under a new moon. The imp will resist with fire and trickery, but its will is weak.
+
+- **Shadow Hound Binding** (d10 DD - Moderate): Collect nightshade essence, a cloak woven from shadows, and a silver mirror that has never reflected sunlight. Perform the ritual in complete darkness. The hound will test your resolve with fear and illusions.
+
+- **Wraith Binding** (d10 DD - Moderate): Acquire ectoplasm from a recent haunting, a moonstone shard blessed under a full moon, and a veil of spider silk. Perform the ritual during a full moon in a place where someone died. The wraith will attempt to possess you during the binding.
+
+- **Abyssal Brute Binding** (d8 DD - Difficult): Obtain giant's blood (fresh, within 24 hours), iron chains forged in dragonfire, and a stone from the deepest earth. Perform the ritual during a thunderstorm. The brute will physically resist, requiring you to overpower its will through sheer force of personality.
+
+- **Banshee Binding** (d8 DD - Difficult): Gather a locket containing hair from someone who died of grief, tears shed in genuine sorrow, and a white rose that bloomed in a graveyard. Perform the ritual in a place of great tragedy. The banshee's wail will test your sanity.
+
+Each binding ritual requires a skill check (Arcana, Religion, or Persuasion depending on demon type) with DC ranging from 12 (Imp) to 18 (Greater Demons). Failure means the demon escapes, and you've wasted your components. Success means the demon is bound with its starting Dominance Die.
+
+**Dominance Die System - The Core Mechanic**:
+
+Every bound demon has a Dominance Die (DD) that represents how firmly you control it. Think of it as a leash—the bigger the die, the longer the leash. But every action the demon takes, every hit it suffers, shortens that leash.
+
+**Dominance Die Degradation**:
+- d12 (Fully Submissive) → d10 (Obedient) → d8 (Resistant) → d6 (Rebellious) → 0 (Breaking Free)
+
+**What Decreases Dominance**:
+- **Demon Performs Action**: Attack, use ability, move aggressively → DD decreases by 1 step
+- **Demon Takes Damage**: Each hit from an enemy → DD decreases by 1 step
+- **Demon Uses Special Ability**: Powerful abilities → DD decreases by 2 steps
+
+**Example Degradation**:
+- Turn 1: Command Abyssal Brute (d8 DD) to attack → Hits enemy → DD becomes d6
+- Turn 2: Brute takes 15 damage from enemy counterattack → DD becomes 0
+- Turn 2 (Immediate): Brute must make Constitution save DC 16 or escape!
+
+**Dominance Management - Your Lifeline**:
+
+You have three spells to restore Dominance. Use them wisely—they cost mana you could be using for combat spells.
+
+1. **Reassert Dominance** (5 mana, 1 AP)
+   - Restores one demon's DD to maximum size
+   - Use when: Demon is at d6 or 0 and you need it to keep fighting
+   - Example: Your Shadow Hound is at d6 after multiple attacks. You cast Reassert Dominance, restoring it to d10. It can now act 4 more times before reaching 0 again.
+
+2. **Chain of Command** (4 mana, 1 AP)
+   - Increases one demon's DD by one size for its next 3 actions
+   - Use when: You need a burst damage window with multiple demon attacks
+   - Example: Your Imp is at d10. You cast Chain of Command, temporarily boosting it to d12. You command it to attack 3 times in rapid succession, and it only degrades to d10 instead of d6.
+
+3. **Divine Bond** (6 mana, 1 AP)
+   - Restores one demon's DD by 2 steps (e.g., d6 → d10)
+   - Use when: Demon is critically low but you can't afford full restoration cost
+   - Example: Your Banshee is at d6 after a brutal fight. Divine Bond restores it to d10, giving you breathing room without the full 5 mana cost of Reassert Dominance.
 
 **Demon Command Strategy**:
-- Command demons to attack, defend, or use special abilities
-- More powerful demons have lower starting Dominance Dice (harder to control)
-- Weaker demons (d12 DD) are easier to maintain but less powerful
-- Stronger demons (d6-d8 DD) are powerful but require constant attention
 
-**Binding Ritual Examples**:
-- **Imp** (d12 DD): Requires purified lava, ash, flame-touched gemstone; midnight ritual
-- **Shadow Hound** (d10 DD): Requires nightshade essence, shadowy cloak, silver mirror; darkness ritual
-- **Abyssal Brute** (d8 DD): Requires giant's blood, iron chains, deep earth stone; thunderstorm ritual
-- **Banshee** (d8 DD): Requires locket, sorrowful tears, white rose; graveyard ritual
-- **Wraith** (d10 DD): Requires ectoplasm, moonstone shard, spider silk veil; full moon ritual
+Commanding demons is an art. Weaker demons are easier to control but less impactful. Stronger demons hit like trucks but require constant Dominance investment.
 
-**Losing Control**:
-- When DD reaches 0, demon makes its specific saving throw
-- Success: DD restored to d6 (demon remains bound but weakened)
-- Failure: Demon escapes and may turn hostile
-- Hostile demons can attack the Exorcist or flee
+**Demon Power vs. Control Trade-off**:
+- **Imp** (d12 DD): Attacks for 1d6+2 damage, easy to maintain, can act 6+ times before needing restoration
+- **Shadow Hound** (d10 DD): Attacks for 2d6+3 damage, moderate maintenance, acts 5 times before restoration
+- **Abyssal Brute** (d8 DD): Attacks for 3d8+5 damage, high maintenance, acts 4 times before restoration
+- **Banshee** (d8 DD): Wail attack (2d8 psychic + fear), high maintenance, powerful crowd control
+- **Greater Demons** (d6 DD): Devastating attacks (4d10+), extreme maintenance, acts only 3 times before restoration
+
+**Optimal Demon Usage Pattern**:
+1. **Early Combat**: Command demon aggressively while DD is high (d12/d10)
+2. **Mid Combat**: Monitor DD, use Chain of Command for burst windows
+3. **Critical Moment**: When DD hits d6, decide: Restore now or push to 0 and risk the save?
+4. **Emergency**: If demon reaches 0, immediately cast Reassert Dominance or accept potential escape
+
+**Losing Control - The Consequences**:
+
+When a demon's DD reaches 0, it makes a saving throw specific to its type:
+- **Imp**: Charisma (Persuasion) DC 12 - "Please, master, I'll behave!"
+- **Shadow Hound**: Dexterity (Stealth) DC 14 - Tries to slip away into shadows
+- **Wraith**: Intelligence (Arcana) DC 14 - Attempts to phase through bindings
+- **Abyssal Brute**: Constitution (Endurance) DC 16 - Brute force resistance
+- **Banshee**: Charisma (Performance) DC 15 - Wails to shatter bindings
+
+**If the demon succeeds the save**: DD restored to d6, demon remains bound but weakened. You got lucky.
+
+**If the demon fails the save**: The demon escapes. Now you have a problem.
+
+**Escaped Demon Behavior** (Roll 1d6):
+1-2: Demon flees immediately, disappearing into the nearest shadow/portal
+3-4: Demon attacks you once in revenge, then flees
+5-6: Demon turns fully hostile, attacking you and your allies until killed or banished
 
 **Specialization Synergies**:
-- **Demonologist**: Control multiple weaker demons, better multi-demon management
-- **Demon Lord**: Control fewer but more powerful demons, enhanced single-demon power
-- **Possessed**: Channel demon powers directly, internal struggle mechanics
+- **Demonologist**: Bind up to 4 weaker demons, spread Dominance management across multiple targets
+- **Demon Lord**: Bind only 1 demon but it's incredibly powerful, focus all Dominance on single entity
+- **Possessed**: No external demons, channel demon power internally, different resource system entirely
 
 **Team Dynamics**:
-- Demons provide frontline presence for squishy allies
-- Can control battlefield with multiple demon positions
-- Synergizes with classes that benefit from multiple targets
-- Warn allies when demons are close to escaping (friendly fire risk)`
+- **Frontline Presence**: Demons tank damage meant for squishy allies
+- **Action Economy**: Demons act independently, giving you extra attacks per turn
+- **Battlefield Control**: Position demons to block chokepoints or flank enemies
+- **Warning System**: Communicate DD levels to allies ("Brute is at d6, might go hostile soon!")
+- **Synergy Classes**: Works well with supports who can heal/buff demons, crowd control to protect demons from damage`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Demon Wrangler\'s Gambit',
+      content: `**The Setup**: You're an Exorcist with two bound demons: a Shadow Hound (d10 DD) and an Abyssal Brute (d8 DD). Your party is ambushed by a pack of cultists (4 cultists + 1 cult leader). Your mana: 35/50. Your job: Control your demons while eliminating the threat.
+
+**Turn 1 - Unleashing the Hounds (Hound DD: d10 → d8, Brute DD: d8 → d6)**
+
+*The cultists emerge from the shadows, chanting dark prayers. You raise your hand, and spectral chains materialize, connecting you to your bound demons.*
+
+**Your Action**: Command Shadow Hound to attack Cultist #1 (1 AP)
+**Hound's Action**: Lunges forward, shadow-wreathed jaws clamping down
+**Attack Roll**: 18 → Hit! → 2d6+3 = 11 damage → Cultist #1 bloodied
+**Dominance Cost**: Shadow Hound's DD decreases d10 → d8
+
+*The hound's eyes flicker with red light—a sign of growing independence. The spectral chain connecting you dims slightly.*
+
+**Your Action**: Command Abyssal Brute to attack Cultist #2 (1 AP)
+**Brute's Action**: Massive fists slam down with earth-shaking force
+**Attack Roll**: 16 → Hit! → 3d8+5 = 19 damage → Cultist #2 obliterated
+**Dominance Cost**: Abyssal Brute's DD decreases d8 → d6
+
+*The brute roars in triumph, and you feel its will pushing against your bindings. The iron chains around its wrists glow hot—it's testing you.*
+
+**Your Action**: Cast "Eldritch Blast" at Cult Leader (5 mana, 2 AP)
+**Result**: 2d10 = 14 force damage
+
+**Current State**: Hound DD: d8 | Brute DD: d6 | Mana: 30/50
+
+**Turn 2 - The Brute Rebels (Hound DD: d8 → d6, Brute DD: d6 → 0 → SAVE!)**
+
+*The cult leader raises his staff, dark energy crackling. He targets your Abyssal Brute.*
+
+**Cult Leader's Action**: Casts "Shadow Bolt" at Abyssal Brute
+**Attack Roll**: 19 → Hit! → 18 shadow damage to Brute
+**Dominance Cost**: Brute takes damage → DD decreases d6 → 0
+
+*The brute ROARS in pain and fury. The spectral chains binding it SHATTER. Its eyes blaze with hellfire as it turns to look at you. This is the moment—will it obey or rebel?*
+
+**Dominance Saving Throw**: Abyssal Brute must make Constitution save DC 16
+**Your Roll**: 14 → FAILURE!
+
+*The brute's bindings dissolve. It's free. And it's ANGRY.*
+
+**Brute's Behavior Roll**: 1d6 → [5] → Turns hostile!
+
+*"FREEDOM!" the brute bellows in Abyssal. It swings its massive fist—not at the cultists, but at YOU.*
+
+**Brute's Attack on You**: Attack roll 17 → Hit! → 3d8+5 = 18 damage to you!
+
+*You're slammed backward, ribs cracking. Your Shadow Hound whimpers, confused—should it defend you or flee?*
+
+**Your Decision**: You need to rebind the Brute or banish it, but first you need to survive.
+
+**Your Action**: Cast "Banish Demon" on Abyssal Brute (8 mana, 3 AP)
+**Spell Save DC**: 15 (your spell save DC)
+**Brute's Save**: Charisma save → 12 → FAILURE!
+
+*You raise your hand, blood dripping from your mouth, and speak the words of banishment. The brute's form flickers, then EXPLODES into black smoke, dragged back to the Abyss. You'll have to rebind it later—if you survive.*
+
+**Your Action**: Command Shadow Hound to attack Cultist #3 (1 AP)
+**Hound's Action**: Attacks → Hit! → 2d6+3 = 10 damage → Cultist #3 killed
+**Dominance Cost**: Hound DD decreases d8 → d6
+
+**Current State**: Hound DD: d6 (CRITICAL!) | Brute: Banished | Mana: 22/50 | Your HP: 32/50
+
+**Turn 3 - Desperate Restoration (Hound DD: d6 → d10)**
+
+*Two cultists remain, plus the leader. Your Shadow Hound is at d6—one more action and it might escape too. You can't afford to lose both demons.*
+
+**Your Action**: Cast "Reassert Dominance" on Shadow Hound (5 mana, 1 AP)
+
+*You focus your will, pouring energy into the spectral chains. The hound yelps as the bindings tighten, its eyes dimming from red back to their normal yellow glow. It's fully under your control again.*
+
+**Result**: Shadow Hound's DD restored d6 → d10
+
+**Your Action**: Command Shadow Hound to attack Cult Leader (1 AP)
+**Hound's Action**: Leaps at leader → Hit! → 2d6+3 = 12 damage
+**Dominance Cost**: Hound DD decreases d10 → d8
+
+**Your Action**: Cast "Eldritch Blast" at Cult Leader (5 mana, 2 AP)
+**Result**: 2d10 = 16 damage → Cult Leader falls!
+
+*The remaining cultists flee. You collapse to one knee, breathing heavily. Your Shadow Hound sits beside you, loyal once more. The Abyssal Brute is gone—you'll need to perform another binding ritual to reclaim it. But you survived.*
+
+**The Lesson**: The Exorcist walks a razor's edge. Every demon command is a gamble. Push too hard and they rebel. Restore too often and you run out of mana. The key is knowing when to spend Dominance spells, when to let a demon go, and when to fight without them. You're not just managing resources—you're managing living, hostile entities that want nothing more than to break free and tear you apart.`
     }
   },
   
@@ -184,16 +318,42 @@ Exorcists have three primary spells to restore Dominance:
 - Each demon action decreases its DD by one step`
     },
     
-    visualRepresentation: {
-      title: 'Visual Representation',
-      content: `The Dominance gauge appears as individual bars for each bound demon, showing:
-- Demon name and type
-- Current Dominance Die size (d12, d10, d8, d6)
-- Visual indicator of control strength (green = stable, yellow = weakening, red = critical)
-- Number of actions until next DD decrease
-- Available demon abilities
+    resourceBarExplanation: {
+      title: 'Understanding Your Dominance Gauge',
+      content: `**What You See**: Your Dominance gauge displays as individual demon control panels, one for each bound demon. Each panel shows a spectral chain connecting you to the demon, with the chain's appearance reflecting your control strength.
 
-When a demon's DD reaches d6 or lower, the bar pulses red as a warning. At 0, a saving throw prompt appears.`
+**Visual Representation for Each Demon**:
+
+**Demon Portrait & Name**: Top of panel shows demon type (Imp, Shadow Hound, Abyssal Brute, etc.) with animated portrait showing demon's current state (calm when high DD, agitated when low DD)
+
+**Dominance Die Display**: Large die icon showing current DD size with glowing energy:
+- **d12 (Fully Submissive)**: Bright golden chains, demon portrait calm, eyes downcast
+- **d10 (Obedient)**: Golden chains with slight flicker, demon portrait attentive
+- **d8 (Resistant)**: Orange chains, demon portrait showing teeth, eyes glowing
+- **d6 (Rebellious)**: Red chains crackling with instability, demon portrait snarling, aggressive stance
+- **0 (Breaking Free)**: Chains SHATTERING, demon portrait roaring, saving throw prompt appears!
+
+**Color Coding by Control Level**:
+- **Green Border (d12-d10)**: Stable control, safe to command aggressively
+- **Yellow Border (d8)**: Weakening control, monitor closely
+- **Red Border (d6)**: Critical control, restoration recommended
+- **Flashing Red (0)**: SAVING THROW IN PROGRESS - demon attempting escape!
+
+**Action Counter**: Small indicator showing "Actions until DD decrease: 1" (always 1, since each action decreases DD)
+
+**Demon Abilities Panel**: Icons for demon's available abilities (Attack, Special Ability, Defend) with AP costs
+
+**Dominance Spell Quick-Cast**: Buttons for Reassert Dominance, Chain of Command, Divine Bond with mana costs displayed
+
+**Multi-Demon Display**: When controlling multiple demons (Demonologist spec), panels stack vertically with the most critical demon (lowest DD) highlighted at top
+
+**Warning Indicators**:
+- At d6: Panel pulses red with warning text "CONTROL CRITICAL"
+- At 0: Loud chain-breaking sound effect, screen shake, saving throw dice roll animation
+- On failed save: Demon portrait breaks free from panel, "DEMON ESCAPED" notification
+- On hostile demon: Red skull icon appears, demon portrait turns to face YOU
+
+**Why This Matters**: The visual feedback is crucial because you need to know at a glance which demons are stable and which are about to rebel. In the heat of combat, a quick glance at your Dominance gauge tells you whether to keep attacking or spend mana on restoration. The color-coded chains and animated demon portraits make it immediately obvious when you're losing control—and when you're about to have a very bad day.`
     },
 
     strategicDepth: {

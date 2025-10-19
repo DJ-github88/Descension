@@ -1300,212 +1300,397 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       </div>
 
       {/* Compact Context Menu */}
-      {showContextMenu && createPortal(
-        <div
-          ref={contextMenuRef}
-          className="unified-context-menu compact"
-          style={{
-            left: contextMenuPosition.x,
-            top: contextMenuPosition.y
-          }}
-        >
-          {/* Main Actions - Header removed, creature info available in hover tooltip */}
-          <div className="context-menu-group">
-            <div className="group-header">
-              <i className="fas fa-cog"></i>
-              <span>Token Actions</span>
-              <i className="fas fa-chevron-right"></i>
-            </div>
-            <div className="submenu">
-                <button className="context-menu-button" onClick={handleViewDetails}>
-                  <i className="fas fa-search"></i> Inspect
-                </button>
-                {creature.isShopkeeper && (
-                  <button className="context-menu-button" onClick={handleOpenShop}>
-                    <i className="fas fa-store"></i> Open Shop
-                  </button>
-                )}
-                <button
-                  className={`context-menu-button ${isTargeted ? 'active' : ''}`}
-                  onClick={handleTargetCreature}
-                >
-                  <i className="fas fa-crosshairs"></i> {isTargeted ? 'Clear Target' : 'Target'}
-                </button>
-                <button className="context-menu-button" onClick={handleDuplicateToken}>
-                  <i className="fas fa-copy"></i> Duplicate
-                </button>
-                <button className="context-menu-button" onClick={handleRenameToken}>
-                  <i className="fas fa-tag"></i> Rename
-                </button>
-                <button className="context-menu-button" onClick={handleChangeIcon}>
-                  <i className="fas fa-image"></i> Change Icon
-                </button>
-                <button className="context-menu-button" onClick={handleEditCreature}>
-                  <i className="fas fa-edit"></i> Edit
-                </button>
-                <button className="context-menu-button danger" onClick={handleRemoveToken}>
-                  <i className="fas fa-trash"></i> Remove
-                </button>
-                {isGMMode && (
-                  <button
-                    className={`context-menu-button ${token.state.hiddenFromPlayers ? 'active' : ''}`}
-                    onClick={() => {
-                      updateTokenState(tokenId, {
-                        hiddenFromPlayers: !token.state.hiddenFromPlayers
-                      });
-                      setShowContextMenu(false);
-                    }}
-                  >
-                    <i className={`fas ${token.state.hiddenFromPlayers ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-                    {token.state.hiddenFromPlayers ? 'Show to Players' : 'Hide from Players'}
-                  </button>
-                )}
-              </div>
-            </div>
+      {showContextMenu && (() => {
+        // Build context menu items
+        const menuItems = [];
 
-            <div className="context-menu-group">
-              <div className="group-header">
-                <i className="fas fa-heart"></i>
-                <span>Health</span>
-                <i className="fas fa-chevron-right"></i>
-              </div>
-              <div className="submenu">
-                <button className="context-menu-button" onClick={() => handleDamageToken(5)}>
-                  <i className="fas fa-minus-circle"></i> Damage (5)
-                </button>
-                <button className="context-menu-button" onClick={() => handleDamageToken(10)}>
-                  <i className="fas fa-minus-circle"></i> Damage (10)
-                </button>
-                <button className="context-menu-button" onClick={() => handleCustomAmount('damage')}>
-                  <i className="fas fa-edit"></i> Custom Damage
-                </button>
-                <div className="context-menu-separator"></div>
-                <button className="context-menu-button" onClick={() => handleHealToken(5)}>
-                  <i className="fas fa-plus-circle"></i> Heal (5)
-                </button>
-                <button className="context-menu-button" onClick={() => handleHealToken(10)}>
-                  <i className="fas fa-plus-circle"></i> Heal (10)
-                </button>
-                <button className="context-menu-button" onClick={() => handleCustomAmount('heal')}>
-                  <i className="fas fa-edit"></i> Custom Heal
-                </button>
-                <div className="context-menu-separator"></div>
-                <button className="context-menu-button heal" onClick={handleFullHeal}>
-                  <i className="fas fa-heart"></i> Full Heal
-                </button>
-                <button className="context-menu-button danger" onClick={handleKill}>
-                  <i className="fas fa-skull"></i> Kill
-                </button>
-              </div>
-            </div>
+        // Token Actions submenu
+        const tokenActionsSubmenu = [
+          {
+            icon: <i className="fas fa-search"></i>,
+            label: 'Inspect',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleViewDetails();
+            }
+          }
+        ];
 
-            {/* Mana Section - Only show if creature has mana */}
-            {creature && creature.stats.maxMana > 0 && (
-              <div className="context-menu-group">
-                <div className="group-header">
-                  <i className="fas fa-magic"></i>
-                  <span>Mana</span>
-                  <i className="fas fa-chevron-right"></i>
-                </div>
-                <div className="submenu">
-                  <button className="context-menu-button" onClick={() => handleManaDamage(5)}>
-                    <i className="fas fa-minus-circle"></i> Drain (5)
-                  </button>
-                  <button className="context-menu-button" onClick={() => handleManaDamage(10)}>
-                    <i className="fas fa-minus-circle"></i> Drain (10)
-                  </button>
-                  <button className="context-menu-button" onClick={() => handleCustomAmount('mana-damage')}>
-                    <i className="fas fa-edit"></i> Custom Drain
-                  </button>
-                  <div className="context-menu-separator"></div>
-                  <button className="context-menu-button" onClick={() => handleManaHeal(5)}>
-                    <i className="fas fa-plus-circle"></i> Restore (5)
-                  </button>
-                  <button className="context-menu-button" onClick={() => handleManaHeal(10)}>
-                    <i className="fas fa-plus-circle"></i> Restore (10)
-                  </button>
-                  <button className="context-menu-button" onClick={() => handleCustomAmount('mana-heal')}>
-                    <i className="fas fa-edit"></i> Custom Restore
-                  </button>
-                  <div className="context-menu-separator"></div>
-                  <button className="context-menu-button heal" onClick={handleFullManaRestore}>
-                    <i className="fas fa-magic"></i> Full Restore
-                  </button>
-                  <button className="context-menu-button danger" onClick={handleDrainAllMana}>
-                    <i className="fas fa-ban"></i> Drain All
-                  </button>
-                </div>
-              </div>
-            )}
+        if (creature.isShopkeeper) {
+          tokenActionsSubmenu.push({
+            icon: <i className="fas fa-store"></i>,
+            label: 'Open Shop',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleOpenShop();
+            }
+          });
+        }
 
-            <div className="context-menu-group">
-              <div className="group-header">
-                <i className="fas fa-magic"></i>
-                <span>Status</span>
-                <i className="fas fa-chevron-right"></i>
-              </div>
-              <div className="submenu">
-                <button className="context-menu-button" onClick={handleOpenConditions}>
-                  <i className="fas fa-bolt"></i> Conditions
-                </button>
-                <button className="context-menu-button" onClick={() => {
-                  // Toggle defensive stance
-                  const currentConditions = token.state.conditions || [];
-                  const hasDefending = currentConditions.some(c => c.id === 'defending');
+        tokenActionsSubmenu.push(
+          {
+            icon: <i className="fas fa-crosshairs"></i>,
+            label: isTargeted ? 'Clear Target' : 'Target',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleTargetCreature();
+            },
+            className: isTargeted ? 'active' : ''
+          },
+          {
+            icon: <i className="fas fa-copy"></i>,
+            label: 'Duplicate',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleDuplicateToken();
+            }
+          },
+          {
+            icon: <i className="fas fa-tag"></i>,
+            label: 'Rename',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleRenameToken();
+            }
+          },
+          {
+            icon: <i className="fas fa-image"></i>,
+            label: 'Change Icon',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleChangeIcon();
+            }
+          },
+          {
+            icon: <i className="fas fa-edit"></i>,
+            label: 'Edit',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleEditCreature();
+            }
+          },
+          {
+            icon: <i className="fas fa-trash"></i>,
+            label: 'Remove',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleRemoveToken();
+            },
+            className: 'danger'
+          }
+        );
 
-                  if (hasDefending) {
-                    // Remove defending condition
-                    const updatedConditions = currentConditions.filter(c => c.id !== 'defending');
-                    updateTokenState(tokenId, { conditions: updatedConditions });
+        if (isGMMode) {
+          tokenActionsSubmenu.push({
+            icon: <i className={`fas ${token.state.hiddenFromPlayers ? 'fa-eye' : 'fa-eye-slash'}`}></i>,
+            label: token.state.hiddenFromPlayers ? 'Show to Players' : 'Hide from Players',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              updateTokenState(tokenId, {
+                hiddenFromPlayers: !token.state.hiddenFromPlayers
+              });
+              setShowContextMenu(false);
+            },
+            className: token.state.hiddenFromPlayers ? 'active' : ''
+          });
+        }
 
-                    // Remove from buff store
-                    const { activeBuffs, removeBuff } = useBuffStore.getState();
-                    const buffToRemove = activeBuffs.find(b =>
-                      b.name === 'Defending' && b.targetId === tokenId
-                    );
-                    if (buffToRemove) {
-                      removeBuff(buffToRemove.id);
-                    }
-                  } else {
-                    // Add defending condition
-                    const defendingCondition = {
-                      id: 'defending',
-                      name: 'Defending',
-                      description: 'Increased armor and damage resistance',
-                      type: 'buff',
-                      color: '#4682B4',
-                      icon: 'fas fa-shield-alt',
-                      severity: 'beneficial',
-                      appliedAt: Date.now(),
-                      duration: 600000,
-                      source: 'manual'
-                    };
-                    const updatedConditions = [...currentConditions, defendingCondition];
-                    updateTokenState(tokenId, { conditions: updatedConditions });
+        menuItems.push({
+          icon: <i className="fas fa-cog"></i>,
+          label: 'Token Actions',
+          submenu: tokenActionsSubmenu
+        });
 
-                    // Add to buff store
-                    const { addBuff } = useBuffStore.getState();
-                    addBuff({
-                      name: 'Defending',
-                      description: 'Increased armor and damage resistance',
-                      duration: 600,
-                      effects: { armor: 2 },
-                      source: 'condition',
-                      targetId: tokenId,
-                      targetType: 'token',
-                      icon: 'fas fa-shield-alt',
-                      color: '#4682B4'
-                    });
-                  }
+        // Health submenu
+        menuItems.push({
+          icon: <i className="fas fa-heart"></i>,
+          label: 'Health',
+          submenu: [
+            {
+              icon: <i className="fas fa-minus-circle"></i>,
+              label: 'Damage (5)',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleDamageToken(5);
+              }
+            },
+            {
+              icon: <i className="fas fa-minus-circle"></i>,
+              label: 'Damage (10)',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleDamageToken(10);
+              }
+            },
+            {
+              icon: <i className="fas fa-edit"></i>,
+              label: 'Custom Damage',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleCustomAmount('damage');
+              }
+            },
+            { type: 'separator' },
+            {
+              icon: <i className="fas fa-plus-circle"></i>,
+              label: 'Heal (5)',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleHealToken(5);
+              }
+            },
+            {
+              icon: <i className="fas fa-plus-circle"></i>,
+              label: 'Heal (10)',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleHealToken(10);
+              }
+            },
+            {
+              icon: <i className="fas fa-edit"></i>,
+              label: 'Custom Heal',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleCustomAmount('heal');
+              }
+            },
+            { type: 'separator' },
+            {
+              icon: <i className="fas fa-heart"></i>,
+              label: 'Full Heal',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleFullHeal();
+              },
+              className: 'heal'
+            },
+            {
+              icon: <i className="fas fa-skull"></i>,
+              label: 'Kill',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleKill();
+              },
+              className: 'danger'
+            }
+          ]
+        });
+
+        // Mana submenu - Only show if creature has mana
+        if (creature && creature.stats.maxMana > 0) {
+          menuItems.push({
+            icon: <i className="fas fa-magic"></i>,
+            label: 'Mana',
+            submenu: [
+              {
+                icon: <i className="fas fa-minus-circle"></i>,
+                label: 'Drain (5)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   setShowContextMenu(false);
-                }}>
-                  <i className="fas fa-shield-alt"></i> Toggle Defense
-                </button>
-              </div>
-            </div>
-        </div>,
-        document.body
-      )}
+                  handleManaDamage(5);
+                }
+              },
+              {
+                icon: <i className="fas fa-minus-circle"></i>,
+                label: 'Drain (10)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleManaDamage(10);
+                }
+              },
+              {
+                icon: <i className="fas fa-edit"></i>,
+                label: 'Custom Drain',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleCustomAmount('mana-damage');
+                }
+              },
+              { type: 'separator' },
+              {
+                icon: <i className="fas fa-plus-circle"></i>,
+                label: 'Restore (5)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleManaHeal(5);
+                }
+              },
+              {
+                icon: <i className="fas fa-plus-circle"></i>,
+                label: 'Restore (10)',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleManaHeal(10);
+                }
+              },
+              {
+                icon: <i className="fas fa-edit"></i>,
+                label: 'Custom Restore',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleCustomAmount('mana-heal');
+                }
+              },
+              { type: 'separator' },
+              {
+                icon: <i className="fas fa-magic"></i>,
+                label: 'Full Restore',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleFullManaRestore();
+                },
+                className: 'heal'
+              },
+              {
+                icon: <i className="fas fa-ban"></i>,
+                label: 'Drain All',
+                onClick: (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowContextMenu(false);
+                  handleDrainAllMana();
+                },
+                className: 'danger'
+              }
+            ]
+          });
+        }
+
+        // Status submenu
+        menuItems.push({
+          icon: <i className="fas fa-magic"></i>,
+          label: 'Status',
+          submenu: [
+            {
+              icon: <i className="fas fa-bolt"></i>,
+              label: 'Conditions',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowContextMenu(false);
+                handleOpenConditions();
+              }
+            },
+            {
+              icon: <i className="fas fa-shield-alt"></i>,
+              label: 'Toggle Defense',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Toggle defensive stance
+                const currentConditions = token.state.conditions || [];
+                const hasDefending = currentConditions.some(c => c.id === 'defending');
+
+                if (hasDefending) {
+                  // Remove defending condition
+                  const updatedConditions = currentConditions.filter(c => c.id !== 'defending');
+                  updateTokenState(tokenId, { conditions: updatedConditions });
+
+                  // Remove from buff store
+                  const { activeBuffs, removeBuff } = useBuffStore.getState();
+                  const buffToRemove = activeBuffs.find(b =>
+                    b.name === 'Defending' && b.targetId === tokenId
+                  );
+                  if (buffToRemove) {
+                    removeBuff(buffToRemove.id);
+                  }
+                } else {
+                  // Add defending condition
+                  const defendingCondition = {
+                    id: 'defending',
+                    name: 'Defending',
+                    description: 'Increased armor and damage resistance',
+                    type: 'buff',
+                    color: '#4682B4',
+                    icon: 'fas fa-shield-alt',
+                    severity: 'beneficial',
+                    appliedAt: Date.now(),
+                    duration: 600000,
+                    source: 'manual'
+                  };
+                  const updatedConditions = [...currentConditions, defendingCondition];
+                  updateTokenState(tokenId, { conditions: updatedConditions });
+
+                  // Add to buff store
+                  const { addBuff } = useBuffStore.getState();
+                  addBuff({
+                    name: 'Defending',
+                    description: 'Increased armor and damage resistance',
+                    duration: 600,
+                    effects: { armor: 2 },
+                    source: 'condition',
+                    targetId: tokenId,
+                    targetType: 'token',
+                    icon: 'fas fa-shield-alt',
+                    color: '#4682B4'
+                  });
+                }
+                setShowContextMenu(false);
+              }
+            }
+          ]
+        });
+
+        return createPortal(
+          <UnifiedContextMenu
+            visible={true}
+            x={contextMenuPosition.x}
+            y={contextMenuPosition.y}
+            onClose={() => setShowContextMenu(false)}
+            items={menuItems}
+          />,
+          document.body
+        );
+      })()}
 
       {/* Character-style Tooltip */}
       {showTooltip && (() => {

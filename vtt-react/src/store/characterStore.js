@@ -127,6 +127,7 @@ const useCharacterStore = create((set, get) => ({
     path: '', // Character path ID (e.g., 'mystic', 'zealot')
     pathDisplayName: '', // Display name for path (e.g., 'Mystic', 'Zealot')
     level: 1,
+    experience: 0, // Current XP
     alignment: 'Neutral Good',
     exhaustionLevel: 0,
 
@@ -196,7 +197,7 @@ const useCharacterStore = create((set, get) => ({
         threshold: 0, // For threshold-based systems like Berserker
         slots: [], // For slot-based systems like Inscriptor glyphs
         charges: 0, // For charge-based systems
-        volatility: 0, // For volatility systems like Arcanoneer
+        spheres: [], // For sphere systems like Arcanoneer (array of element IDs)
         strain: 0, // For strain systems like Titan
         risk: 0, // For risk systems like Gambler
         // Visual state tracking
@@ -1528,6 +1529,7 @@ const useCharacterStore = create((set, get) => ({
                 path: character.path || '',
                 pathDisplayName: character.pathDisplayName || '',
                 level: character.level || 1,
+                experience: character.experience || 0,
                 alignment: character.alignment || 'Neutral Good',
                 stats: character.stats || {
                     constitution: 10,
@@ -1905,6 +1907,7 @@ const useCharacterStore = create((set, get) => ({
             subrace: state.subrace,
             class: state.class,
             level: state.level,
+            experience: state.experience,
             alignment: state.alignment,
             stats: state.stats,
             health: state.health,
@@ -2138,8 +2141,11 @@ const useCharacterStore = create((set, get) => ({
 
     // Level and experience management with persistence
     updateExperience: (newExperience) => {
+        const { getLevelFromXP, checkLevelUp, calculateLevelUpHP } = require('../utils/experienceUtils');
+
         set(state => {
-            const experienceGained = newExperience - (state.experience || 0);
+            const oldXP = state.experience || 0;
+            const experienceGained = newExperience - oldXP;
 
             // Record character change for persistence
             if (state.currentCharacterId && experienceGained > 0) {
@@ -2150,8 +2156,76 @@ const useCharacterStore = create((set, get) => ({
                 });
             }
 
+            // Check for level up
+            const levelUpInfo = checkLevelUp(oldXP, newExperience);
+
+            if (levelUpInfo.didLevelUp) {
+                console.log(`🎉 LEVEL UP! ${levelUpInfo.oldLevel} → ${levelUpInfo.newLevel}`);
+
+                // Calculate HP gain for each level gained
+                let totalHPGain = 0;
+                for (let i = 0; i < levelUpInfo.levelsGained; i++) {
+                    totalHPGain += calculateLevelUpHP(state.stats.constitution);
+                }
+
+                // Update level and max HP
+                const newMaxHP = state.health.max + totalHPGain;
+                const newHealth = {
+                    current: state.health.current + totalHPGain, // Also heal by the amount gained
+                    max: newMaxHP
+                };
+
+                // Record level up
+                if (state.currentCharacterId) {
+                    get().recordCharacterChange(state.currentCharacterId, 'level_up', {
+                        oldLevel: levelUpInfo.oldLevel,
+                        newLevel: levelUpInfo.newLevel,
+                        hpGained: totalHPGain,
+                        timestamp: new Date()
+                    });
+                }
+
+                return {
+                    experience: newExperience,
+                    level: levelUpInfo.newLevel,
+                    health: newHealth
+                };
+            }
+
             return { experience: newExperience };
         });
+    },
+
+    // Award experience (adds to current XP, can be negative to remove XP)
+    awardExperience: (xpAmount) => {
+        const state = get();
+        const currentXP = state.experience || 0;
+        const newXP = Math.max(0, currentXP + xpAmount); // Don't allow negative XP
+
+        console.log(`💰 ${xpAmount > 0 ? 'Awarding' : 'Removing'} ${Math.abs(xpAmount)} XP (${currentXP} → ${newXP})`);
+        get().updateExperience(newXP);
+    },
+
+    // Adjust level directly (adds or removes levels)
+    adjustLevel: (levelChange) => {
+        const { getXPForLevel } = require('../utils/experienceUtils');
+        const state = get();
+        const currentLevel = state.level || 1;
+        const newLevel = Math.max(1, Math.min(20, currentLevel + levelChange)); // Clamp between 1-20
+
+        if (newLevel === currentLevel) {
+            console.log(`📊 Level unchanged (already at ${currentLevel})`);
+            return;
+        }
+
+        // Get the XP required for the new level
+        const newXP = getXPForLevel(newLevel);
+
+        console.log(`📊 ${levelChange > 0 ? 'Adding' : 'Removing'} ${Math.abs(levelChange)} level(s) (${currentLevel} → ${newLevel})`);
+
+        // Update both level and XP
+        set({ level: newLevel });
+        get().updateExperience(newXP);
     },
 
     updateLevel: (newLevel) => {

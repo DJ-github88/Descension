@@ -266,7 +266,7 @@
 }
 
 /* Description text */
-.tooltip-description {
+.enhanced-creature-tooltip .tooltip-description {
   font-size: 12px;
   line-height: 1.4;
   color: #1a0f08;

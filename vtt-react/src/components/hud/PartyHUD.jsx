@@ -569,7 +569,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [buffContextMenuPosition, setBuffContextMenuPosition] = useState({ x: 0, y: 0 });
     const [contextMenuBuff, setContextMenuBuff] = useState(null);
     const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
-    const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal'
+    const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal', 'xp'
     const nodeRefs = useRef({});
 
     // Removed: Unused force update state
@@ -955,7 +955,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     // Handle custom amount submission
     const handleCustomAmountSubmit = (amount) => {
         const numAmount = parseInt(amount);
-        if (isNaN(numAmount) || numAmount <= 0 || !contextMenuMember) return;
+        // Allow negative values for XP, but not for health/mana
+        if (isNaN(numAmount) || !contextMenuMember) return;
+        if (customAmountType !== 'xp' && numAmount <= 0) return;
 
         const memberId = contextMenuMember.id;
 
@@ -972,9 +974,42 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             case 'mana-heal':
                 handleResourceAdjust(memberId, 'mana', numAmount);
                 break;
+            case 'xp':
+                handleAwardXP(memberId, numAmount);
+                break;
         }
         setShowCustomAmountModal(false);
         setCustomAmountType('');
+    };
+
+    // Handle awarding XP to a party member
+    const handleAwardXP = (memberId, xpAmount) => {
+        if (memberId === 'current-player') {
+            // Award XP to current player
+            useCharacterStore.getState().awardExperience(xpAmount);
+            console.log(`💰 ${xpAmount > 0 ? 'Awarded' : 'Removed'} ${Math.abs(xpAmount)} XP ${xpAmount > 0 ? 'to' : 'from'} current player`);
+        } else {
+            // For other party members, we'd need to send this through multiplayer
+            // For now, just log it
+            console.log(`💰 Would ${xpAmount > 0 ? 'award' : 'remove'} ${Math.abs(xpAmount)} XP ${xpAmount > 0 ? 'to' : 'from'} party member ${memberId}`);
+            // TODO: Implement multiplayer XP award
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle level adjustment for a party member
+    const handleLevelAdjust = (memberId, levelChange) => {
+        if (memberId === 'current-player') {
+            // Adjust level for current player
+            useCharacterStore.getState().adjustLevel(levelChange);
+            console.log(`📊 ${levelChange > 0 ? 'Added' : 'Removed'} ${Math.abs(levelChange)} level(s) ${levelChange > 0 ? 'to' : 'from'} current player`);
+        } else {
+            // For other party members, we'd need to send this through multiplayer
+            // For now, just log it
+            console.log(`📊 Would ${levelChange > 0 ? 'add' : 'remove'} ${Math.abs(levelChange)} level(s) ${levelChange > 0 ? 'to' : 'from'} party member ${memberId}`);
+            // TODO: Implement multiplayer level adjustment
+        }
+        setShowContextMenu(false);
     };
 
     // Handle full heal
@@ -1280,6 +1315,90 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             }
                         ]
                     });
+
+                    // Experience submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-star"></i>,
+                        label: 'Experience',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 50 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 50)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 100 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 100)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 250 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 250)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Award 500 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, 500)
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 50 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -50)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 100 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -100)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 250 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -250)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Remove 500 XP',
+                                onClick: () => handleAwardXP(contextMenuMember.id, -500)
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Amount',
+                                onClick: () => handleCustomAmount('xp')
+                            }
+                        ]
+                    });
+
+                    // Level adjustment submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-level-up-alt"></i>,
+                        label: 'Level',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-arrow-up"></i>,
+                                label: 'Add 1 Level',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, 1)
+                            },
+                            {
+                                icon: <i className="fas fa-arrow-up"></i>,
+                                label: 'Add 5 Levels',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, 5)
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-arrow-down"></i>,
+                                label: 'Remove 1 Level',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, -1)
+                            },
+                            {
+                                icon: <i className="fas fa-arrow-down"></i>,
+                                label: 'Remove 5 Levels',
+                                onClick: () => handleLevelAdjust(contextMenuMember.id, -5)
+                            }
+                        ]
+                    });
                 }
 
                 // Leadership transfer - only show if current player is GM and target is not current player
@@ -1388,11 +1507,12 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             {customAmountType === 'heal' && 'Custom Heal Amount'}
                             {customAmountType === 'mana-damage' && 'Custom Mana Drain Amount'}
                             {customAmountType === 'mana-heal' && 'Custom Mana Restore Amount'}
+                            {customAmountType === 'xp' && 'Award Experience Points'}
                         </h3>
                         <input
                             type="number"
-                            min="1"
-                            placeholder="Enter amount..."
+                            min={customAmountType === 'xp' ? undefined : "1"}
+                            placeholder={customAmountType === 'xp' ? 'Enter amount (+ or -)...' : 'Enter amount...'}
                             style={{
                                 width: '100%',
                                 padding: '8px',

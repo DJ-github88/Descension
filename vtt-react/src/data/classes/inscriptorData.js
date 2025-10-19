@@ -69,6 +69,167 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 - Synergizes with tanks who can hold enemies in runic zones
 - Provides versatile support through equipment inscriptions
 - Can adapt to various party compositions through inscription selection`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Prepared Battlefield',
+      content: `**The Setup**: You're an Inscriptor (Runic Arts specialization) and your party is about to ambush a group of cultists in a ritual chamber. You have 5 minutes to prepare before combat. Starting Mana: 50/60. Your goal: Place runic zones strategically, inscribe equipment for your party, then control the battlefield during combat.
+
+**Pre-Combat Preparation (5 minutes before combat)**
+
+*You enter the ritual chamber. The cultists haven't noticed you yet. Your party's rogue signals: "Five minutes until they finish their ritual. Make it count."*
+
+**Your Action**: Begin placing Runic Zone (costs 3 mana per rune, 1 action per rune)
+
+*You kneel, pulling out a piece of chalk infused with arcane energy. You begin drawing runes on the floor in a triangular pattern.*
+
+**Rune 1 - "Amplification Rune"** (placed at north point of triangle)
+**Cost**: 3 mana | **Effect**: Spells cast within 5 ft deal +1d6 damage
+**Mana**: 50 - 3 = 47/60
+
+**Rune 2 - "Amplification Rune"** (placed at south-west point)
+**Cost**: 3 mana
+**Mana**: 47 - 3 = 44/60
+
+**Rune 3 - "Amplification Rune"** (placed at south-east point)
+**Cost**: 3 mana
+**Mana**: 44 - 3 = 41/60
+
+*Three runes glow on the floor, forming a triangle 30 feet across. The runes connect with glowing lines, creating a ZONE. Any spell cast within this zone will be amplified.*
+
+**Zone Created**: "Amplification Zone" (30 ft triangle)
+**Effect**: All spells cast within zone deal +2d6 damage (3 runes = +2d6)
+
+**Your Action**: Add more runes to strengthen the zone
+
+**Rune 4 - "Amplification Rune"** (placed between runes 1 and 2)
+**Cost**: 3 mana | **Mana**: 41 - 3 = 38/60
+
+**Rune 5 - "Amplification Rune"** (placed between runes 2 and 3)
+**Cost**: 3 mana | **Mana**: 38 - 3 = 35/60
+
+*Five runes now. The zone PULSES with power. Spells cast here will be devastating.*
+
+**Zone Enhanced**: "Amplification Zone" (5 runes)
+**Effect**: All spells cast within zone deal +3d6 damage (5 runes = +3d6)
+
+**Your Action**: Inscribe equipment for your party (costs 4 mana per inscription)
+
+*You turn to your party's mage. "Give me your staff." You trace glowing runes along the shaft.*
+
+**Inscription 1 - Mage's Staff**: "Inscription of Power" (+1d8 spell damage)
+**Cost**: 4 mana | **Mana**: 35 - 4 = 31/60
+
+*You turn to your party's tank. "Your armor." You inscribe protective runes on the breastplate.*
+
+**Inscription 2 - Tank's Armor**: "Inscription of Warding" (+2 AC, resistance to first damage type taken)
+**Cost**: 4 mana | **Mana**: 31 - 4 = 27/60
+
+*You inscribe your own boots with runes of swiftness.*
+
+**Inscription 3 - Your Boots**: "Inscription of Haste" (+10 ft movement speed, advantage on Dex saves)
+**Cost**: 4 mana | **Mana**: 27 - 4 = 23/60
+
+**Preparation Complete**: 5 runes placed (Amplification Zone active), 3 inscriptions applied
+**Mana Remaining**: 23/60
+**Time Elapsed**: 5 minutes
+
+**Combat Begins**
+
+*The cultists finish their ritual. A demon appears. Your party attacks!*
+
+**Enemies**: 4 cultists + 1 demon (all standing OUTSIDE your runic zone)
+
+**Turn 1 - Luring Enemies into the Zone**
+
+*The cultists and demon are outside your zone. You need to get them inside. Your tank charges forward, taunting them.*
+
+**Your Party's Tank**: Taunts demon and 2 cultists, pulls them toward the runic zone
+**Cultists**: Move toward tank, entering the runic zone!
+
+*Perfect. Three enemies are now inside your Amplification Zone.*
+
+**Your Action**: Cast "Arcane Missiles" at Demon (inside zone) (8 mana)
+**Base Damage**: 3d4+3 → [3, 4, 2] + 3 = 12 damage
+**Zone Bonus**: +3d6 (5 runes in Amplification Zone) → [5, 6, 4] = +15 damage
+**Total Damage**: 12 + 15 = **27 damage!**
+
+*Your arcane missiles strike the demon, amplified by the runic zone. The demon roars in pain.*
+
+**Mana**: 23 - 8 = 15/60
+
+**Current State**: 3 enemies in zone, 2 enemies outside zone
+
+**Turn 2 - Zone Control**
+
+*Two cultists are still outside the zone. Your party's mage (with inscribed staff) casts a spell.*
+
+**Your Party's Mage**: Casts "Fireball" at cultists inside zone (inside zone, has inscribed staff)
+**Base Damage**: 8d6 → [5, 6, 4, 5, 6, 3, 4, 5] = 38 damage
+**Inscription Bonus**: +1d8 (Inscription of Power) → [7] = +7 damage
+**Zone Bonus**: +3d6 (Amplification Zone) → [6, 5, 4] = +15 damage
+**Total Damage**: 38 + 7 + 15 = **60 damage!**
+
+*The fireball EXPLODES inside the runic zone, amplified to devastating effect. Two cultists are VAPORIZED. The demon is badly wounded.*
+
+**Cultists #1 and #2**: DEAD (60 damage each)
+**Demon**: 60 damage taken, severely wounded
+
+**Your Action**: Detonate Rune #3 to create lingering effect (DC 15 save)
+
+*You snap your fingers. Rune #3 EXPLODES in a burst of arcane energy, then its effect LINGERS.*
+
+**Detonation Effect**: Rune #3 erased, but Amplification effect lingers for 1 minute in that area
+**Zone Status**: 4 runes remaining (zone still active with +2d6 bonus), plus lingering +1d6 in detonated area
+
+**Demon's Save**: Constitution save DC 15 → [12] → FAIL!
+**Detonation Damage**: 2d6 → [5, 4] = 9 damage to demon
+
+*The demon staggers from the detonation.*
+
+**Current State**: Demon wounded, 2 cultists outside zone
+
+**Turn 3 - Finishing the Fight**
+
+*The demon is inside the zone, badly wounded. The two remaining cultists are outside.*
+
+**Your Action**: Cast "Magic Missile" at Demon (inside zone) (6 mana)
+**Base Damage**: 3 missiles × (1d4+1) → [3+1, 4+1, 2+1] = 13 damage
+**Zone Bonus**: +2d6 (4 runes) → [6, 5] = +11 damage
+**Total Damage**: 13 + 11 = **24 damage**
+
+*The magic missiles, amplified by the zone, strike the demon. It falls, dead.*
+
+**Demon**: DEAD
+
+**Your Party's Rogue**: Sneak attacks Cultist #3 → DEAD
+**Your Party's Tank** (with inscribed armor): Attacks Cultist #4 → Hit! → Cultist attacks back but tank has +2 AC from inscription → Miss!
+
+**Your Party's Mage**: Casts "Fire Bolt" at Cultist #4 → DEAD
+
+**Combat Over**
+
+*You stand in the center of your runic zone, four glowing runes still pulsing on the floor. Your party stares at the carnage.*
+
+**Your Party's Mage**: "My fireball did SIXTY damage. SIXTY. What did you do to my staff?"
+**You**: "Inscription of Power. +1d8 spell damage. And you cast it inside my Amplification Zone, which added another +3d6. Preparation is everything."
+**Your Party's Tank**: "And my armor? I didn't take a single hit."
+**You**: "Inscription of Warding. +2 AC. The cultist's attack missed because of it."
+**Your Party's Rogue**: "You turned this room into a death trap."
+**You**: "I turned it into a PREPARED battlefield. Five minutes of setup, and we won in three turns. That's the Inscriptor's way."
+
+**Final State**: Mana: 9/60 | 4 runes still active | 3 inscriptions still active
+
+**The Lesson**: Inscriptor gameplay is about:
+1. **Pre-Combat Preparation**: Spent 5 minutes placing 5 runes (15 mana) and inscribing 3 items (12 mana) = 27 mana before combat even started
+2. **Runic Zones**: 5-rune Amplification Zone added +3d6 damage to ALL spells cast within it
+3. **Inscription Synergy**: Mage's staff (+1d8) + Amplification Zone (+3d6) = +4d14 average damage per spell
+4. **Zone Control**: Lured enemies into the zone, then unleashed amplified spells
+5. **Rune Detonation**: Detonated Rune #3 for 2d6 damage + lingering effect
+6. **Damage Amplification**: Mage's Fireball: 38 base + 7 (inscription) + 15 (zone) = 60 damage (58% increase!)
+7. **Equipment Enhancement**: Tank's +2 AC from inscription caused enemy attack to miss
+
+You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend time before combat placing runes, inscribing equipment, and preparing the terrain. Then, when combat starts, your party fights on YOUR terms. Spells cast in your zones are amplified. Equipment you've inscribed provides crucial bonuses. Enemies who enter your runic zones are fighting in a prepared kill zone. The key is PREPARATION—given 5 minutes, you can turn any room into a fortress of magical power.`
     }
   },
   
@@ -76,9 +237,118 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
   resourceSystem: {
     title: 'Runic Wrapping & Inscription Placement',
     subtitle: 'Dual Mechanic System',
-    
+
     description: `The Inscriptor utilizes two complementary mechanics: Runic Wrapping for battlefield control and Inscription Placement for personal and ally enhancement. These systems work together to create a versatile tactical toolkit.`,
-    
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Runic & Inscription Interface',
+      content: `**What You See**: The Inscriptor has a DUAL interface system—one for Runic Zones and one for Inscriptions. Both are displayed prominently on your HUD.
+
+**RUNIC ZONE INTERFACE** (Top Section):
+
+**Rune Counter Display**:
+- **Active Runes**: "Runes Placed: 5/8" with glowing rune symbols
+- **Zone Status**: "ZONE ACTIVE" (if 3+ runes placed) or "NO ZONE" (if <3 runes)
+- **Zone Type**: Shows which rune type is active (e.g., "Amplification Zone", "Vitality Zone", "Warding Zone")
+
+**Battlefield Map Overlay**:
+- **Mini-Map**: Shows top-down view of battlefield with rune positions marked
+- **Rune Icons**: Each placed rune appears as a glowing symbol on the map
+- **Zone Visualization**: When 3+ runes are placed, connecting lines appear showing the zone boundary
+- **Enemy Positions**: Enemy icons show whether they're inside or outside the zone
+- **Ally Positions**: Ally icons show who's benefiting from the zone
+
+**Rune Placement Interface** (when placing runes):
+- **Placement Mode**: Click to activate, cursor changes to rune symbol
+- **Range Indicator**: Shows 5 ft radius around cursor (individual rune effect range)
+- **Zone Preview**: If placing 3rd+ rune, shows preview of zone shape and coverage
+- **Cost Display**: "Place Rune of Amplification (3 mana)" tooltip
+- **Confirm Placement**: Click to place, rune appears with glowing animation
+
+**Rune Status Display** (for each placed rune):
+- **Rune 1**: "Amplification Rune (North) - Active" with glow
+- **Rune 2**: "Amplification Rune (SW) - Active" with glow
+- **Rune 3**: "Amplification Rune (SE) - Active" with glow
+- **Rune 4**: "Amplification Rune (Mid-N) - Active" with glow
+- **Rune 5**: "Amplification Rune (Mid-S) - Active" with glow
+- **Detonate Button**: Red button next to each rune "Detonate (DC 15 save)"
+
+**Zone Effect Display**:
+- **3 Runes**: "Amplification Zone: +2d6 spell damage" (green text)
+- **4 Runes**: "Amplification Zone: +2d6 spell damage" (green text)
+- **5 Runes**: "Amplification Zone: +3d6 spell damage" (bright green text)
+- **6 Runes**: "Amplification Zone: +3d6 spell damage" (bright green text)
+- **7 Runes**: "Amplification Zone: +4d6 spell damage" (gold text)
+- **8 Runes**: "Amplification Zone: +4d6 spell damage" (gold text, pulsing)
+
+**Detonation Animation**:
+When you detonate a rune:
+- **Rune Icon**: Flashes red, then EXPLODES with particle effect
+- **Damage Numbers**: "2d6 damage" appears on enemies in range
+- **Lingering Effect**: Ghostly rune image remains, labeled "Lingering Effect (1 min)"
+- **Zone Recalculation**: Zone effect updates based on remaining runes
+- **Audio**: Explosion sound, then fading hum
+
+**INSCRIPTION INTERFACE** (Bottom Section):
+
+**Inscription Slots Display**:
+Shows 6 equipment slots with inscription status:
+- **Weapon Slot**: Icon of weapon (sword, staff, etc.) with inscription status
+- **Armor Slot**: Icon of armor (breastplate, robes, etc.) with inscription status
+- **Boots Slot**: Icon of boots with inscription status
+- **Cape Slot**: Icon of cape with inscription status
+- **Belt Slot**: Icon of belt with inscription status
+- **Pants Slot**: Icon of pants with inscription status
+
+**Inscription Status** (for each slot):
+- **Empty**: Gray icon, "No Inscription" text
+- **Inscribed**: Glowing icon with rune overlay, inscription name displayed
+- **Example (Weapon)**: Glowing sword icon with fire rune, "Inscription of Power (+1d8 spell damage)"
+- **Example (Armor)**: Glowing armor icon with shield rune, "Inscription of Warding (+2 AC, resistance)"
+- **Example (Boots)**: Glowing boots icon with wind rune, "Inscription of Haste (+10 ft speed, adv on Dex saves)"
+
+**Inscription Placement Interface** (at start of combat):
+- **Prompt**: "Inscribe up to 3 items (4 mana each)"
+- **Selection Menu**: Click equipment slot to open inscription options
+- **Inscription Options**: List of available inscriptions for that slot
+  * Weapon: "Flame (+1d6 fire)", "Frost (+1d6 cold)", "Force (+1d6 force)", etc.
+  * Armor: "Thorn (reflect damage)", "Warding (+2 AC)", "Restoration (regen)", etc.
+  * Boots: "Haste (+10 ft speed)", "Flight (fly 30 ft)", "Water Walking", etc.
+- **Cost Display**: "4 mana" shown for each inscription
+- **Confirm**: Click to inscribe, rune animation plays on equipment
+
+**Inscription Animation**:
+When you inscribe an item:
+- **Equipment Glows**: Selected item glows with arcane energy
+- **Rune Tracing**: Glowing runes appear on the item, tracing intricate patterns
+- **Completion Flash**: Bright flash, inscription is complete
+- **Status Update**: Equipment slot shows inscribed status with effect tooltip
+- **Audio**: Magical inscription sound (chime + hum)
+
+**Inscription Effect Indicators**:
+When inscriptions trigger:
+- **Weapon Inscription**: When you attack, weapon glows, bonus damage appears "+1d8 fire"
+- **Armor Inscription**: When you're hit, armor glows, effect triggers "+2 AC (attack missed!)"
+- **Boots Inscription**: Movement trail shows speed boost, "+10 ft speed" text
+- **Cape Inscription**: When effect triggers (e.g., Blink), cape shimmers with teleport animation
+- **Belt Inscription**: Stat boost icon appears on character, "+2 Strength" text
+- **Pants Inscription**: Resistance icon appears when damage is reduced
+
+**Combined Interface Display**:
+- **Top Half**: Runic Zone interface (battlefield map, rune status, zone effects)
+- **Bottom Half**: Inscription interface (6 equipment slots, inscription status)
+- **Mana Bar**: Shared mana pool shown prominently (runes and inscriptions both cost mana)
+- **Preparation Timer**: If in pre-combat phase, shows "Preparation Time: 3:45 remaining"
+
+**Tactical Overlay**:
+When you're in combat:
+- **Zone Highlight**: Runic zone area highlighted on battlefield (green glow for allies, red for enemies)
+- **Spell Amplification Preview**: When casting spell inside zone, preview shows "Base: 3d6 → Amplified: 3d6 + 3d6 (zone)"
+- **Inscription Tooltips**: Hover over ally to see their inscriptions "Tank: Inscription of Warding (+2 AC)"
+
+**Why This Matters**: The Inscriptor's dual interface makes you feel like a BATTLEFIELD ARCHITECT. The runic zone map shows exactly where your runes are, which enemies are in the zone, and what bonuses are active. When you place your 5th rune and the zone effect updates from "+2d6" to "+3d6", you SEE the power increase. When your mage casts Fireball inside the zone and the damage preview shows "8d6 + 3d6 (zone bonus)", you KNOW your preparation paid off. The inscription interface shows all 6 equipment slots at a glance—you can see which items are inscribed, what effects they provide, and when they trigger. When your tank gets hit and their armor glows with "Inscription of Warding - Attack Missed (+2 AC)", you see your inscription saving their life. The combined interface makes preparation feel powerful and tactical—you're not just casting spells, you're ENGINEERING the battlefield.`
+    },
+
     mechanics: {
       title: 'How It Works',
       content: `**Runic Wrapping**:

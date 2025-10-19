@@ -88,8 +88,8 @@
   transform: rotate(90deg);
 }
 
-/* Submenu */
-.context-menu-group .submenu {
+/* Submenu - default state for nested submenus (hidden) */
+.context-menu-group.has-submenu .submenu {
   position: absolute;
   left: 100%;
   top: 0;
@@ -107,13 +107,15 @@
   padding: 6px;
 }
 
-.context-menu-group:hover .submenu {
+/* Show nested submenu on hover */
+.context-menu-group.has-submenu.hovered .submenu {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
 }
 
-/* Simple context menus - always show submenu without hover */
+/* First level submenu - always visible, no hover needed */
+/* This targets only the immediate submenu child of context-menu-main, not nested submenus */
 .context-menu-main > .context-menu-group > .submenu {
   position: static !important;
   opacity: 1 !important;

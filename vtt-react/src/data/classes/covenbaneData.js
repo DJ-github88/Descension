@@ -16,6 +16,19 @@ export const COVENBANE_DATA = {
     title: 'The Covenbane',
     subtitle: 'Relentless Witch Hunter',
 
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Covenbane is a witch hunter who builds Hexbreaker charges (max 6) by attacking evil magic users or being targeted by spells. Each charge grants exponentially increasing passive bonuses: +damage, +speed, +true damage on every 3rd attack. You can spend charges on powerful anti-magic abilities (counterspell, dispel, teleport) or save them for devastating passive bonuses.
+
+**Core Mechanic**: Attack evil spellcasters → Build Hexbreaker charges → Gain passive bonuses OR spend on abilities
+
+**Resource**: Hexbreaker Charges (0-6, built through combat)
+
+**Playstyle**: Anti-magic damage dealer, charge scaling, high mobility, true damage specialist
+
+**Best For**: Players who enjoy hunting spellcasters, building power through combat, and making spend-vs-save decisions`
+    },
+
     description: `The Covenbane is a stealthy, agile warrior specializing in hunting down witches, warlocks, and other malevolent magic users. Inspired by Vayne from League of Legends, they combine exceptional close-quarters combat skills with a keen understanding of dark magic. Through the Hexbreaker charge system, they build power with each attack against evil spellcasters, gaining exponential increases in damage, speed, and critical hit chance.`,
 
     roleplayIdentity: {
@@ -131,6 +144,139 @@ The Covenbane shines in fights against spellcasters and magical enemies, where t
 - Benefits from scouts who identify spellcaster targets
 - Provides utility through Curse Eater and dispel abilities
 - Can assassinate priority targets with Shadowbane specialization`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Witch Hunt',
+      content: `**The Setup**: Your party ambushes a coven of three witches and their summoned demon in a cursed forest clearing. You're a Covenbane (Shadowbane specialization) starting from stealth with 0 Hexbreaker charges. Time to hunt.
+
+**Starting State**: Hexbreaker Charges: 0 | HP: 80/80 | Stealth: Active
+
+**Turn 1 - The Opening Strike (Charges: 0 → 2)**
+
+*You watch from the shadows as the witches chant around a ritual circle. The demon stands guard, its eyes glowing red. You mark your target: the lead witch, her hands crackling with dark energy.*
+
+**Action**: Shadow Step (costs 1 charge, but you have 0—this is a free ability at 0 charges for Shadowbane spec) + Stealth Attack
+**Effect**: Teleport 30ft behind lead witch, advantage on next attack, Shadowbane passive: +1 charge from stealth attack
+
+*You blink through shadows, materializing behind the lead witch. Your silver crossbow bolt strikes true.*
+
+**Attack Roll**: d20+5 (advantage) → [18] = Hit!
+**Damage**: 2d8 (crossbow) + 1d6 (sneak attack) → [7, 6] + [4] = 17 damage
+**Hexbreaker Charges**: +1 (hit evil magic user) +1 (Shadowbane stealth bonus) = 2 charges
+
+*The witch screams. Dark energy bleeds from the wound. You feel it—the Hexbreaker charges building, dark power flowing into you.*
+
+**Current Bonuses (2 Charges)**: +1d6 damage, +10ft speed, +1d8 true damage on 3rd attack
+
+**Turn 2 - Building Power (Charges: 2 → 3)**
+
+*The witches turn on you. One casts a curse. You feel it coming—dark magic reaching for your soul.*
+
+**Witch's Action**: Casts "Curse of Weakness" at you
+**Your Reaction**: You're TARGETED by a spell → +1 Hexbreaker charge!
+**Hexbreaker Charges**: 2 + 1 = 3 charges
+
+**Your Save**: d20+4 → [16] = Success! Curse resisted.
+
+*The curse dissipates against your will. You've hunted witches long enough to resist their tricks. And now you're at 3 charges—the power spike.*
+
+**Action**: Attack lead witch (2nd attack on her)
+**Attack Roll**: d20+5 → [14] = Hit!
+**Damage**: 2d8 (crossbow) + 2d6 (3 charges bonus) → [6, 7] + [5, 4] = 22 damage
+**Result**: Lead witch down to 15 HP
+
+**Current Bonuses (3 Charges)**: +2d6 damage, +15ft speed, +2d6 true damage on 3rd attack
+
+**Turn 3 - The True Damage Proc (Charges: 3 → 4)**
+
+*The lead witch is wounded, bleeding dark magic. This is your third attack on evil magic users. Witch Hunter's Precision activates.*
+
+**Action**: Attack lead witch (3rd attack total—TRUE DAMAGE PROCS!)
+**Attack Roll**: d20+5 → [17] = Hit!
+**Damage**: 2d8 (crossbow) + 2d6 (3 charges) + **2d6 TRUE DAMAGE** (Witch Hunter's Precision) → [8, 5] + [6, 3] + [5, 4] = 31 damage (22 normal + 9 true)
+
+*Your bolt pierces her heart. The true damage ignores her magical wards, her protective spells, everything. She falls, dead.*
+
+**Hexbreaker Charges**: 3 + 1 (killed evil magic user) = 4 charges
+
+**Witch 2's Turn**: Casts "Shadow Bolt" at you → You're targeted by spell → +1 charge!
+**Hexbreaker Charges**: 4 + 1 = 5 charges
+**Damage to You**: 3d6 → [4, 5, 3] = 12 damage (you're at 68/80 HP)
+
+**Current Bonuses (5 Charges)**: +4d6 damage, +25ft speed, +3d8 true damage on 3rd attack
+
+**Turn 4 - The Decision Point (Charges: 5)**
+
+*You're at 5 charges. Two witches remain, plus the demon. You could spend 5 charges on "Execution" to instantly kill Witch 2 (she's at 60% HP, not below half). Or you could save charges, build to 6, and use "Hexbreaker Fury" to hit all three enemies.*
+
+**Your Decision**: Save charges, build to 6 for ultimate ability
+
+**Action**: Attack Witch 2 (1st attack on her)
+**Attack Roll**: d20+5 → [19] = Hit!
+**Damage**: 2d8 (crossbow) + 4d6 (5 charges) → [7, 8] + [5, 6, 4, 3] = 33 damage!
+
+*Witch 2 staggers, badly wounded (down to 27 HP). Your damage is MASSIVE at 5 charges.*
+
+**Hexbreaker Charges**: 5 + 1 (hit evil magic user) = 6 charges (MAXIMUM!)
+
+**Current Bonuses (6 Charges)**: +5d6 damage, +30ft speed, +4d8 true damage on 3rd attack
+
+**Turn 5 - Hexbreaker Fury (Charges: 6 → 0)**
+
+*You're at maximum power. Six Hexbreaker charges pulse through you. The witches and demon are grouped together. Time to unleash hell.*
+
+**Action**: Use "Hexbreaker Fury" (costs all 6 charges)
+**Effect**: AoE damage + stun to all enemies within 30ft
+
+*You raise your crossbow to the sky. The six Hexbreaker charges EXPLODE outward in a wave of silver-white energy.*
+
+**Damage Roll**: 6d10 (base) + 5d6 (charge bonus) → [8, 9, 7, 10, 6, 8] + [5, 6, 4, 3, 2] = 48 + 20 = 68 damage to ALL enemies!
+
+**Results**:
+- Witch 2: 27 HP - 68 damage = DEAD (overkill)
+- Witch 3: 50 HP - 68 damage = DEAD (overkill)
+- Demon: 120 HP - 68 damage = 52 HP remaining, STUNNED for 1 turn
+
+*The explosion of anti-magic energy obliterates the witches. The demon roars, stunned and wounded.*
+
+**Hexbreaker Charges**: 6 - 6 = 0 (spent all charges)
+
+**Turn 6 - Rebuilding (Charges: 0 → 1)**
+
+*You're back to 0 charges, but the demon is stunned and alone. Time to rebuild.*
+
+**Action**: Attack demon (1st attack)
+**Attack Roll**: d20+5 (advantage, demon is stunned) → [16] = Hit!
+**Damage**: 2d8 (crossbow) → [6, 7] = 13 damage
+**Hexbreaker Charges**: 0 + 1 (hit evil creature) = 1 charge
+
+**Demon's Turn**: Stunned, cannot act
+
+**Turn 7 - Finishing the Hunt (Charges: 1 → 2)**
+
+*The demon shakes off the stun. It charges at you, claws extended. Your party's tank intercepts.*
+
+**Action**: Attack demon (2nd attack)
+**Attack Roll**: d20+5 → [15] = Hit!
+**Damage**: 2d8 (crossbow) + 1d4 (1 charge) → [8, 5] + [3] = 16 damage
+**Hexbreaker Charges**: 1 + 1 = 2 charges
+
+**Demon HP**: 52 - 13 - 16 = 23 HP remaining
+
+**Your Party's Mage**: Casts "Fireball" → 25 damage → Demon DEAD
+
+*The demon falls. The coven is destroyed. You stand among the corpses, silver crossbow still smoking. Three witches dead in seven turns. This is what you were born to do.*
+
+**The Lesson**: Covenbane gameplay is about:
+1. **Charge Building**: Every attack on evil magic users builds charges (0 → 6 in 5 turns)
+2. **Passive Scaling**: At 5-6 charges, your damage is INSANE (+4d6 to +5d6 per attack)
+3. **True Damage**: Every 3rd attack deals massive true damage that ignores all defenses
+4. **Spend Decisions**: Save charges for passive bonuses or spend on powerful abilities
+5. **Ultimate Timing**: Hexbreaker Fury at 6 charges can wipe entire groups
+6. **Target Priority**: Focus evil magic users to build charges rapidly
+
+You're not just a damage dealer—you're a WITCH HUNTER. Every charge makes you faster, stronger, deadlier. By the time you hit 6 charges, you're an unstoppable force of anti-magic fury.`
     }
   },
 
@@ -139,26 +285,134 @@ The Covenbane shines in fights against spellcasters and magical enemies, where t
     title: 'Hexbreaker System',
     subtitle: 'Accumulating Dark Energy Against Spellcasters',
 
-    description: `The Covenbane's unique mechanic revolves around **Hexbreaker charges** - dark energy accumulated by attacking evil magic users or being targeted by spells. These charges increase the Covenbane's power exponentially, granting damage boosts, speed increases, and access to powerful abilities. A d6 tracks charges (maximum 6).`,
+    description: `The Covenbane's unique mechanic revolves around **Hexbreaker charges** - dark energy accumulated by attacking evil magic users or being targeted by spells. These charges increase the Covenbane's power exponentially, granting damage boosts, speed increases, and access to powerful abilities. Unlike mana or rage, Hexbreaker charges represent stolen dark energy turned against its source—the more you fight evil magic, the stronger you become.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Hexbreaker Charge Bar',
+      content: `**What You See**: Your Hexbreaker charge bar displays as a d6 die with glowing segments, each segment representing one accumulated charge. As you build charges, the die fills with dark purple-silver energy, pulsing with stolen magical power.
+
+**Visual Representation by Charge Level**:
+- **0 Charges**: Empty die, no glow, you're at base power
+- **1-2 Charges**: Dim purple glow, slight power building
+- **3-4 Charges**: Bright purple-silver glow, significant power, die pulses
+- **5 Charges**: Intense glow with dark energy crackling around the die
+- **6 Charges**: MAXIMUM POWER - Die glows white-hot, lightning arcs between segments, ready for Hexbreaker Fury
+
+**How It Changes**:
+- **When You Hit Evil Magic Users**: +1 segment fills with dark energy (smooth fill animation)
+- **When Targeted by Spells**: +1 segment fills (absorbing enemy magic)
+- **When You Spend Charges**: Segments drain into your ability (energy flows from die to spell effect)
+- **Out of Combat**: Charges slowly fade (1 per hour, dim glow effect)
+
+**The Charge Counter**: Below the d6 is a numerical display showing "X/6 Charges" with color coding:
+- **0-2 Charges**: White text (building phase)
+- **3-4 Charges**: Yellow text (power spike)
+- **5-6 Charges**: Red text (maximum power)
+
+**Attack Counter (Witch Hunter's Precision)**: A small indicator shows "Attacks: 1/3" or "2/3" tracking your progress toward the true damage proc. When it hits "3/3", it flashes silver and resets after your next attack.
+
+**Why This Matters**:
+
+Hexbreaker charges are a **scaling resource** - the more you have, the stronger you become. Unlike mana (which you spend to cast spells), charges provide PASSIVE bonuses just by existing:
+- 6 charges = +5d6 damage, +30ft speed, +4d8 true damage on 3rd attack
+- 0 charges = No bonuses
+
+This creates a fundamental decision: **Spend or Save?**
+- **Spend**: Use charges on powerful abilities (Shadow Step, Curse Eater, Hexbreaker Fury)
+- **Save**: Keep charges for massive passive bonuses
+
+**The Covenbane's Dilemma**:
+- High charges = Devastating passive damage (but vulnerable to losing charges if you need utility)
+- Low charges = Weak damage (but you can build back up quickly)
+
+**Strategic Depth**: Unlike other classes where resources are just "fuel" for abilities, Hexbreaker charges are BOTH fuel AND power. Every charge you spend on Shadow Step is a charge you're NOT using for +damage. Every charge you save for passive bonuses is a charge you're NOT spending on Curse Eater to save an ally.
+
+**The Scaling Curve**: Charges scale EXPONENTIALLY, not linearly:
+- 1 charge: +1d4 damage (average +2.5)
+- 3 charges: +2d6 damage (average +7)
+- 6 charges: +5d6 damage (average +17.5)
+
+Going from 0 to 6 charges increases your damage by ~17.5 per attack, PLUS +30ft speed, PLUS +4d8 true damage every 3rd attack. This is why Covenbanes are terrifying at high charges—they become exponentially more dangerous.
+
+**Master Covenbanes Know**:
+- Build to 3 charges minimum before spending (3 is the power spike)
+- Save 6 charges for Hexbreaker Fury only when facing multiple enemies
+- Use Shadow Step (1 charge) freely at 5-6 charges (you'll still have 4-5 left)
+- Never spend charges below 3 unless it's an emergency (Curse Eater to save ally)`
+    },
 
     mechanics: {
-      title: 'How It Works',
-      content: `**Accumulating Hexbreaker Charges**
-- **Attack Evil Magic User**: +1 charge per successful attack against cursed/evil spellcasters
-- **Targeted by Spell**: +1 charge when you are targeted by an enemy spell
-- **Maximum**: 6 charges (tracked with a d6)
-- **Persistence**: Charges persist between combats but decay at 1 per hour out of combat
+      title: 'Detailed Mechanics',
+      content: `**Accumulating Hexbreaker Charges (Building Power)**
 
-**Using Hexbreaker Charges**
-- **Passive Scaling**: Higher charges grant automatic bonuses (damage, speed, crit chance)
-- **Active Abilities**: Spend charges to activate powerful abilities (1-6 charges)
-- **Strategic Choice**: Balance between passive bonuses and active ability usage
+**Maximum Capacity**: 6 charges (tracked with a d6)
 
-**Witch Hunter's Precision (Passive)**
-- **Every Third Attack**: Against cursed/evil magic users deals bonus true damage
-- **Base Damage**: +1d6 true damage
-- **Scaling**: Increases with Hexbreaker charges (see table below)
-- **Example**: At 6 charges, third attack deals +4d8 true damage (ignores all defenses)`
+**Generation Methods**:
+1. **Attack Evil Magic User**: +1 charge per successful attack
+   - Example: Hit a witch with crossbow → +1 charge
+   - Example: Hit a cursed warlock with melee → +1 charge
+   - Applies to: Witches, warlocks, cursed creatures, demons, evil spellcasters
+
+2. **Targeted by Enemy Spell**: +1 charge when you are the target
+   - Example: Witch casts "Curse of Weakness" at you → +1 charge (even if you save!)
+   - Example: Warlock casts "Shadow Bolt" at you → +1 charge
+   - Note: You gain the charge BEFORE resolving the spell (so you get stronger even from being attacked)
+
+3. **Shadowbane Specialization Bonus**: +1 extra charge from stealth attacks
+   - Example: Stealth attack on witch → +1 (hit) +1 (Shadowbane) = +2 charges total
+
+**Persistence**:
+- **In Combat**: Charges persist indefinitely
+- **Between Combats**: Charges persist but decay at 1 per hour out of combat
+- **Long Rest**: All charges reset to 0
+
+**Using Hexbreaker Charges (Spending Power)**
+
+**Passive Scaling (Always Active)**:
+Charges provide automatic bonuses without spending them:
+- **Damage Bonus**: Added to every attack (scales from +1d4 to +5d6)
+- **Speed Bonus**: Added to movement (scales from +5ft to +30ft)
+- **True Damage (Every 3rd Attack)**: Bonus true damage that ignores all armor/resistances (scales from +1d6 to +4d8)
+
+**Example at 5 Charges**:
+- Attack 1: 2d8 (crossbow) + 4d6 (charge bonus) = ~22 damage
+- Attack 2: 2d8 (crossbow) + 4d6 (charge bonus) = ~22 damage
+- Attack 3: 2d8 (crossbow) + 4d6 (charge bonus) + **3d8 TRUE DAMAGE** = ~38 damage (22 normal + 16 true)
+- Movement: Base 30ft + 25ft (charge bonus) = 55ft per turn
+
+**Active Abilities (Spending Charges)**:
+You can spend charges to activate powerful abilities:
+- **Shadow Step** (1 charge): Teleport 30ft, advantage on next attack
+- **Curse Eater** (2 charges): Dispel curse/magic from ally
+- **Dark Pursuit** (3 charges): Double movement speed for 1 minute
+- **Spirit Shackle** (4 charges): Root enemy for 1 minute
+- **Hexbreaker Fury** (6 charges): AoE damage + stun all enemies in 30ft
+
+**When You Spend Charges**: They're consumed immediately
+- Example: You have 5 charges, use Shadow Step (1 charge) → Now at 4 charges
+- Example: You have 6 charges, use Hexbreaker Fury (6 charges) → Now at 0 charges
+
+**Witch Hunter's Precision (Passive True Damage)**
+
+**Mechanic**: Every **third attack** against evil magic users deals bonus true damage
+- **Attack 1**: Normal damage + charge bonus
+- **Attack 2**: Normal damage + charge bonus
+- **Attack 3**: Normal damage + charge bonus + **TRUE DAMAGE** (ignores all defenses)
+- **Attack 4**: Counter resets, back to Attack 1
+
+**Scaling**: True damage scales with Hexbreaker charges
+- 0 charges: +0 true damage
+- 1 charge: +1d6 true damage
+- 3 charges: +2d6 true damage
+- 6 charges: +4d8 true damage
+
+**Example at 6 Charges**:
+- Attack 3 damage: 2d8 (weapon) + 5d6 (charge bonus) + **4d8 TRUE DAMAGE**
+- Roll: [7, 8] + [5, 6, 4, 3, 2] + [7, 8, 6, 5] = 15 + 20 + 26 = 61 total damage!
+- The 26 true damage ignores armor, resistances, shields, everything
+
+**Strategic Balance**:
+The key to mastering the Covenbane is knowing when to spend charges versus saving them for passive bonuses. At 6 charges, you're dealing massive damage passively—but Hexbreaker Fury can wipe an entire group. Choose wisely.`
     },
 
     // Hexbreaker Charge Scaling Table
@@ -320,6 +574,103 @@ The Covenbane shines in fights against spellcasters and magical enemies, where t
 **Ultimate Timing**: Hexbreaker Fury at 6 charges is devastating but consumes all charges. Use when you can hit multiple high-value targets or need emergency CC.
 
 **Specialization Synergy**: Shadowbane excels at stealth and burst, Spellbreaker at dispelling and anti-magic, Demonhunter at sustained damage against evil entities.`
+    },
+
+    practicalExample: {
+      title: 'Practical Decision-Making Example',
+      content: `**Scenario**: You're fighting a powerful warlock (60% HP) and his two cursed bodyguards (full HP). You have 4 Hexbreaker charges. Your party's healer just got cursed with "Curse of Decay" (taking 2d6 damage per turn). The warlock is channeling a ritual that will summon a demon in 2 turns.
+
+**Current State**:
+- Hexbreaker Charges: 4
+- Warlock HP: ~60%
+- Bodyguards: 2 at full HP
+- Healer: Cursed (2d6 damage/turn)
+- Ritual: Completes in 2 turns
+
+**Your Passive Bonuses (4 Charges)**:
+- +3d6 damage per attack
+- +20ft movement speed
+- +2d8 true damage on 3rd attack
+- Attack Counter: 2/3 (next attack procs true damage!)
+
+**Option A - Curse Eater (Save the Healer)**:
+Use "Curse Eater" (2 charges) to dispel curse from healer
+- Cost: 2 charges (4 → 2 remaining)
+- Result: Healer saved, you lose +3d6 damage bonus (drops to +1d6)
+- Pros: Healer survives, can continue healing party
+- Cons: You lose significant damage output, still at 2 charges (weak)
+- Risk: Warlock completes ritual while you're weak
+
+**Option B - Spirit Shackle (Stop the Ritual)**:
+Use "Spirit Shackle" (4 charges) to root warlock in place, interrupting ritual
+- Cost: 4 charges (4 → 0 remaining)
+- Result: Warlock rooted, ritual interrupted, you lose ALL bonuses
+- Pros: Demon summoning prevented, warlock can't move
+- Cons: You're at 0 charges (no bonuses), healer still cursed
+- Risk: Healer dies to curse while you rebuild charges
+
+**Option C - Attack Warlock (Build to 6 for Hexbreaker Fury)**:
+Attack warlock, build charges, then use Hexbreaker Fury next turn
+- Cost: 0 charges (4 → 5 after hit, then 6 next turn)
+- Result: Warlock takes damage, you build to 6 charges
+- Pros: Next turn you can Hexbreaker Fury all 3 enemies (warlock + bodyguards)
+- Cons: Healer takes another 2d6 damage, ritual progresses (1 turn left)
+- Risk: Healer might die, ritual might complete
+
+**Option D - Attack Warlock (True Damage Proc) + Ask Ally to Dispel**:
+Attack warlock with true damage proc, coordinate with party mage to dispel curse
+- Cost: 0 charges (4 → 5 after hit)
+- Result: Warlock takes massive damage (weapon + 3d6 + **2d8 true damage**), healer gets dispelled by ally
+- Pros: High damage to warlock, healer saved, you keep building charges
+- Cons: Requires coordination, ritual still progresses
+- Risk: Party mage might not have dispel available
+
+**Best Choice**: Option D (Attack + Coordinate)
+
+**Why**:
+1. **True Damage Proc**: You're at 2/3 attacks—next hit procs +2d8 true damage (ignores warlock's defenses)
+2. **Charge Building**: You go from 4 → 5 charges, one away from Hexbreaker Fury
+3. **Team Coordination**: Your party mage can dispel the curse (they have "Remove Curse" prepared)
+4. **Damage Priority**: Killing the warlock stops the ritual permanently (better than rooting him)
+5. **Resource Efficiency**: You don't spend charges, you BUILD them
+
+**Execution**:
+- **Your Action**: Attack warlock (3rd attack, true damage procs!)
+  - Roll: 2d8 (crossbow) + 3d6 (4 charges) + **2d8 TRUE DAMAGE** → [7, 6] + [5, 4, 3] + [7, 8] = 13 + 12 + 15 = 40 damage!
+  - Warlock HP: 60% → 35%
+  - Hexbreaker Charges: 4 + 1 (hit evil magic user) = 5 charges
+  - Attack Counter: Resets to 1/3
+
+- **Party Mage's Action**: Casts "Remove Curse" on healer
+  - Curse dispelled, healer saved
+
+**Result**: Warlock badly wounded, healer saved, you're at 5 charges (one away from ultimate), ritual still has 1 turn left.
+
+**Next Turn Strategy**:
+- Attack warlock again → Build to 6 charges
+- Warlock's turn: He either continues ritual OR defends himself (can't do both)
+- If he continues ritual: Use Hexbreaker Fury (6 charges) to damage all 3 enemies + stun them, interrupting ritual
+- If he defends: Attack again, likely kill him before ritual completes
+
+**Alternative if Party Mage Doesn't Have Dispel**: Option A (Curse Eater)
+- Why: Healer survival is critical. Lose 2 charges (4 → 2), but healer lives.
+- Trade-off: You're weaker, but healer can keep party alive while you rebuild.
+
+**Alternative if Healer Has High HP**: Option C (Build to 6 for Hexbreaker Fury)
+- Why: If healer can survive 2 more turns of 2d6 damage (~7 damage/turn = 14 total), you can build to 6 and wipe all 3 enemies with Hexbreaker Fury.
+- Risk: Healer might die, but if they survive, you win the fight decisively.
+
+**The Lesson**: Covenbane decision-making involves:
+1. **Charge Awareness**: Know your current bonuses and what you'd lose by spending
+2. **True Damage Timing**: Track your attack counter (1/3, 2/3, 3/3) to maximize true damage procs
+3. **Team Coordination**: Sometimes allies can handle utility (dispel, healing) while you focus on damage
+4. **Spend Thresholds**:
+   - Below 3 charges: Don't spend (too weak)
+   - 3-4 charges: Spend on utility if necessary (Curse Eater, Shadow Step)
+   - 5-6 charges: Consider ultimate (Hexbreaker Fury) or save for massive passive damage
+5. **Target Priority**: Killing the warlock stops the ritual permanently (better than temporary solutions)
+
+You're not just a damage dealer—you're a HUNTER. Every charge makes you deadlier. Spend wisely, or don't spend at all.`
     }
   },
 

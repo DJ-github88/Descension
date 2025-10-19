@@ -15,7 +15,20 @@ export const BLADEDANCER_DATA = {
   overview: {
     title: 'The Bladedancer',
     subtitle: 'Master of Combat Stances',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Bladedancer flows between 6 interconnected combat stances (Flowing Water, Striking Serpent, Whirling Wind, Rooted Stone, Dancing Blade, Shadow Step), each offering unique abilities and passive effects. You build Momentum through attacks and spend it to transition between stances and activate abilities. Performing signature moves in each stance earns Flourish tokens for ultimate abilities.
+
+**Core Mechanic**: Attack → Build Momentum → Transition between stances → Adapt to combat → Earn Flourish → Unleash ultimates
+
+**Resources**: Momentum (0-20, builds/decays during combat) & Flourish (persistent mastery tokens)
+
+**Playstyle**: Adaptive melee combatant, stance-based tactics, high mobility, rewards skillful transitions
+
+**Best For**: Players who enjoy tactical positioning, adaptive combat, and mastering complex interconnected systems`
+    },
+
     description: `The Bladedancer is a martial artist who flows seamlessly between combat stances, adapting to any situation with grace and precision. Through the Momentum & Flourish system, they build combat rhythm and earn mastery tokens, unlocking devastating abilities as they dance through battle.`,
     
     roleplayIdentity: {
@@ -88,7 +101,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
 - Strategy: Master all stances to maximize Flourish generation
 
 **Specialization Synergies**:
-- **Blade Dancer**: Rapid transitions (-1 Momentum cost), combo chains, flow-focused
+- **Flow Master**: Rapid transitions (-1 Momentum cost), combo chains, flow-focused
 - **Duelist**: Precision strikes, counter-attacks, defensive mastery
 - **Shadow Dancer**: Stealth, burst damage, Shadow Step specialization
 
@@ -103,6 +116,115 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
 - Synergizes with supports who provide attack speed or damage buffs
 - Benefits from crowd control that allows safe Momentum building
 - Can adapt stance to fill gaps in team composition (tank, DPS, or utility)`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Duel at Crimson Bridge',
+      content: `**The Setup**: You face a rival duelist on a narrow bridge. He's a brute—all power, no finesse. You'll show him what true mastery looks like.
+
+**Starting State**: Stance: Flowing Water | Momentum: 0 | Flourish: 3 tokens
+
+**Turn 1 - Reading the Opponent (Momentum: 0 → 3)**
+
+*You settle into Flowing Water stance—feet shoulder-width apart, blade held loosely, body relaxed. Your opponent charges.*
+
+Enemy attacks → You dodge (Flowing Water passive: +2 dodge) → Counterattack hits!
+**Momentum**: +1 (now at 1)
+
+Second attack → Hit!
+**Momentum**: +1 (now at 2)
+
+Flowing Water signature move - "Rippling Deflection"
+**Momentum**: +1 (now at 3)
+**Flourish**: +1 token (now at 4) - earned for signature move!
+
+*You flow around his attacks like water around stone. The rhythm builds.*
+
+**Turn 2 - Shifting to Offense (Stance: Flowing Water → Striking Serpent)**
+
+*Time to punish his recklessness.*
+
+**Transition**: Flowing Water → Striking Serpent (costs 2 Momentum)
+**Momentum**: 3 - 2 = 1
+
+*Your stance narrows, blade extending like a serpent's fang.*
+
+Attack → CRITICAL HIT!
+**Momentum**: +2 (now at 3)
+
+Striking Serpent signature - "Viper's Fang" (costs 3 Momentum)
+**Momentum**: 3 - 3 = 0, then +2 for signature = 2
+**Flourish**: +1 (now at 5)
+**Effect**: Target bleeds, -2 to attacks
+
+*Your blade finds the gap in his armor. He roars in pain.*
+
+Enemy power attack → Hits you!
+**Momentum**: -1 for taking damage (now at 1)
+
+**Turn 3 - Defensive Adaptation (Stance: Striking Serpent → Rooted Stone)**
+
+*He's wounded but dangerous. Weather his fury.*
+
+**Transition**: Striking Serpent → Rooted Stone (costs 2 Momentum)
+**Momentum**: 1 - 2 = -1... NOT ENOUGH!
+
+*You don't have enough Momentum to transition. You need to build more first.*
+
+Attack → Hit!
+**Momentum**: +1 (now at 2)
+
+**Now transition**: Rooted Stone (costs 2 Momentum)
+**Momentum**: 2 - 2 = 0
+
+*You plant your feet. Like a mountain, unmovable.*
+
+Enemy combo (3 strikes) → First hits (reduced), second you parry!
+**Momentum**: +1 for parry (now at 1)
+Counter attack from parry → Hit!
+**Momentum**: +1 (now at 2)
+
+Rooted Stone signature - "Immovable Mountain"
+**Momentum**: 2 - 2 = 0, then +2 for signature = 2
+**Flourish**: +1 (now at 6)
+**Effect**: Next attack reflected
+
+Enemy's third strike → Reflected!
+**Momentum**: +1 (now at 3)
+
+*His own strength turned against him.*
+
+**Turn 4 - Building for the Finale**
+
+*You have 6 Flourish tokens—enough for an ultimate. But Dancing Blade costs 4 Momentum to reach.*
+
+Attack → Hit! **Momentum**: +1 (now at 4)
+Attack → Hit! **Momentum**: +1 (now at 5)
+
+**Transition**: Rooted Stone → Dancing Blade (costs 4 Momentum)
+**Momentum**: 5 - 4 = 1
+
+*Your stance shifts—fluid, balanced, the heart of the dance.*
+
+Attack → CRITICAL HIT!
+**Momentum**: +2 (now at 3)
+
+**Turn 5 - The Finishing Flourish**
+
+*He's bleeding, exhausted. Time to end this with style.*
+
+**Ultimate**: "Thousand Cuts Flourish" (costs 5 Flourish)
+**Flourish**: 6 - 5 = 1 remaining
+
+*You move like lightning through all 6 stances in rapid succession:*
+*Flowing Water dodge → Striking Serpent thrust → Whirling Wind spin → Rooted Stone counter → Shadow Step vanish → Dancing Blade finale*
+
+**Damage**: 6d10 (one per stance) + all bonuses
+**Result**: Rival duelist falls, defeated
+
+*You return to Flowing Water, blade clean, breathing steady. The duel is over.*
+
+**The Lesson**: Bladedancer requires resource awareness (Momentum for transitions, Flourish for ultimates), stance knowledge (which connects to which), and tactical timing (when to transition vs. when to build). You can't spam abilities—you must earn your power through mastery.`
     }
   },
   
@@ -110,30 +232,122 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
   resourceSystem: {
     title: 'Momentum & Flourish System',
     subtitle: 'Dual Resource Combat Flow',
-    
-    description: `The Bladedancer uses a dual resource system: Momentum (primary) and Flourish (secondary). Momentum represents your combat rhythm and is built through successful actions but decays when you falter. Flourish represents mastery and is earned through perfect execution of stance-specific techniques.`,
-    
+
+    description: `The Bladedancer uses a dual resource system: Momentum (primary) and Flourish (secondary). Momentum represents your combat rhythm and is built through successful actions but decays when you falter. Flourish represents mastery and is earned through perfect execution of stance-specific techniques. Together, these resources create a dynamic flow where tactical success builds toward ultimate power.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Resource Bars',
+      content: `**Momentum Bar (Primary - Top Bar)**:
+
+**What You See**: A horizontal bar with 10 segments, filling from left to right as you build Momentum. The bar pulses with energy and changes color based on your current stance:
+- Flowing Water: Blue rippling effect
+- Striking Serpent: Green with serpentine patterns
+- Whirling Wind: White with swirling motion
+- Rooted Stone: Brown with solid texture
+- Dancing Blade: Silver with flowing ribbons
+- Shadow Step: Purple with shadowy wisps
+
+**How It Changes**:
+- **Successful Attack**: +1 segment fills (smooth pulse)
+- **Critical Hit**: +2 segments fill (bright flash)
+- **Dodge/Parry**: +1 segment fills (defensive shimmer)
+- **Miss or Take Damage**: -1 segment empties (flicker and dim)
+- **Stance Transition**: -2 to -4 segments empty (flowing drain animation)
+- **Ability Use**: Segments drain based on cost
+
+**Visual Feedback**: When you have 6+ Momentum, the bar glows brightly, indicating you have enough for most transitions and abilities. Below 3 Momentum, the bar dims and pulses slowly—you're vulnerable and need to build.
+
+**Flourish Tokens (Secondary - Below Momentum Bar)**:
+
+**What You See**: Up to 5 ornate tokens displayed as elegant medallions, each showing the symbol of the stance where it was earned. Unlike Momentum, these don't fill a bar—they're discrete tokens that persist.
+
+**How It Changes**:
+- **Signature Move Performed**: A new token materializes with a flourish animation, showing the stance's symbol
+- **Ultimate Ability Used**: Tokens fade away gracefully (2-5 tokens depending on ability)
+- **Between Combats**: Tokens remain (they don't decay)
+
+**Visual Distinction**: Flourish tokens glow with golden light, clearly different from the Momentum bar. They represent your accumulated mastery—proof that you've perfected each stance's signature technique.
+
+**Current Stance Indicator**:
+
+Below both resource bars, your current stance is displayed with an icon and name. When you transition, this icon smoothly animates to the new stance, showing the flow of movement.
+
+**Why This Matters**:
+
+You're managing TWO different resources with different purposes:
+- **Momentum** = Short-term tactical resource (build and spend each fight)
+- **Flourish** = Long-term mastery resource (accumulate across fights, spend on ultimates)
+
+A Bladedancer with high Momentum but no Flourish can transition freely and use abilities, but lacks ultimate power. A Bladedancer with Flourish but low Momentum has mastery tokens but can't transition or act effectively. You need BOTH to reach peak performance.
+
+**Strategic Depth**: Your resource bars tell the story of your combat flow. A steadily climbing Momentum bar means you're in rhythm. A fluctuating bar means you're taking risks. Flourish tokens accumulating means you're mastering each stance. Empty Flourish means you're spending your mastery on game-changing ultimates.`
+    },
+
     mechanics: {
-      title: 'How It Works',
+      title: 'Detailed Mechanics',
       content: `**Momentum (Primary Resource)**
-- **Maximum**: 10 points
-- **Generation**: +1 per successful attack, +2 per critical hit, +1 per successful dodge/parry
-- **Decay**: Lose 1 Momentum per round if you miss an attack or take damage
-- **Usage**: Spend 2-4 Momentum to change stances, 3-6 Momentum for powerful abilities
-- **Starting Combat**: Begin each combat at 0 Momentum
+
+**Maximum Capacity**: 10 points (visualized as 10 segments in your resource bar)
+
+**Generation (How to Build Momentum)**:
+- **Successful Attack (Hit)**: +1 Momentum
+  - Example: You have 3 Momentum, attack hits → Now at 4 Momentum
+- **Critical Hit**: +2 Momentum
+  - Example: You have 5 Momentum, crit → Now at 7 Momentum
+- **Successful Dodge**: +1 Momentum (rewarding defensive skill)
+  - Example: You have 2 Momentum, dodge an attack → Now at 3 Momentum
+- **Successful Parry**: +1 Momentum (rewarding defensive skill)
+  - Example: You have 4 Momentum, parry an attack → Now at 5 Momentum
+
+**Decay (How You Lose Momentum)**:
+- **Missing an Attack**: -1 Momentum (breaking your rhythm)
+  - Example: You have 6 Momentum, miss → Now at 5 Momentum
+- **Taking Damage**: -1 Momentum (being disrupted)
+  - Example: You have 7 Momentum, take damage → Now at 6 Momentum
+
+**Usage (How to Spend Momentum)**:
+- **Stance Transitions**: 2-4 Momentum (depending on which stances you're transitioning between)
+- **Stance Abilities**: 3-6 Momentum (depending on ability power)
+- **Signature Moves**: 2-3 Momentum (but you gain Flourish as reward)
+
+**Starting State**: Begin each combat at 0 Momentum (you must build rhythm from scratch)
 
 **Flourish (Secondary Resource)**
-- **Maximum**: 5 tokens
-- **Generation**: Earn 1 token by performing a stance's signature move
-- **Persistence**: Flourish tokens do NOT decay and persist between combats
-- **Usage**: Spend 2-3 tokens on ultimate abilities or cross-stance combos
-- **Mastery Reward**: Encourages learning and mastering each stance
+
+**Maximum Capacity**: 5 tokens (displayed as individual medallions, not a bar)
+
+**Generation (How to Earn Flourish)**:
+- **Perform a Stance's Signature Move**: +1 Flourish token
+  - Each stance has ONE signature move
+  - Example: Use "Viper's Fang" (Striking Serpent signature) → Earn 1 Flourish token
+  - The token shows the Striking Serpent symbol
+
+**Persistence**: Flourish tokens do NOT decay and persist between combats
+- Example: End combat with 3 Flourish → Start next combat with 3 Flourish
+
+**Usage (How to Spend Flourish)**:
+- **Ultimate Abilities**: 2-5 Flourish tokens (devastating cross-stance techniques)
+- **Mastery Techniques**: 2-3 Flourish tokens (advanced stance-specific abilities)
+
+**Mastery Reward**: Encourages learning and perfecting each stance's signature move
 
 **Stance System**
-- **Starting Stance**: Begin combat in Flowing Water (defensive stance)
-- **Stance Transitions**: Cost 2-4 Momentum depending on the transition
-- **Stance Network**: Can only transition to connected stances (see network below)
-- **Dancing Blade Exception**: Can transition to any stance from Dancing Blade (costs 4 Momentum)`
+
+**Starting Stance**: Begin every combat in Flowing Water (defensive/evasive stance)
+
+**Stance Transitions**:
+- Cost 2-4 Momentum depending on the transition
+- Can only transition to connected stances (see network below)
+- **Exception**: Dancing Blade can transition to ANY stance (costs 4 Momentum)
+
+**Stance Network**: Stances are interconnected like a web. You can't jump from any stance to any other—you must follow the connections.
+
+Example: From Flowing Water, you can reach:
+- Striking Serpent (2 Momentum)
+- Shadow Step (2 Momentum)
+- Dancing Blade (4 Momentum)
+
+But you CANNOT go directly from Flowing Water to Whirling Wind—you'd need to go through Striking Serpent first.`
     },
 
     // Stance Network Table
@@ -317,6 +531,76 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
           'Must be in Shadow Step'
         ]
       ]
+    },
+
+    practicalExample: {
+      title: 'Practical Decision-Making Example',
+      content: `**Scenario**: You're in Striking Serpent stance with 5 Momentum and 2 Flourish tokens. You're fighting three goblins (low HP) and one ogre (high HP, dangerous). Your party's tank just went down.
+
+**Current State**:
+- Stance: Striking Serpent (offensive/precision)
+- Momentum: 5
+- Flourish: 2 tokens
+- Enemies: 3 goblins (clustered), 1 ogre (threatening)
+- Tank: Down (you're now the target)
+
+**Option A - Stay Offensive**:
+Use "Viper's Fang" (Striking Serpent signature, costs 3 Momentum)
+- Pros: Deals precision damage to ogre, earns 1 Flourish token (would have 3 total)
+- Cons: Leaves you at 2 Momentum, not enough to transition to defensive stance
+- Risk: Ogre attacks you next turn, you can't escape
+
+**Option B - Transition to AoE**:
+Transition to Whirling Wind (costs 2 Momentum), then use cleave attacks on goblins
+- Pros: Can hit all 3 goblins at once, clear weak enemies
+- Cons: Costs 2 Momentum to transition (leaves you at 3), Whirling Wind has no defensive bonuses
+- Risk: Ogre still alive and you're vulnerable
+
+**Option C - Defensive Retreat**:
+Transition to Rooted Stone (costs 2 Momentum), use defensive abilities
+- Pros: Rooted Stone has parry/counter abilities, can survive ogre's attack
+- Cons: Doesn't kill any enemies, purely defensive
+- Risk: Goblins and ogre both attack, you're outnumbered
+
+**Option D - Hub Strategy**:
+Transition to Dancing Blade (costs 4 Momentum), then immediately to Whirling Wind (costs 0 from Dancing Blade's hub ability)
+- Pros: Reach Whirling Wind in one turn, can AoE goblins
+- Cons: Costs 4 Momentum (leaves you at 1), very low resources
+- Risk: If you miss, you're at 0 Momentum and vulnerable
+
+**Option E - Flourish Ultimate**:
+Use "Perfect Form" (costs 2 Flourish tokens)
+- Pros: +5 to all rolls for 3 rounds, Momentum can't decay
+- Cons: Spends all your Flourish, no immediate damage
+- Risk: Doesn't solve the immediate threat
+
+**Best Choice**: Option B (Transition to Whirling Wind, clear goblins)
+
+**Why**:
+1. Three goblins represent more total damage than one ogre over time
+2. Whirling Wind's cleave can kill all 3 goblins in 1-2 attacks
+3. You'll build Momentum back up from hitting multiple targets (+1 per hit)
+4. With goblins dead, you can focus on ogre next turn
+5. You still have 2 Flourish tokens for emergency ultimate if needed
+
+**Execution**:
+- Transition: Striking Serpent → Whirling Wind (costs 2 Momentum, now at 3)
+- Attack with cleave: Hit all 3 goblins → +3 Momentum (now at 6)
+- Goblins die (low HP)
+- Next turn: Transition to Rooted Stone (costs 2 Momentum, now at 4) to defend against ogre
+- Use parry/counter abilities to survive and build Momentum
+
+**Alternative if Ogre is About to Kill You**: Option C (Rooted Stone defensive)
+- Why: Survival > damage. Rooted Stone's parry can negate ogre's attack and counter for damage. You can clean up goblins later if you're alive.
+
+**The Lesson**: Bladedancer decisions involve:
+1. **Resource Math**: Can you afford the transition? Will you have enough Momentum left?
+2. **Stance Pathing**: Which stances can you reach from your current position?
+3. **Threat Assessment**: Which enemies are the real danger?
+4. **Momentum Forecasting**: Will this action build or drain your Momentum?
+5. **Flourish Timing**: Save for ultimates or spend for game-changing moments?
+
+You're not just picking abilities—you're navigating a network of stances while managing two resources and adapting to dynamic threats. That's the Bladedancer's art.`
     }
   },
 
@@ -325,7 +609,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
     title: 'Bladedancer Specializations',
     subtitle: 'Three Paths of Martial Mastery',
 
-    description: `Bladedancers can specialize in different aspects of stance-based combat, each offering unique approaches to the Momentum & Flourish system. These specializations focus on rapid transitions (Blade Dancer), precision counters (Duelist), or stealth burst (Shadow Dancer).`,
+    description: `Bladedancers can specialize in different aspects of stance-based combat, each offering unique approaches to the Momentum & Flourish system. These specializations focus on rapid transitions (Flow Master), precision counters (Duelist), or stealth burst (Shadow Dancer).`,
 
     passiveAbility: {
       name: 'Stance Mastery',
@@ -334,9 +618,9 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
 
     specs: [
       {
-        name: 'Blade Dancer',
+        name: 'Flow Master',
         icon: 'fas fa-wind',
-        description: 'Masters of rapid stance transitions and combo chains. Blade Dancers flow between stances with minimal cost, chaining abilities together for devastating combinations.',
+        description: 'Masters of rapid stance transitions and combo chains. Flow Masters flow between stances with minimal cost, chaining abilities together for devastating combinations.',
 
         passiveAbility: {
           name: 'Flowing Transitions',
@@ -475,7 +759,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
       specialMechanics: {
         bladeDancerBonus: {
           enabled: true,
-          effect: 'Blade Dancers can transition to any stance (not just connected) after this attack'
+          effect: 'Flow Masters can transition to any stance (not just connected) after this attack'
         },
         momentumScaling: {
           description: 'Damage increases with current Momentum, rewarding high resource management'
@@ -546,7 +830,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
         flourishGeneration: {
           enabled: true,
           amount: 1,
-          description: 'This is a signature Blade Dancer move - generates 1 Flourish when used'
+          description: 'This is a signature Flow Master move - generates 1 Flourish when used'
         }
       },
 
@@ -927,7 +1211,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
         },
         bladeDancerBonus: {
           enabled: true,
-          effect: 'Blade Dancers pay 1 less Momentum for all transitions (minimum 1)'
+          effect: 'Flow Masters pay 1 less Momentum for all transitions (minimum 1)'
         },
         shadowDancerBonus: {
           enabled: true,
@@ -995,7 +1279,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
         },
         bladeDancerBonus: {
           enabled: true,
-          effect: 'Blade Dancers generate +1 additional Momentum from this attack'
+          effect: 'Flow Masters generate +1 additional Momentum from this attack'
         },
         stanceModifiers: {
           description: 'This attack benefits from your current stance\'s passive effects'

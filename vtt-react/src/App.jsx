@@ -85,6 +85,9 @@ import './components/account/styles/AccountDashboardIsolation.css';
 // Preload character creation wizard styles to ensure they're available immediately
 import './components/character-creation-wizard/styles/CharacterCreationWizard.css';
 
+// Preload ClassResourceBar CSS since it's used in rules section (before entering game)
+import './components/hud/styles/ClassResourceBar.css';
+
 
 // Track dynamically loaded stylesheets for cleanup
 let gameStylesheets = [];
@@ -110,8 +113,7 @@ const loadGameStyles = () => {
         // Load component-specific CSS that was causing pollution
         import('./components/creature-wizard/styles/CreatureWindow.css'),
 
-        // Load HUD-related CSS files that were removed from components
-        import('./components/hud/styles/ClassResourceBar.css'),
+        // NOTE: ClassResourceBar.css is now preloaded above since it's used in rules section
 
         // Load UI component CSS files that were removed from components
         // NOTE: ActionBar.css is now preloaded above to prevent multiplayer timing issues
@@ -140,9 +142,7 @@ const loadGameStyles = () => {
         gameStylesheets = allStylesheets.filter(sheet =>
             sheet.href && (
                 sheet.href.includes('CreatureWindow.css') ||
-                sheet.href.includes('ClassResourceBar.css') ||
                 sheet.href.includes('buff-container.css') ||
-                sheet.href.includes('ActionBar.css') ||
                 sheet.href.includes('CombatSelectionOverlay.css') ||
                 sheet.href.includes('FloatingCombatText.css') ||
                 sheet.href.includes('combat-selection-window.css') ||

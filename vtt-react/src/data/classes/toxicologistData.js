@@ -118,6 +118,177 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 - Benefits from scouts who can identify enemy weaknesses
 - Provides utility through antidotes and defensive contraptions
 - Can zone enemies away from vulnerable allies with poison clouds`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Alchemist\'s Laboratory',
+      content: `**The Setup**: You're a Toxicologist (Venomancer specialization) facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Resources: Toxin Vials: 7/7, Contraption Parts: 5/5. Starting Mana: 40/50. Your goal: Deploy contraptions to control the battlefield, apply poisons to your weapon, and craft concoctions mid-combat to adapt to the situation.
+
+**Starting State**: Toxin Vials: 7/7 | Contraption Parts: 5/5 | Mana: 40/50 | HP: 50/50 | Weapon Poison: None
+
+**Turn 1 - Setting the Trap (Vials: 7 → 6, Parts: 5 → 3)**
+
+*Five bandits and their leader approach. You smile. They're walking into YOUR laboratory.*
+
+**Your Action (Pre-Combat Setup)**: Deploy "Caltrops" (1 contraption part, bonus action)
+**Effect**: 10 ft area, enemies take 1d4 damage and speed reduced by 10 ft
+
+*You scatter caltrops across the ground at the choke point.*
+
+**Contraption Parts**: 5 - 1 = **4/5**
+
+**Your Action**: Deploy "Poison Gas Trap" (2 contraption parts)
+**Effect**: When triggered, releases poison cloud (15 ft radius, 2d6 poison damage per turn, lasts 3 rounds)
+
+*You place a small device on the ground. When an enemy steps on it, it will release a devastating poison cloud.*
+
+**Contraption Parts**: 4 - 2 = **2/5**
+
+**Your Action (Bonus Action)**: Apply "Paralytic Poison" to weapon (1 toxin vial)
+**Effect**: Weapon attacks deal +1d6 poison damage, target has disadvantage on DEX saves for 2 rounds
+
+*You coat your blade with a viscous green poison. It GLISTENS with toxicity.*
+
+**Toxin Vials**: 7 - 1 = **6/7**
+
+**Your Party's Tank**: "What are all these... devices?"
+**You**: "Contraptions. Caltrops to slow them. A poison gas trap for when they group up. And my weapon is coated with paralytic poison. Let them come."
+
+**Current State**: Vials: 6/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Paralytic Poison
+
+**Turn 2 - Springing the Trap (Vials: 6 → 3)**
+
+*The bandits charge. Three of them step on the caltrops. One triggers the poison gas trap.*
+
+**Bandits #1, #2, #3**: Step on caltrops
+**Damage**: 1d4 → [3] = 3 damage each
+**Effect**: Speed reduced by 10 ft
+
+**Bandit #4**: Triggers Poison Gas Trap
+**Effect**: Poison cloud erupts (15 ft radius)
+
+**Bandits #4, #5, Leader**: All caught in poison cloud
+**Poison Damage**: 2d6 → [5, 4] = 9 poison damage each per turn for 3 rounds
+
+*The poison cloud ERUPTS. The bandits caught inside CHOKE and GASP.*
+
+**Your Action**: Melee attack Bandit #1 (has paralytic poison on weapon)
+**Attack Roll**: d20+5 → [16] = Hit!
+**Base Damage**: 2d6+3 → [5, 4] + 3 = 12 damage
+**Paralytic Poison**: +1d6 poison → [5] = +5 poison damage
+**Total Damage**: 12 + 5 = **17 damage**
+**Effect**: Bandit #1 has disadvantage on DEX saves for 2 rounds
+
+**Bandit #1**: Takes 17 damage → HEAVILY DAMAGED
+
+**Your Action (Bonus Action)**: Craft "Explosive Concoction" (3 toxin vials)
+**Effect**: Throwable explosive, 4d6 fire damage in 10 ft radius
+
+*You quickly mix chemicals from your vials. The concoction BUBBLES and SMOKES.*
+
+**Toxin Vials**: 6 - 3 = **3/7**
+
+**Your Party's Mage**: "You're crafting explosives MID-COMBAT?!"
+**You**: "Explosive Concoction. Costs 3 toxin vials. I'll throw it next turn."
+
+**Current State**: Vials: 3/7 | Parts: 2/5 | Mana: 40/50 | Explosive ready
+
+**Turn 3 - The Explosion (Vials: 3 → 2)**
+
+*The poison cloud continues. Bandits #4, #5, and Leader take another 9 poison damage each.*
+
+**Poison Cloud** (Turn 2 of 3): Bandits #4, #5, Leader take 9 poison damage each
+
+**Your Action**: Throw "Explosive Concoction" at grouped bandits (no cost, already crafted)
+**Targets**: Bandits #2, #3, #4 (grouped together)
+**Damage**: 4d6 fire → [6, 5, 6, 4] = **21 fire damage each**
+
+*You hurl the concoction. It EXPLODES in a massive fireball.*
+
+**Bandit #2**: Takes 21 fire damage → **DEAD**
+**Bandit #3**: Takes 21 fire damage → **DEAD**
+**Bandit #4**: Takes 21 fire damage → **DEAD**
+
+**Your Party's Rogue**: "THREE bandits with ONE explosive!"
+**You**: "Explosive Concoction. 4d6 fire damage in 10 feet. They were grouped perfectly."
+
+**Your Action (Bonus Action)**: Apply "Necrotic Poison" to weapon (1 toxin vial)
+**Effect**: Weapon attacks deal +1d8 necrotic damage, target's max HP reduced by damage dealt
+
+*You coat your blade with a BLACK poison that seems to absorb light.*
+
+**Toxin Vials**: 3 - 1 = **2/7**
+
+**Current State**: Vials: 2/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Necrotic Poison
+
+**Turn 4 - Finishing Touches (Vials: 2 → 0)**
+
+*Only Bandit #1, #5, and the Leader remain. The poison cloud continues (Turn 3 of 3).*
+
+**Poison Cloud** (Turn 3 of 3): Bandit #5 and Leader take 9 poison damage each
+**Poison Cloud**: Expires after this turn
+
+**Your Action**: Melee attack Bandit #1 (has necrotic poison on weapon)
+**Attack Roll**: d20+5 → [17] = Hit!
+**Base Damage**: 2d6+3 → [6, 5] + 3 = 14 damage
+**Necrotic Poison**: +1d8 necrotic → [7] = +7 necrotic damage
+**Total Damage**: 14 + 7 = **21 damage**
+**Effect**: Bandit #1's max HP reduced by 7
+
+**Bandit #1**: Takes 21 damage → **DEAD**
+
+**Your Action (Bonus Action)**: Craft "Antidote" (2 toxin vials)
+**Effect**: Cure poison/disease on ally, grant poison resistance for 1 hour
+
+*You mix a healing concoction, just in case.*
+
+**Toxin Vials**: 2 - 2 = **0/7**
+
+**Your Party's Healer**: "You're out of vials!"
+**You**: "I'll regain 1d4 vials on a short rest. But I've already killed 4 bandits and dealt massive poison damage to the others."
+
+**Current State**: Vials: 0/7 | Parts: 2/5 | Mana: 40/50
+
+**Turn 5 - Cleanup**
+
+*Bandit #5 and the Leader remain, both heavily damaged from poison cloud (27 poison damage total over 3 turns).*
+
+**Your Party's Tank**: Attacks Bandit #5 → DEAD
+**Your Party's Mage**: Casts Magic Missile at Leader → DEAD
+
+**Combat Over**
+
+*You collect your contraption parts from the caltrops and poison gas trap (reusable).*
+
+**Contraption Parts**: 2 + 3 (recovered) = **5/5** (back to max)
+
+**Your Party's Rogue**: "You killed three bandits with one explosive, poisoned two others to death with the gas trap, and your weapon poisons dealt massive damage."
+**You**: "Toxicologist gameplay. I started with 7 toxin vials and 5 contraption parts. I spent 1 part on caltrops, 2 parts on the poison gas trap. I spent 1 vial on paralytic poison for my weapon, 3 vials on the explosive concoction, 1 vial on necrotic poison, and 2 vials on an antidote."
+**Your Party's Mage**: "And the poison gas trap?"
+**You**: "Dealt 2d6 poison damage per turn for 3 turns to everyone in 15 feet. That's 9 damage per turn × 3 turns = 27 total poison damage to Bandits #4, #5, and the Leader. Bandit #4 also took 21 fire damage from the explosive, so he took 30 total damage from my abilities alone."
+**Your Party's Tank**: "And you recovered your contraption parts?"
+**You**: "Contraptions are reusable. I recover the parts after combat. Toxin vials regenerate 1d4 per short rest."
+
+**Final State**: Vials: 0/7 (will regain 1d4 on short rest) | Parts: 5/5 (recovered) | Mana: 40/50 | HP: 50/50
+
+**Damage Breakdown**:
+- Paralytic Poison (weapon): 5 poison damage to Bandit #1
+- Necrotic Poison (weapon): 7 necrotic damage to Bandit #1
+- Explosive Concoction: 21 fire damage × 3 bandits = 63 total fire damage
+- Poison Gas Trap: 9 poison damage/turn × 3 turns × 3 bandits = 81 total poison damage
+- Caltrops: 3 damage × 3 bandits = 9 total damage
+- **Grand Total**: ~165 damage from poisons, contraptions, and concoctions
+
+**The Lesson**: Toxicologist gameplay is about:
+1. **Contraption Deployment**: Placed caltrops (1 part) and poison gas trap (2 parts) before combat
+2. **Poison Application**: Applied paralytic poison (1 vial) and necrotic poison (1 vial) to weapon
+3. **Mid-Combat Crafting**: Crafted explosive concoction (3 vials) and antidote (2 vials) as bonus actions
+4. **Resource Management**: Started with 7 vials and 5 parts, spent all vials strategically
+5. **Contraption Recovery**: Recovered 3 parts after combat (contraptions are reusable)
+6. **Poison Synergy**: Poison gas trap dealt 27 damage over 3 turns to multiple enemies
+7. **Explosive Burst**: Explosive concoction dealt 21 damage to 3 grouped enemies (63 total)
+
+You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and adaptation. You deploy contraptions (caltrops, poison gas traps) to control enemy movement and deal damage. You apply poisons to your weapon (paralytic, necrotic) for enhanced attacks. You craft concoctions MID-COMBAT (explosives, antidotes) to adapt to the situation. The poison gas trap alone dealt 81 total damage over 3 turns. The explosive concoction killed 3 bandits in one throw. You're not a simple damage dealer—you're a TACTICAL ALCHEMIST who turns the battlefield into your laboratory.`
     }
   },
 

@@ -1486,17 +1486,17 @@
     display: flex;
     align-items: flex-start;
     background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 50%, #d4c4a0 100%);
-    border: 3px solid #8b7355;
-    border-radius: 8px;
-    padding: 10px;
+    border: 2.5px solid #8b7355;
+    border-radius: 6px;
+    padding: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    min-height: 80px; /* Base minimum height */
+    min-height: 70px; /* Base minimum height */
     height: auto; /* Allow dynamic height growth */
-    width: 280px;
+    width: 240px;
     box-shadow:
-        0 4px 8px rgba(0, 0, 0, 0.3),
+        0 3px 6px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.3),
         inset 0 -1px 0 rgba(0, 0, 0, 0.1);
     font-family: 'Bookman Old Style', 'Garamond', serif;
@@ -1506,7 +1506,7 @@
 
 /* Ensure frames with 4th resource bars get additional height */
 .party-member-frame.has-class-resource {
-    min-height: 100px; /* Increased minimum height when class resource bar is present */
+    min-height: 88px; /* Increased minimum height when class resource bar is present */
 }
 
 /* For complex class resource displays that need more space */
@@ -1518,7 +1518,7 @@
 .party-member-frame.class-plaguebringer,
 .party-member-frame.class-toxicologist,
 .party-member-frame.class-false-prophet {
-    min-height: 110px; /* Extra height for complex displays */
+    min-height: 96px; /* Extra height for complex displays */
 }
 
 .party-member-frame:hover {
@@ -1552,9 +1552,9 @@
 
 .party-portrait {
     position: relative;
-    width: 44px;
-    height: 44px;
-    margin-right: 10px;
+    width: 38px;
+    height: 38px;
+    margin-right: 8px;
     flex-shrink: 0;
 }
 
@@ -1568,7 +1568,7 @@
     align-items: center;
     justify-content: center;
     color: #f0e6d2;
-    font-size: 20px;
+    font-size: 18px;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
         inset 0 -1px 0 rgba(0, 0, 0, 0.3),
@@ -1617,7 +1617,7 @@
 }
 
 .member-name {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     color: #3a2f1f;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -1634,7 +1634,7 @@
 }
 
 .member-race-class {
-    font-size: 11px;
+    font-size: 10px;
     color: #5e4a32;
     font-weight: 600;
     line-height: 1.1;
@@ -1643,7 +1643,7 @@
 .member-alignment-exhaustion {
     display: flex;
     gap: 6px;
-    font-size: 9px;
+    font-size: 8px;
     line-height: 1.1;
 }
 
@@ -1681,10 +1681,10 @@
 /* Make resource bar styles specific to party HUD to avoid conflicts with class resource bars */
 .resource-bars-container .resource-bar:not(.class-resource-bar) {
     position: relative !important;
-    height: 12px !important;
+    height: 10px !important;
     background: linear-gradient(to bottom, #2a1f15, #1a0f0b) !important;
     border: 1px solid #8b7355 !important;
-    border-radius: 6px !important;
+    border-radius: 5px !important;
     overflow: hidden !important;
     box-shadow:
         inset 0 1px 2px rgba(0, 0, 0, 0.6),

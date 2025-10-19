@@ -87,72 +87,166 @@ export const CLASS_RESOURCE_TYPES = {
     },
 
     'Chronarch': {
-        id: 'continuumGauge',
-        name: 'Continuum Gauge',
-        shortName: 'CG',
-        type: 'gauge',
-        description: 'Temporal energy that builds to unlock time manipulation effects',
+        id: 'timeShardsStrain',
+        name: 'Time Shards & Temporal Strain',
+        shortName: 'TS/TS',
+        type: 'dual-resource',
+        description: 'Dual resource system: Time Shards (power) and Temporal Strain (risk)',
         visual: {
-            type: 'progress-bar',
-            count: 1,
-            arrangement: 'horizontal',
-            baseColor: '#2D1B69',
-            activeColor: '#9370DB',
-            glowColor: '#DDA0DD',
-            icon: '⏰',
-            effects: ['temporal', 'clockwork']
+            type: 'time-shards-strain',
+            timeShards: {
+                max: 10,
+                baseColor: '#1a4d6d',
+                activeColor: '#4FC3F7',
+                glowColor: '#81D4FA',
+                icon: '⏳',
+                effects: ['temporal', 'power']
+            },
+            temporalStrain: {
+                max: 10,
+                baseColor: '#424242',
+                // Dynamic colors based on strain level
+                strainColors: {
+                    safe: '#2E7D32',      // 0-2: Green
+                    caution: '#F9A825',   // 3-4: Yellow
+                    warning: '#FB8C00',   // 5-6: Orange
+                    danger: '#E53935',    // 7-8: Red
+                    critical: '#C62828',  // 9: Dark red
+                    backlash: '#B71C1C'   // 10: Crimson
+                },
+                glowColor: '#FF5252',
+                icon: '⚠️',
+                effects: ['risk', 'instability']
+            }
         },
         mechanics: {
-            max: 30,
-            current: 0,
-            regen: 1, // Gains 1 per turn
-            consumeVerb: 'manipulate',
-            gainVerb: 'accumulate'
+            timeShards: {
+                max: 10,
+                current: 0,
+                generation: '+1 per spell cast',
+                persistence: 'Carries between combats',
+                consumeVerb: 'spend',
+                gainVerb: 'generate'
+            },
+            temporalStrain: {
+                max: 10,
+                current: 0,
+                accumulation: '+1 to +5 per Temporal Flux ability',
+                decay: '-1 per turn if no Flux abilities used',
+                backlash: 'At 10: Lose next turn, take 10 damage, reset to 0',
+                consumeVerb: 'decay',
+                gainVerb: 'accumulate'
+            }
         },
         tooltip: {
-            title: '{current}/{max}',
-            description: 'Temporal energy for time manipulation effects',
-            showThresholds: true,
-            showEffects: true
-        },
-        thresholds: [
-            { value: 10, name: 'Minor Tempo', effects: ['Haste spells cost -1 mana'] },
-            { value: 20, name: 'Major Tempo', effects: ['Can cast Slow as bonus action'] },
-            { value: 30, name: 'Time Mastery', effects: ['Can cast Time Stop once per day'] }
-        ]
+            timeShards: {
+                title: 'Time Shards: {shards}/10',
+                sections: [
+                    {
+                        label: 'Generation',
+                        mechanics: [
+                            { text: '+1 per spell cast' },
+                            { text: 'Persists between combats' }
+                        ]
+                    },
+                    {
+                        label: 'Usage',
+                        mechanics: [
+                            { text: 'Spent on Temporal Flux abilities' },
+                            { text: 'Cost: 1-10 shards per ability' }
+                        ]
+                    }
+                ]
+            },
+            temporalStrain: {
+                title: 'Temporal Strain: {strain}/10',
+                sections: [
+                    {
+                        label: 'Accumulation',
+                        mechanics: [
+                            { text: '+1 to +5 per Temporal Flux ability' }
+                        ]
+                    },
+                    {
+                        label: 'Natural Decay',
+                        mechanics: [
+                            { text: '-1 per turn (if no Flux used)' }
+                        ]
+                    },
+                    {
+                        label: 'Temporal Backlash (at 10)',
+                        mechanics: [
+                            { text: 'Lose your next turn', emphasis: true },
+                            { text: 'Take 10 damage', emphasis: true },
+                            { text: 'Strain resets to 0' },
+                            { text: 'All temporal effects end' }
+                        ]
+                    }
+                ]
+            },
+            paradox: {
+                title: 'The Chronarch\'s Paradox',
+                description: 'Build Time Shards (power) by casting spells, but spending them on Temporal Flux adds Temporal Strain (risk). Balance power and safety by letting Strain decay between bursts of temporal manipulation.'
+            }
+        }
     },
 
     // TRICKSTER PATH
     'Chaos Weaver': {
-        id: 'entropyPoints',
-        name: 'Entropy Points',
-        shortName: 'EP',
-        type: 'entropy',
-        description: 'Chaotic energy that fuels unpredictable reality-bending magic',
+        id: 'mayhemModifiers',
+        name: 'Mayhem Modifiers',
+        shortName: 'MM',
+        type: 'mayhem',
+        description: 'Chaotic energy used to influence random spell outcomes and control unpredictability',
         visual: {
-            type: 'progress-bar', // Use standard horizontal bar like health/mana/AP
-            count: 'variable',
-            arrangement: 'horizontal',
-            baseColor: '#0F1B3C', // Dark blue base
-            activeColor: '#1E3A8A', // Deep blue fill
-            glowColor: '#3B82F6', // Bright blue glow
+            type: 'mayhem-modifiers',
+            count: 20, // Max 20 modifiers
+            arrangement: 'vortex-arc',
+            baseColor: '#4A0E4E', // Deep purple base
+            activeColor: '#9333EA', // Bright purple
+            glowColor: '#D946EF', // Magenta glow
+            vortexColor: '#7C3AED', // Violet vortex
             icon: '🌀',
-            effects: ['chaos', 'reality-distortion', 'chaotic-wave']
+            effects: ['chaos', 'reality-distortion', 'swirling-energy'],
+            specializations: {
+                'reality-bending': {
+                    color: '#9B59B6',
+                    particleColor: '#BB8FCE',
+                    theme: 'spatial'
+                },
+                'entropy-weaver': {
+                    color: '#E91E63',
+                    particleColor: '#F48FB1',
+                    theme: 'pure-chaos'
+                },
+                'pandemonium': {
+                    color: '#C2185B',
+                    particleColor: '#F06292',
+                    theme: 'wild-magic'
+                }
+            }
         },
         mechanics: {
-            max: 'calculated', // INT mod + level/5, minimum 5
+            max: 20, // Fixed max of 20 Mayhem Modifiers
             current: 0,
             regen: 0,
-            consumeVerb: 'weave',
-            gainVerb: 'harvest'
+            consumeVerb: 'spend',
+            gainVerb: 'generate'
         },
         tooltip: {
-            title: 'Entropy Points: {current}/{max}',
-            description: 'Chaotic energy for reality manipulation and unpredictable magic effects',
+            title: 'Mayhem Modifiers: {current}/{max}',
+            description: 'Spend modifiers to adjust random table results by ±1 per modifier. Generate through specific abilities.',
+            mechanics: [
+                'Each modifier adjusts table results by ±1',
+                'Max 20 modifiers can be stored',
+                'Generated through Chaotic Infusion, Wild Conduit, etc.',
+                'Spent to control chaos spell outcomes'
+            ],
+            tables: ['d20 Chaos Tables', 'd33 Wild Magic', 'd100 Pandemonium'],
             showDice: true,
             showChaos: true
         },
-        dice: ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100']
+        dice: ['d20', 'd33', 'd100']
     },
 
     'Fate Weaver': {
@@ -221,76 +315,96 @@ export const CLASS_RESOURCE_TYPES = {
 
     'Deathcaller': {
         id: 'necroticAscension',
-        name: 'Necrotic Ascension',
-        shortName: 'NA',
-        type: 'paths',
-        description: 'Seven paths of forbidden power, each granting boons but inflicting permanent curses',
+        name: 'Necrotic Ascension & Blood Tokens',
+        shortName: 'NA/BT',
+        type: 'ascension-blood',
+        description: 'Dual resource system: Necrotic Ascension Paths (permanent power/curses) and Blood Tokens (ticking time bomb)',
         visual: {
-            type: 'progress-bar',
-            count: 7,
-            arrangement: 'horizontal',
-            baseColor: '#1C1C1C',
-            activeColor: '#8B0000',
-            glowColor: '#DC143C',
-            icon: '💀',
-            effects: ['necrotic', 'blood', 'cursed']
+            type: 'ascension-blood',
+            ascensionPaths: {
+                max: 7,
+                baseColor: '#1a0d1a',
+                activeColor: '#8B0000',
+                glowColor: '#DC143C',
+                icon: '💀'
+            },
+            bloodTokens: {
+                max: 30, // Soft cap for display, no hard limit
+                baseColor: '#2d0a0a',
+                activeColor: '#B22222',
+                glowColor: '#FF4444',
+                warningColor: '#FF6B6B',
+                dangerColor: '#FF0000',
+                icon: '🩸'
+            }
         },
         mechanics: {
             max: 7, // 7 Ascension Paths
             current: 0,
+            bloodTokens: 0,
+            tokenTimer: 600, // 10 minutes in seconds
             regen: 0,
             consumeVerb: 'activate',
             gainVerb: 'unlock'
         },
         tooltip: {
-            title: 'Necrotic Ascension: {current}/7 Paths Active',
-            description: 'Activate paths for power, but suffer permanent curses',
+            title: 'Necrotic Ascension & Blood Tokens',
+            description: 'Activate paths for permanent power/curses. Generate Blood Tokens from HP sacrifice.',
             showPaths: true,
             showBoons: true,
-            showCurses: true
+            showCurses: true,
+            showTokens: true,
+            showTimer: true
         },
         paths: [
             {
                 name: 'Shrouded Veil',
                 level: 1,
-                boon: 'Resistance to necrotic damage + advantage on Stealth',
-                curse: '-10% max HP (perpetual shadow drain)'
+                boon: '+2d6 necrotic damage, advantage on Stealth',
+                curse: '-10 max HP (perpetual shadow drain)',
+                shortName: 'Veil'
             },
             {
                 name: 'Crimson Pact',
                 level: 3,
-                boon: 'Generate Blood Tokens from health sacrifice (1 HP = 1 Token)',
-                curse: 'Unused tokens burst after 10 min (1d10 per token)'
+                boon: 'Generate Blood Tokens (1 HP = 1 Token), tokens last 15 min',
+                curse: 'Tokens burst for 1d10 damage each if unused',
+                shortName: 'Pact'
             },
             {
                 name: 'Spectral Command',
                 level: 5,
-                boon: 'Spectral allies deal +1d6 necrotic damage',
-                curse: '-25 ft speed per spectral ally summoned'
+                boon: 'Summon 2 specters, +1d6 necrotic damage',
+                curse: 'Specters drain 1d4 HP/turn from you',
+                shortName: 'Spectral'
             },
             {
                 name: 'Frostwalker',
                 level: 7,
                 boon: 'Aura: 15ft radius, -10ft enemy speed, 1d4 cold/turn',
-                curse: '+50% fire damage taken (vulnerability)'
+                curse: '+50% fire damage taken (vulnerability)',
+                shortName: 'Frost'
             },
             {
                 name: 'Silent Shroud',
                 level: 9,
-                boon: 'Advantage on Stealth and silent movement',
-                curse: '-2 Perception (muffled senses)'
+                boon: 'Advantage on Stealth, silent movement',
+                curse: '-2 Perception (muffled senses)',
+                shortName: 'Silent'
             },
             {
                 name: 'Life Leech',
                 level: 11,
                 boon: 'Melee attacks restore 1d6 HP',
-                curse: '-5% max HP (unquenchable thirst)'
+                curse: '-5% max HP (unquenchable thirst)',
+                shortName: 'Leech'
             },
             {
                 name: 'Deep Void',
                 level: 13,
                 boon: '1/long rest: Negate any spell targeting you',
-                curse: '2d6 psychic damage when used (void consumption)'
+                curse: '2d6 psychic damage when used (void consumption)',
+                shortName: 'Void'
             }
         ],
         bloodTokens: {
@@ -298,8 +412,10 @@ export const CLASS_RESOURCE_TYPES = {
             description: 'Generated by sacrificing health, enhance necrotic spells',
             generation: '1 HP sacrificed = 1 Blood Token',
             usage: 'Spend tokens to add 1d6 necrotic damage per token',
-            expiration: '10 minutes',
-            burstDamage: '1d10 necrotic per unused token'
+            expiration: '10 minutes (15 with Crimson Pact)',
+            burstDamage: '1d10 necrotic per unused token',
+            warningThreshold: 10, // Show warning at 10+ tokens
+            dangerThreshold: 20 // Show danger at 20+ tokens
         }
     },
     // DIVINE PATH
@@ -692,36 +808,112 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
 };
 
 CLASS_RESOURCE_TYPES['Arcanoneer'] = {
-    id: 'elementSlots',
-    name: 'Element Slots',
-    shortName: 'ES',
-    type: 'elemental',
-    description: 'Elemental runes loaded into cannon chamber with volatility risk',
+    id: 'elementalSpheres',
+    name: 'Elemental Spheres',
+    shortName: 'Spheres',
+    type: 'spheres',
+    description: 'Roll 4d8 each turn to generate random elemental spheres that can be combined to cast spells',
     visual: {
-        type: 'progress-bar',
-        count: 6,
-        arrangement: 'horizontal',
-        baseColor: '#1F2F2F',
-        activeColor: '#FF6347',
-        glowColor: '#FFA500',
-        volatilityColor: '#DC143C',
-        icon: '💥',
-        effects: ['elemental', 'volatility']
+        type: 'elemental-spheres',
+        count: 8, // 2x4 grid for 8 element types
+        arrangement: 'grid',
+        layout: '2x4',
+        baseColor: 'rgba(255, 255, 255, 0.1)',
+        emptyColor: 'rgba(255, 255, 255, 0.05)',
+        icon: '🔮',
+        effects: ['elemental', 'combination', 'magicka']
     },
     mechanics: {
-        max: 6,
+        max: 'unlimited', // Can bank spheres (Runesmith limits to 12)
         current: 0,
-        volatility: 0,
+        spheres: [], // Array of element names: ['fire', 'fire', 'ice', 'healing']
+        generation: '4d8', // Roll 4d8 each turn
         regen: 0,
-        consumeVerb: 'fire',
-        gainVerb: 'load'
+        consumeVerb: 'combine',
+        gainVerb: 'generate'
     },
     tooltip: {
-        title: 'Elements: {current}/6 | Volatility: {volatility}%',
-        description: 'Elemental runes with explosion risk at high volatility',
-        showElements: true,
-        showVolatility: true
-    }
+        title: 'Elemental Spheres',
+        description: 'Magicka-inspired sphere combination system. Roll 4d8 each turn to generate random elemental spheres.',
+        showSpheres: true,
+        showBreakdown: true,
+        showCombinations: true
+    },
+    elements: [
+        {
+            id: 'arcane',
+            name: 'Arcane',
+            color: '#9370DB',
+            glowColor: '#BA9FE8',
+            d8Value: 1,
+            icon: 'fas fa-wand-magic-sparkles',
+            description: 'Raw magical force'
+        },
+        {
+            id: 'holy',
+            name: 'Holy',
+            color: '#FFD700',
+            glowColor: '#FFE55C',
+            d8Value: 2,
+            icon: 'fas fa-sun',
+            description: 'Divine radiance'
+        },
+        {
+            id: 'shadow',
+            name: 'Shadow',
+            color: '#1C1C1C',
+            glowColor: '#4A4A4A',
+            d8Value: 3,
+            icon: 'fas fa-moon',
+            description: 'Necrotic darkness'
+        },
+        {
+            id: 'fire',
+            name: 'Fire',
+            color: '#FF4500',
+            glowColor: '#FF6347',
+            d8Value: 4,
+            icon: 'fas fa-fire',
+            description: 'Burning flames'
+        },
+        {
+            id: 'ice',
+            name: 'Ice',
+            color: '#4169E1',
+            glowColor: '#6495ED',
+            d8Value: 5,
+            icon: 'fas fa-snowflake',
+            description: 'Freezing cold'
+        },
+        {
+            id: 'nature',
+            name: 'Nature',
+            color: '#32CD32',
+            glowColor: '#90EE90',
+            d8Value: 6,
+            icon: 'fas fa-leaf',
+            description: 'Thunder and vines'
+        },
+        {
+            id: 'healing',
+            name: 'Healing',
+            color: '#FFFF00',
+            glowColor: '#FFFFE0',
+            d8Value: 7,
+            icon: 'fas fa-heart',
+            description: 'Life energy'
+        },
+        {
+            id: 'chaos',
+            name: 'Chaos',
+            color: 'linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3)',
+            glowColor: '#FF00FF',
+            d8Value: 8,
+            icon: 'fas fa-random',
+            description: 'Unpredictable magic',
+            isGradient: true
+        }
+    ]
 };
 
 // HEXER PATH
@@ -858,7 +1050,7 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
     },
     tooltip: {
         title: 'Rage: {current}/100 | State: {state}',
-        description: 'Escalating fury with six Rage States. Overheat at 101+',
+        description: 'Escalating fury with six Rage States. Overheat at 101+. Use the button to +10, -10, or Set a value.',
         showRage: true,
         showState: true,
         showOverheatWarning: true
@@ -868,38 +1060,66 @@ CLASS_RESOURCE_TYPES['Berserker'] = {
             range: [0, 20],
             name: 'Smoldering',
             effects: ['Basic Strike', 'Defensive Stance'],
-            attackBonus: 0
+            attackBonus: 0,
+            bonuses: ['+1 to skill checks'],
+            penalties: []
         },
         {
             range: [21, 40],
             name: 'Frenzied',
             effects: ['Frenzied Slash', 'War Cry', '+1 attack rolls'],
-            attackBonus: 1
+            attackBonus: 1,
+            bonuses: ['+5 ft movement speed', '+1 damage on melee hits'],
+            penalties: ['-1 to ranged attack rolls']
         },
         {
             range: [41, 60],
             name: 'Primal',
             effects: ['Primal Roar', 'Bloodlust', '+2 attack rolls', 'Self-healing unlocked'],
-            attackBonus: 2
+            attackBonus: 2,
+            bonuses: ['+2 damage on melee hits', '1 HP lifesteal on crits'],
+            penalties: ['-1 Armor while raging']
         },
         {
             range: [61, 80],
             name: 'Carnage',
             effects: ['Carnage Strike', 'Raging Defense', '+3 attack rolls', 'Damage resistance'],
-            attackBonus: 3
+            attackBonus: 3,
+            bonuses: ['+3 damage on melee hits', 'Reduce incoming weapon damage by 1'],
+            penalties: ['Disadvantage on Stealth checks', '-2 to ranged attack rolls']
         },
         {
             range: [81, 100],
             name: 'Cataclysm',
             effects: ['Cataclysmic Blow', 'Unstoppable Force', '+4 attack rolls', 'Condition immunity'],
-            attackBonus: 4
+            attackBonus: 4,
+            bonuses: ['+4 damage on melee hits', 'Immune to being Frightened'],
+            penalties: ['Attackers gain +1 to hit you', 'On miss, take 1d4 recoil damage']
         },
         {
-            range: [101, 999],
+            range: [101, 124],
             name: 'Obliteration',
             effects: ['Obliterating Strike', 'Wrath of the Berserker', '+5 attack rolls', 'OVERHEAT IMMINENT'],
             attackBonus: 5,
+            bonuses: ['+5 damage on melee hits', 'Critical hits explode: +1d6 splash to adjacent enemies'],
+            penalties: ['-2 Armor', 'Attackers gain +2 to hit you'],
             warning: 'Must spend Rage this round or take 2d6 damage and reset to 0'
+        },
+        {
+            range: [125, 149],
+            name: 'Annihilation',
+            effects: ['Annihilating Fury', 'Unstoppable Rampage', '+6 attack rolls', 'CRITICAL OVERHEAT'],
+            attackBonus: 6,
+            bonuses: ['+6 damage on melee hits', '+10 ft movement speed', 'Crit range expanded by 1 on weapon dice', 'Advantage on Strength checks'],
+            penalties: ['-3 Armor', 'Attackers gain +3 to hit you', '-5 ft movement speed after rage ends', 'Take 1d6 damage at start of each turn']
+        },
+        {
+            range: [150, 999],
+            name: 'Apocalypse',
+            effects: ['Apocalyptic Wrath', 'Berserker God Mode', '+7 attack rolls', 'MAXIMUM OVERHEAT'],
+            attackBonus: 7,
+            bonuses: ['+8 damage on melee hits', '+15 ft movement speed', 'Crit range expanded by 2 on weapon dice', 'All melee attacks hit adjacent enemies', 'Immune to all conditions'],
+            penalties: ['-5 Armor', 'Attackers gain +4 to hit you', '-10 ft movement speed after rage ends', 'Take 2d6 damage at start of each turn', 'Cannot use ranged attacks']
         }
     ]
 };
@@ -1162,13 +1382,13 @@ CLASS_RESOURCE_TYPES['Covenbane'] = {
     type: 'charges',
     description: 'Dark energy accumulated from hunting evil magic users, tracked with a d6 (max 6)',
     visual: {
-        type: 'dice-tracker',
+        type: 'hexbreaker-charges',
         count: 6,
         arrangement: 'horizontal',
-        baseColor: '#1E1E2E',
-        activeColor: '#8B00FF',
-        glowColor: '#DA70D6',
-        icon: '⚡',
+        baseColor: '#2C2C2C',
+        activeColor: '#C0C0C0',
+        glowColor: '#E8E8E8',
+        icon: '⬢',
         effects: ['dark-energy', 'anti-magic'],
         diceType: 'd6'
     },
@@ -1205,7 +1425,7 @@ CLASS_RESOURCE_TYPES['Covenbane'] = {
     },
     tooltip: {
         title: 'Hexbreaker Charges: {current}/6',
-        description: 'Dark energy from hunting evil magic users. Higher charges = more power.',
+        description: 'Higher charges = more power.',
         showCharges: true,
         showPassiveBonuses: true,
         showNextThreshold: true
@@ -1232,29 +1452,59 @@ CLASS_RESOURCE_TYPES['Bladedancer'] = {
     type: 'dual-resource',
     description: 'Dual resource system: Momentum (combat rhythm) and Flourish (mastery tokens)',
     visual: {
-        type: 'dual-bar',
+        type: 'stance-flow',
         momentum: {
-            count: 10,
-            arrangement: 'horizontal',
-            baseColor: '#2C3E50',
+            max: 20,
+            baseColor: '#1a4d6d',
             activeColor: '#3498DB',
             glowColor: '#5DADE2',
-            icon: '⚡',
+            icon: 'fas fa-bolt',
             effects: ['flow', 'rhythm']
         },
         flourish: {
-            count: 5,
-            arrangement: 'horizontal',
+            max: 5,
             baseColor: '#34495E',
             activeColor: '#F39C12',
             glowColor: '#F8C471',
-            icon: '✦',
+            icon: 'fas fa-star',
             effects: ['mastery', 'finesse']
+        },
+        stances: {
+            'Flowing Water': {
+                icon: 'fas fa-water',
+                color: '#3498DB',
+                type: 'Defensive/Evasive'
+            },
+            'Striking Serpent': {
+                icon: 'fas fa-dragon',
+                color: '#27AE60',
+                type: 'Offensive/Precision'
+            },
+            'Whirling Wind': {
+                icon: 'fas fa-wind',
+                color: '#95A5A6',
+                type: 'AoE/Multi-target'
+            },
+            'Rooted Stone': {
+                icon: 'fas fa-mountain',
+                color: '#7F8C8D',
+                type: 'Defensive/Counter'
+            },
+            'Dancing Blade': {
+                icon: 'fas fa-bolt',
+                color: '#9B59B6',
+                type: 'Balanced/Hub'
+            },
+            'Shadow Step': {
+                icon: 'fas fa-user-ninja',
+                color: '#2C3E50',
+                type: 'Stealth/Burst'
+            }
         }
     },
     mechanics: {
         momentum: {
-            max: 10,
+            max: 20,
             current: 0,
             generation: {
                 hit: 1,
@@ -1300,7 +1550,7 @@ CLASS_RESOURCE_TYPES['Bladedancer'] = {
         }
     },
     tooltip: {
-        title: 'Momentum: {momentum}/10 | Flourish: {flourish}/5 | Stance: {stance}',
+        title: 'Momentum: {momentum}/20 | Flourish: {flourish}/5 | Stance: {stance}',
         description: 'Build Momentum through combat, earn Flourish through mastery',
         showMomentum: true,
         showFlourish: true,
@@ -1313,6 +1563,37 @@ CLASS_RESOURCE_TYPES['Bladedancer'] = {
         'Rooted Stone': ['Striking Serpent', 'Flowing Water'],
         'Dancing Blade': ['Flowing Water', 'Striking Serpent', 'Whirling Wind', 'Rooted Stone', 'Shadow Step'], // Can go anywhere
         'Shadow Step': ['Striking Serpent', 'Dancing Blade']
+    },
+    transitionCosts: {
+        'Flowing Water': {
+            'Striking Serpent': 2,
+            'Shadow Step': 2,
+            'Dancing Blade': 2
+        },
+        'Striking Serpent': {
+            'Whirling Wind': 2,
+            'Rooted Stone': 2,
+            'Flowing Water': 2
+        },
+        'Whirling Wind': {
+            'Dancing Blade': 3,
+            'Rooted Stone': 3
+        },
+        'Rooted Stone': {
+            'Striking Serpent': 2,
+            'Flowing Water': 2
+        },
+        'Dancing Blade': {
+            'Flowing Water': 4,
+            'Striking Serpent': 4,
+            'Whirling Wind': 4,
+            'Rooted Stone': 4,
+            'Shadow Step': 4
+        },
+        'Shadow Step': {
+            'Striking Serpent': 2,
+            'Dancing Blade': 2
+        }
     }
 };
 

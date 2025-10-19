@@ -50,6 +50,222 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Battlefield Control**: Using totems to create zones that enhance allies, debuff enemies, and control the flow of combat.
 
 **Adaptive Strategy**: Switching between offensive and defensive totem combinations based on the situation, from healing sanctuaries to elemental storms.`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Totem Circle',
+      content: `**The Setup**: You're a Primalist (Earthcaller specialization) facing a group of demons (5 lesser demons + 1 demon lord). Your party is with you. Starting Totems: None. Starting Mana: 50/60. Totemic Synergy: 0. Your goal: Place totems strategically, build Totemic Synergy, then activate powerful synergy effects when you have 4 totems active.
+
+**Starting State**: Totems: 0/8 | Totemic Synergy: 0 | Mana: 50/60 | HP: 55/55
+
+**Turn 1 - First Totems (Totems: 0 → 2, Synergy: 0 → 2)**
+
+*The demons charge. You kneel, pressing your hands to the earth. The spirits answer your call.*
+
+**Your Action**: Place Healing Totem (3 mana, 1 action)
+**Effect**: Totem appears, 10 ft radius, heals allies 1d6 HP per turn
+
+*A wooden totem carved with healing runes rises from the ground, glowing with green energy.*
+
+**Totems Active**: 1/8 (Healing Totem)
+**Totemic Synergy**: 0 + 1 (totem placed) = **1**
+**Mana**: 50 - 3 = 47/60
+
+**Your Action (Bonus Action)**: Place Guardian Totem (3 mana)
+**Effect**: Totem appears, 10 ft radius, grants allies shield absorbing 5 damage per attack
+
+*A stone totem etched with protective symbols rises beside the healing totem, radiating defensive energy.*
+
+**Totems Active**: 2/8 (Healing, Guardian)
+**Totemic Synergy**: 1 + 1 (totem placed) = **2**
+**Mana**: 47 - 3 = 44/60
+
+**Healing Totem Effect**: All allies within 10 ft heal 1d6 → [5] = 5 HP
+**Guardian Totem Effect**: All allies within 10 ft gain 5-damage shield
+
+**Your Party's Tank**: "I feel... stronger. Protected."
+**You**: "The spirits watch over us. Two totems active. I need four for synergy."
+
+**Current State**: Totems: 2/8 | Synergy: 2 | Mana: 44/60
+
+**Turn 2 - Building the Circle (Totems: 2 → 4, Synergy: 2 → 6)**
+
+*The demons attack. Your tank takes a hit for 12 damage, but the Guardian shield absorbs 5, reducing it to 7. The Healing Totem pulses, healing everyone for 5 HP.*
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 2 + 2 (2 totems active) = **4**
+
+**Your Action**: Place Earth Totem (3 mana)
+**Effect**: Totem appears, 10 ft radius, grants +2 AC and resistance to non-magical damage
+
+*A massive stone totem erupts from the ground, its surface covered in earth runes. The ground trembles.*
+
+**Totems Active**: 3/8 (Healing, Guardian, Earth)
+**Totemic Synergy**: 4 + 1 (totem placed) = **5**
+**Mana**: 44 - 3 = 41/60
+
+**Your Action (Bonus Action)**: Place Rejuvenation Totem (3 mana)
+**Effect**: Totem appears, 10 ft radius, heals allies 1d4 HP at start of their turn
+
+*A living wood totem sprouts from the earth, vines wrapping around it, pulsing with life energy.*
+
+**Totems Active**: 4/8 (Healing, Guardian, Earth, Rejuvenation) → **SYNERGY THRESHOLD REACHED!**
+**Totemic Synergy**: 5 + 1 (totem placed) = **6**
+**Mana**: 41 - 3 = 38/60
+
+*The four totems RESONATE. Their energies intertwine, creating a CIRCLE OF POWER.*
+
+**Synergy Available**: "Healing Sanctuary" (Healing + Rejuvenation + Guardian + Earth)
+**Effect**: Heals allies for +1d6 HP, reduces damage taken by 50%, lasts 2 turns
+
+**Your Party's Mage**: "The totems... they're glowing together!"
+**You**: "Four totems. The circle is complete. I can activate Healing Sanctuary now."
+
+**Current State**: Totems: 4/8 | Synergy: 6 | Mana: 38/60
+
+**Turn 3 - Activating Synergy (Synergy: 6 → 0)**
+
+*The demons continue their assault. But you have four totems. Time to activate the synergy.*
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 6 + 4 (4 totems active) = **10**
+
+**Your Action**: Activate "Healing Sanctuary" Synergy (costs 6 Synergy)
+**Required Totems**: Healing, Rejuvenation, Guardian, Earth (all present ✓)
+**Effect**: Heals allies for +1d6 HP per turn, reduces damage taken by 50%, lasts 2 turns
+
+*You raise your staff. The four totems BLAZE with power. Their energies merge into a SANCTUARY.*
+
+**Totemic Synergy**: 10 - 6 (synergy cost) = **4**
+
+**Healing Sanctuary Active**: 2 turns remaining
+**Effect**: All allies within totem range (10 ft) gain:
+- +1d6 HP per turn (from synergy)
+- +1d6 HP per turn (from Healing Totem)
+- +1d4 HP per turn (from Rejuvenation Totem)
+- 50% damage reduction (from synergy)
+- 5-damage shield per attack (from Guardian Totem)
+- +2 AC (from Earth Totem)
+- Resistance to non-magical damage (from Earth Totem)
+
+*A dome of golden-green energy surrounds your party. The totems hum with power.*
+
+**Your Party's Tank**: Takes hit from demon → 15 damage → Reduced by 50% (synergy) = 7 damage → Shield absorbs 5 = **2 damage taken**
+**Healing**: Tank heals 1d6 + 1d6 + 1d4 → [5] + [6] + [3] = **14 HP healed**
+
+**Your Party's Healer**: "We're... we're invincible! The demons can't hurt us!"
+**You**: "The Healing Sanctuary. Four totems working as one. This is the power of synergy."
+
+**Current State**: Totems: 4/8 | Synergy: 4 | Mana: 38/60 | Healing Sanctuary: 2 turns
+
+**Turn 4 - Maintaining the Sanctuary (Synergy: 4 → 8)**
+
+*The demons attack furiously, but the Healing Sanctuary makes your party nearly invincible. Damage is reduced by 50%, shields absorb hits, and massive healing keeps everyone topped off.*
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 4 + 4 (4 totems active) = **8**
+
+**Healing Sanctuary**: 1 turn remaining
+
+**Demon Lord's Turn**: Attacks your tank → 25 damage → Reduced by 50% = 12 damage → Shield absorbs 5 = **7 damage taken**
+**Healing**: Tank heals 1d6 + 1d6 + 1d4 → [6] + [5] + [4] = **15 HP healed**
+
+*Your tank takes 7 damage, then heals 15 HP. Net result: +8 HP.*
+
+**Your Party's Tank**: "I'm GAINING health while being attacked!"
+**You**: "That's the power of the totems. The spirits protect us."
+
+**Your Action**: Cast "Primal Strike" at Demon Lord (8 mana)
+**Attack Roll**: d20+6 → [17] = Hit!
+**Damage**: 3d8 nature → [7, 6, 8] = **21 nature damage**
+
+**Mana**: 38 - 8 = 30/60
+
+**Your Party's Mage**: Casts Fireball → 40 damage to 3 demons → 2 demons DEAD
+
+**Current State**: Totems: 4/8 | Synergy: 8 | Mana: 30/60 | Healing Sanctuary: 1 turn
+
+**Turn 5 - Sanctuary Ends, Totems Remain (Synergy: 8 → 12)**
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 8 + 4 (4 totems active) = **12**
+
+**Healing Sanctuary**: Expires (2 turns elapsed)
+
+*The golden-green dome fades. But the totems remain, still providing their individual benefits.*
+
+**Active Totem Effects** (still active):
+- Healing Totem: +1d6 HP per turn
+- Rejuvenation Totem: +1d4 HP per turn
+- Guardian Totem: 5-damage shield per attack
+- Earth Totem: +2 AC, resistance to non-magical damage
+
+**Your Action**: Place Flamecaller Totem (3 mana)
+**Effect**: Totem appears, 10 ft radius, adds 1d6 fire damage to allies' weapon attacks
+
+*A totem wreathed in flames rises from the ground, crackling with fire.*
+
+**Totems Active**: 5/8 (Healing, Guardian, Earth, Rejuvenation, Flamecaller)
+**Totemic Synergy**: 12 + 1 (totem placed) = **13**
+**Mana**: 30 - 3 = 27/60
+
+**Your Party's Tank**: Attacks Demon Lord (has Flamecaller bonus)
+**Attack Roll**: [18] = Hit!
+**Damage**: 2d8+5 → [7, 6] + 5 = 18 damage
+**Flamecaller Bonus**: +1d6 fire → [5] = +5 fire damage
+**Total Damage**: 18 + 5 = **23 damage!**
+
+*The tank's sword BLAZES with fire from the Flamecaller Totem.*
+
+**Current State**: Totems: 5/8 | Synergy: 13 | Mana: 27/60
+
+**Turn 6 - Finishing the Fight**
+
+*Three demons remain: Demon Lord + 2 lesser demons. Your party is fully healed and buffed.*
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 13 + 5 (5 totems active) = **18**
+
+**Your Party's Rogue**: Sneak attacks Lesser Demon → +1d6 fire (Flamecaller) → DEAD
+**Your Party's Mage**: Casts Lightning Bolt → Lesser Demon DEAD
+
+**Only Demon Lord remains**
+
+**Your Action**: Cast "Earthen Wrath" at Demon Lord (10 mana)
+**Effect**: 4d10 nature damage + stun (DC 15 save)
+**Damage**: 4d10 → [9, 8, 7, 10] = **34 nature damage**
+**Save**: [11] → FAIL! → Stunned for 1 round
+
+**Mana**: 27 - 10 = 17/60
+
+**Your Party's Tank**: Attacks stunned Demon Lord (advantage, +1d6 fire)
+**Attack Roll**: d20+6 with advantage → [19, 14] → Take 19 = Hit!
+**Damage**: 2d8+5 + 1d6 fire → [8, 7] + 5 + [6] = **26 damage**
+**Result**: Demon Lord DEAD
+
+**Combat Over**
+
+*You dismiss the totems. They sink back into the earth, their work done.*
+
+**Your Party's Healer**: "We barely took any damage. That Healing Sanctuary... we were healing faster than they could hurt us."
+**You**: "I placed four totems: Healing, Guardian, Earth, Rejuvenation. When all four were active, I activated Healing Sanctuary synergy. It cost 6 Totemic Synergy and lasted 2 turns. During those turns, we had +1d6 HP/turn from synergy, +1d6 from Healing Totem, +1d4 from Rejuvenation Totem, 50% damage reduction, shields, and +2 AC."
+**Your Party's Tank**: "And the fire damage on my sword?"
+**You**: "Flamecaller Totem. I placed it after the sanctuary ended. It added +1d6 fire damage to all weapon attacks within 10 feet."
+**Your Party's Mage**: "How much Totemic Synergy did you have at the end?"
+**You**: "Eighteen. Each totem placed generates +1 Synergy. Each turn a totem is active generates +1 Synergy per totem. I had 5 totems active for multiple turns, so Synergy built up quickly."
+
+**Final State**: Totems: 0/8 (dismissed) | Synergy: 18 | Mana: 17/60 | HP: 55/55
+
+**The Lesson**: Primalist gameplay is about:
+1. **Totem Placement**: Placed 5 totems total (Healing, Guardian, Earth, Rejuvenation, Flamecaller)
+2. **Synergy Building**: Each totem placed = +1 Synergy, each totem active per turn = +1 Synergy
+3. **Synergy Activation**: Activated Healing Sanctuary (required 4 specific totems, cost 6 Synergy)
+4. **Sanctuary Power**: 50% damage reduction + massive healing (1d6 + 1d6 + 1d4 = ~11 HP/turn)
+5. **Damage Mitigation**: Tank took 15 damage → reduced to 7 → shield absorbed 5 → only 2 damage taken
+6. **Totem Stacking**: Individual totem effects stack (Healing + Rejuvenation + Guardian + Earth all active simultaneously)
+7. **Synergy Economy**: Started with 0, built to 18 by maintaining multiple totems over multiple turns
+
+You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that provide individual benefits, then when you have 4 totems active, you activate SYNERGIES that combine their powers into devastating effects. Healing Sanctuary made your party nearly invincible—50% damage reduction, massive healing, shields, and AC bonuses all at once. The key is strategic totem placement, building Totemic Synergy, and activating synergies at critical moments. Each totem is a spirit ally. Together, they create SANCTUARIES OF POWER.`
     }
   },
   
@@ -57,9 +273,186 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
   resourceSystem: {
     title: 'Totemic Synergy System',
     subtitle: 'Harmonizing Primal Forces Through Sacred Totems',
-    
+
     description: `Totemic Synergy measures the Primalist's ability to harmonize the effects of their totems. When totems are placed and maintained in strategic positions, they create powerful combined effects. The Primalist must carefully plan and manage their totems to maximize these synergistic outcomes.`,
-    
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Totemic Synergy Interface',
+      content: `**What You See**: The Primalist's interface displays a TOTEM CIRCLE with 8 totem slots arranged in a circle, showing which totems are active and their status. In the center, a SYNERGY COUNTER shows your accumulated Totemic Synergy. When you have 4+ totems active, available synergy combinations are highlighted. The battlefield shows totem positions with glowing radius indicators.
+
+**TOTEM CIRCLE DISPLAY** (Main Interface):
+
+**Circle Layout**:
+- **8 Totem Slots**: Arranged in a circle, one for each totem type
+- **Active Totems**: Glow brightly when placed on battlefield
+- **Inactive Slots**: Grayed out, showing totem type but not active
+- **Center Synergy Counter**: Large number showing Totemic Synergy (0-99+)
+- **Connecting Lines**: When 4+ totems active, lines connect them showing synergy potential
+
+**Totem Slot Visualization**:
+
+**Healing Totem (Top Position)**:
+- **Icon**: Green wooden totem with healing runes
+- **Inactive**: Gray outline, "Healing Totem (Not Placed)"
+- **Active**: Glowing green, "Healing Totem (Active)" with pulsing aura
+- **Effect Display**: "Heals 1d6 HP/turn (10 ft radius)"
+- **HP Bar**: Shows totem health "10/10 HP"
+
+**Guardian Totem (Top-Right Position)**:
+- **Icon**: Stone totem with shield symbols
+- **Active**: Glowing blue-gray, pulsing protective energy
+- **Effect Display**: "5-damage shield per attack (10 ft radius)"
+
+**Flamecaller Totem (Right Position)**:
+- **Icon**: Flaming totem wreathed in fire
+- **Active**: Glowing red-orange, flames dancing
+- **Effect Display**: "+1d6 fire damage to weapon attacks (10 ft radius)"
+
+**Storm Totem (Bottom-Right Position)**:
+- **Icon**: Totem crackling with lightning
+- **Active**: Glowing electric blue, sparks flying
+- **Effect Display**: "+1 spell attack/save DC (10 ft radius)"
+
+**Rejuvenation Totem (Bottom Position)**:
+- **Icon**: Living wood totem with vines
+- **Active**: Glowing vibrant green, vines growing
+- **Effect Display**: "Heals 1d4 HP at turn start (10 ft radius)"
+
+**Earth Totem (Bottom-Left Position)**:
+- **Icon**: Massive stone totem with earth runes
+- **Active**: Glowing brown-gold, ground trembling
+- **Effect Display**: "+2 AC, resist non-magical damage (10 ft radius)"
+
+**Frost Totem (Left Position)**:
+- **Icon**: Ice-covered totem with frost crystals
+- **Active**: Glowing icy blue, frost spreading
+- **Effect Display**: "Enemies -10 ft speed (10 ft radius)"
+
+**Wind Totem (Top-Left Position)**:
+- **Icon**: Totem with swirling wind patterns
+- **Active**: Glowing white-silver, wind swirling
+- **Effect Display**: "Allies +10 ft speed, adv Dex saves (10 ft radius)"
+
+**Synergy Counter (Center of Circle)**:
+- **Display**: Large glowing number "18 Synergy"
+- **Color Coding**:
+  * 0-5 Synergy: Gray (low)
+  * 6-11 Synergy: Blue (moderate, can activate synergy)
+  * 12-19 Synergy: Green (high)
+  * 20+ Synergy: Gold (maximum)
+- **Generation Rate**: "+5/turn (5 totems active)" shown below counter
+
+**Totem Placement Animation**:
+When you place a totem:
+- **Casting**: "Place Healing Totem (3 mana)" cast
+- **Ground Effect**: Earth cracks, totem RISES from ground
+- **Totem Appearance**: Wooden/stone totem materializes, glowing with power
+- **Radius Indicator**: 10 ft circle appears on ground around totem (green for allies)
+- **Slot Update**: Totem slot in circle LIGHTS UP, changes from gray to glowing
+- **Synergy Gain**: "+1 Synergy (Totem Placed)" notification
+- **Audio**: Deep earth rumble, totem activation sound (varies by type)
+- **Text Notification**: "Healing Totem Placed (10 ft radius)"
+
+**Active Totem Display on Battlefield**:
+- **Totem Model**: 3D totem appears on battlefield at placement location
+- **Radius Circle**: 10 ft glowing circle on ground (green for allies, red for enemies)
+- **Effect Particles**: Healing totems have green particles, Flamecaller has fire, etc.
+- **HP Bar**: Small HP bar above totem "10/10 HP"
+- **Pulsing Effect**: Totem pulses each turn when effect triggers
+
+**Synergy Generation**:
+
+**Per Turn** (automatic):
+- **Each Active Totem**: +1 Synergy per totem per turn
+- **Example**: 5 totems active = +5 Synergy per turn
+- **Counter Update**: "18 → 23 Synergy (+5 from 5 totems)"
+- **Visual**: Synergy counter glows, number increases with animation
+
+**Per Placement**:
+- **Totem Placed**: +1 Synergy immediately
+- **Visual**: Energy flows from totem to center synergy counter
+
+**Synergy Activation Interface**:
+
+**4 Totems Active** (Synergy Threshold):
+- **Connecting Lines**: Lines appear connecting the 4 active totems in the circle
+- **Synergy Buttons**: Available synergies appear as buttons below the circle
+- **Example**: "Healing Sanctuary (6 Synergy)" button glows gold
+
+**Healing Sanctuary Button**:
+- **Icon**: Combined icon of Healing + Rejuvenation + Guardian + Earth totems
+- **Status**: "AVAILABLE" (green) if you have all 4 required totems + 6 Synergy
+- **Status**: "MISSING TOTEMS" (red) if missing required totems
+- **Status**: "INSUFFICIENT SYNERGY" (orange) if have totems but not enough Synergy
+- **Cost Display**: "Requires: 6 Synergy"
+- **Required Totems**: Shows icons of Healing, Rejuvenation, Guardian, Earth
+- **Effect Preview**: "Heals +1d6 HP/turn, 50% damage reduction, 2 turns"
+
+**Synergy Activation Animation**:
+When you activate a synergy:
+- **Button Press**: Click "Healing Sanctuary" button
+- **Synergy Drain**: Counter decreases "18 → 12 Synergy (-6)"
+- **Totem Resonance**: All 4 required totems GLOW BRIGHTLY, pulsing in unison
+- **Energy Convergence**: Energy beams shoot from totems to center, then EXPLODE outward
+- **Sanctuary Formation**: Golden-green dome appears, covering all allies in totem range
+- **Audio**: Powerful harmonic resonance, all 4 totem sounds blending
+- **Text Notification**: "HEALING SANCTUARY ACTIVATED! (2 turns remaining)"
+- **Screen Effect**: Brief golden flash, sanctuary dome visible
+
+**Active Synergy Display**:
+When synergy is active:
+- **Synergy Icon**: Large icon appears on HUD "Healing Sanctuary (2 turns)"
+- **Effect List**: Shows all active effects
+  * "+1d6 HP/turn (Synergy)"
+  * "50% Damage Reduction (Synergy)"
+  * "+1d6 HP/turn (Healing Totem)"
+  * "+1d4 HP/turn (Rejuvenation Totem)"
+  * "5-damage shield (Guardian Totem)"
+  * "+2 AC (Earth Totem)"
+- **Duration Countdown**: "2 turns → 1 turn → Expired"
+- **Visual**: Dome pulses, allies inside have golden-green aura
+
+**Totem Damage/Destruction**:
+When enemy attacks a totem:
+- **Attack Animation**: Enemy strikes totem
+- **Damage Number**: "-5 HP" appears above totem
+- **HP Bar Update**: "10/10 → 5/10 HP"
+- **Warning**: "⚠️ Healing Totem taking damage!"
+- **Destruction**: If HP reaches 0, totem SHATTERS, slot goes gray
+- **Synergy Loss**: If synergy was active and required that totem, synergy BREAKS
+- **Text Notification**: "Healing Totem DESTROYED! Healing Sanctuary disrupted!"
+
+**Totem Repositioning**:
+When you reposition a totem (bonus action):
+- **Selection**: Click totem on battlefield
+- **Movement**: Drag totem to new location
+- **Radius Preview**: New 10 ft radius shown before confirming
+- **Confirmation**: Click to place, totem SINKS into ground at old location, RISES at new location
+- **Audio**: Earth rumble, totem movement sound
+- **Text**: "Healing Totem repositioned"
+
+**Multiple Totem Stacking**:
+When you have multiple totems active:
+- **Buff Icons**: All totem effects shown as buff icons on allies
+  * Green cross (Healing)
+  * Blue shield (Guardian)
+  * Red flame (Flamecaller)
+  * Brown stone (Earth)
+  * Green leaf (Rejuvenation)
+- **Stacking Display**: "5 Totem Buffs Active"
+- **Combined Effects**: All effects apply simultaneously
+
+**Synergy Combinations Display**:
+Shows all possible synergies:
+- **Healing Sanctuary**: Healing, Rejuvenation, Guardian, Earth (defensive)
+- **Elemental Fury**: Flamecaller, Storm, Frost, Wind (offensive)
+- **Protective Bastion**: Guardian, Earth, Frost, Wind (tank)
+- **Storm of Wrath**: Flamecaller, Storm, Frost, Healing (hybrid)
+- **Vital Grove**: Healing, Rejuvenation, Guardian, Wind (mobility + healing)
+
+**Why This Matters**: The Totem Circle interface makes you FEEL like a shaman commanding spirits. When you place a totem and it RISES from the ground with a deep rumble, the slot in your circle LIGHTS UP, and "+1 Synergy" appears—you're building power. When you have 4 totems active and the connecting lines appear between them, showing "Healing Sanctuary AVAILABLE", you KNOW you can unleash it. When you activate the synergy and all 4 totems GLOW in unison, energy beams converge, and a golden-green DOME surrounds your party—you're witnessing the spirits working together. The battlefield view shows each totem with its glowing radius, so you can see exactly who's in range. When your tank takes 15 damage but it's reduced to 2 by the sanctuary, then heals 14 HP from multiple totems, you SEE the power of synergy. The synergy counter building from 0 to 18 over multiple turns shows your growing power. You're not just casting spells—you're CONDUCTING A SYMPHONY OF SPIRITS.`
+    },
+
     mechanics: {
       title: 'Core Mechanics',
       content: `**Totem Placement**: The Primalist can place up to 8 different types of totems on the battlefield. Each totem has a 10-foot radius of effect unless otherwise specified.

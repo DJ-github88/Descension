@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
+import ClassResourceBar from '../hud/ClassResourceBar';
 import './ClassDetailDisplay.css';
 
 /**
@@ -575,7 +576,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     } else if (classData.id === 'bladedancer') {
       // Group by specialization
       spellsByCategory = {
-        'Blade Dancer - Rapid Transitions': exampleSpells.filter(s => s.specialization === 'blade-dancer'),
+        'Flow Master - Rapid Transitions': exampleSpells.filter(s => s.specialization === 'blade-dancer'),
         'Duelist - Precision & Counter': exampleSpells.filter(s => s.specialization === 'duelist'),
         'Shadow Dancer - Stealth & Burst': exampleSpells.filter(s => s.specialization === 'shadow-dancer'),
         'Universal Abilities': exampleSpells.filter(s => s.specialization === 'universal')
@@ -763,6 +764,23 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           <div className="class-header-meta">
             <span className="class-role"><i className="fas fa-shield-alt"></i> {classData.role}</span>
           </div>
+        </div>
+        {/* Resource Bar in Header */}
+        <div className="class-header-resource">
+          <ClassResourceBar
+            characterClass={classData.name}
+            classResource={{
+              current: classData.name === 'Berserker' ? 65 :
+                       classData.name === 'Chaos Weaver' ? 12 :
+                       classData.name === 'Covenbane' ? 4 : 0,
+              max: classData.name === 'Berserker' ? 100 :
+                   classData.name === 'Chaos Weaver' ? 20 :
+                   classData.name === 'Covenbane' ? 6 : 0,
+              spheres: []
+            }}
+            size="large"
+            isGMMode={false}
+          />
         </div>
       </div>
 

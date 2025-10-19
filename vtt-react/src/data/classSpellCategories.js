@@ -256,22 +256,22 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Arcane Path',
     specializations: [
       {
-        id: 'elementalist',
-        name: 'Elementalist',
+        id: 'prism_mage',
+        name: 'Prism Mage',
         description: 'Master of pure element combinations and elemental specialization',
         color: '#FF4500',
         icon: 'spell_fire_flamebolt'
       },
       {
-        id: 'chaosweaver',
-        name: 'Chaosweaver',
+        id: 'entropy_weaver',
+        name: 'Entropy Weaver',
         description: 'Embraces randomness and chaos magic for explosive unpredictable power',
         color: '#9400D3',
         icon: 'spell_shadow_charm'
       },
       {
-        id: 'runesmith',
-        name: 'Runesmith',
+        id: 'sphere_architect',
+        name: 'Sphere Architect',
         description: 'Precise sphere manipulation and tactical control specialist',
         color: '#4169E1',
         icon: 'inv_misc_rune_01'

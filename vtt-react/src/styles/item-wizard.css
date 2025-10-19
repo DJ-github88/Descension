@@ -6453,7 +6453,7 @@ h4 {
 }
 
 /* Tooltip Content */
-.tooltip-header {
+.step-tooltip .tooltip-header {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -6462,7 +6462,7 @@ h4 {
     margin-bottom: 6px;
 }
 
-.tooltip-icon {
+.step-tooltip .tooltip-icon {
     width: 24px;
     height: 24px;
     border-radius: 3px;

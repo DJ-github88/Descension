@@ -15,7 +15,20 @@ export const ARCANONEER_DATA = {
   overview: {
     title: 'The Arcanoneer',
     subtitle: 'Master of Elemental Sphere Combination',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Arcanoneer is a versatile spellcaster who rolls 4d8 each turn to generate random elemental spheres (Arcane, Holy, Shadow, Fire, Ice, Nature, Healing, Chaos). You combine 2, 3, or 4 spheres to cast spells using a combination matrix—like mixing chemical elements to create reactions. You can save spheres between turns to build toward powerful combinations, but all spheres are lost when combat ends.
+
+**Core Mechanic**: Roll 4d8 → Get random spheres → Combine them to cast spells → Adapt to any situation
+
+**Resource**: Elemental Spheres (generated randomly each turn, can be banked during combat)
+
+**Playstyle**: Highly adaptive, requires system mastery, RNG-dependent but strategically controllable
+
+**Best For**: Players who enjoy improvisation, combo systems, and adapting to randomness`
+    },
+
     description: `The Arcanoneer is a master of runes and arcane engineering, capable of combining different elemental spheres to create a vast array of magical effects. Unlike traditional spellcasters who memorize specific spells, Arcanoneers harness raw elemental energy that manifests randomly each turn, then combine these spheres in creative ways to craft spells, gadgets, and traps on the fly. This system provides immense versatility and strategic depth, allowing the Arcanoneer to adapt to any situation.`,
     
     roleplayIdentity: {
@@ -81,6 +94,59 @@ Each turn, you roll 4d8 to generate your elemental spheres. You then decide:
 - Knowing when to save vs. spend spheres
 - Recognizing powerful 3 and 4-sphere recipes
 - Adapting combinations to enemy weaknesses`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Siege of Thornwall Keep',
+      content: `**The Setup**: You and your party are defending Thornwall Keep against a wave of undead. Three skeletal warriors advance on your position while a necromancer channels dark energy from the rear. Your allies are engaged—you need to act fast.
+
+**Turn 1 - Opening Salvo**
+
+*You close your eyes and reach into the elemental currents, feeling the raw magic coalesce around you. Your fingers trace patterns in the air as you roll your fate dice...*
+
+**Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Ice, Healing
+
+*Two orbs of crackling flame materialize in your left hand, while frost crystals form in your right. A soft golden glow pulses at your chest—healing energy, waiting to be shaped.*
+
+**Your Decision**: The skeletal warriors are clustered together—perfect for area damage. You decide to combine Fire + Fire for a pure flame blast.
+
+*"Ignis multiplicare!"* you shout, slamming your palms together. The two fire spheres merge into a roiling ball of flame that you hurl at the skeletons. The explosion engulfs all three, their bones blackening and cracking from the intense heat.
+
+**Result**: Cast "Flame Burst" (Fire + Fire) for 3d6 fire damage to all three skeletons. You still have Ice and Healing spheres banked for next turn.
+
+**Turn 2 - Tactical Adaptation**
+
+*The necromancer raises his staff, dark energy swirling. You need to disrupt his casting while keeping your defensive options open.*
+
+**Roll 4d8**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
+
+*New spheres manifest: a sphere of pure arcane force, a writhing shadow orb, crackling nature energy, and a wildly fluctuating chaos sphere. Combined with your banked Ice and Healing from last turn, you now have 6 spheres total.*
+
+**Your Decision**: You could save everything for a massive 4-sphere ultimate next turn, but the necromancer needs to be stopped NOW. You combine Arcane + Shadow for a disruptive force blast.
+
+*You weave the arcane and shadow spheres together, creating a bolt of void energy that streaks toward the necromancer. It strikes his staff, disrupting his channeling and causing him to stumble backward.*
+
+**Result**: Cast "Void Bolt" (Arcane + Shadow) for 2d8 force damage and interrupt his spell. You still have Ice, Healing, Nature, and Chaos banked (4 spheres total).
+
+**Turn 3 - The Ultimate Combination**
+
+*One skeleton remains, but it's badly damaged. The necromancer is preparing another spell. This is your moment.*
+
+**Roll 4d8**: [2, 4, 5, 6] → Holy, Fire, Ice, Nature
+
+*Divine light, flame, frost, and nature energy join your existing spheres. You now have 8 spheres total: Ice, Healing, Nature, Chaos, Holy, Fire, Ice, Nature.*
+
+**Your Decision**: You have the components for "Elemental Cataclysm" (Fire + Ice + Nature + Holy)—a devastating 4-sphere ultimate that combines all four primal elements.
+
+*You raise both hands to the sky, and all four spheres orbit around you in a complex pattern. Fire and ice spiral together, nature energy intertwines with holy light. The elements shouldn't mix—they should cancel each other out—but your mastery forces them into harmony.*
+
+*"ELEMENTUM CATACLYSMOS!"*
+
+*The four spheres collapse into a single point above your head, then explode outward in a prismatic wave of elemental fury. Fire burns, ice freezes, nature vines entangle, and holy light sears the undead flesh.*
+
+**Result**: Cast "Elemental Cataclysm" (Fire + Ice + Nature + Holy) for 6d10 mixed elemental damage to all enemies in a 30-foot radius. The remaining skeleton is obliterated, and the necromancer is blasted off the battlements.
+
+**The Lesson**: This is the Arcanoneer's power—adapting to each moment, banking resources for the perfect combination, and unleashing devastating elemental fury when the moment is right. Every turn is a puzzle, every roll is an opportunity, and mastery comes from knowing which pieces fit together.`
     }
   },
   
@@ -88,35 +154,79 @@ Each turn, you roll 4d8 to generate your elemental spheres. You then decide:
   resourceSystem: {
     title: 'Sphere Generation & Elemental Combination',
     subtitle: 'Dynamic Spell Crafting System',
-    
-    description: `The Arcanoneer's power comes from generating random elemental spheres each turn and combining them to create spells. This system is inspired by Magicka's element combination mechanics, where different element pairings create unique magical effects.`,
-    
+
+    description: `The Arcanoneer's power comes from generating random elemental spheres each turn and combining them to create spells. This system is inspired by Magicka's element combination mechanics, where different element pairings create unique magical effects. Unlike traditional mana-based casters, your limiting factor isn't just mana—it's which spheres you have available and how creatively you can combine them.`,
+
+    resourceBarExplanation: {
+      title: 'Understanding Your Resource Bar',
+      content: `**What You See**: Your Arcanoneer resource bar displays your currently banked elemental spheres as colored orbs, each representing one of the eight elements. Unlike other classes with a single resource pool, you're managing multiple different "currencies" simultaneously.
+
+**Visual Representation**:
+- **Arcane Spheres**: Purple orbs with swirling energy
+- **Holy Spheres**: Golden orbs radiating light
+- **Shadow Spheres**: Dark orbs with wisps of darkness
+- **Fire Spheres**: Red-orange orbs with flickering flames
+- **Ice Spheres**: Pale blue orbs with frost crystals
+- **Nature Spheres**: Green orbs with crackling lightning
+- **Healing Spheres**: Soft yellow orbs with gentle glow
+- **Chaos Spheres**: Multicolored orbs that shift unpredictably
+
+**How It Changes**:
+- **Each Turn Start**: 4 new spheres appear (based on your 4d8 roll)
+- **When Casting**: Spheres you spend disappear from the bar
+- **Banking Spheres**: Unused spheres remain visible, accumulating over turns
+- **Combat End**: All spheres vanish (they don't persist between fights)
+
+**Why This Matters**: Your resource bar is your spell palette. The more spheres you have banked, the more options you have—but you're also limited by which specific elements you've rolled. A bar full of Fire spheres gives you different options than a diverse mix of elements. Learning to read your resource bar at a glance and quickly identify powerful combinations is key to mastering the Arcanoneer.
+
+**Strategic Depth**: Unlike a Pyrofiend who just watches their Inferno Veil level, or a Berserker tracking their Rage number, you're managing a dynamic inventory of magical components. Each sphere is a tool, and your job is to select the right tools for each situation.`
+    },
+
     mechanics: {
-      title: 'How It Works',
-      content: `**Sphere Generation**:
-At the start of each turn, roll 4d8. Each die result generates one elemental sphere:
-- 1 = Arcane
-- 2 = Holy  
-- 3 = Shadow
-- 4 = Fire
-- 5 = Ice
-- 6 = Nature (Thunder)
-- 7 = Healing
-- 8 = Chaos
+      title: 'Detailed Mechanics',
+      content: `**Sphere Generation (Start of Each Turn)**:
+Roll 4d8. Each die result generates one elemental sphere that appears in your resource bar:
+- **1 = Arcane** (Purple) - Raw magical force
+- **2 = Holy** (Gold) - Divine radiance
+- **3 = Shadow** (Black) - Necrotic darkness
+- **4 = Fire** (Red) - Burning flames
+- **5 = Ice** (Blue) - Freezing cold
+- **6 = Nature** (Green) - Thunder and vines
+- **7 = Healing** (Yellow) - Life energy
+- **8 = Chaos** (Rainbow) - Unpredictable magic
 
-**Sphere Banking**:
-You can save spheres from previous turns. There is no maximum limit, but spheres persist only during combat. All spheres are lost when combat ends.
+**Example Generation**: You roll [3, 4, 4, 7] → You receive Shadow, Fire, Fire, Healing spheres
 
-**Casting Spells**:
-Spend 2, 3, or 4 spheres to cast a spell:
-- **2 Spheres**: Cast any combination from the 8x8 matrix (64 possible spells)
-- **3 Spheres**: Cast special recipe spells (limited specific combinations)
-- **4 Spheres**: Cast ultimate recipe spells (limited specific combinations)
+**Sphere Banking (Unlimited During Combat)**:
+- Spheres persist in your resource bar until spent or until combat ends
+- No maximum limit—you can accumulate dozens of spheres if you keep banking
+- All spheres vanish when combat ends (you start fresh each fight)
+- You can mix spheres from different turns freely
 
-**Mana Costs**:
+**Example Banking**:
+- Turn 1: Roll Fire, Fire, Ice, Healing → Bank all 4 (don't cast)
+- Turn 2: Roll Arcane, Shadow, Nature, Chaos → Now have 8 total spheres
+- Turn 3: Roll Holy, Fire, Ice, Nature → Now have 12 total spheres
+- You can now cast a 4-sphere ultimate and still have 8 spheres remaining
+
+**Casting Spells (Spending Spheres)**:
+Select 2, 3, or 4 spheres from your resource bar and combine them:
+- **2-Sphere Spells**: Any combination from the 8x8 matrix (64 possible spells) - Cost: 5 mana
+- **3-Sphere Spells**: Special recipe combinations (limited specific combos) - Cost: 10 mana
+- **4-Sphere Spells**: Ultimate recipe combinations (limited specific combos) - Cost: 15 mana
+
+**Example Casting**: You have Fire, Fire, Ice, Healing banked
+- Option 1: Spend Fire + Fire → Cast "Flame Burst" (pure fire damage)
+- Option 2: Spend Fire + Ice → Cast "Steam Blast" (mixed damage + slow)
+- Option 3: Spend Fire + Healing → Cast "Cauterize" (damage + heal over time)
+- Option 4: Save all 4 for next turn to build toward a 4-sphere ultimate
+
+**Mana Costs** (You still need mana to cast):
 - 2-Sphere Spells: 5 mana
-- 3-Sphere Spells: 10 mana  
-- 4-Sphere Spells: 15 mana`
+- 3-Sphere Spells: 10 mana
+- 4-Sphere Spells: 15 mana
+
+**Important**: Having the spheres isn't enough—you also need the mana to cast. Manage both resources carefully.`
     },
     
     sphereGenerationTable: {
@@ -159,6 +269,34 @@ Spend 2, 3, or 4 spheres to cast a spell:
 - Learn enemy resistances and adapt element choices
 - Coordinate with party for combo opportunities
 - Save Chaos spheres for desperate situations`
+    },
+
+    practicalExample: {
+      title: 'Practical Decision-Making Example',
+      content: `**Scenario**: You're fighting a fire elemental (resistant to fire, weak to ice) and two goblin archers.
+
+**Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Ice, Healing
+
+**Bad Decision**: "I'll cast Fire+Fire for maximum damage!"
+- Result: Wasted spheres on a fire-resistant enemy, minimal damage
+
+**Good Decision**: "I'll cast Ice+Healing for a frost heal combo on our tank, and bank the two Fire spheres for the goblins next turn."
+- Result: Tank gets healed + frost armor buff, Fire spheres saved for fire-vulnerable goblins
+
+**Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
+
+**Your Banked Spheres**: Fire, Fire (from Turn 1)
+**Total Available**: Fire, Fire, Arcane, Shadow, Nature, Chaos (6 spheres)
+
+**Decision Point**:
+- Option A: Fire+Fire on goblins (good damage, uses banked spheres effectively)
+- Option B: Arcane+Shadow+Nature+Chaos for a 4-sphere ultimate (massive AoE, hits everything)
+- Option C: Fire+Arcane on one goblin, save rest for Turn 3
+
+**Best Choice**: Option A (Fire+Fire on goblins)
+- Why: Fire elemental is nearly dead, goblins are the real threat, Fire+Fire deals heavy damage to fire-vulnerable targets, conserves mana (only 5 mana vs 15 for ultimate), leaves you with 4 spheres banked for flexibility
+
+**The Lesson**: Don't just cast the biggest spell—cast the RIGHT spell for the situation. Your sphere bank is a toolbox, not a scoreboard.`
     }
   },
 
@@ -171,13 +309,13 @@ Spend 2, 3, or 4 spheres to cast a spell:
 
     specs: [
       {
-        id: 'elementalist',
-        name: 'Elementalist',
+        id: 'prism_mage',
+        name: 'Prism Mage',
         icon: 'spell_fire_flamebolt',
         color: '#FF4500',
         theme: 'Pure Element Mastery',
 
-        description: `Elementalists focus on mastering specific elements and pure element combinations. Rather than mixing everything together, they perfect the art of elemental purity, gaining tremendous power when using the same element multiple times. They can reroll unwanted spheres to fish for their preferred elements.`,
+        description: `Prism Mages focus on mastering specific elements and pure element combinations. Rather than mixing everything together, they perfect the art of elemental purity, gaining tremendous power when using the same element multiple times. They can reroll unwanted spheres to fish for their preferred elements.`,
 
         playstyle: 'Pure element focus, rerolling spheres, elemental specialization, consistent damage',
 
@@ -208,7 +346,7 @@ Spend 2, 3, or 4 spheres to cast a spell:
             name: 'Elemental Purity',
             tier: 'Specialization Passive',
             description: 'You can reroll up to 2 spheres per turn (costs 1 mana per reroll). Pure element combinations (same element twice) deal 50% bonus damage. You gain resistance to the element type you\'ve used most this combat.',
-            uniqueTo: 'Elementalist'
+            uniqueTo: 'Prism Mage'
           }
         ],
 
@@ -216,13 +354,13 @@ Spend 2, 3, or 4 spheres to cast a spell:
       },
 
       {
-        id: 'chaosweaver',
-        name: 'Chaosweaver',
+        id: 'entropy_weaver',
+        name: 'Entropy Weaver',
         icon: 'spell_shadow_charm',
         color: '#9400D3',
         theme: 'Embrace Randomness',
 
-        description: `Chaosweavers embrace the unpredictable nature of sphere generation, turning randomness into raw power. They roll extra spheres, make Chaos combinations devastatingly powerful, and can trigger wild magic surges that create unexpected battlefield effects. Where others see chaos, they see opportunity.`,
+        description: `Entropy Weavers embrace the unpredictable nature of sphere generation, turning randomness into raw power. They roll extra spheres, make Chaos combinations devastatingly powerful, and can trigger wild magic surges that create unexpected battlefield effects. Where others see chaos, they see opportunity.`,
 
         playstyle: 'High variance, chaos magic, wild magic surges, explosive unpredictability',
 
@@ -253,7 +391,7 @@ Spend 2, 3, or 4 spheres to cast a spell:
             name: 'Chaos Mastery',
             tier: 'Specialization Passive',
             description: 'Roll 5d8 for sphere generation (instead of 4d8). All Chaos element combinations deal double damage. When you use a Chaos sphere in any combination, roll on the Wild Magic Surge table for an additional random effect. Once per turn, you can convert any sphere to Chaos (costs 2 mana).',
-            uniqueTo: 'Chaosweaver'
+            uniqueTo: 'Entropy Weaver'
           }
         ],
 
@@ -261,13 +399,13 @@ Spend 2, 3, or 4 spheres to cast a spell:
       },
 
       {
-        id: 'runesmith',
-        name: 'Runesmith',
+        id: 'sphere_architect',
+        name: 'Sphere Architect',
         icon: 'inv_misc_rune_01',
         color: '#4169E1',
         theme: 'Precise Control & Manipulation',
 
-        description: `Runesmiths are masters of sphere manipulation and control. They can swap sphere types, store more spheres efficiently, and manipulate their combinations with surgical precision. Where Elementalists focus on purity and Chaosweavers embrace randomness, Runesmiths control every aspect of their magic.`,
+        description: `Sphere Architects are masters of sphere manipulation and control. They can swap sphere types, store more spheres efficiently, and manipulate their combinations with surgical precision. Where Prism Mages focus on purity and Entropy Weavers embrace randomness, Sphere Architects control every aspect of their magic.`,
 
         playstyle: 'Sphere manipulation, precise control, efficient banking, tactical mastery',
 
@@ -298,7 +436,7 @@ Spend 2, 3, or 4 spheres to cast a spell:
             name: 'Runic Precision',
             tier: 'Specialization Passive',
             description: 'Once per turn, you can swap any 2 spheres for different element types (costs 3 mana total). You can store up to 12 spheres efficiently. 3-sphere spells cost 3 less mana (10→7). You can "lock" 1 sphere type at end of turn to guarantee that element appears in your next roll.',
-            uniqueTo: 'Runesmith'
+            uniqueTo: 'Sphere Architect'
           }
         ],
 
@@ -384,11 +522,11 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Arcane', 'Arcane'],
           comboType: 'pure',
-          elementalistBonus: '+50% damage (4d6+3 instead of 3d6)'
+          prismMageBonus: '+50% damage (4d6+3 instead of 3d6)'
         }
       },
 
-      tags: ['2-sphere', 'arcane', 'force', 'aoe', 'pure-element', 'elementalist'],
+      tags: ['2-sphere', 'arcane', 'force', 'aoe', 'pure-element', 'prism-mage'],
       flavorText: 'Raw arcane energy explodes outward, overwhelming the senses of those caught in the blast.'
     },
 
@@ -462,11 +600,11 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Fire', 'Fire'],
           comboType: 'pure',
-          elementalistBonus: '+50% damage (4d8+4 instead of 3d8)'
+          prismMageBonus: '+50% damage (4d8+4 instead of 3d8)'
         }
       },
 
-      tags: ['2-sphere', 'fire', 'aoe', 'damage-over-time', 'pure-element', 'elementalist'],
+      tags: ['2-sphere', 'fire', 'aoe', 'damage-over-time', 'pure-element', 'prism-mage'],
       flavorText: 'A raging inferno engulfs the battlefield, leaving nothing but ash and embers.'
     },
 
@@ -689,11 +827,11 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Chaos', 'Chaos'],
           comboType: 'chaos',
-          chaosweaverBonus: 'Double damage on all effects, roll twice on table and apply both'
+          entropyWeaverBonus: 'Double damage on all effects, roll twice on table and apply both'
         }
       },
 
-      tags: ['2-sphere', 'chaos', 'random', 'unpredictable', 'chaosweaver'],
+      tags: ['2-sphere', 'chaos', 'random', 'unpredictable', 'entropy-weaver'],
       flavorText: 'Reality itself fractures as pure chaos is unleashed upon the world.'
     },
 
@@ -778,11 +916,11 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Holy', 'Ice', 'Nature'],
           comboType: '3-sphere-recipe',
-          runesmithBonus: 'Costs 7 mana instead of 10'
+          sphereArchitectBonus: 'Costs 7 mana instead of 10'
         }
       },
 
-      tags: ['3-sphere', 'holy', 'ice', 'nature', 'healing', 'terrain', 'runesmith'],
+      tags: ['3-sphere', 'holy', 'ice', 'nature', 'healing', 'terrain', 'sphere-architect'],
       flavorText: 'Divine frost spreads across the ground, blessing allies while freezing foes in place.'
     },
 
@@ -862,11 +1000,11 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Fire', 'Ice', 'Healing'],
           comboType: '3-sphere-recipe',
-          runesmithBonus: 'Costs 7 mana instead of 10'
+          sphereArchitectBonus: 'Costs 7 mana instead of 10'
         }
       },
 
-      tags: ['3-sphere', 'fire', 'ice', 'healing', 'mixed-element', 'runesmith'],
+      tags: ['3-sphere', 'fire', 'ice', 'healing', 'mixed-element', 'sphere-architect'],
       flavorText: 'A wave of alternating heat and cold washes over the battlefield, healing friends and burning foes.'
     },
 
@@ -952,12 +1090,12 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Arcane', 'Chaos', 'Nature'],
           comboType: '3-sphere-recipe',
-          runesmithBonus: 'Costs 7 mana instead of 10',
-          chaosweaverBonus: 'Double damage on all effects'
+          sphereArchitectBonus: 'Costs 7 mana instead of 10',
+          entropyWeaverBonus: 'Double damage on all effects'
         }
       },
 
-      tags: ['3-sphere', 'arcane', 'chaos', 'nature', 'aoe', 'terrain', 'chaosweaver'],
+      tags: ['3-sphere', 'arcane', 'chaos', 'nature', 'aoe', 'terrain', 'entropy-weaver'],
       flavorText: 'Primal chaos and arcane power merge into a devastating storm that reshapes the battlefield.'
     },
 
@@ -1143,12 +1281,12 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Holy', 'Shadow', 'Healing', 'Chaos'],
           comboType: '4-sphere-ultimate',
-          chaosweaverBonus: 'Double damage and healing',
+          entropyWeaverBonus: 'Double damage and healing',
           description: 'Ultimate divine/shadow combination'
         }
       },
 
-      tags: ['4-sphere', 'holy', 'shadow', 'healing', 'chaos', 'ultimate', 'chaosweaver'],
+      tags: ['4-sphere', 'holy', 'shadow', 'healing', 'chaos', 'ultimate', 'entropy-weaver'],
       flavorText: 'Light and darkness collide in a divine cataclysm that judges all within its reach.'
     },
 
@@ -1238,12 +1376,12 @@ Spend 2, 3, or 4 spheres to cast a spell:
           enabled: true,
           elements: ['Arcane', 'Shadow', 'Fire', 'Chaos'],
           comboType: '4-sphere-ultimate',
-          chaosweaverBonus: 'Double damage, enemies also take 2d6 void damage per round for 3 rounds',
+          entropyWeaverBonus: 'Double damage, enemies also take 2d6 void damage per round for 3 rounds',
           description: 'Ultimate destruction combination'
         }
       },
 
-      tags: ['4-sphere', 'arcane', 'shadow', 'fire', 'chaos', 'ultimate', 'chaosweaver'],
+      tags: ['4-sphere', 'arcane', 'shadow', 'fire', 'chaos', 'ultimate', 'entropy-weaver'],
       flavorText: 'A tear in reality unleashes void flames that consume all matter and energy.'
     }
   ]

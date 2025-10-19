@@ -69,6 +69,216 @@ export const WITCH_DOCTOR_DATA = {
 - Place Totem of Healing before invoking Erzulie for maximum benefit
 - Save Ritual of Death for critical moments when multiple enemies are grouped
 - Coordinate with allies for optimal positioning before major invocations`
+    },
+
+    immersiveCombatExample: {
+      title: 'Combat Example: The Loa\'s Chosen',
+      content: `**The Setup**: You're a Witch Doctor (Spirit Healer specialization) facing a group of undead (6 zombies + 1 necromancer). Your party is with you. Starting Voodoo Essence: 0. Starting Mana: 50/60. Your goal: Build Voodoo Essence through curses, totems, and rituals, then invoke Baron Samedi (loa of death) to devastate the undead.
+
+**Starting State**: Voodoo Essence: 0/15 | Mana: 50/60 | HP: 45/45 | Cursed Enemies: 0
+
+**Turn 1 - Building Essence (Essence: 0 → 3)**
+
+*Six zombies shamble toward you, led by a necromancer. You begin the ritual. The loa are watching.*
+
+**Your Action**: Cast "Curse of Weakness" on Necromancer (6 mana)
+**Effect**: Target has -2 AC, disadvantage on STR saves, takes 1d6 necrotic damage per turn
+
+*You gesture at the necromancer. Dark voodoo energy WRAPS around him like chains.*
+
+**Voodoo Essence Generated**: +1 (curse cast) = **1/15**
+**Cursed Enemies**: 1 (Necromancer)
+
+**Mana**: 50 - 6 = 44/60
+
+**Your Action (Bonus Action)**: Place "Totem of Healing" (4 mana)
+**Effect**: Totem heals allies for 1d6 HP per turn in 15 ft radius
+
+*A wooden totem carved with healing symbols rises from the ground, pulsing with spiritual energy.*
+
+**Voodoo Essence Generated**: +1 (totem placed) = **2/15**
+
+**Mana**: 44 - 4 = 40/60
+
+**Your Action (Free Action)**: Apply poison to weapon (no cost, class feature)
+**Effect**: Weapon deals +1d4 poison damage
+
+**Voodoo Essence Generated**: +1 (poison applied) = **3/15**
+
+**Your Party's Mage**: "What's that energy swirling around you?"
+**You**: "Voodoo Essence. I generate it through curses, totems, and poisons. I have 3 Essence now. I need more to invoke the loa."
+
+**Current State**: Essence: 3/15 | Mana: 40/60 | Cursed: 1
+
+**Turn 2 - More Curses (Essence: 3 → 6)**
+
+*The zombies attack. Your totem heals your party for 1d6 → [5] = 5 HP each.*
+
+**Necromancer**: Takes 1d6 → [4] = 4 necrotic damage from Curse of Weakness
+
+**Your Action**: Cast "Curse of Agony" on Zombie #1 (5 mana)
+**Effect**: Target takes 2d6 necrotic damage per turn
+
+*You point at the zombie. It CONVULSES as the curse takes hold.*
+
+**Voodoo Essence Generated**: +1 (curse cast) = **4/15**
+**Cursed Enemies**: 2 (Necromancer, Zombie #1)
+
+**Mana**: 40 - 5 = 35/60
+
+**Your Action (Bonus Action)**: Cast "Curse of Decay" on Zombie #2 (5 mana)
+**Effect**: Target takes 1d8 necrotic damage per turn, healing reduced by 50%
+
+**Voodoo Essence Generated**: +1 (curse cast) = **5/15**
+**Cursed Enemies**: 3 (Necromancer, Zombies #1, #2)
+
+**Mana**: 35 - 5 = 30/60
+
+**Your Party's Tank**: Attacks Zombie #3 → 15 damage
+
+**Your Party's Rogue**: Attacks Zombie #1 (cursed) → 18 damage → **DEAD**
+
+**Cursed Enemy Defeated**: Zombie #1 was cursed and defeated
+**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **8/15**
+
+**Your Party's Healer**: "The zombie you cursed just died, and you got a burst of energy!"
+**You**: "When a cursed enemy is defeated, I gain 3 Voodoo Essence. I'm at 8 Essence now."
+
+**Current State**: Essence: 8/15 | Mana: 30/60 | Cursed: 2
+
+**Turn 3 - Ritual Preparation (Essence: 8 → 10)**
+
+*You need more Essence to invoke Baron Samedi. Time for a ritual.*
+
+**Zombie #2**: Takes 1d8 → [6] = 6 necrotic damage from Curse of Decay
+**Necromancer**: Takes 1d6 → [5] = 5 necrotic damage from Curse of Weakness
+
+**Your Action**: Begin "Ritual of Death" (8 mana, takes 1 full turn to complete)
+**Effect**: When completed, all enemies in 20 ft take 4d8 necrotic damage, generates 2 Voodoo Essence
+
+*You begin chanting in the old tongue. Dark symbols appear in the air around you. The loa are listening.*
+
+**Mana**: 30 - 8 = 22/60
+
+**Your Party's Mage**: "What are you doing?"
+**You**: "Ritual of Death. It takes a full turn to complete, but when it finishes, all enemies in 20 feet take 4d8 necrotic damage, and I gain 2 Voodoo Essence."
+
+**Your Party's Tank**: Attacks Zombie #2 (cursed) → 16 damage → **DEAD**
+
+**Cursed Enemy Defeated**: Zombie #2 was cursed and defeated
+**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **11/15**
+
+*But you're still completing the ritual, so you can't react yet.*
+
+**Current State**: Essence: 11/15 | Mana: 22/60 | Ritual: In Progress
+
+**Turn 4 - Ritual Completion (Essence: 11 → 13)**
+
+*The ritual COMPLETES. Dark energy ERUPTS.*
+
+**Ritual of Death Completes**:
+**Damage**: 4d8 necrotic → [7, 8, 6, 7] = **28 necrotic damage to all enemies in 20 ft**
+
+**Zombies #3, #4, #5, #6**: Each take 28 necrotic damage → Zombies #3, #4 **DEAD**, Zombies #5, #6 HEAVILY DAMAGED
+**Necromancer**: Takes 28 necrotic damage → HEAVILY DAMAGED
+
+**Voodoo Essence Generated**: +2 (ritual completed) = **13/15**
+
+*The ritual's dark energy CONSUMES the zombies. Two of them COLLAPSE, destroyed.*
+
+**Your Party's Rogue**: "You just killed two zombies with one ritual!"
+**You**: "Ritual of Death. 4d8 necrotic damage to all enemies in 20 feet. And I gained 2 Voodoo Essence. I'm at 13 Essence now."
+
+**Necromancer**: Takes 1d6 → [4] = 4 necrotic damage from Curse of Weakness (still active)
+
+**Current State**: Essence: 13/15 | Mana: 22/60 | Cursed: 1 (Necromancer)
+
+**Turn 5 - Invoking Baron Samedi (Essence: 13 → 0)**
+
+*You have 13 Voodoo Essence. The necromancer is cursed. Time to invoke BARON SAMEDI, loa of death.*
+
+**Baron Samedi Requirements**:
+- **Essence Cost**: 10 Voodoo Essence
+- **Precursor**: At least 1 enemy must be cursed ✓ (Necromancer is cursed)
+
+**Your Action**: "INVOKE BARON SAMEDI" (10 Voodoo Essence)
+**Effect**: Baron Samedi appears, deals 6d10 necrotic damage to all cursed enemies, kills any cursed enemy below 25% HP instantly, grants you +2d6 necrotic damage on all attacks for 3 rounds
+
+*You raise your staff to the sky. You CHANT the invocation. The air grows COLD. A spectral figure appears—BARON SAMEDI, loa of death, wearing a top hat and skull face paint, smoking a cigar.*
+
+**Voodoo Essence**: 13 - 10 = **3/15**
+
+**Baron Samedi (spectral voice)**: "You called, child? Let me show you DEATH."
+
+*Baron Samedi gestures. DEATH ENERGY erupts from his hand.*
+
+**Damage to Cursed Enemies**: 6d10 necrotic → [9, 10, 8, 7, 9, 8] = **51 necrotic damage to Necromancer**
+
+**Necromancer**: Takes 51 necrotic damage → **DEAD** (was already heavily damaged)
+
+**Baron Samedi**: "The necromancer dared raise the dead? I AM DEATH. He is mine now."
+
+*Baron Samedi LAUGHS. The necromancer's soul is DRAGGED into the spirit realm.*
+
+**Buff Granted**: You gain +2d6 necrotic damage on all attacks for 3 rounds
+
+**Your Party (in shock)**: "What... what WAS that?!"
+**You**: "Baron Samedi. Loa of death. I invoked him with 10 Voodoo Essence. He deals 6d10 necrotic damage to all cursed enemies and kills any cursed enemy below 25% HP instantly. The necromancer was cursed and heavily damaged, so Baron Samedi obliterated him."
+
+**Current State**: Essence: 3/15 | Mana: 22/60 | Baron Samedi Buff: 3 rounds
+
+**Turn 6 - Cleanup**
+
+*Only Zombies #5 and #6 remain, both heavily damaged from the Ritual of Death.*
+
+**Your Action**: Melee attack Zombie #5 (with Baron Samedi buff)
+**Attack Roll**: d20+4 → [15] = Hit!
+**Base Damage**: 2d6+2 → [5, 4] + 2 = 11 damage
+**Baron Samedi Buff**: +2d6 necrotic → [6, 5] = +11 necrotic damage
+**Total Damage**: 11 + 11 = **22 damage**
+
+**Zombie #5**: Takes 22 damage → **DEAD**
+
+**Your Party's Tank**: Attacks Zombie #6 → **DEAD**
+
+**Combat Over**
+
+*Baron Samedi tips his hat to you, then fades into the spirit realm.*
+
+**Baron Samedi**: "Well done, child. Call me again when you need DEATH."
+
+**Your Party's Healer**: "You... you summoned a VOODOO GOD."
+**You**: "Baron Samedi, loa of death. I built 13 Voodoo Essence through curses (1 Essence each), totems (1 Essence), poison (1 Essence), rituals (2 Essence), and defeating cursed enemies (3 Essence each). I spent 10 Essence to invoke Baron Samedi. He required at least 1 cursed enemy as a precursor—the necromancer was cursed, so the precursor was met."
+**Your Party's Mage**: "And he dealt 51 damage to the necromancer?"
+**You**: "6d10 necrotic damage to all cursed enemies. The necromancer was the only cursed enemy at that moment, so he took the full 51 damage. Plus, Baron Samedi grants me +2d6 necrotic damage on all attacks for 3 rounds. My melee attack dealt 22 damage total."
+**Your Party's Rogue**: "What other loa can you invoke?"
+**You**: "Erzulie (loa of love, heals allies), Papa Legba (loa of crossroads, teleports party), Ogoun (loa of war, massive damage buff), Simbi (loa of water, crowd control). Each loa has different Essence costs and precursor requirements."
+
+**Final State**: Essence: 3/15 | Mana: 22/60 | HP: 45/45
+
+**Essence Generation Breakdown**:
+- Curse of Weakness (Necromancer): +1 Essence
+- Totem of Healing: +1 Essence
+- Poison application: +1 Essence
+- Curse of Agony (Zombie #1): +1 Essence
+- Curse of Decay (Zombie #2): +1 Essence
+- Zombie #1 defeated (cursed): +3 Essence
+- Zombie #2 defeated (cursed): +3 Essence
+- Ritual of Death completed: +2 Essence
+- **Total Generated**: 13 Essence
+- **Spent on Baron Samedi**: -10 Essence
+- **Remaining**: 3 Essence
+
+**The Lesson**: Witch Doctor gameplay is about:
+1. **Voodoo Essence Generation**: Built 13 Essence through curses (+1 each), totems (+1), poison (+1), rituals (+2), defeating cursed enemies (+3 each)
+2. **Curse Management**: Cursed 3 enemies (Necromancer, Zombies #1, #2), gained +3 Essence when cursed enemies died
+3. **Ritual of Death**: Dealt 28 necrotic damage to all enemies in 20 ft, killed 2 zombies, generated +2 Essence
+4. **Loa Invocation**: Invoked Baron Samedi (10 Essence, required 1+ cursed enemy)
+5. **Baron Samedi Power**: Dealt 51 necrotic damage to cursed necromancer, killed him instantly, granted +2d6 necrotic damage buff for 3 rounds
+6. **Precursor Management**: Ensured necromancer was cursed before invoking Baron Samedi (precursor requirement)
+7. **Strategic Timing**: Waited until 13 Essence before invoking, ensuring maximum impact
+
+You're a VOODOO PRACTITIONER who channels the power of ancient loa. You build Voodoo Essence through curses, totems, poisons, and rituals. When you have enough Essence and meet the precursor conditions, you INVOKE THE LOA. Baron Samedi appeared as a spectral figure and dealt 51 necrotic damage to the cursed necromancer, killing him instantly. Erzulie could heal your entire party. Papa Legba could teleport you across the battlefield. Ogoun could grant massive damage buffs. Each loa is a DIVINE INTERVENTION that changes the course of battle. You don't just cast spells—you COMMUNE WITH GODS.`
     }
   },
   

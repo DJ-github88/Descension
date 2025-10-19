@@ -1042,125 +1042,262 @@ const CharacterToken = ({
             </div>
 
             {/* Advanced Context Menu */}
-            {showContextMenu && createPortal(
-                <div
-                    ref={contextMenuRef}
-                    className="unified-context-menu compact"
-                    style={{
-                        left: contextMenuPosition.x,
-                        top: contextMenuPosition.y
-                    }}
-                >
-                    {/* Main Actions */}
-                    <div className="context-menu-group">
-                        <div className="group-header">
-                            <i className="fas fa-cog"></i>
-                            <span>Token Actions</span>
-                            <i className="fas fa-chevron-right"></i>
-                        </div>
-                        <div className="submenu">
-                            <button className="context-menu-button" onClick={handleInspectCharacter}>
-                                <i className="fas fa-search"></i> Inspect
-                            </button>
-                            <button
-                                className={`context-menu-button ${isTargeted ? 'active' : ''}`}
-                                onClick={handleTarget}
-                            >
-                                <i className="fas fa-crosshairs"></i> {isTargeted ? 'Clear Target' : 'Target'}
-                            </button>
-                            <button className="context-menu-button" onClick={handleDuplicateToken}>
-                                <i className="fas fa-copy"></i> Duplicate
-                            </button>
-                            <button className="context-menu-button danger" onClick={handleRemoveToken}>
-                                <i className="fas fa-trash"></i> Remove
-                            </button>
-                        </div>
-                    </div>
+            {showContextMenu && (() => {
+                // Build context menu items
+                const menuItems = [];
 
-                    <div className="context-menu-group">
-                        <div className="group-header">
-                            <i className="fas fa-heart"></i>
-                            <span>Health</span>
-                            <i className="fas fa-chevron-right"></i>
-                        </div>
-                        <div className="submenu">
-                            <button className="context-menu-button" onClick={() => handleDamageToken(5)}>
-                                <i className="fas fa-minus-circle"></i> Damage (5)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleDamageToken(10)}>
-                                <i className="fas fa-minus-circle"></i> Damage (10)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleCustomAmount('damage')}>
-                                <i className="fas fa-edit"></i> Custom Damage
-                            </button>
-                            <div className="context-menu-separator"></div>
-                            <button className="context-menu-button" onClick={() => handleHealToken(5)}>
-                                <i className="fas fa-plus-circle"></i> Heal (5)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleHealToken(10)}>
-                                <i className="fas fa-plus-circle"></i> Heal (10)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleCustomAmount('heal')}>
-                                <i className="fas fa-edit"></i> Custom Heal
-                            </button>
-                            <div className="context-menu-separator"></div>
-                            <button className="context-menu-button heal" onClick={handleFullHeal}>
-                                <i className="fas fa-heart"></i> Full Heal
-                            </button>
-                            <button className="context-menu-button danger" onClick={handleKill}>
-                                <i className="fas fa-skull"></i> Kill
-                            </button>
-                        </div>
-                    </div>
+                // Token Actions submenu
+                menuItems.push({
+                    icon: <i className="fas fa-cog"></i>,
+                    label: 'Token Actions',
+                    submenu: [
+                        {
+                            icon: <i className="fas fa-search"></i>,
+                            label: 'Inspect',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleInspectCharacter();
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-crosshairs"></i>,
+                            label: isTargeted ? 'Clear Target' : 'Target',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleTarget();
+                            },
+                            className: isTargeted ? 'active' : ''
+                        },
+                        {
+                            icon: <i className="fas fa-copy"></i>,
+                            label: 'Duplicate',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleDuplicateToken();
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-trash"></i>,
+                            label: 'Remove',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleRemoveToken();
+                            },
+                            className: 'danger'
+                        }
+                    ]
+                });
 
-                    <div className="context-menu-group">
-                        <div className="group-header">
-                            <i className="fas fa-magic"></i>
-                            <span>Mana</span>
-                            <i className="fas fa-chevron-right"></i>
-                        </div>
-                        <div className="submenu">
-                            <button className="context-menu-button" onClick={() => handleManaDamage(5)}>
-                                <i className="fas fa-minus-circle"></i> Drain (5)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleManaDamage(10)}>
-                                <i className="fas fa-minus-circle"></i> Drain (10)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleCustomAmount('mana-damage')}>
-                                <i className="fas fa-edit"></i> Custom Drain
-                            </button>
-                            <div className="context-menu-separator"></div>
-                            <button className="context-menu-button" onClick={() => handleManaHeal(5)}>
-                                <i className="fas fa-plus-circle"></i> Restore (5)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleManaHeal(10)}>
-                                <i className="fas fa-plus-circle"></i> Restore (10)
-                            </button>
-                            <button className="context-menu-button" onClick={() => handleCustomAmount('mana-heal')}>
-                                <i className="fas fa-edit"></i> Custom Restore
-                            </button>
-                            <div className="context-menu-separator"></div>
-                            <button className="context-menu-button danger" onClick={handleDrainMana}>
-                                <i className="fas fa-battery-empty"></i> Drain All
-                            </button>
-                        </div>
-                    </div>
+                // Health submenu
+                menuItems.push({
+                    icon: <i className="fas fa-heart"></i>,
+                    label: 'Health',
+                    submenu: [
+                        {
+                            icon: <i className="fas fa-minus-circle"></i>,
+                            label: 'Damage (5)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleDamageToken(5);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-minus-circle"></i>,
+                            label: 'Damage (10)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleDamageToken(10);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-edit"></i>,
+                            label: 'Custom Damage',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleCustomAmount('damage');
+                            }
+                        },
+                        { type: 'separator' },
+                        {
+                            icon: <i className="fas fa-plus-circle"></i>,
+                            label: 'Heal (5)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleHealToken(5);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-plus-circle"></i>,
+                            label: 'Heal (10)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleHealToken(10);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-edit"></i>,
+                            label: 'Custom Heal',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleCustomAmount('heal');
+                            }
+                        },
+                        { type: 'separator' },
+                        {
+                            icon: <i className="fas fa-heart"></i>,
+                            label: 'Full Heal',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleFullHeal();
+                            },
+                            className: 'heal'
+                        },
+                        {
+                            icon: <i className="fas fa-skull"></i>,
+                            label: 'Kill',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleKill();
+                            },
+                            className: 'danger'
+                        }
+                    ]
+                });
 
-                    <div className="context-menu-group">
-                        <div className="group-header">
-                            <i className="fas fa-magic"></i>
-                            <span>Status</span>
-                            <i className="fas fa-chevron-right"></i>
-                        </div>
-                        <div className="submenu">
-                            <button className="context-menu-button" onClick={handleOpenConditions}>
-                                <i className="fas fa-bolt"></i> Conditions
-                            </button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
+                // Mana submenu
+                menuItems.push({
+                    icon: <i className="fas fa-magic"></i>,
+                    label: 'Mana',
+                    submenu: [
+                        {
+                            icon: <i className="fas fa-minus-circle"></i>,
+                            label: 'Drain (5)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleManaDamage(5);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-minus-circle"></i>,
+                            label: 'Drain (10)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleManaDamage(10);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-edit"></i>,
+                            label: 'Custom Drain',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleCustomAmount('mana-damage');
+                            }
+                        },
+                        { type: 'separator' },
+                        {
+                            icon: <i className="fas fa-plus-circle"></i>,
+                            label: 'Restore (5)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleManaHeal(5);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-plus-circle"></i>,
+                            label: 'Restore (10)',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleManaHeal(10);
+                            }
+                        },
+                        {
+                            icon: <i className="fas fa-edit"></i>,
+                            label: 'Custom Restore',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleCustomAmount('mana-heal');
+                            }
+                        },
+                        { type: 'separator' },
+                        {
+                            icon: <i className="fas fa-battery-empty"></i>,
+                            label: 'Drain All',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleDrainMana();
+                            },
+                            className: 'danger'
+                        }
+                    ]
+                });
+
+                // Status submenu
+                menuItems.push({
+                    icon: <i className="fas fa-magic"></i>,
+                    label: 'Status',
+                    submenu: [
+                        {
+                            icon: <i className="fas fa-bolt"></i>,
+                            label: 'Conditions',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                handleOpenConditions();
+                            }
+                        }
+                    ]
+                });
+
+                return createPortal(
+                    <UnifiedContextMenu
+                        visible={true}
+                        x={contextMenuPosition.x}
+                        y={contextMenuPosition.y}
+                        onClose={() => setShowContextMenu(false)}
+                        items={menuItems}
+                    />,
+                    document.body
+                );
+            })()}
 
             {/* Custom Amount Modal */}
             {showCustomAmountModal && createPortal(

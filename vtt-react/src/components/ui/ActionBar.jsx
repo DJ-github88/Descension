@@ -12,6 +12,7 @@ import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
 import { useRoomContext } from '../../contexts/RoomContext';
 import HotkeyAssignmentPopup from './HotkeyAssignmentPopup';
 import actionBarPersistenceService from '../../services/actionBarPersistenceService';
+import ExperienceBar from './ExperienceBar';
 import './ActionBar.css';
 
 const ActionBar = () => {
@@ -62,6 +63,7 @@ const ActionBar = () => {
     const updateResource = useCharacterStore(state => state.updateResource);
     const health = useCharacterStore(state => state.health);
     const mana = useCharacterStore(state => state.mana);
+    const experience = useCharacterStore(state => state.experience || 0);
 
     // Get combat store for turn restrictions
     const { isInCombat, getCurrentCombatant } = useCombatStore();
@@ -595,8 +597,9 @@ const ActionBar = () => {
     };
 
     return (
-        <div className="action-bar-container" ref={actionBarContainerRef}>
-            <div className="action-bar">
+        <>
+            <div className="action-bar-container" ref={actionBarContainerRef}>
+                <div className="action-bar">
                 {actionSlots.map((item, index) => {
                     const isConsumable = item && item.type === 'consumable';
                     const quantity = isConsumable ? getItemQuantity(item.originalItemId) : 0;
@@ -726,7 +729,11 @@ const ActionBar = () => {
                     smartPositioning={true} // Enable smart positioning for action bar tooltips
                 />
             )}
-        </div>
+            </div>
+
+            {/* Experience Bar - Below Action Bar */}
+            <ExperienceBar currentXP={experience} />
+        </>
     );
 };
 
