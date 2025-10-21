@@ -504,6 +504,24 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
         'Utility & Support': exampleSpells.filter(s => s.tags?.includes('utility') || s.tags?.includes('support'))
       };
       categoryIcon = 'fas fa-cross';
+    } else if (classData.id === 'false-prophet') {
+      // Group by madness mechanics
+      spellsByCategory = {
+        'Madness Generators': exampleSpells.filter(s => s.specialMechanics?.madnessGeneration),
+        'Madness Spenders': exampleSpells.filter(s => s.specialMechanics?.madnessSpending),
+        'Mind Control & Manipulation': exampleSpells.filter(s => s.school === 'Mind Control' || s.specialMechanics?.mindControl),
+        'Eldritch Powers': exampleSpells.filter(s => s.specialMechanics?.madnessRequirement || s.specialMechanics?.temptationAbility)
+      };
+      categoryIcon = 'fas fa-eye';
+    } else if (classData.id === 'fate-weaver') {
+      // Group by card mechanics
+      spellsByCategory = {
+        'Card-Based Spells': exampleSpells.filter(s => s.resolution === 'CARDS' || s.specialMechanics?.threadsOfDestiny),
+        'Thread Generation': exampleSpells.filter(s => s.specialMechanics?.threadsOfDestiny?.generation),
+        'Utility & Support': exampleSpells.filter(s => s.tags?.includes('utility') || s.tags?.includes('support')),
+        'Tactical Spells': exampleSpells.filter(s => s.tags?.includes('tactical') || s.tags?.includes('ally-cooperation'))
+      };
+      categoryIcon = 'fas fa-scroll';
     } else if (classData.id === 'plaguebringer') {
       // Group by affliction mechanics
       spellsByCategory = {
@@ -772,10 +790,36 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             classResource={{
               current: classData.name === 'Berserker' ? 65 :
                        classData.name === 'Chaos Weaver' ? 12 :
-                       classData.name === 'Covenbane' ? 4 : 0,
+                       classData.name === 'Covenbane' ? 4 :
+                       classData.name === 'Dreadnaught' ? 30 :
+                       classData.name === 'Exorcist' ? 10 :
+                       classData.name === 'False Prophet' ? 8 :
+                       classData.name === 'Fate Weaver' ? 7 :
+                       classData.name === 'Formbender' ? 8 :
+                       classData.name === 'Gambler' ? 5 :
+                       classData.name === 'Inscriptor' ? 5 :
+                       classData.name === 'Lichborne' ? 35 :
+                       classData.name === 'Lunarch' ? 0 :
+                       classData.name === 'Plaguebringer' ? 65 :
+                       classData.name === 'Primalist' ? 45 :
+                       classData.name === 'Pyrofiend' ? 5 : 0,
               max: classData.name === 'Berserker' ? 100 :
                    classData.name === 'Chaos Weaver' ? 20 :
-                   classData.name === 'Covenbane' ? 6 : 0,
+                   classData.name === 'Covenbane' ? 6 :
+                   classData.name === 'Dreadnaught' ? 50 :
+                   classData.name === 'Exorcist' ? 12 :
+                   classData.name === 'False Prophet' ? 20 :
+                   classData.name === 'Fate Weaver' ? 13 :
+                   classData.name === 'Formbender' ? 15 :
+                   classData.name === 'Gambler' ? 21 :
+                   classData.name === 'Inscriptor' ? 8 :
+                   classData.name === 'Lichborne' ? 50 :
+                   classData.name === 'Lunarch' ? 0 :
+                   classData.name === 'Plaguebringer' ? 100 :
+                   classData.name === 'Primalist' ? 100 :
+                   classData.name === 'Pyrofiend' ? 9 : 0,
+              current2: classData.name === 'Inscriptor' ? 2 : undefined,
+              max2: classData.name === 'Inscriptor' ? 3 : undefined,
               spheres: []
             }}
             size="large"

@@ -4,47 +4,33 @@
 export const CLASS_RESOURCE_TYPES = {
     // INFERNAL PATH
     'Pyrofiend': {
-        id: 'demonicAscension',
-        name: 'Demonic Ascension',
-        shortName: 'DA',
+        id: 'infernoVeil',
+        name: 'Inferno Veil',
+        shortName: 'Inferno',
         type: 'stages',
-        description: 'Ascension through demonic stages, each granting power but increasing corruption',
+        description: 'Demonic corruption through 9 inferno levels, each granting fire damage but severe drawbacks',
         visual: {
-            type: 'progress-bar',
-            count: 10,
-            arrangement: 'horizontal',
-            baseColor: '#4A0000',
+            type: 'inferno-veil',
+            baseColor: '#8B0000',
             activeColor: '#FF4500',
             glowColor: '#FF6347',
-            icon: '🔥',
-            effects: ['fire', 'infernal']
+            icon: 'fa-fire',
+            effects: ['fire', 'infernal', 'corruption']
         },
         mechanics: {
-            max: 9, // Stages 0-9
+            max: 9, // Levels 0-9
             current: 0,
             regen: 0,
-            consumeVerb: 'ascend',
-            gainVerb: 'corrupt'
+            consumeVerb: 'descend',
+            gainVerb: 'ascend'
         },
         tooltip: {
-            title: 'Demonic Ascension Stage {current}',
-            description: 'Each stage grants demonic power but increases corruption risk',
-            showStage: true,
+            title: 'Inferno Veil: Level {current}',
+            description: 'Each level grants +1 fire damage but inflicts severe drawbacks based on circles of hell',
+            showLevel: true,
             showBonuses: true,
             showDrawbacks: true
-        },
-        stages: [
-            { name: 'Mortal', bonuses: [], drawbacks: [] },
-            { name: 'Touched', bonuses: ['+5% Fire Damage'], drawbacks: [] },
-            { name: 'Marked', bonuses: ['+10% Fire Damage', '+2 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant'] },
-            { name: 'Tainted', bonuses: ['+15% Fire Damage', '+4 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-1 Charisma'] },
-            { name: 'Corrupted', bonuses: ['+20% Fire Damage', '+6 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-2 Charisma'] },
-            { name: 'Infernal', bonuses: ['+25% Fire Damage', '+8 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-3 Charisma', 'Aura of Fear'] },
-            { name: 'Demonic', bonuses: ['+30% Fire Damage', '+10 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-4 Charisma', 'Aura of Fear'] },
-            { name: 'Archfiend', bonuses: ['+35% Fire Damage', '+12 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-5 Charisma', 'Aura of Terror'] },
-            { name: 'Demon Lord', bonuses: ['+40% Fire Damage', '+15 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-6 Charisma', 'Aura of Terror'] },
-            { name: 'Infernal Avatar', bonuses: ['+50% Fire Damage', '+20 Fire Spell Power'], drawbacks: ['Vulnerable to Radiant', '-8 Charisma', 'Aura of Despair'] }
-        ]
+        }
     },
     'Minstrel': {
         id: 'musicalNotes',
@@ -53,37 +39,136 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'notes',
         description: 'Musical notes that can be combined into powerful chord combinations',
         visual: {
-            type: 'progress-bar',
-            count: 7,
-            arrangement: 'horizontal',
-            baseColor: '#1E3A8A',
-            activeColor: '#FFD700',
-            glowColor: '#FFA500',
-            icon: '🎵',
-            effects: ['musical', 'harmony']
+            type: 'musical-notes-combo',
+            baseColor: 'rgba(139, 69, 19, 0.15)',
+            borderColor: 'rgba(139, 69, 19, 0.35)',
+            segmentBorder: 'rgba(139, 69, 19, 0.4)',
+            emptyColor: '#2D2D2D',
+            notes: [
+                {
+                    numeral: 'I',
+                    name: 'Tonic',
+                    function: 'Foundation',
+                    color: '#DC143C',
+                    glow: '#FF6B6B',
+                    description: 'Stability and home',
+                    generatedBy: 'Basic attacks, defensive spells',
+                    usedIn: ['Perfect Cadence', 'Plagal Cadence', 'Circle of Fifths', 'Authentic Cadence']
+                },
+                {
+                    numeral: 'II',
+                    name: 'Supertonic',
+                    function: 'Mild Tension',
+                    color: '#FF8C00',
+                    glow: '#FFA500',
+                    description: 'Creates dissonance',
+                    generatedBy: 'Debuff and control spells',
+                    usedIn: ['Suspended Cadence']
+                },
+                {
+                    numeral: 'III',
+                    name: 'Mediant',
+                    function: 'Color',
+                    color: '#FFD700',
+                    glow: '#FFED4E',
+                    description: 'Emotional depth',
+                    generatedBy: 'Charm and emotion spells',
+                    usedIn: ['Plagal Cadence', 'Authentic Cadence', 'Picardy Third']
+                },
+                {
+                    numeral: 'IV',
+                    name: 'Subdominant',
+                    function: 'Movement',
+                    color: '#32CD32',
+                    glow: '#90EE90',
+                    description: 'Forward motion',
+                    generatedBy: 'Support and healing spells',
+                    usedIn: ['Perfect Cadence', 'Deceptive Cadence', 'Half Cadence']
+                },
+                {
+                    numeral: 'V',
+                    name: 'Dominant',
+                    function: 'Strong Tension',
+                    color: '#4169E1',
+                    glow: '#6495ED',
+                    description: 'Demands resolution',
+                    generatedBy: 'Offensive spells',
+                    usedIn: ['Perfect Cadence', 'Deceptive Cadence', 'Circle of Fifths', 'Half Cadence', 'Plagal Cadence']
+                },
+                {
+                    numeral: 'VI',
+                    name: 'Submediant',
+                    function: 'Relative Minor',
+                    color: '#8B008B',
+                    glow: '#BA55D3',
+                    description: 'Melancholy and depth',
+                    generatedBy: 'Fear and sorrow spells',
+                    usedIn: ['Circle of Fifths', 'Half Cadence', 'Authentic Cadence']
+                },
+                {
+                    numeral: 'VII',
+                    name: 'Leading Tone',
+                    function: 'Urgent Tension',
+                    color: '#9400D3',
+                    glow: '#DA70D6',
+                    description: 'Pulls to tonic',
+                    generatedBy: 'Finisher and climax spells',
+                    usedIn: ['Deceptive Cadence', 'Half Cadence']
+                }
+            ],
+            specializations: [
+                {
+                    id: 'battlechoir',
+                    name: 'Battlechoir',
+                    abbrev: 'BATTLE',
+                    color: '#DC143C',
+                    glow: '#FF6B6B',
+                    theme: 'War Songs & Aggressive Support'
+                },
+                {
+                    id: 'soulsinger',
+                    name: 'Soulsinger',
+                    abbrev: 'SOUL',
+                    color: '#4169E1',
+                    glow: '#6495ED',
+                    theme: 'Healing Melodies & Emotional Magic'
+                },
+                {
+                    id: 'dissonance',
+                    name: 'Dissonance',
+                    abbrev: 'DISS',
+                    color: '#8B008B',
+                    glow: '#BA55D3',
+                    theme: 'Chaotic Sounds & Reality Warping'
+                }
+            ]
         },
         mechanics: {
-            max: 7, // 7 different notes
-            current: 0,
-            regen: 0,
-            consumeVerb: 'play',
-            gainVerb: 'compose'
+            maxPerNote: 5,
+            totalNotes: 7,
+            persistence: 'Notes persist between combats',
+            decay: '1 note per minute out of combat',
+            consumeVerb: 'resolve',
+            gainVerb: 'generate'
         },
-        tooltip: {
-            title: 'Musical Notes ({current}/7)',
-            description: 'Combine notes to create powerful chord effects',
-            showNotes: true,
-            showCombos: true
+        sharedPassive: {
+            name: 'Harmonic Resonance',
+            description: 'When you complete a 4-note cadence, all allies within 30 feet gain +1d4 to their next attack or spell. This bonus stacks up to 3 times.'
         },
-        notes: [
-            { name: 'Tonic', position: 1, color: '#FF0000' },
-            { name: 'Supertonic', position: 2, color: '#FF7F00' },
-            { name: 'Mediant', position: 3, color: '#FFFF00' },
-            { name: 'Subdominant', position: 4, color: '#00FF00' },
-            { name: 'Dominant', position: 5, color: '#0000FF' },
-            { name: 'Submediant', position: 6, color: '#4B0082' },
-            { name: 'Leading Tone', position: 7, color: '#9400D3' }
-        ]
+        specPassives: {
+            battlechoir: {
+                name: 'War Anthem',
+                description: 'Your offensive cadences (Circle of Fifths, Phrygian Cadence, Neapolitan Sixth) grant all affected allies +2 to attack rolls for 2 turns. Additionally, when an ally scores a critical hit while affected by your buffs, you generate 1 random musical note.'
+            },
+            soulsinger: {
+                name: 'Soothing Melody',
+                description: 'Your healing cadences (Authentic Cadence, Picardy Third) heal for an additional 1d6 HP. Additionally, whenever you heal an ally, you generate 1 Tonic (I) note. When using a Lute or Harp, healing is increased by an additional +2.'
+            },
+            dissonance: {
+                name: 'Cacophony',
+                description: 'Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. Additionally, when an enemy fails a save against your cadence, all enemies within 10 feet must make a Wisdom save (DC 13) or become frightened for 1 turn. Dissonant sounds echo unpredictably.'
+            }
+        }
     },
 
     'Chronarch': {
@@ -250,66 +335,145 @@ export const CLASS_RESOURCE_TYPES = {
     },
 
     'Fate Weaver': {
-        id: 'cardDeck',
-        name: 'Fate Cards',
-        shortName: 'Cards',
-        type: 'cards',
-        description: 'Mystical cards that reveal and manipulate destiny',
+        id: 'threadsOfDestiny',
+        name: 'Threads of Destiny',
+        shortName: 'Threads',
+        type: 'threads',
+        description: 'Cosmic threads woven from fate\'s disruptions, used to manipulate destiny',
         visual: {
-            type: 'progress-bar',
-            count: 'variable',
+            type: 'threads-of-destiny',
+            count: 13, // 13 cards per suit (Ace through King)
             arrangement: 'horizontal',
-            baseColor: '#1F2F2F',
-            activeColor: '#FFD700',
-            glowColor: '#FFA500',
-            icon: '🃏',
-            effects: ['mystical', 'fate']
+            baseColor: '#1a0d2e', // Deep mystical purple
+            threadColor: '#FFD700', // Golden thread
+            shimmerColor: '#F0E68C', // Pale gold shimmer
+            accentColor: '#9370DB', // Medium purple
+            glowColor: '#FFA500', // Orange-gold glow
+            segmentBorder: '#2d1b4e',
+            cardSuits: ['♠', '♥', '♦', '♣'],
+            icon: 'fas fa-scroll',
+            effects: ['mystical', 'fate', 'tarot']
         },
         mechanics: {
-            max: 52, // Full deck
-            current: 5, // Starting hand
+            max: 13, // Maximum Threads (13 cards per suit: Ace-King)
+            current: 0, // Start with 0
             regen: 0,
-            consumeVerb: 'play',
-            gainVerb: 'draw'
+            consumeVerb: 'spend',
+            gainVerb: 'weave',
+            threadGeneration: {
+                minorFailure: 1, // High Card, minor negative
+                majorFailure: 2  // Bust, major negative
+            },
+            threadSpending: {
+                callCard: 2,      // Call specific card
+                forceFailure: 3,  // Force spell to fail (max Threads)
+                forceSuccess: 5   // Force spell to succeed (max effect)
+            }
         },
         tooltip: {
-            title: 'Fate Cards: {current} in hand',
-            description: 'Mystical cards that manipulate destiny',
-            showHand: true,
-            showDeck: true
-        }
+            sections: [
+                {
+                    type: 'header',
+                    content: 'Threads of Destiny: {current}/13'
+                },
+                {
+                    type: 'mechanics',
+                    title: 'Thread Generation',
+                    content: [
+                        { label: 'Minor Failure', value: '+1 Thread' },
+                        { label: 'Major Failure', value: '+2 Threads' },
+                        { label: 'Spell Fails', value: '+1-2 Threads' }
+                    ]
+                },
+                {
+                    type: 'mechanics',
+                    title: 'Thread Spending',
+                    content: [
+                        { label: 'Call Specific Card', value: '2 Threads' },
+                        { label: 'Force Failure (max Threads)', value: '3 Threads' },
+                        { label: 'Force Success (max effect)', value: '5 Threads' }
+                    ]
+                },
+                {
+                    type: 'specialization',
+                    title: 'Destiny Weaver Bonus',
+                    content: '+1 Thread on all generation (1→2, 2→3)'
+                },
+                {
+                    type: 'mechanics-note',
+                    content: 'Threads are woven from failures. Embrace chaos to gain control.'
+                }
+            ]
+        },
+        threadLevels: [
+            { min: 0, max: 3, name: 'Sparse Threads', color: '#9370DB' },
+            { min: 4, max: 6, name: 'Woven Strands', color: '#B8860B' },
+            { min: 7, max: 9, name: 'Tapestry of Fate', color: '#FFD700' },
+            { min: 10, max: 12, name: 'Destiny\'s Web', color: '#FFA500' },
+            { min: 13, max: 13, name: 'Fate Mastered', color: '#DAA520' }
+        ]
     },
 
     'Gambler': {
-        id: 'luckPoints',
-        name: 'Luck Points',
-        shortName: 'LP',
+        id: 'fortunePoints',
+        name: 'Fortune Points',
+        shortName: 'FP',
         type: 'gambling',
-        description: 'Luck points for gambling with fate, balanced against mounting risk',
         visual: {
-            type: 'progress-bar',
-            count: 2,
-            arrangement: 'horizontal',
-            baseColor: '#8B6914',
+            type: 'fortune-points-gambling',
+            baseColor: '#2D2D2D',
             activeColor: '#FFD700',
             glowColor: '#FFA500',
-            riskColor: '#DC143C',
-            icon: '🎲',
-            effects: ['luck', 'risk']
+            specializations: {
+                'fortunes-favor': {
+                    name: "Fortune's Favor",
+                    max: 7,
+                    theme: 'coins',
+                    color: '#FFD700',
+                    icon: 'fas fa-coins',
+                    description: 'Lucky 7 - Coin flip mastery',
+                    approach: 'Coin flips and reroll manipulation',
+                    useCase: 'Spend FP to flip coin results, grant ally rerolls, force enemy rerolls',
+                    why7: 'Binary outcomes (heads/tails) require fewer points for decisive control'
+                },
+                'high-roller': {
+                    name: 'High Roller',
+                    max: 21,
+                    theme: 'blackjack',
+                    color: '#DC143C',
+                    icon: 'fas fa-poker-chip',
+                    description: 'Blackjack 21 - High stakes betting',
+                    approach: 'Resource betting and hedging',
+                    useCase: 'Spend FP to guarantee bet payouts, hedge resource wagers (HP/mana/actions)',
+                    why21: 'Complex betting requires maximum points to hedge multiple bets and ensure payouts'
+                },
+                'card-sharp': {
+                    name: 'Card Sharp',
+                    max: 13,
+                    theme: 'cards',
+                    color: '#4B0082',
+                    icon: 'fas fa-diamond',
+                    description: 'Unlucky 13 - Card counting strategy',
+                    approach: 'Prediction and competitive gambling',
+                    useCase: 'Spend FP to adjust Jackpot dice, win Death Roll competitions, predict outcomes',
+                    why13: 'Strategic play with calculated risks - unlucky 13 turned into advantage'
+                }
+            },
+            effects: ['luck', 'gambling', 'probability']
         },
         mechanics: {
-            max: 'calculated', // CHA mod + 5
+            max: 'varies_by_spec', // 7, 21, or 13 based on specialization
             current: 0,
-            risk: 0,
             regen: 0,
-            consumeVerb: 'gamble',
-            gainVerb: 'win'
+            consumeVerb: 'spend',
+            gainVerb: 'generate',
+            persistence: 'until_long_rest'
         },
         tooltip: {
-            title: 'Luck: {current}/{max} | Risk: {risk}',
-            description: 'Gambling with fate - higher risk, higher reward',
-            showOdds: true,
-            showRisk: true
+            title: 'Fortune Points: {current}/{max}',
+            showGeneration: true,
+            showSpending: true,
+            showPersistence: true
         }
     },
 
@@ -423,24 +587,41 @@ export const CLASS_RESOURCE_TYPES = {
         id: 'devotionGauge',
         name: 'Devotion Gauge',
         shortName: 'Devotion',
-        type: 'stages',
+        type: 'devotion-gauge',
         description: 'Power through sacrifice - accumulate damage to unlock devotion levels with passive effects',
         visual: {
-            type: 'progress-bar',
-            count: 7,
+            type: 'devotion-gauge',
+            count: 6,
             arrangement: 'horizontal',
-            baseColor: '#4A0000',
-            activeColor: '#FFD700',
-            glowColor: '#FFF8DC',
-            icon: '✝️',
+            baseColor: '#2A1810',
+            emptyColor: '#1A0F08',
+            segmentBorder: '#4A2C1A',
+            redemption: {
+                activeColor: '#FFD700',
+                glowColor: '#FFF8DC',
+                name: 'Redemption'
+            },
+            zealot: {
+                activeColor: '#DC143C',
+                glowColor: '#FF6B6B',
+                name: 'Zealot'
+            },
+            ascetic: {
+                activeColor: '#9CA3AF',
+                glowColor: '#D1D5DB',
+                name: 'Ascetic'
+            },
+            icon: 'fa-cross',
             effects: ['holy', 'sacrifice', 'devotion']
         },
         mechanics: {
             max: 6, // Devotion Levels 0-6
             current: 0,
+            damage: 0, // Accumulated damage toward next level
             regen: 0,
             consumeVerb: 'spend',
-            gainVerb: 'build'
+            gainVerb: 'build',
+            thresholds: [0, 10, 20, 40, 60, 80, 100] // Damage thresholds for each level
         },
         tooltip: {
             title: 'Devotion Level {current}',
@@ -451,13 +632,48 @@ export const CLASS_RESOURCE_TYPES = {
         },
         stages: [
             { name: 'Mortal Resolve', level: 0, requirement: 'Starting state', passive: 'None' },
-            { name: 'Flickering Faith', level: 1, requirement: '10 damage or 1 Intervene', passive: 'Gain 5 temp HP when ally within 5 ft takes damage' },
-            { name: 'Steadfast Conviction', level: 2, requirement: '20 damage or 2 Intervenes', passive: 'All healing effects +5 HP' },
-            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage or 3 Intervenes', passive: 'Allies within 10 ft gain +1 AC' },
-            { name: 'Divine Ascendance', level: 4, requirement: '60 damage or 4 Intervenes', passive: 'Advantage on all saving throws' },
-            { name: 'Holy Martyrdom', level: 5, requirement: '80 damage or 5 Intervenes', passive: 'Deal +10 radiant damage on attacks' },
-            { name: 'Celestial Protector', level: 6, requirement: '100 damage or 6 Intervenes', passive: 'Allies within 15 ft gain resistance to all damage' }
-        ]
+            { name: 'Flickering Faith', level: 1, requirement: '10 damage', passive: '5 temp HP when ally within 5 ft takes damage' },
+            { name: 'Steadfast Conviction', level: 2, requirement: '20 damage', passive: 'All healing effects +5 HP' },
+            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'Allies within 10 ft gain +1 AC' },
+            { name: 'Divine Ascendance', level: 4, requirement: '60 damage', passive: 'Advantage on all saving throws' },
+            { name: 'Holy Martyrdom', level: 5, requirement: '80 damage', passive: '+10 radiant damage on attacks' },
+            { name: 'Celestial Protector', level: 6, requirement: '100 damage', passive: 'Allies within 15 ft resist all damage' }
+        ],
+        specializations: {
+            redemption: {
+                name: 'Redemption',
+                sharedPassive: {
+                    name: 'Sacred Devotion',
+                    description: 'At Devotion Level 3+, your next healing spell heals for +1d6 HP'
+                },
+                uniquePassive: {
+                    name: 'Redemptive Grace',
+                    description: 'Martyr\'s Intervene heals protected ally for 2d6 HP. All healing spells +10 ft range'
+                }
+            },
+            zealot: {
+                name: 'Zealot',
+                sharedPassive: {
+                    name: 'Sacred Devotion',
+                    description: 'At Devotion Level 3+, your next healing spell heals for +1d6 HP'
+                },
+                uniquePassive: {
+                    name: 'Zealous Wrath',
+                    description: 'Radiant spells deal +(Devotion Level × 2) damage. Heal for 15% of radiant damage dealt'
+                }
+            },
+            ascetic: {
+                name: 'Ascetic',
+                sharedPassive: {
+                    name: 'Sacred Devotion',
+                    description: 'At Devotion Level 3+, your next healing spell heals for +1d6 HP'
+                },
+                uniquePassive: {
+                    name: 'Ascetic Endurance',
+                    description: 'Amplified spell costs -1 Devotion Level (min 1). At Level 4+, resist physical damage'
+                }
+            }
+        }
     },
 
     'False Prophet': {
@@ -467,14 +683,18 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'madness',
         description: 'Eldritch madness that empowers shadow damage but risks Insanity Convulsion at 20 points',
         visual: {
-            type: 'progress-bar',
+            type: 'madness-gauge',
             count: 20,
             arrangement: 'horizontal',
-            baseColor: '#1F1F2F',
-            activeColor: '#9400D3',
-            glowColor: '#8B008B',
-            warningColor: '#DC143C',
-            icon: '👁️',
+            baseColor: '#1a0d2e', // Deep void purple
+            safeColor: '#6a0dad', // Dark purple (0-5)
+            moderateColor: '#9400D3', // Purple (6-9)
+            highColor: '#b026ff', // Bright purple (10-14)
+            dangerColor: '#DC143C', // Crimson red (15-19)
+            convulsionColor: '#8B0000', // Dark red (20)
+            glowColor: '#9400D3',
+            segmentBorder: '#2d1b4e',
+            icon: 'fas fa-eye',
             effects: ['madness', 'eldritch', 'void']
         },
         mechanics: {
@@ -482,29 +702,60 @@ export const CLASS_RESOURCE_TYPES = {
             current: 0,
             regen: 0,
             consumeVerb: 'spend',
-            gainVerb: 'accumulate'
+            gainVerb: 'accumulate',
+            damageBonus: 1 // +1 shadow damage per Madness Point
         },
         tooltip: {
-            title: 'Madness: {current}/20 | Shadow Damage: +{current}',
-            description: 'Each point adds +1 shadow damage. At 20: Insanity Convulsion!',
-            showMadness: true,
-            showThresholds: true,
-            showWarning: true
+            sections: [
+                {
+                    type: 'header',
+                    content: 'Madness Points: {current}/20'
+                },
+                {
+                    type: 'mechanics',
+                    title: 'Current Effects',
+                    content: [
+                        { label: 'Shadow Damage Bonus', value: '+{current}' },
+                        { label: 'Danger Level', value: '{dangerLevel}' },
+                        { label: 'Next Threshold', value: '{nextThreshold}' }
+                    ]
+                },
+                {
+                    type: 'thresholds',
+                    title: 'Madness Thresholds',
+                    content: [
+                        { value: 6, name: 'Veil of Shadows', effect: 'Unlock invisibility spell' },
+                        { value: 9, name: 'Eldritch Vision', effect: 'Unlock true sight spell' },
+                        { value: 10, name: 'Eldritch Empowerment', effect: 'Next shadow spell: +2d6 damage' },
+                        { value: 12, name: 'Apocalyptic Revelation', effect: 'Unlock 8d6 AoE spell' },
+                        { value: 15, name: 'DANGER ZONE', effect: 'High Convulsion risk' },
+                        { value: 20, name: 'INSANITY CONVULSION', effect: 'Catastrophic release!' }
+                    ]
+                },
+                {
+                    type: 'convulsion',
+                    title: 'Insanity Convulsion Table (1d6)',
+                    content: [
+                        { roll: 1, name: 'Shadow Burst', effect: '5d6 necrotic to self + all within 20 ft' },
+                        { roll: 2, name: 'Mind Shatter', effect: 'Stunned for 2 rounds' },
+                        { roll: 3, name: 'Dark Whispers', effect: 'Disadvantage on attacks/saves (3 rounds)' },
+                        { roll: 4, name: 'Chaotic Pulse', effect: 'Random teleport 60 ft + 4d6 psychic' },
+                        { roll: 5, name: 'Psychic Scream', effect: 'All in 30 ft save or frightened (3 rounds)' },
+                        { roll: 6, name: 'Nightmare Echoes', effect: '6d6 psychic + Short-Term Madness (1d4 rounds)' }
+                    ]
+                },
+                {
+                    type: 'mechanics-note',
+                    content: 'Spells generate Madness (1d4-2d6). Some spells spend Madness for power.'
+                }
+            ]
         },
-        thresholds: [
-            { value: 6, name: 'Veil of Shadows', effect: 'Unlock invisibility (adds 1d4 Madness)', color: '#9400D3' },
-            { value: 9, name: 'Eldritch Vision', effect: 'Unlock true sight (adds 1d6 Madness)', color: '#8B008B' },
-            { value: 12, name: 'Apocalyptic Revelation', effect: 'Unlock 8d6 AoE (adds 2d6 Madness)', color: '#DC143C' },
-            { value: 15, name: 'Danger Zone', effect: 'High risk of Convulsion', color: '#FF0000' },
-            { value: 20, name: 'INSANITY CONVULSION', effect: 'Roll 1d6 on Convulsion Table', color: '#8B0000' }
-        ],
-        insanityConvulsionTable: [
-            { roll: 1, name: 'Shadow Burst', effect: '5d6 necrotic to self and all within 20 ft' },
-            { roll: 2, name: 'Mind Shatter', effect: 'Stunned for 2 rounds' },
-            { roll: 3, name: 'Dark Whispers', effect: 'Disadvantage on all attacks/saves for 3 rounds' },
-            { roll: 4, name: 'Chaotic Pulse', effect: 'Teleport randomly within 60 ft, take 4d6 psychic damage' },
-            { roll: 5, name: 'Psychic Scream', effect: 'All within 30 ft save or frightened for 3 rounds' },
-            { roll: 6, name: 'Nightmare Echoes', effect: '6d6 psychic damage, Short-Term Madness for 1d4 rounds' }
+        dangerLevels: [
+            { min: 0, max: 5, name: 'Stable', color: '#6a0dad' },
+            { min: 6, max: 9, name: 'Moderate', color: '#9400D3' },
+            { min: 10, max: 14, name: 'High', color: '#b026ff' },
+            { min: 15, max: 19, name: 'DANGER', color: '#DC143C' },
+            { min: 20, max: 20, name: 'CONVULSION', color: '#8B0000' }
         ]
     },
 
@@ -515,45 +766,51 @@ export const CLASS_RESOURCE_TYPES = {
         type: 'demon_control',
         description: 'Control over bound demons through Dominance Dice - maintain willpower or demons escape',
         visual: {
-            type: 'multi-bar',
-            count: 'per_demon',
-            arrangement: 'vertical',
-            baseColor: '#4A0000',
+            type: 'dominance-die',
+            count: 1, // Single bar showing selected demon
+            arrangement: 'horizontal',
+            baseColor: '#2d0a0a',
             activeColor: '#FFD700',
             glowColor: '#FFF8DC',
-            warningColor: '#DC143C',
-            icon: '⛓️',
+            warningColor: '#FF8C00',
+            dangerColor: '#DC143C',
+            criticalColor: '#8B0000',
+            icon: 'fas fa-link',
             effects: ['binding', 'control', 'dominance']
         },
         mechanics: {
-            max: 'per_demon', // Each demon has own DD (d6, d8, d10, or d12)
-            current: 'varies',
+            max: 12, // d12 represented as 12
+            current: 10, // d10 represented as 10
             regen: 0,
             consumeVerb: 'command',
             gainVerb: 'restore',
-            demonCapacity: 2 // Base: 2 demons, Demonologist: 4, Demon Lord: 1
+            demonCapacity: 2, // Base: 2 demons, Demonologist: 4, Demon Lord: 1
+            selectedDemon: 0 // Index of currently displayed demon
         },
         tooltip: {
-            title: 'Dominance: {demon_name} - {current_dd}',
-            description: 'DD decreases with each action/hit. At 0: saving throw or demon escapes',
+            title: 'Dominance System',
+            description: 'Control bound demons through Dominance Dice',
             showDominanceDie: true,
             showDemonInfo: true,
             showWarning: true
         },
         dominanceDice: {
             progression: ['d12', 'd10', 'd8', 'd6', '0'],
+            values: [12, 10, 8, 6, 0],
             description: 'DD decreases by 1 step per demon action or hit taken'
         },
         demonTiers: [
-            { tier: 1, name: 'Weak (Imp)', startingDD: 'd12', difficulty: 'Easy' },
-            { tier: 2, name: 'Moderate (Shadow Hound, Wraith)', startingDD: 'd10', difficulty: 'Medium' },
-            { tier: 3, name: 'Strong (Abyssal Brute, Banshee)', startingDD: 'd8', difficulty: 'Hard' },
-            { tier: 4, name: 'Greater Demons', startingDD: 'd6', difficulty: 'Very Hard (Demon Lord only)' }
+            { tier: 1, name: 'Imp', startingDD: 12, difficulty: 'Easy', saveDC: 12 },
+            { tier: 2, name: 'Shadow Hound', startingDD: 10, difficulty: 'Medium', saveDC: 14 },
+            { tier: 2, name: 'Wraith', startingDD: 10, difficulty: 'Medium', saveDC: 14 },
+            { tier: 3, name: 'Abyssal Brute', startingDD: 8, difficulty: 'Hard', saveDC: 16 },
+            { tier: 3, name: 'Banshee', startingDD: 8, difficulty: 'Hard', saveDC: 15 },
+            { tier: 4, name: 'Greater Demon', startingDD: 6, difficulty: 'Very Hard', saveDC: 18 }
         ],
         replenishmentSpells: [
-            { name: 'Reassert Dominance', cost: 5, effect: 'Restore DD to maximum' },
-            { name: 'Chain of Command', cost: 4, effect: 'Increase DD by 1 size for 3 actions' },
-            { name: 'Divine Bond', cost: 6, effect: 'Restore DD by 2 steps' }
+            { name: 'Reassert Dominance', cost: '5 mana', effect: 'Restore DD to maximum' },
+            { name: 'Chain of Command', cost: '4 mana', effect: '+1 DD size for 3 actions' },
+            { name: 'Divine Bond', cost: '6 mana', effect: 'Restore DD by 2 steps' }
         ]
     },
 
@@ -561,74 +818,130 @@ export const CLASS_RESOURCE_TYPES = {
     'Plaguebringer': {
         id: 'afflictionCultivation',
         name: 'Affliction Cultivation',
-        shortName: 'AC',
-        type: 'affliction',
-        description: 'Track and evolve afflictions through strategic spell combinations',
+        shortName: 'Corruption',
+        type: 'corruption-bar',
+        description: 'Build corruption through afflictions and evolve them to devastating final forms',
         visual: {
-            type: 'tracker',
-            count: 'variable',
-            arrangement: 'list',
-            baseColor: '#2D4A17',
+            type: 'corruption-bar',
+            arrangement: 'segmented-horizontal',
+            baseColor: '#1A2E1A',
             activeColor: '#556B2F',
             glowColor: '#9ACD32',
-            icon: '🦠',
-            effects: ['disease', 'curse', 'poison', 'contagion']
+            segments: 4,
+            // Specialization configurations
+            virulentSpreader: {
+                name: 'Virulent Spreader',
+                color: '#556B2F',
+                glow: '#9ACD32',
+                icon: 'fa-virus'
+            },
+            tormentWeaver: {
+                name: 'Torment Weaver',
+                color: '#4B0082',
+                glow: '#9370DB',
+                icon: 'fa-brain'
+            },
+            decayHarbinger: {
+                name: 'Decay Harbinger',
+                color: '#2F4F2F',
+                glow: '#556B2F',
+                icon: 'fa-skull-crossbones'
+            }
         },
         mechanics: {
-            max: 'unlimited',
-            current: 0,
-            regen: 0,
-            consumeVerb: 'evolve',
-            gainVerb: 'cultivate',
-            categories: ['Weaken', 'Torment', 'Fester', 'Amplify Pain', 'Decay', 'Nurture', 'Corrupt', 'Infect'],
-            developmentPaths: [
-                'Weaken → Torment → Amplify Pain',
-                'Weaken → Fester → Decay',
-                'Torment → Fester → Corrupt',
-                'Infect → Weaken → Amplify Pain',
-                'Torment → Nurture → Infect',
-                'Decay → Weaken → Corrupt',
-                'Nurture → Decay → Amplify Pain',
-                'Fester → Torment → Nurture'
-            ]
+            maxCorruption: 100,
+            currentCorruption: 0,
+            maxAfflictions: 10,
+            activeAfflictions: 0,
+            corruptionGain: {
+                baseAffliction: 10,
+                categorySpell: 5,
+                finalForm: 25
+            },
+            corruptionDecay: 2, // per turn
+            evolutionThresholds: [25, 50, 75, 100],
+            categories: ['Weaken', 'Torment', 'Fester', 'Amplify Pain', 'Decay', 'Nurture', 'Corrupt', 'Infect']
         },
         tooltip: {
-            title: 'Affliction Cultivation: {count} active afflictions',
-            description: 'Apply base afflictions, then evolve them through category spells',
+            title: 'Corruption: {corruption}/100',
+            showCorruption: true,
             showAfflictions: true,
-            showDevelopmentProgress: true
+            showEvolutionStages: true,
+            showSpecPassive: true
+        },
+        sharedPassive: {
+            name: 'Plague Mastery',
+            description: 'Afflictions last 1d4 additional rounds and resist dispel (5-6 on 1d6). Gain 1d4 mana when afflicted target dies.'
+        },
+        specPassives: {
+            virulentSpreader: {
+                name: 'Epidemic Mastery',
+                description: 'Fester/Infect spells +10 ft range. Spread afflictions retain 2/3 development steps.'
+            },
+            tormentWeaver: {
+                name: 'Psychic Resonance',
+                description: 'Torment spells +1d6 damage. Psychic afflictions: 5-6 on 1d6 causes target to attack nearest ally.'
+            },
+            decayHarbinger: {
+                name: 'Accelerated Decay',
+                description: 'Decay spells reduce max HP by +1d6. Afflictions reduce healing by 1d8 per heal received.'
+            }
         }
     },
 
     'Lichborne': {
-        id: 'phylacteryCore',
+        id: 'eternalFrostPhylactery',
         name: 'Eternal Frost Aura & Phylactery',
-        shortName: 'EFA',
+        shortName: 'Phylactery',
         type: 'frost_undead',
         description: 'Toggle aura for frost damage boost with HP drain, phylactery stores HP for resurrection',
         visual: {
-            type: 'dual-bar',
-            count: 'variable',
-            arrangement: 'horizontal',
-            baseColor: '#1B3A52',
+            type: 'eternal-frost-phylactery',
+            arrangement: 'horizontal-segmented',
+            baseColor: '#2D1B69',
             activeColor: '#4A90E2',
-            glowColor: '#87CEEB',
-            icon: '❄️',
-            effects: ['frost', 'undead', 'aura']
+            glowColor: '#00FFFF',
+            icon: 'fa-gem',
+            // Specialization configurations
+            frostbound_tyrant: {
+                name: 'Frostbound Tyrant',
+                maxPhylactery: 50,
+                segments: 10,
+                color: '#4A90E2',
+                glow: '#87CEEB',
+                icon: 'fa-snowflake'
+            },
+            spectral_reaper: {
+                name: 'Spectral Reaper',
+                maxPhylactery: 50,
+                segments: 10,
+                color: '#9370DB',
+                glow: '#BA55D3',
+                icon: 'fa-skull'
+            },
+            phylactery_guardian: {
+                name: 'Phylactery Guardian',
+                maxPhylactery: 75,
+                segments: 15,
+                color: '#2D1B69',
+                glow: '#8A2BE2',
+                icon: 'fa-shield-alt'
+            }
         },
         mechanics: {
             aura: {
                 active: false,
                 bonusDamage: '1d6',
                 healthDrain: '1d6 per turn',
-                chillingEffect: 'DC 15 Constitution save or -10 ft movement'
+                chillingDC: 17,
+                chillingEffect: '-10 ft movement'
             },
             phylactery: {
-                max: 50, // Can store up to 50 HP
+                max: 50, // Can store up to 50 HP (75 for Phylactery Guardian)
                 current: 0,
                 storageRitual: '1 hour to transfer 10 HP',
-                resurrectionCost: 10,
-                resurrectionHP: 10,
+                resurrectionCost: 10, // 8 for Phylactery Guardian
+                resurrectionHP: 10, // 15 for Phylactery Guardian
                 limitPerCombat: 1,
                 rechargePerRest: 10
             },
@@ -636,8 +949,8 @@ export const CLASS_RESOURCE_TYPES = {
             gainVerb: 'store'
         },
         tooltip: {
-            title: 'Eternal Frost Aura: {active} | Phylactery: {current}/50 HP',
-            description: 'Aura: +1d6 frost damage, -1d6 HP/turn | Phylactery: Resurrection backup',
+            title: 'Eternal Frost Aura & Phylactery',
+            description: 'Toggle aura for frost damage boost with HP drain, phylactery stores HP for resurrection',
             showAuraStatus: true,
             showPhylacteryHP: true
         }
@@ -777,33 +1090,89 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
 };
 
 CLASS_RESOURCE_TYPES['Inscriptor'] = {
-    id: 'glyphSlots',
-    name: 'Glyph Slots',
-    shortName: 'GS',
-    type: 'runic',
-    description: 'Runic glyphs that can be inscribed and connected in magical circuits',
+    id: 'runesInscriptions',
+    name: 'Runes & Inscriptions',
+    shortName: 'R&I',
+    type: 'dual-runic',
+    description: 'Dual mechanic system: Runic Wrapping for battlefield control and Inscription Placement for equipment enhancement',
     visual: {
-        type: 'progress-bar',
-        count: 'calculated',
-        arrangement: 'horizontal',
-        baseColor: '#4A2C0A',
-        activeColor: '#FFD700',
-        glowColor: '#FFA500',
-        icon: '🔮',
-        effects: ['runic', 'inscription']
+        type: 'runes-inscriptions',
+        arrangement: 'horizontal-split',
+        runes: {
+            baseColor: '#1A0F2E',
+            activeColor: '#4169E1',
+            glowColor: '#6495ED',
+            segmentBorder: '#2E1A5E',
+            icon: 'fa-scroll'
+        },
+        inscriptions: {
+            baseColor: '#2E1A0A',
+            activeColor: '#FFD700',
+            glowColor: '#FFA500',
+            segmentBorder: '#4A2C1A',
+            icon: 'fa-feather-alt'
+        },
+        // Specialization configurations
+        runebinder: {
+            name: 'Runebinder',
+            maxRunes: 12,
+            maxInscriptions: 1,
+            color: '#4169E1',
+            glow: '#6495ED',
+            icon: 'fa-circle-nodes'
+        },
+        enchanter: {
+            name: 'Enchanter',
+            maxRunes: 3,
+            maxInscriptions: 6,
+            color: '#FFD700',
+            glow: '#FFA500',
+            icon: 'fa-wand-magic-sparkles'
+        },
+        glyphweaver: {
+            name: 'Glyphweaver',
+            maxRunes: 8,
+            maxInscriptions: 2,
+            color: '#DC143C',
+            glow: '#FF6347',
+            icon: 'fa-burst'
+        },
+        base: {
+            name: 'Base Inscriptor',
+            maxRunes: 8,
+            maxInscriptions: 3,
+            color: '#6495ED',
+            glow: '#87CEEB',
+            icon: 'fa-scroll'
+        }
     },
     mechanics: {
-        max: 'calculated',
-        current: 0,
-        regen: 0,
-        consumeVerb: 'inscribe',
-        gainVerb: 'charge'
+        runes: {
+            max: 8, // Base max, varies by specialization
+            current: 0,
+            cost: 3, // mana per rune
+            actionCost: 1, // action to place
+            zoneThreshold: 3, // minimum runes to form zone
+            generation: 'Place for 3 mana, 1 action each',
+            usage: '3+ runes form zone, detonate for effects'
+        },
+        inscriptions: {
+            max: 3, // Base max, varies by specialization
+            current: 0,
+            timing: 'At combat start',
+            slots: ['weapon', 'armor', 'boots', 'cape', 'belt', 'pants'],
+            generation: 'At combat start, choose slots',
+            usage: 'Enhance equipment, cannot stack same slot'
+        },
+        consumeVerb: 'detonate/remove',
+        gainVerb: 'place/inscribe'
     },
     tooltip: {
-        title: 'Glyph Slots: {current}/{max} | Circuits: {circuits}',
-        description: 'Runic glyphs connected in magical circuits',
-        showGlyphs: true,
-        showCircuits: true
+        title: 'Runes: {runes}/{maxRunes} | Inscriptions: {inscriptions}/{maxInscriptions}',
+        description: 'Dual mechanic: Runic zones + Equipment enhancement',
+        showRunes: true,
+        showInscriptions: true,
+        showSpecialization: true
     }
 };
 
@@ -953,60 +1322,128 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
     name: 'Wild Instinct',
     shortName: 'WI',
     type: 'primal',
-    description: 'Primal instinct energy for shapeshifting and wild abilities',
+    description: 'Primal energy for shapeshifting and wild abilities',
     visual: {
-        type: 'progress-bar',
-        count: 5,
-        arrangement: 'horizontal',
-        baseColor: '#0F4B0F',
-        activeColor: '#32CD32',
-        glowColor: '#90EE90',
-        icon: '🐺',
-        effects: ['primal', 'transformation']
+        type: 'wild-instinct-forms',
+        count: 15,
+        arrangement: 'segmented',
+        baseColor: '#2D2D2D',
+        icon: 'fas fa-paw',
+        effects: ['primal', 'transformation', 'shapeshifting'],
+        forms: {
+            human: {
+                id: 'human',
+                name: 'Human',
+                icon: 'fas fa-user',
+                color: '#808080',
+                activeColor: '#A0A0A0',
+                glowColor: '#C0C0C0',
+                borderColor: '#FFFFFF',
+                description: 'Not Transformed',
+                generation: 'Cannot generate WI in human form',
+                passive: 'No form bonuses'
+            },
+            nightstalker: {
+                id: 'nightstalker',
+                name: 'Nightstalker',
+                icon: 'fas fa-cat',
+                color: '#2D1B4E',
+                activeColor: '#4B2D7A',
+                glowColor: '#7B4FBD',
+                borderColor: '#9370DB',
+                description: 'Stealth & Burst Damage',
+                generation: '+1 WI per round in stealth, +2 WI from Ambush',
+                passive: '+2 to stealth, advantage on ambush attacks'
+            },
+            ironhide: {
+                id: 'ironhide',
+                name: 'Ironhide',
+                icon: 'fas fa-shield',
+                color: '#5C4033',
+                activeColor: '#8B6F47',
+                glowColor: '#A0826D',
+                borderColor: '#8B4513',
+                description: 'Tank & Durability',
+                generation: '+1 WI per enemy taunted, +2 WI from protecting allies',
+                passive: '+20 HP, damage resistance to physical'
+            },
+            skyhunter: {
+                id: 'skyhunter',
+                name: 'Skyhunter',
+                icon: 'fas fa-dove',
+                color: '#4682B4',
+                activeColor: '#5F9EA0',
+                glowColor: '#87CEEB',
+                borderColor: '#00BFFF',
+                description: 'Mobility & Aerial Control',
+                generation: '+1 WI from scouting, +2 WI from Dive Attack',
+                passive: 'Flight speed 60ft, advantage on Perception'
+            },
+            frostfang: {
+                id: 'frostfang',
+                name: 'Frostfang',
+                icon: 'fas fa-wolf-pack-battalion',
+                color: '#4F7CAC',
+                activeColor: '#6B9BD1',
+                glowColor: '#B0E0E6',
+                borderColor: '#ADD8E6',
+                description: 'Pack Tactics & Tracking',
+                generation: '+1 WI from tracking, +2 WI from Pack Tactics',
+                passive: 'Advantage when ally is within 5ft, enhanced tracking'
+            }
+        }
     },
     mechanics: {
-        max: 5,
+        max: 15,
         current: 0,
+        currentForm: 'human',
         regen: 0,
         consumeVerb: 'shift',
-        gainVerb: 'attune'
+        gainVerb: 'attune',
+        transformCost: 1,
+        freeFirstTransform: true
     },
     tooltip: {
-        title: 'Wild Instinct: {current}/5 | Form: {form}',
-        description: 'Primal energy for shapeshifting abilities',
+        title: 'Wild Instinct: {current}/{max}',
         showInstinct: true,
-        showForm: true
+        showForm: true,
+        showGeneration: true,
+        showPassive: true
     }
 };
 
 CLASS_RESOURCE_TYPES['Primalist'] = {
-    id: 'primalResonance',
-    name: 'Primal Resonance',
-    shortName: 'PR',
-    type: 'elemental',
-    description: 'Elemental resonance connecting to active totems',
+    id: 'totemicSynergy',
+    name: 'Totemic Synergy',
+    shortName: 'TS',
+    type: 'totemic',
+    description: 'Totemic energy and synergy activation',
     visual: {
-        type: 'progress-bar',
-        count: 6,
-        arrangement: 'horizontal',
+        type: 'totemic-synergy',
         baseColor: '#4A2C0A',
-        activeColor: '#FF6347',
-        glowColor: '#FFA500',
-        icon: '🗿',
-        effects: ['elemental', 'totemic']
+        activeColor: '#8B4513',
+        glowColor: '#CD853F',
+        icon: 'fas fa-torii-gate',
+        effects: ['elemental', 'totemic', 'synergy']
     },
     mechanics: {
-        max: 6,
+        max: 100,
         current: 0,
+        totems: {
+            max: 8,
+            current: 0
+        },
+        synergyThreshold: 4, // Default, Stormbringer uses 3
         regen: 0,
-        consumeVerb: 'resonate',
-        gainVerb: 'attune'
+        consumeVerb: 'activate',
+        gainVerb: 'harmonize'
     },
     tooltip: {
-        title: 'Primal Resonance: {current}/6 | Totems: {totems}',
-        description: 'Elemental energy linking to active totems',
-        showResonance: true,
-        showTotems: true
+        title: 'Totemic Synergy',
+        description: '',
+        showSynergy: true,
+        showTotems: true,
+        showThreshold: true
     }
 };
 
@@ -1131,7 +1568,7 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
     type: 'resilience',
     description: 'Convert damage taken into dark power (1 DRP per 5 damage)',
     visual: {
-        type: 'progress-bar',
+        type: 'drp-resilience',
         count: 50,
         arrangement: 'horizontal',
         baseColor: '#1a0033',
@@ -1166,7 +1603,7 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
     },
     tooltip: {
         title: 'DRP: {current}/50 | Regen: {regen} HP/turn',
-        description: 'Dark power from damage taken. Spend for shields, strikes, and fortitude',
+        description: '',
         showDRP: true,
         showRegen: true,
         showResistance: true
@@ -1597,68 +2034,153 @@ CLASS_RESOURCE_TYPES['Bladedancer'] = {
     }
 };
 
-// SENTINEL PATH
+// LUNARCH - LUNAR PHASES
 CLASS_RESOURCE_TYPES['Lunarch'] = {
-    id: 'lunarCharge',
-    name: 'Lunar Charge',
-    shortName: 'LC',
-    type: 'lunar',
-    description: 'Lunar energy that changes with moon phases',
+    id: 'lunarPhases',
+    name: 'Lunar Phases',
+    shortName: 'Phase',
+    type: 'lunar_cycle',
+    description: 'Cyclical moon phases that grant different bonuses and alter spell effects',
     visual: {
-        type: 'progress-bar',
-        count: 'variable',
-        arrangement: 'horizontal',
-        baseColor: '#1F1F2F',
+        type: 'lunar-phases',
+        arrangement: 'circular-phases',
+        baseColor: '#1A1A2E',
         activeColor: '#E6E6FA',
-        glowColor: '#F8F8FF',
-        icon: '🌙',
-        effects: ['lunar', 'celestial']
+        glowColor: '#F0E68C',
+        icon: 'fa-moon',
+        // Phase configurations
+        new_moon: {
+            name: 'New Moon',
+            color: '#2C2C3E',
+            glow: '#4A4A6A',
+            icon: 'fa-circle',
+            theme: 'Defense'
+        },
+        waxing_moon: {
+            name: 'Waxing Moon',
+            color: '#87CEEB',
+            glow: '#B0E0E6',
+            icon: 'fa-adjust',
+            theme: 'Healing'
+        },
+        full_moon: {
+            name: 'Full Moon',
+            color: '#F0E68C',
+            glow: '#FFD700',
+            icon: 'fa-circle',
+            theme: 'Offense'
+        },
+        waning_moon: {
+            name: 'Waning Moon',
+            color: '#9370DB',
+            glow: '#BA55D3',
+            icon: 'fa-adjust',
+            theme: 'Efficiency'
+        },
+        // Specialization configurations
+        moonlight_sentinel: {
+            name: 'Moonlight Sentinel',
+            color: '#C0C0C0',
+            glow: '#E8E8E8',
+            icon: 'fa-crosshairs'
+        },
+        starfall_invoker: {
+            name: 'Starfall Invoker',
+            color: '#4169E1',
+            glow: '#6495ED',
+            icon: 'fa-star'
+        },
+        lunar_guardian: {
+            name: 'Lunar Guardian',
+            color: '#98FB98',
+            glow: '#90EE90',
+            icon: 'fa-shield-alt'
+        }
     },
     mechanics: {
-        max: 'calculated', // Based on current phase
-        current: 0,
-        phase: 'full',
-        regen: 0,
-        consumeVerb: 'channel',
-        gainVerb: 'absorb'
+        phases: ['new_moon', 'waxing_moon', 'full_moon', 'waning_moon'],
+        currentPhase: 'new_moon',
+        roundsInPhase: 0,
+        phaseDuration: 3, // Rounds per phase
+        manualShiftCost: 8, // Mana cost to manually shift phases
+        naturalCycling: true
     },
     tooltip: {
-        title: 'Lunar Charge: {current}/{max} | Phase: {phase}',
-        description: 'Moonlight energy varying with lunar phases',
-        showCharge: true,
-        showPhase: true
+        title: 'Lunar Phases',
+        description: 'Cyclical moon phases that grant different bonuses. Phases naturally cycle every 3 rounds or can be manually shifted for 8 mana.'
     }
 };
 
 CLASS_RESOURCE_TYPES['Huntress'] = {
-    id: 'quarryTracking',
-    name: 'Quarry Tracking',
-    shortName: 'QT',
+    id: 'quarryMarksCompanion',
+    name: 'Quarry Marks & Companion',
+    shortName: 'QM',
     type: 'hunter',
-    description: 'Quarry marks and precision stacks for enhanced hunting',
+    description: 'Track prey with Quarry Marks and command your companion in battle',
     visual: {
-        type: 'progress-bar',
-        count: 'variable',
-        arrangement: 'horizontal',
-        baseColor: '#4A2C0A',
-        activeColor: '#FF6347',
-        glowColor: '#FFA500',
-        icon: '🎯',
-        effects: ['tracking', 'precision']
+        type: 'quarry-marks-companion',
+        quarryMarks: {
+            max: 5,
+            baseColor: '#2C1810',
+            emptyColor: '#1A0F08',
+            segmentBorder: '#4A2C1A',
+            // Specialization-specific visuals
+            bladestorm: {
+                activeColor: '#DC143C',
+                glowColor: '#FF6B6B',
+                icon: 'fa-glaive-alt',
+                name: 'Bladestorm'
+            },
+            beastmaster: {
+                activeColor: '#2E7D32',
+                glowColor: '#66BB6A',
+                icon: 'fa-paw',
+                name: 'Beastmaster'
+            },
+            shadowdancer: {
+                activeColor: '#6A1B9A',
+                glowColor: '#BA68C8',
+                icon: 'fa-moon',
+                name: 'Shadowdancer'
+            }
+        },
+        companion: {
+            defaultHP: 50,
+            maxHP: 50,
+            portraitSize: 40
+        }
     },
     mechanics: {
-        max: 'unlimited',
-        current: 0,
-        precision: 0,
-        regen: 0,
-        consumeVerb: 'track',
-        gainVerb: 'mark'
+        quarryMarks: {
+            max: 5,
+            current: 0,
+            generation: {
+                glaiveHit: 1,
+                companionHit: 1,
+                criticalHit: 2,
+                companionCrit: 2,
+                markQuarryAbility: 1
+            },
+            spending: {
+                enhanceCompanion: 1,
+                extendChain: 2,
+                companionSpecial: 3,
+                ultimate: 5
+            },
+            persistence: 'Marks persist between combats'
+        },
+        companion: {
+            hp: 50,
+            maxHP: 50,
+            commands: ['Attack', 'Defend', 'Support'],
+            commandCost: '1 AP each'
+        }
     },
     tooltip: {
-        title: 'Quarry: {quarry} | Precision: {precision}',
-        description: 'Marked quarry and accumulated precision bonuses',
-        showQuarry: true,
-        showPrecision: true
+        title: 'Quarry Marks: {current}/5 | Companion: {companionHP}/{maxCompanionHP} HP',
+        description: 'Generate marks through attacks, spend on powerful abilities and companion enhancements',
+        showQuarryMarks: true,
+        showCompanion: true
     }
 };
 
@@ -1686,6 +2208,88 @@ export const getResourceDisplayText = (classResource, config) => {
             return `Luck: ${classResource.current} | Risk: ${classResource.risk || 0}`;
         default:
             return `${classResource.current}/${classResource.max} ${config.shortName}`;
+    }
+};
+
+CLASS_RESOURCE_TYPES['Oracle'] = {
+    id: 'propheticVisions',
+    name: 'Prophetic Visions',
+    shortName: 'PV',
+    type: 'divination',
+    description: 'Mystic insight gained through accurate predictions and revelations, spent to manipulate fate',
+    visual: {
+        type: 'prophetic-visions',
+        max: 10,
+        baseColor: '#1A0F2E',
+        emptyColor: '#0D0718',
+        segmentBorder: '#2E1A5E',
+        // Specialization-specific visuals
+        seer: {
+            name: 'Seer',
+            activeColor: '#9370DB',
+            glowColor: '#DDA0DD',
+            icon: 'fa-eye',
+            theme: 'Future Sight & Prediction Mastery'
+        },
+        truthseeker: {
+            name: 'Truthseeker',
+            activeColor: '#4682B4',
+            glowColor: '#87CEEB',
+            icon: 'fa-book-open',
+            theme: 'Past Sight & Hidden Knowledge'
+        },
+        fateweaver: {
+            name: 'Fateweaver',
+            activeColor: '#DAA520',
+            glowColor: '#FFD700',
+            icon: 'fa-dice',
+            theme: 'Destiny Manipulation & Rerolls'
+        }
+    },
+    mechanics: {
+        visions: {
+            max: 10,
+            current: 3, // Start with 3 after long rest
+            generation: {
+                simpleCorrectPrediction: 1,
+                moderateCorrectPrediction: 2,
+                complexCorrectPrediction: 3,
+                revelation: 1,
+                fulfilledProphecy: 2,
+                witnessCritical: 1
+            },
+            spending: {
+                alterFateMinor: 1,
+                alterFateModerate: 2,
+                alterFateMajor: 3,
+                divinationSpell: 'varies',
+                prophecyActivation: 'varies'
+            },
+            persistence: 'Visions persist between combats, reset to 3 on long rest'
+        },
+        predictionTracking: {
+            totalPredictions: 0,
+            correctPredictions: 0,
+            accuracyChain: 0, // Consecutive correct predictions
+            lastPredictionType: null // 'simple' | 'moderate' | 'complex'
+        },
+        revelations: {
+            secretsRevealed: 0,
+            liesDetected: 0,
+            illusionsExposed: 0
+        },
+        fateManipulation: {
+            rerollsForced: 0,
+            fateLocksApplied: 0,
+            threadsManipulated: 0
+        }
+    },
+    tooltip: {
+        title: 'Prophetic Visions: {current}/10',
+        description: 'Mystic insight gained through predictions and revelations',
+        showVisions: true,
+        showSpecPassive: true,
+        showPredictionAccuracy: true
     }
 };
 
