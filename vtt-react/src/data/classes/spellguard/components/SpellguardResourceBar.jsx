@@ -263,7 +263,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             {showControls && (
                 <div className="spellguard-dev-controls">
                     <div className="controls-header">
-                        <span>Spellguard Dev Controls</span>
+                        <span>Arcane Absorption</span>
                         <button onClick={() => setShowControls(false)}>
                             <i className="fas fa-times"></i>
                         </button>
@@ -271,6 +271,9 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
                     <div className="control-group">
                         <label>AEP Level: {localAEP}/{maxAEP}</label>
+                        <div className="aep-info">
+                            Absorb magical damage to generate AEP. Spend on shields, reflections, and strikes.
+                        </div>
                         <div className="button-row">
                             <button onClick={() => setLocalAEP(0)}>0</button>
                             <button onClick={() => setLocalAEP(15)}>15</button>
