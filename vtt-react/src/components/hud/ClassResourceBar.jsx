@@ -6,6 +6,7 @@ import PlaguebringerResourceBar from '../../data/classes/plaguebringer/component
 import PrimalistResourceBar from '../../data/classes/primalist/components/PrimalistResourceBar';
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
 import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
+import TitanResourceBar from '../../data/classes/titan/components/TitanResourceBar';
 
 const ClassResourceBar = ({
     characterClass,
@@ -415,6 +416,8 @@ const ClassResourceBar = ({
                 return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
             case 'arcane-absorption':
                 return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+            case 'celestial-devotion':
+                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
             case 'progress-bar':
                 return renderProgressBar();
             default:
@@ -7186,13 +7189,14 @@ const ClassResourceBar = ({
     const isPrimalist = finalConfig.visual?.type === 'totemic-synergy';
     const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
     const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
+    const isTitan = finalConfig.visual?.type === 'celestial-devotion';
 
     return (
         <>
             <div
                 className={`class-resource-wrapper ${isGMMode ? 'clickable' : ''}`}
-                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard ? handleMouseEnter : undefined}
-                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard ? handleMouseLeave : undefined}
+                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan ? handleMouseEnter : undefined}
+                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan ? handleMouseLeave : undefined}
                 onMouseMove={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist ? handleMouseMove : undefined}
                 onClick={handleClick}
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}

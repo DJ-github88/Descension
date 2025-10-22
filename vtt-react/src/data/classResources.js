@@ -1087,6 +1087,37 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
     }
 };
 
+CLASS_RESOURCE_TYPES['Titan'] = {
+    id: 'celestialDevotion',
+    name: 'Celestial Devotion',
+    shortName: 'Divine Charge',
+    type: 'devotion',
+    description: 'Attune to one of five celestial beings each day, channeling divine power through combat and devotion fulfillment',
+    visual: {
+        type: 'celestial-devotion',
+        baseColor: '#FFD700',
+        activeColor: '#FFA500',
+        glowColor: '#FFFF00',
+        icon: 'fa-sun',
+        effects: ['celestial', 'devotion', 'divine']
+    },
+    mechanics: {
+        max: 100, // Maximum 100 Divine Charge
+        current: 60,
+        regen: 0, // Builds through combat and devotion fulfillment
+        decay: 0, // No decay
+        consumeVerb: 'channel',
+        gainVerb: 'build'
+    },
+    tooltip: {
+        title: 'Celestial Devotion: {current}/{max}',
+        description: 'Divine charge built through combat. Attune to Solara, Lunara, Astraeus, Terranox, or Zephyra.',
+        showCharge: true,
+        showDevotion: true,
+        showUltimate: true
+    }
+};
+
 CLASS_RESOURCE_TYPES['Inscriptor'] = {
     id: 'runesInscriptions',
     name: 'Runes & Inscriptions',

@@ -1,0 +1,666 @@
+/* Titan Celestial Devotion Resource Bar */
+
+.titan-resource-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Resource Bar Row - Devotion Button + Bar */
+.resource-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Devotion Cycle Button */
+.devotion-cycle-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.95), rgba(40, 30, 20, 0.95));
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.devotion-cycle-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+}
+
+/* Main Resource Bar */
+.titan-resource-bar {
+    position: relative;
+    flex: 1;
+    height: 36px;
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.95), rgba(40, 30, 20, 0.95));
+    border: 2px solid rgba(139, 69, 19, 0.8);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.titan-resource-bar.clickable:hover {
+    border-color: var(--devotion-active-color);
+    box-shadow: 0 0 12px var(--devotion-glow-color);
+}
+
+/* Celestial Background Pattern */
+.celestial-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, var(--devotion-base-color) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, var(--devotion-base-color) 0%, transparent 50%);
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+/* Divine Aura Overlay */
+.divine-aura {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.aura-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--devotion-glow-color);
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatParticle 3s infinite ease-in-out;
+}
+
+.aura-particle:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.aura-particle:nth-child(2) {
+    left: 50%;
+    animation-delay: 1s;
+}
+
+.aura-particle:nth-child(3) {
+    left: 80%;
+    animation-delay: 2s;
+}
+
+@keyframes floatParticle {
+    0%, 100% { 
+        bottom: 0; 
+        opacity: 0; 
+        transform: scale(0.5);
+    }
+    50% { 
+        bottom: 100%; 
+        opacity: 0.6; 
+        transform: scale(1);
+    }
+}
+
+/* Charge Fill Bar */
+.charge-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        var(--devotion-base-color) 0%, 
+        var(--devotion-active-color) 50%, 
+        var(--devotion-glow-color) 100%
+    );
+    transition: width 0.4s ease;
+    box-shadow: inset 0 0 10px var(--devotion-glow-color);
+}
+
+/* Divine Energy Effect */
+.divine-energy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        transparent 100%
+    );
+    animation: divineFlow 2s infinite linear;
+}
+
+@keyframes divineFlow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Charge Display */
+.charge-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    text-shadow: 
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 0 8px var(--devotion-glow-color);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.charge-current {
+    font-size: 16px;
+    color: var(--devotion-glow-color);
+}
+
+.charge-separator {
+    font-size: 14px;
+    color: rgba(222, 184, 135, 0.7);
+}
+
+.charge-max {
+    font-size: 14px;
+    color: rgba(222, 184, 135, 0.7);
+}
+
+.charge-label {
+    font-size: 10px;
+    color: rgba(222, 184, 135, 0.6);
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Visual Intensity States */
+.titan-resource-bar.dormant .charge-fill {
+    opacity: 0.3;
+    filter: grayscale(0.8);
+}
+
+.titan-resource-bar.faint .charge-fill {
+    opacity: 0.5;
+    animation: faintPulse 3s infinite ease-in-out;
+}
+
+.titan-resource-bar.awakening .charge-fill {
+    opacity: 0.7;
+    animation: awakeningPulse 2.5s infinite ease-in-out;
+}
+
+.titan-resource-bar.channeling .charge-fill {
+    opacity: 0.85;
+    animation: channelingPulse 2s infinite ease-in-out;
+}
+
+.titan-resource-bar.empowered .charge-fill {
+    opacity: 0.95;
+    animation: empoweredPulse 1.5s infinite ease-in-out;
+}
+
+.titan-resource-bar.divine .charge-fill {
+    opacity: 1;
+    animation: divinePulse 1s infinite ease-in-out;
+}
+
+@keyframes faintPulse {
+    0%, 100% { filter: brightness(0.8); }
+    50% { filter: brightness(1); }
+}
+
+@keyframes awakeningPulse {
+    0%, 100% { filter: brightness(0.9); }
+    50% { filter: brightness(1.1); }
+}
+
+@keyframes channelingPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+@keyframes empoweredPulse {
+    0%, 100% { filter: brightness(1.1); }
+    50% { filter: brightness(1.3); }
+}
+
+@keyframes divinePulse {
+    0%, 100% { 
+        filter: brightness(1.2); 
+        box-shadow: inset 0 0 10px var(--devotion-glow-color);
+    }
+    50% { 
+        filter: brightness(1.5); 
+        box-shadow: inset 0 0 20px var(--devotion-glow-color);
+    }
+}
+
+/* Charging Animation State */
+.titan-resource-bar.charging .charge-fill {
+    animation: chargingSurge 0.8s ease-out;
+}
+
+@keyframes chargingSurge {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2) saturate(1.5); }
+    100% { filter: brightness(1); }
+}
+
+/* Devotion Switching Animation State */
+.titan-resource-bar.switching {
+    animation: devotionSwitch 0.8s ease-out;
+}
+
+@keyframes devotionSwitch {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; transform: scale(0.98); }
+}
+
+/* Celestial Champion - Double Flare Effect (80+ charge) */
+.titan-resource-bar.champion-flare .charge-fill {
+    animation: championFlare 1.2s infinite ease-in-out;
+}
+
+@keyframes championFlare {
+    0%, 100% { 
+        filter: brightness(1.3);
+        box-shadow: 
+            inset 0 0 15px var(--devotion-glow-color),
+            0 0 10px var(--devotion-glow-color);
+    }
+    25% { 
+        filter: brightness(1.8);
+        box-shadow: 
+            inset 0 0 25px var(--devotion-glow-color),
+            0 0 20px var(--devotion-glow-color);
+    }
+    50% { 
+        filter: brightness(1.3);
+        box-shadow: 
+            inset 0 0 15px var(--devotion-glow-color),
+            0 0 10px var(--devotion-glow-color);
+    }
+    75% { 
+        filter: brightness(1.8);
+        box-shadow: 
+            inset 0 0 25px var(--devotion-glow-color),
+            0 0 20px var(--devotion-glow-color);
+    }
+}
+
+/* Divine Conduit - Dual Glow Effect (60+ charge) */
+.titan-resource-bar.conduit-dual .charge-fill {
+    box-shadow: 
+        inset 0 0 10px var(--devotion-glow-color),
+        inset 0 0 20px rgba(255, 255, 255, 0.3),
+        0 0 8px var(--devotion-glow-color),
+        0 0 16px rgba(255, 255, 255, 0.2);
+    animation: conduitDualGlow 2s infinite ease-in-out;
+}
+
+@keyframes conduitDualGlow {
+    0%, 100% { filter: brightness(1.2) hue-rotate(0deg); }
+    50% { filter: brightness(1.4) hue-rotate(15deg); }
+}
+
+/* Devotion-Specific Overlay Effects */
+
+/* Solara - Radiant Rays */
+.radiant-rays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 215, 0, 0.1) 10px,
+        rgba(255, 215, 0, 0.1) 12px
+    );
+    animation: radiateRays 2s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes radiateRays {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(20px); }
+}
+
+/* Lunara - Lunar Glow */
+.lunar-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(135, 206, 235, 0.3) 0%, transparent 70%);
+    animation: lunarPulse 3s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes lunarPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Astraeus - Starlit Shimmer */
+.starlit-shimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 15% 50%, rgba(186, 85, 211, 0.4) 0%, transparent 10%),
+        radial-gradient(circle at 45% 30%, rgba(186, 85, 211, 0.4) 0%, transparent 10%),
+        radial-gradient(circle at 75% 70%, rgba(186, 85, 211, 0.4) 0%, transparent 10%);
+    animation: starShimmer 2s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes starShimmer {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+/* Terranox - Earthen Pulse */
+.earthen-pulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(139, 69, 19, 0.3) 50%, 
+        transparent 100%
+    );
+    animation: earthPulse 2.5s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes earthPulse {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+/* Zephyra - Wind Swirl */
+.wind-swirl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(0, 206, 209, 0.2) 25%, 
+        transparent 50%,
+        rgba(0, 206, 209, 0.2) 75%,
+        transparent 100%
+    );
+    background-size: 200% 200%;
+    animation: windSwirl 1.5s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes windSwirl {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+/* Tooltip Styling */
+.titan-tooltip {
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.98), rgba(40, 30, 20, 0.98));
+    border: 2px solid rgba(139, 69, 19, 0.9);
+    border-radius: 6px;
+    padding: 12px;
+    min-width: 280px;
+    max-width: 350px;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.titan-tooltip.top::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(139, 69, 19, 0.9);
+}
+
+.titan-tooltip.bottom::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid rgba(139, 69, 19, 0.9);
+}
+
+.tooltip-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(222, 184, 135, 1);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.5);
+    text-align: center;
+}
+
+.tooltip-section {
+    margin-bottom: 8px;
+}
+
+.tooltip-section:last-child {
+    margin-bottom: 0;
+}
+
+.tooltip-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(222, 184, 135, 0.9);
+    margin-bottom: 3px;
+}
+
+.tooltip-value {
+    font-size: 11px;
+    color: rgba(222, 184, 135, 0.75);
+    line-height: 1.4;
+}
+
+.tooltip-section.spec-section {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(139, 69, 19, 0.4);
+}
+
+/* Dev Controls */
+.titan-dev-controls {
+    margin-top: 12px;
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.98), rgba(40, 30, 20, 0.98));
+    border: 2px solid rgba(139, 69, 19, 0.8);
+    border-radius: 6px;
+    padding: 12px;
+    font-family: 'Cinzel', serif;
+}
+
+.controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.5);
+}
+
+.controls-header span {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(222, 184, 135, 1);
+}
+
+.controls-header button {
+    background: none;
+    border: none;
+    color: rgba(222, 184, 135, 0.7);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.controls-header button:hover {
+    color: rgba(222, 184, 135, 1);
+}
+
+.control-group {
+    margin-bottom: 12px;
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+.control-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(222, 184, 135, 0.9);
+    margin-bottom: 6px;
+}
+
+.charge-info {
+    font-size: 10px;
+    color: rgba(222, 184, 135, 0.6);
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.button-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.button-row:last-child {
+    margin-bottom: 0;
+}
+
+.button-row button {
+    flex: 1;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(60, 45, 30, 0.8), rgba(80, 60, 40, 0.8));
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 3px;
+    color: rgba(222, 184, 135, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button-row button:hover {
+    background: linear-gradient(135deg, rgba(80, 60, 40, 0.9), rgba(100, 75, 50, 0.9));
+    border-color: rgba(139, 69, 19, 0.9);
+    color: rgba(222, 184, 135, 1);
+}
+
+.button-row button:active {
+    transform: scale(0.98);
+}
+
+/* Devotion Grid */
+.devotion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.devotion-grid button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    background: linear-gradient(135deg, rgba(60, 45, 30, 0.8), rgba(80, 60, 40, 0.8));
+    border: 2px solid;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.devotion-grid button:hover {
+    background: linear-gradient(135deg, rgba(80, 60, 40, 0.9), rgba(100, 75, 50, 0.9));
+    transform: scale(1.02);
+}
+
+.devotion-grid button.active {
+    background: linear-gradient(135deg, rgba(100, 75, 50, 0.95), rgba(120, 90, 60, 0.95));
+}
+
+.devotion-grid button i {
+    font-size: 14px;
+}
+
+/* Spec Grid */
+.spec-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.spec-grid button {
+    padding: 8px 10px;
+    background: linear-gradient(135deg, rgba(60, 45, 30, 0.8), rgba(80, 60, 40, 0.8));
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 3px;
+    color: rgba(222, 184, 135, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.spec-grid button:hover {
+    background: linear-gradient(135deg, rgba(80, 60, 40, 0.9), rgba(100, 75, 50, 0.9));
+    border-color: rgba(139, 69, 19, 0.9);
+}
+
+.spec-grid button.active {
+    background: linear-gradient(135deg, rgba(100, 75, 50, 0.95), rgba(120, 90, 60, 0.95));
+    border-color: rgba(139, 69, 19, 1);
+    color: rgba(222, 184, 135, 1);
+}
+
