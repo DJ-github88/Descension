@@ -117,7 +117,6 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {} }) 
             const barRect = barRef.current.getBoundingClientRect();
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
             const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
 
             let top = barRect.top - tooltipRect.height - 10;
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
@@ -173,13 +172,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {} }) 
         simulateSwitch();
     };
 
-    // Cycle through specializations
-    const cycleSpec = () => {
-        const specs = Object.keys(specConfigs);
-        const currentIndex = specs.indexOf(selectedSpec);
-        const nextIndex = (currentIndex + 1) % specs.length;
-        setSelectedSpec(specs[nextIndex]);
-    };
+
 
     return (
         <div className="titan-resource-container">
