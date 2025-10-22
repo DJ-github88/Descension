@@ -7,7 +7,6 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
     const [selectedSpec, setSelectedSpec] = useState('arcaneWarden');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
-    const [showSpecSelector, setShowSpecSelector] = useState(false);
     const [isAbsorbing, setIsAbsorbing] = useState(false);
     const [isSpending, setIsSpending] = useState(false);
     
@@ -117,58 +116,47 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
         }
     };
 
+    // Cycle through specializations
+    const cycleSpec = () => {
+        const specs = Object.keys(specConfigs);
+        const currentIndex = specs.indexOf(selectedSpec);
+        const nextIndex = (currentIndex + 1) % specs.length;
+        setSelectedSpec(specs[nextIndex]);
+    };
+
     return (
         <div className="spellguard-resource-container">
-            {/* Specialization Selector */}
-            <div className="spec-selector-wrapper">
-                <button 
-                    className="spec-toggle-btn"
+            {/* Specialization Button and Main Bar Row */}
+            <div className="resource-bar-row">
+                {/* Spec Cycle Button */}
+                <button
+                    className="spec-cycle-btn"
                     onClick={(e) => {
                         e.stopPropagation();
-                        setShowSpecSelector(!showSpecSelector);
+                        cycleSpec();
+                    }}
+                    title={`Current: ${currentSpec.name}\nClick to cycle`}
+                    style={{
+                        borderColor: currentSpec.activeColor,
+                        color: currentSpec.glowColor
                     }}
                 >
                     <i className={`fas ${currentSpec.icon}`}></i>
-                    <span>{currentSpec.name}</span>
-                    <i className={`fas fa-chevron-${showSpecSelector ? 'up' : 'down'}`}></i>
                 </button>
-                
-                {showSpecSelector && (
-                    <div className="spec-dropdown">
-                        {Object.entries(specConfigs).map(([key, spec]) => (
-                            <button
-                                key={key}
-                                className={`spec-option ${selectedSpec === key ? 'active' : ''}`}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedSpec(key);
-                                    setShowSpecSelector(false);
-                                }}
-                                style={{
-                                    borderLeft: `3px solid ${spec.activeColor}`
-                                }}
-                            >
-                                <i className={`fas ${spec.icon}`}></i>
-                                <span>{spec.name}</span>
-                            </button>
-                        ))}
-                    </div>
-                )}
-            </div>
 
-            {/* Main Resource Bar */}
-            <div
-                ref={barRef}
-                className={`spellguard-resource-bar ${size} ${visualIntensity} ${isAbsorbing ? 'absorbing' : ''} ${isSpending ? 'spending' : ''} clickable`}
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-                onClick={() => setShowControls(!showControls)}
-                style={{
-                    '--spec-base-color': currentSpec.baseColor,
-                    '--spec-active-color': currentSpec.activeColor,
-                    '--spec-glow-color': currentSpec.glowColor
-                }}
-            >
+                {/* Main Resource Bar */}
+                <div
+                    ref={barRef}
+                    className={`spellguard-resource-bar ${size} ${visualIntensity} ${isAbsorbing ? 'absorbing' : ''} ${isSpending ? 'spending' : ''} clickable`}
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                    onClick={() => setShowControls(!showControls)}
+                    style={{
+                        '--spec-base-color': currentSpec.baseColor,
+                        '--spec-active-color': currentSpec.activeColor,
+                        '--spec-glow-color': currentSpec.glowColor
+                    }}
+                >
                 {/* Background arcane pattern */}
                 <div className="arcane-background"></div>
 
@@ -205,6 +193,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     <span className="aep-separator">/</span>
                     <span className="aep-max">{maxAEP}</span>
                     <span className="aep-label">AEP</span>
+                </div>
                 </div>
             </div>
 
@@ -294,18 +283,6 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                             <button onClick={() => adjustAEP(-5)}>-5</button>
                             <button onClick={() => adjustAEP(5)}>+5</button>
                             <button onClick={() => adjustAEP(10)}>+10</button>
-                        </div>
-                    </div>
-
-                    <div className="control-group">
-                        <label>Test Effects:</label>
-                        <div className="button-row">
-                            <button onClick={simulateAbsorption}>
-                                <i className="fas fa-shield-alt"></i> Absorb
-                            </button>
-                            <button onClick={simulateSpending}>
-                                <i className="fas fa-bolt"></i> Spend
-                            </button>
                         </div>
                     </div>
                 </div>
