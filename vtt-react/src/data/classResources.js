@@ -1061,15 +1061,13 @@ CLASS_RESOURCE_TYPES['Spellguard'] = {
     name: 'Arcane Energy Points',
     shortName: 'AEP',
     type: 'absorption',
-    description: 'Arcane energy absorbed from magical damage that can be spent on powerful abilities',
+    description: 'Arcane energy absorbed from magical and physical damage, spent on shields, reflections, and strikes',
     visual: {
-        type: 'progress-bar',
-        count: 'variable',
-        arrangement: 'horizontal',
+        type: 'arcane-absorption',
         baseColor: '#1E3A8A',
         activeColor: '#4169E1',
-        glowColor: '#87CEEB',
-        icon: '⚡',
+        glowColor: '#6495ED',
+        icon: 'fa-shield-halved',
         effects: ['arcane', 'absorption', 'anti-magic']
     },
     mechanics: {

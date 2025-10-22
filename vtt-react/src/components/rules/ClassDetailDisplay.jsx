@@ -802,7 +802,8 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                        classData.name === 'Lunarch' ? 0 :
                        classData.name === 'Plaguebringer' ? 65 :
                        classData.name === 'Primalist' ? 45 :
-                       classData.name === 'Pyrofiend' ? 5 : 0,
+                       classData.name === 'Pyrofiend' ? 5 :
+                       classData.name === 'Spellguard' ? 45 : 0,
               max: classData.name === 'Berserker' ? 100 :
                    classData.name === 'Chaos Weaver' ? 20 :
                    classData.name === 'Covenbane' ? 6 :
@@ -817,7 +818,8 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                    classData.name === 'Lunarch' ? 0 :
                    classData.name === 'Plaguebringer' ? 100 :
                    classData.name === 'Primalist' ? 100 :
-                   classData.name === 'Pyrofiend' ? 9 : 0,
+                   classData.name === 'Pyrofiend' ? 9 :
+                   classData.name === 'Spellguard' ? 100 : 0,
               current2: classData.name === 'Inscriptor' ? 2 : undefined,
               max2: classData.name === 'Inscriptor' ? 3 : undefined,
               spheres: []

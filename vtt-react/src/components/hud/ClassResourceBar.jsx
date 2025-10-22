@@ -5,6 +5,7 @@ import DemonConfigModal from './DemonConfigModal';
 import PlaguebringerResourceBar from '../../data/classes/plaguebringer/components/PlaguebringerResourceBar';
 import PrimalistResourceBar from '../../data/classes/primalist/components/PrimalistResourceBar';
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
+import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
 
 const ClassResourceBar = ({
     characterClass,
@@ -412,6 +413,8 @@ const ClassResourceBar = ({
                 return <PrimalistResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
             case 'inferno-veil':
                 return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+            case 'arcane-absorption':
+                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
             case 'progress-bar':
                 return renderProgressBar();
             default:
@@ -7160,7 +7163,7 @@ const ClassResourceBar = ({
     };
 
     // Don't show wrapper tooltip for Arcanoneer (spheres have individual tooltips)
-    // Rage, Bladedancer, Chronarch, Chaos Weaver, Deathcaller, Dreadnaught, Exorcist, False Prophet, Fate Weaver, Gambler, Huntress, Inscriptor, Lichborne, Lunarch, Martyr, Minstrel, Oracle, Plaguebearer, Primalist, and Pyrofiend handle their own tooltips internally
+    // Rage, Bladedancer, Chronarch, Chaos Weaver, Deathcaller, Dreadnaught, Exorcist, False Prophet, Fate Weaver, Gambler, Huntress, Inscriptor, Lichborne, Lunarch, Martyr, Minstrel, Oracle, Plaguebearer, Primalist, Pyrofiend, and Spellguard handle their own tooltips internally
     const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
     const isBladedancer = finalConfig.type === 'dual-resource';
     const isBerserker = finalConfig.type === 'rage';
@@ -7182,13 +7185,14 @@ const ClassResourceBar = ({
     const isPlaguebearer = finalConfig.visual?.type === 'corruption-bar';
     const isPrimalist = finalConfig.visual?.type === 'totemic-synergy';
     const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
+    const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
 
     return (
         <>
             <div
                 className={`class-resource-wrapper ${isGMMode ? 'clickable' : ''}`}
-                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend ? handleMouseEnter : undefined}
-                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend ? handleMouseLeave : undefined}
+                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard ? handleMouseEnter : undefined}
+                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard ? handleMouseLeave : undefined}
                 onMouseMove={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist ? handleMouseMove : undefined}
                 onClick={handleClick}
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
