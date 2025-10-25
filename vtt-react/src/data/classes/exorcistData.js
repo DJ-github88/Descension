@@ -387,6 +387,390 @@ Exorcists have three primary spells to restore Dominance:
 - "Sacrifice Play": Let demon turn hostile to damage enemies before escaping
 
 The best Exorcists learn to read demon behavior and know exactly when to assert control versus when to let go.`
+    },
+
+    playingInPerson: {
+      title: 'Playing Exorcist In Person',
+      content: `**Required Materials**:
+- **Dominance Dice** (d12, d10, d8, d6 for each bound demon)
+- **Demon Cards** (cards showing demon stats, abilities, and current DD)
+- **Demon Miniatures** (optional, for representing demons on battlefield)
+- **Binding Ritual Checklist** (components and conditions for each demon type)
+- **Dominance Restoration Tracker** (mana costs for restoration spells)
+- **Escape Save Tracker** (d20 for Charisma saves when DD reaches 0)
+
+**Primary Tracking Method: Physical Dominance Dice**
+
+The Exorcist's Dominance Die system is tracked using actual physical dice placed next to each bound demon's card or miniature. As the demon acts or takes damage, you physically downgrade the die (d12 → d10 → d8 → d6 → 0), creating a tangible representation of your weakening control.
+
+**Setup**:
+\`\`\`
+BOUND DEMONS:
+
+[IMP] "Sizzle"
+Dominance Die: [d12] ← Physical die placed here
+Status: Fully Submissive
+Actions This Turn: 0
+
+[SHADOW HOUND] "Nightfang"
+Dominance Die: [d8] ← Physical die placed here
+Status: Resistant
+Actions This Turn: 1
+
+[ABYSSAL BRUTE] "Crusher"
+Dominance Die: [d6] ← Physical die placed here
+Status: Rebellious (WARNING!)
+Actions This Turn: 2
+\`\`\`
+
+**How It Works**:
+
+**Dominance Die Degradation**:
+- **d12** (Fully Submissive): Demon obeys without question
+- **d10** (Obedient): Demon follows commands reliably
+- **d8** (Resistant): Demon hesitates, control weakening
+- **d6** (Rebellious): Demon fights your will, one step from freedom
+- **0** (Breaking Free): Demon attempts escape, roll Charisma save
+
+**What Decreases Dominance**:
+1. **Demon Performs Action**: Attack, move, use ability → DD decreases 1 step
+2. **Demon Takes Damage**: Each hit from enemy → DD decreases 1 step
+3. **Demon Uses Special Ability**: Powerful abilities → DD decreases 2 steps
+
+**Example Dominance Degradation**:
+
+*You have an Abyssal Brute bound with d8 Dominance Die*
+
+**Turn 1 - Command Demon**:
+1. "Crusher, attack the orc!"
+2. Brute attacks → Hits for 2d8 + 4 damage
+3. **Dominance Degrades**: d8 → d6 (demon performed action)
+4. Replace d8 with d6 next to demon card
+
+**Turn 2 - Demon Takes Damage**:
+1. Orc counterattacks Crusher → 15 damage
+2. **Dominance Degrades**: d6 → 0 (demon took damage)
+3. Remove die completely → **BREAKING FREE!**
+4. Roll Charisma save (DC 15) to maintain control
+
+**Turn 3 - Escape Save**:
+1. Roll 1d20 + Charisma modifier → [12] + 3 = 15 (success!)
+2. Demon remains bound but at 0 DD
+3. Must restore Dominance or demon escapes next degradation
+
+**Restoring Dominance**:
+
+You can restore Dominance by casting restoration spells:
+
+**Restoration Spells**:
+- **Reassert Control** (4 mana): Increase DD by 1 step (0 → d6, d6 → d8, etc.)
+- **Chain of Dominance** (8 mana): Increase DD by 2 steps (0 → d8, d6 → d10, etc.)
+- **Absolute Command** (12 mana): Reset DD to maximum (any → d12)
+
+**Example Restoration**:
+
+*Crusher is at 0 DD, about to escape*
+
+**Your Turn**:
+1. "I cast Reassert Control on Crusher!" (4 mana)
+2. Place d6 next to Crusher's card → **d6 DD**
+3. Crusher is now Rebellious but under control
+4. Can command Crusher again (but DD will degrade)
+
+**Binding New Demons (Pre-Combat Ritual)**:
+
+Before combat, you must perform binding rituals to capture demons. Each demon type requires specific components and conditions:
+
+**Imp Binding** (d12 starting DD):
+\`\`\`
+COMPONENTS NEEDED:
+☐ Purified lava from volcanic region
+☐ Ash from burned holy text
+☐ Flame-touched gemstone
+
+CONDITIONS:
+☐ Perform at midnight
+☐ New moon phase
+☐ Ritual circle drawn with sulfur
+
+BINDING CHECK: Arcana DC 12
+SUCCESS: Imp bound with d12 DD
+FAILURE: Imp escapes, components lost
+\`\`\`
+
+**Shadow Hound Binding** (d10 starting DD):
+\`\`\`
+COMPONENTS NEEDED:
+☐ Nightshade essence
+☐ Cloak woven from shadows
+☐ Silver mirror (never reflected sunlight)
+
+CONDITIONS:
+☐ Complete darkness
+☐ No light sources within 30 ft
+☐ Ritual circle drawn with charcoal
+
+BINDING CHECK: Arcana DC 14
+SUCCESS: Shadow Hound bound with d10 DD
+FAILURE: Hound escapes, components lost
+\`\`\`
+
+**Abyssal Brute Binding** (d8 starting DD):
+\`\`\`
+COMPONENTS NEEDED:
+☐ Giant's blood (fresh, within 24 hours)
+☐ Iron chains forged in dragonfire
+☐ Stone from deepest earth
+
+CONDITIONS:
+☐ During thunderstorm
+☐ Outdoor location
+☐ Ritual circle drawn with iron filings
+
+BINDING CHECK: Persuasion DC 16
+SUCCESS: Abyssal Brute bound with d8 DD
+FAILURE: Brute attacks, components lost
+\`\`\`
+
+**Demon Card Template**:
+\`\`\`
+═══════════════════════════════════
+         ABYSSAL BRUTE
+         "Crusher"
+═══════════════════════════════════
+DOMINANCE DIE: [d8] ← Place die here
+
+HP: 60/60
+AC: 14
+Speed: 30 ft
+
+ATTACKS:
+• Slam: +6 to hit, 2d8+4 bludgeoning
+• Rend: +6 to hit, 3d6+4 slashing (2 DD cost)
+
+SPECIAL ABILITIES:
+• Demonic Resilience: Resistance to fire
+• Brutal Strikes: Crits on 19-20
+
+DOMINANCE STATUS:
+d12: Fully Submissive
+d10: Obedient
+d8: Resistant ← CURRENT
+d6: Rebellious
+0: Breaking Free (Charisma save DC 15)
+
+ACTIONS THIS TURN: [___]
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 2 demons bound: Imp (d10 DD) and Shadow Hound (d6 DD)*
+
+**Turn 1 - Command Both Demons**:
+1. "Sizzle, cast Fireball at the goblins!"
+   - Imp casts Fireball → 8d6 fire damage
+   - **DD Degrades**: d10 → d8 (replace die)
+
+2. "Nightfang, attack the orc!"
+   - Shadow Hound attacks → 2d6 + 3 damage
+   - **DD Degrades**: d6 → 0 (remove die)
+   - **BREAKING FREE!** Roll Charisma save
+
+3. Roll save for Nightfang: 1d20 + 3 → [14] + 3 = 17 (success!)
+   - Nightfang stays bound but at 0 DD
+
+**Turn 2 - Restore Dominance**:
+1. "I cast Reassert Control on Nightfang!" (4 mana)
+2. Place d6 next to Nightfang's card
+3. "I command Sizzle to attack again!"
+   - Imp attacks → 1d6 + 2 damage
+   - **DD Degrades**: d8 → d6 (replace die)
+
+**Turn 3 - Demon Takes Damage**:
+1. Orc attacks Nightfang → 12 damage
+2. **DD Degrades**: d6 → 0 (remove die)
+3. **BREAKING FREE AGAIN!** Roll Charisma save
+4. Roll: 1d20 + 3 → [8] + 3 = 11 (FAIL!)
+5. **DEMON ESCAPES!** Nightfang breaks free and flees
+
+**Alternative Tracking Methods**:
+
+**Method 1: Dice Stacking**
+- Stack multiple dice to show DD progression
+- Remove top die as DD degrades
+- Visual height shows control strength
+
+**Method 2: Demon Tokens**
+- Use tokens to mark DD level (4 tokens = d12, 3 = d10, 2 = d8, 1 = d6)
+- Remove tokens as DD degrades
+- Simple but less thematic than actual dice
+
+**Method 3: Demon Tracker Sheet**
+- Write current DD on paper next to demon name
+- Cross out and write new DD as it degrades
+- Minimalist approach
+
+**Method 4: Colored Dice**
+- Use different colored dice for different demons
+- Easy to identify which die belongs to which demon
+- Recommended for multiple demon control
+
+**Quick Reference Card Template**:
+\`\`\`
+EXORCIST QUICK REFERENCE
+
+DOMINANCE DIE DEGRADATION:
+d12 → d10 → d8 → d6 → 0 (Breaking Free)
+
+WHAT DECREASES DD:
+• Demon performs action: -1 step
+• Demon takes damage: -1 step
+• Demon uses special ability: -2 steps
+
+ESCAPE MECHANICS:
+• At 0 DD: Roll Charisma save (DC 15)
+• Success: Demon stays bound at 0 DD
+• Failure: Demon escapes or turns hostile
+
+RESTORATION SPELLS:
+• Reassert Control (4 mana): +1 step
+• Chain of Dominance (8 mana): +2 steps
+• Absolute Command (12 mana): Reset to d12
+
+DEMON TYPES & STARTING DD:
+• Imp: d12 (easiest to control)
+• Shadow Hound: d10
+• Wraith: d10
+• Abyssal Brute: d8
+• Banshee: d8
+• Greater Demons: d6 (hardest to control)
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Exorcist experience with:
+- **Demon Miniatures**: Use actual demon minis on the battlefield
+- **Binding Chains**: Tiny chains wrapped around demon minis
+- **Ritual Components**: Keep props for binding rituals (candles, salt, etc.)
+- **Demon Voices**: Voice act demons with different personalities
+- **Escape Sound**: Make chain-breaking sound when demon escapes
+- **Dominance Tracker**: Custom board showing all demons and their DD
+
+**Dominance Management Tips**:
+
+**Building Strategy**:
+- **Bind Weak Demons First**: Imps (d12) are easiest to maintain
+- **Prepare Components**: Gather binding materials before adventures
+- **Know Your Limits**: Don't bind more demons than you can maintain
+- **Mana Reserve**: Keep mana available for Dominance restoration
+
+**Combat Strategy**:
+- **Use High DD Demons First**: Command demons with d12/d10 DD early
+- **Restore Before 0**: Cast restoration at d6 to avoid escape risk
+- **Dismiss Strategically**: Dismiss demons at low DD to avoid hostile turns
+- **Prioritize Targets**: Use demons on high-priority enemies
+
+**Multi-Demon Management**:
+- **Color-Code Dice**: Different colored dice for each demon
+- **Track Actions**: Mark which demons have acted this turn
+- **Stagger Commands**: Don't use all demons every turn
+- **Focus Restoration**: Restore one demon fully rather than all partially
+
+**Example Full Combat Sequence**:
+
+*Starting: Imp (d12), Shadow Hound (d10), Abyssal Brute (d8)*
+
+**Turn 1**: Command all 3 demons to attack
+- Imp: d12 → d10
+- Shadow Hound: d10 → d8
+- Abyssal Brute: d8 → d6
+
+**Turn 2**: Enemies attack demons
+- Imp takes damage: d10 → d8
+- Shadow Hound takes damage: d8 → d6
+- Abyssal Brute takes damage: d6 → 0 (roll save, success!)
+
+**Turn 3**: Restore Brute, command Imp and Hound
+- Cast Reassert Control on Brute: 0 → d6 (4 mana)
+- Command Imp: d8 → d6
+- Command Shadow Hound: d6 → 0 (roll save, FAIL!)
+- Shadow Hound escapes!
+
+**Turn 4**: Continue with Imp and Brute
+- Command Imp: d6 → 0 (roll save, success!)
+- Command Brute: d6 → 0 (roll save, success!)
+- Both at 0 DD, need restoration soon
+
+**Turn 5**: Restore both demons
+- Cast Chain of Dominance on Imp: 0 → d8 (8 mana)
+- Cast Reassert Control on Brute: 0 → d6 (4 mana)
+- Both stable again
+
+**Visual Organization**:
+
+**Demon Control Board Layout**:
+\`\`\`
+═══════════════════════════════════
+BOUND DEMONS (3/4)
+
+[IMP] Sizzle
+DD: [d10] HP: 25/30 Status: Obedient
+
+[SHADOW HOUND] Nightfang
+DD: [d6] HP: 40/50 Status: Rebellious ⚠
+
+[ABYSSAL BRUTE] Crusher
+DD: [d8] HP: 55/60 Status: Resistant
+
+MANA: 35/60
+RESTORATION AVAILABLE: Yes
+═══════════════════════════════════
+\`\`\`
+
+**Battlefield Tracking**:
+- **Demon Minis**: Place demon miniatures on battle map
+- **Dominance Dice**: Physical dice next to each mini
+- **Demon Cards**: Reference cards showing stats and abilities
+- **Binding Checklist**: Track which demons are bound and their DD
+
+**Why This System Works**: The physical act of downgrading dice (d12 → d10 → d8 → d6 → 0) creates a tangible sense of losing control. You can see and feel your grip on the demon weakening with each die replacement. The moment you remove the die completely and roll a Charisma save is tense—will you maintain control or will the demon break free? The system is simple (just replace dice) but creates constant strategic decisions about when to use demons aggressively versus when to restore Dominance. The binding ritual checklists add pre-combat preparation depth, making demon acquisition feel earned and meaningful.
+
+**Pro Tips**:
+- **Color-Code Demons**: Use different colored dice for each demon type
+- **Track DD Visually**: Keep dice visible so you know control status at a glance
+- **Restore Early**: Don't wait until 0 DD, restore at d6 to avoid escape risk
+- **Dismiss Before Escape**: Better to dismiss a demon than let it turn hostile
+- **Prepare Bindings**: Perform binding rituals during downtime, not mid-adventure
+- **Specialization Synergy**: Demonologist = multiple demons, Purifier = demon enhancement, Binder = stronger individual demons
+
+**Budget-Friendly Alternatives**:
+- **No extra dice?** Use tokens to mark DD level (4 tokens = d12, etc.)
+- **No demon cards?** Write demon stats on index cards
+- **No minis?** Use coins or tokens to represent demons
+- **Minimalist**: Track DD on paper next to demon names
+
+**Specialization-Specific Tracking**:
+
+**Demonologist**:
+- Can bind up to 4 demons simultaneously
+- Track 4 separate Dominance Dice
+- Restoration spells cost -2 mana
+- Use colored dice to distinguish demons
+
+**Purifier**:
+- Demons start with +1 DD step (Imp starts at d12+, degrades slower)
+- Track enhanced DD separately
+- Demons deal +1d6 radiant damage
+- Mark radiant damage bonus on demon cards
+
+**Binder**:
+- Can bind 1 demon with double DD (d12 → d12 → d10 → d8 → d6 → 0)
+- Use 2 dice to show double DD
+- Demon has enhanced stats
+- Focus all restoration on single powerful demon
+
+**Why Exorcist Is Perfect for In-Person Play**: The class is built around physical dice degradation, which is incredibly satisfying to track at the table. The act of replacing a d12 with a d10, then a d8, then a d6, creates a visual and tactile representation of your weakening control. The tension of rolling a Charisma save when a demon reaches 0 DD is dramatic and engaging. The binding ritual checklists add pre-combat preparation that feels like actual demon summoning. Managing multiple demons with multiple dice creates a complex but rewarding tactical puzzle. Every die on the table represents a bound demon under your control, making the Exorcist's power tangible and visible to everyone at the table.`
     }
   },
 

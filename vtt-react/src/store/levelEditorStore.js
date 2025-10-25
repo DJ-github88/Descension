@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
 
 // Terrain categories for organization
@@ -570,10 +569,8 @@ const initialState = {
     maxHistorySize: 50
 };
 
-const useLevelEditorStore = create(
-    persist(
-        (set, get) => ({
-            ...initialState,
+const useLevelEditorStore = create((set, get) => ({
+    ...initialState,
 
             // Editor mode toggle
             setEditorMode: (isEditorMode) => {
@@ -1630,20 +1627,6 @@ const useLevelEditorStore = create(
                     });
                 }
             }
-        }),
-        {
-            name: 'level-editor-storage',
-            partialize: (state) => ({
-                terrainData: state.terrainData,
-                environmentalObjects: state.environmentalObjects,
-                wallData: state.wallData,
-                dndElements: state.dndElements,
-                fogOfWarData: state.fogOfWarData,
-                isometricView: state.isometricView,
-                isometricAngle: state.isometricAngle
-            })
-        }
-    )
-);
+}));
 
 export default useLevelEditorStore;

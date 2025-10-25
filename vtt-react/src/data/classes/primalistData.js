@@ -71,7 +71,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Totemic Synergy**: 0 + 1 (totem placed) = **1**
 **Mana**: 50 - 3 = 47/60
 
-**Your Action (Bonus Action)**: Place Guardian Totem (3 mana)
+**Your Action (1 AP)**: Place Guardian Totem (3 mana)
 **Effect**: Totem appears, 10 ft radius, grants allies shield absorbing 5 damage per attack
 
 *A stone totem etched with protective symbols rises beside the healing totem, radiating defensive energy.*
@@ -104,7 +104,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Totemic Synergy**: 4 + 1 (totem placed) = **5**
 **Mana**: 44 - 3 = 41/60
 
-**Your Action (Bonus Action)**: Place Rejuvenation Totem (3 mana)
+**Your Action (1 AP)**: Place Rejuvenation Totem (3 mana)
 **Effect**: Totem appears, 10 ft radius, heals allies 1d4 HP at start of their turn
 
 *A living wood totem sprouts from the earth, vines wrapping around it, pulsing with life energy.*
@@ -423,7 +423,7 @@ When enemy attacks a totem:
 - **Text Notification**: "Healing Totem DESTROYED! Healing Sanctuary disrupted!"
 
 **Totem Repositioning**:
-When you reposition a totem (bonus action):
+When you reposition a totem (1 action point):
 - **Selection**: Click totem on battlefield
 - **Movement**: Drag totem to new location
 - **Radius Preview**: New 10 ft radius shown before confirming
@@ -463,7 +463,7 @@ Shows all possible synergies:
 
 **Totem Vulnerability**: Enemies can target and destroy totems (each totem has 10 HP and 12 AC). Destroyed totems disrupt synergy and must be replaced.
 
-**Totem Duration**: Totems remain active until destroyed or dismissed by the Primalist. The Primalist can reposition totems as a bonus action.`
+**Totem Duration**: Totems remain active until destroyed or dismissed by the Primalist. The Primalist can reposition totems for 1 action point.`
     },
     
     totemTypesTable: {
@@ -501,9 +501,241 @@ Shows all possible synergies:
 
 **Totem Defense**: Use Guardian and Earth totems to create defensive zones that protect your other totems from being destroyed.
 
-**Adaptive Placement**: Be ready to reposition totems as the battlefield shifts. Use your bonus action to move totems to maintain optimal coverage.
+**Adaptive Placement**: Be ready to reposition totems as the battlefield shifts. Use 1 action point to move totems to maintain optimal coverage.
 
 **Resource Management**: Each totem costs 3 mana. Plan your placements carefully to avoid running out of mana before achieving synergy.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Primalist's Totemic Synergy system—placing up to 8 totems and tracking synergy points—creates a strategic, visual in-person experience. Here's how to track your totems and synergy at the table:
+
+**Required Materials**:
+- **8 totem tokens or miniatures** (one for each totem type, different colors recommended)
+- **Synergy tracker** (d100 die, tokens, or paper)
+- **Totem reference card** with totem effects and synergy combinations
+- **Battle map** for totem placement
+
+**Totem Placement Tracking**:
+
+**The Physical Totem Method** (Recommended):
+
+Use physical tokens or miniatures to represent your totems on the battle map:
+- **8 Totem Types**: Each totem has a unique token/mini
+  - **Healing Totem** (Green): Heals 1d6 HP/turn (10 ft radius)
+  - **Guardian Totem** (Blue): 5-damage shield per attack (10 ft radius)
+  - **Flamecaller Totem** (Red): +1d6 fire damage to weapons (10 ft radius)
+  - **Storm Totem** (Electric Blue): +1 spell attack/save DC (10 ft radius)
+  - **Rejuvenation Totem** (Light Green): Heals 1d4 HP at turn start (10 ft radius)
+  - **Earth Totem** (Brown): +2 AC, resist non-magical damage (10 ft radius)
+  - **Frost Totem** (Icy Blue): Enemies -10 ft speed (10 ft radius)
+  - **Wind Totem** (White): Allies +10 ft speed, adv Dex saves (10 ft radius)
+
+**Setup**:
+- **Totem Bank**: Keep unused totem tokens in front of you
+- **Battle Map**: Place active totems on the map at their locations
+- **Radius Markers**: Use 10 ft radius templates to show totem effect areas
+
+**Placing Totems**:
+1. Announce: "I place a Healing Totem here!" (point to location on map)
+2. Place the green totem token at that location
+3. Mark 10 ft radius around it (use template or measure)
+4. Add +1 to Totemic Synergy counter
+5. Note totem HP (10 HP each, can be destroyed)
+
+**Totemic Synergy Tracking**:
+
+**The d100 Method** (Recommended):
+
+Use a d100 (percentile die) to track Totemic Synergy:
+- **Starting State**: Set to 0
+- **Generating Synergy**:
+  - Place totem → +1 Synergy (adjust die)
+  - Each active totem at start of turn → +1 Synergy per totem (adjust die)
+  - Example: 5 totems active → +5 Synergy per turn
+- **Spending Synergy**:
+  - Activate synergy combination → Subtract cost (adjust die)
+  - Example: Healing Sanctuary (costs 12 Synergy) → Subtract 12
+
+**Alternative Tracking Methods**:
+- **Token Method**: Use tokens/beads to represent Synergy points (add/remove as needed)
+- **Paper Method**: Write Synergy count on paper, update as needed
+- **Tally Method**: Use hash marks to track Synergy
+
+**Synergy Combinations Reference Card**:
+\`\`\`
+TOTEMIC SYNERGY COMBINATIONS
+(Requires 4+ active totems)
+
+HEALING SANCTUARY (12 Synergy)
+Totems: Healing + Guardian + Rejuvenation + Earth
+Effect: 50% damage reduction, +3 AC, heal 3d6/turn
+Duration: 3 turns
+
+ELEMENTAL FURY (15 Synergy)
+Totems: Flamecaller + Storm + Frost + Wind
+Effect: 2d6 damage per element (8d6 total) to all enemies
+Duration: Instant
+
+NATURE'S WRATH (18 Synergy)
+Totems: Earth + Wind + Storm + Flamecaller
+Effect: Earthquake + tornado, 4d8 damage, knock prone
+Duration: 2 turns
+
+SPIRIT SHIELD (10 Synergy)
+Totems: Guardian + Earth + Wind + Healing
+Effect: Allies immune to crits, +5 AC, +20 temp HP
+Duration: 3 turns
+
+PRIMAL STORM (20 Synergy)
+Totems: All 8 totems active
+Effect: Massive elemental storm, 6d10 damage, heal 4d8
+Duration: 3 turns
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 2 totems active (Healing, Guardian), 4 Totemic Synergy*
+
+**Turn 1 - Building the Circle**:
+1. "I place an Earth Totem near our tank!"
+2. Place brown totem token on map near tank mini
+3. Mark 10 ft radius around it
+4. Add +1 Synergy: 4 + 1 = 5 Synergy (adjust d100 to 5)
+5. Start of turn: 3 totems active → +3 Synergy: 5 + 3 = 8 Synergy
+
+**Turn 2 - Fourth Totem (Synergy Unlocked!)**:
+1. "I place a Rejuvenation Totem in the center!"
+2. Place light green totem token in center of party
+3. Mark 10 ft radius
+4. Add +1 Synergy: 8 + 1 = 9 Synergy
+5. Start of turn: 4 totems active → +4 Synergy: 9 + 4 = 13 Synergy
+6. **SYNERGY AVAILABLE**: "I have 4 totems active! I can activate Healing Sanctuary!"
+
+**Turn 3 - Activate Synergy**:
+1. "I activate Healing Sanctuary!" (costs 12 Synergy)
+2. Subtract Synergy: 13 - 12 = 1 Synergy (adjust d100 to 1)
+3. Effect: All allies within totem range gain:
+   - 50% damage reduction
+   - +3 AC
+   - Heal 3d6 HP per turn
+   - Duration: 3 turns
+4. Roll healing: 3d6 → [5, 6, 4] = 15 HP healed to all allies!
+
+**Totem Destruction Tracking**:
+
+When enemies attack your totems:
+- **Totem HP**: Each totem has 10 HP
+- **Totem AC**: 12 (can be hit by enemies)
+- **Destroyed**: Remove totem token from map, lose its effects
+- **Synergy Impact**: Lose passive Synergy generation from that totem
+
+**Example**:
+- Enemy attacks Healing Totem → Hits! → 8 damage → Totem at 2/10 HP
+- Next attack → 5 damage → Totem destroyed! → Remove green token from map
+- Synergy generation: Was +4/turn (4 totems), now +3/turn (3 totems)
+
+**Quick Reference Card Template**:
+\`\`\`
+PRIMALIST QUICK REFERENCE
+
+TOTEM PLACEMENT:
+• Cost: 3 mana per totem
+• HP: 10 HP each (AC 12)
+• Radius: 10 ft (15 ft for Spiritcaller)
+• Max Active: 8 totems
+
+TOTEMIC SYNERGY:
+• Place totem: +1 Synergy
+• Each active totem (start of turn): +1 Synergy
+• Synergy combinations require 4+ totems
+• Stormbringer: Only needs 3 totems for synergy
+
+TOTEM TYPES:
+🟢 Healing: 1d6 HP/turn
+🔵 Guardian: 5-damage shield
+🔴 Flamecaller: +1d6 fire damage
+⚡ Storm: +1 spell attack/DC
+🌿 Rejuvenation: 1d4 HP at turn start
+🟤 Earth: +2 AC, resist damage
+❄️ Frost: Enemies -10 ft speed
+💨 Wind: Allies +10 ft speed, adv Dex
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the totem experience with:
+- **Custom Totem Minis**: Use small totem miniatures or tokens
+- **Colored Tokens**: Use different colored tokens for each totem type
+- **Radius Templates**: Use 10 ft radius templates to show effect areas
+- **Totem Cards**: Print cards with totem effects for quick reference
+- **Synergy Tracker Mat**: Print a mat with synergy combinations listed
+
+**Visual Organization**:
+
+**Totem Circle Layout** (on table):
+\`\`\`
+YOUR PLAY AREA:
+
+[Totem Bank]     [Synergy Tracker]
+🟢🔵🔴⚡🌿🟤❄️💨    d100: [18]
+
+BATTLE MAP:
+[Place active totems on map with radius markers]
+\`\`\`
+
+**Battlefield Tracking**:
+- **Active Totems**: On battle map at their locations
+- **Radius Markers**: Show 10 ft effect areas
+- **Totem HP**: Track on paper or with dice next to each totem
+- **Synergy Counter**: d100 or tokens showing current Synergy
+
+**Example Full Combat Sequence**:
+
+*Starting: 0 totems, 0 Synergy*
+
+**Turn 1**: Place Healing Totem → 1 totem, 1 Synergy
+**Turn 2**: Place Guardian Totem → 2 totems, 1 + 1 (placed) + 2 (active) = 4 Synergy
+**Turn 3**: Place Earth Totem → 3 totems, 4 + 1 (placed) + 3 (active) = 8 Synergy
+**Turn 4**: Place Rejuvenation Totem → 4 totems, 8 + 1 (placed) + 4 (active) = 13 Synergy
+**Turn 5**: Activate Healing Sanctuary (12 Synergy) → 4 totems, 1 Synergy remaining
+**Turn 6**: Build Synergy → 1 + 4 (active) = 5 Synergy
+**Turn 7**: Place Flamecaller Totem → 5 totems, 5 + 1 (placed) + 5 (active) = 11 Synergy
+
+**Specialization-Specific Tracking**:
+
+**Earthwarden**:
+- Totems have +5 HP (15 HP instead of 10)
+- Totems regenerate 5 HP per turn (track HP carefully)
+- Healing Sanctuary lasts 4 turns instead of 3
+
+**Stormbringer**:
+- Only need 3 totems for synergy (not 4)
+- Elemental totems deal +1d6 damage (note on totem cards)
+- Elemental Fury deals 3d6 per element (12d6 total instead of 8d6)
+
+**Spiritcaller**:
+- Totems have 15 ft radius instead of 10 ft (use larger templates)
+- Can move totems for 0 action points (reposition freely)
+- Enemies in totem range have disadvantage on saves
+
+**Why This System Works**: The physical act of placing totem tokens on the battle map, marking their effect radii, and watching your Synergy counter climb creates a STRATEGIC PUZZLE. You're not just casting spells—you're building a network of sacred totems that combine into powerful synergies. The visual representation of totems on the map makes positioning decisions tangible, and the Synergy counter shows how close you are to activating devastating combinations. The moment you place your 4th totem and announce "Synergy available!" is incredibly satisfying.
+
+**Pro Tips**:
+- **Plan Ahead**: Decide which synergy you want BEFORE placing totems
+- **Positioning**: Place totems to cover maximum allies while staying safe from enemies
+- **Totem Defense**: Position totems behind cover or near tanks to protect them
+- **Synergy Timing**: Activate synergies at critical moments (boss phases, party in danger)
+- **Totem Diversity**: Don't place all offensive or all defensive totems—balance is key
+
+**Budget-Friendly Alternatives**:
+- **No totem minis?** Use coins, buttons, or colored tokens
+- **No radius templates?** Use measuring tape or estimate
+- **No d100?** Use tokens or paper to track Synergy
+- **Minimalist**: Just track totem locations and Synergy count on paper
+
+**Why Primalist Is Perfect for In-Person Play**: The class is built around physical placement of totems on a battle map, creating a visual, strategic experience. Placing totem tokens, marking their effect radii, and watching your Synergy counter climb makes the abstract concept of "totemic magic" tangible and engaging. The moment you activate a synergy combination—removing 12+ Synergy from your counter and announcing a massive effect—creates a dramatic, memorable moment. The physical components (totem tokens, radius markers, Synergy tracker) make every combat feel like building a sacred circle of power.`
     }
   },
   
@@ -603,7 +835,7 @@ Shows all possible synergies:
         
         strengths: [
           'Totems apply additional debuffs to enemies',
-          'Can move totems as a free action (not bonus action)',
+          'Can move totems for 0 action points',
           'Totems have 15-foot radius instead of 10-foot',
           'Unique spirit-based synergy combinations'
         ],
@@ -616,7 +848,7 @@ Shows all possible synergies:
         
         specPassive: {
           name: 'Spirit Bond',
-          description: 'Your totems have a 15-foot radius instead of 10-foot. You can reposition totems as a free action. Enemies within totem range have disadvantage on saving throws against your spells.'
+          description: 'Your totems have a 15-foot radius instead of 10-foot. You can reposition totems for 0 action points. Enemies within totem range have disadvantage on saving throws against your spells.'
         },
         
         keyAbilities: [
@@ -1044,7 +1276,7 @@ Shows all possible synergies:
           synergyGeneration: '1 point per turn active'
         },
         stormbringerBonus: {
-          description: 'Stormbringer specialization: Can strike enemies for 2d6 lightning damage as bonus action',
+          description: 'Stormbringer specialization: Can strike enemies for 2d6 lightning damage for 1 action point',
           bonus: 'Lightning Strike ability'
         }
       },
@@ -1420,7 +1652,7 @@ Shows all possible synergies:
 
       typeConfig: {
         actionType: 'SPELL',
-        castTime: 'Bonus action',
+        castTime: '1 Action Point',
         duration: 'Instant',
         concentration: false
       },
@@ -1456,7 +1688,7 @@ Shows all possible synergies:
           note: 'Useful for maintaining synergies while repositioning'
         },
         spiritcallerBonus: {
-          description: 'Spiritcaller specialization: Free action instead of bonus action',
+          description: 'Spiritcaller specialization: Costs 0 action points instead of 1',
           bonus: 'No action cost'
         }
       },

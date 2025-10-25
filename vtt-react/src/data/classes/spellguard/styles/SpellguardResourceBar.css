@@ -565,3 +565,24 @@
     margin-right: 4px;
 }
 
+/* Force compact sizing in account context */
+.character-card .spellguard-resource-bar,
+.character-card-compact .spellguard-resource-bar {
+    height: 16px !important;
+    min-height: 16px !important;
+    padding: 2px !important;
+}
+
+.character-card .spec-cycle-btn,
+.character-card-compact .spec-cycle-btn {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    font-size: 0.6rem !important;
+}
+
+.character-card .aep-number,
+.character-card-compact .aep-number {
+    font-size: 0.65rem !important;
+}

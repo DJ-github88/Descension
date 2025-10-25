@@ -1,0 +1,642 @@
+/* Warden Vengeance Points Resource Bar */
+
+.warden-resource-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Resource Bar Row - Spec Button + Bar */
+.resource-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Specialization Cycle Button */
+.spec-cycle-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.95), rgba(40, 30, 20, 0.95));
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.warden-resource-container.small .spec-cycle-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+}
+
+.spec-cycle-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+}
+
+/* Main Warden Resource Bar */
+.warden-resource-bar {
+    position: relative;
+    flex: 1;
+    height: 36px;
+    background: linear-gradient(135deg, rgba(15, 10, 20, 0.95), rgba(25, 15, 30, 0.95));
+    border: 2px solid var(--spec-glow-color);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        0 0 12px var(--spec-glow-color);
+}
+
+.warden-resource-bar.small {
+    height: 24px;
+}
+
+/* Force compact sizing in account context */
+.character-card .warden-resource-bar,
+.character-card-compact .warden-resource-bar {
+    height: 16px !important;
+    min-height: 16px !important;
+}
+
+.character-card .spec-cycle-btn,
+.character-card-compact .spec-cycle-btn {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    font-size: 0.6rem !important;
+}
+
+.warden-resource-bar.clickable:hover {
+    border-color: var(--spec-active-color);
+    box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        0 0 16px var(--spec-glow-color);
+}
+
+/* Spectral Background Pattern */
+.spectral-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 10px,
+            rgba(255, 255, 255, 0.02) 10px,
+            rgba(255, 255, 255, 0.02) 11px
+        );
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Vengeance Energy Overlay */
+.vengeance-energy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.energy-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--spec-glow-color);
+    border-radius: 50%;
+    opacity: 0;
+    animation: energyFloat 3s infinite ease-in-out;
+}
+
+.energy-particle:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.energy-particle:nth-child(2) {
+    left: 50%;
+    animation-delay: 1s;
+}
+
+.energy-particle:nth-child(3) {
+    left: 80%;
+    animation-delay: 2s;
+}
+
+@keyframes energyFloat {
+    0%, 100% { 
+        bottom: 0; 
+        opacity: 0; 
+    }
+    50% { 
+        bottom: 100%; 
+        opacity: 0.6; 
+    }
+}
+
+/* VP Segments Container */
+.vp-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+/* Individual VP Segment */
+.vp-segment {
+    flex: 1;
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.vp-segment .segment-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.vp-segment.filled .segment-fill {
+    animation: vpPulse 2s infinite ease-in-out;
+}
+
+@keyframes vpPulse {
+    0%, 100% { 
+        opacity: 0.9; 
+    }
+    50% { 
+        opacity: 1; 
+    }
+}
+
+/* Segment Energy Effect */
+.segment-energy {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: energyPulse 2s infinite ease-in-out;
+}
+
+@keyframes energyPulse {
+    0%, 100% { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% { 
+        opacity: 0.4;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Max VP Flare Effect */
+.vp-segment.max-flare {
+    animation: maxFlare 1s infinite ease-in-out;
+}
+
+@keyframes maxFlare {
+    0%, 100% { 
+        filter: brightness(1);
+    }
+    50% { 
+        filter: brightness(1.5);
+    }
+}
+
+/* VP Counter Overlay */
+.vp-counter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    text-shadow: 
+        0 0 8px rgba(0, 0, 0, 0.9),
+        0 0 4px var(--spec-glow-color);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.vp-number {
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.warden-resource-bar.small .vp-number {
+    font-size: 14px;
+}
+
+.vp-max {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.warden-resource-bar.small .vp-max {
+    font-size: 10px;
+}
+
+/* Spec-Specific Visual States */
+
+/* Shadowblade - Stealth State */
+.warden-resource-bar.state-stealth {
+    opacity: 0.6;
+    animation: stealthFlicker 1.5s infinite ease-in-out;
+}
+
+@keyframes stealthFlicker {
+    0%, 100% { 
+        opacity: 0.5;
+    }
+    50% { 
+        opacity: 0.7;
+    }
+}
+
+.shadow-veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 30%, rgba(46, 8, 84, 0.4) 100%);
+    pointer-events: none;
+    animation: veilPulse 2s infinite ease-in-out;
+}
+
+@keyframes veilPulse {
+    0%, 100% { 
+        opacity: 0.3;
+    }
+    50% { 
+        opacity: 0.6;
+    }
+}
+
+/* Jailer - Caged State */
+.spectral-chains {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.chain-rune {
+    font-size: 16px;
+    color: var(--spec-glow-color);
+    text-shadow: 0 0 8px var(--spec-glow-color);
+    animation: chainFloat 2s infinite ease-in-out;
+}
+
+@keyframes chainFloat {
+    0%, 100% { 
+        transform: translateY(0);
+    }
+    50% { 
+        transform: translateY(-4px);
+    }
+}
+
+/* Vengeance Seeker - Avatar State */
+.warden-resource-bar.state-avatar {
+    box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.6),
+        0 0 20px var(--spec-glow-color),
+        0 0 30px var(--spec-active-color);
+}
+
+.avatar-aura {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--spec-glow-color);
+    border-radius: 4px;
+    pointer-events: none;
+    animation: auraFlare 1.5s infinite ease-in-out;
+}
+
+@keyframes auraFlare {
+    0%, 100% { 
+        opacity: 0.5;
+        box-shadow: 0 0 10px var(--spec-glow-color);
+    }
+    50% { 
+        opacity: 1;
+        box-shadow: 0 0 20px var(--spec-glow-color);
+    }
+}
+
+/* Max VP State */
+.warden-resource-bar.state-max {
+    animation: maxReadyPulse 1s infinite ease-in-out;
+}
+
+@keyframes maxReadyPulse {
+    0%, 100% {
+        box-shadow:
+            inset 0 2px 8px rgba(0, 0, 0, 0.6),
+            0 0 12px var(--spec-glow-color);
+    }
+    50% {
+        box-shadow:
+            inset 0 2px 8px rgba(0, 0, 0, 0.6),
+            0 0 24px var(--spec-glow-color),
+            0 0 36px var(--spec-active-color);
+    }
+}
+
+/* Specialization Selector */
+.warden-spec-selector-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.warden-spec-selector {
+    background: linear-gradient(135deg, #1a1410 0%, #2a1f1a 100%);
+    border: 2px solid #8B7355;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 300px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+}
+
+.spec-selector-header {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #D4C5B0;
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #8B7355;
+}
+
+.spec-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: transparent;
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: #D4C5B0;
+    transition: all 0.2s ease;
+}
+
+.spec-option:hover {
+    transform: translateX(4px);
+    filter: brightness(1.2);
+}
+
+.spec-option.selected {
+    font-weight: bold;
+}
+
+.spec-option i {
+    font-size: 18px;
+}
+
+/* Simplified Tooltip - Beige Pathfinder Style */
+.warden-tooltip {
+    position: fixed;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 4px;
+    padding: 10px 12px;
+    min-width: 280px;
+    max-width: 360px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: #2C2416;
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 999999999;
+    pointer-events: none;
+    line-height: 1.5;
+}
+
+.tooltip-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #1a0a00;
+    margin-bottom: 6px;
+}
+
+.tooltip-spec {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3a1a;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tooltip-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8B7355, transparent);
+    margin: 8px 0;
+}
+
+.tooltip-section {
+    margin-bottom: 6px;
+    color: #3a2a1a;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.tooltip-section:last-child {
+    margin-bottom: 0;
+}
+
+.tooltip-section strong {
+    color: #1a0a00;
+    font-weight: bold;
+    display: inline;
+    margin-right: 4px;
+}
+
+/* Dev Controls */
+.warden-controls-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.warden-controls {
+    background: linear-gradient(135deg, #1a1410 0%, #2a1f1a 100%);
+    border: 2px solid #8B7355;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 400px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+}
+
+.controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #D4C5B0;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #8B7355;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #D4C5B0;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #FF6B6B;
+    transform: scale(1.2);
+}
+
+.control-group {
+    margin-bottom: 16px;
+    padding: 12px;
+    background: rgba(139, 115, 85, 0.1);
+    border: 1px solid rgba(139, 115, 85, 0.3);
+    border-radius: 4px;
+}
+
+.control-group label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #C4A57B;
+    margin-bottom: 8px;
+}
+
+.control-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.control-buttons button {
+    flex: 1;
+    min-width: 70px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #2a2520 0%, #3a3530 100%);
+    border: 1px solid #8B7355;
+    border-radius: 4px;
+    color: #D4C5B0;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-buttons button:hover {
+    background: linear-gradient(135deg, #3a3530 0%, #4a4540 100%);
+    border-color: #C4A57B;
+    transform: translateY(-1px);
+}
+
+.control-buttons button.active {
+    background: linear-gradient(135deg, #2E5016 0%, #4CAF50 100%);
+    border-color: #76FF03;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.vp-bar-preview {
+    margin-top: 8px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #8B7355;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.vp-fill {
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.info-text {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #B8A890;
+    font-style: italic;
+    line-height: 1.4;
+}
+

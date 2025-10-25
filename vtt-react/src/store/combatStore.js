@@ -1,9 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
-const useCombatStore = create(
-    persist(
-        (set, get) => ({
+const useCombatStore = create((set, get) => ({
             // Combat state
             isInCombat: false,
             isSelectionMode: false,
@@ -1177,84 +1174,7 @@ const useCombatStore = create(
                     return { turnOrder: updatedTurnOrder };
                 });
             }
-        }),
-        {
-            name: 'combat-store',
-            storage: {
-                getItem: (name) => {
-                    const str = localStorage.getItem(name);
-                    if (!str) return null;
-                    try {
-                        const parsed = JSON.parse(str);
-                        // Convert Set back from array
-                        if (parsed.state?.selectedTokens && Array.isArray(parsed.state.selectedTokens)) {
-                            parsed.state.selectedTokens = new Set(parsed.state.selectedTokens);
-                        }
-                        // Convert turnTimers back from array
-                        if (parsed.state?.turnTimers && Array.isArray(parsed.state.turnTimers)) {
-                            parsed.state.turnTimers = new Map(parsed.state.turnTimers);
-                        }
-                        // Convert movementUnlocked back from array
-                        if (parsed.state?.movementUnlocked && Array.isArray(parsed.state.movementUnlocked)) {
-                            parsed.state.movementUnlocked = new Set(parsed.state.movementUnlocked);
-                        }
-                        // Convert turnMovementUsed back from array
-                        if (parsed.state?.turnMovementUsed && Array.isArray(parsed.state.turnMovementUsed)) {
-                            parsed.state.turnMovementUsed = new Map(parsed.state.turnMovementUsed);
-                        }
-                        // Convert tempMovementDistance back from array
-                        if (parsed.state?.tempMovementDistance && Array.isArray(parsed.state.tempMovementDistance)) {
-                            parsed.state.tempMovementDistance = new Map(parsed.state.tempMovementDistance);
-                        } else if (!parsed.state?.tempMovementDistance) {
-                            // Initialize as empty Map if not present
-                            parsed.state.tempMovementDistance = new Map();
-                        }
-                        // Convert turnStartPositions back from array
-                        if (parsed.state?.turnStartPositions && Array.isArray(parsed.state.turnStartPositions)) {
-                            parsed.state.turnStartPositions = new Map(parsed.state.turnStartPositions);
-                        } else if (!parsed.state?.turnStartPositions) {
-                            // Initialize as empty Map if not present
-                            parsed.state.turnStartPositions = new Map();
-                        }
-
-                        // Migrate timeline height if it's using old default (< 300px)
-                        if (parsed.state?.timelineSize && parsed.state.timelineSize.height < 300) {
-                            parsed.state.timelineSize = {
-                                ...parsed.state.timelineSize,
-                                height: 350
-                            };
-                        }
-
-                        return parsed;
-                    } catch {
-                        return null;
-                    }
-                },
-                setItem: (name, value) => {
-                    try {
-                        // Convert Set and Map to arrays for storage
-                        const toStore = {
-                            ...value,
-                            state: {
-                                ...value.state,
-                                selectedTokens: Array.from(value.state.selectedTokens || []),
-                                turnTimers: Array.from(value.state.turnTimers || new Map()),
-                                movementUnlocked: Array.from(value.state.movementUnlocked || new Set()),
-                                turnMovementUsed: Array.from(value.state.turnMovementUsed || new Map()),
-                                tempMovementDistance: Array.from(value.state.tempMovementDistance || new Map()),
-                                turnStartPositions: Array.from(value.state.turnStartPositions || new Map())
-                            }
-                        };
-                        localStorage.setItem(name, JSON.stringify(toStore));
-                    } catch (error) {
-                        // Failed to save combat store
-                    }
-                },
-                removeItem: (name) => localStorage.removeItem(name)
-            }
-        }
-    )
-);
+}));
 
 // Helper function to generate combat timeline
 function generateCombatTimeline(combatants, rounds = 3) {

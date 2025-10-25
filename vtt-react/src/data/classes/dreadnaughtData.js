@@ -368,7 +368,7 @@ At 50 DRP, you're regenerating 5 HP every turn. In a 10-turn fight, that's 50 HP
 **Dark Resistance** (Requires 10+ DRP):
 - **Effect**: Gain resistance to one damage type of your choice
 - **Activation**: Choose damage type when you first reach 10 DRP
-- **Change**: Can change damage type as a bonus action
+- **Change**: Can change damage type for 1 AP
 - **Types**: Slashing, piercing, bludgeoning, fire, cold, lightning, necrotic, radiant, etc.
 
 **Health Regeneration** (Requires 10+ DRP):
@@ -448,7 +448,7 @@ Use Shadow Shield to absorb 40 damage (spend 20 DRP for 40 absorption)
 
 **Option B - Change Dark Resistance + Take the Hit**:
 Change Dark Resistance to slashing (boss's damage type), take reduced damage
-- Cost: 0 DRP (bonus action to change resistance)
+- Cost: 0 DRP (1 AP to change resistance)
 - Damage: 40 ÷ 2 = 20 damage (halved by resistance)
 - HP: 45 - 20 = 25 HP
 - DRP: 28 + 8 = 36 DRP (gain 8 DRP from 40 damage: 40 ÷ 5 = 8)
@@ -486,7 +486,7 @@ Boost AC by +3 (spend 15 DRP), change resistance, hope boss misses
 5. **Resistance Math**: 40 damage → 20 actual damage (halved), but still generate 8 DRP from full 40
 
 **Execution**:
-- **Bonus Action**: Change Dark Resistance from fire → slashing
+- **Action (1 AP)**: Change Dark Resistance from fire → slashing
 - **Boss's Turn**: Attacks for 40 damage
 - **Resistance Applied**: 40 ÷ 2 = 20 damage taken
 - **HP**: 45 - 20 = 25 HP
@@ -519,6 +519,177 @@ Boost AC by +3 (spend 15 DRP), change resistance, hope boss misses
 6. **Resource Efficiency**: Sometimes taking damage is better than spending DRP to avoid it
 
 You're not a tank who hides behind shields—you're a tank who FEEDS on pain. Every hit makes you stronger. Every wound is an investment. Master the balance between suffering and power, and you become truly unkillable.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Dreadnaught's Dark Resilience Points system (0-50 DRP, generated from damage taken) creates a unique pain-to-power in-person experience. Here's how to track your dark resilience at the table:
+
+**Required Materials**:
+- **50 tokens or beads** (dark purple/black for DRP)
+- **DRP reference card** with spending options
+- **Damage calculator** (for converting damage to DRP)
+- **Resistance tracker** (for current damage type resistance)
+
+**Dark Resilience Points Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent DRP (0-50):
+- **Starting State**: Begin with 0 DRP
+- **Generating DRP**: Add tokens when you take damage
+  - Formula: Damage ÷ 5 = DRP gained (round down)
+  - Example: Take 23 damage → 23 ÷ 5 = 4.6 → +4 DRP (add 4 tokens)
+  - Example: Take 47 damage → 47 ÷ 5 = 9.4 → +9 DRP (add 9 tokens)
+- **Spending DRP**: Remove tokens when using abilities
+  - Shadow Shield (variable) → Remove tokens equal to half the damage absorbed
+  - Wraith Strike (5 DRP per 1d6) → Remove 5 tokens per 1d6 damage
+  - Unholy Fortitude (5 DRP per +1 AC) → Remove 5 tokens per +1 AC
+  - Necrotic Aura (15 DRP) → Remove 15 tokens
+
+**Alternative Tracking**: Use 5d10 dice to track DRP (tens place + ones place).
+
+**DRP Spending Reference**:
+\`\`\`
+DARK RESILIENCE POINT ABILITIES
+
+SHADOW SHIELD (Variable DRP)
+Spend X DRP to absorb 2X damage
+Example: Spend 10 DRP → Absorb 20 damage
+Ratio: 2:1 (very efficient!)
+
+WRAITH STRIKE (5 DRP per 1d6)
+Add necrotic damage to your next attack
+5 DRP = +1d6 | 10 DRP = +2d6 | 15 DRP = +3d6
+
+UNHOLY FORTITUDE (5 DRP per +1 AC)
+Boost AC for 3 rounds
+5 DRP = +1 AC | 10 DRP = +2 AC | 15 DRP = +3 AC
+
+NECROTIC AURA (15 DRP)
+Enemies within 10 ft have disadvantage on attacks
+Duration: 2 rounds
+
+DARK REBIRTH (All DRP, automatic)
+When you reach 0 HP, spend all DRP
+Regain HP = 2× DRP spent
+Example: 25 DRP → Regain 50 HP
+\`\`\`
+
+**Passive Benefits Tracking**:
+
+At 10+ DRP, you gain passive benefits:
+- **Dark Resistance**: Choose one damage type, gain resistance
+- **HP Regeneration**: Regen HP at start of turn based on DRP
+
+**Regeneration Table**:
+\`\`\`
+10-19 DRP: +1 HP/turn
+20-29 DRP: +2 HP/turn
+30-39 DRP: +3 HP/turn
+40-49 DRP: +4 HP/turn
+50 DRP: +5 HP/turn
+\`\`\`
+
+**Resistance Tracker**: Use a token or die to show current resistance type (fire, cold, slashing, etc.).
+
+**Example In-Person Turn**:
+
+*You have 12 DRP, 60/120 HP, Dark Resistance: Fire*
+
+**Turn 1 - Take Damage (Generate DRP)**:
+1. Orc attacks you for 28 damage
+2. Calculate DRP: 28 ÷ 5 = 5.6 → +5 DRP
+3. Add 5 tokens: 12 + 5 = 17 DRP
+4. HP: 60 - 28 = 32 HP
+5. Regeneration: +1 HP (10-19 DRP range) → 33 HP
+
+**Turn 2 - Spend DRP (Shadow Shield)**:
+1. Boss winds up massive attack (estimated 40 damage)
+2. "I use Shadow Shield! Spending 20 DRP to absorb 40 damage!"
+3. Remove 20 tokens: 17 - 20 = Can't afford it!
+4. "I spend 15 DRP to absorb 30 damage instead!"
+5. Remove 15 tokens: 17 - 15 = 2 DRP
+6. Boss attacks for 42 damage → 30 absorbed, 12 taken
+7. HP: 33 - 12 = 21 HP
+8. Generate DRP: 42 ÷ 5 = 8.4 → +8 DRP
+9. Add 8 tokens: 2 + 8 = 10 DRP
+
+**Turn 3 - Change Resistance**:
+1. "Boss uses fire breath next turn! I change Dark Resistance to fire!"
+2. Update resistance tracker: Fire → Fire (already set!)
+3. Regeneration: +1 HP (10 DRP) → 22 HP
+4. Attack with Wraith Strike: Spend 10 DRP for +2d6 necrotic
+5. Remove 10 tokens: 10 - 10 = 0 DRP
+
+**Turn 4 - Dark Rebirth**:
+1. Boss attacks for 30 damage
+2. HP: 22 - 30 = -8 HP → **YOU DIE!**
+3. **Dark Rebirth triggers automatically!**
+4. Current DRP: 0 → Can't use Dark Rebirth (need DRP!)
+5. **YOU ARE DEAD** (no DRP to spend)
+
+**Lesson**: Always keep 10-15 DRP in reserve for Dark Rebirth!
+
+**Damage-to-DRP Conversion Chart**:
+\`\`\`
+5 dmg = 1 DRP    |  30 dmg = 6 DRP
+10 dmg = 2 DRP   |  35 dmg = 7 DRP
+15 dmg = 3 DRP   |  40 dmg = 8 DRP
+20 dmg = 4 DRP   |  45 dmg = 9 DRP
+25 dmg = 5 DRP   |  50 dmg = 10 DRP
+\`\`\`
+
+**Quick Reference Card**:
+\`\`\`
+DREADNAUGHT QUICK REFERENCE
+
+DARK RESILIENCE POINTS:
+• Maximum: 50 DRP
+• Generate: Damage ÷ 5 (round down)
+• Persist: DRP carry over between combats
+
+SPENDING:
+Shadow Shield: X DRP → Absorb 2X damage (2:1 ratio)
+Wraith Strike: 5 DRP per +1d6 necrotic damage
+Unholy Fortitude: 5 DRP per +1 AC (3 rounds)
+Necrotic Aura: 15 DRP (disadvantage on attacks, 2 rounds)
+
+PASSIVE BENEFITS (10+ DRP):
+• Dark Resistance: Choose damage type, gain resistance
+• HP Regeneration: 1-5 HP/turn (based on DRP)
+
+DARK REBIRTH (Automatic at 0 HP):
+• Spend all DRP → Regain 2× DRP as HP
+• Example: 20 DRP → Regain 40 HP
+• ALWAYS keep 10-15 DRP in reserve!
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the dreadnaught experience with:
+- **Dark Tokens**: Use black/purple beads for DRP
+- **Resistance Die**: Use a d8 to track current resistance type
+- **Regeneration Tracker**: Use a token to show HP regen amount
+- **Dark Rebirth Marker**: Special token to remind you of emergency HP
+- **Damage Calculator**: Keep a calculator handy for damage ÷ 5
+
+**Why This System Works**: The physical act of adding DRP tokens after taking damage creates a satisfying PAIN-TO-POWER feedback loop. You can SEE your dark resilience building with each hit, FEEL the decision of when to spend it, and EXPERIENCE the dramatic moment of Dark Rebirth when you spend all tokens to cheat death. The conversion formula (damage ÷ 5) is simple enough to calculate quickly, and the 2:1 Shadow Shield ratio makes spending DRP feel powerful and efficient.
+
+**Pro Tips**:
+- **DRP Banking**: Always keep 15-20 DRP for Dark Rebirth (30-40 HP recovery)
+- **Resistance Optimization**: Change Dark Resistance to match incoming damage
+- **Shadow Shield Math**: 2:1 ratio means 25 DRP absorbs 50 damage!
+- **Regeneration Tiers**: Push for 20+ DRP for 2 HP/turn regen
+- **The Resistance Trick**: Resistance halves damage taken, but DRP calculated from FULL damage
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use 5d10 dice to track DRP (tens + ones)
+- **No calculator?** Use the conversion chart
+- **Minimalist**: Track DRP on paper with tally marks
+
+**Why Dreadnaught Is Perfect for In-Person Play**: The class is built around converting damage into power—a simple, visceral concept that translates perfectly to tabletop. Every time you take damage, you calculate damage ÷ 5 and add tokens, creating a satisfying feedback loop. The physical pile of DRP tokens grows with each hit, making your increasing power tangible. The 2:1 Shadow Shield ratio is easy to calculate (spend 10 DRP, absorb 20 damage), and Dark Rebirth creates dramatic moments when you spend all your tokens to cheat death. You're not avoiding damage—you're EMBRACING it, and the tokens prove it.`
     }
   },
   

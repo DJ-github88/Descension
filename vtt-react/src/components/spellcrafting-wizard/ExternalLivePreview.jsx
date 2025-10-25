@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellWizardState } from './context/spellWizardContext';
-import { useSpellLibrary } from './context/SpellLibraryContext';
+import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from './context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../hooks/useClassSpellLibrary';
 import UnifiedSpellCard from './components/common/UnifiedSpellCard';
 import SpellCardWithProcs from './components/common/SpellCardWithProcs';
 import useSpellbookStore from '../../store/spellbookStore';
 import useGameStore from '../../store/gameStore';
+import useAuthStore from '../../store/authStore';
+import { saveUserSpell } from '../../services/firebase/userSpellService';
 
 // External Live Preview Component that renders outside any window
 const ExternalLivePreview = () => {
   const state = useSpellWizardState();
   const library = useSpellLibrary();
+  const libraryDispatch = useSpellLibraryDispatch();
   const { addCustomSpell } = useClassSpellLibrary();
   const { activeTab, windowPosition, windowSize } = useSpellbookStore();
   const windowScale = useGameStore(state => state.windowScale);
+  const { user } = useAuthStore();
 
   // State for completion feedback
   const [isCompleting, setIsCompleting] = useState(false);
@@ -58,11 +62,26 @@ const ExternalLivePreview = () => {
         ].filter(Boolean)
       };
 
-      // Add to custom spells
+      // Add to spell library context (shows in spell library immediately)
+      libraryDispatch(libraryActionCreators.addSpell(spellData));
+
+      // Add to custom spells (for character-specific spell library)
       addCustomSpell(spellData);
 
-      // Show success message
-      setCompletionMessage('✓ Spell completed and added to Custom Spells!');
+      // Save to Firebase if user is logged in
+      if (user?.uid) {
+        const result = await saveUserSpell(user.uid, spellData);
+        if (result.success) {
+          console.log('✅ Spell saved to user account in Firebase');
+          setCompletionMessage('✓ Spell saved to your account and added to library!');
+        } else if (result.localOnly) {
+          console.log('⚠️ Spell saved locally only (Firebase not available)');
+          setCompletionMessage('✓ Spell saved locally (will sync when online)');
+        }
+      } else {
+        console.log('⚠️ No user logged in, spell saved locally only');
+        setCompletionMessage('✓ Spell saved locally (login to sync across devices)');
+      }
 
       // Clear the message after 3 seconds
       setTimeout(() => setCompletionMessage(''), 3000);

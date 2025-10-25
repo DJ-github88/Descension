@@ -96,6 +96,17 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             const dragDataString = JSON.stringify(dragData);
             e.dataTransfer.setData('text/plain', dragDataString);
 
+            // Store dragged item info globally for visual feedback in containers
+            if (!window.draggedItemInfo) {
+                window.draggedItemInfo = {};
+            }
+            window.draggedItemInfo = {
+                item: item,
+                width: item.width || 1,
+                height: item.height || 1,
+                rotation: item.rotation || 0
+            };
+
             // Create a custom drag image if needed
             if (item.iconId && e.dataTransfer.setDragImage) {
                 try {
@@ -121,6 +132,11 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     // Handle drag end to clean up any visual feedback
     const handleDragEnd = () => {
         setIsDragging(false);
+
+        // Clear global drag state
+        if (window.draggedItemInfo) {
+            window.draggedItemInfo = null;
+        }
 
         // Remove container-drag-over class from all item cards
         document.querySelectorAll('.item-card').forEach(card => {

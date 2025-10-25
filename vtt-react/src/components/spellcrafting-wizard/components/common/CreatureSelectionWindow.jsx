@@ -238,33 +238,35 @@ const CreatureSelectionWindow = ({
               />
             </div>
 
-            <div className="filter-section">
-              <h4>Type</h4>
-              <div className="filter-buttons">
-                {availableTypes.map(type => (
-                  <button
-                    key={type}
-                    className={`filter-button ${filters.types.includes(type) ? 'active' : ''}`}
-                    onClick={() => handleTypeFilter(type)}
-                  >
-                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                  </button>
-                ))}
+            <div className="filter-sections-wrapper">
+              <div className="filter-section">
+                <h4>Type</h4>
+                <div className="filter-buttons">
+                  {availableTypes.map(type => (
+                    <button
+                      key={type}
+                      className={`filter-button ${filters.types.includes(type) ? 'active' : ''}`}
+                      onClick={() => handleTypeFilter(type)}
+                    >
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="filter-section">
-              <h4>Size</h4>
-              <div className="filter-buttons">
-                {availableSizes.map(size => (
-                  <button
-                    key={size}
-                    className={`filter-button ${filters.sizes.includes(size) ? 'active' : ''}`}
-                    onClick={() => handleSizeFilter(size)}
-                  >
-                    {size.charAt(0).toUpperCase() + size.slice(1)}
-                  </button>
-                ))}
+              <div className="filter-section">
+                <h4>Size</h4>
+                <div className="filter-buttons">
+                  {availableSizes.map(size => (
+                    <button
+                      key={size}
+                      className={`filter-button ${filters.sizes.includes(size) ? 'active' : ''}`}
+                      onClick={() => handleSizeFilter(size)}
+                    >
+                      {size.charAt(0).toUpperCase() + size.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

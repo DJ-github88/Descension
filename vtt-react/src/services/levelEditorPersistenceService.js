@@ -1,9 +1,9 @@
 /**
  * Level Editor Persistence Service
- * Manages saving and loading level editor data per room
+ * NOTE: This service no longer uses localStorage. All game state is now persisted
+ * to the database via room gameState. This service is kept for API compatibility
+ * but delegates to the database sync mechanisms.
  */
-
-const LEVEL_EDITOR_STORAGE_PREFIX = 'mythrill-leveleditor-';
 
 class LevelEditorPersistenceService {
   constructor() {
@@ -11,16 +11,8 @@ class LevelEditorPersistenceService {
   }
 
   /**
-   * Generate storage key for room-specific level editor data
-   * @param {string} roomId - Room ID
-   * @returns {string} Storage key
-   */
-  getStorageKey(roomId) {
-    return `${LEVEL_EDITOR_STORAGE_PREFIX}${roomId}`;
-  }
-
-  /**
    * Save level editor state for a specific room
+   * NOTE: This now delegates to the database sync service instead of localStorage
    * @param {string} roomId - Room ID
    * @param {Object} levelEditorData - Level editor state data
    * @returns {boolean} Success status
@@ -32,30 +24,30 @@ class LevelEditorPersistenceService {
     }
 
     try {
-      const storageKey = this.getStorageKey(roomId);
+      // Store in memory cache only - actual persistence happens via database sync
       const stateData = {
         roomId,
         levelEditorData: {
           // Terrain and environment
           terrainData: levelEditorData.terrainData || {},
           environmentalObjects: levelEditorData.environmentalObjects || [],
-          
+
           // Walls and structures
           wallData: levelEditorData.wallData || {},
-          
+
           // D&D elements
           dndElements: levelEditorData.dndElements || [],
-          
+
           // Fog of war
           fogOfWarData: levelEditorData.fogOfWarData || {},
-          
+
           // Drawing system
           drawingPaths: levelEditorData.drawingPaths || [],
           drawingLayers: levelEditorData.drawingLayers || [],
-          
+
           // Lighting system
           lightSources: levelEditorData.lightSources || {},
-          
+
           // Grid and view settings
           gridSettings: {
             size: levelEditorData.gridSize || 50,
@@ -65,7 +57,7 @@ class LevelEditorPersistenceService {
             thickness: levelEditorData.gridThickness || 2,
             visible: levelEditorData.showGridLines !== false
           },
-          
+
           // Layer visibility settings
           layerVisibility: {
             terrain: levelEditorData.showTerrainLayer !== false,
@@ -74,7 +66,7 @@ class LevelEditorPersistenceService {
             dnd: levelEditorData.showDndLayer !== false,
             grid: levelEditorData.showGridLines !== false
           },
-          
+
           // Tool settings
           toolSettings: {
             selectedTool: levelEditorData.selectedTool || 'select',
@@ -86,21 +78,21 @@ class LevelEditorPersistenceService {
         version: '1.0'
       };
 
-      localStorage.setItem(storageKey, JSON.stringify(stateData));
-      
-      // Update cache
-      this.cache.set(storageKey, stateData);
-      
-      console.log(`💾 Level editor state saved for room ${roomId}`);
+      // Update in-memory cache only
+      this.cache.set(roomId, stateData);
+
+      console.log(`💾 Level editor state cached for room ${roomId} (database sync handles persistence)`);
       return true;
     } catch (error) {
-      console.error('Error saving level editor state:', error);
+      console.error('Error caching level editor state:', error);
       return false;
     }
   }
 
   /**
    * Load level editor state for a specific room
+   * NOTE: This now loads from in-memory cache only. Actual loading from database
+   * happens via room sync mechanisms.
    * @param {string} roomId - Room ID
    * @returns {Object|null} Level editor state or null if not found
    */
@@ -111,56 +103,34 @@ class LevelEditorPersistenceService {
     }
 
     try {
-      const storageKey = this.getStorageKey(roomId);
-      
-      // Check cache first
-      if (this.cache.has(storageKey)) {
-        const cached = this.cache.get(storageKey);
+      // Check in-memory cache only
+      if (this.cache.has(roomId)) {
+        const cached = this.cache.get(roomId);
         console.log(`📋 Level editor state loaded from cache for room ${roomId}`);
         return cached.levelEditorData;
       }
 
-      // Load from localStorage
-      const stored = localStorage.getItem(storageKey);
-      if (!stored) {
-        console.log(`📋 No level editor state found for room ${roomId}`);
-        return null;
-      }
-
-      const stateData = JSON.parse(stored);
-      
-      // Validate data structure
-      if (!stateData.levelEditorData) {
-        console.warn('Invalid level editor state data structure');
-        return null;
-      }
-
-      // Update cache
-      this.cache.set(storageKey, stateData);
-      
-      console.log(`📋 Level editor state loaded for room ${roomId}`);
-      return stateData.levelEditorData;
+      console.log(`📋 No cached level editor state for room ${roomId} (will load from database)`);
+      return null;
     } catch (error) {
-      console.error('Error loading level editor state:', error);
+      console.error('Error loading level editor state from cache:', error);
       return null;
     }
   }
 
   /**
    * Delete level editor state for a specific room
+   * NOTE: This now only clears the in-memory cache
    * @param {string} roomId - Room ID
    * @returns {boolean} Success status
    */
   deleteLevelEditorState(roomId) {
     try {
-      const storageKey = this.getStorageKey(roomId);
-      localStorage.removeItem(storageKey);
-      this.cache.delete(storageKey);
-      
-      console.log(`🗑️ Level editor state deleted for room ${roomId}`);
+      this.cache.delete(roomId);
+      console.log(`🗑️ Level editor state cache cleared for room ${roomId}`);
       return true;
     } catch (error) {
-      console.error('Error deleting level editor state:', error);
+      console.error('Error clearing level editor state cache:', error);
       return false;
     }
   }
@@ -183,94 +153,42 @@ class LevelEditorPersistenceService {
 
   /**
    * Get all room states
+   * NOTE: Returns cached states only
    * @returns {Object} Object with roomId as keys and states as values
    */
   getAllRoomStates() {
     const states = {};
-    const prefix = LEVEL_EDITOR_STORAGE_PREFIX;
-    
+
     try {
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(prefix)) {
-          const roomId = key.substring(prefix.length);
-          const stateData = JSON.parse(localStorage.getItem(key));
-          states[roomId] = stateData;
-        }
+      for (const [roomId, stateData] of this.cache.entries()) {
+        states[roomId] = stateData;
       }
     } catch (error) {
       console.error('Error getting all room states:', error);
     }
-    
+
     return states;
   }
 
   /**
    * Clean up old or invalid level editor states
+   * NOTE: This is now a no-op since we don't use localStorage
    * @param {number} maxAge - Maximum age in days (default: 30)
    */
   cleanupOldStates(maxAge = 30) {
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - maxAge);
-    
-    try {
-      const keysToDelete = [];
-      
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(LEVEL_EDITOR_STORAGE_PREFIX)) {
-          try {
-            const stateData = JSON.parse(localStorage.getItem(key));
-            const lastSaved = new Date(stateData.lastSaved);
-            
-            if (lastSaved < cutoffDate) {
-              keysToDelete.push(key);
-            }
-          } catch (parseError) {
-            // Invalid data, mark for deletion
-            keysToDelete.push(key);
-          }
-        }
-      }
-      
-      keysToDelete.forEach(key => {
-        localStorage.removeItem(key);
-        this.cache.delete(key);
-      });
-      
-      if (keysToDelete.length > 0) {
-        console.log(`🧹 Cleaned up ${keysToDelete.length} old level editor states`);
-      }
-    } catch (error) {
-      console.error('Error cleaning up old states:', error);
-    }
+    console.log('cleanupOldStates is deprecated - state is now managed in database');
   }
 
   /**
    * Get storage usage statistics
+   * NOTE: Returns cache statistics only
    * @returns {Object} Storage statistics
    */
   getStorageStats() {
-    let totalStates = 0;
-    let totalSize = 0;
-    
-    try {
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(LEVEL_EDITOR_STORAGE_PREFIX)) {
-          totalStates++;
-          const value = localStorage.getItem(key);
-          totalSize += key.length + (value ? value.length : 0);
-        }
-      }
-    } catch (error) {
-      console.error('Error calculating storage stats:', error);
-    }
-    
     return {
-      totalStates,
-      totalSize,
-      averageSize: totalStates > 0 ? Math.round(totalSize / totalStates) : 0
+      totalStates: this.cache.size,
+      totalSize: 0, // Not tracked for in-memory cache
+      averageSize: 0
     };
   }
 

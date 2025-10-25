@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/SpellguardResourceBar.css';
 
-const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {} }) => {
+const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
     const [localAEP, setLocalAEP] = useState(45);
     const [selectedSpec, setSelectedSpec] = useState('arcaneWarden');
     const [showTooltip, setShowTooltip] = useState(false);

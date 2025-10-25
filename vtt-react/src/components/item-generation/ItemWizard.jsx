@@ -1197,7 +1197,31 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             }
         };
 
-        return initialData ? { ...defaultData, ...initialData } : defaultData;
+        if (initialData) {
+            // Deep merge to ensure nested objects like 'value' are properly initialized
+            return {
+                ...defaultData,
+                ...initialData,
+                value: {
+                    ...defaultData.value,
+                    ...(initialData.value || {})
+                },
+                baseStats: {
+                    ...defaultData.baseStats,
+                    ...(initialData.baseStats || {})
+                },
+                combatStats: {
+                    ...defaultData.combatStats,
+                    ...(initialData.combatStats || {})
+                },
+                utilityStats: {
+                    ...defaultData.utilityStats,
+                    ...(initialData.utilityStats || {})
+                }
+            };
+        }
+
+        return defaultData;
     });
 
     const [availableSlots, setAvailableSlots] = useState([]);

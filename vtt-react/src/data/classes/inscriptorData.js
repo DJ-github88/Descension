@@ -404,9 +404,336 @@ Inscriptors must balance mana between runes, inscriptions, and spells. Pre-comba
 **Detonation Timing**: Save detonations for critical moments. The lingering effect can turn the tide, but you lose the zone permanently.
 
 **Mana Management**: With runes, inscriptions, and spells all competing for mana, prioritize based on the situation. Long fights favor inscriptions, short fights favor immediate spell power.`
+    },
+
+    playingInPerson: {
+      title: 'Playing Inscriptor In Person',
+      content: `**Required Materials**:
+- **Rune Zone Markers** (tokens, coins, or cards to mark rune locations on map)
+- **Rune Type Cards** (showing which rune type is at each location)
+- **Inscription Tracker** (cards showing active inscriptions on equipment)
+- **Rune Counter** (tracking active runes: 0-8 base, up to 12 for Runebinder)
+- **Inscription Slots** (tracking inscription slots: 0-3 base, varies by spec)
+- **Detonation Markers** (to mark when runes are detonated)
+
+**Primary Tracking Method: Physical Rune Markers + Inscription Cards**
+
+The Inscriptor uses two systems: Runic Wrapping (battlefield zones) and Inscription Placement (equipment enhancement). Track runes with physical markers on the battle map, and inscriptions with cards showing what's enhanced.
+
+**Setup**:
+\`\`\`
+INSCRIPTOR RESOURCE TRACKING:
+
+RUNIC ZONES: [___] / 8 active runes
+• Place rune markers on map at specific locations
+• Each rune = 5 ft radius zone with specific effect
+• 3+ runes = Zone Synergy (enhanced effects)
+• Detonate runes for burst damage + lingering effect
+
+INSCRIPTIONS: [___] / 3 active inscriptions
+• Weapon Inscription: +1d6 damage type
+• Armor Inscription: +2 AC or resistance
+• Accessory Inscription: Utility effect
+• Duration: Until long rest or dispelled
+
+SPECIALIZATIONS:
+• Runebinder: 12 max runes, 1 inscription
+• Glyphweaver: 8 runes, 3 inscriptions
+• Wardcrafter: 6 runes, 4 inscriptions
+\`\`\`
+
+**How It Works**:
+
+**Runic Wrapping (Battlefield Control)**:
+1. **Cast rune spell** → Place physical marker on map
+2. **Mark rune type** → Use colored token or card
+3. **Track active runes** → Count total runes (max 8)
+4. **Zone Synergy** → At 3+ runes, all zones enhanced
+5. **Detonate** → Remove marker, apply burst damage + lingering effect
+
+**Inscription Placement (Equipment Enhancement)**:
+1. **Perform inscription ritual** (10 minutes)
+2. **Choose equipment** → Weapon, armor, or accessory
+3. **Choose effect** → Damage, defense, or utility
+4. **Place inscription card** → On equipment or character sheet
+5. **Duration** → Until long rest or dispelled
+
+**Example Rune Placement**:
+
+*You have 2 runes active, casting Rune of Destruction*
+
+**Your Turn - Place Rune**:
+1. "I cast Rune of Destruction at the chokepoint!" (6 mana)
+2. Place red token on map at chosen location
+3. Mark as "Destruction Rune" (fire damage)
+4. Active runes: 2 + 1 = **3 runes**
+5. **Zone Synergy Activated!** (3+ runes)
+
+**Rune Effect**:
+- Anyone within 5 ft: +1d6 fire damage dealt and taken
+- Zone Synergy (3+ runes): Entire zone doubles fire damage
+
+**Example Rune Detonation**:
+
+*You have 4 runes active (Destruction, Protection, Frost, Lightning)*
+
+**Your Turn - Detonate Runes**:
+1. "I detonate all my runes!" (1 AP, no mana)
+2. Remove all 4 rune markers from map
+3. Roll detonation damage for each rune:
+   - Destruction: 4d8 fire → [7,6,5,8] = 26 fire damage
+   - Protection: Allies gain 20 temp HP
+   - Frost: 3d6 cold → [5,4,6] = 15 cold damage, -10 ft speed
+   - Lightning: 3d8 lightning → [7,6,8] = 21 lightning damage
+4. **Lingering Effect**: All zones leave lingering aura for 2 turns
+5. Active runes: 4 - 4 = **0 runes**
+
+**Example Inscription Ritual**:
+
+*You have 1 inscription active, performing weapon inscription*
+
+**During Downtime (10-minute ritual)**:
+1. "I inscribe my sword with Flame Inscription!"
+2. Ritual complete (10 minutes)
+3. Place "Flame Inscription" card on weapon
+4. Effect: Weapon deals +1d6 fire damage
+5. Active inscriptions: 1 + 1 = **2 inscriptions**
+6. Duration: Until long rest
+
+**Rune Type Reference Cards**:
+\`\`\`
+═══════════════════════════════════
+   RUNE OF DESTRUCTION (Fire)
+═══════════════════════════════════
+ZONE EFFECT (5 ft radius):
+• Creatures inside: +1d6 fire damage dealt/taken
+
+ZONE SYNERGY (3+ runes):
+• Entire zone: Double fire damage dealt/taken
+
+DETONATION:
+• Damage: 4d8 fire (DEX save DC 15, half on save)
+• Lingering: Fire damage zone for 2 turns
+═══════════════════════════════════
+
+═══════════════════════════════════
+   RUNE OF PROTECTION (Defense)
+═══════════════════════════════════
+ZONE EFFECT (5 ft radius):
+• Allies inside: +2 AC, +5 temp HP per turn
+
+ZONE SYNERGY (3+ runes):
+• Entire zone: +3 AC, +10 temp HP per turn
+
+DETONATION:
+• Effect: All allies gain 20 temp HP
+• Lingering: +2 AC zone for 2 turns
+═══════════════════════════════════
+
+═══════════════════════════════════
+   RUNE OF FROST (Cold)
+═══════════════════════════════════
+ZONE EFFECT (5 ft radius):
+• Enemies inside: -10 ft speed, +1d4 cold damage taken
+
+ZONE SYNERGY (3+ runes):
+• Entire zone: -20 ft speed, +1d6 cold damage taken
+
+DETONATION:
+• Damage: 3d6 cold (CON save DC 15, half on save)
+• Lingering: Slowing zone for 2 turns
+═══════════════════════════════════
+\`\`\`
+
+**Inscription Reference Cards**:
+\`\`\`
+═══════════════════════════════════
+    WEAPON INSCRIPTIONS
+═══════════════════════════════════
+FLAME INSCRIPTION:
+• Weapon deals +1d6 fire damage
+• Duration: Until long rest
+
+FROST INSCRIPTION:
+• Weapon deals +1d6 cold damage
+• Target: -10 ft speed for 1 turn
+
+LIGHTNING INSCRIPTION:
+• Weapon deals +1d6 lightning damage
+• Chain to 1 nearby enemy (half damage)
+
+RADIANT INSCRIPTION:
+• Weapon deals +1d6 radiant damage
+• Undead/fiends: +2d6 radiant damage
+═══════════════════════════════════
+
+═══════════════════════════════════
+    ARMOR INSCRIPTIONS
+═══════════════════════════════════
+WARDING INSCRIPTION:
+• Armor grants +2 AC
+• Duration: Until long rest
+
+RESISTANCE INSCRIPTION:
+• Choose damage type: Fire, cold, lightning, or necrotic
+• Gain resistance to chosen type
+
+REFLECTION INSCRIPTION:
+• When hit by melee attack: Attacker takes 1d6 force damage
+• Duration: Until long rest
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 3 runes active (Destruction, Frost, Lightning), 2 inscriptions active*
+
+**Turn 1 - Place Fourth Rune**:
+1. "I cast Rune of Protection at our tank's position!" (6 mana)
+2. Place blue token on map at tank's location
+3. Mark as "Protection Rune"
+4. Active runes: 3 + 1 = **4 runes**
+5. Zone Synergy still active (3+ runes)
+
+**Turn 2 - Enemies Enter Zones**:
+1. Orc enters Destruction zone (red token)
+2. Orc takes +1d6 fire damage (zone effect)
+3. Zone Synergy: Fire damage doubled
+4. Goblin enters Frost zone (white token)
+5. Goblin: -10 ft speed (zone effect)
+
+**Turn 3 - Detonate for Burst**:
+1. "I detonate all runes!" (1 AP)
+2. Remove all 4 markers from map
+3. Destruction: 4d8 fire → [7,6,5,8] = 26 damage (DEX save)
+4. Frost: 3d6 cold → [5,4,6] = 15 damage (CON save)
+5. Lightning: 3d8 lightning → [7,6,8] = 21 damage (DEX save)
+6. Protection: All allies gain 20 temp HP
+7. Lingering effects remain for 2 turns
+8. Active runes: **0 runes**
+
+**Alternative Tracking Methods**:
+
+**Method 1: Colored Tokens**
+- Red = Destruction (fire)
+- Blue = Protection (defense)
+- White = Frost (cold)
+- Yellow = Lightning (electric)
+- Visual and easy to identify
+
+**Method 2: Rune Cards**
+- Place small cards on map showing rune type and effect
+- Flip card when detonated to show lingering effect
+- Detailed information at a glance
+
+**Method 3: Numbered Markers**
+- Use numbered tokens (1-8) for runes
+- Keep reference sheet showing which number = which rune type
+- Compact tracking
+
+**Method 4: Inscription Clips**
+- Use paper clips or clothespins to attach inscription cards to equipment
+- Physical attachment shows what's inscribed
+- Easy to see at a glance
+
+**Quick Reference Card Template**:
+\`\`\`
+INSCRIPTOR QUICK REFERENCE
+
+RUNIC WRAPPING:
+• Max runes: 8 (12 for Runebinder, 6 for Wardcrafter)
+• Zone radius: 5 ft per rune
+• Zone Synergy: 3+ runes = enhanced effects
+• Detonation: 1 AP, removes all runes
+
+INSCRIPTION PLACEMENT:
+• Max inscriptions: 3 (1 for Runebinder, 4 for Wardcrafter)
+• Ritual time: 10 minutes
+• Duration: Until long rest
+• Types: Weapon, armor, accessory
+
+RUNE TYPES:
+• Destruction (fire): +1d6 fire damage dealt/taken
+• Protection (defense): +2 AC, +5 temp HP/turn
+• Frost (cold): -10 ft speed, +1d4 cold damage taken
+• Lightning (electric): +1d6 lightning damage on entry
+
+STRATEGY:
+• Place runes at chokepoints and key positions
+• Reach 3+ runes for Zone Synergy
+• Detonate for burst damage when needed
+• Inscribe equipment during downtime
+• Glyphweaver: Balance runes and inscriptions
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Inscriptor experience with:
+- **Rune Stones**: Use actual rune stones or carved tokens
+- **Glowing Markers**: LED tea lights for active rune zones
+- **Inscription Scrolls**: Parchment cards for inscriptions
+- **Colored Dice**: Match dice color to rune type
+- **Ritual Props**: Quill and ink for inscription rituals
+- **Zone Templates**: Circular templates showing 5 ft radius
+
+**Rune Management Tips**:
+
+**Placement Strategy**:
+- **Chokepoints**: Place runes where enemies must pass
+- **Ally Positions**: Protection runes where allies fight
+- **Layered Zones**: Overlap runes for multiple effects
+- **Zone Synergy**: Always aim for 3+ runes
+- **Detonation Timing**: Save for critical moments or when zones are no longer useful
+
+**Inscription Strategy**:
+- **Weapon First**: Inscribe weapon for consistent damage boost
+- **Armor Second**: Inscribe armor for survivability
+- **Accessory Third**: Inscribe accessory for utility
+- **Long Rest Planning**: Inscriptions reset, plan ahead
+- **Specialization Focus**: Runebinder = runes, Glyphweaver = balance, Wardcrafter = inscriptions
+
+**Specialization Strategy**:
+- **Runebinder**: Maximize runes (12 max), minimal inscriptions
+- **Glyphweaver**: Balance runes and inscriptions (8 runes, 3 inscriptions)
+- **Wardcrafter**: Maximize inscriptions (4 max), fewer runes (6 max)
+
+**Why This System Works**: The dual resource system (runes + inscriptions) creates two distinct gameplay loops. Runes are tactical and dynamic—place them, move enemies into them, detonate for burst damage. Inscriptions are strategic and persistent—enhance equipment during downtime for long-term benefits. The physical act of placing rune markers on the battle map creates spatial awareness and tactical positioning. The Zone Synergy mechanic (3+ runes) rewards building up runes before detonating. The system is visual, tactile, and creates clear decision points.
+
+**Pro Tips**:
+- **Pre-Place Runes**: Place runes before combat starts if possible
+- **Zone Synergy First**: Always reach 3+ runes before detonating
+- **Inscription Prep**: Inscribe equipment during every long rest
+- **Colored Tokens**: Use different colors for easy rune identification
+- **Detonation Timing**: Detonate when zones are no longer useful or for burst damage
+- **Specialization Awareness**: Know your max runes and inscriptions
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins (pennies, dimes, quarters for different runes)
+- **No cards?** Write inscriptions on sticky notes
+- **No markers?** Draw rune zones on map with dry-erase marker
+- **Minimalist**: Track rune count and locations on paper
+
+**Specialization-Specific Tracking**:
+
+**Runebinder**:
+- Track up to 12 runes (instead of 8)
+- Only 1 inscription slot
+- Focus on rune placement and detonation
+
+**Glyphweaver**:
+- Track 8 runes and 3 inscriptions
+- Balanced approach
+- Trap runes (explosive runes triggered by proximity)
+
+**Wardcrafter**:
+- Track 6 runes and 4 inscriptions
+- Focus on inscriptions and defensive runes
+- Enhanced inscription effects
+
+**Why Inscriptor Is Perfect for In-Person Play**: The class is built around physical placement and spatial awareness. Placing rune markers on the battle map creates a visual representation of your battlefield control. The Zone Synergy mechanic (3+ runes) rewards strategic placement and creates satisfying "aha!" moments when you realize the perfect rune configuration. The inscription system provides long-term character customization that persists across combats. The detonation mechanic creates explosive burst damage moments that feel impactful. The dual resource system (runes + inscriptions) creates multiple decision points and playstyles. Every rune placement is a tactical decision, and every detonation is a dramatic moment.`
     }
   },
-  
+
   // Specializations
   specializations: {
     title: 'Inscriptor Specializations',
@@ -1112,7 +1439,7 @@ Inscriptors must balance mana between runes, inscriptions, and spells. Pre-comba
       effects: {
         buff: {
           type: 'utility-enhancement',
-          effect: 'Teleport up to 30 ft as bonus action',
+          effect: 'Teleport up to 30 ft for 1 AP',
           duration: 'combat',
           description: 'Gain short-range teleportation'
         }
@@ -1122,7 +1449,7 @@ Inscriptors must balance mana between runes, inscriptions, and spells. Pre-comba
         inscription: {
           enabled: true,
           slot: 'cape',
-          effect: 'Teleport up to 30 ft as bonus action',
+          effect: 'Teleport up to 30 ft for 1 AP',
           stackable: false,
           description: 'Cannot stack with other cape inscriptions'
         }

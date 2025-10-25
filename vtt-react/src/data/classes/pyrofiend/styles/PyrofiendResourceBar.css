@@ -570,3 +570,15 @@
     filter: drop-shadow(0 0 2px currentColor);
 }
 
+/* Force compact sizing in account context */
+.character-card .pyrofiend-resource-bar,
+.character-card-compact .pyrofiend-resource-bar {
+    height: 16px !important;
+    min-height: 16px !important;
+    padding: 2px !important;
+}
+
+.character-card .inferno-level-number,
+.character-card-compact .inferno-level-number {
+    font-size: 0.65rem !important;
+}

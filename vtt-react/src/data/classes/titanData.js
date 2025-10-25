@@ -144,7 +144,7 @@ However, Titans must carefully manage their devotion restrictions. Each celestia
 
 **Shadow Demon #2**: Takes 30 damage → **DEAD**
 
-**Your Action (Bonus Action)**: "Radiant Smite" (8 mana, Solara-enhanced ability)
+**Your Action (1 AP)**: "Radiant Smite" (8 mana, Solara-enhanced ability)
 **Effect**: Next attack deals additional 3d8 radiant damage
 
 **Mana**: 50 - 8 = 42/60
@@ -313,6 +313,232 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
 **Zephyra (Fast Striker)**: High attack speed for multiple hits. Manage positioning carefully to avoid knockback into hazards or away from enemies.
 
 **Devotion Rotation**: Consider rotating devotions based on known challenges. Scout ahead when possible to inform your choice.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Titan's Celestial Devotion system—choosing one of 5 divine beings each day—creates a strategic, thematic in-person experience. Here's how to track your devotion at the table:
+
+**Required Materials**:
+- **5 devotion cards** (one for each celestial being)
+- **Devotion marker** (token or mini to show current devotion)
+- **Ultimate ability tracker** (to track once-per-day use)
+- **Restriction reminder card**
+
+**Celestial Devotion Tracking**:
+
+**The Devotion Card Method** (Recommended):
+
+Create 5 devotion cards representing the celestial beings. Each morning (long rest), choose one card to place face-up in front of you.
+
+**Devotion Cards Template**:
+
+\`\`\`
+☀️ SOLARA - RADIANT SUN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BENEFITS:
+• +2d6 radiant damage (all melee attacks)
+• Radiant Aura: 1d6 radiant/turn (10 ft)
+• Crit range: 19-20
+
+ULTIMATE (1/day):
+Solar Flare: 6d8 radiant AoE (30 ft)
+
+RESTRICTION:
+⚠️ You glow (30 ft bright light)
+⚠️ Enemies have advantage vs you in bright light
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌙 LUNARA - MOON GUARDIAN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BENEFITS:
+• +3 AC (defensive bonus)
+• Self-heal: 2d8 HP (1 AP, 3/day)
+• Advantage on CON saves
+
+ULTIMATE (1/day):
+Lunar Shield: Immune to damage (1 round)
+
+RESTRICTION:
+⚠️ Cannot receive healing from allies
+⚠️ Must rely on self-sustain only
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⭐ ASTRAEUS - STAR SAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BENEFITS:
+• +20 ft movement speed
+• Teleport: 15 ft (1 AP, 3/day)
+• +1d8 force damage (melee attacks)
+
+ULTIMATE (1/day):
+Starfall: 5d10 force damage + knockback
+
+RESTRICTION:
+⚠️ Vulnerable to non-magical physical damage
+⚠️ Take +50% from mundane weapons
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🪨 TERRANOX - EARTH TITAN
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BENEFITS:
+• +50 HP (temporary, lasts all day)
+• Resistance: Bludgeoning, Piercing, Slashing
+• Cannot be moved against your will
+
+ULTIMATE (1/day):
+Earthshatter: 4d12 bludgeoning AoE + prone
+
+RESTRICTION:
+⚠️ Movement speed reduced by 50%
+⚠️ Cannot dash or disengage
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💨 ZEPHYRA - WIND SPIRIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+BENEFITS:
+• Extra attack (3 attacks per action)
+• +2 AC from wind deflection
+• Advantage on DEX saves
+
+ULTIMATE (1/day):
+Cyclone Strike: 3d8 slashing + knockback
+
+RESTRICTION:
+⚠️ When hit, pushed 10 ft (forced movement)
+⚠️ Knockback can push you into hazards
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+**Daily Devotion Selection**:
+
+Each morning (long rest):
+1. Choose which celestial being to attune to
+2. Place that devotion card face-up in front of you
+3. Keep other 4 cards in a deck (not active)
+4. Mark ultimate ability as "Available" (1/day)
+
+**Example**:
+- Morning: "I attune to Solara for today's dungeon crawl."
+- Place Solara card face-up
+- Ultimate: Solar Flare (available)
+
+**Ultimate Ability Tracking**:
+
+Each devotion has a once-per-day ultimate ability:
+- **Tracking Method**: Use a token or coin (flip when used)
+  - Heads = Available
+  - Tails = Used (recharges on long rest)
+
+**Example In-Person Day**:
+
+*Morning: Long rest, choose devotion*
+
+**Morning Decision**:
+1. "We're fighting undead today. I attune to Solara (radiant damage)!"
+2. Place Solara card face-up
+3. Ultimate tracker: Available (heads)
+
+**Combat 1 - Regular Fight**:
+1. Attack skeleton: 2d8 + 2d6 radiant damage
+2. Radiant Aura: Skeleton takes 1d6 radiant/turn (within 10 ft)
+3. Restriction: I glow (30 ft), enemies have advantage vs me
+
+**Combat 2 - Boss Fight**:
+1. "Boss is surrounded by minions! I use Solar Flare!"
+2. Flip ultimate tracker: Available → Used (tails)
+3. Roll 6d8 radiant damage (30 ft AoE)
+4. Ultimate used for the day (recharges on long rest)
+
+**Next Morning**:
+1. Long rest complete
+2. "Today we're exploring a trap-filled dungeon. I attune to Astraeus (mobility)!"
+3. Swap Solara card for Astraeus card
+4. Reset ultimate tracker: Used → Available (heads)
+
+**Switching Devotions Mid-Combat** (Astral Warrior Spec Only):
+
+If you're Astral Warrior specialization:
+- You can switch devotions for 1 AP (3 uses per long rest)
+- Track uses with 3 tokens (remove 1 token per switch)
+
+**Example**:
+1. Start combat: Solara devotion (offensive)
+2. Boss phase 2: "I switch to Lunara!" (1 AP, use 1 token)
+3. Swap Solara card for Lunara card
+4. Remaining switches: 2/3 (2 tokens left)
+
+**Quick Reference Card**:
+\`\`\`
+TITAN QUICK REFERENCE
+
+DEVOTION SYSTEM:
+• Choose 1 devotion per long rest
+• Duration: Until next long rest
+• Each devotion: Benefits + Ultimate + Restriction
+
+5 DEVOTIONS:
+☀️ Solara: Radiant damage, offensive, glow restriction
+🌙 Lunara: Defensive tank, self-heal, no ally healing
+⭐ Astraeus: Mobile striker, teleport, vulnerable to mundane
+🪨 Terranox: Immovable tank, +50 HP, -50% movement
+💨 Zephyra: Fast attacker, 3 attacks, knockback risk
+
+ULTIMATE ABILITIES:
+• Each devotion: 1 ultimate per day
+• Recharges on long rest
+• Track with token (flip when used)
+
+RESTRICTIONS:
+• Each devotion has a meaningful drawback
+• Plan around restriction
+• Choose devotion based on expected challenges
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the titan experience with:
+- **Devotion Cards**: Laminated cards with celestial artwork
+- **Devotion Miniature**: Different colored bases for each devotion
+- **Ultimate Tracker**: Coin or token (flip when used)
+- **Restriction Reminder**: Keep restriction visible on card
+- **Devotion Journal**: Track which devotions you use each day
+
+**Specialization-Specific Tracking**:
+
+**Celestial Champion**:
+- Devotion benefits increased by 50%
+- Ultimate recharges on short rest (not long rest)
+- Can use ultimate twice per long rest
+- Track ultimate uses with 2 tokens instead of 1
+
+**Divine Conduit**:
+- Devotion restrictions reduced by 50%
+- Can attune to a second devotion at 50% effectiveness
+- Use 2 devotion cards (primary + secondary)
+- Track which is primary (full benefits) vs secondary (50%)
+
+**Astral Warrior**:
+- Can switch devotions mid-combat (1 AP, 3/day)
+- Track switches with 3 tokens (remove 1 per switch)
+- Keep all 5 devotion cards accessible during combat
+
+**Why This System Works**: The physical devotion cards make your celestial connection TANGIBLE. Each morning, you choose a card and place it in front of you, committing to that deity for the day. The card shows your benefits, ultimate ability, and restriction at a glance. The ultimate tracker (coin flip) creates a satisfying moment when you unleash your once-per-day power. The restriction on each card reminds you of the trade-off you've made for divine power.
+
+**Pro Tips**:
+- **Scout Ahead**: Know what challenges you'll face before choosing devotion
+- **Party Coordination**: Choose devotions that complement your party
+- **Restriction Planning**: Build your strategy around your restriction
+- **Ultimate Timing**: Save ultimate for critical moments (boss fights, emergencies)
+- **Devotion Rotation**: Try different devotions to learn their strengths
+
+**Budget-Friendly Alternatives**:
+- **No cards?** Write devotion name on paper with benefits/restriction
+- **No ultimate tracker?** Just mark "Used" on paper
+- **Minimalist**: Track current devotion and ultimate status on character sheet
+
+**Why Titan Is Perfect for In-Person Play**: The class is built around a simple daily choice—which celestial being to attune to. The physical devotion cards make this choice tangible and memorable. Each card shows your benefits and restriction clearly, and the once-per-day ultimate creates dramatic moments. The system encourages strategic planning (choosing the right devotion for the day's challenges) and creates variety (different devotions for different situations). Every morning is a new decision, every devotion is a new playstyle.`
     }
   },
   
@@ -408,7 +634,7 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
         playstyle: 'Tactical switching, adaptability, resource management',
         
         strengths: [
-          'Can switch devotions as a bonus action (costs 1 use)',
+          'Can switch devotions for 1 AP (costs 1 use)',
           'Start combat with 3 devotion switches available',
           'Switching devotions triggers a burst effect',
           'Ultimate tactical flexibility'
@@ -422,14 +648,14 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
         ],
         
         keyAbilities: [
-          'Combat Attunement: Switch devotions as bonus action (3 uses per long rest)',
+          'Combat Attunement: Switch devotions for 1 AP (3 uses per long rest)',
           'Devotion Burst: Switching triggers an effect based on new devotion',
           'Astral Mastery: Gain expertise in all devotion mechanics'
         ],
         
         specPassive: {
           name: 'Warrior\'s Versatility',
-          description: 'Can switch devotions as a bonus action (3 uses per long rest). Switching devotions triggers a burst effect. Devotion benefits reduced by 15%. Gain tactical insight into enemy weaknesses.'
+          description: 'Can switch devotions for 1 AP (3 uses per long rest). Switching devotions triggers a burst effect. Devotion benefits reduced by 15%. Gain tactical insight into enemy weaknesses.'
         }
       }
     ]
@@ -1195,7 +1421,7 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
     {
       id: 'titan_devotion_switch',
       name: 'Combat Attunement',
-      description: 'Switch your celestial devotion mid-combat as a bonus action. Only available to Astral Warriors.',
+      description: 'Switch your celestial devotion mid-combat for 1 AP. Only available to Astral Warriors.',
       spellType: 'ACTION',
       icon: 'spell_arcane_prismaticcloak',
       school: 'Transmutation',

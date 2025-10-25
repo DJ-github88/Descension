@@ -601,6 +601,328 @@ Use "Perfect Form" (costs 2 Flourish tokens)
 5. **Flourish Timing**: Save for ultimates or spend for game-changing moments?
 
 You're not just picking abilities—you're navigating a network of stances while managing two resources and adapting to dynamic threats. That's the Bladedancer's art.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Bladedancer's dual resource system—Momentum (0-20, builds/decays) and Flourish (persistent tokens)—combined with 6 interconnected stances creates a flowing, tactical in-person experience. Here's how to track your combat dance at the table:
+
+**Required Materials**:
+- **20 tokens or beads** (for Momentum - blue/silver recommended)
+- **5 special tokens** (for Flourish - gold/ornate recommended)
+- **Stance reference cards** (one for each of the 6 stances)
+- **Stance network diagram** showing transition paths
+- **Current stance indicator** (token or card)
+
+**Momentum Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent Momentum (0-20):
+- **Starting State**: Begin each combat at 0 Momentum
+- **Generating Momentum**: Add tokens when you succeed
+  - Successful attack → +1 token
+  - Critical hit → +2 tokens
+  - Successful dodge/parry → +1 token
+- **Losing Momentum**: Remove tokens when you fail
+  - Miss an attack → -1 token
+  - Take damage → -1 token
+- **Spending Momentum**: Remove tokens when using abilities
+  - Stance transition → -2 to -4 tokens (depending on transition)
+  - Stance ability → -3 to -6 tokens (depending on ability)
+
+**Alternative Tracking Methods**:
+- **d20 Die**: Set it to your current Momentum count (0-20)
+- **Tally Marks**: Write on paper with hash marks
+- **Counter App**: Use a phone app to track Momentum
+
+**Flourish Token Tracking**:
+
+**The Special Token Method** (Recommended):
+
+Use distinct, ornate tokens to represent Flourish (max 5):
+- **Starting State**: Begin with 0 Flourish tokens (or carry over from previous combat)
+- **Earning Flourish**: Add a token when you perform a signature move (★ abilities)
+  - Example: Use "Serpent's Fang" (Striking Serpent signature) → Add 1 gold token
+- **Spending Flourish**: Remove tokens when using ultimate abilities
+  - Perfect Form (2 Flourish) → Remove 2 gold tokens
+  - Blade Storm (3 Flourish) → Remove 3 gold tokens
+  - Phantom Dance (5 Flourish) → Remove 5 gold tokens
+- **Persistence**: Flourish tokens DON'T decay between combats (keep them!)
+
+**Visual Distinction**: Use clearly different tokens for Momentum (blue/silver, common) vs. Flourish (gold/ornate, special) so you never confuse them.
+
+**Stance Tracking**:
+
+**The Stance Card Method** (Recommended):
+
+Create reference cards for each stance showing:
+- **Stance Name & Icon**
+- **Passive Bonuses**
+- **Available Abilities** (with Momentum costs)
+- **Transition Paths** (which stances you can reach)
+- **Signature Move** (★ ability that earns Flourish)
+
+**Example Stance Cards**:
+
+\`\`\`
+FLOWING WATER (Starting Stance)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive: +2 AC, advantage on Dex saves
+Theme: Defensive, evasive
+
+Abilities:
+• Flowing Strike (3 Momentum): Attack + reposition
+• Water's Embrace ★ (5 Momentum): Dodge all attacks this round, heal 2d6
+
+Transitions (2 Momentum each):
+→ Striking Serpent
+→ Shadow Step
+→ Dancing Blade
+
+Signature Move: Water's Embrace ★
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STRIKING SERPENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive: +2 attack, +1d4 precision damage
+Theme: Offensive, precision
+
+Abilities:
+• Viper's Strike (3 Momentum): Attack with +2d6 damage
+• Serpent's Fang ★ (5 Momentum): Auto-crit next attack
+
+Transitions:
+→ Whirling Wind (2 Momentum)
+→ Rooted Stone (2 Momentum)
+→ Flowing Water (2 Momentum)
+
+Signature Move: Serpent's Fang ★
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WHIRLING WIND
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive: +10 ft speed, cleave attacks
+Theme: AoE, multi-target
+
+Abilities:
+• Whirlwind Strike (4 Momentum): Attack all adjacent enemies
+• Cyclone Slash ★ (6 Momentum): Massive AoE, knock prone
+
+Transitions:
+→ Dancing Blade (3 Momentum)
+→ Rooted Stone (2 Momentum)
+
+Signature Move: Cyclone Slash ★
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ROOTED STONE
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive: +3 AC, cannot be moved
+Theme: Defensive, counter
+
+Abilities:
+• Iron Parry (3 Momentum): Parry next attack, riposte 2d6
+• Mountain's Rebuke ★ (5 Momentum): Parry all attacks, riposte each
+
+Transitions:
+→ Striking Serpent (2 Momentum)
+→ Flowing Water (2 Momentum)
+
+Signature Move: Mountain's Rebuke ★
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DANCING BLADE (Hub Stance)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive: +1 attack, +5 ft speed
+Theme: Balanced, versatile
+
+Abilities:
+• Blade Flourish (4 Momentum): Attack twice
+• Dance of Blades ★ (6 Momentum): Chain 3 abilities
+
+Transitions (4 Momentum each):
+→ ANY STANCE (universal hub)
+
+Signature Move: Dance of Blades ★
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SHADOW STEP
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive: +3d6 sneak attack, advantage from stealth
+Theme: Stealth, burst damage
+
+Abilities:
+• Ambush Strike (4 Momentum): Teleport + attack +3d6
+• Vanishing Blade ★ (6 Momentum): Invisibility, next attack auto-crit
+
+Transitions:
+→ Striking Serpent (2 Momentum)
+→ Dancing Blade (3 Momentum)
+
+Signature Move: Vanishing Blade ★
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+**Stance Network Diagram**:
+
+Print a diagram showing how stances connect:
+\`\`\`
+        FLOWING WATER (Start)
+         /      |      \\
+        /       |       \\
+  SHADOW    DANCING   STRIKING
+   STEP      BLADE    SERPENT
+     |         |      /     \\
+     |         |     /       \\
+     +----+----+----+    WHIRLING
+          |              WIND
+      DANCING             |
+       BLADE              |
+          |          ROOTED
+          |           STONE
+          |              |
+          +------+-------+
+                 |
+            FLOWING WATER
+\`\`\`
+
+**Current Stance Indicator**:
+- **Card Method**: Place current stance card face-up in front of you
+- **Token Method**: Use a colored token to mark current stance on diagram
+- **Highlight Method**: Use a marker or token to highlight current stance
+
+**Example In-Person Turn**:
+
+*You have 5 Momentum, 2 Flourish tokens, currently in Striking Serpent stance*
+
+**Turn 1 - Attack and Build Momentum**:
+1. "I attack the goblin!"
+2. Roll to hit → Hit!
+3. Add 1 Momentum token: 5 + 1 = 6 Momentum
+4. Roll damage with Striking Serpent bonus: 1d8 + 1d4 → [7] + [3] = 10 damage!
+
+**Turn 2 - Stance Transition**:
+1. "I transition to Whirling Wind stance!" (costs 2 Momentum)
+2. Remove 2 Momentum tokens: 6 - 2 = 4 Momentum
+3. Swap Striking Serpent card for Whirling Wind card
+4. Gain Whirling Wind bonuses: +10 ft speed, cleave attacks
+
+**Turn 3 - Use Signature Move**:
+1. "I use Cyclone Slash!" (costs 6 Momentum, signature move ★)
+2. Remove 6 Momentum tokens: 4 - 6 = -2... NOT ENOUGH MOMENTUM!
+3. "Wait, I only have 4 Momentum. I'll use Whirlwind Strike instead." (costs 4 Momentum)
+4. Remove 4 Momentum tokens: 4 - 4 = 0 Momentum
+5. Attack all adjacent enemies, roll damage for each
+
+**Turn 4 - Rebuild Momentum**:
+1. "I attack the orc!"
+2. Roll to hit → Hit!
+3. Add 1 Momentum token: 0 + 1 = 1 Momentum
+4. "I attack again!" (second attack)
+5. Roll to hit → Critical hit!
+6. Add 2 Momentum tokens: 1 + 2 = 3 Momentum
+
+**Quick Reference Card Template**:
+\`\`\`
+BLADEDANCER QUICK REFERENCE
+
+MOMENTUM (Primary Resource):
+• Start combat: 0 Momentum
+• Maximum: 20 Momentum
+• Build: Attack (+1), Crit (+2), Dodge/Parry (+1)
+• Lose: Miss (-1), Take damage (-1)
+• Spend: Transitions (2-4), Abilities (3-6)
+
+FLOURISH (Secondary Resource):
+• Maximum: 5 tokens
+• Earn: Signature moves (★ abilities)
+• Spend: Ultimate abilities (2-5 tokens)
+• Persist: Don't decay between combats
+
+STANCES:
+💧 Flowing Water: Defensive, evasive (START)
+🐍 Striking Serpent: Offensive, precision
+🌪️ Whirling Wind: AoE, multi-target
+🗿 Rooted Stone: Defensive, counter
+⚔️ Dancing Blade: Balanced, hub (ANY transition)
+👤 Shadow Step: Stealth, burst
+
+STANCE TRANSITIONS:
+• Most transitions: 2 Momentum
+• To Dancing Blade: 3-4 Momentum
+• From Dancing Blade: 4 Momentum (but can go ANYWHERE)
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the stance-dancing experience with:
+- **Stance Cards**: Laminated cards with stance artwork
+- **Colored Tokens**: Blue for Momentum, gold for Flourish
+- **Stance Diagram**: Printed network showing transition paths
+- **Physical Movements**: Stand/sit differently for each stance
+- **Stance Announcements**: Describe transitions dramatically
+
+**Example Full Combat Sequence**:
+
+*Starting: 0 Momentum, 2 Flourish tokens, Flowing Water stance*
+
+**Turn 1**: Attack (hit) → 1 Momentum
+**Turn 2**: Attack (hit) → 2 Momentum
+**Turn 3**: Transition to Striking Serpent (2 Momentum) → 0 Momentum
+**Turn 4**: Attack (crit!) → 2 Momentum
+**Turn 5**: Use Serpent's Fang ★ (5 Momentum)... NOT ENOUGH! Attack instead → 3 Momentum
+**Turn 6**: Attack (hit) → 4 Momentum
+**Turn 7**: Attack (hit) → 5 Momentum
+**Turn 8**: Use Serpent's Fang ★ (5 Momentum) → 0 Momentum, +1 Flourish (now 3 Flourish)
+**Turn 9**: Attack (hit) → 1 Momentum
+**Turn 10**: Spend 3 Flourish on Blade Storm! → 0 Flourish, massive AoE damage!
+
+**Visual Organization**:
+
+**Your Play Area**:
+\`\`\`
+[Current Stance Card]    [Momentum Tokens]    [Flourish Tokens]
+  STRIKING SERPENT      ○○○○○○ (6)           ★★ (2)
+
+[Stance Network Diagram]
+(Shows all 6 stances with current stance highlighted)
+\`\`\`
+
+**Specialization-Specific Tracking**:
+
+**Flow Master**:
+- Stance transitions cost 1 less Momentum (minimum 1)
+- Note: Most transitions become 1 Momentum instead of 2
+- Track transition bonus: +1d6 damage after each stance change
+
+**Duelist**:
+- Parry/counter abilities cost 1 less Momentum
+- Track parry count: Earn Flourish after 3 successful parries
+- Note: Focus on Rooted Stone and Flowing Water stances
+
+**Shadow Dancer**:
+- Shadow Step abilities cost 1 less Momentum
+- Earn Flourish from stealth kills (not just signature moves)
+- Track stealth status: Note when invisible/hidden
+
+**Why This System Works**: The physical act of adding/removing Momentum tokens, earning special Flourish tokens, and swapping stance cards creates a FLOWING RHYTHM. You can SEE your Momentum building and decaying, FEEL the weight of spending it on transitions, and EXPERIENCE the satisfaction of earning Flourish tokens through perfect execution. The stance cards show your current abilities at a glance, and the network diagram helps you plan your next transition. The dual resource system creates meaningful decisions: spend Momentum on transitions or abilities? Save Flourish for ultimates or spend for game-changing moments?
+
+**Pro Tips**:
+- **Momentum Banking**: Keep 6+ Momentum for tactical flexibility
+- **Stance Planning**: Know which stance you need BEFORE transitioning
+- **Flourish Timing**: Save for critical moments (boss phases, party in danger)
+- **Signature Moves**: Use ★ abilities to earn Flourish when safe
+- **Dancing Blade Hub**: Use Dancing Blade to reach any stance (costs 4 Momentum)
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins for Momentum, special coins for Flourish
+- **No stance cards?** Write stance names on paper with abilities listed
+- **No diagram?** Just remember transition paths
+- **Minimalist**: Track Momentum and Flourish on paper, announce stance changes
+
+**Why Bladedancer Is Perfect for In-Person Play**: The class is built around flowing between stances while managing two distinct resources. The physical components (Momentum tokens, Flourish tokens, stance cards, network diagram) make the abstract concept of "combat flow" tangible and strategic. Swapping stance cards, adding Momentum tokens after successful attacks, and earning special Flourish tokens through signature moves creates a visceral sense of mastery. Every combat is a dance—building rhythm (Momentum), perfecting techniques (Flourish), and flowing between forms (stances). The physical tracking makes this dance visible and engaging.`
     }
   },
 

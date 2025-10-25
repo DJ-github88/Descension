@@ -2476,6 +2476,82 @@ const UnifiedSpellCard = ({
         'any': 'anyone is falling'
       };
       displayText = `When ${whoMap[perspective] || 'I am falling'}`;
+    } else if (trigger.id === 'effect_duration') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const effectType = trigger.parameters?.effect_type || 'effect';
+      const duration = trigger.parameters?.duration || 5;
+      const whoMap = {
+        'self': 'my',
+        'target': 'target\'s',
+        'ally': 'ally\'s',
+        'enemy': 'enemy\'s',
+        'any': 'anyone\'s'
+      };
+      displayText = `When ${whoMap[perspective] || 'my'} ${effectType} has ${duration} seconds remaining`;
+    } else if (trigger.id === 'dispel') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const effectType = trigger.parameters?.effect_type || 'any';
+      const whoMap = {
+        'self': 'an effect is dispelled from me',
+        'target': 'an effect is dispelled from my target',
+        'ally': 'an effect is dispelled from an ally',
+        'enemy': 'an effect is dispelled from an enemy',
+        'any': 'an effect is dispelled'
+      };
+      if (effectType === 'buff') {
+        displayText = `When a buff is dispelled from ${perspective === 'self' ? 'me' : perspective === 'target' ? 'my target' : perspective === 'ally' ? 'an ally' : perspective === 'enemy' ? 'an enemy' : 'anyone'}`;
+      } else if (effectType === 'debuff') {
+        displayText = `When a debuff is dispelled from ${perspective === 'self' ? 'me' : perspective === 'target' ? 'my target' : perspective === 'ally' ? 'an ally' : perspective === 'enemy' ? 'an enemy' : 'anyone'}`;
+      } else {
+        displayText = `When ${whoMap[perspective] || whoMap['any']}`;
+      }
+    } else if (trigger.id === 'cleanse') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const effectType = trigger.parameters?.effect_type || 'any';
+      const whoMap = {
+        'self': 'I am cleansed',
+        'target': 'my target is cleansed',
+        'ally': 'an ally is cleansed',
+        'enemy': 'an enemy is cleansed',
+        'any': 'anyone is cleansed'
+      };
+      if (effectType && effectType !== 'any') {
+        displayText = `When ${effectType} is cleansed from ${perspective === 'self' ? 'me' : perspective === 'target' ? 'my target' : perspective === 'ally' ? 'an ally' : perspective === 'enemy' ? 'an enemy' : 'anyone'}`;
+      } else {
+        displayText = `When ${whoMap[perspective] || whoMap['any']}`;
+      }
+    } else if (trigger.id === 'immunity') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const effectType = trigger.parameters?.effect_type || 'effect';
+      const whoMap = {
+        'self': 'I am immune to',
+        'target': 'my target is immune to',
+        'ally': 'an ally is immune to',
+        'enemy': 'an enemy is immune to',
+        'any': 'anyone is immune to'
+      };
+      displayText = `When ${whoMap[perspective] || 'I am immune to'} ${effectType}`;
+    } else if (trigger.id === 'effect_stack') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const effectType = trigger.parameters?.effect_type || 'effect';
+      const stackCount = trigger.parameters?.stack_count || 3;
+      const whoMap = {
+        'self': 'my',
+        'target': 'target\'s',
+        'ally': 'ally\'s',
+        'enemy': 'enemy\'s',
+        'any': 'anyone\'s'
+      };
+      displayText = `When ${whoMap[perspective] || 'my'} ${effectType} reaches ${stackCount} stacks`;
+    } else if (trigger.id === 'duration_threshold') {
+      const duration = trigger.parameters?.duration || 5;
+      const comparison = trigger.parameters?.comparison || 'below';
+      const compMap = {
+        'below': 'falls below',
+        'above': 'rises above',
+        'equals': 'equals'
+      };
+      displayText = `When spell duration ${compMap[comparison] || 'falls below'} ${duration} seconds`;
     }
     // Handle any remaining triggers with fallback logic
 
@@ -3804,7 +3880,7 @@ const UnifiedSpellCard = ({
     // REDUCED ARMOR EFFECT
     else if (effectId === 'reduced_armor') {
       const armorReduction = status.armorReduction || 4;
-      mechanicsParts.push(`Armor Class reduced by ${armorReduction}`);
+      mechanicsParts.push(`Armor reduced by ${armorReduction}`);
     }
 
     // STAT REDUCTION EFFECT

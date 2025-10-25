@@ -86,7 +86,7 @@ export const FATE_WEAVER_DATA = {
 - Generate 1 Thread when spells fail or have no effect
 - Generate 1-2 Threads when spells have negative outcomes (severity-dependent)
 - Spend 2 Threads to call a specific card from the deck (once per turn)
-- Maximum Thread capacity: 20 Threads
+- Maximum Thread capacity: 13 Threads (13 cards per suit: Ace through King)
 
 **Optimal Play Patterns**:
 - Early combat: Accept some failures to build Thread reserves
@@ -108,7 +108,7 @@ export const FATE_WEAVER_DATA = {
       title: 'Combat Example: The Gambler\'s Paradox',
       content: `**The Setup**: You're a Fate Weaver (Fortune Teller specialization) facing a powerful necromancer and two skeletal guards. Your party needs you to deal damage, but your spells are card-based—unpredictable. Starting Threads: 4. Starting Mana: 45/50. Your goal: Use card mechanics strategically, build Threads from failures, then spend them to guarantee success when it matters.
 
-**Starting State**: Threads: 4/20 | Mana: 45/50 | HP: 55/70 | Deck: Shuffled (52 cards)
+**Starting State**: Threads: 4/13 | Mana: 45/50 | HP: 55/70 | Deck: Shuffled (52 cards)
 
 **Turn 1 - The Risky Play (Threads: 4 → 5)**
 
@@ -128,7 +128,7 @@ export const FATE_WEAVER_DATA = {
 **Necromancer's Turn**: Casts "Bone Spear" at you → 3d8 → [6, 7, 5] = 18 damage
 **Your HP**: 55 - 18 = 37/70
 
-**Current State**: Threads: 5/20 | Mana: 37/50 | HP: 37/70
+**Current State**: Threads: 5/13 | Mana: 37/50 | HP: 37/70
 
 **Turn 2 - Building Threads (Threads: 5 → 8)**
 
@@ -158,7 +158,7 @@ export const FATE_WEAVER_DATA = {
 **Your Party's Healer**: Heals you for 15 HP
 **Your HP**: 26 + 15 = 41/70
 
-**Current State**: Threads: 7/20 | Mana: 31/50 | HP: 41/70 | AC: -2 (1 round remaining)
+**Current State**: Threads: 7/13 | Mana: 31/50 | HP: 41/70 | AC: -2 (1 round remaining)
 
 **Turn 3 - The Setup (Threads: 7 → 9)**
 
@@ -185,7 +185,7 @@ export const FATE_WEAVER_DATA = {
 **Your Party's Rogue**: "Are you TRYING to kill yourself?!"
 **You**: "No. I'm trying to kill HIM." *You point at the necromancer.* "Next turn. Watch."
 
-**Current State**: Threads: 9/20 | Mana: 26/50 | HP: 30/70
+**Current State**: Threads: 9/13 | Mana: 26/50 | HP: 30/70
 
 **Turn 4 - The Payoff (Threads: 9 → 1)**
 
@@ -242,7 +242,7 @@ You're not a consistent damage dealer. You're a GAMBLER who turns bad luck into 
 
     resourceBarExplanation: {
       title: 'Understanding Your Threads of Destiny Gauge',
-      content: `**What You See**: Your Threads of Destiny gauge displays as a horizontal bar with 20 segments, each representing 1 Thread. The bar is styled like a golden tapestry with intricate weaving patterns. As you accumulate Threads, the segments fill with shimmering golden-silver energy, representing the cosmic threads you've woven from fate's disruptions.
+      content: `**What You See**: Your Threads of Destiny gauge displays as a horizontal bar with 13 segments, each representing 1 Thread (mirroring the 13 cards per suit: Ace through King). The bar is styled like a golden tapestry with intricate weaving patterns and card suit symbols (♠ ♥ ♦ ♣). As you accumulate Threads, the segments fill with shimmering golden-silver energy, representing the cosmic threads you've woven from fate's disruptions.
 
 **Visual Representation by Thread Level**:
 
@@ -269,21 +269,21 @@ You're not a consistent damage dealer. You're a GAMBLER who turns bad luck into 
 - Recommendation: "Spend freely on important moments"
 - Call Card Button: Brightly glowing - "4-6 cards available"
 
-**13-16 Threads (High Reserve)**:
-- Bar: 13-16 segments filled, intense golden-white glow
-- Border: Blue (excellent)
+**10-12 Threads (Destiny's Web)**:
+- Bar: 10-12 segments filled, intense orange-gold glow
+- Border: Orange-gold (high reserve)
 - Effect: Threads pulse with power, weaving complex patterns
-- Status: "High Reserve - Aggressive Manipulation"
+- Status: "Destiny's Web - Aggressive Manipulation"
 - Recommendation: "Maximize control over fate"
-- Call Card Button: Pulsing - "6-8 cards available"
+- Call Card Button: Pulsing - "5-6 cards available"
 
-**17-20 Threads (At/Near Cap)**:
-- Bar: 17-20 segments filled, maximum brightness
-- Border: Orange (warning - approaching cap)
+**13 Threads (Fate Mastered - The King)**:
+- Bar: All 13 segments filled, maximum brightness with crown symbol
+- Border: Golden (warning - at cap)
 - Effect: Threads overflow with energy, sparkling particles
-- Status: "AT CAP - Spend or Waste!"
+- Status: "FATE MASTERED - The King's Power!"
 - Recommendation: "Spend liberally to avoid waste"
-- Warning Text: "Thread generation will be wasted if at 20!"
+- Warning Text: "Thread generation will be wasted if at 13!"
 
 **Thread Generation Animation**:
 When you gain Threads from a failure or negative outcome:
@@ -322,13 +322,13 @@ When a spell fails or produces negative outcome:
 - **Visual**: Even failures look visually rewarding (golden energy, chimes, positive feedback)
 
 **Strategic Indicators**:
-- **At 0-3 Threads**: Tooltip says "Not enough to call cards - accept failures to build"
-- **At 4-7 Threads**: Tooltip says "Can call 2-3 cards - save for critical moments"
-- **At 8-12 Threads**: Tooltip says "Can call 4-6 cards - good reserve for manipulation"
-- **At 13-16 Threads**: Tooltip says "Can call 6-8 cards - aggressive manipulation available"
-- **At 17-20 Threads**: Tooltip says "AT CAP - spend or waste generation!"
+- **At 0-3 Threads**: Tooltip says "Sparse Threads - accept failures to build"
+- **At 4-6 Threads**: Tooltip says "Woven Strands - can call 2-3 cards, save for critical moments"
+- **At 7-9 Threads**: Tooltip says "Tapestry of Fate - can call 3-4 cards, good reserve for manipulation"
+- **At 10-12 Threads**: Tooltip says "Destiny's Web - can call 5-6 cards, aggressive manipulation available"
+- **At 13 Threads**: Tooltip says "FATE MASTERED - The King's Power! Spend or waste generation!"
 
-**Why This Matters**: The Threads of Destiny gauge transforms failures into victories. When you bust on Draw of the Damned and take damage, you don't just feel bad—you see 2 golden threads flow into your bar, hear the chime, and read "+2 Threads (Major Negative Outcome)". The visual feedback makes failures feel GOOD because they're building your power. Then, when you spend 8 Threads to call 4 specific cards and build a Royal Flush, you see each card materialize from golden energy, and you FEEL the payoff. The gauge isn't just a resource bar—it's a visual story of turning bad luck into good luck, one thread at a time.`
+**Why This Matters**: The Threads of Destiny gauge transforms failures into victories. When you bust on Draw of the Damned and take damage, you don't just feel bad—you see 2 golden threads flow into your bar, hear the chime, and read "+2 Threads (Major Negative Outcome)". The visual feedback makes failures feel GOOD because they're building your power. Then, when you spend 8 Threads to call 4 specific cards and build a Royal Flush, you see each card materialize from golden energy, and you FEEL the payoff. At 13 Threads, you've achieved "Fate Mastered" - the King's power - and the bar glows with maximum intensity. The gauge isn't just a resource bar—it's a visual story of turning bad luck into good luck, one thread at a time.`
     },
 
     mechanics: {
@@ -343,7 +343,7 @@ When a spell fails or produces negative outcome:
 - **Reweave Fate** (Passive): Automatically gain Threads when spells fail or backfire—failures are never wasted
 
 **Thread Capacity**:
-- **Maximum**: 20 Threads
+- **Maximum**: 13 Threads (representing the 13 cards per suit: Ace through King)
 - **Starting**: 0 Threads
 - **Persistence**: Threads persist between combats and can be stockpiled for crucial encounters
 
@@ -369,11 +369,11 @@ When a spell fails or produces negative outcome:
         title: 'Thread Spending Strategy',
         headers: ['Thread Reserve', 'Recommended Action', 'Reasoning'],
         rows: [
-          ['0-3 Threads', 'Accept random draws, build reserves', 'Not enough to reliably call cards'],
-          ['4-7 Threads', 'Spend on critical spells only', 'Moderate reserve, use sparingly'],
-          ['8-12 Threads', 'Spend freely on important moments', 'Good reserve, can afford to manipulate'],
-          ['13-16 Threads', 'Aggressive manipulation', 'High reserve, maximize control'],
-          ['17-20 Threads', 'At cap, must spend or waste', 'Spend liberally to avoid waste']
+          ['0-3 Threads', 'Accept random draws, build reserves', 'Sparse Threads - not enough to reliably call cards'],
+          ['4-6 Threads', 'Spend on critical spells only', 'Woven Strands - moderate reserve, use sparingly'],
+          ['7-9 Threads', 'Spend freely on important moments', 'Tapestry of Fate - good reserve, can afford to manipulate'],
+          ['10-12 Threads', 'Aggressive manipulation', 'Destiny\'s Web - high reserve, maximize control'],
+          ['13 Threads', 'At cap, must spend or waste', 'Fate Mastered - The King\'s Power! Spend liberally to avoid waste']
         ]
       }
     ],
@@ -387,13 +387,417 @@ When a spell fails or produces negative outcome:
 2. **Save for Criticals**: Don't spend Threads on minor spells—save them for game-changing moments
 3. **Know Your Deck**: Track which cards have been drawn to predict what's left and plan Thread usage
 4. **Emergency Reserve**: Always maintain 4-6 Threads for unexpected situations
-5. **Cap Awareness**: At 20 Threads, you must spend or waste generation—don't let Threads go to waste
+5. **Cap Awareness**: At 13 Threads (Fate Mastered), you must spend or waste generation—don't let Threads go to waste
 
 **Advanced Techniques**:
 - **Intentional Failure**: Sometimes accepting a negative outcome to gain 2 Threads is worth it
 - **Thread Cycling**: Spend Threads to call cards that enable Thread generation (risky cards)
 - **Combo Setup**: Use Threads to assemble specific card combinations for powerful effects
 - **Ally Coordination**: In Echo of Fate, coordinate with allies to ensure matching cards`
+    },
+
+    playingInPerson: {
+      title: 'Playing Fate Weaver In Person',
+      content: `**Required Materials**:
+- **Standard 52-Card Deck** (no jokers)
+- **13 Thread Tokens** (gold/silver tokens, beads, or coins)
+- **Thread Tracker Card** (showing 0-13 Thread capacity)
+- **Poker Hand Reference** (rankings for Hand of Fate spell)
+- **Blackjack Reference** (card values for Draw of the Damned spell)
+- **Discard Pile** (separate area for used cards)
+- **Hand Holder** (optional, for organizing your current hand)
+
+**Primary Tracking Method: Physical Playing Cards + Thread Tokens**
+
+The Fate Weaver is the ONLY class that uses actual playing cards as their core mechanic. You shuffle a real deck, draw real cards, and use Thread tokens to manipulate your draws. This creates an incredibly immersive, tactile experience where you're literally playing card games within your TTRPG.
+
+**Setup**:
+\`\`\`
+FATE WEAVER SETUP:
+
+DECK: [52 cards, shuffled] ← Your spell deck
+HAND: [5 cards] ← Current hand (max 5, or 7 for Card Master)
+DISCARD: [Used cards] ← Reshuffled when deck runs out
+
+THREADS OF DESTINY: [○][○][○][○][○][○][○][○][○][○][○][○][○]
+Current: 0/13 (max = 13, one per card rank Ace-King)
+
+THREAD GENERATION:
+• Spell fails or has no effect: +1 Thread
+• Spell has negative outcome: +1-2 Threads (severity-based)
+
+THREAD SPENDING:
+• Call Specific Card: 2 Threads (once per turn)
+• Look at Top 3 Cards: 1 Thread (choose which to draw)
+\`\`\`
+
+**How It Works**:
+
+**Drawing Cards**:
+1. Shuffle your 52-card deck at the start of combat
+2. Draw 5 cards to form your starting hand
+3. When you cast a card-based spell, you draw/play cards from your hand
+4. When your hand is empty or you need more cards, draw from the deck
+5. When the deck runs out, reshuffle the discard pile
+
+**Generating Threads**:
+1. **Spell Fails**: If a card-based spell fails or has no effect → +1 Thread token
+2. **Negative Outcome**: If a spell hurts you or backfires → +1-2 Thread tokens
+3. **Blackjack Bust**: If you bust in Draw of the Damned → +2 Thread tokens
+4. **Poker Hand Fails**: If you can't make the required hand → +1 Thread token
+
+**Spending Threads**:
+1. **Call Specific Card** (2 Threads, once per turn):
+   - Announce which card you want (e.g., "Ace of Spades")
+   - Search your deck for that card
+   - Add it to your hand
+   - Reshuffle the deck
+
+2. **Look at Top 3** (1 Thread, when drawing):
+   - Look at top 3 cards of deck
+   - Choose which one to draw
+   - Put the other 2 on bottom of deck in any order
+
+**Example Card-Based Spell: Hand of Fate (Poker)**
+
+*You cast Hand of Fate, which requires you to make a poker hand*
+
+**Your Current Hand**: [7♠][7♥][K♦][3♣][9♠]
+
+**Turn 1 - Natural Draw**:
+1. "I cast Hand of Fate!"
+2. Look at your hand: You have a pair of 7s
+3. **Pair** = 2d6 damage → Roll [4,5] = 9 damage
+4. Discard the 5 cards used
+5. No Threads generated (spell succeeded)
+
+**Turn 2 - Bad Draw**:
+1. Draw 5 new cards: [2♠][5♥][8♦][J♣][K♠]
+2. "I cast Hand of Fate again!"
+3. Look at your hand: No pairs, no straights, no flushes
+4. **High Card** = 1d4 damage → Roll [2] = 2 damage (weak!)
+5. Discard the 5 cards
+6. **Generate 1 Thread** (spell was weak/ineffective)
+7. Add 1 gold token to Thread pool → **1 Thread**
+
+**Turn 3 - Using Threads to Call Cards**:
+1. Draw 5 new cards: [4♠][6♥][9♦][Q♣][A♠]
+2. "I spend 2 Threads to call Ace of Hearts!"
+3. Remove 2 gold tokens → **0 Threads** (spent 2, had 1... wait, need 2!)
+4. Actually, you only have 1 Thread, so you can't call a card yet
+5. Cast Hand of Fate with current hand: No pairs
+6. **High Card** again = 1d4 damage
+7. **Generate 1 Thread** → **2 Threads** total
+
+**Turn 4 - Now You Can Call Cards**:
+1. Draw 5 new cards: [3♠][8♥][10♦][J♣][K♠]
+2. "I spend 2 Threads to call Ace of Spades!"
+3. Remove 2 gold tokens → **0 Threads**
+4. Search deck for A♠, add to hand
+5. Discard one card (K♠) to make room
+6. New hand: [3♠][8♥][10♦][J♣][A♠]
+7. "I spend 2 more Threads to call Ace of Hearts!"
+8. Wait, you have 0 Threads now, can't call another card
+9. Cast Hand of Fate: Still just high card
+10. **Generate 1 Thread** → **1 Thread**
+
+**Turn 5 - Building Toward Royal Flush**:
+1. You need 4 more Threads to call 2 more cards
+2. Accept some failures to build Threads
+3. Eventually, with enough Threads, you can call:
+   - 10♠, J♠, Q♠, K♠, A♠ = **ROYAL FLUSH!**
+   - 10d10 damage → Roll [8,9,10,7,6,8,9,10,7,8] = 82 damage!
+
+**Example Card-Based Spell: Draw of the Damned (Blackjack)**
+
+*You cast Draw of the Damned, which uses blackjack rules*
+
+**Turn 1 - Safe Play**:
+1. "I cast Draw of the Damned!"
+2. Draw 2 cards: [K♠][7♥] = 17 (King = 10, 7 = 7)
+3. "I stand at 17"
+4. Deal 3d6 damage → Roll [4,5,6] = 15 damage
+5. Discard cards
+6. No Threads generated (safe play, no bust)
+
+**Turn 2 - Risky Play**:
+1. Draw 2 cards: [5♠][6♥] = 11
+2. "I hit!" (draw another card)
+3. Draw: [9♦] = 20 (5+6+9)
+4. "I stand at 20"
+5. Deal 5d6 damage → Roll [6,5,4,6,5] = 26 damage!
+6. No Threads generated (successful risk)
+
+**Turn 3 - BUST!**:
+1. Draw 2 cards: [10♠][8♥] = 18
+2. "I hit!" (greedy play)
+3. Draw: [7♦] = 25 (BUST! Over 21)
+4. Take 3d6 damage to yourself → Roll [4,3,5] = 12 damage to me!
+5. **Generate 2 Threads** (negative outcome, hurt yourself)
+6. Add 2 gold tokens → **2 Threads**
+
+**Turn 4 - Using Threads to Guarantee 21**:
+1. Draw 2 cards: [9♠][5♥] = 14
+2. "I spend 2 Threads to call 7 of Spades!"
+3. Remove 2 gold tokens → **0 Threads**
+4. Search deck for 7♠, add to hand
+5. Total: 9+5+7 = 21 (BLACKJACK!)
+6. Deal 6d6 damage → Roll [6,6,5,4,6,5] = 32 damage!
+7. No Threads generated (perfect play)
+
+**Poker Hand Rankings (for Hand of Fate)**:
+\`\`\`
+POKER HANDS (Highest to Lowest):
+
+ROYAL FLUSH (10-J-Q-K-A, same suit):
+Damage: 10d10 (average 55)
+Rarity: Extremely rare without Thread manipulation
+
+STRAIGHT FLUSH (5 cards in sequence, same suit):
+Damage: 8d8 (average 36)
+Example: 5♠-6♠-7♠-8♠-9♠
+
+FOUR OF A KIND (4 cards same rank):
+Damage: 7d8 (average 31.5)
+Example: 7♠-7♥-7♦-7♣-K♠
+
+FULL HOUSE (3 of a kind + pair):
+Damage: 6d6 (average 21)
+Example: 8♠-8♥-8♦-K♠-K♥
+
+FLUSH (5 cards same suit):
+Damage: 5d6 (average 17.5)
+Example: 2♠-5♠-9♠-J♠-K♠
+
+STRAIGHT (5 cards in sequence):
+Damage: 4d6 (average 14)
+Example: 5♠-6♥-7♦-8♣-9♠
+
+THREE OF A KIND (3 cards same rank):
+Damage: 3d6 (average 10.5)
+Example: 9♠-9♥-9♦-K♠-2♣
+
+TWO PAIR (2 pairs):
+Damage: 2d8 (average 9)
+Example: 7♠-7♥-K♦-K♣-3♠
+
+PAIR (2 cards same rank):
+Damage: 2d6 (average 7)
+Example: J♠-J♥-K♦-5♣-2♠
+
+HIGH CARD (no combinations):
+Damage: 1d4 (average 2.5)
+Generate: +1 Thread (weak outcome)
+\`\`\`
+
+**Blackjack Values (for Draw of the Damned)**:
+\`\`\`
+CARD VALUES:
+• Ace: 1 or 11 (your choice)
+• 2-10: Face value
+• Jack, Queen, King: 10
+
+OUTCOMES:
+21 (Blackjack): 6d6 damage
+20: 5d6 damage
+19: 4d6 damage
+18: 4d6 damage
+17: 3d6 damage
+16 or less: 2d6 damage
+BUST (over 21): Take 3d6 damage, +2 Threads
+\`\`\`
+
+**Alternative Tracking Methods**:
+
+**Method 1: Digital Deck + Physical Threads**
+- Use a card shuffler app on phone/tablet
+- Track Threads with physical tokens
+- Faster shuffling, less table space
+- Loses some tactile immersion
+
+**Method 2: Dice Instead of Cards**
+- Use dice to simulate card draws (d13 for rank, d4 for suit)
+- Track Threads with tokens
+- No deck needed, but less thematic
+- Harder to visualize poker hands
+
+**Method 3: Card Tiles**
+- Use card tiles or tokens instead of full deck
+- Easier to organize and see hands
+- More durable than paper cards
+- More expensive to acquire
+
+**Method 4: Minimalist Paper Tracking**
+- Write drawn cards on paper
+- Track Threads with tally marks
+- No materials needed
+- Loses all tactile card-playing experience
+
+**Thread Reference Card**:
+\`\`\`
+THREADS OF DESTINY REFERENCE
+
+GENERATION:
+• Spell fails/no effect: +1 Thread
+• Negative outcome (minor): +1 Thread
+• Negative outcome (major): +2 Threads
+• Blackjack bust: +2 Threads
+• Poker high card: +1 Thread
+
+SPENDING:
+• Call Specific Card: 2 Threads (once/turn)
+• Look at Top 3 Cards: 1 Thread (when drawing)
+
+MAXIMUM: 13 Threads (Ace through King)
+
+STRATEGY:
+0-3 Threads: Build reserves, accept failures
+4-6 Threads: Spend on critical spells only
+7-9 Threads: Spend freely on important moments
+10-12 Threads: Aggressive manipulation
+13 Threads: At cap, must spend or waste
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 6 Threads, fighting a dragon*
+
+**Turn 1 - Build Toward Royal Flush**:
+1. "I cast Hand of Fate!"
+2. Current hand: [2♠][5♥][9♦][J♣][K♠]
+3. "I spend 2 Threads to call 10 of Spades!"
+4. Remove 2 tokens → **4 Threads**
+5. Search deck, add 10♠ to hand
+6. Discard 2♠ to make room
+7. New hand: [5♥][9♦][J♣][K♠][10♠]
+
+**Turn 2 - Continue Building**:
+1. "I spend 2 Threads to call Queen of Spades!"
+2. Remove 2 tokens → **2 Threads**
+3. Add Q♠ to hand, discard 5♥
+4. New hand: [9♦][J♣][K♠][10♠][Q♠]
+5. Not enough Threads to call more cards yet
+
+**Turn 3 - Accept Failure to Build Threads**:
+1. Cast a different spell that fails
+2. **Generate 1 Thread** → **3 Threads**
+3. Still need more Threads
+
+**Turn 4 - Final Assembly**:
+1. "I spend 2 Threads to call Jack of Spades!"
+2. Remove 2 tokens → **1 Thread**
+3. Add J♠ to hand, discard 9♦
+4. New hand: [J♣][K♠][10♠][Q♠][J♠]
+5. Wait, I have J♣ and J♠, but I need all spades for Royal Flush
+6. Need to call Ace of Spades and discard J♣
+7. Not enough Threads! Need to build more
+
+**Turn 5 - More Thread Building**:
+1. Accept another failure
+2. **Generate 1 Thread** → **2 Threads**
+
+**Turn 6 - ROYAL FLUSH!**:
+1. "I spend 2 Threads to call Ace of Spades!"
+2. Remove 2 tokens → **0 Threads**
+3. Add A♠ to hand, discard J♣
+4. Final hand: [K♠][10♠][Q♠][J♠][A♠]
+5. "I cast Hand of Fate with ROYAL FLUSH!"
+6. Deal 10d10 damage → [8,9,10,7,6,8,9,10,7,8] = 82 damage to dragon!
+7. Discard all 5 cards
+
+**Quick Reference Card Template**:
+\`\`\`
+FATE WEAVER QUICK REFERENCE
+
+CARD-BASED SPELLS:
+• Hand of Fate: Poker hands (pair to royal flush)
+• Draw of the Damned: Blackjack (17-21 or bust)
+• Card Cascade: Play multiple cards in sequence
+• Perfect Hand: Draw until you get specific hand
+
+THREAD MECHANICS:
+• Generate from failures and negative outcomes
+• Spend to call specific cards (2 Threads)
+• Spend to look at top 3 cards (1 Thread)
+• Maximum 13 Threads (don't waste generation!)
+
+POKER HANDS:
+Royal Flush > Straight Flush > Four of a Kind >
+Full House > Flush > Straight > Three of a Kind >
+Two Pair > Pair > High Card
+
+BLACKJACK:
+21 = 6d6 | 20 = 5d6 | 19 = 4d6 | 18 = 4d6
+17 = 3d6 | 16- = 2d6 | BUST = -3d6 + 2 Threads
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Fate Weaver experience with:
+- **Tarot Deck**: Use tarot cards instead of playing cards for mystical theme
+- **Golden Threads**: Use gold thread or string as Thread tokens
+- **Card Sleeves**: Protect cards with themed sleeves (stars, fate symbols)
+- **Dealer Visor**: Wear a card dealer visor for immersion
+- **Card Shuffler**: Automatic shuffler for faster gameplay
+- **Fate Dice**: Special dice for rolling damage based on poker hands
+
+**Thread Management Tips**:
+
+**Building Strategy**:
+- **Accept Early Failures**: First 2-3 turns, accept some failures to build Threads
+- **Know Your Limits**: Don't push for risky plays unless you have Thread backup
+- **Track Deck**: Remember which cards have been played to predict draws
+- **Emergency Reserve**: Keep 4-6 Threads for critical moments
+
+**Spending Strategy**:
+- **Royal Flush Assembly**: Save 10+ Threads to call all 5 cards for Royal Flush
+- **Blackjack 21**: Spend 2 Threads to call the exact card you need for 21
+- **Combo Setup**: Use Threads to assemble specific card combinations
+- **Don't Waste**: At 13 Threads, spend liberally to avoid wasting generation
+
+**Card Game Strategy**:
+- **Poker**: Aim for straights and flushes (easier than four of a kind)
+- **Blackjack**: Stand at 18-20 for safety, hit at 11-16 for higher damage
+- **Deck Tracking**: Count cards to know what's left in the deck
+- **Suit Awareness**: Track which suits have been played for flush potential
+
+**Why This System Works**: The Fate Weaver is the ONLY class that uses actual playing cards, creating a unique, tactile experience. The physical act of shuffling, drawing, and playing cards makes you feel like you're actually manipulating fate. The Thread tokens represent your ability to "cheat" the deck by calling specific cards, transforming randomness into strategy. The tension of deciding whether to accept a bad hand (and gain Threads) or spend Threads to guarantee a good hand creates meaningful decisions every turn. The dramatic moment of assembling a Royal Flush by calling all 5 cards is incredibly satisfying and memorable.
+
+**Pro Tips**:
+- **Shuffle Thoroughly**: Shuffle deck well between combats to ensure randomness
+- **Track Discards**: Keep discard pile organized to know when to reshuffle
+- **Poker Knowledge**: Learn poker hand rankings to maximize Hand of Fate
+- **Blackjack Math**: Know when to hit/stand based on current total
+- **Thread Banking**: Build to 10+ Threads before attempting Royal Flush
+- **Specialization Synergy**: Fortune Teller = ally support, Card Master = combo focus, Thread Weaver = failure conversion
+
+**Budget-Friendly Alternatives**:
+- **No playing cards?** Use dice to simulate draws (d13 for rank, d4 for suit)
+- **No Thread tokens?** Use coins, buttons, or tally marks
+- **No card holder?** Just hold cards in hand or lay them on table
+- **Minimalist**: Track card draws on paper, use tally marks for Threads
+
+**Specialization-Specific Tracking**:
+
+**Fortune Teller**:
+- Can share cards with allies (give them cards from your hand)
+- Track which allies have your cards
+- Bond with ally: They use your Thread pool
+- Mark bonded ally on character sheet
+
+**Card Master**:
+- Hold up to 7 cards (instead of 5)
+- When calling cards, call 2 cards for 2 Threads (not 1)
+- Free discard/draw once per turn
+- Use larger hand holder or spread cards on table
+
+**Thread Weaver**:
+- Generate +1 Thread from all sources (failures give 2, not 1)
+- Can spend Threads to force failures (intentional bad outcomes)
+- Track bonus Thread generation separately
+- More aggressive Thread spending
+
+**Why Fate Weaver Is Perfect for In-Person Play**: The class is literally built around playing card games at the table. You shuffle a real deck, draw real cards, make real poker hands and blackjack totals. The Thread tokens let you "cheat" by calling specific cards, creating a satisfying blend of luck and skill. The physical act of assembling a Royal Flush by searching the deck for each card, one by one, is incredibly immersive. Every card draw is exciting, every Thread spent is strategic, and every poker hand or blackjack total creates tension. It's a class that transforms your TTRPG into a casino, making it perfect for players who love card games and tactical resource management.`
     }
   },
 

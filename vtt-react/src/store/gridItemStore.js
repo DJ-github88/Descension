@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import useItemStore from './itemStore';
 import useInventoryStore from './inventoryStore';
 import useChatStore from './chatStore';
@@ -12,9 +11,8 @@ import '../styles/item-notification.css';
 const generateId = () => `grid-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
 // Create the grid item store
-const useGridItemStore = create(
-  persist(
-    (set, get) => ({
+// NOTE: localStorage persistence removed - grid items are now persisted to database via room gameState
+const useGridItemStore = create((set, get) => ({
       // State
       gridItems: [], // Items placed on the grid
       temporaryItems: new Map(), // Store temporary items (like creature loot) by ID
@@ -727,75 +725,6 @@ const useGridItemStore = create(
           lastUpdate: Date.now()
         };
       }),
-    }),
-    {
-      name: 'grid-items-storage',
-      storage: {
-        getItem: (name) => {
-          try {
-            const value = localStorage.getItem(name);
-            if (!value) return null;
-
-            // Check if value is already an object (corrupted state)
-            if (typeof value === 'object') {
-              safeLog('warn', 'Corrupted localStorage detected, clearing grid items store');
-              localStorage.removeItem(name);
-              return null;
-            }
-
-            const parsed = JSON.parse(value);
-            // Ensure gridItems is always an array
-            if (parsed && parsed.state && parsed.state.gridItems) {
-              parsed.state.gridItems = ensureArray(parsed.state.gridItems);
-            }
-            return value; // Return original string for Zustand to parse
-          } catch (error) {
-            safeLog('error', 'Error retrieving grid items from localStorage, clearing corrupted data:', error);
-            // Clear corrupted data to prevent repeated errors
-            try {
-              localStorage.removeItem(name);
-            } catch (clearError) {
-              safeLog('error', 'Failed to clear corrupted localStorage:', clearError);
-            }
-            return null;
-          }
-        },
-        setItem: (name, value) => {
-          try {
-            localStorage.setItem(name, value);
-          } catch (error) {
-            safeLog('error', 'Error storing grid items in localStorage:', error);
-          }
-        },
-        removeItem: (name) => {
-          try {
-            localStorage.removeItem(name);
-          } catch (error) {
-            safeLog('error', 'Error removing grid items from localStorage:', error);
-          }
-        }
-      },
-      // Add these options to ensure proper persistence
-      partialize: (state) => ({
-        gridItems: state.gridItems,
-        temporaryItems: Array.from(state.temporaryItems.entries()) // Convert Map to Array for persistence
-      }),
-      onRehydrateStorage: (state) => {
-        return (rehydratedState, error) => {
-          if (error) {
-            console.error('Error rehydrating grid items store:', error);
-          } else if (rehydratedState) {
-            // Convert temporaryItems Array back to Map
-            if (Array.isArray(rehydratedState.temporaryItems)) {
-              rehydratedState.temporaryItems = new Map(rehydratedState.temporaryItems);
-            } else if (!rehydratedState.temporaryItems) {
-              rehydratedState.temporaryItems = new Map();
-            }
-          }
-        };
-      }
-    }
-  )
-);
+}));
 
 export default useGridItemStore;

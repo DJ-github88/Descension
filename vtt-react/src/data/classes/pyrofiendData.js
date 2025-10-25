@@ -312,6 +312,94 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
 - Combat is ending and you want to reset
 - You need emergency healing
 - You're about to enter a dangerous situation at high levels`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Inferno Veil system is elegantly simple to track at the physical table, requiring only a single die and optional reference materials. Here's how to manage your demonic ascension without digital tools:
+
+**Required Materials**:
+- **1d10 die** (ten-sided die numbered 0-9)
+- **Reference card** with Inferno Level effects (optional but recommended)
+- **Damage tracking method** (standard HP tracking)
+
+**The d10 Tracker Method** (Recommended):
+
+Place a d10 in front of you with the current number facing up to represent your Inferno Level:
+- **Start of combat**: Set the die to 0
+- **When you ascend**: Rotate the die to the new level (e.g., from 3 to 6 after casting a spell that ascends by 3)
+- **When you descend**: Rotate the die down (e.g., from 7 to 4 after Cooling Ember reduces by 3)
+- **Between combats**: Leave the die at your current level (Inferno persists unless you rest)
+
+**Why d10 Works Perfectly**: The Inferno Veil has exactly 10 levels (0-9), making a d10 the perfect physical representation. Simply rotate the die to show your current level—no math, no tracking sheets, just a quick glance at the die tells you everything.
+
+**Quick Reference Card Template**:
+\`\`\`
+PYROFIEND INFERNO VEIL TRACKER
+Current Level: [d10 showing ___]
+
+DAMAGE BONUSES:
+Level 0: +0    Level 5: +5
+Level 1: +1    Level 6: +6
+Level 2: +2    Level 7: +7
+Level 3: +3    Level 8: +8
+Level 4: +4    Level 9: +10
+
+ZONES:
+0-3: Safe Zone (minimal drawbacks)
+4-6: Power Zone (high damage, manageable risk)
+7-9: Danger Zone (extreme power, life-threatening)
+
+DRAWBACK REMINDERS:
+[Print the drawback table on the back]
+\`\`\`
+
+**Alternative Tracking Methods**:
+
+1. **Token/Counter Method**: Use a numbered counter or slider (0-9) to track your level
+2. **Paper Method**: Write your current level on a piece of paper and update it as needed
+3. **Poker Chip Stack**: Stack chips to represent your level (0 chips = Level 0, 9 chips = Level 9)
+4. **Spindown Die**: Use a spindown d20 but only track 0-9
+
+**Managing Drawbacks**:
+
+Keep the Inferno Levels table visible (printed card or phone photo) so you can quickly reference your current drawback. The GM and other players should also have access to this table to help track your penalties.
+
+**Common Drawback Reminders**:
+- **Levels 1-3**: Minor penalties (hit chance, psychic damage, movement)
+- **Levels 4-6**: Moderate penalties (extra damage taken, bleeding, AC reduction, disadvantage)
+- **Levels 7-9**: Severe penalties (suffocation, self-damage, death timer)
+
+**Example In-Person Turn**:
+
+*Your d10 is currently showing 4 (Inferno Level 4)*
+
+1. **Your Turn**: "I cast Infernal Blast, which ascends me by 3 levels"
+2. **Rotate d10**: Turn the die from 4 to 7
+3. **Apply Bonus**: "My fire damage gets +7 from Inferno Level 7"
+4. **Note Drawback**: "I now have the Level 7 drawback: -15 ft speed and 1d6 suffocation damage per turn"
+5. **GM Reminder**: The GM notes your new speed and applies suffocation damage at the start of your next turn
+
+**Cooling Ember Example**:
+
+*Your d10 is showing 7 (Inferno Level 7)*
+
+1. **Cast Cooling Ember**: "I'm casting Cooling Ember to reduce my Inferno Level"
+2. **Roll Reduction**: Roll 1d4 → Result: 3
+3. **Rotate d10**: Turn the die from 7 to 4 (reduced by 3)
+4. **Healing**: Roll 3d6 for healing (1d6 per level reduced)
+5. **Update Status**: "I'm now at Level 4, and I healed for [3d6 result]"
+
+**Visual Cues for Roleplay**:
+
+Many players enhance the experience by adding thematic elements:
+- **Red/orange die**: Use a fire-colored d10 to represent the infernal theme
+- **Flame token**: Place a small flame marker next to your d10 when at Level 4+
+- **Danger marker**: Add a skull token when you reach Level 7+ (Danger Zone)
+- **Sound effects**: Some groups enjoy adding flame sound effects when ascending to high levels
+
+**Why This System Works**: The Inferno Veil is intentionally designed to be simple to track physically. Unlike complex resource systems that require multiple trackers, you only need to know one number: your current level. The d10 makes this instant and tactile—you can feel the weight of ascending as you rotate the die higher, and the relief of descending when you turn it back down. The physical act of rotating the die mirrors the narrative of your character's descent into demonic corruption and their struggle to maintain control.`
     }
   },
   

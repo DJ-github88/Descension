@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { Creature, Ability, creatureTypes, abilityTypes } from "../game/creatures";
 
 const initialState = {
@@ -162,10 +161,8 @@ const handleGameStoreQuotaExceeded = (name, value) => {
     }
 };
 
-const useGameStore = create(
-    persist(
-        (set, get) => ({
-            ...initialState,
+const useGameStore = create((set, get) => ({
+    ...initialState,
 
             // Initialize store
             initializeStore: () => {
@@ -716,58 +713,7 @@ const useGameStore = create(
                 // This method is deprecated to avoid dual store conflicts
                 console.warn('🎯 gameStore.updateTokenPositionMultiplayer is deprecated - use creatureStore instead');
             }
-        }),
-        {
-            name: 'game-store',
-            storage: {
-                getItem: (name) => {
-                    try {
-                        const str = localStorage.getItem(name);
-                        if (!str) return null;
-                        return JSON.parse(str);
-                    } catch (error) {
-                        console.error('Error reading from localStorage:', error);
-                        return null;
-                    }
-                },
-                setItem: (name, value) => {
-                    try {
-                        // Comprehensive exclusion of non-serializable objects
-                        const cleanValue = JSON.parse(JSON.stringify(value, (key, val) => {
-                            // Exclude socket objects, functions, and other non-serializable types
-                            if (key === 'multiplayerSocket' ||
-                                key === 'onLeaveMultiplayer' ||
-                                key === 'sendMultiplayerMessage' ||
-                                typeof val === 'function' ||
-                                (val && typeof val === 'object' && val.constructor &&
-                                 (val.constructor.name === 'Socket' || val.constructor.name.includes('Socket')))) {
-                                return undefined;
-                            }
-                            return val;
-                        }));
-
-                        localStorage.setItem(name, JSON.stringify(cleanValue));
-                    } catch (error) {
-                        if (error.name === 'QuotaExceededError') {
-                            console.error('localStorage quota exceeded in game store. Attempting to clean up...');
-                            handleGameStoreQuotaExceeded(name, value);
-                        } else {
-                            console.error('Error writing to localStorage:', error);
-                            // Don't throw error to prevent app crashes
-                        }
-                    }
-                },
-                removeItem: (name) => {
-                    try {
-                        localStorage.removeItem(name);
-                    } catch (error) {
-                        console.error('Error removing from localStorage:', error);
-                    }
-                }
-            }
-        }
-    )
-);
+}));
 
 const initializeStore = () => {
     useGameStore.getState().initializeStore();

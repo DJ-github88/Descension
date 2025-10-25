@@ -7,13 +7,17 @@ import PrimalistResourceBar from '../../data/classes/primalist/components/Primal
 import PyrofiendResourceBar from '../../data/classes/pyrofiend/components/PyrofiendResourceBar';
 import SpellguardResourceBar from '../../data/classes/spellguard/components/SpellguardResourceBar';
 import TitanResourceBar from '../../data/classes/titan/components/TitanResourceBar';
+import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
+import WardenResourceBar from '../../data/classes/warden/components/WardenResourceBar';
+import WitchDoctorResourceBar from '../../data/classes/witchdoctor/components/WitchDoctorResourceBar';
 
 const ClassResourceBar = ({
     characterClass,
     classResource,
     isGMMode = false,
     onResourceClick = null,
-    size = 'normal' // 'small', 'normal', 'large'
+    size = 'normal', // 'small', 'normal', 'large'
+    context = 'hud' // 'hud' or 'account' - controls whether to show interactive elements
 }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -327,7 +331,9 @@ const ClassResourceBar = ({
     // Handle click events for GM mode
     const handleClick = (e) => {
         if (isGMMode && onResourceClick) {
-            e.stopPropagation();
+            if (e) {
+                e.stopPropagation();
+            }
             onResourceClick(finalClassResource.type || finalConfig.id);
         }
     };
@@ -409,15 +415,21 @@ const ClassResourceBar = ({
             case 'prophetic-visions':
                 return renderPropheticVisions();
             case 'corruption-bar':
-                return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+                return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'totemic-synergy':
-                return <PrimalistResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+                return <PrimalistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'inferno-veil':
-                return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+                return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'arcane-absorption':
-                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'celestial-devotion':
-                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} />;
+                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+            case 'alchemical-arsenal':
+                return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+            case 'vengeance-points':
+                return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+            case 'voodoo-essence':
+                return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'progress-bar':
                 return renderProgressBar();
             default:
@@ -3523,42 +3535,44 @@ const ClassResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Specialization Indicator */}
-                    <div
-                        className="minstrel-spec-indicator"
-                        onClick={handleSpecClick}
-                        style={{
-                            borderColor: currentSpec.glow,
-                            cursor: 'pointer'
-                        }}
-                        title={currentSpec.name} // Show full name on hover
-                    >
-                        <i className="fas fa-cog" style={{ color: currentSpec.glow }}></i>
+                    {/* Specialization Indicator - Only show in HUD context */}
+                    {context !== 'account' && (
+                        <div
+                            className="minstrel-spec-indicator"
+                            onClick={handleSpecClick}
+                            style={{
+                                borderColor: currentSpec.glow,
+                                cursor: 'pointer'
+                            }}
+                            title={currentSpec.name} // Show full name on hover
+                        >
+                            <i className="fas fa-cog" style={{ color: currentSpec.glow }}></i>
 
-                        {/* Specialization Menu */}
-                        {showMinstrelSpecMenu && (
-                            <div className="minstrel-spec-menu" onClick={(e) => e.stopPropagation()}>
-                                <div className="menu-title">Select Specialization</div>
-                                {specs.map((spec) => (
-                                    <div
-                                        key={spec.id}
-                                        className={`spec-option ${minstrelSpec === spec.id ? 'selected' : ''}`}
-                                        onClick={() => {
-                                            setMinstrelSpec(spec.id);
-                                            setShowMinstrelSpecMenu(false);
-                                        }}
-                                        style={{
-                                            borderColor: spec.glow,
-                                            backgroundColor: minstrelSpec === spec.id ? `${spec.color}22` : 'transparent'
-                                        }}
-                                    >
-                                        <div className="spec-name" style={{ color: spec.glow }}>{spec.name}</div>
-                                        <div className="spec-theme">{spec.theme}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                            {/* Specialization Menu */}
+                            {showMinstrelSpecMenu && (
+                                <div className="minstrel-spec-menu" onClick={(e) => e.stopPropagation()}>
+                                    <div className="menu-title">Select Specialization</div>
+                                    {specs.map((spec) => (
+                                        <div
+                                            key={spec.id}
+                                            className={`spec-option ${minstrelSpec === spec.id ? 'selected' : ''}`}
+                                            onClick={() => {
+                                                setMinstrelSpec(spec.id);
+                                                setShowMinstrelSpecMenu(false);
+                                            }}
+                                            style={{
+                                                borderColor: spec.glow,
+                                                backgroundColor: minstrelSpec === spec.id ? `${spec.color}22` : 'transparent'
+                                            }}
+                                        >
+                                            <div className="spec-name" style={{ color: spec.glow }}>{spec.name}</div>
+                                            <div className="spec-theme">{spec.theme}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -5076,7 +5090,8 @@ const ClassResourceBar = ({
                                    finalConfig.visual?.type === 'lunar-phases' ||
                                    finalConfig.visual?.type === 'prophetic-visions' ||
                                    finalConfig.visual?.type === 'corruption-bar' ||
-                                   finalConfig.visual?.type === 'dual-resource';
+                                   finalConfig.visual?.type === 'dual-resource' ||
+                                   finalConfig.visual?.type === 'vengeance-points';
 
         if (!showTooltip) return null;
         if (!handlesOwnTooltips && !finalConfig.tooltip) return null;
@@ -5121,7 +5136,7 @@ const ClassResourceBar = ({
                         zIndex: 999999999
                     }}
                 >
-                    {finalConfig.type !== 'rage' && finalConfig.type !== 'dual-resource' && finalConfig.visual?.type !== 'mayhem-modifiers' && finalConfig.visual?.type !== 'time-shards-strain' && finalConfig.visual?.type !== 'ascension-blood' && finalConfig.visual?.type !== 'hexbreaker-charges' && finalConfig.visual?.type !== 'drp-resilience' && finalConfig.visual?.type !== 'dominance-die' && finalConfig.visual?.type !== 'madness-gauge' && finalConfig.visual?.type !== 'threads-of-destiny' && finalConfig.visual?.type !== 'fortune-points-gambling' && finalConfig.visual?.type !== 'quarry-marks-companion' && finalConfig.visual?.type !== 'runes-inscriptions' && finalConfig.visual?.type !== 'musical-notes-combo' && finalConfig.visual?.type !== 'prophetic-visions' && finalConfig.tooltip?.description && (
+                    {finalConfig.type !== 'rage' && finalConfig.type !== 'dual-resource' && finalConfig.visual?.type !== 'mayhem-modifiers' && finalConfig.visual?.type !== 'time-shards-strain' && finalConfig.visual?.type !== 'ascension-blood' && finalConfig.visual?.type !== 'hexbreaker-charges' && finalConfig.visual?.type !== 'drp-resilience' && finalConfig.visual?.type !== 'dominance-die' && finalConfig.visual?.type !== 'madness-gauge' && finalConfig.visual?.type !== 'threads-of-destiny' && finalConfig.visual?.type !== 'fortune-points-gambling' && finalConfig.visual?.type !== 'quarry-marks-companion' && finalConfig.visual?.type !== 'runes-inscriptions' && finalConfig.visual?.type !== 'musical-notes-combo' && finalConfig.visual?.type !== 'prophetic-visions' && finalConfig.visual?.type !== 'vengeance-points' && finalConfig.tooltip?.description && (
                         <div className="tooltip-description">
                             <span className="tooltip-header">
                                 <i className={`${finalConfig.visual.icon || 'fas fa-atom'} tooltip-icon`} style={{ color: finalConfig.visual.activeColor || '#9370DB' }}></i>
@@ -6373,7 +6388,7 @@ const ClassResourceBar = ({
                                                     <div className="col-title">Companion ({companionHP}/{companionMaxHP} HP)</div>
                                                     <ul>
                                                         <li><strong>Attack:</strong> 1d8 + proficiency</li>
-                                                        <li><strong>Defend:</strong> +2 AC to ally</li>
+                                                        <li><strong>Defend:</strong> +2 Armor to ally</li>
                                                         <li><strong>Support:</strong> Tactical buff</li>
                                                     </ul>
                                                 </div>
@@ -6583,7 +6598,7 @@ const ClassResourceBar = ({
                                                 <div className="state-col">
                                                     <ul>
                                                         <li><strong>Weapon:</strong> +damage/effects</li>
-                                                        <li><strong>Armor:</strong> +AC/resistance</li>
+                                                        <li><strong>Armor:</strong> +Armor/resistance</li>
                                                         <li><strong>Boots:</strong> +movement/flight</li>
                                                     </ul>
                                                 </div>
@@ -7166,7 +7181,7 @@ const ClassResourceBar = ({
     };
 
     // Don't show wrapper tooltip for Arcanoneer (spheres have individual tooltips)
-    // Rage, Bladedancer, Chronarch, Chaos Weaver, Deathcaller, Dreadnaught, Exorcist, False Prophet, Fate Weaver, Gambler, Huntress, Inscriptor, Lichborne, Lunarch, Martyr, Minstrel, Oracle, Plaguebearer, Primalist, Pyrofiend, and Spellguard handle their own tooltips internally
+    // Rage, Bladedancer, Chronarch, Chaos Weaver, Deathcaller, Dreadnaught, Exorcist, False Prophet, Fate Weaver, Gambler, Huntress, Inscriptor, Lichborne, Lunarch, Martyr, Minstrel, Oracle, Plaguebearer, Primalist, Pyrofiend, Spellguard, Titan, Warden, and Witch Doctor handle their own tooltips internally
     const isArcanoneer = finalConfig.visual.type === 'elemental-spheres';
     const isBladedancer = finalConfig.type === 'dual-resource';
     const isBerserker = finalConfig.type === 'rage';
@@ -7189,15 +7204,18 @@ const ClassResourceBar = ({
     const isPrimalist = finalConfig.visual?.type === 'totemic-synergy';
     const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
     const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';
+    const isWarden = finalConfig.visual?.type === 'vengeance-points';
+    const isWitchDoctor = finalConfig.visual?.type === 'voodoo-essence';
+
     const isTitan = finalConfig.visual?.type === 'celestial-devotion';
 
     return (
         <>
             <div
                 className={`class-resource-wrapper ${isGMMode ? 'clickable' : ''}`}
-                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan ? handleMouseEnter : undefined}
-                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan ? handleMouseLeave : undefined}
-                onMouseMove={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist ? handleMouseMove : undefined}
+                onMouseEnter={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor ? handleMouseEnter : undefined}
+                onMouseLeave={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isPyrofiend && !isSpellguard && !isTitan && !isWarden && !isWitchDoctor ? handleMouseLeave : undefined}
+                onMouseMove={!isArcanoneer && !isBerserker && !isBladedancer && !isChaosWeaver && !isChronarch && !isDeathcaller && !isDreadnaught && !isExorcist && !isFalseProphet && !isFateWeaver && !isGambler && !isHuntress && !isInscriptor && !isLichborne && !isLunarch && !isMartyr && !isMinstrel && !isOracle && !isPlaguebearer && !isPrimalist && !isWarden && !isWitchDoctor ? handleMouseMove : undefined}
                 onClick={handleClick}
                 style={{ cursor: isGMMode ? 'pointer' : 'default' }}
             >

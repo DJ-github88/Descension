@@ -42,7 +42,7 @@ Toxicologists often carry the scent of chemicals and herbs, their fingers staine
 
 **Poison Application**: Apply various poisons to weapons for DoT, debuffs, and burst damage
 **Battlefield Control**: Deploy contraptions to control enemy movement and create tactical advantages
-**Mid-Combat Crafting**: Craft concoctions as bonus actions to adapt to changing situations
+**Mid-Combat Crafting**: Craft concoctions for 1 AP to adapt to changing situations
 **Debuff Mastery**: Weaken enemies through stacking poison effects and contraption synergies
 **Strategic Utility**: Provide antidotes, explosives, and tactical support
 
@@ -102,7 +102,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Specialization Synergies**:
 - **Venomancer**: +1d6 poison damage, poison duration +1 round, poison save DC +2
-- **Gadgeteer**: Deploy contraptions as bonus action, +1 contraption part max, contraptions harder to detect
+- **Gadgeteer**: Deploy contraptions for 1 AP, +1 contraption part max, contraptions harder to detect
 - **Saboteur**: Poisons reduce enemy damage by 1d6, contraptions slow enemies, debuff duration +1 round
 
 **Combat Flow**:
@@ -130,7 +130,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 *Five bandits and their leader approach. You smile. They're walking into YOUR laboratory.*
 
-**Your Action (Pre-Combat Setup)**: Deploy "Caltrops" (1 contraption part, bonus action)
+**Your Action (Pre-Combat Setup)**: Deploy "Caltrops" (1 contraption part, 1 AP)
 **Effect**: 10 ft area, enemies take 1d4 damage and speed reduced by 10 ft
 
 *You scatter caltrops across the ground at the choke point.*
@@ -144,7 +144,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Contraption Parts**: 4 - 2 = **2/5**
 
-**Your Action (Bonus Action)**: Apply "Paralytic Poison" to weapon (1 toxin vial)
+**Your Action (1 AP)**: Apply "Paralytic Poison" to weapon (1 toxin vial)
 **Effect**: Weapon attacks deal +1d6 poison damage, target has disadvantage on DEX saves for 2 rounds
 
 *You coat your blade with a viscous green poison. It GLISTENS with toxicity.*
@@ -181,7 +181,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Bandit #1**: Takes 17 damage → HEAVILY DAMAGED
 
-**Your Action (Bonus Action)**: Craft "Explosive Concoction" (3 toxin vials)
+**Your Action (1 AP)**: Craft "Explosive Concoction" (3 toxin vials)
 **Effect**: Throwable explosive, 4d6 fire damage in 10 ft radius
 
 *You quickly mix chemicals from your vials. The concoction BUBBLES and SMOKES.*
@@ -212,7 +212,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Your Party's Rogue**: "THREE bandits with ONE explosive!"
 **You**: "Explosive Concoction. 4d6 fire damage in 10 feet. They were grouped perfectly."
 
-**Your Action (Bonus Action)**: Apply "Necrotic Poison" to weapon (1 toxin vial)
+**Your Action (1 AP)**: Apply "Necrotic Poison" to weapon (1 toxin vial)
 **Effect**: Weapon attacks deal +1d8 necrotic damage, target's max HP reduced by damage dealt
 
 *You coat your blade with a BLACK poison that seems to absorb light.*
@@ -237,7 +237,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Bandit #1**: Takes 21 damage → **DEAD**
 
-**Your Action (Bonus Action)**: Craft "Antidote" (2 toxin vials)
+**Your Action (1 AP)**: Craft "Antidote" (2 toxin vials)
 **Effect**: Cure poison/disease on ally, grant poison resistance for 1 hour
 
 *You mix a healing concoction, just in case.*
@@ -282,7 +282,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **The Lesson**: Toxicologist gameplay is about:
 1. **Contraption Deployment**: Placed caltrops (1 part) and poison gas trap (2 parts) before combat
 2. **Poison Application**: Applied paralytic poison (1 vial) and necrotic poison (1 vial) to weapon
-3. **Mid-Combat Crafting**: Crafted explosive concoction (3 vials) and antidote (2 vials) as bonus actions
+3. **Mid-Combat Crafting**: Crafted explosive concoction (3 vials) and antidote (2 vials) for 1 AP each
 4. **Resource Management**: Started with 7 vials and 5 parts, spent all vials strategically
 5. **Contraption Recovery**: Recovered 3 parts after combat (contraptions are reusable)
 6. **Poison Synergy**: Poison gas trap dealt 27 damage over 3 turns to multiple enemies
@@ -305,7 +305,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 - **Maximum**: INT modifier + 3 (minimum 4)
 - **Generation**: Regain 1d4 vials per short rest, all vials per long rest
 - **Usage**: Spend 1-3 vials to craft poisons, concoctions, or antidotes
-- **Crafting Speed**: Can craft as a bonus action during combat
+- **Crafting Speed**: Can craft for 1 AP during combat
 - **Variety**: Different recipes require different vial costs
 
 **Contraption Parts (Secondary Resource)**
@@ -317,14 +317,14 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
 **Poison Application**
 - **Duration**: Poisons last for 3 attacks or until end of combat
-- **Switching**: Changing poisons requires a bonus action
+- **Switching**: Changing poisons requires 1 AP
 - **Stacking**: Multiple poison effects can stack on the same target`
     },
 
     // Toxin Vial Recipes Table
     toxinVialRecipesTable: {
       title: 'Toxin Vial Recipes',
-      description: 'Concoctions and poisons that can be crafted using Toxin Vials. Crafting takes a bonus action.',
+      description: 'Concoctions and poisons that can be crafted using Toxin Vials. Crafting takes 1 AP.',
       headers: ['Recipe', 'Vial Cost', 'Effect', 'Duration', 'Notes'],
       rows: [
         [
@@ -374,7 +374,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
           '1 vial',
           'Create 15ft radius smoke cloud, obscures vision',
           '3 rounds',
-          'Thrown as bonus action'
+          'Thrown for 1 AP'
         ],
         [
           'Healing Mist',
@@ -492,6 +492,379 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 **Adaptation**: Craft concoctions mid-combat to respond to threats. Keep 1-2 vials in reserve for emergencies.
 
 **Specialization Synergy**: Each specialization enhances different aspects - Venomancer boosts poison damage, Gadgeteer improves contraptions, Saboteur excels at debuffs.`
+    },
+
+    playingInPerson: {
+      title: 'Playing Toxicologist In Person',
+      content: `**Required Materials**:
+- **Toxin Vial Tokens** (10 tokens, beads, or dice representing vials)
+- **Contraption Part Tokens** (5 tokens representing mechanical parts)
+- **Poison Type Cards** (showing different poison effects)
+- **Contraption Cards** (showing deployed contraptions and their effects)
+- **Crafting Recipe Chart** (showing vial costs for concoctions)
+- **Deployment Markers** (for marking contraption locations on map)
+
+**Primary Tracking Method: Dual Token System (Vials + Parts)**
+
+The Toxicologist uses two separate resources: Toxin Vials (for poisons and concoctions) and Contraption Parts (for mechanical devices). Track both with physical tokens that you spend and regenerate.
+
+**Setup**:
+\`\`\`
+TOXICOLOGIST RESOURCE TRACKING:
+
+TOXIN VIALS: [___] / 10
+• Regenerate: 1 vial per short rest, all vials per long rest
+• Spend on: Poisons (1-3 vials), concoctions (2-4 vials)
+• Venomancer: +1d6 poison damage
+• Gadgeteer: 8 max vials (instead of 10)
+
+CONTRAPTION PARTS: [___] / 5
+• Regenerate: 1 part per short rest, all parts per long rest
+• Spend on: Deploy contraptions (1-2 parts each)
+• Gadgeteer: 6 max parts (instead of 5)
+• Saboteur: Contraptions harder to detect
+
+POISON TYPES:
+• Lethal: High damage over time
+• Weakening: Reduce enemy stats
+• Paralyzing: Reduce movement/actions
+• Bleeding: Stacking damage
+
+CONTRAPTION TYPES:
+• Traps: Triggered by proximity
+• Turrets: Automated attacks
+• Smoke Bombs: Vision/movement denial
+• Caltrops: Area denial
+\`\`\`
+
+**How It Works**:
+
+**Toxin Vials (Poison Crafting)**:
+1. **Spend vials** → Apply poison or craft concoction
+2. **Remove tokens** → Subtract from vial count
+3. **Regenerate** → Add 1 token per short rest, all per long rest
+
+**Contraption Parts (Device Deployment)**:
+1. **Spend parts** → Deploy contraption
+2. **Place marker** → Mark contraption location on map
+3. **Remove tokens** → Subtract from part count
+4. **Regenerate** → Add 1 token per short rest, all per long rest
+
+**Example Poison Application**:
+
+*You have 8 toxin vials, attacking with poisoned weapon*
+
+**Your Turn - Venom Strike**:
+1. "I strike with Venom Strike!" (2 vials)
+2. Remove 2 vial tokens
+3. Toxin vials: 8 - 2 = **6 vials**
+4. Attack roll: 1d20+5 → [16] + 5 = 21 (hit!)
+5. Weapon damage: 1d8+3 → [6] + 3 = 9 damage
+6. Poison damage: 2d6 → [5,4] = 9 poison damage (immediate)
+7. Ongoing poison: 1d6 poison damage per turn for 4 turns
+
+**Example Contraption Deployment**:
+
+*You have 4 contraption parts, deploying poison gas trap*
+
+**Your Turn - Deploy Trap**:
+1. "I deploy a Poison Gas Trap at the doorway!" (2 parts)
+2. Remove 2 part tokens
+3. Contraption parts: 4 - 2 = **2 parts**
+4. Place trap marker on map at doorway
+5. Trap effect: When triggered, 3d6 poison damage (CON save DC 15)
+6. Trap duration: Until triggered or 1 hour
+
+**Example Concoction Crafting**:
+
+*You have 7 toxin vials, crafting antidote concoction*
+
+**During Combat (1 AP)**:
+1. "I craft an Antidote Concoction!" (3 vials)
+2. Remove 3 vial tokens
+3. Toxin vials: 7 - 3 = **4 vials**
+4. Concoction effect: Cure poison, remove 1 disease
+5. Use immediately or save for later
+
+**Poison Type Reference Cards**:
+\`\`\`
+═══════════════════════════════════
+    LETHAL POISON (High Damage)
+═══════════════════════════════════
+COST: 2 Toxin Vials
+
+IMMEDIATE: 2d6 poison damage
+ONGOING: 1d6 poison damage per turn (4 turns)
+SAVE: CON DC 15 to end early
+
+VENOMANCER BONUS: +1d6 poison damage
+═══════════════════════════════════
+
+═══════════════════════════════════
+   WEAKENING POISON (Stat Reduction)
+═══════════════════════════════════
+COST: 2 Toxin Vials
+
+IMMEDIATE: 1d6 poison damage
+EFFECT: -2 to STR and DEX for 3 turns
+SAVE: CON DC 15 to negate debuff
+
+SABOTEUR BONUS: Lasts 2 additional turns
+═══════════════════════════════════
+
+═══════════════════════════════════
+  PARALYZING POISON (Movement Denial)
+═══════════════════════════════════
+COST: 3 Toxin Vials
+
+IMMEDIATE: 1d6 poison damage
+EFFECT: -20 ft speed, -1 action per turn (3 turns)
+SAVE: CON DC 15 to negate debuff
+
+SABOTEUR BONUS: Requires coin flip to dispel
+═══════════════════════════════════
+
+═══════════════════════════════════
+    BLEEDING POISON (Stacking DoT)
+═══════════════════════════════════
+COST: 2 Toxin Vials
+
+IMMEDIATE: 1d4 poison damage
+ONGOING: 1d4 poison damage per turn (stacks)
+DURATION: 5 turns
+
+VENOMANCER BONUS: +1d6 initial damage
+═══════════════════════════════════
+\`\`\`
+
+**Contraption Reference Cards**:
+\`\`\`
+═══════════════════════════════════
+    POISON GAS TRAP
+═══════════════════════════════════
+COST: 2 Contraption Parts
+
+TRIGGER: Enemy enters within 5 ft
+EFFECT: 3d6 poison damage (CON save DC 15, half)
+AREA: 10 ft radius cloud (lasts 2 turns)
+DURATION: Until triggered or 1 hour
+
+GADGETEER BONUS: Deploy for 1 AP
+═══════════════════════════════════
+
+═══════════════════════════════════
+    AUTOMATED TURRET
+═══════════════════════════════════
+COST: 2 Contraption Parts
+
+EFFECT: Attacks nearest enemy each turn
+ATTACK: +5 to hit, 2d6 piercing damage
+RANGE: 30 ft
+DURATION: 5 turns or until destroyed (20 HP)
+
+GADGETEER BONUS: +1 contraption part max
+═══════════════════════════════════
+
+═══════════════════════════════════
+    SMOKE BOMB
+═══════════════════════════════════
+COST: 1 Contraption Part
+
+EFFECT: 15 ft radius smoke cloud
+VISION: Heavily obscured (disadvantage on attacks)
+MOVEMENT: -10 ft speed inside cloud
+DURATION: 3 turns
+
+SABOTEUR BONUS: Lasts 2 additional turns
+═══════════════════════════════════
+
+═══════════════════════════════════
+    CALTROPS FIELD
+═══════════════════════════════════
+COST: 1 Contraption Part
+
+AREA: 10 ft square
+EFFECT: 1d4 piercing damage, -10 ft speed
+SAVE: DEX DC 15 to avoid
+DURATION: Until cleared or 1 hour
+
+GADGETEER BONUS: Harder to detect (DC +3)
+═══════════════════════════════════
+\`\`\`
+
+**Concoction Crafting Chart**:
+\`\`\`
+═══════════════════════════════════
+   CONCOCTION RECIPES
+═══════════════════════════════════
+ANTIDOTE (3 vials):
+• Cure poison, remove 1 disease
+• 1 AP to craft and use
+
+HEALING SALVE (2 vials):
+• Restore 2d8+INT HP
+• 1 AP to craft and use
+
+EXPLOSIVE VIAL (4 vials):
+• Throw: 4d6 fire damage (15 ft radius)
+• DEX save DC 15, half on save
+
+INVISIBILITY POTION (3 vials):
+• Invisible for 1 minute
+• Ends if you attack or cast spell
+
+SPEED ELIXIR (2 vials):
+• +20 ft speed for 3 turns
+• +1 action per turn
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 6 toxin vials, 3 contraption parts*
+
+**Turn 1 - Deploy Trap**:
+1. "I deploy a Poison Gas Trap at the doorway!" (2 parts)
+2. Remove 2 part tokens
+3. Contraption parts: 3 - 2 = **1 part**
+4. Place trap marker on map
+
+**Turn 2 - Apply Poison**:
+1. "I attack with Lethal Poison!" (2 vials)
+2. Remove 2 vial tokens
+3. Toxin vials: 6 - 2 = **4 vials**
+4. Attack: 1d20+5 → [18] + 5 = 23 (hit!)
+5. Damage: 1d8+3 → [7] + 3 = 10 damage
+6. Poison: 2d6 → [5,4] = 9 poison damage
+7. Ongoing: 1d6 poison per turn (4 turns)
+
+**Turn 3 - Craft Concoction**:
+1. "I craft a Healing Salve!" (2 vials, 1 AP)
+2. Remove 2 vial tokens
+3. Toxin vials: 4 - 2 = **2 vials**
+4. Use immediately: 2d8+INT → [7,6] + 3 = 16 HP restored
+
+**Turn 4 - Enemy Triggers Trap**:
+1. Orc enters doorway (trap triggers!)
+2. Poison gas: 3d6 → [6,5,4] = 15 poison damage
+3. CON save: 1d20+2 → [8] + 2 = 10 (fail!)
+4. Orc takes full 15 damage
+5. 10 ft cloud remains for 2 turns
+
+**Alternative Tracking Methods**:
+
+**Method 1: Colored Tokens**
+- Green tokens = Toxin Vials
+- Gray tokens = Contraption Parts
+- Visual distinction between resources
+
+**Method 2: Dice Tracking**
+- d10 for toxin vials (rotate to show count)
+- d6 for contraption parts (rotate to show count)
+- Quick and compact
+
+**Method 3: Bead System**
+- String of beads (10 green, 5 gray)
+- Move beads to track resources
+- Tactile feedback
+
+**Method 4: Paper Tracking**
+- Write vial and part counts on paper
+- Cross out and rewrite as they change
+- Minimalist approach
+
+**Quick Reference Card Template**:
+\`\`\`
+TOXICOLOGIST QUICK REFERENCE
+
+TOXIN VIALS (10 max, 8 for Gadgeteer):
+• Regenerate: 1 per short rest, all per long rest
+• Lethal Poison: 2 vials (high damage)
+• Weakening Poison: 2 vials (stat reduction)
+• Paralyzing Poison: 3 vials (movement denial)
+• Bleeding Poison: 2 vials (stacking DoT)
+• Concoctions: 2-4 vials (various effects)
+
+CONTRAPTION PARTS (5 max, 6 for Gadgeteer):
+• Regenerate: 1 per short rest, all per long rest
+• Poison Gas Trap: 2 parts (3d6 poison)
+• Automated Turret: 2 parts (attacks each turn)
+• Smoke Bomb: 1 part (vision denial)
+• Caltrops: 1 part (area denial)
+
+STRATEGY:
+• Venomancer: Focus on poisons (+1d6 damage)
+• Gadgeteer: Focus on contraptions (6 max parts)
+• Saboteur: Focus on debuffs (last 2 extra turns)
+• Save 2-3 vials for emergency concoctions
+• Deploy contraptions before combat starts
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Toxicologist experience with:
+- **Vial Props**: Small bottles or test tubes for toxin vials
+- **Green Dice**: Green dice for poison damage rolls
+- **Contraption Miniatures**: Small props for deployed contraptions
+- **Poison Tokens**: Skull tokens for poisoned enemies
+- **Crafting Mat**: Alchemy mat for concoction crafting
+- **Smoke Effects**: Cotton balls for smoke bomb clouds
+
+**Resource Management Tips**:
+
+**Vial Management**:
+- **Save Reserves**: Keep 2-3 vials for emergency concoctions
+- **Poison Priority**: Use lethal poison for high-value targets
+- **Concoction Timing**: Craft concoctions mid-combat as needed
+- **Regeneration**: Take short rests to regenerate vials
+- **Venomancer**: Maximize poison damage with spec bonus
+
+**Part Management**:
+- **Pre-Deploy**: Deploy contraptions before combat starts
+- **Trap Placement**: Place traps at chokepoints and doorways
+- **Turret Positioning**: Deploy turrets with clear line of sight
+- **Save Parts**: Keep 1-2 parts for mid-combat deployment
+- **Gadgeteer**: Maximize contraptions with 6 max parts
+
+**Specialization Strategy**:
+- **Venomancer**: Focus on poison application (+1d6 damage, +2 turns duration)
+- **Gadgeteer**: Focus on contraption deployment (6 max parts, 1 AP deploy)
+- **Saboteur**: Focus on debuffs (last 2 extra turns, harder to dispel)
+
+**Why This System Works**: The dual resource system (vials + parts) creates two distinct gameplay loops. Vials are for direct combat (poisons and concoctions), while parts are for battlefield control (traps and contraptions). The physical act of removing tokens when you spend resources creates satisfying feedback. The regeneration system (1 per short rest) encourages resource management and strategic spending. The crafting system (concoctions) provides mid-combat adaptation. The system is simple to track but creates deep strategic gameplay.
+
+**Pro Tips**:
+- **Pre-Combat Prep**: Deploy contraptions before combat starts
+- **Vial Conservation**: Don't waste vials on weak enemies
+- **Concoction Flexibility**: Craft concoctions mid-combat for adaptation
+- **Trap Synergy**: Combine traps with area denial for maximum effect
+- **Regeneration Timing**: Take short rests to regenerate resources
+- **Specialization Awareness**: Know your spec bonuses and maximize them
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins (pennies = vials, dimes = parts)
+- **No cards?** Write poison/contraption effects on paper
+- **No markers?** Use dice to mark contraption locations
+- **Minimalist**: Track vial and part counts on paper
+
+**Specialization-Specific Tracking**:
+
+**Venomancer**:
+- Track +1d6 poison damage bonus
+- Track +2 turn duration on poison effects
+- Disadvantage on saves against your poisons
+
+**Gadgeteer**:
+- Track 8 max toxin vials (instead of 10)
+- Track 6 max contraption parts (instead of 5)
+- Deploy contraptions for 1 AP
+
+**Saboteur**:
+- Track +2 turn duration on all debuffs
+- Mark debuffs requiring coin flip to dispel
+- Track -2 to all saves for poisoned/contraption-affected enemies
+
+**Why Toxicologist Is Perfect for In-Person Play**: The class is built around physical resource management (vials and parts) that creates satisfying token manipulation. The dual resource system creates multiple decision points—spend vials on poisons or concoctions? Spend parts on traps or turrets? The crafting system provides mid-combat adaptation and problem-solving. The contraption deployment creates spatial awareness and battlefield control. The poison application creates ongoing damage tracking that feels impactful. Every vial spent is a tactical decision, and every contraption deployed is a strategic investment. The system is simple enough to track mid-combat but creates deep strategic gameplay.`
     }
   },
 
@@ -504,7 +877,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
     passiveAbility: {
       name: 'Alchemical Expertise',
-      description: 'All Toxicologists can craft poisons and concoctions as a bonus action, and deploy contraptions as an action. Gain immunity to your own poisons and resistance to all poison damage.'
+      description: 'All Toxicologists can craft poisons and concoctions for 1 AP, and deploy contraptions as an action. Gain immunity to your own poisons and resistance to all poison damage.'
     },
 
     specs: [
@@ -543,14 +916,14 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
         passiveAbility: {
           name: 'Improved Contraptions',
-          description: 'You can deploy contraptions as a bonus action instead of an action. Your contraptions deal +1d6 damage and have +5ft trigger radius. You can have up to 4 active contraptions at once (instead of 3).'
+          description: 'You can deploy contraptions for 1 AP instead of an action. Your contraptions deal +1d6 damage and have +5ft trigger radius. You can have up to 4 active contraptions at once (instead of 3).'
         },
 
         keyAbilities: [
           {
             name: 'Rapid Deployment',
             cost: '2 Contraption Parts',
-            effect: 'Deploy 2 contraptions simultaneously as a bonus action. Both contraptions are placed within 30ft of you and activate immediately.'
+            effect: 'Deploy 2 contraptions simultaneously for 1 AP. Both contraptions are placed within 30ft of you and activate immediately.'
           },
           {
             name: 'Overcharged Trap',
@@ -588,7 +961,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
           {
             name: 'Total Shutdown',
             cost: '4 Toxin Vials + 2 Contraption Parts',
-            effect: 'Target enemy is completely debilitated. They cannot take actions, reactions, or bonus actions for 2 rounds, have 0 armor, and automatically fail all saves. DC 19 CON save to reduce duration to 1 round and retain reactions.'
+            effect: 'Target enemy is completely debilitated. They cannot take actions or reactions for 2 rounds, have 0 armor, and automatically fail all saves. DC 19 CON save to reduce duration to 1 round and retain reactions.'
           }
         ]
       }
@@ -836,7 +1209,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
       specialMechanics: {
         gadgeteerBonus: {
           enabled: true,
-          effect: 'Gadgeteers add +1d6 damage, +5ft trigger radius (total 10ft), and can deploy as bonus action'
+          effect: 'Gadgeteers add +1d6 damage, +5ft trigger radius (total 10ft), and can deploy for 1 AP'
         },
         contraptionPersistence: {
           description: 'Trap remains active until triggered or 10 minutes pass'
@@ -1217,7 +1590,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
       effects: {
         incapacitation: {
           effects: [
-            'Cannot take actions, reactions, or bonus actions',
+            'Cannot take actions or reactions',
             'Armor reduced to 0',
             'Automatically fail all saves',
             'Vulnerable to all damage types'
@@ -1248,7 +1621,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
     {
       id: 'tox_apply_poison',
       name: 'Apply Weapon Poison',
-      description: 'Apply a poison to your weapon as a bonus action. The poison lasts for 3 attacks or until end of combat.',
+      description: 'Apply a poison to your weapon for 1 AP. The poison lasts for 3 attacks or until end of combat.',
       spellType: 'ACTION',
       icon: 'inv_potion_24',
       school: 'Alchemy',
@@ -1296,7 +1669,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
       specialMechanics: {
         quickCrafting: {
-          description: 'Can be used as a bonus action, allowing you to apply poison and attack in the same turn'
+          description: 'Can be used for 1 AP, allowing you to apply poison and attack in the same turn'
         },
         poisonChoice: {
           description: 'Choose from 5 different poison types based on tactical needs'
@@ -1355,7 +1728,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
       specialMechanics: {
         emergencyHealing: {
-          description: 'Can be used on self or allies as a bonus action for quick emergency response'
+          description: 'Can be used on self or allies for 1 AP for quick emergency response'
         },
         preventative: {
           description: 'Grants temporary poison resistance even if target is not currently poisoned'
@@ -1499,7 +1872,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
 
       specialMechanics: {
         quickDeployment: {
-          description: 'Deployed as bonus action, allowing you to create cover and take other actions'
+          description: 'Deployed for 1 AP, allowing you to create cover and take other actions'
         },
         versatileUtility: {
           description: 'Use for escape, repositioning, protecting allies, or disrupting enemy vision'

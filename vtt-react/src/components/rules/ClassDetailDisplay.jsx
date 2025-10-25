@@ -94,6 +94,195 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     );
   };
 
+  // Helper function to parse and render Playing in Person content
+  const renderPlayingInPersonContent = (content) => {
+    if (!content) return null;
+
+    // Extract materials and parse reference card into structured data
+    const lines = content.split('\n');
+    let materials = [];
+    let inMaterials = false;
+    let inCodeBlock = false;
+    let codeBlockLines = [];
+
+    lines.forEach((line) => {
+      // Check for materials section start
+      if (line.includes('**What You Need**') || line.includes('**Required Materials**')) {
+        inMaterials = true;
+        return;
+      }
+
+      // Check for code block delimiters
+      if (line.trim() === '```') {
+        if (!inCodeBlock) {
+          inCodeBlock = true;
+          codeBlockLines = [];
+        } else {
+          inCodeBlock = false;
+        }
+        return;
+      }
+
+      // Collect materials (bullet points starting with -)
+      if (inMaterials && line.trim().startsWith('-')) {
+        const material = line.trim().substring(1).trim().replace(/\*\*/g, '');
+        materials.push(material);
+        return;
+      }
+
+      // Collect code block content
+      if (inCodeBlock) {
+        codeBlockLines.push(line);
+        return;
+      }
+
+      // Stop collecting materials when we hit another section
+      if (inMaterials && line.trim().startsWith('**') && !line.includes('**What You Need**') && !line.includes('**Required Materials**')) {
+        inMaterials = false;
+      }
+    });
+
+    // Parse the reference card to extract key info
+    const parseReferenceCard = (lines) => {
+      const data = {
+        resourceName: '',
+        maxValue: '',
+        generation: [],
+        abilities: [],
+        mechanics: []
+      };
+
+      let currentSection = '';
+
+      lines.forEach(line => {
+        const trimmed = line.trim();
+
+        // Detect resource name and max value - look for pattern like "CHARGES: [___] / 6"
+        if (trimmed.match(/[A-Z\s]+:\s*\[.*?\]\s*\/\s*\d+/)) {
+          const match = trimmed.match(/([A-Z\s]+):\s*\[.*?\]\s*\/\s*(\d+)/);
+          if (match) {
+            data.resourceName = match[1].trim();
+            data.maxValue = match[2];
+          }
+        }
+
+        // Detect sections by keywords
+        if (trimmed.includes('GENERATION:') || trimmed.includes('GAIN:') || trimmed.includes('BUILD:')) {
+          currentSection = 'generation';
+        } else if (trimmed.includes('ABILITIES:') || trimmed.includes('COSTS:') || trimmed.includes('ABILITY COSTS:')) {
+          currentSection = 'abilities';
+        } else if (trimmed.includes('PRECISION:') || trimmed.includes('MECHANIC:') || trimmed.includes('SPECIAL:')) {
+          currentSection = 'mechanics';
+        }
+
+        // Extract bullet points (• or -)
+        if (trimmed.startsWith('•') || (trimmed.startsWith('-') && !trimmed.match(/^-+$/))) {
+          const text = trimmed.substring(1).trim();
+          if (currentSection === 'generation') {
+            data.generation.push(text);
+          } else if (currentSection === 'abilities') {
+            data.abilities.push(text);
+          } else if (currentSection === 'mechanics') {
+            data.mechanics.push(text);
+          }
+        }
+      });
+
+      return data;
+    };
+
+    const refData = parseReferenceCard(codeBlockLines);
+
+    return (
+      <div className="pip-visual">
+        {/* Materials as icon cards */}
+        {materials.length > 0 && (
+          <div className="pip-materials-visual">
+            <h5><i className="fas fa-dice-d20"></i> What You Need</h5>
+            <div className="pip-materials-grid">
+              {materials.map((item, idx) => {
+                // Extract icon based on material type
+                let icon = 'fa-circle';
+                if (item.toLowerCase().includes('token') || item.toLowerCase().includes('coin')) icon = 'fa-coins';
+                else if (item.toLowerCase().includes('dice') || item.toLowerCase().includes('die')) icon = 'fa-dice-d6';
+                else if (item.toLowerCase().includes('card')) icon = 'fa-id-card';
+                else if (item.toLowerCase().includes('chart') || item.toLowerCase().includes('table')) icon = 'fa-table';
+                else if (item.toLowerCase().includes('tracker') || item.toLowerCase().includes('counter')) icon = 'fa-tally';
+                else if (item.toLowerCase().includes('marker')) icon = 'fa-map-marker-alt';
+
+                return (
+                  <div key={idx} className="pip-material-card">
+                    <i className={`fas ${icon}`}></i>
+                    <span>{item}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Visual resource tracker */}
+        {refData.resourceName && (
+          <div className="pip-tracker-visual">
+            <h5><i className="fas fa-gauge-high"></i> Resource Tracker</h5>
+
+            <div className="pip-resource-display">
+              <div className="pip-resource-header">
+                <span className="pip-resource-name">{refData.resourceName}</span>
+                <span className="pip-resource-max">Max: {refData.maxValue}</span>
+              </div>
+
+              {/* Visual tracker bar */}
+              <div className="pip-tracker-bar">
+                {Array.from({ length: parseInt(refData.maxValue) || 6 }).map((_, idx) => (
+                  <div key={idx} className="pip-tracker-segment">
+                    {idx + 1}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* How to gain */}
+            {refData.generation.length > 0 && (
+              <div className="pip-info-box pip-gain">
+                <h6><i className="fas fa-arrow-up"></i> How to Gain</h6>
+                <ul>
+                  {refData.generation.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Abilities */}
+            {refData.abilities.length > 0 && (
+              <div className="pip-info-box pip-abilities">
+                <h6><i className="fas fa-bolt"></i> Abilities</h6>
+                <ul>
+                  {refData.abilities.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Special mechanics */}
+            {refData.mechanics.length > 0 && (
+              <div className="pip-info-box pip-mechanics">
+                <h6><i className="fas fa-cog"></i> Special Mechanics</h6>
+                <ul>
+                  {refData.mechanics.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // Render resource system tab
   const renderResourceSystem = () => {
     const { resourceSystem } = classData;
@@ -194,6 +383,13 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           <div className="class-subsection">
             <h4><i className="fas fa-lightbulb"></i> {resourceSystem.strategicConsiderations.title}</h4>
             <div className="subsection-content" dangerouslySetInnerHTML={{ __html: resourceSystem.strategicConsiderations.content.replace(/\n\n/g, '</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+          </div>
+        )}
+
+        {resourceSystem.playingInPerson && (
+          <div className="class-subsection playing-in-person">
+            <h4><i className="fas fa-dice-d20"></i> {resourceSystem.playingInPerson.title}</h4>
+            {renderPlayingInPersonContent(resourceSystem.playingInPerson.content)}
           </div>
         )}
       </div>
@@ -804,7 +1000,9 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                        classData.name === 'Primalist' ? 45 :
                        classData.name === 'Pyrofiend' ? 5 :
                        classData.name === 'Spellguard' ? 45 :
-                       classData.name === 'Titan' ? 60 : 0,
+                       classData.name === 'Titan' ? 60 :
+                       classData.name === 'Warden' ? 7 :
+                       classData.name === 'Witch Doctor' ? 8 : 0,
               max: classData.name === 'Berserker' ? 100 :
                    classData.name === 'Chaos Weaver' ? 20 :
                    classData.name === 'Covenbane' ? 6 :
@@ -821,7 +1019,9 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                    classData.name === 'Primalist' ? 100 :
                    classData.name === 'Pyrofiend' ? 9 :
                    classData.name === 'Spellguard' ? 100 :
-                   classData.name === 'Titan' ? 100 : 0,
+                   classData.name === 'Titan' ? 100 :
+                   classData.name === 'Warden' ? 10 :
+                   classData.name === 'Witch Doctor' ? 15 : 0,
               current2: classData.name === 'Inscriptor' ? 2 : undefined,
               max2: classData.name === 'Inscriptor' ? 3 : undefined,
               spheres: []

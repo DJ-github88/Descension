@@ -437,7 +437,7 @@ You can only be in one phase at a time. However, certain ultimate abilities (lik
         headers: ['Action', 'Mana Cost', 'Action Type', 'Notes'],
         rows: [
           ['Natural Phase Cycle', '0 mana', 'Automatic', 'Occurs every 3 rounds'],
-          ['Manual Phase Shift', '8 mana', 'Bonus Action', 'Shift to any phase immediately'],
+          ['Manual Phase Shift', '8 mana', '1 AP', 'Shift to any phase immediately'],
           ['Lunar Eclipse (Ultimate)', '15 mana', 'Action', 'Gain New Moon + Full Moon benefits for 2 rounds'],
           ['Phase Lock (Passive)', '0 mana', 'Passive', 'Some abilities lock you in current phase for 1 round']
         ]
@@ -462,7 +462,7 @@ You can only be in one phase at a time. However, certain ultimate abilities (lik
         {
           name: 'Phase Shift',
           cost: '8 mana',
-          type: 'Bonus Action',
+          type: '1 AP',
           description: 'Immediately shift to any lunar phase of your choice. The new phase lasts for 3 rounds before naturally cycling to the next phase.'
         },
         {
@@ -499,6 +499,86 @@ Use Waning Moon to extend control effects and conserve mana, or cycle back to Fu
 
 **Mana Conservation**:
 Avoid manual shifting unless absolutely necessary. Three rounds is enough time for most tactical situations. Save your mana for spells rather than constant phase shifting.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Lunarch's Lunar Phase system—cycling through 4 moon phases every 3 rounds—creates a rhythmic, adaptive in-person experience. Here's how to track your celestial power at the table:
+
+**Required Materials**:
+- **4 phase cards or tokens** (one for each moon phase)
+- **Round counter** (d4 die or tokens to track rounds 1-3)
+- **Phase reference card** with phase bonuses
+- **Optional: Moon phase wheel** (printed diagram)
+
+**Lunar Phase Tracking**:
+
+**The Phase Card Method** (Recommended):
+
+Use physical cards to represent the four moon phases. Place the current phase card face-up in front of you, with a d4 die showing which round (1, 2, or 3) you're in for that phase.
+
+**Phase Cards Template**:
+
+\`\`\`
+🌑 NEW MOON (Defensive)
++2 AC | +1d6 HP regen/turn | Stealth advantage
+Duration: 3 rounds → Waxing Moon
+
+🌒 WAXING MOON (Supportive)
++1d6 healing | +10 ft move | +1d4 spell damage
+Duration: 3 rounds → Full Moon
+
+🌕 FULL MOON (Offensive)
++2d6 radiant damage | Crit 19-20 | Attack advantage
+Duration: 3 rounds → Waning Moon
+
+🌘 WANING MOON (Efficient)
+Spell cost -2 mana | Debuff +1 round | +10 ft range
+Duration: 3 rounds → New Moon
+\`\`\`
+
+**Natural Phase Cycling**:
+
+Use a d4 die to track rounds within each phase:
+- **d4 = 1**: Round 1 of current phase
+- **d4 = 2**: Round 2 of current phase
+- **d4 = 3**: Round 3 of current phase (last round)
+- **After Round 3**: Swap to next phase card, reset d4 to 1
+
+**Example Tracking**:
+- Combat starts: New Moon card, d4 = [1]
+- End of Round 1: Advance d4 to [2]
+- End of Round 2: Advance d4 to [3]
+- End of Round 3: Swap to Waxing Moon card, reset d4 to [1]
+
+**Manual Phase Shifting** (8 mana):
+1. Announce: "I shift to Full Moon!" (spend 8 mana)
+2. Swap current phase card for Full Moon card
+3. Reset d4 to [1] (new phase starts at round 1)
+
+**Example In-Person Combat**:
+
+*Starting: New Moon, d4 = [1]*
+
+**Round 1**: New Moon [1] → Regen 1d6 HP, attack → Advance d4 to [2]
+**Round 2**: New Moon [2] → Regen 1d6 HP, attack → Advance d4 to [3]
+**Round 3**: New Moon [3] → Regen 1d6 HP, attack → Swap to Waxing Moon, d4 = [1]
+**Round 4**: Waxing Moon [1] → +10 ft move, attack +1d4 → Advance d4 to [2]
+**Round 5**: "Boss is low! I shift to Full Moon!" (8 mana) → Swap to Full Moon, d4 = [1]
+**Round 6**: Full Moon [1] → Attack +2d6 radiant, crit on 19-20!
+
+**Quick Reference**:
+\`\`\`
+PHASE CYCLE: New → Waxing → Full → Waning → (repeat)
+DURATION: 3 rounds per phase (automatic)
+MANUAL SHIFT: 8 mana (1 AP, any phase)
+START: Always New Moon
+\`\`\`
+
+**Why This Works**: The d4 die and phase cards create a simple, visual tracking system. You always know which phase you're in (card) and when it will change (d4). The physical act of swapping cards every 3 rounds creates rhythm, and the strategic decision of when to spend 8 mana to shift manually adds depth.
+
+**Budget Alternative**: Just write phase name and round number on paper (e.g., "Full Moon 2/3").`
     }
   },
   
@@ -543,14 +623,24 @@ Avoid manual shifting unless absolutely necessary. Three rounds is enough time f
         
         passiveAbilities: [
           {
+            name: 'Lunar Empowerment',
+            tier: 'Path Passive',
+            description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.',
+            sharedBy: 'All Lunarch'
+          },
+          {
             name: 'Lunar Precision',
+            tier: 'Specialization Passive',
             icon: 'ability_hunter_mastermarksman',
-            description: 'Your critical hits during Full Moon phase deal an additional 2d6 radiant damage. This bonus applies to both weapon attacks and spell attacks.'
+            description: 'Your critical hits during Full Moon phase deal an additional 2d6 radiant damage. This bonus applies to both weapon attacks and spell attacks.',
+            uniqueTo: 'Moonlight Sentinel'
           },
           {
             name: "Sentinel's Mark",
+            tier: 'Specialization Ability',
             icon: 'ability_hunter_markedfordeath',
-            description: 'When you hit a creature with a ranged weapon attack, you can mark them until the end of your next turn. Marked creatures take +1d4 damage from your next spell that targets them.'
+            description: 'When you hit a creature with a ranged weapon attack, you can mark them until the end of your next turn. Marked creatures take +1d4 damage from your next spell that targets them.',
+            uniqueTo: 'Moonlight Sentinel'
           }
         ],
         
@@ -588,14 +678,24 @@ Avoid manual shifting unless absolutely necessary. Three rounds is enough time f
         
         passiveAbilities: [
           {
+            name: 'Lunar Empowerment',
+            tier: 'Path Passive',
+            description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.',
+            sharedBy: 'All Lunarch'
+          },
+          {
             name: 'Celestial Cascade',
+            tier: 'Specialization Passive',
             icon: 'spell_nature_starfall',
-            description: 'Your AoE spells during Full Moon phase affect an additional 5-foot radius beyond their normal area. This does not increase mana cost.'
+            description: 'Your AoE spells during Full Moon phase affect an additional 5-foot radius beyond their normal area. This does not increase mana cost.',
+            uniqueTo: 'Starfall Invoker'
           },
           {
             name: 'Stellar Guidance',
+            tier: 'Specialization Passive',
             icon: 'spell_arcane_arcane04',
-            description: 'During Waxing Moon phase, you gain +2 to spell attack rolls. This bonus helps ensure your celestial bombardments hit their targets.'
+            description: 'During Waxing Moon phase, you gain +2 to spell attack rolls. This bonus helps ensure your celestial bombardments hit their targets.',
+            uniqueTo: 'Starfall Invoker'
           }
         ],
         
@@ -633,14 +733,24 @@ Avoid manual shifting unless absolutely necessary. Three rounds is enough time f
         
         passiveAbilities: [
           {
+            name: 'Lunar Empowerment',
+            tier: 'Path Passive',
+            description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.',
+            sharedBy: 'All Lunarch'
+          },
+          {
             name: "Elune's Grace",
+            tier: 'Specialization Passive',
             icon: 'spell_holy_holyprotection',
-            description: 'Your healing spells during Waxing Moon phase grant the target 1d6 temporary hit points in addition to the healing. These temporary HP last for 1 minute.'
+            description: 'Your healing spells during Waxing Moon phase grant the target 1d6 temporary hit points in addition to the healing. These temporary HP last for 1 minute.',
+            uniqueTo: 'Lunar Guardian'
           },
           {
             name: 'Lunar Sanctuary',
+            tier: 'Specialization Passive',
             icon: 'spell_holy_prayerofhealing02',
-            description: 'While you are in New Moon phase, all allies within 15 feet of you gain +1 AC. This bonus is lost if you move more than 15 feet away from them.'
+            description: 'While you are in New Moon phase, all allies within 15 feet of you gain +1 AC. This bonus is lost if you move more than 15 feet away from them.',
+            uniqueTo: 'Lunar Guardian'
           }
         ],
         

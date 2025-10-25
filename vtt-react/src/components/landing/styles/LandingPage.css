@@ -24,6 +24,7 @@ body.landing-mode .header-content,
 body.landing-mode .main-nav,
 body.landing-mode .nav-item,
 body.landing-mode .login-btn,
+body.landing-mode .account-btn,
 body.landing-mode .community-btn,
 body.landing-mode .dev-bypass-btn {
   /* Force landing page styles to take precedence */
@@ -186,6 +187,31 @@ body svg[data-icon] {
 .login-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.account-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  border: 2px solid #2e7d32;
+  border-radius: 8px;
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.account-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  background: linear-gradient(135deg, #66bb6a, #43a047);
+}
+
+.account-btn i {
+  font-size: 14px;
 }
 
 .dev-bypass-btn {

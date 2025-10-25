@@ -461,6 +461,206 @@ Build to 10 VP for Avatar of Vengeance transformation. Use this during critical 
 - Cage fleeing enemies to prevent escape
 - Cage casters to interrupt channeling
 - Jailer spec makes cages more powerful`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Warden's Vengeance Points system (0-10 VP) creates a relentless, building-fury in-person experience. Here's how to track your vengeance at the table:
+
+**Required Materials**:
+- **10 tokens or beads** (dark purple/black for Vengeance Points)
+- **VP reference card** with spending options
+- **Mark tokens** (for marking targets)
+- **Optional: Cage markers** (for trapped enemies)
+
+**Vengeance Points Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent Vengeance Points (0-10):
+- **Starting State**: Begin with 0 VP (or carry over from previous combat)
+- **Generating VP**: Add tokens when you succeed
+  - Successful attack → +1 VP (add 1 token)
+  - Attack marked target → +2 VP (add 2 tokens)
+  - Critical hit → +2 VP (add 2 tokens)
+  - Successful evasion → +1 VP (add 1 token)
+- **Spending VP**: Remove tokens when using abilities
+  - Vengeful Strike (1 VP) → Remove 1 token
+  - Whirling Glaive (2 VP) → Remove 2 tokens
+  - Hunter's Resolve (3 VP) → Remove 3 tokens
+  - Cage of Vengeance (5 VP) → Remove 5 tokens
+  - Avatar of Vengeance (10 VP) → Remove 10 tokens
+
+**Alternative Tracking**: Use a d10 die set to your current VP count (0-10).
+
+**Mark of the Hunt Tracking**:
+
+When you mark a target:
+1. Place a mark token on the enemy's miniature
+2. Note: Attacks against marked targets generate +1 VP (total 2 VP per hit)
+3. Track marked target's location (you can sense them)
+
+**VP Spending Reference**:
+\`\`\`
+VENGEANCE POINT ABILITIES
+
+1 VP - Vengeful Strike
+Next attack deals +1d6 damage
+
+2 VP - Whirling Glaive
+Enhanced multi-target glaive throw
+
+3 VP - Hunter's Resolve
+Heal 2d8 HP, gain +2 AC for 2 rounds
+
+5 VP - Cage of Vengeance
+Trap target in spectral cage for 3 rounds
+(Prevents movement and teleportation)
+
+10 VP - Avatar of Vengeance
+Transform into ultimate form for 4 rounds
+(Massive stat boost, enhanced VP generation)
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 4 Vengeance Points, marked target (orc chieftain)*
+
+**Turn 1 - Attack Marked Target**:
+1. "I attack the marked orc chieftain!"
+2. Roll to hit → Hit!
+3. Add 2 VP tokens: 4 + 2 = 6 VP (marked target bonus)
+4. Roll damage: 2d6 + 1d6 (mark bonus) → [5, 4] + [3] = 12 damage!
+
+**Turn 2 - Spend VP (Cage)**:
+1. "I have 6 VP. I use Cage of Vengeance on the chieftain!"
+2. Remove 5 tokens: 6 - 5 = 1 VP
+3. Place cage marker around chieftain's mini
+4. Chieftain is trapped for 3 rounds (cannot move or teleport)
+
+**Turn 3 - Rebuild VP**:
+1. "I attack the trapped chieftain!"
+2. Roll to hit → Hit!
+3. Add 2 VP tokens: 1 + 2 = 3 VP (marked target)
+4. Caged enemies take increased damage!
+
+**Turn 4 - Critical Hit**:
+1. "I attack again!"
+2. Roll to hit → Natural 20! Critical hit!
+3. Add 2 VP tokens: 3 + 2 = 5 VP (crit bonus)
+4. Roll crit damage: 4d6 + 2d6 (mark) → Massive damage!
+
+**Cage of Vengeance Tracking**:
+
+When you cage an enemy:
+1. Place a cage marker around the enemy's miniature
+2. Note: Caged for 3 rounds (track duration)
+3. Effects: Cannot move, cannot teleport, takes increased damage
+4. Remove cage marker after 3 rounds
+
+**Cage Marker**: Use a small ring, token, or note to show caged enemies.
+
+**Avatar of Vengeance Tracking**:
+
+When you activate Avatar (10 VP):
+1. Remove all 10 VP tokens
+2. Place "Avatar" marker on your character
+3. Duration: 4 rounds (track with counter)
+4. Effects: Massive stat boost, enhanced VP generation
+5. Remove Avatar marker after 4 rounds
+
+**Quick Reference Card**:
+\`\`\`
+WARDEN QUICK REFERENCE
+
+VENGEANCE POINTS:
+• Maximum: 10 VP
+• Generate: +1 per hit, +2 vs marked, +2 per crit, +1 per dodge
+• Persist: VP carry over between combats
+
+SPENDING:
+1 VP: Vengeful Strike (+1d6 damage)
+2 VP: Whirling Glaive (multi-target)
+3 VP: Hunter's Resolve (heal 2d8, +2 AC)
+5 VP: Cage of Vengeance (trap 3 rounds)
+10 VP: Avatar of Vengeance (transform 4 rounds)
+
+MARK OF THE HUNT:
+• Mark high-priority targets
+• Marked targets: +1 VP per hit (total 2 VP)
+• Marked targets: +1d6 damage
+• Track marked target's location
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the warden experience with:
+- **Dark Tokens**: Use purple/black beads for Vengeance Points
+- **Cage Markers**: Use small rings or tokens for caged enemies
+- **Mark Tokens**: Use special tokens for marked targets
+- **Avatar Marker**: Use a special token for Avatar transformation
+- **Glaive Prop**: Keep a small glaive prop on the table
+
+**Example Full Combat Sequence**:
+
+*Starting: 0 VP, no marked targets*
+
+**Round 1**: Mark orc chieftain | Attack (hit) → +2 VP (marked) = 2 VP
+**Round 2**: Attack (hit) → +2 VP = 4 VP | Dodge attack → +1 VP = 5 VP
+**Round 3**: Spend 5 VP (Cage) → 0 VP | Chieftain caged
+**Round 4**: Attack caged chieftain (hit) → +2 VP = 2 VP
+**Round 5**: Attack (crit!) → +2 VP = 4 VP
+**Round 6**: Attack (hit) → +2 VP = 6 VP
+**Round 7**: Attack (hit) → +2 VP = 8 VP
+**Round 8**: Attack (hit) → +2 VP = 10 VP
+**Round 9**: Spend 10 VP (Avatar) → 0 VP | Transform for 4 rounds!
+**Round 10-13**: Avatar form (enhanced combat)
+
+**Visual Organization**:
+
+**Your Play Area**:
+\`\`\`
+[VP Tokens]           [Mark Tokens]
+○○○○○○○○ (8 VP)      ★ (on orc chieftain mini)
+
+[Battle Map]
+(Cage marker around caged enemy)
+\`\`\`
+
+**Specialization-Specific Tracking**:
+
+**Shadowblade**:
+- Stealth attacks generate +1 VP (total 3 VP per hit)
+- Note: "Stealth attacks: +3 VP"
+- Track stealth status (hidden/visible)
+
+**Jailer**:
+- Cage abilities cost -1 VP (4 VP instead of 5)
+- Cages last +1 round (4 rounds instead of 3)
+- Update reference card accordingly
+
+**Vengeance Seeker**:
+- Avatar lasts +2 rounds (6 rounds instead of 4)
+- VP generation increased during Avatar
+- Note: "Avatar: 6 rounds"
+
+**Why This System Works**: The physical act of adding Vengeance Point tokens after successful attacks creates a sense of BUILDING FURY. You can SEE your vengeance accumulating, FEEL the decision of when to spend it, and EXPERIENCE the satisfaction of unleashing a 10-VP Avatar transformation. The mark tokens on enemy miniatures make your prey tangible, and the cage markers show your control over the battlefield. The VP system rewards aggressive play and successful evasions, creating a relentless hunter fantasy.
+
+**Pro Tips**:
+- **VP Banking**: Build to 10 VP for Avatar in boss fights
+- **Mark Priority**: Mark high-value targets early
+- **Cage Timing**: Use cages to isolate dangerous enemies or prevent escapes
+- **VP Efficiency**: Use 1-3 VP abilities for sustained combat
+- **Avatar Timing**: Save 10 VP for critical moments (boss phases, party in danger)
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use a d10 die to track VP
+- **No cage markers?** Just note which enemies are caged on paper
+- **No mark tokens?** Write marked target names on paper
+- **Minimalist**: Track VP and marks on paper
+
+**Why Warden Is Perfect for In-Person Play**: The class is built around relentless pursuit and building vengeance. The physical components (VP tokens, mark tokens, cage markers) make the abstract concept of "vengeance" tangible and satisfying. Adding tokens after each successful attack creates momentum, and the decision of when to spend VP creates strategic depth. The cage markers on enemy miniatures show your control, and the Avatar transformation—removing all 10 tokens at once—creates a dramatic, powerful moment. Every combat is a hunt—marking prey, building fury, and unleashing devastating vengeance when the moment is right.`
     }
   },
   

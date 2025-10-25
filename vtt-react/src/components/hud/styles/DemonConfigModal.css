@@ -1,0 +1,292 @@
+/* Demon Config Modal - Pathfinder/D&D Aesthetic */
+
+.demon-config-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    backdrop-filter: blur(2px);
+}
+
+.demon-config-modal {
+    background: linear-gradient(145deg, rgba(139, 69, 19, 0.98), rgba(101, 67, 33, 0.98));
+    border: 3px solid rgba(139, 69, 19, 0.9);
+    border-radius: 8px;
+    width: 450px;
+    max-width: 90vw;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    font-family: 'Crimson Text', serif;
+    color: #FFF8DC;
+}
+
+.demon-modal-header {
+    background: linear-gradient(180deg, rgba(45, 10, 10, 0.9), rgba(30, 5, 5, 0.95));
+    border-bottom: 2px solid rgba(139, 69, 19, 0.8);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px 5px 0 0;
+}
+
+.demon-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFD700;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+}
+
+.demon-modal-close {
+    background: transparent;
+    border: none;
+    color: #FFF8DC;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.demon-modal-close:hover {
+    background: rgba(220, 20, 60, 0.3);
+    color: #DC143C;
+}
+
+.demon-modal-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Form Groups */
+.demon-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.demon-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.demon-form-group label i {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Text Input */
+.demon-form-group input[type="text"],
+.demon-form-group input[type="number"] {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Crimson Text', serif;
+    color: #FFF8DC;
+    transition: all 0.2s ease;
+}
+
+.demon-form-group input[type="text"]:focus,
+.demon-form-group input[type="number"]:focus {
+    outline: none;
+    border-color: #FFD700;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+.demon-form-group input[type="text"]::placeholder {
+    color: rgba(255, 248, 220, 0.4);
+    font-style: italic;
+}
+
+/* Tier Selector */
+.tier-selector {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+}
+
+.tier-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Crimson Text', serif;
+    color: #FFF8DC;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tier-button:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
+}
+
+.tier-button.active {
+    background: linear-gradient(145deg, #FFD700, #F4C430);
+    border-color: #FFD700;
+    color: #2d0a0a;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.tier-description {
+    font-size: 11px;
+    color: rgba(255, 248, 220, 0.7);
+    font-style: italic;
+    text-align: center;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+/* Save DC Hint */
+.save-dc-hint {
+    font-size: 11px;
+    color: rgba(255, 248, 220, 0.6);
+    font-style: italic;
+    padding-left: 4px;
+}
+
+/* DD Selector */
+.dd-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.dd-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Crimson Text', serif;
+    color: #FFF8DC;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dd-button:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
+}
+
+.dd-button.active {
+    background: linear-gradient(145deg, #FFD700, #F4C430);
+    border-color: #FFD700;
+    color: #2d0a0a;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.dd-description {
+    font-size: 11px;
+    color: rgba(255, 248, 220, 0.7);
+    font-style: italic;
+    text-align: center;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+/* Action Buttons */
+.demon-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(139, 69, 19, 0.5);
+}
+
+.demon-btn-cancel,
+.demon-btn-save {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Crimson Text', serif;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.demon-btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    color: #FFF8DC;
+}
+
+.demon-btn-cancel:hover {
+    background: rgba(220, 20, 60, 0.3);
+    border-color: #DC143C;
+    color: #DC143C;
+}
+
+.demon-btn-save {
+    background: linear-gradient(145deg, #FFD700, #F4C430);
+    border: 2px solid #FFD700;
+    color: #2d0a0a;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.demon-btn-save:hover {
+    background: linear-gradient(145deg, #F4C430, #FFD700);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
+    transform: translateY(-1px);
+}
+
+.demon-btn-save:active {
+    transform: translateY(0);
+}
+
+/* Number Input Styling */
+.demon-form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.demon-form-group input[type="number"]::-webkit-outer-spin-button,
+.demon-form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .demon-config-modal {
+        width: 95vw;
+        margin: 10px;
+    }
+
+    .tier-selector {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dd-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+

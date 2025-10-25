@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/TitanResourceBar.css';
 
-const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {} }) => {
+const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
     const [localCharge, setLocalCharge] = useState(60);
     const [selectedDevotion, setSelectedDevotion] = useState('solara');
     const [selectedSpec, setSelectedSpec] = useState('celestialChampion');
@@ -175,7 +175,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {} }) 
 
 
     return (
-        <div className="titan-resource-container">
+        <div className={`titan-resource-container ${size}`}>
             {/* Devotion Button and Main Bar Row */}
             <div className="resource-bar-row">
                 {/* Devotion Cycle Button */}
@@ -248,7 +248,6 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {} }) 
                         <span className="charge-current">{localCharge}</span>
                         <span className="charge-separator">/</span>
                         <span className="charge-max">{maxCharge}</span>
-                        <span className="charge-label">Divine Charge</span>
                     </div>
                 </div>
             </div>
@@ -266,7 +265,12 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {} }) 
                     }}
                 >
                     <div className="tooltip-header">
-                        {currentDevotion.name}, {currentDevotion.title} - Divine Charge: {localCharge}/{maxCharge}
+                        {currentDevotion.name}, {currentDevotion.title}
+                    </div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">Divine Charge:</div>
+                        <div className="tooltip-value">{localCharge}/{maxCharge}</div>
                     </div>
                     
                     <div className="tooltip-section">

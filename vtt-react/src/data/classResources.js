@@ -634,7 +634,7 @@ export const CLASS_RESOURCE_TYPES = {
             { name: 'Mortal Resolve', level: 0, requirement: 'Starting state', passive: 'None' },
             { name: 'Flickering Faith', level: 1, requirement: '10 damage', passive: '5 temp HP when ally within 5 ft takes damage' },
             { name: 'Steadfast Conviction', level: 2, requirement: '20 damage', passive: 'All healing effects +5 HP' },
-            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'Allies within 10 ft gain +1 AC' },
+            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'Allies within 10 ft gain +1 Armor' },
             { name: 'Divine Ascendance', level: 4, requirement: '60 damage', passive: 'Advantage on all saving throws' },
             { name: 'Holy Martyrdom', level: 5, requirement: '80 damage', passive: '+10 radiant damage on attacks' },
             { name: 'Celestial Protector', level: 6, requirement: '100 damage', passive: 'Allies within 15 ft resist all damage' }
@@ -1320,29 +1320,68 @@ CLASS_RESOURCE_TYPES['Witch Doctor'] = {
     name: 'Voodoo Essence',
     shortName: 'VE',
     type: 'spiritual',
-    description: 'Spiritual essence for invoking loa spirits and voodoo magic',
+    description: 'Generate Voodoo Essence through curses, poisons, totems, and rituals. Spend essence to invoke powerful loa spirits.',
     visual: {
-        type: 'progress-bar',
-        count: 'calculated',
-        arrangement: 'horizontal',
-        baseColor: '#4A2C0A',
-        activeColor: '#32CD32',
-        glowColor: '#ADFF2F',
-        icon: '🎭',
-        effects: ['spiritual', 'tribal']
+        type: 'voodoo-essence',
+        count: 15,
+        arrangement: 'segmented',
+        baseColor: '#2D1B4E',
+        activeColor: '#8B008B',
+        glowColor: '#9370DB',
+        icon: 'fas fa-skull',
+        effects: ['spiritual', 'ritualistic', 'loa'],
+        stages: {
+            dim: { range: [0, 5], description: 'Dim and inert' },
+            glow: { range: [6, 10], description: 'Glyphs glow faintly' },
+            flicker: { range: [11, 15], description: 'Humming with voodoo energy' }
+        },
+        loaColors: {
+            samedi: '#4B0082',
+            erzulie: '#DAA520',
+            ogoun: '#DC143C',
+            simbi: '#40E0D0',
+            legba: '#FFB347'
+        },
+        specializations: {
+            'shadow-priest': {
+                name: 'Shadow Priest',
+                icon: 'fas fa-skull',
+                baseColor: '#2D1B4E',
+                activeColor: '#8B008B',
+                glowColor: '#9370DB',
+                theme: 'Necromancy & Death Magic'
+            },
+            'spirit-healer': {
+                name: 'Spirit Healer',
+                icon: 'fas fa-hand-holding-heart',
+                baseColor: '#1A472A',
+                activeColor: '#32CD32',
+                glowColor: '#98FB98',
+                theme: 'Totems & Protection'
+            },
+            'war-priest': {
+                name: 'War Priest',
+                icon: 'fas fa-fire',
+                baseColor: '#4A1C1C',
+                activeColor: '#DC143C',
+                glowColor: '#FF6347',
+                theme: 'Aggressive Channeling'
+            }
+        }
     },
     mechanics: {
-        max: 'calculated',
+        max: 15,
         current: 0,
         regen: 0,
         consumeVerb: 'invoke',
         gainVerb: 'channel'
     },
     tooltip: {
-        title: 'Voodoo Essence: {current}/{max} | Loa: {loa}',
-        description: 'Spiritual essence for invoking loa spirits',
+        title: 'Voodoo Essence: {current}/{max}',
+        description: 'Generate through curses, poisons, totems, and rituals. Spend to invoke loa spirits.',
         showEssence: true,
-        showLoa: true
+        showLoa: true,
+        showSpecialization: true
     }
 };
 
@@ -1651,7 +1690,7 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
         {
             name: 'Unholy Fortitude',
             cost: '5/10/15/20',
-            effect: '+1/+2/+3/+4 AC for 1 minute'
+            effect: '+1/+2/+3/+4 Armor for 1 minute'
         },
         {
             name: 'Necrotic Aura',
@@ -1674,23 +1713,23 @@ CLASS_RESOURCE_TYPES['Toxicologist'] = {
     type: 'dual-resource',
     description: 'Dual resource system: Toxin Vials (crafting) and Contraption Parts (deployment)',
     visual: {
-        type: 'dual-bar',
+        type: 'alchemical-arsenal',
         toxinVials: {
             count: 'calculated', // INT mod + 3
-            arrangement: 'horizontal',
-            baseColor: '#2D4A17',
-            activeColor: '#9ACD32',
-            glowColor: '#ADFF2F',
-            icon: '🧪',
+            arrangement: 'grid',
+            baseColor: '#2D5016',
+            activeColor: '#4CAF50',
+            glowColor: '#76FF03',
+            icon: 'fa-flask',
             effects: ['alchemy', 'poison']
         },
         contraptionParts: {
             count: 5,
             arrangement: 'horizontal',
             baseColor: '#4A4A4A',
-            activeColor: '#C0C0C0',
-            glowColor: '#E8E8E8',
-            icon: '⚙️',
+            activeColor: '#9E9E9E',
+            glowColor: '#FFD700',
+            icon: 'fa-cog',
             effects: ['engineering', 'traps']
         }
     },
@@ -2238,38 +2277,45 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
 };
 
 CLASS_RESOURCE_TYPES['Warden'] = {
-    id: 'bulwarkMeter',
-    name: 'Bulwark Meter',
-    shortName: 'BM',
-    type: 'protection',
-    description: 'Protective barrier strength with ward token rewards',
+    id: 'vengeance-points',
+    name: 'Vengeance Points',
+    shortName: 'VP',
+    type: 'vengeance-points',
+    description: 'Build power through attacks, evasions, and critical hits to unleash devastating abilities',
     visual: {
-        type: 'progress-bar',
-        count: 12,
+        type: 'vengeance-points',
+        count: 10,
         arrangement: 'horizontal',
-        baseColor: '#1E3A8A',
-        activeColor: '#87CEEB',
-        glowColor: '#E0E6FF',
-        icon: '🛡️',
-        effects: ['protection', 'barriers']
+        baseColor: '#2E0854',
+        activeColor: '#7B2CBF',
+        glowColor: '#9D4EDD',
+        icon: '⚔️',
+        effects: ['vengeance', 'fury']
     },
     mechanics: {
-        max: 12,
+        max: 10,
         current: 0,
-        wardTokens: 0,
-        regen: 0,
-        consumeVerb: 'protect',
-        gainVerb: 'fortify'
+        consumeVerb: 'spend',
+        gainVerb: 'generate'
     },
     tooltip: {
-        title: 'Bulwark: {current}/12 | Ward Tokens: {tokens}',
-        description: 'Protective barriers with ward token rewards',
-        showBulwark: true,
-        showTokens: true
+        title: 'Vengeance Points: {current}/10',
+        description: '',
+        showGeneration: true,
+        showSpending: true,
+        showPassives: true
     },
-    thresholds: [
-        { value: 4, name: 'Ward Token', effects: ['Earn 1 Ward Token'] },
-        { value: 8, name: 'Ward Token', effects: ['Earn 1 Ward Token'] },
-        { value: 12, name: 'Ward Token', effects: ['Earn 1 Ward Token'] }
+    generation: [
+        { action: 'Successful attack', vp: 1 },
+        { action: 'Attack on marked target', vp: 2 },
+        { action: 'Evasion', vp: 1 },
+        { action: 'Critical hit', vp: 1 }
+    ],
+    spending: [
+        { cost: 1, ability: 'Vengeful Strike', effect: '+1d6 damage' },
+        { cost: 2, ability: 'Whirling Glaive', effect: 'Multi-target attack' },
+        { cost: 3, ability: 'Hunter\'s Resolve', effect: 'Heal 2d8 HP, +2 Armor for 2 rounds' },
+        { cost: 5, ability: 'Cage of Vengeance', effect: 'Trap target for 3 rounds' },
+        { cost: 10, ability: 'Avatar of Vengeance', effect: 'Ultimate transformation for 4 rounds' }
     ]
 };

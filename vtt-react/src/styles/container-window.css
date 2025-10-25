@@ -23,10 +23,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 15px;
+    padding: 8px 12px; /* Reduced padding for tighter header */
     background: linear-gradient(to bottom, #444, #333);
     border-bottom: 1px solid rgb(60, 60, 60);
     cursor: move;
+    min-height: 40px; /* Ensure consistent header height */
+    box-sizing: border-box; /* Include padding in height calculation */
 }
 
 .container-title {
@@ -44,25 +46,29 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.close-button {
-    background: rgba(255, 0, 0, 0.7);
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    width: 22px;
-    height: 22px;
-    line-height: 1;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+.container-window .container-window-header .close-button {
+    background: rgba(255, 0, 0, 0.7) !important;
+    border: none !important;
+    color: white !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    width: 24px !important;
+    height: 24px !important;
+    line-height: 1 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important; /* Prevent button from shrinking */
+    padding: 0 !important; /* Remove any default padding */
+    margin: 0 !important; /* Remove any default margin */
+    position: relative !important; /* Ensure it's positioned relative to header, not absolute */
 }
 
-.close-button:hover {
-    background-color: rgba(255, 0, 0, 0.9);
-    transform: scale(1.1);
+.container-window .container-window-header .close-button:hover {
+    background-color: rgba(255, 0, 0, 0.9) !important;
+    transform: scale(1.1) !important;
 }
 
 .container-window-content {
@@ -103,9 +109,9 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 3px;
     transition: all 0.2s ease;
-    position: relative;
     overflow: visible; /* Allow items to overflow for multi-cell items */
     box-sizing: border-box;
+    pointer-events: auto; /* Ensure cells can receive drop events */
 }
 
 .container-cell:hover {
@@ -131,62 +137,47 @@
     transition: all 0.1s ease;
 }
 
-.container-item {
-    background-color: rgba(30, 30, 30, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+/* Container item wrapper - transparent container that fills the grid space */
+.container-window-content .container-item {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
     overflow: visible;
-    position: absolute;
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.container-item.multi-cell {
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container-item:hover {
-    border-color: rgba(255, 215, 0, 0.5);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-}
-
-.container-item img {
-    width: 70%;
-    height: 70%;
-    object-fit: contain;
-    border-radius: 2px;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
-}
-
-.container-item.multi-cell img {
-    width: 60%;
-    height: 60%;
-    max-width: 32px;
-    max-height: 32px;
-}
-
-/* Item wrapper that doesn't rotate */
-.item-wrapper {
     position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
+    z-index: 10;
+    background: transparent; /* No background - border comes from .item-border */
+    border: none; /* No border - border comes from .item-border */
 }
 
-/* Non-rotating border and blue indicator */
-.item-border {
+.container-window-content .container-item.multi-cell {
+    z-index: 20;
+    align-items: stretch; /* Fill entire space for multi-cell items */
+    justify-content: stretch;
+}
+
+.container-window-content .container-item:hover {
+    transform: translateY(-1px);
+}
+
+/* Removed - using .item-icon class instead for consistency with inventory */
+
+/* Container-specific item wrapper - uses CSS Grid positioning */
+.container-window-content .item-wrapper {
+    /* grid-column, grid-row, and z-index are set via inline styles in ContainerWindow.jsx */
+    display: flex;
+    align-items: stretch; /* Changed from center to stretch to fill grid area */
+    justify-content: stretch; /* Changed from center to stretch to fill grid area */
+    overflow: visible;
+    pointer-events: auto;
+    /* Grid items automatically size to fill their grid area, so we don't need explicit width/height */
+}
+
+/* Container-specific non-rotating border */
+.container-window-content .item-border {
     position: absolute;
     top: 0;
     left: 0;
@@ -236,8 +227,8 @@
     box-shadow: 0 0 5px rgba(230, 204, 128, 0.3);
 }
 
-/* Blue indicator that doesn't rotate */
-.blue-indicator {
+/* Container-specific blue indicator that doesn't rotate */
+.container-window-content .blue-indicator {
     position: absolute;
     top: 0;
     left: 0;
@@ -246,7 +237,6 @@
     background-color: rgba(0, 100, 255, 0.5);
     z-index: 30;
     pointer-events: none;
-    /* Add a small rotation icon when item is rotated */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -255,7 +245,8 @@
     border-radius: 0 0 2px 0;
 }
 
-.item-content {
+/* Container-specific item content wrapper */
+.container-window-content .item-content {
     width: 100%;
     height: 100%;
     display: flex;
@@ -264,36 +255,41 @@
     position: relative;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 0; /* Remove padding to ensure perfect centering */
+    padding: 0;
     overflow: visible;
     z-index: 25;
     cursor: pointer;
 }
 
-/* Adjust content for multi-cell items */
-.multi-cell .item-content {
+/* Adjust content for multi-cell items - fill entire space */
+.container-window-content .multi-cell .item-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: stretch;
+    flex-direction: row; /* Change to row for multi-cell to allow image to fill */
 }
 
-.item-icon {
-    width: 70%;
-    height: 70%;
-    object-fit: contain; /* Maintain aspect ratio and center the icon */
-    object-position: center; /* Ensure the icon is centered */
+/* Container-specific item icon - fills the entire space */
+.container-window-content .item-icon {
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    object-fit: cover;
+    object-position: center;
     border-radius: 2px;
     transition: all 0.2s ease;
-    max-width: 32px;
-    max-height: 32px;
+    display: block;
 }
 
-.multi-cell .item-icon {
-    max-width: 48px;
-    max-height: 48px;
+.container-window-content .multi-cell .item-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill the entire multi-cell space */
+    display: block;
+    flex: 1; /* Allow icon to grow and fill the entire multi-cell area */
 }
 
-.item-stack-size {
+/* Container-specific stack size indicator */
+.container-window-content .item-stack-size {
     position: absolute;
     bottom: 2px;
     right: 2px;

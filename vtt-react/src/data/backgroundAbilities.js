@@ -92,7 +92,7 @@ export const BACKGROUND_ABILITIES = {
       type: 'Active',
       usage: '1/Short Rest',
       description: 'Imbue your weapon with divine energy for bonus radiant damage on your next attack.',
-      details: 'As a bonus action, your next weapon attack deals an additional 1d8 radiant damage. If the target is undead or a fiend, the damage increases to 2d8.'
+      details: 'For 1 AP, your next weapon attack deals an additional 1d8 radiant damage. If the target is undead or a fiend, the damage increases to 2d8.'
     },
     {
       name: 'Zealous Presence',
@@ -140,7 +140,7 @@ export const BACKGROUND_ABILITIES = {
       type: 'Active',
       usage: '1/Long Rest',
       description: 'Transform part of your body to gain bestial benefits for 10 minutes.',
-      details: 'Choose one: claws (+1d4 damage to unarmed strikes), enhanced senses (advantage on Perception), or natural armor (+1 AC). The transformation lasts 10 minutes.'
+      details: 'Choose one: claws (+1d4 damage to unarmed strikes), enhanced senses (advantage on Perception), or natural armor (+1 Armor). The transformation lasts 10 minutes.'
     },
     {
       name: 'Nature\'s Wrath',
@@ -157,7 +157,7 @@ export const BACKGROUND_ABILITIES = {
       type: 'Active',
       usage: '1/Short Rest',
       description: 'Enter an adrenaline-fueled state for 1 minute, gaining temporary hit points and increased speed.',
-      details: 'As a bonus action, gain temporary hit points equal to your level and increase your movement speed by 10 feet for 1 minute. While active, you have advantage on Strength checks and saves.'
+      details: 'For 1 AP, gain temporary hit points equal to your level and increase your movement speed by 10 feet for 1 minute. While active, you have advantage on Strength checks and saves.'
     },
     {
       name: 'Unstoppable Force',
@@ -187,8 +187,8 @@ export const BACKGROUND_ABILITIES = {
       name: 'Tactical Assessment',
       type: 'Active',
       usage: 'At Will',
-      description: 'Assess a creature to learn its AC, hit point percentage, and one damage vulnerability, resistance, or immunity.',
-      details: 'As an action, choose a creature you can see. Learn its AC, approximate hit point percentage (full, bloodied, near death), and one damage vulnerability, resistance, or immunity of your choice.'
+      description: 'Assess a creature to learn its Armor, hit point percentage, and one damage vulnerability, resistance, or immunity.',
+      details: 'As an action, choose a creature you can see. Learn its Armor, approximate hit point percentage (full, bloodied, near death), and one damage vulnerability, resistance, or immunity of your choice.'
     },
     {
       name: 'Dirty Fighting',
@@ -204,8 +204,8 @@ export const BACKGROUND_ABILITIES = {
       name: 'Protective Aura',
       type: 'Passive',
       usage: 'Always Active',
-      description: 'Grant allies within 10 feet a +1 bonus to AC and potentially increase it further as a reaction.',
-      details: 'Allies within 10 feet of you gain +1 AC. As a reaction when an ally within 10 feet is attacked, you can grant them an additional +2 AC against that attack.'
+      description: 'Grant allies within 10 feet a +1 bonus to Armor and potentially increase it further as a reaction.',
+      details: 'Allies within 10 feet of you gain +1 Armor. As a reaction when an ally within 10 feet is attacked, you can grant them an additional +2 Armor against that attack.'
     },
     {
       name: 'Planar Sense',

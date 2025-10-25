@@ -64,6 +64,14 @@ const ContainerWindow = ({ container, onClose }) => {
     const updateItem = useItemStore(state => state.updateItem);
     const addItemToInventory = useInventoryStore(state => state.addItemFromLibrary);
 
+    // Subscribe to the item store to get live updates to the container
+    const containerFromStore = useItemStore(state =>
+        state.items.find(item => item.id === container.id)
+    );
+
+    // Use the store version if available, otherwise fall back to the prop
+    const currentContainer = containerFromStore || container;
+
     const containerRef = useRef(null);
     const draggableRef = useRef(null);
     const itemContextMenuRef = useRef(null);
@@ -103,30 +111,24 @@ const ContainerWindow = ({ container, onClose }) => {
     // Ensure container properties are initialized
     useEffect(() => {
         // Force container type to be 'container' if it's not already
-        if (container.type !== 'container') {
+        if (currentContainer.type !== 'container') {
             // Update the container type in the store
-            updateItem(container.id, {
+            updateItem(currentContainer.id, {
                 type: 'container'
             });
-
-            // Also update the local container object for immediate use
-            container.type = 'container';
         }
 
-        if (!container.containerProperties) {
+        if (!currentContainer.containerProperties) {
             // Initialize container properties if missing
-            updateItem(container.id, {
+            updateItem(currentContainer.id, {
                 type: 'container',
                 containerProperties: { ...defaultContainerProperties }
             });
-
-            // Also update the local container object for immediate use
-            container.containerProperties = { ...defaultContainerProperties };
         }
 
         // Mark as initialized immediately
         setIsInitialized(true);
-    }, [container.id, container.name, container.type, container.containerProperties, updateItem]);
+    }, [currentContainer.id, currentContainer.name, currentContainer.type, currentContainer.containerProperties, updateItem]);
 
     // Handle drag for the container window
     const handleDrag = (e, data) => {
@@ -212,7 +214,7 @@ const ContainerWindow = ({ container, onClose }) => {
         e.dataTransfer.setData('text/plain', JSON.stringify({
             item: itemForInventory,
             type: 'container-item',
-            containerId: container.id
+            containerId: currentContainer.id
         }));
         e.dataTransfer.effectAllowed = 'move';
 
@@ -261,13 +263,13 @@ const ContainerWindow = ({ container, onClose }) => {
         console.log('Removing item from container:', itemId);
 
         // Make sure container properties exist
-        if (!container.containerProperties || !container.containerProperties.items) {
+        if (!currentContainer.containerProperties || !currentContainer.containerProperties.items) {
             console.error('Container properties or items array is missing');
             return null;
         }
 
         // Find the item in the container
-        const item = container.containerProperties.items.find(item => item.id === itemId);
+        const item = currentContainer.containerProperties.items.find(item => item.id === itemId);
 
         if (item) {
             console.log('Found item to remove:', item);
@@ -276,24 +278,21 @@ const ContainerWindow = ({ container, onClose }) => {
             const itemCopy = JSON.parse(JSON.stringify(item));
 
             // Update the container by filtering out the removed item
-            const updatedItems = container.containerProperties.items.filter(item => item.id !== itemId);
+            const updatedItems = currentContainer.containerProperties.items.filter(item => item.id !== itemId);
 
             console.log('Updated items after removal:', updatedItems);
 
             // Create updated container properties
             const updatedContainerProps = {
-                ...JSON.parse(JSON.stringify(container.containerProperties)),
+                ...JSON.parse(JSON.stringify(currentContainer.containerProperties)),
                 items: updatedItems,
                 hasHadItems: true // Set hasHadItems flag to prevent sample items from appearing when emptied
             };
 
             // Update the container in the store
-            updateItem(container.id, {
+            updateItem(currentContainer.id, {
                 containerProperties: updatedContainerProps
             });
-
-            // Also update the local container object for immediate UI update
-            container.containerProperties = updatedContainerProps;
 
             console.log('Container updated, returning item copy');
             return itemCopy;
@@ -305,7 +304,7 @@ const ContainerWindow = ({ container, onClose }) => {
 
     const handleLockSettingsSave = (settings) => {
         // Get existing container properties or initialize with defaults
-        const existingProps = container.containerProperties || { ...defaultContainerProperties };
+        const existingProps = currentContainer.containerProperties || { ...defaultContainerProperties };
 
         // Create updated container properties
         const updatedProps = {
@@ -329,7 +328,7 @@ const ContainerWindow = ({ container, onClose }) => {
         };
 
         // Update the container
-        updateItem(container.id, {
+        updateItem(currentContainer.id, {
             containerProperties: updatedProps
         });
 
@@ -384,10 +383,58 @@ const ContainerWindow = ({ container, onClose }) => {
         return cells;
     };
 
+    // Helper function to format coin value (e.g., 137 copper -> "1s 37c")
+    const formatCoinValue = (coinValue) => {
+        if (!coinValue) return '0c';
+
+        const platinum = Math.floor(coinValue / 10000);
+        const gold = Math.floor((coinValue % 10000) / 100);
+        const silver = Math.floor((coinValue % 100) / 10);
+        const copper = coinValue % 10;
+
+        const parts = [];
+        if (platinum > 0) parts.push(`${platinum}p`);
+        if (gold > 0) parts.push(`${gold}g`);
+        if (silver > 0) parts.push(`${silver}s`);
+        if (copper > 0 || parts.length === 0) parts.push(`${copper}c`);
+
+        return parts.join(' ');
+    };
+
+    // Helper function to check if two items can stack
+    const canStack = (item1, item2) => {
+        console.log('🔍 Checking if items can stack:', {
+            item1: { name: item1.name, type: item1.type, iconId: item1.iconId },
+            item2: { name: item2.name, type: item2.type, iconId: item2.iconId }
+        });
+
+        // Coins always stack with coins
+        if (item1.type === 'currency' && item2.type === 'currency') {
+            console.log('✅ Both are currency - can stack');
+            return true;
+        }
+
+        // Consumables, materials, gems, and miscellaneous can stack if they have the same name and iconId
+        const stackableTypes = ['consumable', 'material', 'gem', 'miscellaneous'];
+        if (stackableTypes.includes(item1.type) && stackableTypes.includes(item2.type)) {
+            const canStackResult = item1.name === item2.name && item1.iconId === item2.iconId;
+            console.log(`${canStackResult ? '✅' : '❌'} Stackable type check: name match=${item1.name === item2.name}, iconId match=${item1.iconId === item2.iconId}`);
+            return canStackResult;
+        }
+
+        console.log('❌ Items cannot stack - different types or non-stackable');
+        return false;
+    };
+
+    // Helper function to find stackable item in container
+    const findStackableItem = (items, newItem) => {
+        return items.find(item => canStack(item, newItem));
+    };
+
     // Check if a position is valid for an item in the container
     const isValidContainerPosition = (items, row, col, width, height, rotation, excludeItemId = null) => {
         // Get container grid size
-        const gridSize = container.containerProperties?.gridSize || { rows: 4, cols: 6 };
+        const gridSize = currentContainer.containerProperties?.gridSize || { rows: 4, cols: 6 };
         const rows = gridSize.rows || 4;
         const cols = gridSize.cols || 6;
 
@@ -429,11 +476,15 @@ const ContainerWindow = ({ container, onClose }) => {
     // Create grid cells based on container properties
     const renderGrid = () => {
         // Ensure container properties exist
-        if (!container.containerProperties) {
-            container.containerProperties = { ...defaultContainerProperties };
+        if (!currentContainer.containerProperties) {
+            // Initialize container properties if missing
+            updateItem(currentContainer.id, {
+                containerProperties: { ...defaultContainerProperties }
+            });
+            return null; // Return early, will re-render when store updates
         }
 
-        const containerProps = container.containerProperties;
+        const containerProps = currentContainer.containerProperties;
 
         // Ensure gridSize exists
         if (!containerProps.gridSize) {
@@ -483,7 +534,6 @@ const ContainerWindow = ({ container, onClose }) => {
                         data-col={col}
                         onDragOver={(e) => {
                             e.preventDefault();
-                            e.dataTransfer.dropEffect = 'move';
 
                             // Handle internal container drag
                             if (draggedContainerItem) {
@@ -494,7 +544,7 @@ const ContainerWindow = ({ container, onClose }) => {
 
                                 // Check if this is a valid position for the dragged item
                                 const isValid = isValidContainerPosition(
-                                    container.containerProperties?.items.filter(i => i.id !== draggedContainerItem.id) || [],
+                                    currentContainer.containerProperties?.items.filter(i => i.id !== draggedContainerItem.id) || [],
                                     row,
                                     col,
                                     width,
@@ -520,23 +570,57 @@ const ContainerWindow = ({ container, onClose }) => {
                                     }
                                 });
 
-                                // Set drag over cell state
+                                // Set drag over cell state and cursor
                                 setDragOverCell({ row, col, isValid });
+                                e.dataTransfer.dropEffect = isValid ? 'move' : 'none';
                                 return;
                             }
 
                             // Handle external drags (from inventory or item library)
-                            // We can't access the data during dragover, but we can provide visual feedback
-                            // Add visual feedback for any drag
-                            document.querySelectorAll('.container-cell').forEach(cell => {
-                                cell.classList.remove('drag-over');
-                            });
+                            // Both now set window.draggedItemInfo
+                            if (window.draggedItemInfo) {
+                                const { width, height, rotation, item } = window.draggedItemInfo;
 
-                            // Add highlight to current cell
-                            e.currentTarget.classList.add('drag-over');
+                                // Check if we can stack with an existing item
+                                const items = currentContainer.containerProperties?.items || [];
+                                const canStackWithExisting = item ? findStackableItem(items, item) : null;
 
-                            // Set drag over cell state - we'll validate during drop
-                            setDragOverCell({ row, col, isValid: true });
+                                console.log('🔍 Drag over - can stack?', !!canStackWithExisting, 'item:', item?.name, 'type:', item?.type);
+
+                                // Check if this is a valid position for the dragged item
+                                const isValidPosition = isValidContainerPosition(
+                                    items,
+                                    row,
+                                    col,
+                                    width,
+                                    height,
+                                    rotation
+                                );
+
+                                // Item is valid if it can stack OR if the position is valid
+                                const isValid = canStackWithExisting || isValidPosition;
+
+                                // Get all cells that would be occupied
+                                const occupiedCells = getOccupiedCells(row, col, width, height, rotation);
+
+                                // Remove highlight from all cells
+                                document.querySelectorAll('.container-cell').forEach(cell => {
+                                    cell.classList.remove('drag-over');
+                                    cell.classList.remove('drag-invalid');
+                                });
+
+                                // Add appropriate highlight to occupied cells
+                                occupiedCells.forEach(cellId => {
+                                    const cellElement = document.querySelector(`.container-cell[data-row="${cellId.split('-')[0]}"][data-col="${cellId.split('-')[1]}"]`);
+                                    if (cellElement) {
+                                        cellElement.classList.add(isValid ? 'drag-over' : 'drag-invalid');
+                                    }
+                                });
+
+                                // Set drag over cell state and cursor
+                                setDragOverCell({ row, col, isValid });
+                                e.dataTransfer.dropEffect = isValid ? 'copy' : 'none';
+                            }
                         }}
                         onDragLeave={() => {
                             // We don't remove the highlight here as it would flicker
@@ -544,7 +628,8 @@ const ContainerWindow = ({ container, onClose }) => {
                         }}
                         onDrop={(e) => {
                             e.preventDefault();
-                            console.log('Drop event triggered on cell:', row, col);
+                            e.stopPropagation(); // Prevent event from bubbling
+                            console.log('🎯 Drop event triggered on cell:', row, col);
 
                             // Clear all highlights
                             document.querySelectorAll('.container-cell').forEach(cell => {
@@ -555,8 +640,10 @@ const ContainerWindow = ({ container, onClose }) => {
                             try {
                                 // Try to parse the data transfer
                                 const dataTransfer = e.dataTransfer.getData('text/plain');
+                                console.log('🎯 DataTransfer content:', dataTransfer);
+
                                 if (!dataTransfer || dataTransfer.trim() === '') {
-                                    console.log('No data found in drop event');
+                                    console.log('❌ No data found in drop event');
                                     return;
                                 }
 
@@ -564,8 +651,9 @@ const ContainerWindow = ({ container, onClose }) => {
                                 let data;
                                 try {
                                     data = JSON.parse(dataTransfer);
+                                    console.log('🎯 Parsed drop data:', data);
                                 } catch (jsonError) {
-                                    console.error('Error parsing JSON data:', jsonError);
+                                    console.error('❌ Error parsing JSON data:', jsonError);
                                     return;
                                 }
 
@@ -577,65 +665,99 @@ const ContainerWindow = ({ container, onClose }) => {
                                     const inventoryItem = useInventoryStore.getState().items.find(item => item.id === data.id);
 
                                     if (inventoryItem) {
-                                        // Get item dimensions
-                                        const width = inventoryItem.width || 1;
-                                        const height = inventoryItem.height || 1;
-                                        const rotation = inventoryItem.rotation || 0;
+                                        // Make a deep copy of the container's items
+                                        const items = JSON.parse(JSON.stringify(currentContainer.containerProperties?.items || []));
 
-                                        // Check if position is valid
-                                        const isValid = isValidContainerPosition(
-                                            container.containerProperties?.items || [],
-                                            row,
-                                            col,
-                                            width,
-                                            height,
-                                            rotation
-                                        );
+                                        // Check if we can stack with an existing item FIRST (before checking position)
+                                        const stackableItem = findStackableItem(items, inventoryItem);
 
-                                        if (isValid) {
-                                            // Create a copy of the item for the container
-                                            const itemForContainer = {
-                                                ...JSON.parse(JSON.stringify(inventoryItem)),
-                                                position: { row, col }
-                                            };
+                                        if (stackableItem) {
+                                            // Stack with existing item - no position check needed!
+                                            const itemIndex = items.findIndex(i => i.id === stackableItem.id);
 
-                                            // Make a deep copy of the container's items
-                                            const items = JSON.parse(JSON.stringify(container.containerProperties?.items || []));
-
-                                            // Add the item to the container
-                                            items.push(itemForContainer);
+                                            if (stackableItem.type === 'currency') {
+                                                // For coins, add the values together
+                                                const currentValue = stackableItem.coinValue || 0;
+                                                const addedValue = inventoryItem.coinValue || 0;
+                                                items[itemIndex].coinValue = currentValue + addedValue;
+                                            } else {
+                                                // For consumables/materials/gems, add quantities
+                                                const currentQty = stackableItem.quantity || 1;
+                                                const addedQty = inventoryItem.quantity || 1;
+                                                items[itemIndex].quantity = currentQty + addedQty;
+                                            }
 
                                             // Create updated container properties
                                             const updatedContainerProps = {
-                                                ...JSON.parse(JSON.stringify(container.containerProperties)),
+                                                ...JSON.parse(JSON.stringify(currentContainer.containerProperties)),
                                                 items: items,
                                                 hasHadItems: true
                                             };
 
                                             // Update container in the store
-                                            updateItem(container.id, {
+                                            updateItem(currentContainer.id, {
                                                 containerProperties: updatedContainerProps
                                             });
 
-                                            // Also update the local container object for immediate UI update
-                                            container.containerProperties = updatedContainerProps;
-
                                             // Remove the item from inventory
                                             useInventoryStore.getState().removeItem(inventoryItem.id);
+                                        } else {
+                                            // No stackable item found - check if we can place it in a new position
+                                            // Get item dimensions
+                                            const width = inventoryItem.width || 1;
+                                            const height = inventoryItem.height || 1;
+                                            const rotation = inventoryItem.rotation || 0;
+
+                                            // Check if position is valid
+                                            const isValid = isValidContainerPosition(
+                                                currentContainer.containerProperties?.items || [],
+                                                row,
+                                                col,
+                                                width,
+                                                height,
+                                                rotation
+                                            );
+
+                                            if (isValid) {
+                                                // Create a copy of the item for the container
+                                                const itemForContainer = {
+                                                    ...JSON.parse(JSON.stringify(inventoryItem)),
+                                                    position: { row, col }
+                                                };
+
+                                                // Add the item to the container
+                                                items.push(itemForContainer);
+
+                                                // Create updated container properties
+                                                const updatedContainerProps = {
+                                                    ...JSON.parse(JSON.stringify(currentContainer.containerProperties)),
+                                                    items: items,
+                                                    hasHadItems: true
+                                                };
+
+                                                // Update container in the store
+                                                updateItem(currentContainer.id, {
+                                                    containerProperties: updatedContainerProps
+                                                });
+
+                                                // Remove the item from inventory
+                                                useInventoryStore.getState().removeItem(inventoryItem.id);
+                                            }
                                         }
                                     }
                                 }
                                 // Handle items dragged from item library
                                 else if (data.type === 'item') {
-                                    console.log('Item library item dropped into container:', data);
+                                    console.log('✅ Item library item dropped into container:', data);
 
                                     // Get the item from the item library
                                     const libraryItem = useItemStore.getState().items.find(item => item.id === data.id);
+                                    console.log('🔍 Found library item:', libraryItem?.name);
 
                                     if (libraryItem) {
                                         // Don't allow dropping a container into another container
                                         if (libraryItem.type === 'container') {
-                                            console.log('Cannot add a container to another container');
+                                            console.log('❌ Cannot add a container to another container');
                                             return;
                                         }
 
@@ -690,53 +812,46 @@ const ContainerWindow = ({ container, onClose }) => {
                                             }
                                         }
 
-                                        console.log(`Item dimensions: ${width}x${height}, rotation: ${rotation}`);
+                                        console.log(`📏 Item dimensions: ${width}x${height}, rotation: ${rotation}`);
 
-                                        // Check if position is valid
-                                        const isValid = isValidContainerPosition(
-                                            container.containerProperties?.items || [],
-                                            row,
-                                            col,
-                                            width,
-                                            height,
-                                            rotation
-                                        );
+                                        // Make a deep copy of the container's items
+                                        const items = JSON.parse(JSON.stringify(currentContainer.containerProperties?.items || []));
 
-                                        console.log(`Position valid: ${isValid} for position (${row}, ${col})`);
+                                        // Check if we can stack with an existing item FIRST (before checking position)
+                                        const stackableItem = findStackableItem(items, libraryItem);
 
-                                        if (isValid) {
-                                            // Create a copy of the item for the container with a new ID
-                                            const itemForContainer = {
-                                                ...JSON.parse(JSON.stringify(libraryItem)),
-                                                id: Date.now().toString(), // Generate a new ID
-                                                position: { row, col },
-                                                width: width,
-                                                height: height,
-                                                rotation: rotation
-                                            };
+                                        if (stackableItem) {
+                                            // Stack with existing item - no position check needed!
+                                            const itemIndex = items.findIndex(i => i.id === stackableItem.id);
 
-                                            // Make a deep copy of the container's items
-                                            const items = JSON.parse(JSON.stringify(container.containerProperties?.items || []));
-
-                                            // Add the item to the container
-                                            items.push(itemForContainer);
+                                            if (stackableItem.type === 'currency') {
+                                                // For coins, add the values together
+                                                const currentValue = stackableItem.coinValue || 0;
+                                                const addedValue = libraryItem.coinValue || 0;
+                                                items[itemIndex].coinValue = currentValue + addedValue;
+                                            } else {
+                                                // For consumables/materials/gems, add quantities
+                                                const currentQty = stackableItem.quantity || 1;
+                                                const addedQty = libraryItem.quantity || 1;
+                                                items[itemIndex].quantity = currentQty + addedQty;
+                                            }
 
                                             // Create updated container properties
                                             const updatedContainerProps = {
-                                                ...JSON.parse(JSON.stringify(container.containerProperties)),
+                                                ...JSON.parse(JSON.stringify(currentContainer.containerProperties)),
                                                 items: items,
                                                 hasHadItems: true
                                             };
 
-                                            console.log('Updating container with new item:', itemForContainer);
+                                            console.log('💾 Stacking item with existing:', stackableItem);
+                                            console.log('💾 Updated container props:', updatedContainerProps);
 
                                             // Update container in the store
-                                            updateItem(container.id, {
+                                            updateItem(currentContainer.id, {
                                                 containerProperties: updatedContainerProps
                                             });
 
-                                            // Also update the local container object for immediate UI update
-                                            container.containerProperties = updatedContainerProps;
+                                            console.log('✅ Container updated successfully!');
 
                                             // Force a re-render
                                             setTimeout(() => {
@@ -744,7 +859,58 @@ const ContainerWindow = ({ container, onClose }) => {
                                                 setDraggedContainerItem(null);
                                             }, 50);
                                         } else {
-                                            console.log('Invalid position for item');
+                                            // No stackable item found - check if we can place it in a new position
+                                            // Check if position is valid
+                                            const isValid = isValidContainerPosition(
+                                                currentContainer.containerProperties?.items || [],
+                                                row,
+                                                col,
+                                                width,
+                                                height,
+                                                rotation
+                                            );
+
+                                            console.log(`✅ Position valid: ${isValid} for position (${row}, ${col})`);
+
+                                            if (isValid) {
+                                                // Create a copy of the item for the container with a new ID
+                                                const itemForContainer = {
+                                                    ...JSON.parse(JSON.stringify(libraryItem)),
+                                                    id: Date.now().toString(), // Generate a new ID
+                                                    position: { row, col },
+                                                    width: width,
+                                                    height: height,
+                                                    rotation: rotation
+                                                };
+
+                                                // Add the item to the container
+                                                items.push(itemForContainer);
+
+                                                // Create updated container properties
+                                                const updatedContainerProps = {
+                                                    ...JSON.parse(JSON.stringify(currentContainer.containerProperties)),
+                                                    items: items,
+                                                    hasHadItems: true
+                                                };
+
+                                                console.log('💾 Updating container with new item:', itemForContainer);
+                                                console.log('💾 Updated container props:', updatedContainerProps);
+
+                                                // Update container in the store
+                                                updateItem(currentContainer.id, {
+                                                    containerProperties: updatedContainerProps
+                                                });
+
+                                                console.log('✅ Container updated successfully!');
+
+                                                // Force a re-render
+                                                setTimeout(() => {
+                                                    setDragOverCell(null);
+                                                    setDraggedContainerItem(null);
+                                                }, 50);
+                                            } else {
+                                                console.log('❌ Invalid position for item');
+                                            }
                                         }
                                     }
                                 }
@@ -757,7 +923,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                 console.log('Dragged item within container:', draggedContainerItem);
 
                                 // Make a deep copy of the container's items
-                                const items = JSON.parse(JSON.stringify(container.containerProperties?.items || []));
+                                const items = JSON.parse(JSON.stringify(currentContainer.containerProperties?.items || []));
                                 const itemIndex = items.findIndex(i => i.id === draggedContainerItem.id);
 
                                 console.log('Item index in container:', itemIndex);
@@ -791,7 +957,7 @@ const ContainerWindow = ({ container, onClose }) => {
 
                                         // Create a deep copy of the container properties
                                         const updatedContainerProps = {
-                                            ...JSON.parse(JSON.stringify(container.containerProperties)),
+                                            ...JSON.parse(JSON.stringify(currentContainer.containerProperties)),
                                             items: items,
                                             // Set hasHadItems flag to true to prevent sample items from appearing
                                             hasHadItems: true
@@ -800,12 +966,9 @@ const ContainerWindow = ({ container, onClose }) => {
                                         console.log('Updating container with new properties:', updatedContainerProps);
 
                                         // Update container in the store
-                                        updateItem(container.id, {
+                                        updateItem(currentContainer.id, {
                                             containerProperties: updatedContainerProps
                                         });
-
-                                        // Also update the local container object for immediate UI update
-                                        container.containerProperties = updatedContainerProps;
                                     }
                                 }
 
@@ -816,12 +979,17 @@ const ContainerWindow = ({ container, onClose }) => {
                     >
                         {item && isOrigin && (
                             <div className="item-wrapper" style={{
-                                width: `${item.rotation === 1 ? item.height * 40 : item.width * 40}px`,
-                                height: `${item.rotation === 1 ? item.width * 40 : item.height * 40}px`,
-                                position: 'absolute',
-                                zIndex: 10,
+                                // Use grid positioning to span multiple cells
+                                gridColumn: item.rotation === 1
+                                    ? `${col + 1} / span ${item.height}`
+                                    : `${col + 1} / span ${item.width}`,
+                                gridRow: item.rotation === 1
+                                    ? `${row + 1} / span ${item.width}`
+                                    : `${row + 1} / span ${item.height}`,
+                                zIndex: 100,
                                 overflow: 'visible',
-                                boxShadow: `0 0 8px ${getQualityColor(item.quality, item.rarity)}80`
+                                boxShadow: `0 0 8px ${getQualityColor(item.quality, item.rarity)}80`,
+                                pointerEvents: 'auto'
                             }}>
                                 {/* Non-rotating border with quality color */}
                                 <div
@@ -832,18 +1000,16 @@ const ContainerWindow = ({ container, onClose }) => {
                                     }}
                                 />
 
-                                {/* Non-rotating blue indicator with rotation symbol */}
-                                <div className="blue-indicator">
-                                    {item.rotation === 1 && '↻'}
-                                </div>
+                                {/* Non-rotating blue indicator with rotation symbol - only show if rotated */}
+                                {item.rotation === 1 && (
+                                    <div className="blue-indicator">
+                                        ↻
+                                    </div>
+                                )}
 
                                 {/* Container for item */}
                                 <div
                                     className={`container-item ${item.width > 1 || item.height > 1 ? 'multi-cell' : ''}`}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%'
-                                    }}
                                     draggable
                                     onDragStart={(e) => {
                                         // For dragging to inventory
@@ -861,13 +1027,6 @@ const ContainerWindow = ({ container, onClose }) => {
                                     <div
                                         className="item-content"
                                         style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            position: 'relative',
-                                            overflow: 'visible',
                                             color: getQualityColor(item.quality, item.rarity)
                                         }}
                                         onMouseEnter={(e) => handleItemMouseEnter(e, item.id)}
@@ -883,7 +1042,14 @@ const ContainerWindow = ({ container, onClose }) => {
                                                 e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
                                             }}
                                         />
-                                        {item.quantity > 1 && (item.type === 'consumable' || item.type === 'currency' || item.type === 'gem' || item.type === 'material') && (
+                                        {/* Show coin value for currency items */}
+                                        {item.type === 'currency' && item.coinValue && (
+                                            <span className="item-stack-size">
+                                                {formatCoinValue(item.coinValue)}
+                                            </span>
+                                        )}
+                                        {/* Show quantity for other stackable items */}
+                                        {item.quantity > 1 && (item.type === 'consumable' || item.type === 'gem' || item.type === 'material' || item.type === 'miscellaneous') && (
                                             <span className="item-stack-size">
                                                 {item.quantity}
                                             </span>
@@ -906,7 +1072,7 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Initialize the container window and ensure it's visible
     useEffect(() => {
-        console.log('ContainerWindow mounted for container:', container.id, container.name);
+        console.log('ContainerWindow mounted for container:', currentContainer.id, currentContainer.name);
 
         // Force the container window to be visible after rendering
         const timeoutId = setTimeout(() => {
@@ -928,17 +1094,17 @@ const ContainerWindow = ({ container, onClose }) => {
         }, 100);
 
         return () => {
-            console.log('ContainerWindow unmounted for container:', container.id, container.name);
+            console.log('ContainerWindow unmounted for container:', currentContainer.id, currentContainer.name);
             clearTimeout(timeoutId);
         };
-    }, [container.id, container.name]);
+    }, [currentContainer.id, currentContainer.name, container.id]);
 
     // Force re-render when container items change
     useEffect(() => {
-        console.log('Container items changed:', container.containerProperties?.items);
+        console.log('Container items changed:', currentContainer.containerProperties?.items);
 
         // Force a re-render by updating the component state
-        if (container.containerProperties?.items) {
+        if (currentContainer.containerProperties?.items) {
             // This is a trick to force a re-render
             const forceUpdate = () => {
                 setDragOverCell(null);
@@ -948,7 +1114,7 @@ const ContainerWindow = ({ container, onClose }) => {
             // Call forceUpdate after a short delay to ensure the UI updates
             setTimeout(forceUpdate, 50);
         }
-    }, [container.containerProperties?.items]);
+    }, [currentContainer.containerProperties?.items]);
 
     // Create a ref for the Draggable component
     const draggableNodeRef = useRef(null);
@@ -965,6 +1131,7 @@ const ContainerWindow = ({ container, onClose }) => {
                 onDrag={handleDrag}
                 nodeRef={draggableNodeRef}
                 scale={1}
+                enableUserSelectHack={false}
             >
                 <div
                     className="container-window"
@@ -975,6 +1142,13 @@ const ContainerWindow = ({ container, onClose }) => {
                         if (newZIndex) {
                             setZIndex(newZIndex);
                         }
+                    }}
+                    onDragOver={(e) => {
+                        e.preventDefault(); // Allow drops on the window
+                        console.log('🪟 Container window dragOver');
+                    }}
+                    onDrop={(e) => {
+                        console.log('🪟 Container window drop event!');
                     }}
                     id={`container-window-${container.id}`}
                     style={{
@@ -1011,21 +1185,23 @@ const ContainerWindow = ({ container, onClose }) => {
                             alignItems: 'center',
                             borderBottom: '1px solid #555',
                             borderTopLeftRadius: '4px',
-                            borderTopRightRadius: '4px'
+                            borderTopRightRadius: '4px',
+                            minHeight: '40px',
+                            boxSizing: 'border-box'
                         }}
                     >
                         <div className="container-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${container.iconId || 'inv_box_01'}.jpg`}
-                                alt={container.name}
+                                src={`https://wow.zamimg.com/images/wow/icons/large/${currentContainer.iconId || 'inv_box_01'}.jpg`}
+                                alt={currentContainer.name}
                                 className="container-icon"
                                 style={{ width: '24px', height: '24px', borderRadius: '3px' }}
                                 onError={(e) => {
                                     e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_box_01.jpg';
                                 }}
                             />
-                            <span style={{ fontWeight: 'bold' }}>{container.name}</span>
-                            {container.containerProperties?.isLocked && (
+                            <span style={{ fontWeight: 'bold' }}>{currentContainer.name}</span>
+                            {currentContainer.containerProperties?.isLocked && (
                                 <i className="fas fa-lock" style={{ color: '#ffaa00', marginLeft: '5px' }}></i>
                             )}
                         </div>
@@ -1033,28 +1209,20 @@ const ContainerWindow = ({ container, onClose }) => {
                             className="close-button"
                             onClick={onClose}
                             style={{
-                                background: 'rgba(255,0,0,0.7)',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '50%',
-                                width: '22px',
-                                height: '22px',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '16px',
+                                background: '#d32f2f',
+                                border: '1px solid rgba(0,0,0,0.3)',
+                                borderRadius: '3px',
+                                fontSize: '18px',
                                 fontWeight: 'bold',
-                                padding: 0,
-                                marginLeft: '10px',
-                                transition: 'all 0.2s ease'
+                                boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                                flexShrink: 0
                             }}
                             onMouseOver={(e) => {
-                                e.currentTarget.style.background = 'rgba(255,0,0,0.9)';
-                                e.currentTarget.style.transform = 'scale(1.1)';
+                                e.currentTarget.style.background = '#b71c1c';
+                                e.currentTarget.style.transform = 'scale(1.05)';
                             }}
                             onMouseOut={(e) => {
-                                e.currentTarget.style.background = 'rgba(255,0,0,0.7)';
+                                e.currentTarget.style.background = '#d32f2f';
                                 e.currentTarget.style.transform = 'scale(1)';
                             }}
                         >
@@ -1071,7 +1239,12 @@ const ContainerWindow = ({ container, onClose }) => {
                             maxHeight: 'calc(90vh - 50px)',
                             overflow: 'auto',
                             borderBottomLeftRadius: '4px',
-                            borderBottomRightRadius: '4px'
+                            borderBottomRightRadius: '4px',
+                            pointerEvents: 'auto' // Ensure pointer events are enabled
+                        }}
+                        onDragOver={(e) => {
+                            e.preventDefault(); // Allow drop
+                            e.stopPropagation();
                         }}
                     >
                         {renderGrid()}
@@ -1083,7 +1256,7 @@ const ContainerWindow = ({ container, onClose }) => {
 
             {/* Item Context Menu */}
             {itemContextMenu.visible && (() => {
-                const item = container.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
+                const item = currentContainer.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
                 if (!item) return null;
 
                 const menuItems = [
@@ -1101,10 +1274,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
                                 // Add to inventory
                                 addItemToInventory(removedItem);
-
-                                // Force a re-render
-                                const updatedProps = { ...container.containerProperties };
-                                container.containerProperties = updatedProps;
                             } else {
                                 console.error('Failed to remove item from container');
                             }
@@ -1121,10 +1290,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
                             // Remove from container without adding to inventory
                             removeItemFromContainer(itemContextMenu.itemId);
-
-                            // Force a re-render
-                            const updatedProps = { ...container.containerProperties };
-                            container.containerProperties = updatedProps;
 
                             // Close the context menu
                             setItemContextMenu({ ...itemContextMenu, visible: false });
@@ -1162,7 +1327,7 @@ const ContainerWindow = ({ container, onClose }) => {
                     >
                         {(() => {
                             // Find the item in the container's items
-                            const item = container.containerProperties?.items?.find(i => i.id === showItemTooltip.itemId);
+                            const item = currentContainer.containerProperties?.items?.find(i => i.id === showItemTooltip.itemId);
                             if (!item) return null;
 
                             // Use the ItemTooltip component for consistent display

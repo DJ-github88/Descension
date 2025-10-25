@@ -494,6 +494,190 @@ Your chosen instrument modifies your abilities:
 - **War Drum** for aggressive support (Battlechoir)
 - **Flute** for ranged safety and large groups
 - **Voice** for versatility when you can't carry instruments`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Minstrel's musical note system is uniquely suited to physical tracking with tokens or dice, creating a visual representation of your musical composition. Here's how to track your notes and cadences at the table:
+
+**Required Materials**:
+- **35 tokens or beads** (5 each of 7 different colors for the 7 note types)
+- **Tracking mat or paper** with 7 note positions (I, II, III, IV, V, VI, VII)
+- **Cadence reference card** with progression sequences
+- **Optional: Musical staff diagram** for thematic immersion
+
+**Musical Note Tracking**:
+
+**The Seven-Color Token Method** (Recommended):
+
+Use different colored tokens to represent each note type:
+- **I (Tonic)**: Gold/yellow tokens (foundation, stability)
+- **II (Supertonic)**: Light blue tokens (mild tension)
+- **III (Mediant)**: Purple tokens (emotional color)
+- **IV (Subdominant)**: Green tokens (movement)
+- **V (Dominant)**: Red tokens (strong tension)
+- **VI (Submediant)**: Dark blue tokens (melancholy)
+- **VII (Leading Tone)**: White tokens (urgent tension)
+
+**Setup**:
+Create a tracking mat with 7 columns labeled I through VII:
+\`\`\`
+[I]  [II]  [III]  [IV]  [V]  [VI]  [VII]
+ ○    ○     ○      ○     ○    ○     ○
+ ○    ○     ○      ○     ○    ○     ○
+ ○    ○     ○      ○     ○    ○     ○
+ ○    ○     ○      ○     ○    ○     ○
+ ○    ○     ○      ○     ○    ○     ○
+(Max 5 tokens per column)
+\`\`\`
+
+**Generating Notes**:
+- When you cast a builder spell, place a token in the appropriate column
+- Example: Cast "Inspiring Rhythm" (generates II) → Place 1 light blue token in the II column
+- Example: Cast "Resonant Chord" (generates I) → Place 1 gold token in the I column
+- Stack tokens vertically (max 5 per note type)
+
+**Consuming Notes for Cadences**:
+- When you cast a resolver spell (cadence), remove the required tokens
+- Example: Perfect Cadence (I-IV-V-I) → Remove 1 gold, 1 green, 1 red, 1 gold token
+- Example: Circle of Fifths (V-I-VI-V) → Remove 1 red, 1 gold, 1 dark blue, 1 red token
+
+**Alternative Tracking Methods**:
+
+**The Dice Method**:
+Use 7 different colored d6 dice, each set to show your current count (0-5) for that note:
+- Gold d6 for I (showing 3 = you have 3 I notes)
+- Blue d6 for II (showing 2 = you have 2 II notes)
+- Purple d6 for III (showing 1 = you have 1 III note)
+- etc.
+
+**The Tally Method**:
+Draw a simple grid on paper:
+\`\`\`
+I:   ||||  (4 notes)
+II:  ||    (2 notes)
+III: |||   (3 notes)
+IV:  |     (1 note)
+V:   ||    (2 notes)
+VI:  -     (0 notes)
+VII: -     (0 notes)
+\`\`\`
+
+**Cadence Reference Card Template**:
+\`\`\`
+MINSTREL CADENCE QUICK REFERENCE
+
+PERFECT CADENCE (I-IV-V-I)
+Cost: I(1), IV(1), V(1), I(1) = 4 notes total
+Effect: Ally's next attack = CRITICAL HIT
+Use: Boss damage phases, guaranteed kills
+
+CIRCLE OF FIFTHS (V-I-VI-V)
+Cost: V(1), I(1), VI(1), V(1) = 4 notes total
+Effect: 2d4 DoT for 3 turns (30 ft radius)
+Use: Apply early to enemy groups
+
+DECEPTIVE CADENCE (IV-VII-V-IV)
+Cost: IV(1), VII(1), V(1), IV(1) = 4 notes total
+Effect: Stun enemy (DC 15 save)
+Use: Interrupt dangerous casts
+
+AUTHENTIC CADENCE (I-VI-III-I)
+Cost: I(1), VI(1), III(1), I(1) = 4 notes total
+Effect: -4 damage taken, restore 1d8 HP (20 ft)
+Use: Survive burst damage
+
+[Print all 10 cadences on card]
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have: I(3), II(2), III(1), IV(1), V(2), VI(0), VII(0)*
+
+**Turn 1 - Building Notes**:
+1. "I cast Inspiring Rhythm" (costs 4 mana, generates II)
+2. Place 1 light blue token in II column
+3. Now have: I(3), II(3), III(1), IV(1), V(2), VI(0), VII(0)
+
+**Turn 2 - Resolving a Cadence**:
+1. "I cast Perfect Cadence to guarantee our fighter's next attack is a crit!"
+2. Check your tokens: Need I(1), IV(1), V(1), I(1)
+3. Remove tokens: 1 gold from I, 1 green from IV, 1 red from V, 1 gold from I
+4. Now have: I(1), II(3), III(1), IV(0), V(1), VI(0), VII(0)
+5. Fighter's next attack automatically crits!
+
+**Turn 3 - Building Back Up**:
+1. "I cast Harmonic Strike" (generates III)
+2. Place 1 purple token in III column
+3. Now have: I(1), II(3), III(2), IV(0), V(1), VI(0), VII(0)
+
+**Visual Organization Tips**:
+
+1. **Color Coding**: Use distinctly different colors for each note type to avoid confusion
+2. **Musical Staff Mat**: Draw or print a musical staff for thematic immersion
+3. **Cadence Cards**: Keep cadence reference cards easily accessible
+4. **Token Storage**: Use a small container or bag for unused tokens
+
+**Thematic Enhancements**:
+
+Many players enhance the musical experience with:
+- **Musical Staff Mat**: Print a decorative musical staff with note positions
+- **Note Symbols**: Use tokens with musical note symbols (♩, ♪, ♫, ♬)
+- **Instrument Prop**: Keep a small instrument prop (toy lute, drum, flute) on the table
+- **Humming/Singing**: Some players hum or sing when casting spells for immersion
+- **Musical Dice**: Use dice with musical symbols instead of numbers
+
+**Quick Reference: Note Generation**:
+
+Keep a list of which spells generate which notes:
+\`\`\`
+BUILDER SPELLS (Generate Notes):
+• Opening Chord → I (Tonic)
+• Inspiring Rhythm → II (Supertonic)
+• Harmonic Strike → III (Mediant)
+• Resonant Chord → IV (Subdominant)
+• Power Chord → V (Dominant)
+• Melancholy Melody → VI (Submediant)
+• Climactic Crescendo → VII (Leading Tone)
+\`\`\`
+
+**Cadence Planning**:
+
+Before combat, decide which cadences you want to prioritize:
+- **Offensive Build**: Focus on generating V, I, VI for Circle of Fifths
+- **Defensive Build**: Focus on generating I, VI, III for Authentic Cadence
+- **Control Build**: Focus on generating IV, VII, V for Deceptive Cadence
+- **Versatile Build**: Maintain 2-3 of each note for flexibility
+
+**Example Full Combat Sequence**:
+
+*Starting with 0 notes*
+
+**Turn 1**: Cast Opening Chord → Add I token → I(1)
+**Turn 2**: Cast Inspiring Rhythm → Add II token → I(1), II(1)
+**Turn 3**: Cast Harmonic Strike → Add III token → I(1), II(1), III(1)
+**Turn 4**: Cast Resonant Chord → Add IV token → I(1), II(1), III(1), IV(1)
+**Turn 5**: Cast Power Chord → Add V token → I(1), II(1), III(1), IV(1), V(1)
+**Turn 6**: Cast Opening Chord again → Add I token → I(2), II(1), III(1), IV(1), V(1)
+**Turn 7**: Cast Perfect Cadence! → Remove I, IV, V, I → I(0), II(1), III(1), IV(0), V(0)
+**Result**: Ally gets guaranteed critical hit!
+
+**Why This System Works**: The physical act of placing tokens as you build notes creates a visual representation of your musical composition. You can SEE your melody taking shape, FEEL the satisfaction of completing a cadence by removing the tokens, and PLAN ahead by looking at which notes you need for specific progressions. The color-coded tokens make it easy to identify which notes you have at a glance, and the tactile experience of moving tokens mirrors the musical flow of building and resolving tension.
+
+**Pro Tips**:
+- **Pre-Combat Setup**: Start each combat with a few notes already banked (they persist between combats)
+- **Cadence Priority**: Keep a mental list of your top 3 most-used cadences
+- **Token Management**: Keep unused tokens organized by color for quick access
+- **Visual Scanning**: Glance at your mat to quickly see which cadences are available
+- **Communication**: Announce which cadence you're using so allies can plan around the effect
+
+**Budget-Friendly Alternatives**:
+- **No colored tokens?** Use different shaped objects (buttons, coins, paper clips) for each note
+- **No tokens at all?** Use the dice method (7 d6 dice) or tally marks on paper
+- **Minimalist**: Just write the note counts on paper and update as needed
+
+**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinable—perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`
     }
   },
 

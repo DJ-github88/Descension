@@ -99,7 +99,7 @@ GMs can mix and match these systems to create the perfect experience for their t
               rows: [
                 ['Constitution', 'CON', 'Health & Stamina', 'HP, Fortitude saves, Endurance'],
                 ['Strength', 'STR', 'Physical Power', 'Melee attacks, Athletics, Carrying capacity'],
-                ['Agility', 'AGI', 'Dexterity & Speed', 'Ranged attacks, AC, Reflex saves, Stealth'],
+                ['Agility', 'AGI', 'Dexterity & Speed', 'Ranged attacks, Armor, Reflex saves, Stealth'],
                 ['Intelligence', 'INT', 'Reasoning & Memory', 'Arcane magic, Investigation, Knowledge'],
                 ['Spirit', 'SPI', 'Willpower & Insight', 'Divine magic, Perception, Will saves'],
                 ['Charisma', 'CHA', 'Force of Personality', 'Social skills, Leadership, Performance']
@@ -446,7 +446,7 @@ GMs can mix and match these systems to create the perfect experience for their t
                   headers: ['Ability', 'Type', 'Usage', 'Description'],
                   rows: [
                     ['Combat Expertise', 'Passive', 'Always Active', 'Gain proficiency with three weapons of your choice or +1 to attack rolls with already proficient weapons.'],
-                    ['Tactical Assessment', 'Active', 'At Will', 'Assess a creature to learn its AC, hit point percentage, and one damage vulnerability, resistance, or immunity.'],
+                    ['Tactical Assessment', 'Active', 'At Will', 'Assess a creature to learn its Armor, hit point percentage, and one damage vulnerability, resistance, or immunity.'],
                     ['Dirty Fighting', 'Active', '1/Short Rest', 'Force a target to make a Constitution save or be blinded or immobilized until the end of your next turn.']
                   ]
                 }
@@ -460,7 +460,7 @@ GMs can mix and match these systems to create the perfect experience for their t
                   title: 'Sentinel Abilities',
                   headers: ['Ability', 'Type', 'Usage', 'Description'],
                   rows: [
-                    ['Protective Aura', 'Passive', 'Always Active', 'Grant allies within 10 feet a +1 bonus to AC and potentially increase it further as a reaction.'],
+                    ['Protective Aura', 'Passive', 'Always Active', 'Grant allies within 10 feet a +1 bonus to Armor and potentially increase it further as a reaction.'],
                     ['Planar Sense', 'Passive', 'Always Active', 'Sense portals or weak points between planes and resist planar displacement effects.'],
                     ['Ward of Protection', 'Active', '1/Long Rest', 'Create a 15-foot-radius ward that grants allies resistance to one damage type and damages enemies.']
                   ]
@@ -660,7 +660,7 @@ Their society values:
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
                     ['Frostborn', 'Environmental', 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. Can survive in arctic conditions without shelter, but breath creates visible frost making stealth difficult.'],
-                    ['Battle Fury', 'Combat', 'When reduced to half hit points, enter berserker rage (1 AP). Gain +3 damage but take -3 to AC and cannot cast spells for 1 minute. Once per long rest.'],
+                    ['Battle Fury', 'Combat', 'When reduced to half hit points, enter berserker rage (1 AP). Gain +3 damage but take -3 to Armor and cannot cast spells for 1 minute. Once per long rest.'],
                     ['Reckless Courage', 'Combat', 'Immunity to fear effects, but must make Spirit save (DC 15) to retreat from combat or avoid direct challenge. Bloodlust makes tactical withdrawal nearly impossible.']
                   ]
                 },
@@ -723,7 +723,7 @@ The Corvani are a mysterious people marked by the raven, dwelling in the mist-sh
                   rows: [
                     ['Prophetic Vision', 'Divination', 'Once per long rest, glimpse the future to reroll any d20 roll (yours or an ally\'s) within 60 feet.'],
                     ['Raven Sight', 'Perception', 'Can see through illusions and detect hidden creatures within 30 feet, but suffer -2 to Constitution saves against disease.'],
-                    ['Fate\'s Warning', 'Protection', 'Allies within 30 feet gain +1 AC against the first attack each round, but you take 1 psychic damage when they\'re hit.']
+                    ['Fate\'s Warning', 'Protection', 'Allies within 30 feet gain +1 Armor against the first attack each round, but you take 1 psychic damage when they\'re hit.']
                   ]
                 },
                 {
@@ -779,7 +779,7 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
                     ['Earth Whispers', 'Detection', 'Can sense valuable minerals and hidden passages within 60 feet, but hear constant whispers that impose disadvantage on Wisdom saves.'],
-                    ['Stone Skin', 'Defense', 'Natural armor provides +2 AC, but movement speed reduced by 5 feet.'],
+                    ['Stone Skin', 'Defense', 'Natural armor provides +2 Armor, but movement speed reduced by 5 feet.'],
                     ['Deep Delving', 'Utility', 'Can tunnel through stone at half movement speed, but become obsessed with digging and must make Wisdom saves to stop.']
                   ]
                 }
@@ -1251,7 +1251,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                     ['2', 'Decay\'s Caress. Your flesh begins to rot visibly, spreading a stench of death. Lose 3 from your CHA permanently.'],
                     ['3', 'Abyssal Clutch. Dark forces erode your essence, leeching away your vitality. Reduce two attributes of your choice by 3 each.'],
                     ['4', 'Death\'s Blessing. You have returned tougher, hardier. Add an extra +1d6 to your starting Base Position.'],
-                    ['5', 'Tortured Bones. Your skeleton painfully reshapes itself, granting you a +2 AC but reducing your Constitution by 2 due to constant pain.'],
+                    ['5', 'Tortured Bones. Your skeleton painfully reshapes itself, granting you a +2 Armor but reducing your Constitution by 2 due to constant pain.'],
                     ['6', 'Emptiness Within. Devoid of emotions and sensations, you traverse the world as a hollow shell, immune to fear and persuasion.'],
                     ['7', 'Ghastly Whispers. Unseen voices fill your head, distracting and terrifying. Suffer a -1 penalty to Wisdom and have disadvantage on concentration checks.'],
                     ['8', 'Withering Strength. Your muscles deteriorate; permanently reduce your Strength by 2.'],

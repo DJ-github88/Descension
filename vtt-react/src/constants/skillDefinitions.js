@@ -41,14 +41,11 @@ export const SKILL_DEFINITIONS = {
         rollableTables: {
             UNTRAINED: 'weaponCombatBasic',
             NOVICE: 'weaponCombatOutcomes',
-            APPRENTICE: 'weaponCombatAdvanced',
-            JOURNEYMAN: 'weaponCombatExpert',
+            TRAINED: 'weaponCombatAdvanced',
+            APPRENTICE: 'weaponCombatExpert',
             ADEPT: 'weaponCombatMaster',
             EXPERT: 'weaponCombatGrandmaster',
-            MASTER: 'weaponCombatLegendary',
-            GRANDMASTER: 'weaponCombatMythic',
-            LEGENDARY: 'weaponCombatDivine',
-            MYTHIC: 'weaponCombatCosmic'
+            MASTER: 'weaponCombatLegendary'
         }
     },
     tacticalCombat: {
@@ -61,14 +58,11 @@ export const SKILL_DEFINITIONS = {
         rollableTables: {
             UNTRAINED: 'tacticalBasic',
             NOVICE: 'tacticalManeuvers',
-            APPRENTICE: 'tacticalAdvanced',
-            JOURNEYMAN: 'tacticalExpert',
+            TRAINED: 'tacticalAdvanced',
+            APPRENTICE: 'tacticalExpert',
             ADEPT: 'tacticalMaster',
             EXPERT: 'tacticalGrandmaster',
-            MASTER: 'tacticalLegendary',
-            GRANDMASTER: 'tacticalMythic',
-            LEGENDARY: 'tacticalDivine',
-            MYTHIC: 'tacticalCosmic'
+            MASTER: 'tacticalLegendary'
         }
     },
     defensiveTechniques: {
@@ -78,7 +72,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'agility',
         description: 'Master the art of protection and damage mitigation',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        rollableTable: 'defensiveManeuvers'
+        rollableTables: {
+            UNTRAINED: 'defensiveBasic',
+            NOVICE: 'defensiveManeuvers',
+            TRAINED: 'defensiveAdvanced',
+            APPRENTICE: 'defensiveExpert',
+            ADEPT: 'defensiveMaster',
+            EXPERT: 'defensiveGrandmaster',
+            MASTER: 'defensiveLegendary'
+        }
     },
 
     // Exploration & Survival Skills
@@ -89,7 +91,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Survive in harsh environments and track creatures',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        rollableTable: 'wildernessEvents'
+        rollableTables: {
+            UNTRAINED: 'wildernessBasic',
+            NOVICE: 'wildernessEvents',
+            TRAINED: 'wildernessAdvanced',
+            APPRENTICE: 'wildernessExpert',
+            ADEPT: 'wildernessMaster',
+            EXPERT: 'wildernessGrandmaster',
+            MASTER: 'wildernessLegendary'
+        }
     },
     investigation: {
         name: 'Investigation',
@@ -98,7 +108,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Uncover clues, solve mysteries, and find hidden secrets',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        rollableTable: 'investigationFinds'
+        rollableTables: {
+            UNTRAINED: 'investigationBasic',
+            NOVICE: 'investigationFinds',
+            TRAINED: 'investigationAdvanced',
+            APPRENTICE: 'investigationExpert',
+            ADEPT: 'investigationMaster',
+            EXPERT: 'investigationGrandmaster',
+            MASTER: 'investigationLegendary'
+        }
     },
     athletics: {
         name: 'Athletics',
@@ -107,7 +125,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'constitution',
         description: 'Climb, swim, jump, and perform physical feats',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        rollableTable: 'athleticFeats'
+        rollableTables: {
+            UNTRAINED: 'athleticsBasic',
+            NOVICE: 'athleticsFeats',
+            TRAINED: 'athleticsAdvanced',
+            APPRENTICE: 'athleticsExpert',
+            ADEPT: 'athleticsMaster',
+            EXPERT: 'athleticsGrandmaster',
+            MASTER: 'athleticsLegendary'
+        }
     },
 
     // Crafting & Creation Skills
@@ -118,7 +144,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Forge weapons, armor, and metal items',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        rollableTable: 'smithingResults'
+        rollableTables: {
+            UNTRAINED: 'smithingBasic',
+            NOVICE: 'smithingResults',
+            TRAINED: 'smithingAdvanced',
+            APPRENTICE: 'smithingExpert',
+            ADEPT: 'smithingMaster',
+            EXPERT: 'smithingGrandmaster',
+            MASTER: 'smithingLegendary'
+        }
     },
     alchemy: {
         name: 'Alchemy',
@@ -127,7 +161,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Brew potions, create elixirs, and transmute materials',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        rollableTable: 'alchemyOutcomes'
+        rollableTables: {
+            UNTRAINED: 'alchemyBasic',
+            NOVICE: 'alchemyOutcomes',
+            TRAINED: 'alchemyAdvanced',
+            APPRENTICE: 'alchemyExpert',
+            ADEPT: 'alchemyMaster',
+            EXPERT: 'alchemyGrandmaster',
+            MASTER: 'alchemyLegendary'
+        }
     },
     enchanting: {
         name: 'Enchanting',
@@ -136,7 +178,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Imbue items with magical properties',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        rollableTable: 'enchantingEffects'
+        rollableTables: {
+            UNTRAINED: 'enchantingBasic',
+            NOVICE: 'enchantingEffects',
+            TRAINED: 'enchantingAdvanced',
+            APPRENTICE: 'enchantingExpert',
+            ADEPT: 'enchantingMaster',
+            EXPERT: 'enchantingGrandmaster',
+            MASTER: 'enchantingLegendary'
+        }
     },
 
     // Social & Influence Skills
@@ -147,7 +197,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Convince others through charm and reasoning',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
-        rollableTable: 'persuasionOutcomes'
+        rollableTables: {
+            UNTRAINED: 'persuasionBasic',
+            NOVICE: 'persuasionOutcomes',
+            TRAINED: 'persuasionAdvanced',
+            APPRENTICE: 'persuasionExpert',
+            ADEPT: 'persuasionMaster',
+            EXPERT: 'persuasionGrandmaster',
+            MASTER: 'persuasionLegendary'
+        }
     },
     deception: {
         name: 'Deception',
@@ -156,7 +214,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Mislead and manipulate through lies and misdirection',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
-        rollableTable: 'deceptionResults'
+        rollableTables: {
+            UNTRAINED: 'deceptionBasic',
+            NOVICE: 'deceptionResults',
+            TRAINED: 'deceptionAdvanced',
+            APPRENTICE: 'deceptionExpert',
+            ADEPT: 'deceptionMaster',
+            EXPERT: 'deceptionGrandmaster',
+            MASTER: 'deceptionLegendary'
+        }
     },
     leadership: {
         name: 'Leadership',
@@ -165,7 +231,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Inspire and command others in times of need',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        rollableTable: 'leadershipEffects'
+        rollableTables: {
+            UNTRAINED: 'leadershipBasic',
+            NOVICE: 'leadershipEffects',
+            TRAINED: 'leadershipAdvanced',
+            APPRENTICE: 'leadershipExpert',
+            ADEPT: 'leadershipMaster',
+            EXPERT: 'leadershipGrandmaster',
+            MASTER: 'leadershipLegendary'
+        }
     },
 
     // Arcane Studies Skills
@@ -176,7 +250,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Understand and manipulate magical energies',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        rollableTable: 'spellcraftResults'
+        rollableTables: {
+            UNTRAINED: 'spellcraftBasic',
+            NOVICE: 'spellcraftResults',
+            TRAINED: 'spellcraftAdvanced',
+            APPRENTICE: 'spellcraftExpert',
+            ADEPT: 'spellcraftMaster',
+            EXPERT: 'spellcraftGrandmaster',
+            MASTER: 'spellcraftLegendary'
+        }
     },
     arcaneKnowledge: {
         name: 'Arcane Knowledge',
@@ -185,7 +267,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Study ancient lore and magical theory',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        rollableTable: 'arcaneDiscoveries'
+        rollableTables: {
+            UNTRAINED: 'arcaneBasic',
+            NOVICE: 'arcaneDiscoveries',
+            TRAINED: 'arcaneAdvanced',
+            APPRENTICE: 'arcaneExpert',
+            ADEPT: 'arcaneMaster',
+            EXPERT: 'arcaneGrandmaster',
+            MASTER: 'arcaneLegendary'
+        }
     },
     ritualMagic: {
         name: 'Ritual Magic',
@@ -194,7 +284,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Perform complex magical rituals and ceremonies',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        rollableTable: 'ritualOutcomes'
+        rollableTables: {
+            UNTRAINED: 'ritualBasic',
+            NOVICE: 'ritualOutcomes',
+            TRAINED: 'ritualAdvanced',
+            APPRENTICE: 'ritualExpert',
+            ADEPT: 'ritualMaster',
+            EXPERT: 'ritualGrandmaster',
+            MASTER: 'ritualLegendary'
+        }
     },
 
     // Additional D&D Standard Skills
@@ -205,7 +303,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'strength',
         description: 'Balance, tumble, and perform acrobatic stunts to avoid falls and navigate difficult terrain',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        rollableTable: 'acrobaticsFeats'
+        rollableTables: {
+            UNTRAINED: 'acrobaticsBasic',
+            NOVICE: 'acrobaticsFeats',
+            TRAINED: 'acrobaticsAdvanced',
+            APPRENTICE: 'acrobaticsExpert',
+            ADEPT: 'acrobaticsMaster',
+            EXPERT: 'acrobaticsGrandmaster',
+            MASTER: 'acrobaticsLegendary'
+        }
     },
     animalHandling: {
         name: 'Animal Handling',
@@ -214,7 +320,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'charisma',
         description: 'Calm, train, and read the intentions of animals and beasts',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        rollableTable: 'animalHandlingOutcomes'
+        rollableTables: {
+            UNTRAINED: 'animalHandlingBasic',
+            NOVICE: 'animalHandlingOutcomes',
+            TRAINED: 'animalHandlingAdvanced',
+            APPRENTICE: 'animalHandlingExpert',
+            ADEPT: 'animalHandlingMaster',
+            EXPERT: 'animalHandlingGrandmaster',
+            MASTER: 'animalHandlingLegendary'
+        }
     },
     arcana: {
         name: 'Arcana',
@@ -223,7 +337,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Knowledge of magic, spells, magical items, and arcane symbols',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        rollableTable: 'arcanaKnowledge'
+        rollableTables: {
+            UNTRAINED: 'arcanaBasic',
+            NOVICE: 'arcanaKnowledge',
+            TRAINED: 'arcanaAdvanced',
+            APPRENTICE: 'arcanaExpert',
+            ADEPT: 'arcanaMaster',
+            EXPERT: 'arcanaGrandmaster',
+            MASTER: 'arcanaLegendary'
+        }
     },
     history: {
         name: 'History',
@@ -232,7 +354,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Knowledge of historical events, legends, ancient civilizations, and past conflicts',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        rollableTable: 'historicalKnowledge'
+        rollableTables: {
+            UNTRAINED: 'historyBasic',
+            NOVICE: 'historicalKnowledge',
+            TRAINED: 'historyAdvanced',
+            APPRENTICE: 'historyExpert',
+            ADEPT: 'historyMaster',
+            EXPERT: 'historyGrandmaster',
+            MASTER: 'historyLegendary'
+        }
     },
     insight: {
         name: 'Insight',
@@ -241,7 +371,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Read body language and determine true intentions to detect lies',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
-        rollableTable: 'insightReading'
+        rollableTables: {
+            UNTRAINED: 'insightBasic',
+            NOVICE: 'insightReading',
+            TRAINED: 'insightAdvanced',
+            APPRENTICE: 'insightExpert',
+            ADEPT: 'insightMaster',
+            EXPERT: 'insightGrandmaster',
+            MASTER: 'insightLegendary'
+        }
     },
     intimidation: {
         name: 'Intimidation',
@@ -250,7 +388,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'charisma',
         description: 'Influence others through threats, hostile actions, and physical presence',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
-        rollableTable: 'intimidationEffects'
+        rollableTables: {
+            UNTRAINED: 'intimidationBasic',
+            NOVICE: 'intimidationEffects',
+            TRAINED: 'intimidationAdvanced',
+            APPRENTICE: 'intimidationExpert',
+            ADEPT: 'intimidationMaster',
+            EXPERT: 'intimidationGrandmaster',
+            MASTER: 'intimidationLegendary'
+        }
     },
     medicine: {
         name: 'Medicine',
@@ -259,7 +405,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Diagnose illness, treat wounds, and stabilize the dying',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        rollableTable: 'medicineResults'
+        rollableTables: {
+            UNTRAINED: 'medicineBasic',
+            NOVICE: 'medicineResults',
+            TRAINED: 'medicineAdvanced',
+            APPRENTICE: 'medicineExpert',
+            ADEPT: 'medicineMaster',
+            EXPERT: 'medicineGrandmaster',
+            MASTER: 'medicineLegendary'
+        }
     },
     nature: {
         name: 'Nature',
@@ -268,7 +422,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Knowledge of terrain, plants, animals, and weather patterns',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        rollableTable: 'natureKnowledge'
+        rollableTables: {
+            UNTRAINED: 'natureBasic',
+            NOVICE: 'natureKnowledge',
+            TRAINED: 'natureAdvanced',
+            APPRENTICE: 'natureExpert',
+            ADEPT: 'natureMaster',
+            EXPERT: 'natureGrandmaster',
+            MASTER: 'natureLegendary'
+        }
     },
     perception: {
         name: 'Perception',
@@ -277,7 +439,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Spot, hear, and detect things in your environment',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        rollableTable: 'perceptionFinds'
+        rollableTables: {
+            UNTRAINED: 'perceptionBasic',
+            NOVICE: 'perceptionFinds',
+            TRAINED: 'perceptionAdvanced',
+            APPRENTICE: 'perceptionExpert',
+            ADEPT: 'perceptionMaster',
+            EXPERT: 'perceptionGrandmaster',
+            MASTER: 'perceptionLegendary'
+        }
     },
     performance: {
         name: 'Performance',
@@ -286,7 +456,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'agility',
         description: 'Entertain an audience through music, dance, acting, or storytelling',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        rollableTable: 'performanceOutcomes'
+        rollableTables: {
+            UNTRAINED: 'performanceBasic',
+            NOVICE: 'performanceOutcomes',
+            TRAINED: 'performanceAdvanced',
+            APPRENTICE: 'performanceExpert',
+            ADEPT: 'performanceMaster',
+            EXPERT: 'performanceGrandmaster',
+            MASTER: 'performanceLegendary'
+        }
     },
     religion: {
         name: 'Religion',
@@ -295,7 +473,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'spirit',
         description: 'Knowledge of deities, religious rituals, holy symbols, and divine magic',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        rollableTable: 'religiousKnowledge'
+        rollableTables: {
+            UNTRAINED: 'religionBasic',
+            NOVICE: 'religiousKnowledge',
+            TRAINED: 'religionAdvanced',
+            APPRENTICE: 'religionExpert',
+            ADEPT: 'religionMaster',
+            EXPERT: 'religionGrandmaster',
+            MASTER: 'religionLegendary'
+        }
     },
     sleightOfHand: {
         name: 'Sleight of Hand',
@@ -304,7 +490,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Manual trickery including pickpocketing, concealing objects, and performing tricks',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        rollableTable: 'sleightOfHandTricks'
+        rollableTables: {
+            UNTRAINED: 'sleightOfHandBasic',
+            NOVICE: 'sleightOfHandTricks',
+            TRAINED: 'sleightOfHandAdvanced',
+            APPRENTICE: 'sleightOfHandExpert',
+            ADEPT: 'sleightOfHandMaster',
+            EXPERT: 'sleightOfHandGrandmaster',
+            MASTER: 'sleightOfHandLegendary'
+        }
     },
     stealth: {
         name: 'Stealth',
@@ -313,7 +507,15 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Move silently and hide from enemies to avoid detection',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        rollableTable: 'stealthOutcomes'
+        rollableTables: {
+            UNTRAINED: 'stealthBasic',
+            NOVICE: 'stealthOutcomes',
+            TRAINED: 'stealthAdvanced',
+            APPRENTICE: 'stealthExpert',
+            ADEPT: 'stealthMaster',
+            EXPERT: 'stealthGrandmaster',
+            MASTER: 'stealthLegendary'
+        }
     },
     survival: {
         name: 'Survival',
@@ -322,20 +524,25 @@ export const SKILL_DEFINITIONS = {
         secondaryStat: 'intelligence',
         description: 'Follow tracks, hunt, navigate wilderness, and predict weather',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        rollableTable: 'survivalSkills'
+        rollableTables: {
+            UNTRAINED: 'survivalBasic',
+            NOVICE: 'survivalSkills',
+            TRAINED: 'survivalAdvanced',
+            APPRENTICE: 'survivalExpert',
+            ADEPT: 'survivalMaster',
+            EXPERT: 'survivalGrandmaster',
+            MASTER: 'survivalLegendary'
+        }
     }
 };
 
-// Skill progression ranks - Expanded with more levels
+// Skill progression ranks - 7 levels of expertise with 10 quests per skill
 export const SKILL_RANKS = {
     UNTRAINED: { name: 'Untrained', color: '#6b6b6b', questsRequired: 0, statBonus: 0 },
     NOVICE: { name: 'Novice', color: '#8b7355', questsRequired: 2, statBonus: 1 },
-    APPRENTICE: { name: 'Apprentice', color: '#4a7c59', questsRequired: 5, statBonus: 2 },
-    JOURNEYMAN: { name: 'Journeyman', color: '#5d8a6b', questsRequired: 9, statBonus: 3 },
-    ADEPT: { name: 'Adept', color: '#2563eb', questsRequired: 14, statBonus: 4 },
-    EXPERT: { name: 'Expert', color: '#7a3b2e', questsRequired: 20, statBonus: 5 },
-    MASTER: { name: 'Master', color: '#9d4edd', questsRequired: 27, statBonus: 6 },
-    GRANDMASTER: { name: 'Grandmaster', color: '#c77dff', questsRequired: 35, statBonus: 7 },
-    LEGENDARY: { name: 'Legendary', color: '#ff6b35', questsRequired: 44, statBonus: 8 },
-    MYTHIC: { name: 'Mythic', color: '#ff0080', questsRequired: 54, statBonus: 10 }
+    TRAINED: { name: 'Trained', color: '#4a7c59', questsRequired: 4, statBonus: 2 },
+    APPRENTICE: { name: 'Apprentice', color: '#5d8a6b', questsRequired: 6, statBonus: 3 },
+    ADEPT: { name: 'Adept', color: '#2563eb', questsRequired: 8, statBonus: 4 },
+    EXPERT: { name: 'Expert', color: '#7a3b2e', questsRequired: 9, statBonus: 5 },
+    MASTER: { name: 'Master', color: '#9d4edd', questsRequired: 10, statBonus: 6 }
 };

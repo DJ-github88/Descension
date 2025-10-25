@@ -477,6 +477,201 @@ Some Gambler abilities specifically interact with Fortune Points:
 - Loaded Dice passive works best with high Fortune Point reserves
 - Death Roll and other competitive abilities benefit greatly from point spending
 - All-In and extreme gambles should only be used with maximum points available`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Gambler is THE most immersive class to play in person because you use ACTUAL gambling implements—real coins, dice, and cards. This creates an authentic casino experience at your table. Here's how to bring the Gambler to life with physical materials:
+
+**Required Materials**:
+- **20 poker chips or tokens** (for Fortune Points tracking)
+- **1 coin** (for coin flip abilities - a two-sided coin, preferably thematic)
+- **Standard polyhedral dice set** (d4, d6, d8, d10, d12, d20)
+- **Playing cards** (standard 52-card deck for Card Sharp specialization)
+- **Tracking mat or play area** with Fortune Point zone
+
+**Fortune Points Tracking**:
+
+**The Poker Chip Method** (Highly Recommended):
+
+Use actual poker chips to represent Fortune Points:
+- **Starting State**: Begin with 0 chips in your Fortune Point pool
+- **Generating Points**: When you successfully cast a spell or land an attack, take 1 chip from the bank and add it to your pool
+- **Critical Success**: Take 2 chips instead of 1
+- **Spending Points**: When adjusting a roll, remove chips from your pool equal to the adjustment (e.g., adjust by +3 = remove 3 chips)
+- **Maximum**: 20 chips maximum in your pool
+
+**Setup**:
+Create two zones on your play mat:
+- **Fortune Point Pool** (your active chips)
+- **Bank** (unused chips, up to 20 total)
+
+**Why Poker Chips Work Perfectly**: The tactile experience of earning chips when you succeed and spending them to adjust rolls creates the authentic feeling of gambling. You can SEE your fortune accumulate, FEEL the weight of spending 6 chips to guarantee a critical hit, and HEAR the satisfying clink of chips as you build your pool.
+
+**Alternative Tracking Methods**:
+- **d20 Die**: Set it to your current Fortune Point count (0-20)
+- **Tally Marks**: Write on paper (less immersive but functional)
+- **Colored Beads**: Use gold/yellow beads in a small bowl
+
+**Coin Flip Abilities** (Fortune's Favor Specialization):
+
+**The Real Coin Method**:
+
+For abilities like "Fate's Coin" and "Coin Toss":
+1. **Choose Your Effect**: Announce which of the 6 coin flip options you're choosing
+2. **Flip the Coin**: Physically flip a real coin
+3. **Call It**: "Heads" or "Tails" (or let the ability determine which side is favorable)
+4. **Result**: If it lands on the favorable side, you get the effect; if not, you don't
+5. **Fortune Point Adjustment**: If you don't like the result, spend 1 Fortune Point to flip the coin result (Heads becomes Tails, Tails becomes Heads)
+
+**Recommended Coin**: Use a thematic coin—a gold coin, a lucky coin, or even a custom-made Gambler coin with symbols instead of heads/tails.
+
+**Example In-Person Coin Flip**:
+- You cast "Fate's Coin" and choose "Advantage on next attack"
+- You flip your coin → Lands on Tails (unfavorable)
+- You have 5 Fortune Points (chips)
+- You decide to spend 1 chip to flip the result
+- Remove 1 chip from your pool → Result becomes Heads (favorable)
+- You gain advantage on your next attack!
+
+**Dice Rolling Abilities** (High Roller Specialization):
+
+**The Physical Dice Method**:
+
+For abilities like "Jackpot" (3d20 slot machine) and "High Roller" (3 d20 bets):
+1. **Roll the Dice**: Physically roll the required dice (e.g., 3d20 for Jackpot)
+2. **Check the Result**: Compare to the outcome table
+3. **Fortune Point Adjustment**: Spend Fortune Points to adjust individual dice by ±1 each
+4. **Final Result**: Apply the adjusted outcome
+
+**Example: Jackpot (3d20 Slot Machine)**:
+- You cast "Jackpot" (costs 10 mana)
+- Roll 3d20 physically → Results: [12, 15, 18]
+- Check the table: No match, so it's a low-tier outcome
+- You have 8 Fortune Points
+- You spend 3 chips: +3 to the 12 → [15, 15, 18]
+- Still no triple, but now you have a double (15-15)
+- Check the table for double 15s outcome
+- Remove 3 chips from your pool (now at 5 Fortune Points)
+
+**Example: Death Roll (Competitive Minigame)**:
+- You cast "Death Roll" on an enemy
+- Both you and the GM roll d20s
+- **Round 1**: You roll 15, Enemy rolls 12 → Max becomes 12
+- **Round 2**: You roll 8, Enemy rolls 11 → Enemy loses (rolled over max)
+- You win! Enemy takes damage and is stunned
+- You gain 2 Fortune Points (winning gamble) → Add 2 chips to your pool
+
+**Fortune Point Adjustment During Death Roll**:
+- If you're at risk of losing, spend Fortune Points to adjust your rolls
+- Example: You roll 13 (over max of 12) → Spend 1 chip to make it 12 (safe)
+- Example: Enemy rolls 8 (safe) → Spend 2 chips to make it 10 (still safe but sets higher max for them)
+
+**Card Drawing Abilities** (Card Sharp Specialization):
+
+**The Playing Card Method**:
+
+For Card Sharp abilities that involve card draws:
+1. **Shuffle a Deck**: Use a standard 52-card deck
+2. **Draw Cards**: Physically draw the required number of cards
+3. **Resolve Effect**: Apply the effect based on card suit, number, or combination
+4. **Fortune Point Adjustment**: Some abilities let you spend points to redraw or swap cards
+
+**Example Card-Based Ability**:
+- You cast "Deck of Fate" (hypothetical ability)
+- Draw 3 cards from your shuffled deck → [7♠, K♥, 3♦]
+- Effect depends on suits and values
+- You have 6 Fortune Points
+- Spend 2 chips to redraw the 3♦ → Draw again → [Q♣]
+- New hand: [7♠, K♥, Q♣]
+- Resolve the improved outcome
+
+**Quick Reference Card Template**:
+\`\`\`
+GAMBLER FORTUNE POINTS TRACKER
+
+Current Fortune Points: [Count your chips]
+Maximum: 20 points
+
+GENERATING POINTS:
+• Successful attack/spell: +1 chip
+• Critical success (nat 20): +2 chips
+• Winning a gamble: +1 chip
+
+SPENDING POINTS:
+• Adjust any roll by ±1: 1 chip per ±1
+• Flip coin result: 1 chip
+• Reroll (Loaded Dice): 1 chip
+
+PERSISTENCE:
+• Fortune Points persist between combats
+• Reset to 0 after long rest
+\`\`\`
+
+**Specialization-Specific Materials**:
+
+**Fortune's Favor** (Coin Flip Specialist):
+- **Primary Tool**: A special coin (gold coin, lucky coin, custom coin)
+- **Backup**: Keep a second coin in case you lose the first
+- **Thematic Touch**: Use a coin with meaningful symbols (e.g., sun/moon, fortune/misfortune)
+
+**High Roller** (Dice Specialist):
+- **Primary Tools**: Full polyhedral dice set (d4, d6, d8, d10, d12, d20)
+- **Multiple d20s**: Keep 3-4 d20s for abilities like Jackpot (3d20) and Death Roll
+- **Dice Tray**: Use a dice tray to keep rolls contained and visible
+
+**Card Sharp** (Card Specialist):
+- **Primary Tool**: Standard 52-card deck (poker-sized)
+- **Card Sleeves**: Protect your cards with sleeves
+- **Discard Pile**: Keep a separate area for discarded cards
+- **Reshuffle**: Shuffle the deck between encounters or when it runs out
+
+**Example Full In-Person Turn**:
+
+*You have 4 poker chips in your Fortune Point pool*
+
+**Your Turn**:
+1. "I cast Lucky Strike at the ogre" (costs 5 mana)
+2. Roll d20 for attack → [14] → Hit!
+3. Add 1 chip to your pool (successful spell) → Now at 5 chips
+4. Roll damage: 2d8 → [5, 6] = 11 damage
+5. "Now I'll use Jackpot!" (costs 10 mana)
+6. Roll 3d20 → [11, 14, 19]
+7. "I want triple 19s for the jackpot. I'll spend 8 chips to adjust."
+8. Spend 8 chips: +8 to the 11 → [19, 14, 19]
+9. Spend 5 more chips... wait, I only have 5 chips left after spending 8
+10. "Actually, I can't afford triple 19s. I'll keep [19, 14, 19] for a double 19 outcome."
+11. Remove 8 chips from pool → Now at -3... wait, that's wrong
+12. *Recalculate*: Started with 5 chips, can only spend 5 chips max
+13. Spend 5 chips: +5 to the 14 → [11, 19, 19]
+14. Remove 5 chips → Now at 0 chips
+15. Check table for double 19s → Apply outcome
+16. If it's a "Big Win" outcome, gain 2 chips → Now at 2 chips
+
+**The Immersion Factor**:
+
+Playing Gambler in person is uniquely satisfying because:
+- **Tactile Feedback**: Physically flipping coins, rolling dice, and drawing cards creates visceral excitement
+- **Visual Drama**: Everyone at the table can SEE your Fortune Point pool grow and shrink
+- **Authentic Gambling**: You're not simulating gambling—you're ACTUALLY gambling with real implements
+- **Tension**: The moment before a coin flip or dice roll is genuinely suspenseful
+- **Celebration**: When you hit a jackpot or win a Death Roll, the physical evidence (chips, dice, cards) makes it feel real
+
+**Pro Tips**:
+- **Announce Clearly**: Always announce how many Fortune Points you're spending before adjusting rolls
+- **Keep Chips Visible**: Your Fortune Point pool should be visible to the GM and party (transparency builds trust)
+- **Thematic Flair**: Use casino-quality chips, weighted coins, and premium dice for maximum immersion
+- **Sound Effects**: Some groups enjoy adding casino sound effects (slot machine jingles, coin clinks) when using abilities
+- **Roleplay**: Physically flip the coin with a flourish, slam dice on the table dramatically, or shuffle cards like a dealer
+
+**Budget-Friendly Alternatives**:
+- **No poker chips?** Use pennies, buttons, or paper clips
+- **No coin?** Use a d2 (or d6: 1-3 = Heads, 4-6 = Tails)
+- **No playing cards?** Use a dice-based card simulation (d13 for value, d4 for suit)
+- **Minimalist**: Just use a d20 to track Fortune Points and standard dice for abilities
+
+**Why Gambler Is Perfect for In-Person Play**: Unlike classes with abstract resources (mana, rage), the Gambler's mechanics are DESIGNED around physical randomization tools. Every ability involves flipping, rolling, or drawing—actions that are MORE fun in person than digitally. The class becomes a mini-casino at your table, and you're the dealer, the player, and the house all at once.`
     }
   },
 

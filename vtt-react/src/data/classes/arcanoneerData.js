@@ -297,6 +297,83 @@ Select 2, 3, or 4 spheres from your resource bar and combine them:
 - Why: Fire elemental is nearly dead, goblins are the real threat, Fire+Fire deals heavy damage to fire-vulnerable targets, conserves mana (only 5 mana vs 15 for ultimate), leaves you with 4 spheres banked for flexibility
 
 **The Lesson**: Don't just cast the biggest spell—cast the RIGHT spell for the situation. Your sphere bank is a toolbox, not a scoreboard.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Arcanoneer's sphere system translates beautifully to physical tabletop play with simple materials. Here's how to track your elemental spheres without a digital interface:
+
+**Required Materials**:
+- **4d8 dice** (standard eight-sided dice for sphere generation)
+- **Colored tokens, beads, or glass stones** representing the 8 elements (at least 20 of each color)
+- **A sphere tracking mat or play area** (can be a simple piece of paper divided into sections)
+- **Reference card** with the d8-to-element conversion chart
+
+**Recommended Token Colors**:
+- **Arcane (1)**: Purple beads or tokens
+- **Holy (2)**: Gold/yellow beads or tokens
+- **Shadow (3)**: Black beads or tokens
+- **Fire (4)**: Red beads or tokens
+- **Ice (5)**: Blue beads or tokens
+- **Nature (6)**: Green beads or tokens
+- **Healing (7)**: White or light yellow beads or tokens
+- **Chaos (8)**: Rainbow/multicolored beads or clear iridescent tokens
+
+**Turn-by-Turn Process**:
+
+1. **Start of Your Turn**: Roll your 4d8 dice
+2. **Generate Spheres**: For each die result, take a token of the corresponding color and place it in your "Sphere Bank" area
+3. **Bank or Spend**: Decide whether to cast a spell (spend tokens) or save them for later
+4. **Casting a Spell**: Remove the required tokens from your bank and announce the combination (e.g., "Fire + Fire for Flame Burst")
+5. **End of Combat**: Clear all tokens from your Sphere Bank (they don't persist between fights)
+
+**Tracking Setup Example**:
+
+Create a simple play mat with three zones:
+- **Generation Zone**: Where you place your 4d8 dice after rolling
+- **Sphere Bank**: Where you organize your accumulated tokens by color
+- **Spent Zone**: Where you place tokens after casting (to track what you've used)
+
+**Organization Tips**:
+- **Sort by Color**: Keep tokens organized in your Sphere Bank by element type for quick visual reference
+- **Use a Dice Tray**: Roll your 4d8 in a tray to prevent them from scattering
+- **Keep a Combination Matrix**: Have a printed reference sheet showing 2-sphere, 3-sphere, and 4-sphere combinations
+- **Track Mana Separately**: Use a d20 or separate counter for your mana pool (you need mana to cast even if you have spheres)
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use different colored dice as markers (d6s work great)
+- **No colored items?** Use paper slips labeled with element names
+- **Minimalist approach**: Simply write tally marks on paper under each element name
+- **Digital hybrid**: Use a phone app to track spheres while playing in person
+
+**Quick Reference Card Template**:
+\`\`\`
+ARCANONEER SPHERE GENERATION
+Roll 4d8 each turn:
+1 = Arcane (Purple)    5 = Ice (Blue)
+2 = Holy (Gold)        6 = Nature (Green)
+3 = Shadow (Black)     7 = Healing (White)
+4 = Fire (Red)         8 = Chaos (Rainbow)
+
+MANA COSTS:
+2-Sphere Spell = 5 mana
+3-Sphere Spell = 10 mana
+4-Sphere Spell = 15 mana
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You roll 4d8 and get: [4, 4, 5, 7]*
+
+1. Take 2 red tokens (Fire), 1 blue token (Ice), 1 white token (Healing)
+2. Place them in your Sphere Bank alongside any tokens from previous turns
+3. Decide: "I'll cast Fire + Ice for Steam Blast"
+4. Remove 1 red and 1 blue token from your bank, place them in the Spent Zone
+5. Pay 5 mana and resolve the spell
+6. Your remaining tokens (1 Fire, 1 Healing) stay in your bank for next turn
+
+**Why This Works**: The physical act of rolling dice and moving tokens creates a tactile, engaging experience that mirrors the digital resource bar. You can see your sphere collection grow, feel the weight of decision-making as you pick up tokens to spend them, and experience the randomness of sphere generation in a visceral way. Many players find the physical version even more satisfying than the digital one.`
     }
   },
 

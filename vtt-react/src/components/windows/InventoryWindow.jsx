@@ -924,6 +924,14 @@ export default function InventoryWindow() {
 
         e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
 
+        // Store dragged item info globally for visual feedback in containers
+        window.draggedItemInfo = {
+            item: item,
+            width: item.width || 1,
+            height: item.height || 1,
+            rotation: item.rotation || 0
+        };
+
         // Create a custom drag image if needed
         if (item.iconId) {
             const img = new Image();
@@ -1000,6 +1008,9 @@ export default function InventoryWindow() {
             cell.classList.remove('drag-over', 'drag-invalid'); // Combined for performance
         });
         setDraggedItem(null);
+
+        // Clear global drag info
+        window.draggedItemInfo = null;
     };
 
     // Handle drop for cells

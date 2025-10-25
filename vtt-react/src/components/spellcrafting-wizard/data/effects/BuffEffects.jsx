@@ -1092,7 +1092,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
 
         haste: {
           movement: "Movement speed increases by 10 feet",
-          action: "Gain a bonus action once during the duration",
+          action: "Gain 1 additional AP once during the duration",
           reaction: "Gain an additional reaction once during the duration"
         },
         elemental_infusion: {
@@ -1142,8 +1142,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         },
 
         haste: {
-          movement: "Movement speed doubles and you can take the Dash action as a bonus action",
-          action: "Gain a bonus action each turn",
+          movement: "Movement speed doubles and you can Dash for 1 AP",
+          action: "Gain 1 additional AP each turn",
           reaction: "Gain an additional reaction each turn"
         },
         elemental_infusion: {
@@ -1193,8 +1193,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
         },
 
         haste: {
-          movement: "Movement speed triples and you can take the Dash action as a bonus action",
-          action: "You can take an additional action on each of your turns",
+          movement: "Movement speed triples and you can Dash for 1 AP",
+          action: "Gain 2 additional AP on each of your turns",
           reaction: "You can take any number of reactions per round"
         },
         elemental_infusion: {
@@ -1203,7 +1203,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           lightning: "Weapon attacks deal +3d6 lightning damage, chain to up to 3 targets, and create a 10-foot lightning aura"
         },
         invisibility: {
-          partial: "You can Hide as a bonus action and gain +10 to Stealth checks",
+          partial: "You can Hide for 1 AP and gain +10 to Stealth checks",
           complete: "You and anything you're carrying become completely invisible until you choose to end it",
           greater: "You remain invisible for the duration even when attacking and casting spells"
         },

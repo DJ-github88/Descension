@@ -1,30 +1,24 @@
 /**
  * General Spells Data
  *
- * CLEARED FOR TESTING
- * All general spells have been removed and replaced with comprehensive test spells.
- * See testSpells.js for the test spell library.
- *
- * Original spells backed up to: BACKUP_generalSpellsData.js
+ * Universal baseline spells/actions available to all classes
  */
 
-import { ALL_TEST_SPELLS, TEST_SPELL_CATEGORIES } from './testSpells';
-
-// CLEARED - Using test spells instead
+// General spells available to all classes
 export const GENERAL_SPELLS = [];
 
-// Combine all general actions - using test spells
-export const ALL_GENERAL_SPELLS = ALL_TEST_SPELLS;
+// Combine all general actions
+export const ALL_GENERAL_SPELLS = [];
 
 // Export the general spells category
 export const GENERAL_SPELLS_CATEGORY = {
-  id: 'test_spells',
-  name: 'Test Spells',
-  description: 'Comprehensive test spells for verifying spell wizard formatting',
-  icon: 'inv_misc_dice_01',
+  id: 'general',
+  name: 'General',
+  description: 'Universal baseline spells and actions available to all classes',
+  icon: 'inv_misc_book_07',
   color: '#8B4513',
-  spells: ALL_TEST_SPELLS.map(spell => spell.id)
+  spells: []
 };
 
 // Export categories for organization
-export const GENERAL_CATEGORIES = TEST_SPELL_CATEGORIES;
+export const GENERAL_CATEGORIES = [];

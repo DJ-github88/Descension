@@ -5,12 +5,12 @@ import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
 import './styles/LandingPage.css';
 
-const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister }) => {
+const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user }) => {
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
   const navigate = useNavigate();
-  const { enableDevelopmentBypass, user } = useAuthStore();
+  const { enableDevelopmentBypass, isDevelopmentBypass } = useAuthStore();
 
   // Development bypass handler
   const handleDevelopmentBypass = () => {
@@ -237,14 +237,25 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <i className="fas fa-users"></i>
               Community
             </button>
-            <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
-              <i className="fas fa-cog"></i>
-              Dev Preview
-            </button>
-            <button className="login-btn" onClick={onShowLogin}>
-              <i className="fas fa-user"></i>
-              Login
-            </button>
+
+            {/* Show Account button if logged in, otherwise show Login and Dev Preview */}
+            {isAuthenticated || isDevelopmentBypass ? (
+              <button className="account-btn" onClick={() => navigate('/account')}>
+                <i className="fas fa-user-circle"></i>
+                Account
+              </button>
+            ) : (
+              <>
+                <button className="dev-bypass-btn" onClick={handleDevelopmentBypass}>
+                  <i className="fas fa-cog"></i>
+                  Dev Preview
+                </button>
+                <button className="login-btn" onClick={onShowLogin}>
+                  <i className="fas fa-user"></i>
+                  Login
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>

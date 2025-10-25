@@ -86,9 +86,12 @@ const Step3ClassSelection = () => {
             'Gambler': 'Utility/Luck',
             'Martyr': 'Tank/Support',
             'False Prophet': 'Control/Deception',
+            'Exorcist': 'Support/Banishment',
+            'Oracle': 'Support/Divination',
             'Factionist': 'Support/Buff',
             'Plaguebringer': 'Damage/Debuff',
-            'Death Caller': 'Necromancy/Control',
+            'Deathcaller': 'Necromancy/Control',
+            'Lichborne': 'Caster/Undead',
             'Spellguard': 'Anti-Magic/Defense',
             'Inscriptor': 'Utility/Enchantment',
             'Arcanophage': 'Magic Absorption',
@@ -117,9 +120,12 @@ const Step3ClassSelection = () => {
             'Gambler': 'Luck Tokens',
             'Martyr': 'Sacrifice Points',
             'False Prophet': 'Deception Marks',
+            'Exorcist': 'Dominance Die',
+            'Oracle': 'Prophetic Visions',
             'Factionist': 'Faction Influence',
             'Plaguebringer': 'Plague Stacks',
-            'Death Caller': 'Soul Energy',
+            'Deathcaller': 'Necrotic Ascension',
+            'Lichborne': 'Phylactery Power',
             'Spellguard': 'Ward Charges',
             'Inscriptor': 'Runic Power',
             'Arcanophage': 'Absorbed Magic',
@@ -165,6 +171,11 @@ const Step3ClassSelection = () => {
                 { icon: 'fas fa-coins', text: 'Luck manipulation' },
                 { icon: 'fas fa-dice-d20', text: 'Risk/reward mechanics' },
                 { icon: 'fas fa-star', text: 'Fortune-based abilities' }
+            ],
+            'Oracle': [
+                { icon: 'fas fa-eye', text: 'Prophetic visions' },
+                { icon: 'fas fa-crystal-ball', text: 'Fate manipulation' },
+                { icon: 'fas fa-book', text: 'Hidden knowledge revelation' }
             ],
             'Bladedancer': [
                 { icon: 'fas fa-wind', text: 'Graceful combat flow' },
@@ -297,6 +308,7 @@ const Step3ClassSelection = () => {
             'Chronarch': ['Transmutation', 'Divination', 'Abjuration'],
             'Chaos Weaver': ['Transmutation', 'Conjuration', 'Evocation'],
             'Gambler': ['Divination', 'Enchantment', 'Illusion'],
+            'Oracle': ['Divination', 'Enchantment', 'Abjuration'],
             'Bladedancer': [], // Non-caster
             'Berserker': [], // Non-caster
             'Warden': ['Abjuration', 'Transmutation', 'Conjuration']

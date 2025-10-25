@@ -419,6 +419,101 @@ Cast "Wild Conduit" this turn, have healer focus on tank
 - **13-20 Modifiers**: Use any table freely, you have full control
 
 Know your limits. Respect the chaos. Control what you can, embrace what you can't.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Chaos Weaver's Mayhem Modifier system combines resource tracking with dynamic table rolling, creating an exciting in-person experience. Here's how to manage chaos at the physical table:
+
+**Required Materials**:
+- **20 tokens or beads** (for Mayhem Modifiers - purple/multicolored recommended)
+- **Polyhedral dice set** (d4, d6, d8, d10, d12, d20, d100)
+- **Printed rollable tables** (for your chaos spells)
+- **Tracking mat or play area** with Modifier zone
+
+**Mayhem Modifier Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent Mayhem Modifiers:
+- **Starting State**: Begin with 0 tokens in your Modifier pool
+- **Generating Modifiers**: When you cast a generation spell (Chaotic Infusion, Wild Conduit), roll the dice and add that many tokens to your pool
+  - Example: Cast Chaotic Infusion → Roll 1d4 → [3] → Add 3 tokens to pool
+  - Example: Cast Wild Conduit → Roll 2d4 → [2, 4] = 6 → Add 6 tokens to pool
+- **Spending Modifiers**: When adjusting a table result, remove tokens equal to the adjustment
+  - Example: Roll [8] on d20, want [12] → Remove 4 tokens (adjust by +4)
+- **Maximum**: 20 tokens maximum in your pool
+
+**Setup**:
+Create two zones on your play mat:
+- **Modifier Pool** (your active tokens - the chaos you've accumulated)
+- **Bank** (unused tokens, up to 20 total)
+
+**Why Tokens Work**: The physical act of accumulating chaotic energy (tokens) and then spending it to control chaos (removing tokens) creates a satisfying tactile loop. You can SEE your control over chaos grow as your token pile increases.
+
+**Alternative Tracking Methods**:
+- **d20 Die**: Set it to your current Modifier count (0-20)
+- **Tally Marks**: Write on paper (functional but less immersive)
+- **Colored Beads**: Use purple/rainbow beads in a small bowl for thematic flair
+
+**Rolling on Chaos Tables**:
+
+**The Physical Table Method**:
+
+Chaos Weaver spells use rollable tables (d6, d10, d20, d33, d100). Here's how to handle them in person:
+
+1. **Print Your Tables**: Have printed reference cards for each chaos spell showing the table outcomes
+2. **Roll the Die**: Physically roll the appropriate die for the spell
+3. **Check the Result**: Look up the result on the printed table
+4. **Decide on Adjustment**: Decide if you want to spend Mayhem Modifiers to adjust the result
+5. **Spend Tokens**: Remove tokens from your pool equal to the adjustment
+6. **Apply Final Result**: Use the adjusted result from the table
+
+**Example: Chaotic Bolt (d20 Table)**:
+
+*You have 6 Mayhem Modifier tokens in your pool*
+
+**Step 1 - Cast the Spell**:
+- "I cast Chaotic Bolt!" (costs 5 mana)
+- Pull out your d20
+
+**Step 2 - Roll**:
+- Roll d20 → [8]
+- Check your printed Chaotic Bolt table → [8] = "Moderate damage - 3d6 fire damage"
+
+**Step 3 - Decide**:
+- "I want a better result. I'll spend 4 modifiers to adjust 8 → 12"
+- Remove 4 tokens from your pool → Now at 2 tokens
+
+**Step 4 - Apply**:
+- Check table for [12] → "Strong damage - 4d8 force damage + knockback"
+- Roll 4d8 for damage → [6, 7, 5, 8] = 26 damage
+- Boss is knocked back!
+
+**Quick Reference Card Template**:
+\`\`\`
+CHAOS WEAVER MAYHEM MODIFIERS
+
+Current Modifiers: [Count your tokens]
+Maximum: 20 modifiers
+
+GENERATING MODIFIERS:
+• Chaotic Infusion (4 mana): Roll 1d4, add tokens
+• Wild Conduit (6 mana): Roll 2d4, add tokens
+
+SPENDING MODIFIERS:
+• Adjust table result by ±1: Remove 1 token
+• Adjust by ±5: Remove 5 tokens
+• Adjust by ±10: Remove 10 tokens
+
+TABLE SAFETY GUIDELINES:
+• d6-d10 tables: Safe with 2-3 modifiers
+• d20 tables: Need 4-6 modifiers
+• d100 tables: Need 10+ modifiers
+\`\`\`
+
+**Why Chaos Weaver Is Perfect for In-Person Play**: The class is built around physical randomization (rolling on tables) and resource management (spending tokens to control results). Every chaos spell becomes a mini-event at the table: roll the die, check the table, decide if you want to spend modifiers, adjust the result, and resolve the outcome. The physical components (tokens, dice, tables) make the abstract concept of "controlling chaos" tangible and exciting.`
     }
   },
   

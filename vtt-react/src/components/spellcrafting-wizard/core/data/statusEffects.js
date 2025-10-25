@@ -184,7 +184,7 @@ export const POSITIVE_STATUS_EFFECTS = [
     {
       id: 'energized',
       name: 'Energized',
-      description: 'Gain bonus action points and improved energy recovery',
+      description: 'Gain additional action points and improved energy recovery',
       icon: 'spell_nature_lightning',
       category: 'enhancement',
       actionPointCost: 3,
@@ -362,7 +362,7 @@ export const COMBAT_ADVANTAGES = [
       actionPointCost: 4,
       options: [
         { id: 'attack', name: 'Extra Attack', description: 'Make an additional attack action' },
-        { id: 'bonus', name: 'Extra Bonus Action', description: 'Gain an additional bonus action' },
+        { id: 'bonus', name: 'Extra Action Points', description: 'Gain additional action points' },
         { id: 'reaction', name: 'Extra Reaction', description: 'Gain an additional reaction' }
       ],
       defaultParameters: {
@@ -702,13 +702,13 @@ export const COMBAT_DISADVANTAGES = [
     {
       id: 'reduced_armor',
       name: 'Reduced Armor',
-      description: 'Armor Class (AC) is reduced',
+      description: 'Armor is reduced',
       icon: 'spell_shadow_curseofachimonde',
       category: 'debuff',
       actionPointCost: 2,
       options: [
-        { id: 'minor', name: 'Minor Reduction', description: 'AC reduced by a small amount' },
-        { id: 'major', name: 'Major Reduction', description: 'AC reduced significantly' },
+        { id: 'minor', name: 'Minor Reduction', description: 'Armor reduced by a small amount' },
+        { id: 'major', name: 'Major Reduction', description: 'Armor reduced significantly' },
         { id: 'bypass', name: 'Armor Bypass', description: 'Specific attacks ignore a portion of armor' }
       ],
       defaultParameters: {

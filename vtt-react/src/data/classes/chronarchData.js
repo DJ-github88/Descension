@@ -492,6 +492,149 @@ Use "Time Sacrifice" to reduce Strain, then use Temporal Rewind
 5. **Future Planning**: Consider not just this turn, but next turn's Strain decay
 
 You're not just managing resources—you're managing TIME ITSELF. Every decision ripples forward. Plan accordingly.`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Chronarch's dual-resource system requires tracking two separate values: Time Shards (your power) and Temporal Strain (your risk). Here's how to manage both resources at the physical table:
+
+**Required Materials**:
+- **Two d10 dice** (or two d20s if you prefer larger dice)
+- **Colored tokens or beads** (10 blue/silver for Time Shards, 10 red/orange for Temporal Strain)
+- **Reference card** with Temporal Flux abilities and their costs
+- **Tracking mat or play area** with two separate zones
+
+**The Two-Die Method** (Recommended):
+
+Use two different colored d10 dice placed side-by-side:
+- **Blue/Silver d10**: Represents Time Shards (0-10)
+- **Red/Orange d10**: Represents Temporal Strain (0-10)
+
+**Setup**:
+1. Place both dice in front of you
+2. Set the blue die to 0 (Time Shards start at 0)
+3. Set the red die to 0 (Temporal Strain starts at 0 each combat)
+
+**During Combat**:
+- **When you cast any spell**: Rotate blue die up by 1 (e.g., 3 → 4)
+- **When you use Temporal Flux**: Rotate blue die down by cost, rotate red die up by Strain (e.g., use 3-shard ability that adds 3 Strain: blue 7→4, red 2→5)
+- **End of turn (no Flux used)**: Rotate red die down by 1 (natural decay)
+- **Temporal Backlash (red die reaches 10)**: Announce Backlash, reset red die to 0, lose next turn
+
+**Token/Bead Method** (Alternative):
+
+Use physical tokens to represent each resource:
+- **Blue/Silver Tokens**: Time Shards (add one each spell cast, remove when spending)
+- **Red/Orange Tokens**: Temporal Strain (add when using Flux, remove one per turn if no Flux used)
+
+**Setup**:
+Create two zones on your play mat:
+- **Time Shard Pool** (left side): Where you accumulate blue tokens
+- **Temporal Strain Track** (right side): Where you place red tokens
+
+**During Combat**:
+- **Cast a spell**: Add 1 blue token to your Shard Pool
+- **Use Temporal Flux**: Remove blue tokens equal to cost, add red tokens equal to Strain
+- **End of turn (no Flux)**: Remove 1 red token from Strain Track
+- **Temporal Backlash (10 red tokens)**: Clear all red tokens, lose next turn, take damage
+
+**Quick Reference Card Template**:
+\`\`\`
+CHRONARCH RESOURCE TRACKER
+
+TIME SHARDS (Blue Die/Tokens)
+• +1 per spell cast (any spell)
+• Max: 10 shards
+• Persist between combats
+• Spend on Temporal Flux abilities
+
+TEMPORAL STRAIN (Red Die/Tokens)
+• +1 to +5 per Flux ability used
+• Max: 10 (reaching 10 = BACKLASH)
+• -1 per turn (if no Flux used)
+• Resets to 0 between combats
+
+TEMPORAL BACKLASH (10 Strain):
+• Lose next turn
+• Take 10 damage
+• Strain resets to 0
+• All temporal effects end
+\`\`\`
+
+**Temporal Flux Ability Reference**:
+
+Keep a printed card with your available Flux abilities:
+\`\`\`
+TEMPORAL FLUX ABILITIES
+[Ability Name] | Shards: X | Strain: +X | Effect
+
+Time Warp       | 2 | +1 | Ally acts twice
+Reverse Time    | 3 | +2 | Undo last damage
+Temporal Clone  | 4 | +3 | Create clone (2 turns)
+Time Freeze     | 5 | +4 | Freeze enemy (1 turn)
+Eternal Stasis  | 6 | +5 | Freeze enemy (2 turns)
+Time Sacrifice  | 0 | -3 | Take 2d6 damage, reduce Strain
+\`\`\`
+
+**Visual Tracking Tips**:
+
+1. **Color Coding**: Use distinctly different colors for Shards vs. Strain (blue vs. red is ideal)
+2. **Separation**: Keep the two resources physically separated on your mat to avoid confusion
+3. **Danger Zone Marker**: Place a small skull token or warning marker when Strain reaches 7+ (high risk)
+4. **Backlash Reminder**: Keep a "BACKLASH" card nearby to flip over when you hit 10 Strain
+
+**Example In-Person Turn**:
+
+*Blue die showing 5 (Time Shards), Red die showing 3 (Temporal Strain)*
+
+**Your Turn Begins**:
+1. "I cast Chrono Bolt at the enemy" (costs 5 mana)
+2. Rotate blue die: 5 → 6 (gained 1 Time Shard from casting)
+3. "Now I'll use Temporal Rewind to undo the damage to our tank" (costs 3 Shards, +2 Strain)
+4. Rotate blue die: 6 → 3 (spent 3 Shards)
+5. Rotate red die: 3 → 5 (gained 2 Strain)
+6. "Tank's damage is rewound. I'm at 3 Shards and 5 Strain now."
+
+**End of Turn**:
+- Because you used a Flux ability (Temporal Rewind), Strain does NOT decay
+- Red die stays at 5
+
+**Next Turn** (if you don't use Flux):
+- Cast normal spells only
+- Blue die increases as you cast
+- At end of turn: Red die 5 → 4 (natural decay)
+
+**Backlash Example**:
+
+*Blue die showing 6, Red die showing 8*
+
+1. "I need to freeze the boss. Using Time Freeze!" (costs 5 Shards, +4 Strain)
+2. Rotate blue die: 6 → 1
+3. Rotate red die: 8 → 12... wait, max is 10!
+4. **TEMPORAL BACKLASH!**
+5. Announce: "I've hit Temporal Backlash!"
+6. Reset red die to 0
+7. Mark yourself as "stunned" for next turn
+8. Take 10 damage
+9. Boss unfreezes (all temporal effects end)
+
+**Specialization Differences**:
+
+- **Arc of Stasis**: Tends to use high-Strain abilities (4-5 Strain), requires careful red die management
+- **Arc of Displacement**: Uses moderate-Strain abilities (2-3 Strain), more forgiving
+- **Arc of Rewinding**: Uses low-Strain abilities (1-2 Strain), can use Flux more frequently
+
+**Advanced Tracking: The Hourglass Method**:
+
+For thematic immersion, some players use a small hourglass or sand timer:
+- Flip it when you use a Temporal Flux ability
+- When the sand runs out (~30 seconds), reduce Strain by 1
+- This creates a real-time "decay" feeling
+
+**Why This System Works**: The two-die method creates a visual representation of the Chronarch's core tension: as your blue die (power) goes up, you're tempted to spend it, but doing so raises your red die (danger). You can literally see the balance between power and risk in front of you. When that red die creeps toward 10, the tension is palpable—one more Flux ability and you Backlash. The physical act of rotating the dice mirrors the narrative of manipulating time and accumulating temporal instability.
+
+**Pro Tip**: Keep both dice visible to your GM and party members. They should know when you're at high Strain (7+) so they can plan around the possibility of you Backlashing and losing a turn. Communication is key for Chronarchs.`
     }
   },
   

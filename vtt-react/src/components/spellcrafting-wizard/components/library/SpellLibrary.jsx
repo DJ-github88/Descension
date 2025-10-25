@@ -4,6 +4,8 @@ import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from 
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
 import { useWeaponEnhancedSpells } from '../../../../hooks/useWeaponEnhancedSpells';
 import useCharacterStore from '../../../../store/characterStore';
+import useAuthStore from '../../../../store/authStore';
+import { loadUserSpells } from '../../../../services/firebase/userSpellService';
 
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
@@ -120,6 +122,12 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   const library = useSpellLibrary();
   const dispatch = useSpellLibraryDispatch();
 
+  // Get auth state
+  const { user } = useAuthStore();
+
+  // State for tracking if user spells have been loaded
+  const [userSpellsLoaded, setUserSpellsLoaded] = useState(false);
+
   // Get class-based spell library
   const {
     spellCategories,
@@ -162,6 +170,42 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     return combined;
   }, [spellCategories, generalSpells]);
 
+  // Load user spells from Firebase when user logs in
+  useEffect(() => {
+    const loadUserSpellsFromFirebase = async () => {
+      if (user?.uid && !userSpellsLoaded) {
+        console.log('📚 Loading user spells from Firebase for user:', user.uid);
+        try {
+          const userSpells = await loadUserSpells(user.uid);
+
+          if (userSpells && userSpells.length > 0) {
+            console.log(`✅ Loaded ${userSpells.length} spells from Firebase`);
+
+            // Add each spell to the library if it doesn't already exist
+            userSpells.forEach(spell => {
+              const existingSpell = library.spells.find(s => s.id === spell.id);
+              if (!existingSpell) {
+                dispatch({ type: 'ADD_SPELL_DIRECT', payload: spell });
+              }
+            });
+          } else {
+            console.log('📚 No user spells found in Firebase');
+          }
+
+          setUserSpellsLoaded(true);
+        } catch (error) {
+          console.error('Error loading user spells from Firebase:', error);
+          setUserSpellsLoaded(true); // Mark as loaded even on error to prevent infinite retries
+        }
+      } else if (!user?.uid && userSpellsLoaded) {
+        // User logged out, reset the flag
+        setUserSpellsLoaded(false);
+      }
+    };
+
+    loadUserSpellsFromFirebase();
+  }, [user?.uid, userSpellsLoaded, dispatch, library.spells]);
+
   // Debug: Log spell library state changes
   useEffect(() => {
     console.log('🎭 SpellLibrary Debug:', {
@@ -171,9 +215,14 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       activeCharacter: activeCharacter ? { id: activeCharacter.id, name: activeCharacter.name, class: activeCharacter.class } : null,
       spellCategoriesCount: spellCategories.length,
       classSpellsLoading,
-      classSpellsError
+      classSpellsError,
+      userLoggedIn: !!user?.uid,
+      userSpellsLoaded,
+      totalSpellsInLibrary: library.spells.length,
+      generalSpellsCount: generalSpells.length,
+      allSpellCategoriesCount: allSpellCategories.length
     });
-  }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories.length, classSpellsLoading, classSpellsError]);
+  }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories.length, classSpellsLoading, classSpellsError, user?.uid, userSpellsLoaded, library.spells.length, generalSpells.length, allSpellCategories.length]);
 
   // Calculate preview panel position when a spell is selected
   useEffect(() => {
@@ -725,7 +774,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Render empty state when no spells exist
   // Check both class-based spells and traditional library spells
-  const shouldShowEmptyState = !hasActiveCharacter && library.spells.length === 0;
+  // Also check if we have general spells available
+  const shouldShowEmptyState = !hasActiveCharacter && library.spells.length === 0 && generalSpells.length === 0;
 
   if (shouldShowEmptyState) {
     return (
@@ -989,31 +1039,24 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         </div>
       )}
 
-      {/* No Character Selected Message */}
-      {!hasActiveCharacter && (
-        <div className="no-character-message" style={{
-          background: 'linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%)',
-          border: '2px solid #8B4513',
-          borderRadius: '8px',
-          padding: '20px',
-          marginBottom: '16px',
-          textAlign: 'center',
-          color: '#8B4513',
-          fontFamily: 'Cinzel, serif',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', fontWeight: '600' }}>No Character Selected</h4>
-          <p style={{ margin: 0, fontSize: '14px', opacity: 0.8 }}>
-            Select a character from the Character Management page or use the "Activate" buttons above to view class-specific spells.
-          </p>
-        </div>
-      )}
-
       {/* Main content area */}
       <div className="library-content" ref={libraryContentRef}>
         {/* Compact WoW-style view */}
         {viewMode === 'compact' ? (
           <div className="wow-spellbook-view">
+              {/* No Character Selected Message - Inside spellbook */}
+              {!hasActiveCharacter && (
+                <div className="wow-spell-list-container">
+                  <div className="wow-spellbook-empty">
+                    <i className="fas fa-user-slash"></i>
+                    <h4 style={{ margin: '16px 0 8px 0', fontSize: '18px', fontWeight: '600', color: '#2a1a0f' }}>NO CHARACTER SELECTED</h4>
+                    <p style={{ margin: 0, fontSize: '14px', color: '#6b5545', maxWidth: '400px' }}>
+                      Select a character from the Character Management page or use the "Activate" buttons above to view class-specific spells.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Category Tabs - Only show if character is active */}
               {hasActiveCharacter && allSpellCategories.length > 0 && (
                 <div className="wow-category-tabs">
@@ -1136,7 +1179,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                       <div className="wow-spell-info">
                         <p className="wow-spell-name">{spell.name}</p>
                         <p className="wow-spell-rank">
-                          {spell.level ? `Level ${spell.level}` : spell.spellType || 'Action'}
+                          {spell.description || spell.spellType || 'Action'}
                         </p>
                       </div>
                       {spell.spellType && (

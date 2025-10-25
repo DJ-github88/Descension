@@ -240,7 +240,7 @@ export const LIBRARY_CREATURES = [
           },
           {
             type: 'SPECIAL',
-            description: 'Snicksnack can take the Hide action as a free action.'
+            description: 'Snicksnack can take the Hide action for 0 action points.'
           }
         ]
       }
@@ -1929,7 +1929,7 @@ export const LIBRARY_CREATURES = [
       {
         id: 'goblin-flee',
         name: 'Nimble Escape',
-        description: 'The goblin can take the Disengage or Hide action as a bonus action on each of its turns.',
+        description: 'The goblin can take the Disengage or Hide action for only 1 action point on each of its turns.',
         apCost: 1
       }
     ],

@@ -281,7 +281,7 @@ The Spellguard excels at absorbing magical damage and disrupting enemy spellcast
 
 **You**: "MAXIMUM AEP. I've absorbed everything they've thrown at me. Now I unleash it."
 
-**Your Action (Bonus Action)**: "Arcane Detonation" (50 AEP, massive AoE damage)
+**Your Action (1 AP)**: "Arcane Detonation" (50 AEP, massive AoE damage)
 **Effect**: Release absorbed energy in 20 ft radius explosion
 **Damage**: 50 force damage to all enemies in radius
 
@@ -441,6 +441,299 @@ You're the ultimate ANTI-MAGE TANK. Enemy spells don't hurt you—they FEED you.
 - Communicate AEP levels to allies so they know when you can shield them
 - Position to intercept spells targeting vulnerable allies
 - Use anti-magic zones to protect key areas during critical moments`
+    },
+
+    playingInPerson: {
+      title: 'Playing Spellguard In Person',
+      content: `**Required Materials**:
+- **AEP Counter** (d100, tokens, or beads representing Arcane Energy Points)
+- **Damage Tracker** (for tracking magical damage absorbed)
+- **AEP Conversion Chart** (showing damage → AEP conversion rates)
+- **Shield Status Cards** (showing active shields and their HP)
+- **Ability Cost Reference** (showing AEP costs for abilities)
+- **Specialization Card** (showing passive bonuses and AEP multipliers)
+
+**Primary Tracking Method: AEP Counter + Damage Conversion**
+
+The Spellguard's resource system converts absorbed magical damage into Arcane Energy Points (AEP), which can then be spent on shields, reflections, and abilities. The key is tracking damage taken and converting it to AEP using simple math.
+
+**Setup**:
+\`\`\`
+SPELLGUARD RESOURCE TRACKING:
+
+ARCANE ENERGY POINTS (AEP): [___] / 100
+
+AEP GENERATION:
+• Magical damage (fire/cold/lightning/necrotic): 2 AEP per damage
+• Physical damage: 1 AEP per 2 damage
+• Mana drain (melee hit): 1 AEP per mana drained
+• Arcane Warden spec: 3 AEP per magical damage (1.5x)
+• Spell Breaker spec: +5 AEP per successful reflection
+
+AEP SPENDING:
+• Arcane Shield (10 AEP): +2 armor, absorbs 20 damage
+• Spell Reflection (15 AEP): Reflect spell back at caster
+• Barrier of Protection (20 AEP): Shield ally for 30 damage
+• Anti-Magic Zone (30 AEP): 15 ft zone, spells cost +5 mana
+• Mana Drain Strike (5 AEP): Melee attack drains 1d6 mana
+\`\`\`
+
+**How It Works**:
+
+**AEP Generation (Absorbing Damage)**:
+1. **Take magical damage** → Convert to AEP at 2:1 ratio
+2. **Take physical damage** → Convert to AEP at 1:2 ratio (half as efficient)
+3. **Drain mana** → Convert to AEP at 1:1 ratio
+4. **Add AEP** to your counter
+
+**AEP Spending (Using Abilities)**:
+1. **Choose ability** → Check AEP cost
+2. **Subtract AEP** from your counter
+3. **Activate ability** → Apply effects
+
+**Example Combat Turn**:
+
+*You have 25 AEP, enemy mage casts Fireball at you*
+
+**Enemy Mage's Turn**:
+1. "The mage casts Fireball at you!"
+2. Fireball damage: 8d6 → [6,5,4,6,3,5,4,6] = 39 fire damage
+3. You take 39 fire damage (magical)
+
+**Your AEP Generation**:
+1. Magical damage taken: 39 damage
+2. Conversion rate: 2 AEP per damage
+3. AEP gained: 39 × 2 = **78 AEP**
+4. Total AEP: 25 + 78 = **103 AEP**
+
+**Your Turn - Spend AEP**:
+1. "I activate Arcane Shield!" (10 AEP)
+2. AEP: 103 - 10 = **93 AEP**
+3. Shield active: +2 armor, absorbs 20 damage
+4. "I cast Spell Reflection!" (15 AEP)
+5. AEP: 93 - 15 = **78 AEP**
+6. Ready to reflect next spell
+
+**Example AEP Conversion**:
+
+*You're an Arcane Warden (1.5x magical damage AEP)*
+
+**Turn 1 - Lightning Bolt**:
+1. Enemy casts Lightning Bolt → 6d6 → [5,6,4,5,3,6] = 29 lightning damage
+2. Base AEP: 29 × 2 = 58 AEP
+3. Arcane Warden bonus: 58 × 1.5 = **87 AEP** (rounded from 87)
+4. Total AEP: 0 + 87 = **87 AEP**
+
+**Turn 2 - Physical Attack**:
+1. Enemy warrior attacks → 2d8+5 → [7,6] + 5 = 18 physical damage
+2. Physical conversion: 18 ÷ 2 = **9 AEP**
+3. Total AEP: 87 + 9 = **96 AEP**
+
+**Turn 3 - Mana Drain**:
+1. You hit enemy mage with melee attack → 1d8+3 → [6] + 3 = 9 damage
+2. Mana drained: 9 mana
+3. AEP gained: 9 × 1 = **9 AEP**
+4. Total AEP: 96 + 9 = **105 AEP** (capped at 100)
+5. Final AEP: **100 AEP** (max)
+
+**AEP Conversion Chart**:
+\`\`\`
+═══════════════════════════════════
+  AEP CONVERSION REFERENCE
+═══════════════════════════════════
+DAMAGE TYPE → AEP GAINED
+
+MAGICAL DAMAGE (fire/cold/lightning/necrotic):
+• Base: 2 AEP per damage
+• Arcane Warden: 3 AEP per damage (1.5x)
+• Example: 30 fire damage → 60 AEP (90 for Warden)
+
+PHYSICAL DAMAGE:
+• Base: 1 AEP per 2 damage
+• Example: 20 physical damage → 10 AEP
+
+MANA DRAIN (melee attacks):
+• Base: 1 AEP per mana drained
+• Example: Drain 8 mana → 8 AEP
+
+SPELL REFLECTION (Spell Breaker spec):
+• Bonus: +5 AEP per successful reflection
+• Example: Reflect spell → +5 AEP
+═══════════════════════════════════
+\`\`\`
+
+**AEP Spending Reference Card**:
+\`\`\`
+═══════════════════════════════════
+    SPELLGUARD ABILITIES
+═══════════════════════════════════
+ARCANE SHIELD (10 AEP):
+• +2 armor for 1 minute
+• Absorbs 20 damage before breaking
+• Reaction to cast
+
+SPELL REFLECTION (15 AEP):
+• Reflect spell back at caster
+• Reflected spell uses caster's DC
+• Reaction when targeted by spell
+
+BARRIER OF PROTECTION (20 AEP):
+• Shield ally within 30 ft
+• Absorbs 30 damage
+• Lasts 1 minute or until broken
+
+ANTI-MAGIC ZONE (30 AEP):
+• 15 ft radius zone
+• All spells cost +5 mana
+• Lasts 1 minute
+
+MANA DRAIN STRIKE (5 AEP):
+• Melee attack drains 1d6 mana
+• Gain AEP equal to mana drained
+• Costs 1 AP
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 40 AEP, enemy mage targets your ally with Ice Storm*
+
+**Enemy Mage's Turn**:
+1. "The mage casts Ice Storm at your ally!"
+2. Ice Storm damage: 4d8 → [7,6,5,8] = 26 cold damage
+
+**Your Reaction - Barrier of Protection**:
+1. "I cast Barrier of Protection on my ally!" (20 AEP)
+2. AEP: 40 - 20 = **20 AEP**
+3. Barrier absorbs 30 damage
+4. Ally takes: 26 - 30 = **0 damage** (barrier absorbs all)
+5. Barrier HP remaining: 30 - 26 = **4 HP**
+
+**Next Turn - Enemy Attacks You**:
+1. Enemy casts Fireball at you → 8d6 → [6,5,4,6,3,5,4,6] = 39 fire damage
+2. You take 39 fire damage
+3. AEP gained: 39 × 2 = **78 AEP**
+4. Total AEP: 20 + 78 = **98 AEP**
+
+**Your Turn - Spell Reflection**:
+1. "I prepare Spell Reflection!" (15 AEP)
+2. AEP: 98 - 15 = **83 AEP**
+3. Ready to reflect next spell targeting you
+
+**Alternative Tracking Methods**:
+
+**Method 1: Token System**
+- Use poker chips or tokens (1 token = 10 AEP)
+- Add tokens when you absorb damage
+- Remove tokens when you spend AEP
+- Visual and tactile
+
+**Method 2: D100 Die**
+- Rotate die to show current AEP
+- Quick and easy to adjust
+- Single die tracks everything
+
+**Method 3: Bead Counter**
+- Use beads on a string or abacus
+- Move beads to track AEP
+- Satisfying physical feedback
+
+**Method 4: Paper Tracking**
+- Write AEP on paper
+- Cross out and rewrite as it changes
+- Minimalist approach
+
+**Quick Reference Card Template**:
+\`\`\`
+SPELLGUARD QUICK REFERENCE
+
+AEP GENERATION:
+• Magical damage: 2 AEP per damage (3 for Arcane Warden)
+• Physical damage: 1 AEP per 2 damage
+• Mana drain: 1 AEP per mana
+• Spell reflection: +5 AEP (Spell Breaker spec)
+
+AEP SPENDING:
+• Arcane Shield: 10 AEP (+2 armor, 20 absorb)
+• Spell Reflection: 15 AEP (reflect spell)
+• Barrier of Protection: 20 AEP (shield ally, 30 absorb)
+• Anti-Magic Zone: 30 AEP (15 ft, +5 mana cost)
+• Mana Drain Strike: 5 AEP (drain 1d6 mana)
+
+STRATEGY:
+• Tank magical damage to build AEP
+• Spend on shields for allies or reflections
+• Save 30+ AEP for Anti-Magic Zone
+• Arcane Warden: Focus on absorption
+• Spell Breaker: Focus on reflections
+• Mana Reaver: Focus on mana drain
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Spellguard experience with:
+- **Blue Dice**: Use blue dice for AEP tracking (arcane theme)
+- **Shield Tokens**: Physical tokens representing active shields
+- **Damage Crystals**: Blue crystals representing absorbed magical energy
+- **AEP Beads**: String of beads for tracking AEP visually
+- **Reflection Mirror**: Small mirror prop for spell reflections
+- **Glow Effect**: LED tea light that glows when shields are active
+
+**AEP Management Tips**:
+
+**Generation Strategy**:
+- **Tank Spells**: Position to intercept spells targeting allies
+- **Maximize Absorption**: Take magical damage over physical when possible
+- **Mana Drain**: Use melee attacks to generate AEP consistently
+- **Arcane Warden**: Seek out magical damage sources
+- **Spell Breaker**: Reflect spells for bonus AEP
+
+**Spending Strategy**:
+- **Emergency Shields**: Keep 20 AEP for Barrier of Protection
+- **Reflection Ready**: Keep 15 AEP for Spell Reflection
+- **Zone Control**: Save 30 AEP for Anti-Magic Zone in boss fights
+- **Don't Cap**: Spend AEP before hitting 100 cap
+- **Prioritize Allies**: Shield allies over yourself when possible
+
+**Specialization Strategy**:
+- **Arcane Warden**: Generate maximum AEP, spend on ally shields
+- **Spell Breaker**: Reflect aggressively for bonus AEP and damage
+- **Mana Reaver**: Drain mana constantly, spend on offensive abilities
+
+**Why This System Works**: The AEP conversion system is simple math (damage × 2 for magical, damage ÷ 2 for physical) that creates a satisfying feedback loop. Taking damage feels GOOD because it generates resources. The physical act of adding tokens or rotating a die when you absorb a Fireball creates positive reinforcement. The spending decisions (shield myself vs shield ally vs reflect spell) create meaningful tactical choices. The system rewards aggressive positioning and tanking spells, making you feel like a true magical tank.
+
+**Pro Tips**:
+- **Quick Math**: Round AEP conversions for speed (39 damage → 80 AEP instead of 78)
+- **Pre-Calculate**: Know common spell damages and their AEP values
+- **Communicate**: Tell allies your AEP so they know when you can shield them
+- **Track Shields**: Use separate tokens for active shield HP
+- **Mana Drain**: Melee attacks are consistent AEP generation
+- **Cap Awareness**: Don't waste absorption when at 100 AEP
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins (pennies = 1 AEP, dimes = 10 AEP)
+- **No d100?** Write AEP on paper
+- **No shield cards?** Track shield HP on paper
+- **Minimalist**: Just track AEP number on paper, reference costs
+
+**Specialization-Specific Tracking**:
+
+**Arcane Warden**:
+- Track 3 AEP per magical damage (instead of 2)
+- Mark when shields are active (+2 AC, +10% resistances)
+- Track shield duration (50% longer)
+
+**Spell Breaker**:
+- Track +5 AEP bonus per reflection
+- Mark reflected spells (+25% damage)
+- Track reflection cooldown reduction
+
+**Mana Reaver**:
+- Track mana drained (enhanced on melee)
+- Convert AEP to damage (offensive abilities)
+- Track burst damage windows
+
+**Why Spellguard Is Perfect for In-Person Play**: The class is built around simple math (damage → AEP conversion) that creates satisfying resource generation. Taking damage feels GOOD because it generates AEP, creating a unique psychological reward. The physical act of adding tokens or rotating a die when you absorb a Fireball is deeply satisfying. The spending decisions are clear and impactful—do I shield myself, shield my ally, or reflect the next spell? The system rewards aggressive positioning and tanking spells, making you feel like a true magical tank. Every spell that hits you makes you stronger, and that power fantasy translates perfectly to tabletop play.`
     }
   },
 
@@ -486,7 +779,7 @@ You're the ultimate ANTI-MAGE TANK. Enemy spells don't hurt you—they FEED you.
 
         specPassive: {
           name: 'Arcane Fortitude',
-          description: 'Your absorption is enhanced. Gain 1.5x AEP for every point of magical damage absorbed (3 AEP per damage instead of 2). Additionally, while you have an active shield, gain +2 AC and +10% to all resistances.',
+          description: 'Your absorption is enhanced. Gain 1.5x AEP for every point of magical damage absorbed (3 AEP per damage instead of 2). Additionally, while you have an active shield, gain +2 armor and +10% to all resistances.',
           icon: 'spell_holy_devotionaura'
         },
 
@@ -599,7 +892,7 @@ You're the ultimate ANTI-MAGE TANK. Enemy spells don't hurt you—they FEED you.
     {
       id: 'sg_arcane_shield',
       name: 'Arcane Shield',
-      description: 'Create a shield of absorbed arcane energy that protects you from incoming damage. The shield absorbs damage and grants bonus AC.',
+      description: 'Create a shield of absorbed arcane energy that protects you from incoming damage. The shield absorbs damage and grants bonus armor.',
       spellType: 'ACTION',
       icon: 'spell_holy_powerwordshield',
       school: 'Abjuration',

@@ -89,7 +89,7 @@ export const ENHANCED_BACKGROUNDS = {
                             }
                         },
                         restrictions: 'Must be wielding a melee weapon',
-                        details: 'As a bonus action, your next melee attack deals an additional 2d8 radiant damage. Against undead or fiends, this increases to 3d8.'
+                        details: 'For 1 AP, your next melee attack deals an additional 2d8 radiant damage. Against undead or fiends, this increases to 3d8.'
                     },
                     {
                         id: 'righteous_fury',
@@ -214,13 +214,13 @@ export const ENHANCED_BACKGROUNDS = {
                             buff: {
                                 duration: '1 minute',
                                 effects: [
-                                    'Allies gain +1 AC',
+                                    'Allies gain +1 Armor',
                                     'Undead and fiends have disadvantage on attacks',
                                     'Area counts as consecrated ground'
                                 ]
                             }
                         },
-                        details: 'Create a 15-foot radius of holy ground for 1 minute. Allies gain +1 AC, undead/fiends have disadvantage on attacks, and the area is consecrated.'
+                        details: 'Create a 15-foot radius of holy ground for 1 minute. Allies gain +1 Armor, undead/fiends have disadvantage on attacks, and the area is consecrated.'
                     }
                 ]
             },

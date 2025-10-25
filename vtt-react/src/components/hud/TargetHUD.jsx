@@ -469,13 +469,18 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const handleResourceBarClick = (e, resourceType) => {
         if (!isGMMode) return;
 
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
 
-        const rect = e.currentTarget.getBoundingClientRect();
-        const position = {
+        const rect = e?.currentTarget?.getBoundingClientRect();
+        const position = rect ? {
             x: rect.right + 10,
             y: rect.top
+        } : {
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2
         };
 
         let currentValue, maxValue;

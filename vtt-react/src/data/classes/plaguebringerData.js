@@ -93,7 +93,7 @@ export const PLAGUEBRINGER_DATA = {
 
 **Mana**: 50 - 6 = 44/60
 
-**Your Action (Bonus Action)**: Cast "Venomous Touch" on Knight #1 (4 mana, base affliction)
+**Your Action (1 AP)**: Cast "Venomous Touch" on Knight #1 (4 mana, base affliction)
 **Effect**: Apply base affliction "Venomous Touch" (deals 1d4 poison damage per turn)
 
 *You point at Knight #1. Invisible venom seeps into his bloodstream. Another seed planted.*
@@ -123,7 +123,7 @@ export const PLAGUEBRINGER_DATA = {
 
 **Knight Captain**: Takes 2d6 → [5, 4] = 9 damage, AC reduced by 2
 
-**Your Action (Bonus Action)**: Cast "Fester" on Knight #1 (5 mana, category spell)
+**Your Action (1 AP)**: Cast "Fester" on Knight #1 (5 mana, category spell)
 **Effect**: Evolve "Venomous Touch" → "Festering Venom" (Stage 2: Fester path)
 
 *The venom in Knight #1's blood begins to FESTER. It spreads, corrupting his flesh.*
@@ -164,7 +164,7 @@ export const PLAGUEBRINGER_DATA = {
 
 *The captain falls to one knee, gasping. His armor feels like lead. His sword is too heavy to lift.*
 
-**Your Action (Bonus Action)**: Cast "Amplify Pain" on Knight #1 (5 mana, category spell)
+**Your Action (1 AP)**: Cast "Amplify Pain" on Knight #1 (5 mana, category spell)
 **Effect**: Evolve "Festering Venom" → "Amplified Festering Venom" (Stage 3: Fester + Amplify path)
 
 *The festering venom INTENSIFIES. Knight #1 screams.*
@@ -375,6 +375,337 @@ After following the correct development path (usually 3 category spells), the ba
 - Coordinate burst windows with Amplify Pain evolutions
 - Use plague zones to control enemy positioning
 - Warn allies about contagion spread to avoid friendly fire`
+    },
+
+    playingInPerson: {
+      title: 'Playing Plaguebringer In Person',
+      content: `**Required Materials**:
+- **Affliction Tokens** (different colors for different affliction types)
+- **Affliction Tracker Cards** (one per enemy, showing current afflictions)
+- **Evolution Path Chart** (showing how afflictions evolve)
+- **Stage Markers** (to show Base → Stage 2 → Stage 3 → Final)
+- **Contagion Markers** (to show which enemies can spread afflictions)
+- **Damage Dice** (for tracking DoT damage each turn)
+
+**Primary Tracking Method: Affliction Tracker Cards**
+
+The Plaguebringer's affliction system is tracked using physical cards placed next to each enemy, showing which afflictions they have and what stage each affliction is at. As you cast category spells (Weaken, Torment, Fester, etc.), you advance afflictions through their evolution paths.
+
+**Setup**:
+\`\`\`
+AFFLICTION TRACKER (per enemy):
+
+ENEMY: Knight Captain
+═══════════════════════════════════
+AFFLICTIONS:
+[Curse of Agony] Stage: Base → 2 → 3 → Final
+  Current: Stage 2 (Torment applied)
+  Damage: 2d6 per turn
+  Next: Apply Fester → Stage 3
+
+[Venomous Touch] Stage: Base → 2 → 3 → Final
+  Current: Base
+  Damage: 1d4 poison per turn
+  Next: Apply Weaken → Stage 2
+═══════════════════════════════════
+
+EVOLUTION PATHS:
+Base → Weaken → Torment → Final (Amplify Pain)
+Base → Fester → Decay → Final (Necrotic Bloom)
+Base → Corrupt → Wither → Final (Soul Rot)
+\`\`\`
+
+**How It Works**:
+
+**Step 1: Apply Base Affliction**
+1. Cast a base affliction spell (Curse of Agony, Venomous Touch, etc.)
+2. Place an affliction token on the enemy's card
+3. Mark it as "Stage: Base"
+4. Roll damage each turn (1d4 or 1d6 depending on affliction)
+
+**Step 2: Evolve Affliction (Category Spells)**
+1. Cast a category spell (Weaken, Torment, Fester, Corrupt, Decay, Wither)
+2. Advance the affliction to the next stage
+3. Update the stage marker on the card
+4. Increase damage dice (Base: 1d6 → Stage 2: 2d6 → Stage 3: 3d6)
+
+**Step 3: Reach Final Affliction**
+1. Apply the final category spell in the evolution path
+2. Affliction reaches "Final" stage
+3. Trigger powerful final effect (Amplify Pain, Necrotic Bloom, Soul Rot)
+4. Remove affliction after final effect triggers
+
+**Example Affliction Evolution**:
+
+*You're fighting a Knight Captain*
+
+**Turn 1 - Apply Base Affliction**:
+1. "I cast Curse of Agony on the Knight Captain!"
+2. Place purple token on Knight Captain's card
+3. Mark: [Curse of Agony] Stage: Base
+4. Damage: 1d6 per turn → Roll [4] = 4 damage
+
+**Turn 2 - Evolve to Stage 2 (Weaken Path)**:
+1. "I cast Weaken on the Knight Captain!"
+2. Advance affliction: Base → Stage 2
+3. Update card: [Curse of Agony] Stage: 2 (Weaken)
+4. Damage: 2d6 per turn → Roll [4,5] = 9 damage
+5. Effect: Target has -2 AC, disadvantage on STR saves
+
+**Turn 3 - Evolve to Stage 3 (Torment Path)**:
+1. "I cast Torment on the Knight Captain!"
+2. Advance affliction: Stage 2 → Stage 3
+3. Update card: [Curse of Agony] Stage: 3 (Torment)
+4. Damage: 3d6 per turn → Roll [5,6,4] = 15 damage
+5. Effect: Target has -2 AC, disadvantage on STR saves, -10 ft speed
+
+**Turn 4 - Reach Final Affliction (Amplify Pain)**:
+1. "I cast Amplify Pain on the Knight Captain!"
+2. Advance affliction: Stage 3 → Final
+3. **FINAL EFFECT**: Deal 6d6 immediate damage + consume affliction
+4. Roll: 6d6 → [6,5,4,6,5,4] = 30 damage!
+5. Remove affliction token (consumed)
+
+**Affliction Evolution Paths**:
+
+**Path 1: Amplify Pain (Burst Damage)**
+\`\`\`
+Base → Weaken → Torment → Amplify Pain (Final)
+
+WEAKEN (Stage 2):
+• Damage: 2d6 per turn
+• Effect: -2 AC, disadvantage on STR saves
+
+TORMENT (Stage 3):
+• Damage: 3d6 per turn
+• Effect: -2 AC, disadvantage on STR/DEX saves, -10 ft speed
+
+AMPLIFY PAIN (Final):
+• Immediate: 6d6 damage
+• Effect: Consume affliction, target stunned 1 round
+\`\`\`
+
+**Path 2: Necrotic Bloom (AoE Spread)**
+\`\`\`
+Base → Fester → Decay → Necrotic Bloom (Final)
+
+FESTER (Stage 2):
+• Damage: 2d6 necrotic per turn
+• Effect: Healing reduced by 50%
+
+DECAY (Stage 3):
+• Damage: 3d6 necrotic per turn
+• Effect: Healing reduced by 75%, -2 CON saves
+
+NECROTIC BLOOM (Final):
+• Immediate: Affliction spreads to all enemies within 15 ft
+• Effect: All nearby enemies gain Base affliction
+• Original target: 4d6 necrotic damage
+\`\`\`
+
+**Path 3: Soul Rot (Permanent Debuff)**
+\`\`\`
+Base → Corrupt → Wither → Soul Rot (Final)
+
+CORRUPT (Stage 2):
+• Damage: 2d6 psychic per turn
+• Effect: Disadvantage on WIS saves
+
+WITHER (Stage 3):
+• Damage: 3d6 psychic per turn
+• Effect: Disadvantage on all mental saves, -2 spell attack
+
+SOUL ROT (Final):
+• Immediate: 5d6 psychic damage
+• Effect: Permanent -2 to all stats until Greater Restoration
+• Affliction persists even after combat
+\`\`\`
+
+**Affliction Tracker Card Template**:
+\`\`\`
+═══════════════════════════════════
+ENEMY: [Name]
+HP: [Current/Max]
+═══════════════════════════════════
+AFFLICTIONS:
+
+[1] Curse of Agony
+    Stage: [Base] [2] [3] [Final]
+    Path: Weaken → Torment → Amplify Pain
+    Damage: 1d6 per turn
+    Effects: None yet
+
+[2] Venomous Touch
+    Stage: [Base] [2] [3] [Final]
+    Path: Fester → Decay → Necrotic Bloom
+    Damage: 1d4 poison per turn
+    Effects: None yet
+═══════════════════════════════════
+NEXT TURN DAMAGE: [Roll all affliction dice]
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 3 enemies with various afflictions*
+
+**Turn 1 - Apply Base Afflictions**:
+1. "I cast Curse of Agony on Knight #1!"
+   - Place purple token on Knight #1 card
+   - Mark: [Curse of Agony] Stage: Base
+
+2. "I cast Venomous Touch on Knight #2!"
+   - Place green token on Knight #2 card
+   - Mark: [Venomous Touch] Stage: Base
+
+**Turn 2 - Evolve Afflictions**:
+1. "I cast Weaken on Knight #1!"
+   - Advance: Base → Stage 2
+   - Update card: [Curse of Agony] Stage: 2 (Weaken)
+   - Knight #1 now has -2 AC
+
+2. "I cast Fester on Knight #2!"
+   - Advance: Base → Stage 2
+   - Update card: [Venomous Touch] Stage: 2 (Fester)
+   - Knight #2 healing reduced by 50%
+
+**Turn 3 - Continue Evolution**:
+1. "I cast Torment on Knight #1!"
+   - Advance: Stage 2 → Stage 3
+   - Update card: [Curse of Agony] Stage: 3 (Torment)
+   - Knight #1: -2 AC, -10 ft speed, disadvantage on saves
+
+2. "I cast Decay on Knight #2!"
+   - Advance: Stage 2 → Stage 3
+   - Update card: [Venomous Touch] Stage: 3 (Decay)
+   - Knight #2: Healing reduced 75%, -2 CON saves
+
+**Turn 4 - Trigger Final Afflictions**:
+1. "I cast Amplify Pain on Knight #1!"
+   - Final effect: 6d6 → [6,5,4,6,5,4] = 30 damage!
+   - Knight #1 stunned for 1 round
+   - Remove affliction token
+
+2. "I cast Necrotic Bloom on Knight #2!"
+   - Affliction spreads to Knight #3 (within 15 ft)
+   - Knight #2 takes 4d6 → [5,4,6,3] = 18 damage
+   - Knight #3 gains [Venomous Touch] Base affliction
+   - Remove affliction from Knight #2
+
+**Alternative Tracking Methods**:
+
+**Method 1: Colored Tokens**
+- Use different colored tokens for different affliction types
+- Stack tokens to show stage (1 token = Base, 2 = Stage 2, etc.)
+- Simple but requires many tokens
+
+**Method 2: Affliction Dice**
+- Use dice to show stage (d4 = Base, d6 = Stage 2, d8 = Stage 3, d10 = Final)
+- Place die next to enemy showing current stage
+- Visual and easy to adjust
+
+**Method 3: Paper Tracking**
+- Write afflictions on paper next to enemy names
+- Cross out and rewrite as they evolve
+- Minimalist but less visual
+
+**Method 4: Affliction Board**
+- Create a board with enemy names and affliction slots
+- Use tokens or markers to show current afflictions
+- Centralized tracking for all enemies
+
+**Quick Reference Card Template**:
+\`\`\`
+PLAGUEBRINGER QUICK REFERENCE
+
+BASE AFFLICTIONS:
+• Curse of Agony: 1d6 damage/turn
+• Venomous Touch: 1d4 poison/turn
+• Plague Touch: 1d6 disease/turn
+• Shadow Curse: 1d4 shadow/turn
+
+CATEGORY SPELLS (Evolution):
+• Weaken: Advance affliction, -2 armor
+• Torment: Advance affliction, -10 ft speed
+• Fester: Advance affliction, -50% healing
+• Corrupt: Advance affliction, -WIS saves
+• Decay: Advance affliction, -75% healing
+• Wither: Advance affliction, -spell attack
+
+FINAL AFFLICTIONS:
+• Amplify Pain: 6d6 burst, stun 1 round
+• Necrotic Bloom: Spread to nearby enemies
+• Soul Rot: 5d6 psychic, permanent -2 stats
+
+EVOLUTION PATHS:
+Path 1: Weaken → Torment → Amplify Pain
+Path 2: Fester → Decay → Necrotic Bloom
+Path 3: Corrupt → Wither → Soul Rot
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Plaguebringer experience with:
+- **Disease Tokens**: Use biohazard symbols or skull tokens
+- **Colored Markers**: Different colors for different affliction types
+- **Affliction Cards**: Print cards with affliction artwork
+- **Plague Dice**: Green/black dice for rolling affliction damage
+- **Evolution Chart**: Visual chart showing all evolution paths
+- **Contagion Markers**: Special markers for enemies that can spread afflictions
+
+**Affliction Management Tips**:
+
+**Building Strategy**:
+- **Spread Base Afflictions**: Apply base afflictions to multiple enemies early
+- **Choose Evolution Paths**: Decide which path to follow for each enemy
+- **Track Stages**: Keep affliction cards updated with current stages
+- **Plan Final Effects**: Know which final affliction you're building toward
+
+**Evolution Strategy**:
+- **Amplify Pain**: Best for single-target burst damage
+- **Necrotic Bloom**: Best for grouped enemies (spreads afflictions)
+- **Soul Rot**: Best for bosses (permanent debuff)
+- **Multi-Target**: Evolve different afflictions on different enemies
+
+**Combat Strategy**:
+- **Early Game**: Apply base afflictions to all enemies
+- **Mid Game**: Evolve afflictions to Stage 2-3
+- **Late Game**: Trigger final afflictions for burst damage
+- **Contagion**: Use Necrotic Bloom to spread afflictions to new targets
+
+**Why This System Works**: The physical act of placing affliction tokens on enemy cards and advancing them through stages creates a satisfying sense of cultivation. You're literally watching your "plague garden" grow as afflictions evolve from weak DoTs into devastating final effects. The tracker cards make it easy to see which enemies have which afflictions and what stage they're at, preventing confusion. The evolution paths create strategic decisions about which category spells to cast, and the final afflictions provide dramatic payoff moments.
+
+**Pro Tips**:
+- **Color-Code Afflictions**: Use different colored tokens for different types
+- **Track Damage**: Roll all affliction damage at start of enemy turn
+- **Communicate**: Tell party which enemies have which afflictions
+- **Plan Paths**: Decide evolution path before applying base affliction
+- **Spread Smart**: Use Necrotic Bloom when enemies are grouped
+- **Specialization Synergy**: Pestilence = contagion spread, Decay = necrotic focus, Corruption = debuff focus
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins, buttons, or dice to mark afflictions
+- **No cards?** Write afflictions on paper next to enemy names
+- **No evolution chart?** Write paths on index card
+- **Minimalist**: Track afflictions and stages on paper only
+
+**Specialization-Specific Tracking**:
+
+**Pestilence**:
+- Afflictions spread to nearby enemies automatically
+- Mark which enemies can spread (contagion markers)
+- Track contagion radius (15 ft)
+
+**Decay**:
+- Necrotic afflictions deal +1d6 damage
+- Mark necrotic afflictions with special tokens
+- Track bonus damage separately
+
+**Corruption**:
+- Debuffs last longer and are more severe
+- Mark enhanced debuffs on affliction cards
+- Track debuff durations
+
+**Why Plaguebringer Is Perfect for In-Person Play**: The class is built around tracking multiple afflictions across multiple enemies, which is easier to visualize with physical tokens and cards. The evolution system creates a satisfying progression as you watch afflictions grow from weak DoTs into devastating final effects. The physical act of placing tokens, advancing stages, and triggering final effects makes the "plague cultivation" theme tangible. The tracker cards prevent confusion and make it easy to see the battlefield state at a glance. Every affliction is a visible reminder of your growing power, making the Plaguebringer's patient, methodical playstyle incredibly satisfying.`
     }
   },
 
@@ -399,10 +730,12 @@ After following the correct development path (usually 3 category spells), the ba
         color: '#556B2F',
         description: 'Masters of contagion who excel at spreading afflictions across multiple targets.',
 
-        passive: {
+        specPassive: {
           name: 'Epidemic Mastery',
           description: 'Your Fester and Infect category spells have their spread range increased by 10 ft. When an affliction spreads to a new target, it retains 2 of its 3 development steps (loses 1 step).'
         },
+
+        playstyle: 'Focus on applying base afflictions to multiple targets, then use Fester and Infect category spells to spread the plague. Position yourself centrally to maximize contagion chains. Your strength lies in grouped enemies where one affliction can cascade into a full epidemic.',
 
         strengths: [
           'Exceptional multi-target damage',
@@ -423,6 +756,29 @@ After following the correct development path (usually 3 category spells), the ba
           'Use Fester category spells liberally',
           'Position yourself to maximize contagion chains',
           'Prioritize targets in the center of enemy groups'
+        ],
+
+        keyAbilities: [
+          {
+            name: 'Plague Burst',
+            cost: '40 Corruption',
+            description: 'Spread all active afflictions to enemies within 15 ft. Afflictions retain their current stage.'
+          },
+          {
+            name: 'Epidemic Wave',
+            cost: '60 Corruption',
+            description: 'For 2 turns, all Fester and Infect category spells cost no mana and have doubled spread range.'
+          },
+          {
+            name: 'Contagion Mastery',
+            cost: 'Passive',
+            description: 'When an affliction spreads, roll 1d6: on 5-6, it spreads to an additional random target within range.'
+          },
+          {
+            name: 'Festering Ground',
+            cost: '80 Corruption',
+            description: 'Create a 20 ft plague zone for 4 turns. Enemies entering the zone gain a random Stage 1 affliction.'
+          }
         ]
       },
 
@@ -433,10 +789,12 @@ After following the correct development path (usually 3 category spells), the ba
         color: '#4B0082',
         description: 'Specialists in psychic afflictions who break minds as easily as bodies.',
 
-        passive: {
+        specPassive: {
           name: 'Psychic Resonance',
           description: 'Your Torment category spells deal +1d6 damage. Additionally, targets affected by your psychic afflictions must roll 1d6 when taking an action - on a 5-6, they attack their nearest ally instead.'
         },
+
+        playstyle: 'Specialize in psychic afflictions that break enemy minds. Target intelligent enemies and casters first, using Torment category spells to advance afflictions while causing confusion. Your afflictions turn enemies against each other, creating chaos in their ranks.',
 
         strengths: [
           'High crowd control potential',
@@ -457,6 +815,29 @@ After following the correct development path (usually 3 category spells), the ba
           'Target enemy casters and leaders first',
           'Use confusion effects to disrupt enemy strategies',
           'Combine with Corrupt category for maximum chaos'
+        ],
+
+        keyAbilities: [
+          {
+            name: 'Mind Fracture',
+            cost: '50 Corruption',
+            description: 'All afflicted enemies must make a Wisdom save (DC 15) or be stunned for 1 turn.'
+          },
+          {
+            name: 'Psychic Cascade',
+            cost: '70 Corruption',
+            description: 'Your next Torment category spell affects all enemies within 10 ft of the target.'
+          },
+          {
+            name: 'Mental Domination',
+            cost: 'Passive',
+            description: 'Psychic afflictions have their confusion chance increased to 4-6 on 1d6 (instead of 5-6).'
+          },
+          {
+            name: 'Nightmare Fuel',
+            cost: '90 Corruption',
+            description: 'All afflicted enemies take 2d8 psychic damage and become frightened for 2 turns.'
+          }
         ]
       },
 
@@ -467,10 +848,12 @@ After following the correct development path (usually 3 category spells), the ba
         color: '#2F4F2F',
         description: 'Masters of necrotic decay who accelerate decomposition and prevent healing.',
 
-        passive: {
+        specPassive: {
           name: 'Accelerated Decay',
           description: 'Your Decay category spells reduce enemy maximum HP by an additional 1d6. Additionally, enemies affected by your afflictions have healing reduced by 1d8 per heal received.'
         },
+
+        playstyle: 'Master of attrition warfare. Apply afflictions to high-HP targets and healers, then use Decay and Nurture category spells to stack permanent HP reduction. Your anti-healing capabilities make you invaluable against regenerating enemies and healer-heavy compositions.',
 
         strengths: [
           'Exceptional anti-healing capabilities',
@@ -491,22 +874,36 @@ After following the correct development path (usually 3 category spells), the ba
           'Target high-HP enemies and healers',
           'Stack permanent HP reduction effects',
           'Use Dark Rejuvenation to punish enemy healers'
+        ],
+
+        keyAbilities: [
+          {
+            name: 'Withering Aura',
+            cost: '60 Corruption',
+            description: 'Create a 20 ft aura for 3 turns. Prevents all healing and deals 1d6 necrotic damage per turn to enemies within.'
+          },
+          {
+            name: 'Accelerated Rot',
+            cost: '40 Corruption',
+            description: 'All active afflictions on all targets advance one stage immediately.'
+          },
+          {
+            name: 'Life Drain',
+            cost: 'Passive',
+            description: 'When an afflicted enemy takes damage from any source, you heal for 1d4 HP.'
+          },
+          {
+            name: 'Necrotic Bloom',
+            cost: '100 Corruption',
+            description: 'All afflicted enemies lose 3d10 maximum HP permanently and cannot be healed for 1 minute.'
+          }
         ]
       }
     ]
   },
 
-  // Example Spells
-  exampleSpells: {
-    title: 'Example Spells',
-    subtitle: 'Showcasing Affliction Cultivation Mechanics',
-
-    sections: [
-      {
-        id: 'base-afflictions',
-        title: 'BASE AFFLICTIONS - Seeds of Decay',
-        description: 'Starting points for affliction cultivation. These are applied first, then evolved through category spells.',
-        spells: [
+  // Example Spells - Flat array for ClassDetailDisplay compatibility
+  exampleSpells: [
           {
             id: 'pb_curse_of_agony',
             name: 'Curse of Agony',
@@ -663,14 +1060,7 @@ After following the correct development path (usually 3 category spells), the ba
 
             tags: ['affliction', 'base', 'poison', 'melee', 'plaguebringer', 'virulent-spreader'],
             flavorText: 'A single touch. A lifetime of suffering.'
-          }
-        ]
-      },
-      {
-        id: 'weaken-category',
-        title: 'WEAKEN CATEGORY - Reduce Defenses',
-        description: 'Spells that reduce enemy defenses, stats, and actions. Used to advance afflictions along vulnerability paths.',
-        spells: [
+          },
           {
             id: 'pb_enfeebling_fog',
             name: 'Enfeebling Fog',
@@ -814,14 +1204,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['weaken', 'category', 'drain', 'debuff', 'healing', 'plaguebringer'],
             flavorText: 'Your vitality becomes mine. Your strength fades.'
           }
-        ]
-      },
-      {
-        id: 'torment-category',
-        title: 'TORMENT CATEGORY - Psychic Devastation',
-        description: 'Spells that inflict psychic damage, confusion, and fear. Used to advance afflictions along mental breakdown paths.',
-        spells: [
-          {
+,          {
             id: 'pb_hallucinogenic_spores',
             name: 'Hallucinogenic Spores',
             description: 'Releases hallucinogenic spores targeting a single enemy in melee range. The affected target hallucinates, seeing allies as foes, and must make an attack against an ally on their next turn. Advances Torment-path afflictions.',
@@ -964,14 +1347,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['torment', 'category', 'psychic', 'paralyze', 'plaguebringer', 'torment-weaver'],
             flavorText: 'The wail of the damned. Terror incarnate. Movement ceases.'
           }
-        ]
-      },
-      {
-        id: 'fester-category',
-        title: 'FESTER CATEGORY - Spread Decay',
-        description: 'Spells that spread damage and infect nearby targets. Used to advance afflictions along contagion paths.',
-        spells: [
-          {
+,          {
             id: 'pb_infectious_sores',
             name: 'Infectious Sores',
             description: 'Infects a single target in melee range with open sores that burst if they move, spreading the infection to anyone within 5 ft, dealing 1d4 necrotic damage for 4 turns. Advances Fester-path afflictions.',
@@ -1126,14 +1502,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['fester', 'category', 'poison', 'debuff', 'plaguebringer', 'virulent-spreader'],
             flavorText: 'The swarm descends. Vision fails. Decay festers.'
           }
-        ]
-      },
-      {
-        id: 'amplify-pain-category',
-        title: 'AMPLIFY PAIN CATEGORY - Intensify Suffering',
-        description: 'Spells that enhance existing afflictions and multiply damage. Used to advance afflictions along burst damage paths.',
-        spells: [
-          {
+,          {
             id: 'pb_sufferings_echo',
             name: "Suffering's Echo",
             description: 'Intensifies the pain of a single afflicted target within 30 ft, doubling the damage of existing conditions and forcing a scream of agony that disorients them for 1 turn. Advances Amplify Pain-path afflictions.',
@@ -1279,14 +1648,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['amplify-pain', 'category', 'amplification', 'plaguebringer'],
             flavorText: 'Pain magnified beyond endurance. Suffering absolute.'
           }
-        ]
-      },
-      {
-        id: 'decay-category',
-        title: 'DECAY CATEGORY - Accelerate Decomposition',
-        description: 'Spells that cause permanent HP loss and reduce healing. Used to advance afflictions along necrotic paths.',
-        spells: [
-          {
+,          {
             id: 'pb_necrotic_burst',
             name: 'Necrotic Burst',
             description: 'A burst of necrotic energy on a single target within 10 ft causes 3d6 necrotic damage and permanently reduces their max HP by 2d10. Advances Decay-path afflictions.',
@@ -1439,14 +1801,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['decay', 'category', 'necrotic', 'anti-healing', 'plaguebringer', 'decay-harbinger'],
             flavorText: 'The touch of death. Healing fails. Withering spreads.'
           }
-        ]
-      },
-      {
-        id: 'nurture-category',
-        title: 'NURTURE CATEGORY - Strengthen Afflictions',
-        description: 'Spells that convert healing to damage and strengthen plagues. Used to advance afflictions along anti-healing paths.',
-        spells: [
-          {
+,          {
             id: 'pb_dark_rejuvenation',
             name: 'Dark Rejuvenation',
             description: 'Converts any healing on a single target within 20 ft into necrotic damage equal to the amount healed. Advances Nurture-path afflictions.',
@@ -1580,14 +1935,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['nurture', 'category', 'buff', 'reflection', 'plaguebringer'],
             flavorText: 'The plague protects. Attackers suffer. Allies endure.'
           }
-        ]
-      },
-      {
-        id: 'corrupt-category',
-        title: 'CORRUPT CATEGORY - Twist Essence',
-        description: 'Spells that turn strengths into weaknesses. Used to advance afflictions along corruption paths.',
-        spells: [
-          {
+,          {
             id: 'pb_essence_corruption',
             name: 'Essence Corruption',
             description: 'Corrupts a single target within 15 ft, causing them to emit a 1d10 necrotic damage aura to their allies at the start of their turn. Advances Corrupt-path afflictions.',
@@ -1733,14 +2081,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['corrupt', 'category', 'debuff', 'stat-inversion', 'plaguebringer'],
             flavorText: 'Strength becomes weakness. Power becomes frailty. Corruption complete.'
           }
-        ]
-      },
-      {
-        id: 'infect-category',
-        title: 'INFECT CATEGORY - Spread Contagion',
-        description: 'Spells that increase vulnerability and spread plague. Used to advance afflictions along epidemic paths.',
-        spells: [
-          {
+,          {
             id: 'pb_virulent_touch',
             name: 'Virulent Touch',
             description: 'Causes a virulent reaction in a single target in melee range, dealing 4d6 poison damage and infecting all within 5 ft with a simple plague that deals 1d4 poison damage per turn. Advances Infect-path afflictions.',
@@ -1904,10 +2245,7 @@ After following the correct development path (usually 3 category spells), the ba
             tags: ['infect', 'category', 'poison', 'stacking', 'plaguebringer', 'virulent-spreader'],
             flavorText: 'The contagion builds. Each burst stronger. Infection inevitable.'
           }
-        ]
-      }
-    ]
-  }
+  ]
 };
 
 export default PLAGUEBRINGER_DATA;

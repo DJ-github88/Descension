@@ -697,21 +697,17 @@ const AppContent = ({
     return (
         <>
             <Routes>
-                        {/* Landing page route */}
+                        {/* Landing page route - accessible to both authenticated and unauthenticated users */}
                         <Route path="/" element={
-                            isAuthenticated ? (
-                                <Navigate to="/account" replace />
-                            ) : (
-                                <LandingPage
-                                    onEnterSinglePlayer={handleEnterSinglePlayer}
-                                    onEnterMultiplayer={handleEnterMultiplayer}
-                                    onShowLogin={handleShowLogin}
-                                    onShowRegister={handleShowRegister}
-                                    onShowUserProfile={handleShowUserProfile}
-                                    isAuthenticated={isAuthenticated}
-                                    user={user}
-                                />
-                            )
+                            <LandingPage
+                                onEnterSinglePlayer={handleEnterSinglePlayer}
+                                onEnterMultiplayer={handleEnterMultiplayer}
+                                onShowLogin={handleShowLogin}
+                                onShowRegister={handleShowRegister}
+                                onShowUserProfile={handleShowUserProfile}
+                                isAuthenticated={isAuthenticated}
+                                user={user}
+                            />
                         } />
 
                         {/* Account management routes */}

@@ -5,8 +5,10 @@ import { SKILL_CATEGORIES, SKILL_DEFINITIONS, SKILL_RANKS } from '../../constant
 import { SKILL_QUESTS } from '../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { calculateStatModifier } from '../../utils/characterUtils';
+import { showSkillRollNotification } from '../../utils/skillRollNotification';
 
 import '../../styles/skills.css';
+import '../../styles/skill-roll-notification.css';
 
 export default function Skills() {
     // Use inspection context if available, otherwise use regular character store
@@ -23,13 +25,35 @@ export default function Skills() {
         updateSkillProgress
     } = dataSource;
 
-    const [activeCategory, setActiveCategory] = useState(SKILL_CATEGORIES.COMBAT.name);
     const [selectedSkill, setSelectedSkill] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    // Get skills for the active category
-    const categorySkills = Object.entries(SKILL_DEFINITIONS).filter(
-        ([_, skill]) => skill.category === activeCategory
-    );
+    // Get all skills grouped by category for sidebar
+    const skillsByCategory = Object.entries(SKILL_DEFINITIONS).reduce((acc, [skillId, skill]) => {
+        if (!acc[skill.category]) {
+            acc[skill.category] = [];
+        }
+        acc[skill.category].push({ id: skillId, ...skill });
+        return acc;
+    }, {});
+
+    // Search functionality - searches through skills and quests
+    const searchResults = searchQuery.trim() ? Object.entries(SKILL_DEFINITIONS).filter(([skillId, skill]) => {
+        const query = searchQuery.toLowerCase();
+
+        // Search in skill name and description
+        if (skill.name.toLowerCase().includes(query) || skill.description.toLowerCase().includes(query)) {
+            return true;
+        }
+
+        // Search in quest names and descriptions
+        const quests = SKILL_QUESTS[skillId] || [];
+        return quests.some(quest =>
+            quest.name.toLowerCase().includes(query) ||
+            quest.description.toLowerCase().includes(query) ||
+            quest.unlocks.some(unlock => unlock.toLowerCase().includes(query))
+        );
+    }).map(([skillId, skill]) => ({ id: skillId, ...skill })) : [];
 
     // Calculate skill rank based on completed quests
     const getSkillRank = (skillId) => {
@@ -96,9 +120,9 @@ export default function Skills() {
         );
 
         if (result) {
-            // You could show this in a modal or notification
+            // Show beautiful notification instead of ugly alert
             console.log(`Rolled ${roll}: ${result.result}`);
-            alert(`Rolled ${roll}: ${result.result}`);
+            showSkillRollNotification(roll, result, skill.name);
         }
     };
 
@@ -112,27 +136,33 @@ export default function Skills() {
         return primaryMod + Math.floor(secondaryMod / 2) + rankBonus;
     };
 
-    const renderSkillCard = (skillId, skill) => {
-        const rank = getSkillRank(skillId);
+    // Render skill detail view (right side)
+    const renderSkillDetail = () => {
+        if (!selectedSkill) {
+            return (
+                <div className="no-skill-selected">
+                    <i className="fas fa-hand-pointer" style={{ fontSize: '48px', color: '#8b7355', marginBottom: '20px' }}></i>
+                    <p>Select a skill from the list to view details</p>
+                </div>
+            );
+        }
+
+        const skill = SKILL_DEFINITIONS[selectedSkill];
+        const rank = getSkillRank(selectedSkill);
         const modifier = getSkillModifier(skill);
-        const quests = getAvailableQuests(skillId);
-        const completedQuests = skillProgress[skillId]?.completedQuests || [];
-        const isSelected = selectedSkill === skillId;
+        const quests = getAvailableQuests(selectedSkill);
+        const completedQuests = skillProgress[selectedSkill]?.completedQuests || [];
 
         return (
-            <div
-                key={skillId}
-                className={`skill-card ${isSelected ? 'selected' : ''}`}
-                onClick={() => setSelectedSkill(isSelected ? null : skillId)}
-            >
-                <div className="skill-header">
-                    <img src={skill.icon} alt={skill.name} className="skill-icon" />
-                    <div className="skill-info">
-                        <h3 className="skill-name" style={{ color: rank.color }}>
+            <div className="skill-detail-view">
+                <div className="skill-detail-header">
+                    <img src={skill.icon} alt={skill.name} className="skill-detail-icon" />
+                    <div className="skill-detail-title-section">
+                        <h2 className="skill-detail-name" style={{ color: rank.color }}>
                             {skill.name}
-                        </h3>
-                        <p className="skill-description">{skill.description}</p>
-                        <div className="skill-stats">
+                        </h2>
+                        <p className="skill-detail-description">{skill.description}</p>
+                        <div className="skill-detail-stats">
                             <span className="skill-rank">{rank.name}</span>
                             <span className="skill-modifier">+{modifier}</span>
                             <span className="skill-progress">
@@ -140,112 +170,170 @@ export default function Skills() {
                             </span>
                         </div>
                     </div>
-                    <div className="skill-actions">
-                        {(skill.rollableTable || skill.rollableTables) && (
-                            <button
-                                className="roll-table-btn"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    rollSkillTable(skill, skillId);
-                                }}
-                            >
-                                🎲 Roll
-                            </button>
-                        )}
-                    </div>
+                    {(skill.rollableTable || skill.rollableTables) && (
+                        <button
+                            className="roll-table-btn"
+                            onClick={() => rollSkillTable(skill, selectedSkill)}
+                        >
+                            <i className="fas fa-dice"></i> Roll
+                        </button>
+                    )}
                 </div>
 
-                {isSelected && (
-                    <div className="skill-details">
-                        <div className="quest-section">
-                            <h4>Available Quests</h4>
-                            <div className="quest-list">
-                                {quests.map(quest => {
-                                    const isCompleted = completedQuests.includes(quest.id);
-                                    return (
-                                        <div
-                                            key={quest.id}
-                                            className={`quest-item ${isCompleted ? 'completed' : ''}`}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                toggleQuest(skillId, quest.id);
-                                            }}
-                                        >
-                                            <img src={quest.icon} alt={quest.name} className="quest-icon" />
-                                            <div className="quest-info">
-                                                <h5 className="quest-name">{quest.name}</h5>
-                                                <p className="quest-description">{quest.description}</p>
-                                                <div className="quest-unlocks">
-                                                    <strong>Unlocks:</strong> {quest.unlocks.join(', ')}
-                                                </div>
-                                            </div>
-                                            <div className="quest-status">
-                                                {isCompleted ? '✓' : '○'}
-                                            </div>
+                <div className="quest-section">
+                    <h3>Available Quests</h3>
+                    <div className="quest-list">
+                        {quests.map(quest => {
+                            const isCompleted = completedQuests.includes(quest.id);
+                            return (
+                                <div
+                                    key={quest.id}
+                                    className={`quest-item ${isCompleted ? 'completed' : ''}`}
+                                    onClick={() => toggleQuest(selectedSkill, quest.id)}
+                                >
+                                    <img src={quest.icon} alt={quest.name} className="quest-icon" />
+                                    <div className="quest-info">
+                                        <h5 className="quest-name">{quest.name}</h5>
+                                        <p className="quest-description">{quest.description}</p>
+                                        <div className="quest-unlocks">
+                                            <strong>Unlocks:</strong> {quest.unlocks.join(', ')}
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {(() => {
-                            const currentTableId = getCurrentRollableTable(skill, skillId);
-                            const currentTable = ROLLABLE_TABLES[currentTableId];
-                            const rank = getSkillRank(skillId);
-
-                            return currentTable && (
-                                <div className="table-section">
-                                    <h4>Rollable Table ({rank.name}): {currentTable.name}</h4>
-                                    <p>{currentTable.description}</p>
-                                    <div className="table-entries">
-                                        {currentTable.table.map((entry, index) => (
-                                            <div key={index} className={`table-entry ${entry.type}`}>
-                                                <span className="roll-range">
-                                                    {entry.roll[0]}-{entry.roll[1]}
-                                                </span>
-                                                <span className="roll-result">{entry.result}</span>
-                                            </div>
-                                        ))}
+                                    </div>
+                                    <div className="quest-status">
+                                        {isCompleted ? '✓' : '○'}
                                     </div>
                                 </div>
                             );
-                        })()}
+                        })}
                     </div>
-                )}
+                </div>
+
+                {(() => {
+                    const currentTableId = getCurrentRollableTable(skill, selectedSkill);
+                    const currentTable = ROLLABLE_TABLES[currentTableId];
+
+                    return currentTable && (
+                        <div className="table-section">
+                            <h3>Rollable Table ({rank.name}): {currentTable.name}</h3>
+                            <p>{currentTable.description}</p>
+                            <div className="table-entries">
+                                {currentTable.table.map((entry, index) => (
+                                    <div key={index} className={`table-entry ${entry.type}`}>
+                                        <span className="roll-range">
+                                            {entry.roll[0]}-{entry.roll[1]}
+                                        </span>
+                                        <span className="roll-result">{entry.result}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })()}
             </div>
         );
     };
 
     return (
         <div className="skills-container">
-            <div className="skills-navigation">
-                {Object.values(SKILL_CATEGORIES).map(category => (
-                    <button
-                        key={category.name}
-                        className={`skills-nav-button ${activeCategory === category.name ? 'active' : ''}`}
-                        onClick={() => setActiveCategory(category.name)}
-                    >
-                        <img src={category.icon} alt="" className="skills-nav-icon" />
-                        <span className="skills-nav-text">{category.name}</span>
-                    </button>
-                ))}
+            <div className="skills-sidebar">
+                <div className="skills-search-container">
+                    <i className="fas fa-search skills-search-icon"></i>
+                    <input
+                        type="text"
+                        className="skills-search-input"
+                        placeholder="Search skills and quests..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {searchQuery && (
+                        <i
+                            className="fas fa-times skills-search-clear"
+                            onClick={() => setSearchQuery('')}
+                        ></i>
+                    )}
+                </div>
+
+                {searchQuery.trim() ? (
+                    // Show search results
+                    <div className="skill-search-results">
+                        <div className="skill-category-header">
+                            <i className="fas fa-search skill-category-icon-fa"></i>
+                            <span className="skill-category-name">Search Results ({searchResults.length})</span>
+                        </div>
+                        <div className="skill-list">
+                            {searchResults.length > 0 ? searchResults.map(skill => {
+                                const rank = getSkillRank(skill.id);
+                                const quests = getAvailableQuests(skill.id);
+                                const completedQuests = skillProgress[skill.id]?.completedQuests || [];
+                                const isSelected = selectedSkill === skill.id;
+
+                                return (
+                                    <div
+                                        key={skill.id}
+                                        className={`skill-list-item ${isSelected ? 'selected' : ''}`}
+                                        onClick={() => {
+                                            setSelectedSkill(skill.id);
+                                            setSearchQuery(''); // Clear search after selection
+                                        }}
+                                    >
+                                        <div className="skill-list-name" style={{ color: rank.color }}>
+                                            {skill.name}
+                                        </div>
+                                        <div className="skill-list-progress">
+                                            {completedQuests.length}/{quests.length}
+                                        </div>
+                                    </div>
+                                );
+                            }) : (
+                                <div className="no-search-results">
+                                    <i className="fas fa-search" style={{ fontSize: '24px', color: '#8b7355', marginBottom: '10px' }}></i>
+                                    <p>No skills or quests found</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    // Show normal category view
+                    Object.entries(skillsByCategory).map(([categoryName, skills]) => {
+                        const categoryData = Object.values(SKILL_CATEGORIES).find(cat => cat.name === categoryName);
+
+                        return (
+                            <div key={categoryName} className="skill-category-section">
+                                <div className="skill-category-header">
+                                    <img src={categoryData?.icon} alt="" className="skill-category-icon" />
+                                    <span className="skill-category-name">{categoryName}</span>
+                                </div>
+                                <div className="skill-list">
+                                    {skills.map(skill => {
+                                        const rank = getSkillRank(skill.id);
+                                        const quests = getAvailableQuests(skill.id);
+                                        const completedQuests = skillProgress[skill.id]?.completedQuests || [];
+                                        const isSelected = selectedSkill === skill.id;
+
+                                        return (
+                                            <div
+                                                key={skill.id}
+                                                className={`skill-list-item ${isSelected ? 'selected' : ''}`}
+                                                onClick={() => setSelectedSkill(skill.id)}
+                                            >
+                                                <div className="skill-list-name" style={{ color: rank.color }}>
+                                                    {skill.name}
+                                                </div>
+                                                <div className="skill-list-progress">
+                                                    {completedQuests.length}/{quests.length}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    })
+                )}
             </div>
 
             <div className="skills-content">
-                <div className="skills-section-header">
-                    <img
-                        src={SKILL_CATEGORIES[Object.keys(SKILL_CATEGORIES).find(key =>
-                            SKILL_CATEGORIES[key].name === activeCategory
-                        )].icon}
-                        alt=""
-                        className="skills-section-icon"
-                    />
-                    <h2 className="skills-section-title">{activeCategory}</h2>
-                </div>
-
-                <div className="skills-grid">
-                    {categorySkills.map(([skillId, skill]) => renderSkillCard(skillId, skill))}
-                </div>
+                {renderSkillDetail()}
             </div>
         </div>
     );

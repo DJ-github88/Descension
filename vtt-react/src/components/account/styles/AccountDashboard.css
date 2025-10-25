@@ -30,29 +30,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 3rem;
+  padding: 0.75rem 3rem;
   background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
   border-bottom: 3px solid #8b4513;
   box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
   backdrop-filter: blur(10px);
-  min-height: 100px;
+  min-height: 60px;
 }
 
 /* Left: Account Icon Section */
 .account-icon-section {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.75rem;
   flex: 0 0 auto;
 }
 
 .account-avatar-large {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid #8b4513;
-  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+  border: 3px solid #8b4513;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
   background: linear-gradient(135deg, #f4f1e8, #e8e0d0);
   display: flex;
   align-items: center;
@@ -73,82 +73,35 @@
 }
 
 .account-avatar-large i {
-  font-size: 4rem;
+  font-size: 2rem;
   color: #8b4513;
 }
 
-.account-welcome h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.8rem;
-  color: #2d1810;
-  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
-  font-weight: 600;
-}
-
-.user-info-with-badge {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.account-welcome p {
+.account-welcome .user-display-name {
   margin: 0;
-  color: #8b4513;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-.membership-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
   color: #2d1810;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  border: 2px solid rgba(139, 69, 19, 0.3);
-  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
-  text-shadow: none;
-}
-
-.membership-tag i {
-  font-size: 0.8rem;
-}
-
-.dev-mode-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  padding: 0.3rem 0.8rem;
-  background: rgba(255, 193, 7, 0.2);
-  border: 1px solid #ffc107;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  color: #8b4513;
-  font-weight: 500;
+  font-family: 'Cinzel', serif;
 }
 
 .guest-notice {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+  padding: 0.3rem 0.7rem;
   background: rgba(255, 152, 0, 0.15);
   border: 1px solid #ff9800;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
   color: #8b4513;
   font-weight: 500;
 }
 
 .guest-notice i {
   color: #ff9800;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
 }
 
 /* Center: Fan-style Tab Navigation */
@@ -244,14 +197,14 @@
 .action-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
   background: linear-gradient(135deg, rgba(244, 241, 232, 0.9) 0%, rgba(232, 224, 208, 0.9) 100%);
   border: 2px solid rgba(139, 69, 19, 0.3);
-  border-radius: 8px;
+  border-radius: 6px;
   color: #2d1810;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   font-family: 'Cinzel', serif;
   cursor: pointer;
@@ -274,10 +227,22 @@
 }
 
 .action-btn i {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
 
+
+.home-btn {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(56, 142, 60, 0.1) 100%);
+  border-color: #4caf50;
+  color: #1b5e20;
+}
+
+.home-btn:hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(56, 142, 60, 0.2) 100%);
+  color: #1b5e20;
+  border-color: #388e3c;
+}
 
 .logout-btn {
   background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(211, 47, 47, 0.1) 100%);
@@ -395,7 +360,7 @@
 .account-main {
   width: 100%;
   padding: 3rem 4rem;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 100px);
   background: transparent;
 }
 
@@ -1327,8 +1292,8 @@
 @media (max-width: 768px) {
   .account-header-new {
     flex-direction: column;
-    gap: 2rem;
-    padding: 2rem 1rem;
+    gap: 1rem;
+    padding: 1rem;
     min-height: auto;
   }
 
@@ -1831,21 +1796,23 @@
   gap: 0.5rem;
   flex: 1;
   min-width: 200px;
+  overflow: visible !important;
 }
 
 .character-card-compact .character-resources {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  overflow: visible !important;
 }
 
 .character-card-compact .resource-bar-item {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.05rem;
   background: rgba(255, 255, 255, 0.7);
-  padding: 0.3rem 0.5rem;
-  border-radius: 6px;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
   border: 1px solid rgba(212, 175, 55, 0.25);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease;
@@ -1865,17 +1832,17 @@
 }
 
 .character-card-compact .resource-label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: #5d4037;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   line-height: 1;
   font-family: 'Cinzel', serif;
 }
 
 .character-card-compact .resource-value {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   color: #2c2416;
   font-family: 'Cinzel', serif;
@@ -1886,10 +1853,10 @@
 .character-card-compact .health-resource .resource-bar-container,
 .character-card-compact .mana-resource .resource-bar-container,
 .character-card-compact .action-resource .resource-bar-container {
-  height: 12px !important;
+  height: 14px !important;
   background: rgba(0, 0, 0, 0.2) !important;
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   overflow: hidden !important;
   position: relative !important;
   /* Reset conflicting properties */
@@ -1901,6 +1868,7 @@
   flex: unset !important;
   padding: 0 !important;
   box-shadow: none !important;
+  min-height: unset !important;
 }
 
 .character-card-compact .resource-bar-fill {
@@ -1918,6 +1886,11 @@
 /* Mana Bar Styling - Simple Blue */
 .character-card-compact .mana-fill {
   background: #2563eb !important;
+}
+
+/* Action Points Bar Styling - Orange */
+.character-card-compact .ap-fill {
+  background: #FF9800 !important;
 }
 
 /* Class Resource Bar Styling - Dynamic Colors */
@@ -1950,9 +1923,9 @@
 
 /* Class resource container styling - Allow dynamic backgrounds */
 .character-card-compact .class-resource-container {
-  height: 12px !important;
+  height: 8px !important;
   /* Don't force gray background - let class resource colors show through */
-  border-radius: 6px !important;
+  border-radius: 4px !important;
   overflow: hidden !important;
   position: relative !important;
   /* Reset conflicting properties */
@@ -1968,12 +1941,180 @@
 
 /* Add spacing between resource bars */
 .character-card-compact .resource-bar-item {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.15rem;
 }
 
 .character-card-compact .resource-bar-item:last-child {
   margin-bottom: 0;
 }
+
+/* Class Resource Bar - Special styling to fit compact design */
+.character-card-compact .resource-bar-item.class-resource-full {
+  padding: 0.1rem 0.3rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  overflow: visible !important;
+}
+
+/* Constrain ClassResourceBar component when in account context */
+.character-card-compact .class-resource-full .class-resource-bar {
+  height: 28px !important;
+  max-height: 28px !important;
+  margin-bottom: 0 !important;
+  font-size: 0.65rem !important;
+  overflow: visible !important;
+}
+
+/* Force all wrapper containers to be compact */
+.character-card-compact .class-resource-full > *,
+.character-card-compact .class-resource-full .class-resource-wrapper,
+.character-card-compact .class-resource-full .plaguebringer-resource-wrapper,
+.character-card-compact .class-resource-full .warden-resource-container,
+.character-card-compact .class-resource-full .witchdoctor-resource-container,
+.character-card-compact .class-resource-full .primalist-resource-container,
+.character-card-compact .class-resource-full .toxicologist-resource-container,
+.character-card-compact .class-resource-full .pyrofiend-resource-container,
+.character-card-compact .class-resource-full .titan-resource-container,
+.character-card-compact .class-resource-full .spellguard-resource-container,
+.character-card-compact .class-resource-full .resource-bar-row {
+  max-height: 32px !important;
+  overflow: visible !important;
+  min-height: unset !important;
+}
+
+/* Adjust text size in class resource bars for account context */
+.character-card-compact .class-resource-full .class-resource-bar .bar-text,
+.character-card-compact .class-resource-full .class-resource-bar .corruption-number,
+.character-card-compact .class-resource-full .class-resource-bar .afflictions-count {
+  font-size: 0.6rem !important;
+}
+
+/* Constrain all class resource bar wrappers and containers */
+.character-card-compact .class-resource-full .class-resource-bar > div,
+.character-card-compact .class-resource-full .class-resource-bar div,
+.character-card-compact .class-resource-full .rage-bar-wrapper,
+.character-card-compact .class-resource-full .rage-bar,
+.character-card-compact .class-resource-full .rage-bar-background,
+.character-card-compact .class-resource-full .rage-segments,
+.character-card-compact .class-resource-full .drp-bar-wrapper,
+.character-card-compact .class-resource-full .madness-bar-wrapper,
+.character-card-compact .class-resource-full .threads-bar-wrapper,
+.character-card-compact .class-resource-full .qm-bar-wrapper,
+.character-card-compact .class-resource-full .plaguebringer-resource-bar,
+.character-card-compact .class-resource-full .warden-resource-bar,
+.character-card-compact .class-resource-full .bar-background {
+  max-height: 28px !important;
+  min-height: unset !important;
+  overflow: visible !important;
+}
+
+/* Reduce padding in class resource bar containers for compact view */
+.character-card-compact .class-resource-full .class-resource-bar .bar-background,
+.character-card-compact .class-resource-full .deathcaller-dual-bars,
+.character-card-compact .class-resource-full .huntress-container {
+  padding: 2px 4px !important;
+}
+
+/* Force compact sizing for all class-specific resource bars */
+.character-card-compact .class-resource-full .plaguebringer-resource-bar,
+.character-card-compact .class-resource-full .witchdoctor-resource-bar,
+.character-card-compact .class-resource-full .warden-resource-bar,
+.character-card-compact .class-resource-full .pyrofiend-resource-bar,
+.character-card-compact .class-resource-full .toxicologist-resource-bar .split-bar-container,
+.character-card-compact .class-resource-full .madness-bar-container,
+.character-card-compact .class-resource-full .mayhem-bar-background {
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 3px !important;
+  border-width: 1px !important;
+}
+
+/* Hide spec selector icons in account context - it's just a preview */
+.character-card-compact .class-resource-full .spec-selector-icon,
+.character-card-compact .class-resource-full .spec-cycle-btn,
+.character-card-compact .class-resource-full .minstrel-spec-indicator {
+  display: none !important;
+}
+
+/* Compact Minstrel musical staff */
+.character-card-compact .class-resource-full .musical-staff {
+  padding: 2px !important;
+}
+
+.character-card-compact .class-resource-full .staff-container {
+  height: 16px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Compact Minstrel musical notes combo - 7 note segments */
+.character-card-compact .class-resource-full .musical-notes-combo {
+  padding: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.character-card-compact .class-resource-full .minstrel-container {
+  gap: 2px !important;
+  max-width: 100% !important;
+  height: 28px !important;
+}
+
+.character-card-compact .class-resource-full .musical-notes-bar-wrapper {
+  height: 28px !important;
+  max-height: 28px !important;
+  min-height: 28px !important;
+  flex: 1 !important;
+}
+
+.character-card-compact .class-resource-full .musical-notes-segments {
+  gap: 1px !important;
+  height: 100% !important;
+}
+
+.character-card-compact .class-resource-full .musical-note-segment {
+  min-width: 20px !important;
+  max-width: 35px !important;
+  border-radius: 3px !important;
+  border-width: 1px !important;
+}
+
+.character-card-compact .class-resource-full .note-label {
+  font-size: 0.55rem !important;
+}
+
+.character-card-compact .class-resource-full .note-numeral {
+  font-size: 0.6rem !important;
+  line-height: 1 !important;
+}
+
+.character-card-compact .class-resource-full .note-count {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.character-card-compact .class-resource-full .resource-label {
+  font-size: 0.65rem !important;
+  margin-top: 0 !important;
+}
+
+/* Reduce font sizes in class resource bars for account context */
+.character-card-compact .class-resource-full .corruption-number,
+.character-card-compact .class-resource-full .afflictions-count,
+.character-card-compact .class-resource-full .vp-number,
+.character-card-compact .class-resource-full .essence-number {
+  font-size: 0.65rem !important;
+}
+
+/* Hide or minimize decorative elements in compact view */
+.character-card-compact .class-resource-full .plaguebringer-resource-bar::before,
+.character-card-compact .class-resource-full .pyrofiend-resource-bar::before {
+  display: none !important;
+}
+
+/* Removed overly aggressive max-height constraints that were hiding content */
 
 /* Chaotic Wave Animation for AccountDashboard class resource bars */
 @keyframes chaoticWave {
@@ -2020,8 +2161,8 @@
 .character-card-compact .mana-resource .resource-bar-container,
 .character-card-compact .action-resource .resource-bar-container {
   background: rgba(0, 0, 0, 0.2) !important;
-  border-radius: 6px !important;
-  height: 12px !important;
+  border-radius: 4px !important;
+  height: 18px !important;
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
   overflow: hidden !important;
   position: relative !important;
@@ -2030,17 +2171,17 @@
 /* Action Points Dots Container */
 .character-card-compact .ap-dots-container {
   display: flex;
-  gap: 0.25rem;
+  gap: 0.2rem;
   align-items: center;
   justify-content: center;
-  padding: 0.2rem 0;
+  padding: 0.1rem 0;
 }
 
 .character-card-compact .ap-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 2px solid #d4af37;
+  border: 1.5px solid #d4af37;
   transition: all 0.3s ease;
   position: relative;
   background: rgba(255, 255, 255, 0.2);
@@ -2049,10 +2190,10 @@
 .character-card-compact .ap-dot.filled {
   background: linear-gradient(135deg, #ffc107 0%, #ffeb3b 50%, #fff176 100%);
   box-shadow:
-    0 0 8px rgba(255, 193, 7, 0.8),
+    0 0 6px rgba(255, 193, 7, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
   border-color: #ffb300;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .character-card-compact .ap-dot.empty {

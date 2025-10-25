@@ -688,18 +688,17 @@
 }
 
 .background-card {
-    background: rgba(139, 69, 19, 0.15);
-    border: 1px solid #a08c70;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
     padding: 0;
     overflow: hidden;
     transition: all 0.2s ease;
 }
 
 .background-card.active {
-    background: rgba(139, 69, 19, 0.25);
-    border-color: #7a3b2e;
-    box-shadow: 0 0 8px rgba(122, 59, 46, 0.3);
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #b8941f;
 }
 
 .background-header {

@@ -355,6 +355,7 @@ export default function CharacterPanel() {
                             <option value="Martyr">Martyr</option>
                             <option value="False Prophet">False Prophet</option>
                             <option value="Exorcist">Exorcist</option>
+                            <option value="Oracle">Oracle</option>
                             <option value="Plaguebringer">Plaguebringer</option>
                             <option value="Lichborne">Lichborne</option>
                             <option value="Deathcaller">Deathcaller</option>

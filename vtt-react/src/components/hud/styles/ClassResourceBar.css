@@ -1,4 +1,10 @@
 /* Class Resource Bar Styles */
+
+/* Import individual class resource bar styles */
+@import './resourceBars/base.css';
+@import './resourceBars/minstrel.css';
+@import './resourceBars/oracle.css';
+
 .class-resource-wrapper {
     position: relative;
     margin-bottom: 4px;
@@ -24,8 +30,27 @@
     margin-bottom: 2px; /* Add spacing between resource bars */
 }
 
-/* Remove base background/border for Rage bar to avoid grey track behind */
-.class-resource-bar.rage-bar {
+/* Remove base background/border for custom resource bars to avoid grey track behind */
+.class-resource-bar.rage-bar,
+.class-resource-bar.mayhem-modifiers-display,
+.class-resource-bar.time-shards-strain,
+.class-resource-bar.hexbreaker-charges,
+.class-resource-bar.ascension-blood,
+.class-resource-bar.drp-resilience,
+.class-resource-bar.dominance-die-display,
+.class-resource-bar.madness-gauge,
+.class-resource-bar.threads-of-destiny,
+.class-resource-bar.wild-instinct-forms,
+.class-resource-bar.fortune-points-gambling,
+.class-resource-bar.quarry-marks-companion,
+.class-resource-bar.runes-inscriptions,
+.class-resource-bar.eternal-frost-phylactery,
+.class-resource-bar.lunar-phases,
+.class-resource-bar.musical-notes-combo,
+.class-resource-bar.prophetic-visions-bar,
+.class-resource-bar.devotion-gauge,
+.class-resource-bar.stance-flow,
+.class-resource-bar.elemental-spheres-display {
     background: transparent;
     border: none;
     box-shadow: none;
@@ -4188,3 +4213,4136 @@ div[data-effect="chaotic-wave"],
     min-width: 36px;
 }
 
+/* ========================================
+   DRP Resilience (Dreadnaught)
+   ======================================== */
+
+.class-resource-bar.drp-resilience {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.drp-bar-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+.drp-bar-container {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.drp-bar-container .bar-background {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(180deg, rgba(26, 0, 51, 0.8), rgba(20, 0, 40, 0.9));
+    border: 1px solid rgba(139, 0, 255, 0.4);
+    border-radius: 4px;
+    overflow: visible;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.drp-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+.drp-section {
+    position: relative;
+    flex: 1;
+    display: flex;
+    gap: 1px;
+}
+
+.drp-segment {
+    flex: 1;
+    height: 100%;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.drp-segment.filled {
+    animation: drpPulse 2s ease-in-out infinite;
+}
+
+@keyframes drpPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+.drp-threshold-marker {
+    position: absolute;
+    right: -1px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(139, 0, 255, 0.6);
+    box-shadow: 0 0 4px rgba(139, 0, 255, 0.8);
+}
+
+.drp-bar-container .bar-background .bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(139, 0, 255, 0.6);
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* DRP Controls */
+.drp-controls {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drp-btn {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.3), rgba(139, 0, 255, 0.2));
+    border: 1px solid rgba(139, 0, 255, 0.5);
+    border-radius: 4px;
+    color: #8B00FF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.drp-btn:hover {
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.5), rgba(139, 0, 255, 0.3));
+    border-color: #8B00FF;
+    box-shadow: 0 0 8px rgba(139, 0, 255, 0.4);
+}
+
+.drp-btn:active {
+    transform: scale(0.95);
+}
+
+.drp-menu {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    margin-right: 6px;
+    background: linear-gradient(135deg, rgba(26, 0, 51, 0.95), rgba(20, 0, 40, 0.98));
+    border: 1px solid rgba(139, 0, 255, 0.5);
+    border-radius: 4px;
+    padding: 8px;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 0, 255, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.drp-menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drp-menu-section .menu-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #8B00FF;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(139, 0, 255, 0.3);
+}
+
+.drp-menu-row {
+    display: flex;
+    gap: 4px;
+}
+
+.drp-menu-row.set-row {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(139, 0, 255, 0.2);
+}
+
+.drp-menu-item {
+    flex: 1;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.2), rgba(139, 0, 255, 0.1));
+    border: 1px solid rgba(139, 0, 255, 0.3);
+    border-radius: 3px;
+    color: #8B00FF;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.drp-menu-item:hover {
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.4), rgba(139, 0, 255, 0.2));
+    border-color: #8B00FF;
+    box-shadow: 0 0 6px rgba(139, 0, 255, 0.3);
+}
+
+.drp-menu-item:active {
+    transform: scale(0.95);
+}
+
+.drp-resistance-select {
+    width: 100%;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.2), rgba(139, 0, 255, 0.1));
+    border: 1px solid rgba(139, 0, 255, 0.3);
+    border-radius: 3px;
+    color: #8B00FF;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.drp-resistance-select:focus {
+    outline: none;
+    border-color: #8B00FF;
+    box-shadow: 0 0 6px rgba(139, 0, 255, 0.3);
+}
+
+/* Size variations */
+.class-resource-bar.drp-resilience.small .drp-bar-container .bar-background {
+    height: 18px;
+}
+
+.class-resource-bar.drp-resilience.small .drp-bar-container .bar-background .bar-text {
+    font-size: 9px;
+}
+
+.class-resource-bar.drp-resilience.small .drp-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-bar-container .bar-background {
+    height: 32px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-bar-container .bar-background .bar-text {
+    font-size: 13px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+/* ===================================
+   EXORCIST - DOMINANCE DIE DISPLAY
+   =================================== */
+
+.class-resource-bar.dominance-die-display {
+    background: transparent;
+    border: none;
+    height: auto;
+    min-height: 28px;
+}
+
+.dominance-bar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.dominance-bar-container {
+    position: relative;
+    width: 100%;
+    height: 28px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dominance-bar-container:hover {
+    transform: translateY(-1px);
+}
+
+.dominance-bar-container .bar-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(45, 10, 10, 0.8), rgba(30, 5, 5, 0.9));
+    border: 2px solid;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.dominance-bar-container .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: all 0.4s ease;
+    border-radius: 2px;
+}
+
+.dominance-bar-container .bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: #FFF8DC;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8), 0 0 6px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.dominance-bar-container .bar-text .demon-name {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.dominance-bar-container .bar-text .dd-value {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 2px 6px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* Dominance Adjustment Menu */
+.resource-adjust-menu.dominance-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(145deg, rgba(139, 69, 19, 0.95), rgba(101, 67, 33, 0.98));
+    border: 2px solid rgba(139, 69, 19, 0.8);
+    border-radius: 6px;
+    padding: 12px;
+    min-width: 320px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    font-family: 'Crimson Text', serif;
+}
+
+.dominance-menu .menu-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.dominance-menu .menu-section {
+    margin-bottom: 10px;
+}
+
+.dominance-menu .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #DEB887;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dominance-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dominance-menu .menu-buttons button {
+    background: linear-gradient(180deg, rgba(101, 67, 33, 0.8), rgba(80, 50, 20, 0.9));
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    padding: 6px 10px;
+    color: #F5DEB3;
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.dominance-menu .menu-buttons button:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(139, 69, 19, 0.9), rgba(101, 67, 33, 1));
+    border-color: rgba(255, 215, 0, 0.5);
+    color: #FFD700;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dominance-menu .menu-buttons button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.dominance-menu .menu-buttons button i {
+    margin-right: 6px;
+    opacity: 0.8;
+}
+
+.dominance-menu .menu-close {
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px;
+    background: linear-gradient(180deg, rgba(139, 0, 0, 0.7), rgba(100, 0, 0, 0.8));
+    border: 1px solid rgba(220, 20, 60, 0.5);
+    border-radius: 4px;
+    color: #FFB6C1;
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dominance-menu .menu-close:hover {
+    background: linear-gradient(180deg, rgba(220, 20, 60, 0.8), rgba(139, 0, 0, 0.9));
+    border-color: rgba(255, 69, 0, 0.6);
+    color: #FFF;
+}
+
+/* Size variations */
+.class-resource-bar.dominance-die-display.small .dominance-bar-container {
+    height: 22px;
+}
+
+.class-resource-bar.dominance-die-display.small .bar-text {
+    font-size: 10px;
+}
+
+.class-resource-bar.dominance-die-display.small .bar-text .demon-name {
+    font-size: 9px;
+}
+
+.class-resource-bar.dominance-die-display.small .bar-text .dd-value {
+    font-size: 11px;
+}
+
+.class-resource-bar.dominance-die-display.large .dominance-bar-container {
+    height: 36px;
+}
+
+.class-resource-bar.dominance-die-display.large .bar-text {
+    font-size: 14px;
+}
+
+.class-resource-bar.dominance-die-display.large .bar-text .demon-name {
+    font-size: 13px;
+}
+
+.class-resource-bar.dominance-die-display.large .bar-text .dd-value {
+    font-size: 15px;
+}
+
+
+/* ===================================
+   FALSE PROPHET - MADNESS GAUGE
+   =================================== */
+
+.class-resource-bar.madness-gauge {
+    background: transparent;
+    border: none;
+    height: auto;
+    min-height: 32px;
+}
+
+.madness-bar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.madness-bar-container {
+    position: relative;
+    width: 100%;
+    height: 32px;
+    background: linear-gradient(180deg, #0a0a0f 0%, #1a0d2e 100%);
+    border: 2px solid #2d1b4e;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.madness-bar-container:hover {
+    border-color: #9400D3;
+    box-shadow: 0 0 12px rgba(148, 0, 211, 0.4);
+}
+
+/* Segmented madness display */
+.madness-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+.madness-segment {
+    flex: 1;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.madness-segment.filled {
+    animation: madnessPulse 2s ease-in-out infinite;
+}
+
+.madness-segment.empty {
+    opacity: 0.3;
+}
+
+@keyframes madnessPulse {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+    50% {
+        opacity: 0.85;
+        filter: brightness(1.2);
+    }
+}
+
+/* Value labels */
+.madness-value-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF !important;
+    text-shadow:
+        0 0 8px rgba(0, 0, 0, 1),
+        0 0 12px rgba(0, 0, 0, 1),
+        1px 1px 4px rgba(0, 0, 0, 1),
+        -1px -1px 4px rgba(0, 0, 0, 1),
+        2px 2px 6px rgba(0, 0, 0, 1),
+        -2px -2px 6px rgba(0, 0, 0, 1);
+    pointer-events: none;
+    z-index: 100;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Adjustment Menu */
+.madness-adjustment-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: linear-gradient(135deg, #2a1a0a 0%, #1a1206 100%);
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 320px;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    font-family: 'Crimson Text', serif;
+}
+
+.madness-adjustment-menu .menu-section {
+    margin-bottom: 10px;
+}
+
+.madness-adjustment-menu .menu-section:last-child {
+    margin-bottom: 0;
+}
+
+.madness-adjustment-menu .menu-section-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #D4AF37;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 3px;
+}
+
+.madness-adjustment-menu .menu-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.madness-adjustment-menu button {
+    flex: 1;
+    min-width: 70px;
+    padding: 6px 10px;
+    background: linear-gradient(180deg, #3a2a1a 0%, #2a1a0a 100%);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    color: #E8D4B0;
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.madness-adjustment-menu button:hover {
+    background: linear-gradient(180deg, #4a3a2a 0%, #3a2a1a 100%);
+    border-color: #D4AF37;
+    color: #FFF;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.madness-adjustment-menu button:active {
+    transform: translateY(1px);
+}
+
+.madness-adjustment-menu button i {
+    margin-right: 4px;
+}
+
+.madness-adjustment-menu .close-menu-btn {
+    width: 100%;
+    background: linear-gradient(180deg, #4a2a2a 0%, #3a1a1a 100%);
+    border-color: #8B0000;
+    margin-top: 8px;
+}
+
+.madness-adjustment-menu .close-menu-btn:hover {
+    background: linear-gradient(180deg, #5a3a3a 0%, #4a2a2a 100%);
+    border-color: #DC143C;
+}
+
+/* Size variations */
+.class-resource-bar.madness-gauge.small .madness-bar-container {
+    height: 24px;
+}
+
+.class-resource-bar.madness-gauge.small .madness-value-label {
+    font-size: 12px;
+}
+
+.class-resource-bar.madness-gauge.large .madness-bar-container {
+    height: 40px;
+}
+
+.class-resource-bar.madness-gauge.large .madness-value-label {
+    font-size: 16px;
+}
+
+
+/* ===================================
+   FATE WEAVER - THREADS OF DESTINY
+   =================================== */
+
+.class-resource-bar.threads-of-destiny {
+    background: transparent;
+    border: none;
+    height: auto;
+    min-height: 32px;
+}
+
+.threads-bar-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.threads-bar-container {
+    position: relative;
+    width: 100%;
+    height: 32px;
+    background: linear-gradient(180deg, #0a0a0f 0%, #1a0d2e 100%);
+    border: 2px solid #2d1b4e;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.threads-bar-container:hover {
+    border-color: #FFD700;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Segmented threads display */
+.threads-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+.thread-segment {
+    flex: 1;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.4s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thread-segment.woven {
+    animation: threadShimmer 3s ease-in-out infinite;
+}
+
+.thread-segment.empty {
+    opacity: 0.3;
+}
+
+@keyframes threadShimmer {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+    50% {
+        opacity: 0.9;
+        filter: brightness(1.3);
+    }
+}
+
+/* Card suit symbols in segments */
+.card-suit-symbol {
+    font-size: 10px;
+    font-weight: bold;
+    text-shadow:
+        0 0 3px rgba(0, 0, 0, 0.9),
+        1px 1px 2px rgba(0, 0, 0, 1);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Value label */
+.threads-value-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF !important;
+    text-shadow:
+        0 0 8px rgba(0, 0, 0, 1),
+        0 0 12px rgba(0, 0, 0, 1),
+        1px 1px 4px rgba(0, 0, 0, 1),
+        -1px -1px 4px rgba(0, 0, 0, 1),
+        2px 2px 6px rgba(0, 0, 0, 1),
+        -2px -2px 6px rgba(0, 0, 0, 1);
+    pointer-events: none;
+    z-index: 100;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Adjustment Menu */
+.threads-adjustment-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: linear-gradient(135deg, #2a1a0a 0%, #1a1206 100%);
+    border: 2px solid #8B4513;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 340px;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    font-family: 'Crimson Text', serif;
+}
+
+.threads-adjustment-menu .menu-section {
+    margin-bottom: 10px;
+}
+
+.threads-adjustment-menu .menu-section:last-child {
+    margin-bottom: 0;
+}
+
+.threads-adjustment-menu .menu-section-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #D4AF37;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 3px;
+}
+
+.threads-adjustment-menu .menu-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.threads-adjustment-menu button {
+    flex: 1;
+    min-width: 100px;
+    padding: 6px 10px;
+    background: linear-gradient(180deg, #3a2a1a 0%, #2a1a0a 100%);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    color: #E8D4B0;
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.threads-adjustment-menu button:hover {
+    background: linear-gradient(180deg, #4a3a2a 0%, #3a2a1a 100%);
+    border-color: #D4AF37;
+    color: #FFF;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.threads-adjustment-menu button:active {
+    transform: translateY(1px);
+}
+
+.threads-adjustment-menu button i {
+    margin-right: 4px;
+}
+
+.threads-adjustment-menu .close-menu-btn {
+    width: 100%;
+    background: linear-gradient(180deg, #4a2a2a 0%, #3a1a1a 100%);
+    border-color: #8B0000;
+    margin-top: 8px;
+}
+
+.threads-adjustment-menu .close-menu-btn:hover {
+    background: linear-gradient(180deg, #5a3a3a 0%, #4a2a2a 100%);
+    border-color: #DC143C;
+}
+
+/* Size variations */
+.class-resource-bar.threads-of-destiny.small .threads-bar-container {
+    height: 24px;
+}
+
+.class-resource-bar.threads-of-destiny.small .threads-value-label {
+    font-size: 12px;
+}
+
+.class-resource-bar.threads-of-destiny.small .card-suit-symbol {
+    font-size: 8px;
+}
+
+.class-resource-bar.threads-of-destiny.large .threads-bar-container {
+    height: 40px;
+}
+
+.class-resource-bar.threads-of-destiny.large .threads-value-label {
+    font-size: 16px;
+}
+
+.class-resource-bar.threads-of-destiny.large .card-suit-symbol {
+    font-size: 12px;
+}
+
+/* ===== FORMBENDER WILD INSTINCT FORMS ===== */
+.wild-instinct-forms {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.formbender-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.wi-bar-wrapper {
+    position: relative;
+    flex: 1;
+    height: 16px;
+    cursor: pointer;
+    min-width: 0;
+}
+
+.wi-segments {
+    display: flex;
+    gap: 2px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.wi-segment {
+    flex: 1;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+}
+
+.wi-segment.filled {
+    animation: wiPulse 2s infinite;
+}
+
+@keyframes wiPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+.wi-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    pointer-events: none;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.form-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.form-indicator:hover {
+    transform: scale(1.1);
+}
+
+.form-indicator i {
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
+}
+
+/* Form Menu */
+.form-menu {
+    min-width: 200px;
+}
+
+.form-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-buttons button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid;
+    border-radius: 4px;
+    color: #E8DCC8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 11px;
+}
+
+.form-buttons button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(2px);
+}
+
+.form-buttons button.active {
+    font-weight: bold;
+    box-shadow: 0 0 8px currentColor;
+}
+
+.form-buttons button i {
+    font-size: 14px;
+}
+
+/* WI Menu */
+.wi-menu .menu-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+}
+
+.wi-menu .menu-buttons button {
+    font-size: 10px;
+    padding: 4px 6px;
+}
+
+/* Size variations for Formbender */
+.class-resource-bar.wild-instinct-forms.small .wi-bar-wrapper {
+    height: 14px;
+}
+
+.class-resource-bar.wild-instinct-forms.small .form-indicator {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+}
+
+.class-resource-bar.wild-instinct-forms.small .wi-value {
+    font-size: 8px;
+}
+
+.class-resource-bar.wild-instinct-forms.large .wi-bar-wrapper {
+    height: 24px;
+}
+
+.class-resource-bar.wild-instinct-forms.large .form-indicator {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+}
+
+.class-resource-bar.wild-instinct-forms.large .wi-value {
+    font-size: 11px;
+}
+
+/* ===== GAMBLER FORTUNE POINTS ===== */
+.fortune-points-gambling {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.gambler-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+/* Specialization Indicator */
+.spec-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.spec-indicator:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px currentColor;
+}
+
+/* Disable all tooltips on spec indicator */
+.spec-indicator::before,
+.spec-indicator::after,
+.spec-indicator i::before,
+.spec-indicator i::after {
+    content: none !important;
+    display: none !important;
+}
+
+.spec-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 1000;
+    min-width: 220px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.spec-menu .menu-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.spec-menu button {
+    width: 100%;
+    background: transparent;
+    border: 1px solid;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.2s ease;
+    text-align: left;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.spec-menu button:hover {
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+.spec-menu button.active {
+    font-weight: bold;
+}
+
+.fp-bar-wrapper {
+    position: relative;
+    flex: 1;
+    height: 20px;
+    cursor: pointer;
+    min-width: 0;
+}
+
+/* Fortune's Favor - Coins (7 FP) */
+.fp-coins {
+    display: flex;
+    gap: 3px;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.fp-coin {
+    flex: 1;
+    border-radius: 50%;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    max-width: 24px;
+}
+
+.fp-coin.filled {
+    animation: coinFlip 0.5s ease;
+}
+
+@keyframes coinFlip {
+    0% { transform: rotateY(0deg); }
+    50% { transform: rotateY(90deg); }
+    100% { transform: rotateY(0deg); }
+}
+
+.fp-coin i {
+    font-size: 10px;
+    transition: all 0.3s ease;
+}
+
+/* High Roller - Blackjack Bar (21 FP) */
+.fp-blackjack {
+    position: relative;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    border: 2px solid;
+    overflow: hidden;
+}
+
+.fp-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.fp-chip-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    border: 1px solid;
+    transition: all 0.3s ease;
+}
+
+/* Card Sharp - Cards (13 FP) */
+.fp-cards {
+    display: flex;
+    gap: 1px;
+    height: 100%;
+}
+
+.fp-card {
+    flex: 1;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    max-width: 12px;
+}
+
+.fp-card.filled {
+    animation: cardFlip 0.4s ease;
+}
+
+@keyframes cardFlip {
+    0% { transform: rotateX(0deg); }
+    50% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+}
+
+.fp-card i {
+    font-size: 6px;
+    transition: all 0.3s ease;
+}
+
+/* FP Value Display */
+.fp-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 0 0 5px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* FP Adjustment Menu */
+.fp-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 1000;
+    min-width: 280px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.fp-menu .menu-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fp-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fp-menu .menu-buttons button {
+    background: linear-gradient(135deg, #3d3d3d 0%, #2d2d2d 100%);
+    border: 1px solid #FFD700;
+    color: #FFD700;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.fp-menu .menu-buttons button:hover {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: #000;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+.fp-menu .menu-reset {
+    margin-top: 8px;
+    background: linear-gradient(135deg, #555 0%, #333 100%);
+    border: 1px solid #888;
+    color: #FFF;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.fp-menu .menu-reset:hover {
+    background: linear-gradient(135deg, #666 0%, #444 100%);
+    transform: translateY(-1px);
+}
+
+/* Size variations for Gambler */
+.class-resource-bar.fortune-points-gambling.small .spec-indicator {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+}
+
+.class-resource-bar.fortune-points-gambling.small .fp-bar-wrapper {
+    height: 16px;
+}
+
+.class-resource-bar.fortune-points-gambling.small .fp-value {
+    font-size: 8px;
+}
+
+.class-resource-bar.fortune-points-gambling.small .fp-coin {
+    max-width: 18px;
+}
+
+.class-resource-bar.fortune-points-gambling.small .fp-coin i {
+    font-size: 8px;
+}
+
+.class-resource-bar.fortune-points-gambling.small .fp-card {
+    max-width: 10px;
+}
+
+.class-resource-bar.fortune-points-gambling.small .fp-card i {
+    font-size: 5px;
+}
+
+.class-resource-bar.fortune-points-gambling.large .spec-indicator {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+}
+
+.class-resource-bar.fortune-points-gambling.large .fp-bar-wrapper {
+    height: 28px;
+}
+
+.class-resource-bar.fortune-points-gambling.large .fp-value {
+    font-size: 12px;
+}
+
+.class-resource-bar.fortune-points-gambling.large .fp-coin {
+    max-width: 32px;
+}
+
+.class-resource-bar.fortune-points-gambling.large .fp-coin i {
+    font-size: 14px;
+}
+
+.class-resource-bar.fortune-points-gambling.large .fp-card i {
+    font-size: 10px;
+}
+
+/* ===== QUARRY MARKS & COMPANION DISPLAY (HUNTRESS) ===== */
+.class-resource-bar.quarry-marks-companion {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+}
+
+.huntress-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    position: relative;
+}
+
+/* Companion Portrait (Left Side) */
+.companion-portrait {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    background: radial-gradient(circle at 30% 30%, rgba(60, 50, 40, 0.9), rgba(30, 25, 20, 0.95));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.companion-portrait:hover {
+    border-color: rgba(160, 140, 112, 0.8);
+    transform: scale(1.05);
+}
+
+.companion-icon {
+    font-size: 20px;
+    color: #f8f4e6;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+    z-index: 2;
+}
+
+/* Companion HP Bar (bottom of portrait) */
+.companion-hp-bar {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid rgba(139, 115, 85, 0.4);
+}
+
+.companion-hp-fill {
+    height: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+    border-radius: 2px;
+}
+
+.companion-hp-fill.high {
+    background: linear-gradient(90deg, #2E7D32, #4CAF50);
+}
+
+.companion-hp-fill.medium {
+    background: linear-gradient(90deg, #F57C00, #FFA726);
+}
+
+.companion-hp-fill.low {
+    background: linear-gradient(90deg, #C62828, #EF5350);
+}
+
+/* Quarry Marks Bar (Center) */
+.qm-bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+.qm-segments {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.qm-segment {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 2px solid rgba(139, 115, 85, 0.5);
+    background: rgba(26, 15, 8, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.qm-segment.filled {
+    border-color: rgba(255, 255, 255, 0.6);
+    animation: qmPulse 2s ease-in-out infinite;
+}
+
+.qm-segment.filled:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Bladestorm specialization (crimson red) */
+.qm-segment.filled.bladestorm {
+    background: linear-gradient(135deg, rgba(220, 20, 60, 0.8), rgba(139, 0, 0, 0.9));
+    box-shadow: 0 0 12px rgba(220, 20, 60, 0.6), inset 0 0 8px rgba(255, 107, 107, 0.3);
+}
+
+/* Beastmaster specialization (nature green) */
+.qm-segment.filled.beastmaster {
+    background: linear-gradient(135deg, rgba(46, 125, 50, 0.8), rgba(27, 94, 32, 0.9));
+    box-shadow: 0 0 12px rgba(46, 125, 50, 0.6), inset 0 0 8px rgba(102, 187, 106, 0.3);
+}
+
+/* Shadowdancer specialization (shadow purple) */
+.qm-segment.filled.shadowdancer {
+    background: linear-gradient(135deg, rgba(106, 27, 154, 0.8), rgba(74, 20, 140, 0.9));
+    box-shadow: 0 0 12px rgba(106, 27, 154, 0.6), inset 0 0 8px rgba(186, 104, 200, 0.3);
+}
+
+.qm-segment-icon {
+    font-size: 14px;
+    color: #f8f4e6;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.qm-segment.filled .qm-segment-icon {
+    opacity: 1;
+}
+
+/* QM Value Display */
+.qm-value {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #f8f4e6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    margin-top: 2px;
+}
+
+/* Specialization Selector (Right Side) */
+.spec-selector {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    background: radial-gradient(circle at 30% 30%, rgba(60, 50, 40, 0.9), rgba(30, 25, 20, 0.95));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
+.spec-selector:hover {
+    border-color: rgba(160, 140, 112, 0.8);
+    transform: scale(1.05);
+}
+
+/* Specialization-specific colors for selector */
+.spec-selector.bladestorm {
+    border-color: rgba(220, 20, 60, 0.7);
+    box-shadow: 0 0 8px rgba(220, 20, 60, 0.4);
+}
+
+.spec-selector.beastmaster {
+    border-color: rgba(46, 125, 50, 0.7);
+    box-shadow: 0 0 8px rgba(46, 125, 50, 0.4);
+}
+
+.spec-selector.shadowdancer {
+    border-color: rgba(106, 27, 154, 0.7);
+    box-shadow: 0 0 8px rgba(106, 27, 154, 0.4);
+}
+
+.spec-icon {
+    font-size: 14px;
+    color: #f8f4e6;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+}
+
+/* QM Adjustment Menu */
+.qm-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(42, 36, 32, 0.98);
+    border: 2px solid rgba(139, 115, 85, 0.7);
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 280px;
+    max-width: 320px;
+    z-index: 3050;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
+    font-family: 'Cinzel', serif;
+}
+
+.qm-menu .menu-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f8f4e6;
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.4);
+    padding-bottom: 8px;
+}
+
+.qm-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.qm-menu .menu-buttons button {
+    background: rgba(139, 115, 85, 0.25);
+    border: 1px solid rgba(139, 115, 85, 0.5);
+    border-radius: 4px;
+    color: #f8f4e6;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: 'Cinzel', serif;
+}
+
+.qm-menu .menu-buttons button:hover {
+    background: rgba(160, 140, 112, 0.4);
+    border-color: rgba(160, 140, 112, 0.8);
+    color: #FFF;
+}
+
+.qm-menu .menu-buttons button:active {
+    transform: scale(0.98);
+}
+
+.qm-menu .menu-reset {
+    width: 100%;
+    background: rgba(139, 69, 19, 0.3);
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    color: #f8f4e6;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-family: 'Cinzel', serif;
+}
+
+.qm-menu .menu-reset:hover {
+    background: rgba(139, 69, 19, 0.5);
+    border-color: rgba(139, 69, 19, 0.8);
+    color: #FFF;
+}
+
+/* Specialization Menu */
+.spec-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: rgba(42, 36, 32, 0.98);
+    border: 2px solid rgba(139, 115, 85, 0.7);
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 140px;
+    z-index: 3050;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
+}
+
+.spec-menu-item {
+    background: rgba(139, 115, 85, 0.25);
+    border: 1px solid rgba(139, 115, 85, 0.5);
+    border-radius: 4px;
+    color: #f8f4e6;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: 'Cinzel', serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spec-menu-item i {
+    font-size: 14px;
+    width: 16px;
+    text-align: center;
+}
+
+.spec-menu-item:hover {
+    background: rgba(160, 140, 112, 0.4);
+    border-color: rgba(160, 140, 112, 0.8);
+    color: #FFF;
+}
+
+.spec-menu-item:active {
+    transform: scale(0.98);
+}
+
+.spec-menu-item.bladestorm {
+    border-color: rgba(220, 20, 60, 0.5);
+}
+
+.spec-menu-item.bladestorm:hover {
+    border-color: rgba(220, 20, 60, 0.8);
+    background: rgba(220, 20, 60, 0.2);
+}
+
+.spec-menu-item.beastmaster {
+    border-color: rgba(46, 125, 50, 0.5);
+}
+
+.spec-menu-item.beastmaster:hover {
+    border-color: rgba(46, 125, 50, 0.8);
+    background: rgba(46, 125, 50, 0.2);
+}
+
+.spec-menu-item.shadowdancer {
+    border-color: rgba(106, 27, 154, 0.5);
+}
+
+.spec-menu-item.shadowdancer:hover {
+    border-color: rgba(106, 27, 154, 0.8);
+    background: rgba(106, 27, 154, 0.2);
+}
+
+/* Animations */
+@keyframes qmPulse {
+    0%, 100% {
+        box-shadow: 0 0 12px currentColor, inset 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px currentColor, inset 0 0 12px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Small Size Adjustments */
+.class-resource-bar.quarry-marks-companion.small .companion-portrait {
+    width: 32px;
+    height: 32px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .companion-icon {
+    font-size: 16px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .companion-hp-bar {
+    width: 28px;
+    height: 3px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .qm-segment {
+    width: 22px;
+    height: 22px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .qm-segment-icon {
+    font-size: 11px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .qm-value {
+    font-size: 8px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .spec-selector {
+    width: 22px;
+    height: 22px;
+}
+
+.class-resource-bar.quarry-marks-companion.small .spec-icon {
+    font-size: 11px;
+}
+
+/* Large Size Adjustments */
+.class-resource-bar.quarry-marks-companion.large .companion-portrait {
+    width: 48px;
+    height: 48px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .companion-icon {
+    font-size: 24px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .companion-hp-bar {
+    width: 44px;
+    height: 5px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .qm-segment {
+    width: 34px;
+    height: 34px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .qm-segment-icon {
+    font-size: 17px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .qm-value {
+    font-size: 12px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .spec-selector {
+    width: 34px;
+    height: 34px;
+}
+
+.class-resource-bar.quarry-marks-companion.large .spec-icon {
+    font-size: 17px;
+}
+
+/* ===== INSCRIPTOR RUNES & INSCRIPTIONS ===== */
+.class-resource-bar.runes-inscriptions {
+    background: transparent;
+    border: none;
+    height: auto;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.inscriptor-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Bar wrapper - contains the actual bar */
+.ri-bar-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.ri-bar-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(135deg, rgba(26, 15, 46, 0.25) 0%, rgba(46, 26, 10, 0.25) 100%),
+        repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(100, 149, 237, 0.05) 10px, rgba(100, 149, 237, 0.05) 20px);
+    border: 2px solid rgba(100, 149, 237, 0.4);
+    border-radius: 6px;
+    padding: 8px 10px;
+    box-shadow:
+        inset 0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(100, 149, 237, 0.2),
+        0 0 30px rgba(255, 215, 0, 0.1);
+}
+
+.ri-bar-content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg,
+        rgba(100, 149, 237, 0.3) 0%,
+        rgba(255, 215, 0, 0.3) 50%,
+        rgba(100, 149, 237, 0.3) 100%);
+    border-radius: 6px;
+    opacity: 0;
+    animation: runicPulse 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes runicPulse {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.ri-bar-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+/* Runes Section (Left) */
+.runes-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.runes-segments {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.rune-segment {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    background-image:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, transparent 40%, rgba(100, 149, 237, 0.1) 50%, transparent 60%);
+}
+
+.rune-segment::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border: 1px solid rgba(100, 149, 237, 0.2);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.rune-segment.filled::before {
+    opacity: 1;
+}
+
+.rune-segment.filled {
+    animation: runePulse 2s ease-in-out infinite;
+    box-shadow:
+        inset 0 0 8px rgba(100, 149, 237, 0.4),
+        0 0 10px rgba(100, 149, 237, 0.3);
+}
+
+.rune-segment.filled:hover {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+}
+
+@keyframes runePulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow:
+            inset 0 0 8px rgba(100, 149, 237, 0.4),
+            0 0 10px rgba(100, 149, 237, 0.3);
+    }
+    50% {
+        opacity: 0.9;
+        box-shadow:
+            inset 0 0 12px rgba(100, 149, 237, 0.6),
+            0 0 15px rgba(100, 149, 237, 0.5);
+    }
+}
+
+/* Separator between Runes and Inscriptions */
+.ri-separator {
+    width: 2px;
+    height: 24px;
+    border-left: 2px solid;
+    margin: 0 4px;
+    opacity: 0.6;
+}
+
+/* Inscriptions Section (Right) */
+.inscriptions-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.inscriptions-segments {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.inscription-segment {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    background-image:
+        radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        linear-gradient(45deg, transparent 40%, rgba(255, 215, 0, 0.1) 50%, transparent 60%);
+}
+
+.inscription-segment::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.inscription-segment.filled::after {
+    opacity: 1;
+}
+
+.inscription-segment.filled {
+    animation: inscriptionPulse 2s ease-in-out infinite;
+    box-shadow:
+        inset 0 0 8px rgba(255, 215, 0, 0.4),
+        0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.inscription-segment.filled:hover {
+    transform: scale(1.15);
+    filter: brightness(1.3);
+}
+
+@keyframes inscriptionPulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow:
+            inset 0 0 8px rgba(255, 215, 0, 0.4),
+            0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        opacity: 0.9;
+        box-shadow:
+            inset 0 0 12px rgba(255, 215, 0, 0.6),
+            0 0 15px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Section Value Display */
+.ri-section-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #FFF;
+    text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000,
+        0 0 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    z-index: 10;
+    letter-spacing: 0.5px;
+}
+
+/* Adjustment Menu */
+.ri-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(26, 15, 46, 0.95) 0%, rgba(46, 26, 10, 0.95) 100%);
+    border: 2px solid rgba(100, 149, 237, 0.6);
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 999999;
+    min-width: 280px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.ri-menu .menu-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ri-menu .menu-section {
+    margin-bottom: 8px;
+}
+
+.ri-menu .menu-section-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #87CEEB;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.ri-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ri-menu .menu-buttons button {
+    background: linear-gradient(135deg, rgba(65, 105, 225, 0.2) 0%, rgba(100, 149, 237, 0.2) 100%);
+    border: 1px solid rgba(100, 149, 237, 0.4);
+    color: #E8D4B0;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.ri-menu .menu-buttons button:hover {
+    background: linear-gradient(135deg, rgba(65, 105, 225, 0.4) 0%, rgba(100, 149, 237, 0.4) 100%);
+    border-color: rgba(100, 149, 237, 0.8);
+    transform: translateY(-1px);
+}
+
+.ri-menu .menu-reset {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(101, 67, 33, 0.3) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    color: #E8D4B0;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    margin-top: 8px;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.ri-menu .menu-reset:hover {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.5) 0%, rgba(101, 67, 33, 0.5) 100%);
+    border-color: rgba(139, 69, 19, 0.9);
+}
+
+/* Specialization Selector - Next to the bar */
+.inscriptor-spec-selector {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(60, 50, 40, 0.9), rgba(30, 25, 20, 0.95)),
+        linear-gradient(135deg, rgba(26, 15, 46, 0.3) 0%, rgba(46, 26, 10, 0.3) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.inscriptor-spec-selector:hover {
+    transform: scale(1.1);
+    box-shadow:
+        0 0 15px currentColor,
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+.inscriptor-spec-selector i {
+    font-size: 14px;
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.inscriptor-spec-selector .spec-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: linear-gradient(135deg, rgba(26, 15, 46, 0.95) 0%, rgba(46, 26, 10, 0.95) 100%);
+    border: 2px solid rgba(100, 149, 237, 0.6);
+    border-radius: 6px;
+    padding: 6px;
+    z-index: 999999;
+    min-width: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.inscriptor-spec-selector .spec-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+    color: #E8D4B0;
+}
+
+.inscriptor-spec-selector .spec-menu-item:hover {
+    background: rgba(100, 149, 237, 0.2);
+}
+
+.inscriptor-spec-selector .spec-menu-item i {
+    font-size: 12px;
+}
+
+.inscriptor-spec-selector .spec-menu-item.base {
+    border-left: 3px solid #6495ED;
+}
+
+.inscriptor-spec-selector .spec-menu-item.runebinder {
+    border-left: 3px solid #4169E1;
+}
+
+.inscriptor-spec-selector .spec-menu-item.enchanter {
+    border-left: 3px solid #FFD700;
+}
+
+.inscriptor-spec-selector .spec-menu-item.glyphweaver {
+    border-left: 3px solid #DC143C;
+}
+
+/* Size Variations */
+.class-resource-bar.runes-inscriptions.small .rune-segment,
+.class-resource-bar.runes-inscriptions.small .inscription-segment {
+    width: 16px;
+    height: 16px;
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment i,
+.class-resource-bar.runes-inscriptions.small .inscription-segment i {
+    font-size: 8px;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-section-value {
+    font-size: 7px;
+}
+
+.class-resource-bar.runes-inscriptions.small {
+    max-width: 100%;
+}
+
+.class-resource-bar.runes-inscriptions.small .inscriptor-container {
+    gap: 4px;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-bar-content {
+    padding: 2px 4px;
+    border-width: 1px;
+    gap: 2px;
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment,
+.class-resource-bar.runes-inscriptions.small .inscription-segment {
+    width: 11px;
+    height: 11px;
+    font-size: 8px;
+    border-radius: 2px;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-section-value {
+    font-size: 7px;
+    letter-spacing: 0;
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-separator {
+    height: 14px;
+    margin: 0 1px;
+    width: 1px;
+}
+
+.class-resource-bar.runes-inscriptions.small .runes-segments,
+.class-resource-bar.runes-inscriptions.small .inscriptions-segments {
+    gap: 1px;
+}
+
+.class-resource-bar.runes-inscriptions.small .inscriptor-spec-selector {
+    width: 20px;
+    height: 20px;
+}
+
+.class-resource-bar.runes-inscriptions.small .inscriptor-spec-selector i {
+    font-size: 9px;
+}
+
+/* Reduce glow effects for small size */
+.class-resource-bar.runes-inscriptions.small .ri-bar-content {
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 8px rgba(100, 149, 237, 0.15),
+        0 0 15px rgba(255, 215, 0, 0.08);
+}
+
+.class-resource-bar.runes-inscriptions.small .ri-bar-content::before {
+    display: none; /* Remove pulsing animation for small size */
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment.filled,
+.class-resource-bar.runes-inscriptions.small .inscription-segment.filled {
+    box-shadow:
+        inset 0 0 4px rgba(100, 149, 237, 0.3),
+        0 0 4px rgba(100, 149, 237, 0.2);
+}
+
+.class-resource-bar.runes-inscriptions.small .rune-segment::before,
+.class-resource-bar.runes-inscriptions.small .inscription-segment::after {
+    display: none; /* Remove inner geometric patterns for small size */
+}
+
+.class-resource-bar.runes-inscriptions.large .rune-segment,
+.class-resource-bar.runes-inscriptions.large .inscription-segment {
+    width: 24px;
+    height: 24px;
+}
+
+.class-resource-bar.runes-inscriptions.large .rune-segment i,
+.class-resource-bar.runes-inscriptions.large .inscription-segment i {
+    font-size: 12px;
+}
+
+.class-resource-bar.runes-inscriptions.large .ri-section-value {
+    font-size: 10px;
+}
+
+.class-resource-bar.runes-inscriptions.large .inscriptor-spec-selector {
+    width: 38px;
+    height: 38px;
+}
+
+.class-resource-bar.runes-inscriptions.large .inscriptor-spec-selector i {
+    font-size: 16px;
+}
+
+/* ========================================
+   LICHBORNE - ETERNAL FROST PHYLACTERY
+   ======================================== */
+
+.class-resource-bar.eternal-frost-phylactery {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.lichborne-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.phylactery-bar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Aura Toggle Icon - Frost Phylactery Gem */
+.aura-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border-radius: 4px;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    background-clip: padding-box;
+}
+
+.aura-icon::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.3) 25%,
+        transparent 50%,
+        rgba(0, 255, 255, 0.3) 75%,
+        transparent 100%);
+    border-radius: 4px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+.aura-icon.inactive {
+    background:
+        linear-gradient(135deg, rgba(20, 10, 35, 0.9) 0%, rgba(35, 20, 50, 0.9) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(100, 100, 150, 0.1) 2px, rgba(100, 100, 150, 0.1) 4px);
+    border-color: rgba(100, 100, 150, 0.4);
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 8px rgba(100, 100, 150, 0.2);
+}
+
+.aura-icon.active {
+    background:
+        linear-gradient(135deg, rgba(0, 100, 150, 0.4) 0%, rgba(0, 150, 200, 0.3) 50%, rgba(0, 200, 255, 0.2) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0, 255, 255, 0.2) 2px, rgba(0, 255, 255, 0.2) 4px);
+    border-color: currentColor;
+    animation: frostGemPulse 2s ease-in-out infinite;
+}
+
+.aura-icon.active::before {
+    opacity: 1;
+    animation: frostShimmer 3s linear infinite;
+}
+
+.aura-icon:hover {
+    transform: scale(1.15) rotate(5deg);
+    filter: brightness(1.4);
+}
+
+@keyframes frostGemPulse {
+    0%, 100% {
+        box-shadow:
+            inset 0 0 8px rgba(0, 255, 255, 0.4),
+            0 0 12px rgba(0, 255, 255, 0.6),
+            0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow:
+            inset 0 0 12px rgba(0, 255, 255, 0.6),
+            0 0 20px rgba(0, 255, 255, 0.8),
+            0 0 30px rgba(0, 255, 255, 0.5);
+    }
+}
+
+@keyframes frostShimmer {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 200%;
+    }
+}
+
+/* Phylactery Bar Content - Frozen Soul Container */
+.phylactery-bar-content {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(180deg,
+            rgba(15, 25, 45, 0.8) 0%,
+            rgba(20, 30, 55, 0.9) 50%,
+            rgba(10, 20, 40, 0.95) 100%),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 8px,
+            rgba(100, 150, 200, 0.08) 8px,
+            rgba(100, 150, 200, 0.08) 16px);
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.6),
+        inset 0 -1px 3px rgba(100, 150, 200, 0.2),
+        0 0 15px rgba(0, 100, 150, 0.3);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.phylactery-bar-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.15) 25%,
+        rgba(135, 206, 235, 0.2) 50%,
+        rgba(0, 255, 255, 0.15) 75%,
+        transparent 100%);
+    animation: frostSweep 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.phylactery-bar-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(135, 206, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(100, 150, 200, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes frostSweep {
+    0%, 100% {
+        left: -100%;
+        opacity: 0.3;
+    }
+    50% {
+        left: 100%;
+        opacity: 0.6;
+    }
+}
+
+/* Phylactery Value Display - Frozen Soul Count */
+.phylactery-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: #87CEEB;
+    text-shadow:
+        0 0 8px rgba(0, 255, 255, 0.8),
+        0 0 4px rgba(135, 206, 235, 1),
+        1px 1px 3px rgba(0, 0, 0, 1),
+        -1px -1px 3px rgba(0, 0, 0, 1);
+    pointer-events: none;
+    z-index: 10;
+    letter-spacing: 0.5px;
+    animation: soulCountGlow 2s ease-in-out infinite;
+}
+
+@keyframes soulCountGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 8px rgba(0, 255, 255, 0.8),
+            0 0 4px rgba(135, 206, 235, 1),
+            1px 1px 3px rgba(0, 0, 0, 1);
+    }
+    50% {
+        text-shadow:
+            0 0 12px rgba(0, 255, 255, 1),
+            0 0 6px rgba(135, 206, 235, 1),
+            1px 1px 3px rgba(0, 0, 0, 1);
+    }
+}
+
+/* Phylactery Segments - Frozen Soul Shards */
+.phylactery-segments {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+}
+
+.phylactery-segment {
+    flex: 1;
+    height: 20px;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    background-clip: padding-box;
+    overflow: hidden;
+}
+
+.phylactery-segment::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.phylactery-segment:hover::before {
+    left: 100%;
+}
+
+.phylactery-segment::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    height: 40%;
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 100%);
+    border-radius: 1px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.phylactery-segment.filled::after {
+    opacity: 1;
+}
+
+.phylactery-segment.filled {
+    animation: frostShardPulse 2.5s ease-in-out infinite;
+}
+
+.phylactery-segment.filled.aura-active {
+    animation: frostShardPulseActive 1.8s ease-in-out infinite;
+}
+
+.phylactery-segment.empty {
+    opacity: 0.25;
+    background: linear-gradient(135deg,
+        rgba(20, 30, 50, 0.4) 0%,
+        rgba(30, 40, 60, 0.3) 100%);
+    border-color: rgba(100, 120, 150, 0.3);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes frostShardPulse {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+        box-shadow:
+            inset 0 0 4px rgba(135, 206, 235, 0.3),
+            0 0 6px rgba(135, 206, 235, 0.2);
+    }
+    50% {
+        opacity: 0.95;
+        filter: brightness(1.3);
+        box-shadow:
+            inset 0 0 6px rgba(135, 206, 235, 0.5),
+            0 0 10px rgba(135, 206, 235, 0.4);
+    }
+}
+
+@keyframes frostShardPulseActive {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1.3) saturate(1.2);
+        box-shadow:
+            inset 0 0 6px rgba(0, 255, 255, 0.5),
+            0 0 10px rgba(0, 255, 255, 0.4),
+            0 0 15px rgba(0, 255, 255, 0.2);
+    }
+    50% {
+        opacity: 0.98;
+        filter: brightness(1.5) saturate(1.4);
+        box-shadow:
+            inset 0 0 8px rgba(0, 255, 255, 0.7),
+            0 0 15px rgba(0, 255, 255, 0.6),
+            0 0 20px rgba(0, 255, 255, 0.3);
+    }
+}
+
+/* Phylactery Adjustment Menu - Frozen Necromancy Interface */
+.phylactery-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background:
+        linear-gradient(135deg,
+            rgba(10, 20, 40, 0.98) 0%,
+            rgba(15, 25, 45, 0.98) 50%,
+            rgba(20, 30, 50, 0.98) 100%),
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 20px,
+            rgba(0, 255, 255, 0.03) 20px,
+            rgba(0, 255, 255, 0.03) 40px);
+    border: 2px solid rgba(0, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 3px rgba(135, 206, 235, 0.3),
+        0 0 30px rgba(0, 255, 255, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.phylactery-menu .menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.phylactery-menu .menu-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #87CEEB;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.6);
+}
+
+.phylactery-menu .menu-value {
+    font-size: 13px;
+    font-weight: bold;
+    color: #87CEEB;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+.phylactery-menu .menu-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
+.phylactery-menu .menu-buttons button {
+    flex: 1;
+    padding: 6px 10px;
+    background:
+        linear-gradient(180deg,
+            rgba(0, 150, 200, 0.3) 0%,
+            rgba(0, 100, 150, 0.4) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 255, 0.1) 2px,
+            rgba(0, 255, 255, 0.1) 4px);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 4px;
+    color: #87CEEB;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.2),
+        0 0 6px rgba(0, 255, 255, 0.2);
+}
+
+.phylactery-menu .menu-buttons button:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.5) 0%,
+            rgba(0, 150, 200, 0.6) 100%);
+    border-color: #00FFFF;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.4),
+        0 0 12px rgba(0, 255, 255, 0.6);
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.8);
+}
+
+.phylactery-menu .menu-info {
+    font-size: 8px;
+    color: #87CEEB;
+    text-align: center;
+    font-style: italic;
+    line-height: 1.4;
+    opacity: 0.8;
+}
+
+/* Aura Toggle Button - Eternal Frost Activation */
+.aura-toggle-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aura-toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.aura-toggle-btn:hover::before {
+    left: 100%;
+}
+
+.aura-toggle-btn.inactive {
+    background:
+        linear-gradient(180deg,
+            rgba(60, 70, 90, 0.4) 0%,
+            rgba(40, 50, 70, 0.5) 100%);
+    border-color: rgba(100, 120, 150, 0.5);
+    color: #8899AA;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 6px rgba(100, 120, 150, 0.2);
+}
+
+.aura-toggle-btn.active {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.4) 0%,
+            rgba(0, 150, 200, 0.5) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 4px,
+            rgba(0, 255, 255, 0.1) 4px,
+            rgba(0, 255, 255, 0.1) 8px);
+    border-color: #00FFFF;
+    color: #FFFFFF;
+    box-shadow:
+        inset 0 1px 3px rgba(135, 206, 235, 0.4),
+        0 0 15px rgba(0, 255, 255, 0.6),
+        0 0 25px rgba(0, 255, 255, 0.3);
+    text-shadow: 0 0 8px rgba(0, 255, 255, 1);
+    animation: eternalFrostButtonPulse 2s ease-in-out infinite;
+}
+
+.aura-toggle-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+}
+
+@keyframes eternalFrostButtonPulse {
+    0%, 100% {
+        box-shadow:
+            inset 0 1px 3px rgba(135, 206, 235, 0.4),
+            0 0 15px rgba(0, 255, 255, 0.6),
+            0 0 25px rgba(0, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow:
+            inset 0 1px 3px rgba(135, 206, 235, 0.6),
+            0 0 20px rgba(0, 255, 255, 0.8),
+            0 0 35px rgba(0, 255, 255, 0.5);
+    }
+}
+
+/* Specialization Selector - Lichborne Paths */
+.spec-toggle-btn {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 4px;
+    padding: 3px 8px;
+    color: #87CEEB;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.spec-toggle-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: #00FFFF;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.spec-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.spec-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background:
+        linear-gradient(180deg,
+            rgba(0, 150, 200, 0.2) 0%,
+            rgba(0, 100, 150, 0.25) 100%),
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 255, 255, 0.05) 3px,
+            rgba(0, 255, 255, 0.05) 6px);
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+    color: #87CEEB;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.2),
+        0 0 6px rgba(0, 255, 255, 0.2);
+}
+
+.spec-option:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 200, 255, 0.3) 0%,
+            rgba(0, 150, 200, 0.35) 100%);
+    border-color: #00FFFF;
+    box-shadow:
+        inset 0 1px 2px rgba(135, 206, 235, 0.3),
+        0 0 12px rgba(0, 255, 255, 0.4);
+    color: #FFFFFF;
+}
+
+.spec-option.selected {
+    background:
+        linear-gradient(180deg,
+            rgba(0, 255, 255, 0.4) 0%,
+            rgba(0, 200, 255, 0.45) 100%);
+    border-color: #00FFFF;
+    box-shadow:
+        inset 0 1px 3px rgba(135, 206, 235, 0.4),
+        0 0 15px rgba(0, 255, 255, 0.6),
+        0 0 25px rgba(0, 255, 255, 0.3);
+    color: #FFFFFF;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.8);
+}
+
+.spec-option i {
+    font-size: 13px;
+    color: #87CEEB;
+}
+
+.spec-option.selected i {
+    color: #FFFFFF;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 255, 1));
+}
+
+.spec-option span {
+    flex: 1;
+    font-weight: bold;
+}
+
+/* ========================================
+   LUNARCH - LUNAR PHASES
+   ======================================== */
+
+.class-resource-bar.lunar-phases {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.lunarch-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.lunar-phase-bar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 6px;
+    background:
+        linear-gradient(135deg,
+            rgba(15, 15, 35, 0.6) 0%,
+            rgba(25, 25, 50, 0.7) 50%,
+            rgba(20, 20, 45, 0.6) 100%);
+    border-radius: 8px;
+    border: 1px solid rgba(230, 230, 250, 0.3);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(230, 230, 250, 0.2);
+}
+
+/* Moon Icon (Left Side) */
+.lunar-moon-icon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    animation: moonGlow 4s ease-in-out infinite;
+}
+
+.lunar-moon-icon::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+.lunar-moon-icon:hover {
+    transform: scale(1.05);
+}
+
+.lunar-moon-icon i {
+    font-size: 14px;
+    filter: drop-shadow(0 0 4px currentColor);
+    z-index: 1;
+}
+
+@keyframes moonGlow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+/* Phase Bar Content (Center) */
+.lunar-phase-bar-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 2px 5px;
+    background:
+        linear-gradient(180deg,
+            rgba(30, 30, 50, 0.8) 0%,
+            rgba(20, 20, 40, 0.9) 100%);
+    border: 1px solid;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.lunar-phase-bar-content:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(40, 40, 60, 0.9) 0%,
+            rgba(30, 30, 50, 1) 100%);
+}
+
+/* Phase Segments (4 horizontal boxes) */
+.lunar-phase-segments {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+}
+
+.lunar-phase-segment {
+    flex: 1;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.lunar-phase-segment.active {
+    animation: phaseSegmentPulse 2s ease-in-out infinite;
+}
+
+@keyframes phaseSegmentPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.lunar-phase-segment.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: phaseShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes phaseShimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.lunar-phase-segment.past {
+    opacity: 0.5;
+}
+
+.lunar-phase-segment.future {
+    opacity: 0.3;
+}
+
+/* Round Timer (Right Side) */
+.lunar-round-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 4px;
+    background:
+        linear-gradient(180deg,
+            rgba(30, 30, 50, 0.8) 0%,
+            rgba(20, 20, 40, 0.9) 100%);
+    border: 1px solid;
+    border-radius: 4px;
+    min-width: 32px;
+}
+
+.lunar-round-timer .timer-segments {
+    display: flex;
+    gap: 2px;
+}
+
+.lunar-round-timer .timer-segment {
+    width: 5px;
+    height: 14px;
+    border-radius: 2px;
+    border: 1px solid rgba(230, 230, 250, 0.3);
+    transition: all 0.3s ease;
+}
+
+.lunar-round-timer .timer-segment.filled {
+    animation: timerSegmentPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes timerSegmentPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.lunar-round-timer .timer-label {
+    font-size: 7px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 0 4px currentColor;
+}
+
+/* Lunar Phase Menu */
+.lunar-phase-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 320px;
+    background:
+        linear-gradient(135deg,
+            rgba(15, 15, 35, 0.98) 0%,
+            rgba(25, 25, 50, 0.98) 50%,
+            rgba(20, 20, 45, 0.98) 100%),
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 30px,
+            rgba(230, 230, 250, 0.03) 30px,
+            rgba(230, 230, 250, 0.03) 60px);
+    border: 2px solid rgba(230, 230, 250, 0.4);
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.7),
+        inset 0 1px 3px rgba(230, 230, 250, 0.3),
+        0 0 40px rgba(230, 230, 250, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    backdrop-filter: blur(6px);
+}
+
+.lunar-phase-menu .menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lunar-phase-menu .menu-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #E6E6FA;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-shadow: 0 0 8px rgba(230, 230, 250, 0.6);
+}
+
+.lunar-phase-menu .menu-value {
+    font-size: 12px;
+    font-weight: bold;
+    color: #F0E68C;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(240, 230, 140, 0.8);
+}
+
+/* Advance Round Button */
+.advance-round-btn {
+    padding: 8px 14px;
+    background:
+        linear-gradient(180deg,
+            rgba(230, 230, 250, 0.3) 0%,
+            rgba(200, 200, 230, 0.4) 100%);
+    border: 2px solid rgba(230, 230, 250, 0.5);
+    border-radius: 6px;
+    color: #E6E6FA;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.2),
+        0 0 10px rgba(230, 230, 250, 0.3);
+}
+
+.advance-round-btn:hover {
+    background:
+        linear-gradient(180deg,
+            rgba(230, 230, 250, 0.5) 0%,
+            rgba(200, 200, 230, 0.6) 100%);
+    border-color: #E6E6FA;
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.3),
+        0 0 16px rgba(230, 230, 250, 0.6);
+    color: #FFFFFF;
+    text-shadow: 0 0 8px rgba(230, 230, 250, 1);
+    transform: scale(1.05);
+}
+
+.advance-round-btn i {
+    margin-right: 6px;
+}
+
+/* Phase Shift Grid */
+.phase-shift-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.phase-shift-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px;
+    background:
+        linear-gradient(180deg,
+            rgba(230, 230, 250, 0.15) 0%,
+            rgba(200, 200, 230, 0.2) 100%);
+    border: 2px solid;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.1),
+        0 0 8px rgba(230, 230, 250, 0.2);
+}
+
+.phase-shift-option:hover:not(.current) {
+    background:
+        linear-gradient(180deg,
+            rgba(230, 230, 250, 0.3) 0%,
+            rgba(200, 200, 230, 0.4) 100%);
+    box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.2),
+        0 0 16px rgba(230, 230, 250, 0.4);
+    transform: scale(1.05);
+}
+
+.phase-shift-option.current {
+    background:
+        linear-gradient(180deg,
+            rgba(240, 230, 140, 0.3) 0%,
+            rgba(230, 220, 120, 0.4) 100%);
+    box-shadow:
+        inset 0 1px 3px rgba(255, 255, 255, 0.3),
+        0 0 20px rgba(240, 230, 140, 0.5);
+}
+
+.phase-shift-option i {
+    font-size: 20px;
+}
+
+.phase-shift-name {
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #E6E6FA;
+}
+
+.phase-shift-bonus {
+    font-size: 8px;
+    color: #F0E68C;
+    font-style: italic;
+}
+
+/* ========================================
+   MARTYR - DEVOTION GAUGE
+   ======================================== */
+
+.devotion-gauge {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.devotion-bar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 18px;
+}
+
+.devotion-bar-container {
+    position: relative;
+    width: 100%;
+    height: 18px;
+    background: linear-gradient(180deg, rgba(42, 24, 16, 0.8) 0%, rgba(26, 15, 8, 0.9) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.5);
+    border-radius: 4px;
+    overflow: hidden; /* Contain the segments and damage display */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 2px;
+}
+
+.devotion-bar-container:hover {
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+/* Segmented devotion display */
+.devotion-segments {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    display: flex;
+    gap: 1px;
+}
+
+.devotion-segment {
+    flex: 1;
+    border-radius: 2px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.devotion-segment.filled {
+    animation: devotionGlow 2s ease-in-out infinite;
+}
+
+.devotion-segment.partial {
+    background: rgba(26, 15, 8, 0.8);
+}
+
+.devotion-segment-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.devotion-level-number {
+    position: relative;
+    z-index: 2;
+    font-size: 8px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes devotionGlow {
+    0%, 100% {
+        box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow: inset 0 0 12px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Damage display - Hidden on HUD, shown in tooltip */
+.devotion-damage-display {
+    display: none;
+}
+
+/* Devotion Menu */
+.devotion-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(42, 24, 16, 0.98) 0%, rgba(26, 15, 8, 0.98) 100%);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.devotion-menu .menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+.devotion-menu .menu-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.devotion-menu .menu-value {
+    font-size: 9px;
+    color: #f8f4e6;
+    font-style: italic;
+}
+
+.devotion-menu .level-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.devotion-menu .level-controls button {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.6) 0%, rgba(101, 67, 33, 0.6) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.8);
+    border-radius: 4px;
+    color: #f8f4e6;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+}
+
+.devotion-menu .level-controls button:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.8) 0%, rgba(101, 67, 33, 0.8) 100%);
+    border-color: rgba(212, 175, 55, 0.8);
+}
+
+.devotion-menu .level-controls button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.devotion-menu .level-controls span {
+    font-size: 11px;
+    font-weight: bold;
+    color: #d4af37;
+    min-width: 40px;
+    text-align: center;
+}
+
+.devotion-menu .damage-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.devotion-menu .damage-input-group input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(139, 69, 19, 0.5);
+    border-radius: 4px;
+    color: #f8f4e6;
+    padding: 6px 8px;
+    font-size: 11px;
+    text-align: center;
+}
+
+.devotion-menu .damage-input-group input:focus {
+    outline: none;
+    border-color: rgba(212, 175, 55, 0.8);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+.devotion-menu .damage-quick-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.devotion-menu .damage-quick-buttons button {
+    flex: 1;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.5) 0%, rgba(101, 67, 33, 0.5) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 3px;
+    color: #f8f4e6;
+    padding: 4px 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 9px;
+}
+
+.devotion-menu .damage-quick-buttons button:hover {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.7) 0%, rgba(101, 67, 33, 0.7) 100%);
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+.devotion-menu .damage-info {
+    font-size: 8px;
+    color: #d4af37;
+    font-style: italic;
+    text-align: center;
+}
+
+.devotion-menu .spec-toggle-btn {
+    background: rgba(139, 69, 19, 0.4);
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 3px;
+    color: #d4af37;
+    padding: 2px 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 9px;
+}
+
+.devotion-menu .spec-toggle-btn:hover {
+    background: rgba(139, 69, 19, 0.6);
+    border-color: rgba(212, 175, 55, 0.8);
+}
+
+.devotion-menu .spec-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.devotion-menu .spec-option {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.devotion-menu .spec-option:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.devotion-menu .spec-option.selected {
+    background: rgba(139, 69, 19, 0.3);
+    box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Horizontal Specialization Selector */
+.devotion-menu .spec-selector-horizontal {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.devotion-menu .spec-option-horizontal {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 4px;
+    border: 2px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 45px;
+    width: calc(33.333% - 3px);
+    box-sizing: border-box;
+}
+
+.devotion-menu .spec-option-horizontal:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.2);
+}
+
+.devotion-menu .spec-option-horizontal.selected {
+    transform: translateY(-1px);
+}
+
+.devotion-menu .spec-option-horizontal i {
+    margin-bottom: 2px;
+    font-size: 11px;
+}
+
+.devotion-menu .spec-option-horizontal span {
+    text-align: center;
+    line-height: 1.1;
+    font-size: 7.5px;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+/* ========================================
+   MINSTREL - MUSICAL NOTES COMBO
+   ======================================== */
+
+.musical-notes-combo {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Default (normal/large) Minstrel sizing for rules page */
+.minstrel-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.musical-notes-bar-wrapper {
+    flex: 1;
+    position: relative;
+    height: 40px;
+    min-width: 0; /* Allow flex shrinking */
+}
+
+.musical-notes-segments {
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    width: 100%;
+}
+
+.musical-note-segment {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(180deg, rgba(42, 24, 16, 0.6) 0%, rgba(26, 15, 8, 0.8) 100%);
+    border: 1px solid;
+    border-radius: 4px;
+    overflow: visible; /* Allow adjustment menu to show outside segment */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-width: 35px;
+    max-width: 70px;
+}
+
+/* Small size (HUD) - compact version */
+.small .minstrel-container {
+    gap: 3px;
+    max-width: 100%; /* Fill available HUD width */
+}
+
+.small .musical-notes-bar-wrapper {
+    height: 24px; /* Very compact height for HUD */
+}
+
+.small .musical-notes-segments {
+    gap: 1px;
+}
+
+.small .musical-note-segment {
+    border-radius: 3px;
+    min-width: 18px; /* Very small minimum for compact HUD */
+    max-width: 28px; /* Very small maximum for compact HUD */
+}
+
+.musical-note-segment:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.15);
+}
+
+.musical-note-segment.filled {
+    animation: noteGlow 2s ease-in-out infinite;
+}
+
+@keyframes noteGlow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+.note-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: height 0.3s ease;
+    border-radius: 0 0 3px 3px; /* Match parent's bottom border-radius */
+    pointer-events: none; /* Allow clicks to pass through to parent */
+}
+
+/* Default (normal/large) text sizing for rules page */
+.note-label {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2px;
+    pointer-events: none; /* Allow clicks to pass through to parent */
+}
+
+.note-numeral {
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    line-height: 1;
+}
+
+.note-count {
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    line-height: 1;
+}
+
+/* Small size (HUD) - compact text */
+.small .note-label {
+    gap: 0px;
+}
+
+.small .note-numeral {
+    font-size: 8px;
+}
+
+.small .note-count {
+    font-size: 7px;
+}
+
+/* Note Adjustment Menu */
+.note-adjustment-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(42, 24, 16, 0.98) 0%, rgba(26, 15, 8, 0.98) 100%);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 1000000000; /* Very high z-index to appear above tooltips */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: auto; /* Ensure menu is clickable */
+}
+
+.note-adjustment-menu .menu-header {
+    font-size: 10px;
+    font-weight: bold;
+    color: #d4af37;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
+    padding-bottom: 6px;
+}
+
+.note-adjustment-menu .menu-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.note-adjustment-menu .menu-controls button {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.6) 0%, rgba(101, 67, 33, 0.6) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.8);
+    border-radius: 4px;
+    color: #f8f4e6;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 10px;
+}
+
+.note-adjustment-menu .menu-controls button:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.8) 0%, rgba(101, 67, 33, 0.8) 100%);
+    border-color: rgba(212, 175, 55, 0.8);
+}
+
+.note-adjustment-menu .menu-controls button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.note-adjustment-menu .menu-value {
+    font-size: 11px;
+    font-weight: bold;
+    color: #d4af37;
+    min-width: 40px;
+    text-align: center;
+}
+
+.note-adjustment-menu .menu-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+.note-adjustment-menu .info-label {
+    font-size: 8px;
+    color: #d4af37;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.note-adjustment-menu .info-value {
+    font-size: 9px;
+    color: #f8f4e6;
+    font-style: italic;
+}
+
+.note-adjustment-menu .menu-reset {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.5) 0%, rgba(101, 67, 33, 0.5) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.6);
+    border-radius: 4px;
+    color: #f8f4e6;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 9px;
+    text-align: center;
+}
+
+.note-adjustment-menu .menu-reset:hover {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.7) 0%, rgba(101, 67, 33, 0.7) 100%);
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+/* Default (normal/large) Minstrel Specialization Indicator for rules page */
+.minstrel-spec-indicator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(42, 24, 16, 0.7) 0%, rgba(26, 15, 8, 0.8) 100%);
+    border: 1px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 40px; /* Match the bar height */
+    width: 40px; /* Square icon button */
+    flex-shrink: 0; /* Don't shrink the spec indicator */
+}
+
+.minstrel-spec-indicator:hover {
+    filter: brightness(1.2);
+}
+
+.minstrel-spec-indicator i {
+    font-size: 16px;
+}
+
+/* Small size (HUD) - compact spec indicator */
+.small .minstrel-spec-indicator {
+    padding: 4px;
+    border-radius: 3px;
+    height: 24px; /* Match the small bar height */
+    width: 24px; /* Square icon button */
+}
+
+.small .minstrel-spec-indicator i {
+    font-size: 11px;
+}
+
+/* Minstrel Specialization Menu */
+.minstrel-spec-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: linear-gradient(135deg, rgba(42, 24, 16, 0.98) 0%, rgba(26, 15, 8, 0.98) 100%);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.minstrel-spec-menu .menu-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #d4af37;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
+    padding-bottom: 6px;
+}
+
+.minstrel-spec-menu .spec-option {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid;
+    border-radius: 4px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.minstrel-spec-menu .spec-option:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.2);
+}
+
+.minstrel-spec-menu .spec-option.selected {
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.minstrel-spec-menu .spec-option .spec-name {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.minstrel-spec-menu .spec-option .spec-theme {
+    font-size: 8px;
+    color: #9a8970;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ===== FORCE COMPACT SIZING IN ACCOUNT CONTEXT ===== */
+/* Override all class resource bars to be compact when displayed in character cards */
+
+.character-card .class-resource-bar,
+.character-card-compact .class-resource-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+/* Rage Bar (Berserker) */
+.character-card .rage-bar,
+.character-card-compact .rage-bar {
+    height: 14px !important;
+    min-height: 14px !important;
+}
+
+.character-card .rage-bar .rage-number,
+.character-card-compact .rage-bar .rage-number {
+    font-size: 0.65rem !important;
+}
+
+/* Time Shards & Strain (Chronomancer) */
+.character-card .time-shards-strain,
+.character-card-compact .time-shards-strain {
+    min-height: 14px !important;
+}
+
+.character-card .shard-icon,
+.character-card-compact .shard-icon {
+    font-size: 0.6rem !important;
+}
+
+/* Hexbreaker Charges */
+.character-card .hexbreaker-charges,
+.character-card-compact .hexbreaker-charges {
+    min-height: 14px !important;
+}
+
+/* Ascension Blood (Deathcaller) */
+.character-card .ascension-blood,
+.character-card-compact .ascension-blood {
+    min-height: 14px !important;
+}
+
+/* DRP Resilience */
+.character-card .drp-resilience,
+.character-card-compact .drp-resilience {
+    min-height: 14px !important;
+}
+
+/* Dominance Die Display */
+.character-card .dominance-die-display,
+.character-card-compact .dominance-die-display {
+    min-height: 14px !important;
+}
+
+/* Madness Gauge */
+.character-card .madness-gauge,
+.character-card-compact .madness-gauge {
+    min-height: 14px !important;
+}
+
+/* Threads of Destiny */
+.character-card .threads-of-destiny,
+.character-card-compact .threads-of-destiny {
+    min-height: 14px !important;
+}
+
+/* Wild Instinct Forms */
+.character-card .wild-instinct-forms,
+.character-card-compact .wild-instinct-forms {
+    min-height: 14px !important;
+}
+
+/* Fortune Points Gambling (Gambler) */
+.character-card .fortune-points-gambling,
+.character-card-compact .fortune-points-gambling {
+    min-height: 14px !important;
+}
+
+.character-card .spec-indicator,
+.character-card-compact .spec-indicator {
+    width: 14px !important;
+    height: 14px !important;
+    font-size: 0.6rem !important;
+}
+
+/* Quarry Marks & Companion (Huntress) */
+.character-card .quarry-marks-companion,
+.character-card-compact .quarry-marks-companion {
+    min-height: 14px !important;
+}
+
+/* Runes & Inscriptions */
+.character-card .runes-inscriptions,
+.character-card-compact .runes-inscriptions {
+    min-height: 14px !important;
+}
+
+/* Eternal Frost Phylactery (Lichborn) */
+.character-card .eternal-frost-phylactery,
+.character-card-compact .eternal-frost-phylactery {
+    min-height: 14px !important;
+}
+
+/* Lunar Phases (Lunarch) */
+.character-card .lunar-phases,
+.character-card-compact .lunar-phases {
+    min-height: 14px !important;
+}
+
+/* Devotion Gauge */
+.character-card .devotion-gauge,
+.character-card-compact .devotion-gauge {
+    min-height: 14px !important;
+}
+
+/* Stance Flow (Bladedancer) */
+.character-card .stance-flow,
+.character-card-compact .stance-flow {
+    min-height: 14px !important;
+}
+
+/* Elemental Spheres Display (Arcanoneer) */
+.character-card .elemental-spheres-display,
+.character-card-compact .elemental-spheres-display {
+    min-height: 14px !important;
+}
+
+.character-card .sphere-icon,
+.character-card-compact .sphere-icon {
+    width: 12px !important;
+    height: 12px !important;
+    font-size: 0.6rem !important;
+}

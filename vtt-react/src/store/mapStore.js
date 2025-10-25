@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 // Default map structure
 const createDefaultMap = (name = 'New Map') => ({
@@ -184,10 +183,8 @@ const initialState = {
     }
 };
 
-const useMapStore = create(
-    persist(
-        (set, get) => ({
-            ...initialState,
+const useMapStore = create((set, get) => ({
+    ...initialState,
 
             // Initialize current map if none set
             getCurrentMapId: () => {
@@ -698,100 +695,6 @@ const useMapStore = create(
                     return 0;
                 }
             }
-        }),
-        {
-            name: 'map-store',
-            partialize: (state) => {
-                // Optimize data before storing to reduce size
-                const optimizedMaps = state.maps.map(map => ({
-                    ...map,
-                    // Only store essential data, remove empty objects/arrays
-                    terrainData: Object.keys(map.terrainData || {}).length > 0 ? map.terrainData : {},
-                    environmentalObjects: (map.environmentalObjects || []).length > 0 ? map.environmentalObjects : [],
-                    dndElements: (map.dndElements || []).length > 0 ? map.dndElements : [],
-                    fogOfWarData: Object.keys(map.fogOfWarData || {}).length > 0 ? map.fogOfWarData : {},
-                    creatures: (map.creatures || []).length > 0 ? map.creatures : [],
-                    tokens: (map.tokens || []).length > 0 ? map.tokens : [],
-                    items: (map.items || []).length > 0 ? map.items : [],
-                    containers: (map.containers || []).length > 0 ? map.containers : [],
-                    portals: (map.portals || []).length > 0 ? map.portals : [],
-                    backgrounds: (map.backgrounds || []).length > 0 ? map.backgrounds : []
-                }));
-
-                return {
-                    maps: optimizedMaps,
-                    currentMapId: state.currentMapId,
-                    portalTemplates: state.portalTemplates || []
-                };
-            },
-            onRehydrateStorage: () => (state) => {
-                // Rehydration complete
-            },
-            // Add storage error handling
-            storage: {
-                getItem: (name) => {
-                    try {
-                        return localStorage.getItem(name);
-                    } catch (error) {
-                        return null;
-                    }
-                },
-                setItem: (name, value) => {
-                    try {
-                        localStorage.setItem(name, value);
-                    } catch (error) {
-                        if (error.name === 'QuotaExceededError') {
-                            // Try to clean up old data and retry
-                            handleStorageQuotaExceeded(name, value);
-                        } else {
-                            throw error;
-                        }
-                    }
-                },
-                removeItem: (name) => {
-                    try {
-                        localStorage.removeItem(name);
-                    } catch (error) {
-                        // Error removing from localStorage
-                    }
-                }
-            }
-        }
-    )
-);
-
-// Emergency storage utilities (available in console)
-window.clearMapStorage = () => {
-    try {
-        localStorage.removeItem('map-store');
-        return true;
-    } catch (error) {
-        return false;
-    }
-};
-
-window.getStorageUsage = () => {
-    try {
-        let totalSize = 0;
-        const breakdown = {};
-
-        for (let key in localStorage) {
-            if (localStorage.hasOwnProperty(key)) {
-                const size = localStorage[key].length;
-                totalSize += size;
-                breakdown[key] = {
-                    size: size,
-                    sizeMB: (size / 1024 / 1024).toFixed(3)
-                };
-            }
-        }
-
-
-
-        return { totalSize, breakdown };
-    } catch (error) {
-        return null;
-    }
-};
+}));
 
 export default useMapStore;

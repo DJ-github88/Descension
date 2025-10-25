@@ -212,6 +212,8 @@
     flex-direction: column;
     gap: 3px;
     min-width: 80px;
+    overflow: visible; /* Allow tooltips to show */
+    position: relative;
 }
 
 /* Make this specific to party HUD to avoid conflicts with class resource bars */
@@ -239,8 +241,10 @@
     border-radius: 2px;
 }
 
-/* Base bar text styling - applies to all resource bars */
-.bar-text,
+/* Base bar text styling - applies to health/mana/AP bars only (not class resource bars) */
+.health-bar .bar-text,
+.mana-bar .bar-text,
+.ap-bar .bar-text,
 .resource-text {
     position: absolute !important;
     top: 0 !important;
@@ -260,13 +264,19 @@
     text-align: center !important;
 }
 
-/* Specific override for HUD resource bars to ensure proper centering */
-.character-portrait-hud .bar-text,
+/* Specific override for HUD health/mana/AP bars to ensure proper centering */
+.character-portrait-hud .health-bar .bar-text,
+.character-portrait-hud .mana-bar .bar-text,
+.character-portrait-hud .ap-bar .bar-text,
 .character-portrait-hud .resource-text,
+.party-hud .health-bar .bar-text,
+.party-hud .mana-bar .bar-text,
+.party-hud .ap-bar .bar-text,
 .party-hud .resource-text,
-.party-hud .bar-text,
-.target-hud .resource-text,
-.target-hud .bar-text {
+.target-hud .health-bar .bar-text,
+.target-hud .mana-bar .bar-text,
+.target-hud .ap-bar .bar-text,
+.target-hud .resource-text {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;

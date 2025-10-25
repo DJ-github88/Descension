@@ -76,6 +76,7 @@ const GridContainer = ({ gridItem }) => {
 
   // Handle context menu
   const handleContextMenu = (e) => {
+    console.log('🎒 GridContainer context menu triggered!', originalItem?.name);
     e.preventDefault();
     e.stopPropagation(); // Stop event propagation
     setContextMenuPosition({ x: e.clientX, y: e.clientY });
@@ -143,26 +144,15 @@ const GridContainer = ({ gridItem }) => {
   const screenPosition = useMemo(() => {
     if (!gridItem.gridPosition || !originalItem) return { x: 0, y: 0 };
 
-    try {
-      // Convert grid position to world coordinates first
-      const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
+    // Convert grid position to world coordinates first
+    const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
 
-      // Use the same coordinate conversion as CreatureToken for consistency
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+    // Use the same coordinate conversion as CreatureToken for consistency
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
 
-      return screenPos;
-    } catch (error) {
-      // Simplified fallback that matches the grid system behavior
-      const worldX = (gridItem.gridPosition.col * gridSize) + gridOffsetX + (gridSize / 2);
-      const worldY = (gridItem.gridPosition.row * gridSize) + gridOffsetY + (gridSize / 2);
-
-      return {
-        x: (worldX - cameraX) * effectiveZoom + window.innerWidth / 2,
-        y: (worldY - cameraY) * effectiveZoom + window.innerHeight / 2
-      };
-    }
+    return screenPos;
   }, [
     gridItem.gridPosition?.col,
     gridItem.gridPosition?.row,
@@ -171,8 +161,6 @@ const GridContainer = ({ gridItem }) => {
     cameraY,
     effectiveZoom,
     gridSize,
-    gridOffsetX,
-    gridOffsetY,
     originalItem
   ]);
 
@@ -209,7 +197,7 @@ const GridContainer = ({ gridItem }) => {
           borderRadius: '8px',
           overflow: 'hidden',
           cursor: 'pointer',
-          zIndex: 20,
+          zIndex: 100,
           pointerEvents: 'all',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease'
         }}
@@ -217,12 +205,6 @@ const GridContainer = ({ gridItem }) => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onContextMenu={handleContextMenu}
-        onClick={(e) => {
-          // Only show context menu on left click, not when dragging
-          if (e.button === 0) {
-            handleContextMenu(e);
-          }
-        }}
       >
         <div
           className="grid-container-header"

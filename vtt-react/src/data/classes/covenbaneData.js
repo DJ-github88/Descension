@@ -671,6 +671,381 @@ Attack warlock with true damage proc, coordinate with party mage to dispel curse
 5. **Target Priority**: Killing the warlock stops the ritual permanently (better than temporary solutions)
 
 You're not just a damage dealer—you're a HUNTER. Every charge makes you deadlier. Spend wisely, or don't spend at all.`
+    },
+
+    playingInPerson: {
+      title: 'Playing In Person',
+      content: `**What You Need**:
+- **6 Hexbreaker Charge Tokens** (coins, beads, or dice representing charges 0-6)
+- **Passive Bonus Chart** (showing bonuses at each charge level)
+- **True Damage Tracker** (for tracking 3rd attack true damage)
+- **Attack Counter** (to track 1st, 2nd, 3rd attacks for Witch Hunter's Precision)
+- **Ability Cost Reference** (showing charge costs for abilities)
+- **Specialization Card** (showing spec-specific bonuses)
+
+**Primary Tracking Method: Charge Tokens + Attack Counter**
+
+The Covenbane builds Hexbreaker charges (0-6) by attacking evil spellcasters or being targeted by spells. Each charge grants exponentially increasing passive bonuses. Every 3rd attack deals bonus true damage. You can spend charges on powerful abilities or save them for devastating passive bonuses.
+
+**Setup**:
+\`\`\`
+COVENBANE RESOURCE TRACKING:
+
+HEXBREAKER CHARGES: [___] / 6
+
+CHARGE GENERATION:
+• +1 per attack vs evil magic users
+• +1 when targeted by enemy spells
+• Shadowbane spec: +1 extra from stealth attacks
+
+PASSIVE BONUSES (Always Active):
+Charges | Damage | Speed | True Damage (3rd Attack)
+   0    |  +0%   |  +0   |        0
+   1    |  +5%   | +5 ft |      1d6
+   2    | +10%   | +10 ft|      2d6
+   3    | +20%   | +15 ft|      3d6
+   4    | +35%   | +20 ft|      4d6
+   5    | +55%   | +25 ft|      5d6
+   6    | +80%   | +30 ft|      6d6
+
+WITCH HUNTER'S PRECISION:
+• Every 3rd attack: Bonus true damage
+• True damage = Charges × 1d6
+• Bypasses all armor and resistances
+
+ABILITY COSTS:
+• Curse Eater (2 charges): Dispel curse/magic
+• Shadow Step (3 charges): Teleport 30 ft
+• Hexbreaker Fury (6 charges): Ultimate ability
+\`\`\`
+
+**How It Works**:
+
+**Charge Generation**:
+1. **Attack evil spellcaster** → +1 charge
+2. **Targeted by spell** → +1 charge
+3. **Add charge token** → Increase charge count
+4. **Passive bonuses increase** → Check chart for new bonuses
+
+**Passive Scaling (Always Active)**:
+- **Damage Bonus**: All attacks deal increased damage
+- **Speed Bonus**: Movement speed increased
+- **True Damage**: Every 3rd attack deals bonus true damage
+
+**Charge Spending**:
+1. **Choose ability** → Check charge cost
+2. **Remove charge tokens** → Subtract from charge count
+3. **Activate ability** → Apply effects
+4. **Passive bonuses decrease** → Check chart for new bonuses
+
+**Example Charge Building**:
+
+*You have 0 charges, attacking an evil warlock*
+
+**Turn 1 - First Attack**:
+1. "I attack the warlock!" (1st attack)
+2. Attack roll: 1d20+5 → [16] + 5 = 21 (hit!)
+3. Weapon damage: 1d8+3 → [6] + 3 = 9 damage
+4. **Charge gained**: +1 (attacked evil spellcaster)
+5. Add 1 charge token
+6. Hexbreaker charges: 0 + 1 = **1 charge**
+7. **New passive bonuses**: +5% damage, +5 ft speed, 1d6 true damage on 3rd attack
+
+**Turn 2 - Second Attack**:
+1. "I attack the warlock again!" (2nd attack)
+2. Attack roll: 1d20+5 → [18] + 5 = 23 (hit!)
+3. Weapon damage: 1d8+3 → [7] + 3 = 10 damage
+4. Damage bonus (+5%): 10 × 1.05 = **10.5 damage** (round to 11)
+5. **Charge gained**: +1 (attacked evil spellcaster)
+6. Add 1 charge token
+7. Hexbreaker charges: 1 + 1 = **2 charges**
+8. **New passive bonuses**: +10% damage, +10 ft speed, 2d6 true damage on 3rd attack
+
+**Turn 3 - Third Attack (True Damage!)**:
+1. "I attack the warlock again!" (3rd attack - **Witch Hunter's Precision triggers!**)
+2. Attack roll: 1d20+5 → [19] + 5 = 24 (hit!)
+3. Weapon damage: 1d8+3 → [8] + 3 = 11 damage
+4. Damage bonus (+10%): 11 × 1.10 = **12 damage**
+5. **True damage**: 2d6 → [5,4] = **9 true damage** (bypasses armor!)
+6. Total damage: 12 + 9 = **21 damage**
+7. **Charge gained**: +1 (attacked evil spellcaster)
+8. Add 1 charge token
+9. Hexbreaker charges: 2 + 1 = **3 charges**
+10. **New passive bonuses**: +20% damage, +15 ft speed, 3d6 true damage on 3rd attack
+11. Reset attack counter to 1st attack
+
+**Example Charge Spending**:
+
+*You have 6 charges, using Hexbreaker Fury ultimate*
+
+**Your Turn - Ultimate Ability**:
+1. "I unleash Hexbreaker Fury!" (6 charges)
+2. Remove all 6 charge tokens
+3. Hexbreaker charges: 6 - 6 = **0 charges**
+4. **Ultimate effect**: Next 3 attacks deal +6d6 true damage each, ignore resistances
+5. **Passive bonuses reset**: +0% damage, +0 ft speed, 0 true damage on 3rd attack
+
+**Example Being Targeted by Spell**:
+
+*You have 3 charges, enemy mage casts Fireball at you*
+
+**Enemy Mage's Turn**:
+1. "The mage casts Fireball at you!"
+2. Fireball damage: 8d6 → [6,5,4,6,3,5,4,6] = 39 fire damage
+3. You take 39 fire damage
+4. **Charge gained**: +1 (targeted by spell)
+5. Add 1 charge token
+6. Hexbreaker charges: 3 + 1 = **4 charges**
+7. **New passive bonuses**: +35% damage, +20 ft speed, 4d6 true damage on 3rd attack
+
+**Passive Bonus Chart**:
+\`\`\`
+═══════════════════════════════════
+  HEXBREAKER CHARGE BONUSES
+═══════════════════════════════════
+0 CHARGES:
+• Damage: +0%
+• Speed: +0 ft
+• True Damage (3rd): 0
+
+1 CHARGE:
+• Damage: +5%
+• Speed: +5 ft
+• True Damage (3rd): 1d6
+
+2 CHARGES:
+• Damage: +10%
+• Speed: +10 ft
+• True Damage (3rd): 2d6
+
+3 CHARGES:
+• Damage: +20%
+• Speed: +15 ft
+• True Damage (3rd): 3d6
+
+4 CHARGES:
+• Damage: +35%
+• Speed: +20 ft
+• True Damage (3rd): 4d6
+
+5 CHARGES:
+• Damage: +55%
+• Speed: +25 ft
+• True Damage (3rd): 5d6
+
+6 CHARGES (MAX):
+• Damage: +80%
+• Speed: +30 ft
+• True Damage (3rd): 6d6
+═══════════════════════════════════
+\`\`\`
+
+**Ability Cost Reference Card**:
+\`\`\`
+═══════════════════════════════════
+    COVENBANE ABILITIES
+═══════════════════════════════════
+CURSE EATER (2 charges):
+• Dispel 1 curse or magical effect
+• Range: Touch
+• Action to use
+
+SHADOW STEP (3 charges):
+• Teleport up to 30 ft
+• Must see destination
+• Costs 1 AP to use
+
+HEXBREAKER FURY (6 charges - ULTIMATE):
+• Next 3 attacks: +6d6 true damage each
+• Ignore all resistances and armor
+• Lasts 3 attacks or 1 minute
+• Action to activate
+═══════════════════════════════════
+\`\`\`
+
+**Attack Counter Tracking**:
+\`\`\`
+═══════════════════════════════════
+  WITCH HUNTER'S PRECISION
+═══════════════════════════════════
+ATTACK SEQUENCE:
+1st Attack → Normal damage
+2nd Attack → Normal damage
+3rd Attack → Normal damage + TRUE DAMAGE
+
+TRUE DAMAGE = Charges × 1d6
+• 1 charge: +1d6 true damage
+• 2 charges: +2d6 true damage
+• 3 charges: +3d6 true damage
+• 4 charges: +4d6 true damage
+• 5 charges: +5d6 true damage
+• 6 charges: +6d6 true damage
+
+After 3rd attack, reset to 1st attack
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 4 charges, attacking evil warlock (2nd attack in sequence)*
+
+**Your Turn - Second Attack**:
+1. "I attack the warlock!" (2nd attack)
+2. Attack roll: 1d20+5 → [17] + 5 = 22 (hit!)
+3. Weapon damage: 1d8+3 → [7] + 3 = 10 damage
+4. Damage bonus (+35%): 10 × 1.35 = **13.5 damage** (round to 14)
+5. **Charge gained**: +1 (attacked evil spellcaster)
+6. Add 1 charge token
+7. Hexbreaker charges: 4 + 1 = **5 charges**
+8. **New passive bonuses**: +55% damage, +25 ft speed, 5d6 true damage on 3rd attack
+9. Attack counter: 2nd → 3rd (next attack triggers true damage!)
+
+**Next Turn - Third Attack (True Damage!)**:
+1. "I attack the warlock again!" (3rd attack)
+2. Attack roll: 1d20+5 → [19] + 5 = 24 (hit!)
+3. Weapon damage: 1d8+3 → [8] + 3 = 11 damage
+4. Damage bonus (+55%): 11 × 1.55 = **17 damage**
+5. **True damage**: 5d6 → [6,5,4,6,5] = **26 true damage** (bypasses armor!)
+6. Total damage: 17 + 26 = **43 damage**
+7. **Charge gained**: +1 (attacked evil spellcaster)
+8. Add 1 charge token
+9. Hexbreaker charges: 5 + 1 = **6 charges** (MAX!)
+10. **New passive bonuses**: +80% damage, +30 ft speed, 6d6 true damage on 3rd attack
+11. Reset attack counter to 1st attack
+
+**Alternative Tracking Methods**:
+
+**Method 1: D6 Die**
+- Rotate die to show current charges (1-6)
+- Quick and visual
+- Single die tracks everything
+
+**Method 2: Token Stack**
+- Stack tokens vertically (1-6 tokens)
+- Visual representation of power
+- Satisfying to add/remove
+
+**Method 3: Charge Track**
+- Linear track with 6 spaces
+- Move marker along track
+- Clear visual progression
+
+**Method 4: Paper Tracking**
+- Write charge count on paper
+- Cross out and rewrite as it changes
+- Minimalist approach
+
+**Attack Counter Methods**:
+
+**Method 1: Three Coins**
+- Flip coins to show 1st, 2nd, 3rd attack
+- Visual sequence tracking
+
+**Method 2: D3 Die**
+- Rotate die to show attack number
+- Simple and compact
+
+**Method 3: Tally Marks**
+- Mark attacks on paper (/, //, ///)
+- Cross out after 3rd attack
+
+**Quick Reference Card Template**:
+\`\`\`
+COVENBANE QUICK REFERENCE
+
+CHARGE GENERATION:
+• Attack evil spellcaster: +1 charge
+• Targeted by spell: +1 charge
+• Shadowbane spec: +1 extra from stealth
+
+PASSIVE BONUSES (Always Active):
+• 0 charges: +0% damage, +0 ft speed
+• 3 charges: +20% damage, +15 ft speed
+• 6 charges: +80% damage, +30 ft speed
+
+WITCH HUNTER'S PRECISION:
+• Every 3rd attack: Bonus true damage
+• True damage = Charges × 1d6
+• Bypasses all armor and resistances
+
+ABILITIES:
+• Curse Eater (2 charges): Dispel curse
+• Shadow Step (3 charges): Teleport 30 ft
+• Hexbreaker Fury (6 charges): Ultimate
+
+STRATEGY:
+• Build charges by attacking spellcasters
+• Save 6 charges for ultimate ability
+• Use true damage on high-armor targets
+• Spend charges on utility when needed
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Covenbane experience with:
+- **Silver Tokens**: Silver coins for Hexbreaker charges (witch hunter theme)
+- **Dark Dice**: Black/purple dice for true damage rolls
+- **Charge Glow**: LED tea light that brightens with more charges
+- **Attack Tracker**: Three-sided token showing attack sequence
+- **Hunter's Mark**: Physical token marking targeted spellcaster
+- **Shadow Step Marker**: Token showing teleport destination
+
+**Charge Management Tips**:
+
+**Building Strategy**:
+- **Prioritize Spellcasters**: Attack evil magic users for charges
+- **Tank Spells**: Get targeted by spells for bonus charges
+- **Shadowbane Spec**: Use stealth attacks for extra charges
+- **Rapid Building**: Focus fire on one spellcaster to build quickly
+- **Max Charges**: Aim for 6 charges for maximum power
+
+**Spending Strategy**:
+- **Save for Ultimate**: 6 charges = Hexbreaker Fury (devastating)
+- **Utility Spending**: Use 2-3 charges for Curse Eater or Shadow Step when needed
+- **Passive vs Active**: Weigh passive bonuses against ability effects
+- **Don't Waste**: Only spend charges when necessary
+- **Rebuild Quickly**: After spending, focus on rebuilding charges
+
+**Combat Strategy**:
+- **Track Attacks**: Know when 3rd attack is coming for true damage
+- **High-Armor Targets**: Use true damage on heavily armored enemies
+- **Mobility**: Use speed bonuses to chase down fleeing spellcasters
+- **Burst Windows**: Activate ultimate at 6 charges for massive damage
+
+**Why This System Works**: The charge system creates exponential power scaling that feels incredibly satisfying. Going from 0 charges (weak) to 6 charges (devastating) creates a clear power fantasy. The physical act of adding charge tokens creates positive reinforcement—every attack makes you stronger. The 3rd attack true damage mechanic creates rhythm and anticipation. The spend-vs-save decision (use charges on abilities or keep for passive bonuses) creates meaningful strategic choices. The system is simple to track but creates deep gameplay.
+
+**Pro Tips**:
+- **Quick Math**: Round damage bonuses for speed (35% of 10 = 3.5 → 4)
+- **Track Attacks**: Use coins or die to track 1st/2nd/3rd attack sequence
+- **Charge Awareness**: Know your current bonuses at each charge level
+- **Ultimate Timing**: Save 6 charges for critical moments
+- **True Damage Focus**: Use 3rd attacks on high-armor targets
+- **Rebuild Fast**: After spending charges, focus on rebuilding
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins (pennies, dimes, quarters)
+- **No die?** Write charge count on paper
+- **No attack tracker?** Tally marks on paper (/, //, ///)
+- **Minimalist**: Track charges and attack number on paper
+
+**Specialization-Specific Tracking**:
+
+**Shadowbane**:
+- Track +1 extra charge from stealth attacks
+- Mark when attacking from stealth
+- Bonus charges accelerate building
+
+**Witch Slayer**:
+- Track enhanced true damage (+1d6 extra)
+- Mark when fighting spellcasters
+- True damage even more devastating
+
+**Relentless Pursuit**:
+- Track extended ultimate duration
+- Mark when Hexbreaker Fury is active
+- Longer burst windows
+
+**Why Covenbane Is Perfect for In-Person Play**: The class is built around simple charge accumulation that creates exponential power scaling. The physical act of adding charge tokens creates satisfying feedback—every attack makes you visibly stronger. The 3rd attack true damage mechanic creates rhythm and anticipation (1st, 2nd, 3rd!). The passive bonus chart provides clear milestones (3 charges = power spike, 6 charges = ultimate). The spend-vs-save decision creates meaningful strategic choices. The system is simple enough to track mid-combat but creates deep strategic gameplay. Every charge gained feels like progress, and every 3rd attack feels like a payoff.`
     }
   },
 

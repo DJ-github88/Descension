@@ -1,6 +1,6 @@
 // Firebase configuration and initialization
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, connectAuthEmulator } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, connectAuthEmulator, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { getAnalytics } from 'firebase/analytics';
@@ -65,6 +65,16 @@ if (app) {
   try {
     // Initialize Firebase Authentication and get a reference to the service
     auth = getAuth(app);
+
+    // Set auth persistence to LOCAL (persists across browser sessions)
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        console.log('✅ Firebase Auth persistence set to LOCAL');
+      })
+      .catch((error) => {
+        console.error('❌ Failed to set auth persistence:', error);
+      });
+
     console.log('✅ Firebase Auth initialized');
 
     // Initialize Cloud Firestore and get a reference to the service

@@ -1,10 +1,7 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
-const useCharacterTokenStore = create(
-    persist(
-        (set, get) => ({
+const useCharacterTokenStore = create((set, get) => ({
             // Character tokens on the grid
             characterTokens: [],
 
@@ -161,12 +158,6 @@ const useCharacterTokenStore = create(
                     ]
                 };
             })
-        }),
-        {
-            name: 'character-token-storage',
-            version: 1
-        }
-    )
-);
+}));
 
 export default useCharacterTokenStore;

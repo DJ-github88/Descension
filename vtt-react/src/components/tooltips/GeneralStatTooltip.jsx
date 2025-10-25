@@ -435,15 +435,6 @@ const getStatDescription = (stat) => {
                 'Works against physical and some magical attacks'
             ]
         },
-        'Armor Class': {
-            title: 'Armor',
-            color: '#FFF',
-            effects: [
-                'Determines difficulty to be hit',
-                'Enemy must roll higher than armor to hit',
-                'Some attacks may target different defenses'
-            ]
-        },
         'Max Health': {
             title: 'Maximum Health',
             color: '#FF7D0A',

@@ -48,7 +48,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Battle Fury',
-                        description: 'When reduced to half hit points, enter a berserker rage (1 AP). Gain +3 damage to all attacks but take -3 to AC and cannot cast spells for 1 minute. Once per long rest.',
+                        description: 'When reduced to half hit points, enter a berserker rage (1 AP). Gain +3 damage to all attacks but take -3 to Armor and cannot cast spells for 1 minute. Once per long rest.',
                         type: 'combat'
                     },
                     {
@@ -173,7 +173,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Fate\'s Warning',
-                        description: 'Allies within 30 feet gain +1 AC against the first attack each round, but you take 1 psychic damage when they\'re hit.',
+                        description: 'Allies within 30 feet gain +1 Armor against the first attack each round, but you take 1 psychic damage when they\'re hit.',
                         type: 'protection'
                     }
                 ],
@@ -256,7 +256,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Stone Skin',
-                        description: 'Natural armor provides +2 AC, but movement speed reduced by 5 feet.',
+                        description: 'Natural armor provides +2 Armor, but movement speed reduced by 5 feet.',
                         type: 'defense'
                     },
                     {

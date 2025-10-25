@@ -203,7 +203,7 @@ export const PATH_DATA = {
         ],
         feature: {
             name: 'Battle Fury',
-            description: 'In combat, you can enter a state of controlled rage. Once per day, you can gain advantage on all melee attack rolls for one round, but you take a -2 penalty to AC until your next turn.'
+            description: 'In combat, you can enter a state of controlled rage. Once per day, you can gain advantage on all melee attack rolls for one round, but you take a -2 penalty to Armor until your next turn.'
         },
         startingPoints: 0
     },

@@ -443,6 +443,223 @@ Build to 5 marks for ultimate abilities to finish off tough enemies or turn the 
 - 2-mark Extended Chains are very efficient for AoE damage
 - Save 5-mark ultimates for boss fights or critical moments
 - Use 1-mark Empowered Strikes to finish off low-health enemies`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Huntress's Quarry Marks system (0-10 marks) and companion tracking create a dynamic hunter-and-beast in-person experience. Here's how to track your marks and companion at the table:
+
+**Required Materials**:
+- **10 tokens or beads** (silver/blue for Quarry Marks)
+- **Companion miniature or token**
+- **Companion HP tracker** (die or paper)
+- **Quarry Mark reference card** with spending options
+
+**Quarry Mark Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent Quarry Marks (0-10):
+- **Starting State**: Begin with 0 marks (or carry over from previous combat)
+- **Generating Marks**: Add tokens when you hit enemies
+  - Normal attack (hit) → +1 mark (add 1 token)
+  - Glaive chain (hit multiple) → +1 mark per enemy hit
+  - Companion attack (hit) → +1 mark
+  - Critical hit → +2 marks (add 2 tokens)
+- **Spending Marks**: Remove tokens when using abilities
+  - Empowered Strike (1 mark) → Remove 1 token
+  - Extended Chain (2 marks) → Remove 2 tokens
+  - Companion Special (3 marks) → Remove 3 tokens
+  - Ultimate Ability (5 marks) → Remove 5 tokens
+
+**Companion Tracking**:
+
+**The Miniature Method** (Recommended):
+
+Use a companion miniature or token on the battle map:
+- **Companion HP**: Track with a die or paper (starts at 50 HP)
+- **Companion Position**: Place mini within 30 ft of you
+- **Companion Commands**: Announce commands each turn
+  - Attack: "Fang, attack the orc!"
+  - Defend: "Fang, defend me!" (+2 AC)
+  - Support: "Fang, grant me +1 attack!"
+
+**Companion Reference Card**:
+\`\`\`
+COMPANION: [Name] (Wolf/Panther/Bear)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+HP: 50/50
+AC: 14
+Speed: 40 ft
+
+COMMANDS (1 AP each):
+• Attack: 1d8 + proficiency damage, +1 QM on hit
+• Defend: Target gains +2 AC (1 round)
+• Support: +1 attack OR -1 enemy attack OR +10 ft move
+• Recall: Teleport companion to your side
+
+PASSIVE:
+• Must stay within 30 ft for commands
+• Can be targeted by enemies
+• Generates Quarry Marks on successful attacks
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+**Quarry Mark Spending Reference**:
+\`\`\`
+QUARRY MARK ABILITIES
+
+1 MARK - Empowered Strike
+Companion's next attack deals +1d6 damage
+
+2 MARKS - Extended Chain
+Glaive chains to +1 additional target
+
+3 MARKS - Companion Special
+Wolf: Knockdown (prone)
+Panther: Bleed (1d6/turn)
+Bear: Roar (frighten)
+
+5 MARKS - Ultimate Ability
+Spec-dependent massive ability
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 3 Quarry Marks, Companion (Fang) at 40/50 HP*
+
+**Turn 1 - Generate Marks**:
+1. "I attack the goblin with my glaive!"
+2. Roll to hit → Hit!
+3. Add 1 Quarry Mark token: 3 + 1 = 4 marks
+4. "Fang, attack the goblin!"
+5. Roll companion attack → Hit! (1d8 damage)
+6. Add 1 Quarry Mark token: 4 + 1 = 5 marks
+
+**Turn 2 - Spend Marks (Ultimate)**:
+1. "I have 5 marks! I use my ultimate ability!"
+2. Remove 5 tokens: 5 - 5 = 0 marks
+3. Execute ultimate (spec-dependent)
+4. "Fang, defend me!" (+2 AC for 1 round)
+
+**Turn 3 - Rebuild Marks**:
+1. "I attack the orc!"
+2. Roll to hit → Hit!
+3. Add 1 token: 0 + 1 = 1 mark
+4. Glaive chains to adjacent goblin → Hit!
+5. Add 1 token: 1 + 1 = 2 marks
+
+**Glaive Chain Tracking**:
+
+When your glaive chains between enemies:
+1. Attack primary target → Roll to hit
+2. If hit, glaive chains to enemies within 5 ft of primary
+3. Roll separate attack for each chained target
+4. Add +1 Quarry Mark per enemy hit
+
+**Example**:
+- Attack orc (3 goblins within 5 ft of orc)
+- Orc: Hit! (+1 mark)
+- Goblin 1: Hit! (+1 mark)
+- Goblin 2: Miss (no mark)
+- Goblin 3: Hit! (+1 mark)
+- Total: +3 Quarry Marks from one attack!
+
+**Quick Reference Card**:
+\`\`\`
+HUNTRESS QUICK REFERENCE
+
+QUARRY MARKS:
+• Maximum: 10 marks
+• Generate: +1 per hit, +2 per crit
+• Glaive chains: +1 per enemy hit
+• Companion attacks: +1 per hit
+
+SPENDING:
+1 Mark: Empowered Strike (+1d6 companion dmg)
+2 Marks: Extended Chain (+1 target)
+3 Marks: Companion Special (knockdown/bleed/frighten)
+5 Marks: Ultimate Ability (spec-dependent)
+
+COMPANION:
+• HP: 50 | AC: 14 | Speed: 40 ft
+• Must stay within 30 ft
+• Commands cost 1 AP each
+• Generates marks on hit
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the huntress experience with:
+- **Companion Mini**: Use a wolf/panther/bear miniature
+- **Silver Tokens**: Use silver/blue beads for Quarry Marks
+- **Companion Card**: Laminated card with companion stats
+- **Mark Tracker**: Use a d10 die or tokens
+- **Glaive Prop**: Keep a small glaive prop on the table
+
+**Example Full Combat Sequence**:
+
+*Starting: 2 Quarry Marks, Companion at 50/50 HP*
+
+**Round 1**: Attack (hit) → +1 mark = 3 marks | Companion attack (hit) → +1 mark = 4 marks
+**Round 2**: Attack (chains to 2 enemies, both hit) → +2 marks = 6 marks
+**Round 3**: Spend 2 marks (Extended Chain) → 4 marks | Attack chains to 3 enemies
+**Round 4**: Spend 3 marks (Companion Special) → 1 mark | Fang knocks enemy prone
+**Round 5**: Attack (crit!) → +2 marks = 3 marks
+**Round 6**: Attack (hit) → +1 mark = 4 marks | Companion attack (hit) → +1 mark = 5 marks
+**Round 7**: Spend 5 marks (Ultimate) → 0 marks | Massive damage!
+
+**Visual Organization**:
+
+**Your Play Area**:
+\`\`\`
+[Quarry Mark Tokens]    [Companion Card]
+○○○○○○ (6 marks)        FANG (Wolf)
+                        HP: 40/50
+
+[Battle Map]
+(Your mini + Fang mini within 30 ft)
+\`\`\`
+
+**Companion HP Tracking**:
+
+Use a die or paper to track companion HP:
+- **d20 Method**: Set die to current HP (if HP ≤ 20)
+- **d10 Method**: Use 2d10 (tens + ones) for HP up to 100
+- **Paper Method**: Write HP, update as needed
+
+**Specialization-Specific Tracking**:
+
+**Shadowblade**:
+- Glaive chains deal +1d6 damage per chain
+- Note on reference card: "Chain damage +1d6"
+
+**Beastmaster**:
+- Companion has +20 HP (70 HP instead of 50)
+- Companion Special costs 2 marks (not 3)
+- Update companion card accordingly
+
+**Moonlight Warrior**:
+- Attacks during night/darkness generate +1 mark
+- Note: "Night attacks: +2 marks total"
+
+**Why This System Works**: The physical act of adding Quarry Mark tokens after successful attacks creates MOMENTUM. You can SEE your marks building, FEEL the decision of when to spend them, and EXPERIENCE the satisfaction of unleashing a 5-mark ultimate. The companion miniature on the battle map makes your beast partner tangible, and commanding them each turn creates a sense of teamwork. The glaive chain mechanic—rolling multiple attacks and adding multiple marks—creates exciting multi-target moments.
+
+**Pro Tips**:
+- **Mark Banking**: Keep 3-5 marks banked for emergency abilities
+- **Companion Positioning**: Keep companion within 30 ft for commands
+- **Chain Setup**: Position for maximum glaive chains (grouped enemies)
+- **Ultimate Timing**: Save 5-mark ultimates for bosses or critical moments
+- **Companion Defense**: Use Defend command when companion is low HP
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use a d10 die to track Quarry Marks
+- **No companion mini?** Use a coin or token
+- **No cards?** Write companion stats and mark abilities on paper
+- **Minimalist**: Track marks and companion HP on paper
+
+**Why Huntress Is Perfect for In-Person Play**: The class is built around building Quarry Marks through successful attacks and commanding a loyal companion. The physical components (mark tokens, companion miniature) make the hunter-and-beast partnership tangible. Adding tokens after each hit creates satisfying feedback, and the companion mini on the map makes your beast partner feel real. The glaive chain mechanic creates exciting moments when you hit multiple enemies and generate multiple marks at once. Every combat is a hunt—marking prey, coordinating with your companion, and unleashing devastating abilities when the moment is right.`
     }
   },
   
@@ -986,7 +1203,7 @@ Build to 5 marks for ultimate abilities to finish off tough enemies or turn the 
         effects: [
           'Companion gains +2 to attack rolls',
           'Companion deals +2d6 damage on all attacks',
-          'Companion gains +4 AC',
+          'Companion gains +4 Armor',
           'Companion has advantage on all attacks',
           'Duration: 3 rounds'
         ]
@@ -1066,8 +1283,8 @@ Build to 5 marks for ultimate abilities to finish off tough enemies or turn the 
 
       specialMechanics: {
         shadowdancerPassive: {
-          description: 'Shadowdancer spec gains +2 AC and advantage on Stealth for 1 round (Shadow Veil passive)',
-          additionalEffect: 'Can hide as bonus action after Shadowstep'
+          description: 'Shadowdancer spec gains +2 Armor and advantage on Stealth for 1 round (Shadow Veil passive)',
+          additionalEffect: 'Can hide for 1 AP after Shadowstep'
         },
         lethalPrecision: {
           description: 'Next attack after Shadowstep deals +2d6 damage (Lethal Precision passive)'
@@ -1472,7 +1689,7 @@ Build to 5 marks for ultimate abilities to finish off tough enemies or turn the 
         },
         conditionalBuff: {
           condition: 'If all 3 attacks hit',
-          effect: '+1 AC until start of next turn'
+          effect: '+1 Armor until start of next turn'
         }
       },
 

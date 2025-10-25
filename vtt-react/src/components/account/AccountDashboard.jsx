@@ -269,20 +269,7 @@ const AccountDashboard = ({ user }) => {
             )}
           </div>
           <div className="account-welcome">
-            <h2>Welcome to Mythrill!</h2>
-            <div className="user-info-with-badge">
-              <p>{user?.displayName || 'Adventurer'}</p>
-              <span className="membership-tag">
-                <i className="fas fa-crown"></i>
-                {user?.isGuest ? 'Guest' : (subscriptionStatus?.tier?.name || 'Free Adventurer')}
-              </span>
-            </div>
-            {isDevelopmentBypass && (
-              <div className="dev-mode-badge">
-                <i className="fas fa-code"></i>
-                Preview Mode
-              </div>
-            )}
+            <p className="user-display-name">{user?.displayName || 'Adventurer'}</p>
             {user?.isGuest && (
               <div className="guest-notice">
                 <i className="fas fa-info-circle"></i>
@@ -312,9 +299,13 @@ const AccountDashboard = ({ user }) => {
 
         {/* Right: Action Buttons */}
         <div className="header-actions-new">
-          <button onClick={handleSignOut} className={`action-btn ${isDevelopmentBypass ? 'exit-preview-btn' : 'logout-btn'}`}>
-            <i className={isDevelopmentBypass ? "fas fa-times-circle" : "fas fa-sign-out-alt"}></i>
-            <span>{isDevelopmentBypass ? 'Exit Preview' : 'Sign Out'}</span>
+          <button onClick={() => navigate('/')} className="action-btn home-btn">
+            <i className="fas fa-home"></i>
+            <span>Home</span>
+          </button>
+          <button onClick={handleSignOut} className="action-btn logout-btn">
+            <i className="fas fa-sign-out-alt"></i>
+            <span>Sign Out</span>
           </button>
         </div>
       </header>
@@ -504,13 +495,11 @@ const AccountDashboard = ({ user }) => {
                                   <span className="resource-label">AP</span>
                                   <span className="resource-value">{actionPoints.current}/{actionPoints.max}</span>
                                 </div>
-                                <div className="ap-dots-container">
-                                  {Array.from({ length: actionPoints.max }, (_, i) => (
-                                    <div
-                                      key={i}
-                                      className={`ap-dot ${i < actionPoints.current ? 'filled' : 'empty'}`}
-                                    ></div>
-                                  ))}
+                                <div className="resource-bar-container">
+                                  <div
+                                    className="resource-bar-fill ap-fill"
+                                    style={{ width: `${(actionPoints.current / actionPoints.max) * 100}%` }}
+                                  ></div>
                                 </div>
                               </div>
 
@@ -538,6 +527,7 @@ const AccountDashboard = ({ user }) => {
                                       classResource={classResource}
                                       size="normal"
                                       isGMMode={false}
+                                      context="account"
                                     />
                                   </div>
                                 );

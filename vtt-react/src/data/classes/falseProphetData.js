@@ -389,6 +389,359 @@ Roll 1d6 for the specific effect:
 - "Threshold Dancing": Using Temptation abilities at exact thresholds before spending
 
 The best False Prophets learn to embrace chaos while maintaining just enough control to avoid self-destruction.`
+    },
+
+    playingInPerson: {
+      title: 'Playing False Prophet In Person',
+      content: `**Required Materials**:
+- **20 Madness Tokens** (purple/black tokens, beads, or dice)
+- **Madness Generation Dice** (d4, d6, d8 for rolling Madness gains)
+- **Madness Spending Dice** (d4, d6, d8 for rolling Madness costs)
+- **Insanity Convulsion Table** (d6 reference card)
+- **Threshold Tracker** (card showing 6/9/12/20 thresholds)
+- **Shadow Damage Counter** (optional, for tracking current bonus)
+
+**Primary Tracking Method: Madness Token Pool**
+
+The False Prophet's Madness Points are tracked using a pool of physical tokens that grow and shrink randomly as you cast spells. Unlike most resource systems, you don't know exactly how much Madness you'll gain or spend—you roll dice to determine the amounts, creating unpredictable, chaotic gameplay.
+
+**Setup**:
+\`\`\`
+MADNESS POOL: [○][○][○][○][○][○][○][○][○][○] (10 Madness)
+
+SHADOW DAMAGE BONUS: +10 (1 per Madness Point)
+
+THRESHOLDS:
+☐ 6 Madness: Veil of Shadows unlocked
+☐ 9 Madness: Eldritch Vision unlocked
+☐ 12 Madness: Apocalyptic Revelation unlocked
+☐ 20 Madness: INSANITY CONVULSION!
+
+CURRENT MADNESS: [___] / 20
+\`\`\`
+
+**How It Works**:
+
+**Generating Madness (Random)**:
+1. Cast a Madness-generating spell
+2. Roll the specified die (1d4, 1d6, or 1d8)
+3. Add that many tokens to your Madness pool
+4. Shadow damage bonus increases by the rolled amount
+5. Check if you've crossed any thresholds
+
+**Spending Madness (Random)**:
+1. Cast a Madness-spending spell
+2. Roll the specified die (1d4, 1d6, or 1d8)
+3. Remove that many tokens from your Madness pool
+4. Shadow damage bonus decreases by the rolled amount
+5. If you don't have enough Madness, spell may fail or have reduced effect
+
+**Example Madness Generation**:
+
+*Starting: 0 Madness*
+
+**Turn 1**: Cast "Whispers of the Void" (generates 1d4 Madness)
+- Roll 1d4 → [3]
+- Add 3 purple tokens to pool → **3 Madness**
+- Shadow damage bonus: +3
+
+**Turn 2**: Cast "Eldritch Bolt" (generates 1d6 Madness)
+- Roll 1d6 → [5]
+- Add 5 purple tokens → **8 Madness**
+- Shadow damage bonus: +8
+- Threshold crossed: 6 Madness → Veil of Shadows unlocked!
+
+**Turn 3**: Cast "Mind Fracture" (generates 1d8 Madness)
+- Roll 1d8 → [7]
+- Add 7 purple tokens → **15 Madness**
+- Shadow damage bonus: +15
+- Thresholds crossed: 9 Madness (Eldritch Vision), 12 Madness (Apocalyptic Revelation)
+
+**Turn 4**: Cast "Shadow Drain" (spends 1d6 Madness)
+- Roll 1d6 → [4]
+- Remove 4 purple tokens → **11 Madness**
+- Shadow damage bonus: +11
+
+**The Danger Zone (15-19 Madness)**:
+
+When you're at 15-19 Madness, you're in the "Madness Surfing" zone—maximum damage potential but one bad roll away from Insanity Convulsion:
+
+*You have 17 Madness*
+
+**Option 1**: Cast another generating spell (1d4 Madness)
+- Roll 1d4 → [1] = 18 Madness (safe!)
+- Roll 1d4 → [2] = 19 Madness (still safe!)
+- Roll 1d4 → [3] = 20 Madness → **INSANITY CONVULSION!**
+- Roll 1d4 → [4] = 21 Madness → **INSANITY CONVULSION!**
+
+**Option 2**: Spend Madness to stay safe
+- Cast spending spell (1d6 Madness)
+- Roll 1d6 → [5] = 12 Madness (back to safe zone)
+
+**Insanity Convulsion (20 Madness)**:
+
+When you reach exactly 20 Madness (or exceed it), you immediately trigger an Insanity Convulsion:
+
+1. **Announce**: "I've reached 20 Madness! Insanity Convulsion!"
+2. **Roll 1d6** on the Insanity Convulsion Table
+3. **Apply Effect** (all effects are self-inflicting or chaotic)
+4. **Reset Madness**: Remove ALL tokens → 0 Madness
+5. **Shadow Damage Bonus**: Resets to +0
+
+**Insanity Convulsion Table**:
+\`\`\`
+Roll 1d6:
+
+1. SHADOW BURST
+   Deal 5d6 necrotic to yourself + all within 20 ft
+   Roll: 5d6 → [4,6,3,5,2] = 20 damage to everyone!
+
+2. MIND SHATTER
+   Stunned for 2 rounds
+   Cannot move, act, or react
+
+3. DARK WHISPERS
+   Disadvantage on attacks/saves for 3 rounds
+   Roll all d20s twice, take lower result
+
+4. CHAOTIC PULSE
+   Teleport randomly within 60 ft + 4d6 psychic
+   DM determines random location
+
+5. PSYCHIC SCREAM
+   All within 30 ft: WIS save or frightened 3 rounds
+   Enemies flee from you
+
+6. NIGHTMARE ECHOES
+   Take 6d6 psychic + Short-Term Madness 1d4 rounds
+   Roll on Short-Term Madness table
+\`\`\`
+
+**Short-Term Madness Table** (if triggered by result 6):
+\`\`\`
+Roll 1d6 for duration 1d4 rounds:
+
+1. PARANOIA: Attack nearest ally
+2. DELIRIUM: Disadvantage on all checks/saves
+3. FEARFUL: Flee from combat for 1 round
+4. CONFUSION: Cannot distinguish friend from foe
+5. DESPAIR: Cannot cast spells for 1 round
+6. HALLUCINATION: Perceive illusions, DM describes
+\`\`\`
+
+**Alternative Tracking Methods**:
+
+**Method 1: Dice Tower**
+- Stack d6s to show current Madness (3 dice = 18 Madness)
+- Add/remove dice as Madness changes
+- Visual height shows danger level
+- Quick to adjust, but limited to multiples of 6
+
+**Method 2: d20 Tracker**
+- Use a d20 to show current Madness Points
+- Rotate die as Madness changes
+- Simple and compact
+- Doesn't show individual token accumulation
+
+**Method 3: Tally Marks**
+- Write tally marks on paper as you gain Madness
+- Cross out marks as you spend Madness
+- Minimalist approach
+- Easy to track exact count
+
+**Method 4: Madness Dial**
+- Create a dial with numbers 0-20
+- Rotate pointer as Madness changes
+- Visual representation of danger zones
+- Requires crafting custom dial
+
+**Threshold Reference Card**:
+\`\`\`
+FALSE PROPHET MADNESS THRESHOLDS
+
+SHADOW DAMAGE BONUS:
++1 per Madness Point (at 15 Madness = +15 shadow damage)
+
+TEMPTATION ABILITIES:
+6 Madness: Veil of Shadows (invisibility, +1d4 Madness)
+9 Madness: Eldritch Vision (true sight, +1d6 Madness)
+12 Madness: Apocalyptic Revelation (8d6 AoE, +2d6 Madness)
+
+DANGER ZONES:
+0-5: Safe, low damage
+6-11: Moderate, abilities unlocked
+12-19: High damage, high risk
+20+: INSANITY CONVULSION!
+
+MADNESS GENERATION SPELLS:
+• Whispers of Void: +1d4 Madness
+• Eldritch Bolt: +1d6 Madness
+• Mind Fracture: +1d8 Madness
+• Shadow Torrent: +2d6 Madness
+
+MADNESS SPENDING SPELLS:
+• Shadow Drain: -1d6 Madness
+• Clarity Burst: -1d8 Madness
+• Void Anchor: -1d4 Madness
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 14 Madness, fighting a group of cultists*
+
+**Turn 1 - Generate More Madness**:
+1. "I cast Eldritch Bolt at the cultist leader!"
+2. Roll spell damage: 3d6 + 14 (Madness bonus) → [4,5,6] + 14 = 29 damage!
+3. Roll Madness generation: 1d6 → [4]
+4. Add 4 purple tokens → **18 Madness**
+5. Announce: "I'm at 18 Madness now. Shadow damage bonus is +18. I'm in the danger zone!"
+
+**Turn 2 - Temptation Ability**:
+1. "I use Apocalyptic Revelation! 8d6 AoE to all cultists!"
+2. Roll damage: 8d6 + 18 → [6,5,4,6,3,5,4,6] + 18 = 55 damage!
+3. Roll Madness cost: 2d6 → [3,5] = 8 Madness added
+4. Add 8 purple tokens → **26 Madness** → Over 20!
+5. "INSANITY CONVULSION!"
+
+**Turn 3 - Convulsion**:
+1. Roll 1d6 on Convulsion Table → [4] = Chaotic Pulse
+2. Teleport randomly within 60 ft (DM determines location)
+3. Take 4d6 psychic → [4,3,5,6] = 18 psychic damage to myself
+4. Remove ALL purple tokens → **0 Madness**
+5. Shadow damage bonus resets to +0
+6. Announce: "I'm back to 0 Madness. Time to build again..."
+
+**Quick Reference Card Template**:
+\`\`\`
+FALSE PROPHET QUICK REFERENCE
+
+MADNESS MECHANICS:
+• Generate: Roll die, add tokens (1d4/1d6/1d8)
+• Spend: Roll die, remove tokens (1d4/1d6/1d8)
+• Shadow Damage: +1 per Madness Point
+• Convulsion: At 20 Madness, roll 1d6 on table
+
+MADNESS STRATEGY:
+• Safe Zone (0-8): Build freely
+• Power Zone (9-14): Good damage, manageable risk
+• Danger Zone (15-19): Maximum damage, high risk
+• Convulsion (20+): Chaos unleashed, reset to 0
+
+TEMPTATION ABILITIES:
+6: Veil of Shadows (+1d4 Madness)
+9: Eldritch Vision (+1d6 Madness)
+12: Apocalyptic Revelation (+2d6 Madness)
+
+CONVULSION EFFECTS:
+1. Shadow Burst (5d6 to all nearby)
+2. Mind Shatter (stunned 2 rounds)
+3. Dark Whispers (disadvantage 3 rounds)
+4. Chaotic Pulse (teleport + 4d6 psychic)
+5. Psychic Scream (frighten all nearby)
+6. Nightmare Echoes (6d6 + Short-Term Madness)
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the False Prophet experience with:
+- **Purple/Black Tokens**: Use dark-colored beads or tokens for Madness
+- **Eldritch Dice**: Purple or black dice for Madness rolls
+- **Convulsion Sound**: Play eerie sound effect when hitting 20 Madness
+- **Madness Journal**: Write cryptic notes as Madness increases
+- **Eye Symbol**: Keep an eye symbol that "watches" as Madness grows
+- **Flickering Candle**: Candle that flickers more as Madness increases
+
+**Madness Management Tips**:
+
+**Building Strategy**:
+- **Start Slow**: Build to 6-9 Madness first for moderate power
+- **Track Thresholds**: Know when you unlock Temptation abilities
+- **Calculate Risk**: At 15+ Madness, every generating spell risks Convulsion
+- **Embrace Chaos**: Accept that you can't control exact Madness amounts
+
+**Spending Strategy**:
+- **Emergency Spending**: Use spending spells when approaching 20
+- **Madness Surfing**: Stay at 15-19 for maximum damage if you're brave
+- **Threshold Awareness**: Don't spend below thresholds you want to maintain
+- **Random Spending**: Remember spending is random—you might spend more than expected
+
+**Convulsion Management**:
+- **Controlled Detonation**: Sometimes triggering Convulsion is strategic
+- **Positioning**: Be aware of allies when near 20 (Shadow Burst hits everyone)
+- **Backup Plan**: Have low-Madness spells ready for post-Convulsion recovery
+- **Accept Chaos**: Convulsions are part of the class fantasy
+
+**Example Full Combat Sequence**:
+
+*Starting: 0 Madness*
+
+**Turn 1**: Cast Whispers (1d4) → Roll [3] → 3 Madness (+3 shadow damage)
+**Turn 2**: Cast Eldritch Bolt (1d6) → Roll [5] → 8 Madness (+8 shadow damage)
+**Turn 3**: Cast Mind Fracture (1d8) → Roll [6] → 14 Madness (+14 shadow damage)
+**Turn 4**: Cast Eldritch Bolt (1d6) → Roll [4] → 18 Madness (+18 shadow damage)
+**Turn 5**: Cast Whispers (1d4) → Roll [3] → 21 Madness → **CONVULSION!**
+**Turn 6**: Roll Convulsion → [2] = Mind Shatter → Stunned 2 rounds, reset to 0
+**Turn 7-8**: Stunned, cannot act
+**Turn 9**: Recovered, start building Madness again from 0
+
+**Visual Organization**:
+
+**Madness Display Layout**:
+\`\`\`
+MADNESS POOL: [●][●][●][●][●][●][●][●][●][●][●][●][●][●][●][○][○][○][○][○]
+Current: 15/20 (DANGER ZONE!)
+
+SHADOW DAMAGE: +15
+
+UNLOCKED ABILITIES:
+✓ Veil of Shadows (6)
+✓ Eldritch Vision (9)
+✓ Apocalyptic Revelation (12)
+
+NEXT THRESHOLD: 20 = CONVULSION!
+\`\`\`
+
+**Battlefield Tracking**:
+- **Madness Tokens**: Pool of purple/black tokens showing current Madness
+- **Threshold Card**: Reference showing 6/9/12/20 thresholds
+- **Convulsion Table**: d6 table ready for when you hit 20
+- **Shadow Damage Tracker**: Current bonus written on card
+
+**Why This System Works**: The randomness of Madness generation and spending creates genuine tension and unpredictability. You can't plan exact Madness amounts—you roll dice and react to the results. The physical act of adding tokens as you descend into madness, then watching the pile grow dangerously close to 20, creates visceral anxiety. The moment you hit 20 and roll on the Convulsion table is dramatic and chaotic, perfectly capturing the False Prophet's theme of "power through insanity." The reset to 0 after Convulsion creates a satisfying cycle of building, risking, exploding, and rebuilding.
+
+**Pro Tips**:
+- **Count Before Casting**: Always count current Madness before generating more
+- **Know Your Dice**: Understand average rolls (d4=2.5, d6=3.5, d8=4.5)
+- **Threshold Planning**: Decide which Temptation abilities you want before combat
+- **Convulsion Timing**: Sometimes triggering Convulsion when beneficial is smart
+- **Track Shadow Damage**: Keep current bonus visible so you don't forget to add it
+- **Specialization Synergy**: Voidcaller = aggressive generation, Deceiver = control focus, Harbinger = balanced approach
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins, buttons, or dice to represent Madness
+- **No Convulsion table?** Write effects on index card
+- **No threshold tracker?** Just remember 6/9/12/20 thresholds
+- **Minimalist**: Track Madness count on paper, roll dice for generation/spending
+
+**Specialization-Specific Tracking**:
+
+**Voidcaller**:
+- Add +1 to all Madness generation rolls
+- If you roll 1d4 → [3], add 4 tokens (not 3)
+- At 15+ Madness, add +1d8 to shadow damage spells
+- Track bonus damage separately
+
+**Deceiver**:
+- Mind control spells don't generate Madness
+- Can spend Madness to enhance control duration
+- Track controlled enemies separately
+
+**Harbinger**:
+- Can choose to reroll Madness generation once per turn
+- Convulsion effects can target enemies instead of self
+- Mark when reroll is available
+
+**Why False Prophet Is Perfect for In-Person Play**: The class is built around dice rolls and randomness, which are already core to tabletop gaming. The physical act of rolling dice to determine Madness generation creates suspense—will you roll high and risk Convulsion, or low and stay safe? The growing pile of Madness tokens creates visual tension as you approach 20, and the dramatic moment of hitting 20 and rolling on the Convulsion table is pure chaos. The unpredictability makes every turn exciting, and the reset mechanic (Convulsion → 0 Madness) creates natural story arcs within combat. It's a class that embraces the randomness of dice, making it perfect for in-person play.`
     }
   },
 

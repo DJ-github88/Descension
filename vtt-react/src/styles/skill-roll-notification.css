@@ -1,0 +1,241 @@
+/* Skill Roll Notification Styles - Pathfinder/D&D Theme */
+.skill-roll-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(30, 20, 10, 0.95));
+    border-radius: 16px;
+    padding: 24px 32px;
+    color: #f0e6d2;
+    z-index: 99999;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(212, 175, 55, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    min-width: 400px;
+    font-family: 'Cinzel', serif;
+    border: 3px solid #d4af37;
+}
+
+.skill-roll-notification.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.skill-roll-notification.fade-out {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transition: all 0.5s ease-in;
+}
+
+.skill-roll-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.roll-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.roll-header i {
+    font-size: 64px;
+    color: #d4af37;
+    text-shadow: 
+        0 0 20px rgba(212, 175, 55, 0.6),
+        0 0 40px rgba(212, 175, 55, 0.3);
+    animation: diceRotate 0.6s ease-out;
+}
+
+.roll-header i.critical-success {
+    color: #28a745;
+    text-shadow: 
+        0 0 20px rgba(40, 167, 69, 0.8),
+        0 0 40px rgba(40, 167, 69, 0.4);
+    animation: criticalSuccess 0.6s ease-out;
+}
+
+.roll-header i.critical-failure {
+    color: #dc3545;
+    text-shadow: 
+        0 0 20px rgba(220, 53, 69, 0.8),
+        0 0 40px rgba(220, 53, 69, 0.4);
+    animation: criticalFailure 0.6s ease-out;
+}
+
+.roll-value {
+    color: #d4af37;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.roll-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.skill-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.roll-result {
+    font-size: 16px;
+    color: #f0e6d2;
+    opacity: 0.95;
+    font-weight: normal;
+    max-width: 350px;
+    line-height: 1.4;
+}
+
+/* Result type specific styling */
+.skill-roll-notification.success {
+    border-color: #28a745;
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(40, 167, 69, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.skill-roll-notification.success .roll-value {
+    color: #28a745;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(40, 167, 69, 0.6);
+}
+
+.skill-roll-notification.failure {
+    border-color: #dc3545;
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(220, 53, 69, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.skill-roll-notification.failure .roll-value {
+    color: #dc3545;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(220, 53, 69, 0.6);
+}
+
+.skill-roll-notification.normal {
+    border-color: #6c757d;
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(108, 117, 125, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.skill-roll-notification.normal .roll-value {
+    color: #6c757d;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.9),
+        0 0 20px rgba(108, 117, 125, 0.5);
+}
+
+/* Animations */
+@keyframes diceRotate {
+    0% {
+        transform: rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes criticalSuccess {
+    0% {
+        transform: rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    70% {
+        transform: rotate(360deg) scale(0.9);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes criticalFailure {
+    0% {
+        transform: rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    25% {
+        transform: rotate(-30deg) scale(1.1);
+    }
+    50% {
+        transform: rotate(30deg) scale(1.1);
+    }
+    75% {
+        transform: rotate(-15deg) scale(1.05);
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .skill-roll-notification {
+        min-width: 320px;
+        max-width: calc(100vw - 40px);
+        padding: 20px 24px;
+    }
+    
+    .roll-header {
+        font-size: 36px;
+        gap: 16px;
+    }
+    
+    .roll-header i {
+        font-size: 48px;
+    }
+    
+    .skill-name {
+        font-size: 18px;
+    }
+    
+    .roll-result {
+        font-size: 14px;
+        max-width: 280px;
+    }
+}
+
+/* Stack multiple notifications */
+.skill-roll-notification:nth-of-type(2) {
+    top: calc(50% + 180px);
+}
+
+.skill-roll-notification:nth-of-type(3) {
+    top: calc(50% + 360px);
+}
+

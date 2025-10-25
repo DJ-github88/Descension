@@ -199,7 +199,7 @@ export const LICHBORNE_DATA = {
 
 *You're at 25 HP. The aura is still draining you. Time to turn it OFF.*
 
-**Your Action**: Deactivate Eternal Frost Aura (0 AP, free action)
+**Your Action**: Deactivate Eternal Frost Aura (0 AP)
 
 *You release the cold. The frost aura dissipates. The temperature rises. You can breathe again.*
 
@@ -464,6 +464,312 @@ When phylactery is depleted:
 - Time aura activation after receiving heals
 - Use self-healing spells strategically
 - Deactivate aura if no healing available`
+    },
+
+    playingInPerson: {
+      title: 'Playing Lichborne In Person',
+      content: `**Required Materials**:
+- **Eternal Frost Aura Toggle** (card or token showing Active/Inactive)
+- **HP Tracker** (d100 or paper for current HP)
+- **Phylactery HP Tracker** (separate tracker for stored HP)
+- **Aura Damage Die** (d6 for rolling aura drain each turn)
+- **Frost Damage Bonus Tracker** (showing +1d6 when aura active)
+- **Resurrection Tracker** (marking when Phylactery resurrection is available)
+
+**Primary Tracking Method: Dual HP Tracking + Aura Toggle**
+
+The Lichborne's resource system uses two separate HP pools (your HP and Phylactery HP) plus an Eternal Frost Aura toggle. The aura enhances frost spells but drains your HP each turn, creating a risk/reward balance. The Phylactery stores HP and provides resurrection when you die.
+
+**Setup**:
+\`\`\`
+LICHBORNE RESOURCE TRACKING:
+
+YOUR HP: [___] / 80
+PHYLACTERY HP: [___] / 80 (stored HP)
+
+ETERNAL FROST AURA: [INACTIVE] / [ACTIVE]
+When Active:
+• All frost spells: +1d6 frost damage
+• Enemies hit: CON save DC 15 or -10 ft speed (chilled)
+• You lose 1d6 HP at start of each turn
+
+PHYLACTERY RESURRECTION:
+• When you die: Resurrect at Phylactery location
+• HP restored: Equal to Phylactery HP stored
+• Phylactery HP: Resets to 0 after resurrection
+• Cooldown: Once per long rest
+\`\`\`
+
+**How It Works**:
+
+**Eternal Frost Aura (Toggle)**:
+1. **Activate** (1 AP, no mana): Flip aura card to "ACTIVE"
+2. **While Active**: All frost spells deal +1d6 damage, enemies chilled
+3. **HP Drain**: At start of each turn, roll 1d6 and lose that much HP
+4. **Deactivate** (1 AP, no mana): Flip aura card to "INACTIVE"
+
+**Phylactery HP Storage**:
+1. **Store HP** (ritual, 10 minutes): Transfer HP from yourself to Phylactery
+2. **Maximum**: Phylactery can store up to your max HP (80)
+3. **Resurrection**: When you die, resurrect at Phylactery with stored HP
+4. **Reset**: Phylactery HP resets to 0 after resurrection
+
+**Example Aura Management**:
+
+*You have 80 HP, Phylactery has 30 HP stored, Aura is Inactive*
+
+**Turn 1 - Activate Aura**:
+1. "I activate Eternal Frost Aura!"
+2. Flip aura card to "ACTIVE"
+3. Aura is now active (no HP drain yet, happens at start of next turn)
+
+**Turn 2 - Aura Drain Begins**:
+1. Start of turn: Roll aura drain → 1d6 → [4] = 4 HP lost
+2. Your HP: 80 - 4 = **76 HP**
+3. "I cast Ice Shard at the orc!"
+4. Spell damage: 3d6 (base) + 1d6 (aura bonus) = 4d6
+5. Roll: [5,4,6,3] = 18 frost damage
+6. Orc must save CON DC 15 or -10 ft speed (chilled)
+
+**Turn 3 - More Aura Drain**:
+1. Start of turn: Roll aura drain → 1d6 → [5] = 5 HP lost
+2. Your HP: 76 - 5 = **71 HP**
+3. Cast another frost spell with +1d6 bonus
+
+**Turn 4 - Deactivate Aura**:
+1. "I deactivate Eternal Frost Aura!"
+2. Flip aura card to "INACTIVE"
+3. No more HP drain
+4. No more +1d6 frost damage bonus
+
+**Example Phylactery Resurrection**:
+
+*You have 15 HP, Phylactery has 40 HP stored, Aura is Active*
+
+**Turn 1 - Aura Drain**:
+1. Start of turn: Roll aura drain → 1d6 → [6] = 6 HP lost
+2. Your HP: 15 - 6 = **9 HP** (low!)
+
+**Turn 2 - Enemy Attack**:
+1. Dragon breathes fire → 25 damage
+2. Your HP: 9 - 25 = **-16 HP** (DEAD!)
+
+**Turn 3 - Phylactery Resurrection**:
+1. "My Phylactery activates! I resurrect!"
+2. Your body crumbles to ice, then reforms at Phylactery location
+3. **HP Restored**: 40 HP (equal to Phylactery HP)
+4. **Phylactery HP**: Resets to 0
+5. **Location**: Teleport to Phylactery (wherever you placed it)
+6. **Cooldown**: Cannot resurrect again until long rest
+
+**Phylactery HP Storage Ritual**:
+
+*You have 80 HP, Phylactery has 10 HP stored*
+
+**During Downtime (10-minute ritual)**:
+1. "I perform the Phylactery Storage ritual"
+2. Choose how much HP to transfer (e.g., 30 HP)
+3. Your HP: 80 - 30 = **50 HP**
+4. Phylactery HP: 10 + 30 = **40 HP**
+5. Ritual complete
+
+**Why Store HP?**:
+- **Resurrection Insurance**: If you die, you resurrect with Phylactery HP
+- **Strategic Reserve**: Keep HP in Phylactery for emergencies
+- **Aura Aggression**: Can activate aura more aggressively if you have resurrection backup
+
+**Aura Toggle Card Template**:
+\`\`\`
+═══════════════════════════════════
+    ETERNAL FROST AURA
+═══════════════════════════════════
+STATUS: [INACTIVE] ← Flip to show Active/Inactive
+
+WHEN ACTIVE:
+✓ All frost spells: +1d6 frost damage
+✓ Enemies hit: CON save DC 15 or -10 ft speed
+✗ You lose 1d6 HP at start of each turn
+
+ACTIVATION: 1 AP, no mana
+DEACTIVATION: 1 AP, no mana
+
+VISUAL: Frost spreads from your body, ice crystals
+form in the air, temperature drops dramatically
+═══════════════════════════════════
+\`\`\`
+
+**Phylactery Tracker Card Template**:
+\`\`\`
+═══════════════════════════════════
+       PHYLACTERY
+═══════════════════════════════════
+STORED HP: [___] / 80
+
+RESURRECTION:
+☐ Available (once per long rest)
+☐ Used (need long rest to recharge)
+
+WHEN YOU DIE:
+1. Resurrect at Phylactery location
+2. HP restored = Phylactery HP
+3. Phylactery HP resets to 0
+4. Mark resurrection as "Used"
+
+STORAGE RITUAL (10 minutes):
+Transfer HP from yourself to Phylactery
+Maximum: 80 HP stored
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 60 HP, Phylactery has 35 HP, Aura is Inactive*
+
+**Turn 1 - Activate Aura**:
+1. "I activate Eternal Frost Aura!"
+2. Flip aura card to "ACTIVE"
+3. No drain yet (happens at start of next turn)
+
+**Turn 2 - Aura Drain + Frost Spell**:
+1. Start of turn: Roll 1d6 → [3] = 3 HP lost
+2. Your HP: 60 - 3 = **57 HP**
+3. "I cast Frozen Orb at the enemies!"
+4. Spell damage: 5d6 (base) + 1d6 (aura) = 6d6
+5. Roll: [6,5,4,6,3,5] = 29 frost damage to all enemies!
+6. All enemies: CON save DC 15 or -10 ft speed
+
+**Turn 3 - More Drain**:
+1. Start of turn: Roll 1d6 → [5] = 5 HP lost
+2. Your HP: 57 - 5 = **52 HP**
+3. Cast another frost spell with aura bonus
+
+**Turn 4 - Taking Damage**:
+1. Start of turn: Roll 1d6 → [4] = 4 HP lost
+2. Your HP: 52 - 4 = **48 HP**
+3. Enemy attacks → 20 damage
+4. Your HP: 48 - 20 = **28 HP** (getting low!)
+
+**Turn 5 - Deactivate Aura**:
+1. "I deactivate Eternal Frost Aura to preserve HP!"
+2. Flip aura card to "INACTIVE"
+3. No more drain, but no more +1d6 bonus
+
+**Alternative Tracking Methods**:
+
+**Method 1: Dual HP Dice**
+- Use two d100s (one for your HP, one for Phylactery HP)
+- Rotate dice as HP changes
+- Visual and easy to see both pools
+
+**Method 2: HP Tokens**
+- Use tokens to represent HP (1 token = 10 HP)
+- Separate piles for your HP and Phylactery HP
+- Remove tokens as you lose HP
+
+**Method 3: Paper Tracking**
+- Write both HP values on paper
+- Cross out and rewrite as they change
+- Minimalist approach
+
+**Method 4: Aura Die**
+- Use a d6 placed on "Active" or "Inactive" side of card
+- Roll the same die for aura drain each turn
+- Dual-purpose die
+
+**Quick Reference Card Template**:
+\`\`\`
+LICHBORNE QUICK REFERENCE
+
+ETERNAL FROST AURA:
+• Activate: 1 AP, no mana
+• Deactivate: 1 AP, no mana
+• Bonus: +1d6 frost damage to all frost spells
+• Chill: Enemies hit save CON DC 15 or -10 ft speed
+• Drain: Lose 1d6 HP at start of each turn
+
+PHYLACTERY:
+• Store HP: 10-minute ritual, transfer HP
+• Maximum: 80 HP stored
+• Resurrection: When you die, resurrect with Phylactery HP
+• Cooldown: Once per long rest
+• Location: Teleport to Phylactery when resurrecting
+
+AURA STRATEGY:
+• Aggressive: Keep active, rely on Phylactery resurrection
+• Balanced: Toggle on/off based on combat intensity
+• Conservative: Only activate for burst windows
+
+HP MANAGEMENT:
+• Monitor your HP closely when aura is active
+• Store HP in Phylactery before dangerous fights
+• Deactivate aura if HP gets too low
+• Coordinate with healers
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Lichborne experience with:
+- **Phylactery Prop**: Small crystal or gem representing the Phylactery
+- **Frost Dice**: Blue/white dice for frost damage rolls
+- **Aura Indicator**: LED tea light that glows when aura is active
+- **HP Crystals**: Blue crystals or beads for tracking HP
+- **Resurrection Token**: Special token marking resurrection availability
+- **Temperature Drop**: Mention room getting colder when aura activates
+
+**Aura Management Tips**:
+
+**Activation Strategy**:
+- **Early Combat**: Activate aura when combat starts for maximum damage
+- **Burst Windows**: Activate for 2-3 turns, then deactivate
+- **Boss Fights**: Keep active if you have Phylactery resurrection ready
+- **Trash Mobs**: Toggle on/off to conserve HP
+
+**HP Management**:
+- **Monitor Drain**: Track total HP lost to aura each combat
+- **Deactivate Early**: Don't wait until HP is critical
+- **Healing Coordination**: Time aura activation after receiving heals
+- **Phylactery Insurance**: Keep 30-40 HP in Phylactery for resurrection
+
+**Phylactery Strategy**:
+- **Pre-Combat Storage**: Store HP before dangerous fights
+- **Resurrection Timing**: Use resurrection aggressively if available
+- **Location Placement**: Place Phylactery in safe location before combat
+- **Cooldown Awareness**: Track when resurrection is available
+
+**Why This System Works**: The dual HP tracking (your HP and Phylactery HP) creates a unique resource management challenge. The Eternal Frost Aura toggle is simple (flip a card) but creates constant decisions about when to activate for damage versus when to deactivate to preserve HP. The Phylactery resurrection mechanic provides a safety net that encourages aggressive aura usage, knowing you can resurrect if you die. The physical act of rolling 1d6 for aura drain each turn creates tension—will you roll low (1-2) or high (5-6)? The system is easy to track but creates deep strategic gameplay.
+
+**Pro Tips**:
+- **Aura Timing**: Activate aura at start of combat, deactivate when enemies are low
+- **Phylactery Placement**: Place Phylactery in safe location before combat
+- **HP Banking**: Store 40-50 HP in Phylactery before boss fights
+- **Drain Tracking**: Keep running total of HP lost to aura
+- **Resurrection Awareness**: Know when resurrection is available
+- **Specialization Synergy**: Frost Lord = aura focus, Undying = resurrection focus, Eternal = balanced approach
+
+**Budget-Friendly Alternatives**:
+- **No aura card?** Use a coin (heads = active, tails = inactive)
+- **No HP trackers?** Write both HP values on paper
+- **No Phylactery prop?** Just track Phylactery HP on paper
+- **Minimalist**: Track your HP, Phylactery HP, and aura status on paper
+
+**Specialization-Specific Tracking**:
+
+**Frost Lord**:
+- Aura drain reduced to 1d4 (instead of 1d6)
+- Frost damage bonus increased to +2d6 (instead of +1d6)
+- Track enhanced bonuses on aura card
+
+**Undying**:
+- Phylactery resurrection available twice per long rest
+- Track two resurrection uses instead of one
+- Mark both uses on Phylactery card
+
+**Eternal**:
+- Aura can be active permanently (no drain)
+- But frost damage bonus reduced to +1d4
+- No need to track aura drain
+
+**Why Lichborne Is Perfect for In-Person Play**: The class is built around simple, tangible mechanics (HP tracking and aura toggle) that create deep strategic gameplay. The physical act of flipping the aura card to "ACTIVE" and then rolling 1d6 for drain each turn creates tension and excitement. The dual HP tracking (your HP and Phylactery HP) is easy to manage with two dice or trackers. The Phylactery resurrection mechanic provides dramatic moments when you die and resurrect at your Phylactery location. The risk/reward of keeping the aura active (more damage but HP drain) creates constant decision-making. Every turn with the aura active is a gamble—will you roll low drain or high drain? The system is simple enough to track mid-combat but creates meaningful strategic choices.`
     }
   },
 
@@ -515,6 +821,21 @@ When phylactery is depleted:
           'Use AoE freezes to control grouped enemies',
           'Follow up freezes with high-damage spells',
           'Coordinate with team to exploit frozen enemies'
+        ],
+
+        passiveAbilities: [
+          {
+            name: 'Undying Frost',
+            tier: 'Path Passive',
+            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.',
+            sharedBy: 'All Lichborne'
+          },
+          {
+            name: 'Permafrost Mastery',
+            tier: 'Specialization Passive',
+            description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells.',
+            uniqueTo: 'Frostbound Tyrant'
+          }
         ]
       },
       {
@@ -551,6 +872,21 @@ When phylactery is depleted:
           'Use hybrid spells to bypass resistances',
           'Position minions to body-block or flank',
           'Maintain Eternal Frost Aura for maximum damage'
+        ],
+
+        passiveAbilities: [
+          {
+            name: 'Undying Frost',
+            tier: 'Path Passive',
+            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.',
+            sharedBy: 'All Lichborne'
+          },
+          {
+            name: 'Deathly Chill',
+            tier: 'Specialization Passive',
+            description: 'Your frost spells deal +1d6 necrotic damage. Enemies killed by your spells have a 1 in 1d6 chance (roll 6) to rise as spectral minions for 1d4 rounds.',
+            uniqueTo: 'Spectral Reaper'
+          }
         ]
       },
       {
@@ -587,6 +923,21 @@ When phylactery is depleted:
           'Use aggressive aura uptime with resurrection backup',
           'Don\'t be afraid to take risks with full Phylactery',
           'Coordinate resurrections with team for maximum impact'
+        ],
+
+        passiveAbilities: [
+          {
+            name: 'Undying Frost',
+            tier: 'Path Passive',
+            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.',
+            sharedBy: 'All Lichborne'
+          },
+          {
+            name: 'Fortified Phylactery',
+            tier: 'Specialization Passive',
+            description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection costs 8 HP (instead of 10) and revives you with 15 HP (instead of 10).',
+            uniqueTo: 'Phylactery Guardian'
+          }
         ]
       }
     ]
@@ -845,7 +1196,7 @@ When phylactery is depleted:
         somaticText: 'Cross arms over chest, ice forms around body'
       },
 
-      castTime: 'Bonus Action',
+      castTime: '1 Action Point',
       range: 'Self',
       targetType: 'Self',
 
@@ -1158,7 +1509,7 @@ When phylactery is depleted:
         effects: [
           'Target is Slowed',
           'Movement speed reduced by 10 feet',
-          'Can only take one action OR one bonus action per turn (not both)',
+          'Can only spend half of maximum action points per turn (rounded down)',
           'Suffers Frostbite: takes 1d4 frost damage for every 5 feet moved',
           'Lasts 1 minute'
         ]

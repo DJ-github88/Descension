@@ -100,7 +100,7 @@ export const WITCH_DOCTOR_DATA = {
 
 **Mana**: 44 - 4 = 40/60
 
-**Your Action (Free Action)**: Apply poison to weapon (no cost, class feature)
+**Your Action (0 AP - Free)**: Apply poison to weapon (no cost, class feature)
 **Effect**: Weapon deals +1d4 poison damage
 
 **Voodoo Essence Generated**: +1 (poison applied) = **3/15**
@@ -347,6 +347,260 @@ Prime time for Baron Samedi or Ogoun invocations. These game-changing abilities 
 - Place Totem of Healing proactively when allies are grouped
 - Track your ritual-generated essence for Papa Legba
 - Apply poisons early in combat to enable Ogoun later`
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Witch Doctor's Voodoo Essence and Loa Invocation system combines resource accumulation with precursor tracking, creating a strategic in-person experience. Here's how to track your spiritual power at the table:
+
+**Required Materials**:
+- **15 tokens or beads** (purple/spiritual color recommended for Voodoo Essence)
+- **Loa reference card** with invocation requirements
+- **Precursor tracking sheet** (checkboxes for each loa's conditions)
+- **Optional: Voodoo-themed tokens** (skulls, bones, spiritual symbols)
+
+**Voodoo Essence Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent Voodoo Essence:
+- **Starting State**: Begin with 0 tokens
+- **Generating Essence**: When you perform essence-generating actions, add tokens
+  - Cast curse → Add 1 token
+  - Apply poison → Add 1 token
+  - Place totem → Add 1 token
+  - Complete ritual → Add 2 tokens
+  - Defeat cursed enemy → Add 3 tokens
+- **Spending Essence**: When you invoke a loa, remove the required tokens
+  - Baron Samedi → Remove 10 tokens (8 for Shadow Priest)
+  - Erzulie → Remove 8 tokens
+  - Papa Legba → Remove 7 tokens
+  - Simbi → Remove 6 tokens
+  - Ogoun → Remove 9 tokens
+- **Maximum**: 15 tokens maximum
+
+**Setup**:
+Create a simple tracking area:
+- **Essence Pool** (your active tokens - the spiritual power you've accumulated)
+- **Token Bank** (unused tokens, up to 15 total)
+
+**Alternative Tracking Methods**:
+- **d20 Die**: Set it to your current Essence count (0-15)
+- **Tally Marks**: Write on paper with hash marks
+- **Colored Beads**: Use purple/spiritual beads in a small bowl
+
+**Loa Invocation Precursor Tracking**:
+
+**The Checklist Method**:
+
+Create a reference card with each loa's precursor requirements:
+\`\`\`
+LOA INVOCATION TRACKER
+
+BARON SAMEDI (10 Essence)
+☐ 3+ cursed enemies active
+☐ Ritual of Death performed
+READY: [YES / NO]
+
+ERZULIE (8 Essence)
+☐ 2+ allies within 10ft of you
+☐ Totem of Healing placed
+READY: [YES / NO]
+
+PAPA LEGBA (7 Essence)
+☐ 2+ essence from rituals
+☐ Within 30ft of cursed enemy
+READY: [YES / NO]
+
+SIMBI (6 Essence)
+☐ 1+ ally below 50% HP
+☐ Ritual of Cleansing performed
+READY: [YES / NO]
+
+OGOUN (9 Essence)
+☐ Poison applied (weapon/grenade)
+☐ 1+ ally in combat within 15ft
+READY: [YES / NO]
+\`\`\`
+
+**Tracking Precursors During Combat**:
+- **Cursed Enemies**: Place a small marker on enemy tokens/minis when cursed
+- **Ritual Tracking**: Check off when you complete rituals
+- **Totem Placement**: Note on map where totems are placed
+- **Ally Positioning**: Visually check distances on battle map
+- **Poison Application**: Mark your weapon or note when poison is applied
+
+**Example In-Person Turn**:
+
+*You have 4 Voodoo Essence, 2 cursed enemies, no rituals performed*
+
+**Turn 1 - Building Essence**:
+1. "I cast Curse of Agony on the orc!"
+2. Add 1 purple token to your pool → Now at 5 Essence
+3. Place a curse marker on the orc mini
+4. Check precursors: Baron Samedi needs 3 cursed enemies (only have 2)
+
+**Turn 2 - More Essence**:
+1. "I place a Totem of Healing near our fighter!"
+2. Add 1 purple token → Now at 6 Essence
+3. Place totem marker on battle map
+4. Check precursors: Erzulie needs 2+ allies within 10ft + totem (totem ✓, check ally positions)
+
+**Turn 3 - Curse Another Enemy**:
+1. "I cast Curse of Agony on the goblin!"
+2. Add 1 purple token → Now at 7 Essence
+3. Place curse marker on goblin mini
+4. Check precursors: Baron Samedi needs 3 cursed enemies (orc, goblin... need 1 more)
+
+**Turn 4 - Third Curse**:
+1. "I cast Curse of Agony on the troll!"
+2. Add 1 purple token → Now at 8 Essence
+3. Place curse marker on troll mini
+4. Check precursors: Baron Samedi now has 3 cursed enemies! But need Ritual of Death...
+
+**Turn 5 - Ritual**:
+1. "I perform Ritual of Death!" (takes 1 action)
+2. Add 2 purple tokens → Now at 10 Essence
+3. Check precursors: Baron Samedi READY! (3 cursed enemies ✓, Ritual of Death ✓)
+
+**Turn 6 - INVOKE LOA**:
+1. "I invoke Baron Samedi, the loa of death!"
+2. Remove 10 purple tokens from pool → Now at 0 Essence
+3. Resurrect fallen ally + curse all enemies (4d6 necrotic over 3 turns)
+4. Roll 4d6 → [5, 6, 4, 5] = 20 necrotic damage per turn for 3 turns!
+
+**Quick Reference Card Template**:
+\`\`\`
+WITCH DOCTOR QUICK REFERENCE
+
+VOODOO ESSENCE GENERATION:
+• Cast Curse: +1 Essence
+• Apply Poison: +1 Essence
+• Place Totem: +1 Essence
+• Complete Ritual: +2 Essence
+• Defeat Cursed Enemy: +3 Essence
+Maximum: 15 Essence
+
+LOA INVOCATIONS (Essence Cost):
+• Baron Samedi (10): Resurrect + curse all
+• Ogoun (9): +2 attack, resistance, +2d6 fire
+• Erzulie (8): +2 AC, fear immunity, heal 3d8
+• Papa Legba (7): Telepathy + teleport allies
+• Simbi (6): Healing rain, cure diseases
+
+PRECURSOR TRACKING:
+☐ Cursed enemies (count them)
+☐ Rituals performed (check off)
+☐ Totems placed (mark on map)
+☐ Ally positions (measure distances)
+☐ Poison applied (note on weapon)
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the voodoo experience with:
+- **Skull Tokens**: Use small skull beads for Voodoo Essence
+- **Voodoo Doll Props**: Keep a small voodoo doll prop on the table
+- **Ritual Candles**: Light a candle when performing rituals (if safe)
+- **Loa Cards**: Print cards with loa artwork and effects
+- **Curse Markers**: Use small skull/bone markers for cursed enemies
+- **Totem Minis**: Use small totem miniatures for placed totems
+
+**Precursor Management Tips**:
+
+**Baron Samedi (Death Loa)**:
+- **Precursors**: 3+ cursed enemies, Ritual of Death
+- **Strategy**: Curse 3 enemies early, perform ritual when ready
+- **Tracking**: Count cursed enemy markers, check off ritual
+
+**Erzulie (Love Loa)**:
+- **Precursors**: 2+ allies within 10ft, Totem of Healing
+- **Strategy**: Group allies together, place totem proactively
+- **Tracking**: Measure distances on map, note totem placement
+
+**Papa Legba (Crossroads Loa)**:
+- **Precursors**: 2+ essence from rituals, within 30ft of cursed enemy
+- **Strategy**: Perform rituals early, stay near cursed enemies
+- **Tracking**: Count ritual-generated essence separately, measure distance
+
+**Simbi (Water Loa)**:
+- **Precursors**: 1+ ally below 50% HP, Ritual of Cleansing
+- **Strategy**: Wait for ally to take damage, perform ritual when needed
+- **Tracking**: Monitor ally HP, check off ritual
+
+**Ogoun (War Loa)**:
+- **Precursors**: Poison applied, 1+ ally in combat within 15ft
+- **Strategy**: Apply poison early, stay near melee allies
+- **Tracking**: Mark weapon with poison, measure ally distances
+
+**Example Full Combat Sequence**:
+
+*Starting: 0 Essence, no precursors met*
+
+**Turn 1**: Cast Curse of Agony (orc) → 1 Essence, 1 cursed enemy
+**Turn 2**: Place Totem of Healing → 2 Essence, totem placed
+**Turn 3**: Cast Curse of Agony (goblin) → 3 Essence, 2 cursed enemies
+**Turn 4**: Apply poison to weapon → 4 Essence, poison applied
+**Turn 5**: Cast Curse of Agony (troll) → 5 Essence, 3 cursed enemies
+**Turn 6**: Perform Ritual of Death → 7 Essence, ritual complete
+**Turn 7**: Invoke Baron Samedi! → 0 Essence (spent 10, but Shadow Priest = 8)
+**Result**: Ally resurrected, all enemies cursed for 4d6 necrotic over 3 turns!
+
+**Visual Organization**:
+
+**Essence Pool Layout**:
+\`\`\`
+VOODOO ESSENCE: [○][○][○][○][○][○][○] (7/15)
+
+LOA READY:
+Baron Samedi: ✓ (3 cursed, ritual done)
+Erzulie: ✗ (need allies grouped)
+Papa Legba: ✗ (need ritual essence)
+Simbi: ✗ (no injured allies)
+Ogoun: ✓ (poison applied, ally nearby)
+\`\`\`
+
+**Battlefield Tracking**:
+- **Cursed Enemies**: Place skull markers on cursed enemy minis
+- **Totems**: Place totem markers on battle map
+- **Ritual Zones**: Mark ritual areas with tokens/markers
+- **Ally Positions**: Use measuring tape for distance checks
+
+**Why This System Works**: The physical act of accumulating Voodoo Essence tokens while simultaneously tracking multiple precursor conditions creates a strategic puzzle. You're not just building a resource—you're orchestrating battlefield conditions to align with loa requirements. The checklist system makes it easy to see which invocations are available, and the token pool shows how close you are to affording them. The combination of resource management and precursor tracking mirrors the thematic concept of preparing spiritual rituals and invoking divine powers.
+
+**Pro Tips**:
+- **Precursor Planning**: Decide which loa you want to invoke BEFORE combat starts
+- **Early Cursing**: Curse enemies early to enable Baron Samedi later
+- **Totem Placement**: Place totems proactively when allies are grouped
+- **Ritual Timing**: Perform rituals when you have time (not during emergencies)
+- **Essence Banking**: Keep 6-10 essence banked for quick invocations
+- **Specialization Synergy**: Shadow Priests should focus on Baron Samedi, Spirit Callers on Erzulie/Simbi, War Doctors on Ogoun
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins, buttons, or paper clips for Voodoo Essence
+- **No markers?** Write cursed enemy names on paper
+- **No totem minis?** Use coins or tokens to mark totem locations
+- **Minimalist**: Just track essence count and precursors on paper
+
+**Specialization-Specific Tracking**:
+
+**Shadow Priest**:
+- Baron Samedi costs 8 essence (not 10) → Remove 8 tokens instead of 10
+- Curses generate +1 essence → Add 2 tokens per curse (not 1)
+- Only need 2 cursed enemies for Baron Samedi → Adjust checklist
+
+**Spirit Caller**:
+- Erzulie and Simbi cost -2 essence → Adjust token removal
+- Totems generate +1 essence → Add 2 tokens per totem
+- Enhanced healing effects → Note on loa cards
+
+**War Doctor**:
+- Ogoun costs -2 essence → Remove 7 tokens (not 9)
+- Poison generates +1 essence → Add 2 tokens per poison
+- Enhanced combat buffs → Note on loa cards
+
+**Why Witch Doctor Is Perfect for In-Person Play**: The class is built around accumulating spiritual power (Voodoo Essence) while orchestrating complex battlefield conditions (precursors). The physical tokens make essence accumulation tangible, and the checklist system makes precursor tracking manageable. The dramatic moment of invoking a loa—removing a large pile of tokens and announcing the divine intervention—creates a memorable, thematic experience. The combination of resource management, precursor tracking, and powerful invocations makes every combat feel like a spiritual ritual, perfectly capturing the Witch Doctor's voodoo theme.`
     }
   },
 

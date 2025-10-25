@@ -67,7 +67,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 *The assassins emerge from the shadows, blades drawn. You close your eyes and SEE. The future unfolds before you like a tapestry.*
 
-**Your Action (Bonus Action)**: Make a Simple Prediction
+**Your Action (1 AP)**: Make a Simple Prediction
 **Prediction**: "The assassin master will attack our tank next turn."
 
 *You open your eyes. "The master will strike our tank. Be ready."*
@@ -99,7 +99,7 @@ The class has a unique prediction mechanic where you declare what you think will
 **Witnessing Fate**: Critical hit within 30 ft → +1 Prophetic Vision
 **Prophetic Visions**: 4 + 1 = **5/10**
 
-**Your Action (Bonus Action)**: Make a Moderate Prediction
+**Your Action (1 AP)**: Make a Moderate Prediction
 **Prediction**: "The assassin master's next attack will miss due to my Omen of Weakness."
 
 *You speak with certainty. "The master's blade will find only air."*
@@ -152,7 +152,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 **Turn 4 - Prediction Payoff (Visions: 3 → 5)**
 
-**Your Action (Bonus Action)**: Make a Complex Prediction
+**Your Action (1 AP)**: Make a Complex Prediction
 **Prediction**: "Our tank will land a critical hit on the assassin master with Prophetic Strike active."
 
 *You speak with absolute certainty. "The master will fall to our tank's blade. I have SEEN it."*
@@ -305,7 +305,7 @@ You're not a damage dealer. You're a SEER who manipulates FATE. You make predict
 
 **Prediction Interface**:
 
-**Making a Prediction** (Bonus Action):
+**Making a Prediction** (1 AP):
 - **Prediction Menu**: Opens with three options
   * "Simple Prediction (+1 Vision if correct)"
   * "Moderate Prediction (+2 Visions if correct)"
@@ -410,7 +410,7 @@ Visions can be spent to:
     predictionMechanics: {
       title: 'Prediction System',
       content: `**Making Predictions**
-As a bonus action, you can make a prediction about an upcoming event:
+For 1 AP, you can make a prediction about an upcoming event:
 
 **Simple Prediction** (1 Vision if correct):
 • "The next attack will hit/miss"
@@ -449,9 +449,395 @@ Predictions must be made before the event occurs and are resolved immediately wh
 • **Seers** excel at future predictions and gain bonus Visions from correct forecasts
 • **Truthseekers** focus on revealing hidden information and past events
 • **Fateweavers** spend Visions aggressively to manipulate outcomes directly`
+    },
+
+    playingInPerson: {
+      title: 'Playing Oracle In Person',
+      content: `**Required Materials**:
+- **10 Prophetic Vision Tokens** (coins, beads, or dice representing Visions 0-10)
+- **Prediction Cards** (for writing down predictions before they resolve)
+- **Vision Type Chart** (showing Simple, Complex, and Grand predictions)
+- **Fate Manipulation Cards** (showing abilities that spend Visions)
+- **Witnessing Tracker** (for tracking critical hits, natural 1s, and major events)
+- **Specialization Card** (showing spec-specific bonuses)
+
+**Primary Tracking Method: Vision Tokens + Prediction Cards**
+
+The Oracle gains Prophetic Visions (0-10) by making correct predictions about combat events. Write predictions on cards, then gain Visions when they prove true. Spend Visions on fate manipulation abilities to alter outcomes and bend probability.
+
+**Setup**:
+\`\`\`
+ORACLE RESOURCE TRACKING:
+
+PROPHETIC VISIONS: [___] / 10
+• Start combat: 3 Visions (baseline)
+• Gain Visions: Make correct predictions
+• Spend Visions: Fate manipulation abilities
+
+VISION GENERATION:
+• Simple Prediction (correct): +1 Vision
+• Complex Prediction (correct): +2 Visions
+• Grand Prediction (correct): +3 Visions
+• Witness Critical Hit (within 30 ft): +1 Vision
+• Witness Natural 1 (within 30 ft): +1 Vision
+• Witness Major Event: +1-3 Visions
+
+VISION SPENDING:
+• Force Reroll (2 Visions): Force ally/enemy to reroll
+• Alter Fate (3 Visions): Grant advantage/disadvantage
+• Prophesied Doom (4 Visions): Curse enemy with ill omen
+• Twist Destiny (5 Visions): Change outcome dramatically
+• Divine Intervention (10 Visions): Ultimate fate manipulation
+\`\`\`
+
+**How It Works**:
+
+**Making Predictions**:
+1. **Declare prediction** → Write on prediction card
+2. **Wait for resolution** → See if prediction comes true
+3. **Correct prediction** → Gain Visions based on difficulty
+4. **Add Vision tokens** → Increase Vision count
+
+**Spending Visions**:
+1. **Choose ability** → Check Vision cost
+2. **Remove Vision tokens** → Subtract from Vision count
+3. **Activate ability** → Apply fate manipulation effect
+
+**Prediction Types**:
+
+**Simple Prediction (+1 Vision if correct)**:
+- "Enemy will miss next attack"
+- "Ally will hit next attack"
+- "Enemy will move closer"
+- Easy to predict, low reward
+
+**Complex Prediction (+2 Visions if correct)**:
+- "Ally will land critical hit within 2 turns"
+- "Enemy will cast specific spell"
+- "Ally will reduce enemy to 0 HP"
+- Moderate difficulty, moderate reward
+
+**Grand Prediction (+3 Visions if correct)**:
+- "Combat will end within 3 turns"
+- "Specific ally will deliver killing blow"
+- "Enemy will flee before dying"
+- Hard to predict, high reward
+
+**Example Prediction Making**:
+
+*You have 3 Visions, making a Simple Prediction*
+
+**Your Turn - Make Prediction**:
+1. "I predict the orc will miss its next attack!" (1 AP)
+2. Write on prediction card: "Orc misses next attack"
+3. Wait for orc's turn
+
+**Orc's Turn**:
+1. Orc attacks your tank
+2. Attack roll: 1d20+5 → [4] + 5 = 9 (miss!)
+3. **Prediction CORRECT!**
+4. Gain +1 Vision
+5. Add 1 Vision token
+6. Prophetic Visions: 3 + 1 = **4 Visions**
+
+**Example Complex Prediction**:
+
+*You have 4 Visions, making a Complex Prediction*
+
+**Your Turn - Complex Prediction**:
+1. "I predict our fighter will land a critical hit within 2 turns!" (1 AP)
+2. Write on prediction card: "Fighter crits within 2 turns"
+3. Wait for resolution
+
+**Fighter's Turn (Turn 1)**:
+1. Fighter attacks orc
+2. Attack roll: 1d20+5 → [15] + 5 = 20 (hit, not crit)
+3. Prediction not yet resolved
+
+**Fighter's Turn (Turn 2)**:
+1. Fighter attacks orc again
+2. Attack roll: 1d20+5 → [20] + 5 = 25 (**CRITICAL HIT!**)
+3. **Prediction CORRECT!**
+4. Gain +2 Visions
+5. Add 2 Vision tokens
+6. Prophetic Visions: 4 + 2 = **6 Visions**
+
+**Example Witnessing Fate**:
+
+*You have 6 Visions, ally lands critical hit within 30 ft*
+
+**Ally's Turn**:
+1. Ally attacks enemy
+2. Attack roll: 1d20+5 → [20] + 5 = 25 (**CRITICAL HIT!**)
+3. **Witnessing Fate**: Critical hit within 30 ft
+4. Gain +1 Vision
+5. Add 1 Vision token
+6. Prophetic Visions: 6 + 1 = **7 Visions**
+
+**Example Vision Spending**:
+
+*You have 7 Visions, using Alter Fate to grant advantage*
+
+**Enemy's Turn**:
+1. Dragon attacks your ally
+2. "I use Alter Fate to grant my ally advantage on the save!" (3 Visions)
+3. Remove 3 Vision tokens
+4. Prophetic Visions: 7 - 3 = **4 Visions**
+5. Ally rolls save with advantage
+6. Save roll: 1d20+3 (advantage) → [18, 7] + 3 = 21 (success!)
+
+**Prediction Card Template**:
+\`\`\`
+═══════════════════════════════════
+    PREDICTION CARD
+═══════════════════════════════════
+TYPE: [Simple / Complex / Grand]
+
+PREDICTION:
+_____________________________________
+_____________________________________
+
+RESOLUTION:
+☐ Correct (+___ Visions)
+☐ Incorrect (no Visions)
+
+TURN MADE: ___
+TURN RESOLVED: ___
+═══════════════════════════════════
+\`\`\`
+
+**Vision Generation Chart**:
+\`\`\`
+═══════════════════════════════════
+  PROPHETIC VISION GENERATION
+═══════════════════════════════════
+PREDICTIONS:
+• Simple (correct): +1 Vision
+  Examples: "Enemy misses", "Ally hits"
+
+• Complex (correct): +2 Visions
+  Examples: "Ally crits within 2 turns"
+
+• Grand (correct): +3 Visions
+  Examples: "Combat ends within 3 turns"
+
+WITNESSING FATE:
+• Critical hit (within 30 ft): +1 Vision
+• Natural 1 (within 30 ft): +1 Vision
+• Major event (DM discretion): +1-3 Visions
+
+SPECIALIZATION BONUSES:
+• Seer: +1 Vision for correct future predictions
+• Truthseeker: +1 Vision for revealing secrets
+• Fateweaver: +1 Vision when spending Visions
+═══════════════════════════════════
+\`\`\`
+
+**Vision Spending Reference Card**:
+\`\`\`
+═══════════════════════════════════
+   FATE MANIPULATION ABILITIES
+═══════════════════════════════════
+FORCE REROLL (2 Visions):
+• Force ally or enemy to reroll any roll
+• Must use new result
+• Reaction to use
+
+ALTER FATE (3 Visions):
+• Grant advantage or disadvantage on any roll
+• Affects next roll only
+• Reaction to use
+
+PROPHESIED DOOM (4 Visions):
+• Curse enemy with ill omen
+• Enemy has disadvantage on all rolls for 2 turns
+• Action to use
+
+TWIST DESTINY (5 Visions):
+• Change outcome dramatically
+• Turn hit into miss, or miss into hit
+• Turn success into failure, or vice versa
+• Reaction to use
+
+DIVINE INTERVENTION (10 Visions - ULTIMATE):
+• Rewrite fate entirely
+• Prevent death, guarantee success, or alter reality
+• Once per long rest
+• Reaction to use
+═══════════════════════════════════
+\`\`\`
+
+**Example In-Person Turn**:
+
+*You have 5 Visions, making predictions and spending Visions*
+
+**Turn 1 - Make Prediction**:
+1. "I predict the mage will cast Fireball next turn!" (Complex Prediction)
+2. Write on prediction card: "Mage casts Fireball next turn"
+3. Wait for mage's turn
+
+**Mage's Turn**:
+1. Mage casts Fireball at party
+2. **Prediction CORRECT!**
+3. Gain +2 Visions
+4. Add 2 Vision tokens
+5. Prophetic Visions: 5 + 2 = **7 Visions**
+
+**Turn 2 - Alter Fate**:
+1. Ally makes save against Fireball
+2. "I use Alter Fate to grant advantage!" (3 Visions)
+3. Remove 3 Vision tokens
+4. Prophetic Visions: 7 - 3 = **4 Visions**
+5. Ally rolls save with advantage: [18, 9] + 3 = 21 (success!)
+
+**Turn 3 - Witness Critical**:
+1. Fighter attacks enemy
+2. Attack roll: [20] = **CRITICAL HIT!**
+3. **Witnessing Fate**: +1 Vision
+4. Add 1 Vision token
+5. Prophetic Visions: 4 + 1 = **5 Visions**
+
+**Alternative Tracking Methods**:
+
+**Method 1: D10 Die**
+- Rotate die to show current Visions (0-10)
+- Quick and visual
+- Single die tracks everything
+
+**Method 2: Token Stack**
+- Stack tokens vertically (0-10 tokens)
+- Visual representation of foresight
+- Satisfying to add/remove
+
+**Method 3: Bead Counter**
+- String of beads (10 beads)
+- Move beads to track Visions
+- Tactile feedback
+
+**Method 4: Paper Tracking**
+- Write Vision count on paper
+- Cross out and rewrite as it changes
+- Minimalist approach
+
+**Prediction Tracking Methods**:
+
+**Method 1: Index Cards**
+- Write predictions on index cards
+- Flip card when resolved
+- Clear and organized
+
+**Method 2: Sticky Notes**
+- Write predictions on sticky notes
+- Remove when resolved
+- Quick and disposable
+
+**Method 3: Prediction Sheet**
+- Pre-printed sheet with prediction slots
+- Check boxes for correct/incorrect
+- Reusable
+
+**Quick Reference Card Template**:
+\`\`\`
+ORACLE QUICK REFERENCE
+
+VISION GENERATION:
+• Simple Prediction (correct): +1 Vision
+• Complex Prediction (correct): +2 Visions
+• Grand Prediction (correct): +3 Visions
+• Witness Critical/Natural 1: +1 Vision
+• Seer spec: +1 Vision for future predictions
+
+VISION SPENDING:
+• Force Reroll (2 Visions): Reroll any roll
+• Alter Fate (3 Visions): Advantage/disadvantage
+• Prophesied Doom (4 Visions): Curse enemy
+• Twist Destiny (5 Visions): Change outcome
+• Divine Intervention (10 Visions): Ultimate
+
+PREDICTION STRATEGY:
+• Make Simple Predictions early for safe Visions
+• Make Complex Predictions when confident
+• Save Grand Predictions for critical moments
+• Witness critical hits and natural 1s for bonus Visions
+• Spend Visions on critical saves and attacks
+
+FATE MANIPULATION:
+• Save 3 Visions for Alter Fate (emergency)
+• Save 5 Visions for Twist Destiny (game-changer)
+• Save 10 Visions for Divine Intervention (ultimate)
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the Oracle experience with:
+- **Crystal Ball**: Small crystal prop for divination theme
+- **Tarot Cards**: Use tarot cards for prediction tracking
+- **Purple Dice**: Purple/mystical dice for Vision tracking
+- **Prophecy Scrolls**: Parchment for writing predictions
+- **Vision Tokens**: Eye-shaped tokens for Prophetic Visions
+- **Fate Dice**: Special dice for fate manipulation rolls
+
+**Vision Management Tips**:
+
+**Generation Strategy**:
+- **Safe Predictions**: Make Simple Predictions for guaranteed Visions
+- **Calculated Risks**: Make Complex Predictions when confident
+- **Grand Gambles**: Make Grand Predictions for high-stakes moments
+- **Witnessing**: Position within 30 ft of allies for Witnessing bonuses
+- **Seer Spec**: Focus on future predictions for bonus Visions
+
+**Spending Strategy**:
+- **Emergency Reserve**: Keep 3 Visions for Alter Fate
+- **Game-Changer**: Save 5 Visions for Twist Destiny
+- **Ultimate**: Save 10 Visions for Divine Intervention
+- **Don't Hoard**: Spend Visions when they matter most
+- **Fateweaver Spec**: Spend aggressively for bonus Visions
+
+**Prediction Strategy**:
+- **Observe Patterns**: Watch enemy behavior for prediction clues
+- **Know Your Allies**: Predict ally actions based on their playstyle
+- **Read the DM**: Pay attention to DM hints and foreshadowing
+- **Start Simple**: Build Visions with Simple Predictions first
+- **Escalate**: Make Complex/Grand Predictions when you have Vision buffer
+
+**Why This System Works**: The prediction mechanic creates active engagement with combat. Instead of passively watching, you're constantly analyzing, predicting, and forecasting. Writing predictions on cards creates accountability and excitement when they resolve. The Vision generation creates a satisfying feedback loop—correct predictions generate Visions, which you spend on fate manipulation. The three prediction tiers (Simple/Complex/Grand) create risk/reward decisions. The Witnessing mechanic rewards positioning and awareness. The system is simple to track but creates deep strategic gameplay.
+
+**Pro Tips**:
+- **Write Predictions**: Always write predictions on cards for clarity
+- **Observe First**: Watch 1-2 turns before making predictions
+- **Safe Building**: Use Simple Predictions to build Vision baseline
+- **Critical Saves**: Use Alter Fate on critical saves (death saves, major spells)
+- **Twist Destiny**: Use on attacks that would kill allies or miss critical targets
+- **Divine Intervention**: Save for preventing party wipes or ensuring victory
+- **Specialization Awareness**: Know your spec bonuses and maximize them
+
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use coins (pennies = 1 Vision, dimes = 10 Visions)
+- **No prediction cards?** Write predictions on paper
+- **No die?** Track Vision count on paper
+- **Minimalist**: Track Visions and predictions on single sheet
+
+**Specialization-Specific Tracking**:
+
+**Seer**:
+- Track +1 Vision bonus for correct future predictions
+- Focus on predicting future events
+- Gain bonus Visions from foresight
+
+**Truthseeker**:
+- Track +1 Vision bonus for revealing secrets
+- Focus on uncovering hidden information
+- Gain bonus Visions from revelation
+
+**Fateweaver**:
+- Track +1 Vision bonus when spending Visions
+- Spend Visions aggressively
+- Gain bonus Visions from manipulation
+
+**Why Oracle Is Perfect for In-Person Play**: The class is built around active engagement and prediction. Writing predictions on cards creates tangible accountability and excitement when they resolve. The Vision token system provides satisfying feedback—correct predictions generate visible resources. The fate manipulation abilities create dramatic moments (rerolls, advantage, outcome changes). The Witnessing mechanic rewards positioning and awareness. The prediction mechanic encourages reading the table, observing patterns, and engaging with combat narratively. Every prediction is a gamble, and every correct prediction is a payoff. The system transforms passive observation into active participation.`
     }
   },
-  
+
   // Specializations
   specializations: {
     title: 'Oracle Specializations',
@@ -478,7 +864,7 @@ Predictions must be made before the event occurs and are resolved immediately wh
         
         strengths: [
           'Gain bonus Visions from correct predictions (+1 per prediction)',
-          'Can make predictions as a free action instead of bonus action',
+          'Can make predictions for 0 AP (free) instead of 1 AP',
           'See 3 seconds into the future, granting advantage on initiative',
           'Predictions have longer duration and can stack'
         ],

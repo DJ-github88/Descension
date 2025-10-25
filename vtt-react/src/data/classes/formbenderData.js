@@ -59,7 +59,7 @@ export const FORMBENDER_DATA = {
 
 *You crouch in the shadows, watching the bandits make camp. Time to strike. You focus on the primal energy within, and your body SHIFTS.*
 
-**Free Action**: Transform into Nightstalker form (FREE - first transformation of combat)
+**Free (0 AP)**: Transform into Nightstalker form (FREE - first transformation of combat)
 **Effect**: Your body shrinks, muscles coiling like a panther. Black fur ripples across your skin. Your eyes glow yellow. You're a predator now.
 
 **Your Action**: Ambush from Stealth on Bandit #1 (form-specific ability)
@@ -322,6 +322,280 @@ Below the Wild Instinct bar, ability buttons show:
         ['Tier 4', '4 WI', 'Major', '+4d4 damage, fear effects, illusions'],
         ['Tier 5', '5 WI', 'Ultimate', '+5d4 damage, paralysis, immunity']
       ]
+    },
+
+    playingInPerson: {
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `The Formbender's Wild Instinct system (0-15 points) and four distinct forms create a dynamic, transformative in-person experience. Here's how to track your shapeshifting power at the table:
+
+**Required Materials**:
+- **15 tokens or beads** (wild/primal color like green, brown, or amber)
+- **Form reference cards** (one for each of the 4 forms)
+- **Current form indicator** (token, card, or mini)
+- **Optional: Form-specific miniatures** for each transformation
+
+**Wild Instinct Tracking**:
+
+**The Token Method** (Recommended):
+
+Use physical tokens to represent Wild Instinct:
+- **Starting State**: Begin with 0 tokens (or carry over from previous combat)
+- **Maximum**: 15 tokens
+- **Generating WI**: Add tokens when you perform form-specific actions
+  - Nightstalker: Ambush from stealth → +2 WI (add 2 tokens)
+  - Ironhide: Taunt enemies → +1 WI per enemy (add tokens)
+  - Skyhunter: Scout from above → +1 WI (add 1 token)
+  - Frostfang: Pack tactics with ally → +1 WI (add 1 token)
+- **Spending WI**: Remove tokens when using abilities or transforming
+  - Transform to new form → -1 WI (remove 1 token)
+  - Use Tier 3 ability → -3 WI (remove 3 tokens)
+
+**Alternative Tracking Methods**:
+- **d20 Die**: Set it to your current WI count (0-15)
+- **Tally Marks**: Write on paper with hash marks
+- **Counter App**: Use a phone app to track WI
+
+**Form Tracking**:
+
+**The Form Card Method** (Recommended):
+
+Create reference cards for each form showing:
+- **Form Name & Icon**
+- **Passive Bonuses** (stats, abilities)
+- **WI Generation Method** (how this form generates WI)
+- **Form-Specific Abilities** (Tier 1-5 abilities)
+
+**Example Form Cards**:
+
+\`\`\`
+NIGHTSTALKER FORM (Panther)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive Bonuses:
+• +10 ft speed
+• Advantage on Stealth checks
+• Darkvision 60 ft
+• +2d6 sneak attack damage
+
+WI Generation:
+• Ambush from Stealth: +2 WI
+• Critical hit: +1 WI
+• Kill from stealth: +2 WI
+
+Abilities:
+Tier 1 (1 WI): Shadow Leap (teleport 15 ft)
+Tier 2 (2 WI): Vanish (invisibility 1 min)
+Tier 3 (3 WI): Assassinate (auto-crit)
+Tier 4 (4 WI): Shadow Clone (create copy)
+Tier 5 (5 WI): Death from Above (massive damage)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IRONHIDE FORM (Bear)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive Bonuses:
+• +20 max HP
+• +2 AC
+• Damage resistance (physical)
+• +5 ft reach
+
+WI Generation:
+• Taunt enemy: +1 WI per enemy
+• Take damage: +1 WI per 10 damage
+• Protect ally: +1 WI
+
+Abilities:
+Tier 1 (1 WI): Roar (frighten enemies)
+Tier 2 (2 WI): Thick Hide (+5 temp HP)
+Tier 3 (3 WI): Charge (knock prone)
+Tier 4 (4 WI): Unstoppable (immune to CC)
+Tier 5 (5 WI): Primal Fury (berserk mode)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SKYHUNTER FORM (Eagle)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive Bonuses:
+• Fly speed 60 ft
+• +3 to Perception
+• Advantage on sight-based checks
+• Dive attack: +2d6 damage
+
+WI Generation:
+• Scout from above: +1 WI
+• Dive attack: +1 WI
+• Spot hidden enemy: +2 WI
+
+Abilities:
+Tier 1 (1 WI): Gust (push enemies)
+Tier 2 (2 WI): Aerial Dodge (adv on saves)
+Tier 3 (3 WI): Dive Bomb (massive damage)
+Tier 4 (4 WI): Wind Wall (block projectiles)
+Tier 5 (5 WI): Storm Call (lightning strikes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FROSTFANG FORM (Wolf)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+Passive Bonuses:
+• +15 ft speed
+• Pack tactics (adv with ally nearby)
+• Keen smell (adv on tracking)
+• Trip attack (knock prone on hit)
+
+WI Generation:
+• Attack with ally nearby: +1 WI
+• Track enemy: +1 WI
+• Howl (buff allies): +1 WI per ally
+
+Abilities:
+Tier 1 (1 WI): Howl (allies +2 attack)
+Tier 2 (2 WI): Pack Rush (extra attack)
+Tier 3 (3 WI): Frost Bite (slow enemy)
+Tier 4 (4 WI): Alpha's Command (control pack)
+Tier 5 (5 WI): Winter's Wrath (freeze area)
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+**Current Form Indicator**:
+- **Card Method**: Place current form card face-up in front of you
+- **Token Method**: Use a colored token to mark current form
+- **Mini Method**: Use form-specific miniatures (panther, bear, eagle, wolf)
+
+**Example In-Person Turn**:
+
+*You have 6 Wild Instinct, currently in Human form*
+
+**Turn 1 - First Transformation (FREE)**:
+1. "I transform into Nightstalker form!" (FREE - first transformation of combat)
+2. Place Nightstalker card face-up in front of you
+3. Wild Instinct: Still at 6 WI (transformation was free)
+4. Swap your mini to a panther mini (if using)
+
+**Turn 2 - Generate WI**:
+1. "I ambush the guard from stealth!"
+2. Roll attack with advantage → Hit!
+3. Roll damage: 2d8 + 2d6 (sneak attack) → [7, 6] + [5, 4] = 22 damage!
+4. Generate WI: +2 WI (Ambush from Stealth)
+5. Add 2 tokens: 6 + 2 = 8 WI
+
+**Turn 3 - Transform Again**:
+1. "The enemies are charging! I transform into Ironhide form!"
+2. Remove 1 token: 8 - 1 = 7 WI (transformation costs 1 WI)
+3. Swap Nightstalker card for Ironhide card
+4. Swap panther mini for bear mini
+5. Gain Ironhide bonuses: +20 HP, +2 AC, damage resistance
+
+**Turn 4 - Generate WI in New Form**:
+1. "I taunt all 3 enemies!"
+2. All 3 enemies must attack me
+3. Generate WI: +1 WI per enemy = +3 WI
+4. Add 3 tokens: 7 + 3 = 10 WI
+
+**Turn 5 - Spend WI on Ability**:
+1. "I use Charge!" (Tier 3 ability, costs 3 WI)
+2. Remove 3 tokens: 10 - 3 = 7 WI
+3. Charge at enemy, knock prone, deal 3d8 damage
+4. Roll: [7, 6, 5] = 18 damage!
+
+**Quick Reference Card Template**:
+\`\`\`
+FORMBENDER QUICK REFERENCE
+
+WILD INSTINCT:
+• Maximum: 15 WI
+• First transformation: FREE
+• Subsequent transformations: 1 WI
+• Abilities cost 1-5 WI (Tier 1-5)
+
+FORMS:
+🐆 Nightstalker (Panther): Stealth, burst damage
+🐻 Ironhide (Bear): Tank, durability
+🦅 Skyhunter (Eagle): Mobility, aerial control
+🐺 Frostfang (Wolf): Pack tactics, tracking
+
+WI GENERATION (Form-Specific):
+• Nightstalker: Ambush (+2), Crit (+1)
+• Ironhide: Taunt (+1/enemy), Tank (+1/10 dmg)
+• Skyhunter: Scout (+1), Dive (+1)
+• Frostfang: Pack attack (+1), Howl (+1/ally)
+
+TRANSFORMATION STRATEGY:
+• Start combat: Transform for FREE
+• Generate WI in current form
+• Switch forms when needed (1 WI)
+• Spend WI on abilities (1-5 WI)
+\`\`\`
+
+**Thematic Enhancements**:
+
+Many players enhance the shapeshifting experience with:
+- **Form-Specific Minis**: Use different miniatures for each form
+- **Transformation Announcements**: Describe your transformation dramatically
+- **Wild Tokens**: Use nature-themed tokens (leaves, stones, bones)
+- **Form Cards**: Laminated cards with form artwork and abilities
+- **Physical Gestures**: Make animal sounds or gestures when transforming
+
+**Example Full Combat Sequence**:
+
+*Starting: 6 WI (carried over), Human form*
+
+**Turn 1**: Transform to Nightstalker (FREE) → 6 WI, Nightstalker form
+**Turn 2**: Ambush from stealth → +2 WI → 8 WI
+**Turn 3**: Transform to Ironhide (1 WI) → 7 WI, Ironhide form
+**Turn 4**: Taunt 3 enemies → +3 WI → 10 WI
+**Turn 5**: Use Charge (3 WI) → 7 WI
+**Turn 6**: Take 20 damage → +2 WI (Ironhide passive) → 9 WI
+**Turn 7**: Transform to Skyhunter (1 WI) → 8 WI, Skyhunter form
+**Turn 8**: Dive attack → +1 WI → 9 WI
+**Turn 9**: Use Dive Bomb (3 WI) → 6 WI
+
+**Visual Organization**:
+
+**Your Play Area**:
+\`\`\`
+[Current Form Card]    [WI Tokens]
+   IRONHIDE           ○○○○○○○○○○ (10 WI)
+
+[Form Card Deck]
+Nightstalker
+Skyhunter
+Frostfang
+\`\`\`
+
+**Specialization-Specific Tracking**:
+
+**Metamorph (Hybrid Forms)**:
+- Can combine two forms simultaneously
+- Hybrid transformation costs 2 WI (not 1)
+- Track which two forms are active (use both cards)
+- Example: "Nightstalker + Skyhunter = Flying Panther!"
+
+**Skinwalker (Stolen Forms)**:
+- Can steal enemy forms (costs 5 WI)
+- Track up to 10 stolen forms (create custom cards)
+- Transforming into stolen form costs 2 WI
+- Example: "I steal the orc's form!" → Create "Orc Form" card
+
+**Primordial (Elemental Forms)**:
+- Replace base forms with elemental forms
+- Elemental transformation costs 3 WI (not 1)
+- Track elemental vulnerabilities (note on cards)
+- Example: "Inferno Form" card shows fire immunity, cold vulnerability
+
+**Why This System Works**: The physical act of placing form cards, swapping miniatures, and adding/removing Wild Instinct tokens creates a TRANSFORMATIVE experience. You're not just saying "I'm a bear now"—you're physically changing your play area to reflect your new form. The form cards show your current abilities at a glance, and the WI tokens show how much power you have to spend. The moment you transform—swapping cards and minis—is visceral and memorable.
+
+**Pro Tips**:
+- **Form Planning**: Decide which form you need BEFORE transforming
+- **WI Banking**: Keep 3-5 WI banked for emergency transformations
+- **Form Synergy**: Use one form to generate WI, another to spend it
+- **Transformation Timing**: Transform at the start of your turn for maximum benefit
+- **Ability Tiers**: Save Tier 4-5 abilities for critical moments
+
+**Budget-Friendly Alternatives**:
+- **No form cards?** Write form names on paper with abilities listed
+- **No minis?** Use tokens or coins to represent different forms
+- **No WI tokens?** Use a d20 die or paper tracking
+- **Minimalist**: Just announce form changes and track WI on paper
+
+**Why Formbender Is Perfect for In-Person Play**: The class is built around dramatic transformations between distinct forms, each with unique abilities and playstyles. The physical components (form cards, miniatures, WI tokens) make shapeshifting tangible and immediate. Swapping your panther mini for a bear mini, placing a new form card in front of you, and adjusting your WI tokens creates a visceral sense of transformation. Every form change is a dramatic moment, and the Wild Instinct system creates meaningful decisions about when to transform and when to spend power on abilities.`
     }
   },
   

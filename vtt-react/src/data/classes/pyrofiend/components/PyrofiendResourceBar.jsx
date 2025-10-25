@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/PyrofiendResourceBar.css';
 
-const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {} }) => {
+const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
     const [localInfernoLevel, setLocalInfernoLevel] = useState(5);
     const [selectedSpec, setSelectedSpec] = useState('inferno');
     const [showTooltip, setShowTooltip] = useState(false);
