@@ -6499,12 +6499,7 @@ const UnifiedSpellCard = ({
           <div className="unified-spell-info">
             <h3 className="pf-spell-name">{spell?.name || 'Unnamed Spell'}</h3>
 
-            {/* Separator line below spell title for wizard variant */}
-            {variant === 'wizard' && (
-              <div className="unified-spell-title-separator"></div>
-            )}
-
-            {/* Resource costs below separator for wizard variant */}
+            {/* Resource costs below title for wizard variant */}
             {variant === 'wizard' && (formatResourceCosts() || spell?.infernoRequired !== undefined || spell?.infernoAscend !== undefined || spell?.infernoDescend !== undefined || spell?.musicalCombo) && (
               <div className="unified-spell-wizard-meta">
                 <div className="unified-spell-resource-costs">

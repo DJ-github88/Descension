@@ -12,6 +12,7 @@ const SpellContextMenu = ({
   onClose,
   collections = [],
   inCollection = false,
+  isCustomSpell = false,
   onEdit,
   onDuplicate,
   onDelete,
@@ -19,15 +20,18 @@ const SpellContextMenu = ({
 }) => {
   const menuItems = [];
 
-  // Duplicate option
-  menuItems.push({
-    icon: <i className="fas fa-copy"></i>,
-    label: 'Duplicate Spell',
-    onClick: () => {
-      onDuplicate(spell.id);
-      onClose();
-    }
-  });
+  // Edit in Spell Wizard (only for custom spells)
+  if (onEdit && isCustomSpell) {
+    menuItems.push({
+      icon: <i className="fas fa-edit"></i>,
+      label: 'Edit in Spell Wizard',
+      onClick: () => {
+        console.log('[SpellContextMenu] Edit clicked, calling onEdit with spell:', spell);
+        onEdit(spell.id);
+        onClose();
+      }
+    });
+  }
 
   if (inCollection) {
     // Remove from collection option
@@ -35,37 +39,51 @@ const SpellContextMenu = ({
       icon: <i className="fas fa-minus-circle"></i>,
       label: 'Remove from Collection',
       onClick: () => {
+        console.log('[SpellContextMenu] Remove from collection clicked');
         onDelete(spell.id);
         onClose();
       },
       className: 'danger'
     });
   } else {
-    // Add to collection options
-    if (collections.length > 0) {
-      menuItems.push({ type: 'separator' });
-      collections.forEach(collection => {
-        menuItems.push({
+    // Add to collection as a submenu (only for custom spells)
+    if (collections.length > 0 && isCustomSpell) {
+      menuItems.push({
+        icon: <i className="fas fa-folder-plus"></i>,
+        label: 'Add to Collection',
+        submenu: collections.map(collection => ({
           icon: <i className="fas fa-book"></i>,
           label: collection.name,
           onClick: () => {
+            console.log('[SpellContextMenu] Add to collection clicked:', collection.name);
             onAddToCollection(spell.id, collection.id);
             onClose();
           }
-        });
+        }))
       });
-      menuItems.push({ type: 'separator' });
     }
 
-    // Delete spell option
+    // Remove spell option (only for custom spells)
+    if (onDelete && isCustomSpell) {
+      menuItems.push({
+        icon: <i className="fas fa-trash"></i>,
+        label: 'Remove Spell',
+        onClick: () => {
+          console.log('[SpellContextMenu] Remove spell clicked');
+          onDelete(spell.id);
+          onClose();
+        },
+        className: 'danger'
+      });
+    }
+  }
+
+  // If no menu items, show a message
+  if (menuItems.length === 0) {
     menuItems.push({
-      icon: <i className="fas fa-trash"></i>,
-      label: 'Delete Spell',
-      onClick: () => {
-        onDelete(spell.id);
-        onClose();
-      },
-      className: 'danger'
+      icon: <i className="fas fa-info-circle"></i>,
+      label: 'Class spells cannot be edited or removed',
+      disabled: true
     });
   }
 
@@ -87,9 +105,10 @@ SpellContextMenu.propTypes = {
   onClose: PropTypes.func.isRequired,
   collections: PropTypes.array,
   inCollection: PropTypes.bool,
-  onEdit: PropTypes.func, // Made optional since edit functionality is removed
-  onDuplicate: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  isCustomSpell: PropTypes.bool,
+  onEdit: PropTypes.func,
+  onDuplicate: PropTypes.func,
+  onDelete: PropTypes.func,
   onAddToCollection: PropTypes.func
 };
 

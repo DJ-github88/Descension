@@ -44,19 +44,9 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.skills-search-icon {
-    position: absolute;
-    left: 22px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #8b7355;
-    font-size: 14px;
-    pointer-events: none;
-}
-
 .skills-search-input {
     width: 100%;
-    padding: 8px 32px 8px 32px;
+    padding: 8px 32px 8px 12px;
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.9) 0%,
         rgba(250, 245, 235, 0.85) 100%);
@@ -84,7 +74,7 @@
 
 .skills-search-clear {
     position: absolute;
-    right: 22px;
+    right: 18px;
     top: 50%;
     transform: translateY(-50%);
     color: #8b7355;
@@ -143,6 +133,13 @@
     flex: 1;
 }
 
+.category-toggle-icon {
+    font-size: 12px;
+    color: #7a3b2e;
+    transition: transform 0.2s ease;
+    margin-left: auto;
+}
+
 /* Skill List */
 .skill-list {
     background: linear-gradient(135deg,
@@ -160,11 +157,13 @@
     transition: all 0.2s ease;
     border-bottom: 1px solid rgba(139, 115, 85, 0.3);
     font-family: 'Cinzel', serif;
-    font-size: 12px;
+    font-size: 13px;
     background: transparent;
     margin: 0;
     width: 100%;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .skill-list-item:hover {
@@ -185,11 +184,21 @@
 }
 
 .skill-list-name {
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.3;
     overflow: hidden;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 0 1px rgba(0, 0, 0, 0.5);
     text-overflow: ellipsis;
     white-space: nowrap;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.skill-rank-label {
+    font-weight: 500;
+    font-size: 11px;
+    opacity: 0.85;
+    font-style: italic;
 }
 
 .skill-list-progress {
@@ -292,7 +301,7 @@
     font-size: 28px;
     font-weight: 700;
     margin: 0;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 8px rgba(255, 255, 255, 0.5);
     line-height: 1.2;
 }
 
@@ -369,10 +378,9 @@
 /* Roll Button */
 .roll-table-btn {
     padding: 10px 16px;
-    background: linear-gradient(135deg, #8b4513 0%, #6b3410 100%);
     border: 2px solid #5a2a0f;
     border-radius: 6px;
-    color: #f0e6d2;
+
     font-family: 'Cinzel', serif;
     font-size: 13px;
     font-weight: 600;
@@ -570,7 +578,8 @@
 
 .roll-result {
     flex: 1;
-    line-height: 1.3;
+    line-height: 1.6;
+    white-space: pre-line;
 }
 
 /* Scrollbar Styling */
@@ -625,4 +634,77 @@
     .skill-detail-description {
         font-size: 13px;
     }
+}
+
+/* Die Selector Section */
+.die-selector-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.6) 0%,
+        rgba(230, 220, 200, 0.5) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+}
+
+.die-selector-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.die-selector-strip {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.die-selector-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.die-selector-icon:hover {
+    background: linear-gradient(135deg,
+        rgba(250, 240, 220, 1) 0%,
+        rgba(240, 230, 210, 0.95) 100%);
+    border-color: #6b5345;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.die-selector-icon.selected {
+    background: linear-gradient(135deg,
+        rgba(139, 115, 85, 0.9) 0%,
+        rgba(107, 83, 69, 0.85) 100%);
+    border-color: #5a1e12;
+    box-shadow: 0 0 12px rgba(139, 115, 85, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.die-selector-icon.selected .die-number {
+    color: #f0e6d2;
+    font-weight: 700;
+}
+
+.die-number {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
 }

@@ -549,9 +549,9 @@ const ActionBar = () => {
             // Get the action slot element's position for better tooltip placement
             const rect = targetElement.getBoundingClientRect();
 
-            // Position tooltip above the action slot, centered horizontally
+            // Anchor point: center-top of the slot. SpellTooltip will translate above.
             const tooltipX = rect.left + (rect.width / 2);
-            const tooltipY = rect.top - 10; // Position above the slot
+            const tooltipY = rect.top; // exact top edge; SpellTooltip handles offset
 
             console.log('Action bar spell tooltip positioning:', {
               x: tooltipX,
@@ -653,7 +653,6 @@ const ActionBar = () => {
                                     handleSpellMouseLeave();
                                 }
                             }}
-                            title={item && item.type !== 'consumable' ? `${item.name || 'Unknown Item'}${(item.cooldown || 0) > 0 ? ` (${item.cooldown || 0}s)` : ''}` : (item ? '' : 'Empty Slot')}
                         >
                             {item && (
                                 <>

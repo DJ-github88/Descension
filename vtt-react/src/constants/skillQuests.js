@@ -190,100 +190,6 @@ export const SKILL_QUESTS = {
         }
     ],
 
-    // Wilderness Survival Quests
-    wilderness: [
-        {
-            id: 'basic_shelter',
-            name: 'Basic Shelter',
-            description: 'Build a shelter to survive one night in the wilderness',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_tent_01.jpg',
-            rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Shelter construction techniques']
-        },
-        {
-            id: 'find_water',
-            name: 'Find Water',
-            description: 'Locate a clean water source in the wild',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_drink_07.jpg',
-            rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Water location skills']
-        },
-        {
-            id: 'track_creature',
-            name: 'Track Creature',
-            description: 'Successfully track and follow an animal for 1 mile',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_tracking.jpg',
-            rank: 'TRAINED',
-            completed: false,
-            unlocks: ['Basic tracking abilities']
-        },
-        {
-            id: 'start_fire',
-            name: 'Start Fire',
-            description: 'Start a fire without modern tools',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg',
-            rank: 'TRAINED',
-            completed: false,
-            unlocks: ['Fire starting techniques']
-        },
-        {
-            id: 'forage_food',
-            name: 'Forage Food',
-            description: 'Find and identify edible plants and fungi',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_felblossom.jpg',
-            rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Foraging knowledge']
-        },
-        {
-            id: 'navigate_terrain',
-            name: 'Navigate Terrain',
-            description: 'Navigate through difficult terrain without getting lost',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_map_01.jpg',
-            rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Navigation skills']
-        },
-        {
-            id: 'weather_prediction',
-            name: 'Weather Prediction',
-            description: 'Predict weather changes by reading natural signs',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Weather reading']
-        },
-        {
-            id: 'trap_setting',
-            name: 'Trap Setting',
-            description: 'Set effective traps to catch game',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_net_01.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Trap construction']
-        },
-        {
-            id: 'survive_extreme',
-            name: 'Survive Extreme Conditions',
-            description: 'Survive in extreme weather (desert, arctic, storm)',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostarmor.jpg',
-            rank: 'EXPERT',
-            completed: false,
-            unlocks: ['Extreme survival']
-        },
-        {
-            id: 'wilderness_week',
-            name: 'Wilderness Week',
-            description: 'Survive alone in the wilderness for a full week',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-            rank: 'MASTER',
-            completed: false,
-            unlocks: ['Wilderness mastery']
-        }
-    ],
-
     // Investigation Quests
     investigation: [
         {
@@ -375,100 +281,6 @@ export const SKILL_QUESTS = {
             rank: 'MASTER',
             completed: false,
             unlocks: ['Legendary deduction']
-        }
-    ],
-
-    // Smithing Quests
-    smithing: [
-        {
-            id: 'first_forge',
-            name: 'First Forge',
-            description: 'Successfully forge your first simple item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_hammer_05.jpg',
-            rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Basic forging techniques']
-        },
-        {
-            id: 'repair_item',
-            name: 'Repair Item',
-            description: 'Successfully repair a damaged weapon or armor',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-            rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Repair techniques']
-        },
-        {
-            id: 'quality_work',
-            name: 'Quality Work',
-            description: 'Create an item of superior quality',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_39.jpg',
-            rank: 'TRAINED',
-            completed: false,
-            unlocks: ['Quality crafting methods']
-        },
-        {
-            id: 'custom_design',
-            name: 'Custom Design',
-            description: 'Create a custom-designed item to specifications',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_01.jpg',
-            rank: 'TRAINED',
-            completed: false,
-            unlocks: ['Custom crafting']
-        },
-        {
-            id: 'exotic_materials',
-            name: 'Exotic Materials',
-            description: 'Work with rare or magical materials',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_incinerate.jpg',
-            rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Advanced material handling']
-        },
-        {
-            id: 'masterwork_item',
-            name: 'Masterwork Item',
-            description: 'Forge a masterwork-quality item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_62.jpg',
-            rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Masterwork crafting']
-        },
-        {
-            id: 'enchanted_forging',
-            name: 'Enchanted Forging',
-            description: 'Successfully forge an item that can hold enchantments',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_fire_masterofelements.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Enchantment-ready crafting']
-        },
-        {
-            id: 'legendary_metal',
-            name: 'Legendary Metal',
-            description: 'Work with legendary metals (mithril, adamantine, etc.)',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_ingot_mithril.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Legendary material mastery']
-        },
-        {
-            id: 'signature_piece',
-            name: 'Signature Piece',
-            description: 'Create a signature piece that bears your mark',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg',
-            rank: 'EXPERT',
-            completed: false,
-            unlocks: ['Signature crafting']
-        },
-        {
-            id: 'legendary_smith',
-            name: 'Legendary Smith',
-            description: 'Forge an item of legendary quality',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_61.jpg',
-            rank: 'MASTER',
-            completed: false,
-            unlocks: ['Legendary smithing']
         }
     ],
 
@@ -2352,100 +2164,6 @@ export const SKILL_QUESTS = {
         }
     ],
 
-    // Enchanting Quests
-    enchanting: [
-        {
-            id: 'first_enchantment',
-            name: 'First Enchantment',
-            description: 'Successfully enchant your first item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-            rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Basic enchanting']
-        },
-        {
-            id: 'disenchant_magic',
-            name: 'Disenchant Magic',
-            description: 'Successfully disenchant a magical item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_disenchant.jpg',
-            rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Disenchanting skills']
-        },
-        {
-            id: 'transfer_enchantment',
-            name: 'Transfer Enchantment',
-            description: 'Transfer an enchantment from one item to another',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essencearcanelarge.jpg',
-            rank: 'TRAINED',
-            completed: false,
-            unlocks: ['Enchantment transfer']
-        },
-        {
-            id: 'layered_enchantment',
-            name: 'Layered Enchantment',
-            description: 'Apply multiple enchantments to a single item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essencemysticallarge.jpg',
-            rank: 'TRAINED',
-            completed: false,
-            unlocks: ['Multi-enchanting']
-        },
-        {
-            id: 'powerful_enchantment',
-            name: 'Powerful Enchantment',
-            description: 'Create a powerful enchantment on a rare item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essenceeternallarge.jpg',
-            rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Advanced enchanting']
-        },
-        {
-            id: 'permanent_enchantment',
-            name: 'Permanent Enchantment',
-            description: 'Create an enchantment that cannot be dispelled',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essencenetherlarge.jpg',
-            rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Permanent enchanting']
-        },
-        {
-            id: 'sentient_enchantment',
-            name: 'Sentient Enchantment',
-            description: 'Create an enchantment with limited sentience',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essenceastral.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Sentient enchanting']
-        },
-        {
-            id: 'curse_breaking',
-            name: 'Curse Breaking',
-            description: 'Break a powerful curse on an item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofachimonde.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Curse breaking']
-        },
-        {
-            id: 'artifact_enchantment',
-            name: 'Artifact Enchantment',
-            description: 'Enchant an artifact-level item',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_staff_13.jpg',
-            rank: 'EXPERT',
-            completed: false,
-            unlocks: ['Artifact enchanting']
-        },
-        {
-            id: 'legendary_enchantment',
-            name: 'Legendary Enchantment',
-            description: 'Create a legendary enchantment',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_enchant_essenceeternallarge.jpg',
-            rank: 'MASTER',
-            completed: false,
-            unlocks: ['Legendary enchanting']
-        }
-    ],
-
     // Arcane Knowledge Quests
     arcaneKnowledge: [
         {
@@ -2639,92 +2357,82 @@ export const SKILL_QUESTS = {
         {
             id: 'first_block',
             name: 'First Block',
-            description: 'Successfully block an attack with a shield or weapon',
+            description: 'Successfully block an attack using the Defend Action',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
             rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Basic blocking']
+            completed: false
         },
         {
-            id: 'parry_basics',
-            name: 'Parry Basics',
-            description: 'Deflect an incoming attack using your weapon',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg',
+            id: 'armor_awareness',
+            name: 'Armor Awareness',
+            description: 'Use armor positioning to reduce damage from a heavy strike',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_shield_06.jpg',
             rank: 'NOVICE',
-            completed: false,
-            unlocks: ['Parrying techniques']
+            completed: false
         },
         {
-            id: 'dodge_attack',
-            name: 'Dodge Attack',
-            description: 'Evade an attack through quick movement',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_feint.jpg',
+            id: 'stance_discipline',
+            name: 'Stance Discipline',
+            description: 'Maintain proper defensive stance throughout an entire combat encounter',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_stalwartprotector.jpg',
             rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Evasion techniques']
+            completed: false
         },
         {
-            id: 'shield_wall',
-            name: 'Shield Wall',
-            description: 'Protect allies by forming a defensive barrier',
+            id: 'pressure_defense',
+            name: 'Pressure Defense',
+            description: 'Successfully defend against three consecutive attacks without breaking form',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldwall.jpg',
             rank: 'APPRENTICE',
-            completed: false,
-            unlocks: ['Group defense']
+            completed: false
         },
         {
-            id: 'damage_reduction',
-            name: 'Damage Reduction',
-            description: 'Reduce incoming damage through armor positioning',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_shield_06.jpg',
-            rank: 'JOURNEYMAN',
-            completed: false,
-            unlocks: ['Damage mitigation']
-        },
-        {
-            id: 'counter_defense',
-            name: 'Counter Defense',
-            description: 'Block an attack and immediately counter-attack',
+            id: 'redirect_momentum',
+            name: 'Redirect Momentum',
+            description: 'Deflect an attack in a way that creates an opening for a counter',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_revenge.jpg',
             rank: 'JOURNEYMAN',
-            completed: false,
-            unlocks: ['Defensive counters']
+            completed: false
         },
         {
-            id: 'defensive_stance',
-            name: 'Defensive Stance',
-            description: 'Maintain a defensive posture that reduces all incoming damage',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_stalwartprotector.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Stance mastery']
+            id: 'armor_mastery',
+            name: 'Armor Mastery',
+            description: 'Maximize armor effectiveness to negate a devastating blow',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate16.jpg',
+            rank: 'JOURNEYMAN',
+            completed: false
         },
         {
-            id: 'shield_bash',
-            name: 'Shield Bash',
-            description: 'Use your shield offensively to stun an attacker',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldbash.jpg',
-            rank: 'ADEPT',
-            completed: false,
-            unlocks: ['Offensive defense']
-        },
-        {
-            id: 'perfect_defense',
-            name: 'Perfect Defense',
-            description: 'Achieve a moment of perfect defensive form, negating all damage',
+            id: 'unbreakable_guard',
+            name: 'Unbreakable Guard',
+            description: 'Withstand overwhelming force without losing defensive position',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldguard.jpg',
-            rank: 'EXPERT',
-            completed: false,
-            unlocks: ['Flawless defense']
+            rank: 'ADEPT',
+            completed: false
         },
         {
-            id: 'impenetrable_guard',
-            name: 'Impenetrable Guard',
-            description: 'Maintain an unbreakable defense against overwhelming odds',
+            id: 'anticipate_strike',
+            name: 'Anticipate Strike',
+            description: 'Read an opponent and prepare defense before the attack lands',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg',
+            rank: 'ADEPT',
+            completed: false
+        },
+        {
+            id: 'perfect_timing',
+            name: 'Perfect Timing',
+            description: 'Execute a flawless defensive maneuver at the critical moment',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldbash.jpg',
+            rank: 'EXPERT',
+            completed: false
+        },
+        {
+            id: 'fortress_stance',
+            name: 'Fortress Stance',
+            description: 'Become an immovable object, absorbing punishment that would fell others',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_unrelentingassault.jpg',
             rank: 'EXPERT',
-            completed: false,
-            unlocks: ['Ultimate protection']
+            completed: false
         }
     ]
 };

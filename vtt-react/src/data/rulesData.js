@@ -477,19 +477,27 @@ GMs can mix and match these systems to create the perfect experience for their t
         useCustomComponent: true, // Flag to use SkillsDisplay component
         content: {
           title: 'Skills',
-          description: 'Character skills organized by category with ability score associations',
+          description: 'Character skills with rank progression and quest-based advancement',
           sections: [
             {
-              title: 'What are Skills?',
-              content: `Skills represent your character's training and expertise in various areas. When you make a skill check, you roll 1d20 and add your relevant ability modifier. If you're proficient in that skill, you also add your proficiency bonus.`
+              title: 'How Skills Work',
+              content: `Skills represent your character's training and expertise in various areas. When you make a skill check, your GM determines the difficulty and tells you which die to roll (d4 for very easy tasks up to d20 for very difficult ones). You add your relevant ability modifiers to the roll.`
             },
             {
-              title: 'Skill Proficiency',
-              content: `You gain skill proficiencies from your background (automatically granted), your path (automatically granted), and your class (you choose 2 from your class skill list during character creation). Being proficient in a skill means you add your proficiency bonus to checks made with that skill.`
+              title: 'Skill Ranks & Progression',
+              content: `Skills have seven ranks: Untrained, Novice, Trained, Apprentice, Adept, Expert, and Master. Each rank unlocks better outcomes on rollable tables and adds a bonus to your checks. You advance through ranks by completing skill quests during gameplay—small challenges that demonstrate your growing expertise.`
             },
             {
               title: 'Ability Scores and Skills',
-              content: `Each skill is associated with a primary ability score (and sometimes a secondary one). For example, Athletics uses Strength, while Stealth uses Agility. Your GM may allow you to use a different ability score for a skill check if it makes sense in the situation.`
+              content: `Each skill is tied to a primary ability score and a secondary ability score. Both modifiers apply to your skill checks. For example, Persuasion uses Charisma (primary) and Intelligence (secondary), so you add both modifiers when making Persuasion checks.`
+            },
+            {
+              title: 'Critical Success & Failure',
+              content: `Rolling the maximum value on your die (e.g., 20 on a d20) is a critical success, granting exceptional results. Rolling the minimum value (1) is a critical failure, resulting in complications or setbacks. Check your skill's rollable table to see the full range of possible outcomes.`
+            },
+            {
+              title: 'Skill Quests',
+              content: `Each skill has 10 quests that unlock as you progress. Completing quests advances your rank and unlocks new abilities. Quests are small, achievable challenges that occur naturally during gameplay—like "Land your first successful attack" for Weapon Mastery or "Successfully persuade an authority figure" for Persuasion.`
             }
           ]
         }

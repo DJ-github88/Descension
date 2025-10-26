@@ -207,7 +207,7 @@
   background: rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     inset 0 0 8px rgba(0, 0, 0, 0.4);
   display: flex;
@@ -394,3 +394,36 @@
   color: #f0e6d2;
 }
 
+
+
+/* ===== EMPTY PLACEHOLDERS TO FILL PAGE (WoW-style) ===== */
+.wow-spell-row.empty {
+  background: transparent;
+  border: 1px solid rgba(139, 115, 85, 0.35);
+  height: 48px;
+  cursor: default;
+}
+.wow-spell-row.empty:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(139, 115, 85, 0.35);
+}
+.wow-spell-row.empty .wow-empty-icon,
+.wow-empty-icon {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #c6b28a;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 0 6px rgba(139, 115, 85, 0.35);
+  flex-shrink: 0;
+}
+.wow-spell-row.empty .wow-empty-name-box,
+.wow-empty-name-box {
+  flex: 1;
+  height: 18px;
+  border: 2px solid #c6b28a;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+}

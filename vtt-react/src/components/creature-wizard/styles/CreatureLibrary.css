@@ -196,10 +196,14 @@
 .creature-card-wrapper {
   position: relative;
   transition: all 0.2s ease;
-  cursor: pointer;
+  cursor: grab;
   height: 100%;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  user-select: none; /* Prevent text selection from interfering with drag */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .creature-card-wrapper:hover {
@@ -238,12 +242,16 @@
   align-items: center;
   opacity: 0;
   transition: opacity 0.2s ease;
-  pointer-events: none;
+  pointer-events: none; /* Allow drag events to pass through to parent */
   color: #f0e6d2; /* Parchment color */
   font-size: 16px;
   border-radius: 8px;
   z-index: 20;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.creature-card-wrapper:active {
+  cursor: grabbing;
 }
 
 .drag-handle-overlay i {

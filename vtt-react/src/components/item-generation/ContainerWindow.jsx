@@ -1143,13 +1143,8 @@ const ContainerWindow = ({ container, onClose }) => {
                             setZIndex(newZIndex);
                         }
                     }}
-                    onDragOver={(e) => {
-                        e.preventDefault(); // Allow drops on the window
-                        console.log('🪟 Container window dragOver');
-                    }}
-                    onDrop={(e) => {
-                        console.log('🪟 Container window drop event!');
-                    }}
+                    // REMOVED: Don't preventDefault on the entire window - this blocks grid drops!
+                    // The individual container cells handle dragover/drop instead
                     id={`container-window-${container.id}`}
                     style={{
                         position: 'fixed',
@@ -1173,58 +1168,24 @@ const ContainerWindow = ({ container, onClose }) => {
                         // DraggableWindow now handles scaling with proper hit detection
                     }}
                 >
-                    <div
-                        className="container-window-header"
-                        style={{
-                            background: 'linear-gradient(to bottom, #444, #333)',
-                            color: '#fff',
-                            padding: '8px 12px',
-                            cursor: 'move',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            borderBottom: '1px solid #555',
-                            borderTopLeftRadius: '4px',
-                            borderTopRightRadius: '4px',
-                            minHeight: '40px',
-                            boxSizing: 'border-box'
-                        }}
-                    >
-                        <div className="container-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div className="container-window-header">
+                        <div className="container-title">
                             <img
                                 src={`https://wow.zamimg.com/images/wow/icons/large/${currentContainer.iconId || 'inv_box_01'}.jpg`}
                                 alt={currentContainer.name}
                                 className="container-icon"
-                                style={{ width: '24px', height: '24px', borderRadius: '3px' }}
                                 onError={(e) => {
                                     e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_box_01.jpg';
                                 }}
                             />
-                            <span style={{ fontWeight: 'bold' }}>{currentContainer.name}</span>
+                            <span className="container-name">{currentContainer.name}</span>
                             {currentContainer.containerProperties?.isLocked && (
-                                <i className="fas fa-lock" style={{ color: '#ffaa00', marginLeft: '5px' }}></i>
+                                <i className="fas fa-lock container-lock-icon"></i>
                             )}
                         </div>
                         <button
                             className="close-button"
                             onClick={onClose}
-                            style={{
-                                background: '#d32f2f',
-                                border: '1px solid rgba(0,0,0,0.3)',
-                                borderRadius: '3px',
-                                fontSize: '18px',
-                                fontWeight: 'bold',
-                                boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
-                                flexShrink: 0
-                            }}
-                            onMouseOver={(e) => {
-                                e.currentTarget.style.background = '#b71c1c';
-                                e.currentTarget.style.transform = 'scale(1.05)';
-                            }}
-                            onMouseOut={(e) => {
-                                e.currentTarget.style.background = '#d32f2f';
-                                e.currentTarget.style.transform = 'scale(1)';
-                            }}
                         >
                             ×
                         </button>
@@ -1272,8 +1233,11 @@ const ContainerWindow = ({ container, onClose }) => {
                             if (removedItem) {
                                 console.log('Item removed from container, adding to inventory:', removedItem);
 
-                                // Add to inventory
-                                addItemToInventory(removedItem);
+                                // Add to inventory with quantity preserved
+                                addItemToInventory(removedItem, {
+                                    quantity: removedItem.quantity || 1,
+                                    preserveProperties: true
+                                });
                             } else {
                                 console.error('Failed to remove item from container');
                             }

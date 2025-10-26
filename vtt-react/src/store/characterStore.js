@@ -347,6 +347,7 @@ const useCharacterStore = create((set, get) => ({
 
     // Quest-based skill system
     skillProgress: {},
+    skillRanks: {}, // Skill proficiency ranks from character creation
 
     // Helper function to get effective stats (base + racial modifiers)
     getEffectiveStats: () => {
@@ -1553,7 +1554,8 @@ const useCharacterStore = create((set, get) => ({
                 resistances: character.resistances || get().resistances,
                 spellPower: character.spellPower || get().spellPower,
                 lore: character.lore || get().lore,
-                tokenSettings: character.tokenSettings || get().tokenSettings
+                tokenSettings: character.tokenSettings || get().tokenSettings,
+                skillRanks: character.skillRanks || {}
             });
 
             // Load character's inventory into the inventory store
@@ -1918,6 +1920,7 @@ const useCharacterStore = create((set, get) => ({
             spellPower: state.spellPower,
             lore: state.lore,
             tokenSettings: state.tokenSettings,
+            skillRanks: state.skillRanks,
             inventory: inventoryData, // Include inventory data
             updatedAt: new Date().toISOString()
         };

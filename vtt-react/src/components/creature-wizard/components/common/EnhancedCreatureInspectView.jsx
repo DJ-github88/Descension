@@ -31,9 +31,11 @@ const formatModifier = (mod) => {
   return mod >= 0 ? `+${mod}` : `${mod}`;
 };
 
-// Helper function to get icon URL
-const getIconUrl = (iconId) => {
-  return `https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg`;
+// Helper to resolve WoW icon URLs consistently
+const getIconUrl = (icon) => {
+  if (!icon) return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+  if (typeof icon === 'string' && icon.startsWith('http')) return icon;
+  return `https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`;
 };
 
 // Format damage type for display
@@ -100,6 +102,9 @@ const formatAbilityType = (type) => {
   return typeMap[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
 };
 
+
+
+
 const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen, onClose }) => {
   const [activeSection, setActiveSection] = useState('statistics');
   const [mounted, setMounted] = useState(false);
@@ -109,6 +114,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   const [hoveredStat, setHoveredStat] = useState(null);
   const [statTooltipPosition, setStatTooltipPosition] = useState({ x: 0, y: 0 });
   const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
+  // Selected index for combined Abilities & Spells icon strip
+  const [selectedAbilityIndex, setSelectedAbilityIndex] = useState(0);
 
   // Store hooks for loot drop functionality
   const { addItemToGrid } = useGridItemStore();
@@ -917,20 +924,63 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Transform ability to spell format for spell cards
   const transformAbilityToSpell = (ability) => {
+    // Map a generic creature ability into the UnifiedSpellCard shape
+    const ap = ability.actionPointCost || ability.apCost || 0;
+
+    // Build simple resource cost using Action Points (AP)
+    const resourceCost = ap > 0 ? { actionPoints: ap } : undefined;
+
+    // Aggregate damage types from primary damage and effects (e.g., piercing + necrotic)
+    const damageTypesSet = new Set();
+    if (ability.damage?.damageType) damageTypesSet.add(String(ability.damage.damageType).toLowerCase());
+    if (ability.damageType) damageTypesSet.add(String(ability.damageType).toLowerCase());
+    if (Array.isArray(ability.effects)) {
+      ability.effects.forEach(e => {
+        const t = (e.damageType || e.type || '').toString().toLowerCase();
+        if (e.type === 'DAMAGE' || e.type === 'damage') {
+          if (t) damageTypesSet.add(t);
+        }
+      });
+    }
+    // Normalize shadow->necrotic, holy->radiant
+    const normalize = (t) => t === 'shadow' ? 'necrotic' : (t === 'holy' ? 'radiant' : t);
+    const damageTypes = Array.from(damageTypesSet).map(normalize).filter(Boolean);
+
+    // Best-effort damage mapping so the card can show damage context
+    let damageConfig;
+    if (ability.damage) {
+      if (typeof ability.damage === 'object') {
+        const bonus = ability.damage.bonus ? `+${ability.damage.bonus}` : '';
+        const formula = `${ability.damage.diceCount || 1}d${ability.damage.diceType || 6}${bonus}`;
+        damageConfig = {
+          formula,
+          damageType: normalize((ability.damage.damageType || ability.damageType || 'physical').toLowerCase()),
+          damageTypes: damageTypes.slice(0, 2)
+        };
+      } else if (typeof ability.damage === 'string') {
+        damageConfig = {
+          formula: ability.damage,
+          damageType: normalize((ability.damageType || 'physical').toLowerCase()),
+          damageTypes: damageTypes.slice(0, 2)
+        };
+      }
+    }
+
     return {
       id: ability.id || `ability-${ability.name}`,
       name: ability.name,
-      level: ability.level || 1,
-      school: ability.school || 'Evocation',
-      rarity: ability.rarity || 'Common',
-      icon: ability.icon || 'spell_holy_magicalsentry',
-      description: ability.description,
+      spellType: 'ACTION',
+      icon: ability.icon || 'inv_sword_04',
+
+      description: ability.description || '',
       castTime: ability.castTime || 'Action',
-      range: ability.range || '30 feet',
-      duration: ability.duration || 'Instantaneous',
-      components: ability.components || ['V', 'S'],
-      manaCost: ability.manaCost || ability.actionPointCost || 1,
-      damage: ability.damage,
+      range: typeof ability.range === 'number' ? ability.range : (ability.range || undefined),
+      duration: ability.duration || undefined,
+
+      resourceCost,
+      damageConfig,
+      effectTypes: damageConfig ? ['damage'] : undefined,
+      // Keep any raw effects for potential future mapping
       effects: ability.effects || []
     };
   };
@@ -945,120 +995,41 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       );
     }
 
-    // Separate spells from regular abilities
-    const spells = creature.abilities.filter(isSpellAbility);
-    const regularAbilities = creature.abilities.filter(ability => !isSpellAbility(ability));
+    // Combine spells and abilities into one unified list, preserving original order
+    const allPowers = Array.isArray(creature.abilities) ? creature.abilities : [];
 
     return (
-      <>
-        {/* Spells Section */}
-        {spells.length > 0 && (
-          <div className="stats-section">
-            <h3>Spells</h3>
-            <div className="spell-cards-container">
-              {spells.map((spell, index) => {
-                const transformedSpell = transformAbilityToSpell(spell);
-                return (
-                  <div key={index} className="spell-card-wrapper">
-                    <UnifiedSpellCard
-                      spell={transformedSpell}
-                      variant="wizard"
-                      showActions={false}
-                      showDescription={true}
-                      showStats={true}
-                      showTags={false}
-                      onClick={() => {/* Spell interaction functionality can be added here */}}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+      <div className="stats-section">
+        <h3>Abilities & Spells</h3>
 
-        {/* Regular Abilities Section */}
-        {regularAbilities.length > 0 && (
-          <div className="stats-section">
-            <h3>Abilities</h3>
-            <div className="creature-abilities-list">
-              {regularAbilities.map((ability, index) => (
-            <div key={index} className="creature-ability-card">
-              <div className="ability-header">
-                <div className="ability-title-area">
-                  <h3 className="ability-name">{ability.name}</h3>
-                  <div className="ability-type-badge">
-                    {formatAbilityType(ability.type)}
-                  </div>
-                </div>
-                {ability.damage && (
-                  <div className="ability-damage-badge">
-                    {typeof ability.damage === 'object'
-                      ? `${ability.damage.diceCount}d${ability.damage.diceType}${ability.damage.bonus > 0 ? `+${ability.damage.bonus}` : ''} ${formatDamageType(ability.damage.damageType || '')}`
-                      : `${ability.damage} ${formatDamageType(ability.damageType || '')}`
-                    }
-                  </div>
-                )}
-              </div>
-
-              <div className="ability-description">{ability.description}</div>
-
-              <div className="ability-details">
-                {(ability.actionPointCost || ability.apCost) && (
-                  <div className="ability-stat">
-                    <span className="ability-stat-label">Cost:</span>
-                    <span className="ability-stat-value">{ability.actionPointCost || ability.apCost} AP</span>
-                  </div>
-                )}
-                {ability.cooldown > 0 && (
-                  <div className="ability-stat">
-                    <span className="ability-stat-label">Cooldown:</span>
-                    <span className="ability-stat-value">{ability.cooldown} rounds</span>
-                  </div>
-                )}
-                {ability.range && (
-                  <div className="ability-stat">
-                    <span className="ability-stat-label">Range:</span>
-                    <span className="ability-stat-value">{ability.range} ft.</span>
-                  </div>
-                )}
-              </div>
-
-              {ability.effects && ability.effects.length > 0 && (
-                <div className="ability-effects">
-                  <h4 className="effects-title">Effects</h4>
-                  <ul className="effects-list">
-                    {ability.effects.map((effect, effectIndex) => (
-                      <li key={effectIndex} className="effect-item">
-                        {effect.type === 'DAMAGE' || effect.type === 'damage' ? (
-                          <span>
-                            <span className="effect-type">Damage:</span> {effect.formula} {formatDamageType(effect.damageType)}
-                          </span>
-                        ) : effect.type === 'CONDITION' || effect.type === 'condition' ? (
-                          <span>
-                            <span className="effect-type">Condition:</span> {effect.condition} for {effect.duration} {effect.duration === 1 ? 'round' : 'rounds'}
-                          </span>
-                        ) : effect.type === 'SAVE' || effect.type === 'save' ? (
-                          <span>
-                            <span className="effect-type">Save:</span> DC {effect.dc} {effect.attribute} {effect.success ? `(${effect.success} damage on success)` : ''}
-                          </span>
-                        ) : effect.type === 'AREA' || effect.type === 'area' ? (
-                          <span>
-                            <span className="effect-type">Area:</span> {effect.shape} with {effect.size} ft. radius
-                          </span>
-                        ) : (
-                          <span>{JSON.stringify(effect)}</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+        {/* Path-style icon strip for all powers */}
+        <div className="ability-icon-strip">
+          {allPowers.map((power, idx) => (
+            <button
+              key={idx}
+              className={`ability-icon-btn ${selectedAbilityIndex === idx ? 'selected' : ''}`}
+              onClick={() => setSelectedAbilityIndex(idx)}
+              title={power.name}
+            >
+              <img src={getIconUrl(power.icon)} alt={power.name} />
+            </button>
           ))}
-            </div>
+        </div>
+
+        {/* Single card view for the selected power */}
+        {allPowers[selectedAbilityIndex] && (
+          <div className="spell-card-wrapper single">
+            <UnifiedSpellCard
+              spell={transformAbilityToSpell(allPowers[selectedAbilityIndex])}
+              variant="wizard"
+              showActions={false}
+              showDescription={true}
+              showStats={true}
+              showTags={false}
+            />
           </div>
         )}
-      </>
+      </div>
     );
   };
 

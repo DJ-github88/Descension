@@ -96,6 +96,10 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             const dragDataString = JSON.stringify(dragData);
             e.dataTransfer.setData('text/plain', dragDataString);
 
+            // Set a global flag for Grid.jsx to detect item drags
+            // This is needed because event bubbling might be blocked by window components
+            window.isDraggingItem = true;
+
             // Store dragged item info globally for visual feedback in containers
             if (!window.draggedItemInfo) {
                 window.draggedItemInfo = {};
@@ -106,6 +110,8 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 height: item.height || 1,
                 rotation: item.rotation || 0
             };
+
+            console.log('📦 Item drag started:', item.name, 'Global flag set:', window.isDraggingItem);
 
             // Create a custom drag image if needed
             if (item.iconId && e.dataTransfer.setDragImage) {
@@ -132,6 +138,8 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     // Handle drag end to clean up any visual feedback
     const handleDragEnd = () => {
         setIsDragging(false);
+        window.isDraggingItem = false;
+        console.log('🏁 Item drag ended, global flag cleared');
 
         // Clear global drag state
         if (window.draggedItemInfo) {

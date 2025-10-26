@@ -105,6 +105,7 @@ const initialState = {
         // Skills and Languages
         selectedSkills: [],
         selectedLanguages: [],
+        skillRanks: {}, // Object mapping skill IDs to rank names (e.g., { alchemy: 'ADEPT', intimidation: 'UNTRAINED' })
 
         // Path (custom paths like Mystic, Zealot, etc.)
         path: '',
@@ -164,6 +165,7 @@ export const ACTION_TYPES = {
     SET_BACKGROUND: 'SET_BACKGROUND',
     SET_SKILLS: 'SET_SKILLS',
     SET_LANGUAGES: 'SET_LANGUAGES',
+    SET_SKILL_RANKS: 'SET_SKILL_RANKS',
     SET_PATH: 'SET_PATH',
     SET_SUBPATH: 'SET_SUBPATH',
     SET_SELECTED_ABILITIES: 'SET_SELECTED_ABILITIES',
@@ -278,6 +280,15 @@ const characterWizardReducer = (state, action) => {
                 characterData: {
                     ...state.characterData,
                     selectedLanguages: action.payload
+                }
+            };
+
+        case ACTION_TYPES.SET_SKILL_RANKS:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    skillRanks: action.payload
                 }
             };
 
@@ -419,6 +430,7 @@ const characterWizardReducer = (state, action) => {
                     // Skills and Languages
                     selectedSkills: existingChar.selectedSkills || [],
                     selectedLanguages: existingChar.selectedLanguages || [],
+                    skillRanks: existingChar.skillRanks || {},
 
                     // Path
                     path: existingChar.path || '',
@@ -602,6 +614,7 @@ export const wizardActionCreators = {
     setBackground: (background) => ({ type: ACTION_TYPES.SET_BACKGROUND, payload: background }),
     setSkills: (skills) => ({ type: ACTION_TYPES.SET_SKILLS, payload: skills }),
     setLanguages: (languages) => ({ type: ACTION_TYPES.SET_LANGUAGES, payload: languages }),
+    setSkillRanks: (skillRanks) => ({ type: ACTION_TYPES.SET_SKILL_RANKS, payload: skillRanks }),
     setPath: (path) => ({ type: ACTION_TYPES.SET_PATH, payload: path }),
     setSubPath: (subPath) => ({ type: ACTION_TYPES.SET_SUBPATH, payload: subPath }),
     setSelectedAbilities: (abilities) => ({ type: ACTION_TYPES.SET_SELECTED_ABILITIES, payload: abilities }),

@@ -1,0 +1,228 @@
+/* Skill Rank Upgrade Component - Pathfinder Style */
+
+.skill-rank-upgrade {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(250, 245, 235, 0.95) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+.skill-rank-upgrade:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.skill-rank-header {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.skill-rank-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    border: 2px solid #8b7355;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.skill-rank-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-rank-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.skill-rank-name {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #5a1e12;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.granted-badge-small {
+    background: linear-gradient(135deg, #4a7c59 0%, #5d8a6b 100%);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.skill-rank-description {
+    font-size: 12px;
+    color: #6b4423;
+    margin: 0 0 6px 0;
+    line-height: 1.4;
+}
+
+.skill-rank-current {
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.rank-bonus {
+    font-size: 11px;
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.skill-rank-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rank-control-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: 2px solid #8b7355;
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.95) 0%,
+        rgba(230, 220, 200, 0.9) 100%);
+    color: #5a1e12;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.rank-control-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg,
+        rgba(212, 175, 55, 0.3) 0%,
+        rgba(212, 175, 55, 0.2) 100%);
+    border-color: #d4af37;
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rank-control-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: rgba(200, 190, 160, 0.5);
+}
+
+.upgrade-btn:hover:not(:disabled) {
+    color: #4a7c59;
+}
+
+.downgrade-btn:hover:not(:disabled) {
+    color: #7a3b2e;
+}
+
+.rank-progress-container {
+    flex: 1;
+    min-width: 0;
+}
+
+.rank-progress-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.rank-pip {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(139, 115, 85, 0.5);
+}
+
+.rank-pip.active {
+    animation: rankGlow 0.5s ease-out;
+}
+
+@keyframes rankGlow {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: brightness(1.3);
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+.rank-cost-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    color: #6b4423;
+    font-weight: 600;
+}
+
+.upgrade-cost {
+    color: #5a1e12;
+}
+
+.max-rank {
+    color: #9d4edd;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+}
+
+.max-rank i {
+    color: #d4af37;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .skill-rank-upgrade {
+        padding: 12px;
+    }
+
+    .skill-rank-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .skill-rank-name {
+        font-size: 14px;
+    }
+
+    .skill-rank-description {
+        font-size: 11px;
+    }
+
+    .rank-control-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+}
+

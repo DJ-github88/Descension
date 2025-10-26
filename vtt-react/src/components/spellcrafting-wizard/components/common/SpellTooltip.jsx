@@ -14,7 +14,7 @@ const SpellTooltip = ({
   if (!spell || !position) return null;
 
   // Tooltip dimensions
-  const tooltipWidth = 450;
+  const tooltipWidth = 580;
   const tooltipHeight = 500;
   const maxTooltipHeight = Math.min(500, window.innerHeight - 40); // Max 500px or available height
   const padding = 20;
@@ -24,40 +24,19 @@ const SpellTooltip = ({
 
   // Apply smart positioning only when requested (for action bar)
   if (smartPositioning) {
-    // For action bar tooltips, we want to center horizontally and position above
-    // The position.x is already the center of the action slot
+    // Anchor the tooltip to the action slot: horizontally centered, immediately above
+    // We'll place the portal at the slot's center-top and use CSS transform to move
+    // the tooltip above the slot regardless of its actual height.
 
-    // Calculate tooltip width (scaled down to 75%)
     const scaledTooltipWidth = tooltipWidth * 0.75;
-    const scaledTooltipHeight = maxTooltipHeight * 0.75;
 
-    // Center the tooltip horizontally on the action slot
-    x = position.x - (scaledTooltipWidth / 2);
+    // Clamp anchor X within viewport padding, accounting for horizontal centering
+    const minCenterX = padding + (scaledTooltipWidth / 2);
+    const maxCenterX = window.innerWidth - padding - (scaledTooltipWidth / 2);
+    x = Math.min(Math.max(position.x, minCenterX), maxCenterX);
 
-    // Position tooltip above the action slot
-    y = position.y - scaledTooltipHeight - 10;
-
-    // If tooltip would go off right edge, adjust left
-    if (x + scaledTooltipWidth > window.innerWidth - padding) {
-      x = window.innerWidth - scaledTooltipWidth - padding;
-    }
-
-    // If tooltip would go off left edge, adjust right
-    if (x < padding) {
-      x = padding;
-    }
-
-    // If tooltip would go off top edge, position below the action slot instead
-    if (y < padding) {
-      y = position.y + 60; // Position below the action slot (48px height + some margin)
-    }
-
-    // If positioning below would go off bottom edge, try to fit it in the available space
-    if (y + scaledTooltipHeight > window.innerHeight - padding) {
-      // Try to position it in the middle of available space
-      const availableHeight = window.innerHeight - 2 * padding;
-      y = Math.max(padding, (window.innerHeight - scaledTooltipHeight) / 2);
-    }
+    // Use the slot's top edge as the anchor Y
+    y = position.y; // exact top of the slot; transform will place tooltip above
   }
 
   console.log('SpellTooltip position:', {
@@ -75,15 +54,18 @@ const SpellTooltip = ({
       style={{
         position: 'fixed',
         left: x,
-        top: y,
+        ...(smartPositioning ? { bottom: window.innerHeight - y + 8, top: 'auto' } : { top: y }),
         zIndex: 2147483647, // Maximum z-index value to ensure tooltips always appear above everything
         pointerEvents: 'auto',
+        // Anchor above the slot when smartPositioning is enabled (no height-dependent translate)
+        transform: smartPositioning ? 'translateX(-50%)' : undefined,
         // Set size for scaled spell card - scrolling handled by inner container
-        width: 'auto', // Let content determine width
+        width: smartPositioning ? (tooltipWidth * 0.75) : 'auto',
         height: 'auto',
         maxHeight: 'none', // No constraint here - handled by inner container
         maxWidth: 'none', // Remove width constraint
-        overflow: 'visible' // Let inner container handle scrolling
+        overflow: 'visible', // Let inner container handle scrolling
+        animation: 'none' // Avoid global keyframe conflicts that animate transform
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -96,9 +78,6 @@ const SpellTooltip = ({
         maxHeight: maxTooltipHeight / 0.75, // Adjust max height for scaling
         overflow: 'auto' // Enable scrolling on the scaled container
       }}>
-        {/* Tooltip borders - now scaled with the container */}
-        <div className="tooltip-top-border"></div>
-
         {/* Tooltip content */}
         <div className="spell-tooltip-content">
           <UnifiedSpellCard
@@ -111,9 +90,6 @@ const SpellTooltip = ({
             showTags={true}
           />
         </div>
-
-        {/* Tooltip borders - now scaled with the container */}
-        <div className="tooltip-bottom-border"></div>
       </div>
     </div>
   );

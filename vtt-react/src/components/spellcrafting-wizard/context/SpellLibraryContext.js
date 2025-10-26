@@ -107,7 +107,13 @@ function spellLibraryReducer(state, action) {
     }
 
     case LIBRARY_ACTION_TYPES.DELETE_SPELL: {
+      console.log('[SpellLibraryReducer] DELETE_SPELL action received:', action.payload);
+      console.log('[SpellLibraryReducer] Current spells:', state.spells.map(s => s.id));
+
       const updatedSpells = state.spells.filter(spell => spell.id !== action.payload);
+
+      console.log('[SpellLibraryReducer] Updated spells after deletion:', updatedSpells.map(s => s.id));
+      console.log('[SpellLibraryReducer] Spell was deleted?', state.spells.length !== updatedSpells.length);
 
       // If the deleted spell was selected, deselect it
       const selectedSpell = state.selectedSpell === action.payload

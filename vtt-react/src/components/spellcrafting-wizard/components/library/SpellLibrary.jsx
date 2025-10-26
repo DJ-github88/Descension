@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
@@ -17,6 +17,9 @@ import '../../styles/pathfinder/main.css';
 import '../../styles/pathfinder/components/wow-spellbook.css';
 
 import SpellContextMenu from './SpellContextMenu';
+import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
+import useSpellbookStore from '../../../../store/spellbookStore';
+
 
 // Helper function to get spell icon URL
 const getSpellIconUrl = (spell) => {
@@ -107,7 +110,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // State for pagination (for compact view)
   const [currentPage, setCurrentPage] = useState(1);
-  const spellsPerPage = 20; // 10 per column, 2 columns
+  const spellsPerPage = 12; // 6 per column, 2 columns (WoW-style page)
 
   // State for spell tooltip (hover preview)
   const [hoveredSpell, setHoveredSpell] = useState(null);
@@ -139,6 +142,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     getSpellsByCategory,
     getCategoryInfo,
     addCustomSpell,
+    removeCustomSpell,
     hasActiveCharacter,
     hasClassSpells
   } = useClassSpellLibrary();
@@ -550,53 +554,96 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Handle spell selection
   const handleSelectSpell = (spellId, isEditing = false) => {
-    // Just select the spell in the library
+    console.log('[SpellLibrary] handleSelectSpell called:', { spellId, isEditing });
+    // Select the spell in the library state
     dispatch(libraryActionCreators.selectSpell(spellId));
 
-    // If we're in edit mode and onLoadSpell is provided, load the spell for editing
-    if (isEditing && onLoadSpell) {
+    if (isEditing) {
       const selectedSpell = library.spells.find(spell => spell.id === spellId);
-      if (selectedSpell) {
-        // Get the original spell data
-        const originalSpell = selectedSpell;
+      console.log('[SpellLibrary] Found spell for editing:', selectedSpell);
+      if (!selectedSpell) {
+        console.error('[SpellLibrary] Could not find spell to edit');
+        return;
+      }
 
-        // Call onLoadSpell with the original spell and true for edit mode
+      const originalSpell = selectedSpell;
+
+      // Prefer direct prop if provided (within SpellwizardApp)
+      if (onLoadSpell) {
+        console.log('[SpellLibrary] Using onLoadSpell prop');
         onLoadSpell(originalSpell, true);
-
-        // Dispatch a custom event to notify the SpellWizard component
-        const loadSpellEvent = new CustomEvent('loadSpellIntoWizard', {
+      } else if (typeof window !== 'undefined' && typeof window.handleLoadSpell === 'function') {
+        // Use globally exposed handler from SpellwizardApp when available
+        console.log('[SpellLibrary] Using window.handleLoadSpell');
+        window.handleLoadSpell(originalSpell, true);
+      } else if (typeof window !== 'undefined') {
+        // Fallback: dispatch internal event that SpellwizardApp listens for
+        console.log('[SpellLibrary] Dispatching internalLoadSpell event');
+        window.dispatchEvent(new CustomEvent('internalLoadSpell', {
           detail: { spell: originalSpell, editMode: true }
-        });
-        window.dispatchEvent(loadSpellEvent);
+        }));
+      }
 
-        // Try to switch to the wizard tab
-        try {
-          // Try to access the spellbook store to switch tabs
-          const spellbookStore = window.require ? window.require('../../store/spellbookStore').default : null;
-          if (spellbookStore) {
-            spellbookStore.getState().setActiveTab('wizard');
-          } else {
-            // Fallback: try to find the wizard tab button and click it
-            const wizardTabButton = document.querySelector('button[aria-label="Spell Wizard"]') ||
-                                   document.querySelector('button:contains("Spell Wizard")') ||
-                                   Array.from(document.querySelectorAll('button')).find(btn => btn.textContent.includes('Spell Wizard'));
-
-            if (wizardTabButton) {
-              wizardTabButton.click();
-            }
-          }
-        } catch (error) {
-          console.error("Error switching to wizard tab:", error);
-        }
+      // If the SpellbookWindow is open, switch to the Wizard tab via Zustand store
+      try {
+        const { setActiveTab } = useSpellbookStore.getState();
+        console.log('[SpellLibrary] Switching to wizard tab');
+        if (typeof setActiveTab === 'function') setActiveTab('wizard');
+      } catch (err) {
+        console.log('[SpellLibrary] Could not switch tab:', err);
       }
     }
   };
 
+  // State for confirmation dialog
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+
   // Handle spell deletion with confirmation
   const handleDeleteSpell = (spellId, spellName) => {
-    if (window.confirm(`Are you sure you want to delete "${spellName}"?`)) {
-      dispatch(libraryActionCreators.deleteSpell(spellId));
+    console.log('[SpellLibrary] handleDeleteSpell called:', { spellId, spellName });
+    console.log('[SpellLibrary] Current library state:', library);
+    console.log('[SpellLibrary] Spell exists in library?', library.spells.some(s => s.id === spellId));
+    setDeleteConfirmation({ spellId, spellName });
+  };
+
+  // Confirm deletion
+  const confirmDelete = () => {
+    if (deleteConfirmation) {
+      console.log('[SpellLibrary] User confirmed deletion');
+      console.log('[SpellLibrary] Deleting spell:', deleteConfirmation.spellId);
+
+      const spellId = deleteConfirmation.spellId;
+
+      // Check if this is a custom spell (starts with "custom-" or has isCustom flag)
+      const spell = filteredSpells.find(s => s.id === spellId);
+      const isCustomSpell = spell && (
+        spell.isCustom === true ||
+        spell.id?.startsWith('custom-')
+      );
+
+      if (isCustomSpell) {
+        console.log('[SpellLibrary] Removing custom spell using removeCustomSpell');
+        removeCustomSpell(spellId);
+      } else {
+        console.log('[SpellLibrary] Removing from library.spells using dispatch');
+        console.log('[SpellLibrary] Current spells before deletion:', library.spells.map(s => s.id));
+
+        const action = libraryActionCreators.deleteSpell(spellId);
+        console.log('[SpellLibrary] Dispatching action:', action);
+
+        dispatch(action);
+
+        console.log('[SpellLibrary] Action dispatched, waiting for state update');
+      }
+
+      setDeleteConfirmation(null);
     }
+  };
+
+  // Cancel deletion
+  const cancelDelete = () => {
+    console.log('[SpellLibrary] User cancelled deletion');
+    setDeleteConfirmation(null);
   };
 
   // Handle spell duplication
@@ -605,21 +652,24 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   };
 
   // Handle right-click on spell card
-  const handleSpellContextMenu = (e, spellId) => {
+  const handleSpellContextMenu = useCallback((e, spellId) => {
+    console.log('[SpellLibrary] handleSpellContextMenu called!', { spellId, button: e.button, type: e.type });
+    console.log('[SpellLibrary] Available spells:', library.spells.map(s => s.id));
     e.preventDefault();
     e.stopPropagation();
 
     // Find the spell object by ID
     const spellObj = library.spells.find(s => s.id === spellId);
+    console.log('[SpellLibrary] Found spell:', spellObj);
 
     if (spellObj) {
       // Calculate position to ensure context menu stays within viewport
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
-      // Use pageX and pageY for absolute positioning
-      const x = e.pageX;
-      const y = e.pageY;
+      // Use clientX/clientY for viewport-fixed positioning (portal renders fixed)
+      const x = e.clientX;
+      const y = e.clientY;
 
       // Default menu dimensions
       const menuWidth = 200;
@@ -640,36 +690,32 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
 
       // Set the context menu state with adjusted position and spell ID
+      console.log('[SpellLibrary] Opening context menu at', { x: posX, y: posY, spellId });
       setContextMenu({
         x: posX,
         y: posY,
         spellId
       });
 
-
     } else {
-      console.error("Could not find spell with ID:", spellId);
+      console.error("[SpellLibrary] Could not find spell with ID:", spellId);
+      console.error("[SpellLibrary] This is likely because the spell is not in library.spells");
+      // Still open the menu even if we can't find the spell - let the menu component handle it
+      const x = e.clientX;
+      const y = e.clientY;
+      setContextMenu({
+        x,
+        y,
+        spellId
+      });
     }
-  };
+  }, [library.spells]);
 
   // Handle adding spell to collection
   const handleAddToCollection = (spellId, collectionId) => {
     dispatch(libraryActionCreators.addSpellToCollection(spellId, collectionId));
   };
 
-  // Close context menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (contextMenu && !e.target.closest('.spell-context-menu')) {
-        setContextMenu(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [contextMenu]);
 
   // Add event listener for the pseudo-element edit button
   useEffect(() => {
@@ -1044,6 +1090,30 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         {/* Compact WoW-style view */}
         {viewMode === 'compact' ? (
           <div className="wow-spellbook-view">
+                {totalPages > 0 && (
+                  <div className="wow-spellbook-header">
+                    <button
+                      className="wow-header-button"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      aria-label="Previous Page"
+                      title="Previous Page"
+                    >
+                      <i className="fas fa-chevron-left"></i>
+                    </button>
+                    <div className="wow-spellbook-title">Page {currentPage}</div>
+                    <button
+                      className="wow-header-button"
+                      onClick={() => setCurrentPage(p => Math.min(Math.max(totalPages, 1), p + 1))}
+                      disabled={currentPage === totalPages}
+                      aria-label="Next Page"
+                      title="Next Page"
+                    >
+                      <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                )}
+
               {/* No Character Selected Message - Inside spellbook */}
               {!hasActiveCharacter && (
                 <div className="wow-spell-list-container">
@@ -1094,6 +1164,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                       key={spell.id}
                       className={`wow-spell-row ${library.selectedSpell === spell.id ? 'selected' : ''}`}
                       onClick={() => handleSelectSpell(spell.id)}
+                      onMouseDown={(e) => { if (e.button === 2) handleSpellContextMenu(e, spell.id); }}
                       onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
                       draggable={true}
                       onDragStart={(e) => {
@@ -1187,6 +1258,14 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                       )}
                     </div>
                   ))}
+
+                      {Array.from({ length: Math.max(0, spellsPerPage - paginatedSpells.length) }).map((_, idx) => (
+                        <div key={`empty-slot-${idx}`} className="wow-spell-row empty" aria-hidden="true">
+                          <div className="wow-empty-icon" />
+                          <div className="wow-empty-name-box" />
+                        </div>
+                      ))}
+
                 </div>
 
                 {totalPages > 1 && (
@@ -1341,6 +1420,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                         // Handle normal card click - just select the spell
                         handleSelectSpell(spell.id);
                       }}
+                      onMouseDown={(e) => { if (e.button === 2) handleSpellContextMenu(e, spell.id); }}
                       onContextMenu={(e) => {
                         handleSpellContextMenu(e, spell.id);
                       }}
@@ -1394,38 +1474,51 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
 
       {/* Context Menu */}
-      {contextMenu && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999998, pointerEvents: 'none' }}>
-          {ReactDOM.createPortal(
-            <SpellContextMenu
-              x={contextMenu.x}
-              y={contextMenu.y}
-              spell={library.spells.find(s => s.id === contextMenu.spellId)}
-              onClose={() => {
-                setContextMenu(null);
-              }}
-              collections={library.categories}
-              inCollection={false}
-              onEdit={(spellId) => {
-                // Find the spell object by ID
-                const spellToEdit = library.spells.find(s => s.id === spellId);
+      {contextMenu && (() => {
+        // Find the spell in filteredSpells (which includes both class and custom spells)
+        const spell = filteredSpells.find(s => s.id === contextMenu.spellId);
 
-                if (spellToEdit) {
-                  // Call handleSelectSpell with the spell ID and true for edit mode
-                  // This will handle all the navigation and loading logic
-                  handleSelectSpell(spellId, true);
-                } else {
-                  console.error("Could not find spell with ID:", spellId);
-                }
-              }}
-              onDuplicate={handleDuplicateSpell}
-              onDelete={(spellId) => handleDeleteSpell(spellId, library.spells.find(s => s.id === spellId)?.name)}
-              onAddToCollection={handleAddToCollection}
-            />,
-            document.body
-          )}
-        </div>
-      )}
+        // Check if this is a custom spell:
+        // 1. Has isCustom property set to true
+        // 2. ID starts with "custom-"
+        // 3. Exists in library.spells
+        const isCustomSpell = spell && (
+          spell.isCustom === true ||
+          spell.id?.startsWith('custom-') ||
+          library.spells.some(s => s.id === contextMenu.spellId)
+        );
+
+        console.log('[SpellLibrary] Context menu for spell:', spell?.name, 'ID:', spell?.id, 'isCustom:', isCustomSpell, 'spell.isCustom:', spell?.isCustom);
+
+        return ReactDOM.createPortal(
+          <SpellContextMenu
+            x={contextMenu.x}
+            y={contextMenu.y}
+            spell={spell || { id: contextMenu.spellId, name: 'Unknown Spell' }}
+            onClose={() => setContextMenu(null)}
+            collections={library.categories}
+            inCollection={false}
+            isCustomSpell={isCustomSpell}
+            onEdit={isCustomSpell ? (spellId) => {
+              console.log('[SpellLibrary] onEdit called with spellId:', spellId);
+              const spellToEdit = library.spells.find(s => s.id === spellId);
+              console.log('[SpellLibrary] Found spell to edit:', spellToEdit);
+              if (spellToEdit) {
+                handleSelectSpell(spellId, true);
+              } else {
+                console.error("[SpellLibrary] Could not find spell with ID:", spellId);
+              }
+            } : null}
+            onDelete={isCustomSpell ? (spellId) => {
+              console.log('[SpellLibrary] onDelete called with spellId:', spellId);
+              const spellToDelete = library.spells.find(s => s.id === spellId);
+              handleDeleteSpell(spellId, spellToDelete?.name || 'Unknown Spell');
+            } : null}
+            onAddToCollection={handleAddToCollection}
+          />,
+          document.body
+        );
+      })()}
 
       {/* Spell Tooltip - Shows full spell card on hover (only when no spell is selected) */}
       {hoveredSpell && viewMode === 'compact' && !library.selectedSpell && ReactDOM.createPortal(
@@ -1488,6 +1581,15 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           document.body
         );
       })()}
+
+      {/* Confirmation Dialog for Spell Deletion */}
+      {deleteConfirmation && (
+        <ConfirmationDialog
+          message={`Are you sure you want to delete "${deleteConfirmation.spellName}"?`}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
 
     </div>
   );

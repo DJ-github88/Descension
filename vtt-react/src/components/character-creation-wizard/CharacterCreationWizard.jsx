@@ -92,6 +92,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 background: state.characterData.background,
                 selectedSkills: state.characterData.selectedSkills,
                 selectedLanguages: state.characterData.selectedLanguages,
+                skillRanks: state.characterData.skillRanks,
                 path: state.characterData.path,
                 stats: state.characterData.finalStats,
                 lore: state.characterData.lore,

@@ -1207,7 +1207,7 @@ const TileOverlay = () => {
                                     ? 'none' // No border for fogged tiles in player mode
                                     : isHovered ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
                                 borderRadius: '2px',
-                                pointerEvents: (tile.hasObjects && !tile.hasFog) ? 'all' : 'none', // Disable object interaction when fogged
+                                pointerEvents: 'none', // Always none to allow drag/drop events to pass through to grid
                                 zIndex: 7,
                                 overflow: 'hidden'
                             }}
@@ -1487,7 +1487,7 @@ const TileOverlay = () => {
                                         ? 'none' // No border for fogged tiles in player mode
                                         : isHovered ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
                                     borderRadius: '2px',
-                                    pointerEvents: (tile.hasObjects && !tile.hasFog) ? 'all' : 'none', // Disable object interaction when fogged
+                                    pointerEvents: 'none', // Always none to allow drag/drop events to pass through to grid
                                     zIndex: 7
                                 }}
                             >

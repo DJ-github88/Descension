@@ -505,7 +505,7 @@ const CreatureLibrary = ({ onEdit }) => {
                       onMouseEnter={(e) => handleMouseEnter(creature, e)}
                       onMouseMove={handleMouseMove}
                       onMouseLeave={handleMouseLeave}
-                      draggable
+                      draggable="true"
                       onDragStart={handleDragStart}
                     >
                       <CompactCreatureCard creature={creature} />

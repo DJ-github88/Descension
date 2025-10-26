@@ -19,6 +19,8 @@ import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
 
+import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+
 
 
 const ResourceBar = ({ current, max, className, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
@@ -267,6 +269,8 @@ export default function CharacterPanel() {
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
+    const [selectedTraitIndex, setSelectedTraitIndex] = useState(0);
+
 
     useEffect(() => {
         return () => {
@@ -430,17 +434,115 @@ export default function CharacterPanel() {
                 {racialTraits.length > 0 && (
                     <div className="racial-traits-section">
                         <h3 className="racial-traits-title">Racial Traits</h3>
-                        <div className="racial-traits-grid">
-                            {racialTraits.map((trait, index) => (
-                                <div key={index} className="racial-trait-card">
-                                    <div className="racial-trait-header">
-                                        <h4 className="racial-trait-name">{trait.name}</h4>
-                                        <span className="racial-trait-type" data-type={trait.type}>{trait.type}</span>
-                                    </div>
-                                    <p className="racial-trait-description">{trait.description}</p>
-                                </div>
-                            ))}
+                        {/* Icon strip selector (similar to paths): click an icon to view its card */}
+                        <div className="racial-trait-icon-strip">
+                            {racialTraits.map((trait, idx) => {
+                                const type = (trait?.type || '').toString().toLowerCase();
+                                const iconByType = {
+                                  combat: 'ability_warrior_bloodfrenzy',
+                                  movement: 'ability_rogue_sprint',
+                                  resistance: 'spell_frost_frostarmor',
+                                  environmental: 'spell_frost_frostarmor',
+                                  transformation: 'ability_druid_catform',
+                                  divination: 'spell_holy_mindvision',
+                                  detection: 'inv_misc_spyglass_02',
+                                  protection: 'spell_holy_powerwordshield',
+                                  illusion: 'spell_shadow_haunting',
+                                  adaptive: 'ability_racial_naturalshapeshifter',
+                                  knowledge: 'inv_misc_book_09',
+                                  nature: 'spell_nature_protectionformnature',
+                                  spiritual: 'spell_holy_exorcism',
+                                  stealth: 'ability_stealth',
+                                  defense: 'inv_shield_06',
+                                  utility: 'inv_misc_bag_11'
+                                };
+                                const icon = iconByType[type] || 'spell_holy_holybolt';
+                                const isSelected = idx === selectedTraitIndex;
+
+                                // Build a spell-like payload for dragging from the icon
+                                const spellLike = {
+                                  id: `racial-trait-${(trait.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+                                  name: trait.name,
+                                  description: trait.description,
+                                  icon,
+                                  spellType: 'PASSIVE'
+                                };
+
+                                const handleIconDragStart = (e) => {
+                                  const spellData = {
+                                    ...spellLike,
+                                    cooldown: 0,
+                                    level: 1,
+                                    type: 'spell'
+                                  };
+                                  e.dataTransfer.setData('application/json', JSON.stringify(spellData));
+                                  e.dataTransfer.effectAllowed = 'copy';
+                                };
+
+                                return (
+                                  <button
+                                    key={idx}
+                                    className={`racial-trait-icon-btn ${isSelected ? 'selected' : ''}`}
+                                    onClick={() => setSelectedTraitIndex(idx)}
+                                    title={trait.name || 'Racial Trait'}
+                                    draggable={true}
+                                    onDragStart={handleIconDragStart}
+                                    style={{ cursor: 'grab' }}
+                                  >
+                                    <img
+                                      src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
+                                      alt={trait.name || 'Racial Trait'}
+                                    />
+                                  </button>
+                                );
+                            })}
                         </div>
+
+                        {/* Single-card view for the selected racial trait */}
+                        {racialTraits[selectedTraitIndex] && (() => {
+                            const trait = racialTraits[selectedTraitIndex];
+                            const type = (trait?.type || '').toString().toLowerCase();
+                            const iconByType = {
+                              combat: 'ability_warrior_bloodfrenzy',
+                              movement: 'ability_rogue_sprint',
+                              resistance: 'spell_frost_frostarmor',
+                              environmental: 'spell_frost_frostarmor',
+                              transformation: 'ability_druid_catform',
+                              divination: 'spell_holy_mindvision',
+                              detection: 'inv_misc_spyglass_02',
+                              protection: 'spell_holy_powerwordshield',
+                              illusion: 'spell_shadow_haunting',
+                              adaptive: 'ability_racial_naturalshapeshifter',
+                              knowledge: 'inv_misc_book_09',
+                              nature: 'spell_nature_protectionformnature',
+                              spiritual: 'spell_holy_exorcism',
+                              stealth: 'ability_stealth',
+                              defense: 'inv_shield_06',
+                              utility: 'inv_misc_bag_11'
+                            };
+                            const icon = iconByType[type] || 'spell_holy_holybolt';
+
+                            const spellLike = {
+                              id: `racial-trait-${(trait.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+                              name: trait.name,
+                              description: trait.description,
+                              icon,
+                              spellType: 'PASSIVE'
+                            };
+                            return (
+                              <div className="racial-trait-card">
+                                <UnifiedSpellCard
+                                  spell={spellLike}
+                                  variant="wizard"
+                                  isDraggable={true}
+                                  showActions={false}
+                                  showDescription={true}
+                                  showStats={false}
+                                  showTags={false}
+                                />
+                              </div>
+                            );
+                        })()}
 
                         {/* Additional Racial Information */}
                         <div className="racial-info-grid">

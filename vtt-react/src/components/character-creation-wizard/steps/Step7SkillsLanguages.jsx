@@ -12,6 +12,15 @@ import { getPathData } from '../../../data/pathData';
 import { SKILL_DEFINITIONS, SKILL_RANKS } from '../../../constants/skillDefinitions';
 import { SKILL_QUESTS } from '../../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../../constants/rollableTables';
+import {
+    calculateTotalSkillPoints,
+    calculatePointsSpent,
+    getNextRank,
+    getPreviousRank,
+    getUpgradeCost,
+    getDowngradeRefund
+} from '../../../constants/skillPointSystem';
+import SkillRankUpgrade from '../components/SkillRankUpgrade';
 import UnifiedTooltip from '../../common/UnifiedTooltip';
 import { useUnifiedTooltip } from '../../common/useUnifiedTooltip';
 
@@ -100,6 +109,12 @@ const Step7SkillsLanguages = () => {
 
     const [selectedSkills, setSelectedSkills] = useState(characterData.selectedSkills || []);
     const [selectedLanguages, setSelectedLanguages] = useState(characterData.selectedLanguages || []);
+    const [skillRanks, setSkillRanks] = useState(characterData.skillRanks || {});
+
+    // Calculate skill points
+    const totalSkillPoints = calculateTotalSkillPoints(characterData);
+    const pointsSpent = calculatePointsSpent(skillRanks);
+    const availablePoints = totalSkillPoints - pointsSpent;
 
     // Use unified tooltip system
     const {
@@ -150,6 +165,36 @@ const Step7SkillsLanguages = () => {
         dispatch(wizardActionCreators.setLanguages(allLanguages));
     }, [selectedLanguages, racialLanguages, dispatch]);
 
+    useEffect(() => {
+        dispatch(wizardActionCreators.setSkillRanks(skillRanks));
+    }, [skillRanks, dispatch]);
+
+    // Initialize skill ranks for granted skills
+    useEffect(() => {
+        const updatedRanks = { ...skillRanks };
+        let hasChanges = false;
+
+        // Set granted skills to at least NOVICE if not already set
+        grantedSkills.forEach(skillId => {
+            if (!updatedRanks[skillId]) {
+                updatedRanks[skillId] = 'NOVICE';
+                hasChanges = true;
+            }
+        });
+
+        // Initialize all other skills to UNTRAINED if not set
+        Object.keys(SKILL_DEFINITIONS).forEach(skillId => {
+            if (!updatedRanks[skillId]) {
+                updatedRanks[skillId] = 'UNTRAINED';
+                hasChanges = true;
+            }
+        });
+
+        if (hasChanges) {
+            setSkillRanks(updatedRanks);
+        }
+    }, [grantedSkills]);
+
     const handleSkillToggle = (skill) => {
         if (selectedSkills.includes(skill)) {
             setSelectedSkills(selectedSkills.filter(s => s !== skill));
@@ -170,6 +215,34 @@ const Step7SkillsLanguages = () => {
         }
     };
 
+    // Skill rank upgrade/downgrade handlers
+    const handleSkillUpgrade = (skillId) => {
+        const currentRank = skillRanks[skillId] || 'UNTRAINED';
+        const nextRank = getNextRank(currentRank);
+        const cost = getUpgradeCost(currentRank);
+
+        if (nextRank && availablePoints >= cost) {
+            setSkillRanks({
+                ...skillRanks,
+                [skillId]: nextRank
+            });
+        }
+    };
+
+    const handleSkillDowngrade = (skillId) => {
+        const currentRank = skillRanks[skillId] || 'UNTRAINED';
+        const prevRank = getPreviousRank(currentRank);
+        const isGranted = grantedSkills.includes(skillId);
+
+        // Don't allow downgrading granted skills below NOVICE
+        if (prevRank && (!isGranted || prevRank !== 'UNTRAINED')) {
+            setSkillRanks({
+                ...skillRanks,
+                [skillId]: prevRank
+            });
+        }
+    };
+
     const isSkillGranted = (skill) => grantedSkills.includes(skill);
     const isSkillDisabled = (skill) => {
         return isSkillGranted(skill) || (!selectedSkills.includes(skill) && selectedSkills.length >= classSkillCount);
@@ -181,10 +254,10 @@ const Step7SkillsLanguages = () => {
                (!selectedLanguages.includes(language) && selectedLanguages.length >= languageCount);
     };
 
-    // Get skill rank based on completed quests (for display purposes)
+    // Get skill rank from state
     const getSkillRank = (skillId) => {
-        // In character creation, all skills start at UNTRAINED
-        return { key: 'UNTRAINED', ...SKILL_RANKS.UNTRAINED };
+        const rankKey = skillRanks[skillId] || 'UNTRAINED';
+        return { key: rankKey, ...SKILL_RANKS[rankKey] };
     };
 
     // Get available quests for a skill
@@ -265,6 +338,125 @@ const Step7SkillsLanguages = () => {
                                     </button>
                                 );
                             })}
+                        </div>
+                    </div>
+
+                    {/* Skill Point Allocation Section */}
+                    <div className="selection-section skill-points-section">
+                        <div className="section-header">
+                            <h3><i className="fas fa-chart-line"></i> Skill Rank Allocation</h3>
+                            <div className="skill-points-display">
+                                <span className={`points-available ${availablePoints === 0 ? 'complete' : availablePoints < 0 ? 'over-budget' : 'incomplete'}`}>
+                                    <i className="fas fa-coins"></i> {availablePoints} / {totalSkillPoints} Points Available
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="skill-points-info">
+                            <p>
+                                <i className="fas fa-info-circle"></i> Spend skill points to increase your proficiency in skills.
+                                Each upgrade costs more than the last. Granted skills start at <strong>Novice</strong> rank.
+                            </p>
+                            <div className="points-breakdown">
+                                <span><strong>Base Points:</strong> 15</span>
+                                {characterData.finalStats?.intelligence > 10 && (
+                                    <span><strong>Intelligence Bonus:</strong> +{Math.floor((characterData.finalStats.intelligence - 10) / 2) * 2}</span>
+                                )}
+                                {characterData.background && (
+                                    <span><strong>Background:</strong> {characterData.background}</span>
+                                )}
+                                {characterData.race && (
+                                    <span><strong>Race:</strong> {characterData.race}</span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="skill-ranks-list">
+                            {/* Show granted skills first */}
+                            {grantedSkills.length > 0 && (
+                                <>
+                                    <h4 className="skill-group-header"><i className="fas fa-gift"></i> Granted Skills</h4>
+                                    {grantedSkills.map(skillId => {
+                                        const skill = SKILL_DEFINITIONS[skillId];
+                                        if (!skill) return null;
+
+                                        return (
+                                            <SkillRankUpgrade
+                                                key={skillId}
+                                                skill={skill}
+                                                currentRank={skillRanks[skillId] || 'NOVICE'}
+                                                onUpgrade={() => handleSkillUpgrade(skillId)}
+                                                onDowngrade={() => handleSkillDowngrade(skillId)}
+                                                availablePoints={availablePoints}
+                                                isGranted={true}
+                                            />
+                                        );
+                                    })}
+                                </>
+                            )}
+
+                            {/* Show selected skills */}
+                            {selectedSkills.length > 0 && (
+                                <>
+                                    <h4 className="skill-group-header"><i className="fas fa-check-circle"></i> Selected Skills</h4>
+                                    {selectedSkills.map(skillId => {
+                                        const skill = SKILL_DEFINITIONS[skillId];
+                                        if (!skill || grantedSkills.includes(skillId)) return null;
+
+                                        return (
+                                            <SkillRankUpgrade
+                                                key={skillId}
+                                                skill={skill}
+                                                currentRank={skillRanks[skillId] || 'UNTRAINED'}
+                                                onUpgrade={() => handleSkillUpgrade(skillId)}
+                                                onDowngrade={() => handleSkillDowngrade(skillId)}
+                                                availablePoints={availablePoints}
+                                                isGranted={false}
+                                            />
+                                        );
+                                    })}
+                                </>
+                            )}
+
+                            {/* Show other skills that have been upgraded */}
+                            {Object.keys(skillRanks).filter(skillId =>
+                                !grantedSkills.includes(skillId) &&
+                                !selectedSkills.includes(skillId) &&
+                                skillRanks[skillId] !== 'UNTRAINED'
+                            ).length > 0 && (
+                                <>
+                                    <h4 className="skill-group-header"><i className="fas fa-star"></i> Other Upgraded Skills</h4>
+                                    {Object.keys(skillRanks)
+                                        .filter(skillId =>
+                                            !grantedSkills.includes(skillId) &&
+                                            !selectedSkills.includes(skillId) &&
+                                            skillRanks[skillId] !== 'UNTRAINED'
+                                        )
+                                        .map(skillId => {
+                                            const skill = SKILL_DEFINITIONS[skillId];
+                                            if (!skill) return null;
+
+                                            return (
+                                                <SkillRankUpgrade
+                                                    key={skillId}
+                                                    skill={skill}
+                                                    currentRank={skillRanks[skillId]}
+                                                    onUpgrade={() => handleSkillUpgrade(skillId)}
+                                                    onDowngrade={() => handleSkillDowngrade(skillId)}
+                                                    availablePoints={availablePoints}
+                                                    isGranted={false}
+                                                />
+                                            );
+                                        })}
+                                </>
+                            )}
+
+                            {grantedSkills.length === 0 && selectedSkills.length === 0 && (
+                                <div className="no-skills-message">
+                                    <i className="fas fa-arrow-up"></i>
+                                    <p>Select skills above to allocate skill points</p>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -422,7 +614,9 @@ const Step7SkillsLanguages = () => {
                                                     {rollableTable.table.slice(0, 4).map((entry, index) => (
                                                         <div key={index} className={`table-preview-entry ${entry.type}`}>
                                                             <span className="roll-range">
-                                                                {entry.roll[0]}-{entry.roll[1]}
+                                                                {entry.roll[0] === entry.roll[1]
+                                                                    ? entry.roll[0]
+                                                                    : `${entry.roll[0]}-${entry.roll[1]}`}
                                                             </span>
                                                             <span className="roll-result">{entry.result}</span>
                                                         </div>
@@ -506,7 +700,9 @@ const Step7SkillsLanguages = () => {
                                                     {rollableTable.table.slice(0, 4).map((entry, index) => (
                                                         <div key={index} className={`table-preview-entry ${entry.type}`}>
                                                             <span className="roll-range">
-                                                                {entry.roll[0]}-{entry.roll[1]}
+                                                                {entry.roll[0] === entry.roll[1]
+                                                                    ? entry.roll[0]
+                                                                    : `${entry.roll[0]}-${entry.roll[1]}`}
                                                             </span>
                                                             <span className="roll-result">{entry.result}</span>
                                                         </div>

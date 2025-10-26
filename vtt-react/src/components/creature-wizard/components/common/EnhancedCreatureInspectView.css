@@ -659,6 +659,56 @@
 }
 
 /* Abilities section */
+
+/* Ability icon strip (Path-style selector) */
+.ability-icon-strip {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(254,252,248,0.6) 0%, rgba(244,241,232,0.6) 100%);
+  overflow-x: auto;
+}
+
+.ability-icon-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  padding: 2px;
+  background: rgba(255,255,255,0.8);
+  border: 2px solid #d4af37;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 0 0 auto;
+}
+
+.ability-icon-btn:hover {
+  transform: translateY(-1px);
+  border-color: #b8941f;
+}
+
+.ability-icon-btn.selected {
+  background: rgba(212,175,55,0.2);
+  border-color: #b8941f;
+  box-shadow: 0 0 0 2px rgba(212,175,55,0.2);
+}
+
+.ability-icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Single card wrapper so the spell card centers nicely */
+.spell-card-wrapper.single {
+  display: flex;
+  justify-content: center;
+}
+
 .creature-abilities-list {
   display: flex;
   flex-direction: column;

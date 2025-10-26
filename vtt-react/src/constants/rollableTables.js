@@ -1,1766 +1,1542 @@
 // Rollable Tables for Skills - Unlocked through quest completion
 // Each table provides different outcomes based on skill usage
 
+import { LEADERSHIP_TABLES } from './socialSkillTables.js';
+import { INSIGHT_TABLES } from './insightTables.js';
+import { INTIMIDATION_TABLES } from './intimidationTables.js';
+import { PERFORMANCE_TABLES } from './performanceTables.js';
+import { SLEIGHT_OF_HAND_TABLES } from './sleightOfHandTables.js';
+import { SURVIVAL_TABLES } from './survivalTables.js';
+import { INVESTIGATION_TABLES } from './investigationTables.js';
+import { ATHLETICS_TABLES } from './athleticsTables.js';
+import { ACROBATICS_TABLES } from './acrobaticsTables.js';
+import { ANIMAL_HANDLING_TABLES } from './animalHandlingTables.js';
+import { NATURE_TABLES } from './natureTables.js';
+import { PERCEPTION_TABLES } from './perceptionTables.js';
+import { DEFENSIVE_TECHNIQUES_TABLES } from './defensiveTechniquesTables.js';
+import { WEAPON_MASTERY_TABLES } from './weaponMasteryTables.js';
+import { TACTICAL_COMBAT_TABLES } from './tacticalCombatTables.js';
+import { ALCHEMY_TABLES } from './alchemyTables.js';
+import { SPELLCRAFT_TABLES } from './spellcraftTables.js';
+import { MEDICINE_TABLES } from './medicineTables.js';
+import { STEALTH_TABLES } from './stealthTables.js';
+import { ARCANE_KNOWLEDGE_TABLES } from './arcaneKnowledgeTables.js';
+import { RITUAL_MAGIC_TABLES } from './ritualMagicTables.js';
+import { ARCANA_TABLES } from './arcanaTables.js';
+import { HISTORY_TABLES } from './historyTables.js';
+import { RELIGION_TABLES } from './religionTables.js';
+
 export const ROLLABLE_TABLES = {
-    // Weapon Mastery Tables - Evolving by rank
-    weaponCombatBasic: {
-        name: 'Basic Weapon Handling',
-        description: 'Untrained weapon use - mostly fumbles and basic swings',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Weapon fumble, drop weapon or hit self', type: 'failure' },
-            { roll: [9, 14], result: 'Clumsy swing, normal damage -2', type: 'failure' },
-            { roll: [15, 18], result: 'Lucky hit, normal damage', type: 'normal' },
-            { roll: [19, 20], result: 'Surprising strike, +1 damage', type: 'success' }
-        ]
-    },
-    weaponCombatOutcomes: {
-        name: 'Weapon Combat Outcomes',
-        description: 'Basic trained weapon techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Weapon slips, -1 to next attack', type: 'failure' },
-            { roll: [4, 10], result: 'Normal attack, no special effect', type: 'normal' },
-            { roll: [11, 15], result: 'Solid hit, +2 damage', type: 'success' },
-            { roll: [16, 18], result: 'Precise strike, +4 damage', type: 'success' },
-            { roll: [19, 20], result: 'Critical hit, double damage + bleeding', type: 'critical' }
-        ]
-    },
-    weaponCombatAdvanced: {
-        name: 'Advanced Weapon Techniques',
-        description: 'Apprentice-level combat maneuvers and combinations',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 2], result: 'Minor misstep, -1 damage', type: 'failure' },
-            { roll: [3, 8], result: 'Standard technique, normal damage', type: 'normal' },
-            { roll: [9, 13], result: 'Combo attack, +3 damage', type: 'success' },
-            { roll: [14, 17], result: 'Disarming strike, +4 damage + disarm chance', type: 'success' },
-            { roll: [18, 19], result: 'Perfect form, double damage + stun', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary technique, triple damage + fear', type: 'critical' }
-        ]
-    },
-    weaponCombatExpert: {
-        name: 'Expert Weapon Mastery',
-        description: 'Journeyman-level precision and battlefield awareness',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'JOURNEYMAN',
-        table: [
-            { roll: [1, 1], result: 'Momentary lapse, normal damage', type: 'normal' },
-            { roll: [2, 6], result: 'Skilled strike, +2 damage', type: 'success' },
-            { roll: [7, 11], result: 'Tactical blow, +4 damage + positioning bonus', type: 'success' },
-            { roll: [12, 15], result: 'Masterful technique, +6 damage + debuff enemy', type: 'success' },
-            { roll: [16, 18], result: 'Devastating assault, double damage + knockdown', type: 'critical' },
-            { roll: [19, 20], result: 'Legendary strike, triple damage + area effect', type: 'critical' }
-        ]
-    },
-    weaponCombatMaster: {
-        name: 'Master Combat Arts',
-        description: 'Adept-level advanced weapon techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Fumble, weapon slips from grip', type: 'failure' },
-            { roll: [2, 4], result: 'Solid strike, +4 damage', type: 'normal' },
-            { roll: [5, 9], result: 'Precise blow, +6 damage', type: 'success' },
-            { roll: [10, 14], result: 'Devastating strike, +8 damage + stagger enemy', type: 'success' },
-            { roll: [15, 17], result: 'Perfect form, double damage', type: 'critical' },
-            { roll: [18, 19], result: 'Masterful strike, double damage + disarm enemy', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary blow, triple damage + knockdown', type: 'critical' }
-        ]
-    },
-    weaponCombatGrandmaster: {
-        name: 'Grandmaster Weapon Arts',
-        description: 'Expert-level exceptional weapon techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Overextension, lose next action', type: 'failure' },
-            { roll: [2, 3], result: 'Strong strike, +6 damage', type: 'normal' },
-            { roll: [4, 8], result: 'Expert blow, +8 damage + ignore 5 armor', type: 'success' },
-            { roll: [9, 13], result: 'Devastating strike, +10 damage + bleeding (2 damage/round)', type: 'success' },
-            { roll: [14, 16], result: 'Flawless technique, double damage + stun 1 round', type: 'critical' },
-            { roll: [17, 18], result: 'Masterful execution, double damage + cripple limb', type: 'critical' },
-            { roll: [19, 19], result: 'Perfect strike, triple damage + disarm + knockdown', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary execution, triple damage + severe bleeding (5 damage/round)', type: 'critical' }
-        ]
-    },
-    weaponCombatLegendary: {
-        name: 'Legendary Weapon Mastery',
-        description: 'Master-level supreme weapon techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Critical error, drop weapon and provoke attack', type: 'failure' },
-            { roll: [2, 2], result: 'Powerful strike, +8 damage', type: 'normal' },
-            { roll: [3, 6], result: 'Master strike, +10 damage + ignore 10 armor', type: 'success' },
-            { roll: [7, 11], result: 'Supreme blow, +12 damage + severe bleeding (3 damage/round)', type: 'success' },
-            { roll: [12, 15], result: 'Perfect execution, double damage + stun 2 rounds', type: 'critical' },
-            { roll: [16, 17], result: 'Legendary strike, triple damage + cripple + disarm', type: 'critical' },
-            { roll: [18, 19], result: 'Mythic blow, triple damage + knockdown + severe bleeding (5 damage/round)', type: 'critical' },
-            { roll: [20, 20], result: 'Ultimate mastery, quadruple damage + stun 3 rounds + permanent injury', type: 'critical' }
-        ]
-    },
-    // Tactical Combat Tables - Evolving by rank
-    tacticalBasic: {
-        name: 'Basic Tactics',
-        description: 'Untrained tactical awareness',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 10], result: 'Confused positioning, -2 to all actions this turn', type: 'failure' },
-            { roll: [11, 15], result: 'Lucky guess, normal positioning', type: 'normal' },
-            { roll: [16, 18], result: 'Accidental advantage, +1 to next attack', type: 'success' },
-            { roll: [19, 20], result: 'Beginner\'s luck, +2 to all actions this turn', type: 'success' }
-        ]
-    },
-    tacticalManeuvers: {
-        name: 'Tactical Maneuvers',
-        description: 'Basic battlefield tactics and positioning',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Poor positioning, -1 to defense', type: 'failure' },
-            { roll: [4, 8], result: 'Standard formation, no bonus', type: 'normal' },
-            { roll: [9, 14], result: 'Flanking maneuver, +2 to attack', type: 'success' },
-            { roll: [15, 17], result: 'High ground advantage, +3 to attack and defense', type: 'success' },
-            { roll: [18, 20], result: 'Perfect positioning, +4 to all actions + extra movement', type: 'critical' }
-        ]
-    },
-    tacticalAdvanced: {
-        name: 'Advanced Battlefield Tactics',
-        description: 'Trained-level strategic thinking',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor tactical error, -1 to team coordination', type: 'failure' },
-            { roll: [3, 7], result: 'Solid tactics, +2 to attack or defense (choose)', type: 'normal' },
-            { roll: [8, 13], result: 'Coordinated assault, +3 to all allies\' attacks', type: 'success' },
-            { roll: [14, 17], result: 'Tactical superiority, +4 to all actions + predict enemy moves', type: 'success' },
-            { roll: [18, 19], result: 'Masterful strategy, +5 to all actions + grant ally extra action', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect command, +6 to all actions + all allies gain extra action', type: 'critical' }
-        ]
-    },
-    tacticalExpert: {
-        name: 'Expert Strategic Mastery',
-        description: 'Apprentice-level battlefield control',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Momentary oversight, normal tactics', type: 'failure' },
-            { roll: [2, 6], result: 'Strategic insight, +4 to chosen action type', type: 'normal' },
-            { roll: [7, 12], result: 'Battlefield control, +5 to all actions + manipulate terrain', type: 'success' },
-            { roll: [13, 16], result: 'Predictive tactics, +6 to all actions + counter enemy strategies', type: 'success' },
-            { roll: [17, 19], result: 'Superior command, +7 to all actions + allies gain advantage', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect strategy, +8 to all actions + guarantee next major action success', type: 'critical' }
-        ]
-    },
-    tacticalMaster: {
-        name: 'Master Tactical Command',
-        description: 'Adept-level battlefield mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Overconfidence, +2 to all actions', type: 'failure' },
-            { roll: [2, 5], result: 'Master tactics, +5 to all actions + allies gain +2', type: 'normal' },
-            { roll: [6, 11], result: 'Battlefield dominance, +6 to all actions + control terrain + allies gain +3', type: 'success' },
-            { roll: [12, 15], result: 'Strategic genius, +7 to all actions + predict all enemy moves + allies gain +4', type: 'success' },
-            { roll: [16, 18], result: 'Perfect coordination, +8 to all actions + allies gain extra actions + enemies lose actions', type: 'critical' },
-            { roll: [19, 20], result: 'Legendary command, +10 to all actions + complete battlefield control + allies gain double actions', type: 'critical' }
-        ]
-    },
-    tacticalGrandmaster: {
-        name: 'Grandmaster Strategic Dominance',
-        description: 'Expert-level supreme tactics',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Minor miscalculation, +4 to all actions', type: 'failure' },
-            { roll: [2, 4], result: 'Expert command, +6 to all actions + allies gain +4', type: 'normal' },
-            { roll: [5, 9], result: 'Supreme tactics, +8 to all actions + complete terrain control + allies gain +5', type: 'success' },
-            { roll: [10, 14], result: 'Battlefield omniscience, +10 to all actions + predict all moves + allies gain +6', type: 'success' },
-            { roll: [15, 17], result: 'Perfect mastery, +12 to all actions + allies gain triple actions + enemies stunned 1 round', type: 'critical' },
-            { roll: [18, 20], result: 'Absolute dominance, +15 to all actions + total battlefield control + allies gain quadruple actions', type: 'critical' }
-        ]
-    },
-    tacticalLegendary: {
-        name: 'Legendary Tactical Supremacy',
-        description: 'Master-level ultimate command',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Slight overreach, +6 to all actions', type: 'failure' },
-            { roll: [2, 3], result: 'Master command, +8 to all actions + allies gain +6', type: 'normal' },
-            { roll: [3, 7], result: 'Legendary tactics, +10 to all actions + total terrain control + allies gain +8', type: 'success' },
-            { roll: [8, 12], result: 'Supreme mastery, +12 to all actions + perfect prediction + allies gain +10', type: 'success' },
-            { roll: [13, 16], result: 'Ultimate command, +15 to all actions + allies gain quintuple actions + enemies lose all actions', type: 'critical' },
-            { roll: [17, 19], result: 'Perfect supremacy, +18 to all actions + complete control + allies auto-succeed next action', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, +20 to all actions + total battlefield domination + instant victory conditions', type: 'critical' }
-        ]
-    },
+    // Import all multi-dimensional skill tables
+    ...LEADERSHIP_TABLES,
+    ...INSIGHT_TABLES,
+    ...INTIMIDATION_TABLES,
+    ...PERFORMANCE_TABLES,
+    ...SLEIGHT_OF_HAND_TABLES,
+    ...SURVIVAL_TABLES,
+    ...INVESTIGATION_TABLES,
+    ...ATHLETICS_TABLES,
+    ...ACROBATICS_TABLES,
+    ...ANIMAL_HANDLING_TABLES,
+    ...NATURE_TABLES,
+    ...PERCEPTION_TABLES,
+    ...DEFENSIVE_TECHNIQUES_TABLES,
+    ...WEAPON_MASTERY_TABLES,
+    ...TACTICAL_COMBAT_TABLES,
+    ...ALCHEMY_TABLES,
+    ...SPELLCRAFT_TABLES,
+    ...MEDICINE_TABLES,
+    ...STEALTH_TABLES,
+    ...ARCANE_KNOWLEDGE_TABLES,
+    ...RITUAL_MAGIC_TABLES,
+    ...RELIGION_TABLES,
+    ...ARCANA_TABLES,
+    ...HISTORY_TABLES,
 
-    // Defensive Techniques Tables - Armor-based damage reduction with formulas
-    defensiveBasic: {
-        name: 'Clumsy Defense',
-        description: 'Untrained - armor barely helps',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Complete failure, reduce damage by 0', formula: '0', type: 'failure' },
-            { roll: [9, 14], result: 'Barely helps, reduce damage by armor/10', formula: 'armor/10', type: 'failure' },
-            { roll: [15, 18], result: 'Clumsy block, reduce damage by armor/6', formula: 'armor/6', type: 'normal' },
-            { roll: [19, 20], result: 'Lucky deflection, reduce damage by armor/4', formula: 'armor/4', type: 'success' }
-        ]
-    },
-    defensiveManeuvers: {
-        name: 'Defensive Maneuvers',
-        description: 'Novice - learning to use armor effectively',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 5], result: 'Armor gap exposed, reduce damage by 0', formula: '0', type: 'failure' },
-            { roll: [6, 11], result: 'Poor positioning, reduce damage by armor/8', formula: 'armor/8', type: 'failure' },
-            { roll: [12, 16], result: 'Standard defense, reduce damage by armor/4', formula: 'armor/4', type: 'normal' },
-            { roll: [17, 19], result: 'Good block, reduce damage by armor/3', formula: 'armor/3', type: 'success' },
-            { roll: [20, 20], result: 'Lucky deflection, reduce damage by armor/2', formula: 'armor/2', type: 'critical' }
-        ]
-    },
-    defensiveAdvanced: {
-        name: 'Advanced Defense',
-        description: 'Trained - armor mastery developing',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 3], result: 'Armor dented, reduce damage by armor/8', formula: 'armor/8', type: 'failure' },
-            { roll: [4, 10], result: 'Solid defense, reduce damage by armor/4', formula: 'armor/4', type: 'normal' },
-            { roll: [11, 16], result: 'Strong block, reduce damage by armor/3', formula: 'armor/3', type: 'success' },
-            { roll: [17, 19], result: 'Excellent form, reduce damage by armor/2', formula: 'armor/2', type: 'success' },
-            { roll: [20, 20], result: 'Perfect timing, reduce damage by armor', formula: 'armor', type: 'critical' }
-        ]
-    },
-    defensiveExpert: {
-        name: 'Expert Defense',
-        description: 'Apprentice - maximizing armor effectiveness',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 2], result: 'Overextended, reduce damage by armor/4', formula: 'armor/4', type: 'failure' },
-            { roll: [3, 9], result: 'Competent block, reduce damage by armor/3', formula: 'armor/3', type: 'normal' },
-            { roll: [10, 15], result: 'Strong defense, reduce damage by armor/2', formula: 'armor/2', type: 'success' },
-            { roll: [16, 18], result: 'Expert positioning, reduce damage by armor - 2', formula: 'armor - 2', type: 'success' },
-            { roll: [19, 20], result: 'Masterful block, reduce damage by armor', formula: 'armor', type: 'critical' }
-        ]
-    },
-    defensiveMaster: {
-        name: 'Master Defense',
-        description: 'Adept - armor becomes second nature',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 2], result: 'Minor slip, reduce damage by armor/3', formula: 'armor/3', type: 'failure' },
-            { roll: [3, 8], result: 'Solid form, reduce damage by armor/2', formula: 'armor/2', type: 'normal' },
-            { roll: [9, 14], result: 'Master block, reduce damage by armor - 3', formula: 'armor - 3', type: 'success' },
-            { roll: [15, 17], result: 'Superior defense, reduce damage by armor', formula: 'armor', type: 'success' },
-            { roll: [18, 20], result: 'Fortified stance, reduce damage by armor + 2', formula: 'armor + 2', type: 'critical' }
-        ]
-    },
-    defensiveGrandmaster: {
-        name: 'Grandmaster Defense',
-        description: 'Expert - advanced defensive techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 2], result: 'Misjudged angle, reduce damage by armor/2', formula: 'armor/2', type: 'failure' },
-            { roll: [3, 7], result: 'Expert block, reduce damage by armor - 2', formula: 'armor - 2', type: 'normal' },
-            { roll: [8, 13], result: 'Perfect form, reduce damage by armor', formula: 'armor', type: 'success' },
-            { roll: [14, 17], result: 'Grandmaster technique, reduce damage by armor + 3', formula: 'armor + 3', type: 'success' },
-            { roll: [18, 20], result: 'Flawless defense, reduce damage by armor + 5', formula: 'armor + 5', type: 'critical' }
-        ]
-    },
-    defensiveLegendary: {
-        name: 'Legendary Defense',
-        description: 'Master - legendary defensive techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 2], result: 'Caught off-guard, reduce damage by armor - 2', formula: 'armor - 2', type: 'failure' },
-            { roll: [3, 7], result: 'Master technique, reduce damage by armor', formula: 'armor', type: 'normal' },
-            { roll: [8, 13], result: 'Legendary form, reduce damage by armor + 3', formula: 'armor + 3', type: 'success' },
-            { roll: [14, 17], result: 'Supreme defense, reduce damage by armor + 5', formula: 'armor + 5', type: 'success' },
-            { roll: [18, 20], result: 'Mythic technique, reduce damage by armor + 8', formula: 'armor + 8', type: 'critical' }
-        ]
-    },
-
-    // Wilderness Survival Tables - Evolving by rank
-    wildernessBasic: {
-        name: 'Lost in the Wild',
-        description: 'Untrained wilderness survival',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 7], result: 'Hopelessly lost, waste 1d4 hours', type: 'failure' },
-            { roll: [8, 13], result: 'Slow progress, difficult terrain', type: 'failure' },
-            { roll: [14, 18], result: 'Make basic progress', type: 'normal' },
-            { roll: [19, 20], result: 'Lucky find, discover water source', type: 'success' }
-        ]
-    },
-    wildernessEvents: {
-        name: 'Wilderness Events',
-        description: 'Basic wilderness navigation and survival',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Lost, waste time and resources', type: 'failure' },
-            { roll: [4, 9], result: 'Normal travel', type: 'normal' },
-            { roll: [10, 14], result: 'Find useful herbs or materials', type: 'success' },
-            { roll: [15, 17], result: 'Discover hidden path or shortcut', type: 'success' },
-            { roll: [18, 20], result: 'Find rare resource or safe haven', type: 'critical' }
-        ]
-    },
-    wildernessAdvanced: {
-        name: 'Skilled Survival',
-        description: 'Trained wilderness expertise',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor setback, lose 1 hour', type: 'failure' },
-            { roll: [3, 8], result: 'Efficient travel, make good time', type: 'normal' },
-            { roll: [9, 14], result: 'Find medicinal herbs, heal 1d6 HP', type: 'success' },
-            { roll: [15, 17], result: 'Track game, gain food for 1d4 days', type: 'success' },
-            { roll: [18, 19], result: 'Discover hidden cave or shelter', type: 'critical' },
-            { roll: [20, 20], result: 'Find rare alchemical ingredients', type: 'critical' }
-        ]
-    },
-    wildernessExpert: {
-        name: 'Expert Tracker',
-        description: 'Apprentice-level wilderness mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Unexpected weather, minor delay', type: 'failure' },
-            { roll: [2, 7], result: 'Navigate efficiently, avoid hazards', type: 'normal' },
-            { roll: [8, 13], result: 'Track creatures, gain advantage on next encounter', type: 'success' },
-            { roll: [14, 16], result: 'Find secret path, reduce travel time by half', type: 'success' },
-            { roll: [17, 19], result: 'Discover ancient ruins or treasure', type: 'critical' },
-            { roll: [20, 20], result: 'Befriend wild animal companion', type: 'critical' }
-        ]
-    },
-    wildernessMaster: {
-        name: 'Master Survivalist',
-        description: 'Adept wilderness survival',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Unexpected weather, adapt and continue', type: 'normal' },
-            { roll: [2, 6], result: 'Perfect navigation, reduce travel time by 25%', type: 'normal' },
-            { roll: [7, 12], result: 'Predict weather, avoid dangerous conditions', type: 'success' },
-            { roll: [13, 16], result: 'Find rare herbs worth 50gp', type: 'success' },
-            { roll: [17, 19], result: 'Discover hidden cache, gain supplies for 1 week', type: 'critical' },
-            { roll: [20, 20], result: 'Find legendary herb, heal all HP and remove conditions', type: 'critical' }
-        ]
-    },
-    wildernessGrandmaster: {
-        name: 'Wilderness Legend',
-        description: 'Expert survival and tracking',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 2], result: 'Dangerous terrain, lose 1 hour navigating', type: 'failure' },
-            { roll: [3, 7], result: 'Expert tracking, gain advantage on next encounter', type: 'normal' },
-            { roll: [8, 13], result: 'Befriend wild animal, gain temporary companion for 1 hour', type: 'success' },
-            { roll: [14, 17], result: 'Find secret path, reduce travel time by 40%', type: 'success' },
-            { roll: [18, 19], result: 'Discover rare materials worth 75gp', type: 'critical' },
-            { roll: [20, 20], result: 'Find sacred grove, party heals 2d10 HP', type: 'critical' }
-        ]
-    },
-    wildernessLegendary: {
-        name: 'Nature\'s Champion',
-        description: 'Master of wilderness',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureguardian.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 2], result: 'Unexpected storm, lose 1 hour finding shelter', type: 'failure' },
-            { roll: [3, 7], result: 'Expert navigation, reduce travel time by 30%', type: 'normal' },
-            { roll: [8, 13], result: 'Call animals for aid, gain 1d3 beast allies for 1 hour', type: 'success' },
-            { roll: [14, 17], result: 'Find ancient tree, gain nature\'s blessing (+2 to wilderness rolls for 1 day)', type: 'success' },
-            { roll: [18, 19], result: 'Discover hidden sanctuary, safe rest healing 4d10 HP', type: 'critical' },
-            { roll: [20, 20], result: 'Nature spirit appears, grants blessing (advantage on next 3 wilderness rolls)', type: 'critical' }
-        ]
-    },
-
-    // Investigation Tables - Evolving by rank
-    investigationBasic: {
-        name: 'Basic Investigation',
-        description: 'Untrained investigation attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Completely confused, find nothing', type: 'failure' },
-            { roll: [9, 14], result: 'Vague impression, no useful information', type: 'failure' },
-            { roll: [15, 18], result: 'Notice something odd', type: 'normal' },
-            { roll: [19, 20], result: 'Lucky find, discover minor clue', type: 'success' }
-        ]
-    },
-    investigationFinds: {
-        name: 'Investigation Finds',
-        description: 'Clues and discoveries during investigation',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'False lead, waste time', type: 'failure' },
-            { roll: [4, 8], result: 'Minor clue found', type: 'normal' },
-            { roll: [9, 13], result: 'Important clue discovered', type: 'success' },
-            { roll: [14, 17], result: 'Major breakthrough in case', type: 'success' },
-            { roll: [18, 20], result: 'Solve mystery completely', type: 'critical' }
-        ]
-    },
-    investigationAdvanced: {
-        name: 'Advanced Investigation',
-        description: 'Trained investigation techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Misleading evidence, lose 1 hour', type: 'failure' },
-            { roll: [3, 7], result: 'Find useful clue', type: 'normal' },
-            { roll: [8, 13], result: 'Discover important evidence', type: 'success' },
-            { roll: [14, 17], result: 'Uncover hidden connection', type: 'success' },
-            { roll: [18, 19], result: 'Major breakthrough, solve key part of mystery', type: 'critical' },
-            { roll: [20, 20], result: 'Complete solution revealed', type: 'critical' }
-        ]
-    },
-    investigationExpert: {
-        name: 'Expert Investigation',
-        description: 'Apprentice-level deductive reasoning',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Red herring, minor delay', type: 'failure' },
-            { roll: [2, 6], result: 'Find multiple clues', type: 'normal' },
-            { roll: [7, 12], result: 'Deduce important connection', type: 'success' },
-            { roll: [13, 16], result: 'Uncover hidden motive', type: 'success' },
-            { roll: [17, 19], result: 'Solve major mystery element', type: 'critical' },
-            { roll: [20, 20], result: 'Complete deduction, solve entire case', type: 'critical' }
-        ]
-    },
-    investigationMaster: {
-        name: 'Master Investigation',
-        description: 'Adept-level investigative mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Deliberate misdirection, lose 30 minutes', type: 'failure' },
-            { roll: [2, 5], result: 'Find crucial evidence', type: 'normal' },
-            { roll: [6, 11], result: 'Deduce complex pattern', type: 'success' },
-            { roll: [12, 15], result: 'Uncover conspiracy or plot', type: 'success' },
-            { roll: [16, 18], result: 'Solve case and predict future events', type: 'critical' },
-            { roll: [19, 20], result: 'Perfect deduction, solve case and identify all involved parties', type: 'critical' }
-        ]
-    },
-    investigationGrandmaster: {
-        name: 'Grandmaster Investigation',
-        description: 'Expert-level investigative genius',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Expertly hidden evidence, lose 15 minutes', type: 'failure' },
-            { roll: [2, 4], result: 'Find all available evidence', type: 'normal' },
-            { roll: [5, 9], result: 'Deduce hidden connections', type: 'success' },
-            { roll: [10, 14], result: 'Uncover elaborate conspiracy', type: 'success' },
-            { roll: [15, 17], result: 'Solve case and identify mastermind', type: 'critical' },
-            { roll: [18, 20], result: 'Perfect investigation, solve case and prevent future crimes', type: 'critical' }
-        ]
-    },
-    investigationLegendary: {
-        name: 'Legendary Investigation',
-        description: 'Master-level supreme deduction',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Masterfully concealed, lose 10 minutes', type: 'failure' },
-            { roll: [2, 3], result: 'Find all evidence and hidden clues', type: 'normal' },
-            { roll: [4, 8], result: 'Deduce entire conspiracy network', type: 'success' },
-            { roll: [9, 13], result: 'Uncover multi-layered plot', type: 'success' },
-            { roll: [14, 16], result: 'Solve impossible case', type: 'critical' },
-            { roll: [17, 19], result: 'Perfect deduction, solve case and all related mysteries', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary insight, solve case and predict all future related events', type: 'critical' }
-        ]
-    },
-
-    // Athletics Tables - Evolving by rank
-    athleticsBasic: {
-        name: 'Clumsy Athletics',
-        description: 'Untrained physical attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Fail badly, take 1d4 damage', type: 'failure' },
-            { roll: [9, 14], result: 'Struggle and fail', type: 'failure' },
-            { roll: [15, 18], result: 'Barely succeed', type: 'normal' },
-            { roll: [19, 20], result: 'Lucky success', type: 'success' }
-        ]
-    },
-    athleticsFeats: {
-        name: 'Athletic Feats',
-        description: 'Physical challenges and accomplishments',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 4], result: 'Fail attempt, possible injury (1d4 damage)', type: 'failure' },
-            { roll: [5, 9], result: 'Barely succeed', type: 'normal' },
-            { roll: [10, 14], result: 'Good performance, gain confidence', type: 'success' },
-            { roll: [15, 18], result: 'Excellent feat, inspire others (+1 to allies\' next athletic check)', type: 'success' },
-            { roll: [19, 20], result: 'Impressive performance, gain +2 to next athletic check', type: 'critical' }
-        ]
-    },
-    athleticsAdvanced: {
-        name: 'Advanced Athletics',
-        description: 'Trained physical prowess',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor failure, lose balance', type: 'failure' },
-            { roll: [3, 7], result: 'Succeed with effort', type: 'normal' },
-            { roll: [8, 13], result: 'Strong performance, +2 to next athletic check', type: 'success' },
-            { roll: [14, 17], result: 'Impressive feat, inspire allies (+2 to allies\' next athletic check)', type: 'success' },
-            { roll: [18, 19], result: 'Exceptional performance, gain advantage on next athletic check', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect execution, automatic success on next similar check', type: 'critical' }
-        ]
-    },
-    athleticsExpert: {
-        name: 'Expert Athletics',
-        description: 'Apprentice-level physical mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Slight misstep, no penalty', type: 'failure' },
-            { roll: [2, 6], result: 'Succeed smoothly', type: 'normal' },
-            { roll: [7, 12], result: 'Excellent form, +3 to next athletic check', type: 'success' },
-            { roll: [13, 16], result: 'Masterful performance, inspire all allies (+3 to allies\' next athletic check)', type: 'success' },
-            { roll: [17, 19], result: 'Legendary feat, gain advantage on next 2 athletic checks', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect mastery, automatic success on next 2 similar checks', type: 'critical' }
-        ]
-    },
-    athleticsMaster: {
-        name: 'Master Athletics',
-        description: 'Adept-level supreme physicality',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Minor adjustment needed, succeed anyway', type: 'normal' },
-            { roll: [2, 5], result: 'Succeed with grace', type: 'normal' },
-            { roll: [6, 11], result: 'Masterful execution, +4 to next athletic check', type: 'success' },
-            { roll: [12, 15], result: 'Inspiring performance, all allies gain +4 to next athletic check', type: 'success' },
-            { roll: [16, 18], result: 'Legendary athleticism, gain advantage on next 3 athletic checks', type: 'critical' },
-            { roll: [19, 20], result: 'Perfect form, automatic success on next 3 similar checks + inspire awe', type: 'critical' }
-        ]
-    },
-    athleticsGrandmaster: {
-        name: 'Grandmaster Athletics',
-        description: 'Expert-level exceptional physicality',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Effortless success', type: 'normal' },
-            { roll: [2, 4], result: 'Flawless execution', type: 'normal' },
-            { roll: [5, 9], result: 'Supreme performance, +5 to next athletic check', type: 'success' },
-            { roll: [10, 14], result: 'Awe-inspiring feat, all allies gain +5 to next athletic check', type: 'success' },
-            { roll: [15, 17], result: 'Mythic athleticism, gain advantage on next 5 athletic checks', type: 'critical' },
-            { roll: [18, 20], result: 'Perfect mastery, automatic success on next 5 similar checks + permanent +1 to athletics', type: 'critical' }
-        ]
-    },
-    athleticsLegendary: {
-        name: 'Legendary Athletics',
-        description: 'Master-level ultimate physicality',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Effortless perfection', type: 'normal' },
-            { roll: [2, 3], result: 'Flawless mastery', type: 'normal' },
-            { roll: [4, 8], result: 'Legendary performance, +6 to next athletic check', type: 'success' },
-            { roll: [9, 13], result: 'Mythic feat, all allies gain +6 to next athletic check', type: 'success' },
-            { roll: [14, 16], result: 'Impossible athleticism, gain advantage on next 10 athletic checks', type: 'critical' },
-            { roll: [17, 19], result: 'Perfect supremacy, automatic success on next 10 similar checks + permanent +2 to athletics', type: 'critical' },
-            { roll: [20, 20], result: 'Ultimate mastery, redefine physical limits + permanent +3 to athletics', type: 'critical' }
-        ]
-    },
-
-    // Smithing Tables - Evolving by rank
-    smithingBasic: {
-        name: 'Crude Smithing',
-        description: 'Untrained smithing attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Complete failure, materials destroyed', type: 'failure' },
-            { roll: [9, 14], result: 'Broken item, unusable', type: 'failure' },
-            { roll: [15, 18], result: 'Crude item, barely functional', type: 'normal' },
-            { roll: [19, 20], result: 'Basic item created', type: 'success' }
-        ]
-    },
-    smithingResults: {
-        name: 'Smithing Results',
-        description: 'Outcomes when forging items',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Item breaks, materials wasted', type: 'failure' },
-            { roll: [4, 8], result: 'Basic quality item created', type: 'normal' },
-            { roll: [9, 13], result: 'Good quality item, +1 bonus', type: 'success' },
-            { roll: [14, 17], result: 'Superior quality, +2 bonus', type: 'success' },
-            { roll: [18, 20], result: 'Masterwork item, +3 bonus + special property', type: 'critical' }
-        ]
-    },
-    smithingAdvanced: {
-        name: 'Advanced Smithing',
-        description: 'Trained smithing techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor flaw, -1 to item', type: 'failure' },
-            { roll: [3, 7], result: 'Good quality item, +1 bonus', type: 'normal' },
-            { roll: [8, 13], result: 'Superior quality, +2 bonus', type: 'success' },
-            { roll: [14, 17], result: 'Excellent quality, +3 bonus', type: 'success' },
-            { roll: [18, 19], result: 'Masterwork item, +4 bonus + special property', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect craft, +5 bonus + 2 special properties', type: 'critical' }
-        ]
-    },
-    smithingExpert: {
-        name: 'Expert Smithing',
-        description: 'Apprentice-level craftsmanship',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Slight imperfection, normal quality', type: 'failure' },
-            { roll: [2, 6], result: 'Superior quality, +2 bonus', type: 'normal' },
-            { roll: [7, 12], result: 'Excellent quality, +3 bonus', type: 'success' },
-            { roll: [13, 16], result: 'Masterwork item, +4 bonus + special property', type: 'success' },
-            { roll: [17, 19], result: 'Legendary craft, +5 bonus + 2 special properties', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect masterpiece, +6 bonus + 3 special properties', type: 'critical' }
-        ]
-    },
-    smithingMaster: {
-        name: 'Master Smithing',
-        description: 'Adept-level legendary craftsmanship',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Minor variation, +2 bonus', type: 'failure' },
-            { roll: [2, 5], result: 'Excellent quality, +3 bonus', type: 'normal' },
-            { roll: [6, 11], result: 'Masterwork item, +4 bonus + special property', type: 'success' },
-            { roll: [12, 15], result: 'Legendary craft, +5 bonus + 2 special properties', type: 'success' },
-            { roll: [16, 18], result: 'Perfect masterpiece, +6 bonus + 3 special properties', type: 'critical' },
-            { roll: [19, 20], result: 'Artifact-quality, +7 bonus + 4 special properties', type: 'critical' }
-        ]
-    },
-    smithingGrandmaster: {
-        name: 'Grandmaster Smithing',
-        description: 'Expert-level supreme craftsmanship',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Acceptable quality, +3 bonus', type: 'failure' },
-            { roll: [2, 4], result: 'Masterwork item, +4 bonus + special property', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary craft, +5 bonus + 2 special properties', type: 'success' },
-            { roll: [10, 14], result: 'Perfect masterpiece, +6 bonus + 3 special properties', type: 'success' },
-            { roll: [15, 17], result: 'Artifact-quality, +7 bonus + 4 special properties', type: 'critical' },
-            { roll: [18, 20], result: 'Mythic creation, +8 bonus + 5 special properties + sentience', type: 'critical' }
-        ]
-    },
-    smithingLegendary: {
-        name: 'Legendary Smithing',
-        description: 'Master-level ultimate craftsmanship',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Good quality, +4 bonus', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary craft, +5 bonus + 2 special properties', type: 'normal' },
-            { roll: [4, 8], result: 'Perfect masterpiece, +6 bonus + 3 special properties', type: 'success' },
-            { roll: [9, 13], result: 'Artifact-quality, +7 bonus + 4 special properties', type: 'success' },
-            { roll: [14, 16], result: 'Mythic creation, +8 bonus + 5 special properties + sentience', type: 'critical' },
-            { roll: [17, 19], result: 'Divine craft, +9 bonus + 6 special properties + legendary status', type: 'critical' },
-            { roll: [20, 20], result: 'Ultimate masterwork, +10 bonus + 7 special properties + grows with wielder', type: 'critical' }
-        ]
-    },
-
-    // Alchemy Tables - Evolving by rank
-    alchemyBasic: {
-        name: 'Crude Alchemy',
-        description: 'Untrained alchemy attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Explosion, take 1d6 damage', type: 'failure' },
-            { roll: [9, 14], result: 'Useless sludge created', type: 'failure' },
-            { roll: [15, 18], result: 'Weak potion, 25% effect', type: 'normal' },
-            { roll: [19, 20], result: 'Basic potion created', type: 'success' }
-        ]
-    },
-    alchemyOutcomes: {
-        name: 'Alchemy Outcomes',
-        description: 'Results of brewing potions and elixirs',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Potion explodes, take 1d4 damage', type: 'failure' },
-            { roll: [4, 8], result: 'Standard potion created', type: 'normal' },
-            { roll: [9, 13], result: 'Potent potion, +50% effect', type: 'success' },
-            { roll: [14, 17], result: 'Superior potion, double effect', type: 'success' },
-            { roll: [18, 20], result: 'Perfect potion, triple effect + bonus duration', type: 'critical' }
-        ]
-    },
-    alchemyAdvanced: {
-        name: 'Advanced Alchemy',
-        description: 'Trained alchemy techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Unstable potion, random effect', type: 'failure' },
-            { roll: [3, 7], result: 'Potent potion, +50% effect', type: 'normal' },
-            { roll: [8, 13], result: 'Superior potion, double effect', type: 'success' },
-            { roll: [14, 17], result: 'Perfect potion, triple effect + bonus duration', type: 'success' },
-            { roll: [18, 19], result: 'Masterwork potion, quadruple effect + extended duration', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary brew, quintuple effect + permanent bonus', type: 'critical' }
-        ]
-    },
-    alchemyExpert: {
-        name: 'Expert Alchemy',
-        description: 'Apprentice-level brewing mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Slightly weak, +25% effect', type: 'failure' },
-            { roll: [2, 6], result: 'Superior potion, double effect', type: 'normal' },
-            { roll: [7, 12], result: 'Perfect potion, triple effect + bonus duration', type: 'success' },
-            { roll: [13, 16], result: 'Masterwork potion, quadruple effect + extended duration', type: 'success' },
-            { roll: [17, 19], result: 'Legendary brew, quintuple effect + permanent bonus', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic elixir, sextuple effect + 2 bonus effects', type: 'critical' }
-        ]
-    },
-    alchemyMaster: {
-        name: 'Master Alchemy',
-        description: 'Adept-level supreme brewing',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Standard strength, double effect', type: 'failure' },
-            { roll: [2, 5], result: 'Perfect potion, triple effect + bonus duration', type: 'normal' },
-            { roll: [6, 11], result: 'Masterwork potion, quadruple effect + extended duration', type: 'success' },
-            { roll: [12, 15], result: 'Legendary brew, quintuple effect + permanent bonus', type: 'success' },
-            { roll: [16, 18], result: 'Mythic elixir, sextuple effect + 2 bonus effects', type: 'critical' },
-            { roll: [19, 20], result: 'Divine concoction, septuple effect + 3 bonus effects', type: 'critical' }
-        ]
-    },
-    alchemyGrandmaster: {
-        name: 'Grandmaster Alchemy',
-        description: 'Expert-level legendary brewing',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Good quality, triple effect', type: 'failure' },
-            { roll: [2, 4], result: 'Masterwork potion, quadruple effect + extended duration', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary brew, quintuple effect + permanent bonus', type: 'success' },
-            { roll: [10, 14], result: 'Mythic elixir, sextuple effect + 2 bonus effects', type: 'success' },
-            { roll: [15, 17], result: 'Divine concoction, septuple effect + 3 bonus effects', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate elixir, octuple effect + 4 bonus effects + no side effects', type: 'critical' }
-        ]
-    },
-    alchemyLegendary: {
-        name: 'Legendary Alchemy',
-        description: 'Master-level ultimate brewing',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Excellent quality, quadruple effect', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary brew, quintuple effect + permanent bonus', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic elixir, sextuple effect + 2 bonus effects', type: 'success' },
-            { roll: [9, 13], result: 'Divine concoction, septuple effect + 3 bonus effects', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate elixir, octuple effect + 4 bonus effects + no side effects', type: 'critical' },
-            { roll: [17, 19], result: 'Philosopher\'s brew, nonuple effect + 5 bonus effects + create 2 potions', type: 'critical' },
-            { roll: [20, 20], result: 'Elixir of eternity, decuple effect + 6 bonus effects + permanent transformation', type: 'critical' }
-        ]
-    },
-
-    // Enchanting Tables - Evolving by rank
-    enchantingBasic: {
-        name: 'Crude Enchanting',
-        description: 'Untrained enchanting attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Enchantment backfires, item cursed', type: 'failure' },
-            { roll: [9, 14], result: 'Enchantment fizzles, no effect', type: 'failure' },
-            { roll: [15, 18], result: 'Weak enchantment, temporary +1 bonus', type: 'normal' },
-            { roll: [19, 20], result: 'Basic enchantment, +1 bonus', type: 'success' }
-        ]
-    },
-    enchantingEffects: {
-        name: 'Enchanting Effects',
-        description: 'Magical enhancements for items',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Enchantment fails, item damaged', type: 'failure' },
-            { roll: [4, 8], result: 'Basic enchantment, +1 bonus', type: 'normal' },
-            { roll: [9, 13], result: 'Strong enchantment, +2 bonus', type: 'success' },
-            { roll: [14, 17], result: 'Powerful enchantment, +3 bonus', type: 'success' },
-            { roll: [18, 20], result: 'Legendary enchantment, +4 bonus + special ability', type: 'critical' }
-        ]
-    },
-    enchantingAdvanced: {
-        name: 'Advanced Enchanting',
-        description: 'Trained enchanting techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Unstable enchantment, random effect', type: 'failure' },
-            { roll: [3, 7], result: 'Strong enchantment, +2 bonus', type: 'normal' },
-            { roll: [8, 13], result: 'Powerful enchantment, +3 bonus', type: 'success' },
-            { roll: [14, 17], result: 'Legendary enchantment, +4 bonus + special ability', type: 'success' },
-            { roll: [18, 19], result: 'Masterwork enchantment, +5 bonus + 2 special abilities', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect enchantment, +6 bonus + 3 special abilities', type: 'critical' }
-        ]
-    },
-    enchantingExpert: {
-        name: 'Expert Enchanting',
-        description: 'Apprentice-level enchanting mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Weak enchantment, +2 bonus', type: 'failure' },
-            { roll: [2, 6], result: 'Powerful enchantment, +3 bonus', type: 'normal' },
-            { roll: [7, 12], result: 'Legendary enchantment, +4 bonus + special ability', type: 'success' },
-            { roll: [13, 16], result: 'Masterwork enchantment, +5 bonus + 2 special abilities', type: 'success' },
-            { roll: [17, 19], result: 'Perfect enchantment, +6 bonus + 3 special abilities', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic enchantment, +7 bonus + 4 special abilities', type: 'critical' }
-        ]
-    },
-    enchantingMaster: {
-        name: 'Master Enchanting',
-        description: 'Adept-level supreme enchanting',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Standard enchantment, +3 bonus', type: 'failure' },
-            { roll: [2, 5], result: 'Legendary enchantment, +4 bonus + special ability', type: 'normal' },
-            { roll: [6, 11], result: 'Masterwork enchantment, +5 bonus + 2 special abilities', type: 'success' },
-            { roll: [12, 15], result: 'Perfect enchantment, +6 bonus + 3 special abilities', type: 'success' },
-            { roll: [16, 18], result: 'Mythic enchantment, +7 bonus + 4 special abilities', type: 'critical' },
-            { roll: [19, 20], result: 'Divine enchantment, +8 bonus + 5 special abilities', type: 'critical' }
-        ]
-    },
-    enchantingGrandmaster: {
-        name: 'Grandmaster Enchanting',
-        description: 'Expert-level legendary enchanting',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Good enchantment, +4 bonus', type: 'failure' },
-            { roll: [2, 4], result: 'Masterwork enchantment, +5 bonus + 2 special abilities', type: 'normal' },
-            { roll: [5, 9], result: 'Perfect enchantment, +6 bonus + 3 special abilities', type: 'success' },
-            { roll: [10, 14], result: 'Mythic enchantment, +7 bonus + 4 special abilities', type: 'success' },
-            { roll: [15, 17], result: 'Divine enchantment, +8 bonus + 5 special abilities', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate enchantment, +9 bonus + 6 special abilities + sentience', type: 'critical' }
-        ]
-    },
-    enchantingLegendary: {
-        name: 'Legendary Enchanting',
-        description: 'Master-level ultimate enchanting',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Excellent enchantment, +5 bonus', type: 'failure' },
-            { roll: [2, 3], result: 'Perfect enchantment, +6 bonus + 3 special abilities', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic enchantment, +7 bonus + 4 special abilities', type: 'success' },
-            { roll: [9, 13], result: 'Divine enchantment, +8 bonus + 5 special abilities', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate enchantment, +9 bonus + 6 special abilities + sentience', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic enchantment, +10 bonus + 7 special abilities + evolves', type: 'critical' },
-            { roll: [20, 20], result: 'Eternal enchantment, +11 bonus + 8 special abilities + grants wishes', type: 'critical' }
-        ]
-    },
-
-    // Persuasion Tables - Evolving by rank
-    persuasionBasic: {
-        name: 'Crude Persuasion',
-        description: 'Untrained persuasion attempts',
+    // Persuasion Tables - Multi-dimensional (7 proficiency levels × 6 dice types)
+    // UNTRAINED - d4 (Very Easy Task)
+    persuasion_untrained_d4: {
+        name: 'Untrained Persuasion (d4)',
+        description: 'Untrained persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 8], result: 'Target becomes hostile', type: 'failure' },
-            { roll: [9, 14], result: 'Target annoyed, -1 to future attempts', type: 'failure' },
-            { roll: [15, 18], result: 'No change in attitude', type: 'normal' },
-            { roll: [19, 20], result: 'Target becomes neutral', type: 'success' }
+            { roll: [1, 2], result: 'You stumble over your words, target is annoyed', type: 'failure' },
+            { roll: [3, 3], result: 'Your argument is clumsy but target listens', type: 'normal' },
+            { roll: [4, 4], result: 'You make a decent point, target becomes friendly', type: 'success' }
         ]
     },
-    persuasionOutcomes: {
-        name: 'Persuasion Outcomes',
-        description: 'Results of social influence attempts',
+    persuasion_untrained_d6: {
+        name: 'Untrained Persuasion (d6)',
+        description: 'Untrained persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 2], result: 'You offend the target with your clumsy approach', type: 'failure' },
+            { roll: [3, 4], result: 'Your words come out wrong, target is skeptical', type: 'failure' },
+            { roll: [5, 5], result: 'You struggle to make your point, target listens', type: 'normal' },
+            { roll: [6, 6], result: 'You manage a weak argument, target becomes friendly', type: 'success' }
+        ]
+    },
+    persuasion_untrained_d8: {
+        name: 'Untrained Persuasion (d8)',
+        description: 'Untrained persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 2], result: 'You badly misread the situation, target becomes hostile', type: 'failure' },
+            { roll: [3, 4], result: 'Your inexperience shows, target is offended', type: 'failure' },
+            { roll: [5, 6], result: 'You fumble your words, target dismisses you', type: 'failure' },
+            { roll: [7, 7], result: 'You struggle but target listens', type: 'normal' },
+            { roll: [8, 8], result: 'Through luck, your point lands, target becomes friendly', type: 'success' }
+        ]
+    },
+    persuasion_untrained_d10: {
+        name: 'Untrained Persuasion (d10)',
+        description: 'Untrained persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'You say exactly the wrong thing, target becomes hostile', type: 'failure' },
+            { roll: [4, 6], result: 'Your clumsy words offend the target', type: 'failure' },
+            { roll: [7, 8], result: 'Target sees through your inexperience, dismisses you', type: 'failure' },
+            { roll: [9, 9], result: 'You struggle but target listens', type: 'normal' },
+            { roll: [10, 10], result: 'Through luck, your argument lands, target becomes friendly', type: 'success' }
+        ]
+    },
+    persuasion_untrained_d12: {
+        name: 'Untrained Persuasion (d12)',
+        description: 'Untrained persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 2], result: 'You catastrophically misread the situation, target becomes hostile', type: 'failure' },
+            { roll: [3, 4], result: 'Your words are taken as an insult, target is offended', type: 'failure' },
+            { roll: [5, 6], result: 'You fumble badly, target refuses to hear more', type: 'failure' },
+            { roll: [7, 8], result: 'Your inexperience shows, target becomes impatient', type: 'failure' },
+            { roll: [9, 9], result: 'Target is unimpressed and annoyed', type: 'failure' },
+            { roll: [10, 10], result: 'You barely avoid making things worse, target remains neutral', type: 'normal' },
+            { roll: [11, 11], result: 'Through sheer luck, you make a valid point, target becomes friendly', type: 'success' },
+            { roll: [12, 12], result: 'Miraculously, your words resonate, target becomes helpful', type: 'success' }
+        ]
+    },
+    persuasion_untrained_d20: {
+        name: 'Untrained Persuasion (d20)',
+        description: 'Untrained persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'You completely misunderstand the situation, target becomes hostile', type: 'failure' },
+            { roll: [4, 6], result: 'Your words anger the target, they refuse to negotiate', type: 'failure' },
+            { roll: [7, 9], result: 'You say something offensive without realizing it', type: 'failure' },
+            { roll: [10, 12], result: 'Your argument is laughably weak, target mocks you', type: 'failure' },
+            { roll: [13, 15], result: 'Target sees you as incompetent, loses respect', type: 'failure' },
+            { roll: [16, 16], result: 'You annoy the target with your persistence', type: 'failure' },
+            { roll: [17, 17], result: 'Target politely but firmly dismisses you', type: 'normal' },
+            { roll: [18, 18], result: 'Through sheer luck, you avoid making things worse, target remains neutral', type: 'normal' },
+            { roll: [19, 19], result: 'Miraculously, you stumble onto a good argument, target becomes friendly', type: 'success' },
+            { roll: [20, 20], result: 'Against all odds, your words strike a chord, target becomes helpful', type: 'critical' }
+        ]
+    },
+
+    // NOVICE - d4 (Very Easy Task)
+    persuasion_novice_d4: {
+        name: 'Novice Persuasion (d4)',
+        description: 'Novice persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 4], result: 'Target becomes hostile', type: 'failure' },
-            { roll: [5, 9], result: 'No change in attitude', type: 'normal' },
-            { roll: [10, 14], result: 'Target becomes friendly', type: 'success' },
-            { roll: [15, 18], result: 'Target becomes helpful', type: 'success' },
-            { roll: [19, 20], result: 'Target becomes devoted ally', type: 'critical' }
+            { roll: [1, 1], result: 'Target listens but remains neutral', type: 'normal' },
+            { roll: [2, 2], result: 'You make a good point, target becomes friendly', type: 'success' },
+            { roll: [3, 3], result: 'Your words resonate, target becomes helpful', type: 'success' },
+            { roll: [4, 4], result: 'Target is impressed, offers minor assistance', type: 'success' }
         ]
     },
-    persuasionAdvanced: {
-        name: 'Advanced Persuasion',
-        description: 'Trained persuasion techniques',
+    persuasion_novice_d6: {
+        name: 'Novice Persuasion (d6)',
+        description: 'Novice persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'You misjudge the approach, target is annoyed', type: 'failure' },
+            { roll: [2, 2], result: 'Your argument is weak, target is skeptical', type: 'failure' },
+            { roll: [3, 3], result: 'Target is unmoved by your words', type: 'normal' },
+            { roll: [4, 4], result: 'You make a decent case, target considers it', type: 'normal' },
+            { roll: [5, 5], result: 'Your reasoning is sound, target becomes friendly', type: 'success' },
+            { roll: [6, 6], result: 'Target is convinced, becomes helpful', type: 'success' }
+        ]
+    },
+    persuasion_novice_d8: {
+        name: 'Novice Persuasion (d8)',
+        description: 'Novice persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'You accidentally offend the target, they become hostile', type: 'failure' },
+            { roll: [2, 2], result: 'Your words backfire, target becomes defensive', type: 'failure' },
+            { roll: [3, 3], result: 'Target finds your argument unconvincing', type: 'failure' },
+            { roll: [4, 4], result: 'You fail to make an impression', type: 'normal' },
+            { roll: [5, 5], result: 'Target listens with mild interest', type: 'normal' },
+            { roll: [6, 6], result: 'You make a valid point, target becomes friendly', type: 'success' },
+            { roll: [7, 7], result: 'Your argument is persuasive, target becomes helpful', type: 'success' },
+            { roll: [8, 8], result: 'Target is swayed by your words, offers assistance', type: 'success' }
+        ]
+    },
+    persuasion_novice_d10: {
+        name: 'Novice Persuasion (d10)',
+        description: 'Novice persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'You misread the situation badly, target becomes hostile', type: 'failure' },
+            { roll: [2, 3], result: 'Your approach is too aggressive, target is offended', type: 'failure' },
+            { roll: [4, 5], result: 'You fail to connect with the target', type: 'failure' },
+            { roll: [6, 6], result: 'Target is unimpressed', type: 'normal' },
+            { roll: [7, 7], result: 'You make a reasonable argument', type: 'normal' },
+            { roll: [8, 8], result: 'Target finds your words convincing, becomes friendly', type: 'success' },
+            { roll: [9, 9], result: 'Your reasoning is solid, target becomes helpful', type: 'success' },
+            { roll: [10, 10], result: 'Target is persuaded, offers to assist you', type: 'success' }
+        ]
+    },
+    persuasion_novice_d12: {
+        name: 'Novice Persuasion (d12)',
+        description: 'Novice persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 2], result: 'You say the wrong thing, target becomes hostile', type: 'failure' },
+            { roll: [3, 4], result: 'Your argument falls apart, target is annoyed', type: 'failure' },
+            { roll: [5, 6], result: 'Target sees through your inexperience', type: 'failure' },
+            { roll: [7, 8], result: 'You fail to make a compelling case', type: 'normal' },
+            { roll: [9, 9], result: 'Target considers your words', type: 'normal' },
+            { roll: [10, 10], result: 'You make a decent argument, target becomes friendly', type: 'success' },
+            { roll: [11, 11], result: 'Your words are persuasive, target becomes helpful', type: 'success' },
+            { roll: [12, 12], result: 'Target is convinced by your reasoning', type: 'success' }
+        ]
+    },
+    persuasion_novice_d20: {
+        name: 'Novice Persuasion (d20)',
+        description: 'Novice persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 3], result: 'You completely misjudge the approach, target becomes hostile', type: 'failure' },
+            { roll: [4, 6], result: 'Your words offend the target', type: 'failure' },
+            { roll: [7, 9], result: 'You fail to make any headway', type: 'failure' },
+            { roll: [10, 11], result: 'Target is unmoved by your argument', type: 'failure' },
+            { roll: [12, 13], result: 'You struggle to find the right words', type: 'normal' },
+            { roll: [14, 15], result: 'Target listens but remains skeptical', type: 'normal' },
+            { roll: [16, 17], result: 'You make a valid point, target becomes friendly', type: 'success' },
+            { roll: [18, 19], result: 'Your argument is convincing, target becomes helpful', type: 'success' },
+            { roll: [20, 20], result: 'Against the odds, you persuade the target', type: 'critical' }
+        ]
+    },
+
+    // TRAINED - d4 (Very Easy Task)
+    persuasion_trained_d4: {
+        name: 'Trained Persuasion (d4)',
+        description: 'Trained persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 2], result: 'Target skeptical, -1 to next attempt', type: 'failure' },
-            { roll: [3, 7], result: 'Target becomes friendly', type: 'normal' },
-            { roll: [8, 13], result: 'Target becomes helpful', type: 'success' },
-            { roll: [14, 17], result: 'Target becomes devoted ally', type: 'success' },
-            { roll: [18, 19], result: 'Target becomes loyal follower', type: 'critical' },
-            { roll: [20, 20], result: 'Target becomes fanatical supporter', type: 'critical' }
+            { roll: [1, 1], result: 'Your skilled approach wins them over, target becomes friendly', type: 'success' },
+            { roll: [2, 2], result: 'You expertly address their concerns, target becomes helpful', type: 'success' },
+            { roll: [3, 3], result: 'Your words inspire trust, target becomes devoted ally', type: 'critical' },
+            { roll: [4, 4], result: 'Target is thoroughly convinced, offers significant aid', type: 'critical' }
         ]
     },
-    persuasionExpert: {
-        name: 'Expert Persuasion',
-        description: 'Apprentice-level persuasion mastery',
+    persuasion_trained_d6: {
+        name: 'Trained Persuasion (d6)',
+        description: 'Trained persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'Target remains neutral despite your efforts', type: 'normal' },
+            { roll: [2, 2], result: 'You make a good case, target becomes friendly', type: 'success' },
+            { roll: [3, 3], result: 'Your reasoning is sound, target becomes helpful', type: 'success' },
+            { roll: [4, 4], result: 'Target is impressed by your argument', type: 'success' },
+            { roll: [5, 5], result: 'You skillfully persuade them, target becomes devoted ally', type: 'success' },
+            { roll: [6, 6], result: 'Your words resonate deeply, target offers assistance', type: 'critical' }
+        ]
+    },
+    persuasion_trained_d8: {
+        name: 'Trained Persuasion (d8)',
+        description: 'Trained persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'You misjudge their position, target is skeptical', type: 'failure' },
+            { roll: [2, 2], result: 'Your approach is slightly off, target is wary', type: 'failure' },
+            { roll: [3, 3], result: 'You make a decent argument, target becomes friendly', type: 'normal' },
+            { roll: [4, 4], result: 'Your training shows, target is receptive', type: 'normal' },
+            { roll: [5, 5], result: 'You present a compelling case, target becomes helpful', type: 'success' },
+            { roll: [6, 6], result: 'Your words are persuasive, target is convinced', type: 'success' },
+            { roll: [7, 7], result: 'Target is swayed by your expertise, becomes devoted ally', type: 'success' },
+            { roll: [8, 8], result: 'You masterfully address all concerns, target offers aid', type: 'critical' }
+        ]
+    },
+    persuasion_trained_d10: {
+        name: 'Trained Persuasion (d10)',
+        description: 'Trained persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'You misread their motivations, target is skeptical', type: 'failure' },
+            { roll: [2, 2], result: 'Your argument has a flaw they notice', type: 'failure' },
+            { roll: [3, 3], result: 'Target is unconvinced but not hostile', type: 'failure' },
+            { roll: [4, 4], result: 'You make some progress, target becomes friendly', type: 'normal' },
+            { roll: [5, 5], result: 'Your training helps you find common ground', type: 'normal' },
+            { roll: [6, 7], result: 'You present a strong case, target becomes helpful', type: 'success' },
+            { roll: [8, 8], result: 'Your expertise shines through, target is convinced', type: 'success' },
+            { roll: [9, 9], result: 'Target is impressed, becomes devoted ally', type: 'success' },
+            { roll: [10, 10], result: 'You skillfully address all objections, target offers aid', type: 'critical' }
+        ]
+    },
+    persuasion_trained_d12: {
+        name: 'Trained Persuasion (d12)',
+        description: 'Trained persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 2], result: 'You fail to connect, target is skeptical', type: 'failure' },
+            { roll: [3, 4], result: 'Your approach is too direct, target is wary', type: 'failure' },
+            { roll: [5, 6], result: 'You make a reasonable case, target becomes friendly', type: 'normal' },
+            { roll: [7, 7], result: 'Your training helps you navigate the conversation', type: 'normal' },
+            { roll: [8, 9], result: 'You present compelling arguments, target becomes helpful', type: 'success' },
+            { roll: [10, 10], result: 'Target is persuaded by your reasoning', type: 'success' },
+            { roll: [11, 11], result: 'Your expertise wins them over, target becomes devoted ally', type: 'success' },
+            { roll: [12, 12], result: 'You masterfully convince them, target offers significant aid', type: 'critical' }
+        ]
+    },
+    persuasion_trained_d20: {
+        name: 'Trained Persuasion (d20)',
+        description: 'Trained persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 3], result: 'You struggle to find the right approach, target is skeptical', type: 'failure' },
+            { roll: [4, 6], result: 'Your argument is insufficient for this challenge', type: 'failure' },
+            { roll: [7, 7], result: 'You barely make any headway', type: 'failure' },
+            { roll: [8, 9], result: 'You make some progress, target becomes friendly', type: 'normal' },
+            { roll: [10, 11], result: 'Your training helps you navigate the difficulty', type: 'normal' },
+            { roll: [12, 14], result: 'You present a solid case, target becomes helpful', type: 'success' },
+            { roll: [15, 16], result: 'Your expertise shows, target is convinced', type: 'success' },
+            { roll: [17, 18], result: 'You skillfully persuade them, target becomes devoted ally', type: 'success' },
+            { roll: [19, 19], result: 'Target is thoroughly convinced, becomes loyal follower', type: 'critical' },
+            { roll: [20, 20], result: 'You masterfully overcome all obstacles, target is inspired', type: 'critical' }
+        ]
+    },
+
+    // APPRENTICE - d4 (Very Easy Task)
+    persuasion_apprentice_d4: {
+        name: 'Apprentice Persuasion (d4)',
+        description: 'Apprentice persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Target neutral, no change', type: 'failure' },
-            { roll: [2, 6], result: 'Target becomes helpful', type: 'normal' },
-            { roll: [7, 12], result: 'Target becomes devoted ally', type: 'success' },
-            { roll: [13, 16], result: 'Target becomes loyal follower', type: 'success' },
-            { roll: [17, 19], result: 'Target becomes fanatical supporter', type: 'critical' },
-            { roll: [20, 20], result: 'Target will die for you', type: 'critical' }
+            { roll: [1, 1], result: 'Your refined approach wins them over, target becomes helpful', type: 'success' },
+            { roll: [2, 2], result: 'You expertly build rapport, target becomes devoted ally', type: 'success' },
+            { roll: [3, 3], result: 'Your mastery is evident, target becomes loyal follower', type: 'critical' },
+            { roll: [4, 4], result: 'Target is deeply moved, pledges unwavering support', type: 'critical' }
         ]
     },
-    persuasionMaster: {
-        name: 'Master Persuasion',
-        description: 'Adept-level supreme persuasion',
+    persuasion_apprentice_d6: {
+        name: 'Apprentice Persuasion (d6)',
+        description: 'Apprentice persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'You make good progress, target becomes friendly', type: 'normal' },
+            { roll: [2, 2], result: 'Your skill is apparent, target becomes helpful', type: 'success' },
+            { roll: [3, 3], result: 'You build strong trust, target becomes devoted ally', type: 'success' },
+            { roll: [4, 4], result: 'Target is thoroughly convinced', type: 'success' },
+            { roll: [5, 5], result: 'Your expertise shines, target becomes loyal follower', type: 'critical' },
+            { roll: [6, 6], result: 'Target is inspired by your words, offers full support', type: 'critical' }
+        ]
+    },
+    persuasion_apprentice_d8: {
+        name: 'Apprentice Persuasion (d8)',
+        description: 'Apprentice persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'Target remains neutral despite your skill', type: 'failure' },
+            { roll: [2, 2], result: 'You make headway, target becomes friendly', type: 'normal' },
+            { roll: [3, 3], result: 'Your approach is effective, target warms to you', type: 'normal' },
+            { roll: [4, 4], result: 'You present a strong case, target becomes helpful', type: 'success' },
+            { roll: [5, 5], result: 'Your skill is evident, target is convinced', type: 'success' },
+            { roll: [6, 6], result: 'You build deep trust, target becomes devoted ally', type: 'success' },
+            { roll: [7, 7], result: 'Target is thoroughly persuaded, becomes loyal follower', type: 'critical' },
+            { roll: [8, 8], result: 'Your mastery wins them completely, target pledges support', type: 'critical' }
+        ]
+    },
+    persuasion_apprentice_d10: {
+        name: 'Apprentice Persuasion (d10)',
+        description: 'Apprentice persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'Even your skill cannot overcome this obstacle', type: 'failure' },
+            { roll: [2, 2], result: 'You struggle to find the right approach', type: 'failure' },
+            { roll: [3, 3], result: 'You make some progress, target becomes friendly', type: 'normal' },
+            { roll: [4, 4], result: 'Your training helps you navigate the challenge', type: 'normal' },
+            { roll: [5, 6], result: 'You present compelling arguments, target becomes helpful', type: 'success' },
+            { roll: [7, 8], result: 'Your expertise is convincing, target is swayed', type: 'success' },
+            { roll: [9, 9], result: 'You skillfully win them over, target becomes devoted ally', type: 'success' },
+            { roll: [10, 10], result: 'Your mastery overcomes the difficulty, target becomes loyal follower', type: 'critical' }
+        ]
+    },
+    persuasion_apprentice_d12: {
+        name: 'Apprentice Persuasion (d12)',
+        description: 'Apprentice persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 2], result: 'The challenge is too great, target remains neutral', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your training', type: 'failure' },
+            { roll: [4, 5], result: 'You make gradual progress, target becomes friendly', type: 'normal' },
+            { roll: [6, 7], result: 'Your skill helps you advance, target becomes helpful', type: 'success' },
+            { roll: [8, 9], result: 'You present a strong case, target is convinced', type: 'success' },
+            { roll: [10, 11], result: 'Your expertise shines through, target becomes devoted ally', type: 'success' },
+            { roll: [12, 12], result: 'You masterfully overcome all obstacles, target becomes loyal follower', type: 'critical' }
+        ]
+    },
+    persuasion_apprentice_d20: {
+        name: 'Apprentice Persuasion (d20)',
+        description: 'Apprentice persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 3], result: 'The task is beyond your current ability', type: 'failure' },
+            { roll: [4, 5], result: 'You struggle to make any headway', type: 'failure' },
+            { roll: [6, 8], result: 'You make minimal progress, target becomes friendly', type: 'normal' },
+            { roll: [9, 10], result: 'Your training helps you persevere', type: 'normal' },
+            { roll: [11, 13], result: 'You present solid arguments, target becomes helpful', type: 'success' },
+            { roll: [14, 16], result: 'Your skill is evident, target is persuaded', type: 'success' },
+            { roll: [17, 18], result: 'You expertly navigate the difficulty, target becomes devoted ally', type: 'success' },
+            { roll: [19, 19], result: 'Your mastery overcomes the challenge, target becomes loyal follower', type: 'critical' },
+            { roll: [20, 20], result: 'Against all odds, you achieve a breakthrough, target pledges full support', type: 'critical' }
+        ]
+    },
+
+    // ADEPT - d4 (Very Easy Task)
+    persuasion_adept_d4: {
+        name: 'Adept Persuasion (d4)',
+        description: 'Adept persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Target friendly, minor favor', type: 'failure' },
-            { roll: [2, 5], result: 'Target becomes devoted ally', type: 'normal' },
-            { roll: [6, 11], result: 'Target becomes loyal follower', type: 'success' },
-            { roll: [12, 15], result: 'Target becomes fanatical supporter', type: 'success' },
-            { roll: [16, 18], result: 'Target will die for you', type: 'critical' },
-            { roll: [19, 20], result: 'Target converts entire group to your cause', type: 'critical' }
+            { roll: [1, 1], result: 'Your advanced skill easily wins them over, target becomes devoted ally', type: 'success' },
+            { roll: [2, 2], result: 'You effortlessly build deep trust, target becomes loyal follower', type: 'critical' },
+            { roll: [3, 3], result: 'Target is thoroughly convinced, offers significant aid', type: 'critical' },
+            { roll: [4, 4], result: 'Your mastery inspires them, target pledges resources and support', type: 'critical' }
         ]
     },
-    persuasionGrandmaster: {
-        name: 'Grandmaster Persuasion',
-        description: 'Expert-level legendary persuasion',
+    persuasion_adept_d6: {
+        name: 'Adept Persuasion (d6)',
+        description: 'Adept persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'You make strong progress, target becomes helpful', type: 'normal' },
+            { roll: [2, 2], result: 'Your expertise is clear, target becomes devoted ally', type: 'success' },
+            { roll: [3, 3], result: 'You build profound trust, target becomes loyal follower', type: 'success' },
+            { roll: [4, 4], result: 'Target is deeply persuaded, offers significant aid', type: 'success' },
+            { roll: [5, 5], result: 'Your mastery shines, target commits fully to your cause', type: 'critical' },
+            { roll: [6, 6], result: 'Target is inspired, brings their allies to support you', type: 'critical' }
+        ]
+    },
+    persuasion_adept_d8: {
+        name: 'Adept Persuasion (d8)',
+        description: 'Adept persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'Target is friendly but not fully convinced', type: 'failure' },
+            { roll: [2, 2], result: 'You make good headway, target becomes helpful', type: 'normal' },
+            { roll: [3, 3], result: 'Your skill is evident, target warms considerably', type: 'normal' },
+            { roll: [4, 4], result: 'You present masterful arguments, target becomes devoted ally', type: 'success' },
+            { roll: [5, 5], result: 'Your expertise convinces them, target becomes loyal follower', type: 'success' },
+            { roll: [6, 6], result: 'Target is thoroughly persuaded, offers significant aid', type: 'success' },
+            { roll: [7, 7], result: 'Your mastery overcomes all doubts, target commits fully', type: 'critical' },
+            { roll: [8, 8], result: 'Target is inspired by your words, brings allies to your cause', type: 'critical' }
+        ]
+    },
+    persuasion_adept_d10: {
+        name: 'Adept Persuasion (d10)',
+        description: 'Adept persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'The challenge tests even your skill, target is friendly but uncommitted', type: 'failure' },
+            { roll: [2, 2], result: 'You make progress but not a breakthrough', type: 'failure' },
+            { roll: [3, 3], result: 'Your expertise helps you advance, target becomes helpful', type: 'normal' },
+            { roll: [4, 4], result: 'You navigate the difficulty well', type: 'normal' },
+            { roll: [5, 6], result: 'Your mastery shows, target becomes devoted ally', type: 'success' },
+            { roll: [7, 8], result: 'You expertly overcome obstacles, target becomes loyal follower', type: 'success' },
+            { roll: [9, 9], result: 'Target is thoroughly convinced, offers significant aid', type: 'success' },
+            { roll: [10, 10], result: 'Your skill triumphs, target brings allies to your cause', type: 'critical' }
+        ]
+    },
+    persuasion_adept_d12: {
+        name: 'Adept Persuasion (d12)',
+        description: 'Adept persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 2], result: 'The difficulty is substantial, target is friendly but hesitant', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your mastery', type: 'failure' },
+            { roll: [4, 5], result: 'Your expertise helps you make headway, target becomes helpful', type: 'normal' },
+            { roll: [6, 7], result: 'You skillfully navigate the challenge, target becomes devoted ally', type: 'success' },
+            { roll: [8, 9], result: 'Your mastery overcomes the difficulty, target becomes loyal follower', type: 'success' },
+            { roll: [10, 11], result: 'Target is thoroughly persuaded, offers significant aid', type: 'success' },
+            { roll: [12, 12], result: 'You achieve a masterful victory, target brings allies to support you', type: 'critical' }
+        ]
+    },
+    persuasion_adept_d20: {
+        name: 'Adept Persuasion (d20)',
+        description: 'Adept persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 3], result: 'Even your mastery struggles with this challenge', type: 'failure' },
+            { roll: [4, 5], result: 'You make minimal progress despite your skill', type: 'failure' },
+            { roll: [6, 8], result: 'Your expertise helps you advance slowly, target becomes helpful', type: 'normal' },
+            { roll: [9, 10], result: 'You persevere with your mastery', type: 'normal' },
+            { roll: [11, 13], result: 'Your skill overcomes obstacles, target becomes devoted ally', type: 'success' },
+            { roll: [14, 16], result: 'You expertly navigate the difficulty, target becomes loyal follower', type: 'success' },
+            { roll: [17, 18], result: 'Your mastery triumphs, target offers significant aid', type: 'success' },
+            { roll: [19, 19], result: 'You achieve a remarkable victory, target brings allies to your cause', type: 'critical' },
+            { roll: [20, 20], result: 'Your legendary skill overcomes all odds, target becomes your champion', type: 'critical' }
+        ]
+    },
+
+    // EXPERT - d4 (Very Easy Task)
+    persuasion_expert_d4: {
+        name: 'Expert Persuasion (d4)',
+        description: 'Expert persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Target helpful, moderate favor', type: 'failure' },
-            { roll: [2, 4], result: 'Target becomes loyal follower', type: 'normal' },
-            { roll: [5, 9], result: 'Target becomes fanatical supporter', type: 'success' },
-            { roll: [10, 14], result: 'Target will die for you', type: 'success' },
-            { roll: [15, 17], result: 'Target converts entire group to your cause', type: 'critical' },
-            { roll: [18, 20], result: 'Target abandons all previous loyalties for you', type: 'critical' }
+            { roll: [1, 1], result: 'Your legendary skill effortlessly wins them, target becomes loyal follower', type: 'success' },
+            { roll: [2, 2], result: 'You inspire complete trust, target offers significant aid', type: 'critical' },
+            { roll: [3, 3], result: 'Target is moved to action, converts their allies to your cause', type: 'critical' },
+            { roll: [4, 4], result: 'Your mastery creates a devoted champion, target pledges everything', type: 'critical' }
         ]
     },
-    persuasionLegendary: {
-        name: 'Legendary Persuasion',
-        description: 'Master-level ultimate persuasion',
+    persuasion_expert_d6: {
+        name: 'Expert Persuasion (d6)',
+        description: 'Expert persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'You easily win them over, target becomes devoted ally', type: 'normal' },
+            { roll: [2, 2], result: 'Your expertise creates deep loyalty, target becomes loyal follower', type: 'success' },
+            { roll: [3, 3], result: 'Target is thoroughly convinced, offers significant aid', type: 'success' },
+            { roll: [4, 4], result: 'You inspire them completely, target brings allies to your cause', type: 'success' },
+            { roll: [5, 5], result: 'Your legendary skill creates a champion, target pledges resources', type: 'critical' },
+            { roll: [6, 6], result: 'Target is transformed by your words, becomes your devoted advocate', type: 'critical' }
+        ]
+    },
+    persuasion_expert_d8: {
+        name: 'Expert Persuasion (d8)',
+        description: 'Expert persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'Target is helpful but not fully committed', type: 'failure' },
+            { roll: [2, 2], result: 'You make excellent progress, target becomes devoted ally', type: 'normal' },
+            { roll: [3, 3], result: 'Your expertise is undeniable, target is impressed', type: 'normal' },
+            { roll: [4, 4], result: 'You expertly navigate the challenge, target becomes loyal follower', type: 'success' },
+            { roll: [5, 5], result: 'Your mastery overcomes all doubts, target offers significant aid', type: 'success' },
+            { roll: [6, 6], result: 'Target is thoroughly persuaded, brings allies to your cause', type: 'success' },
+            { roll: [7, 7], result: 'Your legendary skill inspires them, target becomes your champion', type: 'critical' },
+            { roll: [8, 8], result: 'You achieve a masterwork of persuasion, target pledges everything', type: 'critical' }
+        ]
+    },
+    persuasion_expert_d10: {
+        name: 'Expert Persuasion (d10)',
+        description: 'Expert persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'The challenge is formidable, target is helpful but uncommitted', type: 'failure' },
+            { roll: [2, 2], result: 'You make good progress with your expertise', type: 'failure' },
+            { roll: [3, 3], result: 'Your legendary skill helps you advance, target becomes devoted ally', type: 'normal' },
+            { roll: [4, 4], result: 'You expertly navigate the difficulty', type: 'normal' },
+            { roll: [5, 6], result: 'Your mastery overcomes obstacles, target becomes loyal follower', type: 'success' },
+            { roll: [7, 8], result: 'You skillfully persuade them, target offers significant aid', type: 'success' },
+            { roll: [9, 9], result: 'Target is thoroughly convinced, brings allies to your cause', type: 'success' },
+            { roll: [10, 10], result: 'Your legendary expertise triumphs, target becomes your champion', type: 'critical' }
+        ]
+    },
+    persuasion_expert_d12: {
+        name: 'Expert Persuasion (d12)',
+        description: 'Expert persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 2], result: 'The difficulty is substantial, target is helpful but hesitant', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your legendary skill', type: 'failure' },
+            { roll: [4, 5], result: 'Your expertise helps you make headway, target becomes devoted ally', type: 'normal' },
+            { roll: [6, 7], result: 'You masterfully navigate the challenge, target becomes loyal follower', type: 'success' },
+            { roll: [8, 9], result: 'Your legendary skill overcomes the difficulty, target offers significant aid', type: 'success' },
+            { roll: [10, 11], result: 'Target is thoroughly persuaded, brings allies to your cause', type: 'success' },
+            { roll: [12, 12], result: 'You achieve a legendary victory, target becomes your devoted champion', type: 'critical' }
+        ]
+    },
+    persuasion_expert_d20: {
+        name: 'Expert Persuasion (d20)',
+        description: 'Expert persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 3], result: 'Even your legendary skill is tested by this challenge', type: 'failure' },
+            { roll: [4, 5], result: 'You make slow progress despite your mastery', type: 'failure' },
+            { roll: [6, 8], result: 'Your expertise helps you advance, target becomes devoted ally', type: 'normal' },
+            { roll: [9, 10], result: 'You persevere with your legendary skill', type: 'normal' },
+            { roll: [11, 13], result: 'Your mastery overcomes obstacles, target becomes loyal follower', type: 'success' },
+            { roll: [14, 16], result: 'You expertly navigate the difficulty, target offers significant aid', type: 'success' },
+            { roll: [17, 18], result: 'Your legendary skill triumphs, target brings allies to your cause', type: 'success' },
+            { roll: [19, 19], result: 'You achieve a remarkable victory, target becomes your champion', type: 'critical' },
+            { roll: [20, 20], result: 'Your mastery creates a miracle, target pledges everything and inspires others', type: 'critical' }
+        ]
+    },
+
+    // MASTER - d4 (Very Easy Task)
+    persuasion_master_d4: {
+        name: 'Master Persuasion (d4)',
+        description: 'Master persuasion on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Target devoted, major favor', type: 'failure' },
-            { roll: [2, 3], result: 'Target becomes fanatical supporter', type: 'normal' },
-            { roll: [4, 8], result: 'Target will die for you', type: 'success' },
-            { roll: [9, 13], result: 'Target converts entire group to your cause', type: 'success' },
-            { roll: [14, 16], result: 'Target abandons all previous loyalties for you', type: 'critical' },
-            { roll: [17, 19], result: 'Target spreads your message, converts others', type: 'critical' },
-            { roll: [20, 20], result: 'Target becomes your prophet, starts religion in your name', type: 'critical' }
+            { roll: [1, 1], result: 'Your unparalleled skill creates instant loyalty, target offers significant aid', type: 'success' },
+            { roll: [2, 2], result: 'You inspire a movement, target converts their allies to your cause', type: 'critical' },
+            { roll: [3, 3], result: 'Target abandons all previous loyalties, pledges to your vision', type: 'critical' },
+            { roll: [4, 4], result: 'Your words create a devoted disciple, target becomes your prophet', type: 'critical' }
+        ]
+    },
+    persuasion_master_d6: {
+        name: 'Master Persuasion (d6)',
+        description: 'Master persuasion on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'You effortlessly create loyalty, target becomes loyal follower', type: 'normal' },
+            { roll: [2, 2], result: 'Your mastery is absolute, target offers significant aid', type: 'success' },
+            { roll: [3, 3], result: 'You inspire them completely, target converts their allies to your cause', type: 'success' },
+            { roll: [4, 4], result: 'Target abandons previous loyalties for your vision', type: 'success' },
+            { roll: [5, 5], result: 'Your legendary words create a champion, target becomes your devoted advocate', type: 'critical' },
+            { roll: [6, 6], result: 'You inspire a transformation, target spreads your message to others', type: 'critical' }
+        ]
+    },
+    persuasion_master_d8: {
+        name: 'Master Persuasion (d8)',
+        description: 'Master persuasion on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'Target is devoted and grants a major favor', type: 'failure' },
+            { roll: [2, 2], result: 'You create deep loyalty, target becomes loyal follower', type: 'normal' },
+            { roll: [3, 3], result: 'Your unparalleled skill is evident, target is moved', type: 'normal' },
+            { roll: [4, 4], result: 'You masterfully persuade them, target offers significant aid', type: 'success' },
+            { roll: [5, 5], result: 'Your legendary expertise inspires action, target converts their allies', type: 'success' },
+            { roll: [6, 6], result: 'Target abandons previous loyalties for your cause', type: 'success' },
+            { roll: [7, 7], result: 'You create a devoted champion, target becomes your advocate', type: 'critical' },
+            { roll: [8, 8], result: 'Your words inspire a movement, target spreads your message', type: 'critical' }
+        ]
+    },
+    persuasion_master_d10: {
+        name: 'Master Persuasion (d10)',
+        description: 'Master persuasion on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'The challenge is formidable, target is devoted and grants a major favor', type: 'failure' },
+            { roll: [2, 2], result: 'You make excellent progress with your mastery', type: 'failure' },
+            { roll: [3, 3], result: 'Your unparalleled skill helps you advance, target becomes loyal follower', type: 'normal' },
+            { roll: [4, 4], result: 'You expertly navigate the difficulty', type: 'normal' },
+            { roll: [5, 6], result: 'Your legendary mastery overcomes obstacles, target offers significant aid', type: 'success' },
+            { roll: [7, 8], result: 'You inspire them completely, target converts their allies to your cause', type: 'success' },
+            { roll: [9, 9], result: 'Target abandons previous loyalties for your vision', type: 'success' },
+            { roll: [10, 10], result: 'Your unparalleled expertise creates a devoted champion', type: 'critical' }
+        ]
+    },
+    persuasion_master_d12: {
+        name: 'Master Persuasion (d12)',
+        description: 'Master persuasion on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 2], result: 'The difficulty is substantial, target is devoted and grants a major favor', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your legendary mastery', type: 'failure' },
+            { roll: [4, 5], result: 'Your unparalleled skill helps you make headway, target becomes loyal follower', type: 'normal' },
+            { roll: [6, 7], result: 'You masterfully navigate the challenge, target offers significant aid', type: 'success' },
+            { roll: [8, 9], result: 'Your legendary expertise overcomes the difficulty, target converts their allies', type: 'success' },
+            { roll: [10, 11], result: 'Target abandons previous loyalties for your cause', type: 'success' },
+            { roll: [12, 12], result: 'You achieve a legendary victory, target becomes your devoted prophet', type: 'critical' }
+        ]
+    },
+    persuasion_master_d20: {
+        name: 'Master Persuasion (d20)',
+        description: 'Master persuasion on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 3], result: 'Even your legendary mastery is tested, target is devoted and grants a major favor', type: 'failure' },
+            { roll: [4, 5], result: 'You make slow progress despite your unparalleled skill', type: 'failure' },
+            { roll: [6, 8], result: 'Your legendary expertise helps you advance, target becomes loyal follower', type: 'normal' },
+            { roll: [9, 10], result: 'You persevere with your unparalleled mastery', type: 'normal' },
+            { roll: [11, 13], result: 'Your legendary skill overcomes obstacles, target offers significant aid', type: 'success' },
+            { roll: [14, 16], result: 'You expertly navigate the difficulty, target converts their allies to your cause', type: 'success' },
+            { roll: [17, 18], result: 'Your mastery triumphs, target abandons previous loyalties for your vision', type: 'success' },
+            { roll: [19, 19], result: 'You achieve a miraculous victory, target becomes your devoted champion', type: 'critical' },
+            { roll: [20, 20], result: 'Your legendary words create a movement, target becomes your prophet and inspires others', type: 'critical' }
         ]
     },
 
-    // Deception Tables - Evolving by rank
-    deceptionBasic: {
-        name: 'Crude Deception',
-        description: 'Untrained deception attempts',
+    // Deception Tables - Multi-dimensional (7 proficiency levels × 6 dice types)
+    // UNTRAINED - d4 (Very Easy Task)
+    deception_untrained_d4: {
+        name: 'Untrained Deception (d4)',
+        description: 'Untrained deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 8], result: 'Caught in obvious lie, reputation ruined', type: 'failure' },
-            { roll: [9, 14], result: 'Lie transparent, target suspicious', type: 'failure' },
-            { roll: [15, 18], result: 'Lie not believed but no consequences', type: 'normal' },
-            { roll: [19, 20], result: 'Lie believed temporarily', type: 'success' }
+            { roll: [1, 1], result: 'Your lie is clumsy, target is mildly suspicious', type: 'failure' },
+            { roll: [2, 2], result: 'Your deception is transparent but target is uncertain', type: 'normal' },
+            { roll: [3, 3], result: 'You manage a believable lie, target believes you', type: 'success' },
+            { roll: [4, 4], result: 'Despite inexperience, you deceive them, target trusts you', type: 'success' }
         ]
     },
-    deceptionResults: {
-        name: 'Deception Results',
-        description: 'Outcomes of lies and misdirection',
+    deception_untrained_d6: {
+        name: 'Untrained Deception (d6)',
+        description: 'Untrained deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 1], result: 'Your lie is obvious, target becomes suspicious', type: 'failure' },
+            { roll: [2, 2], result: 'You contradict yourself, target doubts you', type: 'failure' },
+            { roll: [3, 3], result: 'Your story is weak but target is uncertain', type: 'normal' },
+            { roll: [4, 4], result: 'Target is unconvinced but willing to listen', type: 'normal' },
+            { roll: [5, 5], result: 'You manage a passable lie, target believes you', type: 'success' },
+            { roll: [6, 6], result: 'Despite inexperience, your deception works, target trusts you', type: 'success' }
+        ]
+    },
+    deception_untrained_d8: {
+        name: 'Untrained Deception (d8)',
+        description: 'Untrained deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 1], result: 'You badly misread the situation, target catches your lie', type: 'failure' },
+            { roll: [2, 2], result: 'Your inexperience shows, target is offended by the attempt', type: 'failure' },
+            { roll: [3, 3], result: 'You fumble your words, target is suspicious', type: 'failure' },
+            { roll: [4, 4], result: 'Your lie is transparent, target dismisses you', type: 'failure' },
+            { roll: [5, 5], result: 'You struggle but target remains uncertain', type: 'normal' },
+            { roll: [6, 6], result: 'Target is unconvinced but listens', type: 'normal' },
+            { roll: [7, 7], result: 'You manage a basic deception, target believes you', type: 'success' },
+            { roll: [8, 8], result: 'Through luck, your lie is believed, target trusts you', type: 'success' }
+        ]
+    },
+    deception_untrained_d10: {
+        name: 'Untrained Deception (d10)',
+        description: 'Untrained deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 1], result: 'You say exactly the wrong thing, target catches you in the lie', type: 'failure' },
+            { roll: [2, 3], result: 'Your clumsy deception offends the target', type: 'failure' },
+            { roll: [4, 5], result: 'Target sees through your inexperience, is suspicious', type: 'failure' },
+            { roll: [6, 6], result: 'You ramble unconvincingly, target loses patience', type: 'failure' },
+            { roll: [7, 7], result: 'Your lie is poorly constructed but target listens', type: 'normal' },
+            { roll: [8, 8], result: 'You manage to avoid disaster, target remains uncertain', type: 'normal' },
+            { roll: [9, 9], result: 'Through luck, your deception lands, target is fooled', type: 'success' },
+            { roll: [10, 10], result: 'Against the odds, you deceive them, target trusts you', type: 'success' }
+        ]
+    },
+    deception_untrained_d12: {
+        name: 'Untrained Deception (d12)',
+        description: 'Untrained deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 2], result: 'You catastrophically misread the situation, target catches you', type: 'failure' },
+            { roll: [3, 4], result: 'Your words are taken as an insult, target is offended', type: 'failure' },
+            { roll: [5, 6], result: 'You fumble badly, target refuses to believe you', type: 'failure' },
+            { roll: [7, 8], result: 'Your inexperience shows, target becomes impatient', type: 'failure' },
+            { roll: [9, 9], result: 'Target is unimpressed and suspicious', type: 'failure' },
+            { roll: [10, 10], result: 'You barely avoid making things worse, target remains uncertain', type: 'normal' },
+            { roll: [11, 11], result: 'Through sheer luck, your lie works, target is fooled', type: 'success' },
+            { roll: [12, 12], result: 'Miraculously, your deception succeeds, target trusts you', type: 'success' }
+        ]
+    },
+    deception_untrained_d20: {
+        name: 'Untrained Deception (d20)',
+        description: 'Untrained deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 3], result: 'You completely misunderstand the situation, target catches you immediately', type: 'failure' },
+            { roll: [4, 6], result: 'Your words anger the target, they refuse to listen', type: 'failure' },
+            { roll: [7, 9], result: 'You say something offensive without realizing it', type: 'failure' },
+            { roll: [10, 12], result: 'Your lie is laughably transparent, target mocks you', type: 'failure' },
+            { roll: [13, 15], result: 'Target sees you as incompetent, loses respect', type: 'failure' },
+            { roll: [16, 16], result: 'You annoy the target with your poor attempt', type: 'failure' },
+            { roll: [17, 17], result: 'Target politely but firmly dismisses your lie', type: 'normal' },
+            { roll: [18, 18], result: 'Through sheer luck, you avoid making things worse, target remains uncertain', type: 'normal' },
+            { roll: [19, 19], result: 'Miraculously, you stumble onto a believable lie, target is fooled', type: 'success' },
+            { roll: [20, 20], result: 'Against all odds, your deception works, target trusts you completely', type: 'critical' }
+        ]
+    },
+
+    // NOVICE - d4 (Very Easy Task)
+    deception_novice_d4: {
+        name: 'Novice Deception (d4)',
+        description: 'Novice deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 4], result: 'Caught in lie, reputation damaged', type: 'failure' },
-            { roll: [5, 9], result: 'Lie not believed but no consequences', type: 'normal' },
-            { roll: [10, 14], result: 'Lie believed temporarily', type: 'success' },
-            { roll: [15, 18], result: 'Lie completely believed', type: 'success' },
-            { roll: [19, 20], result: 'Perfect deception, gain trust', type: 'critical' }
+            { roll: [1, 1], result: 'Target listens but remains uncertain', type: 'normal' },
+            { roll: [2, 2], result: 'You tell a convincing lie, target is fooled', type: 'success' },
+            { roll: [3, 3], result: 'Your deception works well, target trusts you', type: 'success' },
+            { roll: [4, 4], result: 'Target is impressed, believes you completely', type: 'success' }
         ]
     },
-    deceptionAdvanced: {
-        name: 'Advanced Deception',
-        description: 'Trained deception techniques',
+    deception_novice_d6: {
+        name: 'Novice Deception (d6)',
+        description: 'Novice deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'You misjudge the approach, target is suspicious', type: 'failure' },
+            { roll: [2, 2], result: 'Your lie is weak, target is skeptical', type: 'failure' },
+            { roll: [3, 3], result: 'Target is unmoved by your deception', type: 'normal' },
+            { roll: [4, 4], result: 'You make a decent attempt, target considers it', type: 'normal' },
+            { roll: [5, 5], result: 'Your lie is believable, target is fooled', type: 'success' },
+            { roll: [6, 6], result: 'Target is convinced, trusts you', type: 'success' }
+        ]
+    },
+    deception_novice_d8: {
+        name: 'Novice Deception (d8)',
+        description: 'Novice deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'You accidentally reveal the truth, target catches you', type: 'failure' },
+            { roll: [2, 2], result: 'Your words backfire, target becomes defensive', type: 'failure' },
+            { roll: [3, 3], result: 'Target finds your lie unconvincing', type: 'failure' },
+            { roll: [4, 4], result: 'You fail to make an impression', type: 'normal' },
+            { roll: [5, 5], result: 'Target listens with mild interest', type: 'normal' },
+            { roll: [6, 6], result: 'You tell a valid lie, target is fooled', type: 'success' },
+            { roll: [7, 7], result: 'Your deception is persuasive, target trusts you', type: 'success' },
+            { roll: [8, 8], result: 'Target is swayed by your lie, believes you completely', type: 'success' }
+        ]
+    },
+    deception_novice_d10: {
+        name: 'Novice Deception (d10)',
+        description: 'Novice deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'You misread the situation badly, target catches you', type: 'failure' },
+            { roll: [2, 3], result: 'Your approach is too obvious, target is offended', type: 'failure' },
+            { roll: [4, 5], result: 'You fail to connect with the target', type: 'failure' },
+            { roll: [6, 6], result: 'Target is unimpressed', type: 'normal' },
+            { roll: [7, 7], result: 'You make a reasonable attempt', type: 'normal' },
+            { roll: [8, 8], result: 'Target finds your lie convincing, is fooled', type: 'success' },
+            { roll: [9, 9], result: 'Your deception is solid, target trusts you', type: 'success' },
+            { roll: [10, 10], result: 'Target is deceived, believes you completely', type: 'success' }
+        ]
+    },
+    deception_novice_d12: {
+        name: 'Novice Deception (d12)',
+        description: 'Novice deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 2], result: 'You say the wrong thing, target catches you', type: 'failure' },
+            { roll: [3, 4], result: 'Your lie falls apart, target is suspicious', type: 'failure' },
+            { roll: [5, 6], result: 'Target sees through your inexperience', type: 'failure' },
+            { roll: [7, 8], result: 'You fail to make a compelling deception', type: 'normal' },
+            { roll: [9, 9], result: 'Target considers your words', type: 'normal' },
+            { roll: [10, 10], result: 'You make a decent lie, target is fooled', type: 'success' },
+            { roll: [11, 11], result: 'Your deception is persuasive, target trusts you', type: 'success' },
+            { roll: [12, 12], result: 'Target is convinced by your lie', type: 'success' }
+        ]
+    },
+    deception_novice_d20: {
+        name: 'Novice Deception (d20)',
+        description: 'Novice deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 3], result: 'You completely misjudge the approach, target catches you', type: 'failure' },
+            { roll: [4, 6], result: 'Your words offend the target', type: 'failure' },
+            { roll: [7, 9], result: 'You fail to make any headway', type: 'failure' },
+            { roll: [10, 11], result: 'Target is unmoved by your lie', type: 'failure' },
+            { roll: [12, 13], result: 'You struggle to find the right words', type: 'normal' },
+            { roll: [14, 15], result: 'Target listens but remains skeptical', type: 'normal' },
+            { roll: [16, 17], result: 'You make a valid deception, target is fooled', type: 'success' },
+            { roll: [18, 19], result: 'Your lie is convincing, target trusts you', type: 'success' },
+            { roll: [20, 20], result: 'Against the odds, you deceive the target completely', type: 'critical' }
+        ]
+    },
+
+    // TRAINED - d4 (Very Easy Task)
+    deception_trained_d4: {
+        name: 'Trained Deception (d4)',
+        description: 'Trained deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 2], result: 'Lie questioned, -1 to next attempt', type: 'failure' },
-            { roll: [3, 7], result: 'Lie believed temporarily', type: 'normal' },
-            { roll: [8, 13], result: 'Lie completely believed', type: 'success' },
-            { roll: [14, 17], result: 'Perfect deception, gain trust', type: 'success' },
-            { roll: [18, 19], result: 'Masterful lie, target becomes ally', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary deception, rewrite target\'s memories', type: 'critical' }
+            { roll: [1, 1], result: 'Your skilled approach deceives them, target is fooled', type: 'success' },
+            { roll: [2, 2], result: 'You expertly craft your lie, target trusts you', type: 'success' },
+            { roll: [3, 3], result: 'Your deception inspires belief, target becomes unwitting ally', type: 'critical' },
+            { roll: [4, 4], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'critical' }
         ]
     },
-    deceptionExpert: {
-        name: 'Expert Deception',
-        description: 'Apprentice-level deception mastery',
+    deception_trained_d6: {
+        name: 'Trained Deception (d6)',
+        description: 'Trained deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'Target remains uncertain despite your efforts', type: 'normal' },
+            { roll: [2, 2], result: 'You make a good deception, target is fooled', type: 'success' },
+            { roll: [3, 3], result: 'Your lie is sound, target trusts you', type: 'success' },
+            { roll: [4, 4], result: 'Target is impressed by your story', type: 'success' },
+            { roll: [5, 5], result: 'You skillfully deceive them, target becomes unwitting ally', type: 'success' },
+            { roll: [6, 6], result: 'Your deception resonates deeply, target vouches for you', type: 'critical' }
+        ]
+    },
+    deception_trained_d8: {
+        name: 'Trained Deception (d8)',
+        description: 'Trained deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'You misjudge their position, target is skeptical', type: 'failure' },
+            { roll: [2, 2], result: 'Your approach is slightly off, target is wary', type: 'failure' },
+            { roll: [3, 3], result: 'You make a decent lie, target is uncertain', type: 'normal' },
+            { roll: [4, 4], result: 'Your training shows, target is receptive', type: 'normal' },
+            { roll: [5, 5], result: 'You present a compelling deception, target trusts you', type: 'success' },
+            { roll: [6, 6], result: 'Your lie is persuasive, target is convinced', type: 'success' },
+            { roll: [7, 7], result: 'Target is swayed by your expertise, becomes unwitting ally', type: 'success' },
+            { roll: [8, 8], result: 'You masterfully deceive them, target vouches for you', type: 'critical' }
+        ]
+    },
+    deception_trained_d10: {
+        name: 'Trained Deception (d10)',
+        description: 'Trained deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'You misread their motivations, target is skeptical', type: 'failure' },
+            { roll: [2, 2], result: 'Your lie has a flaw they notice', type: 'failure' },
+            { roll: [3, 3], result: 'Target is unconvinced but not hostile', type: 'failure' },
+            { roll: [4, 4], result: 'You make some progress, target is uncertain', type: 'normal' },
+            { roll: [5, 5], result: 'Your training helps you find common ground', type: 'normal' },
+            { roll: [6, 7], result: 'You present a strong deception, target trusts you', type: 'success' },
+            { roll: [8, 8], result: 'Your expertise shines through, target is convinced', type: 'success' },
+            { roll: [9, 9], result: 'Target is impressed, becomes unwitting ally', type: 'success' },
+            { roll: [10, 10], result: 'You skillfully deceive them, target vouches for you', type: 'critical' }
+        ]
+    },
+    deception_trained_d12: {
+        name: 'Trained Deception (d12)',
+        description: 'Trained deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 2], result: 'You fail to connect, target is skeptical', type: 'failure' },
+            { roll: [3, 4], result: 'Your approach is too direct, target is wary', type: 'failure' },
+            { roll: [5, 6], result: 'You make a reasonable deception, target is uncertain', type: 'normal' },
+            { roll: [7, 7], result: 'Your training helps you navigate the conversation', type: 'normal' },
+            { roll: [8, 9], result: 'You present compelling lies, target trusts you', type: 'success' },
+            { roll: [10, 10], result: 'Target is deceived by your story', type: 'success' },
+            { roll: [11, 11], result: 'Your expertise wins them over, target becomes unwitting ally', type: 'success' },
+            { roll: [12, 12], result: 'You masterfully deceive them, target spreads your lie', type: 'critical' }
+        ]
+    },
+    deception_trained_d20: {
+        name: 'Trained Deception (d20)',
+        description: 'Trained deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 3], result: 'You struggle to find the right approach, target is skeptical', type: 'failure' },
+            { roll: [4, 6], result: 'Your lie is insufficient for this challenge', type: 'failure' },
+            { roll: [7, 7], result: 'You barely make any headway', type: 'failure' },
+            { roll: [8, 9], result: 'You make some progress, target is uncertain', type: 'normal' },
+            { roll: [10, 11], result: 'Your training helps you navigate the difficulty', type: 'normal' },
+            { roll: [12, 14], result: 'You present a solid deception, target trusts you', type: 'success' },
+            { roll: [15, 16], result: 'Your expertise shows, target is convinced', type: 'success' },
+            { roll: [17, 18], result: 'You skillfully deceive them, target becomes unwitting ally', type: 'success' },
+            { roll: [19, 19], result: 'Target is thoroughly deceived, becomes loyal to your lie', type: 'critical' },
+            { roll: [20, 20], result: 'You masterfully overcome all obstacles, target is inspired by your story', type: 'critical' }
+        ]
+    },
+
+    // APPRENTICE - d4 (Very Easy Task)
+    deception_apprentice_d4: {
+        name: 'Apprentice Deception (d4)',
+        description: 'Apprentice deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Lie accepted with minor doubt', type: 'failure' },
-            { roll: [2, 6], result: 'Lie completely believed', type: 'normal' },
-            { roll: [7, 12], result: 'Perfect deception, gain trust', type: 'success' },
-            { roll: [13, 16], result: 'Masterful lie, target becomes ally', type: 'success' },
-            { roll: [17, 19], result: 'Legendary deception, rewrite target\'s memories', type: 'critical' },
-            { roll: [20, 20], result: 'Ultimate deception, target believes opposite of truth', type: 'critical' }
+            { roll: [1, 1], result: 'Your refined approach deceives them, target trusts you', type: 'success' },
+            { roll: [2, 2], result: 'You expertly build false trust, target becomes unwitting ally', type: 'success' },
+            { roll: [3, 3], result: 'Your mastery is evident, target becomes loyal to your lie', type: 'critical' },
+            { roll: [4, 4], result: 'Target is deeply deceived, pledges unwavering belief', type: 'critical' }
         ]
     },
-    deceptionMaster: {
-        name: 'Master Deception',
-        description: 'Adept-level supreme deception',
+    deception_apprentice_d6: {
+        name: 'Apprentice Deception (d6)',
+        description: 'Apprentice deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'You make good progress, target is uncertain', type: 'normal' },
+            { roll: [2, 2], result: 'Your skill is apparent, target trusts you', type: 'success' },
+            { roll: [3, 3], result: 'You build strong false trust, target becomes unwitting ally', type: 'success' },
+            { roll: [4, 4], result: 'Target is thoroughly deceived', type: 'success' },
+            { roll: [5, 5], result: 'Your expertise shines, target becomes loyal to your lie', type: 'critical' },
+            { roll: [6, 6], result: 'Target is inspired by your story, spreads your lie', type: 'critical' }
+        ]
+    },
+    deception_apprentice_d8: {
+        name: 'Apprentice Deception (d8)',
+        description: 'Apprentice deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'Target remains uncertain despite your skill', type: 'failure' },
+            { roll: [2, 2], result: 'You make headway, target is uncertain', type: 'normal' },
+            { roll: [3, 3], result: 'Your approach is effective, target warms to you', type: 'normal' },
+            { roll: [4, 4], result: 'You present a strong deception, target trusts you', type: 'success' },
+            { roll: [5, 5], result: 'Your skill is evident, target is convinced', type: 'success' },
+            { roll: [6, 6], result: 'You build deep false trust, target becomes unwitting ally', type: 'success' },
+            { roll: [7, 7], result: 'Target is thoroughly deceived, becomes loyal to your lie', type: 'critical' },
+            { roll: [8, 8], result: 'Your mastery wins them completely, target pledges belief', type: 'critical' }
+        ]
+    },
+    deception_apprentice_d10: {
+        name: 'Apprentice Deception (d10)',
+        description: 'Apprentice deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'Even your skill cannot overcome this obstacle', type: 'failure' },
+            { roll: [2, 2], result: 'You struggle to find the right approach', type: 'failure' },
+            { roll: [3, 3], result: 'You make some progress, target is uncertain', type: 'normal' },
+            { roll: [4, 4], result: 'Your training helps you navigate the challenge', type: 'normal' },
+            { roll: [5, 6], result: 'You present compelling deceptions, target trusts you', type: 'success' },
+            { roll: [7, 8], result: 'Your expertise is convincing, target is swayed', type: 'success' },
+            { roll: [9, 9], result: 'You skillfully deceive them, target becomes unwitting ally', type: 'success' },
+            { roll: [10, 10], result: 'Your mastery overcomes the difficulty, target becomes loyal to your lie', type: 'critical' }
+        ]
+    },
+    deception_apprentice_d12: {
+        name: 'Apprentice Deception (d12)',
+        description: 'Apprentice deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 2], result: 'The challenge is too great, target remains uncertain', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your training', type: 'failure' },
+            { roll: [4, 5], result: 'You make gradual progress, target is uncertain', type: 'normal' },
+            { roll: [6, 7], result: 'Your skill helps you advance, target trusts you', type: 'success' },
+            { roll: [8, 9], result: 'You present a strong deception, target is convinced', type: 'success' },
+            { roll: [10, 11], result: 'Your expertise shines through, target becomes unwitting ally', type: 'success' },
+            { roll: [12, 12], result: 'You masterfully overcome all obstacles, target becomes loyal to your lie', type: 'critical' }
+        ]
+    },
+    deception_apprentice_d20: {
+        name: 'Apprentice Deception (d20)',
+        description: 'Apprentice deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 3], result: 'The task is beyond your current ability', type: 'failure' },
+            { roll: [4, 5], result: 'You struggle to make any headway', type: 'failure' },
+            { roll: [6, 8], result: 'You make minimal progress, target is uncertain', type: 'normal' },
+            { roll: [9, 10], result: 'Your training helps you persevere', type: 'normal' },
+            { roll: [11, 13], result: 'You present solid deceptions, target trusts you', type: 'success' },
+            { roll: [14, 16], result: 'Your skill is evident, target is deceived', type: 'success' },
+            { roll: [17, 18], result: 'You expertly navigate the difficulty, target becomes unwitting ally', type: 'success' },
+            { roll: [19, 19], result: 'Your mastery overcomes the challenge, target becomes loyal to your lie', type: 'critical' },
+            { roll: [20, 20], result: 'Against all odds, you achieve a breakthrough, target pledges full belief', type: 'critical' }
+        ]
+    },
+
+    // ADEPT - d4 (Very Easy Task)
+    deception_adept_d4: {
+        name: 'Adept Deception (d4)',
+        description: 'Adept deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Lie fully believed', type: 'failure' },
-            { roll: [2, 5], result: 'Perfect deception, gain trust', type: 'normal' },
-            { roll: [6, 11], result: 'Masterful lie, target becomes ally', type: 'success' },
-            { roll: [12, 15], result: 'Legendary deception, rewrite target\'s memories', type: 'success' },
-            { roll: [16, 18], result: 'Ultimate deception, target believes opposite of truth', type: 'critical' },
-            { roll: [19, 20], result: 'Perfect illusion, target spreads your lie to others', type: 'critical' }
+            { roll: [1, 1], result: 'Your advanced skill easily deceives them, target becomes unwitting ally', type: 'success' },
+            { roll: [2, 2], result: 'You effortlessly build deep false trust, target becomes loyal to your lie', type: 'critical' },
+            { roll: [3, 3], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'critical' },
+            { roll: [4, 4], result: 'Your mastery inspires them, target pledges resources based on your lie', type: 'critical' }
         ]
     },
-    deceptionGrandmaster: {
-        name: 'Grandmaster Deception',
-        description: 'Expert-level legendary deception',
+    deception_adept_d6: {
+        name: 'Adept Deception (d6)',
+        description: 'Adept deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'You make strong progress, target trusts you', type: 'normal' },
+            { roll: [2, 2], result: 'Your expertise is clear, target becomes unwitting ally', type: 'success' },
+            { roll: [3, 3], result: 'You build profound false trust, target becomes loyal to your lie', type: 'success' },
+            { roll: [4, 4], result: 'Target is deeply deceived, spreads your lie to others', type: 'success' },
+            { roll: [5, 5], result: 'Your mastery shines, target commits fully to your false narrative', type: 'critical' },
+            { roll: [6, 6], result: 'Target is inspired, brings their allies to believe your lie', type: 'critical' }
+        ]
+    },
+    deception_adept_d8: {
+        name: 'Adept Deception (d8)',
+        description: 'Adept deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'Target is uncertain but not fully convinced', type: 'failure' },
+            { roll: [2, 2], result: 'You make good headway, target trusts you', type: 'normal' },
+            { roll: [3, 3], result: 'Your skill is evident, target warms considerably', type: 'normal' },
+            { roll: [4, 4], result: 'You present masterful deceptions, target becomes unwitting ally', type: 'success' },
+            { roll: [5, 5], result: 'Your expertise convinces them, target becomes loyal to your lie', type: 'success' },
+            { roll: [6, 6], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'success' },
+            { roll: [7, 7], result: 'Your mastery overcomes all doubts, target commits fully', type: 'critical' },
+            { roll: [8, 8], result: 'Target is inspired by your story, brings allies to believe your lie', type: 'critical' }
+        ]
+    },
+    deception_adept_d10: {
+        name: 'Adept Deception (d10)',
+        description: 'Adept deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'The challenge tests even your skill, target is uncertain but uncommitted', type: 'failure' },
+            { roll: [2, 2], result: 'You make progress but not a breakthrough', type: 'failure' },
+            { roll: [3, 3], result: 'Your expertise helps you advance, target trusts you', type: 'normal' },
+            { roll: [4, 4], result: 'You navigate the difficulty well', type: 'normal' },
+            { roll: [5, 6], result: 'Your mastery shows, target becomes unwitting ally', type: 'success' },
+            { roll: [7, 8], result: 'You expertly overcome obstacles, target becomes loyal to your lie', type: 'success' },
+            { roll: [9, 9], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'success' },
+            { roll: [10, 10], result: 'Your skill triumphs, target brings allies to believe your lie', type: 'critical' }
+        ]
+    },
+    deception_adept_d12: {
+        name: 'Adept Deception (d12)',
+        description: 'Adept deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 2], result: 'The difficulty is substantial, target is uncertain but hesitant', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your mastery', type: 'failure' },
+            { roll: [4, 5], result: 'Your expertise helps you make headway, target trusts you', type: 'normal' },
+            { roll: [6, 7], result: 'You skillfully navigate the challenge, target becomes unwitting ally', type: 'success' },
+            { roll: [8, 9], result: 'Your mastery overcomes the difficulty, target becomes loyal to your lie', type: 'success' },
+            { roll: [10, 11], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'success' },
+            { roll: [12, 12], result: 'You achieve a masterful victory, target brings allies to believe your lie', type: 'critical' }
+        ]
+    },
+    deception_adept_d20: {
+        name: 'Adept Deception (d20)',
+        description: 'Adept deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 3], result: 'Even your mastery struggles with this challenge', type: 'failure' },
+            { roll: [4, 5], result: 'You make minimal progress despite your skill', type: 'failure' },
+            { roll: [6, 8], result: 'Your expertise helps you advance slowly, target trusts you', type: 'normal' },
+            { roll: [9, 10], result: 'You persevere with your mastery', type: 'normal' },
+            { roll: [11, 13], result: 'Your skill overcomes obstacles, target becomes unwitting ally', type: 'success' },
+            { roll: [14, 16], result: 'You expertly navigate the difficulty, target becomes loyal to your lie', type: 'success' },
+            { roll: [17, 18], result: 'Your mastery triumphs, target spreads your lie to others', type: 'success' },
+            { roll: [19, 19], result: 'You achieve a remarkable victory, target brings allies to believe your lie', type: 'critical' },
+            { roll: [20, 20], result: 'Your legendary skill overcomes all odds, target becomes your champion of deception', type: 'critical' }
+        ]
+    },
+
+    // EXPERT - d4 (Very Easy Task)
+    deception_expert_d4: {
+        name: 'Expert Deception (d4)',
+        description: 'Expert deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Perfect deception, complete trust', type: 'failure' },
-            { roll: [2, 4], result: 'Masterful lie, target becomes ally', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary deception, rewrite target\'s memories', type: 'success' },
-            { roll: [10, 14], result: 'Ultimate deception, target believes opposite of truth', type: 'success' },
-            { roll: [15, 17], result: 'Perfect illusion, target spreads your lie to others', type: 'critical' },
-            { roll: [18, 20], result: 'Reality-bending lie, entire group believes false history', type: 'critical' }
+            { roll: [1, 1], result: 'Your legendary skill effortlessly deceives them, target becomes loyal to your lie', type: 'success' },
+            { roll: [2, 2], result: 'You inspire complete false trust, target spreads your lie to others', type: 'critical' },
+            { roll: [3, 3], result: 'Target is moved to action, converts their allies to believe your lie', type: 'critical' },
+            { roll: [4, 4], result: 'Your mastery creates a devoted believer, target pledges everything to your false narrative', type: 'critical' }
         ]
     },
-    deceptionLegendary: {
-        name: 'Legendary Deception',
-        description: 'Master-level ultimate deception',
+    deception_expert_d6: {
+        name: 'Expert Deception (d6)',
+        description: 'Expert deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'You easily deceive them, target becomes unwitting ally', type: 'normal' },
+            { roll: [2, 2], result: 'Your expertise creates deep false trust, target becomes loyal to your lie', type: 'success' },
+            { roll: [3, 3], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'success' },
+            { roll: [4, 4], result: 'You inspire them completely, target brings allies to believe your lie', type: 'success' },
+            { roll: [5, 5], result: 'Your legendary skill creates a champion, target pledges resources to your false cause', type: 'critical' },
+            { roll: [6, 6], result: 'Target is transformed by your deception, becomes your devoted advocate', type: 'critical' }
+        ]
+    },
+    deception_expert_d8: {
+        name: 'Expert Deception (d8)',
+        description: 'Expert deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'Target trusts you but not fully committed', type: 'failure' },
+            { roll: [2, 2], result: 'You make excellent progress, target becomes unwitting ally', type: 'normal' },
+            { roll: [3, 3], result: 'Your expertise is undeniable, target is impressed', type: 'normal' },
+            { roll: [4, 4], result: 'You expertly navigate the challenge, target becomes loyal to your lie', type: 'success' },
+            { roll: [5, 5], result: 'Your mastery overcomes all doubts, target spreads your lie to others', type: 'success' },
+            { roll: [6, 6], result: 'Target is thoroughly deceived, brings allies to believe your lie', type: 'success' },
+            { roll: [7, 7], result: 'Your legendary skill inspires them, target becomes your champion of deception', type: 'critical' },
+            { roll: [8, 8], result: 'You achieve a masterwork of deception, target pledges everything to your false narrative', type: 'critical' }
+        ]
+    },
+    deception_expert_d10: {
+        name: 'Expert Deception (d10)',
+        description: 'Expert deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'The challenge is formidable, target trusts you but uncommitted', type: 'failure' },
+            { roll: [2, 2], result: 'You make good progress with your expertise', type: 'failure' },
+            { roll: [3, 3], result: 'Your legendary skill helps you advance, target becomes unwitting ally', type: 'normal' },
+            { roll: [4, 4], result: 'You expertly navigate the difficulty', type: 'normal' },
+            { roll: [5, 6], result: 'Your mastery overcomes obstacles, target becomes loyal to your lie', type: 'success' },
+            { roll: [7, 8], result: 'You skillfully deceive them, target spreads your lie to others', type: 'success' },
+            { roll: [9, 9], result: 'Target is thoroughly convinced, brings allies to believe your lie', type: 'success' },
+            { roll: [10, 10], result: 'Your legendary expertise triumphs, target becomes your champion of deception', type: 'critical' }
+        ]
+    },
+    deception_expert_d12: {
+        name: 'Expert Deception (d12)',
+        description: 'Expert deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 2], result: 'The difficulty is substantial, target trusts you but hesitant', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your legendary skill', type: 'failure' },
+            { roll: [4, 5], result: 'Your expertise helps you make headway, target becomes unwitting ally', type: 'normal' },
+            { roll: [6, 7], result: 'You masterfully navigate the challenge, target becomes loyal to your lie', type: 'success' },
+            { roll: [8, 9], result: 'Your legendary skill overcomes the difficulty, target spreads your lie to others', type: 'success' },
+            { roll: [10, 11], result: 'Target is thoroughly deceived, brings allies to believe your lie', type: 'success' },
+            { roll: [12, 12], result: 'You achieve a legendary victory, target becomes your devoted champion of deception', type: 'critical' }
+        ]
+    },
+    deception_expert_d20: {
+        name: 'Expert Deception (d20)',
+        description: 'Expert deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 3], result: 'Even your legendary skill is tested by this challenge', type: 'failure' },
+            { roll: [4, 5], result: 'You make slow progress despite your mastery', type: 'failure' },
+            { roll: [6, 8], result: 'Your expertise helps you advance, target becomes unwitting ally', type: 'normal' },
+            { roll: [9, 10], result: 'You persevere with your legendary skill', type: 'normal' },
+            { roll: [11, 13], result: 'Your mastery overcomes obstacles, target becomes loyal to your lie', type: 'success' },
+            { roll: [14, 16], result: 'You expertly navigate the difficulty, target spreads your lie to others', type: 'success' },
+            { roll: [17, 18], result: 'Your legendary skill triumphs, target brings allies to believe your lie', type: 'success' },
+            { roll: [19, 19], result: 'You achieve a remarkable victory, target becomes your champion of deception', type: 'critical' },
+            { roll: [20, 20], result: 'Your mastery creates a miracle, target pledges everything and inspires others to believe your lie', type: 'critical' }
+        ]
+    },
+
+    // MASTER - d4 (Very Easy Task)
+    deception_master_d4: {
+        name: 'Master Deception (d4)',
+        description: 'Master deception on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Masterful lie, unwavering belief', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary deception, rewrite target\'s memories', type: 'normal' },
-            { roll: [4, 8], result: 'Ultimate deception, target believes opposite of truth', type: 'success' },
-            { roll: [9, 13], result: 'Perfect illusion, target spreads your lie to others', type: 'success' },
-            { roll: [14, 16], result: 'Reality-bending lie, entire group believes false history', type: 'critical' },
-            { roll: [17, 19], result: 'Mythic deception, target\'s identity rewritten', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute deception, lie becomes truth in target\'s reality', type: 'critical' }
+            { roll: [1, 1], result: 'Your unparalleled skill creates instant false trust, target spreads your lie to others', type: 'success' },
+            { roll: [2, 2], result: 'You inspire a movement based on your lie, target converts their allies', type: 'critical' },
+            { roll: [3, 3], result: 'Target abandons all previous beliefs, pledges to your false vision', type: 'critical' },
+            { roll: [4, 4], result: 'Your deception creates a devoted disciple, target becomes your prophet of lies', type: 'critical' }
+        ]
+    },
+    deception_master_d6: {
+        name: 'Master Deception (d6)',
+        description: 'Master deception on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'You effortlessly create false loyalty, target becomes loyal to your lie', type: 'normal' },
+            { roll: [2, 2], result: 'Your mastery is absolute, target spreads your lie to others', type: 'success' },
+            { roll: [3, 3], result: 'You inspire them completely, target converts their allies to believe your lie', type: 'success' },
+            { roll: [4, 4], result: 'Target abandons previous beliefs for your false vision', type: 'success' },
+            { roll: [5, 5], result: 'Your legendary deception creates a champion, target becomes your devoted advocate', type: 'critical' },
+            { roll: [6, 6], result: 'You inspire a transformation, target spreads your false message to others', type: 'critical' }
+        ]
+    },
+    deception_master_d8: {
+        name: 'Master Deception (d8)',
+        description: 'Master deception on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'Target is devoted to your lie and grants a major favor', type: 'failure' },
+            { roll: [2, 2], result: 'You create deep false loyalty, target becomes loyal to your lie', type: 'normal' },
+            { roll: [3, 3], result: 'Your unparalleled skill is evident, target is moved', type: 'normal' },
+            { roll: [4, 4], result: 'You masterfully deceive them, target spreads your lie to others', type: 'success' },
+            { roll: [5, 5], result: 'Your legendary expertise inspires action, target converts their allies', type: 'success' },
+            { roll: [6, 6], result: 'Target abandons previous beliefs for your false cause', type: 'success' },
+            { roll: [7, 7], result: 'You create a devoted champion, target becomes your advocate of deception', type: 'critical' },
+            { roll: [8, 8], result: 'Your deception inspires a movement, target spreads your false message', type: 'critical' }
+        ]
+    },
+    deception_master_d10: {
+        name: 'Master Deception (d10)',
+        description: 'Master deception on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'The challenge is formidable, target is devoted to your lie and grants a major favor', type: 'failure' },
+            { roll: [2, 2], result: 'You make excellent progress with your mastery', type: 'failure' },
+            { roll: [3, 3], result: 'Your unparalleled skill helps you advance, target becomes loyal to your lie', type: 'normal' },
+            { roll: [4, 4], result: 'You expertly navigate the difficulty', type: 'normal' },
+            { roll: [5, 6], result: 'Your legendary mastery overcomes obstacles, target spreads your lie to others', type: 'success' },
+            { roll: [7, 8], result: 'You inspire them completely, target converts their allies to believe your lie', type: 'success' },
+            { roll: [9, 9], result: 'Target abandons previous beliefs for your false vision', type: 'success' },
+            { roll: [10, 10], result: 'Your unparalleled expertise creates a devoted champion of deception', type: 'critical' }
+        ]
+    },
+    deception_master_d12: {
+        name: 'Master Deception (d12)',
+        description: 'Master deception on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 2], result: 'The difficulty is substantial, target is devoted to your lie and grants a major favor', type: 'failure' },
+            { roll: [3, 3], result: 'You struggle despite your legendary mastery', type: 'failure' },
+            { roll: [4, 5], result: 'Your unparalleled skill helps you make headway, target becomes loyal to your lie', type: 'normal' },
+            { roll: [6, 7], result: 'You masterfully navigate the challenge, target spreads your lie to others', type: 'success' },
+            { roll: [8, 9], result: 'Your legendary expertise overcomes the difficulty, target converts their allies', type: 'success' },
+            { roll: [10, 11], result: 'Target abandons previous beliefs for your false cause', type: 'success' },
+            { roll: [12, 12], result: 'You achieve a legendary victory, target becomes your devoted prophet of lies', type: 'critical' }
+        ]
+    },
+    deception_master_d20: {
+        name: 'Master Deception (d20)',
+        description: 'Master deception on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 3], result: 'Even your legendary mastery is tested, target is devoted to your lie and grants a major favor', type: 'failure' },
+            { roll: [4, 5], result: 'You make slow progress despite your unparalleled skill', type: 'failure' },
+            { roll: [6, 8], result: 'Your legendary expertise helps you advance, target becomes loyal to your lie', type: 'normal' },
+            { roll: [9, 10], result: 'You persevere with your unparalleled mastery', type: 'normal' },
+            { roll: [11, 13], result: 'Your legendary skill overcomes obstacles, target spreads your lie to others', type: 'success' },
+            { roll: [14, 16], result: 'You expertly navigate the difficulty, target converts their allies to believe your lie', type: 'success' },
+            { roll: [17, 18], result: 'Your mastery triumphs, target abandons previous beliefs for your false vision', type: 'success' },
+            { roll: [19, 19], result: 'You achieve a miraculous victory, target becomes your devoted champion of deception', type: 'critical' },
+            { roll: [20, 20], result: 'Your legendary deception creates a movement, target becomes your prophet and inspires others to believe your lies', type: 'critical' }
         ]
     },
 
-    // Leadership Tables - Evolving by rank
-    leadershipBasic: {
-        name: 'Crude Leadership',
-        description: 'Untrained leadership attempts',
+    // Leadership Tables - Multi-dimensional (7 proficiency levels × 6 dice types)
+    // UNTRAINED - d4 (Very Easy Task)
+    leadership_untrained_d4: {
+        name: 'Untrained Leadership (d4)',
+        description: 'Untrained leadership on a very easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 8], result: 'Followers panic, flee or rebel', type: 'failure' },
-            { roll: [9, 14], result: 'Followers confused, -1 to actions', type: 'failure' },
-            { roll: [15, 18], result: 'Followers maintain current morale', type: 'normal' },
-            { roll: [19, 20], result: 'Followers gain +1 to actions', type: 'success' }
+            { roll: [1, 1], result: 'Your words confuse followers, they hesitate', type: 'failure' },
+            { roll: [2, 2], result: 'Followers are uncertain but maintain morale', type: 'normal' },
+            { roll: [3, 3], result: 'You inspire basic confidence, followers gain +1 to actions', type: 'success' },
+            { roll: [4, 4], result: 'Despite inexperience, you rally them, followers gain +2 to actions', type: 'success' }
         ]
     },
-    leadershipEffects: {
-        name: 'Leadership Effects',
-        description: 'Results of inspiring and commanding others',
+    leadership_untrained_d6: {
+        name: 'Untrained Leadership (d6)',
+        description: 'Untrained leadership on an easy task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        requiredRank: 'NOVICE',
+        requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 3], result: 'Followers lose morale', type: 'failure' },
-            { roll: [4, 8], result: 'Followers maintain current morale', type: 'normal' },
-            { roll: [9, 13], result: 'Followers gain +1 to actions', type: 'success' },
-            { roll: [14, 17], result: 'Followers gain +2 to actions', type: 'success' },
-            { roll: [18, 20], result: 'Followers inspired, gain extra action', type: 'critical' }
+            { roll: [1, 1], result: 'Your command is weak, followers lose morale', type: 'failure' },
+            { roll: [2, 2], result: 'You contradict yourself, followers are confused', type: 'failure' },
+            { roll: [3, 3], result: 'Your words are clumsy but followers listen', type: 'normal' },
+            { roll: [4, 4], result: 'Followers are unmoved but willing to try', type: 'normal' },
+            { roll: [5, 5], result: 'You manage to inspire them, followers gain +1 to actions', type: 'success' },
+            { roll: [6, 6], result: 'Your passion shows through, followers gain +2 to actions', type: 'success' }
         ]
     },
-    leadershipAdvanced: {
-        name: 'Advanced Leadership',
-        description: 'Trained leadership techniques',
+    leadership_untrained_d8: {
+        name: 'Untrained Leadership (d8)',
+        description: 'Untrained leadership on a moderate task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        requiredRank: 'TRAINED',
+        requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 2], result: 'Followers hesitate, no bonus', type: 'failure' },
-            { roll: [3, 7], result: 'Followers gain +1 to actions', type: 'normal' },
-            { roll: [8, 13], result: 'Followers gain +2 to actions', type: 'success' },
-            { roll: [14, 17], result: 'Followers inspired, gain extra action', type: 'success' },
-            { roll: [18, 19], result: 'Followers empowered, +3 to actions + extra action', type: 'critical' },
-            { roll: [20, 20], result: 'Followers become fearless, immune to fear + double actions', type: 'critical' }
+            { roll: [1, 1], result: 'You panic, followers flee or rebel', type: 'failure' },
+            { roll: [2, 2], result: 'Your fear is obvious, followers lose confidence', type: 'failure' },
+            { roll: [3, 3], result: 'You stumble over words, followers are demoralized', type: 'failure' },
+            { roll: [4, 4], result: 'Your inexperience shows, no effect', type: 'failure' },
+            { roll: [5, 5], result: 'You barely maintain order, followers hesitate', type: 'normal' },
+            { roll: [6, 6], result: 'Followers remain uncertain but listen', type: 'normal' },
+            { roll: [7, 7], result: 'You find the right words, followers gain +1 to actions', type: 'success' },
+            { roll: [8, 8], result: 'Lucky inspiration, followers gain +2 to actions', type: 'success' }
         ]
     },
-    leadershipExpert: {
-        name: 'Expert Leadership',
-        description: 'Apprentice-level leadership mastery',
+    leadership_untrained_d10: {
+        name: 'Untrained Leadership (d10)',
+        description: 'Untrained leadership on a challenging task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        requiredRank: 'APPRENTICE',
+        requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 1], result: 'Followers steady, +1 to actions', type: 'failure' },
-            { roll: [2, 6], result: 'Followers gain +2 to actions', type: 'normal' },
-            { roll: [7, 12], result: 'Followers inspired, gain extra action', type: 'success' },
-            { roll: [13, 16], result: 'Followers empowered, +3 to actions + extra action', type: 'success' },
-            { roll: [17, 19], result: 'Followers become fearless, immune to fear + double actions', type: 'critical' },
-            { roll: [20, 20], result: 'Followers transcendent, +4 to all stats + triple actions', type: 'critical' }
+            { roll: [1, 1], result: 'You say exactly the wrong thing, followers panic and flee', type: 'failure' },
+            { roll: [2, 3], result: 'Your clumsy command angers followers', type: 'failure' },
+            { roll: [4, 5], result: 'Followers see through your inexperience, lose morale', type: 'failure' },
+            { roll: [6, 6], result: 'You ramble unconvincingly, followers ignore you', type: 'failure' },
+            { roll: [7, 7], result: 'Your words are poorly chosen but followers try', type: 'normal' },
+            { roll: [8, 8], result: 'Followers remain skeptical but willing', type: 'normal' },
+            { roll: [9, 9], result: 'You stumble into inspiration, followers gain +1 to actions', type: 'success' },
+            { roll: [10, 10], result: 'Surprising rally, followers gain +2 to actions', type: 'success' }
         ]
     },
-    leadershipMaster: {
-        name: 'Master Leadership',
-        description: 'Adept-level supreme leadership',
+    leadership_untrained_d12: {
+        name: 'Untrained Leadership (d12)',
+        description: 'Untrained leadership on a difficult task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        requiredRank: 'ADEPT',
+        requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 1], result: 'Followers motivated, +2 to actions', type: 'failure' },
-            { roll: [2, 5], result: 'Followers inspired, gain extra action', type: 'normal' },
-            { roll: [6, 11], result: 'Followers empowered, +3 to actions + extra action', type: 'success' },
-            { roll: [12, 15], result: 'Followers become fearless, immune to fear + double actions', type: 'success' },
-            { roll: [16, 18], result: 'Followers transcendent, +4 to all stats + triple actions', type: 'critical' },
-            { roll: [19, 20], result: 'Followers legendary, +5 to all stats + quadruple actions + regeneration', type: 'critical' }
+            { roll: [1, 2], result: 'You completely fail to inspire, followers abandon you', type: 'failure' },
+            { roll: [3, 4], result: 'Your words cause panic, followers flee', type: 'failure' },
+            { roll: [5, 6], result: 'You anger followers with poor leadership', type: 'failure' },
+            { roll: [7, 8], result: 'Followers see you as incompetent, lose respect', type: 'failure' },
+            { roll: [9, 9], result: 'Your inexperience is obvious, no effect', type: 'failure' },
+            { roll: [10, 10], result: 'Followers barely tolerate your command', type: 'normal' },
+            { roll: [11, 11], result: 'You manage minimal inspiration, followers gain +1 to actions', type: 'success' },
+            { roll: [12, 12], result: 'Against odds, you rally them, followers gain +2 to actions', type: 'success' }
         ]
     },
-    leadershipGrandmaster: {
-        name: 'Grandmaster Leadership',
-        description: 'Expert-level legendary leadership',
+    leadership_untrained_d20: {
+        name: 'Untrained Leadership (d20)',
+        description: 'Untrained leadership on a very difficult task',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        requiredRank: 'EXPERT',
+        requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 1], result: 'Followers empowered, +3 to actions', type: 'failure' },
-            { roll: [2, 4], result: 'Followers empowered, +3 to actions + extra action', type: 'normal' },
-            { roll: [5, 9], result: 'Followers become fearless, immune to fear + double actions', type: 'success' },
-            { roll: [10, 14], result: 'Followers transcendent, +4 to all stats + triple actions', type: 'success' },
-            { roll: [15, 17], result: 'Followers legendary, +5 to all stats + quadruple actions + regeneration', type: 'critical' },
-            { roll: [18, 20], result: 'Followers divine, +6 to all stats + quintuple actions + invulnerability 1 round', type: 'critical' }
-        ]
-    },
-    leadershipLegendary: {
-        name: 'Legendary Leadership',
-        description: 'Master-level ultimate leadership',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Followers fearless, +3 to actions + extra action', type: 'failure' },
-            { roll: [2, 3], result: 'Followers become fearless, immune to fear + double actions', type: 'normal' },
-            { roll: [4, 8], result: 'Followers transcendent, +4 to all stats + triple actions', type: 'success' },
-            { roll: [9, 13], result: 'Followers legendary, +5 to all stats + quadruple actions + regeneration', type: 'success' },
-            { roll: [14, 16], result: 'Followers divine, +6 to all stats + quintuple actions + invulnerability 1 round', type: 'critical' },
-            { roll: [17, 19], result: 'Followers mythic, +7 to all stats + unlimited actions + resurrection on death', type: 'critical' },
-            { roll: [20, 20], result: 'Followers ascended, +10 to all stats + time stops for enemies + victory guaranteed', type: 'critical' }
+            { roll: [1, 3], result: 'You completely misunderstand the situation, followers mutiny', type: 'failure' },
+            { roll: [4, 6], result: 'Your words cause mass panic, followers flee in terror', type: 'failure' },
+            { roll: [7, 9], result: 'You say something offensive, followers turn against you', type: 'failure' },
+            { roll: [10, 12], result: 'Your leadership is laughably bad, followers mock you', type: 'failure' },
+            { roll: [13, 15], result: 'Followers see you as incompetent, refuse to follow', type: 'failure' },
+            { roll: [16, 17], result: 'Your inexperience is painfully obvious, no effect', type: 'failure' },
+            { roll: [18, 18], result: 'You barely maintain order through luck', type: 'normal' },
+            { roll: [19, 19], result: 'Miraculous inspiration, followers gain +1 to actions', type: 'success' },
+            { roll: [20, 20], result: 'Impossible rally, followers gain +2 to actions', type: 'critical' }
         ]
     },
 
-    // Spellcraft Tables - Evolving by rank
-    spellcraftBasic: {
-        name: 'Crude Spellcraft',
-        description: 'Untrained spellcraft attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Spell explodes, take 2d6 damage', type: 'failure' },
-            { roll: [9, 14], result: 'Spell fizzles, lose mana', type: 'failure' },
-            { roll: [15, 18], result: 'Spell works at 50% power', type: 'normal' },
-            { roll: [19, 20], result: 'Spell works normally', type: 'success' }
-        ]
-    },
-    spellcraftResults: {
-        name: 'Spellcraft Results',
-        description: 'Outcomes of magical manipulation',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
+    // NOVICE - d4 (Very Easy Task)
+    leadership_novice_d4: {
+        name: 'Novice Leadership (d4)',
+        description: 'Novice leadership on a very easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 3], result: 'Spell backfires, take 1d6 damage', type: 'failure' },
-            { roll: [4, 8], result: 'Spell works normally', type: 'normal' },
-            { roll: [9, 13], result: 'Enhanced spell effect, +50% power', type: 'success' },
-            { roll: [14, 17], result: 'Powerful spell, double effect', type: 'success' },
-            { roll: [18, 20], result: 'Perfect casting, triple effect + no cost', type: 'critical' }
+            { roll: [1, 1], result: 'Followers listen but remain uncertain', type: 'normal' },
+            { roll: [2, 2], result: 'You inspire confidence, followers gain +2 to actions', type: 'success' },
+            { roll: [3, 3], result: 'Your command is clear, followers gain +3 to actions', type: 'success' },
+            { roll: [4, 4], result: 'Followers are impressed, gain +3 to actions + extra action', type: 'success' }
         ]
     },
-    spellcraftAdvanced: {
-        name: 'Advanced Spellcraft',
-        description: 'Trained spellcraft techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        requiredRank: 'TRAINED',
+    leadership_novice_d6: {
+        name: 'Novice Leadership (d6)',
+        description: 'Novice leadership on an easy task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
+        requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 2], result: 'Spell unstable, random effect', type: 'failure' },
-            { roll: [3, 7], result: 'Enhanced spell effect, +50% power', type: 'normal' },
-            { roll: [8, 13], result: 'Powerful spell, double effect', type: 'success' },
-            { roll: [14, 17], result: 'Perfect casting, triple effect + no cost', type: 'success' },
-            { roll: [18, 19], result: 'Masterful casting, quadruple effect + refund half cost', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary casting, quintuple effect + full refund + bonus spell', type: 'critical' }
+            { roll: [1, 1], result: 'You misjudge the approach, followers lose morale', type: 'failure' },
+            { roll: [2, 2], result: 'Your command is weak, followers are skeptical', type: 'failure' },
+            { roll: [3, 3], result: 'Followers are unmoved by your words', type: 'normal' },
+            { roll: [4, 4], result: 'You make a decent attempt, followers gain +1 to actions', type: 'normal' },
+            { roll: [5, 5], result: 'Your leadership is solid, followers gain +2 to actions', type: 'success' },
+            { roll: [6, 6], result: 'Followers are inspired, gain +3 to actions', type: 'success' }
         ]
     },
-    spellcraftExpert: {
-        name: 'Expert Spellcraft',
-        description: 'Apprentice-level spellcraft mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        requiredRank: 'APPRENTICE',
+    leadership_novice_d8: {
+        name: 'Novice Leadership (d8)',
+        description: 'Novice leadership on a moderate task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
+        requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Spell normal power', type: 'failure' },
-            { roll: [2, 6], result: 'Powerful spell, double effect', type: 'normal' },
-            { roll: [7, 12], result: 'Perfect casting, triple effect + no cost', type: 'success' },
-            { roll: [13, 16], result: 'Masterful casting, quadruple effect + refund half cost', type: 'success' },
-            { roll: [17, 19], result: 'Legendary casting, quintuple effect + full refund + bonus spell', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic casting, sextuple effect + permanent mana increase', type: 'critical' }
+            { roll: [1, 1], result: 'Your inexperience shows, followers hesitate', type: 'failure' },
+            { roll: [2, 2], result: 'You struggle to inspire, no effect', type: 'failure' },
+            { roll: [3, 3], result: 'Followers remain uncertain', type: 'normal' },
+            { roll: [4, 4], result: 'Your training helps, followers listen', type: 'normal' },
+            { roll: [5, 5], result: 'You rally them adequately, followers gain +1 to actions', type: 'normal' },
+            { roll: [6, 6], result: 'Solid leadership, followers gain +2 to actions', type: 'success' },
+            { roll: [7, 7], result: 'You inspire confidence, followers gain +3 to actions', type: 'success' },
+            { roll: [8, 8], result: 'Excellent command, followers gain +3 to actions + extra action', type: 'critical' }
         ]
     },
-    spellcraftMaster: {
-        name: 'Master Spellcraft',
-        description: 'Adept-level supreme spellcraft',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        requiredRank: 'ADEPT',
+    leadership_novice_d10: {
+        name: 'Novice Leadership (d10)',
+        description: 'Novice leadership on a challenging task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
+        requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Spell enhanced, +50% power', type: 'failure' },
-            { roll: [2, 5], result: 'Perfect casting, triple effect + no cost', type: 'normal' },
-            { roll: [6, 11], result: 'Masterful casting, quadruple effect + refund half cost', type: 'success' },
-            { roll: [12, 15], result: 'Legendary casting, quintuple effect + full refund + bonus spell', type: 'success' },
-            { roll: [16, 18], result: 'Mythic casting, sextuple effect + permanent mana increase', type: 'critical' },
-            { roll: [19, 20], result: 'Divine casting, septuple effect + learn new spell + area effect', type: 'critical' }
+            { roll: [1, 1], result: 'The challenge overwhelms you, followers panic', type: 'failure' },
+            { roll: [2, 2], result: 'You fail to inspire, followers lose morale', type: 'failure' },
+            { roll: [3, 3], result: 'Your words fall flat, no effect', type: 'failure' },
+            { roll: [4, 4], result: 'Followers remain doubtful', type: 'failure' },
+            { roll: [5, 5], result: 'You barely maintain order', type: 'normal' },
+            { roll: [6, 6], result: 'Your training shows, followers listen', type: 'normal' },
+            { roll: [7, 7], result: 'You rally them, followers gain +1 to actions', type: 'success' },
+            { roll: [8, 8], result: 'Good leadership, followers gain +2 to actions', type: 'success' },
+            { roll: [9, 9], result: 'You inspire them, followers gain +3 to actions', type: 'success' },
+            { roll: [10, 10], result: 'Exceptional command, followers gain +3 to actions + extra action', type: 'critical' }
         ]
     },
-    spellcraftGrandmaster: {
-        name: 'Grandmaster Spellcraft',
-        description: 'Expert-level legendary spellcraft',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        requiredRank: 'EXPERT',
+    leadership_novice_d12: {
+        name: 'Novice Leadership (d12)',
+        description: 'Novice leadership on a difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
+        requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Spell powerful, double effect', type: 'failure' },
-            { roll: [2, 4], result: 'Masterful casting, quadruple effect + refund half cost', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary casting, quintuple effect + full refund + bonus spell', type: 'success' },
-            { roll: [10, 14], result: 'Mythic casting, sextuple effect + permanent mana increase', type: 'success' },
-            { roll: [15, 17], result: 'Divine casting, septuple effect + learn new spell + area effect', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate casting, octuple effect + cast any spell free once', type: 'critical' }
+            { roll: [1, 2], result: 'The task is beyond your ability, followers flee', type: 'failure' },
+            { roll: [3, 4], result: 'You fail to inspire, followers lose confidence', type: 'failure' },
+            { roll: [5, 6], result: 'Your command is ineffective, no effect', type: 'failure' },
+            { roll: [7, 7], result: 'Followers remain skeptical', type: 'failure' },
+            { roll: [8, 8], result: 'You barely hold them together', type: 'normal' },
+            { roll: [9, 9], result: 'Your training helps you persevere', type: 'normal' },
+            { roll: [10, 10], result: 'You rally them, followers gain +1 to actions', type: 'success' },
+            { roll: [11, 11], result: 'Solid leadership, followers gain +2 to actions', type: 'success' },
+            { roll: [12, 12], result: 'You inspire them, followers gain +3 to actions', type: 'critical' }
         ]
     },
-    spellcraftLegendary: {
-        name: 'Legendary Spellcraft',
-        description: 'Master-level ultimate spellcraft',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
-        requiredRank: 'MASTER',
+    leadership_novice_d20: {
+        name: 'Novice Leadership (d20)',
+        description: 'Novice leadership on a very difficult task',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
+        requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Spell perfect, triple effect', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary casting, quintuple effect + full refund + bonus spell', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic casting, sextuple effect + permanent mana increase', type: 'success' },
-            { roll: [9, 13], result: 'Divine casting, septuple effect + learn new spell + area effect', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate casting, octuple effect + cast any spell free once', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic casting, nonuple effect + all spells free for 1 minute', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute casting, decuple effect + rewrite spell permanently + teach to others', type: 'critical' }
+            { roll: [1, 3], result: 'You completely fail to lead, followers mutiny', type: 'failure' },
+            { roll: [4, 6], result: 'Your words cause panic, followers flee', type: 'failure' },
+            { roll: [7, 9], result: 'You anger followers with poor decisions', type: 'failure' },
+            { roll: [10, 12], result: 'Your leadership fails, followers lose respect', type: 'failure' },
+            { roll: [13, 15], result: 'Followers see your limits, refuse to follow', type: 'failure' },
+            { roll: [16, 16], result: 'You barely maintain control', type: 'normal' },
+            { roll: [17, 17], result: 'Your training helps you hold them', type: 'normal' },
+            { roll: [18, 18], result: 'You rally them, followers gain +1 to actions', type: 'success' },
+            { roll: [19, 19], result: 'Impressive leadership, followers gain +2 to actions', type: 'success' },
+            { roll: [20, 20], result: 'Miraculous command, followers gain +3 to actions + extra action', type: 'critical' }
         ]
     },
 
-    // Arcane Knowledge Tables - Evolving by rank
-    arcaneBasic: {
-        name: 'Basic Arcane Study',
-        description: 'Untrained arcane research',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Forbidden knowledge, cursed permanently', type: 'failure' },
-            { roll: [9, 14], result: 'Confusing text, learn nothing', type: 'failure' },
-            { roll: [15, 18], result: 'Basic magical theory learned', type: 'normal' },
-            { roll: [19, 20], result: 'Useful spell component discovered', type: 'success' }
-        ]
-    },
-    arcaneDiscoveries: {
-        name: 'Arcane Discoveries',
-        description: 'Magical knowledge and ancient secrets',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 4], result: 'Dangerous knowledge, cursed', type: 'failure' },
-            { roll: [5, 9], result: 'Basic magical theory learned', type: 'normal' },
-            { roll: [10, 14], result: 'Useful spell component discovered', type: 'success' },
-            { roll: [15, 18], result: 'New spell learned', type: 'success' },
-            { roll: [19, 20], result: 'Ancient secret revealed, gain power', type: 'critical' }
-        ]
-    },
-    arcaneAdvanced: {
-        name: 'Advanced Arcane Study',
-        description: 'Trained arcane research',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Misleading text, -1 to next spell', type: 'failure' },
-            { roll: [3, 7], result: 'Useful spell component discovered', type: 'normal' },
-            { roll: [8, 13], result: 'New spell learned', type: 'success' },
-            { roll: [14, 17], result: 'Ancient secret revealed, gain power', type: 'success' },
-            { roll: [18, 19], result: 'Legendary knowledge, +1 to all spells permanently', type: 'critical' },
-            { roll: [20, 20], result: 'Forbidden lore, learn 3 new spells + permanent bonus', type: 'critical' }
-        ]
-    },
-    arcaneExpert: {
-        name: 'Expert Arcane Study',
-        description: 'Apprentice-level arcane mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Common knowledge, minor insight', type: 'failure' },
-            { roll: [2, 6], result: 'New spell learned', type: 'normal' },
-            { roll: [7, 12], result: 'Ancient secret revealed, gain power', type: 'success' },
-            { roll: [13, 16], result: 'Legendary knowledge, +1 to all spells permanently', type: 'success' },
-            { roll: [17, 19], result: 'Forbidden lore, learn 3 new spells + permanent bonus', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic revelation, create new spell school', type: 'critical' }
-        ]
-    },
-    arcaneMaster: {
-        name: 'Master Arcane Study',
-        description: 'Adept-level supreme arcane knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Useful knowledge, 1 new spell', type: 'failure' },
-            { roll: [2, 5], result: 'Ancient secret revealed, gain power', type: 'normal' },
-            { roll: [6, 11], result: 'Legendary knowledge, +1 to all spells permanently', type: 'success' },
-            { roll: [12, 15], result: 'Forbidden lore, learn 3 new spells + permanent bonus', type: 'success' },
-            { roll: [16, 18], result: 'Mythic revelation, create new spell school', type: 'critical' },
-            { roll: [19, 20], result: 'Divine wisdom, +2 to all spells + unlock hidden potential', type: 'critical' }
-        ]
-    },
-    arcaneGrandmaster: {
-        name: 'Grandmaster Arcane Study',
-        description: 'Expert-level legendary arcane knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Ancient secret, moderate power gain', type: 'failure' },
-            { roll: [2, 4], result: 'Legendary knowledge, +1 to all spells permanently', type: 'normal' },
-            { roll: [5, 9], result: 'Forbidden lore, learn 3 new spells + permanent bonus', type: 'success' },
-            { roll: [10, 14], result: 'Mythic revelation, create new spell school', type: 'success' },
-            { roll: [15, 17], result: 'Divine wisdom, +2 to all spells + unlock hidden potential', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate knowledge, +3 to all spells + teach others + legendary status', type: 'critical' }
-        ]
-    },
-    arcaneLegendary: {
-        name: 'Legendary Arcane Study',
-        description: 'Master-level ultimate arcane knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Legendary knowledge, +1 to all spells', type: 'failure' },
-            { roll: [2, 3], result: 'Forbidden lore, learn 3 new spells + permanent bonus', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic revelation, create new spell school', type: 'success' },
-            { roll: [9, 13], result: 'Divine wisdom, +2 to all spells + unlock hidden potential', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate knowledge, +3 to all spells + teach others + legendary status', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic understanding, +4 to all spells + rewrite magic laws', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, +5 to all spells + become source of magic + immortality', type: 'critical' }
-        ]
-    },
-
-    // Ritual Magic Tables - Evolving by rank
-    ritualBasic: {
-        name: 'Crude Rituals',
-        description: 'Untrained ritual attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Ritual summons demon, catastrophic failure', type: 'failure' },
-            { roll: [9, 14], result: 'Ritual fails, lose all components', type: 'failure' },
-            { roll: [15, 18], result: 'Ritual partially succeeds, temporary effect', type: 'normal' },
-            { roll: [19, 20], result: 'Ritual succeeds as intended', type: 'success' }
-        ]
-    },
-    ritualOutcomes: {
-        name: 'Ritual Outcomes',
-        description: 'Results of complex magical ceremonies',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Ritual fails catastrophically', type: 'failure' },
-            { roll: [4, 7], result: 'Ritual partially succeeds', type: 'normal' },
-            { roll: [8, 12], result: 'Ritual succeeds as intended', type: 'success' },
-            { roll: [13, 17], result: 'Ritual exceeds expectations', type: 'success' },
-            { roll: [18, 20], result: 'Perfect ritual, permanent benefits', type: 'critical' }
-        ]
-    },
-    ritualAdvanced: {
-        name: 'Advanced Rituals',
-        description: 'Trained ritual techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Ritual unstable, random side effect', type: 'failure' },
-            { roll: [3, 7], result: 'Ritual succeeds as intended', type: 'normal' },
-            { roll: [8, 13], result: 'Ritual exceeds expectations', type: 'success' },
-            { roll: [14, 17], result: 'Perfect ritual, permanent benefits', type: 'success' },
-            { roll: [18, 19], result: 'Masterful ritual, double benefits + bonus effect', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary ritual, triple benefits + permanent power increase', type: 'critical' }
-        ]
-    },
-    ritualExpert: {
-        name: 'Expert Rituals',
-        description: 'Apprentice-level ritual mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Ritual succeeds normally', type: 'failure' },
-            { roll: [2, 6], result: 'Ritual exceeds expectations', type: 'normal' },
-            { roll: [7, 12], result: 'Perfect ritual, permanent benefits', type: 'success' },
-            { roll: [13, 16], result: 'Masterful ritual, double benefits + bonus effect', type: 'success' },
-            { roll: [17, 19], result: 'Legendary ritual, triple benefits + permanent power increase', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic ritual, quadruple benefits + unlock new ritual type', type: 'critical' }
-        ]
-    },
-    ritualMaster: {
-        name: 'Master Rituals',
-        description: 'Adept-level supreme rituals',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Ritual exceeds expectations', type: 'failure' },
-            { roll: [2, 5], result: 'Perfect ritual, permanent benefits', type: 'normal' },
-            { roll: [6, 11], result: 'Masterful ritual, double benefits + bonus effect', type: 'success' },
-            { roll: [12, 15], result: 'Legendary ritual, triple benefits + permanent power increase', type: 'success' },
-            { roll: [16, 18], result: 'Mythic ritual, quadruple benefits + unlock new ritual type', type: 'critical' },
-            { roll: [19, 20], result: 'Divine ritual, quintuple benefits + grant power to others', type: 'critical' }
-        ]
-    },
-    ritualGrandmaster: {
-        name: 'Grandmaster Rituals',
-        description: 'Expert-level legendary rituals',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Perfect ritual, permanent benefits', type: 'failure' },
-            { roll: [2, 4], result: 'Masterful ritual, double benefits + bonus effect', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary ritual, triple benefits + permanent power increase', type: 'success' },
-            { roll: [10, 14], result: 'Mythic ritual, quadruple benefits + unlock new ritual type', type: 'success' },
-            { roll: [15, 17], result: 'Divine ritual, quintuple benefits + grant power to others', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate ritual, sextuple benefits + reshape reality locally', type: 'critical' }
-        ]
-    },
-    ritualLegendary: {
-        name: 'Legendary Rituals',
-        description: 'Master-level ultimate rituals',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Masterful ritual, double benefits', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary ritual, triple benefits + permanent power increase', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic ritual, quadruple benefits + unlock new ritual type', type: 'success' },
-            { roll: [9, 13], result: 'Divine ritual, quintuple benefits + grant power to others', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate ritual, sextuple benefits + reshape reality locally', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic ritual, septuple benefits + create new plane of existence', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute ritual, octuple benefits + rewrite fundamental laws + ascension', type: 'critical' }
-        ]
-    },
-
-    // Animal Handling Tables - Evolving by rank
-    animalHandlingBasic: {
-        name: 'Crude Animal Handling',
-        description: 'Untrained animal interaction',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Animal panics and attacks violently', type: 'failure' },
-            { roll: [9, 14], result: 'Animal flees in fear', type: 'failure' },
-            { roll: [15, 18], result: 'Animal remains wary and uncooperative', type: 'normal' },
-            { roll: [19, 20], result: 'Animal calms slightly', type: 'success' }
-        ]
-    },
-    animalHandlingOutcomes: {
-        name: 'Animal Handling Outcomes',
-        description: 'Results of interacting with animals and beasts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Animal becomes hostile and attacks', type: 'failure' },
-            { roll: [4, 8], result: 'Animal remains wary and uncooperative', type: 'normal' },
-            { roll: [9, 14], result: 'Animal calms and follows basic commands', type: 'success' },
-            { roll: [15, 18], result: 'Animal becomes friendly and helpful', type: 'success' },
-            { roll: [19, 20], result: 'Form deep bond, animal becomes loyal companion', type: 'critical' }
-        ]
-    },
-    animalHandlingAdvanced: {
-        name: 'Advanced Animal Handling',
-        description: 'Trained animal interaction',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Animal confused, no response', type: 'failure' },
-            { roll: [3, 7], result: 'Animal calms and follows basic commands', type: 'normal' },
-            { roll: [8, 13], result: 'Animal becomes friendly and helpful', type: 'success' },
-            { roll: [14, 17], result: 'Form deep bond, animal becomes loyal companion', type: 'success' },
-            { roll: [18, 19], result: 'Animal devoted, will defend you to death', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect bond, animal gains intelligence + telepathic link', type: 'critical' }
-        ]
-    },
-    animalHandlingExpert: {
-        name: 'Expert Animal Handling',
-        description: 'Apprentice-level animal mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Animal wary but cooperative', type: 'failure' },
-            { roll: [2, 6], result: 'Animal becomes friendly and helpful', type: 'normal' },
-            { roll: [7, 12], result: 'Form deep bond, animal becomes loyal companion', type: 'success' },
-            { roll: [13, 16], result: 'Animal devoted, will defend you to death', type: 'success' },
-            { roll: [17, 19], result: 'Perfect bond, animal gains intelligence + telepathic link', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary bond, animal evolves + shares abilities with you', type: 'critical' }
-        ]
-    },
-    animalHandlingMaster: {
-        name: 'Master Animal Handling',
-        description: 'Adept-level supreme animal mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Animal friendly and helpful', type: 'failure' },
-            { roll: [2, 5], result: 'Form deep bond, animal becomes loyal companion', type: 'normal' },
-            { roll: [6, 11], result: 'Animal devoted, will defend you to death', type: 'success' },
-            { roll: [12, 15], result: 'Perfect bond, animal gains intelligence + telepathic link', type: 'success' },
-            { roll: [16, 18], result: 'Legendary bond, animal evolves + shares abilities with you', type: 'critical' },
-            { roll: [19, 20], result: 'Mythic bond, animal becomes magical beast + grants you powers', type: 'critical' }
-        ]
-    },
-    animalHandlingGrandmaster: {
-        name: 'Grandmaster Animal Handling',
-        description: 'Expert-level legendary animal mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Animal loyal companion', type: 'failure' },
-            { roll: [2, 4], result: 'Animal devoted, will defend you to death', type: 'normal' },
-            { roll: [5, 9], result: 'Perfect bond, animal gains intelligence + telepathic link', type: 'success' },
-            { roll: [10, 14], result: 'Legendary bond, animal evolves + shares abilities with you', type: 'success' },
-            { roll: [15, 17], result: 'Mythic bond, animal becomes magical beast + grants you powers', type: 'critical' },
-            { roll: [18, 20], result: 'Divine bond, animal becomes celestial + you can speak with all animals', type: 'critical' }
-        ]
-    },
-    animalHandlingLegendary: {
-        name: 'Legendary Animal Handling',
-        description: 'Master-level ultimate animal mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Animal devoted and protective', type: 'failure' },
-            { roll: [2, 3], result: 'Perfect bond, animal gains intelligence + telepathic link', type: 'normal' },
-            { roll: [4, 8], result: 'Legendary bond, animal evolves + shares abilities with you', type: 'success' },
-            { roll: [9, 13], result: 'Mythic bond, animal becomes magical beast + grants you powers', type: 'success' },
-            { roll: [14, 16], result: 'Divine bond, animal becomes celestial + you can speak with all animals', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic bond, animal becomes avatar of nature + command all beasts', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute bond, animal becomes deity + you merge souls + shapeshift freely', type: 'critical' }
-        ]
-    },
-
-    // Arcana Tables - Evolving by rank
-    arcanaBasic: {
-        name: 'Basic Arcana',
-        description: 'Untrained magical identification',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Completely misidentify magic, dangerous conclusion', type: 'failure' },
-            { roll: [9, 14], result: 'No understanding, confused', type: 'failure' },
-            { roll: [15, 18], result: 'Vague understanding, partial information', type: 'normal' },
-            { roll: [19, 20], result: 'Correctly identify magic type', type: 'success' }
-        ]
-    },
-    arcanaKnowledge: {
-        name: 'Arcane Knowledge',
-        description: 'Results of identifying and understanding magic',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Misidentify magic, draw wrong conclusion', type: 'failure' },
-            { roll: [4, 8], result: 'Vague understanding, partial information', type: 'normal' },
-            { roll: [9, 14], result: 'Correctly identify magic and its properties', type: 'success' },
-            { roll: [15, 18], result: 'Detailed knowledge including weaknesses', type: 'success' },
-            { roll: [19, 20], result: 'Complete understanding, learn how to replicate it', type: 'critical' }
-        ]
-    },
-    arcanaAdvanced: {
-        name: 'Advanced Arcana',
-        description: 'Trained magical identification',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Partial identification, minor details missed', type: 'failure' },
-            { roll: [3, 7], result: 'Correctly identify magic and its properties', type: 'normal' },
-            { roll: [8, 13], result: 'Detailed knowledge including weaknesses', type: 'success' },
-            { roll: [14, 17], result: 'Complete understanding, learn how to replicate it', type: 'success' },
-            { roll: [18, 19], result: 'Perfect analysis, learn how to counter it', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, improve upon the magic', type: 'critical' }
-        ]
-    },
-    arcanaExpert: {
-        name: 'Expert Arcana',
-        description: 'Apprentice-level magical mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good identification, most properties known', type: 'failure' },
-            { roll: [2, 6], result: 'Detailed knowledge including weaknesses', type: 'normal' },
-            { roll: [7, 12], result: 'Complete understanding, learn how to replicate it', type: 'success' },
-            { roll: [13, 16], result: 'Perfect analysis, learn how to counter it', type: 'success' },
-            { roll: [17, 19], result: 'Absolute mastery, improve upon the magic', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary insight, create new spell based on it', type: 'critical' }
-        ]
-    },
-    arcanaMaster: {
-        name: 'Master Arcana',
-        description: 'Adept-level supreme magical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Detailed knowledge, all properties known', type: 'failure' },
-            { roll: [2, 5], result: 'Complete understanding, learn how to replicate it', type: 'normal' },
-            { roll: [6, 11], result: 'Perfect analysis, learn how to counter it', type: 'success' },
-            { roll: [12, 15], result: 'Absolute mastery, improve upon the magic', type: 'success' },
-            { roll: [16, 18], result: 'Legendary insight, create new spell based on it', type: 'critical' },
-            { roll: [19, 20], result: 'Mythic understanding, permanently absorb the magic', type: 'critical' }
-        ]
-    },
-    arcanaGrandmaster: {
-        name: 'Grandmaster Arcana',
-        description: 'Expert-level legendary magical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Complete understanding, full replication', type: 'failure' },
-            { roll: [2, 4], result: 'Perfect analysis, learn how to counter it', type: 'normal' },
-            { roll: [5, 9], result: 'Absolute mastery, improve upon the magic', type: 'success' },
-            { roll: [10, 14], result: 'Legendary insight, create new spell based on it', type: 'success' },
-            { roll: [15, 17], result: 'Mythic understanding, permanently absorb the magic', type: 'critical' },
-            { roll: [18, 20], result: 'Divine knowledge, teach others + gain permanent power', type: 'critical' }
-        ]
-    },
-    arcanaLegendary: {
-        name: 'Legendary Arcana',
-        description: 'Master-level ultimate magical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Perfect analysis, full counter knowledge', type: 'failure' },
-            { roll: [2, 3], result: 'Absolute mastery, improve upon the magic', type: 'normal' },
-            { roll: [4, 8], result: 'Legendary insight, create new spell based on it', type: 'success' },
-            { roll: [9, 13], result: 'Mythic understanding, permanently absorb the magic', type: 'success' },
-            { roll: [14, 16], result: 'Divine knowledge, teach others + gain permanent power', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic insight, rewrite the magic\'s fundamental nature', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, become the source of this magic type', type: 'critical' }
-        ]
-    },
-
-    // History Tables - Evolving by rank
-    historyBasic: {
-        name: 'Basic History',
-        description: 'Untrained historical recall',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Recall completely false information, dangerous myths', type: 'failure' },
-            { roll: [9, 14], result: 'Confused memories, no useful information', type: 'failure' },
-            { roll: [15, 18], result: 'Remember basic facts, common knowledge', type: 'normal' },
-            { roll: [19, 20], result: 'Recall some detailed information', type: 'success' }
-        ]
-    },
-    historicalKnowledge: {
-        name: 'Historical Knowledge',
-        description: 'Results of recalling historical information',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Recall false information, misleading facts', type: 'failure' },
-            { roll: [4, 8], result: 'Remember basic facts, common knowledge', type: 'normal' },
-            { roll: [9, 14], result: 'Recall detailed historical information', type: 'success' },
-            { roll: [15, 18], result: 'Remember obscure details and connections', type: 'success' },
-            { roll: [19, 20], result: 'Perfect recall, uncover hidden historical truth', type: 'critical' }
-        ]
-    },
-    historyAdvanced: {
-        name: 'Advanced History',
-        description: 'Trained historical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Partial recall, some details wrong', type: 'failure' },
-            { roll: [3, 7], result: 'Recall detailed historical information', type: 'normal' },
-            { roll: [8, 13], result: 'Remember obscure details and connections', type: 'success' },
-            { roll: [14, 17], result: 'Perfect recall, uncover hidden historical truth', type: 'success' },
-            { roll: [18, 19], result: 'Legendary knowledge, discover lost secrets', type: 'critical' },
-            { roll: [20, 20], result: 'Complete mastery, rewrite historical understanding', type: 'critical' }
-        ]
-    },
-    historyExpert: {
-        name: 'Expert History',
-        description: 'Apprentice-level historical mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good recall, most details correct', type: 'failure' },
-            { roll: [2, 6], result: 'Remember obscure details and connections', type: 'normal' },
-            { roll: [7, 12], result: 'Perfect recall, uncover hidden historical truth', type: 'success' },
-            { roll: [13, 16], result: 'Legendary knowledge, discover lost secrets', type: 'success' },
-            { roll: [17, 19], result: 'Complete mastery, rewrite historical understanding', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic insight, witness past events directly', type: 'critical' }
-        ]
-    },
-    historyMaster: {
-        name: 'Master History',
-        description: 'Adept-level supreme historical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Obscure details, full connections', type: 'failure' },
-            { roll: [2, 5], result: 'Perfect recall, uncover hidden historical truth', type: 'normal' },
-            { roll: [6, 11], result: 'Legendary knowledge, discover lost secrets', type: 'success' },
-            { roll: [12, 15], result: 'Complete mastery, rewrite historical understanding', type: 'success' },
-            { roll: [16, 18], result: 'Mythic insight, witness past events directly', type: 'critical' },
-            { roll: [19, 20], result: 'Divine knowledge, learn from ancient spirits', type: 'critical' }
-        ]
-    },
-    historyGrandmaster: {
-        name: 'Grandmaster History',
-        description: 'Expert-level legendary historical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Perfect recall, hidden truths revealed', type: 'failure' },
-            { roll: [2, 4], result: 'Legendary knowledge, discover lost secrets', type: 'normal' },
-            { roll: [5, 9], result: 'Complete mastery, rewrite historical understanding', type: 'success' },
-            { roll: [10, 14], result: 'Mythic insight, witness past events directly', type: 'success' },
-            { roll: [15, 17], result: 'Divine knowledge, learn from ancient spirits', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate wisdom, access akashic records + change history', type: 'critical' }
-        ]
-    },
-    historyLegendary: {
-        name: 'Legendary History',
-        description: 'Master-level ultimate historical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Legendary knowledge, lost secrets found', type: 'failure' },
-            { roll: [2, 3], result: 'Complete mastery, rewrite historical understanding', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic insight, witness past events directly', type: 'success' },
-            { roll: [9, 13], result: 'Divine knowledge, learn from ancient spirits', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate wisdom, access akashic records + change history', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic understanding, know all that was + predict all that will be', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, become living history + immortal chronicler', type: 'critical' }
-        ]
-    },
 
     // Insight Tables - Evolving by rank
     insightBasic: {
@@ -1955,902 +1731,6 @@ export const ROLLABLE_TABLES = {
             { roll: [14, 16], result: 'Legendary terror, entire group submits + reputation spreads', type: 'critical' },
             { roll: [17, 19], result: 'Mythic fear, enemies flee on sight + allies empowered', type: 'critical' },
             { roll: [20, 20], result: 'Absolute terror, your name becomes curse + instant submission from all', type: 'critical' }
-        ]
-    },
-
-    // Medicine Tables - Evolving by rank
-    medicineBasic: {
-        name: 'Crude Medicine',
-        description: 'Untrained medical treatment',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Treatment catastrophic, patient loses 2d6 HP', type: 'failure' },
-            { roll: [9, 14], result: 'Treatment harmful, patient loses 1d4 HP', type: 'failure' },
-            { roll: [15, 18], result: 'Basic treatment, stabilize but no healing', type: 'normal' },
-            { roll: [19, 20], result: 'Successful treatment, heal 1d6 HP', type: 'success' }
-        ]
-    },
-    medicineResults: {
-        name: 'Medical Treatment',
-        description: 'Results of treating wounds and illnesses',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Treatment fails, patient worsens (lose 1d4 HP)', type: 'failure' },
-            { roll: [4, 8], result: 'Basic treatment, stabilize but no healing', type: 'normal' },
-            { roll: [9, 14], result: 'Successful treatment, heal 1d6 HP', type: 'success' },
-            { roll: [15, 18], result: 'Excellent care, heal 2d6 HP', type: 'success' },
-            { roll: [19, 20], result: 'Miraculous recovery, heal 3d6 HP + remove one condition', type: 'critical' }
-        ]
-    },
-    medicineAdvanced: {
-        name: 'Advanced Medicine',
-        description: 'Trained medical techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Treatment ineffective, no change', type: 'failure' },
-            { roll: [3, 7], result: 'Successful treatment, heal 1d6 HP', type: 'normal' },
-            { roll: [8, 13], result: 'Excellent care, heal 2d6 HP', type: 'success' },
-            { roll: [14, 17], result: 'Miraculous recovery, heal 3d6 HP + remove one condition', type: 'success' },
-            { roll: [18, 19], result: 'Perfect healing, heal 4d6 HP + remove two conditions', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary care, full HP + remove all conditions + immunity 1 day', type: 'critical' }
-        ]
-    },
-    medicineExpert: {
-        name: 'Expert Medicine',
-        description: 'Apprentice-level medical mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Basic healing, heal 1d6 HP', type: 'failure' },
-            { roll: [2, 6], result: 'Excellent care, heal 2d6 HP', type: 'normal' },
-            { roll: [7, 12], result: 'Miraculous recovery, heal 3d6 HP + remove one condition', type: 'success' },
-            { roll: [13, 16], result: 'Perfect healing, heal 4d6 HP + remove two conditions', type: 'success' },
-            { roll: [17, 19], result: 'Legendary care, full HP + remove all conditions + immunity 1 day', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic healing, full HP + permanent +1 CON + regeneration', type: 'critical' }
-        ]
-    },
-    medicineMaster: {
-        name: 'Master Medicine',
-        description: 'Adept-level supreme medical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Good healing, heal 2d6 HP', type: 'failure' },
-            { roll: [2, 5], result: 'Miraculous recovery, heal 3d6 HP + remove one condition', type: 'normal' },
-            { roll: [6, 11], result: 'Perfect healing, heal 4d6 HP + remove two conditions', type: 'success' },
-            { roll: [12, 15], result: 'Legendary care, full HP + remove all conditions + immunity 1 day', type: 'success' },
-            { roll: [16, 18], result: 'Mythic healing, full HP + permanent +1 CON + regeneration', type: 'critical' },
-            { roll: [19, 20], result: 'Divine medicine, full HP + permanent +2 CON + cure disease/poison permanently', type: 'critical' }
-        ]
-    },
-    medicineGrandmaster: {
-        name: 'Grandmaster Medicine',
-        description: 'Expert-level legendary medical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Excellent healing, heal 3d6 HP', type: 'failure' },
-            { roll: [2, 4], result: 'Perfect healing, heal 4d6 HP + remove two conditions', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary care, full HP + remove all conditions + immunity 1 day', type: 'success' },
-            { roll: [10, 14], result: 'Mythic healing, full HP + permanent +1 CON + regeneration', type: 'success' },
-            { roll: [15, 17], result: 'Divine medicine, full HP + permanent +2 CON + cure disease/poison permanently', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate healing, full HP + permanent +3 CON + restore lost limbs', type: 'critical' }
-        ]
-    },
-    medicineLegendary: {
-        name: 'Legendary Medicine',
-        description: 'Master-level ultimate medical knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Perfect healing, heal 4d6 HP + conditions removed', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary care, full HP + remove all conditions + immunity 1 day', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic healing, full HP + permanent +1 CON + regeneration', type: 'success' },
-            { roll: [9, 13], result: 'Divine medicine, full HP + permanent +2 CON + cure disease/poison permanently', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate healing, full HP + permanent +3 CON + restore lost limbs', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic medicine, full HP + permanent +4 CON + reverse aging + immunity to disease', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute healing, full HP + permanent +5 CON + resurrect recently dead + grant immortality', type: 'critical' }
-        ]
-    },
-
-    // Nature Tables - Evolving by rank
-    natureBasic: {
-        name: 'Basic Nature',
-        description: 'Untrained nature identification',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Fatal misidentification, eat poison', type: 'failure' },
-            { roll: [9, 14], result: 'Complete confusion, no knowledge', type: 'failure' },
-            { roll: [15, 18], result: 'Basic identification, common knowledge', type: 'normal' },
-            { roll: [19, 20], result: 'Correct identification with useful details', type: 'success' }
-        ]
-    },
-    natureKnowledge: {
-        name: 'Nature Knowledge',
-        description: 'Results of identifying natural phenomena',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Misidentify plant/animal, dangerous mistake', type: 'failure' },
-            { roll: [4, 8], result: 'Basic identification, common knowledge', type: 'normal' },
-            { roll: [9, 14], result: 'Correct identification with useful details', type: 'success' },
-            { roll: [15, 18], result: 'Detailed knowledge including medicinal uses', type: 'success' },
-            { roll: [19, 20], result: 'Expert knowledge, discover rare property', type: 'critical' }
-        ]
-    },
-    natureAdvanced: {
-        name: 'Advanced Nature',
-        description: 'Trained nature knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Partial identification, minor details wrong', type: 'failure' },
-            { roll: [3, 7], result: 'Correct identification with useful details', type: 'normal' },
-            { roll: [8, 13], result: 'Detailed knowledge including medicinal uses', type: 'success' },
-            { roll: [14, 17], result: 'Expert knowledge, discover rare property', type: 'success' },
-            { roll: [18, 19], result: 'Master knowledge, find hidden uses + create remedy', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect understanding, commune with nature + gain permanent bonus', type: 'critical' }
-        ]
-    },
-    natureExpert: {
-        name: 'Expert Nature',
-        description: 'Apprentice-level nature mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good identification, most uses known', type: 'failure' },
-            { roll: [2, 6], result: 'Detailed knowledge including medicinal uses', type: 'normal' },
-            { roll: [7, 12], result: 'Expert knowledge, discover rare property', type: 'success' },
-            { roll: [13, 16], result: 'Master knowledge, find hidden uses + create remedy', type: 'success' },
-            { roll: [17, 19], result: 'Perfect understanding, commune with nature + gain permanent bonus', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary insight, control plants/animals + create new species', type: 'critical' }
-        ]
-    },
-    natureMaster: {
-        name: 'Master Nature',
-        description: 'Adept-level supreme nature knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Detailed knowledge, all uses known', type: 'failure' },
-            { roll: [2, 5], result: 'Expert knowledge, discover rare property', type: 'normal' },
-            { roll: [6, 11], result: 'Master knowledge, find hidden uses + create remedy', type: 'success' },
-            { roll: [12, 15], result: 'Perfect understanding, commune with nature + gain permanent bonus', type: 'success' },
-            { roll: [16, 18], result: 'Legendary insight, control plants/animals + create new species', type: 'critical' },
-            { roll: [19, 20], result: 'Mythic connection, become one with nature + shapeshift freely', type: 'critical' }
-        ]
-    },
-    natureGrandmaster: {
-        name: 'Grandmaster Nature',
-        description: 'Expert-level legendary nature knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Expert knowledge, rare properties found', type: 'failure' },
-            { roll: [2, 4], result: 'Master knowledge, find hidden uses + create remedy', type: 'normal' },
-            { roll: [5, 9], result: 'Perfect understanding, commune with nature + gain permanent bonus', type: 'success' },
-            { roll: [10, 14], result: 'Legendary insight, control plants/animals + create new species', type: 'success' },
-            { roll: [15, 17], result: 'Mythic connection, become one with nature + shapeshift freely', type: 'critical' },
-            { roll: [18, 20], result: 'Divine harmony, command all nature + weather control', type: 'critical' }
-        ]
-    },
-    natureLegendary: {
-        name: 'Legendary Nature',
-        description: 'Master-level ultimate nature knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Master knowledge, all uses discovered', type: 'failure' },
-            { roll: [2, 3], result: 'Perfect understanding, commune with nature + gain permanent bonus', type: 'normal' },
-            { roll: [4, 8], result: 'Legendary insight, control plants/animals + create new species', type: 'success' },
-            { roll: [9, 13], result: 'Mythic connection, become one with nature + shapeshift freely', type: 'success' },
-            { roll: [14, 16], result: 'Divine harmony, command all nature + weather control', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic unity, reshape ecosystems + create life', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute oneness, become avatar of nature + control all living things', type: 'critical' }
-        ]
-    },
-
-    // Perception Tables - Evolving by rank
-    perceptionBasic: {
-        name: 'Basic Perception',
-        description: 'Untrained perception',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Completely oblivious, walk into trap', type: 'failure' },
-            { roll: [9, 14], result: 'Miss everything important', type: 'failure' },
-            { roll: [15, 18], result: 'Notice only obvious things', type: 'normal' },
-            { roll: [19, 20], result: 'Spot hidden details and clues', type: 'success' }
-        ]
-    },
-    perceptionFinds: {
-        name: 'Perception Finds',
-        description: 'Results of searching and noticing things',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Miss obvious details, overlook danger', type: 'failure' },
-            { roll: [4, 8], result: 'Notice only obvious things', type: 'normal' },
-            { roll: [9, 14], result: 'Spot hidden details and clues', type: 'success' },
-            { roll: [15, 18], result: 'Notice everything, including secret doors', type: 'success' },
-            { roll: [19, 20], result: 'Perfect awareness, sense invisible threats', type: 'critical' }
-        ]
-    },
-    perceptionAdvanced: {
-        name: 'Advanced Perception',
-        description: 'Trained perception',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Distracted, miss some details', type: 'failure' },
-            { roll: [3, 7], result: 'Spot hidden details and clues', type: 'normal' },
-            { roll: [8, 13], result: 'Notice everything, including secret doors', type: 'success' },
-            { roll: [14, 17], result: 'Perfect awareness, sense invisible threats', type: 'success' },
-            { roll: [18, 19], result: 'Supernatural senses, see through illusions + detect magic', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary awareness, see the future + sense all nearby', type: 'critical' }
-        ]
-    },
-    perceptionExpert: {
-        name: 'Expert Perception',
-        description: 'Apprentice-level perception mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good awareness, most things noticed', type: 'failure' },
-            { roll: [2, 6], result: 'Notice everything, including secret doors', type: 'normal' },
-            { roll: [7, 12], result: 'Perfect awareness, sense invisible threats', type: 'success' },
-            { roll: [13, 16], result: 'Supernatural senses, see through illusions + detect magic', type: 'success' },
-            { roll: [17, 19], result: 'Legendary awareness, see the future + sense all nearby', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic perception, see through walls + read thoughts', type: 'critical' }
-        ]
-    },
-    perceptionMaster: {
-        name: 'Master Perception',
-        description: 'Adept-level supreme perception',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Perfect awareness, all visible threats sensed', type: 'failure' },
-            { roll: [2, 5], result: 'Perfect awareness, sense invisible threats', type: 'normal' },
-            { roll: [6, 11], result: 'Supernatural senses, see through illusions + detect magic', type: 'success' },
-            { roll: [12, 15], result: 'Legendary awareness, see the future + sense all nearby', type: 'success' },
-            { roll: [16, 18], result: 'Mythic perception, see through walls + read thoughts', type: 'critical' },
-            { roll: [19, 20], result: 'Divine sight, see across planes + know all secrets', type: 'critical' }
-        ]
-    },
-    perceptionGrandmaster: {
-        name: 'Grandmaster Perception',
-        description: 'Expert-level legendary perception',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Supernatural senses, illusions pierced', type: 'failure' },
-            { roll: [2, 4], result: 'Supernatural senses, see through illusions + detect magic', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary awareness, see the future + sense all nearby', type: 'success' },
-            { roll: [10, 14], result: 'Mythic perception, see through walls + read thoughts', type: 'success' },
-            { roll: [15, 17], result: 'Divine sight, see across planes + know all secrets', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate awareness, see all timelines + omniscient in area', type: 'critical' }
-        ]
-    },
-    perceptionLegendary: {
-        name: 'Legendary Perception',
-        description: 'Master-level ultimate perception',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Legendary awareness, future glimpsed', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary awareness, see the future + sense all nearby', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic perception, see through walls + read thoughts', type: 'success' },
-            { roll: [9, 13], result: 'Divine sight, see across planes + know all secrets', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate awareness, see all timelines + omniscient in area', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic perception, see entire universe + know all that is', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute omniscience, see all that was, is, and will be + perfect knowledge', type: 'critical' }
-        ]
-    },
-
-    // Performance Tables - Evolving by rank
-    performanceBasic: {
-        name: 'Crude Performance',
-        description: 'Untrained performance',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Catastrophic performance, riot breaks out', type: 'failure' },
-            { roll: [9, 14], result: 'Awful performance, audience leaves', type: 'failure' },
-            { roll: [15, 18], result: 'Mediocre performance, polite applause', type: 'normal' },
-            { roll: [19, 20], result: 'Good performance, audience is entertained', type: 'success' }
-        ]
-    },
-    performanceOutcomes: {
-        name: 'Performance Outcomes',
-        description: 'Results of entertaining an audience',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Terrible performance, audience boos and throws things', type: 'failure' },
-            { roll: [4, 8], result: 'Mediocre performance, polite applause', type: 'normal' },
-            { roll: [9, 14], result: 'Good performance, audience is entertained', type: 'success' },
-            { roll: [15, 18], result: 'Excellent performance, standing ovation', type: 'success' },
-            { roll: [19, 20], result: 'Legendary performance, audience is moved to tears', type: 'critical' }
-        ]
-    },
-    performanceAdvanced: {
-        name: 'Advanced Performance',
-        description: 'Trained performance',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Boring performance, audience distracted', type: 'failure' },
-            { roll: [3, 7], result: 'Good performance, audience is entertained', type: 'normal' },
-            { roll: [8, 13], result: 'Excellent performance, standing ovation', type: 'success' },
-            { roll: [14, 17], result: 'Legendary performance, audience is moved to tears', type: 'success' },
-            { roll: [18, 19], result: 'Masterful performance, audience inspired + gain fame', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect performance, audience transformed + permanent fans', type: 'critical' }
-        ]
-    },
-    performanceExpert: {
-        name: 'Expert Performance',
-        description: 'Apprentice-level performance mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good performance, well received', type: 'failure' },
-            { roll: [2, 6], result: 'Excellent performance, standing ovation', type: 'normal' },
-            { roll: [7, 12], result: 'Legendary performance, audience is moved to tears', type: 'success' },
-            { roll: [13, 16], result: 'Masterful performance, audience inspired + gain fame', type: 'success' },
-            { roll: [17, 19], result: 'Perfect performance, audience transformed + permanent fans', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic performance, audience enlightened + magical effects', type: 'critical' }
-        ]
-    },
-    performanceMaster: {
-        name: 'Master Performance',
-        description: 'Adept-level supreme performance',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Excellent performance, standing ovation', type: 'failure' },
-            { roll: [2, 5], result: 'Legendary performance, audience is moved to tears', type: 'normal' },
-            { roll: [6, 11], result: 'Masterful performance, audience inspired + gain fame', type: 'success' },
-            { roll: [12, 15], result: 'Perfect performance, audience transformed + permanent fans', type: 'success' },
-            { roll: [16, 18], result: 'Mythic performance, audience enlightened + magical effects', type: 'critical' },
-            { roll: [19, 20], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'critical' }
-        ]
-    },
-    performanceGrandmaster: {
-        name: 'Grandmaster Performance',
-        description: 'Expert-level legendary performance',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Legendary performance, deeply moving', type: 'failure' },
-            { roll: [2, 4], result: 'Masterful performance, audience inspired + gain fame', type: 'normal' },
-            { roll: [5, 9], result: 'Perfect performance, audience transformed + permanent fans', type: 'success' },
-            { roll: [10, 14], result: 'Mythic performance, audience enlightened + magical effects', type: 'success' },
-            { roll: [15, 17], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate performance, audience ascended + become immortal legend', type: 'critical' }
-        ]
-    },
-    performanceLegendary: {
-        name: 'Legendary Performance',
-        description: 'Master-level ultimate performance',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Masterful performance, fame spreads', type: 'failure' },
-            { roll: [2, 3], result: 'Perfect performance, audience transformed + permanent fans', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic performance, audience enlightened + magical effects', type: 'success' },
-            { roll: [9, 13], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate performance, audience ascended + become immortal legend', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic performance, reality altered + your art becomes law', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute performance, become deity of art + all who hear worship you', type: 'critical' }
-        ]
-    },
-
-    // Religion Tables - Evolving by rank
-    religionBasic: {
-        name: 'Basic Religion',
-        description: 'Untrained religious knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Terrible blasphemy, deity curses you', type: 'failure' },
-            { roll: [9, 14], result: 'Offensive mistake, lose favor', type: 'failure' },
-            { roll: [15, 18], result: 'Basic religious knowledge', type: 'normal' },
-            { roll: [19, 20], result: 'Detailed understanding of rituals and beliefs', type: 'success' }
-        ]
-    },
-    religiousKnowledge: {
-        name: 'Religious Knowledge',
-        description: 'Results of recalling religious information',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Blasphemous mistake, offend deity', type: 'failure' },
-            { roll: [4, 8], result: 'Basic religious knowledge', type: 'normal' },
-            { roll: [9, 14], result: 'Detailed understanding of rituals and beliefs', type: 'success' },
-            { roll: [15, 18], result: 'Deep theological knowledge', type: 'success' },
-            { roll: [19, 20], result: 'Divine revelation, gain temporary blessing', type: 'critical' }
-        ]
-    },
-    religionAdvanced: {
-        name: 'Advanced Religion',
-        description: 'Trained religious knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor error, slight displeasure', type: 'failure' },
-            { roll: [3, 7], result: 'Detailed understanding of rituals and beliefs', type: 'normal' },
-            { roll: [8, 13], result: 'Deep theological knowledge', type: 'success' },
-            { roll: [14, 17], result: 'Divine revelation, gain temporary blessing', type: 'success' },
-            { roll: [18, 19], result: 'Sacred wisdom, gain permanent blessing', type: 'critical' },
-            { roll: [20, 20], result: 'Divine communion, speak with deity + gain power', type: 'critical' }
-        ]
-    },
-    religionExpert: {
-        name: 'Expert Religion',
-        description: 'Apprentice-level religious mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good knowledge, minor insight', type: 'failure' },
-            { roll: [2, 6], result: 'Deep theological knowledge', type: 'normal' },
-            { roll: [7, 12], result: 'Divine revelation, gain temporary blessing', type: 'success' },
-            { roll: [13, 16], result: 'Sacred wisdom, gain permanent blessing', type: 'success' },
-            { roll: [17, 19], result: 'Divine communion, speak with deity + gain power', type: 'critical' },
-            { roll: [20, 20], result: 'Holy enlightenment, become chosen + divine abilities', type: 'critical' }
-        ]
-    },
-    religionMaster: {
-        name: 'Master Religion',
-        description: 'Adept-level supreme religious knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Deep knowledge, clear understanding', type: 'failure' },
-            { roll: [2, 5], result: 'Divine revelation, gain temporary blessing', type: 'normal' },
-            { roll: [6, 11], result: 'Sacred wisdom, gain permanent blessing', type: 'success' },
-            { roll: [12, 15], result: 'Divine communion, speak with deity + gain power', type: 'success' },
-            { roll: [16, 18], result: 'Holy enlightenment, become chosen + divine abilities', type: 'critical' },
-            { roll: [19, 20], result: 'Mythic faith, channel deity + perform miracles', type: 'critical' }
-        ]
-    },
-    religionGrandmaster: {
-        name: 'Grandmaster Religion',
-        description: 'Expert-level legendary religious knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Divine revelation, blessed', type: 'failure' },
-            { roll: [2, 4], result: 'Sacred wisdom, gain permanent blessing', type: 'normal' },
-            { roll: [5, 9], result: 'Divine communion, speak with deity + gain power', type: 'success' },
-            { roll: [10, 14], result: 'Holy enlightenment, become chosen + divine abilities', type: 'success' },
-            { roll: [15, 17], result: 'Mythic faith, channel deity + perform miracles', type: 'critical' },
-            { roll: [18, 20], result: 'Divine avatar, embody deity + reshape faith', type: 'critical' }
-        ]
-    },
-    religionLegendary: {
-        name: 'Legendary Religion',
-        description: 'Master-level ultimate religious knowledge',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Sacred wisdom, permanent blessing', type: 'failure' },
-            { roll: [2, 3], result: 'Divine communion, speak with deity + gain power', type: 'normal' },
-            { roll: [4, 8], result: 'Holy enlightenment, become chosen + divine abilities', type: 'success' },
-            { roll: [9, 13], result: 'Mythic faith, channel deity + perform miracles', type: 'success' },
-            { roll: [14, 16], result: 'Divine avatar, embody deity + reshape faith', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic prophet, create new religion + grant divine powers', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute divinity, become deity yourself + ascend to godhood', type: 'critical' }
-        ]
-    },
-
-    // Sleight of Hand Tables - Evolving by rank
-    sleightOfHandBasic: {
-        name: 'Crude Sleight of Hand',
-        description: 'Untrained manual trickery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Catastrophic fumble, injure yourself + caught', type: 'failure' },
-            { roll: [9, 14], result: 'Obvious attempt, immediately caught', type: 'failure' },
-            { roll: [15, 18], result: 'Clumsy attempt, observers are suspicious', type: 'normal' },
-            { roll: [19, 20], result: 'Smooth execution, trick succeeds', type: 'success' }
-        ]
-    },
-    sleightOfHandTricks: {
-        name: 'Sleight of Hand Tricks',
-        description: 'Results of manual dexterity and trickery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Fumble badly, drop everything and get caught', type: 'failure' },
-            { roll: [4, 8], result: 'Clumsy attempt, observers are suspicious', type: 'normal' },
-            { roll: [9, 14], result: 'Smooth execution, trick succeeds', type: 'success' },
-            { roll: [15, 18], result: 'Flawless technique, no one notices', type: 'success' },
-            { roll: [19, 20], result: 'Impossible feat, steal something valuable undetected', type: 'critical' }
-        ]
-    },
-    sleightOfHandAdvanced: {
-        name: 'Advanced Sleight of Hand',
-        description: 'Trained manual trickery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Slight slip, observers notice something', type: 'failure' },
-            { roll: [3, 7], result: 'Smooth execution, trick succeeds', type: 'normal' },
-            { roll: [8, 13], result: 'Flawless technique, no one notices', type: 'success' },
-            { roll: [14, 17], result: 'Impossible feat, steal something valuable undetected', type: 'success' },
-            { roll: [18, 19], result: 'Masterful trick, steal from multiple targets', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'critical' }
-        ]
-    },
-    sleightOfHandExpert: {
-        name: 'Expert Sleight of Hand',
-        description: 'Apprentice-level manual mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Good execution, minor tell', type: 'failure' },
-            { roll: [2, 6], result: 'Flawless technique, no one notices', type: 'normal' },
-            { roll: [7, 12], result: 'Impossible feat, steal something valuable undetected', type: 'success' },
-            { roll: [13, 16], result: 'Masterful trick, steal from multiple targets', type: 'success' },
-            { roll: [17, 19], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
-        ]
-    },
-    sleightOfHandMaster: {
-        name: 'Master Sleight of Hand',
-        description: 'Adept-level supreme manual skill',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Flawless execution, unnoticed', type: 'failure' },
-            { roll: [2, 5], result: 'Impossible feat, steal something valuable undetected', type: 'normal' },
-            { roll: [6, 11], result: 'Masterful trick, steal from multiple targets', type: 'success' },
-            { roll: [12, 15], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [16, 18], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' },
-            { roll: [19, 20], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' }
-        ]
-    },
-    sleightOfHandGrandmaster: {
-        name: 'Grandmaster Sleight of Hand',
-        description: 'Expert-level legendary manual skill',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Impossible feat, valuable item stolen', type: 'failure' },
-            { roll: [2, 4], result: 'Masterful trick, steal from multiple targets', type: 'normal' },
-            { roll: [5, 9], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [10, 14], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [15, 17], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' }
-        ]
-    },
-    sleightOfHandLegendary: {
-        name: 'Legendary Sleight of Hand',
-        description: 'Master-level ultimate manual skill',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Masterful trick, multiple targets', type: 'failure' },
-            { roll: [2, 3], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [9, 13], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, steal reality itself + reshape existence', type: 'critical' }
-        ]
-    },
-
-    // Stealth Tables - Evolving by rank
-    stealthBasic: {
-        name: 'Crude Stealth',
-        description: 'Untrained stealth attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Catastrophic noise, alert entire area', type: 'failure' },
-            { roll: [9, 14], result: 'Loud stumbling, immediately detected', type: 'failure' },
-            { roll: [15, 18], result: 'Partially hidden, enemies are alert', type: 'normal' },
-            { roll: [19, 20], result: 'Successfully hidden, enemies unaware', type: 'success' }
-        ]
-    },
-    stealthOutcomes: {
-        name: 'Stealth Outcomes',
-        description: 'Results of sneaking and hiding',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Make loud noise, immediately detected', type: 'failure' },
-            { roll: [4, 8], result: 'Partially hidden, enemies are alert', type: 'normal' },
-            { roll: [9, 14], result: 'Successfully hidden, enemies unaware', type: 'success' },
-            { roll: [15, 18], result: 'Perfectly concealed, can move freely', type: 'success' },
-            { roll: [19, 20], result: 'Become invisible, gain surprise attack advantage', type: 'critical' }
-        ]
-    },
-    stealthAdvanced: {
-        name: 'Advanced Stealth',
-        description: 'Trained stealth techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor sound, enemies investigate', type: 'failure' },
-            { roll: [3, 7], result: 'Successfully hidden, enemies unaware', type: 'normal' },
-            { roll: [8, 13], result: 'Perfectly concealed, can move freely', type: 'success' },
-            { roll: [14, 17], result: 'Become invisible, gain surprise attack advantage', type: 'success' },
-            { roll: [18, 19], result: 'Shadow form, pass through enemies undetected', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'critical' }
-        ]
-    },
-    stealthExpert: {
-        name: 'Expert Stealth',
-        description: 'Apprentice-level stealth mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Well hidden, slight movement noticed', type: 'failure' },
-            { roll: [2, 6], result: 'Perfectly concealed, can move freely', type: 'normal' },
-            { roll: [7, 12], result: 'Become invisible, gain surprise attack advantage', type: 'success' },
-            { roll: [13, 16], result: 'Shadow form, pass through enemies undetected', type: 'success' },
-            { roll: [17, 19], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'critical' }
-        ]
-    },
-    stealthMaster: {
-        name: 'Master Stealth',
-        description: 'Adept-level supreme stealth',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Perfectly concealed, free movement', type: 'failure' },
-            { roll: [2, 5], result: 'Become invisible, gain surprise attack advantage', type: 'normal' },
-            { roll: [6, 11], result: 'Shadow form, pass through enemies undetected', type: 'success' },
-            { roll: [12, 15], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
-            { roll: [16, 18], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'critical' },
-            { roll: [19, 20], result: 'Divine concealment, erase your existence from memory', type: 'critical' }
-        ]
-    },
-    stealthGrandmaster: {
-        name: 'Grandmaster Stealth',
-        description: 'Expert-level legendary stealth',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Invisible, surprise advantage', type: 'failure' },
-            { roll: [2, 4], result: 'Shadow form, pass through enemies undetected', type: 'normal' },
-            { roll: [5, 9], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
-            { roll: [10, 14], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
-            { roll: [15, 17], result: 'Divine concealment, erase your existence from memory', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate stealth, become undetectable by all means + instant kill', type: 'critical' }
-        ]
-    },
-    stealthLegendary: {
-        name: 'Legendary Stealth',
-        description: 'Master-level ultimate stealth',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Shadow form, undetected passage', type: 'failure' },
-            { roll: [2, 3], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
-            { roll: [9, 13], result: 'Divine concealment, erase your existence from memory', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate stealth, become undetectable by all means + instant kill', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic shadow, exist in multiple places + strike from nowhere', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute void, cease to exist until you choose + omnipresent strikes', type: 'critical' }
-        ]
-    },
-
-    // Survival Tables - Evolving by rank
-    survivalBasic: {
-        name: 'Crude Survival',
-        description: 'Untrained survival attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 8], result: 'Catastrophic failure, eat deadly poison (2d6 damage)', type: 'failure' },
-            { roll: [9, 14], result: 'Hopelessly lost, starving', type: 'failure' },
-            { roll: [15, 18], result: 'Barely survive, find minimal food/water', type: 'normal' },
-            { roll: [19, 20], result: 'Survive comfortably, find adequate resources', type: 'success' }
-        ]
-    },
-    survivalSkills: {
-        name: 'Survival Skills',
-        description: 'Results of wilderness survival attempts',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 3], result: 'Get lost, consume poisonous food (1d6 damage)', type: 'failure' },
-            { roll: [4, 8], result: 'Barely survive, find minimal food/water', type: 'normal' },
-            { roll: [9, 14], result: 'Survive comfortably, find adequate resources', type: 'success' },
-            { roll: [15, 18], result: 'Thrive in wilderness, find abundant resources', type: 'success' },
-            { roll: [19, 20], result: 'Master the wild, discover rare resources and safe haven', type: 'critical' }
-        ]
-    },
-    survivalAdvanced: {
-        name: 'Advanced Survival',
-        description: 'Trained survival techniques',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Slight discomfort, adequate resources', type: 'failure' },
-            { roll: [3, 7], result: 'Survive comfortably, find adequate resources', type: 'normal' },
-            { roll: [8, 13], result: 'Thrive in wilderness, find abundant resources', type: 'success' },
-            { roll: [14, 17], result: 'Master the wild, discover rare resources and safe haven', type: 'success' },
-            { roll: [18, 19], result: 'Perfect harmony, find legendary resources + animal allies', type: 'critical' },
-            { roll: [20, 20], result: 'Wilderness mastery, create permanent shelter + endless food', type: 'critical' }
-        ]
-    },
-    survivalExpert: {
-        name: 'Expert Survival',
-        description: 'Apprentice-level survival mastery',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Comfortable survival, good resources', type: 'failure' },
-            { roll: [2, 6], result: 'Thrive in wilderness, find abundant resources', type: 'normal' },
-            { roll: [7, 12], result: 'Master the wild, discover rare resources and safe haven', type: 'success' },
-            { roll: [13, 16], result: 'Perfect harmony, find legendary resources + animal allies', type: 'success' },
-            { roll: [17, 19], result: 'Wilderness mastery, create permanent shelter + endless food', type: 'critical' },
-            { roll: [20, 20], result: 'Mythic survival, terraform area + control weather', type: 'critical' }
-        ]
-    },
-    survivalMaster: {
-        name: 'Master Survival',
-        description: 'Adept-level supreme survival',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 1], result: 'Thriving, abundant resources', type: 'failure' },
-            { roll: [2, 5], result: 'Master the wild, discover rare resources and safe haven', type: 'normal' },
-            { roll: [6, 11], result: 'Perfect harmony, find legendary resources + animal allies', type: 'success' },
-            { roll: [12, 15], result: 'Wilderness mastery, create permanent shelter + endless food', type: 'success' },
-            { roll: [16, 18], result: 'Mythic survival, terraform area + control weather', type: 'critical' },
-            { roll: [19, 20], result: 'Divine wilderness, create paradise + immortal in nature', type: 'critical' }
-        ]
-    },
-    survivalGrandmaster: {
-        name: 'Grandmaster Survival',
-        description: 'Expert-level legendary survival',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 1], result: 'Perfect harmony, legendary resources', type: 'failure' },
-            { roll: [2, 4], result: 'Perfect harmony, find legendary resources + animal allies', type: 'normal' },
-            { roll: [5, 9], result: 'Wilderness mastery, create permanent shelter + endless food', type: 'success' },
-            { roll: [10, 14], result: 'Mythic survival, terraform area + control weather', type: 'success' },
-            { roll: [15, 17], result: 'Divine wilderness, create paradise + immortal in nature', type: 'critical' },
-            { roll: [18, 20], result: 'Ultimate survival, reshape entire biome + command all life', type: 'critical' }
-        ]
-    },
-    survivalLegendary: {
-        name: 'Legendary Survival',
-        description: 'Master-level ultimate survival',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 1], result: 'Wilderness mastery, permanent shelter', type: 'failure' },
-            { roll: [2, 3], result: 'Wilderness mastery, create permanent shelter + endless food', type: 'normal' },
-            { roll: [4, 8], result: 'Mythic survival, terraform area + control weather', type: 'success' },
-            { roll: [9, 13], result: 'Divine wilderness, create paradise + immortal in nature', type: 'success' },
-            { roll: [14, 16], result: 'Ultimate survival, reshape entire biome + command all life', type: 'critical' },
-            { roll: [17, 19], result: 'Cosmic harmony, create new world + perfect ecosystem', type: 'critical' },
-            { roll: [20, 20], result: 'Absolute mastery, become nature itself + control all wilderness', type: 'critical' }
-        ]
-    },
-
-    // Deception Table
-    deceptionResults: {
-        name: 'Deception Results',
-        description: 'Results of lying and deceiving others',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 3], result: 'Obvious lie, target becomes hostile', type: 'failure' },
-            { roll: [4, 8], result: 'Unconvincing, target is suspicious', type: 'normal' },
-            { roll: [9, 14], result: 'Believable lie, target is fooled', type: 'success' },
-            { roll: [15, 18], result: 'Perfect deception, target completely believes you', type: 'success' },
-            { roll: [19, 20], result: 'Masterful manipulation, target becomes your ally', type: 'critical' }
-        ]
-    },
-
-    // Acrobatics Tables - Evolving by rank
-    acrobaticsBasic: {
-        name: 'Clumsy Tumbling',
-        description: 'Untrained acrobatics - awkward movements and frequent stumbles',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'UNTRAINED',
-        table: [
-            { roll: [1, 5], result: 'Trip and fall prone, take 1d4 damage', type: 'failure' },
-            { roll: [6, 10], result: 'Awkward movement, -2 to next action', type: 'failure' },
-            { roll: [11, 16], result: 'Barely maintain footing', type: 'normal' },
-            { roll: [17, 20], result: 'Lucky recovery, avoid falling', type: 'success' }
-        ]
-    },
-    acrobaticsFeats: {
-        name: 'Graceful Movement',
-        description: 'Basic trained acrobatics - controlled falls and simple maneuvers',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'NOVICE',
-        table: [
-            { roll: [1, 2], result: 'Stumble, -1 to next roll', type: 'failure' },
-            { roll: [3, 9], result: 'Standard movement, maintain balance', type: 'normal' },
-            { roll: [10, 15], result: 'Smooth landing, reduce fall damage by half', type: 'success' },
-            { roll: [16, 18], result: 'Cat-like reflexes, negate fall damage up to 20ft', type: 'success' },
-            { roll: [19, 20], result: 'Perfect form, negate fall + advantage on next roll', type: 'critical' }
-        ]
-    },
-    acrobaticsAdvanced: {
-        name: 'Daring Maneuvers',
-        description: 'Trained acrobatics - environmental navigation and combat evasion',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'TRAINED',
-        table: [
-            { roll: [1, 2], result: 'Minor slip, -1 Armor until next turn', type: 'failure' },
-            { roll: [3, 8], result: 'Controlled movement through obstacles', type: 'normal' },
-            { roll: [9, 14], result: 'Fluid evasion, +2 Armor until next turn', type: 'success' },
-            { roll: [15, 17], result: 'Swing/vault, reposition up to 30ft', type: 'success' },
-            { roll: [18, 19], result: 'Wall run, move vertically up to 20ft', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect dodge, auto-evade next attack', type: 'critical' }
-        ]
-    },
-    acrobaticsExpert: {
-        name: 'Parkour Mastery',
-        description: 'Apprentice acrobatics - urban traversal and aerial control',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'APPRENTICE',
-        table: [
-            { roll: [1, 1], result: 'Misjudge distance, fall short', type: 'failure' },
-            { roll: [2, 7], result: 'Navigate obstacles efficiently', type: 'normal' },
-            { roll: [8, 13], result: 'Rooftop movement, ignore difficult terrain', type: 'success' },
-            { roll: [14, 16], result: 'Precision dive, land in 5ft space from any height', type: 'success' },
-            { roll: [17, 19], result: 'Weave through traps, ignore trap damage this turn', type: 'critical' },
-            { roll: [20, 20], result: 'Contort through tight space + surprise attack', type: 'critical' }
-        ]
-    },
-    acrobaticsMaster: {
-        name: 'Adept Acrobatics',
-        description: 'Adept acrobatics - impressive agility',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'ADEPT',
-        table: [
-            { roll: [1, 2], result: 'Overconfident, lose footing and fall prone', type: 'failure' },
-            { roll: [3, 7], result: 'Graceful movement, move through tight spaces', type: 'normal' },
-            { roll: [8, 13], result: 'Aerial control, perform complex flips mid-air', type: 'success' },
-            { roll: [14, 17], result: 'Cat-like landing, take no fall damage up to 30ft', type: 'success' },
-            { roll: [18, 19], result: 'Balance on narrow surfaces (rope, ledge, beam)', type: 'critical' },
-            { roll: [20, 20], result: 'Incredible climb, scale difficult surfaces at full speed', type: 'critical' }
-        ]
-    },
-    acrobaticsGrandmaster: {
-        name: 'Expert Acrobatics',
-        description: 'Expert acrobatics - masterful agility',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'EXPERT',
-        table: [
-            { roll: [1, 2], result: 'Stumble, lose balance momentarily', type: 'failure' },
-            { roll: [3, 7], result: 'Expert flip, change direction mid-air', type: 'normal' },
-            { roll: [8, 13], result: 'Parkour master, move through obstacles at full speed', type: 'success' },
-            { roll: [14, 17], result: 'Wall run, move on vertical surfaces for 1 round', type: 'success' },
-            { roll: [18, 19], result: 'Spinning strike, attack 2 adjacent enemies', type: 'critical' },
-            { roll: [20, 20], result: 'Perfect dodge, gain advantage on next dodge roll', type: 'critical' }
-        ]
-    },
-    acrobaticsLegendary: {
-        name: 'Legendary Acrobatics',
-        description: 'Master acrobatics - incredible feats of agility',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        requiredRank: 'MASTER',
-        table: [
-            { roll: [1, 2], result: 'Misjudged landing, take 1d4 damage', type: 'failure' },
-            { roll: [3, 7], result: 'Incredible flip, move 30ft ignoring difficult terrain', type: 'normal' },
-            { roll: [8, 13], result: 'Wall run, move along vertical surfaces for 1 turn', type: 'success' },
-            { roll: [14, 17], result: 'Perfect dodge, gain +3 to dodge rolls this round', type: 'success' },
-            { roll: [18, 19], result: 'Impossible leap, jump 3x normal distance', type: 'critical' },
-            { roll: [20, 20], result: 'Legendary evasion, automatically dodge next attack', type: 'critical' }
         ]
     }
 };

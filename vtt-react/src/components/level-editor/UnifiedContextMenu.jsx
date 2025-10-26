@@ -53,23 +53,21 @@ const UnifiedContextMenu = ({
             event.preventDefault();
         };
 
-        if (visible && menuRef.current) {
+        if (visible) {
             console.log('🖱️ [CONTEXT MENU] Setting up event listeners');
-            // Use a small delay to avoid immediate closure
-            setTimeout(() => {
-                document.addEventListener('mousedown', handleClickOutside);
-                document.addEventListener('keydown', handleEscapeKey);
-                if (menuRef.current) {
-                    menuRef.current.addEventListener('wheel', handleWheel, { passive: false });
-                }
-            }, 100);
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('keydown', handleEscapeKey);
+            const refAtMount = menuRef.current;
+            if (refAtMount) {
+                refAtMount.addEventListener('wheel', handleWheel, { passive: false });
+            }
 
             return () => {
                 console.log('🖱️ [CONTEXT MENU] Cleaning up event listeners');
                 document.removeEventListener('mousedown', handleClickOutside);
                 document.removeEventListener('keydown', handleEscapeKey);
-                if (menuRef.current) {
-                    menuRef.current.removeEventListener('wheel', handleWheel);
+                if (refAtMount) {
+                    refAtMount.removeEventListener('wheel', handleWheel);
                 }
             };
         }

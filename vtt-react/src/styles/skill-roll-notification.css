@@ -98,11 +98,11 @@
 
 .roll-result {
     font-size: 16px;
-    color: #f0e6d2;
     opacity: 0.95;
     font-weight: normal;
     max-width: 350px;
-    line-height: 1.4;
+    line-height: 1.6;
+    white-space: pre-line;
 }
 
 /* Result type specific styling */

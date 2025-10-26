@@ -1052,11 +1052,12 @@ export default function Grid() {
     useEffect(() => {
         const handleDragStart = (e) => {
             // Check if this is an item drag by looking at the source element
+            // IMPORTANT: Don't use generic target.draggable check as it matches creatures too
             const target = e.target;
             const isItemDrag = target.closest('.item-card') ||
                               target.closest('.inventory-item') ||
                               target.closest('.container-item') ||
-                              target.draggable;
+                              window.isDraggingItem; // Also check global flag set by ItemCard
 
             if (isItemDrag) {
                 isDraggingItemRef.current = true;
@@ -1067,6 +1068,7 @@ export default function Grid() {
         const handleDragEnd = (e) => {
             isDraggingItemRef.current = false;
             setIsDraggingItem(false);
+            window.isDraggingItem = false; // Clear global flag
         };
 
         document.addEventListener('dragstart', handleDragStart, { passive: true });
@@ -1098,13 +1100,40 @@ export default function Grid() {
     // Handle drag over for grid tiles
     const handleDragOver = (e, tile) => {
         e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
-        setHoveredTile(tile);
 
-        // Debug: Log drag over events to help diagnose drop zone issues
-        if (isDraggingCreature) {
-            console.log('🎯 Drag over tile:', tile.gridX, tile.gridY, 'at zoom:', effectiveZoom);
+        // Debug logging
+        console.log('🔍 Drag over grid:', {
+            isDraggingItemRef: isDraggingItemRef.current,
+            windowIsDraggingItem: window.isDraggingItem,
+            isDraggingCreature: isDraggingCreature,
+            dataTransferTypes: e.dataTransfer.types
+        });
+
+        // For item drags (from inventory, containers, or item library), allow the drop
+        // The dropEffect is set based on whether the item will be moved or copied
+        // Check both the ref AND the global flag (for items from library where event bubbling might be blocked)
+        if (isDraggingItemRef.current || window.isDraggingItem) {
+            // Items from inventory and containers are moved, items from library are copied.
+            // Respect the source's effectAllowed to avoid the browser blocking the drop.
+            const allowed = e.dataTransfer.effectAllowed || '';
+            if (allowed === 'copy' || allowed.includes('copy')) {
+                e.dataTransfer.dropEffect = 'copy';
+            } else if (allowed === 'move' || allowed.includes('move')) {
+                e.dataTransfer.dropEffect = 'move';
+            } else {
+                // Fallback: use copy to be safe for library drags
+                e.dataTransfer.dropEffect = 'copy';
+            }
+            console.log('✅ Item drag detected, allowing drop with dropEffect:', e.dataTransfer.dropEffect, 'effectAllowed:', allowed);
+        } else if (isDraggingCreature) {
+            e.dataTransfer.dropEffect = 'copy';
+            console.log('✅ Creature drag detected, allowing drop');
+        } else {
+            e.dataTransfer.dropEffect = 'copy';
+            console.log('⚠️ Unknown drag type, defaulting to copy');
         }
+
+        setHoveredTile(tile);
     };
 
     // Handle drag leave for grid tiles
@@ -1234,11 +1263,19 @@ export default function Grid() {
 
         // Handle drop event for document-level drops
         const handleDocumentDrop = (e) => {
+            console.log('📄 Document-level drop event fired!', {
+                isDraggingCreature,
+                isDraggingItemRef: isDraggingItemRef.current,
+                windowIsDraggingItem: window.isDraggingItem,
+                target: e.target.className
+            });
+
             // Check if this is an item drop (not just creature drops)
             const dataText = e.dataTransfer.getData('text/plain');
 
             // Only handle creature drops here, let canvas handle item drops
             if (!isDraggingCreature) {
+                console.log('📄 Not a creature drop, letting canvas handle it');
                 return;
             }
 
@@ -1294,10 +1331,9 @@ export default function Grid() {
 
         // Handle drag over event for document
         const handleDocumentDragOver = (e) => {
-            // Only handle creature drags at document level
-
-
-            if (isDraggingCreature) {
+            // Must preventDefault for ALL drags (items and creatures) to allow drop events to fire
+            // This is required by HTML5 drag and drop API
+            if (isDraggingCreature || isDraggingItemRef.current || window.isDraggingItem) {
                 e.preventDefault();
             }
         };
@@ -1539,6 +1575,7 @@ export default function Grid() {
 
     // Handle drop for grid tiles
     const handleDrop = (e, tile) => {
+        console.log('🎯 DROP EVENT FIRED on tile:', tile.gridX, tile.gridY);
         e.preventDefault();
         setHoveredTile(null);
 
@@ -1740,6 +1777,74 @@ export default function Grid() {
                     inventoryStore.removeItem(itemId);
 
                     // Trigger auto-save for local rooms after placing inventory item
+                    setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
+                }
+            }
+            // Handle drops from containers
+            else if (data.type === 'container-item') {
+                const item = data.item;
+                const containerId = data.containerId;
+
+                if (item && containerId) {
+                    console.log('Container item dropped onto grid:', item);
+
+                    // Use the actual tile coordinates where the item was dropped
+                    const gridCoords = { x: tile.gridX, y: tile.gridY };
+                    const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+                    // All items should be positioned at the center of the tile
+                    const position = {
+                        x: worldPos.x,
+                        y: worldPos.y,
+                        gridPosition: {
+                            row: gridCoords.y,
+                            col: gridCoords.x
+                        }
+                    };
+
+                    // Ensure position data is properly set
+                    const positionCopy = {
+                        x: position.x,
+                        y: position.y,
+                        gridPosition: {
+                            row: position.gridPosition.row,
+                            col: position.gridPosition.col
+                        }
+                    };
+
+                    // Create a clean version of the item without any position properties
+                    const cleanItem = { ...item };
+                    delete cleanItem.position;
+                    delete cleanItem.gridPosition;
+
+                    // Add the item to the grid with the clean position data
+                    addItemToGrid(cleanItem, positionCopy, true); // Send to server
+
+                    // Remove the item from the container
+                    const container = useItemStore.getState().items.find(i => i.id === containerId) ||
+                                     useInventoryStore.getState().items.find(i => i.id === containerId);
+
+                    if (container && container.containerProperties) {
+                        const updatedItems = container.containerProperties.items.filter(i => i.id !== item.id);
+                        const updatedContainerProps = {
+                            ...container.containerProperties,
+                            items: updatedItems,
+                            hasHadItems: true
+                        };
+
+                        // Update the container in the appropriate store
+                        if (useItemStore.getState().items.find(i => i.id === containerId)) {
+                            useItemStore.getState().updateItem(containerId, {
+                                containerProperties: updatedContainerProps
+                            });
+                        } else if (useInventoryStore.getState().items.find(i => i.id === containerId)) {
+                            useInventoryStore.getState().updateItem(containerId, {
+                                containerProperties: updatedContainerProps
+                            });
+                        }
+                    }
+
+                    // Trigger auto-save for local rooms after placing container item
                     setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
                 }
             }
