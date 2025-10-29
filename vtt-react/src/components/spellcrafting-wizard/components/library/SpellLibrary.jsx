@@ -516,8 +516,28 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       spells: spellsToFilter
     };
 
+    console.log('📚 [SpellLibrary] Before filtering:', {
+      spellsToFilterCount: spellsToFilter.length,
+      spellIds: spellsToFilter.map(s => s.id),
+      spellNames: spellsToFilter.map(s => s.name),
+      activeFilters: library.filters
+    });
+
     const filtered = filterSpells(tempLibrary, library.filters);
-    return sortSpells(filtered, library.sortOrder);
+    const sorted = sortSpells(filtered, library.sortOrder);
+
+    console.log('📚 [SpellLibrary] After filtering:', {
+      hasActiveCharacter,
+      hasClassSpells,
+      activeCategory,
+      spellsToFilterCount: spellsToFilter.length,
+      filteredCount: filtered.length,
+      sortedCount: sorted.length,
+      spellIds: sorted.map(s => s.id),
+      spellNames: sorted.map(s => s.name)
+    });
+
+    return sorted;
   }, [
     library.spells,
     library.filters,
@@ -1114,18 +1134,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                   </div>
                 )}
 
-              {/* No Character Selected Message - Inside spellbook */}
-              {!hasActiveCharacter && (
-                <div className="wow-spell-list-container">
-                  <div className="wow-spellbook-empty">
-                    <i className="fas fa-user-slash"></i>
-                    <h4 style={{ margin: '16px 0 8px 0', fontSize: '18px', fontWeight: '600', color: '#2a1a0f' }}>NO CHARACTER SELECTED</h4>
-                    <p style={{ margin: 0, fontSize: '14px', color: '#6b5545', maxWidth: '400px' }}>
-                      Select a character from the Character Management page or use the "Activate" buttons above to view class-specific spells.
-                    </p>
-                  </div>
-                </div>
-              )}
+
 
               {/* Category Tabs - Only show if character is active */}
               {hasActiveCharacter && allSpellCategories.length > 0 && (

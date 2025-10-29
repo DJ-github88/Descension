@@ -522,6 +522,78 @@ MANA COSTS:
     ]
   },
 
+  // Spell Pools - organized by character level
+  // Maps character level to available spell IDs for learning
+  spellPools: {
+    1: [
+      // Level 1 spells: Basic 2-sphere combinations (5 options, pick 3)
+      'arc_steam_burst',
+      'arc_celestial_ray',
+      'arc_arcane_detonation',
+      'arc_firestorm',
+      'arc_pandemonium'
+    ],
+    2: [
+      // Level 2-3 spells: More 2-sphere combinations
+      'arc_steam_burst',
+      'arc_celestial_ray',
+      'arc_arcane_detonation',
+      'arc_firestorm'
+    ],
+    4: [
+      // Level 4-5 spells: Advanced 2-sphere and basic 3-sphere
+      'arc_arcane_detonation',
+      'arc_firestorm',
+      'arc_steam_burst',
+      'arc_celestial_ray',
+      'arc_pandemonium',
+      'arc_glacial_blessing',
+      'arc_thermal_surge'
+    ],
+    6: [
+      // Level 6-7 spells: 3-sphere combinations
+      'arc_firestorm',
+      'arc_pandemonium',
+      'arc_glacial_blessing',
+      'arc_thermal_surge',
+      'arc_primal_arcane_tempest'
+    ],
+    8: [
+      // Level 8-9 spells: Advanced 3-sphere combinations
+      'arc_pandemonium',
+      'arc_glacial_blessing',
+      'arc_thermal_surge',
+      'arc_primal_arcane_tempest'
+    ],
+    10: [
+      // Level 10-11 spells: 4-sphere ultimates start appearing
+      'arc_primal_arcane_tempest',
+      'arc_elemental_fury',
+      'arc_divine_cataclysm'
+    ],
+    12: [
+      // Level 12-14 spells: More 4-sphere ultimates
+      'arc_elemental_fury',
+      'arc_divine_cataclysm',
+      'arc_void_inferno'
+    ],
+    15: [
+      // Level 15-17 spells: Powerful 4-sphere ultimates
+      'arc_elemental_fury',
+      'arc_divine_cataclysm',
+      'arc_void_inferno'
+    ],
+    18: [
+      // Level 18-19 spells: Master-level combinations
+      'arc_divine_cataclysm',
+      'arc_void_inferno'
+    ],
+    20: [
+      // Level 20 spells: Ultimate power
+      'arc_void_inferno'
+    ]
+  },
+
   // Example Spells - organized by combination tier
   exampleSpells: [
     // ========================================
@@ -580,19 +652,21 @@ MANA COSTS:
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'force'
+      debuffConfig: {
+        statusEffects: [
+          {
+            id: 'disoriented',
+            name: 'Disoriented',
+            description: 'Senses overwhelmed by arcane energy',
+            durationType: 'rounds',
+            durationValue: 2,
+            saveType: 'constitution',
+            saveDC: 15
           }
-        },
-        debuff: {
-          type: 'disoriented',
-          duration: '1 round',
-          description: 'Targets are disoriented for 1 round'
-        }
+        ]
       },
+
+      effectTypes: ['damage', 'debuff'],
 
       specialMechanics: {
         sphereCombo: {
@@ -654,23 +728,16 @@ MANA COSTS:
       damageConfig: {
         formula: '3d8',
         damageType: 'fire',
-        scalingType: 'none'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d8',
-            type: 'fire'
-          },
-          overTime: {
-            formula: '1d6',
-            type: 'fire',
-            duration: '1 minute',
-            description: 'Targets take 1d6 fire damage each round for 1 minute'
-          }
+        scalingType: 'none',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d6',
+          duration: 10,
+          tickFrequency: 'round'
         }
       },
+
+      effectTypes: ['damage'],
 
       specialMechanics: {
         sphereCombo: {
@@ -731,30 +798,32 @@ MANA COSTS:
       },
 
       damageConfig: {
-        formula: '2d6+2d6',
-        damageType: 'fire and cold',
+        formula: '1d6',
+        damageType: 'cold',
+        additionalDamage: [
+          {
+            formula: '1d6',
+            damageType: 'fire'
+          }
+        ],
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6',
-            type: 'fire'
+      debuffConfig: {
+        statusEffects: [
+          {
+            id: 'disoriented',
+            name: 'Disoriented',
+            description: 'Blinded by scalding steam',
+            durationType: 'rounds',
+            durationValue: 2,
+            saveType: 'constitution',
+            saveDC: 15
           }
-        },
-        damage2: {
-          instant: {
-            formula: '2d6',
-            type: 'cold'
-          }
-        },
-        debuff: {
-          type: 'disoriented',
-          duration: '1 round',
-          description: 'Targets disoriented for 1 round'
-        }
+        ]
       },
+
+      effectTypes: ['damage', 'debuff'],
 
       tags: ['2-sphere', 'fire', 'ice', 'mixed-element', 'control'],
       flavorText: 'Opposing elements collide in a scalding burst of steam that blinds and burns.'
@@ -805,31 +874,31 @@ MANA COSTS:
       },
 
       damageConfig: {
-        formula: '2d8',
+        formula: '1d8',
         damageType: 'radiant',
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d8',
-            type: 'radiant'
-          }
-        },
-        healing: {
-          instant: {
-            formula: '2d8',
-            description: 'Heals allies in the line for 2d8 HP'
-          }
-        },
-        buff: {
-          type: 'temporary-hp',
-          amount: '1d4',
-          duration: 'instant',
-          description: 'Allies gain 1d4 temporary HP'
-        }
+      healingConfig: {
+        formula: '1d8',
+        healingType: 'instant',
+        targetType: 'allies'
       },
+
+      buffConfig: {
+        statusEffects: [
+          {
+            id: 'temporary_hp',
+            name: 'Celestial Protection',
+            description: 'Blessed with temporary hit points',
+            temporaryHitPoints: '1d8',
+            durationType: 'rounds',
+            durationValue: 3
+          }
+        ]
+      },
+
+      effectTypes: ['damage', 'healing', 'buff'],
 
       tags: ['2-sphere', 'arcane', 'holy', 'mixed-element', 'healing', 'support'],
       flavorText: 'Divine arcane energy flows in a brilliant ray, harming the wicked and healing the righteous.'
@@ -968,25 +1037,19 @@ MANA COSTS:
         scalingType: 'none'
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '4d8',
-            description: 'Heals all allies in area for 4d8 HP'
-          }
-        },
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'cold'
-          }
-        },
-        terrain: {
-          type: 'difficult-terrain',
-          duration: '1 minute',
-          description: 'Creates difficult icy terrain for 1 minute'
-        }
+      healingConfig: {
+        formula: '4d8',
+        healingType: 'instant',
+        targetType: 'allies'
       },
+
+      terrainConfig: {
+        terrainType: 'difficult',
+        duration: 60,
+        description: 'Creates difficult icy terrain'
+      },
+
+      effectTypes: ['damage', 'healing', 'terrain'],
 
       specialMechanics: {
         sphereCombo: {
@@ -1047,30 +1110,18 @@ MANA COSTS:
 
       damageConfig: {
         formula: '4d6+4d6',
-        damageType: 'fire and cold',
+        damageType: 'fire',
+        damageTypes: ['fire', 'cold'],
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '4d6',
-            type: 'fire'
-          }
-        },
-        damage2: {
-          instant: {
-            formula: '4d6',
-            type: 'cold'
-          }
-        },
-        healing: {
-          instant: {
-            formula: '3d8',
-            description: 'Heals allies within the cone for 3d8 HP'
-          }
-        }
+      healingConfig: {
+        formula: '3d8',
+        healingType: 'instant',
+        targetType: 'allies'
       },
+
+      effectTypes: ['damage', 'healing'],
 
       specialMechanics: {
         sphereCombo: {
@@ -1132,35 +1183,24 @@ MANA COSTS:
 
       damageConfig: {
         formula: '5d6+5d6',
-        damageType: 'force and nature',
+        damageType: 'force',
+        damageTypes: ['force', 'nature'],
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '5d6',
-            type: 'force'
-          }
-        },
-        damage2: {
-          instant: {
-            formula: '5d6',
-            type: 'nature'
-          }
-        },
-        healing: {
-          instant: {
-            formula: '4d8',
-            description: 'Heals allies within radius for 4d8 HP'
-          }
-        },
-        terrain: {
-          type: 'difficult-terrain',
-          duration: '1 minute',
-          description: 'Creates chaotic difficult terrain for 1 minute'
-        }
+      healingConfig: {
+        formula: '4d8',
+        healingType: 'instant',
+        targetType: 'allies'
       },
+
+      terrainConfig: {
+        terrainType: 'difficult',
+        duration: 60,
+        description: 'Creates chaotic difficult terrain'
+      },
+
+      effectTypes: ['damage', 'healing', 'terrain'],
 
       specialMechanics: {
         sphereCombo: {
@@ -1228,41 +1268,18 @@ MANA COSTS:
 
       damageConfig: {
         formula: '6d6+6d6+6d6+6d6',
-        damageType: 'force, fire, cold, and nature',
+        damageType: 'force',
+        damageTypes: ['force', 'fire', 'cold', 'nature'],
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d6',
-            type: 'force'
-          }
-        },
-        damage2: {
-          instant: {
-            formula: '6d6',
-            type: 'fire'
-          }
-        },
-        damage3: {
-          instant: {
-            formula: '6d6',
-            type: 'cold'
-          }
-        },
-        damage4: {
-          instant: {
-            formula: '6d6',
-            type: 'nature'
-          }
-        },
-        terrain: {
-          type: 'difficult-terrain',
-          duration: '1 minute',
-          description: 'Creates elemental difficult terrain for 1 minute'
-        }
+      terrainConfig: {
+        terrainType: 'difficult',
+        duration: 60,
+        description: 'Creates elemental difficult terrain'
       },
+
+      effectTypes: ['damage', 'terrain'],
 
       specialMechanics: {
         sphereCombo: {
@@ -1323,35 +1340,30 @@ MANA COSTS:
 
       damageConfig: {
         formula: '6d8+6d8',
-        damageType: 'radiant and necrotic',
+        damageType: 'radiant',
+        damageTypes: ['radiant', 'necrotic'],
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d8',
-            type: 'radiant'
-          }
-        },
-        damage2: {
-          instant: {
-            formula: '6d8',
-            type: 'necrotic'
-          }
-        },
-        healing: {
-          instant: {
-            formula: '5d8',
-            description: 'Heals all allies in area for 5d8 HP'
-          }
-        },
-        debuff: {
-          type: 'stunned',
-          duration: '1 round',
-          description: 'Enemies are stunned for 1 round'
-        }
+      healingConfig: {
+        formula: '5d8',
+        healingType: 'instant',
+        targetType: 'allies'
       },
+
+      debuffConfig: {
+        statusEffects: [
+          {
+            id: 'stunned',
+            name: 'Stunned',
+            description: 'Overwhelmed by divine judgment',
+            durationType: 'rounds',
+            durationValue: 1
+          }
+        ]
+      },
+
+      effectTypes: ['damage', 'healing', 'debuff'],
 
       specialMechanics: {
         sphereCombo: {
@@ -1413,40 +1425,31 @@ MANA COSTS:
 
       damageConfig: {
         formula: '6d6+6d6+6d6',
-        damageType: 'force, necrotic, and fire',
+        damageType: 'force',
+        damageTypes: ['force', 'necrotic', 'fire'],
         scalingType: 'none'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d6',
-            type: 'force'
+      debuffConfig: {
+        statusEffects: [
+          {
+            id: 'blinded',
+            name: 'Blinded',
+            description: 'Blinded by void flames',
+            durationType: 'rounds',
+            durationValue: 1
+          },
+          {
+            id: 'stunned',
+            name: 'Stunned',
+            description: 'Stunned by chaotic void energy',
+            durationType: 'rounds',
+            durationValue: 1
           }
-        },
-        damage2: {
-          instant: {
-            formula: '6d6',
-            type: 'necrotic'
-          }
-        },
-        damage3: {
-          instant: {
-            formula: '6d6',
-            type: 'fire'
-          }
-        },
-        debuff: {
-          type: 'blinded',
-          duration: '1 round',
-          description: 'Enemies are blinded for 1 round'
-        },
-        debuff2: {
-          type: 'stunned',
-          duration: '1 round',
-          description: 'Enemies are stunned for 1 round'
-        }
+        ]
       },
+
+      effectTypes: ['damage', 'debuff'],
 
       specialMechanics: {
         sphereCombo: {

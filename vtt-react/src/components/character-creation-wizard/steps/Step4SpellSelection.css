@@ -1,0 +1,203 @@
+/* Spell Selection Step Styles */
+
+.spell-selection-step {
+    padding: 20px;
+}
+
+.spell-selection-step .step-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.spell-selection-step .step-description {
+    font-size: 14px;
+    color: #5a4a3a;
+    margin-top: 10px;
+}
+
+.selection-counter {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.selection-counter .complete {
+    color: #2d7a2d;
+}
+
+.selection-counter .incomplete {
+    color: #8b6914;
+}
+
+.spell-selection-layout {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    height: calc(100vh - 350px);
+    min-height: 500px;
+}
+
+.spell-icons-column {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.spell-category-title {
+    font-size: 16px;
+    color: #3a3a3a;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(139, 115, 85, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spell-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.spell-icon-card {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.2) 0%, rgba(101, 67, 33, 0.15) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.spell-icon-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: #d4af37;
+}
+
+.spell-icon-card.selected {
+    border-color: #2d7a2d;
+    background: linear-gradient(135deg, rgba(45, 122, 45, 0.2) 0%, rgba(34, 92, 34, 0.15) 100%);
+    box-shadow: 0 0 12px rgba(45, 122, 45, 0.4);
+}
+
+.spell-icon-card.viewing {
+    border-color: #d4af37;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(184, 134, 11, 0.15) 100%);
+}
+
+.spell-icon-image {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.spell-icon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.selection-checkmark {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(45, 122, 45, 0.9);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.spell-icon-name {
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: #3a3a3a;
+    line-height: 1.2;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spell-detail-column {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.no-spell-selected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #8b7355;
+    font-size: 16px;
+}
+
+.no-spell-selected i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.spell-action-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.spell-select-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spell-select-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #e5c047 0%, #c9971c 100%);
+}
+
+.spell-select-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.spell-select-btn.selected {
+    background: linear-gradient(135deg, #2d7a2d 0%, #1e5a1e 100%);
+    border-color: #2d7a2d;
+}
+
+.spell-select-btn.selected:hover {
+    background: linear-gradient(135deg, #3d8a3d 0%, #2e6a2e 100%);
+}
+

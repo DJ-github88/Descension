@@ -11,7 +11,11 @@ export function isTwoHandedWeapon(item) {
     const weaponSlot = item.weaponSlot;
     const weaponSlotLower = weaponSlot?.toLowerCase();
     const subtype = item.subtype?.toLowerCase();
-
+    // Ranged weapons should NOT be treated as two-handed weapons
+    // They go in the ranged slot instead
+    if (weaponSlot === 'RANGED' || weaponSlotLower === 'ranged') {
+        return false;
+    }
     // Check explicit two-handed designation (handle both uppercase and lowercase)
     if (weaponSlot === 'TWO_HANDED' || weaponSlotLower === 'two_handed' ||
         weaponSlotLower === 'twohanded' || weaponSlotLower === 'two-handed') {

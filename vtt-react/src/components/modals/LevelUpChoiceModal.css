@@ -1,0 +1,546 @@
+/* Level-Up Choice Modal Styles */
+
+.level-up-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.level-up-modal {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(230, 220, 200, 0.95) 100%);
+    border: 3px solid #8b7355;
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 750px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Scrollbar styling for modal */
+.level-up-modal::-webkit-scrollbar {
+    width: 10px;
+}
+
+.level-up-modal::-webkit-scrollbar-track {
+    background: rgba(139, 115, 85, 0.2);
+    border-radius: 5px;
+}
+
+.level-up-modal::-webkit-scrollbar-thumb {
+    background: rgba(139, 115, 85, 0.6);
+    border-radius: 5px;
+}
+
+.level-up-modal::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 115, 85, 0.8);
+}
+
+.level-up-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(139, 115, 85, 0.3);
+}
+
+.level-up-header h2 {
+    font-size: 24px;
+    color: #3a3a3a;
+    margin-bottom: 8px;
+}
+
+.level-up-header p {
+    font-size: 14px;
+    color: #5a4a3a;
+}
+
+.level-up-choices {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.choice-card {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(101, 67, 33, 0.1) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.choice-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    border-color: #d4af37;
+}
+
+.choice-card.selected {
+    border-color: #2d7a2d;
+    background: linear-gradient(135deg, rgba(45, 122, 45, 0.2) 0%, rgba(34, 92, 34, 0.15) 100%);
+    box-shadow: 0 0 16px rgba(45, 122, 45, 0.4);
+}
+
+.choice-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.choice-icon.health {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+}
+
+.choice-icon.mana {
+    background: linear-gradient(135deg, #4488ff 0%, #0044cc 100%);
+}
+
+.choice-icon.attribute {
+    background: linear-gradient(135deg, #9966ff 0%, #6633cc 100%);
+}
+
+.choice-card h3 {
+    font-size: 18px;
+    color: #3a3a3a;
+    margin-bottom: 8px;
+}
+
+.choice-card p {
+    font-size: 14px;
+    color: #5a4a3a;
+    margin: 0;
+}
+
+/* Section Titles */
+.spell-selection-section h3,
+.resource-choice-section h3,
+.attribute-selection-panel h3 {
+    font-size: 18px;
+    color: #3a3a3a;
+    margin-bottom: 10px;
+}
+
+.section-description {
+    font-size: 13px;
+    color: #5a4a3a;
+    margin-bottom: 12px;
+}
+
+/* Resource Choice Section */
+.resource-choice-section {
+    margin-bottom: 15px;
+}
+
+.resource-choice-section .level-up-choices {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 0;
+}
+
+/* Spell Selection Panel */
+.spell-selection-panel {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.spell-selection-panel h4 {
+    font-size: 16px;
+    color: #3a3a3a;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.spell-options-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.spell-icons-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.spell-option {
+    position: relative;
+    width: 80px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.spell-option img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid #8b7355;
+    border-radius: 8px;
+}
+
+.spell-option:hover img {
+    border-color: #d4af37;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.spell-option.selected img {
+    border-color: #2d7a2d;
+    box-shadow: 0 0 16px rgba(45, 122, 45, 0.6);
+}
+
+.spell-option.viewing img {
+    border-color: #d4af37;
+}
+
+.spell-name {
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #3a3a3a;
+}
+
+.selection-check {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(45, 122, 45, 0.95);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.spell-detail-view {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+/* Scale down spell cards in level-up modal */
+.level-up-modal .pf-spell-card {
+    transform: scale(0.85);
+    transform-origin: top center;
+    margin-bottom: -30px;
+}
+
+/* Attribute Selection Panel */
+.attribute-selection-panel {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.attribute-selection-panel h4 {
+    font-size: 16px;
+    color: #3a3a3a;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.attribute-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 100%;
+}
+
+.attribute-option {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.15) 0%, rgba(101, 67, 33, 0.1) 100%);
+    border: 2px solid #8b7355;
+    border-radius: 8px;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.attribute-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: #d4af37;
+}
+
+.attribute-option.selected {
+    border-color: #2d7a2d;
+    background: linear-gradient(135deg, rgba(45, 122, 45, 0.2) 0%, rgba(34, 92, 34, 0.15) 100%);
+    box-shadow: 0 0 16px rgba(45, 122, 45, 0.4);
+}
+
+.attribute-option i {
+    font-size: 28px;
+    color: #8b7355;
+}
+
+.attribute-option.selected i {
+    color: #2d7a2d;
+}
+
+.attribute-option span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #3a3a3a;
+    text-align: center;
+}
+
+/* Action Buttons */
+.level-up-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-btn {
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #2d7a2d;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #2d7a2d 0%, #1e5a1e 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.confirm-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #3d8a3d 0%, #2e6a2e 100%);
+}
+
+.confirm-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Point Spending System Styles */
+.point-spending-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    border: 2px solid rgba(139, 115, 85, 0.3);
+}
+
+.point-spending-section h3 {
+    font-size: 18px;
+    color: #3a3a3a;
+    margin-bottom: 8px;
+}
+
+.point-spending-section .section-description {
+    font-size: 13px;
+    color: #5a4a3a;
+    margin-bottom: 15px;
+}
+
+.current-choices {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: rgba(139, 115, 85, 0.1);
+    border-radius: 6px;
+}
+
+.current-choices h4 {
+    font-size: 14px;
+    color: #3a3a3a;
+    margin-bottom: 10px;
+}
+
+.choices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.choice-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 4px;
+    border: 1px solid rgba(139, 115, 85, 0.3);
+}
+
+.choice-item span {
+    font-size: 14px;
+    color: #3a3a3a;
+    font-weight: 500;
+}
+
+.remove-choice-btn {
+    background: rgba(220, 53, 69, 0.8);
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.remove-choice-btn:hover {
+    background: rgba(220, 53, 69, 1);
+    transform: scale(1.1);
+}
+
+.available-choices h4 {
+    font-size: 14px;
+    color: #3a3a3a;
+    margin-bottom: 12px;
+}
+
+.choice-category {
+    margin-bottom: 15px;
+}
+
+.choice-category h5 {
+    font-size: 13px;
+    color: #5a4a3a;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.choice-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.choice-buttons.attributes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+.choice-btn {
+    padding: 10px 15px;
+    border: 2px solid rgba(139, 115, 85, 0.4);
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 230, 210, 0.8) 100%);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #3a3a3a;
+    font-weight: 500;
+}
+
+.choice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: rgba(139, 115, 85, 0.6);
+}
+
+.choice-btn.health {
+    border-color: rgba(220, 53, 69, 0.5);
+}
+
+.choice-btn.health:hover {
+    border-color: rgba(220, 53, 69, 0.8);
+    background: linear-gradient(135deg, rgba(255, 200, 200, 0.8) 0%, rgba(255, 180, 180, 0.8) 100%);
+}
+
+.choice-btn.mana {
+    border-color: rgba(13, 110, 253, 0.5);
+}
+
+.choice-btn.mana:hover {
+    border-color: rgba(13, 110, 253, 0.8);
+    background: linear-gradient(135deg, rgba(200, 220, 255, 0.8) 0%, rgba(180, 210, 255, 0.8) 100%);
+}
+
+.choice-btn.attribute:hover {
+    border-color: rgba(139, 115, 85, 0.8);
+    background: linear-gradient(135deg, rgba(255, 245, 220, 0.9) 0%, rgba(245, 235, 210, 0.9) 100%);
+}
+
+/* Spell icon wrapper for racial-trait style */
+.spell-icon-wrapper {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.spell-icon-wrapper.selected {
+    transform: scale(1.1);
+}
+
+.spell-icon-wrapper .spell-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    border: 3px solid rgba(139, 115, 85, 0.5);
+    transition: all 0.2s ease;
+}
+
+.spell-icon-wrapper:hover .spell-icon {
+    border-color: rgba(139, 115, 85, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.spell-icon-wrapper.selected .spell-icon {
+    border-color: #4a934a;
+    box-shadow: 0 0 15px rgba(74, 147, 74, 0.6);
+}
+
+.spell-card-preview {
+    margin-top: 15px;
+}
+

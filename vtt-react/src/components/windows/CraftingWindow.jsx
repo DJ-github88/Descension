@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WowWindow from './WowWindow';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import ProfessionSelection from '../crafting/ProfessionSelection';
@@ -7,62 +7,57 @@ import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
     const { selectedProfession, setSelectedProfession } = useCraftingStore();
-    const [activeTab, setActiveTab] = useState('overview');
 
     const handleProfessionSelect = (professionId) => {
         setSelectedProfession(professionId);
-        // Stay on overview tab when selecting a profession
+    };
+
+    const handleBackToProfessions = () => {
+        setSelectedProfession(null);
     };
 
     const renderContent = () => {
-        switch (activeTab) {
-            case 'overview':
-                return (
-                    <ProfessionSelection
-                        onProfessionSelect={handleProfessionSelect}
-                        selectedProfession={selectedProfession}
-                    />
-                );
-            case 'queue':
-                return (
-                    <div className="crafting-queue">
-                        <div className="queue-header">
-                            <h3>Crafting Queue</h3>
-                            <p>Items currently being crafted or queued for crafting</p>
+        // If a profession is selected, show its interface
+        if (selectedProfession) {
+            switch (selectedProfession) {
+                case 'alchemy':
+                    return <AlchemyInterface onBack={handleBackToProfessions} />;
+                // Add other profession interfaces here as they're implemented
+                default:
+                    return (
+                        <div className="profession-not-implemented">
+                            <h3>Coming Soon</h3>
+                            <p>This profession interface is under development.</p>
+                            <button className="wow-button" onClick={handleBackToProfessions}>
+                                Back to Professions
+                            </button>
                         </div>
-                        <div className="queue-content">
-                            <div className="queue-empty">
-                                <p>No items in crafting queue</p>
-                                <p>Select a profession from the Overview tab to start crafting</p>
-                            </div>
-                        </div>
-                    </div>
-                );
-            default:
-                return (
-                    <ProfessionSelection
-                        onProfessionSelect={handleProfessionSelect}
-                        selectedProfession={selectedProfession}
-                    />
-                );
+                    );
+            }
         }
+
+        // Otherwise show profession selection
+        return (
+            <ProfessionSelection
+                onProfessionSelect={handleProfessionSelect}
+                selectedProfession={selectedProfession}
+            />
+        );
     };
 
+    // Get the current tab label based on selected profession
+    const getCurrentTabLabel = () => {
+        if (selectedProfession) {
+            const profession = PROFESSIONS[selectedProfession];
+            return profession ? profession.name : 'Profession';
+        }
+        return 'Overview';
+    };
 
-
-    // Simplified tabs - just Overview and Queue
+    // Single tab that changes label based on context
     const tabs = [
-        { id: 'overview', label: 'Overview' },
-        { id: 'queue', label: 'Queue' }
+        { id: 'main', label: getCurrentTabLabel() }
     ];
-
-    const handleTabChange = (tabId) => {
-        setActiveTab(tabId);
-        // Reset profession selection when switching tabs
-        if (tabId === 'overview') {
-            setSelectedProfession(null);
-        }
-    };
 
     return (
         <WowWindow
@@ -77,8 +72,7 @@ function CraftingWindow({ isOpen, onClose }) {
                     {tabs.map(tab => (
                         <button
                             key={tab.id}
-                            className={`spellbook-tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                            onClick={() => handleTabChange(tab.id)}
+                            className="spellbook-tab-button active"
                         >
                             <span>{tab.label}</span>
                         </button>

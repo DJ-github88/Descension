@@ -139,7 +139,7 @@
 }
 
 .search-btn {
-  padding: var(--pf-space-5, 20px) var(--pf-space-6, 24px);
+
   border: none;
   border-radius: 0;
   background: var(--pf-brown-medium, #8B4513);

@@ -3,7 +3,6 @@ import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../
 import { RESOLUTION_TYPES } from '../../core/mechanics/resolutionMechanics';
 import ResolutionTypeSelector from '../mechanics/ResolutionTypeSelector';
 import TableEntryEditor from '../mechanics/TableEntryEditor';
-import TablePreview from '../mechanics/TablePreview';
 import '../../styles/RollableTableStepWoW.css';
 
 const RollableTableStep = () => {
@@ -105,12 +104,129 @@ const RollableTableStep = () => {
     }));
   };
 
+  // Generate placeholder entries when resolution type is first selected
+  const generatePlaceholderEntries = (resolutionType, config) => {
+    const placeholders = [];
+
+    switch (resolutionType) {
+      case 'DICE':
+        const diceType = config.diceType || 'd100';
+        const maxValue = parseInt(diceType.substring(1));
+        const exampleCount = Math.min(6, maxValue); // Generate up to 6 examples
+        const rangeSize = Math.floor(maxValue / exampleCount);
+
+        for (let i = 0; i < exampleCount; i++) {
+          const min = (i * rangeSize) + 1;
+          const max = i === exampleCount - 1 ? maxValue : (i + 1) * rangeSize;
+          placeholders.push({
+            id: `placeholder-${i}`,
+            range: { min, max },
+            name: `Example Effect ${i + 1}`,
+            description: `Placeholder effect for range ${min}-${max}`,
+            effectType: 'damage',
+            effectConfig: {
+              damageFormula: '2d6',
+              damageType: 'fire',
+              healingFormula: '2d8',
+              creatureType: '',
+              quantity: 1,
+              buffType: '',
+              duration: 3
+            }
+          });
+        }
+        break;
+
+      case 'CARDS':
+        const cardExamples = [
+          { pattern: 'Hearts', name: 'Hearts Effect', desc: 'Effect when drawing Hearts' },
+          { pattern: 'Diamonds', name: 'Diamonds Effect', desc: 'Effect when drawing Diamonds' },
+          { pattern: 'Clubs', name: 'Clubs Effect', desc: 'Effect when drawing Clubs' },
+          { pattern: 'Spades', name: 'Spades Effect', desc: 'Effect when drawing Spades' },
+          { pattern: 'Red Cards', name: 'Red Cards Effect', desc: 'Effect when drawing Red Cards' },
+          { pattern: 'Black Cards', name: 'Black Cards Effect', desc: 'Effect when drawing Black Cards' },
+          { pattern: 'Face Cards', name: 'Face Cards Effect', desc: 'Effect when drawing Face Cards' },
+          { pattern: 'Aces', name: 'Aces Effect', desc: 'Effect when drawing Aces' }
+        ];
+
+        cardExamples.forEach((example, i) => {
+          placeholders.push({
+            id: `placeholder-${i}`,
+            cardPattern: example.pattern,
+            name: example.name,
+            description: example.desc,
+            effectType: 'damage',
+            effectConfig: {
+              damageFormula: '2d6',
+              damageType: 'fire',
+              healingFormula: '2d8',
+              creatureType: '',
+              quantity: 1,
+              buffType: '',
+              duration: 3
+            }
+          });
+        });
+        break;
+
+      case 'COINS':
+        const coinExamples = [
+          { pattern: 'All Heads', name: 'All Heads Effect', desc: 'Effect when all coins are heads' },
+          { pattern: 'All Tails', name: 'All Tails Effect', desc: 'Effect when all coins are tails' },
+          { pattern: 'Majority Heads (3+)', name: 'Majority Heads Effect', desc: 'Effect when majority are heads' },
+          { pattern: 'Majority Tails (3+)', name: 'Majority Tails Effect', desc: 'Effect when majority are tails' },
+          { pattern: 'Exactly 2 Heads', name: 'Two Heads Effect', desc: 'Effect when exactly 2 heads' },
+          { pattern: 'Exactly 2 Tails', name: 'Two Tails Effect', desc: 'Effect when exactly 2 tails' },
+          { pattern: 'Alternating Pattern (H-T-H-T)', name: 'Alternating Effect', desc: 'Effect for alternating pattern' },
+          { pattern: 'Mixed (No Pattern)', name: 'Mixed Effect', desc: 'Effect for mixed results' }
+        ];
+
+        coinExamples.forEach((example, i) => {
+          placeholders.push({
+            id: `placeholder-${i}`,
+            coinPattern: example.pattern,
+            name: example.name,
+            description: example.desc,
+            effectType: 'damage',
+            effectConfig: {
+              damageFormula: '2d6',
+              damageType: 'fire',
+              healingFormula: '2d8',
+              creatureType: '',
+              quantity: 1,
+              buffType: '',
+              duration: 3
+            }
+          });
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    return placeholders;
+  };
+
   // Convert entries to match the new resolution type
   const convertEntriesToResolutionType = (entries, newType, config = {}) => {
     if (!entries || entries.length === 0) return entries;
 
     return entries.map((entry, index) => {
-      let newRange;
+      // Preserve all entry data including effectConfig
+      const baseEntry = {
+        ...entry,
+        // Ensure effectConfig exists
+        effectConfig: entry.effectConfig || {
+          damageFormula: '2d6',
+          damageType: 'fire',
+          healingFormula: '2d8',
+          creatureType: '',
+          quantity: 1,
+          buffType: '',
+          duration: 3
+        }
+      };
 
       switch (newType) {
         case 'DICE':
@@ -119,52 +235,71 @@ const RollableTableStep = () => {
           const min = (index * rangeSize) + 1;
           const max = index === entries.length - 1 ? 100 : (index + 1) * rangeSize;
           return {
-            ...entry,
+            ...baseEntry,
             range: { min, max },
-            cardPattern: null,
-            coinPattern: null
+            cardPattern: undefined,
+            coinPattern: undefined
           };
 
         case 'CARDS':
-          // Convert to card patterns
+          // Convert to card patterns - expanded options
           const cardPatterns = [
             'Hearts', 'Diamonds', 'Clubs', 'Spades',
             'Red Cards', 'Black Cards', 'Face Cards', 'Number Cards',
-            'Aces', 'Kings', 'Queens', 'Jacks'
+            'Aces', 'Kings', 'Queens', 'Jacks',
+            'Ace of Spades', 'Ace of Hearts', 'Ace of Diamonds', 'Ace of Clubs',
+            'King of Spades', 'King of Hearts', 'King of Diamonds', 'King of Clubs',
+            'Queen of Spades', 'Queen of Hearts', 'Queen of Diamonds', 'Queen of Clubs',
+            'Jack of Spades', 'Jack of Hearts', 'Jack of Diamonds', 'Jack of Clubs',
+            'Red Face Cards', 'Black Face Cards', 'Odd Numbers', 'Even Numbers',
+            '2-5 (Low)', '6-9 (Mid)', '10-K (High)', 'Joker'
           ];
           const cardPattern = cardPatterns[index % cardPatterns.length] || `Pattern ${index + 1}`;
           return {
-            ...entry,
-            range: null,
-            cardPattern: cardPattern
+            ...baseEntry,
+            range: undefined,
+            cardPattern: cardPattern,
+            coinPattern: undefined
           };
 
         case 'COINS':
-          // Convert to coin patterns
+          // Convert to coin patterns - clearer wording for sequences and majorities
           const coinPatterns = [
-            'All Heads', 'All Tails', 'Mostly Heads', 'Mostly Tails',
-            'Mixed', 'Alternating', 'Two Heads', 'Two Tails',
-            'Three Heads', 'Three Tails'
+            'All Heads', 'All Tails',
+            'Majority Heads (3+)', 'Majority Tails (3+)',
+            'Exactly 2 Heads', 'Exactly 2 Tails',
+            'Exactly 3 Heads', 'Exactly 3 Tails',
+            'Exactly 4 Heads', 'Exactly 4 Tails',
+            'Alternating Pattern (H-T-H-T)', 'Alternating Pattern (T-H-T-H)',
+            'Sequence: H-H-T', 'Sequence: T-T-H',
+            'Sequence: H-T-T', 'Sequence: T-H-H',
+            'Mixed (No Pattern)', 'Any Single Heads', 'Any Single Tails'
           ];
           const coinPattern = coinPatterns[index % coinPatterns.length] || `Pattern ${index + 1}`;
           return {
-            ...entry,
-            range: null,
+            ...baseEntry,
+            range: undefined,
+            cardPattern: undefined,
             coinPattern: coinPattern
           };
 
         default:
-          return entry;
+          return baseEntry;
       }
     });
   };
 
   const handleResolutionTypeChange = (type) => {
-    const convertedEntries = convertEntriesToResolutionType(
+    let convertedEntries = convertEntriesToResolutionType(
       rollableTable.entries,
       type,
       rollableTable.resolutionConfig
     );
+
+    // Auto-populate placeholder examples if no entries exist
+    if (!convertedEntries || convertedEntries.length === 0) {
+      convertedEntries = generatePlaceholderEntries(type, rollableTable.resolutionConfig);
+    }
 
     dispatch(actionCreators.updateRollableTable({
       ...rollableTable,
@@ -179,14 +314,28 @@ const RollableTableStep = () => {
       ...config
     };
 
-    // If card count or coin count changed, we might need to update entries
+    // If dice type, card count, or coin count changed, update entries
     let updatedEntries = rollableTable.entries;
-    if ((config.cardCount || config.coinCount) && rollableTable.entries && rollableTable.entries.length > 0) {
+
+    // If dice type changed and we have entries, regenerate ranges
+    if (config.diceType && rollableTable.entries && rollableTable.entries.length > 0) {
       updatedEntries = convertEntriesToResolutionType(
         rollableTable.entries,
         rollableTable.resolutionType,
         newConfig
       );
+    }
+    // If card count or coin count changed, update entries
+    else if ((config.cardCount || config.coinCount) && rollableTable.entries && rollableTable.entries.length > 0) {
+      updatedEntries = convertEntriesToResolutionType(
+        rollableTable.entries,
+        rollableTable.resolutionType,
+        newConfig
+      );
+    }
+    // If dice type changed and no entries exist, auto-populate
+    else if (config.diceType && (!rollableTable.entries || rollableTable.entries.length === 0)) {
+      updatedEntries = generatePlaceholderEntries(rollableTable.resolutionType, newConfig);
     }
 
     dispatch(actionCreators.updateRollableTable({
@@ -292,13 +441,6 @@ const RollableTableStep = () => {
               onAddEntry={handleAddEntry}
               onUpdateEntry={handleUpdateEntry}
               onRemoveEntry={handleRemoveEntry}
-            />
-          </div>
-
-          <div className="table-preview-section">
-            <h3>Table Preview</h3>
-            <TablePreview
-              table={rollableTable}
             />
           </div>
         </>

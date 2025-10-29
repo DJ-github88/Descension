@@ -13,6 +13,7 @@ import AuthModal from "./components/auth/AuthModal";
 import UserProfile from "./components/auth/UserProfile";
 import DialogueSystem from "./components/dialogue/DialogueSystem";
 import DialogueControls from "./components/dialogue/DialogueControls";
+import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
 
 // Lazy load heavy components to reduce initial bundle size
 const Grid = lazy(() => import("./components/Grid"));
@@ -493,6 +494,34 @@ function GameScreen() {
     );
 }
 
+// Level-Up Modal Wrapper Component
+function LevelUpChoiceModalWrapper() {
+    const showLevelUpModal = useCharacterStore(state => state.showLevelUpModal);
+    const pendingLevelUpInfo = useCharacterStore(state => state.pendingLevelUpInfo);
+    const characterClass = useCharacterStore(state => state.class);
+    const knownSpells = useCharacterStore(state => state.class_spells?.known_spells || []);
+    const handleLevelUpChoice = useCharacterStore(state => state.handleLevelUpChoice);
+
+    const handleClose = () => {
+        useCharacterStore.setState({ showLevelUpModal: false, pendingLevelUpInfo: null });
+    };
+
+    if (!showLevelUpModal || !pendingLevelUpInfo) {
+        return null;
+    }
+
+    return (
+        <LevelUpChoiceModal
+            isOpen={showLevelUpModal}
+            onClose={handleClose}
+            characterClass={characterClass}
+            currentLevel={pendingLevelUpInfo.newLevel}
+            knownSpells={knownSpells}
+            onChoiceSelected={handleLevelUpChoice}
+        />
+    );
+}
+
 export default function App() {
     const [gameMode, setGameMode] = useState('landing'); // 'landing', 'single', or 'multiplayer'
     const [showAuthModal, setShowAuthModal] = useState(false);
@@ -811,6 +840,9 @@ const AppContent = ({
                 isOpen={showUserProfile}
                 onClose={handleCloseUserProfile}
             />
+
+            {/* Level-Up Choice Modal */}
+            <LevelUpChoiceModalWrapper />
 
             {/* Portal Debugger for production troubleshooting */}
             <PortalDebugger />

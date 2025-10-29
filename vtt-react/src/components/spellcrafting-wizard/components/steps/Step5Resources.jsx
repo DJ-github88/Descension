@@ -17,7 +17,11 @@ import {
   faMoon,
   faSun,
   faSkull,
-  faQuestionCircle
+  faQuestionCircle,
+  faWandMagicSparkles,
+  faSnowflake,
+  faHeart,
+  faRandom
 } from '@fortawesome/free-solid-svg-icons';
 import SimpleFormulaHelp from '../common/SimpleFormulaHelp';
 import { Form, Card, Alert, Row, Col, Button, Badge } from 'react-bootstrap';
@@ -74,6 +78,15 @@ const Step5Resources = () => {
     { id: 'soul_shards', name: 'Soul Shards', description: 'Collected from enemies', icon: faSkull },
     { id: 'holy_power', name: 'Holy Power', description: 'Divine power source', icon: faSun },
     { id: 'astral_power', name: 'Astral Power', description: 'Cosmic energy', icon: faMoon },
+    // Arcanoneer Elemental Spheres
+    { id: 'arcane_sphere', name: 'Arcane Sphere (AS)', description: 'Raw magical force', icon: faWandMagicSparkles, color: '#9370DB', shortName: 'AS' },
+    { id: 'holy_sphere', name: 'Holy Sphere (HS)', description: 'Divine radiance', icon: faSun, color: '#FFD700', shortName: 'HS' },
+    { id: 'shadow_sphere', name: 'Shadow Sphere (SS)', description: 'Necrotic darkness', icon: faMoon, color: '#1C1C1C', shortName: 'SS' },
+    { id: 'fire_sphere', name: 'Fire Sphere (FS)', description: 'Burning flames', icon: faFire, color: '#FF4500', shortName: 'FS' },
+    { id: 'ice_sphere', name: 'Ice Sphere (IS)', description: 'Freezing cold', icon: faSnowflake, color: '#4169E1', shortName: 'IS' },
+    { id: 'nature_sphere', name: 'Nature Sphere (NS)', description: 'Thunder and vines', icon: faLeaf, color: '#32CD32', shortName: 'NS' },
+    { id: 'healing_sphere', name: 'Healing Sphere (HES)', description: 'Life energy', icon: faHeart, color: '#FFFF00', shortName: 'HES' },
+    { id: 'chaos_sphere', name: 'Chaos Sphere (CS)', description: 'Unpredictable magic', icon: faRandom, color: '#FF00FF', shortName: 'CS' },
   ];
 
   // Formula examples for different resource types

@@ -400,7 +400,6 @@
 .wow-spell-row.empty {
   background: transparent;
   border: 1px solid rgba(139, 115, 85, 0.35);
-  height: 48px;
   cursor: default;
 }
 .wow-spell-row.empty:hover {

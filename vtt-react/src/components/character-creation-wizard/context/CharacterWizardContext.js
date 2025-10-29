@@ -172,6 +172,7 @@ export const ACTION_TYPES = {
     UPDATE_LORE: 'UPDATE_LORE',
     UPDATE_BASE_STATS: 'UPDATE_BASE_STATS',
     RECALCULATE_FINAL_STATS: 'RECALCULATE_FINAL_STATS',
+    SET_STARTING_SPELLS: 'SET_STARTING_SPELLS',
 
     // Validation
     SET_VALIDATION_ERRORS: 'SET_VALIDATION_ERRORS',
@@ -372,7 +373,19 @@ const characterWizardReducer = (state, action) => {
                     finalStats
                 }
             };
-            
+
+        case ACTION_TYPES.SET_STARTING_SPELLS:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    class_spells: {
+                        ...state.characterData.class_spells,
+                        known_spells: action.payload
+                    }
+                }
+            };
+
         case ACTION_TYPES.SET_VALIDATION_ERRORS:
             return {
                 ...state,
@@ -620,6 +633,7 @@ export const wizardActionCreators = {
     setSelectedAbilities: (abilities) => ({ type: ACTION_TYPES.SET_SELECTED_ABILITIES, payload: abilities }),
     updateLore: (lore) => ({ type: ACTION_TYPES.UPDATE_LORE, payload: lore }),
     updateBaseStats: (stats) => ({ type: ACTION_TYPES.UPDATE_BASE_STATS, payload: stats }),
+    setStartingSpells: (spellIds) => ({ type: ACTION_TYPES.SET_STARTING_SPELLS, payload: spellIds }),
 
     setValidationErrors: (errors) => ({ type: ACTION_TYPES.SET_VALIDATION_ERRORS, payload: errors }),
     validateCurrentStep: () => ({ type: ACTION_TYPES.VALIDATE_CURRENT_STEP }),

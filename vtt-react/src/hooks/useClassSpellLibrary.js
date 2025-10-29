@@ -19,6 +19,7 @@ export const useClassSpellLibrary = () => {
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
   const characters = useCharacterStore(state => state.characters);
   const currentClass = useCharacterStore(state => state.class);
+  const knownSpells = useCharacterStore(state => state.class_spells?.known_spells || []);
 
   // Get active character
   const activeCharacter = characters.find(char => char.id === currentCharacterId);
@@ -31,12 +32,15 @@ export const useClassSpellLibrary = () => {
       activeCharacter: activeCharacter ? {
         id: activeCharacter.id,
         name: activeCharacter.name,
-        class: activeCharacter.class
+        class: activeCharacter.class,
+        class_spells: activeCharacter.class_spells
       } : null,
       currentClass,
-      resolvedCharacterClass: characterClass
+      resolvedCharacterClass: characterClass,
+      knownSpellsFromStore: knownSpells,
+      knownSpellsCount: knownSpells.length
     });
-  }, [currentCharacterId, activeCharacter?.id, activeCharacter?.class, currentClass, characterClass]);
+  }, [currentCharacterId, activeCharacter?.id, activeCharacter?.class, currentClass, characterClass, knownSpells]);
 
   /**
    * Load spells for a specific class
@@ -127,22 +131,47 @@ export const useClassSpellLibrary = () => {
 
   /**
    * Get all spells (class + custom) as a flat array
+   * Filters to only show spells the character knows
    */
   const getAllSpells = useCallback(() => {
     const allSpells = [];
     spellCategories.forEach(category => {
       allSpells.push(...category.spells);
     });
-    return allSpells;
-  }, [spellCategories]);
+
+    console.log('📚 getAllSpells Debug:', {
+      totalSpellsInCategories: allSpells.length,
+      knownSpellsCount: knownSpells.length,
+      knownSpells: knownSpells,
+      allSpellIds: allSpells.map(s => s.id)
+    });
+
+    // Filter to only show known spells
+    if (knownSpells.length > 0) {
+      const filtered = allSpells.filter(spell => knownSpells.includes(spell.id));
+      console.log('📚 Filtered to known spells:', filtered.length, filtered.map(s => s.id));
+      return filtered;
+    }
+
+    console.log('📚 No known spells, returning empty array');
+    return []; // Return empty array if no known spells
+  }, [spellCategories, knownSpells]);
 
   /**
    * Get spells by category
+   * Filters to only show spells the character knows
    */
   const getSpellsByCategory = useCallback((categoryId) => {
     const category = spellCategories.find(cat => cat.id === categoryId);
-    return category ? category.spells : [];
-  }, [spellCategories]);
+    const categorySpells = category ? category.spells : [];
+
+    // Filter to only show known spells
+    if (knownSpells.length > 0) {
+      return categorySpells.filter(spell => knownSpells.includes(spell.id));
+    }
+
+    return categorySpells;
+  }, [spellCategories, knownSpells]);
 
   /**
    * Get category information
@@ -242,7 +271,8 @@ export const useClassSpellLibrary = () => {
     resetLibrary,
     
     // Computed
-    hasActiveCharacter: !!activeCharacter,
+    // Consider character active if we have a class set (either from activeCharacter or currentClass)
+    hasActiveCharacter: !!activeCharacter || !!characterClass,
     hasClassSpells: classSpells.length > 0,
     categoryCount: spellCategories.length,
     totalSpellCount: getAllSpells().length

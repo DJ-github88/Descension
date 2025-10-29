@@ -121,7 +121,7 @@ const useCharacterStore = create((set, get) => ({
     roomName: '', // Current room name for multiplayer
     race: '', // Race ID (e.g., 'nordmark')
     subrace: '', // Subrace ID (e.g., 'berserker_nordmark')
-    class: 'Chaos Weaver', // Temporarily set to test chaotic wave animation
+    class: '', // Character class
     background: '', // Background ID (e.g., 'acolyte', 'sage')
     backgroundDisplayName: '', // Display name for background
     path: '', // Character path ID (e.g., 'mystic', 'zealot')
@@ -130,6 +130,16 @@ const useCharacterStore = create((set, get) => ({
     experience: 0, // Current XP
     alignment: 'Neutral Good',
     exhaustionLevel: 0,
+
+    // Level-up modal state
+    showLevelUpModal: false,
+    pendingLevelUpInfo: null, // { newLevel, oldLevel }
+    levelUpHistory: {}, // { level: { statChoice, spellId?, attribute?, timestamp } }
+
+    // Class-specific spell tracking (for Arcanoneer and other spell-learning classes)
+    class_spells: {
+        known_spells: [] // Array of spell IDs the character knows
+    },
 
     // Racial traits and information
     racialTraits: [],
@@ -768,6 +778,23 @@ const useCharacterStore = create((set, get) => ({
                         lastUpdate: Date.now()
                     };
                 }
+
+                // If changing to Arcanoneer and character has no spells, grant starting spells
+                if (value === 'Arcanoneer' && (!state.class_spells?.known_spells || state.class_spells.known_spells.length === 0)) {
+                    // Grant 3 random starting spells from level 1 pool
+                    const startingSpells = [
+                        'arc_steam_burst',
+                        'arc_celestial_ray',
+                        'arc_arcane_detonation'
+                    ];
+
+                    newState.class_spells = {
+                        ...state.class_spells,
+                        known_spells: startingSpells
+                    };
+
+                    console.log('🎓 Granted starting Arcanoneer spells:', startingSpells);
+                }
             }
 
             // If we have an active character and we're updating a field that should sync,
@@ -1013,9 +1040,20 @@ const useCharacterStore = create((set, get) => ({
         const encumbranceState = getEncumbranceState();
         const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
 
-        // Update health and mana max values based on derived stats
-        const newMaxHealth = Math.round(derivedStats.maxHealth);
-        const newMaxMana = Math.round(derivedStats.maxMana);
+        // Calculate total level-up bonuses from history
+        let totalHealthBonus = 0;
+        let totalManaBonus = 0;
+
+        if (state.levelUpHistory) {
+            Object.values(state.levelUpHistory).forEach(entry => {
+                totalHealthBonus += entry.healthIncrease || 0;
+                totalManaBonus += entry.manaIncrease || 0;
+            });
+        }
+
+        // Update health and mana max values based on derived stats + level-up bonuses
+        const newMaxHealth = Math.round(derivedStats.maxHealth) + totalHealthBonus;
+        const newMaxMana = Math.round(derivedStats.maxMana) + totalManaBonus;
 
         const newHealth = {
             current: Math.min(state.health.current, newMaxHealth),
@@ -1555,7 +1593,9 @@ const useCharacterStore = create((set, get) => ({
                 spellPower: character.spellPower || get().spellPower,
                 lore: character.lore || get().lore,
                 tokenSettings: character.tokenSettings || get().tokenSettings,
-                skillRanks: character.skillRanks || {}
+                skillRanks: character.skillRanks || {},
+                class_spells: character.class_spells || { known_spells: [] },
+                levelUpHistory: character.levelUpHistory || {}
             });
 
             // Load character's inventory into the inventory store
@@ -1921,6 +1961,8 @@ const useCharacterStore = create((set, get) => ({
             lore: state.lore,
             tokenSettings: state.tokenSettings,
             skillRanks: state.skillRanks,
+            class_spells: state.class_spells, // Include class spells
+            levelUpHistory: state.levelUpHistory, // Include level-up history
             inventory: inventoryData, // Include inventory data
             updatedAt: new Date().toISOString()
         };
@@ -2165,33 +2207,24 @@ const useCharacterStore = create((set, get) => ({
             if (levelUpInfo.didLevelUp) {
                 console.log(`🎉 LEVEL UP! ${levelUpInfo.oldLevel} → ${levelUpInfo.newLevel}`);
 
-                // Calculate HP gain for each level gained
-                let totalHPGain = 0;
-                for (let i = 0; i < levelUpInfo.levelsGained; i++) {
-                    totalHPGain += calculateLevelUpHP(state.stats.constitution);
-                }
-
-                // Update level and max HP
-                const newMaxHP = state.health.max + totalHPGain;
-                const newHealth = {
-                    current: state.health.current + totalHPGain, // Also heal by the amount gained
-                    max: newMaxHP
-                };
-
                 // Record level up
                 if (state.currentCharacterId) {
                     get().recordCharacterChange(state.currentCharacterId, 'level_up', {
                         oldLevel: levelUpInfo.oldLevel,
                         newLevel: levelUpInfo.newLevel,
-                        hpGained: totalHPGain,
                         timestamp: new Date()
                     });
                 }
 
+                // Trigger level-up modal instead of auto-applying bonuses
                 return {
                     experience: newExperience,
                     level: levelUpInfo.newLevel,
-                    health: newHealth
+                    showLevelUpModal: true,
+                    pendingLevelUpInfo: {
+                        newLevel: levelUpInfo.newLevel,
+                        oldLevel: levelUpInfo.oldLevel
+                    }
                 };
             }
 
@@ -2221,6 +2254,13 @@ const useCharacterStore = create((set, get) => ({
             return;
         }
 
+        // If leveling down, reverse bonuses from lost levels
+        if (newLevel < currentLevel) {
+            for (let level = currentLevel; level > newLevel; level--) {
+                get().reverseLevelUpBonus(level);
+            }
+        }
+
         // Get the XP required for the new level
         const newXP = getXPForLevel(newLevel);
 
@@ -2228,7 +2268,17 @@ const useCharacterStore = create((set, get) => ({
 
         // Update both level and XP
         set({ level: newLevel });
-        get().updateExperience(newXP);
+
+        // Only trigger updateExperience if leveling up (to avoid triggering modal when manually adjusting)
+        if (levelChange > 0) {
+            get().updateExperience(newXP);
+        } else {
+            // Just set XP without triggering level-up check
+            set({ experience: newXP });
+        }
+
+        // Save character after level adjustment
+        get().saveCharacter();
     },
 
     updateLevel: (newLevel) => {
@@ -2261,6 +2311,119 @@ const useCharacterStore = create((set, get) => ({
 
             return { exhaustionLevel: newExhaustionLevel };
         });
+    },
+
+    // Handle level-up choice from modal
+    handleLevelUpChoice: (choice) => {
+        const state = get();
+        const newLevel = state.pendingLevelUpInfo?.newLevel || state.level;
+
+        console.log(`📊 Processing level-up choice for level ${newLevel}:`, choice);
+
+        // Build the level-up history entry
+        const historyEntry = {
+            healthIncrease: choice.healthIncrease || 0,
+            manaIncrease: choice.manaIncrease || 0,
+            attributes: choice.attributes || [],
+            timestamp: new Date().toISOString()
+        };
+
+        // Handle spell learning (Arcanoneer only)
+        if (choice.spellId) {
+            const currentSpells = state.class_spells?.known_spells || [];
+            set({
+                class_spells: {
+                    ...state.class_spells,
+                    known_spells: [...currentSpells, choice.spellId]
+                }
+            });
+            historyEntry.spellId = choice.spellId;
+            console.log(`📚 Learned new spell: ${choice.spellId}`);
+        }
+
+        // Handle attribute increases first (before health/mana)
+        if (choice.attributes && choice.attributes.length > 0) {
+            const newStats = { ...state.stats };
+            choice.attributes.forEach(attr => {
+                if (attr) {
+                    newStats[attr] = (newStats[attr] || 0) + 1;
+                    console.log(`📊 Increased ${attr} by 1`);
+                }
+            });
+
+            set({ stats: newStats });
+        }
+
+        // Record the level-up choice in history BEFORE recalculating
+        set({
+            levelUpHistory: {
+                ...state.levelUpHistory,
+                [newLevel]: historyEntry
+            },
+            showLevelUpModal: false,
+            pendingLevelUpInfo: null
+        });
+
+        // Recalculate derived stats (this will now include level-up bonuses from history)
+        get().initializeCharacter();
+
+        // Save character after choice
+        if (state.currentCharacterId) {
+            get().saveCurrentCharacter();
+        }
+
+        console.log(`✅ Level-up complete for level ${newLevel}`);
+    },
+
+    // Reverse level-up bonuses when leveling down
+    reverseLevelUpBonus: (level) => {
+        const state = get();
+        const choice = state.levelUpHistory[level];
+
+        if (!choice) {
+            console.log(`⚠️ No level-up history found for level ${level}`);
+            return;
+        }
+
+        console.log(`🔄 Reversing level-up bonuses for level ${level}:`, choice);
+
+        // Reverse spell if present
+        if (choice.spellId) {
+            const currentSpells = state.class_spells?.known_spells || [];
+            const updatedSpells = currentSpells.filter(id => id !== choice.spellId);
+            set({
+                class_spells: {
+                    ...state.class_spells,
+                    known_spells: updatedSpells
+                }
+            });
+            console.log(`📚 Removed spell: ${choice.spellId}`);
+        }
+
+        // Reverse attribute increases (handle both old and new format)
+        const attributes = choice.attributes || (choice.attribute ? [choice.attribute] : []);
+
+        if (attributes.length > 0) {
+            const newStats = { ...state.stats };
+            attributes.forEach(attr => {
+                if (attr) {
+                    newStats[attr] = Math.max(1, (newStats[attr] || 1) - 1);
+                    console.log(`📊 Decreased ${attr} by 1`);
+                }
+            });
+
+            set({ stats: newStats });
+        }
+
+        // Remove from history BEFORE recalculating
+        const updatedHistory = { ...state.levelUpHistory };
+        delete updatedHistory[level];
+        set({ levelUpHistory: updatedHistory });
+
+        // Recalculate derived stats (this will now exclude the removed level-up bonuses)
+        get().initializeCharacter();
+
+        console.log(`✅ Reversed bonuses for level ${level}`);
     }
 }));
 

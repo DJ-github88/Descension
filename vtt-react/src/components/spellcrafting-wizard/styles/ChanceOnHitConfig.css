@@ -555,7 +555,7 @@ input[type="text"],
 input[type="number"] {
   width: 100%;
   background: var(--pf-gradient-input);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+
   border-radius: var(--pf-border-radius);
   color: var(--pf-text-primary);
   padding: var(--pf-space-2);

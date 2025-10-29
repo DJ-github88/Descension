@@ -464,22 +464,27 @@ const ExternalLivePreview = () => {
           /* Live preview uses the same unified-spell-tags-footer styling from cards.css */
         `}
       </style>
-      <SpellCardWithProcs
-        key={`preview-${state.lastModified?.getTime() || Date.now()}`}
-        spell={createPreviewSpell()}
-        variant="wizard"
-        showActions={false}
-        showDescription={true}
-        showStats={true}
-        showTags={true}
-        rollableTableData={state.rollableTable}
-        procPosition="right"
-        showProcs={true}
-        style={{
-          border: 'none !important',
-          outline: 'none !important'
-        }}
-      />
+      {(() => {
+        console.log('ExternalLivePreview - state.rollableTable:', state.rollableTable);
+        return (
+          <SpellCardWithProcs
+            key={`preview-${state.lastModified?.getTime() || Date.now()}`}
+            spell={createPreviewSpell()}
+            variant="wizard"
+            showActions={false}
+            showDescription={true}
+            showStats={true}
+            showTags={true}
+            rollableTableData={state.rollableTable}
+            procPosition="right"
+            showProcs={true}
+            style={{
+              border: 'none !important',
+              outline: 'none !important'
+            }}
+          />
+        );
+      })()}
 
       {/* Completion Button */}
       <div style={{

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { useSpellLibrary } from '../../context/SpellLibraryContext';
-import { FaSearch, FaMagic, FaFire, FaSnowflake, FaHeart, FaShieldAlt, FaSkull } from 'react-icons/fa';
-import { useSpellWizardState } from '../../context/spellWizardContext';
-import FormulaModifierSection from './FormulaModifierSection';
-import '../../styles/FormulaModifierSection.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPlus, faEdit, faTrash, faDice, faFire, faHeart,
+  faUsers, faMagic, faBolt, faShieldAlt, faTimes, faSave
+} from '@fortawesome/free-solid-svg-icons';
+import CreatureSelectionWindow from '../common/CreatureSelectionWindow';
 import '../../styles/RollableTableStep.css';
 
 const TableEntryEditor = ({
@@ -15,857 +17,771 @@ const TableEntryEditor = ({
   onUpdateEntry,
   onRemoveEntry
 }) => {
-  const library = useSpellLibrary();
-  const wizardState = useSpellWizardState();
   const [editingEntry, setEditingEntry] = useState(null);
   const [editingIndex, setEditingIndex] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [spellSearchTerm, setSpellSearchTerm] = useState('');
-  const [showSpellSelector, setShowSpellSelector] = useState(false);
-  const [showEffectModifier, setShowEffectModifier] = useState(false);
-  const [effectModifications, setEffectModifications] = useState({
-    damageMultiplier: 1,
-    healingMultiplier: 1,
-    rangeMultiplier: 1,
-    durationMultiplier: 1,
-    additionalTargets: 0,
-    resourceCostModifier: 0,
-    savingThrowAdvantage: false,
-    savingThrowDisadvantage: false
-  });
+  const [showCreatureSelection, setShowCreatureSelection] = useState(false);
 
   // Initialize a new entry based on resolution type
   const initializeNewEntry = () => {
     const baseEntry = {
       id: uuidv4(),
-      effect: {
-        description: 'Modifies the spell effect',
-        spellEffect: null,
-        visualEffect: ''
-      },
-      effectModifications: {
-        damageMultiplier: 1,
-        healingMultiplier: 1,
-        rangeMultiplier: 1,
-        durationMultiplier: 1,
-        additionalTargets: 0,
-        resourceCostModifier: 0,
-        savingThrowAdvantage: false,
-        savingThrowDisadvantage: false
-      },
-      formulaOverrides: {
-        damage: '',
-        healing: '',
-        range: '',
-        duration: '',
-        targets: ''
-      },
-      modifiesBaseSpell: true,
-      spellReference: null,
-      customName: ''
+      name: '',
+      description: '',
+      effectType: 'damage', // damage, healing, summoning, buff
+      effectConfig: {
+        damageFormula: '2d6',
+        damageType: 'fire',
+        healingFormula: '2d8',
+        creatures: [], // Array of selected creatures for summoning
+        quantity: 1,
+        duration: 3,
+        controlType: 'full',
+        summonLocation: 'nearby',
+        buffType: '',
+        buffDuration: 3
+      }
     };
 
     if (resolutionType === 'DICE') {
-      return {
-        ...baseEntry,
-        range: { min: 1, max: 1 }
-      };
+      return { ...baseEntry, range: { min: 1, max: 1 } };
     } else if (resolutionType === 'CARDS') {
-      return {
-        ...baseEntry,
-        cardPattern: 'ANY'
-      };
+      return { ...baseEntry, cardPattern: 'Hearts' };
     } else if (resolutionType === 'COINS') {
-      return {
-        ...baseEntry,
-        coinPattern: 'ANY'
-      };
+      return { ...baseEntry, coinPattern: 'All Heads' };
     }
-
     return baseEntry;
   };
 
   const handleAddNew = () => {
     setEditingEntry(initializeNewEntry());
     setEditingIndex(null);
-    setIsEditing(true);
   };
 
   const handleEdit = (entry, index) => {
-    // Ensure the entry has all required properties
-    const updatedEntry = {
+    // Ensure effectConfig exists with all required fields
+    const normalizedEntry = {
       ...entry,
-      effectModifications: entry.effectModifications || {
-        damageMultiplier: 1,
-        healingMultiplier: 1,
-        rangeMultiplier: 1,
-        durationMultiplier: 1,
-        additionalTargets: 0,
-        resourceCostModifier: 0,
-        savingThrowAdvantage: false,
-        savingThrowDisadvantage: false
-      },
-      formulaOverrides: entry.formulaOverrides || {
-        damage: '',
-        healing: '',
-        range: '',
-        duration: '',
-        targets: ''
+      effectConfig: {
+        damageFormula: '2d6',
+        damageType: 'fire',
+        healingFormula: '2d8',
+        creatures: [],
+        quantity: 1,
+        duration: 3,
+        controlType: 'full',
+        summonLocation: 'nearby',
+        buffType: '',
+        buffDuration: 3,
+        ...(entry.effectConfig || {})
       }
     };
-
-    setEditingEntry(updatedEntry);
-    setEffectModifications(updatedEntry.effectModifications);
+    setEditingEntry(normalizedEntry);
     setEditingIndex(index);
-    setIsEditing(true);
   };
 
   const handleCancel = () => {
     setEditingEntry(null);
     setEditingIndex(null);
-    setIsEditing(false);
-    setShowEffectModifier(false);
   };
 
   const handleSave = () => {
-    // Update the entry with the latest effect modifications
-    const updatedEntry = {
-      ...editingEntry,
-      effectModifications: { ...effectModifications }
-    };
+    if (!editingEntry.name.trim()) {
+      alert('Please enter a name for this entry');
+      return;
+    }
 
     if (editingIndex !== null) {
-      onUpdateEntry(editingIndex, updatedEntry);
+      onUpdateEntry(editingIndex, editingEntry);
     } else {
-      onAddEntry(updatedEntry);
+      onAddEntry(editingEntry);
     }
     setEditingEntry(null);
     setEditingIndex(null);
-    setIsEditing(false);
-    setShowEffectModifier(false);
   };
 
   const handleRemove = (index) => {
-    onRemoveEntry(index);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setEditingEntry({
-      ...editingEntry,
-      effect: {
-        ...editingEntry.effect,
-        description: e.target.value
-      }
-    });
-  };
-
-  const handleVisualEffectChange = (e) => {
-    setEditingEntry({
-      ...editingEntry,
-      effect: {
-        ...editingEntry.effect,
-        visualEffect: e.target.value
-      }
-    });
-  };
-
-  const handleCustomNameChange = (e) => {
-    setEditingEntry({
-      ...editingEntry,
-      customName: e.target.value
-    });
-  };
-
-  const handleSpellSearchChange = (e) => {
-    setSpellSearchTerm(e.target.value);
-  };
-
-  const toggleSpellSelector = () => {
-    setShowSpellSelector(!showSpellSelector);
-  };
-
-  const handleSelectSpell = (spell) => {
-    setEditingEntry({
-      ...editingEntry,
-      spellReference: spell.id,
-      effect: {
-        ...editingEntry.effect,
-        description: spell.description || editingEntry.effect.description
-      },
-      customName: editingEntry.customName || spell.name
-    });
-    setShowSpellSelector(false);
-    // Show effect modifier when a spell is selected
-    setShowEffectModifier(true);
-  };
-
-  const clearSelectedSpell = () => {
-    setEditingEntry({
-      ...editingEntry,
-      spellReference: null
-    });
-    // Hide effect modifier when no spell is selected
-    setShowEffectModifier(false);
-  };
-
-  // Effect modification handlers
-  const handleEffectModificationChange = (field, value) => {
-    setEffectModifications({
-      ...effectModifications,
-      [field]: value
-    });
-  };
-
-  const toggleEffectModifier = () => {
-    setShowEffectModifier(!showEffectModifier);
-  };
-
-  // Dice-specific handlers
-  const handleMinRangeChange = (e) => {
-    const min = parseInt(e.target.value);
-    setEditingEntry({
-      ...editingEntry,
-      range: {
-        ...editingEntry.range,
-        min
-      }
-    });
-  };
-
-  const handleMaxRangeChange = (e) => {
-    const max = parseInt(e.target.value);
-    setEditingEntry({
-      ...editingEntry,
-      range: {
-        ...editingEntry.range,
-        max
-      }
-    });
-  };
-
-  // Card-specific handlers
-  const handleCardPatternChange = (e) => {
-    setEditingEntry({
-      ...editingEntry,
-      cardPattern: e.target.value
-    });
-  };
-
-  // Coin-specific handlers
-  const handleCoinPatternChange = (e) => {
-    setEditingEntry({
-      ...editingEntry,
-      coinPattern: e.target.value
-    });
-  };
-
-  const handleCoinPatternTypeChange = (type) => {
-    if (type === 'general') {
-      setEditingEntry({
-        ...editingEntry,
-        coinPattern: 'ANY'
-      });
-    } else {
-      // Initialize with all heads for the number of coins
-      const initialSequence = 'H'.repeat(resolutionConfig.coinCount || 1);
-      setEditingEntry({
-        ...editingEntry,
-        coinPattern: `SEQUENCE_${initialSequence}`
-      });
+    if (window.confirm('Are you sure you want to remove this entry?')) {
+      onRemoveEntry(index);
     }
   };
 
-  const handleCoinSequenceChange = (index, value) => {
-    const currentSequence = editingEntry.coinPattern.replace('SEQUENCE_', '');
-    const sequenceArray = currentSequence.split('');
-    sequenceArray[index] = value;
-    const newSequence = sequenceArray.join('');
+  const updateEntry = (field, value) => {
+    setEditingEntry({ ...editingEntry, [field]: value });
+  };
 
+  const updateEffectConfig = (field, value) => {
     setEditingEntry({
       ...editingEntry,
-      coinPattern: `SEQUENCE_${newSequence}`
+      effectConfig: { ...(editingEntry.effectConfig || {}), [field]: value }
     });
   };
 
-  // Render the entry editor form
-  const renderEntryForm = () => {
-    if (!editingEntry) return null;
-
-    return (
-      <div className="entry-editor">
-        <div className="entry-editor-header">
-          <h4>{editingIndex !== null ? 'Edit Entry' : 'Add New Entry'}</h4>
-        </div>
-
-        <div className="entry-editor-form">
-          {/* Resolution-specific inputs */}
-          {resolutionType === 'DICE' && (
-            <>
-              <div className="form-group">
-                <label htmlFor="min-range">Minimum Roll</label>
-                <input
-                  id="min-range"
-                  type="number"
-                  min="1"
-                  max={resolutionConfig.diceType === 'd100' ? 100 : parseInt(resolutionConfig.diceType.substring(1))}
-                  value={editingEntry.range?.min || 1}
-                  onChange={handleMinRangeChange}
-                  className="wow-settings-input"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="max-range">Maximum Roll</label>
-                <input
-                  id="max-range"
-                  type="number"
-                  min="1"
-                  max={resolutionConfig.diceType === 'd100' ? 100 : parseInt(resolutionConfig.diceType.substring(1))}
-                  value={editingEntry.range?.max || 1}
-                  onChange={handleMaxRangeChange}
-                  className="wow-settings-input"
-                />
-              </div>
-            </>
-          )}
-
-          {resolutionType === 'CARDS' && (
-            <div className="form-group">
-              <label htmlFor="card-pattern">Card Pattern</label>
-              <select
-                id="card-pattern"
-                value={editingEntry.cardPattern}
-                onChange={handleCardPatternChange}
-                className="wow-settings-input"
-              >
-                <option value="ANY">Any Cards</option>
-                <option value="PAIR">Pair</option>
-                <option value="TWO_PAIR">Two Pair</option>
-                <option value="THREE_KIND">Three of a Kind</option>
-                <option value="STRAIGHT">Straight</option>
-                <option value="FLUSH">Flush</option>
-                <option value="FULL_HOUSE">Full House</option>
-                <option value="FOUR_KIND">Four of a Kind</option>
-                <option value="STRAIGHT_FLUSH">Straight Flush</option>
-                <option value="ROYAL_FLUSH">Royal Flush</option>
-                <option value="ALL_RED">All Red Cards</option>
-                <option value="ALL_BLACK">All Black Cards</option>
-                <option value="ALL_FACE">All Face Cards</option>
-              </select>
-            </div>
-          )}
-
-          {resolutionType === 'COINS' && (
-            <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-              <label htmlFor="coin-pattern">Coin Pattern</label>
-              <div className="coin-pattern-options">
-                <div className="coin-pattern-type-selector">
-                  <label className={!editingEntry.coinPattern || !editingEntry.coinPattern.includes('SEQUENCE_') ? 'active' : ''}>
-                    <input
-                      type="radio"
-                      name="coin-pattern-type"
-                      checked={!editingEntry.coinPattern || !editingEntry.coinPattern.includes('SEQUENCE_')}
-                      onChange={() => handleCoinPatternTypeChange('general')}
-                    />
-                    General Pattern
-                  </label>
-                  <label className={editingEntry.coinPattern && editingEntry.coinPattern.includes('SEQUENCE_') ? 'active' : ''}>
-                    <input
-                      type="radio"
-                      name="coin-pattern-type"
-                      checked={editingEntry.coinPattern && editingEntry.coinPattern.includes('SEQUENCE_')}
-                      onChange={() => handleCoinPatternTypeChange('sequence')}
-                    />
-                    Specific Sequence
-                  </label>
-                </div>
-
-                {(!editingEntry.coinPattern || !editingEntry.coinPattern.includes('SEQUENCE_')) ? (
-                  <select
-                    id="coin-pattern"
-                    value={editingEntry.coinPattern}
-                    onChange={handleCoinPatternChange}
-                    className="wow-settings-input"
-                  >
-                    <option value="ANY">Any Result</option>
-                    <option value="ALL_HEADS">All Heads</option>
-                    <option value="ALL_TAILS">All Tails</option>
-                    <option value="MAJORITY_HEADS">Majority Heads</option>
-                    <option value="MAJORITY_TAILS">Majority Tails</option>
-                    <option value="EQUAL_SPLIT">Equal Split</option>
-                    <option value="ALTERNATING">Alternating Pattern</option>
-                  </select>
-                ) : (
-                  <div className="coin-sequence-builder">
-                    <div className="coin-sequence-label">Build your sequence:</div>
-                    <div className="coin-sequence-coins">
-                      {resolutionConfig.coinCount > 0 && Array.from({ length: resolutionConfig.coinCount }).map((_, index) => {
-                        const sequence = editingEntry.coinPattern.replace('SEQUENCE_', '');
-                        const currentValue = sequence.length > index ? sequence[index] : 'H';
-
-                        return (
-                          <div key={index} className="coin-sequence-coin">
-                            <div className="coin-number">{index + 1}</div>
-                            <select
-                              value={currentValue}
-                              onChange={(e) => handleCoinSequenceChange(index, e.target.value)}
-                              className="wow-settings-input"
-                            >
-                              <option value="H">Heads (H)</option>
-                              <option value="T">Tails (T)</option>
-                            </select>
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="coin-sequence-preview">
-                      Sequence: <span className="coin-sequence-value">
-                        {editingEntry.coinPattern.replace('SEQUENCE_', '')}
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Base Spell Modification Toggle */}
-          <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-            <div className="effect-modifier-header">
-              <label>Effect Type</label>
-            </div>
-            <div className="toggle-section">
-              <div className="toggle-option">
-                <button
-                  className={`toggle-button ${editingEntry.modifiesBaseSpell ? 'active' : ''}`}
-                  onClick={() => setEditingEntry({...editingEntry, modifiesBaseSpell: true})}
-                >
-                  <div className="toggle-icon">
-                    {editingEntry.modifiesBaseSpell ? '✓' : ''}
-                  </div>
-                  <span>Modify Base Spell</span>
-                </button>
-              </div>
-              <div className="toggle-option">
-                <button
-                  className={`toggle-button ${!editingEntry.modifiesBaseSpell ? 'active' : ''}`}
-                  onClick={() => setEditingEntry({...editingEntry, modifiesBaseSpell: false})}
-                >
-                  <div className="toggle-icon">
-                    {!editingEntry.modifiesBaseSpell ? '✓' : ''}
-                  </div>
-                  <span>Use External Spell</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Spell Reference Selector - Only show if not modifying base spell */}
-          {!editingEntry.modifiesBaseSpell && (
-            <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-              <label>Spell Reference</label>
-              <div className="spell-reference-selector">
-                {editingEntry.spellReference ? (
-                  <div className="selected-spell">
-                    <div className="selected-spell-info">
-                      <span className="selected-spell-name">
-                        {library.spells.find(s => s.id === editingEntry.spellReference)?.name || 'Unknown Spell'}
-                      </span>
-                      <button
-                        className="clear-spell-button"
-                        onClick={clearSelectedSpell}
-                        title="Clear selected spell"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <button
-                    className="select-spell-button"
-                    onClick={toggleSpellSelector}
-                  >
-                    <FaSearch /> Select a spell from library
-                  </button>
-                )}
-              </div>
-
-              {showSpellSelector && (
-                <div className="spell-selector-popup">
-                  <div className="spell-selector-header">
-                    <input
-                      type="text"
-                      placeholder="Search spells..."
-                      value={spellSearchTerm}
-                      onChange={handleSpellSearchChange}
-                      className="wow-settings-input"
-                    />
-                    <button
-                      className="close-selector-button"
-                      onClick={toggleSpellSelector}
-                    >
-                      ×
-                    </button>
-                  </div>
-                  <div className="spell-list">
-                    {library.spells
-                      .filter(spell =>
-                        spell.name.toLowerCase().includes(spellSearchTerm.toLowerCase()) ||
-                        (spell.description && spell.description.toLowerCase().includes(spellSearchTerm.toLowerCase()))
-                      )
-                      .map(spell => (
-                        <div
-                          key={spell.id}
-                          className="spell-list-item"
-                          onClick={() => handleSelectSpell(spell)}
-                        >
-                          <div className="spell-list-item-name">{spell.name}</div>
-                          <div className="spell-list-item-description">
-                            {spell.description ? `${spell.description.substring(0, 60)}${spell.description.length > 60 ? '...' : ''}` : ''}
-                          </div>
-                        </div>
-                      ))
-                    }
-                    {library.spells.filter(spell =>
-                      spell.name.toLowerCase().includes(spellSearchTerm.toLowerCase()) ||
-                      (spell.description && spell.description.toLowerCase().includes(spellSearchTerm.toLowerCase()))
-                    ).length === 0 && (
-                      <div className="no-spells-found">No spells found matching your search.</div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Custom Name */}
-          <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-            <label htmlFor="custom-name">Custom Name (optional)</label>
-            <input
-              id="custom-name"
-              type="text"
-              value={editingEntry.customName}
-              onChange={handleCustomNameChange}
-              className="wow-settings-input"
-              placeholder="Custom name for this table entry"
-            />
-          </div>
-
-          {/* Formula Modifications */}
-          {editingEntry.modifiesBaseSpell && (
-            <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-              <div className="effect-modifier-header">
-                <label>Formula Modifications</label>
-              </div>
-
-              <div className="formula-modifier-container">
-                {/* Damage Formula Modifier */}
-                {wizardState.damageConfig && (
-                  <FormulaModifierSection
-                    formulaType="damage"
-                    originalFormula={wizardState.damageConfig.formula || '1d6 + INT'}
-                    currentOverride={editingEntry.formulaOverrides?.damage || ''}
-                    onFormulaChange={(formula) => setEditingEntry({
-                      ...editingEntry,
-                      formulaOverrides: {
-                        ...editingEntry.formulaOverrides,
-                        damage: formula
-                      }
-                    })}
-                  />
-                )}
-
-                {/* Healing Formula Modifier */}
-                {wizardState.healingConfig && (
-                  <FormulaModifierSection
-                    formulaType="healing"
-                    originalFormula={wizardState.healingConfig.formula || '1d8 + HEA'}
-                    currentOverride={editingEntry.formulaOverrides?.healing || ''}
-                    onFormulaChange={(formula) => setEditingEntry({
-                      ...editingEntry,
-                      formulaOverrides: {
-                        ...editingEntry.formulaOverrides,
-                        healing: formula
-                      }
-                    })}
-                  />
-                )}
-
-                {/* Range Modifier */}
-                <FormulaModifierSection
-                  formulaType="range"
-                  originalFormula={`${wizardState.range || 30}ft`}
-                  currentOverride={editingEntry.formulaOverrides?.range || ''}
-                  onFormulaChange={(formula) => setEditingEntry({
-                    ...editingEntry,
-                    formulaOverrides: {
-                      ...editingEntry.formulaOverrides,
-                      range: formula
-                    }
-                  })}
-                />
-
-                {/* Duration Modifier */}
-                <FormulaModifierSection
-                  formulaType="duration"
-                  originalFormula={wizardState.duration ? `${wizardState.duration} ${wizardState.durationUnit || 'rounds'}` : '1 round'}
-                  currentOverride={editingEntry.formulaOverrides?.duration || ''}
-                  onFormulaChange={(formula) => setEditingEntry({
-                    ...editingEntry,
-                    formulaOverrides: {
-                      ...editingEntry.formulaOverrides,
-                      duration: formula
-                    }
-                  })}
-                />
-
-                {/* Targets Modifier */}
-                <FormulaModifierSection
-                  formulaType="targets"
-                  originalFormula={wizardState.targetCount ? `${wizardState.targetCount} targets` : '1 target'}
-                  currentOverride={editingEntry.formulaOverrides?.targets || ''}
-                  onFormulaChange={(formula) => setEditingEntry({
-                    ...editingEntry,
-                    formulaOverrides: {
-                      ...editingEntry.formulaOverrides,
-                      targets: formula
-                    }
-                  })}
-                />
-
-                <div className="formula-modifier-section">
-                  <div className="formula-modifier-row">
-                    <label>Saving Throw Modifications</label>
-                    <div className="formula-modifier-checkbox-group">
-                      <div className="formula-modifier-checkbox">
-                        <input
-                          id="saving-throw-advantage"
-                          type="checkbox"
-                          checked={editingEntry.savingThrowModifications?.advantage || false}
-                          onChange={(e) => setEditingEntry({
-                            ...editingEntry,
-                            savingThrowModifications: {
-                              ...editingEntry.savingThrowModifications,
-                              advantage: e.target.checked
-                            }
-                          })}
-                        />
-                        <label htmlFor="saving-throw-advantage">Grant advantage</label>
-                      </div>
-
-                      <div className="formula-modifier-checkbox">
-                        <input
-                          id="saving-throw-disadvantage"
-                          type="checkbox"
-                          checked={editingEntry.savingThrowModifications?.disadvantage || false}
-                          onChange={(e) => setEditingEntry({
-                            ...editingEntry,
-                            savingThrowModifications: {
-                              ...editingEntry.savingThrowModifications,
-                              disadvantage: e.target.checked
-                            }
-                          })}
-                        />
-                        <label htmlFor="saving-throw-disadvantage">Impose disadvantage</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Common effect inputs */}
-          <div className="form-group" style={{ gridColumn: '1 / span 2' }}>
-            <label htmlFor="effect-description">Effect Description</label>
-            <textarea
-              id="effect-description"
-              value={editingEntry.effect.description}
-              onChange={handleDescriptionChange}
-              className="wow-settings-input"
-              rows={3}
-              placeholder="Describe the effect that occurs when this result is rolled/drawn/flipped"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="visual-effect">Visual Effect (optional)</label>
-            <input
-              id="visual-effect"
-              type="text"
-              value={editingEntry.effect.visualEffect}
-              onChange={handleVisualEffectChange}
-              className="wow-settings-input"
-              placeholder="e.g., blue-glow, explosion, etc."
-            />
-          </div>
-        </div>
-
-        <div className="entry-editor-buttons">
-          <button className="entry-editor-button" onClick={handleCancel}>
-            <span>Cancel</span>
-          </button>
-          <button className="entry-editor-button primary" onClick={handleSave}>
-            <span>{editingIndex !== null ? 'Update' : 'Add'} Entry</span>
-          </button>
-        </div>
-      </div>
-    );
+  // Handle creature selection from library
+  const handleCreatureSelection = (selectedCreatures) => {
+    updateEffectConfig('creatures', selectedCreatures);
+    setShowCreatureSelection(false);
   };
 
-  // Render the entries table
-  const renderEntriesTable = () => {
+  // Remove a creature from selection
+  const handleRemoveCreature = (creatureId) => {
+    const updatedCreatures = (editingEntry.effectConfig?.creatures || []).filter(c => c.id !== creatureId);
+    updateEffectConfig('creatures', updatedCreatures);
+  };
+
+  // Get display text for resolution pattern
+  const getPatternDisplay = (entry) => {
+    if (resolutionType === 'DICE') {
+      const min = entry.range?.min || 1;
+      const max = entry.range?.max || 1;
+      return min === max ? `${min}` : `${min}-${max}`;
+    } else if (resolutionType === 'CARDS') {
+      return entry.cardPattern || 'Any';
+    } else if (resolutionType === 'COINS') {
+      return entry.coinPattern || 'Any';
+    }
+    return '';
+  };
+
+  // Get icon for effect type
+  const getEffectIcon = (effectType) => {
+    switch (effectType) {
+      case 'damage': return faFire;
+      case 'healing': return faHeart;
+      case 'summoning': return faUsers;
+      case 'buff': return faShieldAlt;
+      default: return faMagic;
+    }
+  };
+
+  // Render entry list
+  const renderEntryList = () => {
     if (entries.length === 0) {
       return (
-        <div className="empty-table-message">
-          No entries yet. Click "Add Entry" to create your first table entry.
+        <div className="no-entries-message">
+          <FontAwesomeIcon icon={faDice} size="2x" />
+          <p>No table entries yet. Click "Add Entry" to create one.</p>
         </div>
       );
     }
 
     return (
-      <table className="rollable-table">
-        <thead>
-          <tr>
-            {resolutionType === 'DICE' && <th>Roll Range</th>}
-            {resolutionType === 'CARDS' && <th>Card Pattern</th>}
-            {resolutionType === 'COINS' && <th>Coin Pattern</th>}
-            <th>Name</th>
-            <th>Effect Type</th>
-            <th>Effect</th>
-            <th>Modifications</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map((entry, index) => {
-            // Get modification summary
-            const mods = entry.effectModifications || {};
-            const formulaOverrides = entry.formulaOverrides || {};
-
-            // Check if there are any formula overrides
-            const hasFormulaOverrides =
-              formulaOverrides.damage ||
-              formulaOverrides.healing ||
-              formulaOverrides.range ||
-              formulaOverrides.duration ||
-              formulaOverrides.targets;
-
-            // Check if there are any effect modifications
-            const hasEffectModifications =
-              mods.damageMultiplier !== 1 ||
-              mods.healingMultiplier !== 1 ||
-              mods.rangeMultiplier !== 1 ||
-              mods.durationMultiplier !== 1 ||
-              mods.additionalTargets !== 0 ||
-              mods.resourceCostModifier !== 0 ||
-              mods.savingThrowAdvantage ||
-              mods.savingThrowDisadvantage;
-
-            const hasModifications = hasFormulaOverrides || hasEffectModifications;
-
-            // Create a summary of modifications
-            const modSummary = [];
-
-            // Add formula overrides to the summary
-            if (formulaOverrides.damage) modSummary.push(`Dmg: ${formulaOverrides.damage}`);
-            if (formulaOverrides.healing) modSummary.push(`Heal: ${formulaOverrides.healing}`);
-            if (formulaOverrides.range) modSummary.push(`Range: ${formulaOverrides.range}`);
-            if (formulaOverrides.duration) modSummary.push(`Duration: ${formulaOverrides.duration}`);
-            if (formulaOverrides.targets) modSummary.push(`Targets: ${formulaOverrides.targets}`);
-
-            // Add effect modifications to the summary
-            if (mods.damageMultiplier !== 1) modSummary.push(`Dmg ×${mods.damageMultiplier}`);
-            if (mods.healingMultiplier !== 1) modSummary.push(`Heal ×${mods.healingMultiplier}`);
-            if (mods.rangeMultiplier !== 1) modSummary.push(`Range ×${mods.rangeMultiplier}`);
-            if (mods.durationMultiplier !== 1) modSummary.push(`Duration ×${mods.durationMultiplier}`);
-            if (mods.additionalTargets !== 0) modSummary.push(`+${mods.additionalTargets} targets`);
-            if (mods.resourceCostModifier !== 0) {
-              const prefix = mods.resourceCostModifier > 0 ? '+' : '';
-              modSummary.push(`${prefix}${mods.resourceCostModifier} cost`);
-            }
-            if (mods.savingThrowAdvantage) modSummary.push('Save Adv');
-            if (mods.savingThrowDisadvantage) modSummary.push('Save Disadv');
-
-            return (
-              <tr key={entry.id}>
-                {resolutionType === 'DICE' && (
-                  <td>
-                    {entry.range?.min === entry.range?.max
-                      ? entry.range?.min
-                      : `${entry.range?.min || 1}-${entry.range?.max || 1}`}
-                  </td>
+      <div className="table-entries-list">
+        {entries.map((entry, index) => (
+          <div key={entry.id || index} className="table-entry-card">
+            <div className="entry-card-header">
+              <div className="entry-pattern">
+                <FontAwesomeIcon icon={faDice} />
+                <span>{getPatternDisplay(entry)}</span>
+              </div>
+              <div className="entry-actions">
+                <button
+                  onClick={() => handleEdit(entry, index)}
+                  className="entry-action-btn edit"
+                  title="Edit"
+                >
+                  <FontAwesomeIcon icon={faEdit} />
+                </button>
+                <button
+                  onClick={() => handleRemove(index)}
+                  className="entry-action-btn delete"
+                  title="Delete"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
+            </div>
+            <div className="entry-card-body">
+              <div className="entry-name">
+                <FontAwesomeIcon icon={getEffectIcon(entry.effectType)} />
+                <strong>{entry.name || 'Unnamed Entry'}</strong>
+              </div>
+              {entry.description && (
+                <p className="entry-description">{entry.description}</p>
+              )}
+              <div className="entry-effect-summary">
+                <span className="effect-type-badge">{entry.effectType || 'effect'}</span>
+                {entry.effectType === 'damage' && entry.effectConfig && (
+                  <span className="effect-detail">
+                    {entry.effectConfig.damageFormula || '2d6'} {entry.effectConfig.damageType || 'fire'}
+                  </span>
                 )}
-                {resolutionType === 'CARDS' && <td>{entry.cardPattern}</td>}
-                {resolutionType === 'COINS' && <td>{entry.coinPattern}</td>}
-                <td>{entry.customName || (entry.spellReference ? library.spells.find(s => s.id === entry.spellReference)?.name : 'Effect')}</td>
-                <td>
-                  {entry.modifiesBaseSpell ? (
-                    <span className="spell-modifier">
-                      Base Spell Modifier
-                    </span>
-                  ) : entry.spellReference ? (
-                    <span className="spell-reference">
-                      {library.spells.find(s => s.id === entry.spellReference)?.name || 'External Spell'}
-                    </span>
-                  ) : (
-                    <span className="no-spell-reference">Custom Effect</span>
-                  )}
-                </td>
-                <td>{entry.effect.description}</td>
-                <td className="effect-modifications">
-                  {hasModifications ? (
-                    <div className="modification-tags">
-                      {modSummary.map((mod, i) => {
-                        let className = "mod-tag";
-                        if (mod.includes('Adv')) className += " advantage";
-                        if (mod.includes('Disadv')) className += " disadvantage";
-                        return <span key={i} className={className}>{mod}</span>;
-                      })}
-                    </div>
-                  ) : (
-                    <span className="no-modifications">None</span>
-                  )}
-                </td>
-                <td className="action-buttons">
-                  <button
-                    className="action-button"
-                    onClick={() => handleEdit(entry, index)}
-                  >
-                    <span>Edit</span>
-                  </button>
-                  <button
-                    className="action-button delete"
-                    onClick={() => handleRemove(index)}
-                  >
-                    <span>Delete</span>
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                {entry.effectType === 'healing' && entry.effectConfig && (
+                  <span className="effect-detail">
+                    {entry.effectConfig.healingFormula || '2d8'}
+                  </span>
+                )}
+                {entry.effectType === 'summoning' && entry.effectConfig && (
+                  <span className="effect-detail">
+                    {entry.effectConfig.creatures && entry.effectConfig.creatures.length > 0
+                      ? `${entry.effectConfig.quantity || 1}x ${entry.effectConfig.creatures.map(c => c.name).join(', ')}`
+                      : `${entry.effectConfig.quantity || 1}x creature`
+                    }
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     );
+  };
+
+  // Render entry editor form
+  const renderEntryEditor = () => {
+    if (!editingEntry) return null;
+
+    const modalContent = (
+      <div className="entry-editor-modal" onClick={(e) => {
+        // Close modal if clicking on backdrop
+        if (e.target.classList.contains('entry-editor-modal')) {
+          handleCancel();
+        }
+      }}>
+        <div className="entry-editor-content">
+
+          <div className="entry-editor-body">
+            {/* Two-column layout */}
+            <div className="editor-columns">
+              {/* Left Column - Basic Info */}
+              <div className="editor-column-left">
+                {/* Resolution Pattern */}
+                <div className="form-section">
+                  <h4>
+                    <FontAwesomeIcon icon={faDice} /> Resolution Pattern
+                  </h4>
+                  {resolutionType === 'DICE' && (
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Min Roll</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max={resolutionConfig.diceType === 'd100' ? 100 : parseInt(resolutionConfig.diceType?.substring(1) || '20')}
+                          value={editingEntry.range?.min || 1}
+                          onChange={(e) => updateEntry('range', { ...editingEntry.range, min: parseInt(e.target.value) })}
+                          className="wow-settings-input"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Max Roll</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max={resolutionConfig.diceType === 'd100' ? 100 : parseInt(resolutionConfig.diceType?.substring(1) || '20')}
+                          value={editingEntry.range?.max || 1}
+                          onChange={(e) => updateEntry('range', { ...editingEntry.range, max: parseInt(e.target.value) })}
+                          className="wow-settings-input"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {resolutionType === 'CARDS' && (
+                    <div className="form-group">
+                      <label>Card Pattern</label>
+                      <select
+                        value={editingEntry.cardPattern}
+                        onChange={(e) => updateEntry('cardPattern', e.target.value)}
+                        className="wow-settings-input"
+                      >
+                        <option value="Hearts">Hearts</option>
+                        <option value="Diamonds">Diamonds</option>
+                        <option value="Clubs">Clubs</option>
+                        <option value="Spades">Spades</option>
+                        <option value="Red Cards">Red Cards</option>
+                        <option value="Black Cards">Black Cards</option>
+                        <option value="Face Cards">Face Cards</option>
+                        <option value="Aces">Aces</option>
+                      </select>
+                    </div>
+                  )}
+
+                  {resolutionType === 'COINS' && (
+                    <div className="form-group">
+                      <label>Coin Pattern</label>
+                      <select
+                        value={editingEntry.coinPattern}
+                        onChange={(e) => updateEntry('coinPattern', e.target.value)}
+                        className="wow-settings-input"
+                      >
+                        <option value="All Heads">All Heads</option>
+                        <option value="All Tails">All Tails</option>
+                        <option value="Majority Heads (3+)">Majority Heads (3+)</option>
+                        <option value="Majority Tails (3+)">Majority Tails (3+)</option>
+                        <option value="Exactly 2 Heads">Exactly 2 Heads</option>
+                        <option value="Exactly 2 Tails">Exactly 2 Tails</option>
+                      </select>
+                    </div>
+                  )}
+                </div>
+
+                {/* Entry Details */}
+                <div className="form-section">
+                  <h4>
+                    <FontAwesomeIcon icon={faMagic} /> Entry Details
+                  </h4>
+                  <div className="form-group">
+                    <label>Name *</label>
+                    <input
+                      type="text"
+                      value={editingEntry.name}
+                      onChange={(e) => updateEntry('name', e.target.value)}
+                      placeholder="e.g., Critical Hit, Minor Heal, Summon Wolf"
+                      className="wow-settings-input"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Description</label>
+                    <textarea
+                      value={editingEntry.description}
+                      onChange={(e) => updateEntry('description', e.target.value)}
+                      placeholder="Describe what happens when this result occurs..."
+                      className="wow-settings-input"
+                      rows={3}
+                    />
+                  </div>
+                </div>
+
+                {/* Save Button */}
+                <div className="entry-save-button-container">
+                  <button onClick={handleSave} className="save-btn">
+                    <FontAwesomeIcon icon={faSave} /> Save Entry
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Column - Effect Configuration */}
+              <div className="editor-column-right">
+                <div className="form-section">
+                  <h4>
+                    <FontAwesomeIcon icon={faBolt} /> Effect Configuration
+                  </h4>
+                  <div className="form-group">
+                    <label>Effect Type</label>
+                    <select
+                      value={editingEntry.effectType}
+                      onChange={(e) => updateEntry('effectType', e.target.value)}
+                      className="wow-settings-input effect-type-select"
+                    >
+                      <option value="damage">💥 Damage</option>
+                      <option value="healing">💚 Healing</option>
+                      <option value="summoning">👥 Summoning</option>
+                      <option value="buff">🛡️ Buff/Debuff</option>
+                    </select>
+                  </div>
+
+                  {/* Damage Configuration */}
+                  {editingEntry.effectType === 'damage' && (
+                    <div className="effect-config-panel">
+                      <div className="form-group">
+                        <label>Damage Formula</label>
+                        <input
+                          type="text"
+                          value={editingEntry.effectConfig?.damageFormula || '2d6'}
+                          onChange={(e) => updateEffectConfig('damageFormula', e.target.value)}
+                          placeholder="e.g., 2d6, 3d8+INT"
+                          className="wow-settings-input"
+                        />
+                        <span className="form-hint">Use dice notation (e.g., 2d6) or formulas (e.g., 3d8+INT)</span>
+                      </div>
+                      <div className="form-group">
+                        <label>Damage Type</label>
+                        <select
+                          value={editingEntry.effectConfig?.damageType || 'fire'}
+                          onChange={(e) => updateEffectConfig('damageType', e.target.value)}
+                          className="wow-settings-input"
+                        >
+                          <option value="fire">🔥 Fire</option>
+                          <option value="ice">❄️ Ice</option>
+                          <option value="lightning">⚡ Lightning</option>
+                          <option value="necrotic">💀 Necrotic</option>
+                          <option value="holy">✨ Holy</option>
+                          <option value="physical">⚔️ Physical</option>
+                          <option value="arcane">🔮 Arcane</option>
+                          <option value="nature">🌿 Nature</option>
+                          <option value="shadow">🌑 Shadow</option>
+                        </select>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Critical Multiplier</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="5"
+                            step="0.5"
+                            value={editingEntry.effectConfig?.critMultiplier || 2}
+                            onChange={(e) => updateEffectConfig('critMultiplier', parseFloat(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                          <span className="form-hint">Damage multiplier on critical hits</span>
+                        </div>
+                        <div className="form-group">
+                          <label>Area of Effect (ft)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="60"
+                            step="5"
+                            value={editingEntry.effectConfig?.aoeRadius || 0}
+                            onChange={(e) => updateEffectConfig('aoeRadius', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                          <span className="form-hint">0 = single target</span>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={editingEntry.effectConfig?.ignoreArmor || false}
+                            onChange={(e) => updateEffectConfig('ignoreArmor', e.target.checked)}
+                          />
+                          {' '}Ignore Armor/Resistance
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Healing Configuration */}
+                  {editingEntry.effectType === 'healing' && (
+                    <div className="effect-config-panel">
+                      <div className="form-group">
+                        <label>Healing Formula</label>
+                        <input
+                          type="text"
+                          value={editingEntry.effectConfig?.healingFormula || '2d8'}
+                          onChange={(e) => updateEffectConfig('healingFormula', e.target.value)}
+                          placeholder="e.g., 2d8, 3d6+SPIR"
+                          className="wow-settings-input"
+                        />
+                        <span className="form-hint">Use dice notation (e.g., 2d8) or formulas (e.g., 3d6+SPIR)</span>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Heal Over Time (rounds)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="10"
+                            value={editingEntry.effectConfig?.hotDuration || 0}
+                            onChange={(e) => updateEffectConfig('hotDuration', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                          <span className="form-hint">0 = instant heal only</span>
+                        </div>
+                        <div className="form-group">
+                          <label>Area of Effect (ft)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="60"
+                            step="5"
+                            value={editingEntry.effectConfig?.healAoeRadius || 0}
+                            onChange={(e) => updateEffectConfig('healAoeRadius', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                          <span className="form-hint">0 = single target</span>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={editingEntry.effectConfig?.allowOverheal || false}
+                            onChange={(e) => updateEffectConfig('allowOverheal', e.target.checked)}
+                          />
+                          {' '}Allow Overheal (temporary HP)
+                        </label>
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={editingEntry.effectConfig?.removeCurses || false}
+                            onChange={(e) => updateEffectConfig('removeCurses', e.target.checked)}
+                          />
+                          {' '}Remove Curses/Debuffs
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Summoning Configuration */}
+                  {editingEntry.effectType === 'summoning' && (
+                    <div className="effect-config-panel">
+                      <div className="form-group">
+                        <label>Creatures</label>
+                        <button
+                          type="button"
+                          onClick={() => setShowCreatureSelection(true)}
+                          className="creature-select-btn"
+                        >
+                          <FontAwesomeIcon icon={faUsers} /> Select from Creature Library
+                        </button>
+
+                        {/* Display selected creatures */}
+                        {editingEntry.effectConfig?.creatures && editingEntry.effectConfig.creatures.length > 0 && (
+                          <div className="selected-creatures-list">
+                            {editingEntry.effectConfig.creatures.map(creature => (
+                              <div key={creature.id} className="selected-creature-item">
+                                <div className="creature-item-info">
+                                  <span className="creature-name">{creature.name}</span>
+                                  <span className="creature-type-badge">{creature.type || 'Unknown'}</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveCreature(creature.id)}
+                                  className="remove-creature-btn"
+                                  title="Remove creature"
+                                >
+                                  <FontAwesomeIcon icon={faTimes} />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Quantity per Creature</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            value={editingEntry.effectConfig?.quantity || 1}
+                            onChange={(e) => updateEffectConfig('quantity', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Duration (rounds)</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={editingEntry.effectConfig?.duration || 3}
+                            onChange={(e) => updateEffectConfig('duration', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Control Type</label>
+                          <select
+                            value={editingEntry.effectConfig?.controlType || 'full'}
+                            onChange={(e) => updateEffectConfig('controlType', e.target.value)}
+                            className="wow-settings-input"
+                          >
+                            <option value="full">Full Control</option>
+                            <option value="limited">Limited Control</option>
+                            <option value="autonomous">Autonomous</option>
+                            <option value="friendly">Friendly</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>Summon Location</label>
+                          <select
+                            value={editingEntry.effectConfig?.summonLocation || 'nearby'}
+                            onChange={(e) => updateEffectConfig('summonLocation', e.target.value)}
+                            className="wow-settings-input"
+                          >
+                            <option value="nearby">Nearby (5ft)</option>
+                            <option value="adjacent">Adjacent</option>
+                            <option value="target">At Target</option>
+                            <option value="random">Random (30ft)</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Buff/Debuff Configuration */}
+                  {editingEntry.effectType === 'buff' && (
+                    <div className="effect-config-panel">
+                      <div className="form-group">
+                        <label>Effect Category</label>
+                        <select
+                          value={editingEntry.effectConfig?.buffCategory || 'stat'}
+                          onChange={(e) => updateEffectConfig('buffCategory', e.target.value)}
+                          className="wow-settings-input"
+                        >
+                          <option value="stat">Stat Modifier</option>
+                          <option value="resistance">Resistance/Vulnerability</option>
+                          <option value="condition">Condition (Haste, Slow, etc.)</option>
+                          <option value="shield">Damage Shield/Barrier</option>
+                        </select>
+                      </div>
+
+                      {editingEntry.effectConfig?.buffCategory === 'stat' && (
+                        <>
+                          <div className="form-group">
+                            <label>Stat to Modify</label>
+                            <select
+                              value={editingEntry.effectConfig?.buffStat || 'strength'}
+                              onChange={(e) => updateEffectConfig('buffStat', e.target.value)}
+                              className="wow-settings-input"
+                            >
+                              <option value="strength">Strength</option>
+                              <option value="agility">Agility</option>
+                              <option value="constitution">Constitution</option>
+                              <option value="intelligence">Intelligence</option>
+                              <option value="spirit">Spirit</option>
+                              <option value="charisma">Charisma</option>
+                              <option value="armor">Armor</option>
+                              <option value="speed">Speed</option>
+                            </select>
+                          </div>
+                          <div className="form-group">
+                            <label>Modifier Amount</label>
+                            <input
+                              type="number"
+                              min="-10"
+                              max="10"
+                              value={editingEntry.effectConfig?.buffAmount || 1}
+                              onChange={(e) => updateEffectConfig('buffAmount', parseInt(e.target.value))}
+                              className="wow-settings-input"
+                            />
+                            <span className="form-hint">Positive = buff, Negative = debuff</span>
+                          </div>
+                        </>
+                      )}
+
+                      {editingEntry.effectConfig?.buffCategory === 'resistance' && (
+                        <>
+                          <div className="form-group">
+                            <label>Damage Type</label>
+                            <select
+                              value={editingEntry.effectConfig?.resistanceType || 'fire'}
+                              onChange={(e) => updateEffectConfig('resistanceType', e.target.value)}
+                              className="wow-settings-input"
+                            >
+                              <option value="fire">🔥 Fire</option>
+                              <option value="ice">❄️ Ice</option>
+                              <option value="lightning">⚡ Lightning</option>
+                              <option value="necrotic">💀 Necrotic</option>
+                              <option value="holy">✨ Holy</option>
+                              <option value="physical">⚔️ Physical</option>
+                              <option value="arcane">🔮 Arcane</option>
+                              <option value="nature">🌿 Nature</option>
+                              <option value="shadow">🌑 Shadow</option>
+                            </select>
+                          </div>
+                          <div className="form-group">
+                            <label>Effect Type</label>
+                            <select
+                              value={editingEntry.effectConfig?.resistanceEffect || 'resistance'}
+                              onChange={(e) => updateEffectConfig('resistanceEffect', e.target.value)}
+                              className="wow-settings-input"
+                            >
+                              <option value="resistance">Resistance (reduce damage)</option>
+                              <option value="immunity">Immunity (negate damage)</option>
+                              <option value="vulnerability">Vulnerability (increase damage)</option>
+                            </select>
+                          </div>
+                        </>
+                      )}
+
+                      {editingEntry.effectConfig?.buffCategory === 'condition' && (
+                        <div className="form-group">
+                          <label>Condition Type</label>
+                          <select
+                            value={editingEntry.effectConfig?.conditionType || 'haste'}
+                            onChange={(e) => updateEffectConfig('conditionType', e.target.value)}
+                            className="wow-settings-input"
+                          >
+                            <option value="haste">Haste (+1 action)</option>
+                            <option value="slow">Slow (-1 action)</option>
+                            <option value="invisible">Invisibility</option>
+                            <option value="flying">Flight</option>
+                            <option value="regeneration">Regeneration</option>
+                            <option value="poison">Poison (DoT)</option>
+                            <option value="stun">Stun (no actions)</option>
+                            <option value="silence">Silence (no spells)</option>
+                          </select>
+                        </div>
+                      )}
+
+                      {editingEntry.effectConfig?.buffCategory === 'shield' && (
+                        <div className="form-group">
+                          <label>Shield Amount (HP)</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={editingEntry.effectConfig?.shieldAmount || 10}
+                            onChange={(e) => updateEffectConfig('shieldAmount', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                          <span className="form-hint">Absorbs damage before affecting HP</span>
+                        </div>
+                      )}
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Duration (rounds)</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="20"
+                            value={editingEntry.effectConfig?.buffDuration || 3}
+                            onChange={(e) => updateEffectConfig('buffDuration', parseInt(e.target.value))}
+                            className="wow-settings-input"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={editingEntry.effectConfig?.stackable || false}
+                              onChange={(e) => updateEffectConfig('stackable', e.target.checked)}
+                            />
+                            {' '}Stackable
+                          </label>
+                          <span className="form-hint">Can apply multiple times</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    // Use portal to render modal at document root level
+    return ReactDOM.createPortal(modalContent, document.body);
   };
 
   return (
     <div className="table-entry-editor">
-      {isEditing ? (
-        renderEntryForm()
-      ) : (
-        <>
-          <div className="table-actions">
-            <button className="entry-editor-button primary" onClick={handleAddNew}>
-              <span>+ Add New Entry</span>
-            </button>
-          </div>
-          <div className="table-entries">
-            {renderEntriesTable()}
-          </div>
-        </>
-      )}
+      <div className="entry-editor-actions">
+        <button onClick={handleAddNew} className="add-entry-btn">
+          <FontAwesomeIcon icon={faPlus} /> Add Entry
+        </button>
+      </div>
+
+      {renderEntryList()}
+      {editingEntry && renderEntryEditor()}
+
+      {/* Creature Selection Window */}
+      <CreatureSelectionWindow
+        isOpen={showCreatureSelection}
+        onClose={() => setShowCreatureSelection(false)}
+        onSelect={handleCreatureSelection}
+        selectedCreatures={editingEntry?.effectConfig?.creatures || []}
+        multiSelect={true}
+        title="Select Creatures to Summon"
+        effectType="summon"
+      />
     </div>
   );
 };
 
 export default TableEntryEditor;
+

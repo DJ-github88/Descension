@@ -1,11 +1,12 @@
 /**
  * Class Spell Generator - COMPLETELY REWRITTEN
- * 
+ *
  * Generates properly formatted showcase spells for all classes
  * Each spell demonstrates specific spell wizard capabilities
  */
 
 import { CLASS_SPECIALIZATIONS } from './classSpellCategories';
+import { ARCANONEER_DATA } from './classes/arcanoneerData';
 
 // ===== PROPERLY FORMATTED SPELL ARCHETYPES =====
 // Each archetype is COMPLETE with all necessary configurations
@@ -339,5 +340,47 @@ export const generateAllClassSpells = () => {
 };
 
 // Generate all spells organized by class
-export const ALL_CLASS_SPELLS = generateAllClassSpells();
+const generatedSpells = generateAllClassSpells();
+
+// Add Arcanoneer spells from arcanoneerData
+if (ARCANONEER_DATA && ARCANONEER_DATA.exampleSpells) {
+  // Map Arcanoneer spells to include specialization field and categoryIds
+  const arcanoneerSpells = ARCANONEER_DATA.exampleSpells.map(spell => ({
+    ...spell,
+    // Determine specialization based on sphere combo or tags
+    specialization: determineArcanoneerSpecialization(spell),
+    // Add categoryIds to prevent filtering issues
+    categoryIds: spell.categoryIds || []
+  }));
+
+  generatedSpells['Arcanoneer'] = arcanoneerSpells;
+  console.log(`📚 Added ${arcanoneerSpells.length} Arcanoneer spells to class library`);
+}
+
+export const ALL_CLASS_SPELLS = generatedSpells;
+
+/**
+ * Determine Arcanoneer specialization based on spell properties
+ * Prism Mage: Pure element combos (same sphere twice)
+ * Sphere Architect: Mixed element combos with utility
+ * Chaos Weaver: Chaos sphere combos
+ */
+function determineArcanoneerSpecialization(spell) {
+  // Check for Chaos sphere
+  if (spell.sphereCost && spell.sphereCost.includes('Chaos')) {
+    return 'chaos_weaver';
+  }
+
+  // Check for pure element combo (same sphere twice)
+  if (spell.sphereCost && spell.sphereCost.length >= 2) {
+    const firstSphere = spell.sphereCost[0];
+    const isPure = spell.sphereCost.every(s => s === firstSphere);
+    if (isPure) {
+      return 'prism_mage';
+    }
+  }
+
+  // Default to Sphere Architect for mixed combos
+  return 'sphere_architect';
+}
 

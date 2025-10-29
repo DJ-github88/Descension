@@ -61,9 +61,10 @@ const initialState = {
     isBackgroundManipulationMode: false,
 
     // Window scaling system
-    windowScale: 1.0,
-    minWindowScale: 0.5,
-    maxWindowScale: 1.5,
+    // Note: 0.83 is the new baseline (displayed as 100% in UI)
+    windowScale: 0.83,
+    minWindowScale: 0.6,  // Displayed as 60% in UI
+    maxWindowScale: 1.5,  // Displayed as 150% in UI
 
     // Movement and distance settings
     feetPerTile: 5, // How many feet each grid tile represents

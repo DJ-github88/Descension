@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import useGameStore from '../../store/gameStore';
+import useCharacterStore from '../../store/characterStore';
 import '../../styles/settings-window.css';
 
 const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }) {
@@ -26,7 +27,14 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const movementLineWidth = useGameStore(state => state.movementLineWidth);
     const setMovementLineWidth = useGameStore(state => state.setMovementLineWidth);
 
-
+    // Character store
+    const characterLevel = useCharacterStore(state => state.level);
+    const characterExperience = useCharacterStore(state => state.experience);
+    const characterClass = useCharacterStore(state => state.class);
+    const knownSpells = useCharacterStore(state => state.class_spells?.known_spells || []);
+    const awardExperience = useCharacterStore(state => state.awardExperience);
+    const adjustLevel = useCharacterStore(state => state.adjustLevel);
+    const levelUpHistory = useCharacterStore(state => state.levelUpHistory);
 
     // Local state
     const [activeTab, setActiveTab] = useState(propActiveTab || 'interface');
@@ -43,8 +51,11 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const [previewWindowScale, setPreviewWindowScale] = useState(windowScale);
     const [hasScaleChanges, setHasScaleChanges] = useState(false);
 
-
-
+    // Helper function to convert actual scale to display percentage
+    // 0.83 actual = 100% display, 0.6 actual = 60% display, 1.5 actual = 150% display
+    const scaleToDisplayPercent = (scale) => {
+        return Math.round((scale / 0.83) * 100);
+    };
 
 
 
@@ -64,13 +75,13 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
     // Reset window scale preview
     const resetWindowScalePreview = () => {
-        setPreviewWindowScale(1.0);
-        setHasScaleChanges(Math.abs(1.0 - windowScale) > 0.01);
+        setPreviewWindowScale(0.83);
+        setHasScaleChanges(Math.abs(0.83 - windowScale) > 0.01);
     };
 
     // Quick scale adjustments
     const previewScaleDown = () => {
-        const newScale = Math.max(0.5, previewWindowScale / 1.1);
+        const newScale = Math.max(0.6, previewWindowScale / 1.1);
         setPreviewWindowScale(newScale);
         setHasScaleChanges(Math.abs(newScale - windowScale) > 0.01);
     };
@@ -148,7 +159,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                     }}>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{ fontSize: '20px', fontWeight: '600', color: '#7a3b2e' }}>
-                                {Math.round(windowScale * 100)}%
+                                {scaleToDisplayPercent(windowScale)}%
                             </div>
                             <div style={{ fontSize: '12px', color: '#8b6f47' }}>Window Scale</div>
                         </div>
@@ -183,10 +194,10 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
                             <div className="control-group">
                                 <label className="control-label" style={{ textAlign: 'center', display: 'block' }}>
-                                    Current Size: <span className="control-value">{Math.round(windowScale * 100)}%</span>
+                                    Current Size: <span className="control-value">{scaleToDisplayPercent(windowScale)}%</span>
                                     {hasScaleChanges && (
                                         <span className="control-preview">
-                                            → <span className="control-value preview">{Math.round(previewWindowScale * 100)}%</span>
+                                            → <span className="control-value preview">{scaleToDisplayPercent(previewWindowScale)}%</span>
                                         </span>
                                     )}
                                 </label>
@@ -195,17 +206,17 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                     <button
                                         className="control-button secondary"
                                         onClick={previewScaleDown}
-                                        disabled={previewWindowScale <= 0.5}
+                                        disabled={previewWindowScale <= 0.6}
                                         style={{ minWidth: '80px' }}
                                     >
                                         <i className="fas fa-minus" style={{ marginRight: '6px' }}></i>
                                         Smaller
                                     </button>
                                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <span className="range-label">50%</span>
+                                        <span className="range-label">60%</span>
                                         <input
                                             type="range"
-                                            min="0.5"
+                                            min="0.6"
                                             max="1.5"
                                             step="0.05"
                                             value={previewWindowScale}
@@ -247,7 +258,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
                                 <div className="control-help">
                                     <p><strong>Purpose:</strong> Scale all windows uniformly for better visibility on high-resolution displays or to fit more content on smaller screens.</p>
-                                    <p><strong>Tip:</strong> Use 125-150% for 4K displays, or 75-90% to fit more windows on screen.</p>
+                                    <p><strong>Tip:</strong> Use 125-150% for 4K displays, or 60-90% to fit more windows on screen.</p>
                                 </div>
 
                                 {/* Window Scale Preview */}
@@ -417,6 +428,161 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 <div style={{ fontSize: '12px', color: '#8b6f47' }}>{isGMMode ? 'GM' : 'Player'}</div>
                             </div>
                         )}
+                    </div>
+                </div>
+
+                {/* Character Progression Card */}
+                <div className="settings-card" style={{ marginBottom: '24px' }}>
+                    <div className="settings-card-header">
+                        <h3>
+                            <i className="fas fa-level-up-alt" style={{ marginRight: '8px' }}></i>
+                            Character Progression
+                        </h3>
+                        <p>Manage character level, experience, and spell progression</p>
+                    </div>
+                    <div className="settings-card-body">
+                        {/* Character Info Section */}
+                        <div className="settings-group" style={{ marginBottom: '24px' }}>
+                            <div className="settings-group-title">Current Character</div>
+                            <div className="settings-group-description">View and manage your character's progression</div>
+
+                            <div style={{
+                                padding: '16px',
+                                background: 'rgba(255, 255, 255, 0.6)',
+                                border: '1px solid #d5cbb0',
+                                borderRadius: '6px',
+                                marginBottom: '16px'
+                            }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', textAlign: 'center' }}>
+                                    <div>
+                                        <div style={{ fontSize: '12px', color: '#8b6f47', marginBottom: '4px' }}>Class</div>
+                                        <div style={{ fontSize: '18px', fontWeight: '600', color: '#7a3b2e' }}>
+                                            {characterClass || 'None'}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '12px', color: '#8b6f47', marginBottom: '4px' }}>Level</div>
+                                        <div style={{ fontSize: '18px', fontWeight: '600', color: '#7a3b2e' }}>
+                                            {characterLevel}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '12px', color: '#8b6f47', marginBottom: '4px' }}>Experience</div>
+                                        <div style={{ fontSize: '18px', fontWeight: '600', color: '#7a3b2e' }}>
+                                            {characterExperience} XP
+                                        </div>
+                                    </div>
+                                </div>
+                                {characterClass === 'Arcanoneer' && (
+                                    <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid #d5cbb0' }}>
+                                        <div style={{ fontSize: '12px', color: '#8b6f47', marginBottom: '4px', textAlign: 'center' }}>
+                                            Known Spells
+                                        </div>
+                                        <div style={{ fontSize: '16px', fontWeight: '600', color: '#7a3b2e', textAlign: 'center' }}>
+                                            {knownSpells.length} spells
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Level Controls */}
+                            <div className="control-group" style={{ marginBottom: '16px' }}>
+                                <label className="control-label">Level Adjustment</label>
+                                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                                    <button
+                                        className="control-button secondary"
+                                        onClick={() => adjustLevel(-1)}
+                                        disabled={characterLevel <= 1}
+                                        style={{ flex: 1 }}
+                                    >
+                                        <i className="fas fa-minus" style={{ marginRight: '6px' }}></i>
+                                        Level Down
+                                    </button>
+                                    <button
+                                        className="control-button secondary"
+                                        onClick={() => adjustLevel(1)}
+                                        disabled={characterLevel >= 20}
+                                        style={{ flex: 1 }}
+                                    >
+                                        <i className="fas fa-plus" style={{ marginRight: '6px' }}></i>
+                                        Level Up
+                                    </button>
+                                </div>
+                                <div className="control-help">
+                                    <p>Manually adjust character level. Level-down will reverse bonuses from level-up choices.</p>
+                                </div>
+                            </div>
+
+                            {/* Experience Controls */}
+                            <div className="control-group" style={{ marginBottom: '16px' }}>
+                                <label className="control-label">Award Experience</label>
+                                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                                    <button
+                                        className="control-button"
+                                        onClick={() => awardExperience(100)}
+                                        style={{ flex: 1 }}
+                                    >
+                                        +100 XP
+                                    </button>
+                                    <button
+                                        className="control-button"
+                                        onClick={() => awardExperience(300)}
+                                        style={{ flex: 1 }}
+                                    >
+                                        +300 XP
+                                    </button>
+                                    <button
+                                        className="control-button"
+                                        onClick={() => awardExperience(900)}
+                                        style={{ flex: 1 }}
+                                    >
+                                        +900 XP
+                                    </button>
+                                </div>
+                                <div className="control-help">
+                                    <p>Award experience points. Leveling up will trigger the level-up modal with spell and stat choices.</p>
+                                </div>
+                            </div>
+
+                            {/* Level-Up History */}
+                            {Object.keys(levelUpHistory).length > 0 && (
+                                <div className="control-group">
+                                    <label className="control-label">Level-Up History</label>
+                                    <div style={{
+                                        marginTop: '8px',
+                                        padding: '12px',
+                                        background: 'rgba(255, 255, 255, 0.4)',
+                                        border: '1px solid #d5cbb0',
+                                        borderRadius: '4px',
+                                        maxHeight: '200px',
+                                        overflowY: 'auto'
+                                    }}>
+                                        {Object.entries(levelUpHistory)
+                                            .sort(([a], [b]) => parseInt(b) - parseInt(a))
+                                            .map(([level, choice]) => (
+                                                <div key={level} style={{
+                                                    padding: '8px',
+                                                    marginBottom: '4px',
+                                                    background: 'rgba(122, 59, 46, 0.05)',
+                                                    borderRadius: '4px',
+                                                    fontSize: '13px'
+                                                }}>
+                                                    <strong style={{ color: '#7a3b2e' }}>Level {level}:</strong>{' '}
+                                                    <span style={{ color: '#8b6f47' }}>
+                                                        {choice.statChoice === 'vitality' && '+15 Health'}
+                                                        {choice.statChoice === 'essence' && '+10 Mana'}
+                                                        {choice.statChoice === 'attribute' && `+1 ${choice.attribute}`}
+                                                        {choice.spellId && ` + Spell (${choice.spellId})`}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                    </div>
+                                    <div className="control-help">
+                                        <p>Shows all level-up choices made. These will be reversed if you level down.</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 

@@ -177,20 +177,19 @@ export const createWeaponAttackSpell = (weaponSlot = 'mainHand') => {
   const attackSpell = {
     id: `attack-${weaponSlot}-dynamic`,
     name: weapon ? `Attack (${weapon.name})` : 'Attack (Unarmed)',
-    description: weapon 
+    description: weapon
       ? `Attack with your ${weapon.name}. ${weapon.description || ''}`
       : 'Attack with your fists or improvised weapons.',
-    icon: weapon ? `https://wow.zamimg.com/images/wow/icons/large/${weapon.iconId}.jpg` : 'ability_warrior_savageblow',
-    
+    icon: weapon?.iconId || 'ability_warrior_savageblow',
+
     spellType: 'ACTION',
     source: 'general',
-    tags: ['general', 'attack', 'weapon', damageType],
+    tags: ['general', 'attack', damageType], // Remove 'weapon' tag, use damage type directly
     effectTypes: ['damage'],
     damageTypes: [damageType],
     
     damageConfig: {
-      damageType: 'weapon',
-      elementType: 'physical',
+      damageType: damageType, // Use actual damage type (bludgeoning, slashing, piercing)
       formula: damageNotation,
       weaponDependent: true,
       usesWeaponDice: true,

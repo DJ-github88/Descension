@@ -37,6 +37,9 @@ const RollableTableSummary = ({
 
   // Format resolution method display
   const formatResolutionMethod = () => {
+    console.log('formatResolutionMethod - resolutionType:', resolutionType);
+    console.log('formatResolutionMethod - resolutionConfig:', resolutionConfig);
+
     switch (resolutionType) {
       case 'DICE':
         return resolutionConfig.diceType || 'd100';
@@ -49,6 +52,7 @@ const RollableTableSummary = ({
         const coinCount = resolutionConfig.coinCount || 5;
         const coinType = resolutionConfig.coinType || 'standard';
         const coinLabel = coinType === 'weighted' ? 'Weighted' : 'Standard';
+        console.log('formatResolutionMethod - COINS result:', `${coinCount} ${coinLabel} coins`);
         return `${coinCount} ${coinLabel} coins`;
       default:
         return 'Random';
@@ -131,6 +135,53 @@ const RollableTableSummary = ({
 
                 // Helper function to extract text from effect/description
                 const getEffectText = (entry) => {
+                  // New format: entry.name, entry.description, entry.effectType, entry.effectConfig
+                  if (entry.name || entry.effectType) {
+                    let text = entry.name || '';
+
+                    // Add effect details based on effectType
+                    if (entry.effectType && entry.effectConfig) {
+                      const config = entry.effectConfig;
+                      switch (entry.effectType) {
+                        case 'damage':
+                          text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'fire'})`;
+                          break;
+                        case 'healing':
+                          text += ` (${config.healingFormula || '2d8'} healing)`;
+                          break;
+                        case 'summoning':
+                          // Enhanced summoning display with creature details
+                          if (config.creatures && config.creatures.length > 0) {
+                            const creatureNames = config.creatures.map(c => c.name).join(', ');
+                            const quantity = config.quantity || 1;
+                            const duration = config.duration || 3;
+                            const controlType = config.controlType || 'full';
+                            const controlMap = {
+                              'full': 'Full Control',
+                              'limited': 'Limited',
+                              'autonomous': 'Auto',
+                              'friendly': 'Friendly'
+                            };
+                            text += ` (${quantity}x ${creatureNames} - ${duration}r, ${controlMap[controlType]})`;
+                          } else {
+                            text += ` (${config.quantity || 1}x ${config.creatureType || 'creature'})`;
+                          }
+                          break;
+                        case 'buff':
+                          text += ` (${config.buffType || 'buff'} for ${config.buffDuration || config.duration || 3} rounds)`;
+                          break;
+                      }
+                    }
+
+                    // Add description if available
+                    if (entry.description && entry.description !== text) {
+                      text += entry.description ? `: ${entry.description}` : '';
+                    }
+
+                    return text || 'Effect';
+                  }
+
+                  // Legacy format: entry.effect or entry.description
                   const effect = entry.effect || entry.description;
                   if (typeof effect === 'string') {
                     return effect;
@@ -246,6 +297,53 @@ const RollableTableSummary = ({
 
               // Helper function to extract text from effect/description
               const getEffectText = (entry) => {
+                // New format: entry.name, entry.description, entry.effectType, entry.effectConfig
+                if (entry.name || entry.effectType) {
+                  let text = entry.name || '';
+
+                  // Add effect details based on effectType
+                  if (entry.effectType && entry.effectConfig) {
+                    const config = entry.effectConfig;
+                    switch (entry.effectType) {
+                      case 'damage':
+                        text += ` (${config.damageFormula || '2d6'} ${config.damageType || 'fire'})`;
+                        break;
+                      case 'healing':
+                        text += ` (${config.healingFormula || '2d8'} healing)`;
+                        break;
+                      case 'summoning':
+                        // Enhanced summoning display with creature details
+                        if (config.creatures && config.creatures.length > 0) {
+                          const creatureNames = config.creatures.map(c => c.name).join(', ');
+                          const quantity = config.quantity || 1;
+                          const duration = config.duration || 3;
+                          const controlType = config.controlType || 'full';
+                          const controlMap = {
+                            'full': 'Full Control',
+                            'limited': 'Limited',
+                            'autonomous': 'Auto',
+                            'friendly': 'Friendly'
+                          };
+                          text += ` (${quantity}x ${creatureNames} - ${duration}r, ${controlMap[controlType]})`;
+                        } else {
+                          text += ` (${config.quantity || 1}x ${config.creatureType || 'creature'})`;
+                        }
+                        break;
+                      case 'buff':
+                        text += ` (${config.buffType || 'buff'} for ${config.buffDuration || config.duration || 3} rounds)`;
+                        break;
+                    }
+                  }
+
+                  // Add description if available
+                  if (entry.description && entry.description !== text) {
+                    text += entry.description ? `: ${entry.description}` : '';
+                  }
+
+                  return text || 'Effect';
+                }
+
+                // Legacy format: entry.effect or entry.description
                 const effect = entry.effect || entry.description;
                 if (typeof effect === 'string') {
                   return effect;

@@ -6,7 +6,7 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faArrowDown
+  faArrowUp, faArrowDown, faLeaf
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -552,7 +552,7 @@ const UnifiedSpellCard = ({
     }
 
     // Format based on targeting configuration
-    const { targetingType, rangeType, rangeDistance, aoeShape, aoeParameters } = config;
+    const { targetingType, rangeType, rangeDistance, aoeShape, aoeParameters, aoeType, aoeSize } = config;
 
     // Handle self-targeting
     if (targetingType === 'self') return 'Self';
@@ -575,12 +575,28 @@ const UnifiedSpellCard = ({
       case 'self_centered':
         rangeStr = 'Self';
         break;
+      case 'cone':
+      case 'line':
+        // For cone/line spells, the range is the length of the effect
+        rangeStr = `${rangeDistance || aoeSize || 30} ft`;
+        break;
       default:
         rangeStr = 'Touch';
     }
 
     // Add targeting type information for area effects
-    if (targetingType === 'area' && aoeShape) {
+    // Support both aoeShape/aoeParameters (new) and aoeType/aoeSize (legacy)
+    if (targetingType === 'area' || targetingType === 'ground' || targetingType === 'cone' || targetingType === 'line') {
+      const shape = aoeShape || aoeType;
+      const params = aoeParameters || (aoeSize ? { radius: aoeSize, length: aoeSize } : {});
+
+      if (shape) {
+        const shapeInfo = formatAoeShape(shape, params);
+        if (shapeInfo) {
+          rangeStr += ` (${shapeInfo})`;
+        }
+      }
+    } else if (targetingType === 'area' && aoeShape) {
       const shapeInfo = formatAoeShape(aoeShape, aoeParameters);
       if (shapeInfo) {
         rangeStr += ` (${shapeInfo})`;
@@ -658,6 +674,9 @@ const UnifiedSpellCard = ({
         baseText = `${targets} Targets`;
         break;
       case 'area':
+      case 'ground':
+      case 'cone':
+      case 'line':
         baseText = 'Area Effect';
         break;
       case 'chain':
@@ -1310,7 +1329,15 @@ const UnifiedSpellCard = ({
       // Check all selected resource types
       const selectedTypes = spell.resourceCost.resourceTypes || [];
 
+      // List of sphere resource types to skip (they're handled separately below)
+      const sphereTypes = ['arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere', 'chaos_sphere'];
+
       selectedTypes.forEach(type => {
+        // Skip sphere types - they're handled separately below
+        if (sphereTypes.includes(type)) {
+          return;
+        }
+
         const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
         const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
         const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
@@ -1444,29 +1471,147 @@ const UnifiedSpellCard = ({
       }
     }
 
+    // Check for Arcanoneer sphere costs (legacy array format)
+    if (spell.resourceCost && spell.resourceCost.spheres && Array.isArray(spell.resourceCost.spheres)) {
+      // Count sphere types
+      const sphereCounts = {};
+      spell.resourceCost.spheres.forEach(sphere => {
+        sphereCounts[sphere] = (sphereCounts[sphere] || 0) + 1;
+      });
+
+      // Add each sphere type as a resource
+      Object.entries(sphereCounts).forEach(([sphereType, count]) => {
+        const nameMap = {
+          'Arcane': 'Arcane Sphere',
+          'Fire': 'Fire Sphere',
+          'Ice': 'Ice Sphere',
+          'Healing': 'Healing Sphere',
+          'Nature': 'Nature Sphere',
+          'Shadow': 'Shadow Sphere',
+          'Chaos': 'Chaos Sphere',
+          'Holy': 'Holy Sphere'
+        };
+
+        const colorMap = {
+          'Arcane': '#9370DB',
+          'Fire': '#FF4500',
+          'Ice': '#4169E1',
+          'Healing': '#FFFF00',
+          'Nature': '#32CD32',
+          'Shadow': '#1C1C1C',
+          'Chaos': '#FF00FF',
+          'Holy': '#FFD700'
+        };
+
+        const iconMap = {
+          'Arcane': faAtom,
+          'Fire': faFire,
+          'Ice': faSnowflake,
+          'Healing': faHeart,
+          'Nature': faLeaf,
+          'Shadow': faMoon,
+          'Chaos': faBolt,
+          'Holy': faSun
+        };
+
+        resources.push({
+          type: `sphere-${sphereType.toLowerCase()}`,
+          amount: count,
+          name: nameMap[sphereType] || `${sphereType} Sphere`,
+          icon: iconMap[sphereType] || faAtom,
+          color: colorMap[sphereType] || '#9370DB',
+          isSphere: true
+        });
+      });
+    }
+
+    // Check for sphere resources from wizard (new format)
+    const sphereResourceMap = {
+      'arcane_sphere': { name: 'Arcane Sphere', color: '#9370DB', icon: faAtom },
+      'holy_sphere': { name: 'Holy Sphere', color: '#FFD700', icon: faSun },
+      'shadow_sphere': { name: 'Shadow Sphere', color: '#1C1C1C', icon: faMoon },
+      'fire_sphere': { name: 'Fire Sphere', color: '#FF4500', icon: faFire },
+      'ice_sphere': { name: 'Ice Sphere', color: '#4169E1', icon: faSnowflake },
+      'nature_sphere': { name: 'Nature Sphere', color: '#32CD32', icon: faLeaf },
+      'healing_sphere': { name: 'Healing Sphere', color: '#FFFF00', icon: faHeart },
+      'chaos_sphere': { name: 'Chaos Sphere', color: '#FF00FF', icon: faBolt }
+    };
+
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (sphereResourceMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+
+          if ((useFormula && formula) || (amount > 0)) {
+            const sphereInfo = sphereResourceMap[type];
+            resources.push({
+              type: `sphere-${type}`,
+              amount: useFormula ? formula : amount,
+              name: sphereInfo.name,
+              icon: sphereInfo.icon,
+              color: sphereInfo.color,
+              isSphere: true,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
     if (resources.length === 0) return null;
 
     return (
       <div className="pf-spell-resources">
-        {resources.map((resource, index) => (
-          <div
-            key={index}
-            className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''}`}
-            title={`${resource.name}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
-          >
-            <FontAwesomeIcon
-              icon={resource.icon}
-              className="pf-resource-icon"
-              style={{ color: '#ffffff' }}
-            />
-            <span className="pf-resource-amount">
-              {resource.isFormula ? resource.amount : resource.amount}
-            </span>
-            <span className="pf-resource-name">
-              {resource.name}
-            </span>
-          </div>
-        ))}
+        {resources.map((resource, index) => {
+          // Special rendering for sphere costs
+          if (resource.isSphere) {
+            return (
+              <div
+                key={index}
+                className="pf-resource-cost sphere-cost"
+                title={`${resource.amount} ${resource.name}`}
+                style={{
+                  color: '#ffffff',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: '2px 6px'
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={resource.icon}
+                  className="pf-resource-icon"
+                  style={{ color: '#ffffff' }}
+                />
+                <span className="pf-resource-text" style={{ color: '#ffffff' }}>
+                  {resource.amount} {resource.name}
+                </span>
+              </div>
+            );
+          }
+
+          // Normal resource rendering
+          return (
+            <div
+              key={index}
+              className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''}`}
+              title={`${resource.name}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
+            >
+              <FontAwesomeIcon
+                icon={resource.icon}
+                className="pf-resource-icon"
+                style={{ color: '#ffffff' }}
+              />
+              <span className="pf-resource-amount">
+                {resource.isFormula ? resource.amount : resource.amount}
+              </span>
+              <span className="pf-resource-name">
+                {resource.name}
+              </span>
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -2713,6 +2858,15 @@ const UnifiedSpellCard = ({
     let damageText = '';
     let dotText = '';
 
+    // Get damage type for appending to formulas
+    const damageType = spell.damageConfig?.damageType ||
+                      spell.effects?.damage?.instant?.type ||
+                      spell.damageTypes?.[0] ||
+                      null;
+    const damageTypeSuffix = damageType && damageType !== 'dot' ?
+                            ` ${damageType.charAt(0).toUpperCase() + damageType.slice(1)} Damage` :
+                            '';
+
     // Check if this is a pure DoT spell (no instant damage)
     const isPureDoT = spell.damageConfig?.damageType === 'dot' && !spell.damageConfig?.hasDotEffect;
 
@@ -2726,7 +2880,7 @@ const UnifiedSpellCard = ({
           const formula = cardConfig?.formula || spell.damageConfig?.formula || 'CARD_VALUE + POKER_HAND_RANK * 3';
           // Just clean up spacing and formatting, don't convert to readable text
           const cleanedFormula = cleanFormula(formula);
-          damageText = `Draw ${drawCount} cards: ${cleanedFormula}`;
+          damageText = `Draw ${drawCount} cards: ${cleanedFormula}${damageTypeSuffix}`;
       } else if (spell.resolution === 'COINS') {
           const coinConfig = spell.coinConfig || spell.damageConfig?.coinConfig;
           // Always show the flip count, even if it's the default (consistent with ExternalLivePreview)
@@ -2734,21 +2888,23 @@ const UnifiedSpellCard = ({
           const formula = coinConfig?.formula || spell.damageConfig?.formula || 'HEADS_COUNT * 6 + LONGEST_STREAK * 2';
           // Just clean up spacing and formatting, don't convert to readable text
           const cleanedFormula = cleanFormula(formula);
-          damageText = `Flip ${flipCount} coins: ${cleanedFormula}`;
+          damageText = `Flip ${flipCount} coins: ${cleanedFormula}${damageTypeSuffix}`;
       } else if (spell.resolution === 'DICE' && (spell.diceConfig?.formula || spell.damageConfig?.formula)) {
           const formula = spell.diceConfig?.formula || spell.damageConfig?.formula || '1d6 + intelligence';
 
-          // Enhanced formula formatting for better readability
-          const enhancedFormula = enhanceFormulaDisplay(formula, spell.damageConfig?.elementType);
-          damageText = enhancedFormula;
+          // Enhanced formula formatting - don't pass elementType if we have a specific damage type suffix
+          const enhancedFormula = damageTypeSuffix ?
+            cleanFormula(formula) :
+            enhanceFormulaDisplay(formula, spell.damageConfig?.elementType);
+          damageText = `${enhancedFormula}${damageTypeSuffix}`;
       } else if (spell.damageConfig?.formula) {
           // Just clean up spacing and formatting, don't convert to readable text
-          damageText = cleanFormula(spell.damageConfig.formula);
+          damageText = `${cleanFormula(spell.damageConfig.formula)}${damageTypeSuffix}`;
       } else if (spell.primaryDamage?.dice) {
           const dice = spell.primaryDamage.dice;
           const flat = spell.primaryDamage.flat > 0 ? ` + ${spell.primaryDamage.flat}` : '';
           // Just clean up spacing and formatting, don't convert to readable text
-          damageText = cleanFormula(`${dice}${flat}`);
+          damageText = `${cleanFormula(`${dice}${flat}`)}${damageTypeSuffix}`;
       }
     }
 
@@ -2829,7 +2985,7 @@ const UnifiedSpellCard = ({
         // Standard dice-based DoT
         const dotFormula = spell.damageConfig?.dotConfig?.dotFormula || spell.damageConfig?.formula || '1d4 + intelligence/2';
         const cleanedDotFormula = cleanFormula(dotFormula);
-        dotText = `${cleanedDotFormula} per ${tickFrequency} for ${durationText}`;
+        dotText = `${cleanedDotFormula}${damageTypeSuffix} per ${tickFrequency} for ${durationText}`;
       }
     }
 
@@ -2944,20 +3100,20 @@ const UnifiedSpellCard = ({
     if (spell.healingConfig) {
       const healingType = spell.healingConfig.healingType;
 
-      // Handle different healing types
-      if (healingType === 'direct') {
+      // Handle different healing types ('instant' is an alias for 'direct')
+      if (healingType === 'direct' || healingType === 'instant') {
         // Direct healing - check resolution method
         if (spell.resolution === 'CARDS' && spell.healingConfig.cardConfig?.formula) {
           const cardConfig = spell.healingConfig.cardConfig;
           const drawCount = cardConfig.drawCount !== undefined ? cardConfig.drawCount : 3;
-          return `Draw ${drawCount} cards: ${cleanFormula(cardConfig.formula)}`;
+          return `Draw ${drawCount} cards: ${cleanFormula(cardConfig.formula)} Healing`;
         } else if (spell.resolution === 'COINS' && spell.healingConfig.coinConfig?.formula) {
           const coinConfig = spell.healingConfig.coinConfig;
           const flipCount = coinConfig.flipCount !== undefined ? coinConfig.flipCount : 4;
-          return `Flip ${flipCount} coins: ${cleanFormula(coinConfig.formula)}`;
+          return `Flip ${flipCount} coins: ${cleanFormula(coinConfig.formula)} Healing`;
         } else if (spell.healingConfig.formula) {
           // Dice-based direct healing
-          return cleanFormula(spell.healingConfig.formula);
+          return `${cleanFormula(spell.healingConfig.formula)} Healing`;
         }
       } else if (healingType === 'hot') {
         // HoT healing - check resolution method
@@ -3648,6 +3804,12 @@ const UnifiedSpellCard = ({
       } else if (blessType === 'life') {
         mechanicsParts.push('Gain bonus to healing received');
       }
+    }
+
+    // TEMPORARY HIT POINTS EFFECT
+    else if (effectId === 'temporary_hp') {
+      const tempHp = status.temporaryHitPoints || status.amount || '1d4';
+      mechanicsParts.push(`Gain ${tempHp} temporary hit points`);
     }
 
     // RESISTANCE EFFECT
@@ -6810,7 +6972,7 @@ const UnifiedSpellCard = ({
                           // Instant damage
                           effects.push({
                             name: 'Instant Damage',
-                            description: 'Roll dice',
+                            description: '',
                             mechanicsText: damageResult.instant
                           });
 
@@ -6825,7 +6987,7 @@ const UnifiedSpellCard = ({
                           const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
                           effects.push({
                             name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
-                            description: isDotOnly ? '' : 'Roll Dice',
+                            description: '',
                             mechanicsText: damageResult
                           });
                         }
@@ -6964,10 +7126,11 @@ const UnifiedSpellCard = ({
               {/* Healing Display - Only show if healing is actually configured */}
               {(() => {
                 // Check if there's actual healing configuration (more specific check)
-                const hasDirectHealingFormula = spell?.healingConfig?.healingType === 'direct' && (
+                const hasDirectHealingFormula = (spell?.healingConfig?.healingType === 'direct' || spell?.healingConfig?.healingType === 'instant') && (
                   (spell.resolution === 'CARDS' && spell.healingConfig?.cardConfig?.formula) ||
                   (spell.resolution === 'COINS' && spell.healingConfig?.coinConfig?.formula) ||
-                  (spell.resolution === 'DICE' && spell.healingConfig?.formula)
+                  (spell.resolution === 'DICE' && spell.healingConfig?.formula) ||
+                  spell.healingConfig?.formula
                 );
 
                 const hasHotHealingFormula = spell?.healingConfig?.healingType === 'hot' && (
@@ -7021,18 +7184,10 @@ const UnifiedSpellCard = ({
                           const healingType = healingData.healingType;
 
                           // Determine description based on formula type
-                          let healingDescription = '';
-                          if (healingType !== 'hot') {
-                            // Check if formula is a simple number (no dice)
-                            const formula = healingData.formula || '';
-                            const isSimpleNumber = /^\d+$/.test(formula.toString().trim());
-                            healingDescription = isSimpleNumber ? 'Restore HP' : 'Roll Dice';
-                          }
-
                           effects.push({
                             name: healingType === 'hot' ? 'Healing Over Time' :
-                                  healingType === 'shield' ? 'Shield Absorption' : 'Instant Healing',
-                            description: healingDescription,
+                                  healingType === 'shield' ? 'Shield Absorption' : 'Healing',
+                            description: '',
                             mechanicsText: healingResult
                           });
                         }
@@ -8747,96 +8902,23 @@ const UnifiedSpellCard = ({
           {/* Rollable Table Summary */}
           {(() => {
             // Extract rollable table data from spell if not provided as prop
-            const tableData = rollableTableData || spell?.mechanicsConfig?.rollableTable;
+            const tableData = rollableTableData || spell?.mechanicsConfig?.rollableTable || spell?.rollableTable;
+
+            console.log('UnifiedSpellCard - rollableTableData prop:', rollableTableData);
+            console.log('UnifiedSpellCard - spell?.mechanicsConfig?.rollableTable:', spell?.mechanicsConfig?.rollableTable);
+            console.log('UnifiedSpellCard - spell?.rollableTable:', spell?.rollableTable);
+            console.log('UnifiedSpellCard - final tableData:', tableData);
 
             if (!tableData || !tableData.enabled) return null;
 
             return (
               <div className="healing-effects">
                 <div className="healing-effects-section">
-                  <div className="healing-formula-line">
-                    <div className="healing-effects-list">
-                      <div className="healing-effect-item">
-                        <div
-                          className="healing-effect"
-                          style={{ cursor: 'pointer' }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsRollableTableExpanded(!isRollableTableExpanded);
-                          }}
-                        >
-                          <span className="healing-effect-name">Random Effects</span>
-                          <span className="healing-effect-description"> - {tableData.tableName || 'Random Effects (d100)'}</span>
-                          <span style={{ marginLeft: '8px', fontSize: '12px', opacity: 0.7 }}>
-                            {isRollableTableExpanded ? '▼' : '▶'}
-                          </span>
-                        </div>
-                        {isRollableTableExpanded && (
-                          <div className="healing-effect-details">
-                            <div className="healing-effect-mechanics" style={{ padding: '8px' }}>
-                              {(() => {
-                                const outcomes = tableData.outcomes || tableData.entries || [];
-                                const diceFormula = tableData.diceFormula || '1d100';
-
-                                if (outcomes.length === 0) {
-                                  return 'No table entries configured';
-                                }
-
-                                return (
-                                  <div style={{ marginTop: '4px' }}>
-                                    <div style={{
-                                      fontWeight: 'bold',
-                                      marginBottom: '8px',
-                                      color: 'var(--pf-text-primary, #2d1810)',
-                                      fontSize: '13px'
-                                    }}>
-                                      Roll {diceFormula}:
-                                    </div>
-                                    {outcomes.map((outcome, index) => {
-                                      const range = outcome.range || [index + 1, index + 1];
-                                      const rangeText = range[0] === range[1]
-                                        ? `${range[0]}`
-                                        : `${range[0]}-${range[1]}`;
-                                      const effect = outcome.effect || outcome.result || outcome.description || 'Unknown effect';
-
-                                      return (
-                                        <div
-                                          key={index}
-                                          style={{
-                                            marginBottom: '6px',
-                                            paddingLeft: '10px',
-                                            paddingRight: '4px',
-                                            paddingTop: '4px',
-                                            paddingBottom: '4px',
-                                            borderLeft: '3px solid rgba(139, 69, 19, 0.4)',
-                                            backgroundColor: 'rgba(254, 252, 248, 0.3)',
-                                            borderRadius: '2px',
-                                            lineHeight: '1.5'
-                                          }}
-                                        >
-                                          <span style={{
-                                            fontWeight: '700',
-                                            color: '#8B4513',
-                                            minWidth: '40px',
-                                            display: 'inline-block'
-                                          }}>
-                                            {rangeText}:
-                                          </span>{' '}
-                                          <span style={{ color: 'var(--pf-text-primary, #2d1810)' }}>
-                                            {effect}
-                                          </span>
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                );
-                              })()}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  <RollableTableSummary
+                    rollableTableData={tableData}
+                    variant="compact"
+                    showExpandButton={true}
+                  />
                 </div>
               </div>
             );

@@ -16,7 +16,9 @@ function AlchemyInterface({ onBack }) {
         getRecipesForProfession,
         knowsRecipe,
         addToCraftingQueue,
-        setProfessionLevel
+        setProfessionLevel,
+        craftingQueue,
+        learnRecipe
     } = useCraftingStore();
 
     const { items: inventoryItems, removeItem, addItemFromLibrary } = useInventoryStore();
@@ -185,6 +187,23 @@ function AlchemyInterface({ onBack }) {
             </div>
 
             <div className="alchemy-actions">
+                <button
+                    className="wow-button"
+                    onClick={() => {
+                        // Learn all alchemy recipes
+                        allAlchemyRecipes.forEach(recipe => {
+                            learnRecipe('alchemy', recipe.id);
+                        });
+                        addLootNotification({
+                            type: 'crafting_success',
+                            message: `Learned ${allAlchemyRecipes.length} alchemy recipes!`,
+                            timestamp: Date.now()
+                        });
+                    }}
+                    style={{ marginRight: '10px' }}
+                >
+                    Learn All Recipes
+                </button>
                 <button className="wow-button" onClick={onBack}>
                     Back to Professions
                 </button>
@@ -205,7 +224,8 @@ function AlchemyInterface({ onBack }) {
                 className={`alchemy-tab ${activeTab === 'queue' ? 'active' : ''}`}
                 onClick={() => setActiveTab('queue')}
             >
-                <span>Crafting Queue</span>
+                <span>Queue</span>
+                <span className="tab-count">({craftingQueue.length})</span>
             </button>
         </div>
     );
@@ -360,14 +380,10 @@ function AlchemyInterface({ onBack }) {
     );
 
     const renderContent = () => {
-        switch (activeTab) {
-            case 'recipes':
-                return renderRecipes();
-            case 'queue':
-                return renderQueue();
-            default:
-                return renderRecipes();
+        if (activeTab === 'queue') {
+            return renderQueue();
         }
+        return renderRecipes();
     };
 
     return (
