@@ -6,7 +6,7 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faArrowDown, faLeaf
+  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -56,6 +56,40 @@ const UnifiedSpellCard = ({
 
   // ===== COMPREHENSIVE HELPER FUNCTIONS =====
 
+  // Get Inferno stage name by level
+  const getInfernoStageName = (level) => {
+    const stageNames = {
+      0: 'Mortal',
+      1: 'Ember',
+      2: 'Smolder',
+      3: 'Scorch',
+      4: 'Blaze',
+      5: 'Inferno',
+      6: 'Conflagration',
+      7: 'Cataclysm',
+      8: 'Apocalypse',
+      9: 'Oblivion'
+    };
+    return stageNames[level] || `Level ${level}`;
+  };
+
+  // Get Inferno stage name with "ing" suffix for requirements display
+  const getInfernoStageNameWithSuffix = (level) => {
+    const stageNames = {
+      0: 'Mortal',
+      1: 'Embering',
+      2: 'Smoldering',
+      3: 'Scorching',
+      4: 'Blazing',
+      5: 'Inferno',
+      6: 'Conflagration',
+      7: 'Cataclysm',
+      8: 'Apocalypse',
+      9: 'Oblivion'
+    };
+    return stageNames[level] || `Level ${level}`;
+  };
+
   // Format resource names properly (convert snake_case to proper names)
   const formatResourceName = (resourceType) => {
     if (!resourceType) return '';
@@ -90,6 +124,11 @@ const UnifiedSpellCard = ({
   // Enhanced formula cleaning function that properly formats resource names
   const cleanFormula = (formula) => {
     if (!formula || typeof formula !== 'string') return '';
+
+    // Handle special formula keywords first
+    if (formula === 'HALF_DAMAGE_DEALT') {
+      return 'Damage Dealt/2';
+    }
 
     let cleanedFormula = formula
       .replace(/\s*\+\s*/g, ' + ')
@@ -1332,9 +1371,25 @@ const UnifiedSpellCard = ({
       // List of sphere resource types to skip (they're handled separately below)
       const sphereTypes = ['arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere', 'chaos_sphere'];
 
+      // List of Inferno resource types to skip (they're handled separately below)
+      const infernoTypes = ['inferno_required', 'inferno_ascend', 'inferno_descend'];
+
+      // List of Chronarch resource types to skip (they're handled separately below)
+      const chronarchTypes = ['time_shard_generate', 'time_shard_cost', 'temporal_strain_gain', 'temporal_strain_reduce'];
+
       selectedTypes.forEach(type => {
         // Skip sphere types - they're handled separately below
         if (sphereTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Inferno types - they're handled separately below
+        if (infernoTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Chronarch types - they're handled separately below
+        if (chronarchTypes.includes(type)) {
           return;
         }
 
@@ -1560,11 +1615,224 @@ const UnifiedSpellCard = ({
       });
     }
 
+    // Add Pyrofiend Inferno costs
+    if (spell.infernoRequired !== undefined && spell.infernoRequired > 0) {
+      resources.push({
+        type: 'inferno-required',
+        amount: `Requires [${getInfernoStageNameWithSuffix(spell.infernoRequired)}]`,
+        name: '',
+        icon: faFire,
+        color: '#8b0000',
+        isInferno: true
+      });
+    }
+    if (spell.infernoAscend !== undefined && spell.infernoAscend > 0) {
+      resources.push({
+        type: 'inferno-ascend',
+        amount: `Ascend Inferno by ${spell.infernoAscend}`,
+        name: '',
+        icon: faFire,
+        color: '#ff4500',
+        isInferno: true
+      });
+    }
+    if (spell.infernoDescend !== undefined && spell.infernoDescend !== 0 && spell.infernoDescend !== '0') {
+      // Handle both numeric and dice formula descend values
+      const descendValue = typeof spell.infernoDescend === 'string' ? spell.infernoDescend : spell.infernoDescend;
+      resources.push({
+        type: 'inferno-descend',
+        amount: `Descend Inferno by ${descendValue}`,
+        name: '',
+        icon: faFire,
+        color: '#4682b4',
+        isInferno: true
+      });
+    }
+
+    // Add Chronarch resources from wizard format
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const chronarchResourceMap = {
+        'time_shard_generate': { name: 'Time Shard', color: '#4169E1', icon: faClock, isGenerate: true },
+        'time_shard_cost': { name: 'Time Shard', color: '#4169E1', icon: faHourglass, isConsume: true },
+        'temporal_strain_gain': { name: 'Strain', color: '#DC143C', icon: faExclamationTriangle, isStrain: true },
+        'temporal_strain_reduce': { name: 'Strain', color: '#32CD32', icon: faHeart, isStrainReduce: true }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (chronarchResourceMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+
+          if ((useFormula && formula) || (amount > 0)) {
+            const chronarchInfo = chronarchResourceMap[type];
+            const numericAmount = useFormula ? formula : amount;
+
+            // Format with +/- prefix
+            let displayAmount;
+            if (chronarchInfo.isGenerate || chronarchInfo.isStrain) {
+              displayAmount = numericAmount > 1 ? `+${numericAmount}` : '+1';
+            } else {
+              displayAmount = numericAmount > 1 ? `-${numericAmount}` : '-1';
+            }
+
+            resources.push({
+              type: `chronarch-${type}`,
+              amount: displayAmount,
+              name: chronarchInfo.name,
+              icon: chronarchInfo.icon,
+              color: chronarchInfo.color,
+              isChronarch: true,
+              isGenerate: chronarchInfo.isGenerate,
+              isConsume: chronarchInfo.isConsume,
+              isStrain: chronarchInfo.isStrain,
+              isStrainReduce: chronarchInfo.isStrainReduce,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Minstrel Musical Combo costs - check both spell.musicalCombo and spell.specialMechanics.musicalCombo
+    const musicalCombo = spell.musicalCombo || spell.specialMechanics?.musicalCombo;
+    if (musicalCombo) {
+      const noteFunctionMap = {
+        'I': 'Tonic',
+        'II': 'Supertonic',
+        'III': 'Mediant',
+        'IV': 'Subdominant',
+        'V': 'Dominant',
+        'VI': 'Submediant',
+        'VII': 'Leading Tone'
+      };
+
+      if (musicalCombo.type === 'builder' && musicalCombo.generates) {
+        // Builder spell - shows treble clef "𝄞 +X Note (I)" format
+        musicalCombo.generates.forEach(noteGen => {
+          const functionName = noteFunctionMap[noteGen.note] || noteGen.note;
+          const displayText = noteGen.count > 1
+            ? `+${noteGen.count} ${functionName} (${noteGen.note})`
+            : `+${functionName} (${noteGen.note})`;
+          resources.push({
+            type: 'musical-generates',
+            amount: displayText,
+            name: '',
+            clefSymbol: '𝄞', // Treble clef Unicode
+            color: '#9370DB',
+            isMusicalNote: true,
+            isGenerate: true
+          });
+        });
+      } else if (musicalCombo.type === 'resolver' && musicalCombo.consumes) {
+        // Resolver spell - shows bass clef "𝄢 -X Note (I)" format
+        musicalCombo.consumes.forEach(noteReq => {
+          const functionName = noteFunctionMap[noteReq.note] || noteReq.note;
+          const displayText = noteReq.count > 1
+            ? `-${noteReq.count} ${functionName} (${noteReq.note})`
+            : `-${functionName} (${noteReq.note})`;
+          resources.push({
+            type: 'musical-consumes',
+            amount: displayText,
+            name: '',
+            clefSymbol: '𝄢', // Bass clef Unicode
+            color: '#4169E1',
+            isMusicalNote: true,
+            isConsume: true
+          });
+        });
+      }
+    }
+
+    // Add Chronarch Time Shard resources - supports both generation and consumption
+    const timeShardGenerate = spell.timeShardGenerate || spell.specialMechanics?.timeShards?.generated;
+    const timeShardCost = spell.timeShardCost || spell.specialMechanics?.temporalFlux?.shardCost;
+
+    if (timeShardGenerate !== undefined && timeShardGenerate > 0) {
+      // Time Shard generation (basic spells) - uses clock icon with compact format
+      const displayText = timeShardGenerate > 1 ? `+${timeShardGenerate}` : '+1';
+      resources.push({
+        type: 'time-shards-generate',
+        amount: displayText,
+        name: 'Time Shard',
+        icon: faClock,
+        color: '#4169E1',
+        isChronarch: true,
+        isGenerate: true
+      });
+    }
+
+    if (timeShardCost !== undefined && timeShardCost > 0) {
+      // Time Shard consumption (Flux abilities) - uses hourglass icon with compact format
+      const displayText = timeShardCost > 1 ? `-${timeShardCost}` : '-1';
+      resources.push({
+        type: 'time-shards-cost',
+        amount: displayText,
+        name: 'Time Shard',
+        icon: faHourglass,
+        color: '#4169E1',
+        isChronarch: true,
+        isConsume: true
+      });
+    }
+
+    // Add Chronarch Temporal Strain resources - supports both gain and reduction
+    const temporalStrainGain = spell.temporalStrainGain || spell.temporalStrainGained || spell.specialMechanics?.temporalFlux?.strainGained;
+    const temporalStrainReduce = spell.temporalStrainReduce || spell.specialMechanics?.temporalFlux?.strainReduced;
+
+    if (temporalStrainGain !== undefined && temporalStrainGain > 0) {
+      // Temporal Strain gain (Flux abilities) - uses warning triangle with compact format
+      const displayText = temporalStrainGain > 1 ? `+${temporalStrainGain}` : '+1';
+      resources.push({
+        type: 'temporal-strain-gain',
+        amount: displayText,
+        name: 'Strain',
+        icon: faExclamationTriangle,
+        color: '#DC143C',
+        isChronarch: true,
+        isStrain: true
+      });
+    }
+
+    if (temporalStrainReduce !== undefined && temporalStrainReduce > 0) {
+      // Temporal Strain reduction (cleansing spells) - uses check icon with compact format
+      const displayText = temporalStrainReduce > 1 ? `-${temporalStrainReduce}` : '-1';
+      resources.push({
+        type: 'temporal-strain-reduce',
+        amount: displayText,
+        name: 'Strain',
+        icon: faHeart,
+        color: '#32CD32',
+        isChronarch: true,
+        isStrainReduce: true
+      });
+    }
+
     if (resources.length === 0) return null;
 
     return (
       <div className="pf-spell-resources">
         {resources.map((resource, index) => {
+          // Special rendering for Inferno costs
+          if (resource.isInferno) {
+            return (
+              <div
+                key={index}
+                className={`pf-resource-cost ${resource.type}`}
+                title={resource.amount}
+              >
+                <FontAwesomeIcon
+                  icon={resource.icon}
+                  className="pf-resource-icon"
+                  style={{ color: resource.color }}
+                />
+                <span className="pf-resource-amount" style={{ color: '#ffffff' }}>
+                  {resource.amount}
+                </span>
+              </div>
+            );
+          }
+
           // Special rendering for sphere costs
           if (resource.isSphere) {
             return (
@@ -1586,6 +1854,50 @@ const UnifiedSpellCard = ({
                 />
                 <span className="pf-resource-text" style={{ color: '#ffffff' }}>
                   {resource.amount} {resource.name}
+                </span>
+              </div>
+            );
+          }
+
+          // Special rendering for musical notes
+          if (resource.isMusicalNote) {
+            return (
+              <div
+                key={index}
+                className={`pf-resource-cost ${resource.type}`}
+                title={resource.amount}
+              >
+                <span
+                  className="pf-musical-clef-icon"
+                  style={{ color: resource.color, fontSize: '20px', marginRight: '4px' }}
+                >
+                  {resource.clefSymbol}
+                </span>
+                <span className="pf-resource-amount" style={{ color: '#ffffff' }}>
+                  {resource.amount}
+                </span>
+              </div>
+            );
+          }
+
+          // Special rendering for Chronarch resources (similar to musical notes)
+          if (resource.isChronarch) {
+            return (
+              <div
+                key={index}
+                className={`pf-resource-cost ${resource.type}`}
+                title={`${resource.amount} ${resource.name}`}
+              >
+                <FontAwesomeIcon
+                  icon={resource.icon}
+                  className="pf-chronarch-icon"
+                  style={{ color: resource.color, fontSize: '16px', marginRight: '4px' }}
+                />
+                <span className="pf-resource-amount" style={{ color: '#ffffff', marginRight: '4px' }}>
+                  {resource.amount}
+                </span>
+                <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
+                  {resource.name}
                 </span>
               </div>
             );
@@ -2859,16 +3171,25 @@ const UnifiedSpellCard = ({
     let dotText = '';
 
     // Get damage type for appending to formulas
+    // For DoT spells, use elementType; for instant damage, use damageType
     const damageType = spell.damageConfig?.damageType ||
                       spell.effects?.damage?.instant?.type ||
                       spell.damageTypes?.[0] ||
                       null;
-    const damageTypeSuffix = damageType && damageType !== 'dot' ?
-                            ` ${damageType.charAt(0).toUpperCase() + damageType.slice(1)} Damage` :
+
+    // For DoT spells (damageType === 'dot'), use elementType for the suffix
+    // For instant damage spells, use damageType
+    const effectiveType = damageType === 'dot'
+      ? (spell.damageConfig?.elementType || spell.effects?.damage?.dot?.type)
+      : damageType;
+
+    const damageTypeSuffix = effectiveType && effectiveType !== 'dot' ?
+                            ` ${effectiveType.charAt(0).toUpperCase() + effectiveType.slice(1)} Damage` :
                             '';
 
     // Check if this is a pure DoT spell (no instant damage)
-    const isPureDoT = spell.damageConfig?.damageType === 'dot' && !spell.damageConfig?.hasDotEffect;
+    // A spell is pure DoT if: damageType is 'dot' AND there's no instant damage formula
+    const isPureDoT = spell.damageConfig?.damageType === 'dot' && !spell.damageConfig?.formula;
 
     // Only show instant damage if it's NOT a pure DoT spell
     if (!isPureDoT) {
@@ -3330,6 +3651,7 @@ const UnifiedSpellCard = ({
       spellName: spell.name,
       topLevel: spell.damageTypes,
       damageConfig: spell.damageConfig?.damageTypes,
+      damageConfigSingular: spell.damageConfig?.damageType,
       final: damageTypesArray
     });
     if (damageTypesArray && Array.isArray(damageTypesArray) && damageTypesArray.length > 0) {
@@ -3338,6 +3660,14 @@ const UnifiedSpellCard = ({
           damageTypesSet.add(type.toLowerCase().trim());
         }
       });
+    }
+
+    // Also check for singular damageType if no array found
+    if (damageTypesSet.size === 0 && spell.damageConfig?.damageType) {
+      const damageType = spell.damageConfig.damageType;
+      if (damageType && damageType.trim()) {
+        damageTypesSet.add(damageType.toLowerCase().trim());
+      }
     }
 
     // Only add elementType if we don't have explicit damage types
@@ -3408,7 +3738,7 @@ const UnifiedSpellCard = ({
     const validDamageTypes = ['fire', 'cold', 'lightning', 'thunder', 'electric',
                              'poison', 'acid', 'necrotic', 'shadow', 'radiant', 'holy',
                              'arcane', 'force', 'physical', 'slashing', 'piercing', 'bludgeoning',
-                             'nature', 'void', 'psychic'];
+                             'nature', 'void', 'psychic', 'magical'];
 
     // Normalize similar types
     const normalizedTypes = Array.from(damageTypesSet).map(type => {
@@ -6662,63 +6992,10 @@ const UnifiedSpellCard = ({
             <h3 className="pf-spell-name">{spell?.name || 'Unnamed Spell'}</h3>
 
             {/* Resource costs below title for wizard variant */}
-            {variant === 'wizard' && (formatResourceCosts() || spell?.infernoRequired !== undefined || spell?.infernoAscend !== undefined || spell?.infernoDescend !== undefined || spell?.musicalCombo) && (
+            {variant === 'wizard' && (formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
               <div className="unified-spell-wizard-meta">
                 <div className="unified-spell-resource-costs">
                   {formatResourceCosts()}
-
-                  {/* Inferno Requirements - styled like resource costs */}
-                  {(spell?.infernoRequired !== undefined || spell?.infernoAscend !== undefined || spell?.infernoDescend !== undefined) && (
-                    <div className="pf-spell-inferno-costs">
-                      {spell?.infernoRequired !== undefined && (
-                        <div className="pf-inferno-cost inferno-required">
-                          <FontAwesomeIcon icon={faFire} className="pf-inferno-icon" style={{ color: '#8b0000' }} />
-                          <span className="pf-inferno-amount">{spell.infernoRequired}</span>
-                          <span className="pf-inferno-name">Inferno</span>
-                        </div>
-                      )}
-                      {spell?.infernoAscend !== undefined && (
-                        <div className="pf-inferno-cost inferno-ascend">
-                          <FontAwesomeIcon icon={faArrowUp} className="pf-inferno-icon" style={{ color: '#ff4500' }} />
-                          <span className="pf-inferno-amount">+{spell.infernoAscend}</span>
-                          <span className="pf-inferno-name">Ascend</span>
-                        </div>
-                      )}
-                      {spell?.infernoDescend !== undefined && (
-                        <div className="pf-inferno-cost inferno-descend">
-                          <FontAwesomeIcon icon={faArrowDown} className="pf-inferno-icon" style={{ color: '#4682b4' }} />
-                          <span className="pf-inferno-amount">{spell.infernoDescend}</span>
-                          <span className="pf-inferno-name">Descend</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Musical Combo - only show for resolver spells (note requirements) */}
-                  {spell?.musicalCombo?.type === 'resolver' && spell?.musicalCombo?.consumes && (
-                    <div className="pf-spell-musical-combo">
-                      {/* Cadence name is shown as a badge, so only show required notes here */}
-                      {spell.musicalCombo.consumes.map((noteReq, idx) => {
-                        const noteFunctionMap = {
-                          'I': 'Tonic',
-                          'II': 'Supertonic',
-                          'III': 'Mediant',
-                          'IV': 'Subdominant',
-                          'V': 'Dominant',
-                          'VI': 'Submediant',
-                          'VII': 'Leading Tone'
-                        };
-                        const functionName = noteFunctionMap[noteReq.note] || noteReq.note;
-                        return (
-                          <div key={idx} className="pf-musical-note-req">
-                            <FontAwesomeIcon icon={faComment} className="pf-musical-icon" style={{ color: '#DC143C' }} />
-                            <span className="pf-musical-amount">{noteReq.count}</span>
-                            <span className="pf-musical-name">{functionName} ({noteReq.note})</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
                 </div>
               </div>
             )}
@@ -6774,15 +7051,27 @@ const UnifiedSpellCard = ({
               );
             })()}
 
-            {/* Damage Types only for non-wizard variants */}
-            {(variant === 'library' || variant === 'collection') && getDamageTypes().length > 0 && (
-              <div className="pf-damage-types-header">
-                {getDamageTypes().map((damageType, index) => (
-                  <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
-                    <div className="pf-damage-type-icon"></div>
-                    <span className="pf-damage-type-text">{damageType}</span>
+            {/* Damage Types and Resource Costs for library/collection variants */}
+            {(variant === 'library' || variant === 'collection') && (
+              <div className="pf-library-header-right">
+                {/* Damage Types */}
+                {getDamageTypes().length > 0 && (
+                  <div className="pf-damage-types-header">
+                    {getDamageTypes().map((damageType, index) => (
+                      <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
+                        <div className="pf-damage-type-icon"></div>
+                        <span className="pf-damage-type-text">{damageType}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
+
+                {/* Resource Costs */}
+                {formatResourceCosts() && (
+                  <div className="unified-spell-cost">
+                    {formatResourceCosts()}
+                  </div>
+                )}
               </div>
             )}
 
@@ -6820,10 +7109,13 @@ const UnifiedSpellCard = ({
               )}
 
               {/* Cadence Name Badge - for Minstrel resolver spells - styled like action type */}
-              {spell?.musicalCombo?.type === 'resolver' && spell?.musicalCombo?.cadenceName && (
+              {((spell?.musicalCombo?.type === 'resolver' && spell?.musicalCombo?.cadenceName) ||
+                (spell?.specialMechanics?.musicalCombo?.type === 'resolver' && spell?.specialMechanics?.musicalCombo?.cadenceName)) && (
                 <div className="pf-action-type-badge cadence">
                   <div className="pf-action-type-content">
-                    <span className="pf-action-type-name">{spell.musicalCombo.cadenceName.toUpperCase()}</span>
+                    <span className="pf-action-type-name">
+                      {(spell?.musicalCombo?.cadenceName || spell?.specialMechanics?.musicalCombo?.cadenceName)?.toUpperCase()}
+                    </span>
                   </div>
                 </div>
               )}
@@ -7082,46 +7374,7 @@ const UnifiedSpellCard = ({
                 </div>
               )}
 
-              {/* Note Generation Display - Only show for builder spells */}
-              {spell?.musicalCombo?.type === 'builder' && spell?.musicalCombo?.generates && (
-                <div className="damage-effects">
-                  <div className="damage-effects-section">
-                    <div className="damage-formula-line">
-                      <div className="damage-effects-list">
-                        <div className="damage-effect-item">
-                          <div className="damage-effect">
-                            <span className="damage-effect-name">
-                              Note Generation
-                            </span>
-                          </div>
-                          <div className="damage-effect-details">
-                            <div className="damage-effect-mechanics">
-                              {spell.musicalCombo.generates.map((noteGen, idx) => {
-                                const noteFunctionMap = {
-                                  'I': 'Tonic',
-                                  'II': 'Supertonic',
-                                  'III': 'Mediant',
-                                  'IV': 'Subdominant',
-                                  'V': 'Dominant',
-                                  'VI': 'Submediant',
-                                  'VII': 'Leading Tone'
-                                };
-                                const functionName = noteFunctionMap[noteGen.note] || noteGen.note;
-                                return (
-                                  <span key={idx}>
-                                    {idx > 0 && ', '}
-                                    +{noteGen.count} {functionName} ({noteGen.note})
-                                  </span>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {/* Note Generation Display - Removed (now shown in header as resource cost) */}
 
               {/* Healing Display - Only show if healing is actually configured */}
               {(() => {
@@ -7147,13 +7400,18 @@ const UnifiedSpellCard = ({
 
                 const hasLegacyHealing = spell?.healing && (spell.healing.dice || spell.healing.flat > 0);
                 const hasHealingEffect = spell?.effectTypes?.includes('healing');
+                const hasEffectsHealing = spell?.effects?.healing?.instant?.formula || spell?.effects?.healing?.hot?.formula;
 
-                return hasDirectHealingFormula || hasHotHealingFormula || hasShieldHealingFormula || hasLegacyHealing || hasHealingEffect;
+                return hasDirectHealingFormula || hasHotHealingFormula || hasShieldHealingFormula || hasLegacyHealing || hasHealingEffect || hasEffectsHealing;
               })() && (
                 <div className="healing-effects">
                   <div className="healing-effects-section">
                     {(() => {
-                      const healingData = spell?.healingConfig;
+                      // Support both healingConfig and effects.healing structures
+                      const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
+                        formula: spell.effects.healing.instant?.formula || spell.effects.healing.hot?.formula,
+                        healingType: spell.effects.healing.hot ? 'hot' : 'instant'
+                      } : null);
                       if (!healingData) return null;
 
                       const effects = [];
@@ -7621,6 +7879,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence',
                               'spirit': 'Spirit',
                               'charisma': 'Charisma',
+                              'speed': 'Speed',
                               'str': 'Strength',
                               'agi': 'Agility',
                               'con': 'Constitution',
@@ -7630,13 +7889,15 @@ const UnifiedSpellCard = ({
                               'cha': 'Charisma'
                             };
 
-                            const statName = statMap[penalty.stat?.toLowerCase()] || penalty.stat?.charAt(0).toUpperCase() + penalty.stat?.slice(1) || 'Stat';
+                            // Get stat name from either penalty.name or penalty.stat
+                            const rawStatName = penalty.name || penalty.stat || 'Stat';
+                            const statName = statMap[rawStatName.toLowerCase()] || rawStatName.charAt(0).toUpperCase() + rawStatName.slice(1);
                             const value = penalty.value || penalty.magnitude || penalty.amount || 0;
                             const amount = Math.abs(value);
-                            const typeText = penalty.isPercentage || penalty.type === 'percentage' ? '%' : '';
+                            const typeText = penalty.isPercentage || penalty.type === 'percentage' || penalty.magnitudeType === 'percentage' ? '%' : '';
 
                             // Check if this is a resistance stat
-                            const penaltyName = (penalty.stat || penalty.name || penalty.id || '').toLowerCase();
+                            const penaltyName = (penalty.name || penalty.stat || penalty.id || '').toLowerCase();
                             const isResistanceStat = penalty.category === 'resistance' ||
                                                     penaltyName.includes('resistance') ||
                                                     penaltyName.includes('resist') ||
@@ -8822,18 +9083,14 @@ const UnifiedSpellCard = ({
                         if (restorationData?.formula && restorationData?.restorationType !== 'resurrection') {
                           const hasInstantRestoration = restorationData.duration === 'instant' || !restorationData.duration;
                           if (hasInstantRestoration) {
-                            const resolution = restorationData.resolution || 'DICE';
-                            const resolutionMap = {
-                              'CARDS': 'Draw cards',
-                              'COINS': 'Flip coins',
-                              'DICE': 'Roll dice'
-                            };
-                            const resolutionText = resolutionMap[resolution] || 'Roll dice';
+                            // Format the restoration display as "Formula Resource Restored"
+                            const formulaText = cleanFormula(restorationData.formula);
+                            const restoredText = `${formulaText} ${resourceDisplayName} Restored`;
 
                             effects.push({
                               name: `${resourceDisplayName} Restoration`,
-                              description: `${resolutionText} - Instantaneous`,
-                              mechanicsText: `${cleanFormula(restorationData.formula)} ${resourceName} restored`
+                              description: '',
+                              mechanicsText: restoredText
                             });
                           }
                         }

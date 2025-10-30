@@ -354,9 +354,14 @@ const ActionBar = () => {
     const handleRightClick = (e, slotIndex) => {
         e.preventDefault();
 
-        // Open hotkey assignment popup
-        setHotkeySlotIndex(slotIndex);
-        setShowHotkeyPopup(true);
+        // Shift + Right Click = Open hotkey assignment popup
+        if (e.shiftKey) {
+            setHotkeySlotIndex(slotIndex);
+            setShowHotkeyPopup(true);
+        } else {
+            // Regular Right Click = Remove spell/consumable from action bar
+            clearSlot(slotIndex);
+        }
     };
 
     const handleHotkeyAssign = (newHotkey) => {

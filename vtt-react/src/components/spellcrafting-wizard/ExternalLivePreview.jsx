@@ -395,6 +395,11 @@ const ExternalLivePreview = () => {
       resourceCost: spellState.resourceCost || null,
       manaCost: spellState.resourceConfig?.resourceAmount || 25,
 
+      // Pyrofiend Inferno Veil costs - extract from resourceCost.resourceValues
+      infernoRequired: spellState.resourceCost?.resourceValues?.inferno_required || 0,
+      infernoAscend: spellState.resourceCost?.resourceValues?.inferno_ascend || 0,
+      infernoDescend: spellState.resourceCost?.resourceValues?.inferno_descend || 0,
+
       // Utility configuration
       utilityConfig: spellState.utilityConfig || null,
 

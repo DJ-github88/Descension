@@ -429,6 +429,11 @@ const Step10Review = ({
         resourceValues: spellState.resourceCost?.resourceValues || {}
       },
 
+      // Pyrofiend Inferno Veil mechanics
+      infernoRequired: spellState.resourceCost?.resourceValues?.inferno_required,
+      infernoAscend: spellState.resourceCost?.resourceValues?.inferno_ascend,
+      infernoDescend: spellState.resourceCost?.resourceValues?.inferno_descend,
+
       // Cooldown configuration
       cooldownConfig: {
         type: spellState.cooldownConfig?.type || 'turn_based',

@@ -7,6 +7,9 @@
 
 import { CLASS_SPECIALIZATIONS } from './classSpellCategories';
 import { ARCANONEER_DATA } from './classes/arcanoneerData';
+import { PYROFIEND_DATA } from './classes/pyrofiendData';
+import { MINSTREL_DATA } from './classes/minstrelData';
+import { CHRONARCH_DATA } from './classes/chronarchData';
 
 // ===== PROPERLY FORMATTED SPELL ARCHETYPES =====
 // Each archetype is COMPLETE with all necessary configurations
@@ -350,11 +353,118 @@ if (ARCANONEER_DATA && ARCANONEER_DATA.exampleSpells) {
     // Determine specialization based on sphere combo or tags
     specialization: determineArcanoneerSpecialization(spell),
     // Add categoryIds to prevent filtering issues
-    categoryIds: spell.categoryIds || []
+    categoryIds: spell.categoryIds || [],
+    // Map sphere costs for spell card display
+    sphereCost: spell.resourceCost?.spheres || spell.sphereCost
   }));
 
   generatedSpells['Arcanoneer'] = arcanoneerSpells;
   console.log(`📚 Added ${arcanoneerSpells.length} Arcanoneer spells to class library`);
+}
+
+// Add Pyrofiend spells from pyrofiendData
+if (PYROFIEND_DATA && PYROFIEND_DATA.exampleSpells) {
+  // Map Pyrofiend spells to include specialization field and flatten inferno mechanics
+  const pyrofiendSpells = PYROFIEND_DATA.exampleSpells.map(spell => {
+    const flattenedSpell = {
+      ...spell,
+      // Determine specialization based on tags or default to inferno
+      specialization: determinePyrofiendSpecialization(spell),
+      // Add categoryIds to prevent filtering issues
+      categoryIds: spell.categoryIds || [],
+      // Flatten Inferno Level mechanics for spell card display
+      infernoRequired: spell.specialMechanics?.infernoLevel?.required,
+      infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
+      infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy
+    };
+
+    // Debug log for first spell to verify flattening
+    if (spell.id === 'pyro_ember_spark') {
+      console.log('🔥 Pyrofiend spell flattening example:', {
+        spellName: spell.name,
+        original: spell.specialMechanics?.infernoLevel,
+        flattened: {
+          infernoRequired: flattenedSpell.infernoRequired,
+          infernoAscend: flattenedSpell.infernoAscend,
+          infernoDescend: flattenedSpell.infernoDescend
+        }
+      });
+    }
+
+    return flattenedSpell;
+  });
+
+  generatedSpells['Pyrofiend'] = pyrofiendSpells;
+  console.log(`📚 Added ${pyrofiendSpells.length} Pyrofiend spells to class library`);
+}
+
+// Add Minstrel spells from minstrelData
+if (MINSTREL_DATA && MINSTREL_DATA.exampleSpells) {
+  // Map Minstrel spells to include specialization field and musical combo mechanics
+  const minstrelSpells = MINSTREL_DATA.exampleSpells.map(spell => {
+    const mappedSpell = {
+      ...spell,
+      // Determine specialization based on tags or default to battlechoir
+      specialization: determineMinstrelSpecialization(spell),
+      // Add categoryIds to prevent filtering issues
+      categoryIds: spell.categoryIds || [],
+      // Musical combo mechanics are already in the correct format
+      musicalCombo: spell.specialMechanics?.musicalCombo
+    };
+
+    // Debug log for first spell to verify mapping
+    if (spell.id === 'minstrel_opening_chord') {
+      console.log('🎵 Minstrel spell mapping example:', {
+        spellName: spell.name,
+        musicalCombo: mappedSpell.musicalCombo,
+        specialization: mappedSpell.specialization
+      });
+    }
+
+    return mappedSpell;
+  });
+
+  generatedSpells['Minstrel'] = minstrelSpells;
+  console.log(`📚 Added ${minstrelSpells.length} Minstrel spells to class library`);
+}
+
+// Add Chronarch spells from chronarchData
+if (CHRONARCH_DATA && CHRONARCH_DATA.exampleSpells) {
+  // Map Chronarch spells to include specialization field and flatten temporal mechanics
+  const chronarchSpells = CHRONARCH_DATA.exampleSpells.map(spell => {
+    const flattenedSpell = {
+      ...spell,
+      // Determine specialization based on tags or default to stasis
+      specialization: determineChronarchSpecialization(spell),
+      // Add categoryIds to prevent filtering issues
+      categoryIds: spell.categoryIds || [],
+      // Flatten Temporal mechanics for spell card display (both generation and consumption)
+      timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
+      timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
+      temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
+      temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced
+    };
+
+    // Debug log for first spell to verify flattening
+    if (spell.id === 'chrono_bolt') {
+      console.log('⏰ Chronarch spell flattening example:', {
+        spellName: spell.name,
+        originalTimeShards: spell.specialMechanics?.timeShards,
+        originalTemporalFlux: spell.specialMechanics?.temporalFlux,
+        flattened: {
+          timeShardGenerate: flattenedSpell.timeShardGenerate,
+          timeShardCost: flattenedSpell.timeShardCost,
+          temporalStrainGain: flattenedSpell.temporalStrainGain,
+          temporalStrainReduce: flattenedSpell.temporalStrainReduce
+        }
+      });
+    }
+
+    return flattenedSpell;
+  });
+
+  generatedSpells['Chronarch'] = chronarchSpells;
+  console.log(`📚 Added ${chronarchSpells.length} Chronarch spells to class library`);
 }
 
 export const ALL_CLASS_SPELLS = generatedSpells;
@@ -363,12 +473,12 @@ export const ALL_CLASS_SPELLS = generatedSpells;
  * Determine Arcanoneer specialization based on spell properties
  * Prism Mage: Pure element combos (same sphere twice)
  * Sphere Architect: Mixed element combos with utility
- * Chaos Weaver: Chaos sphere combos
+ * Entropy Weaver: Chaos sphere combos
  */
 function determineArcanoneerSpecialization(spell) {
   // Check for Chaos sphere
   if (spell.sphereCost && spell.sphereCost.includes('Chaos')) {
-    return 'chaos_weaver';
+    return 'entropy_weaver';
   }
 
   // Check for pure element combo (same sphere twice)
@@ -382,5 +492,99 @@ function determineArcanoneerSpecialization(spell) {
 
   // Default to Sphere Architect for mixed combos
   return 'sphere_architect';
+}
+
+/**
+ * Determine Pyrofiend specialization based on spell properties
+ * Inferno: High damage, aggressive spells
+ * Wildfire: AoE and DoT effects
+ * Hellfire: Healing and utility spells
+ */
+function determinePyrofiendSpecialization(spell) {
+  // Check tags for specialization hints
+  if (spell.tags) {
+    if (spell.tags.includes('healing') || spell.tags.includes('utility') || spell.tags.includes('buff')) {
+      return 'hellfire';
+    }
+    if (spell.tags.includes('aoe') || spell.tags.includes('dot') || spell.tags.includes('spread')) {
+      return 'wildfire';
+    }
+  }
+
+  // Check for AoE targeting
+  if (spell.targetingConfig?.targetingType === 'area' || spell.targetingConfig?.aoeShape) {
+    return 'wildfire';
+  }
+
+  // Check for healing effects
+  if (spell.healingConfig || spell.effects?.healing) {
+    return 'hellfire';
+  }
+
+  // Default to Inferno for pure damage
+  return 'inferno';
+}
+
+/**
+ * Determine Minstrel specialization based on spell properties
+ * Battlechoir: Damage and offensive buffs
+ * Soulsinger: Healing and defensive support
+ * Dissonance: Control and debuffs
+ */
+function determineMinstrelSpecialization(spell) {
+  // Check tags first
+  if (spell.tags) {
+    if (spell.tags.includes('battlechoir')) return 'battlechoir';
+    if (spell.tags.includes('soulsinger')) return 'soulsinger';
+    if (spell.tags.includes('dissonance')) return 'dissonance';
+  }
+
+  // Check for healing effects
+  if (spell.healingConfig || spell.effects?.healing) {
+    return 'soulsinger';
+  }
+
+  // Check for control/debuff effects
+  if (spell.effects?.condition || spell.effects?.debuff || spell.debuffConfig) {
+    return 'dissonance';
+  }
+
+  // Check for damage or offensive buffs
+  if (spell.damageConfig || spell.effects?.damage ||
+      (spell.effects?.buff && (spell.effects.buff.type === 'attack-bonus' || spell.effects.buff.type === 'damage-bonus'))) {
+    return 'battlechoir';
+  }
+
+  // Default to Battlechoir
+  return 'battlechoir';
+}
+
+/**
+ * Determine Chronarch specialization based on spell properties
+ * Stasis: Control and freeze effects
+ * Displacement: Teleportation and mobility
+ * Rewinding: Healing and time reversal
+ */
+function determineChronarchSpecialization(spell) {
+  // Check tags for specialization hints
+  if (spell.tags) {
+    if (spell.tags.includes('healing') || spell.tags.includes('support') || spell.tags.includes('rewinding')) {
+      return 'rewinding';
+    }
+    if (spell.tags.includes('teleport') || spell.tags.includes('mobility') || spell.tags.includes('displacement')) {
+      return 'displacement';
+    }
+    if (spell.tags.includes('control') || spell.tags.includes('freeze') || spell.tags.includes('stasis')) {
+      return 'stasis';
+    }
+  }
+
+  // Check for Temporal Flux abilities (high strain = control)
+  if (spell.specialMechanics?.temporalFlux?.strainGained >= 4) {
+    return 'stasis';
+  }
+
+  // Default to Stasis
+  return 'stasis';
 }
 

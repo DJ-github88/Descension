@@ -15,13 +15,14 @@ export const WIZARD_STEPS = {
     BASIC_INFO: 1,
     RACE_SELECTION: 2,
     CLASS_SELECTION: 3,
-    BACKGROUND_SELECTION: 4,
-    PATH_SELECTION: 5,
-    STAT_ALLOCATION: 6,
-    SKILLS_LANGUAGES: 7,
-    LORE_DETAILS: 8,
-    EQUIPMENT_SELECTION: 9,
-    CHARACTER_SUMMARY: 10
+    SPELL_SELECTION: 4,
+    BACKGROUND_SELECTION: 5,
+    PATH_SELECTION: 6,
+    STAT_ALLOCATION: 7,
+    SKILLS_LANGUAGES: 8,
+    LORE_DETAILS: 9,
+    EQUIPMENT_SELECTION: 10,
+    CHARACTER_SUMMARY: 11
 };
 
 export const STEP_INFO = {
@@ -39,6 +40,11 @@ export const STEP_INFO = {
         name: 'Class',
         description: 'Select your character\'s profession',
         icon: 'fas fa-sword'
+    },
+    [WIZARD_STEPS.SPELL_SELECTION]: {
+        name: 'Starting Spells',
+        description: 'Choose your initial spells',
+        icon: 'fas fa-magic'
     },
     [WIZARD_STEPS.BACKGROUND_SELECTION]: {
         name: 'Background',

@@ -1,13 +1,16 @@
 /**
- * Step 4: Spell Selection (Arcanoneer Only)
+ * Step 4: Spell Selection (Arcanoneer, Pyrofiend, Minstrel & Chronarch)
  *
- * Allows Arcanoneer characters to select 3 starting spells from Level 1 pool
+ * Allows spell-casting classes to select 3 starting spells from Level 1 pool
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { ARCANONEER_DATA } from '../../../data/classes/arcanoneerData';
+import { PYROFIEND_DATA } from '../../../data/classes/pyrofiendData';
+import { MINSTREL_DATA } from '../../../data/classes/minstrelData';
+import { CHRONARCH_DATA } from '../../../data/classes/chronarchData';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './Step4SpellSelection.css';
@@ -21,20 +24,51 @@ const Step4SpellSelection = () => {
     // Get character class
     const characterClass = state.characterData.class;
 
-    // Get Level 1 spell pool from Arcanoneer data
+    // Classes that require spell selection
+    const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch'];
+
+    // Get Level 1 spell pool based on class
     const level1SpellPool = useMemo(() => {
-        if (characterClass !== 'Arcanoneer') return [];
+        if (!SPELL_CLASSES.includes(characterClass)) return [];
 
-        const level1SpellIds = ARCANONEER_DATA.spellPools[1] || [];
-        const allSpells = ARCANONEER_DATA.exampleSpells || [];
+        let classData = null;
+        if (characterClass === 'Arcanoneer') {
+            classData = ARCANONEER_DATA;
+        } else if (characterClass === 'Pyrofiend') {
+            classData = PYROFIEND_DATA;
+        } else if (characterClass === 'Minstrel') {
+            classData = MINSTREL_DATA;
+        } else if (characterClass === 'Chronarch') {
+            classData = CHRONARCH_DATA;
+        }
 
-        // Filter spells that are in the level 1 pool
-        return allSpells.filter(spell => level1SpellIds.includes(spell.id));
+        if (!classData) return [];
+
+        const level1SpellIds = classData.spellPools?.[1] || [];
+        const allSpells = classData.exampleSpells || [];
+
+        // Filter spells that are in the level 1 pool and map class-specific mechanics
+        return allSpells
+            .filter(spell => level1SpellIds.includes(spell.id))
+            .map(spell => ({
+                ...spell,
+                // Flatten Inferno Level mechanics for Pyrofiend spell cards
+                infernoRequired: spell.specialMechanics?.infernoLevel?.required,
+                infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
+                infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy,
+                // Musical combo mechanics are already in the correct format for Minstrel
+                musicalCombo: spell.specialMechanics?.musicalCombo,
+                // Temporal mechanics for Chronarch spell cards (both generation and consumption)
+                timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
+                timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
+                temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
+                temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced
+            }));
     }, [characterClass]);
 
     // Load existing spell selection if available
     useEffect(() => {
-        if (characterClass === 'Arcanoneer') {
+        if (SPELL_CLASSES.includes(characterClass)) {
             // Check if spells are already selected
             const existingSpells = state.characterData.class_spells?.known_spells || [];
 
@@ -45,14 +79,14 @@ const Step4SpellSelection = () => {
         }
     }, [characterClass, state.characterData.class_spells]);
 
-    // If not Arcanoneer, skip this step
-    if (characterClass !== 'Arcanoneer') {
+    // If not a spell-casting class, skip this step
+    if (!SPELL_CLASSES.includes(characterClass)) {
         return (
             <div className="wizard-step spell-selection-step">
                 <div className="step-header">
                     <h2>Starting Spells</h2>
                     <p className="step-description">
-                        This step is only for Arcanoneer characters. You can proceed to the next step.
+                        This step is only for spell-casting classes (Arcanoneer, Pyrofiend, Minstrel). You can proceed to the next step.
                     </p>
                 </div>
             </div>
@@ -210,13 +244,26 @@ const Step4SpellSelection = () => {
 
     const currentSpell = viewingSpell ? displaySpellPool.find(s => s.id === viewingSpell) : null;
 
+    // Get class-specific description
+    const getClassDescription = () => {
+        if (characterClass === 'Arcanoneer') {
+            return 'Select 3 spells from the Level 1 spell pool to begin your journey as an Arcanoneer. These spells will form the foundation of your sphere-combining arsenal.';
+        } else if (characterClass === 'Pyrofiend') {
+            return 'Select 3 spells from the Level 1 spell pool to begin your journey as a Pyrofiend. These spells will help you master the Inferno Veil and demonic fire.';
+        } else if (characterClass === 'Minstrel') {
+            return 'Select 3 spells from the Level 1 spell pool to begin your journey as a Minstrel. These spells will help you build musical notes and perform powerful cadences.';
+        } else if (characterClass === 'Chronarch') {
+            return 'Select 3 spells from the Level 1 spell pool to begin your journey as a Chronarch. These spells will help you generate Time Shards and manage Temporal Strain.';
+        }
+        return 'Select 3 starting spells for your character.';
+    };
+
     return (
         <div className="wizard-step spell-selection-step">
             <div className="step-header">
                 <h2>Choose Your Starting Spells</h2>
                 <p className="step-description">
-                    Select <strong>3 spells</strong> from the Level 1 spell pool to begin your journey as an Arcanoneer.
-                    These spells will form the foundation of your magical arsenal.
+                    {getClassDescription()}
                 </p>
                 <div className="selection-counter">
                     <span className={selectedSpells.length === 3 ? 'complete' : 'incomplete'}>

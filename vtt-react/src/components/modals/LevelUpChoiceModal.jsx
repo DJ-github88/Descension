@@ -7,11 +7,14 @@
  *   - +1 to any attribute (can pick same attribute multiple times)
  *   - +15 Maximum Health
  *   - +10 Maximum Mana
- * - Arcanoneer: Also learn 1 spell from 3 random options (free, doesn't cost points)
+ * - Arcanoneer, Pyrofiend, Minstrel & Chronarch: Also learn 1 spell from available options (free, doesn't cost points)
  */
 
 import React, { useState, useMemo } from 'react';
 import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
+import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
+import { MINSTREL_DATA } from '../../data/classes/minstrelData';
+import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import './LevelUpChoiceModal.css';
 
@@ -34,32 +37,79 @@ const LevelUpChoiceModal = ({
 
     // Determine which spell pool to use based on level
     const availableSpellPool = useMemo(() => {
-        if (characterClass !== 'Arcanoneer') {
+        // Only Arcanoneer, Pyrofiend, Minstrel, and Chronarch get spell selection on level-up
+        if (characterClass !== 'Arcanoneer' && characterClass !== 'Pyrofiend' && characterClass !== 'Minstrel' && characterClass !== 'Chronarch') {
+            return [];
+        }
+
+        // Get the appropriate class data
+        let classData = null;
+        if (characterClass === 'Arcanoneer') {
+            classData = ARCANONEER_DATA;
+        } else if (characterClass === 'Pyrofiend') {
+            classData = PYROFIEND_DATA;
+        } else if (characterClass === 'Minstrel') {
+            classData = MINSTREL_DATA;
+        } else if (characterClass === 'Chronarch') {
+            classData = CHRONARCH_DATA;
+        }
+
+        if (!classData) {
             return [];
         }
 
         // Find the highest level pool that is <= currentLevel
-        const poolLevels = [1, 2, 4, 6, 8, 10, 12, 15, 18, 20];
-        const eligibleLevel = [...poolLevels].reverse().find(level => level <= currentLevel);
+        const poolLevels = Object.keys(classData.spellPools || {}).map(Number).sort((a, b) => b - a);
+        const eligibleLevel = poolLevels.find(level => level <= currentLevel);
 
         console.log('🔍 Level-up spell selection:', {
             currentLevel,
             eligibleLevel,
             poolLevels,
-            knownSpells
+            knownSpells,
+            characterClass
         });
 
         if (!eligibleLevel) {
             return [];
         }
 
-        const spellIds = ARCANONEER_DATA.spellPools[eligibleLevel] || [];
-        const allSpells = ARCANONEER_DATA.exampleSpells || [];
+        const spellIds = classData.spellPools[eligibleLevel] || [];
+        const allSpells = classData.exampleSpells || [];
 
         // Filter out already known spells
         const unknownSpells = allSpells.filter(spell =>
             spellIds.includes(spell.id) && !knownSpells.includes(spell.id)
         );
+
+        // For Pyrofiend, flatten Inferno Level mechanics for spell card display
+        if (characterClass === 'Pyrofiend') {
+            return unknownSpells.map(spell => ({
+                ...spell,
+                infernoRequired: spell.specialMechanics?.infernoLevel?.required,
+                infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
+                infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy
+            }));
+        }
+
+        // For Minstrel, include musical combo mechanics
+        if (characterClass === 'Minstrel') {
+            return unknownSpells.map(spell => ({
+                ...spell,
+                musicalCombo: spell.specialMechanics?.musicalCombo
+            }));
+        }
+
+        // For Chronarch, flatten Temporal mechanics for spell card display
+        if (characterClass === 'Chronarch') {
+            return unknownSpells.map(spell => ({
+                ...spell,
+                timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
+                timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
+                temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
+                temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced
+            }));
+        }
 
         // Return all unknown spells from the pool (no random selection)
         return unknownSpells;
@@ -88,8 +138,8 @@ const LevelUpChoiceModal = ({
             attributes: attributeChoices       // Array of attribute names
         };
 
-        // Add spell choice if Arcanoneer and spell selected
-        if (characterClass === 'Arcanoneer' && selectedSpell) {
+        // Add spell choice if spell-casting class and spell selected
+        if ((characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch') && selectedSpell) {
             result.spellId = selectedSpell;
         }
 
@@ -101,8 +151,9 @@ const LevelUpChoiceModal = ({
         // Must spend all 2 points
         if (pointsSpent !== TOTAL_POINTS) return false;
 
-        // If Arcanoneer with available spells, must select a spell
-        if (characterClass === 'Arcanoneer' && availableSpellPool.length > 0 && !selectedSpell) return false;
+        // If spell-casting class with available spells, must select a spell
+        const isSpellCaster = characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch';
+        if (isSpellCaster && availableSpellPool.length > 0 && !selectedSpell) return false;
 
         return true;
     };
@@ -126,8 +177,8 @@ const LevelUpChoiceModal = ({
                     <p>You have <strong>{pointsRemaining}</strong> point{pointsRemaining !== 1 ? 's' : ''} remaining to spend</p>
                 </div>
 
-                {/* Spell Selection (Arcanoneer only) - Like racial traits */}
-                {characterClass === 'Arcanoneer' && availableSpellPool.length > 0 && (
+                {/* Spell Selection (Arcanoneer, Pyrofiend, Minstrel & Chronarch) - Like racial traits */}
+                {(characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch') && availableSpellPool.length > 0 && (
                     <div className="spell-selection-section">
                         <h3><i className="fas fa-magic"></i> Learn a New Spell</h3>
                         <p className="section-description">Click a spell icon to view details, then select one to learn:</p>

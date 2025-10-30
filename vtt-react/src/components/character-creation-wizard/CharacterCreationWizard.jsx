@@ -11,13 +11,14 @@ import { CharacterWizardProvider, useCharacterWizardState, useCharacterWizardDis
 import Step1BasicInfo from './steps/Step1BasicInfo';
 import Step2RaceSelection from './steps/Step2RaceSelection';
 import Step3ClassSelection from './steps/Step3ClassSelection';
-import Step4BackgroundSelection from './steps/Step4BackgroundSelection';
-import Step5PathSelection from './steps/Step5PathSelection';
-import Step6StatAllocation from './steps/Step6StatAllocation';
-import Step7SkillsLanguages from './steps/Step7SkillsLanguages';
-import Step8LoreDetails from './steps/Step8LoreDetails';
+import Step4SpellSelection from './steps/Step4SpellSelection';
+import Step5BackgroundSelection from './steps/Step4BackgroundSelection';
+import Step6PathSelection from './steps/Step5PathSelection';
+import Step7StatAllocation from './steps/Step6StatAllocation';
+import Step8SkillsLanguages from './steps/Step7SkillsLanguages';
+import Step9LoreDetails from './steps/Step8LoreDetails';
 import Step10EquipmentSelection from './steps/Step10EquipmentSelection';
-import Step9CharacterSummary from './steps/Step9CharacterSummary';
+import Step11CharacterSummary from './steps/Step9CharacterSummary';
 
 // Import styles
 import './styles/CharacterCreationWizard.css';
@@ -43,20 +44,22 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 return <Step2RaceSelection />;
             case WIZARD_STEPS.CLASS_SELECTION:
                 return <Step3ClassSelection />;
+            case WIZARD_STEPS.SPELL_SELECTION:
+                return <Step4SpellSelection />;
             case WIZARD_STEPS.BACKGROUND_SELECTION:
-                return <Step4BackgroundSelection />;
+                return <Step5BackgroundSelection />;
             case WIZARD_STEPS.PATH_SELECTION:
-                return <Step5PathSelection />;
+                return <Step6PathSelection />;
             case WIZARD_STEPS.STAT_ALLOCATION:
-                return <Step6StatAllocation />;
+                return <Step7StatAllocation />;
             case WIZARD_STEPS.SKILLS_LANGUAGES:
-                return <Step7SkillsLanguages />;
+                return <Step8SkillsLanguages />;
             case WIZARD_STEPS.LORE_DETAILS:
-                return <Step8LoreDetails />;
+                return <Step9LoreDetails />;
             case WIZARD_STEPS.EQUIPMENT_SELECTION:
                 return <Step10EquipmentSelection />;
             case WIZARD_STEPS.CHARACTER_SUMMARY:
-                return <Step9CharacterSummary />;
+                return <Step11CharacterSummary />;
             default:
                 return <Step1BasicInfo />;
         }

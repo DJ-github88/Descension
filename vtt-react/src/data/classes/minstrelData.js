@@ -820,6 +820,36 @@ Before combat, decide which cadences you want to prioritize:
     ]
   },
 
+  // Spell Pools - organized by character level
+  // Maps character level to available spell IDs for learning
+  spellPools: {
+    1: [
+      // Level 1 spells: Basic builders and simple resolvers (5 options, pick 3)
+      'minstrel_opening_chord',
+      'minstrel_harmonic_strike',
+      'minstrel_inspiring_rhythm',
+      'minstrel_minor_cadence',
+      'minstrel_soothing_melody'
+    ],
+    2: [
+      // Level 2 spells: More builders and utility (3 options, pick 1)
+      'minstrel_healing_hymn',
+      'minstrel_war_drum',
+      'minstrel_dissonant_shriek'
+    ],
+    4: [
+      // Level 4+ spells: Advanced resolvers
+      'minstrel_perfect_cadence',
+      'minstrel_circle_of_fifths',
+      'minstrel_authentic_cadence'
+    ],
+    6: [
+      // Level 6+ spells: Complex cadences
+      'minstrel_tritone_substitution',
+      'minstrel_picardy_third'
+    ]
+  },
+
   // Example Spells - showcasing the spell wizard system
   exampleSpells: [
     // Builder Spells - Generate Musical Notes
@@ -881,13 +911,280 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'basic', 'sonic', 'tonic-generator']
+      tags: ['builder', 'basic', 'sonic', 'tonic-generator', 'level-1']
+    },
+
+    {
+      id: 'minstrel_harmonic_strike',
+      name: 'Harmonic Strike',
+      description: 'Strike your foe with a resonant blow, dealing damage and generating mediant notes.',
+      spellType: 'ACTION',
+      icon: 'ability_warrior_savageblow',
+      school: 'Evocation',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 8,
+        components: ['somatic'],
+        somaticText: 'Strike with instrument or weapon'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '1d8',
+        damageType: 'bludgeoning',
+        scalingType: 'none'
+      },
+
+      effects: {
+        damage: {
+          instant: {
+            formula: '1d8',
+            type: 'bludgeoning'
+          }
+        }
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'builder',
+          generates: [
+            { note: 'III', count: 2 },
+            { note: 'I', count: 1 }
+          ]
+        }
+      },
+
+      tags: ['builder', 'melee', 'damage', 'mediant-generator', 'level-1']
+    },
+
+    {
+      id: 'minstrel_inspiring_rhythm',
+      name: 'Inspiring Rhythm',
+      description: 'Play an uplifting rhythm that bolsters an ally and generates supertonic notes.',
+      spellType: 'ACTION',
+      icon: 'spell_holy_blessingofstrength',
+      school: 'Enchantment',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'timed',
+        duration: 2,
+        durationUnit: 'turns'
+      },
+
+      resourceCost: {
+        mana: 12,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Uplifting verse',
+        somaticText: 'Play encouraging rhythm'
+      },
+
+      resolution: 'AUTOMATIC',
+
+      buffConfig: {
+        statModifiers: [
+          {
+            name: 'Armor',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        ],
+        durationValue: 2,
+        durationType: 'turns',
+        stackingRule: 'replace',
+        maxStacks: 1
+      },
+
+      effects: {
+        buff: {
+          type: 'ac-bonus',
+          value: 2,
+          duration: 2,
+          description: '+2 AC'
+        }
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'builder',
+          generates: [
+            { note: 'II', count: 2 },
+            { note: 'VI', count: 1 }
+          ]
+        }
+      },
+
+      tags: ['builder', 'buff', 'support', 'supertonic-generator', 'battlechoir', 'level-1']
+    },
+
+    {
+      id: 'minstrel_minor_cadence',
+      name: 'Minor Cadence',
+      description: 'Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.',
+      spellType: 'ACTION',
+      icon: 'spell_shadow_siphonmana',
+      school: 'Evocation',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 15,
+        components: ['verbal'],
+        verbalText: 'Simple resolution phrase'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '2d6',
+        damageType: 'thunder',
+        scalingType: 'none'
+      },
+
+      effects: {
+        damage: {
+          instant: {
+            formula: '2d6',
+            type: 'thunder'
+          }
+        }
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'I', count: 1 },
+            { note: 'V', count: 1 }
+          ],
+          cadenceName: 'Minor Cadence'
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'damage', 'simple', 'level-1']
+    },
+
+    {
+      id: 'minstrel_soothing_melody',
+      name: 'Soothing Melody',
+      description: 'Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.',
+      spellType: 'ACTION',
+      icon: 'spell_holy_layonhands',
+      school: 'Abjuration',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 18,
+        components: ['verbal'],
+        verbalText: 'Gentle healing melody'
+      },
+
+      resolution: 'DICE',
+
+      healingConfig: {
+        healingType: 'direct',
+        formula: '2d4+2',
+        resolution: 'DICE'
+      },
+
+      damageConfig: {
+        damageType: 'Radiant'
+      },
+
+      effects: {
+        healing: {
+          instant: {
+            formula: '2d4+2',
+            type: 'magical'
+          }
+        },
+        restoration: {
+          mana: {
+            formula: '1d4',
+            description: 'Restores mana to target'
+          }
+        }
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'IV', count: 1 },
+            { note: 'I', count: 1 }
+          ],
+          cadenceName: 'Plagal Cadence'
+        },
+        instrumentBonus: {
+          lute: { healingBonus: 1 },
+          harp: { healingBonus: 1 }
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level-1']
     },
 
     {
       id: 'minstrel_healing_hymn',
       name: 'Healing Hymn',
-      description: 'Sing a soothing melody that heals an ally and generates subdominant notes.',
+      description: 'Sing a soothing melody that heals an ally.',
       spellType: 'ACTION',
       icon: 'spell_holy_heal',
       school: 'Abjuration',
@@ -916,6 +1213,16 @@ Before combat, decide which cadences you want to prioritize:
 
       resolution: 'DICE',
 
+      healingConfig: {
+        healingType: 'direct',
+        formula: '2d6+2',
+        resolution: 'DICE'
+      },
+
+      damageConfig: {
+        damageType: 'Radiant'
+      },
+
       effects: {
         healing: {
           instant: {
@@ -939,13 +1246,13 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'healing', 'subdominant-generator', 'soulsinger']
+      tags: ['builder', 'healing', 'subdominant-generator', 'soulsinger', 'level-2']
     },
 
     {
       id: 'minstrel_war_drum',
       name: 'War Drum Beat',
-      description: 'Beat a powerful rhythm that damages enemies and generates dominant notes.',
+      description: 'Beat a powerful rhythm that damages enemies in an area.',
       spellType: 'ACTION',
       icon: 'ability_warrior_warcry',
       school: 'Evocation',
@@ -1003,7 +1310,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'aoe', 'damage', 'dominant-generator', 'battlechoir']
+      tags: ['builder', 'aoe', 'damage', 'dominant-generator', 'battlechoir', 'area-effect', 'level-2']
     },
 
     {
@@ -1234,6 +1541,10 @@ Before combat, decide which cadences you want to prioritize:
 
       resolution: 'DICE',
 
+      damageConfig: {
+        damageType: 'Radiant'
+      },
+
       effects: {
         healing: {
           instant: {
@@ -1360,6 +1671,10 @@ Before combat, decide which cadences you want to prioritize:
 
       resolution: 'DICE',
 
+      damageConfig: {
+        damageType: 'Radiant'
+      },
+
       effects: {
         healing: {
           instant: {
@@ -1426,6 +1741,10 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+
+      damageConfig: {
+        damageType: 'Radiant'
+      },
 
       effects: {
         healing: {

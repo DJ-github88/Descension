@@ -39,52 +39,52 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Infernal Path',
     specializations: [
       {
-        id: 'harmonic_weaving',
-        name: 'Harmonic Weaving',
-        description: 'Musical spells that combine notes into powerful effects',
-        color: '#9370DB',
-        icon: 'spell_holy_silence'
+        id: 'battlechoir',
+        name: 'Battlechoir',
+        description: 'Aggressive support, damage amplification, and war songs',
+        color: '#DC143C',
+        icon: 'spell_holy_crusaderstrike'
       },
       {
-        id: 'chord_combinations',
-        name: 'Chord Combinations',
-        description: 'Complex musical arrangements with layered effects',
+        id: 'soulsinger',
+        name: 'Soulsinger',
+        description: 'Healing focus, emotional manipulation, and protective melodies',
         color: '#4169E1',
-        icon: 'spell_arcane_arcanetorrent'
+        icon: 'spell_holy_divinehymn'
       },
       {
-        id: 'musical_magic',
-        name: 'Musical Magic',
-        description: 'Pure musical energy transformed into magical force',
-        color: '#6A5ACD',
-        icon: 'spell_holy_divinehymn'
+        id: 'dissonance',
+        name: 'Dissonance',
+        description: 'Debuffs and control, chaotic magic, and reality-warping sounds',
+        color: '#9370DB',
+        icon: 'spell_shadow_shadowwordpain'
       }
     ]
   },
 
   'Chronarch': {
-    path: 'Infernal Path',
+    path: 'Temporal Path',
     specializations: [
       {
-        id: 'temporal_control',
-        name: 'Temporal Control',
-        description: 'Spells that manipulate the flow of time itself',
-        color: '#4682B4',
+        id: 'stasis',
+        name: 'Stasis',
+        description: 'Control and freeze effects that halt time',
+        color: '#4169E1',
+        icon: 'spell_frost_frostshock'
+      },
+      {
+        id: 'displacement',
+        name: 'Displacement',
+        description: 'Teleportation and mobility through time and space',
+        color: '#6495ED',
         icon: 'spell_arcane_blink'
       },
       {
-        id: 'time_manipulation',
-        name: 'Time Manipulation',
-        description: 'Advanced temporal magic affecting past and future',
-        color: '#5F9EA0',
-        icon: 'spell_nature_timestop'
-      },
-      {
-        id: 'chronos_energy',
-        name: 'Chronos Energy',
-        description: 'Raw temporal energy harnessed for magical effects',
-        color: '#708090',
-        icon: 'spell_arcane_teleportundercity'
+        id: 'rewinding',
+        name: 'Rewinding',
+        description: 'Healing and time reversal to undo damage',
+        color: '#87CEEB',
+        icon: 'spell_holy_borrowedtime'
       }
     ]
   },

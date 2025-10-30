@@ -443,7 +443,25 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       dateCreated: spell.dateCreated,
       lastModified: spell.lastModified,
       categoryIds: spell.categoryIds || [],
-      visualTheme: spell.visualTheme || 'neutral'
+      visualTheme: spell.visualTheme || 'neutral',
+
+      // Class-specific mechanics - Pyrofiend Inferno Veil
+      infernoRequired: spell.infernoRequired,
+      infernoAscend: spell.infernoAscend,
+      infernoDescend: spell.infernoDescend,
+
+      // Class-specific mechanics - Arcanoneer Spheres
+      arcaneSphere: spell.arcaneSphere,
+      holySphere: spell.holySphere,
+      shadowSphere: spell.shadowSphere,
+      fireSphere: spell.fireSphere,
+      iceSphere: spell.iceSphere,
+      natureSphere: spell.natureSphere,
+      healingSphere: spell.healingSphere,
+      chaosSphere: spell.chaosSphere,
+
+      // Preserve special mechanics for other classes
+      specialMechanics: spell.specialMechanics || null
     };
 
     // Helper function to format duration

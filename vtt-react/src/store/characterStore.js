@@ -779,21 +779,48 @@ const useCharacterStore = create((set, get) => ({
                     };
                 }
 
-                // If changing to Arcanoneer and character has no spells, grant starting spells
-                if (value === 'Arcanoneer' && (!state.class_spells?.known_spells || state.class_spells.known_spells.length === 0)) {
-                    // Grant 3 random starting spells from level 1 pool
-                    const startingSpells = [
-                        'arc_steam_burst',
-                        'arc_celestial_ray',
-                        'arc_arcane_detonation'
-                    ];
+                // Auto-assign starting spells for spell-casting classes
+                const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch'];
+                const previousClass = state.class;
 
-                    newState.class_spells = {
-                        ...state.class_spells,
-                        known_spells: startingSpells
-                    };
+                // Check if we're switching TO a spell-casting class
+                if (SPELL_CLASSES.includes(value)) {
+                    // Import class data dynamically
+                    let classData = null;
+                    if (value === 'Arcanoneer') {
+                        const { ARCANONEER_DATA } = require('../data/classes/arcanoneerData');
+                        classData = ARCANONEER_DATA;
+                    } else if (value === 'Pyrofiend') {
+                        const { PYROFIEND_DATA } = require('../data/classes/pyrofiendData');
+                        classData = PYROFIEND_DATA;
+                    } else if (value === 'Minstrel') {
+                        const { MINSTREL_DATA } = require('../data/classes/minstrelData');
+                        classData = MINSTREL_DATA;
+                    } else if (value === 'Chronarch') {
+                        const { CHRONARCH_DATA } = require('../data/classes/chronarchData');
+                        classData = CHRONARCH_DATA;
+                    }
 
-                    console.log('🎓 Granted starting Arcanoneer spells:', startingSpells);
+                    if (classData && classData.spellPools && classData.spellPools[1]) {
+                        const level1SpellIds = classData.spellPools[1];
+
+                        // If switching from a different spell class, or if no spells assigned yet
+                        const shouldReassignSpells = previousClass !== value &&
+                            (SPELL_CLASSES.includes(previousClass) || !state.class_spells?.known_spells || state.class_spells.known_spells.length === 0);
+
+                        if (shouldReassignSpells || !state.class_spells?.known_spells || state.class_spells.known_spells.length === 0) {
+                            // Randomly select 3 spells from the pool
+                            const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
+                            const selectedSpells = shuffled.slice(0, 3);
+
+                            newState.class_spells = {
+                                ...state.class_spells,
+                                known_spells: selectedSpells
+                            };
+
+                            console.log(`🎓 Auto-assigned 3 random starting spells for ${value}:`, selectedSpells);
+                        }
+                    }
                 }
             }
 

@@ -95,6 +95,23 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
         return 'catastrophic';
     };
 
+    // Get stage name for inferno level
+    const getStageName = (level) => {
+        const stageNames = {
+            0: 'Mortal',
+            1: 'Ember',
+            2: 'Smolder',
+            3: 'Scorch',
+            4: 'Blaze',
+            5: 'Inferno',
+            6: 'Conflagration',
+            7: 'Cataclysm',
+            8: 'Apocalypse',
+            9: 'Oblivion'
+        };
+        return stageNames[level] || 'Unknown';
+    };
+
     // Get drawback text for current level
     const getDrawbackText = (level) => {
         const drawbacks = {
@@ -206,18 +223,18 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="pyrofiend-tooltip pathfinder-tooltip">
                     <div className="tooltip-header">Inferno Veil</div>
-                    
+
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Current Level:</strong> {localInfernoLevel}/{maxInfernoLevel}
+                            <strong>Current Stage:</strong> {getStageName(localInfernoLevel)} (Level {localInfernoLevel})
                         </div>
                         <div style={{ fontSize: '0.9rem' }}>
                             <strong>Fire Damage Bonus:</strong> +{localInfernoLevel}
                         </div>
                     </div>
-                    
+
                     <div className="tooltip-divider"></div>
-                    
+
                     <div className="tooltip-section">
                         <div className="tooltip-label">Current Drawback</div>
                         <div className="drawback-text">

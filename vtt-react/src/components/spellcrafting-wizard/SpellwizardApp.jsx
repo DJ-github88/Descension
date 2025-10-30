@@ -252,7 +252,58 @@ const AppContent = ({ hideHeader = false }) => {
         }
       };
 
+      // Transform Inferno Veil resources to specialMechanics
+      const resourceValues = wizardState.resourceCost?.resourceValues || {};
+      if (resourceValues.inferno_required !== undefined ||
+          resourceValues.inferno_ascend !== undefined ||
+          resourceValues.inferno_descend !== undefined) {
 
+        spellData.specialMechanics = {
+          ...spellData.specialMechanics,
+          infernoLevel: {
+            required: resourceValues.inferno_required || 0,
+            ascendBy: resourceValues.inferno_ascend || 0,
+            descendBy: resourceValues.inferno_descend || 0
+          }
+        };
+
+        // Also add flat properties for spell card display
+        spellData.infernoRequired = resourceValues.inferno_required;
+        spellData.infernoAscend = resourceValues.inferno_ascend;
+        spellData.infernoDescend = resourceValues.inferno_descend;
+      }
+
+      // Transform Temporal Mechanics resources to specialMechanics
+      // Handle Time Shard generation (basic spells)
+      if (resourceValues.time_shards_generate !== undefined && resourceValues.time_shards_generate > 0) {
+        spellData.specialMechanics = {
+          ...spellData.specialMechanics,
+          timeShards: {
+            generated: resourceValues.time_shards_generate
+          }
+        };
+        spellData.timeShardGenerate = resourceValues.time_shards_generate;
+      }
+
+      // Handle Temporal Flux abilities (cost Time Shards, gain Temporal Strain)
+      if (resourceValues.time_shards_cost !== undefined ||
+          resourceValues.temporal_strain_gain !== undefined ||
+          resourceValues.temporal_strain_reduce !== undefined) {
+
+        spellData.specialMechanics = {
+          ...spellData.specialMechanics,
+          temporalFlux: {
+            shardCost: resourceValues.time_shards_cost || 0,
+            strainGained: resourceValues.temporal_strain_gain || 0,
+            strainReduced: resourceValues.temporal_strain_reduce || 0
+          }
+        };
+
+        // Also add flat properties for spell card display
+        spellData.timeShardCost = resourceValues.time_shards_cost;
+        spellData.temporalStrainGain = resourceValues.temporal_strain_gain;
+        spellData.temporalStrainReduce = resourceValues.temporal_strain_reduce;
+      }
 
       if (editMode && editingSpellId) {
         // Update existing spell

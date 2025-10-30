@@ -21,7 +21,14 @@ import {
   faWandMagicSparkles,
   faSnowflake,
   faHeart,
-  faRandom
+  faRandom,
+  faMusic,
+  faChevronRight,
+  faChevronDown,
+  faArrowUp,
+  faArrowDown,
+  faClock,
+  faHourglass
 } from '@fortawesome/free-solid-svg-icons';
 import SimpleFormulaHelp from '../common/SimpleFormulaHelp';
 import { Form, Card, Alert, Row, Col, Button, Badge } from 'react-bootstrap';
@@ -68,8 +75,11 @@ const Step5Resources = () => {
   const [showFormulaHelp, setShowFormulaHelp] = useState(false);
   const [activeResourceType, setActiveResourceType] = useState(null);
 
-  // Resource types available in the system
-  const resourceTypes = [
+  // Track which class resource category is expanded
+  const [expandedCategory, setExpandedCategory] = useState(null);
+
+  // Basic resource types (always visible)
+  const basicResourceTypes = [
     { id: 'actionPoints', name: 'Action Points', description: 'Basic action economy', icon: faBolt },
     { id: 'mana', name: 'Mana', description: 'Standard magical energy', icon: faGem },
     { id: 'rage', name: 'Rage', description: 'Built through combat actions', icon: faFire },
@@ -78,15 +88,78 @@ const Step5Resources = () => {
     { id: 'soul_shards', name: 'Soul Shards', description: 'Collected from enemies', icon: faSkull },
     { id: 'holy_power', name: 'Holy Power', description: 'Divine power source', icon: faSun },
     { id: 'astral_power', name: 'Astral Power', description: 'Cosmic energy', icon: faMoon },
-    // Arcanoneer Elemental Spheres
-    { id: 'arcane_sphere', name: 'Arcane Sphere (AS)', description: 'Raw magical force', icon: faWandMagicSparkles, color: '#9370DB', shortName: 'AS' },
-    { id: 'holy_sphere', name: 'Holy Sphere (HS)', description: 'Divine radiance', icon: faSun, color: '#FFD700', shortName: 'HS' },
-    { id: 'shadow_sphere', name: 'Shadow Sphere (SS)', description: 'Necrotic darkness', icon: faMoon, color: '#1C1C1C', shortName: 'SS' },
-    { id: 'fire_sphere', name: 'Fire Sphere (FS)', description: 'Burning flames', icon: faFire, color: '#FF4500', shortName: 'FS' },
-    { id: 'ice_sphere', name: 'Ice Sphere (IS)', description: 'Freezing cold', icon: faSnowflake, color: '#4169E1', shortName: 'IS' },
-    { id: 'nature_sphere', name: 'Nature Sphere (NS)', description: 'Thunder and vines', icon: faLeaf, color: '#32CD32', shortName: 'NS' },
-    { id: 'healing_sphere', name: 'Healing Sphere (HES)', description: 'Life energy', icon: faHeart, color: '#FFFF00', shortName: 'HES' },
-    { id: 'chaos_sphere', name: 'Chaos Sphere (CS)', description: 'Unpredictable magic', icon: faRandom, color: '#FF00FF', shortName: 'CS' },
+  ];
+
+  // Class-specific resource categories (expandable)
+  const classResourceCategories = [
+    {
+      id: 'elemental_spheres',
+      name: 'Elemental Spheres',
+      description: 'Arcanoneer sphere resources',
+      icon: faWandMagicSparkles,
+      color: '#9370DB',
+      subcategories: [
+        { id: 'arcane_sphere', name: 'Arcane Sphere', shortName: 'AS', icon: faWandMagicSparkles, color: '#9370DB' },
+        { id: 'holy_sphere', name: 'Holy Sphere', shortName: 'HS', icon: faSun, color: '#FFD700' },
+        { id: 'shadow_sphere', name: 'Shadow Sphere', shortName: 'SS', icon: faMoon, color: '#1C1C1C' },
+        { id: 'fire_sphere', name: 'Fire Sphere', shortName: 'FS', icon: faFire, color: '#FF4500' },
+        { id: 'ice_sphere', name: 'Ice Sphere', shortName: 'IS', icon: faSnowflake, color: '#4169E1' },
+        { id: 'nature_sphere', name: 'Nature Sphere', shortName: 'NS', icon: faLeaf, color: '#32CD32' },
+        { id: 'healing_sphere', name: 'Healing Sphere', shortName: 'HES', icon: faHeart, color: '#FFFF00' },
+        { id: 'chaos_sphere', name: 'Chaos Sphere', shortName: 'CS', icon: faRandom, color: '#FF00FF' },
+      ]
+    },
+    {
+      id: 'inferno_veil',
+      name: 'Inferno Veil',
+      description: 'Pyrofiend inferno mechanics',
+      icon: faFire,
+      color: '#8B0000',
+      subcategories: [
+        { id: 'inferno_required', name: 'Requires Inferno Level', shortName: 'Required', icon: faFire, color: '#8B0000' },
+        { id: 'inferno_ascend', name: 'Ascend Inferno', shortName: 'Ascend', icon: faFire, color: '#FF4500' },
+        { id: 'inferno_descend', name: 'Descend Inferno', shortName: 'Descend', icon: faFire, color: '#4169E1' },
+      ]
+    },
+    {
+      id: 'musical_notes',
+      name: 'Musical Notes',
+      description: 'Minstrel chord mechanics',
+      icon: faMusic,
+      color: '#9370DB',
+      subcategories: [
+        { id: 'note_i', name: 'I - Tonic', shortName: 'I', icon: faMusic, color: '#DC143C' },
+        { id: 'note_ii', name: 'II - Supertonic', shortName: 'II', icon: faMusic, color: '#FF8C00' },
+        { id: 'note_iii', name: 'III - Mediant', shortName: 'III', icon: faMusic, color: '#FFD700' },
+        { id: 'note_iv', name: 'IV - Subdominant', shortName: 'IV', icon: faMusic, color: '#32CD32' },
+        { id: 'note_v', name: 'V - Dominant', shortName: 'V', icon: faMusic, color: '#4169E1' },
+        { id: 'note_vi', name: 'VI - Submediant', shortName: 'VI', icon: faMusic, color: '#9370DB' },
+        { id: 'note_vii', name: 'VII - Leading Tone', shortName: 'VII', icon: faMusic, color: '#8B008B' },
+      ]
+    },
+    {
+      id: 'temporal_mechanics',
+      name: 'Temporal Mechanics',
+      description: 'Chronarch time manipulation resources',
+      icon: faClock,
+      color: '#4169E1',
+      subcategories: [
+        { id: 'time_shards_generate', name: 'Time Shards Generate', shortName: 'Generate', icon: faClock, color: '#4169E1' },
+        { id: 'time_shards_cost', name: 'Time Shards Cost', shortName: 'Cost', icon: faHourglass, color: '#4169E1' },
+        { id: 'temporal_strain_gain', name: 'Temporal Strain Gain', shortName: 'Gain', icon: faExclamationTriangle, color: '#DC143C' },
+        { id: 'temporal_strain_reduce', name: 'Temporal Strain Reduce', shortName: 'Reduce', icon: faHeart, color: '#32CD32' },
+      ]
+    }
+  ];
+
+  // Combine all resources for backward compatibility
+  const resourceTypes = [
+    ...basicResourceTypes,
+    ...classResourceCategories.flatMap(cat => cat.subcategories.map(sub => ({
+      ...sub,
+      description: `${cat.description} - ${sub.name}`,
+      icon: sub.icon
+    })))
   ];
 
   // Formula examples for different resource types
@@ -122,6 +195,51 @@ const Step5Resources = () => {
       { name: 'Time of day factor', formula: 'time_factor * 20' },
       { name: 'Nature damage taken / 5', formula: 'nature_damage_taken / 5' }
     ]
+  };
+
+  // Helper function to get appropriate hint text for each resource type
+  const getResourceHintText = (resourceType, level) => {
+    switch (resourceType) {
+      case 'inferno_required':
+        return 'Minimum Inferno Veil level required to cast (0-9)';
+      case 'inferno_ascend':
+        return 'How many Inferno levels to gain when casting (typically 1-3)';
+      case 'inferno_descend':
+        return 'How many Inferno levels to lose when casting (typically 1-3)';
+      case 'arcane_sphere':
+      case 'holy_sphere':
+      case 'shadow_sphere':
+      case 'fire_sphere':
+      case 'ice_sphere':
+      case 'nature_sphere':
+      case 'healing_sphere':
+      case 'chaos_sphere':
+        return 'Number of spheres consumed (typically 1-3)';
+      case 'time_shards_generate':
+        return 'Number of Time Shards generated by basic spells (typically 1-2)';
+      case 'time_shards_cost':
+        return 'Number of Time Shards consumed for Temporal Flux abilities (typically 2-6)';
+      case 'temporal_strain_gain':
+        return 'Amount of Temporal Strain gained when casting Flux abilities (typically 1-5)';
+      case 'temporal_strain_reduce':
+        return 'Amount of Temporal Strain reduced by cleansing spells (typically 1-3)';
+      default:
+        return `Suggested cost for level ${level}: ${level * 5}-${level * 10}`;
+    }
+  };
+
+  // Helper function to get appropriate header text for each resource type
+  const getResourceHeaderText = (resourceInfo) => {
+    // For Inferno resources, the name already includes the full description
+    if (resourceInfo.id.startsWith('inferno_')) {
+      return resourceInfo.name;
+    }
+    // For sphere resources, the name already includes the full description
+    if (resourceInfo.id.endsWith('_sphere')) {
+      return resourceInfo.name;
+    }
+    // For other resources, append "Cost"
+    return `${resourceInfo.name} Cost`;
   };
 
   // Calculate base resources on component mount and when relevant state changes
@@ -429,7 +547,8 @@ const Step5Resources = () => {
             </div>
             <div className="resource-card-body">
               <div className="resource-type-options">
-                {resourceTypes.map(resource => (
+                {/* Basic Resources */}
+                {basicResourceTypes.map(resource => (
                   <div
                     key={resource.id}
                     className={`resource-type-option ${selectedResources.includes(resource.id) ? 'selected' : ''}`}
@@ -440,6 +559,45 @@ const Step5Resources = () => {
                       <FontAwesomeIcon icon={resource.icon} />
                     </div>
                     <div className="resource-type-name">{resource.name}</div>
+                  </div>
+                ))}
+
+                {/* Class Resource Categories (Expandable) */}
+                {classResourceCategories.map(category => (
+                  <div key={category.id} className="resource-category-container">
+                    <div
+                      className={`resource-type-option category ${expandedCategory === category.id ? 'expanded' : ''}`}
+                      onClick={() => setExpandedCategory(expandedCategory === category.id ? null : category.id)}
+                      title={category.description}
+                      style={{ borderColor: category.color }}
+                    >
+                      <div className="resource-type-icon" style={{ color: category.color }}>
+                        <FontAwesomeIcon icon={category.icon} />
+                      </div>
+                      <div className="resource-type-name">{category.name}</div>
+                      <div className="category-expand-icon">
+                        <FontAwesomeIcon icon={expandedCategory === category.id ? faChevronDown : faChevronRight} />
+                      </div>
+                    </div>
+
+                    {/* Subcategory Panel */}
+                    {expandedCategory === category.id && (
+                      <div className="resource-subcategory-panel">
+                        {category.subcategories.map(sub => (
+                          <div
+                            key={sub.id}
+                            className={`resource-subcategory-option ${selectedResources.includes(sub.id) ? 'selected' : ''}`}
+                            onClick={() => handleResourceTypeToggle(sub.id)}
+                            title={sub.name}
+                          >
+                            <div className="resource-type-icon small" style={{ color: sub.color }}>
+                              <FontAwesomeIcon icon={sub.icon} />
+                            </div>
+                            <div className="resource-type-name">{sub.shortName}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -457,7 +615,7 @@ const Step5Resources = () => {
                       <div className="resource-type-icon small">
                         <FontAwesomeIcon icon={resourceInfo.icon} />
                       </div>
-                      <div className="resource-type-name">{resourceInfo.name} Cost</div>
+                      <div className="resource-type-name">{getResourceHeaderText(resourceInfo)}</div>
                       <div className="formula-controls">
                         <button
                           type="button"
@@ -514,15 +672,50 @@ const Step5Resources = () => {
                       </div>
                     ) : (
                       <div className="resource-input-group">
-                        <input
-                          type="number"
-                          min="0"
-                          className="resource-input"
-                          value={resourceValues[resourceType] || 0}
-                          onChange={(e) => handleResourceValueChange(resourceType, e.target.value)}
-                        />
+                        {/* Musical notes use +/- toggle instead of number input */}
+                        {resourceType.startsWith('note_') ? (
+                          <div className="musical-note-toggle-group">
+                            <button
+                              type="button"
+                              className={`musical-note-toggle ${(resourceValues[resourceType] || 0) > 0 ? 'active' : ''}`}
+                              onClick={() => handleResourceValueChange(resourceType, Math.abs(resourceValues[resourceType] || 1))}
+                              title="Generate this note"
+                            >
+                              <FontAwesomeIcon icon={faArrowUp} /> Generate
+                            </button>
+                            <button
+                              type="button"
+                              className={`musical-note-toggle ${(resourceValues[resourceType] || 0) < 0 ? 'active' : ''}`}
+                              onClick={() => handleResourceValueChange(resourceType, -Math.abs(resourceValues[resourceType] || 1))}
+                              title="Consume this note"
+                            >
+                              <FontAwesomeIcon icon={faArrowDown} /> Consume
+                            </button>
+                            <input
+                              type="number"
+                              min="1"
+                              className="resource-input small"
+                              value={Math.abs(resourceValues[resourceType] || 1)}
+                              onChange={(e) => {
+                                const absValue = Math.abs(parseInt(e.target.value) || 1);
+                                const currentValue = resourceValues[resourceType] || 1;
+                                const newValue = currentValue < 0 ? -absValue : absValue;
+                                handleResourceValueChange(resourceType, newValue);
+                              }}
+                              title="Number of notes"
+                            />
+                          </div>
+                        ) : (
+                          <input
+                            type="number"
+                            min="0"
+                            className="resource-input"
+                            value={resourceValues[resourceType] || 0}
+                            onChange={(e) => handleResourceValueChange(resourceType, e.target.value)}
+                          />
+                        )}
                         <div className="resource-input-hint">
-                          Suggested cost for level {state.level || 1}: {state.level ? state.level * 5 : 5}-{state.level ? state.level * 10 : 10}
+                          {getResourceHintText(resourceType, state.level || 1)}
                         </div>
                       </div>
                     )}

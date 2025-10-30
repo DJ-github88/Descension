@@ -780,6 +780,37 @@ For thematic immersion, some players use a small hourglass or sand timer:
     ]
   },
 
+  // Spell Pools - organized by character level
+  // Maps character level to available spell IDs for learning
+  spellPools: {
+    1: [
+      // Level 1 spells: Basic Time Shard generators (5 options, pick 3)
+      'chrono_bolt',
+      'temporal_mend',
+      'time_distortion',
+      'chrono_shield',
+      'temporal_echo'
+    ],
+    2: [
+      // Level 2 spells: More generators and basic Flux abilities (3 options, pick 1)
+      'temporal_acceleration',
+      'time_warp_flux',
+      'reverse_time_flux'
+    ],
+    4: [
+      // Level 4+ spells: Advanced Flux abilities
+      'time_freeze_flux',
+      'temporal_clone_flux',
+      'chrono_shield'
+    ],
+    6: [
+      // Level 6+ spells: Powerful Flux abilities
+      'eternal_stasis_flux',
+      'time_paradox_flux',
+      'temporal_displacement_flux'
+    ]
+  },
+
   // Example Spells - showcasing temporal manipulation mechanics
   exampleSpells: [
     // TIME SHARD GENERATORS - Build Temporal Energy
@@ -823,6 +854,27 @@ For thematic immersion, some players use a small hourglass or sand timer:
         scalingType: 'none'
       },
 
+      debuffConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        statPenalties: [
+          {
+            name: 'Speed',
+            magnitude: -10,
+            magnitudeType: 'flat'
+          }
+        ],
+        statusEffects: [
+          {
+            id: 'temporal_aging',
+            name: 'Temporal Aging',
+            description: 'Movement speed reduced by 10 feet'
+          }
+        ]
+      },
+
+      effectTypes: ['damage', 'debuff'],
+
       effects: {
         damage: {
           instant: {
@@ -844,7 +896,7 @@ For thematic immersion, some players use a small hourglass or sand timer:
         }
       },
 
-      tags: ['force', 'damage', 'debuff', 'basic']
+      tags: ['force', 'damage', 'debuff', 'basic', 'stasis']
     },
 
     {
@@ -889,6 +941,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         ]
       },
 
+      effectTypes: ['buff'],
+
       effects: {
         buff: {
           duration: 1,
@@ -908,15 +962,241 @@ For thematic immersion, some players use a small hourglass or sand timer:
       tags: ['buff', 'mobility', 'self', 'basic']
     },
 
+    {
+      id: 'time_distortion',
+      name: 'Time Distortion',
+      description: 'Warp time around an enemy, slowing their movements and making them easier to hit.',
+      spellType: 'ACTION',
+      icon: 'spell_shadow_charm',
+      school: 'Transmutation',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2
+      },
+
+      resourceCost: {
+        mana: 8,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tardus!',
+        somaticText: 'Slow timepiece motion'
+      },
+
+      resolution: 'SAVE',
+
+      saveConfig: {
+        saveType: 'wisdom',
+        saveDC: 13,
+        onSaveEffect: 'none'
+      },
+
+      debuffConfig: {
+        durationType: 'rounds',
+        durationValue: 2,
+        statPenalties: [
+          {
+            name: 'Speed',
+            magnitude: -15,
+            magnitudeType: 'flat'
+          }
+        ],
+        statusEffects: [
+          {
+            id: 'time_distortion',
+            name: 'Time Distortion',
+            description: 'Movement speed reduced by 15 feet, attacks against you have advantage'
+          }
+        ],
+        savingThrow: 'wisdom',
+        difficultyClass: 13,
+        saveOutcome: 'none'
+      },
+
+      effectTypes: ['debuff'],
+
+      effects: {
+        debuff: {
+          duration: 2,
+          stats: {
+            speed: -15
+          },
+          disadvantages: ['ac']
+        }
+      },
+
+      specialMechanics: {
+        timeShards: {
+          generated: 1
+        }
+      },
+
+      tags: ['debuff', 'control', 'slow', 'basic', 'stasis']
+    },
+
+    {
+      id: 'chrono_shield',
+      name: 'Chrono Shield',
+      description: 'Create a temporal barrier around yourself and nearby allies that absorbs incoming damage.',
+      spellType: 'REACTION',
+      icon: 'spell_holy_powerwordbarrier',
+      school: 'Abjuration',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'REACTION',
+        reactionTrigger: 'When you or an ally within 10 feet takes damage'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'self',
+        aoeType: 'sphere',
+        aoeSize: 10
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 10,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Protego!',
+        somaticText: 'Raise hand defensively'
+      },
+
+      resolution: 'DICE',
+
+      healingConfig: {
+        useAbsorptionShield: true,
+        shieldConfig: {
+          shieldType: 'standard',
+          shieldAmount: '1d10',
+          duration: 1,
+          durationUnit: 'rounds'
+        }
+      },
+
+      buffConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        statusEffects: [
+          {
+            id: 'temporal_barrier',
+            name: 'Temporal Barrier',
+            description: 'Protected by a temporal shield that absorbs 1d10 damage'
+          }
+        ]
+      },
+
+      effectTypes: ['shield', 'buff'],
+
+      effects: {
+        shield: {
+          instant: {
+            formula: '1d10'
+          }
+        },
+        buff: {
+          duration: 1,
+          type: 'temporal_barrier'
+        }
+      },
+
+      specialMechanics: {
+        timeShards: {
+          generated: 1
+        }
+      },
+
+      tags: ['shield', 'defensive', 'reaction', 'basic', 'rewinding']
+    },
+
+    {
+      id: 'temporal_echo',
+      name: 'Temporal Echo',
+      description: 'Create a brief echo of yourself that confuses enemies, granting you advantage on your next attack.',
+      spellType: 'ACTION',
+      icon: 'spell_shadow_twilight',
+      school: 'Illusion',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1
+      },
+
+      resourceCost: {
+        mana: 6,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Echo!',
+        somaticText: 'Step sideways quickly'
+      },
+
+      resolution: 'NONE',
+
+      buffConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
+        statusEffects: [
+          {
+            id: 'temporal_echo',
+            name: 'Temporal Echo',
+            description: 'Advantage on next attack roll, illusory duplicate confuses enemies'
+          }
+        ]
+      },
+
+      effectTypes: ['buff'],
+
+      effects: {
+        buff: {
+          duration: 1,
+          advantages: ['attack']
+        }
+      },
+
+      specialMechanics: {
+        timeShards: {
+          generated: 1
+        }
+      },
+
+      tags: ['buff', 'illusion', 'advantage', 'basic', 'displacement']
+    },
+
     // TEMPORAL STRAIN MANAGEMENT - Control Your Backlash Risk
     {
-      id: 'time_lapse',
-      name: 'Time Lapse',
-      description: 'Briefly reverse time around an ally, restoring their health and removing one negative condition.',
+      id: 'temporal_mend',
+      name: 'Temporal Mend',
+      description: 'Briefly reverse time around an ally, restoring their health.',
       spellType: 'ACTION',
       icon: 'spell_holy_renew',
       school: 'Transmutation',
-      level: 3,
+      level: 1,
 
       typeConfig: {
         castTime: 1,
@@ -934,45 +1214,161 @@ For thematic immersion, some players use a small hourglass or sand timer:
       },
 
       resourceCost: {
-        mana: 12,
-        components: ['verbal', 'somatic', 'material'],
+        mana: 8,
+        components: ['verbal', 'somatic'],
         verbalText: 'Revertere!',
-        somaticText: 'Turn timepiece backwards',
-        materialText: 'A grain of sand'
+        somaticText: 'Turn timepiece backwards'
       },
 
       resolution: 'DICE',
 
       healingConfig: {
-        formula: '1d8',
-        healingType: 'single',
-        description: 'Restore health by rewinding time'
+        formula: '1d6',
+        healingType: 'direct',
+        resolution: 'DICE'
       },
+
+      effectTypes: ['healing'],
 
       effects: {
         healing: {
           instant: {
-            formula: '1d8',
+            formula: '1d6',
             target: 'single'
           }
-        },
-        cleanse: {
-          removeConditions: 1,
-          conditionTypes: ['debuff', 'dot']
         }
       },
 
       specialMechanics: {
         timeShards: {
-          generated: 1,
-          scaling: {
-            type: 'healing',
-            formula: '+1d8 per additional Time Shard spent'
-          }
+          generated: 1
         }
       },
 
-      tags: ['healing', 'cleanse', 'support', 'rewinding']
+      tags: ['healing', 'support', 'basic', 'rewinding']
+    },
+
+    // LEVEL 2 SPELLS - More generators and basic Flux abilities
+    {
+      id: 'temporal_acceleration',
+      name: 'Temporal Acceleration',
+      description: 'Speed up time for an ally, granting them an extra action this turn.',
+      spellType: 'ACTION',
+      icon: 'spell_nature_timestop',
+      school: 'Transmutation',
+      level: 2,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 15,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Accelero!',
+        somaticText: 'Spin timepiece rapidly'
+      },
+
+      resolution: 'NONE',
+
+      buffConfig: {
+        effects: [
+          'Target gains 1 additional Action Point this turn'
+        ]
+      },
+
+      effectTypes: ['buff'],
+
+      effects: {
+        buff: {
+          instant: true,
+          actionPoints: 1
+        }
+      },
+
+      specialMechanics: {
+        timeShards: {
+          generated: 2
+        }
+      },
+
+      tags: ['buff', 'support', 'action-economy']
+    },
+
+    {
+      id: 'reverse_time_flux',
+      name: 'Reverse Time',
+      description: 'TEMPORAL FLUX ABILITY: Reverse time for an ally, healing them and removing all debuffs. Costs 4 Time Shards and adds 3 Temporal Strain.',
+      spellType: 'ACTION',
+      icon: 'spell_holy_renew',
+      school: 'Transmutation',
+      level: 2,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 18,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Revertere Totum!',
+        somaticText: 'Turn timepiece backwards rapidly'
+      },
+
+      resolution: 'DICE',
+
+      healingConfig: {
+        formula: '2d8',
+        healingType: 'single',
+        description: 'Restore health and remove all debuffs'
+      },
+
+      effectTypes: ['healing', 'utility'],
+
+      effects: {
+        healing: {
+          instant: {
+            formula: '2d8',
+            target: 'single'
+          }
+        },
+        cleanse: {
+          removeConditions: 'all',
+          conditionTypes: ['debuff', 'dot', 'curse']
+        }
+      },
+
+      specialMechanics: {
+        temporalFlux: {
+          shardCost: 4,
+          strainGained: 3,
+          type: 'support'
+        }
+      },
+
+      tags: ['healing', 'cleanse', 'flux', 'support']
     },
 
     {
@@ -1023,6 +1419,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
           'Disadvantage on attack rolls'
         ]
       },
+
+      effectTypes: ['debuff', 'control'],
 
       effects: {
         debuff: {
@@ -1079,6 +1477,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
       },
 
       resolution: 'NONE',
+
+      effectTypes: ['utility'],
 
       effects: {
         utility: {
@@ -1145,6 +1545,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         scalingType: 'none'
       },
 
+      effectTypes: ['damage'],
+
       effects: {
         damage: {
           instant: {
@@ -1209,6 +1611,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         description: 'Each echo performs one action on your turn'
       },
 
+      effectTypes: ['summoning'],
+
       effects: {
         summon: {
           type: 'temporal_echo',
@@ -1269,6 +1673,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         healOnAbsorb: true,
         description: 'Absorbs damage and heals for amount absorbed'
       },
+
+      effectTypes: ['shield', 'healing'],
 
       effects: {
         shield: {
@@ -1342,6 +1748,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         ]
       },
 
+      effectTypes: ['control', 'debuff'],
+
       effects: {
         debuff: {
           duration: 1,
@@ -1360,67 +1768,6 @@ For thematic immersion, some players use a small hourglass or sand timer:
       },
 
       tags: ['flux', 'control', 'freeze', 'stasis', 'ultimate']
-    },
-
-    {
-      id: 'reverse_time_flux',
-      name: 'Reverse Time',
-      description: 'TEMPORAL FLUX ABILITY: Undo the last damage taken by an ally, restoring their health. Costs 3 Time Shards and adds 2 Temporal Strain.',
-      spellType: 'REACTION',
-      icon: 'spell_holy_heal',
-      school: 'Transmutation',
-      level: 5,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE',
-        trigger: 'When an ally takes damage'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 0,
-        timeShards: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Revertere Damnum!',
-        somaticText: 'Reverse timepiece motion'
-      },
-
-      resolution: 'NONE',
-
-      healingConfig: {
-        formula: 'LAST_DAMAGE_TAKEN',
-        healingType: 'single',
-        description: 'Restore all damage from the last attack'
-      },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: 'LAST_DAMAGE_TAKEN',
-            target: 'single'
-          }
-        }
-      },
-
-      specialMechanics: {
-        temporalFlux: {
-          shardCost: 3,
-          strainGained: 2,
-          type: 'healing'
-        }
-      },
-
-      tags: ['flux', 'healing', 'reaction', 'rewinding', 'emergency']
     },
 
     {
@@ -1463,6 +1810,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         duration: 2,
         description: 'Clone mimics all your actions'
       },
+
+      effectTypes: ['summoning'],
 
       effects: {
         summon: {
@@ -1525,6 +1874,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         ]
       },
 
+      effectTypes: ['buff'],
+
       effects: {
         buff: {
           duration: 'instant',
@@ -1577,6 +1928,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
       },
 
       resolution: 'NONE',
+
+      effectTypes: ['utility'],
 
       effects: {
         utility: {
@@ -1643,6 +1996,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         ]
       },
 
+      effectTypes: ['buff', 'utility'],
+
       effects: {
         buff: {
           duration: 1,
@@ -1705,6 +2060,8 @@ For thematic immersion, some players use a small hourglass or sand timer:
         targetSelf: true
       },
 
+      effectTypes: ['utility'],
+
       effects: {
         damage: {
           instant: {
@@ -1725,6 +2082,216 @@ For thematic immersion, some players use a small hourglass or sand timer:
       },
 
       tags: ['utility', 'self-damage', 'strain-reduction', 'emergency']
+    },
+
+    // LEVEL 6+ FLUX ABILITIES - Ultimate Temporal Powers
+    {
+      id: 'eternal_stasis_flux',
+      name: 'Eternal Stasis',
+      description: 'TEMPORAL FLUX ABILITY: Freeze multiple enemies in time for 2 turns. Costs 6 Time Shards and adds 5 Temporal Strain.',
+      spellType: 'ACTION',
+      icon: 'spell_frost_frostshock',
+      school: 'Transmutation',
+      level: 8,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeType: 'sphere',
+        aoeSize: 15
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2
+      },
+
+      resourceCost: {
+        mana: 0,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Stasis Eternum Omnia!',
+        somaticText: 'Freeze timepiece and spread arms'
+      },
+
+      resolution: 'SAVE',
+
+      saveConfig: {
+        saveType: 'wisdom',
+        saveDC: 18,
+        onSaveEffect: 'negates'
+      },
+
+      debuffConfig: {
+        effects: [
+          'Targets are frozen in time and cannot take actions',
+          'Targets are immune to damage while frozen',
+          'Effect ends if target takes damage'
+        ]
+      },
+
+      effectTypes: ['control', 'debuff'],
+
+      effects: {
+        debuff: {
+          duration: 2,
+          type: 'frozen',
+          aoe: true,
+          immunities: ['damage'],
+          breaksOnDamage: true
+        }
+      },
+
+      specialMechanics: {
+        temporalFlux: {
+          shardCost: 6,
+          strainGained: 5,
+          type: 'control'
+        }
+      },
+
+      tags: ['flux', 'control', 'freeze', 'aoe', 'ultimate']
+    },
+
+    {
+      id: 'time_paradox_flux',
+      name: 'Time Paradox',
+      description: 'TEMPORAL FLUX ABILITY: Create a temporal paradox that damages and confuses enemies in an area. Costs 5 Time Shards and adds 4 Temporal Strain.',
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blast',
+      school: 'Evocation',
+      level: 7,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeType: 'sphere',
+        aoeSize: 20
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2
+      },
+
+      resourceCost: {
+        mana: 0,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Paradoxum Temporis!',
+        somaticText: 'Twist timepiece violently'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '4d8',
+        damageType: 'psychic',
+        scalingType: 'none'
+      },
+
+      effectTypes: ['damage', 'debuff', 'control'],
+
+      effects: {
+        damage: {
+          instant: {
+            formula: '4d8',
+            type: 'psychic',
+            aoe: true
+          }
+        },
+        debuff: {
+          duration: 2,
+          type: 'confused',
+          effects: ['Disadvantage on attack rolls and ability checks']
+        }
+      },
+
+      specialMechanics: {
+        temporalFlux: {
+          shardCost: 5,
+          strainGained: 4,
+          type: 'control'
+        }
+      },
+
+      tags: ['flux', 'damage', 'psychic', 'aoe', 'control']
+    },
+
+    {
+      id: 'temporal_displacement_flux',
+      name: 'Temporal Displacement',
+      description: 'TEMPORAL FLUX ABILITY: Displace yourself and allies through time, teleporting up to 60 feet and becoming invisible for 1 turn. Costs 4 Time Shards and adds 3 Temporal Strain.',
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blink',
+      school: 'Transmutation',
+      level: 6,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'self',
+        aoeType: 'sphere',
+        aoeSize: 10
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1
+      },
+
+      resourceCost: {
+        mana: 0,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Transloco Omnia!',
+        somaticText: 'Spin and point to destination'
+      },
+
+      resolution: 'NONE',
+
+      teleportConfig: {
+        distance: 60,
+        description: 'Teleport self and allies within 10 feet'
+      },
+
+      effectTypes: ['utility', 'buff'],
+
+      effects: {
+        teleport: {
+          instant: true,
+          distance: 60,
+          aoe: true
+        },
+        buff: {
+          duration: 1,
+          type: 'invisible',
+          effects: ['Invisible to enemies']
+        }
+      },
+
+      specialMechanics: {
+        temporalFlux: {
+          shardCost: 4,
+          strainGained: 3,
+          type: 'displacement'
+        }
+      },
+
+      tags: ['flux', 'teleport', 'invisibility', 'aoe', 'displacement']
     }
   ]
 };

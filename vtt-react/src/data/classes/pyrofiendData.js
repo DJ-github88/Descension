@@ -542,13 +542,58 @@ Many players enhance the experience by adding thematic elements:
     ]
   },
 
+  // Spell Pools - organized by character level
+  // Maps character level to available spell IDs for learning
+  spellPools: {
+    1: [
+      // Level 1 spells: Basic fire spells (5 options, pick 3)
+      'pyro_ember_spark',
+      'pyro_hellfire_bolt',
+      'pyro_infernal_brand',
+      'pyro_demonic_resilience',
+      'pyro_flame_lash'
+    ],
+    2: [
+      // Level 2-3 spells: Early Inferno spells
+      'pyro_scorching_grasp',
+      'pyro_fireball',
+      'pyro_flame_lash'
+    ],
+    4: [
+      // Level 4-5 spells: Mid-tier Inferno spells
+      'pyro_fireball',
+      'pyro_hellfire_wave',
+      'pyro_scorching_grasp'
+    ],
+    6: [
+      // Level 6-7 spells: High-tier Inferno spells
+      'pyro_lava_burst',
+      'pyro_hellfire_wave',
+      'pyro_fireball'
+    ],
+    8: [
+      // Level 8-9 spells: Ultimate Inferno spells
+      'pyro_meteor_shower',
+      'pyro_infernal_avatar',
+      'pyro_lava_burst'
+    ],
+    10: [
+      // Level 10+ spells: Master-tier spells
+      'pyro_infernal_avatar',
+      'pyro_meteor_shower',
+      'pyro_brimstone_teleport'
+    ]
+  },
+
   // Example Spells - showcasing Inferno Veil ascension mechanics
   exampleSpells: [
-    // INFERNO VEIL 0-3 - Early Corruption Spells
+    // ========================================
+    // LEVEL 1 STARTING SPELLS (5 options, pick 3)
+    // ========================================
     {
       id: 'pyro_ember_spark',
       name: 'Ember Spark',
-      description: 'A minor spark of demonic fire that ignites your target.',
+      description: 'A minor spark of demonic fire that ignites your target, burning over time.',
       spellType: 'ACTION',
       icon: 'spell_fire_flamebolt',
       school: 'Evocation',
@@ -566,7 +611,9 @@ Many players enhance the experience by adding thematic elements:
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: 'timed',
+        duration: 3,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -579,7 +626,75 @@ Many players enhance the experience by adding thematic elements:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '1d6',
+        damageType: 'dot',
+        elementType: 'fire',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d4',
+          duration: 3,
+          tickFrequency: 'round',
+          scalingType: 'flat'
+        }
+      },
+
+      effectTypes: ['damage'],
+
+      effects: {
+        damage: {
+          dot: {
+            formula: '1d4',
+            type: 'fire',
+            duration: 3,
+            interval: 'round'
+          }
+        }
+      },
+
+      specialMechanics: {
+        infernoLevel: {
+          required: 0,
+          ascendBy: 1
+        }
+      },
+
+      tags: ['fire', 'damage', 'dot', 'inferno-0', 'starter']
+    },
+
+    {
+      id: 'pyro_hellfire_bolt',
+      name: 'Hellfire Bolt',
+      description: 'A bolt of infernal fire streaks toward your enemy, burning with demonic intensity.',
+      spellType: 'ACTION',
+      icon: 'spell_fire_firebolt',
+      school: 'Evocation',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 8,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Infernus Sagitta!',
+        somaticText: 'Thrust hand forward'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '1d8',
         damageType: 'fire',
         scalingType: 'none'
       },
@@ -587,7 +702,7 @@ Many players enhance the experience by adding thematic elements:
       effects: {
         damage: {
           instant: {
-            formula: '1d6',
+            formula: '1d8',
             type: 'fire'
           }
         }
@@ -600,8 +715,250 @@ Many players enhance the experience by adding thematic elements:
         }
       },
 
-      tags: ['fire', 'damage', 'basic', 'inferno-0']
+      tags: ['fire', 'damage', 'ranged', 'inferno-0', 'starter']
     },
+
+    {
+      id: 'pyro_infernal_brand',
+      name: 'Infernal Brand',
+      description: 'Mark your enemy with a burning brand that sears their flesh over time.',
+      spellType: 'ACTION',
+      icon: 'spell_fire_sealoffire',
+      school: 'Evocation',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2
+      },
+
+      resourceCost: {
+        mana: 10,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Sigillum Ignis!',
+        somaticText: 'Draw burning sigil in the air'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        damageType: 'dot',
+        elementType: 'fire',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d4',
+          duration: 2,
+          tickFrequency: 'turn',
+          scalingType: 'flat'
+        }
+      },
+
+      debuffConfig: {
+        statusEffects: [
+          {
+            id: 'burning',
+            name: 'Infernal Brand',
+            description: 'Marked with burning brand'
+          }
+        ],
+        duration: 2,
+        durationType: 'turns'
+      },
+
+      effectTypes: ['damage', 'debuff'],
+
+      effects: {
+        damage: {
+          dot: {
+            formula: '1d4',
+            type: 'fire',
+            duration: 2,
+            interval: 'turn'
+          }
+        }
+      },
+
+      specialMechanics: {
+        infernoLevel: {
+          required: 0,
+          ascendBy: 1
+        }
+      },
+
+      tags: ['fire', 'damage', 'dot', 'debuff', 'inferno-0', 'starter']
+    },
+
+    {
+      id: 'pyro_demonic_resilience',
+      name: 'Demonic Resilience',
+      description: 'Channel infernal power to harden your flesh, gaining temporary resistance to damage.',
+      spellType: 'CHANNELED',
+      icon: 'spell_shadow_antishadow',
+      school: 'Abjuration',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'ACTION',
+        maxChannelDuration: 3,
+        durationUnit: 'TURNS',
+        interruptible: true,
+        movementAllowed: true
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3
+      },
+
+      resourceCost: {
+        mana: 12,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Fortis Daemon!',
+        somaticText: 'Clench fist over heart'
+      },
+
+      resolution: 'NONE',
+
+      buffConfig: {
+        statModifiers: [
+          {
+            id: 'damageReduction',
+            name: 'Damage Reduction',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        ],
+        statusEffects: [
+          {
+            id: 'demonic_resilience',
+            name: 'Demonic Resilience',
+            description: 'Your skin glows with faint embers'
+          }
+        ],
+        duration: 3,
+        durationType: 'turns'
+      },
+
+      effectTypes: ['buff'],
+
+      effects: {
+        buff: {
+          duration: 3,
+          stats: {
+            damageReduction: 3
+          }
+        }
+      },
+
+      specialMechanics: {
+        infernoLevel: {
+          required: 0,
+          ascendBy: 1
+        }
+      },
+
+      tags: ['fire', 'buff', 'defensive', 'channeled', 'inferno-0', 'starter']
+    },
+
+    {
+      id: 'pyro_flame_lash',
+      name: 'Flame Lash',
+      description: 'A whip of fire lashes out at your enemy, pulling them closer as it burns.',
+      spellType: 'ACTION',
+      icon: 'spell_fire_flare',
+      school: 'Evocation',
+      level: 1,
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 10,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Flagellum Ignis!',
+        somaticText: 'Whip hand forward'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '1d6',
+        damageType: 'fire',
+        scalingType: 'none'
+      },
+
+      // Control effect for pull
+      controlConfig: {
+        instant: true,
+        effects: [
+          {
+            id: 'pull',
+            name: 'Pull',
+            description: 'Instantaneous',
+            mechanicsText: '10 feet',
+            config: {
+              distance: 10
+            }
+          }
+        ]
+      },
+
+      effects: {
+        damage: {
+          instant: {
+            formula: '1d6',
+            type: 'fire'
+          }
+        },
+        utility: {
+          pull: {
+            distance: 10,
+            unit: 'feet'
+          }
+        }
+      },
+
+      specialMechanics: {
+        infernoLevel: {
+          required: 0,
+          ascendBy: 1
+        }
+      },
+
+      tags: ['fire', 'damage', 'utility', 'pull', 'inferno-0', 'starter']
+    },
+
+    // ========================================
+    // INFERNO VEIL 0-3 - Early Corruption Spells
+    // ========================================
 
     {
       id: 'pyro_scorching_grasp',
@@ -638,8 +995,18 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '1d10',
         damageType: 'fire',
-        scalingType: 'none'
+        elementType: 'fire',
+        scalingType: 'none',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d4',
+          duration: 1,
+          tickFrequency: 'turn',
+          scalingType: 'flat'
+        }
       },
+
+      effectTypes: ['damage'],
 
       effects: {
         damage: {
@@ -709,11 +1076,14 @@ Many players enhance the experience by adding thematic elements:
         scalingType: 'none'
       },
 
-      healingConfig: {
+      restorationConfig: {
+        resourceType: 'health',
         formula: 'HALF_DAMAGE_DEALT',
-        healingType: 'self',
-        description: 'Heal for half the total fire damage dealt'
+        duration: 'instant',
+        resolution: 'DICE'
       },
+
+      effectTypes: ['damage', 'restoration'],
 
       effects: {
         damage: {
@@ -723,10 +1093,10 @@ Many players enhance the experience by adding thematic elements:
             aoe: true
           }
         },
-        healing: {
+        restoration: {
           instant: {
             formula: 'HALF_DAMAGE_DEALT',
-            target: 'self'
+            resourceType: 'health'
           }
         }
       },
@@ -738,7 +1108,7 @@ Many players enhance the experience by adding thematic elements:
         }
       },
 
-      tags: ['fire', 'damage', 'aoe', 'healing', 'inferno-3']
+      tags: ['fire', 'damage', 'aoe', 'restoration', 'inferno-3']
     },
 
     // INFERNO VEIL 4-6 - Demonic Power Spells
@@ -781,8 +1151,18 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '4d8',
         damageType: 'fire',
-        scalingType: 'none'
+        elementType: 'fire',
+        scalingType: 'none',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d8',
+          duration: 1,
+          tickFrequency: 'turn',
+          scalingType: 'flat'
+        }
       },
+
+      effectTypes: ['damage'],
 
       effects: {
         damage: {
@@ -920,8 +1300,18 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '8d6',
         damageType: 'fire',
-        scalingType: 'none'
+        elementType: 'fire',
+        scalingType: 'none',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '2d8',
+          duration: 2,
+          tickFrequency: 'turn',
+          scalingType: 'flat'
+        }
       },
+
+      effectTypes: ['damage'],
 
       effects: {
         damage: {
