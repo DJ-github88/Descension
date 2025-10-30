@@ -3,7 +3,7 @@ const webpack = require('webpack');
 module.exports = {
   devServer: {
     port: 3000,
-    host: 'localhost',
+    host: '0.0.0.0',
     // Ensure chunks are served from the correct port
     devMiddleware: {
       publicPath: '/',
