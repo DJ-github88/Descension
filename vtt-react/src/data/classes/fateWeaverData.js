@@ -11,6 +11,16 @@ export const FATE_WEAVER_DATA = {
   icon: 'fas fa-cards',
   role: 'Support/Control',
 
+  // Level-based spell pools for starter/auto-assignment
+  // Used when switching class to immediately grant known spells
+  spellPools: {
+    1: [
+      'war-of-wills',
+      'echoes-of-the-past',
+      'hand-of-fate'
+    ]
+  },
+
   // Overview section
   overview: {
     title: 'The Fate Weaver',
@@ -944,6 +954,8 @@ Many players enhance the Fate Weaver experience with:
       name: 'Hand of Fate',
       icon: 'inv_misc_tarot_01',
       spellType: 'ACTION',
+      // Use rollable table as the primary effect renderer; omit generic sections
+      effectTypes: [],
       school: 'Divination',
       level: 3,
 
@@ -965,7 +977,8 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resourceCost: {
-        mana: 5,
+        resourceTypes: ['mana', 'threads_spend'],
+        resourceValues: { mana: 5, threads_spend: 2 },
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'Fatum Manus!',
         somaticText: 'Draw cards from mystical deck',
@@ -1002,18 +1015,18 @@ Many players enhance the Fate Weaver experience with:
         name: 'Hand of Fate - Poker Hand Results',
         description: 'Draw 5 cards and form a poker hand (may redraw twice)',
         resolutionType: 'CARDS',
-        resolutionConfig: { cardType: 'poker', draws: 5, redraws: 2 },
+        resolutionConfig: { cardType: 'poker', cardCount: 5, redraws: 2 },
         entries: [
-          { range: 'Royal Flush', result: '10d10 radiant damage + heal all allies for 5d8 + gain legendary action', description: 'A♠ K♠ Q♠ J♠ 10♠ - Ultimate hand' },
-          { range: 'Straight Flush', result: '8d10 damage + stun target for 1 round', description: 'Five sequential cards of same suit' },
-          { range: 'Four of a Kind', result: '6d10 damage to target', description: 'Four cards of same rank' },
-          { range: 'Full House', result: '4d10 damage + heal self for 3d8', description: 'Three of a kind + pair' },
-          { range: 'Flush', result: '4d8 damage', description: 'Five cards of same suit' },
-          { range: 'Straight', result: '3d8 damage', description: 'Five sequential cards' },
-          { range: 'Three of a Kind', result: '2d8 damage', description: 'Three cards of same rank' },
-          { range: 'Two Pair', result: 'Heal 2d8 + advantage on next roll', description: 'Two different pairs' },
-          { range: 'One Pair', result: 'Heal 1d8', description: 'Two cards of same rank' },
-          { range: 'High Card', result: 'No effect + gain 1 Thread', description: 'No matching cards - weakest hand' }
+          { range: 'Royal Flush', name: 'Royal Flush', description: 'A♠ K♠ Q♠ J♠ 10♠ - Ultimate hand', effectType: 'damage', effectConfig: { damageFormula: '10d10', damageType: 'radiant' } },
+          { range: 'Straight Flush', name: 'Straight Flush', description: 'Five sequential cards of same suit', effectType: 'damage', effectConfig: { damageFormula: '8d10', damageType: 'arcane' } },
+          { range: 'Four of a Kind', name: 'Four of a Kind', description: 'Four cards of same rank', effectType: 'damage', effectConfig: { damageFormula: '6d10', damageType: 'force' } },
+          { range: 'Full House', name: 'Full House', description: 'Three of a kind + pair', effectType: 'damage', effectConfig: { damageFormula: '4d10', damageType: 'radiant' } },
+          { range: 'Flush', name: 'Flush', description: 'Five cards of same suit', effectType: 'damage', effectConfig: { damageFormula: '4d8', damageType: 'radiant' } },
+          { range: 'Straight', name: 'Straight', description: 'Five sequential cards', effectType: 'damage', effectConfig: { damageFormula: '3d8', damageType: 'force' } },
+          { range: 'Three of a Kind', name: 'Three of a Kind', description: 'Three cards of same rank', effectType: 'damage', effectConfig: { damageFormula: '2d8', damageType: 'force' } },
+          { range: 'Two Pair', name: 'Two Pair', description: 'Two different pairs', effectType: 'healing', effectConfig: { healingFormula: '2d8' } },
+          { range: 'One Pair', name: 'One Pair', description: 'Two cards of same rank', effectType: 'healing', effectConfig: { healingFormula: '1d8' } },
+          { range: 'High Card', name: 'High Card', description: 'No matching cards - weakest hand (gain +1 Thread)', effectType: 'buff', effectConfig: { buffType: 'thread_generation', buffDuration: 0 } }
         ]
       },
 
@@ -1025,6 +1038,7 @@ Many players enhance the Fate Weaver experience with:
       name: 'Draw of the Damned',
       icon: 'spell_shadow_demonicempathy',
       spellType: 'ACTION',
+      effectTypes: ['buff'],
       school: 'Abjuration',
       level: 3,
 
@@ -1105,6 +1119,7 @@ Many players enhance the Fate Weaver experience with:
       name: "Heart's Gamble",
       icon: 'inv_valentinescard02',
       spellType: 'ACTION',
+      effectTypes: ['damage', 'buff'],
       school: 'Evocation',
       level: 2,
 
@@ -1185,6 +1200,7 @@ Many players enhance the Fate Weaver experience with:
       name: 'War of Wills',
       icon: 'ability_warrior_battleshout',
       spellType: 'ACTION',
+      effectTypes: ['damage', 'healing'],
       school: 'Evocation',
       level: 1,
 
@@ -1263,6 +1279,7 @@ Many players enhance the Fate Weaver experience with:
       name: "Solitaire's Shield",
       icon: 'spell_holy_powerwordbarrier',
       spellType: 'ACTION',
+      effectTypes: ['healing', 'utility'],
       school: 'Abjuration',
       level: 4,
 
@@ -1336,6 +1353,7 @@ Many players enhance the Fate Weaver experience with:
       name: 'Echo of Fate',
       icon: 'spell_arcane_prismaticcloak',
       spellType: 'ACTION',
+      effectTypes: ['buff'],
       school: 'Divination',
       level: 3,
 
@@ -1410,6 +1428,7 @@ Many players enhance the Fate Weaver experience with:
       name: "Fate's Exchange",
       icon: 'spell_arcane_blink',
       spellType: 'ACTION',
+      effectTypes: ['utility'],
       school: 'Conjuration',
       level: 4,
 
@@ -1464,6 +1483,7 @@ Many players enhance the Fate Weaver experience with:
       name: 'Echoes of the Past',
       icon: 'spell_holy_sealofwisdom',
       spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
       school: 'Divination',
       level: 1,
 
@@ -1499,6 +1519,18 @@ Many players enhance the Fate Weaver experience with:
           type: 'proficiency_grant',
           duration: '1 hour',
           choice: 'any skill or tool'
+        }
+      },
+      buffConfig: {
+        type: 'proficiency',
+        target: 'self',
+        durationType: 'timed',
+        durationValue: 1,
+        durationUnit: 'hour',
+        grant: {
+          category: 'skill_or_tool',
+          level: 'proficiency',
+          selection: 'any'
         }
       },
 

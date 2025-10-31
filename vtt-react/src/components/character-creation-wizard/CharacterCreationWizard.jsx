@@ -137,10 +137,6 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                     >
                         <i className="fas fa-arrow-left"></i>
                     </button>
-                    <div className="wizard-title-section">
-                        <h1 className="wizard-title">{isEditing ? 'Edit Character' : 'Character Creation'}</h1>
-                        <p className="wizard-subtitle">{STEP_INFO[state.currentStep]?.description}</p>
-                    </div>
                 </div>
 
                 <div className="header-center">

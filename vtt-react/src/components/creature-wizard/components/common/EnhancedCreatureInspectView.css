@@ -551,13 +551,13 @@
   align-items: center;
   gap: 6px;
   font-size: 1.1rem;
-  color: #3a3a3a;
+  color: #1a1a1a;
   font-weight: 700;
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .stat-modifier {
-  color: #7a3b2e;
+  color: #5a1e12;
   font-size: 0.9em;
   margin-left: 4px;
   font-weight: 600;

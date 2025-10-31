@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
+import useGridItemStore from '../../store/gridItemStore';
+import useCreatureStore from '../../store/creatureStore';
+import useCharacterTokenStore from '../../store/characterTokenStore';
 import WowWindow from '../windows/WowWindow';
 import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -16,6 +19,7 @@ import FogTools from './tools/FogTools';
 import GridTools from './tools/GridTools';
 import TerrainHoverPreview from './TerrainHoverPreview';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
+import AreaRemoveModal from './AreaRemoveModal';
 
 import './styles/ProfessionalVTTEditor.css';
 
@@ -28,6 +32,9 @@ const ProfessionalVTTEditor = () => {
     const [textInput, setTextInput] = useState({ show: false, x: 0, y: 0, text: '', gridX: 0, gridY: 0 });
     const [hoverPreview, setHoverPreview] = useState({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
     const [isLayersPanelCollapsed, setIsLayersPanelCollapsed] = useState(false);
+    const [selectionRect, setSelectionRect] = useState(null); // { startX, startY, endX, endY }
+    const [showRemoveModal, setShowRemoveModal] = useState(false);
+    const [selectedAreaObjects, setSelectedAreaObjects] = useState(null); // Objects found in selected area
 
 
     const windowRef = useRef(null);
@@ -66,12 +73,15 @@ const ProfessionalVTTEditor = () => {
         clearAllFog,
         addEnvironmentalObject,
         removeEnvironmentalObject,
+        updateEnvironmentalObject,
         selectEnvironmentalObject,
         getObjectAtPosition,
         environmentalObjects,
+        terrainData,
         wallData,
         showWallLayer,
         setWall,
+        clearTerrain,
         setCurrentDrawingPath,
         setIsCurrentlyDrawing,
         setCurrentDrawingTool,
@@ -89,6 +99,10 @@ const ProfessionalVTTEditor = () => {
         playerZoom,
         showGrid
     } = useGameStore();
+
+    const { gridItems, removeItemFromGrid } = useGridItemStore();
+    const { tokens, removeToken } = useCreatureStore();
+    const { characterTokens, removeCharacterToken } = useCharacterTokenStore();
 
     // Level editor persistence hook
     const {
@@ -118,6 +132,7 @@ const ProfessionalVTTEditor = () => {
             icon: 'inv_inscription_scroll',
             tools: [
                 { id: 'select', name: 'Select', icon: 'ability_hunter_markedfordeath', cursor: 'default' },
+                { id: 'area_remove', name: 'Area Remove', icon: 'inv_misc_bandage_12', cursor: 'crosshair' },
                 { id: 'freehand', name: 'Freehand', icon: 'inv_misc_pen_02', cursor: 'crosshair' },
                 { id: 'line', name: 'Line', icon: 'inv_misc_arrowdown', cursor: 'crosshair' },
                 { id: 'rectangle', name: 'Rectangle', icon: 'inv_misc_bag_08', cursor: 'crosshair' },
@@ -485,7 +500,195 @@ const ProfessionalVTTEditor = () => {
         });
     }, [drawingPaths, removeDrawingPath, gridToScreen]);
 
+    // Find all objects in the selected screen area
+    const findObjectsInArea = useCallback((minScreenX, minScreenY, maxScreenX, maxScreenY) => {
+        const gridSystem = getGridSystem();
+        const viewport = gridSystem.getViewportDimensions();
+        const effectiveZoom = zoomLevel * playerZoom;
+        
+        // Convert screen area to world coordinates
+        const startWorld = gridSystem.screenToWorld(minScreenX, minScreenY, viewport.width, viewport.height);
+        const endWorld = gridSystem.screenToWorld(maxScreenX, maxScreenY, viewport.width, viewport.height);
+        
+        const minWorldX = Math.min(startWorld.x, endWorld.x);
+        const maxWorldX = Math.max(startWorld.x, endWorld.x);
+        const minWorldY = Math.min(startWorld.y, endWorld.y);
+        const maxWorldY = Math.max(startWorld.y, endWorld.y);
 
+        const foundObjects = {
+            tokens: [],
+            characterTokens: [],
+            items: [],
+            environmentalObjects: [],
+            walls: [],
+            drawings: [],
+            terrainTiles: []
+        };
+
+        // Check creature tokens
+        tokens.forEach(token => {
+            if (token.position) {
+                const worldX = token.position.x || 0;
+                const worldY = token.position.y || 0;
+                if (worldX >= minWorldX && worldX <= maxWorldX && worldY >= minWorldY && worldY <= maxWorldY) {
+                    foundObjects.tokens.push(token);
+                }
+            }
+        });
+
+        // Check character tokens
+        characterTokens.forEach(token => {
+            if (token.position) {
+                const worldX = token.position.x || 0;
+                const worldY = token.position.y || 0;
+                if (worldX >= minWorldX && worldX <= maxWorldX && worldY >= minWorldY && worldY <= maxWorldY) {
+                    foundObjects.characterTokens.push(token);
+                }
+            }
+        });
+
+        // Check grid items
+        gridItems.forEach(item => {
+            if (item.position) {
+                const worldX = item.position.x || 0;
+                const worldY = item.position.y || 0;
+                if (worldX >= minWorldX && worldX <= maxWorldX && worldY >= minWorldY && worldY <= maxWorldY) {
+                    foundObjects.items.push(item);
+                }
+            }
+        });
+
+        // Check environmental objects (including GM notes)
+        environmentalObjects.forEach(obj => {
+            let worldX, worldY;
+            if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+                worldX = obj.worldX;
+                worldY = obj.worldY;
+            } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
+                const worldPos = gridSystem.gridToWorld(obj.gridX, obj.gridY);
+                worldX = worldPos.x;
+                worldY = worldPos.y;
+            }
+            if (worldX !== undefined && worldY !== undefined) {
+                if (worldX >= minWorldX && worldX <= maxWorldX && worldY >= minWorldY && worldY <= maxWorldY) {
+                    foundObjects.environmentalObjects.push(obj);
+                }
+            }
+        });
+
+        // Check walls (approximate check based on wall endpoints)
+        Object.keys(wallData).forEach(wallKey => {
+            const wall = wallData[wallKey];
+            // Wall keys are in format "x1,y1,x2,y2"
+            const coords = wallKey.split(',').map(Number);
+            if (coords.length === 4) {
+                const [x1, y1, x2, y2] = coords;
+                const world1 = gridSystem.gridToWorld(x1, y1);
+                const world2 = gridSystem.gridToWorld(x2, y2);
+                // Check if either endpoint is in the area
+                if ((world1.x >= minWorldX && world1.x <= maxWorldX && world1.y >= minWorldY && world1.y <= maxWorldY) ||
+                    (world2.x >= minWorldX && world2.x <= maxWorldX && world2.y >= minWorldY && world2.y <= maxWorldY)) {
+                    foundObjects.walls.push({ key: wallKey, wall });
+                }
+            }
+        });
+
+        // Check drawings (check if any point in the drawing is in the area)
+        drawingPaths.forEach(path => {
+            if (path.points && path.points.length > 0) {
+                const hasPointInArea = path.points.some(point => {
+                    let pointWorldX, pointWorldY;
+                    if (point.isWorldCoords && point.worldX !== undefined && point.worldY !== undefined) {
+                        pointWorldX = point.worldX;
+                        pointWorldY = point.worldY;
+                    } else if (point.gridX !== undefined && point.gridY !== undefined) {
+                        const worldPos = gridSystem.gridToWorld(point.gridX, point.gridY);
+                        pointWorldX = worldPos.x;
+                        pointWorldY = worldPos.y;
+                    }
+                    if (pointWorldX !== undefined && pointWorldY !== undefined) {
+                        return pointWorldX >= minWorldX && pointWorldX <= maxWorldX && 
+                               pointWorldY >= minWorldY && pointWorldY <= maxWorldY;
+                    }
+                    return false;
+                });
+                if (hasPointInArea) {
+                    foundObjects.drawings.push(path);
+                }
+            }
+        });
+
+        // Check terrain tiles - convert world bounds to grid coordinates and find all tiles in range
+        const startGrid = gridSystem.worldToGrid(minWorldX, minWorldY);
+        const endGrid = gridSystem.worldToGrid(maxWorldX, maxWorldY);
+        const minGridX = Math.min(startGrid.x, endGrid.x);
+        const maxGridX = Math.max(startGrid.x, endGrid.x);
+        const minGridY = Math.min(startGrid.y, endGrid.y);
+        const maxGridY = Math.max(startGrid.y, endGrid.y);
+
+        // Check all grid positions in the selected area for terrain tiles
+        for (let gridX = minGridX; gridX <= maxGridX; gridX++) {
+            for (let gridY = minGridY; gridY <= maxGridY; gridY++) {
+                const tileKey = `${gridX},${gridY}`;
+                if (terrainData[tileKey]) {
+                    foundObjects.terrainTiles.push({ gridX, gridY, tileKey });
+                }
+            }
+        }
+
+        return foundObjects;
+    }, [tokens, characterTokens, gridItems, environmentalObjects, wallData, drawingPaths, terrainData, zoomLevel, playerZoom]);
+
+    // Handle area removal by object type
+    const handleAreaRemove = useCallback((removeType) => {
+        if (!selectedAreaObjects) return;
+
+        if (removeType === 'all') {
+            // Remove all objects entirely
+            selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
+            selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
+            selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
+            selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
+            selectedAreaObjects.walls.forEach(({ key }) => {
+                // Remove wall by key
+                const [x1, y1, x2, y2] = key.split(',').map(Number);
+                setWall(x1, y1, x2, y2, null); // Setting to null should remove it
+            });
+            selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
+            selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
+                clearTerrain(gridX, gridY);
+            });
+        } else if (removeType === 'tokens') {
+            // Remove only creature tokens
+            selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
+        } else if (removeType === 'characterTokens') {
+            // Remove only character tokens
+            selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
+        } else if (removeType === 'items') {
+            // Remove only items
+            selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
+        } else if (removeType === 'environmentalObjects') {
+            // Remove only environmental objects (GM Notes, etc.)
+            selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
+        } else if (removeType === 'walls') {
+            // Remove only walls
+            selectedAreaObjects.walls.forEach(({ key }) => {
+                const [x1, y1, x2, y2] = key.split(',').map(Number);
+                setWall(x1, y1, x2, y2, null);
+            });
+        } else if (removeType === 'drawings') {
+            // Remove only drawings
+            selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
+        } else if (removeType === 'terrainTiles') {
+            // Remove only terrain tiles
+            selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
+                clearTerrain(gridX, gridY);
+            });
+        }
+
+        // Reset state
+        setSelectedAreaObjects(null);
+    }, [selectedAreaObjects, removeToken, removeCharacterToken, removeItemFromGrid, removeEnvironmentalObject, removeDrawingPath, setWall, clearTerrain]);
 
     // Handle mouse events for drawing
     const handleMouseDown = useCallback((e) => {
@@ -510,6 +713,16 @@ const ProfessionalVTTEditor = () => {
                 // Handle drawing eraser
                 handleDrawingErase(e.clientX, e.clientY);
                 setIsDrawing(true); // Enable for continuous erasing
+                return;
+            case 'area_remove':
+                // Start area selection for removal
+                const areaRemoveRect = overlayRef.current?.getBoundingClientRect();
+                if (areaRemoveRect) {
+                    const screenX = e.clientX - areaRemoveRect.left;
+                    const screenY = e.clientY - areaRemoveRect.top;
+                    setSelectionRect({ startX: screenX, startY: screenY, endX: screenX, endY: screenY });
+                    setIsDrawing(true);
+                }
                 return;
             case 'light_place':
             case 'light_torch':
@@ -540,10 +753,10 @@ const ProfessionalVTTEditor = () => {
                 // Select light source or lantern object - NO DRAWING STATE
 
                 // Get screen coordinates relative to the overlay
-                const rect = overlayRef.current?.getBoundingClientRect();
-                if (rect) {
-                    const relativeX = e.clientX - rect.left;
-                    const relativeY = e.clientY - rect.top;
+                const lightSelectRect = overlayRef.current?.getBoundingClientRect();
+                if (lightSelectRect) {
+                    const relativeX = e.clientX - lightSelectRect.left;
+                    const relativeY = e.clientY - lightSelectRect.top;
 
                     // Check for lantern objects at this screen position
                     const clickedLantern = getObjectAtScreenPosition(relativeX, relativeY);
@@ -754,6 +967,21 @@ const ProfessionalVTTEditor = () => {
             return;
         }
 
+        // Update selection rectangle for area_remove tool
+        if (selectedTool === 'area_remove' && selectionRect && isDrawing) {
+            const rect = overlayRef.current?.getBoundingClientRect();
+            if (rect) {
+                const screenX = e.clientX - rect.left;
+                const screenY = e.clientY - rect.top;
+                setSelectionRect(prev => ({
+                    ...prev,
+                    endX: screenX,
+                    endY: screenY
+                }));
+            }
+            return;
+        }
+
         // Update hover preview for brush tools and eraser
         if (isEditorMode && (selectedTool === 'terrain_brush' || selectedTool === 'terrain_erase' || selectedTool === 'fog_paint' || selectedTool === 'fog_erase')) {
             const coords = screenToGrid(e.clientX, e.clientY);
@@ -893,6 +1121,27 @@ const ProfessionalVTTEditor = () => {
             return;
         }
 
+        // Handle area selection completion
+        if (selectedTool === 'area_remove' && selectionRect && isDrawing) {
+            const rect = overlayRef.current?.getBoundingClientRect();
+            if (rect) {
+                const minX = Math.min(selectionRect.startX, selectionRect.endX);
+                const maxX = Math.max(selectionRect.startX, selectionRect.endX);
+                const minY = Math.min(selectionRect.startY, selectionRect.endY);
+                const maxY = Math.max(selectionRect.startY, selectionRect.endY);
+
+                // Only show modal if selection has meaningful size
+                if (Math.abs(maxX - minX) > 10 && Math.abs(maxY - minY) > 10) {
+                    const foundObjects = findObjectsInArea(minX, minY, maxX, maxY);
+                    setSelectedAreaObjects(foundObjects);
+                    setShowRemoveModal(true);
+                }
+            }
+            setIsDrawing(false);
+            setSelectionRect(null);
+            return;
+        }
+
         if (!isDrawing) return;
 
         // Handle wall placement separately from drawing paths
@@ -970,7 +1219,7 @@ const ProfessionalVTTEditor = () => {
         setIsDrawing(false);
         setCurrentPath([]);
         clearCurrentDrawing();
-    }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing]);
+    }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea]);
 
     // Keyboard shortcuts
     useEffect(() => {
@@ -1403,6 +1652,34 @@ const ProfessionalVTTEditor = () => {
                     </div>
                 </div>
             )}
+
+            {/* Selection Rectangle for Area Remove Tool */}
+            {isEditorMode && selectedTool === 'area_remove' && selectionRect && overlayRef.current && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: overlayRef.current.offsetLeft + Math.min(selectionRect.startX, selectionRect.endX),
+                        top: overlayRef.current.offsetTop + Math.min(selectionRect.startY, selectionRect.endY),
+                        width: Math.abs(selectionRect.endX - selectionRect.startX),
+                        height: Math.abs(selectionRect.endY - selectionRect.startY),
+                        border: '2px dashed #4a8eff',
+                        backgroundColor: 'rgba(74, 142, 255, 0.1)',
+                        pointerEvents: 'none',
+                        zIndex: 101
+                    }}
+                />
+            )}
+
+            {/* Area Remove Modal */}
+            <AreaRemoveModal
+                isOpen={showRemoveModal}
+                onClose={() => {
+                    setShowRemoveModal(false);
+                    setSelectedAreaObjects(null);
+                }}
+                onRemove={handleAreaRemove}
+                selectedObjects={selectedAreaObjects}
+            />
 
         </>
     );

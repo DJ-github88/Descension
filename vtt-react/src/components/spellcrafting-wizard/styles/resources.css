@@ -441,10 +441,10 @@
 }
 
 .formula-toggle-btn.active {
-  background: var(--pf-brown-medium);
+  background: linear-gradient(135deg, var(--pf-gold), #e6d18a);
   border-color: var(--pf-gold);
-  color: var(--pf-text-on-dark);
-  box-shadow: var(--pf-shadow-sm);
+  color: var(--pf-brown-darkest);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), var(--pf-shadow-sm);
 }
 
 /* Formula Input */
@@ -562,9 +562,9 @@
 }
 
 .resource-type-option.selected {
-  background: var(--pf-brown-medium);
+  background: linear-gradient(135deg, var(--pf-gold), #e6d18a);
   border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), var(--pf-shadow-md);
 }
 
 .resource-type-icon {
@@ -585,7 +585,7 @@
 }
 
 .resource-type-option.selected .resource-type-name {
-  color: var(--pf-text-on-dark);
+  color: var(--pf-brown-darkest);
 }
 
 /* Warnings */
@@ -785,14 +785,18 @@
 }
 
 .resource-subcategory-option.selected {
-  background: var(--pf-brown-medium);
+  background: linear-gradient(135deg, var(--pf-gold), #e6d18a);
   border-color: var(--pf-gold);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.25), var(--pf-shadow-md);
 }
 
 .resource-subcategory-option .resource-type-icon.small {
   font-size: var(--pf-text-lg);
   margin-bottom: 0;
+}
+
+.resource-subcategory-option .resource-type-icon.small.smaller-icon {
+  font-size: var(--pf-text-base);
 }
 
 .resource-subcategory-option.selected .resource-type-icon {
@@ -805,5 +809,5 @@
 }
 
 .resource-subcategory-option.selected .resource-type-name {
-  color: var(--pf-text-on-dark);
+  color: var(--pf-brown-darkest);
 }

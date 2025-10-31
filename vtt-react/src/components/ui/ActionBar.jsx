@@ -185,7 +185,6 @@ const ActionBar = () => {
                 const value = typeof statData === 'object' ? statData.value : statData;
                 effects[statName] = value;
                 hasBuffEffects = true;
-                console.log(`Adding buff effect from baseStats: ${statName} +${value}`);
             }
         });
 
@@ -219,16 +218,13 @@ const ActionBar = () => {
 
     const handleDrop = (e, slotIndex) => {
         e.preventDefault();
-        console.log('Drop event triggered on slot:', slotIndex);
 
         try {
             // Try to get spell data from drag event
             const spellData = e.dataTransfer.getData('application/json');
-            console.log('Spell data received:', spellData);
 
             if (spellData) {
                 const spell = JSON.parse(spellData);
-                console.log('Parsed spell:', spell);
 
                 // Update the action slot with the complete spell data
                 const newSpellSlot = {
@@ -239,8 +235,6 @@ const ActionBar = () => {
                     maxCooldown: spell.cooldown || 0, // Max cooldown from spell definition
                     type: 'spell' // Ensure action bar identifies this as a spell
                 };
-                console.log('Setting new spell slot with complete data:', newSpellSlot);
-                console.log('Icon URL will be:', getSlotIcon(newSpellSlot));
                 updateSlot(slotIndex, newSpellSlot);
                 dragOverSlot.current = null;
                 return;
@@ -294,7 +288,6 @@ const ActionBar = () => {
 
         if (item.type === 'spell') {
             // Cast the spell
-            console.log('Casting spell:', item.name);
 
             // Start cooldown if applicable
             if (item.maxCooldown > 0) {
@@ -324,7 +317,6 @@ const ActionBar = () => {
             const currentQuantity = getItemQuantity(item.originalItemId);
 
             if (currentQuantity > 0) {
-                console.log('Using consumable:', item.name);
 
                 // Apply consumable effects
                 const effectResults = applyConsumableEffects(item);
@@ -339,14 +331,7 @@ const ActionBar = () => {
                 }
 
                 // Log effect application
-                if (effectResults) {
-                    if (effectResults.hasInstantEffects) {
-                        console.log(`Applied instant effects from ${item.name}`);
-                    }
-                    if (effectResults.hasBuffEffects) {
-                        console.log(`Applied buff effects from ${item.name}`);
-                    }
-                }
+                // Effects applied (instant and buff effects handled internally)
             }
         }
     };
@@ -513,9 +498,7 @@ const ActionBar = () => {
 
     // Spell tooltip handlers
     const handleSpellMouseEnter = (e, item) => {
-        console.log('Action bar spell hover:', item); // Debug log
         if (!item || item.type !== 'spell' || !spellLibrary) {
-            console.log('Spell hover failed:', { item, hasLibrary: !!spellLibrary }); // Debug log
             return;
         }
 
@@ -530,15 +513,12 @@ const ActionBar = () => {
 
         // Try to find the spell in the library first for the most up-to-date data
         const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
-        console.log('Found spell in library:', librarySpell); // Debug log
 
         // Use library spell if found, otherwise use the complete spell data stored in the action slot
         const spellToDisplay = librarySpell || item;
-        console.log('Using spell data for tooltip:', spellToDisplay); // Debug log
 
         // Ensure we have valid spell data
         if (!spellToDisplay || !spellToDisplay.id) {
-            console.log('No valid spell data available for tooltip');
             return;
         }
 
@@ -558,15 +538,6 @@ const ActionBar = () => {
             const tooltipX = rect.left + (rect.width / 2);
             const tooltipY = rect.top; // exact top edge; SpellTooltip handles offset
 
-            console.log('Action bar spell tooltip positioning:', {
-              x: tooltipX,
-              y: tooltipY,
-              slotRect: rect,
-              spellName: spellToDisplay?.name,
-              actionBarFixed: true,
-              hasLibrarySpell: !!librarySpell,
-              usingStoredData: !librarySpell
-            }); // Debug log
             setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
             setTooltipSpell(spellToDisplay);
             setShowSpellTooltip(true);
@@ -665,9 +636,8 @@ const ActionBar = () => {
                                         <img
                                             src={getSlotIcon(item)}
                                             alt={item.name || 'Action Item'}
-                                            onLoad={() => console.log('Icon loaded:', getSlotIcon(item))}
+                                            onLoad={() => {}}
                                             onError={(e) => {
-                                                console.log('Icon failed to load:', getSlotIcon(item));
                                                 // Fallback to a default icon if the icon fails to load
                                                 e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg';
                                             }}

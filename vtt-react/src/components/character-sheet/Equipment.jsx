@@ -598,7 +598,7 @@ export default function CharacterPanel() {
                     ).map(([slotName, config]) => renderSlot(slotName, config))}
                 </div>
 
-                {/* Character Portrait Section with Weapons Below */}
+                {/* Character Portrait Section */}
                 <div className="character-center-section">
                     <div className="character-image-container">
                         {lore?.characterImage ? (
@@ -614,82 +614,80 @@ export default function CharacterPanel() {
                             </div>
                         )}
                     </div>
+                    
+                    {/* Weapon Slots Below Image */}
+                    <div className="weapon-slots-bottom">
+                        {Object.entries(weaponSlots).map(([slotName, config]) => {
+                            const item = equipment[slotName];
+                            const isEmpty = !item;
+                            const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
 
-                    {/* Weapon Slots Below Character */}
-                    <div className="weapon-slots">
-                        <div className="weapon-slots-row">
-                            {Object.entries(weaponSlots).map(([slotName, config]) => {
-                                const item = equipment[slotName];
-                                const isEmpty = !item;
-                                const isDisabled = slotName === 'offHand' && isOffHandDisabled(equipment);
+                            // Weapon slot descriptions
+                            const slotDescriptions = {
+                                mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
+                                offHand: isDisabled ?
+                                    "Off-hand is disabled while wielding a two-handed weapon." :
+                                    "Secondary weapons, shields, or magical focuses held in your off-hand.",
+                                ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
+                            };
 
-                                // Weapon slot descriptions
-                                const slotDescriptions = {
-                                    mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
-                                    offHand: isDisabled ?
-                                        "Off-hand is disabled while wielding a two-handed weapon." :
-                                        "Secondary weapons, shields, or magical focuses held in your off-hand.",
-                                    ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
-                                };
-
-                                return (
-                                    <div
-                                        key={slotName}
-                                        className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
-                                        onMouseEnter={(e) => {
-                                            setHoveredSlot(slotName);
-                                            updateTooltipPosition(e);
+                            return (
+                                <div
+                                    key={slotName}
+                                    className={`weapon-slot ${isEmpty ? 'empty' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                    onMouseEnter={(e) => {
+                                        setHoveredSlot(slotName);
+                                        updateTooltipPosition(e);
+                                    }}
+                                    onMouseMove={updateTooltipPosition}
+                                    onMouseLeave={() => setHoveredSlot(null)}
+                                    onContextMenu={(e) => {
+                                        if (item && !isDisabled) {
+                                            handleUnequipContextMenu(e, item, slotName);
+                                        }
+                                    }}
+                                >
+                                    <img
+                                        src={item ? (item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')) : config.icon}
+                                        alt={slotName}
+                                        style={{ opacity: isDisabled ? 0.3 : 1 }}
+                                        onError={(e) => {
+                                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
                                         }}
-                                        onMouseMove={updateTooltipPosition}
-                                        onMouseLeave={() => setHoveredSlot(null)}
-                                        onContextMenu={(e) => {
-                                            if (item && !isDisabled) {
-                                                handleUnequipContextMenu(e, item, slotName);
-                                            }
-                                        }}
-                                    >
-                                        <img
-                                            src={item ? (item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')) : config.icon}
-                                            alt={slotName}
-                                            style={{ opacity: isDisabled ? 0.3 : 1 }}
-                                            onError={(e) => {
-                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-                                            }}
-                                        />
+                                    />
 
-                                        {/* Red cross overlay for disabled off-hand */}
-                                        {isDisabled && (
-                                            <div className="disabled-overlay">
-                                                <div className="red-cross">
-                                                    <div className="cross-line cross-line-1"></div>
-                                                    <div className="cross-line cross-line-2"></div>
-                                                </div>
+                                    {/* Red cross overlay for disabled off-hand */}
+                                    {isDisabled && (
+                                        <div className="disabled-overlay">
+                                            <div className="red-cross">
+                                                <div className="cross-line cross-line-1"></div>
+                                                <div className="cross-line cross-line-2"></div>
                                             </div>
-                                        )}
+                                        </div>
+                                    )}
 
-                                        {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
-                                        {hoveredSlot === slotName && (isEmpty || isDisabled) && (
-                                            <TooltipPortal>
-                                                <div
-                                                    className="equipment-slot-tooltip"
-                                                    style={{
-                                                        position: 'fixed',
-                                                        left: tooltipPosition.x,
-                                                        top: tooltipPosition.y,
-                                                        transform: 'translate(10px, -50%)',
-                                                        pointerEvents: 'none',
-                                                        zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
-                                                    }}
-                                                >
-                                                    <div className="equipment-slot-name">{config.info}</div>
-                                                    <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${config.info} equipment`}</div>
-                                                </div>
-                                            </TooltipPortal>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                    {hoveredSlot === slotName && item && !isDisabled && renderTooltip(item)}
+                                    {hoveredSlot === slotName && (isEmpty || isDisabled) && (
+                                        <TooltipPortal>
+                                            <div
+                                                className="equipment-slot-tooltip"
+                                                style={{
+                                                    position: 'fixed',
+                                                    left: tooltipPosition.x,
+                                                    top: tooltipPosition.y,
+                                                    transform: 'translate(10px, -50%)',
+                                                    pointerEvents: 'none',
+                                                    zIndex: 999999999 /* Maximum z-index to ensure it appears above all windows */
+                                                }}
+                                            >
+                                                <div className="equipment-slot-name">{config.info}</div>
+                                                <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${config.info} equipment`}</div>
+                                            </div>
+                                        </TooltipPortal>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -1118,7 +1116,7 @@ export default function CharacterPanel() {
                 ))}
             </div>
 
-            <div className="character-content-area">
+            <div className={`character-content-area ${activeSection === 'equipment' ? 'equipment-backdrop' : ''}`}>
                 <div className="character-section-header">
                     <img
                         src={sections[activeSection].icon}

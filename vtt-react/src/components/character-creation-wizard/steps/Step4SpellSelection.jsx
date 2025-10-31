@@ -1,5 +1,5 @@
 /**
- * Step 4: Spell Selection (Arcanoneer, Pyrofiend, Minstrel & Chronarch)
+ * Step 4: Spell Selection (Arcanoneer, Pyrofiend, Minstrel, Chronarch & Martyr)
  *
  * Allows spell-casting classes to select 3 starting spells from Level 1 pool
  */
@@ -11,6 +11,7 @@ import { ARCANONEER_DATA } from '../../../data/classes/arcanoneerData';
 import { PYROFIEND_DATA } from '../../../data/classes/pyrofiendData';
 import { MINSTREL_DATA } from '../../../data/classes/minstrelData';
 import { CHRONARCH_DATA } from '../../../data/classes/chronarchData';
+import { MARTYR_DATA } from '../../../data/classes/martyrData';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './Step4SpellSelection.css';
@@ -25,7 +26,7 @@ const Step4SpellSelection = () => {
     const characterClass = state.characterData.class;
 
     // Classes that require spell selection
-    const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch'];
+    const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr'];
 
     // Get Level 1 spell pool based on class
     const level1SpellPool = useMemo(() => {
@@ -40,6 +41,8 @@ const Step4SpellSelection = () => {
             classData = MINSTREL_DATA;
         } else if (characterClass === 'Chronarch') {
             classData = CHRONARCH_DATA;
+        } else if (characterClass === 'Martyr') {
+            classData = MARTYR_DATA;
         }
 
         if (!classData) return [];
@@ -62,7 +65,11 @@ const Step4SpellSelection = () => {
                 timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
                 timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
                 temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
-                temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced
+                temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced,
+                // Devotion Level mechanics for Martyr spell cards
+                devotionRequired: spell.specialMechanics?.devotionLevel?.required,
+                devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
+                devotionGain: spell.specialMechanics?.devotionLevel?.gain
             }));
     }, [characterClass]);
 

@@ -6,7 +6,7 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle
+  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle, faShield, faRandom, faScroll
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -14,6 +14,7 @@ import { formatRollableTableForCard } from '../../core/utils/spellCardTransforme
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import SpellTooltip from './SpellTooltip';
 import { calculateManaCost } from '../../core/mechanics/resourceManager';
+import { normalizeSpell } from '../../core/utils/spellNormalizer';
 import '../../../../styles/item-tooltip.css';
 
 /**
@@ -22,7 +23,7 @@ import '../../../../styles/item-tooltip.css';
  * Handles: SpellbookWindow, Library, Collections, Wizard, Selection - EVERYTHING
  */
 const UnifiedSpellCard = ({
-  spell,
+  spell: spellProp,
   variant = 'spellbook', // 'spellbook', 'library', 'collection', 'wizard', 'compact', 'preview'
   showActions = false,
   showDescription = true,
@@ -43,6 +44,27 @@ const UnifiedSpellCard = ({
 }) => {
   // Get library context for proc system spell lookup
   const library = useSpellLibrary();
+
+  // NORMALIZE SPELL DATA - Transform from any format into complete wizard format
+  // This ensures spells from class data, manual JSON, or legacy formats all work
+  // All references to 'spell' in this component will now use the normalized version
+  const spell = (() => {
+    try {
+      if (!spellProp) {
+        return {};
+      }
+      if (typeof normalizeSpell === 'function') {
+        return normalizeSpell(spellProp) || spellProp || {};
+      } else {
+        console.warn('normalizeSpell is not available, using spellProp directly');
+        return spellProp || {};
+      }
+    } catch (error) {
+      console.error('Error normalizing spell in UnifiedSpellCard:', error, spellProp);
+      // Fallback to original spell if normalization fails
+      return spellProp || {};
+    }
+  })();
 
   // State for hover tooltips (only used in compact variant)
   const [showTooltip, setShowTooltip] = useState(false);
@@ -113,6 +135,10 @@ const UnifiedSpellCard = ({
       'focus': 'Focus',
       'chi': 'Chi'
     };
+    // Fate Weaver threads
+    if (resourceType === 'threads_spend' || resourceType === 'threads_generate') return 'Threads of Destiny';
+    // Chaos resources
+    if (resourceType === 'chaos_sphere') return 'Chaos Sphere';
 
     // Return mapped name if available, otherwise convert snake_case to Title Case
     return resourceNameMap[resourceType] || resourceType
@@ -128,6 +154,12 @@ const UnifiedSpellCard = ({
     // Handle special formula keywords first
     if (formula === 'HALF_DAMAGE_DEALT') {
       return 'Damage Dealt/2';
+    }
+    if (formula === 'DAMAGE_DEALT_TO_SELF' || formula === 'DAMAGE_DEALT') {
+      return 'Damage Dealt';
+    }
+    if (formula === 'FULL_HEALTH' || formula === 'FULL_HP') {
+      return 'Full Health';
     }
 
     let cleanedFormula = formula
@@ -798,7 +830,6 @@ const UnifiedSpellCard = ({
 
     return result;
   };
-
   // ===== PROPAGATION FORMATTING =====
 
   const formatPropagation = () => {
@@ -1343,7 +1374,6 @@ const UnifiedSpellCard = ({
     };
     return resourceColorMap[resourceType?.toLowerCase().replace(/\s+/g, '')] || '#95A5A6';
   };
-
   const formatResourceCosts = () => {
     if (!spell) return null;
 
@@ -1377,6 +1407,18 @@ const UnifiedSpellCard = ({
       // List of Chronarch resource types to skip (they're handled separately below)
       const chronarchTypes = ['time_shard_generate', 'time_shard_cost', 'temporal_strain_gain', 'temporal_strain_reduce'];
 
+      // List of Devotion resource types to skip (custom badges below)
+      const devotionTypes = ['devotion_required', 'devotion_cost', 'devotion_gain'];
+
+      // List of Chaos Weaver resource types to skip (custom badges below)
+      const mayhemTypes = ['mayhem_generate', 'mayhem_spend'];
+
+      // List of Fate Weaver resource types to skip (custom badges below)
+      const fateTypes = ['fate_generate', 'fate_spend', 'threads_generate', 'threads_spend'];
+
+      // List of Musical Note resource types to skip (they're handled separately below)
+      const musicalNoteTypes = ['note_i', 'note_ii', 'note_iii', 'note_iv', 'note_v', 'note_vi', 'note_vii'];
+
       selectedTypes.forEach(type => {
         // Skip sphere types - they're handled separately below
         if (sphereTypes.includes(type)) {
@@ -1390,6 +1432,26 @@ const UnifiedSpellCard = ({
 
         // Skip Chronarch types - they're handled separately below
         if (chronarchTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Devotion types - handled below
+        if (devotionTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Chaos Weaver Mayhem types - handled below
+        if (mayhemTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Fate Weaver Fate Token types - handled below
+        if (fateTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Musical Note types - handled below
+        if (musicalNoteTypes.includes(type)) {
           return;
         }
 
@@ -1649,6 +1711,77 @@ const UnifiedSpellCard = ({
       });
     }
 
+    // Add Martyr Devotion Level costs - check both flat properties and specialMechanics
+    const devotionRequired = spell.devotionRequired || spell.specialMechanics?.devotionLevel?.required;
+    const devotionCost = spell.devotionCost || spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost;
+    const devotionGain = spell.devotionGain || spell.specialMechanics?.devotionLevel?.gain;
+
+    if (devotionRequired !== undefined && devotionRequired > 0) {
+      resources.push({
+        type: 'devotion-required',
+        amount: `Requires Devotion Level ${devotionRequired}`,
+        name: '',
+        icon: faHeart,
+        color: '#FFD700',
+        isDevotion: true
+      });
+    }
+    if (devotionCost !== undefined && devotionCost > 0) {
+      resources.push({
+        type: 'devotion-cost',
+        amount: `Costs ${devotionCost} Devotion Level${devotionCost > 1 ? 's' : ''}`,
+        name: '',
+        icon: faShield,
+        color: '#FFD700',
+        isDevotion: true
+      });
+    }
+    if (devotionGain !== undefined && devotionGain > 0) {
+      resources.push({
+        type: 'devotion-gain',
+        amount: `+${devotionGain} Devotion Level${devotionGain > 1 ? 's' : ''}`,
+        name: '',
+        icon: faArrowUp,
+        color: '#32CD32',
+        isDevotion: true
+      });
+    }
+
+    // Also check resourceCost.resourceValues for Devotion Level (wizard format)
+    if (spell.resourceCost && spell.resourceCost.resourceValues) {
+      const resourceValues = spell.resourceCost.resourceValues;
+      if (resourceValues.devotion_required !== undefined && resourceValues.devotion_required > 0 && !devotionRequired) {
+        resources.push({
+          type: 'devotion-required',
+          amount: `Requires Devotion Level ${resourceValues.devotion_required}`,
+          name: '',
+          icon: faHeart,
+          color: '#FFD700',
+          isDevotion: true
+        });
+      }
+      if (resourceValues.devotion_cost !== undefined && resourceValues.devotion_cost > 0 && !devotionCost) {
+        resources.push({
+          type: 'devotion-cost',
+          amount: `Costs ${resourceValues.devotion_cost} Devotion Level${resourceValues.devotion_cost > 1 ? 's' : ''}`,
+          name: '',
+          icon: faShield,
+          color: '#FFD700',
+          isDevotion: true
+        });
+      }
+      if (resourceValues.devotion_gain !== undefined && resourceValues.devotion_gain > 0 && !devotionGain) {
+        resources.push({
+          type: 'devotion-gain',
+          amount: `+${resourceValues.devotion_gain} Devotion Level${resourceValues.devotion_gain > 1 ? 's' : ''}`,
+          name: '',
+          icon: faArrowUp,
+          color: '#32CD32',
+          isDevotion: true
+        });
+      }
+    }
+
     // Add Chronarch resources from wizard format
     if (spell.resourceCost && spell.resourceCost.resourceTypes) {
       const chronarchResourceMap = {
@@ -1675,7 +1808,7 @@ const UnifiedSpellCard = ({
             } else {
               displayAmount = numericAmount > 1 ? `-${numericAmount}` : '-1';
             }
-
+            // Only push the compact Chronarch badge, skip labeled legacy badge
             resources.push({
               type: `chronarch-${type}`,
               amount: displayAmount,
@@ -1687,6 +1820,146 @@ const UnifiedSpellCard = ({
               isConsume: chronarchInfo.isConsume,
               isStrain: chronarchInfo.isStrain,
               isStrainReduce: chronarchInfo.isStrainReduce,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Chaos Weaver Mayhem Modifiers (generate/spend) from wizard format
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const mayhemMap = {
+        'mayhem_generate': { name: 'Mayhem Modifiers', color: '#8A2BE2', icon: faRandom, sign: '+' },
+        'mayhem_spend': { name: 'Mayhem Modifiers', color: '#8A2BE2', icon: faRandom, sign: '-' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (mayhemMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const info = mayhemMap[type];
+            resources.push({
+              type,
+              amount: useFormula ? `${info.sign}${formula}` : `${info.sign}${amount}`,
+              name: info.name,
+              icon: info.icon,
+              color: info.color,
+              isChaosWeaver: true,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Fate Weaver Fate Tokens (generate/spend) from wizard format
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const fateMap = {
+        'fate_generate': { name: 'Fate Tokens', color: '#2E86C1', icon: faRandom, sign: '+' },
+        'fate_spend': { name: 'Fate Tokens', color: '#2E86C1', icon: faRandom, sign: '-' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (fateMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const info = fateMap[type];
+            resources.push({
+              type,
+              amount: useFormula ? `${info.sign}${formula}` : `${info.sign}${amount}`,
+              name: info.name,
+              icon: info.icon,
+              color: info.color,
+              isFateWeaver: true,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Fate Weaver Threads of Destiny (generate/spend) from wizard format
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const threadsMap = {
+        'threads_generate': { name: 'Threads of Destiny', color: '#9370DB', icon: faScroll, sign: '+' },
+        'threads_spend': { name: 'Threads of Destiny', color: '#9370DB', icon: faScroll, sign: '-' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (threadsMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const info = threadsMap[type];
+            resources.push({
+              type,
+              amount: useFormula ? `${info.sign}${formula}` : `${info.sign}${amount}`,
+              name: info.name,
+              icon: info.icon,
+              color: info.color,
+              isFateWeaver: true,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Musical Notes from resourceCost.resourceTypes (wizard format)
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const musicalNoteTypeMap = {
+        'note_i': { note: 'I', functionName: 'Tonic' },
+        'note_ii': { note: 'II', functionName: 'Supertonic' },
+        'note_iii': { note: 'III', functionName: 'Mediant' },
+        'note_iv': { note: 'IV', functionName: 'Subdominant' },
+        'note_v': { note: 'V', functionName: 'Dominant' },
+        'note_vi': { note: 'VI', functionName: 'Submediant' },
+        'note_vii': { note: 'VII', functionName: 'Leading Tone' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (musicalNoteTypeMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const noteInfo = musicalNoteTypeMap[type];
+            // For formulas, check if formula string starts with '-' to determine consuming
+            // For numeric amounts, check the sign directly
+            const isGenerating = useFormula 
+              ? !formula.trim().startsWith('-')
+              : amount > 0;
+
+            // Format display text
+            let displayText;
+            if (useFormula) {
+              // Formula already contains sign, just add function name
+              displayText = `${formula} ${noteInfo.functionName} (${noteInfo.note})`;
+            } else {
+              const absAmount = Math.abs(amount);
+              if (absAmount > 1) {
+                displayText = `${isGenerating ? '+' : '-'}${absAmount} ${noteInfo.functionName} (${noteInfo.note})`;
+              } else {
+                displayText = `${isGenerating ? '+' : '-'}${noteInfo.functionName} (${noteInfo.note})`;
+              }
+            }
+
+            resources.push({
+              type: isGenerating ? 'musical-generates' : 'musical-consumes',
+              amount: displayText,
+              name: '',
+              clefSymbol: isGenerating ? '𝄞' : '𝄢', // Treble clef for builder, bass clef for resolver
+              color: isGenerating ? '#9370DB' : '#4169E1',
+              isMusicalNote: true,
+              isGenerate: isGenerating,
+              isConsume: !isGenerating,
               isFormula: useFormula
             });
           }
@@ -1891,7 +2164,7 @@ const UnifiedSpellCard = ({
                 <FontAwesomeIcon
                   icon={resource.icon}
                   className="pf-chronarch-icon"
-                  style={{ color: resource.color, fontSize: '16px', marginRight: '4px' }}
+                  style={{ color: '#fff', fontSize: '16px', marginRight: '4px' }}
                 />
                 <span className="pf-resource-amount" style={{ color: '#ffffff', marginRight: '4px' }}>
                   {resource.amount}
@@ -2100,7 +2373,6 @@ const UnifiedSpellCard = ({
 
     return mechanicsElements.length > 0 ? mechanicsElements : null;
   };
-
   // ===== GRADUATED EFFECTS FORMATTING =====
   const formatGraduatedEffects = () => {
     const graduatedElements = [];
@@ -2539,7 +2811,6 @@ const UnifiedSpellCard = ({
 
     return procText;
   };
-
   // ===== TRIGGER FORMATTING HELPER =====
   const formatTriggerText = (trigger) => {
     if (!trigger) return trigger?.name || 'Unknown trigger';
@@ -3135,16 +3406,15 @@ const UnifiedSpellCard = ({
       outcomeText = ` (${formula} on save)`;
     } else if (saveConfig.saveOutcome) {
       const outcomeMap = {
-        'negates': 'negated on save',
-        'halves_duration': 'duration halved on save',
-        'halves_effects': 'effects halved on save',
-        'reduces_level': 'level reduced on save',
+        'negates': 'negate',
+        'halves_effects': 'halves',
+        'halves': 'halves',
         'ends_early': 'ends next turn on save',
         'resists_commands': 'can resist commands on save',
         'broken': 'broken on save',
         'overcome': 'overcome on save'
       };
-      outcomeText = ` (${outcomeMap[saveConfig.saveOutcome] || 'modified on save'})`;
+      outcomeText = ` (${outcomeMap[saveConfig.saveOutcome] || 'negate'})`;
     } else {
       // Default outcomes based on effect type
       const defaultOutcomes = {
@@ -3163,7 +3433,6 @@ const UnifiedSpellCard = ({
       outcome: outcomeText.replace(/[()]/g, '').trim()
     };
   };
-
   const formatDamage = () => {
     if (!spell || !spell.damageConfig) return null;
 
@@ -3642,6 +3911,21 @@ const UnifiedSpellCard = ({
   const getDamageTypes = () => {
     if (!spell) return [];
 
+    // Do not show damage types for Temporal Flux abilities (support/utility)
+    if (spell.specialMechanics?.temporalFlux || spell.specialMechanics?.temporal_flux || spell.id?.endsWith('_flux')) {
+      return [];
+    }
+
+    // Only show damage types if spell actually has damage configured
+    const hasDamageConfig = spell.damageConfig?.formula || spell.damageConfig?.damageType || spell.damageTypes?.length > 0;
+    const hasDamageEffect = spell.effects?.damage?.instant?.formula || spell.effects?.damage?.dot?.formula;
+    const hasDamageType = spell.effectTypes?.includes('damage');
+    
+    // If spell has no damage configuration at all, don't infer damage types
+    if (!hasDamageConfig && !hasDamageEffect && !hasDamageType) {
+      return [];
+    }
+
     // Use a Set to automatically handle duplicates
     const damageTypesSet = new Set();
 
@@ -3825,7 +4109,6 @@ const UnifiedSpellCard = ({
     if (magicalStats.includes(baseName)) return 'magical';
     return 'general';
   };
-
   // Format status effect details based on configuration
   const formatStatusEffectDetails = (status, effectType = 'buff', parentConfig = null) => {
     const effectName = status.name || status.id || 'Status Effect';
@@ -4503,17 +4786,14 @@ const UnifiedSpellCard = ({
 
     if (saveType && saveType !== 'none') {
       const outcomeMap = {
-        'negates': 'negated on successful save',
-        'halves_duration': 'duration halved on successful save',
-        'ends_early': 'ends at end of turn on successful save',
-        'reduces_level': 'effect reduced on successful save',
-        'partial_immunity': 'partial immunity on successful save',
-        'halves': 'halved on successful save',
+        'negates': 'negate',
+        'halves_effects': 'halves',
+        'halves': 'halves',
         'none': 'no save allowed'
       };
 
       const saveTypeName = saveType.charAt(0).toUpperCase() + saveType.slice(1);
-      const outcomeText = outcomeMap[saveOutcome] || 'effect modified on successful save';
+      const outcomeText = outcomeMap[saveOutcome] || 'negate';
       mechanicsParts.push(`${saveTypeName} save DC ${saveDC} (${outcomeText})`);
     }
 
@@ -4526,7 +4806,6 @@ const UnifiedSpellCard = ({
       mechanicsText: mechanicsText
     };
   };
-
   const formatBuffEffects = () => {
     if (!spell?.buffConfig) {
       // If spell has buff effect type but no config, show a basic effect
@@ -4842,7 +5121,6 @@ const UnifiedSpellCard = ({
         });
       }
     }
-
     // Format status effects with enhanced configuration display
     if (buffConfig.statusEffects && buffConfig.statusEffects.length > 0) {
       buffConfig.statusEffects.forEach(effect => {
@@ -5447,7 +5725,6 @@ const UnifiedSpellCard = ({
             mechanicsParts.push(formattedOption);
           }
         }
-
         // Add more status effect configurations
         if (effectData.id === 'luck' || effectData.id === 'lucky') {
           // Handle both old and new luck configuration systems
@@ -5774,10 +6051,9 @@ const UnifiedSpellCard = ({
 
           if (effectData.saveOutcome) {
             const outcomeMap = {
-              'negates': 'negates',
-              'halves_duration': 'halves duration',
-              'ends_early': 'ends early',
-              'reduces_level': 'reduces effect'
+              'negates': 'negate',
+              'halves_effects': 'halves',
+              'halves': 'halves'
             };
             saveText += ` (${outcomeMap[effectData.saveOutcome] || effectData.saveOutcome})`;
           }
@@ -6124,7 +6400,6 @@ const UnifiedSpellCard = ({
 
     return effects.length > 0 ? effects : null;
   };
-
   const formatDebuffEffects = () => {
     if (!spell?.debuffConfig) return null;
 
@@ -6851,7 +7126,6 @@ const UnifiedSpellCard = ({
   }, []);
 
   // ===== MAIN RENDER FUNCTION =====
-
   // Special compact variant rendering (like CompactSpellItem)
   if (variant === 'compact') {
     return (
@@ -6991,8 +7265,8 @@ const UnifiedSpellCard = ({
           <div className="unified-spell-info">
             <h3 className="pf-spell-name">{spell?.name || 'Unnamed Spell'}</h3>
 
-            {/* Resource costs below title for wizard variant */}
-            {variant === 'wizard' && (formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
+            {/* Resource costs below title for wizard, library, and collection variants */}
+            {(variant === 'wizard' || variant === 'library' || variant === 'collection') && (formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
               <div className="unified-spell-wizard-meta">
                 <div className="unified-spell-resource-costs">
                   {formatResourceCosts()}
@@ -7018,7 +7292,7 @@ const UnifiedSpellCard = ({
             {(() => {
               const damageTypes = getDamageTypes();
               const spellComponents = formatSpellComponents();
-              const shouldShow = variant === 'wizard' && (damageTypes.length > 0 || spellComponents);
+              const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection') && (damageTypes.length > 0 || spellComponents);
 
               console.log('[Damage/Component Box]', {
                 variant,
@@ -7052,26 +7326,11 @@ const UnifiedSpellCard = ({
             })()}
 
             {/* Damage Types and Resource Costs for library/collection variants */}
-            {(variant === 'library' || variant === 'collection') && (
+            {/* NOTE: Damage types are already shown in the combined box above, so we don't duplicate them here */}
+            {(variant === 'library' || variant === 'collection') && false && (
               <div className="pf-library-header-right">
-                {/* Damage Types */}
-                {getDamageTypes().length > 0 && (
-                  <div className="pf-damage-types-header">
-                    {getDamageTypes().map((damageType, index) => (
-                      <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
-                        <div className="pf-damage-type-icon"></div>
-                        <span className="pf-damage-type-text">{damageType}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Resource Costs */}
-                {formatResourceCosts() && (
-                  <div className="unified-spell-cost">
-                    {formatResourceCosts()}
-                  </div>
-                )}
+                {/* Damage Types - REMOVED: Already shown in combined box above to prevent duplication */}
+                {/* Resource Costs intentionally not duplicated here; shown under title */}
               </div>
             )}
 
@@ -7233,8 +7492,8 @@ const UnifiedSpellCard = ({
             );
           })()}
 
-          {/* Stats (varies by variant) */}
-          {showStats && (
+          {/* Stats (varies by variant) - Only show if step 3 (Effects) has been completed */}
+          {showStats && spell?.effectTypes && spell.effectTypes.length > 0 && (
             <div className="pf-spell-stats wow-spell-stats">
               {/* Damage Display - Only show if damage is actually configured */}
               {(() => {
@@ -7378,43 +7637,14 @@ const UnifiedSpellCard = ({
 
               {/* Healing Display - Only show if healing is actually configured */}
               {(() => {
-                // Check if there's actual healing configuration (more specific check)
-                const hasDirectHealingFormula = (spell?.healingConfig?.healingType === 'direct' || spell?.healingConfig?.healingType === 'instant') && (
-                  (spell.resolution === 'CARDS' && spell.healingConfig?.cardConfig?.formula) ||
-                  (spell.resolution === 'COINS' && spell.healingConfig?.coinConfig?.formula) ||
-                  (spell.resolution === 'DICE' && spell.healingConfig?.formula) ||
-                  spell.healingConfig?.formula
-                );
+                // Support both healingConfig and effects.healing structures
+                const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
+                  formula: spell.effects.healing.instant?.formula || spell.effects.healing.hot?.formula,
+                  healingType: spell.effects.healing.hot ? 'hot' : 'instant'
+                } : null);
+                if (!healingData) return null;
 
-                const hasHotHealingFormula = spell?.healingConfig?.healingType === 'hot' && (
-                  (spell.resolution === 'CARDS' && spell.healingConfig?.hotCardConfig?.formula) ||
-                  (spell.resolution === 'COINS' && spell.healingConfig?.hotCoinConfig?.formula) ||
-                  (spell.resolution === 'DICE' && spell.healingConfig?.hotFormula)
-                );
-
-                const hasShieldHealingFormula = spell?.healingConfig?.healingType === 'shield' && (
-                  (spell.resolution === 'CARDS' && spell.healingConfig?.shieldCardConfig?.formula) ||
-                  (spell.resolution === 'COINS' && spell.healingConfig?.shieldCoinConfig?.formula) ||
-                  (spell.resolution === 'DICE' && spell.healingConfig?.shieldFormula)
-                );
-
-                const hasLegacyHealing = spell?.healing && (spell.healing.dice || spell.healing.flat > 0);
-                const hasHealingEffect = spell?.effectTypes?.includes('healing');
-                const hasEffectsHealing = spell?.effects?.healing?.instant?.formula || spell?.effects?.healing?.hot?.formula;
-
-                return hasDirectHealingFormula || hasHotHealingFormula || hasShieldHealingFormula || hasLegacyHealing || hasHealingEffect || hasEffectsHealing;
-              })() && (
-                <div className="healing-effects">
-                  <div className="healing-effects-section">
-                    {(() => {
-                      // Support both healingConfig and effects.healing structures
-                      const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
-                        formula: spell.effects.healing.instant?.formula || spell.effects.healing.hot?.formula,
-                        healingType: spell.effects.healing.hot ? 'hot' : 'instant'
-                      } : null);
-                      if (!healingData) return null;
-
-                      const effects = [];
+                const effects = [];
 
                       // Main healing effect
                       const healingResult = formatHealing();
@@ -7518,37 +7748,41 @@ const UnifiedSpellCard = ({
                         });
                       }
 
-                      return effects.length > 0 ? (
-                        <div className="healing-formula-line">
-                          <div className="healing-effects-list">
-                            {effects.map((effect, index) => (
-                              <div key={`healing-${index}`} className="healing-effect-item">
-                                <div className="healing-effect">
-                                  <span className="healing-effect-name">
-                                    {effect.name}
-                                  </span>
-                                  {effect.description && effect.description !== effect.name && (
-                                    <span className="healing-effect-description">
-                                      {" - "}{effect.description}
-                                    </span>
-                                  )}
-                                </div>
-                                {effect.mechanicsText && (
-                                  <div className="healing-effect-details">
-                                    <div className="healing-effect-mechanics">
-                                      {effect.mechanicsText}
+                      // Early return if no effects to render - prevents empty blocks
+                      if (effects.length === 0) return null;
+
+                      return (
+                        <div className="healing-effects">
+                          <div className="healing-effects-section">
+                            <div className="healing-formula-line">
+                              <div className="healing-effects-list">
+                                {effects.map((effect, index) => (
+                                  <div key={`healing-${index}`} className="healing-effect-item">
+                                    <div className="healing-effect">
+                                      <span className="healing-effect-name">
+                                        {effect.name}
+                                      </span>
+                                      {effect.description && effect.description !== effect.name && (
+                                        <span className="healing-effect-description">
+                                          {" - "}{effect.description}
+                                        </span>
+                                      )}
                                     </div>
+                                    {effect.mechanicsText && (
+                                      <div className="healing-effect-details">
+                                        <div className="healing-effect-mechanics">
+                                          {effect.mechanicsText}
+                                        </div>
+                                      </div>
+                                    )}
                                   </div>
-                                )}
+                                ))}
                               </div>
-                            ))}
+                            </div>
                           </div>
                         </div>
-                      ) : null;
+                      );
                     })()}
-                  </div>
-                </div>
-              )}
 
 
 
@@ -7569,29 +7803,206 @@ const UnifiedSpellCard = ({
               {(() => {
                 const hasBuffType = spell?.effectTypes?.includes('buff');
                 const hasBuffConfig = spell?.buffConfig;
-                const hasAnyBuffConfiguration = hasBuffConfig && (
-                  spell.buffConfig.statModifiers?.length > 0 ||
-                  spell.buffConfig.statusEffects?.length > 0 ||
-                  spell.buffConfig.duration ||
-                  spell.buffConfig.durationType
-                );
+                const hasEffectsBuff = spell?.effects?.buff || spellProp?.effects?.buff;
+                
+                // Check for buffConfig with actual content
+                const hasStatModifiers = hasBuffConfig && Array.isArray(spell.buffConfig.statModifiers) && spell.buffConfig.statModifiers.length > 0;
+                const hasStatusEffects = hasBuffConfig && Array.isArray(spell.buffConfig.statusEffects) && spell.buffConfig.statusEffects.length > 0;
+                const hasEffectsArray = hasBuffConfig && Array.isArray(spell.buffConfig.effects) && spell.buffConfig.effects.length > 0;
+                const hasDurationOnly = hasBuffConfig && (spell.buffConfig.duration || spell.buffConfig.durationType || spell.buffConfig.durationValue) && !hasStatModifiers && !hasStatusEffects && !hasEffectsArray;
+                
+                const hasAnyBuffConfiguration = hasStatModifiers || hasStatusEffects || hasEffectsArray;
+                
+                // Check for legacy effects.buff format with actual content
+                const legacyBuff = hasEffectsBuff || spellProp?.effects?.buff;
+                const hasLegacyResistance = legacyBuff?.resistance;
+                const hasLegacyTemporaryHP = legacyBuff?.temporaryHP;
+                const hasLegacyImmunity = legacyBuff?.immunity;
+                const hasLegacyDamageRedirection = legacyBuff?.damageRedirection;
+                const hasLegacyActionPoints = legacyBuff?.actionPoints;
+                const hasLegacyAttackBonus = legacyBuff?.attackBonus;
+                const hasLegacyArmorClass = legacyBuff?.armorClass;
+                const hasLegacyStatModifiers = legacyBuff?.statModifiers && typeof legacyBuff.statModifiers === 'object' && !Array.isArray(legacyBuff.statModifiers) && Object.keys(legacyBuff.statModifiers).length > 0;
+                
+                const hasLegacyBuff = hasLegacyResistance || hasLegacyTemporaryHP || hasLegacyImmunity || 
+                                     hasLegacyDamageRedirection || hasLegacyActionPoints || hasLegacyAttackBonus ||
+                                     hasLegacyArmorClass || hasLegacyStatModifiers;
 
-                if (!hasBuffType && !hasAnyBuffConfiguration) return null;
+                // Don't render if no actual buff content exists (don't render empty sections)
+                // Only render if we have buff type OR actual buff configuration OR legacy buff data
+                if (!hasBuffType && !hasAnyBuffConfiguration && !hasLegacyBuff) return null;
 
-                return (
-                  <div className="healing-effects">
-                    <div className="healing-effects-section">
-                      {(() => {
-                        const buffData = spell?.buffConfig;
-                        if (!buffData && !hasBuffType) return null;
+                // Process buff effects first to check if we have anything to show
+                const buffData = spell?.buffConfig;
+                const legacyBuffData = spell?.effects?.buff || spellProp?.effects?.buff;
+                
+                // Early return if no buff data at all
+                if (!buffData && !hasBuffType && !legacyBuffData) return null;
 
-                        const effects = [];
+                // Pre-process effects to determine if section should render
+                const buffEffectsToRender = [];
 
-                        // Handle stat modifiers with proper formatting - consolidate into single block
-                        if (buffData?.statModifiers?.length > 0) {
-                          const statModifierTexts = [];
+                // Handle legacy effects.buff format
+                // Check both normalized spell and original prop
+                const actualLegacyBuff = legacyBuffData || spellProp?.effects?.buff;
+                if (actualLegacyBuff && (!buffData || (buffData && !buffData.statModifiers?.length && !buffData.statusEffects?.length && !buffData.effects?.length))) {
+                  // Handle resistance buffs
+                  if (actualLegacyBuff.resistance) {
+                            const resistanceType = actualLegacyBuff.resistance.type || 'all_damage';
+                            const duration = actualLegacyBuff.resistance.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                            const durationUnit = actualLegacyBuff.resistance.durationUnit || spell?.durationConfig?.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                            const durationText = `${duration} ${durationUnit}`;
+                            
+                            const resistanceName = resistanceType === 'all_damage' ? 'All Damage' :
+                                                   resistanceType === 'physical_damage' ? 'Physical Damage' :
+                                                   resistanceType.replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                            
+                            effects.push({
+                              name: 'Resistance',
+                              description: durationText,
+                              mechanicsText: `Grants resistance to ${resistanceName}`
+                            });
+                          }
+                          
+                          // Handle temporary HP
+                          if (actualLegacyBuff.temporaryHP) {
+                            const formula = actualLegacyBuff.temporaryHP.formula || '1d6';
+                            const duration = actualLegacyBuff.temporaryHP.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                            const durationUnit = actualLegacyBuff.temporaryHP.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                            const durationText = `${duration} ${durationUnit}`;
+                            
+                            effects.push({
+                              name: 'Temporary HP',
+                              description: durationText,
+                              mechanicsText: `Grants ${cleanFormula(formula)} temporary hit points`
+                            });
+                          }
+                          
+                          // Handle immunity
+                          if (actualLegacyBuff.immunity) {
+                            const immunityType = actualLegacyBuff.immunity.type || 'all_damage';
+                            const duration = actualLegacyBuff.immunity.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                            const durationUnit = actualLegacyBuff.immunity.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                            const durationText = `${duration} ${durationUnit}`;
+                            
+                            const immunityName = immunityType === 'all_damage' ? 'All Damage' :
+                                                immunityType.replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                            
+                            effects.push({
+                              name: 'Immunity',
+                              description: durationText,
+                              mechanicsText: `Grants immunity to ${immunityName}`
+                            });
+                          }
+                          
+                          // Handle action points
+                          if (actualLegacyBuff.actionPoints) {
+                            const bonus = actualLegacyBuff.actionPoints.bonus || 1;
+                            const duration = actualLegacyBuff.actionPoints.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                            const durationUnit = actualLegacyBuff.actionPoints.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                            const durationText = `${duration} ${durationUnit}`;
+                            
+                            effects.push({
+                              name: 'Action Points',
+                              description: durationText,
+                              mechanicsText: `Grants +${bonus} action point${bonus > 1 ? 's' : ''}`
+                            });
+                          }
+                          
+                  // Handle attack bonus
+                  if (actualLegacyBuff.attackBonus) {
+                    const formula = actualLegacyBuff.attackBonus.formula || '2d6';
+                    const duration = actualLegacyBuff.attackBonus.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                    const durationUnit = actualLegacyBuff.attackBonus.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                    const durationText = `${duration} ${durationUnit}`;
+                    
+                    buffEffectsToRender.push({
+                      name: 'Attack Bonus',
+                      description: durationText,
+                      mechanicsText: `Adds ${cleanFormula(formula)} to melee attacks`
+                    });
+                  }
+                  
+                  // Handle armor class buff
+                  if (actualLegacyBuff.armorClass) {
+                    const acBonus = actualLegacyBuff.armorClass;
+                    const duration = actualLegacyBuff.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                    const durationUnit = actualLegacyBuff.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                    const durationText = `${duration} ${durationUnit}`;
+                    
+                    buffEffectsToRender.push({
+                      name: 'Armor Class',
+                      description: durationText,
+                      mechanicsText: `Grants +${acBonus} AC`
+                    });
+                  }
+                  
+                  // Handle legacy statModifiers object (not array)
+                  if (actualLegacyBuff.statModifiers && typeof actualLegacyBuff.statModifiers === 'object' && !Array.isArray(actualLegacyBuff.statModifiers)) {
+                    const statEntries = Object.entries(actualLegacyBuff.statModifiers);
+                    if (statEntries.length > 0) {
+                      const statTexts = statEntries.map(([stat, value]) => {
+                        const statName = stat.charAt(0).toUpperCase() + stat.slice(1);
+                        return `+${value} ${statName}`;
+                      });
+                      const duration = actualLegacyBuff.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                      const durationUnit = actualLegacyBuff.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                      const durationText = `${duration} ${durationUnit}`;
+                      
+                      buffEffectsToRender.push({
+                        name: 'Stat Enhancement',
+                        description: durationText,
+                        mechanicsText: statTexts.join(', ')
+                      });
+                    }
+                  }
+                  
+                  // Handle damage redirection
+                  if (actualLegacyBuff.damageRedirection) {
+                    const from = actualLegacyBuff.damageRedirection.from || 'allies';
+                    const to = actualLegacyBuff.damageRedirection.to || 'self';
+                    const duration = actualLegacyBuff.damageRedirection.duration || spell?.durationConfig?.duration || spell?.duration || 1;
+                    const durationUnit = actualLegacyBuff.damageRedirection.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
+                    const durationText = `${duration} ${durationUnit}`;
+                    
+                    buffEffectsToRender.push({
+                      name: 'Damage Redirection',
+                      description: durationText,
+                      mechanicsText: `Redirects damage from ${from} to ${to}`
+                    });
+                  }
+                }
+                
+                // Handle buffConfig.effects array (string descriptions)
+                if (buffData?.effects && Array.isArray(buffData.effects) && buffData.effects.length > 0) {
+                  const duration = buffData.durationValue || buffData.duration || spell?.durationConfig?.duration || 1;
+                  const durationType = buffData.durationType || spell?.durationConfig?.durationType || 'rounds';
+                  let durationText = '';
+                  
+                  if (durationType !== 'instant') {
+                    if (durationType === 'permanent') {
+                      durationText = 'Permanent';
+                    } else if (durationType === 'rounds') {
+                      durationText = `${duration} ${duration === 1 ? 'round' : 'rounds'}`;
+                    } else if (durationType === 'minutes') {
+                      durationText = `${duration} ${duration === 1 ? 'minute' : 'minutes'}`;
+                    } else {
+                      durationText = `${duration} ${durationType}`;
+                    }
+                  }
+                  
+                  buffEffectsToRender.push({
+                    name: 'Buff Effect',
+                    description: durationText || 'Provides beneficial effects',
+                    mechanicsText: buffData.effects.join(' • ')
+                  });
+                }
 
-                          buffData.statModifiers.forEach(modifier => {
+                // Handle stat modifiers with proper formatting - consolidate into single block
+                if (buffData?.statModifiers?.length > 0) {
+                  const statModifierTexts = [];
+
+                  buffData.statModifiers.forEach(modifier => {
                             // Proper stat name mapping
                             const statMap = {
                               'strength': 'Strength',
@@ -7730,117 +8141,120 @@ const UnifiedSpellCard = ({
                               }
                             }
 
-                            effects.push({
-                              name: `Stat Enhancement`,
-                              description: durationText || 'Stat bonus',
-                              mechanicsText: mechanicsText
-                            });
-                          }
-                        }
+                  buffEffectsToRender.push({
+                    name: `Stat Enhancement`,
+                    description: durationText || 'Stat bonus',
+                    mechanicsText: mechanicsText
+                  });
+                }
+              }
 
-                        // Handle status effects with enhanced formatting
-                        if (buffData?.statusEffects?.length > 0) {
-                          buffData.statusEffects.forEach(status => {
-                            // Format status effect based on its configuration
-                            const formattedEffect = formatStatusEffectDetails(status, 'buff');
+              // Handle status effects with enhanced formatting
+              if (buffData?.statusEffects?.length > 0) {
+                buffData.statusEffects.forEach(status => {
+                  // Format status effect based on its configuration
+                  const formattedEffect = formatStatusEffectDetails(status, 'buff');
 
-                            effects.push({
-                              name: formattedEffect.name,
-                              description: formattedEffect.description,
-                              mechanicsText: formattedEffect.mechanicsText
-                            });
-                          });
-                        }
+                  buffEffectsToRender.push({
+                    name: formattedEffect.name,
+                    description: formattedEffect.description,
+                    mechanicsText: formattedEffect.mechanicsText
+                  });
+                });
+              }
 
-                        // If spell has buff effect type but no config, show a basic effect with duration if available
-                        if (hasBuffType && effects.length === 0) {
-                          let mechanicsText = 'Effect details not configured';
+              // If spell has buff effect type but no config, show a basic effect with duration if available
+              if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
+                let mechanicsText = 'Effect details not configured';
 
-                          // Add duration information if configured
-                          if (buffData) {
-                            const durationValue = buffData.durationValue || buffData.duration;
-                            let durationText = '';
+                // Add duration information if configured
+                if (buffData) {
+                  const durationValue = buffData.durationValue || buffData.duration;
+                  let durationText = '';
 
-                            if (durationValue && buffData.durationType !== 'instant') {
-                              if (buffData.durationType === 'permanent') {
-                                durationText = ' (Permanent)';
-                              } else if (buffData.durationType === 'rounds') {
-                                durationText = ` (${durationValue} ${durationValue === 1 ? 'round' : 'rounds'})`;
-                              } else if (buffData.durationType === 'turns') {
-                                durationText = ` (${durationValue} ${durationValue === 1 ? 'turn' : 'turns'})`;
-                              } else if (buffData.durationType === 'rest') {
-                                const restType = buffData.restType || 'long';
-                                durationText = ` (until ${restType} rest)`;
-                              } else if (buffData.durationType === 'minutes') {
-                                durationText = ` (${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'})`;
-                              } else if (buffData.durationType === 'hours') {
-                                durationText = ` (${durationValue} ${durationValue === 1 ? 'hour' : 'hours'})`;
-                              } else if (buffData.durationType === 'time' && durationValue) {
-                                const unit = buffData.durationUnit || 'rounds';
-                                durationText = ` (${durationValue} ${unit})`;
-                              } else if (durationValue) {
-                                durationText = ` (${durationValue} rounds)`;
-                              }
-                            }
+                  if (durationValue && buffData.durationType !== 'instant') {
+                    if (buffData.durationType === 'permanent') {
+                      durationText = ' (Permanent)';
+                    } else if (buffData.durationType === 'rounds') {
+                      durationText = ` (${durationValue} ${durationValue === 1 ? 'round' : 'rounds'})`;
+                    } else if (buffData.durationType === 'turns') {
+                      durationText = ` (${durationValue} ${durationValue === 1 ? 'turn' : 'turns'})`;
+                    } else if (buffData.durationType === 'rest') {
+                      const restType = buffData.restType || 'long';
+                      durationText = ` (until ${restType} rest)`;
+                    } else if (buffData.durationType === 'minutes') {
+                      durationText = ` (${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'})`;
+                    } else if (buffData.durationType === 'hours') {
+                      durationText = ` (${durationValue} ${durationValue === 1 ? 'hour' : 'hours'})`;
+                    } else if (buffData.durationType === 'time' && durationValue) {
+                      const unit = buffData.durationUnit || 'rounds';
+                      durationText = ` (${durationValue} ${unit})`;
+                    } else if (durationValue) {
+                      durationText = ` (${durationValue} rounds)`;
+                    }
+                  }
 
-                            // Add concentration requirement if applicable
-                            if (buffData.concentrationRequired) {
-                              durationText += ' (Concentration)';
-                            }
+                  // Add concentration requirement if applicable
+                  if (buffData.concentrationRequired) {
+                    durationText += ' (Concentration)';
+                  }
 
-                            // Add dispellable information for permanent effects
-                            if (buffData.durationType === 'permanent') {
-                              if (buffData.canBeDispelled === false) {
-                                durationText += ' (Cannot be dispelled)';
-                              } else if (buffData.canBeDispelled === true) {
-                                durationText += ' (Dispellable)';
-                              }
-                            }
+                  // Add dispellable information for permanent effects
+                  if (buffData.durationType === 'permanent') {
+                    if (buffData.canBeDispelled === false) {
+                      durationText += ' (Cannot be dispelled)';
+                    } else if (buffData.canBeDispelled === true) {
+                      durationText += ' (Dispellable)';
+                    }
+                  }
 
-                            // If we have duration info, show it instead of "not configured"
-                            if (durationText) {
-                              mechanicsText = `Duration${durationText}`;
-                            }
-                          }
+                  // If we have duration info, show it instead of "not configured"
+                  if (durationText) {
+                    mechanicsText = `Duration${durationText}`;
+                  }
+                }
 
-                          effects.push({
-                            name: 'Buff Effect',
-                            description: 'Provides beneficial effects',
-                            mechanicsText: mechanicsText
-                          });
-                        }
+                buffEffectsToRender.push({
+                  name: 'Buff Effect',
+                  description: 'Provides beneficial effects',
+                  mechanicsText: mechanicsText
+                });
+              }
+              
+              // Early return if no effects to render - prevents empty blocks
+              if (buffEffectsToRender.length === 0) return null;
 
-                        return effects.length > 0 ? (
-                          <div className="healing-formula-line">
-                            <div className="healing-effects-list">
-                              {effects.map((effect, index) => (
-                                <div key={`buff-${index}`} className="healing-effect-item">
-                                  <div className="healing-effect">
-                                    <span className="healing-effect-name">
-                                      {effect.name}
-                                    </span>
-                                    {effect.description && effect.description !== effect.name && (
-                                      <span className="healing-effect-description">
-                                        {" - "}{effect.description}
-                                      </span>
-                                    )}
-                                  </div>
-                                  {effect.mechanicsText && (
-                                    <div className="healing-effect-details">
-                                      <div className="healing-effect-mechanics">
-                                        {effect.mechanicsText}
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                              ))}
+              return (
+                <div className="healing-effects">
+                  <div className="healing-effects-section">
+                    <div className="healing-formula-line">
+                      <div className="healing-effects-list">
+                        {buffEffectsToRender.map((effect, index) => (
+                          <div key={`buff-${index}`} className="healing-effect-item">
+                            <div className="healing-effect">
+                              <span className="healing-effect-name">
+                                {effect.name}
+                              </span>
+                              {effect.description && effect.description !== effect.name && (
+                                <span className="healing-effect-description">
+                                  {" - "}{effect.description}
+                                </span>
+                              )}
                             </div>
+                            {effect.mechanicsText && (
+                              <div className="healing-effect-details">
+                                <div className="healing-effect-mechanics">
+                                  {effect.mechanicsText}
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        ) : null;
-                      })()}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                );
+                </div>
+              );
               })()}
               {/* Debuff Effects Section */}
               {(() => {
@@ -7864,6 +8278,15 @@ const UnifiedSpellCard = ({
                         if (!debuffData && !hasDebuffType) return null;
 
                         const effects = [];
+
+                        // Always show duration/save information if configured, even without stat penalties
+                        const hasDurationConfig = debuffData && (
+                          debuffData.durationType ||
+                          debuffData.durationValue ||
+                          debuffData.duration ||
+                          debuffData.savingThrow ||
+                          debuffData.difficultyClass
+                        );
 
                         // Handle stat penalties and modifiers - consolidate into single blocks
                         const allStatChanges = [];
@@ -8043,18 +8466,15 @@ const UnifiedSpellCard = ({
 
                           if (saveType && saveType !== 'none') {
                             const outcomeMap = {
-                              'negates': 'Negates',
-                              'halves_duration': 'Halves',
-                              'ends_early': 'Ends Early',
-                              'reduces_level': 'Reduces',
-                              'partial_immunity': 'Partial',
-                              'halves': 'Halves',
-                              'none': 'No Save'
+                              'negates': 'negate',
+                              'halves_effects': 'halves',
+                              'halves': 'halves',
+                              'none': 'no save'
                             };
 
                             const saveTypeName = saveType.charAt(0).toUpperCase() + saveType.slice(1);
-                            const outcomeText = outcomeMap[saveOutcome] || 'Negates';
-                            saveText = `${saveTypeName} Save DC ${saveDC}, ${outcomeText}`;
+                            const outcomeText = outcomeMap[saveOutcome] || 'negate';
+                            saveText = `${saveTypeName} DC ${saveDC} (${outcomeText})`;
                           }
 
                           // Create duration text for description line
@@ -8104,7 +8524,80 @@ const UnifiedSpellCard = ({
                           });
                         }
 
-                        // If spell has debuff effect type but no config, show a basic effect
+                        // Always show duration/save info when configured, even if no stat penalties/status effects
+                        if (hasDurationConfig && effects.length === 0) {
+                          // Build save information
+                          let saveText = '';
+                          const saveType = debuffData.savingThrow || debuffData.saveType;
+                          const saveDC = debuffData.difficultyClass || debuffData.saveDC || 15;
+                          const saveOutcome = debuffData.saveOutcome || 'negates';
+
+                          if (saveType && saveType !== 'none') {
+                            const outcomeMap = {
+                              'negates': 'negate',
+                              'halves_effects': 'halves',
+                              'halves': 'halves',
+                              'none': 'no save'
+                            };
+
+                            const saveTypeName = saveType.charAt(0).toUpperCase() + saveType.slice(1);
+                            const outcomeText = outcomeMap[saveOutcome] || 'negate';
+                            saveText = `${saveTypeName} DC ${saveDC} (${outcomeText})`;
+                          }
+
+                          // Build duration information
+                          let durationText = '';
+                          const durationValue = debuffData.durationValue || debuffData.duration;
+                          if (durationValue && debuffData.durationType !== 'instant') {
+                            if (debuffData.durationType === 'permanent') {
+                              durationText = 'Permanent';
+                            } else if (debuffData.durationType === 'rounds') {
+                              durationText = `${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`;
+                            } else if (debuffData.durationType === 'turns') {
+                              durationText = `${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`;
+                            } else if (debuffData.durationType === 'rest') {
+                              const restType = debuffData.restType || 'long';
+                              durationText = `Until ${restType} rest`;
+                            } else if (debuffData.durationType === 'minutes') {
+                              durationText = `${durationValue} ${durationValue === 1 ? 'Minute' : 'Minutes'}`;
+                            } else if (debuffData.durationType === 'hours') {
+                              durationText = `${durationValue} ${durationValue === 1 ? 'Hour' : 'Hours'}`;
+                            } else if (debuffData.durationType === 'time' && durationValue) {
+                              const unit = debuffData.durationUnit || 'rounds';
+                              durationText = `${durationValue} ${unit}`;
+                            } else if (durationValue) {
+                              durationText = `${durationValue} rounds`;
+                            }
+                          }
+
+                          // Add concentration requirement if applicable
+                          if (debuffData.concentrationRequired && durationText) {
+                            durationText += ', Concentration';
+                          }
+
+                          // Add dispellable information for permanent effects
+                          if (debuffData.durationType === 'permanent') {
+                            if (debuffData.canBeDispelled === false) {
+                              durationText += ', Cannot be dispelled';
+                            } else if (debuffData.canBeDispelled === true) {
+                              durationText += ', Dispellable';
+                            }
+                          }
+
+                          // Combine save and duration text
+                          let descriptionParts = [];
+                          if (saveText) descriptionParts.push(saveText);
+                          if (durationText) descriptionParts.push(durationText);
+                          const descriptionText = descriptionParts.length > 0 ? descriptionParts.join(' | ') : 'Provides harmful effects';
+
+                          effects.push({
+                            name: 'Debuff Effect',
+                            description: descriptionText,
+                            mechanicsText: 'Configure stat penalties or status effects below'
+                          });
+                        }
+
+                        // Fallback if spell has debuff effect type but absolutely no config
                         if (hasDebuffType && effects.length === 0) {
                           effects.push({
                             name: 'Debuff Effect',
@@ -8163,6 +8656,23 @@ const UnifiedSpellCard = ({
 
                 const utilityData = spell?.utilityConfig;
                 const effects = [];
+
+                // Legacy utility effects (effects.utility) support
+                const legacyUtility = spell?.effects?.utility || spellProp?.effects?.utility;
+                if (legacyUtility) {
+                  // Damage redirection (e.g., Intervene)
+                  if (legacyUtility.damageRedirection) {
+                    const from = legacyUtility.damageRedirection.from || 'ally';
+                    const to = legacyUtility.damageRedirection.to || 'self';
+                    const description = 'Redirect damage';
+                    const mechanicsText = `Redirects damage from ${from} to ${to}`;
+                    effects.push({
+                      name: 'Damage Redirection',
+                      description,
+                      mechanicsText
+                    });
+                  }
+                }
 
                 // Handle selected effects
                 if (utilityData?.selectedEffects?.length > 0) {
@@ -8301,7 +8811,7 @@ const UnifiedSpellCard = ({
                   });
                 }
 
-                // If spell has utility effect type but no config, show a basic effect
+                // If spell has utility effect type but no config or legacy details, show a basic effect
                 if (hasUtilityType && effects.length === 0) {
                   effects.push({
                     name: 'Utility Effect',
@@ -8476,9 +8986,6 @@ const UnifiedSpellCard = ({
                   </div>
                 );
               })()}
-
-
-
               {/* Summoning Effects Section */}
               {(() => {
                 const hasSummoningType = spell?.effectTypes?.includes('summoning');
@@ -9278,7 +9785,6 @@ const UnifiedSpellCard = ({
     </div>
   );
 };
-
 UnifiedSpellCard.propTypes = {
   spell: PropTypes.object.isRequired,
   variant: PropTypes.oneOf(['spellbook', 'library', 'collection', 'wizard', 'compact', 'preview']),

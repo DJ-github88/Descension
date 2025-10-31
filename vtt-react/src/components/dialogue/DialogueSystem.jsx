@@ -3,6 +3,7 @@ import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
 import useDialogueStore from '../../store/dialogueStore';
 import useChatStore from '../../store/chatStore';
+import useCreatureStore from '../../store/creatureStore';
 import './DialogueSystem.css';
 
 const DialogueSystem = () => {
@@ -13,6 +14,7 @@ const DialogueSystem = () => {
   const { name: currentCharacterName, lore } = useCharacterStore();
   const { isInMultiplayer, multiplayerSocket } = useGameStore();
   const { addSocialNotification } = useChatStore();
+  const creatures = useCreatureStore((state) => state.creatures);
 
   // Dialogue store
   const {
@@ -110,16 +112,83 @@ const DialogueSystem = () => {
     }
   };
 
-  // Get character portrait
+  // Get character portrait - match DialogueControls logic
   const getCharacterPortrait = (characterData) => {
+    // Check if this is a creature
+    const isCreature = characterData?.lore?.isCreature;
+    let creature = null;
+    
+    if (isCreature && characterData?.lore?.id) {
+      // Try to find the creature by ID
+      creature = creatures.find(c => c.id === characterData.lore.id);
+    }
+    
+    // If we found a creature, use its icon logic (same as DialogueControls)
+    if (creature) {
+      if (creature.customTokenImage) {
+        return {
+          backgroundImage: `url(${creature.customTokenImage})`,
+          backgroundSize: creature.imageTransformations
+            ? `${(creature.imageTransformations.scale || 1) * 100}%`
+            : 'cover',
+          backgroundPosition: creature.imageTransformations
+            ? `${50 + (creature.imageTransformations.positionX || 0) / 2}% ${50 - (creature.imageTransformations.positionY || 0) / 2}%`
+            : 'center center',
+          transform: creature.imageTransformations
+            ? `rotate(${creature.imageTransformations.rotation || 0}deg)`
+            : 'none',
+          borderColor: creature.tokenBorder || '#d4af37'
+        };
+      } else if (creature.tokenIcon) {
+        return {
+          backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          transform: 'none',
+          borderColor: creature.tokenBorder || '#d4af37'
+        };
+      }
+    }
+    
+    // Fall back to character image logic
     if (characterData?.lore?.characterIcon) {
-      return characterData.lore.characterIcon;
+      return {
+        backgroundImage: `url(${characterData.lore.characterIcon})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        transform: 'none',
+        borderColor: '#d4af37'
+      };
     }
     if (characterData?.characterImage) {
-      return characterData.characterImage;
+      return {
+        backgroundImage: `url(${characterData.characterImage})`,
+        backgroundSize: characterData?.lore?.imageTransformations
+          ? `${(characterData.lore.imageTransformations.scale || 1) * 150}%`
+          : 'cover',
+        backgroundPosition: characterData?.lore?.imageTransformations
+          ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 2}% ${50 - (characterData.lore.imageTransformations.positionY || 0) / 2}%`
+          : 'center center',
+        transform: characterData?.lore?.imageTransformations
+          ? `rotate(${characterData.lore.imageTransformations.rotation || 0}deg)`
+          : 'none',
+        borderColor: '#d4af37'
+      };
     }
     if (characterData?.lore?.characterImage) {
-      return characterData.lore.characterImage;
+      return {
+        backgroundImage: `url(${characterData.lore.characterImage})`,
+        backgroundSize: characterData.lore.imageTransformations
+          ? `${(characterData.lore.imageTransformations.scale || 1) * 150}%`
+          : 'cover',
+        backgroundPosition: characterData.lore.imageTransformations
+          ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 2}% ${50 - (characterData.lore.imageTransformations.positionY || 0) / 2}%`
+          : 'center center',
+        transform: characterData.lore.imageTransformations
+          ? `rotate(${characterData.lore.imageTransformations.rotation || 0}deg)`
+          : 'none',
+        borderColor: '#d4af37'
+      };
     }
     return null;
   };
@@ -356,16 +425,11 @@ const DialogueSystem = () => {
               <div
                 className="portrait-image"
                 style={{
-                  backgroundImage: `url(${characterPortrait})`,
-                  backgroundSize: activeDialogue.character?.lore?.imageTransformations
-                    ? `${(activeDialogue.character.lore.imageTransformations.scale || 1) * 150}%`
-                    : 'cover',
-                  backgroundPosition: activeDialogue.character?.lore?.imageTransformations
-                    ? `${50 + (activeDialogue.character.lore.imageTransformations.positionX || 0) / 2}% ${50 - (activeDialogue.character.lore.imageTransformations.positionY || 0) / 2}%`
-                    : 'center center',
-                  transform: activeDialogue.character?.lore?.imageTransformations
-                    ? `rotate(${activeDialogue.character.lore.imageTransformations.rotation || 0}deg)`
-                    : 'none'
+                  backgroundImage: characterPortrait.backgroundImage || `url(${characterPortrait})`,
+                  backgroundSize: characterPortrait.backgroundSize || 'cover',
+                  backgroundPosition: characterPortrait.backgroundPosition || 'center center',
+                  transform: characterPortrait.transform || 'none',
+                  borderColor: characterPortrait.borderColor || '#d4af37'
                 }}
               />
             ) : (

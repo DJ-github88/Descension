@@ -58,11 +58,24 @@ export const useClassSpellLibrary = () => {
     try {
       // Get class spells from generated data
       const spellsForClass = ALL_CLASS_SPELLS[className] || [];
+      
+      console.log(`🔍 Loading spells for ${className}:`, {
+        spellsInALL_CLASS_SPELLS: ALL_CLASS_SPELLS[className]?.length || 0,
+        availableClasses: Object.keys(ALL_CLASS_SPELLS),
+        spellsForClass: spellsForClass.length,
+        firstFewSpells: spellsForClass.slice(0, 3).map(s => ({ 
+          name: s.name, 
+          id: s.id, 
+          specialization: s.specialization 
+        }))
+      });
 
       // Create categories for this class
       const categories = createSpellLibraryCategoriesForClass(className);
 
-      console.log(`📚 Loaded ${spellsForClass.length} spells in ${categories.length} categories for ${className}`);
+      console.log(`📚 Loaded ${spellsForClass.length} spells in ${categories.length} categories for ${className}`, {
+        categoryIds: categories.map(c => c.id)
+      });
 
       // Organize spells into categories
       const organizedCategories = categories.map(category => {
@@ -75,9 +88,20 @@ export const useClassSpellLibrary = () => {
         }
 
         // Find spells for this specialization
-        const specializationSpells = spellsForClass.filter(spell => 
-          spell.specialization === category.id.replace(`${className.toLowerCase()}_`, '')
-        );
+        const specializationId = category.id.replace(`${className.toLowerCase()}_`, '');
+        const specializationSpells = spellsForClass.filter(spell => {
+          const matches = spell.specialization === specializationId;
+          if (!matches && spell.specialization) {
+            console.log(`🔍 Spell ${spell.name} (specialization: ${spell.specialization}) doesn't match category ${category.id} (specializationId: ${specializationId})`);
+          }
+          return matches;
+        });
+
+        console.log(`📚 Category ${category.name} (${category.id}): Found ${specializationSpells.length} spells`, {
+          specializationId,
+          spellNames: specializationSpells.map(s => s.name),
+          spellIds: specializationSpells.map(s => s.id)
+        });
 
         return {
           ...category,
@@ -87,6 +111,17 @@ export const useClassSpellLibrary = () => {
 
       setClassSpells(spellsForClass);
       setSpellCategories(organizedCategories);
+
+      // If the character doesn't know any spells yet, assign starter spells for this class
+      try {
+        const store = require('../store/characterStore').default;
+        const assigned = await store.getState().ensureClassStarterSpells(className);
+        if (assigned) {
+          console.log(`✨ Assigned starter spells for ${className}`);
+        }
+      } catch (e) {
+        console.warn('Could not ensure starter spells:', e);
+      }
     } catch (err) {
       console.error('Error loading class spells:', err);
       setError(`Failed to load spells for ${className}`);
@@ -131,7 +166,8 @@ export const useClassSpellLibrary = () => {
 
   /**
    * Get all spells (class + custom) as a flat array
-   * Filters to only show spells the character knows
+   * Returns only known spells if the character has learned any
+   * Otherwise returns empty array (spellbook should only show learned spells)
    */
   const getAllSpells = useCallback(() => {
     const allSpells = [];
@@ -146,31 +182,40 @@ export const useClassSpellLibrary = () => {
       allSpellIds: allSpells.map(s => s.id)
     });
 
-    // Filter to only show known spells
+    // Filter to only show spells the character has learned
+    // The spellbook should only display spells the character knows
     if (knownSpells.length > 0) {
       const filtered = allSpells.filter(spell => knownSpells.includes(spell.id));
-      console.log('📚 Filtered to known spells:', filtered.length, filtered.map(s => s.id));
+      console.log('📚 Filtered to known spells for spellbook:', {
+        filteredCount: filtered.length,
+        filteredSpells: filtered.map(s => ({ id: s.id, name: s.name })),
+        knownSpellIds: knownSpells,
+        allSpellIds: allSpells.map(s => s.id),
+        missingSpells: knownSpells.filter(id => !allSpells.some(s => s.id === id))
+      });
       return filtered;
     }
 
-    console.log('📚 No known spells, returning empty array');
-    return []; // Return empty array if no known spells
+    // If no known spells, return empty array (character hasn't learned any spells yet)
+    console.log('📚 No known spells, returning empty array for spellbook');
+    return [];
   }, [spellCategories, knownSpells]);
 
   /**
    * Get spells by category
-   * Filters to only show spells the character knows
+   * Returns only known spells in the category (spellbook should only show learned spells)
    */
   const getSpellsByCategory = useCallback((categoryId) => {
     const category = spellCategories.find(cat => cat.id === categoryId);
     const categorySpells = category ? category.spells : [];
 
-    // Filter to only show known spells
+    // Filter to only show spells the character has learned
     if (knownSpells.length > 0) {
       return categorySpells.filter(spell => knownSpells.includes(spell.id));
     }
 
-    return categorySpells;
+    // If no known spells, return empty array
+    return [];
   }, [spellCategories, knownSpells]);
 
   /**

@@ -215,6 +215,39 @@ const AppContent = ({ hideHeader = false }) => {
   // Handle save spell to library
   const handleSaveSpell = () => {
     try {
+      // Extract damage types properly - same logic as Step10Review
+      const extractedDamageTypes = [];
+      if (wizardState.typeConfig?.school) {
+        extractedDamageTypes.push(wizardState.typeConfig.school);
+      }
+      if (wizardState.typeConfig?.secondaryElement) {
+        extractedDamageTypes.push(wizardState.typeConfig.secondaryElement);
+      }
+      if (extractedDamageTypes.length === 0 && wizardState.damageConfig?.damageType) {
+        if (wizardState.damageConfig.elementType) {
+          extractedDamageTypes.push(wizardState.damageConfig.elementType);
+        }
+      }
+      
+      // Ensure targetingConfig has all required fields, including aoeType
+      const fullTargetingConfig = {
+        ...wizardState.targetingConfig,
+        aoeType: wizardState.targetingConfig?.aoeType || wizardState.targetingConfig?.aoeShape || 'sphere',
+        targetingType: wizardState.targetingConfig?.targetingType || 'single',
+        rangeType: wizardState.targetingConfig?.rangeType || 'ranged',
+        rangeDistance: wizardState.targetingConfig?.rangeDistance || 30,
+        aoeShape: wizardState.targetingConfig?.aoeShape || 'circle',
+        aoeParameters: wizardState.targetingConfig?.aoeParameters || {},
+        targetRestrictions: wizardState.targetingConfig?.targetRestrictions || 
+                          (wizardState.targetingConfig?.targetRestriction ? [wizardState.targetingConfig.targetRestriction] : ['any']),
+        maxTargets: wizardState.targetingConfig?.maxTargets || 1,
+        selectionMethod: wizardState.targetingConfig?.selectionMethod || 
+                        wizardState.targetingConfig?.targetSelectionMethod || 'manual',
+        targetSelectionMethod: wizardState.targetingConfig?.targetSelectionMethod || 
+                              wizardState.targetingConfig?.selectionMethod || 'manual',
+        movementBehavior: wizardState.targetingConfig?.movementBehavior || 'static'
+      };
+      
       // Create a serialized version of the spell
       const spellData = {
         ...wizardState,
@@ -222,21 +255,21 @@ const AppContent = ({ hideHeader = false }) => {
         lastSaved: new Date().toISOString(),
         // Ensure we have all the necessary properties for the spell card
         icon: wizardState.icon || 'inv_misc_questionmark',
+        spellType: wizardState.spellType || 'ACTION',
+        typeConfig: wizardState.typeConfig || {},
         effectType: wizardState.effectTypes && wizardState.effectTypes.length > 0 ? wizardState.effectTypes[0] : 'utility',
         effectTypes: wizardState.effectTypes || [],
-        damageTypes: wizardState.damageTypes || [],
+        // Use properly extracted damage types
+        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
+                    (wizardState.damageTypes || 
+                    (wizardState.damageConfig?.elementType ? [wizardState.damageConfig.elementType] : ['force'])),
         tags: [
           ...(wizardState.typeConfig?.tags || []),
           ...(wizardState.effectTypes || []),
           ...(wizardState.tags || [])
         ].filter(Boolean),
-        // Ensure targeting configuration is included
-        targetingConfig: wizardState.targetingConfig || {
-          targetType: 'single',
-          range: 30,
-          areaType: 'sphere',
-          areaSize: 10
-        },
+        // Ensure targeting configuration is included with ALL fields
+        targetingConfig: fullTargetingConfig,
         // Ensure resource configuration is included
         resourceCost: wizardState.resourceCost || {
           mana: 0,
@@ -249,7 +282,18 @@ const AppContent = ({ hideHeader = false }) => {
         cooldownConfig: wizardState.cooldownConfig || {
           cooldown: 0,
           charges: 1
-        }
+        },
+        // CRITICAL: Ensure ALL effect configurations are saved with full properties
+        damageConfig: wizardState.damageConfig || null,
+        healingConfig: wizardState.healingConfig || null,
+        buffConfig: wizardState.buffConfig || null,
+        debuffConfig: wizardState.debuffConfig || null,
+        utilityConfig: wizardState.utilityConfig || null,
+        controlConfig: wizardState.controlConfig || null,
+        summoningConfig: wizardState.summoningConfig || null,
+        transformationConfig: wizardState.transformationConfig || null,
+        purificationConfig: wizardState.purificationConfig || null,
+        restorationConfig: wizardState.restorationConfig || null
       };
 
       // Transform Inferno Veil resources to specialMechanics
@@ -303,6 +347,27 @@ const AppContent = ({ hideHeader = false }) => {
         spellData.timeShardCost = resourceValues.time_shards_cost;
         spellData.temporalStrainGain = resourceValues.temporal_strain_gain;
         spellData.temporalStrainReduce = resourceValues.temporal_strain_reduce;
+      }
+
+      // Transform Devotion Level resources to specialMechanics (Martyr)
+      if (resourceValues.devotion_required !== undefined ||
+          resourceValues.devotion_cost !== undefined ||
+          resourceValues.devotion_gain !== undefined) {
+
+        spellData.specialMechanics = {
+          ...spellData.specialMechanics,
+          devotionLevel: {
+            required: resourceValues.devotion_required || 0,
+            cost: resourceValues.devotion_cost || 0,
+            amplifiedCost: resourceValues.devotion_cost || 0, // Alias for compatibility
+            gain: resourceValues.devotion_gain || 0
+          }
+        };
+
+        // Also add flat properties for spell card display
+        spellData.devotionRequired = resourceValues.devotion_required;
+        spellData.devotionCost = resourceValues.devotion_cost;
+        spellData.devotionGain = resourceValues.devotion_gain;
       }
 
       if (editMode && editingSpellId) {

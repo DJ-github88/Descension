@@ -168,11 +168,25 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
       case 'debuff':
         dispatch(actionCreators.updateDebuffConfig({
           debuffType: 'statReduction',
-          duration: 3,
-          stacks: 1,
+          duration: 3, // Legacy field
+          durationValue: 3,
+          durationType: 'rounds',
+          durationUnit: 'rounds',
+          restType: 'short',
+          canBeDispelled: true,
+          concentrationRequired: false,
+          stackingRule: 'replace',
           maxStacks: 1,
-          saveType: 'constitution',
-          dispelDifficulty: 'normal',
+          magnitude: 2,
+          magnitudeType: 'flat',
+          statPenalties: [],
+          statusEffects: [],
+          isProgressive: false,
+          progressiveStages: [],
+          // Saving throw configuration
+          difficultyClass: 15,
+          savingThrow: 'constitution',
+          saveOutcome: 'negates',
           effects: []
         }));
         break;

@@ -864,13 +864,7 @@ For thematic immersion, some players use a small hourglass or sand timer:
             magnitudeType: 'flat'
           }
         ],
-        statusEffects: [
-          {
-            id: 'temporal_aging',
-            name: 'Temporal Aging',
-            description: 'Movement speed reduced by 10 feet'
-          }
-        ]
+        // Removed duplicate "Temporal Aging" status effect entry; represented by Speed -10 above
       },
 
       effectTypes: ['damage', 'debuff'],
@@ -1252,7 +1246,7 @@ For thematic immersion, some players use a small hourglass or sand timer:
     {
       id: 'temporal_acceleration',
       name: 'Temporal Acceleration',
-      description: 'Speed up time for an ally, granting them an extra action this turn.',
+      description: 'Speed up time for an ally, restoring 1 Action Point immediately.',
       spellType: 'ACTION',
       icon: 'spell_nature_timestop',
       school: 'Transmutation',
@@ -1282,20 +1276,14 @@ For thematic immersion, some players use a small hourglass or sand timer:
 
       resolution: 'NONE',
 
-      buffConfig: {
-        effects: [
-          'Target gains 1 additional Action Point this turn'
-        ]
+      // Render as restoration block (AP refund)
+      restorationConfig: {
+        resourceType: 'action_points',
+        formula: '1',
+        duration: 'instant'
       },
 
-      effectTypes: ['buff'],
-
-      effects: {
-        buff: {
-          instant: true,
-          actionPoints: 1
-        }
-      },
+      effectTypes: ['restoration'],
 
       specialMechanics: {
         timeShards: {
@@ -1309,7 +1297,7 @@ For thematic immersion, some players use a small hourglass or sand timer:
     {
       id: 'reverse_time_flux',
       name: 'Reverse Time',
-      description: 'TEMPORAL FLUX ABILITY: Reverse time for an ally, healing them and removing all debuffs. Costs 4 Time Shards and adds 3 Temporal Strain.',
+      description: 'TEMPORAL FLUX ABILITY: Reverse time for an ally, restoring health and cleansing harmful effects.',
       spellType: 'ACTION',
       icon: 'spell_holy_renew',
       school: 'Transmutation',
@@ -1337,28 +1325,21 @@ For thematic immersion, some players use a small hourglass or sand timer:
         somaticText: 'Turn timepiece backwards rapidly'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
 
-      healingConfig: {
+      // Structured restoration + cleanse summary
+      restorationConfig: {
+        resourceType: 'health',
         formula: '2d8',
-        healingType: 'single',
-        description: 'Restore health and remove all debuffs'
+        duration: 'instant'
       },
 
-      effectTypes: ['healing', 'utility'],
-
-      effects: {
-        healing: {
-          instant: {
-            formula: '2d8',
-            target: 'single'
-          }
-        },
-        cleanse: {
-          removeConditions: 'all',
-          conditionTypes: ['debuff', 'dot', 'curse']
-        }
+      purificationConfig: {
+        removesConditions: ['debuff', 'curse', 'poison', 'disease'],
+        alsoRemovesDamageOverTime: true
       },
+
+      effectTypes: ['restoration', 'utility'],
 
       specialMechanics: {
         temporalFlux: {
@@ -1836,7 +1817,7 @@ For thematic immersion, some players use a small hourglass or sand timer:
     {
       id: 'time_warp_flux',
       name: 'Time Warp',
-      description: 'TEMPORAL FLUX ABILITY: Speed up an ally\'s perception of time, allowing them to act twice in one turn. Costs 2 Time Shards and adds 1 Temporal Strain.',
+      description: 'TEMPORAL FLUX ABILITY: Accelerate a willing ally, restoring 1 Action Point immediately.',
       spellType: 'ACTION',
       icon: 'spell_nature_timestop',
       school: 'Transmutation',
@@ -1867,19 +1848,19 @@ For thematic immersion, some players use a small hourglass or sand timer:
 
       resolution: 'NONE',
 
-      buffConfig: {
-        effects: [
-          'Target can take two full actions this turn',
-          'Does not grant additional movement or action points'
-        ]
+      // Use restoration block for AP refund
+      restorationConfig: {
+        resourceType: 'action_points',
+        formula: '1',
+        duration: 'instant'
       },
 
-      effectTypes: ['buff'],
+      effectTypes: ['restoration'],
 
       effects: {
         buff: {
-          duration: 'instant',
-          actionEconomy: 'double_action'
+          instant: true,
+          actionPoints: 1
         }
       },
 

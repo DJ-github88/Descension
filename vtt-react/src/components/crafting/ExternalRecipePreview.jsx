@@ -83,10 +83,35 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
 
   const getCraftingTimeText = (milliseconds) => {
     const seconds = milliseconds / 1000;
-    if (seconds < 60) return `${seconds} sec`;
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return remainingSeconds > 0 ? `${minutes}m ${remainingSeconds}s` : `${minutes}m`;
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    
+    if (days > 0) {
+      const remainingHours = hours % 24;
+      if (remainingHours > 0) {
+        return `${days}d ${remainingHours}h`;
+      }
+      return `${days}d`;
+    }
+    
+    if (hours > 0) {
+      const remainingMinutes = minutes % 60;
+      if (remainingMinutes > 0) {
+        return `${hours}h ${remainingMinutes}m`;
+      }
+      return `${hours}h`;
+    }
+    
+    if (minutes > 0) {
+      const remainingSeconds = Math.floor(seconds % 60);
+      if (remainingSeconds > 0) {
+        return `${minutes}m ${remainingSeconds}s`;
+      }
+      return `${minutes}m`;
+    }
+    
+    return `${Math.floor(seconds)} sec`;
   };
 
   // Get data for the tooltip
@@ -126,13 +151,15 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
           Miscellaneous        Recipe
         </div>
 
-        {/* Thematic Line 1 */}
+        {/* Thematic Line 1 - only show if result item is selected */}
+        {resultItem && (
         <div style={{ color: '#00ff00', fontSize: '12px', marginBottom: '4px', fontStyle: 'italic' }}>
           Use: Teaches you how to make{' '}
-          <span style={{ color: getQualityColor(resultItem?.quality), fontWeight: 'bold' }}>
-            {resultItem?.name || 'Unknown Item'}
+          <span style={{ color: getQualityColor(resultItem.quality), fontWeight: 'bold' }}>
+            {resultItem.name}
           </span>.
         </div>
+        )}
 
         {/* Sell Price */}
         <div style={{ color: '#ffffff', fontSize: '12px', marginBottom: '8px' }}>
@@ -140,22 +167,27 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
         </div>
 
         {/* Thematic Line 2 */}
+        {resultItem && (
         <div style={{ color: '#ffd100', fontSize: '12px', marginBottom: '8px', fontStyle: 'italic' }}>
           ────────────────────────────
         </div>
+        )}
 
+        {/* Result Item Section - only show if item is selected */}
+        {resultItem && (
+        <>
         {/* Result Item Name */}
         <div style={{
-          color: getQualityColor(resultItem?.quality),
+          color: getQualityColor(resultItem.quality),
           fontSize: '14px',
           fontWeight: 'bold',
           marginBottom: '4px'
         }}>
-          {resultItem?.name || 'Unknown Item'}
+          {resultItem.name}
         </div>
 
         {/* Item Type/Slot - Match ItemTooltip format exactly */}
-        {resultItem?.type === 'weapon' ? (
+        {resultItem.type === 'weapon' ? (
           <div style={{
             color: '#ffffff',
             marginBottom: '4px',
@@ -298,14 +330,20 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
         )}
 
         {/* Sell Price */}
+        {resultItem && (
         <div style={{ color: '#ffffff', fontSize: '12px', marginBottom: '8px' }}>
-          Sell Price: {formatCurrency(resultItem?.value || { silver: 50 })}
+          Sell Price: {formatCurrency(resultItem.value || { silver: 50 })}
         </div>
+        )}
 
         {/* Thematic Line 3 */}
+        {resultItem && (
         <div style={{ color: '#ffd100', fontSize: '12px', marginBottom: '8px', fontStyle: 'italic' }}>
           ────────────────────────────
         </div>
+        )}
+        </>
+        )}
 
         {/* Required Materials */}
         <div style={{
@@ -339,13 +377,28 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
           ────────────────────────────
         </div>
 
+        {/* Crafting Time */}
+        {recipeData.craftingTime && recipeData.craftingTime > 0 && (
+          <div style={{ color: '#00ff00', fontSize: '12px', marginBottom: '4px' }}>
+            <span style={{ fontWeight: 'bold' }}>Crafting Time:</span> {getCraftingTimeText(recipeData.craftingTime)}
+          </div>
+        )}
+
+        {/* Experience Gained */}
+        {recipeData.experienceGained && recipeData.experienceGained > 0 && (
+          <div style={{ color: '#00ff00', fontSize: '12px', marginBottom: '4px' }}>
+            <span style={{ fontWeight: 'bold' }}>Experience Gained:</span> {recipeData.experienceGained} XP
+          </div>
+        )}
+
         {/* Description */}
         <div style={{
           color: '#ffd100',
           fontSize: '12px',
-          fontStyle: 'italic'
+          fontStyle: 'italic',
+          marginTop: '4px'
         }}>
-          {recipeData.description || `A scroll containing the formula for brewing ${resultItem?.name || 'Unknown Item'}. Right-click to learn.`}
+          {recipeData.description || (resultItem ? `A scroll containing the formula for brewing ${resultItem.name}. Right-click to learn.` : 'A recipe scroll. Right-click to learn.')}
         </div>
       </div>
     </div>,

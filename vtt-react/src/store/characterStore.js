@@ -38,21 +38,9 @@ const getCurrentUserId = () => {
         const authStore = require('./authStore').default;
         const state = authStore.getState();
 
-        console.log('🔍 Auth Debug Info:', {
-            hasUser: !!state.user,
-            userId: state.user?.uid || 'none',
-            isAuthenticated: state.isAuthenticated,
-            isDevelopmentBypass: state.isDevelopmentBypass,
-            isGuest: state.user?.isGuest || false,
-            userEmail: state.user?.email || 'none',
-            hostname: window.location.hostname,
-            nodeEnv: process.env.NODE_ENV
-        });
-
         // In development mode, always return a user ID to prevent Firebase permission issues
         if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
             const devUserId = state.user?.uid || 'dev-user-localhost';
-            console.log(`🔧 Development mode: Using user ID: ${devUserId}`);
             return devUserId;
         }
 
@@ -61,7 +49,6 @@ const getCurrentUserId = () => {
         console.warn('Could not get current user ID:', error);
         // In development, provide a fallback user ID
         if (process.env.NODE_ENV === 'development') {
-            console.log('🔧 Development fallback: Using dev-user-fallback');
             return 'dev-user-fallback';
         }
         return null;
@@ -88,7 +75,6 @@ const getCharactersStorageKey = () => {
 const shouldUseFirebase = () => {
     // In development on localhost, disable Firebase to avoid permission issues
     if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
-        console.log('🔧 Development mode detected - using localStorage only');
         return false;
     }
 
@@ -96,7 +82,6 @@ const shouldUseFirebase = () => {
     try {
         const { isDemoMode } = require('../config/firebase');
         if (isDemoMode) {
-            console.log('🔧 Demo mode detected - using localStorage only');
             return false;
         }
     } catch (error) {
@@ -494,7 +479,6 @@ const useCharacterStore = create((set, get) => ({
             // Send equipment update to multiplayer if connected
             const gameStore = useGameStore.getState();
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                console.log('📦 Sending equipment update to multiplayer server');
                 gameStore.multiplayerSocket.emit('character_equipment_updated', {
                     characterId: state.id || 'player-character',
                     slot: slot,
@@ -736,6 +720,68 @@ const useCharacterStore = create((set, get) => ({
         set(state => {
             const newState = { [field]: value };
 
+            // If level is being changed, handle level-up/down logic
+            if (field === 'level') {
+                const oldLevel = state.level || 1;
+                const newLevel = Math.max(1, Math.min(20, parseInt(value) || 1));
+                
+                // If no actual change, just return
+                if (newLevel === oldLevel) {
+                    return newState;
+                }
+
+                // Record character change for persistence
+                if (state.currentCharacterId && newLevel !== oldLevel) {
+                    get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                        stat: 'level',
+                        value: newLevel,
+                        previousValue: oldLevel,
+                        timestamp: new Date()
+                    });
+                }
+
+                // If leveling down, reverse bonuses from lost levels
+                if (newLevel < oldLevel) {
+                    // Reverse bonuses for each level being lost (in descending order)
+                    for (let level = oldLevel; level > newLevel; level--) {
+                        get().reverseLevelUpBonus(level);
+                    }
+                    
+                    // Update XP to match new level
+                    const { getXPForLevel } = require('../utils/experienceUtils');
+                    const newXP = getXPForLevel(newLevel);
+                    newState.experience = newXP;
+                }
+                // If leveling up, check if we need to show level-up modal
+                else if (newLevel > oldLevel) {
+                    // Find the first level that doesn't have a history entry
+                    const levelUpHistory = state.levelUpHistory || {};
+                    let levelToPrompt = null;
+                    
+                    // Check each level from oldLevel+1 to newLevel
+                    for (let level = oldLevel + 1; level <= newLevel; level++) {
+                        if (!levelUpHistory[level]) {
+                            levelToPrompt = level;
+                            break;
+                        }
+                    }
+                    
+                    // If we found a level that needs a choice, show the modal
+                    if (levelToPrompt) {
+                        newState.showLevelUpModal = true;
+                        newState.pendingLevelUpInfo = {
+                            newLevel: levelToPrompt,
+                            oldLevel: levelToPrompt - 1
+                        };
+                    }
+                    
+                    // Update XP to match new level
+                    const { getXPForLevel } = require('../utils/experienceUtils');
+                    const newXP = getXPForLevel(newLevel);
+                    newState.experience = newXP;
+                }
+            }
+
             // If name is being changed, update baseName and keep name clean
             if (field === 'name') {
                 // Extract base name by removing any existing room formatting
@@ -780,7 +826,7 @@ const useCharacterStore = create((set, get) => ({
                 }
 
                 // Auto-assign starting spells for spell-casting classes
-                const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch'];
+                const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Chaos Weaver', 'Fate Weaver'];
                 const previousClass = state.class;
 
                 // Check if we're switching TO a spell-casting class
@@ -799,6 +845,15 @@ const useCharacterStore = create((set, get) => ({
                     } else if (value === 'Chronarch') {
                         const { CHRONARCH_DATA } = require('../data/classes/chronarchData');
                         classData = CHRONARCH_DATA;
+                    } else if (value === 'Martyr') {
+                        const { MARTYR_DATA } = require('../data/classes/martyrData');
+                        classData = MARTYR_DATA;
+                    } else if (value === 'Chaos Weaver') {
+                        const { CHAOS_WEAVER_DATA } = require('../data/classes/chaosWeaverData');
+                        classData = CHAOS_WEAVER_DATA;
+                    } else if (value === 'Fate Weaver') {
+                        const { FATE_WEAVER_DATA } = require('../data/classes/fateWeaverData');
+                        classData = FATE_WEAVER_DATA;
                     }
 
                     if (classData && classData.spellPools && classData.spellPools[1]) {
@@ -818,7 +873,6 @@ const useCharacterStore = create((set, get) => ({
                                 known_spells: selectedSpells
                             };
 
-                            console.log(`🎓 Auto-assigned 3 random starting spells for ${value}:`, selectedSpells);
                         }
                     }
                 }
@@ -1255,18 +1309,10 @@ const useCharacterStore = create((set, get) => ({
         try {
             const userId = getCurrentUserId();
             const useFirebase = shouldUseFirebase();
-            console.log('🔄 Loading characters...', {
-                userId: userId || 'none',
-                useFirebase,
-                hostname: window.location.hostname
-            });
 
             if (userId && useFirebase) {
-                console.log('👤 User authenticated, attempting Firebase load...');
                 // Skip migration in development mode to avoid Firebase permission issues
                 if (process.env.NODE_ENV !== 'development' && characterMigrationService.isMigrationNeeded()) {
-                    console.log('🔄 Character migration needed, starting migration...');
-
                     try {
                         // Create backup before migration
                         characterMigrationService.createBackup();
@@ -1274,22 +1320,17 @@ const useCharacterStore = create((set, get) => ({
                         // Perform migration
                         const migrationResult = await characterMigrationService.migrateAllCharacters(userId);
 
-                        if (migrationResult.success) {
-                            console.log(`✅ Migration completed: ${migrationResult.migrated} characters migrated`);
-                        } else {
-                            console.warn(`⚠️ Migration completed with errors: ${migrationResult.failed} failed`);
+                        if (!migrationResult.success) {
+                            console.warn(`Migration completed with errors: ${migrationResult.failed} failed`);
                         }
                     } catch (migrationError) {
                         console.error('Migration failed:', migrationError);
                         // Continue loading even if migration fails
                     }
-                } else if (process.env.NODE_ENV === 'development') {
-                    console.log('🔧 Skipping migration in development mode');
                 }
 
                 // Load from Firebase if user is authenticated
                 try {
-                    console.log('🔥 Attempting to load characters from Firebase...');
                     const characters = await characterPersistenceService.loadUserCharacters(userId);
 
                     // Compute missing display names for loaded characters
@@ -1324,15 +1365,12 @@ const useCharacterStore = create((set, get) => ({
                     });
 
                     set({ characters: enrichedCharacters, isLoading: false });
-                    console.log(`✅ Loaded ${enrichedCharacters.length} characters from Firebase`);
                     return enrichedCharacters;
                 } catch (firebaseError) {
-                    console.error('❌ Error loading user characters:', firebaseError);
+                    console.error('Error loading user characters:', firebaseError);
                     console.warn('Failed to load from Firebase, falling back to localStorage:', firebaseError);
                     // Fall back to localStorage if Firebase fails
                 }
-            } else {
-                console.log('👤 Using localStorage only (development mode or no auth)');
             }
 
             // Fallback to localStorage (for offline mode, guest users, or when Firebase fails)
@@ -1341,15 +1379,14 @@ const useCharacterStore = create((set, get) => ({
                 const storageKey = getCharactersStorageKey();
                 const savedCharacters = localStorage.getItem(storageKey);
                 characters = savedCharacters ? JSON.parse(savedCharacters) : [];
-                console.log(`✅ Loaded ${characters.length} characters from localStorage (${storageKey})`);
             } catch (localStorageError) {
-                console.error('❌ Error loading from localStorage:', localStorageError);
+                console.error('Error loading from localStorage:', localStorageError);
                 characters = [];
             }
 
             // Ensure characters array is valid
             if (!Array.isArray(characters)) {
-                console.warn('⚠️ Characters data is not an array, resetting to empty array');
+                console.warn('Characters data is not an array, resetting to empty array');
                 characters = [];
             }
 
@@ -1391,15 +1428,13 @@ const useCharacterStore = create((set, get) => ({
             if (activeCharacterId && characters.length > 0) {
                 const activeCharacter = characters.find(char => char.id === activeCharacterId);
                 if (activeCharacter) {
-                    console.log(`🔄 Recalculating resources for active character: ${activeCharacter.name}`);
                     get().loadCharacter(activeCharacterId);
                 }
             }
 
-            console.log(`📋 Final character count: ${characters.length}`);
             return characters;
         } catch (error) {
-            console.error('❌ Critical error loading characters:', error);
+            console.error('Critical error loading characters:', error);
             set({ error: 'Failed to load characters', isLoading: false, characters: [] });
             return [];
         }
@@ -1409,10 +1444,6 @@ const useCharacterStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const userId = getCurrentUserId();
-            console.log('🔄 Creating character...', {
-                characterName: characterData.name,
-                userId: userId || 'none'
-            });
 
             // Prepare character data with proper structure
             const newCharacter = {
@@ -1446,17 +1477,13 @@ const useCharacterStore = create((set, get) => ({
             if (userId && useFirebase) {
                 // Save to Firebase if user is authenticated and Firebase is enabled
                 try {
-                    console.log('🔥 Attempting to create character in Firebase...');
                     const characterId = await characterPersistenceService.createCharacter(newCharacter, userId);
                     newCharacter.id = characterId;
-                    console.log(`✅ Character created in Firebase: ${newCharacter.name} (${characterId})`);
                 } catch (firebaseError) {
-                    console.error('❌ Error creating character:', firebaseError);
+                    console.error('Error creating character:', firebaseError);
                     console.warn('Failed to save to Firebase, saving locally:', firebaseError);
                     // Continue with local save if Firebase fails
                 }
-            } else {
-                console.log('👤 Saving character locally only (development mode or no auth)');
             }
 
             const state = get();
@@ -1506,7 +1533,6 @@ const useCharacterStore = create((set, get) => ({
                 // Save to Firebase if user is authenticated
                 try {
                     await characterPersistenceService.saveCharacter(updatedCharacter, userId);
-                    console.log(`✅ Character updated in Firebase: ${updatedCharacter.name} (${characterId})`);
                 } catch (firebaseError) {
                     console.warn('Failed to save to Firebase, saving locally:', firebaseError);
                     // Continue with local save if Firebase fails
@@ -1544,7 +1570,6 @@ const useCharacterStore = create((set, get) => ({
                 // Delete from Firebase if user is authenticated
                 try {
                     await characterPersistenceService.deleteCharacter(characterId, userId);
-                    console.log(`✅ Character deleted from Firebase: ${characterId}`);
                 } catch (firebaseError) {
                     console.warn('Failed to delete from Firebase, deleting locally:', firebaseError);
                     // Continue with local delete if Firebase fails
@@ -1630,7 +1655,6 @@ const useCharacterStore = create((set, get) => ({
                 const inventoryStore = require('./inventoryStore').default;
                 const inventoryState = inventoryStore.getState();
 
-                console.log(`📦 Loading inventory for character: ${character.name}`);
 
                 // Clear current inventory
                 inventoryState.clearInventory();
@@ -1640,16 +1664,14 @@ const useCharacterStore = create((set, get) => ({
                     character.inventory.items.forEach(item => {
                         inventoryState.addItem(item);
                     });
-                    console.log(`✅ Loaded ${character.inventory.items.length} items into inventory`);
                 }
 
                 // Load character's currency
                 if (character.inventory?.currency) {
                     inventoryState.updateCurrency(character.inventory.currency);
-                    console.log(`💰 Loaded currency:`, character.inventory.currency);
                 }
             } catch (error) {
-                console.error('❌ Error loading character inventory:', error);
+                console.error('Error loading character inventory:', error);
             }
 
             // Recalculate derived stats
@@ -1658,18 +1680,6 @@ const useCharacterStore = create((set, get) => ({
             // Force recalculation of HP/MP based on current stats
             get().recalculateResources();
 
-            // Debug logging for character loading
-            if (character.name === 'YAD') {
-                const state = get();
-                console.log('🔍 Character store after loading:', {
-                    characterName: character.name,
-                    constitution: state.stats?.constitution,
-                    intelligence: state.stats?.intelligence,
-                    finalHealth: state.health,
-                    finalMana: state.mana,
-                    derivedStats: state.derivedStats
-                });
-            }
 
             return character;
         }
@@ -1688,8 +1698,6 @@ const useCharacterStore = create((set, get) => ({
 
             // Persist active character selection
             localStorage.setItem('mythrill-active-character', characterId);
-
-            console.log(`✅ Active character set to: ${character.name} (${characterId})`);
 
             // Update party member if in a party
             try {
@@ -1738,7 +1746,6 @@ const useCharacterStore = create((set, get) => ({
                                 backgroundDisplayName: backgroundDisplayName
                             }
                         });
-                        console.log(`✅ Updated party member name to: ${character.name}`);
                     }
                 }
             } catch (error) {
@@ -1759,7 +1766,6 @@ const useCharacterStore = create((set, get) => ({
                         race: character.race,
                         subrace: character.subrace
                     });
-                    console.log(`✅ Updated presence data for: ${character.name}`);
                 }
             } catch (error) {
                 console.warn('Could not update presence data:', error);
@@ -1767,7 +1773,7 @@ const useCharacterStore = create((set, get) => ({
 
             return character;
         } else {
-            console.error(`❌ Character not found: ${characterId}`);
+            console.error(`Character not found: ${characterId}`);
             return null;
         }
     },
@@ -1822,18 +1828,6 @@ const useCharacterStore = create((set, get) => ({
             max: newMaxMana
         };
 
-        // Debug logging for resource recalculation
-        if (state.name === 'YAD') {
-            console.log('🔄 Recalculating resources for YAD:', {
-                constitution: totalStats.constitution,
-                intelligence: totalStats.intelligence,
-                oldHealth: state.health,
-                oldMana: state.mana,
-                newHealth,
-                newMana,
-                derivedStats
-            });
-        }
 
         set({
             equipmentBonuses,
@@ -1847,24 +1841,13 @@ const useCharacterStore = create((set, get) => ({
     getActiveCharacter: () => {
         const state = get();
 
-        // Only log in development mode and throttle the logging
-        if (process.env.NODE_ENV === 'development') {
-            const now = Date.now();
-            if (!state._lastActiveCharacterLog || now - state._lastActiveCharacterLog > 5000) {
-                console.log('🔍 Getting active character...', {
-                    currentCharacterId: state.currentCharacterId,
-                    charactersCount: state.characters.length
-                });
-                set({ _lastActiveCharacterLog: now });
-            }
-        }
 
         if (state.currentCharacterId) {
             const character = state.characters.find(char => char.id === state.currentCharacterId);
             if (character) {
                 return character;
             } else {
-                console.warn(`⚠️ Active character ID ${state.currentCharacterId} not found in characters array`);
+                console.warn(`Active character ID ${state.currentCharacterId} not found in characters array`);
                 // Clear invalid active character ID
                 localStorage.removeItem('mythrill-active-character');
                 set({ currentCharacterId: null });
@@ -1876,36 +1859,25 @@ const useCharacterStore = create((set, get) => ({
     // Load active character from localStorage on app initialization
     loadActiveCharacter: async () => {
         try {
-            console.log('🔄 Starting active character loading process...');
-
             // First ensure characters are loaded
             const characters = await get().loadCharacters();
-            console.log(`📋 Characters loaded: ${characters.length} found`);
 
             // Then check for active character
             const activeCharacterId = localStorage.getItem('mythrill-active-character');
-            console.log(`🔍 Checking for stored active character: ${activeCharacterId || 'none'}`);
 
             if (activeCharacterId) {
                 const character = await get().setActiveCharacter(activeCharacterId);
                 if (character) {
-                    console.log(`✅ Restored active character: ${character.name} (${character.id})`);
                     return character;
                 } else {
                     // Character not found, clear the stored ID
                     localStorage.removeItem('mythrill-active-character');
-                    console.warn('⚠️ Stored active character not found, cleared selection');
+                    console.warn('Stored active character not found, cleared selection');
                 }
             }
 
-            // If no active character is set but characters exist, suggest the first one
-            if (characters.length > 0 && !activeCharacterId) {
-                console.log(`💡 No active character set, but ${characters.length} characters available`);
-                console.log('💡 Consider setting an active character using the character management interface');
-            }
-
         } catch (error) {
-            console.error('❌ Error loading active character:', error);
+            console.error('Error loading active character:', error);
             // Try to provide a fallback by checking localStorage directly
             try {
                 const storageKey = getCharactersStorageKey();
@@ -1917,7 +1889,6 @@ const useCharacterStore = create((set, get) => ({
                     const character = characters.find(char => char.id === activeCharacterId);
 
                     if (character) {
-                        console.log(`🔄 Fallback: Found character in localStorage: ${character.name}`);
                         // Manually set the character data without going through the full loading process
                         set({
                             currentCharacterId: character.id,
@@ -1933,7 +1904,7 @@ const useCharacterStore = create((set, get) => ({
                     }
                 }
             } catch (fallbackError) {
-                console.error('❌ Fallback character loading also failed:', fallbackError);
+                console.error('Fallback character loading also failed:', fallbackError);
             }
         }
         return null;
@@ -1943,7 +1914,6 @@ const useCharacterStore = create((set, get) => ({
     clearActiveCharacter: () => {
         localStorage.removeItem('mythrill-active-character');
         set({ currentCharacterId: null });
-        console.log('🗑️ Active character cleared');
     },
 
     saveCurrentCharacter: () => {
@@ -1997,12 +1967,91 @@ const useCharacterStore = create((set, get) => ({
         get().updateCharacter(state.currentCharacterId, characterData);
     },
 
+    // Ensure starter spells are assigned for the given class when none are known
+    ensureClassStarterSpells: async (className) => {
+        const state = get();
+        try {
+            if (!className) return false;
+            const known = state.class_spells?.known_spells || [];
+            if (known.length > 0) return false;
+
+            // Prefer selecting from the actually loaded/generated class spells
+            try {
+                const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
+                const available = ALL_CLASS_SPELLS[className] || [];
+                if (available.length > 0) {
+                    let starter = [];
+                    if (className === 'Chaos Weaver') {
+                        // Prefer spells that showcase chaos rollable tables
+                        const withTables = available.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
+                        const ec = available.filter(s => s.specialization === 'entropy_control');
+                        const rb = available.filter(s => s.specialization === 'reality_bending');
+                        const cd = available.filter(s => s.specialization === 'chaos_dice');
+                        starter = (withTables.slice(0, 3).length === 3
+                          ? withTables.slice(0, 3)
+                          : [...cd, ...ec, ...rb].filter(s => withTables.includes(s) || s.rollableTable?.enabled).slice(0, 3));
+                    } else if (className === 'Fate Weaver') {
+                        // Prefer card-based spells with rollable tables
+                        const withCards = available.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
+                        const withTables = withCards.filter(s => s.rollableTable?.enabled);
+                        starter = (withTables.slice(0, 3).length === 3 ? withTables.slice(0, 3) : withCards.slice(0, 3));
+                    } else {
+                        starter = available.slice(0, 3);
+                    }
+                    if (starter.length > 0) {
+                        set({
+                            class_spells: {
+                                ...state.class_spells,
+                                known_spells: starter.map(s => s.id)
+                            }
+                        });
+                        return true;
+                    }
+                }
+            } catch (e) {
+                // Fall back to classData spell pools if generator unavailable
+                let classData = null;
+                if (className === 'Arcanoneer') {
+                    const { ARCANONEER_DATA } = require('../data/classes/arcanoneerData');
+                    classData = ARCANONEER_DATA;
+                } else if (className === 'Pyrofiend') {
+                    const { PYROFIEND_DATA } = require('../data/classes/pyrofiendData');
+                    classData = PYROFIEND_DATA;
+                } else if (className === 'Minstrel') {
+                    const { MINSTREL_DATA } = require('../data/classes/minstrelData');
+                    classData = MINSTREL_DATA;
+                } else if (className === 'Chronarch') {
+                    const { CHRONARCH_DATA } = require('../data/classes/chronarchData');
+                    classData = CHRONARCH_DATA;
+                } else if (className === 'Martyr') {
+                    const { MARTYR_DATA } = require('../data/classes/martyrData');
+                    classData = MARTYR_DATA;
+                } else if (className === 'Chaos Weaver') {
+                    const { CHAOS_WEAVER_DATA } = require('../data/classes/chaosWeaverData');
+                    classData = CHAOS_WEAVER_DATA;
+                }
+                if (classData && classData.spellPools && classData.spellPools[1]) {
+                    const poolFallback = [...classData.spellPools[1]];
+                    const selectionFallback = poolFallback.length <= 3 ? poolFallback : poolFallback.sort(() => Math.random() - 0.5).slice(0, 3);
+                    set({
+                        class_spells: {
+                            ...state.class_spells,
+                            known_spells: selectionFallback
+                        }
+                    });
+                    return true;
+                }
+            }
+        } catch (e) {
+            console.warn('ensureClassStarterSpells failed:', e);
+        }
+        return false;
+    },
+
     clearError: () => set({ error: null }),
 
     // System health check and initialization
     initializeCharacterSystem: async () => {
-        console.log('🔄 Initializing character system...');
-
         try {
             // Load characters first
             const characters = await get().loadCharacters();
@@ -2012,14 +2061,11 @@ const useCharacterStore = create((set, get) => ({
 
             // Provide helpful feedback
             if (characters.length === 0) {
-                console.log('ℹ️ No characters found. User should create their first character.');
                 set({ error: 'Welcome! Create your first character to get started.' });
             } else if (!activeCharacter) {
-                console.log(`💡 Found ${characters.length} characters but none are active. User should activate one.`);
                 const characterNames = characters.map(c => c.name).join(', ');
                 set({ error: `Please activate a character to continue. Available: ${characterNames}` });
             } else {
-                console.log(`✅ Character system ready. Active character: ${activeCharacter.name}`);
                 set({ error: null });
             }
 
@@ -2029,7 +2075,7 @@ const useCharacterStore = create((set, get) => ({
                 isReady: !!activeCharacter
             };
         } catch (error) {
-            console.error('❌ Character system initialization failed:', error);
+            console.error('Character system initialization failed:', error);
             set({ error: 'Failed to initialize character system. Please refresh and try again.' });
             return {
                 charactersCount: 0,
@@ -2076,17 +2122,8 @@ const useCharacterStore = create((set, get) => ({
             error: state.error
         };
 
-        console.log('🔍 Character System Debug Info:');
-        console.table(debugInfo);
+        // Debug info available via return value
 
-        // Provide recommendations
-        if (debugInfo.charactersCount === 0) {
-            console.log('💡 Recommendation: Create your first character');
-        } else if (!debugInfo.currentCharacterId) {
-            console.log('💡 Recommendation: Activate a character using the character management interface');
-        } else {
-            console.log('✅ Character system appears to be working correctly');
-        }
 
         return debugInfo;
     },
@@ -2096,21 +2133,17 @@ const useCharacterStore = create((set, get) => ({
         try {
             const userId = getCurrentUserId();
             if (!userId) {
-                console.warn('⚠️ No user authenticated, using local session tracking');
                 // Still create a local session for offline mode
                 const localSessionId = `local_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-                console.log(`✅ Local character session created: ${localSessionId} for character ${characterId}`);
                 return localSessionId;
             }
 
             const sessionId = await characterSessionService.startSession(characterId, userId, roomId);
-            console.log(`✅ Character session started: ${sessionId} for character ${characterId}`);
             return sessionId;
         } catch (error) {
-            console.error('❌ Error starting character session:', error);
+            console.error('Error starting character session:', error);
             // Create a fallback local session
             const fallbackSessionId = `fallback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-            console.log(`🔄 Created fallback session: ${fallbackSessionId} for character ${characterId}`);
             return fallbackSessionId;
         }
     },
@@ -2125,7 +2158,6 @@ const useCharacterStore = create((set, get) => ({
 
             const success = await characterSessionService.endSession(characterId, userId);
             if (success) {
-                console.log(`✅ Character session ended for character ${characterId}`);
                 // Reload character data to reflect session changes
                 await get().loadCharacters();
             }
@@ -2139,9 +2171,6 @@ const useCharacterStore = create((set, get) => ({
     recordCharacterChange: async (characterId, changeType, changeData) => {
         try {
             const success = await characterSessionService.recordChange(characterId, changeType, changeData);
-            if (success) {
-                console.log(`📝 Recorded ${changeType} change for character ${characterId}`);
-            }
             return success;
         } catch (error) {
             console.error('Error recording character change:', error);
@@ -2232,7 +2261,6 @@ const useCharacterStore = create((set, get) => ({
             const levelUpInfo = checkLevelUp(oldXP, newExperience);
 
             if (levelUpInfo.didLevelUp) {
-                console.log(`🎉 LEVEL UP! ${levelUpInfo.oldLevel} → ${levelUpInfo.newLevel}`);
 
                 // Record level up
                 if (state.currentCharacterId) {
@@ -2265,7 +2293,6 @@ const useCharacterStore = create((set, get) => ({
         const currentXP = state.experience || 0;
         const newXP = Math.max(0, currentXP + xpAmount); // Don't allow negative XP
 
-        console.log(`💰 ${xpAmount > 0 ? 'Awarding' : 'Removing'} ${Math.abs(xpAmount)} XP (${currentXP} → ${newXP})`);
         get().updateExperience(newXP);
     },
 
@@ -2277,7 +2304,6 @@ const useCharacterStore = create((set, get) => ({
         const newLevel = Math.max(1, Math.min(20, currentLevel + levelChange)); // Clamp between 1-20
 
         if (newLevel === currentLevel) {
-            console.log(`📊 Level unchanged (already at ${currentLevel})`);
             return;
         }
 
@@ -2291,8 +2317,6 @@ const useCharacterStore = create((set, get) => ({
         // Get the XP required for the new level
         const newXP = getXPForLevel(newLevel);
 
-        console.log(`📊 ${levelChange > 0 ? 'Adding' : 'Removing'} ${Math.abs(levelChange)} level(s) (${currentLevel} → ${newLevel})`);
-
         // Update both level and XP
         set({ level: newLevel });
 
@@ -2304,8 +2328,20 @@ const useCharacterStore = create((set, get) => ({
             set({ experience: newXP });
         }
 
+        // Record character change for persistence
+        if (state.currentCharacterId && newLevel !== currentLevel) {
+            get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                stat: 'level',
+                value: newLevel,
+                previousValue: currentLevel,
+                timestamp: new Date()
+            });
+        }
+
         // Save character after level adjustment
-        get().saveCharacter();
+        setTimeout(() => {
+            get().saveCurrentCharacter();
+        }, 100); // Small delay to ensure state is updated
     },
 
     updateLevel: (newLevel) => {
@@ -2345,8 +2381,6 @@ const useCharacterStore = create((set, get) => ({
         const state = get();
         const newLevel = state.pendingLevelUpInfo?.newLevel || state.level;
 
-        console.log(`📊 Processing level-up choice for level ${newLevel}:`, choice);
-
         // Build the level-up history entry
         const historyEntry = {
             healthIncrease: choice.healthIncrease || 0,
@@ -2365,7 +2399,6 @@ const useCharacterStore = create((set, get) => ({
                 }
             });
             historyEntry.spellId = choice.spellId;
-            console.log(`📚 Learned new spell: ${choice.spellId}`);
         }
 
         // Handle attribute increases first (before health/mana)
@@ -2374,7 +2407,6 @@ const useCharacterStore = create((set, get) => ({
             choice.attributes.forEach(attr => {
                 if (attr) {
                     newStats[attr] = (newStats[attr] || 0) + 1;
-                    console.log(`📊 Increased ${attr} by 1`);
                 }
             });
 
@@ -2386,20 +2418,48 @@ const useCharacterStore = create((set, get) => ({
             levelUpHistory: {
                 ...state.levelUpHistory,
                 [newLevel]: historyEntry
-            },
-            showLevelUpModal: false,
-            pendingLevelUpInfo: null
+            }
         });
 
         // Recalculate derived stats (this will now include level-up bonuses from history)
         get().initializeCharacter();
+
+        // Check if there are more levels that need choices
+        const updatedState = get();
+        const currentLevel = updatedState.level;
+        const updatedLevelUpHistory = updatedState.levelUpHistory || {};
+        
+        // Find the next level that doesn't have a history entry
+        let nextLevelToPrompt = null;
+        for (let level = newLevel + 1; level <= currentLevel; level++) {
+            if (!updatedLevelUpHistory[level]) {
+                nextLevelToPrompt = level;
+                break;
+            }
+        }
+        
+        // If we found another level that needs a choice, show the modal for it
+        if (nextLevelToPrompt) {
+            set({
+                showLevelUpModal: true,
+                pendingLevelUpInfo: {
+                    newLevel: nextLevelToPrompt,
+                    oldLevel: nextLevelToPrompt - 1
+                }
+            });
+        } else {
+            // No more levels need choices, close the modal
+            set({
+                showLevelUpModal: false,
+                pendingLevelUpInfo: null
+            });
+        }
 
         // Save character after choice
         if (state.currentCharacterId) {
             get().saveCurrentCharacter();
         }
 
-        console.log(`✅ Level-up complete for level ${newLevel}`);
     },
 
     // Reverse level-up bonuses when leveling down
@@ -2408,11 +2468,9 @@ const useCharacterStore = create((set, get) => ({
         const choice = state.levelUpHistory[level];
 
         if (!choice) {
-            console.log(`⚠️ No level-up history found for level ${level}`);
             return;
         }
 
-        console.log(`🔄 Reversing level-up bonuses for level ${level}:`, choice);
 
         // Reverse spell if present
         if (choice.spellId) {
@@ -2424,7 +2482,6 @@ const useCharacterStore = create((set, get) => ({
                     known_spells: updatedSpells
                 }
             });
-            console.log(`📚 Removed spell: ${choice.spellId}`);
         }
 
         // Reverse attribute increases (handle both old and new format)
@@ -2435,7 +2492,6 @@ const useCharacterStore = create((set, get) => ({
             attributes.forEach(attr => {
                 if (attr) {
                     newStats[attr] = Math.max(1, (newStats[attr] || 1) - 1);
-                    console.log(`📊 Decreased ${attr} by 1`);
                 }
             });
 
@@ -2450,7 +2506,6 @@ const useCharacterStore = create((set, get) => ({
         // Recalculate derived stats (this will now exclude the removed level-up bonuses)
         get().initializeCharacter();
 
-        console.log(`✅ Reversed bonuses for level ${level}`);
     }
 }));
 
@@ -2499,20 +2554,6 @@ const initializeCharacterStore = () => {
         max: newMaxMana
     };
 
-    // Debug logging for character store resource calculation
-    if (state.name === 'YAD') {
-        console.log('🔍 CharacterStore resource calculation:', {
-            characterName: state.name,
-            constitution: totalStats.constitution,
-            intelligence: totalStats.intelligence,
-            derivedMaxHealth: newMaxHealth,
-            derivedMaxMana: newMaxMana,
-            currentHealth: state.health.current,
-            currentMana: state.mana.current,
-            newHealth,
-            newMana
-        });
-    }
 
     // Update the store with calculated values
     useCharacterStore.setState({
@@ -2552,9 +2593,7 @@ if (typeof window !== 'undefined') {
         };
     };
 
-    console.log('🔧 Debug functions available:');
-    console.log('- window.debugCharacterSystem() - Full system debug info');
-    console.log('- window.getCharacterSystemStatus() - Quick status check');
+    // Debug functions available via window.debugCharacterSystem() and window.getCharacterSystemStatus()
 }
 
 // Debug function to manually recalculate stats (can be called from browser console)

@@ -830,8 +830,8 @@
 /* Equipment Layout Around Character */
 .equipment-layout {
     display: flex;
-    gap: 20px;
-    align-items: center;
+    gap: 16px;
+    align-items: flex-start;
     justify-content: center;
     padding: 10px;
     flex-wrap: nowrap;
@@ -841,9 +841,11 @@
 .left-equipment {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     align-items: center;
     min-width: 60px;
+    justify-content: flex-start;
+    padding-top: 0;
 }
 
 /* Character Center Section with Portrait and Weapons */
@@ -851,14 +853,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 0;
+    position: relative;
+    height: 518px;
+    justify-content: flex-start;
 }
 
 /* Equipment tab character image container - FORCE rectangular styling */
 .equipment-content .character-image-container,
 .character-sheet .equipment-content .character-image-container {
     width: 280px !important;
-    height: 420px !important;
+    height: 440px !important;
     max-width: 100% !important;
     background-color: transparent !important;
     border: 3px solid #8b7355 !important;
@@ -870,6 +875,7 @@
     padding: 0 !important;
     overflow: hidden !important;
     background-image: none !important;
+    flex-shrink: 0;
 }
 
 /* Equipment tab character portrait - FORCE rectangular, NO circular border */
@@ -894,7 +900,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(213, 203, 176, 0.3) 0%, rgba(213, 203, 176, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(213, 203, 176, 0.95) 0%, rgba(200, 190, 170, 0.9) 100%);
     border-radius: 8px;
     border: none;
     color: #7a3b2e;
@@ -916,9 +922,11 @@
 .right-equipment {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     align-items: center;
     min-width: 60px;
+    justify-content: flex-start;
+    padding-top: 0;
 }
 
 /* Stats Section Below Equipment */
@@ -1054,11 +1062,11 @@
     justify-content: flex-end;
     gap: 6px;
     font-weight: 600;
-    color: #3a3a3a;
+    color: #1a1a1a;
 }
 
 .stat-modifier {
-    color: #7a3b2e; /* Rustic red */
+    color: #5a1e12; /* Darker rustic red for better contrast */
     font-size: 0.9em;
     font-weight: 600;
 }
@@ -1230,13 +1238,13 @@
     align-items: center;
     gap: 6px;
     font-size: 1.0rem;
-    color: #3a3a3a;
+    color: #1a1a1a;
     font-weight: 700;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .stat-modifier {
-    color: #7a3b2e; /* Rustic red */
+    color: #5a1e12; /* Darker rustic red for better contrast */
     font-size: 0.9em;
     margin-left: 4px;
     font-weight: 600;
@@ -1313,6 +1321,7 @@
         inset 0 -2px 4px rgba(139, 115, 85, 0.3),
         0 3px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+    flex-shrink: 0;
 }
 
 .gear-slot:hover {
@@ -1345,30 +1354,17 @@
     filter: grayscale(100%) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
 }
 
-/* Weapon Slots Container - Below Character */
-.weapon-slots {
+/* Weapon Slots Container - Positioned Below Image */
+.weapon-slots-bottom {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    padding: 12px 16px;
-    background: linear-gradient(135deg,
-        rgba(213, 203, 176, 0.4) 0%,
-        rgba(240, 230, 210, 0.5) 50%,
-        rgba(213, 203, 176, 0.4) 100%);
-    border: 2px solid #a08c70;
-    border-radius: 10px;
-    box-shadow:
-        0 3px 8px rgba(0, 0, 0, 0.2),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
-    min-width: 280px;
-}
-
-.weapon-slots-row {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    align-items: center;
+    gap: 24px;
+    padding: 0;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 0;
+    align-self: flex-end;
 }
 
 .weapon-slot {
@@ -1390,6 +1386,7 @@
         inset 0 -2px 4px rgba(139, 115, 85, 0.3),
         0 3px 8px rgba(0, 0, 0, 0.2);
     position: relative;
+    flex-shrink: 0;
 }
 
 .weapon-slot:hover {
@@ -2759,17 +2756,18 @@
   font-weight: bold;
   font-size: 14px;
   margin-top: 4px;
-  color: #3a3a3a;
+  color: #1a1a1a;
   font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .stat-row .stat-value {
   text-align: right;
   font-weight: bold;
+  color: #1a1a1a;
 }
 
 .stat-row:has(.stat-label:contains("Resistances")) .stat-value {
-  color: #7a3b2e; /* Rustic red */
+  color: #5a1e12; /* Darker rustic red for better contrast */
   font-weight: bold;
 }
 
@@ -3088,9 +3086,17 @@
 
 .character-summary-stats .stat-value {
     font-weight: bold !important;
-    color: #7a3b2e !important;
+    color: #5a1e12 !important;
     font-size: 14px !important;
     text-align: right !important;
+}
+
+/* Ensure Experience and other gold-colored stat values have good contrast */
+.stat-row .stat-value[style*="FFD700"],
+.stat-row .stat-value[style*="#FFD700"],
+.stat-row .stat-value[style*="ffd700"],
+.stat-row .stat-value[style*="#ffd700"] {
+    color: #8b6914 !important;
 }
 
 .character-summary-stats .stat-icon {
@@ -3305,6 +3311,28 @@
     overflow-y: auto;
 }
 
+/* Equipment backdrop - only affects the content area, not the header */
+.character-content-area.equipment-backdrop {
+    background-image: url('https://img.itch.zone/aW1nLzE4NTY1MTExLmpwZw==/original/LFD1XZ.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+}
+
+/* Ensure header section doesn't have the backdrop */
+.character-content-area.equipment-backdrop .character-section-header {
+    background: linear-gradient(135deg,
+        rgba(240, 230, 210, 0.98) 0%,
+        rgba(230, 220, 200, 0.95) 50%,
+        rgba(213, 203, 176, 0.92) 100%);
+    backdrop-filter: blur(2px);
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+}
+
 .character-section-header {
     display: flex;
     align-items: center;
@@ -3512,7 +3540,7 @@
 }
 
 .resource-stat .stat-value {
-    color: #7a3b2e;
+    color: #5a1e12;
     font-weight: bold;
     font-size: 13px;
 }

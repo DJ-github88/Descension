@@ -71,6 +71,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  pointer-events: auto;
 }
 
 /* Panel Header - Smaller, Pathfinder Style */
@@ -119,7 +120,10 @@
   padding: 16px;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: calc(400px - 50px);
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Custom Scrollbar for Panel Content - Pathfinder Style */
@@ -342,19 +346,30 @@
   border: 2px solid #8b7355;
   border-radius: 12px;
   padding: 16px 20px;
-  min-height: 80px;
-  max-height: 200px;
+  min-height: 100px;
+  max-height: 220px;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   color: #ffffff;
   font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
   font-size: 16px;
   line-height: 1.6;
+  word-wrap: break-word;
+  word-break: break-word;
   box-shadow:
     0 8px 32px rgba(139, 115, 85, 0.25),
     0 2px 8px rgba(139, 115, 85, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.preview-text .dialogue-text {
+  display: inline-block;
+  width: 100%;
   /* Enhanced 8-directional black text stroke for 16-bit look */
   text-shadow:
     -2px -2px 0px #000, -2px -1px 0px #000, -2px 0px 0px #000, -2px 1px 0px #000, -2px 2px 0px #000,
@@ -368,6 +383,21 @@
   image-rendering: crisp-edges;
   font-smooth: never;
   -webkit-font-smoothing: none;
+}
+
+.preview-text .dialogue-text.replaying {
+  position: relative;
+}
+
+.preview-text .dialogue-text.replaying::after {
+  content: '|';
+  animation: blinkCursor 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blinkCursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 /* Custom Scrollbar for Preview Text */
@@ -564,7 +594,8 @@
   border: 2px solid #d4af37;
 }
 
-.avatar-placeholder {
+.avatar-placeholder,
+.portrait-placeholder {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -573,7 +604,23 @@
   align-items: center;
   justify-content: center;
   color: #8b7355;
-  border: 2px solid #d4af37;
+  border: 2px solid;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-placeholder.no-image,
+.portrait-placeholder.no-image {
+  background: #e8dcc0;
+}
+
+.avatar-placeholder i,
+.portrait-placeholder i {
+  font-size: 16px;
 }
 
 .character-name {

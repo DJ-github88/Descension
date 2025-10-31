@@ -116,6 +116,33 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Fate Weaver': {
+    path: 'Arcane Path',
+    specializations: [
+      {
+        id: 'fortune_teller',
+        name: 'Fortune Teller',
+        description: 'Divination & prediction through cards; ally support and foresight',
+        color: '#9370DB',
+        icon: 'inv_misc_tarot_01'
+      },
+      {
+        id: 'card_master',
+        name: 'Card Master',
+        description: 'Deck manipulation, combo assembly, and hand control',
+        color: '#FFD700',
+        icon: 'inv_misc_platnumdisks'
+      },
+      {
+        id: 'thread_weaver',
+        name: 'Thread Weaver',
+        description: 'Thread generation & manipulation from failures and negatives',
+        color: '#FF1493',
+        icon: 'spell_arcane_prismaticcloak'
+      }
+    ]
+  },
+
   'Gambler': {
     path: 'Infernal Path',
     specializations: [
@@ -275,6 +302,33 @@ export const CLASS_SPECIALIZATIONS = {
         description: 'Precise sphere manipulation and tactical control specialist',
         color: '#4169E1',
         icon: 'inv_misc_rune_01'
+      }
+    ]
+  },
+
+  'Martyr': {
+    path: 'Divine Path',
+    specializations: [
+      {
+        id: 'protector',
+        name: 'Protector',
+        description: 'Defensive and shielding spells that guard allies from harm',
+        color: '#FFD700',
+        icon: 'spell_holy_devotionaura'
+      },
+      {
+        id: 'redeemer',
+        name: 'Redeemer',
+        description: 'Healing and restoration spells that mend wounds and restore vitality',
+        color: '#32CD32',
+        icon: 'spell_holy_holybolt'
+      },
+      {
+        id: 'avenger',
+        name: 'Avenger',
+        description: 'Damage and retribution spells that punish those who harm the innocent',
+        color: '#FF4500',
+        icon: 'spell_holy_crusaderstrike'
       }
     ]
   },

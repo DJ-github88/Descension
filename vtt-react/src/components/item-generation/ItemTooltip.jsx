@@ -810,6 +810,54 @@ export default function ItemTooltip({ item }) {
                     </div>
                 )}
 
+                {/* Crafting Time and Experience */}
+                {(recipeData?.craftingTime || recipeData?.experienceGained) && (
+                    <div>
+                        <div className="recipe-section-divider"></div>
+                        {recipeData.craftingTime && recipeData.craftingTime > 0 && (
+                            <div style={{ color: '#00ff00', fontSize: '12px', marginBottom: '4px' }}>
+                                <span style={{ fontWeight: 'bold' }}>Crafting Time:</span> {(() => {
+                                    const seconds = recipeData.craftingTime / 1000;
+                                    const minutes = Math.floor(seconds / 60);
+                                    const hours = Math.floor(minutes / 60);
+                                    const days = Math.floor(hours / 24);
+                                    
+                                    if (days > 0) {
+                                        const remainingHours = hours % 24;
+                                        if (remainingHours > 0) {
+                                            return `${days}d ${remainingHours}h`;
+                                        }
+                                        return `${days}d`;
+                                    }
+                                    
+                                    if (hours > 0) {
+                                        const remainingMinutes = minutes % 60;
+                                        if (remainingMinutes > 0) {
+                                            return `${hours}h ${remainingMinutes}m`;
+                                        }
+                                        return `${hours}h`;
+                                    }
+                                    
+                                    if (minutes > 0) {
+                                        const remainingSeconds = Math.floor(seconds % 60);
+                                        if (remainingSeconds > 0) {
+                                            return `${minutes}m ${remainingSeconds}s`;
+                                        }
+                                        return `${minutes}m`;
+                                    }
+                                    
+                                    return `${Math.floor(seconds)} sec`;
+                                })()}
+                            </div>
+                        )}
+                        {recipeData.experienceGained && recipeData.experienceGained > 0 && (
+                            <div style={{ color: '#00ff00', fontSize: '12px', marginBottom: '4px' }}>
+                                <span style={{ fontWeight: 'bold' }}>Experience Gained:</span> {recipeData.experienceGained} XP
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {/* Description - moved to bottom */}
                 <div className="recipe-section-divider"></div>
                 <div style={{ color: '#ffd100', fontStyle: 'italic', margin: '8px 0' }}>

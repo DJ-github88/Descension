@@ -447,12 +447,12 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
                       </div>
                       <div className="creature-config-control">
                         <label>
+                          <span>Requires Concentration</span>
                           <input
                             type="checkbox"
                             checked={creature.config?.concentration || DEFAULT_CREATURE_CONFIG.concentration}
                             onChange={(e) => handleCreatureConfigChange(creature.id, 'concentration', e.target.checked)}
                           />
-                          Requires Concentration
                         </label>
                       </div>
                       <div className="creature-config-control">

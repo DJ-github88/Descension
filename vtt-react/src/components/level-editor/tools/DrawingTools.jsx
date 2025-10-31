@@ -124,6 +124,12 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             description: 'Select and manipulate drawings'
         },
         {
+            id: 'area_remove',
+            name: 'Area Remove',
+            icon: 'inv_misc_bandage_12',
+            description: 'Drag a rectangle to select and remove objects (tokens, items, tiles, walls, etc.)'
+        },
+        {
             id: 'freehand',
             name: 'Freehand',
             icon: 'inv_misc_pen_02',

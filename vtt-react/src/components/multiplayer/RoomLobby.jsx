@@ -8,6 +8,54 @@ import useAuthStore from '../../store/authStore';
 import './styles/RoomLobby.css';
 import '../account/styles/RoomManager.css';
 
+// Translate technical errors into fantasy-themed messages
+const translateErrorToFantasy = (errorMessage) => {
+  if (!errorMessage) return 'The realm beyond cannot be reached.';
+
+  const lowerError = errorMessage.toLowerCase();
+
+  // Network/connection errors
+  if (lowerError.includes('xhr poll') || lowerError.includes('poll error')) {
+    return 'The messenger ravens cannot find their path through the aether.';
+  }
+  
+  if (lowerError.includes('connection failed') || lowerError.includes('unable to connect')) {
+    return 'The portal to the multiplayer realm remains closed by ancient wards.';
+  }
+  
+  if (lowerError.includes('timeout') || lowerError.includes('timed out')) {
+    return 'Your call to distant realms echoed into the void without answer.';
+  }
+  
+  if (lowerError.includes('network') || lowerError.includes('fetch')) {
+    return 'The web of connectivity has frayed, blocking your path to distant realms.';
+  }
+  
+  if (lowerError.includes('server') || lowerError.includes('unreachable')) {
+    return 'The grand hall of multiplayer sits beyond the mists, unreachable by mortal means.';
+  }
+  
+  if (lowerError.includes('disconnect') || lowerError.includes('disconnected')) {
+    return 'The bond of fellowship has been broken and the mystical link has faded.';
+  }
+  
+  if (lowerError.includes('reconnection') || lowerError.includes('reconnect')) {
+    return 'Attempts to reforge the connection to the realm falter against the void.';
+  }
+
+  // Room/authentication errors
+  if (lowerError.includes('password') || lowerError.includes('unauthorized')) {
+    return 'The guardian spirits reject your offering, for the sacred words do not match.';
+  }
+  
+  if (lowerError.includes('room') && (lowerError.includes('full') || lowerError.includes('not found'))) {
+    return 'The chamber you seek is either overflowing with adventurers or lost to time.';
+  }
+
+  // Generic fallback
+  return `A shadow falls across your path, blocking your way forward.`;
+};
+
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const { getActiveCharacter } = useCharacterStore();
   const { isInParty, partyMembers } = usePartyStore();
@@ -247,7 +295,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       }
       if (reason === 'io server disconnect') {
         // Server initiated disconnect, try to reconnect
-        setError('Connection lost. Attempting to reconnect...');
+        setError('The bond of fellowship has been broken by the keepers of the realm.');
       }
     };
 
@@ -256,7 +304,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         console.error('❌ Socket connection error:', error);
       }
       setIsConnecting(false);
-      setError(`Connection failed: ${error.message || 'Unable to connect to server'}`);
+      const errorMsg = error?.message || error?.toString() || 'Unable to connect to server';
+      setError(translateErrorToFantasy(errorMsg));
     };
 
     const handleReconnect = (attemptNumber) => {
@@ -271,7 +320,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       if (process.env.NODE_ENV === 'development') {
         console.error('❌ Reconnection failed:', error);
       }
-      setError('Reconnection failed. Please refresh the page.');
+      const errorMsg = error?.message || error?.toString() || 'Reconnection failed';
+      setError(translateErrorToFantasy(errorMsg));
     };
 
     const handleRoomCreated = (data) => {
@@ -289,7 +339,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           playerName: createdPlayerName,
           password: createdRoomPassword ? '[HIDDEN]' : 'EMPTY'
         });
-        setError('Failed to auto-join created room. Please join manually.');
+        setError('The gates opened, but you could not cross the threshold.');
         return;
       }
 
@@ -360,7 +410,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const handleError = (data) => {
       console.error('Socket error:', data);
-      setError(data.message || 'An unknown error occurred');
+      const errorMsg = data.message || 'An unknown error occurred';
+      setError(translateErrorToFantasy(errorMsg));
       setIsConnecting(false);
     };
 
@@ -427,7 +478,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       // First check if server is available
       const serverAvailable = await checkServerStatus();
       if (!serverAvailable) {
-        setError('Server is currently unavailable. Please try again later or contact support.');
+        setError('The grand hall of multiplayer sits beyond the mists, unreachable by mortal means.');
         setAvailableRooms([]);
         return;
       }
@@ -451,11 +502,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     } catch (error) {
       console.error('Failed to fetch rooms:', error);
       if (error.name === 'AbortError') {
-        setError('Request timeout - server may be unavailable');
+        setError(translateErrorToFantasy('Request timeout - server may be unavailable'));
       } else if (error.message.includes('Failed to fetch')) {
-        setError('Cannot connect to server - please check your internet connection');
+        setError('The web of connectivity has frayed, blocking your path to distant realms.');
       } else {
-        setError(`Failed to load rooms: ${error.message}`);
+        setError(translateErrorToFantasy(error.message || 'Failed to load rooms'));
       }
       setAvailableRooms([]);
     }
@@ -474,19 +525,19 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
   const handleCreatePersistentRoom = async () => {
     if (!isAuthenticated) {
-      setError('Please sign in to create persistent rooms');
+      setError('You must first swear an oath to the realm before creating halls that stand the test of time.');
       return;
     }
 
     if (!roomName.trim()) {
-      setError('Please enter a room name');
+      setError('Every hall must bear a name. Speak the title you wish to give this gathering place.');
       return;
     }
 
     // Password is now optional - if empty, room will be created without password
 
     if (!socket || !socket.connected) {
-      setError('Not connected to server');
+      setError('The portal to the multiplayer realm remains closed. You cannot pass through the mists.');
       return;
     }
 
@@ -579,14 +630,15 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     } catch (error) {
       console.error('Failed to create room:', error);
-      setError('Failed to create room: ' + error.message);
+      const errorMsg = error.message || 'Failed to create room';
+      setError(translateErrorToFantasy(errorMsg));
       setIsConnecting(false);
     }
   };
 
   const handleJoinPersistentRoom = (room) => {
     if (!socket) {
-      setError('Not connected to server');
+      setError('The portal to the multiplayer realm remains closed. You cannot pass through the mists.');
       return;
     }
 
@@ -620,7 +672,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     if (!finalPlayerName || !roomName.trim()) {
       if (!finalPlayerName) {
-        setError('No character selected. Please select a character from your account first.');
+        setError('No champion has been chosen. Journey to your account and select a character to represent you in these halls.');
       } else {
         setError('Please enter a room name');
       }
@@ -630,12 +682,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // Password is now optional - if empty, room will be created without password
 
     if (!socket) {
-      setError('Not connected to server');
+      setError('The portal to the multiplayer realm remains closed. You cannot pass through the mists.');
       return;
     }
 
     if (!socket.connected) {
-      setError('Socket not connected to server');
+      setError('The mystical bond has not been forged. The connection to the realm has not been established.');
       return;
     }
 
@@ -670,9 +722,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     if (!finalPlayerName || !finalRoomId.trim()) {
       if (!finalPlayerName) {
-        setError('No character selected. Please select a character from your account first.');
+        setError('No champion has been chosen. Journey to your account and select a character to represent you in these halls.');
       } else {
-        setError('Please enter a room ID');
+        setError('You must speak the chamber\'s secret identifier to cross its threshold.');
       }
       return;
     }
@@ -689,7 +741,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // The server will handle password matching (empty passwords are allowed)
 
     if (!socket) {
-      setError('Not connected to server');
+      setError('The portal to the multiplayer realm remains closed. You cannot pass through the mists.');
       return;
     }
 
@@ -758,12 +810,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         {error && (
           <div className="error-message">
             {error}
-            {error.includes('server') && (
-              <div style={{ marginTop: '10px', fontSize: '0.9em', opacity: 0.8 }}>
-                💡 <strong>Tip:</strong> The multiplayer server may be starting up or under maintenance.
-                You can still use the app in single-player mode.
-              </div>
-            )}
           </div>
         )}
 
@@ -796,7 +842,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                     return (
                       <div className="no-character-notice">
                         <i className="fas fa-exclamation-triangle"></i>
-                        <span>No character selected. Go to Account → Characters to select one.</span>
+                        <span>No champion chosen—visit Account → Characters to select one.</span>
                       </div>
                     );
                   }
@@ -822,7 +868,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                     textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
                   }}
                 >
-                  {playerName || 'Preview'}
+                  <span>
+                    {playerName || 'Preview'}
+                  </span>
                 </div>
               </div>
             </div>

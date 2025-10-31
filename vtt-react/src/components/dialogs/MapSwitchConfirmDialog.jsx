@@ -1,4 +1,3 @@
-import React from 'react'; // eslint-disable-line no-unused-vars
 import WowWindow from '../windows/WowWindow';
 import './MapSwitchConfirmDialog.css';
 

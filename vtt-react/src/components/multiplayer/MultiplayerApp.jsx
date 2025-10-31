@@ -223,8 +223,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
-      console.log(`👥 Player joined:`, data.player.name, `Total players: ${data.playerCount}`);
-
       // Update actual player count from server
       setActualPlayerCount(data.playerCount);
 
@@ -233,18 +231,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Check if player already exists to avoid duplicates
         const existingPlayer = prev.find(p => p.id === data.player.id);
         if (existingPlayer) {
-          console.log(`⚠️ Player ${data.player.name} already in list, skipping duplicate`);
           return prev;
         }
 
         // Don't add current player to connected players list (they're handled separately)
         if (currentPlayer && data.player.id === currentPlayer.id) {
-          console.log(`⚠️ Skipping current player ${data.player.name} in connected players list`);
           return prev;
         }
 
         const updated = [...prev, data.player];
-        console.log(`✅ Updated player list:`, updated.map(p => p.name));
         return updated;
       });
 
@@ -253,13 +248,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         showPlayerJoinNotification(data.player.name, currentRoom.name);
       }
 
-      // Debug logging to understand player ID structure
-      console.log('🔍 player_joined event debug:', {
-        eventPlayerName: data.player.name,
-        eventPlayerId: data.player.id,
-        currentPlayerName: currentPlayer?.name,
-        currentPlayerId: currentPlayer?.id
-      });
 
       // Use character name if available, otherwise fall back to player name
       const playerCharacterName = data.player.character?.name || data.player.name;
@@ -270,7 +258,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                               data.player.name === currentPlayer?.name;
 
       if (!isCurrentPlayer) {
-        console.log('✅ Adding player from player_joined event:', playerCharacterName);
 
         // Calculate proper race display name from race and subrace data
         let raceDisplayName = data.player.character?.raceDisplayName || 'Unknown';
@@ -335,8 +322,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             member: newPartyMember
           });
         }
-      } else {
-        console.log('🚫 Skipping own player in player_joined event to prevent duplicate HUD');
       }
 
         // Add to chat system
@@ -359,27 +344,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player count updates
     socket.on('player_count_updated', (data) => {
-      console.log(`📊 Player count updated: ${data.playerCount} players`);
       // Update the actual player count from server
       setActualPlayerCount(data.playerCount);
     });
 
     // Listen for party member additions from other clients
     socket.on('party_member_added', (data) => {
-      console.log(`🎭 Received party member addition:`, data.member?.name || 'Unknown');
-
       // Get current character name for comparison
       const activeCharacter = getActiveCharacter();
       const currentCharacterName = activeCharacter?.name || currentPlayer?.name;
-
-      // Debug logging
-      console.log('🔍 party_member_added event debug:', {
-        memberName: data.member?.name,
-        memberId: data.member?.id,
-        currentPlayerName: currentPlayer?.name,
-        currentPlayerId: currentPlayer?.id,
-        currentCharacterName: currentCharacterName
-      });
 
       // Add the party member to our local party store
       // Skip if this is our own data being broadcast back to us (check both player name and character name)
@@ -391,22 +364,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       );
 
       if (data.member && !isOwnMember) {
-        console.log('✅ Adding party member from other player:', data.member.name);
         addPartyMember(data.member);
-      } else if (isOwnMember) {
-        console.log('🚫 Skipping own party member data to prevent duplicate');
       }
     });
 
     socket.on('player_left', (data) => {
-      console.log(`👥 Player left:`, data.player.name, `Total players: ${data.playerCount}`);
-
       // Update actual player count from server
       setActualPlayerCount(data.playerCount);
 
       setConnectedPlayers(prev => {
         const updated = prev.filter(player => player.id !== data.player.id);
-        console.log(`✅ Updated player list after leave:`, updated.map(p => p.name));
         return updated;
       });
 
@@ -555,13 +522,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         if (timeSinceMove < 2000) {
           // This is our own recent movement echoed back - ignore it completely
           // Extended to 2000ms to handle long drag sessions
-          console.log(`🔄 Ignoring own character movement echo (${timeSinceMove}ms ago)`);
           return;
         }
 
         // If it's been a while, this might be a legitimate server correction
         // (e.g., after reconnection or desync), so apply it
-        console.log(`✅ Applying server correction for own character (${timeSinceMove}ms since last move)`);
         try {
           const { updateCharacterTokenPosition } = useCharacterTokenStore.getState();
           updateCharacterTokenPosition(data.playerId, data.position);
@@ -571,7 +536,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         return;
       }
 
-      console.log(`👤 Received character movement from ${data.playerName || data.playerId}:`, data.position, `isDragging: ${data.isDragging}`);
 
       // Process movement from other players
       // Throttle character token position updates
@@ -655,11 +619,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character token creation from other players
     socket.on('character_token_created', (data) => {
-      console.log(`🎭 Received character token creation from ${data.playerName}:`, data);
-
       // Don't process our own token creation
       if (data.playerId === currentPlayer?.id) {
-        console.log(`🚫 Ignoring own character token creation`);
         return;
       }
 
@@ -670,11 +631,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Add character token directly from server data (bypasses multiplayer sending)
         if (addCharacterTokenFromServer) {
           addCharacterTokenFromServer(data.tokenId, data.position, data.playerId);
-          console.log(`✅ Added character token from server for ${data.playerName}`);
         } else {
           // Fallback to regular method but don't send to server
           addCharacterToken(data.position, data.playerId, false); // false = don't send to server
-          console.log(`✅ Added character token (fallback) for ${data.playerName}`);
         }
 
         // Show notification in chat only if it's not our own creation
@@ -693,7 +652,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for loot events from other players
     socket.on('item_looted', (data) => {
-      console.log(`🎁 Received item_looted event:`, data);
 
       // Add loot notification to the loot tab
       addNotification('loot', {
@@ -723,27 +681,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         (data.item && data.item.type === 'currency') // Our own currency loot (needs server confirmation)
       );
 
-      console.log(`🎁 Should remove item ${data.gridItemId}? ${shouldRemove}`);
-      console.log(`🎁 Conditions: gridItemId=${!!data.gridItemId}, itemRemoved=${data.itemRemoved}, isOtherPlayer=${data.playerId !== currentPlayer?.id}, isCurrency=${data.item && data.item.type === 'currency'}`);
-
       if (shouldRemove) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { removeItemFromGrid, gridItems } = useGridItemStore.getState();
 
           // Check if item still exists before trying to remove it
           const itemExists = gridItems.find(item => item.id === data.gridItemId);
-          console.log(`🎁 Item ${data.gridItemId} exists in grid: ${!!itemExists}`);
           if (itemExists) {
-            console.log(`🎁 Removing looted item ${data.gridItemId} from grid (server confirmation)`);
             removeItemFromGrid(data.gridItemId);
-          } else {
-            console.log(`🎁 Item ${data.gridItemId} not found in grid, already removed`);
           }
         }).catch(error => {
           console.error('Failed to import gridItemStore for loot removal:', error);
         });
-      } else {
-        console.log(`🎁 Not removing item ${data.gridItemId} - conditions not met`);
       }
     });
 
@@ -780,7 +729,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for character token synchronization when joining a room
     socket.on('sync_character_tokens', (data) => {
-      console.log('🎭 Received character token sync:', data);
 
       // Import character token store dynamically to avoid circular dependencies
       import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
@@ -788,7 +736,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // Add each character token without sending back to server
         Object.values(data.characterTokens).forEach(tokenData => {
-          console.log(`🎭 Syncing character token for player ${tokenData.playerId}:`, tokenData);
 
           if (addCharacterTokenFromServer) {
             addCharacterTokenFromServer(tokenData.id, tokenData.position, tokenData.playerId);
@@ -807,7 +754,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('character_updated', (data) => {
       // Only process updates from other players (not our own)
       if (data.character?.playerId && data.character.playerId !== currentPlayer?.id) {
-        console.log(`📊 Received character update from ${data.character.name}:`, data.character);
 
         // Calculate proper race display name from race and subrace data
         let raceDisplayName = data.character.raceDisplayName || 'Unknown';
@@ -903,7 +849,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             : player
         ));
 
-        console.log(`✅ Updated character data for ${data.character.name} in all systems`);
       }
     });
 
@@ -970,7 +915,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle synchronization errors
     socket.on('sync_error', (data) => {
-      console.error('❌ Synchronization error:', data);
+      console.error('Synchronization error:', data);
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
@@ -1074,7 +1019,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           if (user && room.persistentRoomId) {
             // For guest users, save joined room to localStorage instead of Firebase
             if (user.isGuest) {
-              console.log('👤 Guest user joined room - saving to localStorage');
               const guestRoomData = {
                 id: room.persistentRoomId,
                 name: room.name,
@@ -1088,7 +1032,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               localStorage.setItem('mythrill-guest-joined-room', JSON.stringify(guestRoomData));
               localStorage.setItem('roomDataChanged', 'true');
               localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
-              console.log(`✅ Guest joined room saved to localStorage: ${room.name}`);
             } else {
               // Regular authenticated user - save to Firebase
               const { joinRoom } = await import('../../services/roomService');
@@ -1120,13 +1063,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // If no active character is loaded, try to load from storage
       if (!activeCharacter) {
-        console.log('🔄 No active character found, attempting to load from storage...');
         activeCharacter = await loadActiveCharacter();
       }
 
       // If still no active character, check if any characters exist and suggest activation
       if (!activeCharacter) {
-        console.warn('⚠️ No active character found for multiplayer session');
+        console.warn('No active character found for multiplayer session');
 
         // Try to get available characters
         const { characters } = useCharacterStore.getState();

@@ -26,7 +26,8 @@ const WowWindow = forwardRef(({
     className = "",
     resizable = true,
     minConstraints = [300, 400],
-    maxConstraints = [1200, 1000]
+    maxConstraints = [1200, 1000],
+    modal = false
 }, ref) => {
     // Safety check for required props
     if (!isOpen) {
@@ -116,16 +117,44 @@ const WowWindow = forwardRef(({
 
     // Register window with window manager on mount
     useEffect(() => {
-        const initialZIndex = registerWindow(windowId, 'window');
+        const windowType = modal ? 'modal' : 'window';
+        const initialZIndex = registerWindow(windowId, windowType);
         setZIndex(initialZIndex);
 
         return () => {
             unregisterWindow(windowId);
         };
-    }, [windowId, registerWindow, unregisterWindow]);
+    }, [windowId, registerWindow, unregisterWindow, modal]);
+
+    // Bring window to front when it opens
+    useEffect(() => {
+        if (isOpen) {
+            // Small delay to ensure the window is registered first
+            const timer = setTimeout(() => {
+                const newZIndex = bringToFront(windowId);
+                if (newZIndex) {
+                    setZIndex(newZIndex);
+                }
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen, windowId, bringToFront]);
 
     // Handle window click to bring to front
     const handleWindowClick = useCallback((e) => {
+        // Don't bring to front if clicking on interactive elements (buttons, inputs, etc.)
+        const target = e.target;
+        if (target.tagName === 'BUTTON' || 
+            target.tagName === 'INPUT' || 
+            target.tagName === 'SELECT' || 
+            target.tagName === 'TEXTAREA' ||
+            target.closest('button') ||
+            target.closest('input') ||
+            target.closest('select') ||
+            target.closest('textarea')) {
+            return;
+        }
+        
         // Only bring to front if clicking on the window itself, not dragging
         if (!isDragging) {
             const newZIndex = bringToFront(windowId);

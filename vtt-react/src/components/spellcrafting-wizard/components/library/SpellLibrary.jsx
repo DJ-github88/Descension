@@ -146,6 +146,11 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     hasActiveCharacter,
     hasClassSpells
   } = useClassSpellLibrary();
+  // Reset active category when class changes to avoid stale category filters
+  useEffect(() => {
+    setActiveCategory(null);
+    setCurrentPage(1);
+  }, [characterClass]);
 
   // Get general spells with weapon integration
   const {
@@ -178,12 +183,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   useEffect(() => {
     const loadUserSpellsFromFirebase = async () => {
       if (user?.uid && !userSpellsLoaded) {
-        console.log('📚 Loading user spells from Firebase for user:', user.uid);
         try {
           const userSpells = await loadUserSpells(user.uid);
 
           if (userSpells && userSpells.length > 0) {
-            console.log(`✅ Loaded ${userSpells.length} spells from Firebase`);
 
             // Add each spell to the library if it doesn't already exist
             userSpells.forEach(spell => {
@@ -192,8 +195,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                 dispatch({ type: 'ADD_SPELL_DIRECT', payload: spell });
               }
             });
-          } else {
-            console.log('📚 No user spells found in Firebase');
           }
 
           setUserSpellsLoaded(true);
@@ -210,22 +211,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     loadUserSpellsFromFirebase();
   }, [user?.uid, userSpellsLoaded, dispatch, library.spells]);
 
-  // Debug: Log spell library state changes
+  // Debug: Log spell library state changes (disabled)
   useEffect(() => {
-    console.log('🎭 SpellLibrary Debug:', {
-      hasActiveCharacter,
-      hasClassSpells,
-      characterClass,
-      activeCharacter: activeCharacter ? { id: activeCharacter.id, name: activeCharacter.name, class: activeCharacter.class } : null,
-      spellCategoriesCount: spellCategories.length,
-      classSpellsLoading,
-      classSpellsError,
-      userLoggedIn: !!user?.uid,
-      userSpellsLoaded,
-      totalSpellsInLibrary: library.spells.length,
-      generalSpellsCount: generalSpells.length,
-      allSpellCategoriesCount: allSpellCategories.length
-    });
+    // Debug logging disabled
   }, [hasActiveCharacter, hasClassSpells, characterClass, activeCharacter, spellCategories.length, classSpellsLoading, classSpellsError, user?.uid, userSpellsLoaded, library.spells.length, generalSpells.length, allSpellCategories.length]);
 
   // Calculate preview panel position when a spell is selected
@@ -326,6 +314,19 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
     }
 
+    // Derive effectTypes from available configs/effects (do not default to 'utility')
+    const derivedEffectTypes = Array.isArray(spell.effectTypes) ? [...spell.effectTypes] : [];
+    if (!derivedEffectTypes.includes('damage') && (spell.damageConfig || spell.effects?.damage)) derivedEffectTypes.push('damage');
+    if (!derivedEffectTypes.includes('healing') && (spell.healingConfig || spell.effects?.healing)) derivedEffectTypes.push('healing');
+    if (!derivedEffectTypes.includes('buff') && (spell.buffConfig || spell.effects?.buff)) derivedEffectTypes.push('buff');
+    if (!derivedEffectTypes.includes('debuff') && (spell.debuffConfig || spell.effects?.debuff)) derivedEffectTypes.push('debuff');
+    if (!derivedEffectTypes.includes('control') && (spell.controlConfig || spell.effects?.control)) derivedEffectTypes.push('control');
+    if (!derivedEffectTypes.includes('utility') && (spell.utilityConfig || spell.effects?.utility)) derivedEffectTypes.push('utility');
+    if (!derivedEffectTypes.includes('summoning') && (spell.summonConfig || spell.summoningConfig || spell.effects?.summoning)) derivedEffectTypes.push('summoning');
+    if (!derivedEffectTypes.includes('transformation') && (spell.transformationConfig || spell.effects?.transformation)) derivedEffectTypes.push('transformation');
+    if (!derivedEffectTypes.includes('purification') && (spell.purificationConfig)) derivedEffectTypes.push('purification');
+    if (!derivedEffectTypes.includes('restoration') && (spell.restorationConfig)) derivedEffectTypes.push('restoration');
+
     // Create a properly structured spell object for the unified card
     return {
       // Basic Information
@@ -335,8 +336,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       level: spell.level || 1,
       icon: icon,
       spellType: spell.spellType || 'ACTION',
-      effectType: spell.effectTypes && spell.effectTypes.length > 0 ? spell.effectTypes[0] : 'utility',
-      effectTypes: spell.effectTypes || [],
+      effectType: derivedEffectTypes.length > 0 ? derivedEffectTypes[0] : undefined,
+      effectTypes: derivedEffectTypes,
 
       // Type configuration
       typeConfig: spell.typeConfig || {},
@@ -416,6 +417,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       purificationConfig: spell.purificationConfig || null,
       restorationConfig: spell.restorationConfig || null,
       healingConfig: spell.healingConfig || null,
+      
+      // CRITICAL: Preserve original effects object for legacy format support
+      // UnifiedSpellCard checks effects.buff, effects.healing, etc. for legacy formats
+      effects: spell.effects || null,
 
       // Advanced mechanics
       mechanicsConfig: spell.mechanicsConfig || null,
@@ -534,26 +539,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       spells: spellsToFilter
     };
 
-    console.log('📚 [SpellLibrary] Before filtering:', {
-      spellsToFilterCount: spellsToFilter.length,
-      spellIds: spellsToFilter.map(s => s.id),
-      spellNames: spellsToFilter.map(s => s.name),
-      activeFilters: library.filters
-    });
-
     const filtered = filterSpells(tempLibrary, library.filters);
     const sorted = sortSpells(filtered, library.sortOrder);
 
-    console.log('📚 [SpellLibrary] After filtering:', {
-      hasActiveCharacter,
-      hasClassSpells,
-      activeCategory,
-      spellsToFilterCount: spellsToFilter.length,
-      filteredCount: filtered.length,
-      sortedCount: sorted.length,
-      spellIds: sorted.map(s => s.id),
-      spellNames: sorted.map(s => s.name)
-    });
 
     return sorted;
   }, [
@@ -592,13 +580,11 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Handle spell selection
   const handleSelectSpell = (spellId, isEditing = false) => {
-    console.log('[SpellLibrary] handleSelectSpell called:', { spellId, isEditing });
     // Select the spell in the library state
     dispatch(libraryActionCreators.selectSpell(spellId));
 
     if (isEditing) {
       const selectedSpell = library.spells.find(spell => spell.id === spellId);
-      console.log('[SpellLibrary] Found spell for editing:', selectedSpell);
       if (!selectedSpell) {
         console.error('[SpellLibrary] Could not find spell to edit');
         return;
@@ -608,15 +594,12 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
       // Prefer direct prop if provided (within SpellwizardApp)
       if (onLoadSpell) {
-        console.log('[SpellLibrary] Using onLoadSpell prop');
         onLoadSpell(originalSpell, true);
       } else if (typeof window !== 'undefined' && typeof window.handleLoadSpell === 'function') {
         // Use globally exposed handler from SpellwizardApp when available
-        console.log('[SpellLibrary] Using window.handleLoadSpell');
         window.handleLoadSpell(originalSpell, true);
       } else if (typeof window !== 'undefined') {
         // Fallback: dispatch internal event that SpellwizardApp listens for
-        console.log('[SpellLibrary] Dispatching internalLoadSpell event');
         window.dispatchEvent(new CustomEvent('internalLoadSpell', {
           detail: { spell: originalSpell, editMode: true }
         }));
@@ -625,10 +608,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       // If the SpellbookWindow is open, switch to the Wizard tab via Zustand store
       try {
         const { setActiveTab } = useSpellbookStore.getState();
-        console.log('[SpellLibrary] Switching to wizard tab');
         if (typeof setActiveTab === 'function') setActiveTab('wizard');
       } catch (err) {
-        console.log('[SpellLibrary] Could not switch tab:', err);
+        // Silently handle tab switching errors
       }
     }
   };
@@ -638,18 +620,12 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Handle spell deletion with confirmation
   const handleDeleteSpell = (spellId, spellName) => {
-    console.log('[SpellLibrary] handleDeleteSpell called:', { spellId, spellName });
-    console.log('[SpellLibrary] Current library state:', library);
-    console.log('[SpellLibrary] Spell exists in library?', library.spells.some(s => s.id === spellId));
     setDeleteConfirmation({ spellId, spellName });
   };
 
   // Confirm deletion
   const confirmDelete = () => {
     if (deleteConfirmation) {
-      console.log('[SpellLibrary] User confirmed deletion');
-      console.log('[SpellLibrary] Deleting spell:', deleteConfirmation.spellId);
-
       const spellId = deleteConfirmation.spellId;
 
       // Check if this is a custom spell (starts with "custom-" or has isCustom flag)
@@ -660,18 +636,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       );
 
       if (isCustomSpell) {
-        console.log('[SpellLibrary] Removing custom spell using removeCustomSpell');
         removeCustomSpell(spellId);
       } else {
-        console.log('[SpellLibrary] Removing from library.spells using dispatch');
-        console.log('[SpellLibrary] Current spells before deletion:', library.spells.map(s => s.id));
-
         const action = libraryActionCreators.deleteSpell(spellId);
-        console.log('[SpellLibrary] Dispatching action:', action);
-
         dispatch(action);
-
-        console.log('[SpellLibrary] Action dispatched, waiting for state update');
       }
 
       setDeleteConfirmation(null);
@@ -680,7 +648,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Cancel deletion
   const cancelDelete = () => {
-    console.log('[SpellLibrary] User cancelled deletion');
     setDeleteConfirmation(null);
   };
 
@@ -691,14 +658,11 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Handle right-click on spell card
   const handleSpellContextMenu = useCallback((e, spellId) => {
-    console.log('[SpellLibrary] handleSpellContextMenu called!', { spellId, button: e.button, type: e.type });
-    console.log('[SpellLibrary] Available spells:', library.spells.map(s => s.id));
     e.preventDefault();
     e.stopPropagation();
 
     // Find the spell object by ID
     const spellObj = library.spells.find(s => s.id === spellId);
-    console.log('[SpellLibrary] Found spell:', spellObj);
 
     if (spellObj) {
       // Calculate position to ensure context menu stays within viewport
@@ -728,7 +692,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
 
       // Set the context menu state with adjusted position and spell ID
-      console.log('[SpellLibrary] Opening context menu at', { x: posX, y: posY, spellId });
       setContextMenu({
         x: posX,
         y: posY,
@@ -990,7 +953,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                       <button
                         key={char.id}
                         onClick={async () => {
-                          console.log(`🎮 Activating character: ${char.name} (${char.class})`);
                           await setActiveCharacter(char.id);
                         }}
                         className="character-activation-btn"
@@ -1213,7 +1175,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                         };
                         e.dataTransfer.setData('application/json', JSON.stringify(spellData));
                         e.dataTransfer.effectAllowed = 'copy';
-                        console.log('Dragging spell from library:', spellData);
                       }}
                       onMouseEnter={(e) => {
                         // Clear any existing timer
@@ -1515,7 +1476,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           library.spells.some(s => s.id === contextMenu.spellId)
         );
 
-        console.log('[SpellLibrary] Context menu for spell:', spell?.name, 'ID:', spell?.id, 'isCustom:', isCustomSpell, 'spell.isCustom:', spell?.isCustom);
 
         return ReactDOM.createPortal(
           <SpellContextMenu
@@ -1527,9 +1487,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             inCollection={false}
             isCustomSpell={isCustomSpell}
             onEdit={isCustomSpell ? (spellId) => {
-              console.log('[SpellLibrary] onEdit called with spellId:', spellId);
               const spellToEdit = library.spells.find(s => s.id === spellId);
-              console.log('[SpellLibrary] Found spell to edit:', spellToEdit);
               if (spellToEdit) {
                 handleSelectSpell(spellId, true);
               } else {
@@ -1537,7 +1495,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               }
             } : null}
             onDelete={isCustomSpell ? (spellId) => {
-              console.log('[SpellLibrary] onDelete called with spellId:', spellId);
               const spellToDelete = library.spells.find(s => s.id === spellId);
               handleDeleteSpell(spellId, spellToDelete?.name || 'Unknown Spell');
             } : null}

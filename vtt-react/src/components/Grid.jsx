@@ -581,7 +581,6 @@ export default function Grid() {
             if (isDraggingCharacterToken) {
                 const gridElement = gridRef.current;
                 if (gridElement && !gridElement.contains(event.target)) {
-                    console.log('🎭 Resetting character token dragging state due to click outside grid');
                     setIsDraggingCharacterToken(false);
                 }
             }
@@ -1057,6 +1056,7 @@ export default function Grid() {
             const isItemDrag = target.closest('.item-card') ||
                               target.closest('.inventory-item') ||
                               target.closest('.container-item') ||
+                              target.closest('.gm-item') || // GM notes items
                               window.isDraggingItem; // Also check global flag set by ItemCard
 
             if (isItemDrag) {
@@ -1101,13 +1101,6 @@ export default function Grid() {
     const handleDragOver = (e, tile) => {
         e.preventDefault();
 
-        // Debug logging
-        console.log('🔍 Drag over grid:', {
-            isDraggingItemRef: isDraggingItemRef.current,
-            windowIsDraggingItem: window.isDraggingItem,
-            isDraggingCreature: isDraggingCreature,
-            dataTransferTypes: e.dataTransfer.types
-        });
 
         // For item drags (from inventory, containers, or item library), allow the drop
         // The dropEffect is set based on whether the item will be moved or copied
@@ -1124,13 +1117,10 @@ export default function Grid() {
                 // Fallback: use copy to be safe for library drags
                 e.dataTransfer.dropEffect = 'copy';
             }
-            console.log('✅ Item drag detected, allowing drop with dropEffect:', e.dataTransfer.dropEffect, 'effectAllowed:', allowed);
         } else if (isDraggingCreature) {
             e.dataTransfer.dropEffect = 'copy';
-            console.log('✅ Creature drag detected, allowing drop');
         } else {
             e.dataTransfer.dropEffect = 'copy';
-            console.log('⚠️ Unknown drag type, defaulting to copy');
         }
 
         setHoveredTile(tile);
@@ -1263,19 +1253,108 @@ export default function Grid() {
 
         // Handle drop event for document-level drops
         const handleDocumentDrop = (e) => {
-            console.log('📄 Document-level drop event fired!', {
-                isDraggingCreature,
-                isDraggingItemRef: isDraggingItemRef.current,
-                windowIsDraggingItem: window.isDraggingItem,
-                target: e.target.className
-            });
-
-            // Check if this is an item drop (not just creature drops)
             const dataText = e.dataTransfer.getData('text/plain');
+            
+            // Handle item drops
+            if (isDraggingItemRef.current || window.isDraggingItem) {
+                e.preventDefault();
+                
+                try {
+                    if (dataText && dataText.trim() !== '') {
+                        const data = JSON.parse(dataText);
+                        
+                        // Handle item drops from GM notes or item library
+                        // GM notes spreads the full item, so data.type will be the item's actual type (weapon, armor, etc.)
+                        // Item library uses data.type === 'item' and stores item in data.item
+                        // Check for both cases: data.type === 'item' OR data has item properties (name, iconId) with an id
+                        const isItemDrop = data.type === 'item' || (data.id && (data.name || data.iconId));
+                        if (isItemDrop) {
+                            const itemId = data.id;
+                            // GM notes items spread the full item data into data, while item library uses data.item
+                            // If data has item properties (not just type and id), use data as the item
+                            // Check for actual item properties (name, iconId) rather than just 'type' which could be 'item'
+                            const hasItemData = data.name || data.iconId;
+                            let item = hasItemData ? data : (data.item || useItemStore.getState().items.find(item => item.id === itemId));
 
-            // Only handle creature drops here, let canvas handle item drops
+                            // If we didn't find the item, try to get it from the store
+                            if (!item && itemId) {
+                                item = useItemStore.getState().items.find(item => item.id === itemId);
+                            }
+
+                            if (item && item.name) {
+                                // Use the infinite grid system to get proper coordinates
+                                const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
+                                const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+                                // All items (including containers) should be positioned at the center of the tile
+                                const position = {
+                                    x: worldPos.x,
+                                    y: worldPos.y,
+                                    gridPosition: {
+                                        row: gridCoords.y,
+                                        col: gridCoords.x
+                                    }
+                                };
+
+                                // Ensure position data is properly set
+                                const positionCopy = {
+                                    x: position.x,
+                                    y: position.y,
+                                    gridPosition: {
+                                        row: position.gridPosition.row,
+                                        col: position.gridPosition.col
+                                    }
+                                };
+
+                                // Create a clean version of the item without any position properties or drag-tracking properties
+                                const cleanItem = { ...item };
+                                delete cleanItem.position;
+                                delete cleanItem.gridPosition;
+                                // Remove the drag-tracking 'type: item' property if it exists, but preserve the actual item type
+                                // The actual item type should have been spread from ...item and will override 'item'
+                                // Only remove 'type: item' if the item has no real type (which shouldn't happen)
+                                if (cleanItem.type === 'item' && (!cleanItem.name || !cleanItem.iconId)) {
+                                    // This shouldn't happen, but handle edge case
+                                    console.warn('Item missing proper type, may have been incorrectly parsed:', cleanItem);
+                                }
+
+                                // Ensure item has required properties for addItemToGrid
+                                if (!cleanItem.type && cleanItem.name) {
+                                    // Try to infer type from item properties if missing
+                                    cleanItem.type = cleanItem.weaponStats ? 'weapon' : 
+                                                     cleanItem.armorClass ? 'armor' : 
+                                                     cleanItem.utilityStats ? 'accessory' : 
+                                                     'miscellaneous';
+                                }
+
+                                // Add the item to the grid with the clean position data
+                                console.log('Adding item to grid from GM notes:', cleanItem.name, cleanItem.type, positionCopy);
+                                addItemToGrid(cleanItem, positionCopy, true); // Send to server
+
+                                // Trigger auto-save for local rooms after placing item
+                                setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
+                            } else {
+                                console.error('Failed to find item for drop:', { itemId, hasItemData, item, data });
+                            }
+                            
+                            // Clear item drag flags
+                            isDraggingItemRef.current = false;
+                            setIsDraggingItem(false);
+                            window.isDraggingItem = false;
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error handling item drop:', error);
+                    // Clear item drag flags on error
+                    isDraggingItemRef.current = false;
+                    setIsDraggingItem(false);
+                    window.isDraggingItem = false;
+                }
+            }
+
+            // Handle creature drops
             if (!isDraggingCreature) {
-                console.log('📄 Not a creature drop, letting canvas handle it');
                 return;
             }
 
@@ -1293,7 +1372,6 @@ export default function Grid() {
 
                     // Force immediate save for local rooms after placing creature token
                     setTimeout(() => {
-                        console.log('💾 Force saving after token placement');
                         forceSaveCurrentRoom();
                     }, 500);
                 } else {
@@ -1307,16 +1385,12 @@ export default function Grid() {
                                 // Use the infinite grid system to get proper coordinates
                                 const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
                                 const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
-                                console.log('✅ Legitimate document-level creature drop - adding token for:', data.id);
                                 addToken(data.id, { x: worldPos.x, y: worldPos.y });
 
                                 // Force immediate save for local rooms after placing creature token
                                 setTimeout(() => {
-                                    console.log('💾 Force saving after document-level token placement');
                                     forceSaveCurrentRoom();
                                 }, 500);
-                            } else {
-                                console.log('🚫 Ignoring document-level creature drop - not a legitimate drag operation');
                             }
                         }
                     }
@@ -1351,7 +1425,7 @@ export default function Grid() {
             document.removeEventListener('drop', handleDocumentDrop);
             document.removeEventListener('dragover', handleDocumentDragOver);
         };
-    }, [isDraggingCreature, addToken, tileSize]);
+    }, [isDraggingCreature, addToken, tileSize, addItemToGrid]);
 
     // Handle removing a token
     const handleRemoveToken = (tokenId) => {
@@ -1367,7 +1441,6 @@ export default function Grid() {
 
     // Handle character inspection from token
     const handleCharacterTokenInspect = (characterData, isSelf) => {
-        console.log('🔍 Grid: Character token inspect requested:', { characterData, isSelf });
 
         // Dispatch a custom event that HUDContainer can listen for
         const inspectEvent = new CustomEvent('openCharacterSheet', {
@@ -1427,7 +1500,6 @@ export default function Grid() {
     const handleGridClick = (e, tile) => {
         // CRITICAL FIX: Allow context menu events to pass through to tokens
         if (e.type === 'contextmenu') {
-            console.log('🎯 Context menu event detected - allowing token context menus');
             // Don't prevent context menu events - let them bubble to tokens
             return;
         }
@@ -1435,7 +1507,6 @@ export default function Grid() {
         // CRITICAL FIX: COMPLETELY DISABLE LEFT-CLICK GRID HANDLING
         // Check global token interaction flag first (for production build compatibility)
         if (window.tokenInteractionActive) {
-            console.log('🚫 Grid click ignored - token interaction active (global flag)');
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -1443,7 +1514,6 @@ export default function Grid() {
 
         // Check if token interaction happened very recently (production build safety)
         if (window.tokenInteractionTimestamp && (Date.now() - window.tokenInteractionTimestamp) < 100) {
-            console.log('🚫 Grid click ignored - recent token interaction detected');
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -1452,7 +1522,6 @@ export default function Grid() {
         // Only allow grid clicks for character token placement mode
         if (e.button === 0) { // Left click
             if (!isDraggingCharacterToken) {
-                console.log('🚫 Left-click on grid ignored - only drag and drop should move tokens');
                 e.stopPropagation();
                 e.preventDefault();
                 return;
@@ -1460,8 +1529,6 @@ export default function Grid() {
         }
 
         // CRITICAL FIX: Comprehensive check to prevent any token interaction
-        console.log('🎯 Grid click detected, checking for token interference...');
-
         // Check if the click is on a token or interactive element first
         if (e.target.classList.contains('creature-token') ||
             e.target.classList.contains('character-token') ||
@@ -1469,7 +1536,6 @@ export default function Grid() {
             e.target.closest('.character-token') ||
             e.target.classList.contains('grid-item-orb') ||
             e.target.closest('.grid-item-orb')) {
-            console.log('🚫 Grid click ignored - clicked on token/item directly');
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -1485,7 +1551,6 @@ export default function Grid() {
             elementAtPoint.closest('.character-token') ||
             elementAtPoint.closest('.grid-item-orb')
         )) {
-            console.log('🚫 Grid click ignored - interactive element detected at click position');
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -1493,7 +1558,6 @@ export default function Grid() {
 
         // Check if any token is currently being dragged
         if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
-            console.log('🚫 Grid click ignored - token is being dragged');
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -1502,7 +1566,6 @@ export default function Grid() {
         // Additional check for any active token interactions
         const activeTokenInteraction = document.querySelector('.creature-token.dragging, .character-token.dragging');
         if (activeTokenInteraction) {
-            console.log('🚫 Grid click ignored - token interaction in progress');
             e.stopPropagation();
             e.preventDefault();
             return;
@@ -1570,12 +1633,10 @@ export default function Grid() {
         // If we're not in character token placement mode and this is a regular click,
         // don't do anything - let the event bubble up normally
         // This prevents unwanted token movement when clicking on empty grid cells
-        console.log('🎯 Grid click processed - no action taken (normal behavior)');
     };
 
     // Handle drop for grid tiles
     const handleDrop = (e, tile) => {
-        console.log('🎯 DROP EVENT FIRED on tile:', tile.gridX, tile.gridY);
         e.preventDefault();
         setHoveredTile(null);
 
@@ -1626,16 +1687,12 @@ export default function Grid() {
 
                 // Only add token if we're actually dragging a creature
                 if (isDraggingCreature) {
-                    console.log('✅ Legitimate creature drop - adding token for:', data.id);
                     addToken(data.id, { x: worldPos.x, y: worldPos.y });
 
                     // Force immediate save for local rooms after placing creature token
                     setTimeout(() => {
-                        console.log('💾 Force saving after canvas token placement');
                         forceSaveCurrentRoom();
                     }, 500);
-                } else {
-                    console.log('🚫 Ignoring creature drop - not a legitimate drag operation');
                 }
                 return;
             }
@@ -1786,7 +1843,6 @@ export default function Grid() {
                 const containerId = data.containerId;
 
                 if (item && containerId) {
-                    console.log('Container item dropped onto grid:', item);
 
                     // Use the actual tile coordinates where the item was dropped
                     const gridCoords = { x: tile.gridX, y: tile.gridY };

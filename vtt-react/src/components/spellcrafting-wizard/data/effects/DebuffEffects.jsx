@@ -1150,9 +1150,15 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                 value={debuffConfig.durationValue || 1}
                 placeholder="1"
                 onChange={(e) => {
-                  updateDebuffConfig('durationValue', parseInt(e.target.value));
-                  // Also update legacy duration field for backward compatibility
-                  updateDebuffConfig('duration', parseInt(e.target.value));
+                  const value = parseInt(e.target.value) || 1;
+                  // Update both fields in a single call to avoid race conditions
+                  const newConfig = {
+                    ...debuffConfig,
+                    durationValue: value,
+                    duration: value // Legacy field for backward compatibility
+                  };
+                  setDebuffConfig(newConfig);
+                  dispatch(actionCreators.updateDebuffConfig(newConfig));
                 }}
                 className="pf-input"
               />
@@ -1240,41 +1246,6 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           )}
         </div>
 
-        <div className="config-option">
-          <label>Stacking</label>
-          <select
-            value={debuffConfig.stackingRule || 'replace'}
-            onChange={(e) => {
-              const newStackingRule = e.target.value;
-              updateDebuffConfig('stackingRule', newStackingRule);
-
-              // Initialize progressiveStages array when selecting progressive stacking rule
-              if (newStackingRule === 'progressive' && !debuffConfig.progressiveStages) {
-                updateDebuffConfig('progressiveStages', []);
-              }
-            }}
-            className="buff-dropdown"
-          >
-            {DEBUFF_STACKING_RULE_OPTIONS.map(rule => (
-              <option key={rule.value} value={rule.value}>
-                {rule.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="config-option">
-          <label>Max Stacks</label>
-          <input
-            type="number"
-            value={debuffConfig.maxStacks || 1}
-            min="1"
-            max="10"
-            onChange={(e) => updateDebuffConfig('maxStacks', parseInt(e.target.value))}
-            disabled={debuffConfig.stackingRule !== 'selfStacking' && debuffConfig.stackingRule !== 'cumulative'}
-          />
-        </div>
-
         {/* Saving Throw Configuration */}
         <div className="pf-config-section">
           <h4 className="pf-section-header">Saving Throw</h4>
@@ -1322,25 +1293,13 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                 className={`pf-button ${debuffConfig.saveOutcome === 'negates' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateDebuffConfig('saveOutcome', 'negates')}
               >
-                Negates
-              </button>
-              <button
-                className={`pf-button ${debuffConfig.saveOutcome === 'halves_duration' ? 'pf-button-selected' : ''}`}
-                onClick={() => updateDebuffConfig('saveOutcome', 'halves_duration')}
-              >
-                Halves Duration
+                Negate
               </button>
               <button
                 className={`pf-button ${debuffConfig.saveOutcome === 'halves_effects' ? 'pf-button-selected' : ''}`}
                 onClick={() => updateDebuffConfig('saveOutcome', 'halves_effects')}
               >
-                Halves Effects
-              </button>
-              <button
-                className={`pf-button ${debuffConfig.saveOutcome === 'reduces_level' ? 'pf-button-selected' : ''}`}
-                onClick={() => updateDebuffConfig('saveOutcome', 'reduces_level')}
-              >
-                Reduces Level
+                Halves
               </button>
             </div>
           </div>

@@ -29,6 +29,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, x: 0, y: 0, item: null });
     const [windowPosition, setWindowPosition] = useState({ x: 150, y: 50 });
     const [windowSize, setWindowSize] = useState({ width: 800, height: 600 }); // Smaller window size
+    const [craftingTimeUnit, setCraftingTimeUnit] = useState('seconds'); // Time unit for crafting time
 
     const steps = [
         'Basic Info',
@@ -377,7 +378,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
 
             case 3: // Requirements
                 return (
-                    <div className="recipe-step">
+                    <div className="recipe-step" data-step="requirements">
                         <h3>Recipe Requirements</h3>
                         <div className="spell-wizard-form-group">
                             <label className="spell-wizard-label">Required Skill Level</label>
@@ -393,14 +394,67 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                         </div>
 
                         <div className="spell-wizard-form-group">
-                            <label className="spell-wizard-label">Crafting Time (seconds)</label>
-                            <input
-                                type="number"
-                                className="spell-wizard-input"
-                                value={recipeData.craftingTime / 1000}
-                                onChange={(e) => updateRecipeData({ craftingTime: parseInt(e.target.value) * 1000 })}
-                                min="1"
-                            />
+                            <label className="spell-wizard-label">Crafting Time</label>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                <input
+                                    type="number"
+                                    className="spell-wizard-input"
+                                    value={(() => {
+                                        switch(craftingTimeUnit) {
+                                            case 'seconds': return recipeData.craftingTime / 1000;
+                                            case 'minutes': return recipeData.craftingTime / (1000 * 60);
+                                            case 'hours': return recipeData.craftingTime / (1000 * 60 * 60);
+                                            case 'days': return recipeData.craftingTime / (1000 * 60 * 60 * 24);
+                                            default: return recipeData.craftingTime / 1000;
+                                        }
+                                    })()}
+                                    onChange={(e) => {
+                                        const value = parseFloat(e.target.value) || 0;
+                                        let timeMs = 0;
+                                        switch(craftingTimeUnit) {
+                                            case 'seconds': timeMs = value * 1000; break;
+                                            case 'minutes': timeMs = value * 1000 * 60; break;
+                                            case 'hours': timeMs = value * 1000 * 60 * 60; break;
+                                            case 'days': timeMs = value * 1000 * 60 * 60 * 24; break;
+                                            default: timeMs = value * 1000;
+                                        }
+                                        updateRecipeData({ craftingTime: Math.max(0, timeMs) });
+                                    }}
+                                    min="0"
+                                    step={craftingTimeUnit === 'days' ? '0.1' : '1'}
+                                    style={{ flex: 1, minWidth: '150px' }}
+                                />
+                                <select
+                                    className="spell-wizard-input"
+                                    value={craftingTimeUnit}
+                                    onChange={(e) => {
+                                        setCraftingTimeUnit(e.target.value);
+                                        // Convert current value to new unit
+                                        const currentValue = (() => {
+                                            switch(craftingTimeUnit) {
+                                                case 'seconds': return recipeData.craftingTime / 1000;
+                                                case 'minutes': return recipeData.craftingTime / (1000 * 60);
+                                                case 'hours': return recipeData.craftingTime / (1000 * 60 * 60);
+                                                case 'days': return recipeData.craftingTime / (1000 * 60 * 60 * 24);
+                                                default: return recipeData.craftingTime / 1000;
+                                            }
+                                        })();
+                                        // Keep the same displayed value but convert the underlying ms
+                                        switch(e.target.value) {
+                                            case 'seconds': updateRecipeData({ craftingTime: currentValue * 1000 }); break;
+                                            case 'minutes': updateRecipeData({ craftingTime: currentValue * 1000 * 60 }); break;
+                                            case 'hours': updateRecipeData({ craftingTime: currentValue * 1000 * 60 * 60 }); break;
+                                            case 'days': updateRecipeData({ craftingTime: currentValue * 1000 * 60 * 60 * 24 }); break;
+                                        }
+                                    }}
+                                    style={{ width: '85px', flexShrink: 0 }}
+                                >
+                                    <option value="seconds">Sec</option>
+                                    <option value="minutes">Min</option>
+                                    <option value="hours">Hour</option>
+                                    <option value="days">Day</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div className="spell-wizard-form-group">
@@ -516,7 +570,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
             defaultSize={windowSize}
             defaultPosition={windowPosition}
             onDrag={handleWindowDrag}
-
+            modal={true}
             className="recipe-wizard"
         >
             <div className="recipe-wizard-content">

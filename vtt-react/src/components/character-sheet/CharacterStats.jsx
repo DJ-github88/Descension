@@ -28,7 +28,7 @@ const DAMAGE_TYPES = {
     lightning: {
         name: 'Lightning',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg',
-        color: '#FFD700'
+        color: '#b8860b'
     },
     acid: {
         name: 'Acid',
@@ -48,7 +48,7 @@ const DAMAGE_TYPES = {
     radiant: {
         name: 'Radiant',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg',
-        color: '#FFD700'
+        color: '#b8860b'
     },
     poison: {
         name: 'Poison',
@@ -693,7 +693,7 @@ export default function CharacterStats() {
                     baseValue: experience,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg',
-                    color: '#FFD700',
+                    color: '#8b6914',
                     description: xpProgress.isMaxLevel
                         ? 'You have reached maximum level!'
                         : `Progress to level ${level + 1}: ${Math.round(xpProgress.percentage)}%`
@@ -722,7 +722,7 @@ export default function CharacterStats() {
                     baseValue: actionPoints.max,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_battleshout.jpg',
-                    color: '#ffd100',
+                    color: '#b8860b',
                     description: 'Current and maximum action points per turn'
                 },
                 {
@@ -731,7 +731,7 @@ export default function CharacterStats() {
                     baseValue: Math.round(Math.floor((stats.agility || 10) / 2) || 0),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
-                    color: '#C0C0C0',
+                    color: '#6b6b6b',
                     description: 'Physical damage reduction'
                 },
                 {
@@ -749,7 +749,7 @@ export default function CharacterStats() {
                     baseValue: 10 + Math.floor(((typeof stats.spirit === 'object' ? stats.spirit.value : stats.spirit || 10) - 10) / 2),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
-                    color: '#FFD700',
+                    color: '#8b6914',
                     description: 'Passive awareness of surroundings (10 + Spirit modifier)'
                 },
                 {
@@ -894,7 +894,7 @@ export default function CharacterStats() {
                     baseValue: Math.round(Math.floor((stats.agility || 10) / 2) || 0), // Use original stats
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
-                    color: '#C0C0C0',
+                    color: '#6b6b6b',
                     description: 'Physical damage reduction'
                 },
 
@@ -929,7 +929,7 @@ export default function CharacterStats() {
                     baseValue: Math.round(Math.floor((stats.constitution || 10) / 2) || 0), // Use original stats
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg',
-                    color: '#44ff44',
+                    color: '#228b22',
                     description: 'Health recovered per turn'
                 },
                 {
@@ -947,7 +947,7 @@ export default function CharacterStats() {
                     baseValue: Math.round(Math.floor((stats.spirit || 10) / 2) || 0), // Use original stats
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-                    color: '#ffff44',
+                    color: '#b8860b',
                     description: 'Bonus to healing spells and abilities'
                 },
                 {
@@ -956,7 +956,7 @@ export default function CharacterStats() {
                     baseValue: 0,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofsacrifice.jpg',
-                    color: '#ffcc44',
+                    color: '#b8860b',
                     description: 'Bonus to healing received from others'
                 }
             ]
@@ -984,7 +984,7 @@ export default function CharacterStats() {
                     baseValue: 30,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-                    color: '#44ff44',
+                    color: '#228b22',
                     description: 'Base walking speed in feet per turn'
                 },
                 {
@@ -1018,7 +1018,7 @@ export default function CharacterStats() {
                     baseValue: 60,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
-                    color: '#ffff44',
+                    color: '#b8860b',
                     description: 'Normal vision range in feet'
                 },
                 {

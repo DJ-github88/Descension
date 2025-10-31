@@ -978,8 +978,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
         // Add armor if it's armor type
         if (type === 'armor') {
+            // Scale the range based on power level - at low levels allow 1, at high levels allow higher values
+            const armorMin = Math.max(1, Math.floor(powerLevel * 3));
+            const armorMax = Math.max(armorMin + 1, Math.floor(powerLevel * 15));
+            
             combatStats.armorClass = {
-                value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(5, 15))),
+                value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(armorMin, armorMax))),
                 isPercentage: false
             };
         }
@@ -989,7 +993,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         if (type === 'armor') {
             // Use the selected armor slot, or handle shield special case
             if (itemSubtype === 'SHIELD' || armorSlot === 'offHand') {
-                slots = ['offHand'];
+                slots = ['off_hand']; // Use snake_case for consistency with ItemTooltip
             } else {
                 slots = [armorSlot];
             }
@@ -1152,13 +1156,19 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
         // Add max health/mana bonus if enabled or high complexity (only for stat-generating items)
         if (shouldGenerateStats && (includeHealthMana || complexity > 0.6)) {
+            // Scale the range based on power level - at low levels allow 1, at high levels allow higher values
+            const healthMin = Math.max(1, Math.floor(powerLevel * 3));
+            const healthMax = Math.max(healthMin + 1, Math.floor(powerLevel * 20));
+            const manaMin = Math.max(1, Math.floor(powerLevel * 2));
+            const manaMax = Math.max(manaMin + 1, Math.floor(powerLevel * 15));
+            
             combatStats.maxHealth = {
-                value: Math.max(5, Math.floor(powerMultiplier * getRandomInt(5, 20))),
+                value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(healthMin, healthMax))),
                 isPercentage: !healthManaFlat
             };
 
             combatStats.maxMana = {
-                value: Math.max(5, Math.floor(powerMultiplier * getRandomInt(5, 15))),
+                value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(manaMin, manaMax))),
                 isPercentage: !healthManaFlat
             };
         }
@@ -1178,8 +1188,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
         // Add healing power if enabled or high complexity (only for stat-generating items)
         if (shouldGenerateStats && (includeHealingPower || complexity > 0.7)) {
+            // Scale the range based on power level - at low levels allow 1, at high levels allow higher values
+            const healingMin = Math.max(1, Math.floor(powerLevel * 3));
+            const healingMax = Math.max(healingMin + 1, Math.floor(powerLevel * 15));
+            
             combatStats.healingPower = {
-                value: Math.max(5, Math.floor(powerMultiplier * getRandomInt(5, 15))),
+                value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(healingMin, healingMax))),
                 isPercentage: !healingPowerFlat
             };
         }
@@ -1197,8 +1211,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 const randomIndex = getRandomInt(0, possibleResistances.length - 1);
                 const resistanceType = possibleResistances.splice(randomIndex, 1)[0];
 
+                // Scale resistance values based on power level
+                const resistanceMin = Math.max(1, Math.floor(powerLevel * 3));
+                const resistanceMax = Math.max(resistanceMin + 1, Math.floor(powerLevel * 20));
+                
                 combatStats.resistances[resistanceType] = {
-                    value: Math.max(5, Math.floor(powerMultiplier * getRandomInt(5, 20))),
+                    value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(resistanceMin, resistanceMax))),
                     isPercentage: true,
                     resistant: true
                 };
@@ -1219,8 +1237,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 const randomIndex = getRandomInt(0, possibleSpellTypes.length - 1);
                 const spellType = possibleSpellTypes.splice(randomIndex, 1)[0];
 
+                // Scale spell damage values based on power level
+                const spellMin = Math.max(1, Math.floor(powerLevel * 2));
+                const spellMax = Math.max(spellMin + 1, Math.floor(powerLevel * 10));
+                
                 combatStats.spellDamage.types[spellType] = {
-                    value: Math.max(2, Math.floor(powerMultiplier * getRandomInt(2, 10))),
+                    value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(spellMin, spellMax))),
                     isPercentage: !spellPowerFlat
                 };
             }
@@ -1310,6 +1332,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             type,
             subtype: itemSubtype,
             iconId,
+            imageUrl: getIconUrl(iconId),
             baseStats,
             combatStats,
             weaponStats,
@@ -1633,6 +1656,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
         weaponSlot,
         weaponHand,
+        armorSlot,
+        selectedIcon,
         healthManaFlat,
         regenFlat,
         healingPowerFlat,
@@ -1677,7 +1702,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         generatePreviewItem();
     }, [generatePreviewItem]);
 
-    // Update preview when settings change
+    // Update preview when settings change - removed generatePreviewItem from deps for immediate updates
     useEffect(() => {
         generatePreviewItem();
     }, [
@@ -1705,8 +1730,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
         miscOptions,
         containerOptions,
         currencyOptions,
-        selectedIcon,
-        generatePreviewItem
+        selectedIcon
+        // Removed generatePreviewItem from deps - useCallback ensures it's stable and updates when deps change
     ]);
 
     // Handle shield special case
@@ -1770,6 +1795,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                                 } else {
                                     setSubtype('');
                                 }
+                                // Force immediate preview update - use setTimeout to ensure state is updated
+                                setTimeout(() => generatePreviewItem(), 10);
                             }}
                         >
                             {Object.keys(ITEM_TYPES).map((itemType) => (
@@ -1785,7 +1812,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                             <label>Subtype</label>
                             <select
                                 value={subtype}
-                                onChange={(e) => setSubtype(e.target.value)}
+                                onChange={(e) => {
+                                    const newSubtype = e.target.value;
+                                    setSubtype(newSubtype);
+                                    // Force immediate preview update - use setTimeout to ensure state is updated
+                                    setTimeout(() => generatePreviewItem(), 10);
+                                }}
                             >
                                 <option value="">Random</option>
                                 {Object.keys(ITEM_SUBTYPES[type]).map((subType) => (
@@ -1839,7 +1871,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                             <label>Armor Slot</label>
                             <select
                                 value={armorSlot}
-                                onChange={(e) => setArmorSlot(e.target.value)}
+                                onChange={(e) => {
+                                    const newArmorSlot = e.target.value;
+                                    setArmorSlot(newArmorSlot);
+                                    // Force immediate preview update - use setTimeout to ensure state is updated
+                                    setTimeout(() => generatePreviewItem(), 10);
+                                }}
                                 disabled={subtype === 'SHIELD'}
                             >
                                 {Object.keys(ARMOR_SLOTS).map((slot) => (
@@ -3063,6 +3100,8 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                     onSelect={(iconId) => {
                         setSelectedIcon(iconId);
                         setShowIconSelector(false);
+                        // Force immediate preview update after icon selection - use setTimeout to ensure state is updated
+                        setTimeout(() => generatePreviewItem(), 10);
                     }}
                     onClose={() => setShowIconSelector(false)}
                     currentIcon={selectedIcon || ITEM_TYPES[type]?.icon || 'inv_misc_gem_01'}

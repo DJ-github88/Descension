@@ -191,7 +191,14 @@ const Step10Review = ({
       // Trail information
       aoeParameters: spellState.targetingConfig?.aoeParameters || {},
       movementBehavior: spellState.targetingConfig?.movementBehavior || 'static',
-      targetingConfig: spellState.targetingConfig || {},
+      // Ensure targetingConfig includes aoeType and all fields
+      targetingConfig: {
+        ...spellState.targetingConfig,
+        aoeType: spellState.targetingConfig?.aoeType || spellState.targetingConfig?.aoeShape || 'sphere',
+        targetingType: spellState.targetingConfig?.targetingType || 'single',
+        rangeType: spellState.targetingConfig?.rangeType || 'ranged',
+        rangeDistance: spellState.targetingConfig?.rangeDistance || 30
+      } || {},
 
       // Propagation information
       propagation: spellState.propagation ? {
@@ -230,9 +237,10 @@ const Step10Review = ({
         type: spellState.damageConfig.elementType || spellState.typeConfig?.school || 'force'
       } : null,
 
-      // Damage types
-      damageTypes: spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] :
-                  spellState.typeConfig?.school ? [spellState.typeConfig.school] : ['force'],
+      // Damage types - Use the properly extracted array from above (lines 110-140)
+      damageTypes: damageTypes.length > 0 ? damageTypes : 
+                  (spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] :
+                  spellState.typeConfig?.school ? [spellState.typeConfig.school] : ['force']),
 
       // Saving throw information for damage effects
       damageConfig: {
@@ -2452,6 +2460,60 @@ const Step10Review = ({
     setSaving(true);
 
     try {
+      // Extract damage types properly - same logic as preview function
+      const extractedDamageTypes = [];
+      
+      // First check if we have a primary type selected in Step 1
+      if (spellState.typeConfig?.school) {
+        extractedDamageTypes.push(spellState.typeConfig.school);
+      }
+      
+      // Check for secondary type in Step 1
+      if (spellState.typeConfig?.secondaryElement) {
+        extractedDamageTypes.push(spellState.typeConfig.secondaryElement);
+      }
+      
+      // If no types are set in Step 1, check damage config
+      if (extractedDamageTypes.length === 0 && spellState.damageConfig?.damageType) {
+        // For direct damage
+        if (spellState.damageConfig.damageType === 'direct' && spellState.damageConfig.elementType) {
+          extractedDamageTypes.push(spellState.damageConfig.elementType);
+        }
+        // For DoT damage
+        else if (spellState.damageConfig.damageType === 'dot' && spellState.damageConfig.elementType) {
+          extractedDamageTypes.push(spellState.damageConfig.elementType);
+        }
+        // For combined damage (direct + DoT)
+        else if (spellState.damageConfig.hasDotEffect && spellState.damageConfig.elementType) {
+          extractedDamageTypes.push(spellState.damageConfig.elementType);
+        }
+        // Fallback if elementType is not set
+        else if (spellState.damageConfig.elementType) {
+          extractedDamageTypes.push(spellState.damageConfig.elementType);
+        }
+      }
+      
+      // Ensure targetingConfig has all required fields, including aoeType
+      const fullTargetingConfig = {
+        ...spellState.targetingConfig,
+        // Ensure aoeType is included (may be same as aoeShape or separate)
+        aoeType: spellState.targetingConfig?.aoeType || spellState.targetingConfig?.aoeShape || 'sphere',
+        // Ensure all targeting fields are present
+        targetingType: spellState.targetingConfig?.targetingType || 'single',
+        rangeType: spellState.targetingConfig?.rangeType || 'ranged',
+        rangeDistance: spellState.targetingConfig?.rangeDistance || 30,
+        aoeShape: spellState.targetingConfig?.aoeShape || 'circle',
+        aoeParameters: spellState.targetingConfig?.aoeParameters || {},
+        targetRestrictions: spellState.targetingConfig?.targetRestrictions || 
+                          (spellState.targetingConfig?.targetRestriction ? [spellState.targetingConfig.targetRestriction] : ['any']),
+        maxTargets: spellState.targetingConfig?.maxTargets || 1,
+        selectionMethod: spellState.targetingConfig?.selectionMethod || 
+                        spellState.targetingConfig?.targetSelectionMethod || 'manual',
+        targetSelectionMethod: spellState.targetingConfig?.targetSelectionMethod || 
+                              spellState.targetingConfig?.selectionMethod || 'manual',
+        movementBehavior: spellState.targetingConfig?.movementBehavior || 'static'
+      };
+      
       // Create a complete spell object for the library
       const librarySpell = {
         ...spellState,
@@ -2462,26 +2524,34 @@ const Step10Review = ({
         serializedData: serializeSpell(spellState),
         humanReadable: generateHumanReadable(spellState),
         gameCode: generateGameCode(spellState),
+        
+        // Spell type and type configuration - ensure ALL properties are saved
+        spellType: spellState.spellType || 'ACTION',
+        typeConfig: spellState.typeConfig || {},
+        
         // Ensure trap and trigger configurations are included
         trapConfig: spellState.trapConfig,
         // Only include triggerConfig if it has actual triggers
         triggerConfig: hasTriggers(spellState.triggerConfig) ? spellState.triggerConfig : null,
+        
         // Ensure we have all the necessary properties for the spell card
         effectType: spellState.effectTypes && spellState.effectTypes.length > 0 ? spellState.effectTypes[0] : 'utility',
         effectTypes: spellState.effectTypes || [],
-        damageTypes: spellState.damageTypes || [],
+        
+        // Damage types - use properly extracted array
+        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
+                    (spellState.damageTypes || 
+                    (spellState.damageConfig?.elementType ? [spellState.damageConfig.elementType] : ['force'])),
+        
         tags: [
           ...(spellState.typeConfig?.tags || []),
           ...(spellState.effectTypes || []),
           ...(spellState.tags || [])
         ].filter(Boolean),
-        // Ensure targeting configuration is included
-        targetingConfig: spellState.targetingConfig || {
-          targetType: 'single',
-          range: 30,
-          areaType: 'sphere',
-          areaSize: 10
-        },
+        
+        // Ensure targeting configuration is included with ALL fields
+        targetingConfig: fullTargetingConfig,
+        
         // Ensure resource configuration is included
         resourceCost: spellState.resourceCost || {
           mana: 0,
@@ -2490,11 +2560,54 @@ const Step10Review = ({
           focus: 0,
           runic: 0
         },
+        
         // Ensure cooldown configuration is included
         cooldownConfig: spellState.cooldownConfig || {
           cooldown: 0,
           charges: 1
-        }
+        },
+        
+        // CRITICAL: Ensure ALL effect configurations are saved with full properties
+        damageConfig: spellState.damageConfig || null,
+        healingConfig: spellState.healingConfig || null,
+        buffConfig: spellState.buffConfig || null,
+        debuffConfig: spellState.debuffConfig || null,
+        utilityConfig: spellState.utilityConfig || null,
+        controlConfig: spellState.controlConfig || null,
+        summoningConfig: spellState.summoningConfig || null,
+        transformationConfig: spellState.transformationConfig || null,
+        purificationConfig: spellState.purificationConfig || null,
+        restorationConfig: spellState.restorationConfig || null
+      };
+
+      // Transform Devotion Level resources to specialMechanics
+      const resourceValues = spellState.resourceCost?.resourceValues || {};
+      if (resourceValues.devotion_required !== undefined ||
+          resourceValues.devotion_cost !== undefined ||
+          resourceValues.devotion_gain !== undefined) {
+        librarySpell.specialMechanics = {
+          ...librarySpell.specialMechanics,
+          devotionLevel: {
+            required: resourceValues.devotion_required || 0,
+            cost: resourceValues.devotion_cost || 0,
+            amplifiedCost: resourceValues.devotion_cost || 0, // Alias for compatibility
+            gain: resourceValues.devotion_gain || 0
+          }
+        };
+
+        // Also add flat properties for spell card display
+        librarySpell.devotionRequired = resourceValues.devotion_required;
+        librarySpell.devotionCost = resourceValues.devotion_cost;
+        librarySpell.devotionGain = resourceValues.devotion_gain;
+      }
+      
+      // Also transform resourceValues to ensure they're preserved
+      librarySpell.resourceCost = {
+        ...librarySpell.resourceCost,
+        resourceValues: resourceValues,
+        resourceTypes: spellState.resourceCost?.resourceTypes || [],
+        resourceFormulas: spellState.resourceCost?.resourceFormulas || {},
+        useFormulas: spellState.resourceCost?.useFormulas || {}
       };
 
       // Log the spell being saved

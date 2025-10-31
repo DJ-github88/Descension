@@ -779,7 +779,34 @@
 .stat-value {
   font-size: 16px;
   font-weight: 700;
-  color: var(--pf-brown-dark);
+  color: #2c1810; /* Much darker brown for better contrast */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Add subtle shadow for readability */
+}
+
+/* More specific selector to ensure it overrides other CSS - target stat-value in creature stats section */
+.creature-stats-section .stat-value,
+.creature-stats-grid .stat-value,
+.stat-item .stat-value,
+.creature-stats-section .stat-item .stat-value {
+  color: #1a0d08 !important; /* Very dark brown for maximum contrast */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important; /* Stronger shadow for readability */
+  font-weight: 800 !important;
+}
+
+/* Additional specificity for summoning and transformation effects with parent containers */
+.pf-creature-selection-container .stat-value,
+.pf-creature-content .stat-value,
+.selected-creatures-list .stat-value,
+.creature-selection-item .stat-value,
+.creature-info .creature-stats-section .stat-value,
+.creature-info .creature-stats-grid .stat-value,
+.creature-info .stat-item .stat-value,
+.pf-creature-selection-container .creature-stats-section .stat-value,
+.pf-creature-selection-container .creature-stats-grid .stat-value,
+.pf-creature-selection-container .stat-item .stat-value {
+  color: #1a0d08 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+  font-weight: 800 !important;
 }
 
 /* ===== CREATURE CONFIG SECTION ===== */
@@ -821,6 +848,29 @@
   color: var(--pf-brown-medium);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* Layout for checkbox labels - checkbox below text */
+.creature-config-control label:has(input[type="checkbox"]) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.creature-config-control label:has(input[type="checkbox"]) input[type="checkbox"] {
+  order: 2; /* Place checkbox after text visually */
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--pf-brown-medium);
+}
+
+/* Text comes first in visual order */
+.creature-config-control label:has(input[type="checkbox"]) span {
+  order: 1;
 }
 
 .creature-config-control input,

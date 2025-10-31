@@ -81,10 +81,11 @@
 
 .settings-panel {
     flex: 1.3;
-    padding: 20px; /* Reduced padding for more content space */
+    padding: 20px 20px 120px 20px; /* Increased bottom padding to account for button-group */
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     border-right: 3px solid #a08c70;
     overflow-y: auto;
+    overflow-x: hidden;
     backdrop-filter: blur(2px);
     position: relative;
 }
@@ -414,6 +415,8 @@
     border-top: 2px solid #5e2e23;
     margin: 0;
     flex-shrink: 0; /* Prevent buttons from shrinking */
+    position: relative;
+    z-index: 10; /* Ensure buttons are above content */
 }
 
 .primary-button,
@@ -503,7 +506,7 @@
 
     .settings-panel {
         flex: none;
-        padding: 20px;
+        padding: 20px 20px 120px 20px; /* Increased bottom padding for scrolling */
         border-right: none;
         border-bottom: 2px solid #a08c70;
     }
@@ -560,7 +563,11 @@
 
     .settings-panel,
     .preview-panel {
-        padding: 15px;
+        padding: 15px 15px 120px 15px; /* Increased bottom padding for scrolling */
+    }
+    
+    .settings-panel {
+        padding-bottom: 120px; /* Ensure scrolling works on mobile */
     }
 
     .form-section {
@@ -677,4 +684,78 @@
     border-color: rgba(255, 255, 255, 0.5);
     color: #f0e6d2;
     transform: translateY(-1px);
+}
+
+/* Compact checkbox label styling */
+.checkbox-label-compact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #5e2e23;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.checkbox-label-compact input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #7a3b2e;
+    cursor: pointer;
+}
+
+.checkbox-label-compact span {
+    user-select: none;
+    white-space: nowrap;
+}
+
+/* Mini toggle button styling */
+.sub-option-toggle {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    margin-left: 22px;
+}
+
+.mini-toggle {
+    padding: 4px 10px;
+    font-size: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    color: #5e2e23;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    min-width: 40px;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.mini-toggle:hover {
+    background: rgba(122, 59, 46, 0.15);
+    border-color: #7a3b2e;
+    transform: translateY(-1px);
+}
+
+.mini-toggle.active {
+    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+    color: #f0e6d2;
+    border-color: #7a3b2e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Improve font readability for labels */
+.form-group label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #5e2e23;
+    margin-bottom: 8px;
+    display: block;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
 }

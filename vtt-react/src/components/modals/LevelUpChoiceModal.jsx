@@ -7,7 +7,7 @@
  *   - +1 to any attribute (can pick same attribute multiple times)
  *   - +15 Maximum Health
  *   - +10 Maximum Mana
- * - Arcanoneer, Pyrofiend, Minstrel & Chronarch: Also learn 1 spell from available options (free, doesn't cost points)
+ * - Arcanoneer, Pyrofiend, Minstrel, Chronarch & Martyr: Also learn 1 spell from available options (free, doesn't cost points)
  */
 
 import React, { useState, useMemo } from 'react';
@@ -15,6 +15,9 @@ import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
 import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
 import { MINSTREL_DATA } from '../../data/classes/minstrelData';
 import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
+import { MARTYR_DATA } from '../../data/classes/martyrData';
+import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverData';
+import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import './LevelUpChoiceModal.css';
 
@@ -37,8 +40,8 @@ const LevelUpChoiceModal = ({
 
     // Determine which spell pool to use based on level
     const availableSpellPool = useMemo(() => {
-        // Only Arcanoneer, Pyrofiend, Minstrel, and Chronarch get spell selection on level-up
-        if (characterClass !== 'Arcanoneer' && characterClass !== 'Pyrofiend' && characterClass !== 'Minstrel' && characterClass !== 'Chronarch') {
+        // Only these classes get spell selection on level-up
+        if (characterClass !== 'Arcanoneer' && characterClass !== 'Pyrofiend' && characterClass !== 'Minstrel' && characterClass !== 'Chronarch' && characterClass !== 'Martyr' && characterClass !== 'Chaos Weaver' && characterClass !== 'Fate Weaver') {
             return [];
         }
 
@@ -52,6 +55,12 @@ const LevelUpChoiceModal = ({
             classData = MINSTREL_DATA;
         } else if (characterClass === 'Chronarch') {
             classData = CHRONARCH_DATA;
+        } else if (characterClass === 'Martyr') {
+            classData = MARTYR_DATA;
+        } else if (characterClass === 'Chaos Weaver') {
+            classData = CHAOS_WEAVER_DATA;
+        } else if (characterClass === 'Fate Weaver') {
+            classData = FATE_WEAVER_DATA;
         }
 
         if (!classData) {
@@ -111,7 +120,23 @@ const LevelUpChoiceModal = ({
             }));
         }
 
-        // Return all unknown spells from the pool (no random selection)
+        // For Martyr, flatten Devotion Level mechanics for spell card display
+        if (characterClass === 'Martyr') {
+            return unknownSpells.map(spell => ({
+                ...spell,
+                devotionRequired: spell.specialMechanics?.devotionLevel?.required,
+                devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
+                devotionGain: spell.specialMechanics?.devotionLevel?.gain
+            }));
+        }
+
+        // For level 2, present only 3 random options
+        if (currentLevel === 2 && unknownSpells.length > 3) {
+            const shuffled = [...unknownSpells].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, 3);
+        }
+
+        // Return all unknown spells from the pool
         return unknownSpells;
     }, [characterClass, currentLevel, knownSpells]);
 
@@ -139,7 +164,7 @@ const LevelUpChoiceModal = ({
         };
 
         // Add spell choice if spell-casting class and spell selected
-        if ((characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch') && selectedSpell) {
+        if ((characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch' || characterClass === 'Martyr') && selectedSpell) {
             result.spellId = selectedSpell;
         }
 
@@ -152,7 +177,7 @@ const LevelUpChoiceModal = ({
         if (pointsSpent !== TOTAL_POINTS) return false;
 
         // If spell-casting class with available spells, must select a spell
-        const isSpellCaster = characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch';
+        const isSpellCaster = characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch' || characterClass === 'Martyr';
         if (isSpellCaster && availableSpellPool.length > 0 && !selectedSpell) return false;
 
         return true;
@@ -177,8 +202,8 @@ const LevelUpChoiceModal = ({
                     <p>You have <strong>{pointsRemaining}</strong> point{pointsRemaining !== 1 ? 's' : ''} remaining to spend</p>
                 </div>
 
-                {/* Spell Selection (Arcanoneer, Pyrofiend, Minstrel & Chronarch) - Like racial traits */}
-                {(characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch') && availableSpellPool.length > 0 && (
+                {/* Spell Selection (Arcanoneer, Pyrofiend, Minstrel, Chronarch & Martyr) - Like racial traits */}
+                {(characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch' || characterClass === 'Martyr' || characterClass === 'Chaos Weaver') && availableSpellPool.length > 0 && (
                     <div className="spell-selection-section">
                         <h3><i className="fas fa-magic"></i> Learn a New Spell</h3>
                         <p className="section-description">Click a spell icon to view details, then select one to learn:</p>
@@ -223,57 +248,122 @@ const LevelUpChoiceModal = ({
 
                 {/* Point Spending Section */}
                 <div className="point-spending-section">
-                    <h3><i className="fas fa-coins"></i> Spend Your Points ({pointsSpent}/{TOTAL_POINTS})</h3>
-                    <p className="section-description">Each choice costs 1 point. Choose wisely!</p>
+                    <h3>Spend Your Points ({pointsSpent}/{TOTAL_POINTS})</h3>
+                    <p className="section-description">Each choice costs 1 point. Choose wisely.</p>
 
-                    {/* Current Choices Display */}
+                    {/* Compact current selections (chips) for quick review and adjustment */}
                     {choices.length > 0 && (
-                        <div className="current-choices">
-                            <h4>Current Selections:</h4>
-                            <div className="choices-list">
-                                {choices.map((choice, index) => (
-                                    <div key={index} className="choice-item">
-                                        <span>
-                                            {choice.type === 'health' && '❤️ +15 Maximum Health'}
-                                            {choice.type === 'mana' && '💙 +10 Maximum Mana'}
-                                            {choice.type === 'attribute' && `📊 +1 ${choice.value.charAt(0).toUpperCase() + choice.value.slice(1)}`}
-                                        </span>
-                                        <button
-                                            className="remove-choice-btn"
-                                            onClick={() => removeChoice(index)}
-                                            title="Remove this choice"
-                                        >
-                                            <i className="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                        <div className="current-choices compact" style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: '8px',
+                            marginBottom: '10px'
+                        }}>
+                            {choices.map((choice, index) => (
+                                <div
+                                    key={index}
+                                    className="choice-chip"
+                                    style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '6px',
+                                        padding: '4px 8px',
+                                        background: 'var(--pf-parchment-light)',
+                                        border: '1px solid var(--pf-brown-medium)',
+                                        borderRadius: '14px',
+                                        fontSize: '12px'
+                                    }}
+                                >
+                                    <span>
+                                        {choice.type === 'health' && '+15 Max Health'}
+                                        {choice.type === 'mana' && '+10 Max Mana'}
+                                        {choice.type === 'attribute' && `+1 ${choice.value.charAt(0).toUpperCase() + choice.value.slice(1)}`}
+                                    </span>
+                                    <button
+                                        className="remove-choice-btn"
+                                        onClick={() => removeChoice(index)}
+                                        title="Remove this choice"
+                                        style={{
+                                            border: 'none',
+                                            background: 'transparent',
+                                            cursor: 'pointer',
+                                            color: 'var(--pf-brown-dark)'
+                                        }}
+                                        aria-label="Remove selection"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     )}
 
                     {/* Available Choices */}
-                    {pointsRemaining > 0 && (
-                        <div className="available-choices">
+                    {/* Always show choices; disable buttons when no points remain */}
+                    <div className="available-choices">
                             <h4>Available Choices (1 point each):</h4>
 
                             {/* Resource Choices */}
                             <div className="choice-category">
                                 <h5>Resources:</h5>
                                 <div className="choice-buttons">
-                                    <button
-                                        className="choice-btn health"
-                                        onClick={() => addChoice('health')}
-                                    >
-                                        <i className="fas fa-heart"></i>
-                                        <span>+15 Max Health</span>
-                                    </button>
-                                    <button
-                                        className="choice-btn mana"
-                                        onClick={() => addChoice('mana')}
-                                    >
-                                        <i className="fas fa-flask"></i>
-                                        <span>+10 Max Mana</span>
-                                    </button>
+                                    {(() => {
+                                        const healthSelectedCount = choices.filter(c => c.type === 'health').length;
+                                        const manaSelectedCount = choices.filter(c => c.type === 'mana').length;
+                                        const triangleOverlay = (count) => count > 0 && (
+                                            <>
+                                                {/* Corner triangle */}
+                                                <span
+                                                    aria-hidden="true"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 0,
+                                                        right: 0,
+                                                        width: 0,
+                                                        height: 0,
+                                                        borderTop: '18px solid var(--pf-green)',
+                                                        borderLeft: '18px solid transparent'
+                                                    }}
+                                                />
+                                                {/* Check symbol on triangle */}
+                                                <span
+                                                    aria-hidden="true"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 1,
+                                                        right: 2,
+                                                        color: '#fff',
+                                                        fontSize: '12px',
+                                                        fontWeight: 700
+                                                    }}
+                                                >
+                                                    ✓{count > 1 ? `x${count}` : ''}
+                                                </span>
+                                            </>
+                                        );
+                                        return (
+                                            <>
+                                                <button
+                                                    className={`choice-btn health ${healthSelectedCount > 0 ? 'selected' : ''}`}
+                                                    onClick={() => addChoice('health')}
+                                                    style={{ position: 'relative' }}
+                                                    disabled={pointsRemaining === 0}
+                                                >
+                                                    <span>+15 Max Health</span>
+                                                    {triangleOverlay(healthSelectedCount)}
+                                                </button>
+                                                <button
+                                                    className={`choice-btn mana ${manaSelectedCount > 0 ? 'selected' : ''}`}
+                                                    onClick={() => addChoice('mana')}
+                                                    style={{ position: 'relative' }}
+                                                    disabled={pointsRemaining === 0}
+                                                >
+                                                    <span>+10 Max Mana</span>
+                                                    {triangleOverlay(manaSelectedCount)}
+                                                </button>
+                                            </>
+                                        );
+                                    })()}
                                 </div>
                             </div>
 
@@ -281,26 +371,52 @@ const LevelUpChoiceModal = ({
                             <div className="choice-category">
                                 <h5>Attributes:</h5>
                                 <div className="choice-buttons attributes">
-                                    {['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'].map(attr => (
-                                        <button
-                                            key={attr}
-                                            className="choice-btn attribute"
-                                            onClick={() => addChoice('attribute', attr)}
-                                        >
-                                            <i className={`fas fa-${
-                                                attr === 'strength' ? 'dumbbell' :
-                                                attr === 'agility' ? 'running' :
-                                                attr === 'constitution' ? 'shield-alt' :
-                                                attr === 'intelligence' ? 'brain' :
-                                                attr === 'spirit' ? 'dove' : 'star'
-                                            }`}></i>
-                                            <span>+1 {attr.charAt(0).toUpperCase() + attr.slice(1)}</span>
-                                        </button>
-                                    ))}
+                                    {['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'].map(attr => {
+                                        const count = choices.filter(c => c.type === 'attribute' && c.value === attr).length;
+                                        return (
+                                            <button
+                                                key={attr}
+                                                className={`choice-btn attribute ${count > 0 ? 'selected' : ''}`}
+                                                onClick={() => addChoice('attribute', attr)}
+                                                style={{ position: 'relative' }}
+                                                disabled={pointsRemaining === 0}
+                                            >
+                                                <span>+1 {attr.charAt(0).toUpperCase() + attr.slice(1)}</span>
+                                                {count > 0 && (
+                                                    <>
+                                                        <span
+                                                            aria-hidden="true"
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: 0,
+                                                                right: 0,
+                                                                width: 0,
+                                                                height: 0,
+                                                                borderTop: '18px solid var(--pf-green)',
+                                                                borderLeft: '18px solid transparent'
+                                                            }}
+                                                        />
+                                                        <span
+                                                            aria-hidden="true"
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: 1,
+                                                                right: 2,
+                                                                color: '#fff',
+                                                                fontSize: '12px',
+                                                                fontWeight: 700
+                                                            }}
+                                                        >
+                                                            ✓{count > 1 ? `x${count}` : ''}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
-                    )}
                 </div>
 
                 {/* Action Buttons */}

@@ -41,6 +41,29 @@ const ExternalLivePreview = () => {
     setCompletionMessage('');
 
     try {
+      // Extract damage types properly - same logic as createPreviewSpell
+      const extractedDamageTypes = [];
+      if (state.typeConfig?.school) {
+        extractedDamageTypes.push(state.typeConfig.school);
+      }
+      if (state.typeConfig?.secondaryElement) {
+        extractedDamageTypes.push(state.typeConfig.secondaryElement);
+      }
+      if (extractedDamageTypes.length === 0 && state.damageConfig?.damageType) {
+        if (state.damageConfig.elementType) {
+          extractedDamageTypes.push(state.damageConfig.elementType);
+        }
+      }
+      
+      // Ensure targetingConfig has all required fields
+      const fullTargetingConfig = {
+        ...state.targetingConfig,
+        aoeType: state.targetingConfig?.aoeType || state.targetingConfig?.aoeShape || 'sphere',
+        targetingType: state.targetingConfig?.targetingType || 'single',
+        rangeType: state.targetingConfig?.rangeType || 'ranged',
+        rangeDistance: state.targetingConfig?.rangeDistance || 30
+      };
+      
       // Create spell data from wizard state
       const spellData = {
         ...state,
@@ -51,16 +74,54 @@ const ExternalLivePreview = () => {
         lastModified: new Date().toISOString(),
         // Ensure we have all necessary properties
         icon: state.icon || 'inv_misc_questionmark',
+        spellType: state.spellType || 'ACTION',
+        typeConfig: state.typeConfig || {},
         effectType: state.effectTypes && state.effectTypes.length > 0 ? state.effectTypes[0] : 'utility',
         effectTypes: state.effectTypes || [],
-        damageTypes: state.damageTypes || [],
+        // Use properly extracted damage types
+        damageTypes: extractedDamageTypes.length > 0 ? extractedDamageTypes : 
+                    (state.damageTypes || 
+                    (state.damageConfig?.elementType ? [state.damageConfig.elementType] : ['force'])),
+        targetingConfig: fullTargetingConfig,
         tags: [
           ...(state.typeConfig?.tags || []),
           ...(state.effectTypes || []),
           ...(state.tags || []),
           'custom'
-        ].filter(Boolean)
+        ].filter(Boolean),
+        // Ensure ALL effect configurations are saved
+        damageConfig: state.damageConfig || null,
+        healingConfig: state.healingConfig || null,
+        buffConfig: state.buffConfig || null,
+        debuffConfig: state.debuffConfig || null,
+        utilityConfig: state.utilityConfig || null,
+        controlConfig: state.controlConfig || null,
+        summoningConfig: state.summoningConfig || null,
+        transformationConfig: state.transformationConfig || null,
+        purificationConfig: state.purificationConfig || null,
+        restorationConfig: state.restorationConfig || null
       };
+
+      // Transform Devotion Level resources to specialMechanics (Martyr)
+      const resourceValues = state.resourceCost?.resourceValues || {};
+      if (resourceValues.devotion_required !== undefined ||
+          resourceValues.devotion_cost !== undefined ||
+          resourceValues.devotion_gain !== undefined) {
+        spellData.specialMechanics = {
+          ...spellData.specialMechanics,
+          devotionLevel: {
+            required: resourceValues.devotion_required || 0,
+            cost: resourceValues.devotion_cost || 0,
+            amplifiedCost: resourceValues.devotion_cost || 0,
+            gain: resourceValues.devotion_gain || 0
+          }
+        };
+
+        // Also add flat properties for spell card display
+        spellData.devotionRequired = resourceValues.devotion_required;
+        spellData.devotionCost = resourceValues.devotion_cost;
+        spellData.devotionGain = resourceValues.devotion_gain;
+      }
 
       // Add to spell library context (shows in spell library immediately)
       libraryDispatch(libraryActionCreators.addSpell(spellData));
@@ -251,7 +312,14 @@ const ExternalLivePreview = () => {
                spellState.targetingConfig?.aoeParameters?.length || 20,
       aoeParameters: spellState.targetingConfig?.aoeParameters || {},
       movementBehavior: spellState.targetingConfig?.movementBehavior || 'static',
-      targetingConfig: spellState.targetingConfig || {},
+      // Ensure targetingConfig includes aoeType and all fields
+      targetingConfig: {
+        ...spellState.targetingConfig,
+        aoeType: spellState.targetingConfig?.aoeType || spellState.targetingConfig?.aoeShape || 'sphere',
+        targetingType: spellState.targetingConfig?.targetingType || 'single',
+        rangeType: spellState.targetingConfig?.rangeType || 'ranged',
+        rangeDistance: spellState.targetingConfig?.rangeDistance || 30
+      } || {},
 
       // Damage/Healing information
       primaryDamage: spellState.damageConfig ? {

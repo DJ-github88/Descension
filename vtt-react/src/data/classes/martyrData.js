@@ -930,6 +930,35 @@ INTERVENE COUNT: 1
     ]
   },
 
+  // Spell Pools - spells available at each level for level-up selection
+  spellPools: {
+    1: [
+      // Level 1 spells: Basic healing and protection (5 options, pick 3)
+      'martyr_restorative_prayer',
+      'martyr_intervene',
+      'martyr_penance_of_pain',
+      'martyr_radiant_burst',
+      'martyr_devoted_strike'
+    ],
+    2: [
+      // Level 2 spells: Enhanced healing and utility (3 options, pick 1)
+      'martyr_divine_shield',
+      'martyr_sanctuary_aura',
+      'martyr_blessed_resilience'
+    ],
+    4: [
+      // Level 4 spells: Powerful amplified abilities (3 options, pick 1)
+      'martyr_redeemers_flame',
+      'martyr_martyrs_fire',
+      'martyr_mass_restoration'
+    ],
+    6: [
+      // Level 6 spells: Advanced devotion abilities (2 options, pick 1)
+      'martyr_ultimate_sacrifice',
+      'martyr_searing_devotion'
+    ]
+  },
+
   // Example Spells - showcasing the spell wizard system
   exampleSpells: [
     // Basic Healing Spells

@@ -1,3 +1,238 @@
+// Chaos Weaver Class Data
+// Provides example spells and level-based spell pools
+
+export const CHAOS_WEAVER_DOCS = {
+  className: 'Chaos Weaver',
+  icon: 'spell_shadow_possession',
+  specializations: ['reality_bending', 'entropy_control', 'chaos_dice'],
+
+  // Five starter spells (level 1) designed around chaos_sphere and rollable tables
+  exampleSpells: [
+    {
+      id: 'chaos_weaver-chaos_dice-wild_surge',
+      name: 'Wild Surge',
+      description: 'Unleash chaotic energies whose effects depend on the whims of fate.',
+      level: 1,
+      icon: 'spell_arcane_polymorphchicken',
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+      typeConfig: { school: 'chaos', icon: 'spell_arcane_polymorphchicken', tags: ['chaos', 'random', 'damage'] },
+      damageTypes: ['force'],
+      damageConfig: { damageType: 'direct', formula: '2d6 + intelligence', elementType: 'force', canCrit: true },
+      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'action_points'],
+        resourceValues: { action_points: 1 },
+        resourceFormulas: { mayhem_generate: '2d4' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      rollableTable: {
+        enabled: true,
+        name: 'Wild Surge Outcomes',
+        description: 'Roll for a chaotic outcome.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'ws1', range: { min: 1, max: 2 }, customName: 'Backfire', effect: 'Take 1d4 damage, target takes half of normal damage', modifiesBaseSpell: true, effectModifications: { damageModifier: '0.5x' } },
+          { id: 'ws2', range: { min: 3, max: 4 }, customName: 'Stable', effect: 'Resolve as normal', modifiesBaseSpell: false },
+          { id: 'ws3', range: { min: 5, max: 6 }, customName: 'Overload', effect: 'Deal +1d6 bonus damage and push target 10 ft', modifiesBaseSpell: true, effectModifications: { bonusDice: '1d6', control: { type: 'push', distance: 10 } } }
+        ]
+      },
+      tags: ['chaos', 'random', 'damage', 'chaos_dice'],
+      specialization: 'chaos_dice'
+    },
+    {
+      id: 'chaos_weaver-entropy_control-entropic_burst',
+      name: 'Entropic Burst',
+      description: 'Channel entropic decay into a focused burst that weakens defenses.',
+      level: 1,
+      icon: 'spell_shadow_antishadow',
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: { school: 'chaos', icon: 'spell_shadow_antishadow', tags: ['entropy', 'debuff'] },
+      damageTypes: ['necrotic'],
+      damageConfig: { damageType: 'direct', formula: '1d8 + intelligence', elementType: 'necrotic', canCrit: true },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{ id: 'armor_sunder', name: 'Armor Sunder', description: '-1 AC until end of your next turn' }],
+        durationType: 'rounds', durationValue: 1
+      },
+      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      resourceCost: {
+        resourceTypes: ['chaos_sphere', 'action_points'],
+        resourceValues: { chaos_sphere: 1, action_points: 1 },
+        useFormulas: {},
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      tags: ['chaos', 'entropy', 'debuff', 'damage'],
+      specialization: 'entropy_control'
+    },
+    {
+      id: 'chaos_weaver-entropy_control-probability_twist',
+      name: 'Probability Twist',
+      description: 'Skew probabilities to your favor, sometimes to your detriment.',
+      level: 1,
+      icon: 'spell_shadow_possession',
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+      typeConfig: { school: 'chaos', icon: 'spell_shadow_possession', tags: ['chaos', 'control'] },
+      controlConfig: { controlType: 'forcedMovement', strength: 'moderate', duration: 1, saveDC: 13, saveType: 'charisma' },
+      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      resourceCost: {
+        resourceTypes: ['action_points'],
+        resourceValues: { action_points: 1 },
+        useFormulas: {},
+        components: ['V']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      rollableTable: {
+        enabled: true,
+        name: 'Twist Outcomes',
+        description: 'Chance to reverse motion or amplify it.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd4', diceCount: 1 },
+        entries: [
+          { id: 'pt1', range: { min: 1, max: 1 }, customName: 'Reversal', effect: 'You are pulled 5 ft toward the target as well' },
+          { id: 'pt2', range: { min: 2, max: 3 }, customName: 'As Expected', effect: 'Normal forced movement' },
+          { id: 'pt3', range: { min: 4, max: 4 }, customName: 'Amplify', effect: 'Increase push/pull distance by 5 ft' }
+        ]
+      },
+      tags: ['chaos', 'control', 'random'],
+      specialization: 'entropy_control'
+    },
+    {
+      id: 'chaos_weaver-reality_bending-schrodingers_bolt',
+      name: "Schrödinger's Bolt",
+      description: 'A bolt that exists in multiple states until observed: damage or heal.',
+      level: 1,
+      icon: 'spell_arcane_arcanepower',
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'healing'],
+      typeConfig: { school: 'chaos', icon: 'spell_arcane_arcanepower', tags: ['chaos', 'reality'] },
+      damageTypes: ['force'],
+      damageConfig: { damageType: 'direct', formula: '1d8 + intelligence', elementType: 'force', canCrit: true },
+      healingConfig: { formula: '1d6 + spirit', healingType: 'direct' },
+      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['creature'] },
+      resourceCost: {
+        resourceTypes: ['action_points'],
+        resourceValues: { action_points: 1 },
+        useFormulas: {},
+        components: ['S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      rollableTable: {
+        enabled: true,
+        name: 'Observation Outcome',
+        description: 'Even results heal, odd results harm.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'sb1', range: { min: 1, max: 1 }, customName: 'Harm', effect: 'Deal damage' },
+          { id: 'sb2', range: { min: 2, max: 2 }, customName: 'Heal', effect: 'Heal instead' },
+          { id: 'sb3', range: { min: 3, max: 3 }, customName: 'Harm', effect: 'Deal damage' },
+          { id: 'sb4', range: { min: 4, max: 4 }, customName: 'Heal', effect: 'Heal instead' },
+          { id: 'sb5', range: { min: 5, max: 5 }, customName: 'Harm', effect: 'Deal damage' },
+          { id: 'sb6', range: { min: 6, max: 6 }, customName: 'Heal', effect: 'Heal instead' }
+        ]
+      },
+      tags: ['chaos', 'random', 'hybrid'],
+      specialization: 'reality_bending'
+    },
+    {
+      id: 'chaos_weaver-entropy_control-chaotic_shield',
+      name: 'Chaotic Shield',
+      description: 'A volatile barrier that sometimes helps, sometimes harms.',
+      level: 1,
+      icon: 'spell_arcane_prismaticcloak',
+      spellType: 'ACTION',
+      effectTypes: ['healing', 'buff'],
+      typeConfig: { school: 'chaos', icon: 'spell_arcane_prismaticcloak', tags: ['shield', 'chaos'] },
+      healingConfig: { shieldFormula: '2d6 + spirit', shieldDuration: 3, shieldDamageTypes: 'all', healingType: 'shield', hasShieldEffect: true },
+      buffConfig: { buffType: 'custom', effects: [], durationType: 'rounds', durationValue: 3, canBeDispelled: true },
+      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['ally', 'self'] },
+      resourceCost: {
+        resourceTypes: ['action_points'],
+        resourceValues: { action_points: 1 },
+        useFormulas: {},
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      rollableTable: {
+        enabled: true,
+        name: 'Shield Flux',
+        description: 'Randomized shield behavior.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'cs1', range: { min: 1, max: 2 }, customName: 'Fragile', effect: 'Shield fades 1 round earlier' },
+          { id: 'cs2', range: { min: 3, max: 4 }, customName: 'Stable', effect: 'Normal duration' },
+          { id: 'cs3', range: { min: 5, max: 6 }, customName: 'Voltaic', effect: 'On break, deal 1d4 lightning to nearby enemies' }
+        ]
+      },
+      tags: ['chaos', 'defense', 'random'],
+      specialization: 'entropy_control'
+    },
+    {
+      id: 'chaos_weaver-chaos_dice-maddening_whispers',
+      name: 'Maddening Whispers',
+      description: 'Whispers of chaos assault the mind—outcomes vary each cast.',
+      level: 1,
+      icon: 'spell_shadow_mindtwisting',
+      spellType: 'ACTION',
+      effectTypes: ['debuff', 'damage'],
+      typeConfig: { school: 'chaos', icon: 'spell_shadow_mindtwisting', tags: ['psychic', 'chaos'] },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{ id: 'frightened', name: 'Frightened', description: 'Reduced effectiveness while terrified.' }],
+        durationType: 'rounds', durationValue: 2, savingThrow: 'wisdom', difficultyClass: 13, saveOutcome: 'negates'
+      },
+      damageConfig: { damageType: 'direct', formula: '1d6 + intelligence', elementType: 'psychic', canCrit: false },
+      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      resourceCost: {
+        resourceTypes: ['action_points'],
+        resourceValues: { action_points: 1 },
+        useFormulas: {},
+        components: ['V']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      rollableTable: {
+        enabled: true,
+        name: 'Whisper Outcomes',
+        description: 'Different mental effects occur.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'mw1', range: { min: 1, max: 2 }, customName: 'Echo', effect: 'Target has disadvantage on next save' },
+          { id: 'mw2', range: { min: 3, max: 4 }, customName: 'Static', effect: 'No additional effect' },
+          { id: 'mw3', range: { min: 5, max: 6 }, customName: 'Discordance', effect: 'Target is silenced until end of its next turn' }
+        ]
+      },
+      tags: ['chaos', 'random', 'debuff'],
+      specialization: 'chaos_dice'
+    }
+  ],
+
+  // Pools of spell IDs available at specific levels
+  // Level 1: all five starter spells are candidates for assignment; Level 2: same pool for learn-on-level
+  spellPools: {
+    1: [
+      'chaos_weaver-entropy_control-probability_twist',
+      'chaos_weaver-entropy_control-chaotic_shield',
+      'chaos_weaver-entropy_control-entropic_burst'
+    ],
+    2: [
+      'chaos_weaver-chaos_dice-wild_surge',
+      'chaos_weaver-entropy_control-probability_twist',
+      'chaos_weaver-reality_bending-schrodingers_bolt',
+      'chaos_weaver-entropy_control-chaotic_shield',
+      'chaos_weaver-chaos_dice-maddening_whispers'
+    ]
+  }
+};
+
 /**
  * Chaos Weaver Class Data
  * 
@@ -870,7 +1105,9 @@ TABLE SAFETY GUIDELINES:
       },
 
       resourceCost: {
-        mana: 5,
+        resourceTypes: ['mana', 'mayhem_spend'],
+        resourceValues: { mana: 5, mayhem_spend: 1 },
+        useFormulas: {},
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'Let fate decide!',
         somaticText: 'Spin an imaginary wheel',
@@ -946,7 +1183,9 @@ TABLE SAFETY GUIDELINES:
       },
 
       resourceCost: {
-        mana: 12,
+        resourceTypes: ['mana', 'mayhem_spend'],
+        resourceValues: { mana: 12, mayhem_spend: 1 },
+        useFormulas: {},
         components: ['verbal', 'somatic'],
         verbalText: 'Pandemonium!',
         somaticText: 'Hurl a bolt of swirling chaotic energy'
@@ -954,11 +1193,7 @@ TABLE SAFETY GUIDELINES:
 
       resolution: 'DICE',
 
-      damageConfig: {
-        formula: 'varies',
-        damageType: 'varies',
-        scalingType: 'none'
-      },
+      // Omit base damage config; effects are defined by the rollable table
 
       rollableTable: {
         enabled: true,
@@ -970,15 +1205,24 @@ TABLE SAFETY GUIDELINES:
         },
         entries: [
           { range: { min: 1, max: 1 }, customName: 'Backfire', effect: 'You take 3d6 force damage' },
-          { range: { min: 2, max: 3 }, customName: 'Weak Fire', effect: '2d6 fire damage' },
-          { range: { min: 4, max: 5 }, customName: 'Cold Blast', effect: '3d6 cold damage, slows target' },
-          { range: { min: 6, max: 7 }, customName: 'Lightning', effect: '3d6 lightning damage' },
-          { range: { min: 8, max: 9 }, customName: 'Acid', effect: '3d6 acid damage, -2 AC for 2 rounds' },
-          { range: { min: 10, max: 11 }, customName: 'Force', effect: '4d6 force damage' },
-          { range: { min: 12, max: 13 }, customName: 'Necrotic', effect: '4d6 necrotic damage, heal for half' },
-          { range: { min: 14, max: 15 }, customName: 'Radiant', effect: '4d6 radiant damage, blinds for 1 round' },
-          { range: { min: 16, max: 17 }, customName: 'Psychic', effect: '5d6 psychic damage, confuses target' },
-          { range: { min: 18, max: 19 }, customName: 'Pure Chaos', effect: '6d6 chaos damage, ignores resistance' },
+          { range: { min: 2, max: 2 }, customName: 'Weak Fire', effect: '2d6 fire damage' },
+          { range: { min: 3, max: 3 }, customName: 'Smoke', effect: 'Target has disadvantage on next attack' },
+          { range: { min: 4, max: 4 }, customName: 'Cold Blast', effect: '3d6 cold damage, slows target' },
+          { range: { min: 5, max: 5 }, customName: 'Frostbite', effect: 'Target speed halved for 1 round' },
+          { range: { min: 6, max: 6 }, customName: 'Lightning', effect: '3d6 lightning damage' },
+          { range: { min: 7, max: 7 }, customName: 'Static Charge', effect: 'Next melee hit deals +1d6 lightning' },
+          { range: { min: 8, max: 8 }, customName: 'Acid', effect: '3d6 acid damage, -2 AC for 2 rounds' },
+          { range: { min: 9, max: 9 }, customName: 'Corrosion', effect: 'Weapon/armor penalty -1 (1 round)' },
+          { range: { min: 10, max: 10 }, customName: 'Force', effect: '4d6 force damage' },
+          { range: { min: 11, max: 11 }, customName: 'Repel', effect: 'Push target 10 feet' },
+          { range: { min: 12, max: 12 }, customName: 'Necrotic', effect: '4d6 necrotic damage, heal for half' },
+          { range: { min: 13, max: 13 }, customName: 'Decay', effect: 'Target suffers -1 to saves (1 round)' },
+          { range: { min: 14, max: 14 }, customName: 'Radiant', effect: '4d6 radiant damage, blinds for 1 round' },
+          { range: { min: 15, max: 15 }, customName: 'Gleam', effect: 'Ally in 10 feet gains +1 AC (1 round)' },
+          { range: { min: 16, max: 16 }, customName: 'Psychic', effect: '5d6 psychic damage, confuses target' },
+          { range: { min: 17, max: 17 }, customName: 'Rattle', effect: 'Target has disadvantage on next save' },
+          { range: { min: 18, max: 18 }, customName: 'Pure Chaos', effect: '6d6 chaos damage, ignores resistance' },
+          { range: { min: 19, max: 19 }, customName: 'Cascade', effect: 'Roll again and add 1d6 damage' },
           { range: { min: 20, max: 20 }, customName: 'Critical Chaos', effect: '8d6 damage of all types combined' }
         ]
       },
